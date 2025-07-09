@@ -11,4 +11,7 @@ export default function middleware(req) {
         'max-age=31536000; includeSubDomains; preload',
     },
   });
+}; includeSubDomains; preload',
+    },
+  });
 }
