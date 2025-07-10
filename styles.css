@@ -1,72 +1,43 @@
 
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(circle at top, #111, #000);
+  background: #000;
   color: #fff;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+.navbar {
+  background: #111;
+  padding: 15px;
   text-align: center;
 }
-.logo {
-  width: 80px;
+.navbar a {
+  color: white;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+}
+.navbar a:hover {
+  color: red;
+}
+.products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.product img {
+  width: 200px;
+}
+textarea {
+  width: 80%;
+  height: 150px;
   margin-top: 20px;
 }
-.hero {
-  padding: 40px 20px;
-}
-.hero h1 {
-  font-size: 2.5em;
-  color: #fff;
-}
-.hero h2 {
-  font-size: 1.8em;
-  color: #eee;
-}
-.subtext {
-  margin: 10px 0;
-  font-style: italic;
-}
-blockquote {
-  font-size: 1.1em;
-  color: #ccc;
-}
-.buttons a {
-  display: inline-block;
-  margin: 10px;
-  padding: 12px 20px;
-  border-radius: 5px;
-  background: #222;
-  color: white;
-  text-decoration: none;
-}
-.buttons .watch {
-  background: #900;
-}
-.section {
-  margin-top: 40px;
-  padding: 20px;
-}
-.subscribe {
-  background: #111;
-  padding: 40px 20px;
-}
-.subscribe form {
+button {
   margin-top: 10px;
-}
-.subscribe input {
-  padding: 10px;
-  width: 250px;
-  max-width: 80%;
-  margin-right: 10px;
-}
-.subscribe button {
-  padding: 10px 20px;
+  padding: 10px 30px;
   background: #900;
-  border: none;
   color: white;
-}
-footer {
-  background: #111;
-  padding: 20px;
-  margin-top: 40px;
-  color: #ccc;
+  border: none;
 }
