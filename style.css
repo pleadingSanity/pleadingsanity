@@ -1,26 +1,20 @@
 
 body {
-  background: #111;
-  color: #fff;
-  font-family: sans-serif;
+  background: #0f0f0f;
+  color: #eee;
   text-align: center;
+  padding: 20px;
+  font-family: sans-serif;
 }
-.products {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.product {
-  margin: 20px;
-}
-img {
-  width: 200px;
+textarea {
+  width: 80%;
+  height: 150px;
+  margin-top: 20px;
 }
 button {
   margin-top: 10px;
-  padding: 10px 20px;
-  background: #900;
+  padding: 10px 30px;
+  background: #444;
   color: white;
   border: none;
-  cursor: pointer;
 }
