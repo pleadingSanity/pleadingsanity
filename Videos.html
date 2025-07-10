@@ -47,3 +47,62 @@
   </main>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pleading Sanity Videos</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 1rem; }
+    video { width: 100%; height: auto; margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+  <h1>Videos for Pleading Sanity</h1>
+  <div id="video-list"></div>
+
+  <script>
+    // Example videos with subtitles URL (you’ll replace URLs with real content)
+    const videos = [
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles1.vtt",
+        title: "Big Buck Bunny Sample",
+      },
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles2.vtt",
+        title: "Another Sample Video",
+      }
+    ];
+
+    const container = document.getElementById('video-list');
+
+    videos.forEach(({ src, subtitles, title }) => {
+      const videoElem = document.createElement('video');
+      videoElem.controls = true;
+
+      const sourceElem = document.createElement('source');
+      sourceElem.src = src;
+      sourceElem.type = 'video/mp4';
+
+      const trackElem = document.createElement('track');
+      trackElem.kind = 'subtitles';
+      trackElem.label = 'English';
+      trackElem.srclang = 'en';
+      trackElem.src = subtitles;
+      trackElem.default = true;
+
+      videoElem.appendChild(sourceElem);
+      videoElem.appendChild(trackElem);
+
+      const titleElem = document.createElement('h2');
+      titleElem.textContent = title;
+
+      container.appendChild(titleElem);
+      container.appendChild(videoElem);
+    });
+  </script>
+</body>
+</html>
