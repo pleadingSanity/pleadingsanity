@@ -1,0 +1,72 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #111, #000);
+  color: #fff;
+  text-align: center;
+}
+.logo {
+  width: 80px;
+  margin-top: 20px;
+}
+.hero {
+  padding: 40px 20px;
+}
+.hero h1 {
+  font-size: 2.5em;
+  color: #fff;
+}
+.hero h2 {
+  font-size: 1.8em;
+  color: #eee;
+}
+.subtext {
+  margin: 10px 0;
+  font-style: italic;
+}
+blockquote {
+  font-size: 1.1em;
+  color: #ccc;
+}
+.buttons a {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background: #222;
+  color: white;
+  text-decoration: none;
+}
+.buttons .watch {
+  background: #900;
+}
+.section {
+  margin-top: 40px;
+  padding: 20px;
+}
+.subscribe {
+  background: #111;
+  padding: 40px 20px;
+}
+.subscribe form {
+  margin-top: 10px;
+}
+.subscribe input {
+  padding: 10px;
+  width: 250px;
+  max-width: 80%;
+  margin-right: 10px;
+}
+.subscribe button {
+  padding: 10px 20px;
+  background: #900;
+  border: none;
+  color: white;
+}
+footer {
+  background: #111;
+  padding: 20px;
+  margin-top: 40px;
+  color: #ccc;
+}
