@@ -1,10 +1,20 @@
-
 body {
-  background: #000;
+  background-color: #000;
   color: #fff;
-  text-align: center;
-  font-family: sans-serif;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
-.video {
-  margin: 20px auto;
+header {
+  text-align: center;
+  padding: 50px 20px 20px;
+}
+.tagline {
+  font-size: 1.2em;
+  color: #bbb;
+}
+#scroll-feed {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #333;
 }
