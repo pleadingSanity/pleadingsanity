@@ -3,133 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pleading Sanity - Videos</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-  <header>
-    <h1>Pleading Sanity Videos</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="videos.html">Videos</a></li>
-        <li><a href="sanityhub.html">Sanity Hub</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section>
-      <h2>Funny & Entertaining Videos</h2>
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL&cc_load_policy=1"
-        title="Funny & Entertaining Playlist"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </section>
-    <section>
-      <h2>Spiritual & Inspirational Videos</h2>
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/videoseries?list=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&cc_load_policy=1"
-        title="Spiritual & Inspirational Playlist"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </section>
-  </main>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pleading Sanity Videos</title>
-  <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 1rem; }
-    video { width: 100%; height: auto; margin-bottom: 2rem; }
-  </style>
-</head>
-<body>
-  <h1>Videos for Pleading Sanity</h1>
-  <div id="video-list"></div>
-
-  <script>
-    // Example videos with subtitles URL (you’ll replace URLs with real content)
-    const videos = [
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles1.vtt",
-        title: "Big Buck Bunny Sample",
-      },
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles2.vtt",
-        title: "Another Sample Video",
-      }
-    ];
-
-    const container = document.getElementById('video-list');
-
-    videos.forEach(({ src, subtitles, title }) => {
-      const videoElem = document.createElement('video');
-      videoElem.controls = true;
-
-      const sourceElem = document.createElement('source');
-      sourceElem.src = src;
-      sourceElem.type = 'video/mp4';
-
-      const trackElem = document.createElement('track');
-      trackElem.kind = 'subtitles';
-      trackElem.label = 'English';
-      trackElem.srclang = 'en';
-      trackElem.src = subtitles;
-      trackElem.default = true;
-
-      videoElem.appendChild(sourceElem);
-      videoElem.appendChild(trackElem);
-
-      const titleElem = document.createElement('h2');
-      titleElem.textContent = title;
-
-      container.appendChild(titleElem);
-      container.appendChild(videoElem);
-    });
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pleading Sanity Videos</title>
+  <title>Pleading Sanity – Videos</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
     main {
-      max-width: 900px;
+      max-width: 1000px;
       margin: auto;
       padding: 20px;
     }
     section {
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
-    iframe {
+    iframe, video {
       width: 100%;
       height: 315px;
       border: none;
       margin-top: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 18px rgba(0,255,240,0.25);
     }
     h2 {
       color: #00cfff;
+      margin-bottom: 10px;
+    }
+    .video-list video {
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -142,11 +40,12 @@
         <li><a href="sanityhub.html">Sanity Hub</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="about.html">About</a></li>
-        <li><a href="videos.html">Videos</a></li>
+        <li><a class="active" href="videos.html">Videos</a></li>
       </ul>
     </nav>
   </header>
   <main>
+    <!-- YouTube playlists -->
     <section>
       <h2>Funny & Entertaining Videos</h2>
       <iframe 
@@ -171,6 +70,58 @@
         title="Motivational & Mental Health Playlist">
       </iframe>
     </section>
+
+    <!-- Sample hosted videos with subtitles -->
+    <section>
+      <h2>Exclusive Community Content</h2>
+      <div class="video-list" id="video-list"></div>
+    </section>
   </main>
+  <footer>
+    <div class="brand">Pleading Sanity — Rise From Madness</div>
+  </footer>
+
+  <script>
+    // Example self-hosted demo videos (replace with real PS uploads later)
+    const videos = [
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles1.vtt",
+        title: "Big Buck Bunny Sample"
+      },
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles2.vtt",
+        title: "Another Sample Video"
+      }
+    ];
+
+    const container = document.getElementById('video-list');
+
+    videos.forEach(({ src, subtitles, title }) => {
+      const titleElem = document.createElement('h3');
+      titleElem.textContent = title;
+
+      const videoElem = document.createElement('video');
+      videoElem.controls = true;
+
+      const sourceElem = document.createElement('source');
+      sourceElem.src = src;
+      sourceElem.type = 'video/mp4';
+
+      const trackElem = document.createElement('track');
+      trackElem.kind = 'subtitles';
+      trackElem.label = 'English';
+      trackElem.srclang = 'en';
+      trackElem.src = subtitles;
+      trackElem.default = true;
+
+      videoElem.appendChild(sourceElem);
+      videoElem.appendChild(trackElem);
+
+      container.appendChild(titleElem);
+      container.appendChild(videoElem);
+    });
+  </script>
 </body>
 </html>
