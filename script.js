@@ -1,8 +1,8 @@
-// ===== Pleading Sanity Core Script =====
+// ===== Pleading Sanity Universal Script =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log("🚀 Pleading Sanity script loaded. Rise From Madness.");
 
-  // Highlight active nav link automatically (works for /index.html or /)
+  // Highlight active nav link (handles / and /index.html)
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("nav a").forEach(link => {
     if (
@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Smooth scroll for anchor links (internal)
+  // Smooth scroll for in-page anchors
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", function(e) {
       const target = document.querySelector(this.getAttribute("href"));
@@ -56,4 +56,49 @@ document.addEventListener('DOMContentLoaded', () => {
       appearOnScroll.observe(sec);
     });
   }
+
+  // ======= Videos Page: Dynamic Community Loader =======
+  const container = document.getElementById('video-list');
+  if (container) {
+    // Add your community/exclusive video uploads here (update for real PS content!)
+    const videos = [
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles1.vtt",
+        title: "Big Buck Bunny Sample"
+      },
+      {
+        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+        subtitles: "https://example.com/subtitles2.vtt",
+        title: "Another Sample Video"
+      }
+    ];
+
+    videos.forEach(({ src, subtitles, title }) => {
+      const titleElem = document.createElement('h3');
+      titleElem.textContent = title;
+
+      const videoElem = document.createElement('video');
+      videoElem.controls = true;
+
+      const sourceElem = document.createElement('source');
+      sourceElem.src = src;
+      sourceElem.type = 'video/mp4';
+
+      const trackElem = document.createElement('track');
+      trackElem.kind = 'subtitles';
+      trackElem.label = 'English';
+      trackElem.srclang = 'en';
+      trackElem.src = subtitles;
+      trackElem.default = true;
+
+      videoElem.appendChild(sourceElem);
+      videoElem.appendChild(trackElem);
+
+      container.appendChild(titleElem);
+      container.appendChild(videoElem);
+    });
+  }
+
+  // ======= END Videos Page Script =======
 });
