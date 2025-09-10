@@ -33,7 +33,7 @@ export default function NewsletterSignup() {
         type="email"
         name="EMAIL"
         id="email"
-        placeholder="Your email address"
+        placeholder="pleadingsanity1@gmail.com"
         required
         style={{
           padding: "0.6rem",
