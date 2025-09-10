@@ -1,23 +1,230 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Pleading Sanity</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pleading Sanity – Rise From Madness</title>
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:title" content="Pleading Sanity – Rise From Madness" />
+  <meta property="og:description" content="A cosmic hub for healing, resilience, and community. Join the movement." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pleading Sanity – Rise From Madness" />
+  <meta name="twitter:description" content="We turn pain into power. Cosmic hub for creators, survivors, and the next generation of mental health warriors." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+  <style>
+    body.universe {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 85%);
+      color: #f0f0f0;
+      background-attachment: fixed;
+      text-align: center;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    header {
+      background: rgba(0,0,0,0.87);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid #00fff0;
+      padding: 16px 0 10px 0;
+      position: sticky; top: 0; z-index: 12;
+      box-shadow: 0 2px 12px #00fff044;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.6rem;
+      color: #00fff0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 18px #00fff088;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+    nav {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 22px;
+    }
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color .18s, text-shadow .18s;
+      padding: 2px 4px;
+      border-radius: 5px;
+    }
+    nav a:hover, nav a.active {
+      color: #ff00ff;
+      text-shadow: 0 0 8px #00fff6;
+      background:rgba(0,255,240,0.06)
+    }
+    main {
+      flex: 1 0 auto;
+      padding: 44px 16px 18px 16px;
+      max-width: 900px;
+      margin: auto;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+    }
+    .hero {
+      margin-bottom: 28px;
+      padding: 20px 12px;
+    }
+    .hero h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.8rem;
+      color: #00cfff;
+      font-weight: 700;
+      text-shadow: 0 0 22px #00fff066;
+      letter-spacing: 0.5px;
+    }
+    .manifesto {
+      margin: 28px auto 18px;
+      background: rgba(0,255,240,0.05);
+      border-left: 5px solid #ff00ff;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 1.12rem;
+      max-width: 630px;
+      padding: 16px 20px;
+      line-height: 1.7;
+      box-shadow: 0 3px 30px #00fff022;
+      font-style: italic;
+    }
+    .btn {
+      display: inline-block;
+      margin: 28px 0 0 0;
+      padding: 0.85rem 1.7rem;
+      border-radius: 9px;
+      font-weight: 700;
+      background: #00fff0;
+      color: #001;
+      text-decoration: none;
+      font-size: 1.17rem;
+      box-shadow: 0 2px 14px rgba(0,255,240,0.25);
+      transition: background .22s, color .22s, transform .16s;
+      letter-spacing:.04em;
+    }
+    .btn:hover {
+      background: #ff00ff;
+      color: #fff;
+      transform: scale(1.05);
+    }
+    .newsletter {
+      margin:38px 0 0 0;
+      background:rgba(0,255,240,0.07); border-radius:12px; padding:22px 12px 14px 12px;
+      max-width: 450px; margin-left:auto; margin-right:auto;
+    }
+    .newsletter input[type="email"] {
+      padding: 0.65rem;
+      border-radius: 7px;
+      border: none;
+      width: 220px;
+      font-size: 1.05rem;
+    }
+    .newsletter button {
+      padding: 0.65rem 1.2rem;
+      border: none;
+      border-radius: 7px;
+      background: #00fff0;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background .2s;
+      margin-left: 7px;
+    }
+    .newsletter button:hover { background: #ff00ff; color: #fff; }
+    @media (max-width:600px) {
+      header h1 { font-size:1.5rem; }
+      nav { gap:12px; font-size:.98rem; }
+      main { padding:20px 3vw; }
+      .btn { font-size:1rem; padding:.7rem 1.1rem; }
+    }
+    footer {
+      margin-top: 48px;
+      padding: 20px 12px 10px;
+      background: rgba(0,0,0,0.85);
+      border-top: 2px solid #00fff0;
+      color: #b9faff;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .socials {
+      margin: 13px 0 6px 0;
+    }
+    .socials a {
+      margin: 0 8px;
+      color: #00fff0;
+      font-size: 1.33rem;
+      transition: .2s;
+    }
+    .socials a:hover { color: #ff00ff; }
+    .footer-links a { color:#00fff0; margin:0 7px; text-decoration:underline;}
+    .footer-links a:hover { color:#ff00ff;}
+  </style>
 </head>
 <body class="universe">
   <header>
-    <h1>RISE FROM MADNESS</h1>
-    <nav>
-      <a href="about.html">About</a>
-      <a href="shop.html">Shop</a>
-      <a href="feed.html">Feed</a>
-      <a href="games.html">Games</a>
+    <h1>🧠 RISE FROM MADNESS</h1>
+    <nav aria-label="Main Navigation">
+      <a href="index.html" class="active" aria-label="Home">Home</a>
+      <a href="about.html" aria-label="About">About</a>
+      <a href="shop.html" aria-label="Shop">Shop</a>
+      <a href="feed.html" aria-label="Sanity Feed">Feed</a>
+      <a href="games.html" aria-label="Games">Games</a>
+      <a href="videos.html" aria-label="Videos">Videos</a>
     </nav>
   </header>
+
   <main>
-    <h2>Welcome to the Movement</h2>
-    <p>This is where the change begins.</p>
+    <div class="hero">
+      <h2>Welcome to the Movement</h2>
+      <p>We turn pain into power, survival into strength, and madness into meaning.  
+         This is more than a site – it’s a sanctuary. Scroll, play, heal, and rise with us.</p>
+      <a class="btn" href="sanityhub.html" aria-label="Enter the Sanity Hub">🌌 Enter the Sanity Hub</a>
+    </div>
+    <div class="manifesto">
+      <strong>Pleading Sanity isn’t just a brand. It’s a cosmic uprising for anyone who’s ever felt too much, been broken, or battled in silence.<br><br>
+      <span style="color:#00fff0;font-weight:600;">We build hope from darkness. We make struggle count. We rise together.</span></strong>
+      <br><br>
+      <span style="color:#ff00ff;">Wearing Pleading Sanity, sharing our content, or joining the Hub doesn’t just help yourself—it helps others find a light they didn’t know was possible.</span>
+    </div>
+    <div class="newsletter">
+      <h3>Get inspiration in your inbox</h3>
+      <form action="https://YOUR_MAILCHIMP_URL" method="post" target="_blank" rel="noopener noreferrer" class="newsletter-form">
+        <input type="email" name="EMAIL" placeholder="Your email" required />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
   </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — Built for the Warriors</div>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
+    </div>
+    <div class="footer-links" style="margin-top:6px;">
+      TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">Visit</a> &nbsp;|&nbsp;
+      Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank">Visit</a>
+    </div>
+    <div style="margin-top:8px; font-size:.92em;">
+      &copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.
+    </div>
+  </footer>
+  <script>
+    // Auto-year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
