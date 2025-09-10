@@ -1,14 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Feed - Pleading Sanity</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sanity Feed – Pleading Sanity</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:title" content="Sanity Feed – Pleading Sanity" />
+  <meta property="og:description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. No algorithms. Only sanity." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <style>
+    body.universe {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 80%);
+      color: #f0f0f0;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    header {
+      background: rgba(0,0,0,0.85);
+      padding: 16px 0;
+      text-align: center;
+      border-bottom: 2px solid #00fff0;
+      position: sticky; top: 0; z-index: 10;
+    }
+    header h1 { margin: 0; font-size: 2.4rem; color: #00fff0; }
+    main { max-width: 1000px; margin: auto; padding: 20px; flex: 1 0 auto; }
+    p.intro { font-size: 1.23rem; margin-bottom: 22px; color: #b9faff; }
+    .feed-item {
+      background: rgba(255,255,255,0.05);
+      border: 1.4px solid rgba(0,255,240,0.17);
+      border-radius: 13px;
+      padding: 17px;
+      margin-bottom: 32px;
+      box-shadow: 0 0 24px rgba(0,255,240,0.15);
+      transition: .18s;
+      animation: fade .5s;
+    }
+    .feed-item:hover { box-shadow: 0 0 38px rgba(0,255,240,0.34); }
+    .feed-item iframe, .feed-item video {
+      width: 100%; aspect-ratio: 16/9; border: none; border-radius: 10px;
+      box-shadow:0 0 13px #00fff044;
+    }
+    .meta { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+    .meta h3 { margin: 0; font-size: 1.03rem; color: #fff; font-weight: 700;}
+    .btn {
+      border: none; border-radius: 8px; padding: 0.55rem 1.12rem;
+      background: #00fff0; color: #000; font-weight: 800; cursor: pointer;
+      transition: .2s;
+    }
+    .btn:hover { background: #ff00ff; color: #fff; }
+    #loader {
+      text-align: center;
+      padding: 36px 0 12px 0;
+      color: #00fff0;
+      font-size:1.25rem;
+      display: none;
+    }
+    .end { color:#9ef; text-align:center; margin:40px 0 0 0;}
+    footer {
+      background:rgba(0,0,0,0.85); margin-top:40px; border-top:2px solid #00fff0;
+      text-align:center; font-size:1.08rem; color:#b9faff; padding:20px 8px 15px 8px;
+      flex-shrink: 0;
+    }
+    .socials { margin:12px 0 0 0; }
+    .socials a { color:#00fff0; margin:0 9px; font-size:1.4em; transition:.2s;}
+    .socials a:hover { color:#ff00ff;}
+    @keyframes fade { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+  </style>
 </head>
 <body class="universe">
-  <header><h1>Sanity Feed</h1></header>
+  <header>
+    <h1>🌌 Sanity Feed</h1>
+  </header>
+
   <main>
-    <p>Scroll inspiring videos and stories from survivors, artists, and voices that matter.</p>
+    <p class="intro">
+      Scroll real stories, cosmic drops, and uplifting content. All positive-first.<br>
+      <strong>No algorithms, no doomscroll. Only sanity.</strong>
+    </p>
+
+    <!-- Feed container -->
+    <div id="feed"></div>
+    <div id="loader"><span class="loader">🚀 Loading cosmic feed...</span></div>
+    <div id="end" class="end"></div>
   </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — The Cosmic Feed</div>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
+    </div>
+    <div style="margin-top:6px;">TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">Visit</a></div>
+    <div style="margin-top:3px;">Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank">Visit</a></div>
+  </footer>
+
+  <script>
+    // --- Cosmic Feed Script (infinite scroll, demo fallback, "like", works anywhere) ---
+    let page = 1, loading = false, end = false;
+    const feed = document.getElementById('feed');
+    const loader = document.getElementById('loader');
+    const endDiv = document.getElementById('end');
+
+    // Demo fallback content if API fails
+    const demo = [
+      {
+        id: "8nTFjVm9sTQ",
+        title: "Shane's Story: Building Pleading Sanity (Mini-Doc)"
+      },
+      {
+        id: "mRf3-JkwqfU",
+        title: "Mental Health: Real Survivors. Real Talk."
+      },
+      {
+        id: "8F7b8FFsKis",
+        title: "Cosmic Motivation: Get Up & Rise Again"
+      }
+    ];
+
+    async function fetchFeed(page = 1) {
+      loader.style.display = 'block';
+      let data;
+      try {
+        // Try your real API if you have one
+        const res = await fetch(`/api/fetchVideos?page=${page}`);
+        if (!res.ok) throw new Error("API error");
+        data = await res.json();
+        if (!Array.isArray(data) || !data.length) throw new Error("No feed");
+      } catch {
+        // Use demo/fallback if offline or API fails
+        data = demo;
+        end = true;
+      }
+      loader.style.display = 'none';
+      return data;
+    }
+
+    function like(btn, yes = true) {
+      btn.textContent = yes ? "✅ Liked!" : "❌ Not for me";
+      btn.style.background = yes ? "#00ff90" : "#ff3b5c";
+      btn.style.color = yes ? "#001" : "#fff";
+      setTimeout(() => btn.blur(), 600);
+    }
+
+    async function loadFeed(page = 1) {
+      if (loading || end) return;
+      loading = true;
+      const data = await fetchFeed(page);
+      if (!data.length) {
+        end = true;
+        endDiv.textContent = "🚩 You reached the end of the cosmic feed. Submit your story to keep it alive.";
+        return;
+      }
+      data.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'feed-item';
+        card.innerHTML = `
+          <iframe src="https://www.youtube.com/embed/${v.id}" title="${v.title.replace(/"/g,'&quot;')}" allowfullscreen loading="lazy"></iframe>
+          <div class="meta">
+            <h3>${v.title}</h3>
+            <div>
+              <button class="btn" onclick="like(this,true)">👍 Positive</button>
+              <button class="btn" onclick="like(this,false)">👎 Negative</button>
+            </div>
+          </div>
+        `;
+        feed.appendChild(card);
+      });
+      loading = false;
+    }
+
+    // Infinite scroll
+    window.addEventListener('scroll', () => {
+      if (end || loading) return;
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
+        loadFeed(++page);
+      }
+    });
+
+    // First load
+    loadFeed(page);
+  </script>
 </body>
 </html>
