@@ -4,26 +4,201 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sanity Hub - Pleading Sanity</title>
-  <link rel="stylesheet" href="styles.css" />
+  <!-- SEO & Social Meta -->
+  <meta name="description" content="Sanity Hub: Cosmic healing feed for survivors, creators, and mental health warriors. Breathe, scroll, and rise with Pleading Sanity." />
+  <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
+  <meta property="og:description" content="Cosmic mental health, positive feeds, healing audio, and AI support. Breathe and rise with us." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/sanity-hub.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sanity Hub – Pleading Sanity" />
+  <meta name="twitter:description" content="Mental health, movement, and cosmic healing. Scroll and rise with Pleading Sanity." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root { --cyan:#00fff0; --mag:#ff00ff; --glass:rgba(255,255,255,.06); }
+    html,body{margin:0;background:radial-gradient(ellipse at 50% 120%,#0d1b2a 0%,#000 70%);}
+    body{color:#fff;font-family:Inter,system-ui,Arial,sans-serif;background-attachment:fixed}
+    header{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--cyan);padding:12px}
+    nav ul{list-style:none;display:flex;gap:1rem;justify-content:center;margin:8px 0;padding:0}
+    nav a{color:var(--cyan);text-decoration:none;font-weight:700;transition:.18s}
+    nav a.active, nav a:hover{color:var(--mag)}
+    main{max-width:1100px;margin:auto;padding:24px}
+    h1,h2{margin:6px 0 10px}
+    .feed-item{background:var(--glass);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px;margin:20px 0;box-shadow:0 0 18px rgba(0,255,240,.18);animation:fade .5s ease}
+    .feed-item iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
+    .meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:10px;flex-wrap:wrap}
+    .title{font-weight:700}
+    .btn{cursor:pointer;border:0;border-radius:8px;padding:.5rem .9rem;background:var(--cyan);color:#000;font-weight:800;transition:.18s}
+    .btn:hover,.btn:focus{background:var(--mag);color:#fff;outline:none}
+    .points{display:inline-block;margin-left:8px;background:var(--mag);color:#fff;padding:2px 10px;border-radius:12px;font-size:.93em;font-weight:700;}
+    .bubble{position:fixed;z-index:10;left:16px;right:16px;bottom:20px;background:rgba(0,0,0,.75);border:1px solid var(--cyan);border-radius:14px;padding:12px;backdrop-filter:blur(6px);display:none}
+    .bubble.show{display:block;animation:fade .4s ease}
+    .audio-controls{position:fixed;right:16px;bottom:20px;z-index:11;display:flex;gap:8px;flex-wrap:wrap}
+    .loader{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
+    .loader.show{display:flex}
+    .spinner{width:64px;height:64px;border-radius:50%;border:3px solid rgba(0,255,240,.25);border-top-color:var(--cyan);animation:spin 1s linear infinite;box-shadow:0 0 24px rgba(0,255,240,.5)}
+    @keyframes spin{to{transform:rotate(360deg)}} 
+    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    select{background:var(--cyan);color:#000;font-weight:700;border-radius:8px;padding:.4rem;border:0;cursor:pointer}
+    .btn:focus{outline:2px solid var(--cyan);}
+    @media(max-width:700px){main{padding:8px}.feed-item{padding:7px}.audio-controls{flex-direction:column;right:8px;bottom:8px}}
+  </style>
 </head>
 <body>
   <header>
-    <h1>Sanity Hub</h1>
+    <h1>🧠 Sanity Hub</h1>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="sanity-hub.html">Sanity Hub</a></li>
+        <li><a class="active" href="sanity-hub.html">Sanity Hub</a></li>
         <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
+        <li><a href="movement.html">Movement</a></li>
+        <li><a href="journal-vault.html">Journal Vault</a></li>
       </ul>
     </nav>
   </header>
+
   <main>
     <section>
-      <h2>Welcome to the Sanity Hub</h2>
-      <p>Stay inspired and connect with others on your mental health journey.</p>
-      <p>Videos and content coming soon...</p>
+      <h2>Infinite, Auto-Updating Cosmic Feed</h2>
+      <p>Fresh, positive-first clips every visit. Scroll, breathe, and rise with us. <span class="points" id="points">+0</span></p>
     </section>
+    <div id="feed"></div>
   </main>
+
+  <!-- Info + prompt bubbles -->
+  <div id="bubble" class="bubble" aria-live="polite"></div>
+  <div id="prompt" class="bubble" style="bottom:90px; display:none;" aria-live="polite"></div>
+
+  <!-- Audio + controls -->
+  <div class="audio-controls">
+    <select id="freqSelect" aria-label="Choose healing frequency">
+      <option value="432hz.mp3" data-info="Calming frequency for grounding and inner peace." data-prompt="What feels calmer in your life after listening for a few minutes?">432Hz – Calming</option>
+      <option value="528hz.mp3" data-info="Known as the 'Love frequency', supports healing and transformation." data-prompt="What in your life is ready to transform today?">528Hz – Transformation</option>
+      <option value="639hz.mp3" data-info="Supports connection and communication with others." data-prompt="Who do you want to reconnect with, and why?">639Hz – Connection</option>
+      <option value="852hz.mp3" data-info="Awakens intuition and inner strength." data-prompt="What truth is your intuition whispering right now?">852Hz – Intuition</option>
+    </select>
+    <button id="muteBtn" class="btn" aria-pressed="false">🔊 Mute</button>
+  </div>
+  <audio id="tone" loop autoplay>
+    <source src="assets/audio/432hz.mp3" type="audio/mpeg"/>
+    <source src="assets/audio/432hz.ogg" type="audio/ogg"/>
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Loader -->
+  <div id="loader" class="loader" role="status" aria-live="polite"><div class="spinner"></div></div>
+
+  <script>
+    // Points system
+    let points = parseInt(localStorage.getItem('sanity_points') || '0');
+    function updatePoints(val) {
+      points += val;
+      localStorage.setItem('sanity_points', points);
+      document.getElementById('points').textContent = `+${points}`;
+    }
+    document.addEventListener('DOMContentLoaded',()=>{ document.getElementById('points').textContent = `+${points}`; });
+
+    async function getSource() {
+      try {
+        const r = await fetch('content/feeds.json'); return await r.json();
+      } catch { return { source:'playlist', id:'PLxxxxxxxxxxxxxxxx', limit:10 }; }
+    }
+
+    function like(btn, yes=true){
+      btn.textContent = yes ? '✅ Liked!' : '❌ Not for me';
+      btn.style.background = yes ? '#00ff90' : '#ff3b5c';
+      btn.style.color = yes ? '#001' : '#fff';
+      if (yes) updatePoints(1); else updatePoints(-1);
+      setTimeout(()=>{ btn.blur(); }, 500);
+    }
+
+    async function loadFeed() {
+      const loader = document.getElementById('loader'); loader.classList.add('show');
+      const cfg = await getSource();
+      const params = new URLSearchParams({ limit: (cfg.limit||10).toString() });
+      if (cfg.source === 'playlist') params.set('playlist', cfg.id);
+      else params.set('channel', cfg.id);
+
+      try {
+        const res = await fetch(`/.netlify/functions/ytFeed?${params.toString()}`);
+        const data = await res.json();
+        const feed = document.getElementById('feed');
+        feed.innerHTML = '';
+
+        data.items.forEach(v => {
+          const card = document.createElement('div');
+          card.className = 'feed-item';
+          card.innerHTML = `
+            <iframe src="https://www.youtube.com/embed/${v.videoId}" title="${v.title.replace(/"/g,'&quot;')}" allowfullscreen loading="lazy"></iframe>
+            <div class="meta">
+              <div class="title">${v.title}</div>
+              <div>
+                <button class="btn" onclick="like(this,true)" aria-label="Mark positive">👍 Positive</button>
+                <button class="btn" onclick="like(this,false)" aria-label="Mark negative">👎 Negative</button>
+              </div>
+            </div>`;
+          feed.appendChild(card);
+        });
+      } catch (err) {
+        document.getElementById('feed').innerHTML = `<div style="color:#ff3b5c">Error loading feed. <button class="btn" onclick="window.location.reload()">Reload</button></div>`;
+      }
+      loader.classList.remove('show');
+    }
+
+    // Frequency + Arron prompt integration
+    (function toneUI(){
+      const a = document.getElementById('tone'),
+            b = document.getElementById('bubble'),
+            p = document.getElementById('prompt'),
+            m = document.getElementById('muteBtn'),
+            sel = document.getElementById('freqSelect');
+
+      function showBubble(el, html){
+        el.innerHTML = html;
+        el.style.display = 'block';
+        el.classList.add('show');
+        setTimeout(()=>{ el.classList.remove('show'); el.style.display = 'none'; }, 12000);
+      }
+
+      function showPrompt(choice){
+        showBubble(b, choice.dataset.info);
+        const link = `journal-vault.html?prompt=${encodeURIComponent(choice.dataset.prompt)}`;
+        showBubble(p, `<strong>Arron asks:</strong> ${choice.dataset.prompt}<br><a href="${link}" class="btn">✍️ Journal it</a>`);
+      }
+
+      a.muted = false;
+      showPrompt(sel.options[0]);
+
+      m.addEventListener('click', ()=>{ 
+        a.muted = !a.muted; 
+        m.textContent = a.muted ? '🔇 Unmute' : '🔊 Mute'; 
+        m.setAttribute('aria-pressed', String(!a.muted));
+      });
+
+      sel.addEventListener('change', ()=>{
+        const choice = sel.options[sel.selectedIndex];
+        a.src = `assets/audio/${choice.value}`;
+        a.play().catch(()=>{});
+        showPrompt(choice);
+      });
+
+      window.addEventListener('pointerdown', ()=>{ if (a.paused){ a.play().catch(()=>{});} }, {once:true});
+    })();
+
+    loadFeed();
+  </script>
+  <!-- Analytics stub (optional, just swap your real ID later) -->
+  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script> -->
 </body>
 </html>
