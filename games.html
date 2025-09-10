@@ -1,20 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Games - Pleading Sanity</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Games – Pleading Sanity</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:title" content="Keep Kids Sane Games – Pleading Sanity" />
+  <meta property="og:description" content="Fun, safe, and positive games for all ages. No ads. No stress. Just play. Support mental health for the next generation." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <style>
+    body.universe {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 85%);
+      color: #f0f0f0;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+    }
+    header {
+      background: rgba(0,0,0,0.85);
+      border-bottom: 2px solid #00fff0;
+      padding: 16px;
+      text-align: center;
+      position: sticky; top: 0; z-index: 10;
+    }
+    header h1 { margin: 0; font-size: 2.2rem; color: #00fff0; }
+    main { max-width: 1100px; margin: auto; padding: 20px; flex: 1 0 auto; }
+    main p { font-size: 1.18rem; color: #b9faff; margin-bottom: 20px; }
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 20px;
+    }
+    .game-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(0,255,240,0.18);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 0 18px rgba(0,255,240,0.18);
+      transition: .18s;
+      display: flex; flex-direction: column;
+    }
+    .game-card:hover { box-shadow: 0 0 32px rgba(0,255,240,0.33); }
+    .game-card h3 {
+      margin: 0; padding: 11px; font-size: 1.14rem;
+      background: rgba(0,0,0,0.68); color: #00fff0;
+      text-align: center; letter-spacing:.01em;
+    }
+    .game-iframe-container {
+      position:relative; width:100%; padding-top:56.25%; /* 16:9 ratio */
+      background:#000;
+    }
+    .game-iframe-container iframe {
+      position:absolute; top:0; left:0; width:100%; height:100%;
+      border:none; border-radius:0 0 14px 14px;
+      background:#000;
+      min-height: 280px;
+    }
+    @media (max-width: 600px) {
+      .game-card h3 { font-size:1.05rem; padding:7px; }
+      .game-iframe-container { padding-top:60%; }
+    }
+    footer {
+      background:rgba(0,0,0,0.85); margin-top:40px; border-top:2px solid #00fff0;
+      text-align:center; font-size:1.07rem; color:#b9faff; padding:18px 8px 12px 8px;
+      flex-shrink: 0;
+    }
+    .socials { margin:12px 0 0 0; }
+    .socials a { color:#00fff0; margin:0 9px; font-size:1.3em; transition:.2s;}
+    .socials a:hover { color:#ff00ff;}
+  </style>
 </head>
 <body class="universe">
-  <header><h1>Keep Kids Sane Games</h1></header>
+  <header>
+    <h1>🎮 Keep Kids Sane Games</h1>
+  </header>
+
   <main>
-    <ul>
-      <li>Sanity Dodge</li>
-      <li>Math Mission</li>
-      <li>Word Wizard</li>
-      <li>Emotion Explorer</li>
-      <li>Breathe Buddy</li>
-    </ul>
+    <p>Fun, safe, and brain-boosting games — no ads, no stress, just play.<br>
+      <span style="color:#00fff0">Support mental health. Build resilience. Play together.</span>
+    </p>
+    <div class="games-grid">
+      <!-- Brain Game -->
+      <div class="game-card">
+        <h3>Brain Teasers</h3>
+        <div class="game-iframe-container">
+          <iframe src="https://www.crazygames.com/embed/brain-test" title="Brain Teasers" loading="lazy"></iframe>
+        </div>
+      </div>
+      <!-- Fun Game -->
+      <div class="game-card">
+        <h3>Sanity Dodge</h3>
+        <div class="game-iframe-container">
+          <iframe src="https://www.crazygames.com/embed/dodge" title="Sanity Dodge" loading="lazy"></iframe>
+        </div>
+      </div>
+      <!-- Maths Game -->
+      <div class="game-card">
+        <h3>Math Mission</h3>
+        <div class="game-iframe-container">
+          <iframe src="https://www.crazygames.com/embed/mathematician" title="Math Mission" loading="lazy"></iframe>
+        </div>
+      </div>
+      <!-- Word Game -->
+      <div class="game-card">
+        <h3>Word Wizard</h3>
+        <div class="game-iframe-container">
+          <iframe src="https://www.crazygames.com/embed/wordmeister" title="Word Wizard" loading="lazy"></iframe>
+        </div>
+      </div>
+      <!-- Calming/Breathing Game -->
+      <div class="game-card">
+        <h3>Breathe Buddy</h3>
+        <div class="game-iframe-container">
+          <!-- If calm.com embed ever fails, fallback to a “breathe” video -->
+          <iframe src="https://www.calm.com/breathe" title="Breathe Buddy" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — Mindful Play for the Next Generation</div>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
+    </div>
+    <div style="margin-top:7px;">
+      TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">Visit</a> &nbsp;|&nbsp;
+      Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank">Visit</a>
+    </div>
+  </footer>
 </body>
 </html>
