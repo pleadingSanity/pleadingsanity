@@ -5,25 +5,90 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Shop - Pleading Sanity</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <meta property="og:title" content="Pleading Sanity – Official Merch" />
+  <meta property="og:description" content="Crying Brain hoodies, tracksuits, tees & cosmic gear. Support the movement." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/shop.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pleading Sanity Merch" />
+  <meta name="twitter:description" content="Shop official Crying Brain streetwear – Shopify, Payhip, TikTok Shop." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+  <style>
+    main { text-align:center; }
+    .shop-links { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-top:20px; }
+    .shop-links a {
+      display:inline-block;
+      background:#00fff0;
+      color:#000;
+      font-weight:bold;
+      padding:0.8rem 1.4rem;
+      border-radius:10px;
+      text-decoration:none;
+      transition:background 0.25s, color 0.25s;
+      box-shadow:0 0 14px rgba(0,255,240,0.4);
+      font-size:1.12em;
+    }
+    .shop-links a:hover { background:#ff00ff; color:#fff; }
+    .merch-intro { max-width:700px; margin:0 auto; }
+    .footer-links { margin: 16px 0 0 0; }
+    .footer-links a { color:#00fff0; margin:0 11px; text-decoration:underline; font-size:1.04em; }
+    .footer-links a:hover { color:#ff00ff; }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Shop</h1>
+    <h1>🛒 Pleading Sanity Shop</h1>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a href="sanity-hub.html">Sanity Hub</a></li>
-        <li><a href="shop.html">Shop</a></li>
+        <li><a href="sanityhub.html">Sanity Hub</a></li>
+        <li><a class="active" href="shop.html">Shop</a></li>
         <li><a href="about.html">About</a></li>
+        <li><a href="videos.html">Videos</a></li>
       </ul>
     </nav>
   </header>
   <main>
-    <section>
+    <section class="merch-intro">
       <h2>Official Pleading Sanity Merch</h2>
-      <p>Check out our exclusive clothing and gear.</p>
-      <p>Shop coming soon...</p>
+      <p>
+        Wear survival. Support the movement. Every hoodie, tee, and tracksuit tells a story —<br>
+        with the <strong>Crying Brain</strong> cosmic logo, reflective designs, and urban streetwear energy.<br>
+        <b>All merch is designed for survivors, dreamers, and the next-gen street gods.<br>
+        <span style="color:#ff00ff">Rep the movement. Change the game.</span></b>
+      </p>
+    </section>
+
+    <section class="shop-links">
+      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" rel="noopener noreferrer">Shopify Store</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer">Payhip Store</a>
+      <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank" rel="noopener noreferrer">TikTok Shop</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">Instagram Merch</a>
+      <a href="mailto:pleadingsanity1@gmail.com?subject=Custom Order" target="_blank" rel="noopener noreferrer">Email for Custom Orders</a>
     </section>
   </main>
+  <footer>
+    <div class="brand">Pleading Sanity — Official Merch</div>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+    </div>
+    <div class="footer-links">
+      <a href="https://pleadingsanity.co.uk" target="_blank">Official Site</a> |
+      <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">TikTok Shop</a> |
+      <a href="https://payhip.com/Pleadingsanity" target="_blank">Payhip</a>
+    </div>
+    <div class="contact" style="margin-top:8px;">
+      Contact: <a href="mailto:pleadingsanity1@gmail.com">pleadingsanity1@gmail.com</a>
+    </div>
+  </footer>
+  <script>
+    // Optional: Smooth scroll to top
+    window.addEventListener('keydown', e => {
+      if (e.key === 't' && e.ctrlKey) window.scrollTo({top:0, behavior:'smooth'});
+    });
+  </script>
 </body>
 </html>
