@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sanity Hub - Pleading Sanity</title>
+
   <!-- SEO & Social Meta -->
   <meta name="description" content="Sanity Hub: Cosmic healing feed for survivors, creators, and mental health warriors. Breathe, scroll, and rise with Pleading Sanity." />
   <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
@@ -15,13 +16,15 @@
   <meta name="twitter:title" content="Sanity Hub – Pleading Sanity" />
   <meta name="twitter:description" content="Mental health, movement, and cosmic healing. Scroll and rise with Pleading Sanity." />
   <meta name="twitter:image" content="assets/crying-brain-og.png" />
+  
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="css/style.css" />
+
   <style>
     :root { --cyan:#00fff0; --mag:#ff00ff; --glass:rgba(255,255,255,.06); }
     html,body{margin:0;background:radial-gradient(ellipse at 50% 120%,#0d1b2a 0%,#000 70%);}
-    body{color:#fff;font-family:Inter,system-ui,Arial,sans-serif;background-attachment:fixed}
+    body{color:#fff;font-family:Inter,system-ui,Arial,sans-serif;background-attachment:fixed;line-height:1.5}
     header{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--cyan);padding:12px}
     nav ul{list-style:none;display:flex;gap:1rem;justify-content:center;margin:8px 0;padding:0}
     nav a{color:var(--cyan);text-decoration:none;font-weight:700;transition:.18s}
@@ -31,7 +34,7 @@
     .feed-item{background:var(--glass);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px;margin:20px 0;box-shadow:0 0 18px rgba(0,255,240,.18);animation:fade .5s ease}
     .feed-item iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
     .meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:10px;flex-wrap:wrap}
-    .title{font-weight:700}
+    .title{font-weight:700;color:var(--cyan)}
     .btn{cursor:pointer;border:0;border-radius:8px;padding:.5rem .9rem;background:var(--cyan);color:#000;font-weight:800;transition:.18s}
     .btn:hover,.btn:focus{background:var(--mag);color:#fff;outline:none}
     .points{display:inline-block;margin-left:8px;background:var(--mag);color:#fff;padding:2px 10px;border-radius:12px;font-size:.93em;font-weight:700;}
@@ -54,7 +57,7 @@
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
-        <li><a class="active" href="sanity-hub.html">Sanity Hub</a></li>
+        <li><a class="active" href="sanityhub.html">Sanity Hub</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a href="movement.html">Movement</a></li>
         <li><a href="journal-vault.html">Journal Vault</a></li>
@@ -84,6 +87,7 @@
     </select>
     <button id="muteBtn" class="btn" aria-pressed="false">🔊 Mute</button>
   </div>
+
   <audio id="tone" loop autoplay>
     <source src="assets/audio/432hz.mp3" type="audio/mpeg"/>
     <source src="assets/audio/432hz.ogg" type="audio/ogg"/>
@@ -94,19 +98,25 @@
   <div id="loader" class="loader" role="status" aria-live="polite"><div class="spinner"></div></div>
 
   <script>
-    // Points system
+    // --- POINTS SYSTEM ---
     let points = parseInt(localStorage.getItem('sanity_points') || '0');
     function updatePoints(val) {
       points += val;
       localStorage.setItem('sanity_points', points);
       document.getElementById('points').textContent = `+${points}`;
     }
-    document.addEventListener('DOMContentLoaded',()=>{ document.getElementById('points').textContent = `+${points}`; });
+    document.addEventListener('DOMContentLoaded',()=>{ 
+      document.getElementById('points').textContent = `+${points}`; 
+    });
 
+    // --- FEED LOADER ---
     async function getSource() {
       try {
-        const r = await fetch('content/feeds.json'); return await r.json();
-      } catch { return { source:'playlist', id:'PLxxxxxxxxxxxxxxxx', limit:10 }; }
+        const r = await fetch('content/feeds.json'); 
+        return await r.json();
+      } catch { 
+        return { source:'playlist', id:'PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA', limit:6 }; 
+      }
     }
 
     function like(btn, yes=true){
@@ -120,7 +130,7 @@
     async function loadFeed() {
       const loader = document.getElementById('loader'); loader.classList.add('show');
       const cfg = await getSource();
-      const params = new URLSearchParams({ limit: (cfg.limit||10).toString() });
+      const params = new URLSearchParams({ limit: (cfg.limit||6).toString() });
       if (cfg.source === 'playlist') params.set('playlist', cfg.id);
       else params.set('channel', cfg.id);
 
@@ -138,19 +148,20 @@
             <div class="meta">
               <div class="title">${v.title}</div>
               <div>
-                <button class="btn" onclick="like(this,true)" aria-label="Mark positive">👍 Positive</button>
-                <button class="btn" onclick="like(this,false)" aria-label="Mark negative">👎 Negative</button>
+                <button class="btn" onclick="like(this,true)">👍 Positive</button>
+                <button class="btn" onclick="like(this,false)">👎 Negative</button>
               </div>
             </div>`;
           feed.appendChild(card);
         });
       } catch (err) {
-        document.getElementById('feed').innerHTML = `<div style="color:#ff3b5c">Error loading feed. <button class="btn" onclick="window.location.reload()">Reload</button></div>`;
+        document.getElementById('feed').innerHTML = 
+          `<div style="color:#ff3b5c">⚠️ Error loading feed. <button class="btn" onclick="window.location.reload()">Reload</button></div>`;
       }
       loader.classList.remove('show');
     }
 
-    // Frequency + Arron prompt integration
+    // --- HEALING FREQUENCIES ---
     (function toneUI(){
       const a = document.getElementById('tone'),
             b = document.getElementById('bubble'),
@@ -187,18 +198,13 @@
         showPrompt(choice);
       });
 
-      window.addEventListener('pointerdown', ()=>{ if (a.paused){ a.play().catch(()=>{});} }, {once:true});
+      // Fix autoplay lock on mobile
+      window.addEventListener('pointerdown', ()=>{ 
+        if (a.paused){ a.play().catch(()=>{});} 
+      }, {once:true});
     })();
 
     loadFeed();
   </script>
-  <!-- Analytics stub (optional, just swap your real ID later) -->
-  <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XXXXXXXXXX');
-  </script> -->
 </body>
 </html>
