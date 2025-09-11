@@ -39,7 +39,7 @@
       animation: fade .5s;
     }
     .feed-item:hover { box-shadow: 0 0 38px rgba(0,255,240,0.34); }
-    .feed-item iframe, .feed-item video {
+    .feed-item iframe {
       width: 100%; aspect-ratio: 16/9; border: none; border-radius: 10px;
       box-shadow:0 0 13px #00fff044;
     }
@@ -100,44 +100,32 @@
   </footer>
 
   <script>
-    // --- Cosmic Feed Script (infinite scroll, demo fallback, "like", works anywhere) ---
-    let page = 1, loading = false, end = false;
+    let loading = false, nextPageToken = null, end = false;
     const feed = document.getElementById('feed');
     const loader = document.getElementById('loader');
     const endDiv = document.getElementById('end');
 
-    // Demo fallback content if API fails
+    // Demo fallback if API fails
     const demo = [
-      {
-        id: "8nTFjVm9sTQ",
-        title: "Shane's Story: Building Pleading Sanity (Mini-Doc)"
-      },
-      {
-        id: "mRf3-JkwqfU",
-        title: "Mental Health: Real Survivors. Real Talk."
-      },
-      {
-        id: "8F7b8FFsKis",
-        title: "Cosmic Motivation: Get Up & Rise Again"
-      }
+      { id: "8nTFjVm9sTQ", title: "Shane's Story: Building Pleading Sanity (Mini-Doc)" },
+      { id: "mRf3-JkwqfU", title: "Mental Health: Real Survivors. Real Talk." },
+      { id: "8F7b8FFsKis", title: "Cosmic Motivation: Get Up & Rise Again" }
     ];
 
-    async function fetchFeed(page = 1) {
+    async function fetchFeed() {
       loader.style.display = 'block';
-      let data;
       try {
-        // Try your real API if you have one
-        const res = await fetch(`/api/fetchVideos?page=${page}`);
+        const res = await fetch(`/api/video?pageToken=${nextPageToken || ""}`);
         if (!res.ok) throw new Error("API error");
-        data = await res.json();
-        if (!Array.isArray(data) || !data.length) throw new Error("No feed");
+        const data = await res.json();
+        loader.style.display = 'none';
+        nextPageToken = data.nextPageToken || null;
+        return data.videos || [];
       } catch {
-        // Use demo/fallback if offline or API fails
-        data = demo;
+        loader.style.display = 'none';
         end = true;
+        return demo;
       }
-      loader.style.display = 'none';
-      return data;
     }
 
     function like(btn, yes = true) {
@@ -147,20 +135,22 @@
       setTimeout(() => btn.blur(), 600);
     }
 
-    async function loadFeed(page = 1) {
+    async function loadFeed() {
       if (loading || end) return;
       loading = true;
-      const data = await fetchFeed(page);
-      if (!data.length) {
+      const videos = await fetchFeed();
+      if (!videos.length) {
         end = true;
-        endDiv.textContent = "🚩 You reached the end of the cosmic feed. Submit your story to keep it alive.";
+        endDiv.textContent = "🚩 End of the cosmic feed. Submit your story to keep it alive.";
         return;
       }
-      data.forEach(v => {
+      videos.forEach(v => {
         const card = document.createElement('div');
         card.className = 'feed-item';
         card.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${v.id}" title="${v.title.replace(/"/g,'&quot;')}" allowfullscreen loading="lazy"></iframe>
+          <iframe src="https://www.youtube.com/embed/${v.id}" 
+                  title="${v.title.replace(/"/g,'&quot;')}" 
+                  allowfullscreen loading="lazy"></iframe>
           <div class="meta">
             <h3>${v.title}</h3>
             <div>
@@ -172,18 +162,19 @@
         feed.appendChild(card);
       });
       loading = false;
+      if (!nextPageToken) end = true;
     }
 
     // Infinite scroll
     window.addEventListener('scroll', () => {
       if (end || loading) return;
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-        loadFeed(++page);
+        loadFeed();
       }
     });
 
     // First load
-    loadFeed(page);
+    loadFeed();
   </script>
 </body>
 </html>
