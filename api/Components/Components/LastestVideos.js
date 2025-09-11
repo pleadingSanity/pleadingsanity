@@ -1,20 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
 export default function LatestVideos() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/fetchVideos')
-      .then(res => res.json())
-      .then(data => {
+    async function fetchVideos() {
+      try {
+        const res = await fetch("/api/fetchVideos");
+        if (!res.ok) throw new Error("Failed to fetch videos");
+        const data = await res.json();
         setVideos(data || []);
-        setLoading(false);
-      })
-      .catch(err => {
+      } catch (err) {
         console.error("Error fetching videos:", err);
+
+        // Cosmic fallback so page never looks empty
+        setVideos([
+          {
+            id: "8nTFjVm9sTQ",
+            title: "Shane's Story: Building Pleading Sanity",
+            thumbnail: "https://i.ytimg.com/vi/8nTFjVm9sTQ/mqdefault.jpg",
+            url: "https://www.youtube.com/watch?v=8nTFjVm9sTQ",
+          },
+          {
+            id: "mRf3-JkwqfU",
+            title: "Mental Health: Real Survivors, Real Talk",
+            thumbnail: "https://i.ytimg.com/vi/mRf3-JkwqfU/mqdefault.jpg",
+            url: "https://www.youtube.com/watch?v=mRf3-JkwqfU",
+          },
+          {
+            id: "8F7b8FFsKis",
+            title: "Cosmic Motivation: Rise Again",
+            thumbnail: "https://i.ytimg.com/vi/8F7b8FFsKis/mqdefault.jpg",
+            url: "https://www.youtube.com/watch?v=8F7b8FFsKis",
+          },
+        ]);
+      } finally {
         setLoading(false);
-      });
+      }
+    }
+
+    fetchVideos();
   }, []);
 
   return (
@@ -38,7 +64,7 @@ export default function LatestVideos() {
 
       {loading && (
         <p style={{ textAlign: "center", color: "#ccc" }}>
-          Loading fresh cosmic vibes...
+          🚀 Loading fresh cosmic vibes...
         </p>
       )}
 
@@ -50,7 +76,7 @@ export default function LatestVideos() {
           gap: "20px",
         }}
       >
-        {videos.slice(0, 4).map((video) => (
+        {videos.slice(0, 6).map((video) => (
           <div
             key={video.id}
             className="video-card"
@@ -128,9 +154,9 @@ export default function LatestVideos() {
         ))}
       </div>
 
-      {(!loading && videos.length === 0) && (
+      {!loading && videos.length === 0 && (
         <p style={{ textAlign: "center", marginTop: "20px", color: "#ff3b5c" }}>
-          No videos available yet — check back soon for new drops.
+          ❌ No videos available yet — check back soon for new drops.
         </p>
       )}
     </section>
