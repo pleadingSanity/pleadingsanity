@@ -1,0 +1,9 @@
+{
+  "name": "pleading-sanity-functions",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "axios": "^1.7.0"
+  }
+}
