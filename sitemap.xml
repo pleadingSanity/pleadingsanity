@@ -4,37 +4,63 @@
     <loc>https://pleadingsanity.co.uk/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/about.html</loc>
     <priority>0.8</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/shop.html</loc>
     <priority>0.8</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/feed.html</loc>
     <priority>0.8</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/sanityhub.html</loc>
     <priority>0.8</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/games.html</loc>
     <priority>0.7</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/videos.html</loc>
     <priority>0.7</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/journal-vault.html</loc>
     <priority>0.7</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/movement.html</loc>
     <priority>0.7</priority>
+    <lastmod>2025-09-26</lastmod>
   </url>
+  <!-- NEW & OPTIONAL: -->
+  <url>
+    <loc>https://pleadingsanity.co.uk/contact.html</loc>
+    <priority>0.6</priority>
+    <lastmod>2025-09-26</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/arogan</loc>
+    <priority>0.8</priority>
+    <lastmod>2025-09-26</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/discord</loc>
+    <priority>0.6</priority>
+    <lastmod>2025-09-26</lastmod>
+  </url>
+  <!-- Add more below as you grow -->
 </urlset>
