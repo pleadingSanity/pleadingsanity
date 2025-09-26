@@ -2,169 +2,126 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rise From Madness – Movement | Pleading Sanity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pleading Sanity – The Movement</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <meta property="og:title" content="Pleading Sanity — Rise From Madness Movement" />
+  <meta property="og:description" content="This isn’t just survival. It’s a movement. Cosmic streetwear, real stories, mad hope. Rise with us." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
   <style>
-    body {
-      margin: 0;
-      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #020d13 80%, #000 100%);
-      font-family: 'Inter', Arial, sans-serif;
-      color: #e0e0e0;
-      min-height: 100vh;
+    body { background: radial-gradient(ellipse at 50% 120%, #13002e 0%, #060014 90%); color: #eafffd; }
+    .cosmic-header {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-top: 24px;
     }
-    .navbar {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      background: rgba(0,0,0,0.93);
-      border-bottom: 2px solid #00fff0;
-      position: sticky; top: 0; z-index: 40;
-      box-shadow: 0 4px 32px #00fff012;
-      padding: 14px 0;
+    .cosmic-header img { width: 155px; max-width: 50vw; margin-bottom: 18px; }
+    .cosmic-title { font-size: 2.6rem; letter-spacing: .01em; font-weight: 800; color: #00fff0; text-shadow: 0 0 14px #00fff0a1; }
+    nav { margin: 25px 0 10px 0; }
+    nav ul { display: flex; gap: 20px; list-style: none; justify-content: center; padding: 0; }
+    nav a { color: #00fff0; font-weight: 700; font-size: 1.11rem; text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: border 0.2s;}
+    nav a.active, nav a:hover { border-bottom: 2px solid #ff00ff; color: #fff;}
+    .movement-blurb { max-width: 660px; margin: 35px auto 0 auto; text-align: center; font-size: 1.22rem; color: #f0faff;}
+    .quote-art {
+      margin: 38px auto 18px auto; display: flex; flex-direction: column; align-items: center;
     }
-    .navbar a {
-      color: #00fff0;
-      font-weight: bold;
-      font-size: 1.11rem;
-      text-decoration: none;
-      padding: 9px 18px;
-      border-radius: 11px;
-      transition: all .22s cubic-bezier(.7,1.9,.24,.99);
-      background: rgba(0,255,240,0.04);
-      position: relative;
-      letter-spacing: .04em;
-      box-shadow: 0 0 0 #00fff012;
+    .quote-art img { width: 210px; margin-bottom: 17px; border-radius: 20px; box-shadow: 0 0 38px #00fff042; background: #000;}
+    .big-quote { font-size: 1.19rem; color: #ffb4ff; background: #1a013a; padding: 18px 24px; border-radius: 17px; box-shadow: 0 0 22px #00fff021; margin-bottom: 8px; font-weight: 600;}
+    .cta-row { display: flex; gap: 14px; justify-content: center; margin: 27px 0 32px 0; flex-wrap: wrap;}
+    .cta-row a {
+      background: linear-gradient(90deg,#00fff0 40%,#ff00ff 100%);
+      color: #0a0437; font-weight: 800; padding: .7rem 1.6rem;
+      border-radius: 9px; text-decoration: none; font-size: 1.13rem; box-shadow: 0 0 18px #00fff022; transition:.18s;
     }
-    .navbar a:hover, .navbar a.active {
-      color: #fff;
-      background: linear-gradient(90deg, #00fff0 0%, #ff00ff 100%);
-      box-shadow: 0 0 24px #00fff044;
-    }
-    .page-hero {
-      text-align: center;
-      padding: 40px 12px 0 12px;
-    }
-    .page-hero h1 {
-      color: #00fff0;
-      font-size: 2.3em;
-      margin-bottom: 10px;
-      text-shadow: 0 2px 36px #00fff066, 0 0 4px #001;
-      letter-spacing: 1.5px;
-    }
-    .page-hero p {
-      font-size: 1.23em;
-      color: #b9faff;
-      max-width: 700px;
-      margin: 0 auto 24px;
-    }
-    .cosmic-divider {
-      border: none;
-      height: 2px;
-      width: 55vw;
-      background: linear-gradient(90deg, #00fff0 0%, #ff00ff 100%);
-      margin: 32px auto 32px auto;
-      opacity: .15;
-      border-radius: 8px;
-    }
-    .cta-btn {
-      display: inline-block;
-      font-size: 1.19em;
-      color: #000;
-      background: linear-gradient(90deg, #00fff0 40%, #ff00ff 100%);
-      font-weight: bold;
-      padding: 1em 2em;
-      border-radius: 17px;
-      box-shadow: 0 2px 22px #00fff099;
-      margin: 28px 0;
-      text-decoration: none;
-      transition: background .19s, color .17s, transform .17s;
-      letter-spacing: .05em;
-    }
-    .cta-btn:hover {
-      background: linear-gradient(90deg,#ff00ff 60%,#00fff0 100%);
-      color: #fff;
-      transform: scale(1.05);
-      box-shadow: 0 4px 32px #ff00ff33;
-    }
-    .newsletter-box {
-      background: rgba(0,255,240,0.05);
-      border-radius: 14px;
-      padding: 18px 24px;
-      margin: 38px auto 0 auto;
-      max-width: 390px;
-      text-align: center;
-      box-shadow: 0 0 24px #00fff018;
-    }
-    .newsletter-box input[type="email"] {
-      padding: 0.7em;
-      border-radius: 7px;
-      border: none;
-      width: 220px;
-      font-size: 1em;
-      background: rgba(0,255,240,0.13);
-      color: #00fff0;
-      outline: none;
-      margin-bottom: 8px;
-    }
-    .newsletter-box button {
-      padding: 0.7em 1.4em;
-      border: none;
-      border-radius: 7px;
-      background: #00fff0;
-      color: #000;
-      font-weight: bold;
-      cursor: pointer;
-      font-size: 1.03em;
-      margin-left: 7px;
-      transition: background 0.2s, color 0.2s;
-    }
-    .newsletter-box button:hover { background: #ff00ff; color: #fff; }
-    @media (max-width: 700px) {
-      .navbar { gap: 11px; font-size: .94em; }
-      .cta-btn { padding: 0.8em 1.2em; font-size: 1em; }
+    .cta-row a:hover { background: #ff00ff; color: #fff; box-shadow: 0 0 26px #ff00ff55;}
+    .founder-section { text-align: center; margin: 48px 0 0 0; }
+    .founder-img { width: 220px; margin: 0 auto 22px auto; display:block; border-radius:19px; background: #100018;}
+    .mini-quote { color: #ff00ff; margin: 19px auto 8px; font-weight:600;}
+    .hoodie-section { max-width: 430px; margin:38px auto 0; background:rgba(12,8,22,0.89); border-radius:19px; box-shadow:0 0 40px #00fff03d; padding:20px; text-align:center;}
+    .hoodie-section img { width: 160px; display:block; margin:0 auto 12px auto; }
+    .hoodie-section p { color:#f0faff;}
+    @media (max-width: 700px){
+      .cosmic-title { font-size: 2rem;}
+      .movement-blurb { font-size:1.01rem;}
+      .big-quote { font-size: 1.06rem;}
+      .cta-row { flex-direction:column; gap:13px;}
     }
   </style>
 </head>
 <body>
-  <nav class="navbar">
-    <a href="index.html">Home</a>
-    <a href="about.html">About</a>
-    <a href="shop.html">Shop</a>
-    <a href="feed.html">Feed</a>
-    <a href="games.html">Games</a>
-    <a href="videos.html">Videos</a>
-    <a href="movement.html" class="active">Movement</a>
+  <div class="cosmic-header">
+    <img src="assets/crying-brain-og.png" alt="Crying Brain Logo" />
+    <div class="cosmic-title">RISE FROM MADNESS</div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="sanityhub.html">Sanity Hub</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a class="active" href="movement.html">Movement</a></li>
+      <li><a href="videos.html">Videos</a></li>
+      <li><a href="games.html">Games</a></li>
+      <li><a href="journal-vault.html">Journal Vault</a></li>
+    </ul>
   </nav>
-
-  <section class="page-hero">
-    <h1>🌌 Rise From Madness — The Movement</h1>
+  
+  <section class="movement-blurb">
     <p>
-      We turn pain into power, survival into strength, and madness into meaning. This is more than a site — it’s a sanctuary.<br>
-      Scroll, play, heal, and rise with us.
+      This is more than merch. More than a site. <b>This is a movement.</b> <br>
+      Every piece of pain stitched into power, every breakdown built into community. <br>
+      <span style="color:#00fff0;">Pleading Sanity is the cosmic uprising for the ones who never fit in, the broken, the survivors, the ones who love too hard, and the ones who rise anyway.</span>
     </p>
-    <a class="cta-btn" href="sanityhub.html">🌠 Enter the Sanity Hub</a>
   </section>
 
-  <hr class="cosmic-divider" />
-
-  <section>
-    <div class="newsletter-box">
-      <div style="font-size:1.08em; font-weight:600; margin-bottom:8px;">Get inspiration in your inbox</div>
-      <form>
-        <input type="email" placeholder="Your email" required />
-        <button type="submit">Subscribe</button>
-      </form>
-      <div id="newsletter-msg" style="margin-top:10px;color:#00fff0;font-size:0.97em;"></div>
+  <div class="quote-art">
+    <img src="assets/crying-brain-og.png" alt="Pleading Sanity Cosmic Logo" />
+    <div class="big-quote">
+      "Nothing broke my spirit — <br>only madness made me whole."
     </div>
+    <div class="mini-quote">– Pleading Sanity Manifesto</div>
+  </div>
+
+  <div class="cta-row">
+    <a href="shop.html">🛒 Cop the Merch</a>
+    <a href="journal-vault.html">📓 Share Your Story</a>
+    <a href="sanityhub.html">🧠 Sanity Hub Feed</a>
+    <a href="mailto:pleadingsanity1@gmail.com?subject=Join%20the%20Movement">🤝 Join/Contact</a>
+  </div>
+
+  <section class="founder-section">
+    <img src="assets/ps-brain-drip-blue.png" alt="Official Pleading Sanity Logo" class="founder-img" />
+    <h2>Why Pleading Sanity?</h2>
+    <p>
+      "I built this for everyone told to shut up, fit in, get over it. For the ones who know pain and still show up. For the ones who carry madness like a crown and turn trauma into hope for others.<br><br>
+      We’re not selling hoodies — we’re selling survival. We’re selling proof you can rebuild from the ruins.<br><br>
+      This is how we rise from madness — together."
+    </p>
+    <div class="mini-quote">– Shane, Founder (Still Standing)</div>
   </section>
-  <script>
-    // Newsletter popup logic
-    document.querySelector('.newsletter-box form').addEventListener('submit', function(e){
-      e.preventDefault();
-      document.getElementById('newsletter-msg').textContent = "✅ Thanks for joining the movement! Check your inbox for cosmic inspiration.";
-      this.reset();
-    });
-  </script>
+
+  <section class="hoodie-section">
+    <img src="assets/ps-hoodie-mock.png" alt="Crying Brain Hoodie" />
+    <h3>Pleading Sanity Hoodie</h3>
+    <p>
+      <b>Strength is built through struggle.<br>Hope is stitched in every thread.</b>
+      <br>
+      <span style="color:#00fff0;">Limited drops. Real survivor gear.</span>
+    </p>
+  </section>
+  <footer style="margin-top:38px; text-align:center; color:#00fff0; font-size:1.04rem;">
+    <div class="socials" style="margin:8px 0 9px 0;">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram" style="color:#00fff0;">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok" style="color:#00fff0;">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email" style="color:#00fff0;">✉️</a>
+    </div>
+    <div>
+      <a href="https://pleadingsanity.co.uk" target="_blank" style="color:#00fff0;">Official Site</a> | 
+      <a href="shop.html" style="color:#00fff0;">Shop</a> | 
+      <a href="sanityhub.html" style="color:#00fff0;">Sanity Hub</a>
+    </div>
+    <div style="margin-top:7px; color:#f0faff;">
+      Contact: <a href="mailto:pleadingsanity1@gmail.com" style="color:#ff00ff;">pleadingsanity1@gmail.com</a>
+    </div>
+  </footer>
 </body>
 </html>
