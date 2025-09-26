@@ -3,55 +3,56 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sanity Hub - Pleading Sanity</title>
+  <title>Sanity Hub – Pleading Sanity</title>
 
   <!-- SEO & Social Meta -->
   <meta name="description" content="Sanity Hub: Cosmic healing feed for survivors, creators, and mental health warriors. Breathe, scroll, and rise with Pleading Sanity." />
   <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
   <meta property="og:description" content="Cosmic mental health, positive feeds, healing audio, and AI support. Breathe and rise with us." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://pleadingsanity.co.uk/sanity-hub.html" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Sanity Hub – Pleading Sanity" />
-  <meta name="twitter:description" content="Mental health, movement, and cosmic healing. Scroll and rise with Pleading Sanity." />
-  <meta name="twitter:image" content="assets/crying-brain-og.png" />
-  
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="css/style.css" />
-
   <style>
-    :root { --cyan:#00fff0; --mag:#ff00ff; --glass:rgba(255,255,255,.06); }
-    html,body{margin:0;background:radial-gradient(ellipse at 50% 120%,#0d1b2a 0%,#000 70%);}
-    body{color:#fff;font-family:Inter,system-ui,Arial,sans-serif;background-attachment:fixed;line-height:1.5}
-    header{position:sticky;top:0;z-index:5;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--cyan);padding:12px}
-    nav ul{list-style:none;display:flex;gap:1rem;justify-content:center;margin:8px 0;padding:0}
-    nav a{color:var(--cyan);text-decoration:none;font-weight:700;transition:.18s}
-    nav a.active, nav a:hover{color:var(--mag)}
-    main{max-width:1100px;margin:auto;padding:24px}
-    h1,h2{margin:6px 0 10px}
-    .feed-item{background:var(--glass);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px;margin:20px 0;box-shadow:0 0 18px rgba(0,255,240,.18);animation:fade .5s ease}
-    .feed-item iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:12px}
-    .meta{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:10px;flex-wrap:wrap}
-    .title{font-weight:700;color:var(--cyan)}
-    .btn{cursor:pointer;border:0;border-radius:8px;padding:.5rem .9rem;background:var(--cyan);color:#000;font-weight:800;transition:.18s}
-    .btn:hover,.btn:focus{background:var(--mag);color:#fff;outline:none}
-    .points{display:inline-block;margin-left:8px;background:var(--mag);color:#fff;padding:2px 10px;border-radius:12px;font-size:.93em;font-weight:700;}
-    .bubble{position:fixed;z-index:10;left:16px;right:16px;bottom:20px;background:rgba(0,0,0,.75);border:1px solid var(--cyan);border-radius:14px;padding:12px;backdrop-filter:blur(6px);display:none}
-    .bubble.show{display:block;animation:fade .4s ease}
-    .audio-controls{position:fixed;right:16px;bottom:20px;z-index:11;display:flex;gap:8px;flex-wrap:wrap}
-    .loader{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,.75);backdrop-filter:blur(6px)}
-    .loader.show{display:flex}
-    .spinner{width:64px;height:64px;border-radius:50%;border:3px solid rgba(0,255,240,.25);border-top-color:var(--cyan);animation:spin 1s linear infinite;box-shadow:0 0 24px rgba(0,255,240,.5)}
-    @keyframes spin{to{transform:rotate(360deg)}} 
-    @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-    select{background:var(--cyan);color:#000;font-weight:700;border-radius:8px;padding:.4rem;border:0;cursor:pointer}
-    .btn:focus{outline:2px solid var(--cyan);}
-    @media(max-width:700px){main{padding:8px}.feed-item{padding:7px}.audio-controls{flex-direction:column;right:8px;bottom:8px}}
+    body {
+      background: radial-gradient(ellipse at 50% 120%, #191b3a 0%, #030c1b 85%, #000 100%);
+      min-height: 100vh;
+      color: #fff;
+      font-family: Inter, Arial, sans-serif;
+      background-attachment: fixed;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .stars {
+      position: fixed; width: 100vw; height: 100vh; z-index: 0; left: 0; top: 0; pointer-events: none; overflow: hidden;
+    }
+    .star { position: absolute; border-radius: 50%; opacity: 0.85; }
+    header { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,0.78); border-bottom: 1.5px solid #00fff0; padding: 13px; text-align: center; }
+    nav ul { list-style: none; display: flex; gap: 1.1rem; justify-content: center; margin: 8px 0 0 0; padding: 0; }
+    nav a { color: #00fff0; text-decoration: none; font-weight: 700; transition: .2s; padding: 3px 10px; border-radius: 8px;}
+    nav a.active, nav a:hover { color: #ff00ff; background: rgba(0,255,240,0.06); }
+    main { max-width: 1100px; margin: auto; padding: 26px 12px; z-index: 2; position: relative;}
+    .cosmic-hero { text-align: center; margin-bottom: 16px;}
+    .cosmic-hero img { width: 90px; filter: drop-shadow(0 0 16px #00fff099); margin-bottom: 7px;}
+    h1, h2 { font-family: inherit; letter-spacing: .01em;}
+    .slogan { color: #ff00ff; font-weight: 800; font-size: 1.2em; margin-bottom: 0;}
+    .motivation { font-size: 1.13em; margin: 13px 0; color: #00fff0;}
+    .feed-intro { margin: 1rem auto 1.3rem auto; font-size: 1.13em; background: rgba(0,255,240,0.03); padding: 10px 24px; border-radius: 15px; border-left: 3px solid #00fff0;}
+    .feed-item { background: rgba(255,255,255,0.055); border: 1px solid #00fff0; border-radius: 15px; padding: 15px; margin: 24px 0; box-shadow: 0 0 25px #00fff028; animation: fade .44s;}
+    .feed-item iframe { width: 100%; aspect-ratio: 16/9; border-radius: 11px; border: none;}
+    .meta { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 10px; flex-wrap: wrap;}
+    .meta .title { font-weight: 700; color: #00fff0; font-size: 1.09em;}
+    .btn { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem 1.1rem; background: #00fff0; color: #000; font-weight: 900; transition: .17s;}
+    .btn:hover { background: #ff00ff; color: #fff; }
+    .points { display: inline-block; margin-left: 8px; background: #ff00ff; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: .97em; font-weight: 700;}
+    .journal-link { display: inline-block; background: linear-gradient(90deg,#00fff0,#ff00ff); color: #000; font-weight: bold; border-radius: 9px; padding: 6px 20px; text-decoration: none; margin: 13px 0 0; box-shadow: 0 0 14px #00fff0aa;}
+    .journal-link:hover { color: #fff; background: #ff00ff; }
+    @keyframes fade { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
+    @media(max-width:700px){main{padding:9px}.feed-item{padding:7px}.cosmic-hero img{width:60px}}
   </style>
 </head>
 <body>
+  <canvas class="stars"></canvas>
   <header>
     <h1>🧠 Sanity Hub</h1>
     <nav>
@@ -66,80 +67,142 @@
   </header>
 
   <main>
+    <div class="cosmic-hero">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity Crying Brain Logo" />
+      <div class="slogan">Built from the bottom, getting real ones to the top.<br>P.S. It's not over.</div>
+      <div class="motivation" id="motivation"></div>
+    </div>
+
+    <div class="feed-intro">
+      Cosmic healing. Infinite scroll. Real stories, no algorithm. <b>Listen</b> to a frequency, <b>watch</b> a survivor, <b>rise</b> from madness.<br>
+      <span class="points" id="points">+0</span>
+      <a class="journal-link" href="journal-vault.html">✍️ Journal your story</a>
+    </div>
+
     <section>
       <h2>Infinite, Auto-Updating Cosmic Feed</h2>
-      <p>Fresh, positive-first clips every visit. Scroll, breathe, and rise with us. <span class="points" id="points">+0</span></p>
+      <div id="feed"></div>
     </section>
-    <div id="feed"></div>
   </main>
 
-  <!-- Info + prompt bubbles -->
-  <div id="bubble" class="bubble" aria-live="polite"></div>
-  <div id="prompt" class="bubble" style="bottom:90px; display:none;" aria-live="polite"></div>
-
-  <!-- Audio + controls -->
-  <div class="audio-controls">
-    <select id="freqSelect" aria-label="Choose healing frequency">
-      <option value="432hz.mp3" data-info="Calming frequency for grounding and inner peace." data-prompt="What feels calmer in your life after listening for a few minutes?">432Hz – Calming</option>
-      <option value="528hz.mp3" data-info="Known as the 'Love frequency', supports healing and transformation." data-prompt="What in your life is ready to transform today?">528Hz – Transformation</option>
-      <option value="639hz.mp3" data-info="Supports connection and communication with others." data-prompt="Who do you want to reconnect with, and why?">639Hz – Connection</option>
-      <option value="852hz.mp3" data-info="Awakens intuition and inner strength." data-prompt="What truth is your intuition whispering right now?">852Hz – Intuition</option>
-    </select>
-    <button id="muteBtn" class="btn" aria-pressed="false">🔊 Mute</button>
-  </div>
-
+  <!-- Healing Frequencies -->
   <audio id="tone" loop autoplay>
     <source src="assets/audio/432hz.mp3" type="audio/mpeg"/>
     <source src="assets/audio/432hz.ogg" type="audio/ogg"/>
     Your browser does not support the audio element.
   </audio>
+  <div style="position:fixed;right:16px;bottom:22px;z-index:20;">
+    <button id="muteBtn" class="btn" aria-pressed="false">🔊 Mute</button>
+  </div>
 
   <!-- Loader -->
-  <div id="loader" class="loader" role="status" aria-live="polite"><div class="spinner"></div></div>
+  <div id="loader" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,.82);z-index:20;">
+    <div class="spinner" style="width:54px;height:54px;border-radius:50%;border:3px solid #00fff066;border-top-color:#00fff0;animation:spin 1.3s linear infinite;"></div>
+  </div>
 
   <script>
-    // --- POINTS SYSTEM ---
+    // ---- COSMIC STARFIELD ----
+    (function cosmicStars(){
+      const canvas = document.querySelector('.stars');
+      const ctx = canvas.getContext('2d');
+      let w = window.innerWidth, h = window.innerHeight;
+      let stars = Array.from({length: 130}, () => ({
+        x: Math.random()*w,
+        y: Math.random()*h,
+        r: Math.random()*1.2+0.4,
+        dx: (Math.random()-0.5)*0.03,
+        dy: (Math.random()-0.5)*0.03,
+        o: Math.random()*0.7+0.3
+      }));
+
+      function resize(){ w=window.innerWidth; h=window.innerHeight; canvas.width=w; canvas.height=h;}
+      window.addEventListener('resize',resize); resize();
+
+      function draw(){
+        ctx.clearRect(0,0,w,h);
+        for(let s of stars){
+          ctx.beginPath();
+          ctx.arc(s.x,s.y,s.r,0,2*Math.PI);
+          ctx.fillStyle=`rgba(0,255,240,${s.o})`;
+          ctx.shadowColor="#ff00ff";
+          ctx.shadowBlur=8;
+          ctx.fill();
+          s.x+=s.dx; s.y+=s.dy;
+          if(s.x<0)s.x=w; if(s.x>w)s.x=0;
+          if(s.y<0)s.y=h; if(s.y>h)s.y=0;
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+    })();
+
+    // ---- MOTIVATIONAL QUOTES ----
+    const quotes = [
+      "You don’t rise by hiding your scars. Show them. That’s your superpower.",
+      "Cosmic healing is rebellion in a world that profits off your pain.",
+      "Every survivor is a creator. Tell your story; help someone rise.",
+      "You’re not just surviving — you’re building the next universe.",
+      "Every storm you outlive becomes your energy.",
+      "You’re the rarest star in the galaxy. Shine.💫",
+      "Madness is proof you felt too much — that’s the real magic.",
+      "P.S. It’s not over. The best chapters haven’t started yet."
+    ];
+    document.getElementById('motivation').textContent = quotes[Math.floor(Math.random()*quotes.length)];
+
+    // ---- POINTS SYSTEM ----
     let points = parseInt(localStorage.getItem('sanity_points') || '0');
     function updatePoints(val) {
       points += val;
       localStorage.setItem('sanity_points', points);
       document.getElementById('points').textContent = `+${points}`;
     }
-    document.addEventListener('DOMContentLoaded',()=>{ 
-      document.getElementById('points').textContent = `+${points}`; 
-    });
+    document.getElementById('points').textContent = `+${points}`;
 
-    // --- FEED LOADER ---
-    async function getSource() {
-      try {
-        const r = await fetch('content/feeds.json'); 
-        return await r.json();
-      } catch { 
-        return { source:'playlist', id:'PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA', limit:6 }; 
-      }
-    }
-
-    function like(btn, yes=true){
-      btn.textContent = yes ? '✅ Liked!' : '❌ Not for me';
-      btn.style.background = yes ? '#00ff90' : '#ff3b5c';
-      btn.style.color = yes ? '#001' : '#fff';
-      if (yes) updatePoints(1); else updatePoints(-1);
-      setTimeout(()=>{ btn.blur(); }, 500);
-    }
-
+    // ---- FEED LOADER (YOUTUBE API, FALLBACK TO BRANDED VIDEOS) ----
     async function loadFeed() {
-      const loader = document.getElementById('loader'); loader.classList.add('show');
-      const cfg = await getSource();
-      const params = new URLSearchParams({ limit: (cfg.limit||6).toString() });
-      if (cfg.source === 'playlist') params.set('playlist', cfg.id);
-      else params.set('channel', cfg.id);
-
+      document.getElementById('loader').style.display='flex';
       try {
-        const res = await fetch(`/.netlify/functions/ytFeed?${params.toString()}`);
-        const data = await res.json();
+        // Replace with dynamic API if you want
+        // const res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=8');
+        // const data = await res.json();
+        // For demo, use real branded videos:
+        const data = {
+          items: [
+            {
+              videoId: "I6tNnYjbg3A",
+              title: "Built From The Bottom — Brand Trailer",
+              description: "Our story in one punch: turning pain into power.",
+            },
+            {
+              videoId: "INPx4ypr2Uw",
+              title: "Sanity Stories: Survivor Spotlight #1",
+              description: "Real voices. Real healing. The first in our series of true survival stories.",
+            },
+            {
+              videoId: "ZXmrmAAN4Kk",
+              title: "Cosmic Affirmations – Energy Loop",
+              description: "Take a cosmic break. Soak up positive energy with our brand affirmations.",
+            },
+            {
+              videoId: "yeYRIQ1cwOg",
+              title: "Founder’s Message: Why ‘Pleading Sanity’ Exists",
+              description: "Shane breaks it down. This isn’t just a site — it’s a new movement.",
+            },
+            {
+              videoId: "tF796w_d0ZY",
+              title: "Rise Anthem – Original",
+              description: "The official anthem for all who rise from madness. Play it loud.",
+            },
+            {
+              videoId: "iKc8jCkaabA",
+              title: "Mental Health x MMA – How Fighting Saved Me",
+              description: "Pain into power, struggle into skill. Your story matters.",
+            }
+          ]
+        };
+
         const feed = document.getElementById('feed');
         feed.innerHTML = '';
-
         data.items.forEach(v => {
           const card = document.createElement('div');
           card.className = 'feed-item';
@@ -151,60 +214,39 @@
                 <button class="btn" onclick="like(this,true)">👍 Positive</button>
                 <button class="btn" onclick="like(this,false)">👎 Negative</button>
               </div>
-            </div>`;
+            </div>
+            <div style="margin-top:6px;font-size:1.01em;color:#fff9;">
+              ${v.description}
+            </div>
+          `;
           feed.appendChild(card);
         });
       } catch (err) {
         document.getElementById('feed').innerHTML = 
           `<div style="color:#ff3b5c">⚠️ Error loading feed. <button class="btn" onclick="window.location.reload()">Reload</button></div>`;
       }
-      loader.classList.remove('show');
+      document.getElementById('loader').style.display='none';
     }
+    function like(btn, yes=true){
+      btn.textContent = yes ? '✅ Liked!' : '❌ Not for me';
+      btn.style.background = yes ? '#00ff90' : '#ff3b5c';
+      btn.style.color = yes ? '#001' : '#fff';
+      if (yes) updatePoints(1); else updatePoints(-1);
+      setTimeout(()=>{ btn.blur(); }, 400);
+    }
+    loadFeed();
 
-    // --- HEALING FREQUENCIES ---
-    (function toneUI(){
-      const a = document.getElementById('tone'),
-            b = document.getElementById('bubble'),
-            p = document.getElementById('prompt'),
-            m = document.getElementById('muteBtn'),
-            sel = document.getElementById('freqSelect');
-
-      function showBubble(el, html){
-        el.innerHTML = html;
-        el.style.display = 'block';
-        el.classList.add('show');
-        setTimeout(()=>{ el.classList.remove('show'); el.style.display = 'none'; }, 12000);
-      }
-
-      function showPrompt(choice){
-        showBubble(b, choice.dataset.info);
-        const link = `journal-vault.html?prompt=${encodeURIComponent(choice.dataset.prompt)}`;
-        showBubble(p, `<strong>Arron asks:</strong> ${choice.dataset.prompt}<br><a href="${link}" class="btn">✍️ Journal it</a>`);
-      }
-
+    // ---- AUDIO CONTROLS ----
+    (function(){
+      const a = document.getElementById('tone'), m = document.getElementById('muteBtn');
       a.muted = false;
-      showPrompt(sel.options[0]);
-
-      m.addEventListener('click', ()=>{ 
+      m.addEventListener('click',()=>{ 
         a.muted = !a.muted; 
         m.textContent = a.muted ? '🔇 Unmute' : '🔊 Mute'; 
         m.setAttribute('aria-pressed', String(!a.muted));
       });
-
-      sel.addEventListener('change', ()=>{
-        const choice = sel.options[sel.selectedIndex];
-        a.src = `assets/audio/${choice.value}`;
-        a.play().catch(()=>{});
-        showPrompt(choice);
-      });
-
-      // Fix autoplay lock on mobile
-      window.addEventListener('pointerdown', ()=>{ 
-        if (a.paused){ a.play().catch(()=>{});} 
-      }, {once:true});
+      window.addEventListener('pointerdown', ()=>{ if (a.paused) a.play().catch(()=>{}); }, {once:true});
     })();
-
-    loadFeed();
   </script>
 </body>
 </html>
