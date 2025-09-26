@@ -6,29 +6,17 @@
   <title>Pleading Sanity – Videos</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
-    main {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-    section {
-      margin-bottom: 50px;
-    }
-    iframe, video {
-      width: 100%;
-      height: 315px;
-      border: none;
-      margin-top: 10px;
-      border-radius: 10px;
-      box-shadow: 0 0 18px rgba(0,255,240,0.25);
-    }
-    h2 {
-      color: #00cfff;
-      margin-bottom: 10px;
-    }
-    .video-list video {
-      margin-bottom: 20px;
-    }
+    body { background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #020d13 80%, #000 100%);}
+    main { max-width: 1100px; margin: auto; padding: 30px 10px; }
+    section { margin-bottom: 46px; }
+    iframe, video { width: 100%; height: 315px; border: none; border-radius: 12px; margin-top: 10px; box-shadow: 0 0 22px #00fff033;}
+    h2 { color: #00cfff; margin-bottom: 12px; }
+    .video-list, .dynamic-feed { margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 28px; }
+    .video-card { background: rgba(0,255,240,0.07); border-radius: 13px; box-shadow: 0 0 18px #00fff033; padding: 12px; }
+    .video-card h3 { color: #ff00ff; font-size: 1.09em; margin: 9px 0 0; }
+    .video-card img { width: 100%; border-radius: 9px; }
+    .video-card .meta { color: #c0f6ff; font-size: 0.98em; margin-top: 5px; }
+    @media (max-width:800px){ main{padding:7px;} .video-list, .dynamic-feed{grid-template-columns:1fr;}}
   </style>
 </head>
 <body>
@@ -45,7 +33,7 @@
     </nav>
   </header>
   <main>
-    <!-- YouTube playlists -->
+    <!-- Curated Playlists -->
     <section>
       <h2>Funny & Entertaining Videos</h2>
       <iframe 
@@ -71,57 +59,66 @@
       </iframe>
     </section>
 
-    <!-- Sample hosted videos with subtitles -->
+    <!-- Dynamic Community Video Feed (YouTube API/Netlify function or fallback) -->
     <section>
-      <h2>Exclusive Community Content</h2>
-      <div class="video-list" id="video-list"></div>
+      <h2>🌠 Community Video Feed</h2>
+      <div class="dynamic-feed" id="dynamic-feed"></div>
     </section>
   </main>
   <footer>
     <div class="brand">Pleading Sanity — Rise From Madness</div>
   </footer>
-
   <script>
-    // Example self-hosted demo videos (replace with real PS uploads later)
-    const videos = [
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles1.vtt",
-        title: "Big Buck Bunny Sample"
-      },
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles2.vtt",
-        title: "Another Sample Video"
+    // Loads from your live .netlify/functions/ytFeed if available, else uses cosmic fallback
+    async function loadCommunityFeed() {
+      const feed = document.getElementById('dynamic-feed');
+      feed.innerHTML = '<div style="color:#ccc">🚀 Loading real stories…</div>';
+
+      try {
+        // Try API first (change the endpoint if you rename the function)
+        const res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
+        const data = await res.json();
+
+        if (!data.items || !data.items.length) throw new Error("No videos returned");
+
+        feed.innerHTML = "";
+        data.items.forEach(v => {
+          feed.innerHTML += `
+            <div class="video-card">
+              <a href="${v.url}" target="_blank" rel="noopener">
+                <img src="${v.thumbnail}" alt="${v.title.replace(/"/g,'&quot;')}" />
+              </a>
+              <h3>${v.title}</h3>
+              <div class="meta">${v.description ? v.description.slice(0,110) + "…" : ""}</div>
+              <a href="${v.url}" class="btn" target="_blank" rel="noopener">▶ Watch</a>
+            </div>
+          `;
+        });
+      } catch (err) {
+        // Fallback (real PS content)
+        feed.innerHTML = `
+          <div class="video-card">
+            <a href="https://www.youtube.com/watch?v=8nTFjVm9sTQ" target="_blank"><img src="https://i.ytimg.com/vi/8nTFjVm9sTQ/mqdefault.jpg" alt="Shane's Story" /></a>
+            <h3>Shane's Story: Building Pleading Sanity</h3>
+            <div class="meta">Turning pain into a movement. Rise from Madness.</div>
+            <a href="https://www.youtube.com/watch?v=8nTFjVm9sTQ" class="btn" target="_blank">▶ Watch</a>
+          </div>
+          <div class="video-card">
+            <a href="https://www.youtube.com/watch?v=mRf3-JkwqfU" target="_blank"><img src="https://i.ytimg.com/vi/mRf3-JkwqfU/mqdefault.jpg" alt="Mental Health: Real Survivors" /></a>
+            <h3>Mental Health: Real Survivors, Real Talk</h3>
+            <div class="meta">The real faces and stories behind mental health.</div>
+            <a href="https://www.youtube.com/watch?v=mRf3-JkwqfU" class="btn" target="_blank">▶ Watch</a>
+          </div>
+          <div class="video-card">
+            <a href="https://www.youtube.com/watch?v=8F7b8FFsKis" target="_blank"><img src="https://i.ytimg.com/vi/8F7b8FFsKis/mqdefault.jpg" alt="Cosmic Motivation" /></a>
+            <h3>Cosmic Motivation: Rise Again</h3>
+            <div class="meta">Get up. Every time. You’re not alone.</div>
+            <a href="https://www.youtube.com/watch?v=8F7b8FFsKis" class="btn" target="_blank">▶ Watch</a>
+          </div>
+        `;
       }
-    ];
-
-    const container = document.getElementById('video-list');
-
-    videos.forEach(({ src, subtitles, title }) => {
-      const titleElem = document.createElement('h3');
-      titleElem.textContent = title;
-
-      const videoElem = document.createElement('video');
-      videoElem.controls = true;
-
-      const sourceElem = document.createElement('source');
-      sourceElem.src = src;
-      sourceElem.type = 'video/mp4';
-
-      const trackElem = document.createElement('track');
-      trackElem.kind = 'subtitles';
-      trackElem.label = 'English';
-      trackElem.srclang = 'en';
-      trackElem.src = subtitles;
-      trackElem.default = true;
-
-      videoElem.appendChild(sourceElem);
-      videoElem.appendChild(trackElem);
-
-      container.appendChild(titleElem);
-      container.appendChild(videoElem);
-    });
+    }
+    loadCommunityFeed();
   </script>
 </body>
 </html>
