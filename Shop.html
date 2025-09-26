@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shop - Pleading Sanity</title>
+  <title>Shop – Pleading Sanity</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="assets/favicon.ico" />
   <meta property="og:title" content="Pleading Sanity – Official Merch" />
@@ -15,24 +15,36 @@
   <meta name="twitter:description" content="Shop official Crying Brain streetwear – Shopify, Payhip, TikTok Shop." />
   <meta name="twitter:image" content="assets/crying-brain-og.png" />
   <style>
-    main { text-align:center; }
-    .shop-links { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; margin-top:20px; }
+    body { background: radial-gradient(ellipse at 50% 110%, #1c1b2a 0%, #000 80%); }
+    main { text-align:center; min-height:60vh; }
+    .merch-intro { max-width:700px; margin:32px auto 0 auto; background:rgba(0,255,240,0.04); border-radius:12px; box-shadow:0 0 32px #00fff033; padding:25px 2vw 16px; }
+    .shop-links { display:flex; flex-wrap:wrap; gap:18px; justify-content:center; margin:30px 0 18px 0; }
     .shop-links a {
       display:inline-block;
-      background:#00fff0;
+      background:linear-gradient(90deg,#00fff0 60%,#ff00ff 120%);
       color:#000;
       font-weight:bold;
-      padding:0.8rem 1.4rem;
-      border-radius:10px;
+      padding:0.9rem 1.6rem;
+      border-radius:12px;
       text-decoration:none;
-      transition:background 0.25s, color 0.25s;
-      box-shadow:0 0 14px rgba(0,255,240,0.4);
-      font-size:1.12em;
+      transition:background 0.23s, color 0.23s, box-shadow 0.22s;
+      box-shadow:0 0 16px rgba(0,255,240,0.32);
+      font-size:1.18em;
+      letter-spacing:0.01em;
+      margin-bottom:2px;
     }
-    .shop-links a:hover { background:#ff00ff; color:#fff; }
-    .merch-intro { max-width:700px; margin:0 auto; }
-    .footer-links { margin: 16px 0 0 0; }
-    .footer-links a { color:#00fff0; margin:0 11px; text-decoration:underline; font-size:1.04em; }
+    .shop-links a:hover { background:#ff00ff; color:#fff; box-shadow:0 0 28px #ff00ff44; }
+    .featured-merch { margin:40px auto 10px; max-width:900px; }
+    .featured-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:26px; justify-items:center; }
+    .merch-card { background:rgba(255,255,255,0.08); border:2px solid #00fff022; border-radius:17px; box-shadow:0 0 22px #00fff015; padding:15px 9px 15px 9px; min-width:210px; max-width:260px; margin:auto; }
+    .merch-card img { max-width:90%; height:165px; object-fit:contain; border-radius:10px; background:#191925; box-shadow:0 0 10px #00fff03c; }
+    .merch-card h3 { margin:11px 0 6px; color:#00fff0; font-size:1.07em; font-weight:800; }
+    .merch-card p { font-size:1.02em; color:#fff; margin-bottom:7px;}
+    .merch-card .card-links a { background:#ff00ff; color:#fff; border-radius:7px; font-size:.98em; padding:4px 14px; margin:4px; font-weight:700; text-decoration:none; transition:.15s; display:inline-block;}
+    .merch-card .card-links a:hover { background:#00fff0; color:#000;}
+    footer { margin-top:32px;}
+    .footer-links { margin: 17px 0 0 0; }
+    .footer-links a { color:#00fff0; margin:0 13px; text-decoration:underline; font-size:1.06em; }
     .footer-links a:hover { color:#ff00ff; }
   </style>
 </head>
@@ -53,11 +65,46 @@
     <section class="merch-intro">
       <h2>Official Pleading Sanity Merch</h2>
       <p>
-        Wear survival. Support the movement. Every hoodie, tee, and tracksuit tells a story —<br>
-        with the <strong>Crying Brain</strong> cosmic logo, reflective designs, and urban streetwear energy.<br>
-        <b>All merch is designed for survivors, dreamers, and the next-gen street gods.<br>
-        <span style="color:#ff00ff">Rep the movement. Change the game.</span></b>
+        <strong>Cosmic streetwear for survivors and real ones only.</strong><br>
+        Every drop features the Crying Brain cosmic logo, PS reflective details, and next-gen energy.<br>
+        <span style="color:#00fff0;">Wear survival. Turn pain into power. Build from the bottom. Take the real ones to the top.</span><br>
+        <b style="color:#ff00ff">P.S – It's not over. Peace, not war.</b>
       </p>
+    </section>
+
+    <!-- FEATURED MERCH SECTION -->
+    <section class="featured-merch">
+      <h2>🔥 Featured Drops</h2>
+      <div class="featured-grid">
+        <!-- Swap these images/links for live product links anytime -->
+        <div class="merch-card">
+          <img src="assets/hoodie-mockup.png" alt="Crying Brain Hoodie" />
+          <h3>Crying Brain Hoodie</h3>
+          <p>Reflective logo. Blackout cosmic fit.<br>Survivor gear – limited.</p>
+          <div class="card-links">
+            <a href="https://dqfzb1-ki.myshopify.com/products/crying-brain-hoodie" target="_blank">Shopify</a>
+            <a href="https://payhip.com/b/cryingbrainhoodie" target="_blank">Payhip</a>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img src="assets/ps-tracksuit-mockup.png" alt="P.S Tracksuit" />
+          <h3>P.S Tracksuit</h3>
+          <p>Crying Brain on back, PS on front, “P.S” in hood. Built to outlast the pain.</p>
+          <div class="card-links">
+            <a href="https://dqfzb1-ki.myshopify.com/products/ps-tracksuit" target="_blank">Shopify</a>
+            <a href="https://payhip.com/b/pstracksuit" target="_blank">Payhip</a>
+          </div>
+        </div>
+        <div class="merch-card">
+          <img src="assets/ps-fivepanel-mockup.png" alt="P.S 5-Panel Cap" />
+          <h3>P.S 5-Panel Cap</h3>
+          <p>First edition. Street status only. Cosmic blue underbrim.</p>
+          <div class="card-links">
+            <a href="https://shop.pleadingsanity.co.uk/products/p-s-five-panel-cap-1st-edition" target="_blank">Official Store</a>
+          </div>
+        </div>
+        <!-- Add more product cards as you grow -->
+      </div>
     </section>
 
     <section class="shop-links">
@@ -85,7 +132,7 @@
     </div>
   </footer>
   <script>
-    // Optional: Smooth scroll to top
+    // Smooth scroll to top (Ctrl+T)
     window.addEventListener('keydown', e => {
       if (e.key === 't' && e.ctrlKey) window.scrollTo({top:0, behavior:'smooth'});
     });
