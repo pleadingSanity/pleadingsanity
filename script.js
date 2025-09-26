@@ -1,4 +1,4 @@
-// ===== Pleading Sanity Universal Script =====
+// ===== Pleading Sanity Universal Script (UPGRADED YouTube Feed) =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log("🚀 Pleading Sanity script loaded. Rise From Madness.");
 
@@ -57,48 +57,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ======= Videos Page: Dynamic Community Loader =======
+  // ======= Sanity Hub: REAL YouTube Community Feed =======
   const container = document.getElementById('video-list');
   if (container) {
-    // Add your community/exclusive video uploads here (update for real PS content!)
-    const videos = [
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles1.vtt",
-        title: "Big Buck Bunny Sample"
-      },
-      {
-        src: "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-        subtitles: "https://example.com/subtitles2.vtt",
-        title: "Another Sample Video"
-      }
-    ];
-
-    videos.forEach(({ src, subtitles, title }) => {
-      const titleElem = document.createElement('h3');
-      titleElem.textContent = title;
-
-      const videoElem = document.createElement('video');
-      videoElem.controls = true;
-
-      const sourceElem = document.createElement('source');
-      sourceElem.src = src;
-      sourceElem.type = 'video/mp4';
-
-      const trackElem = document.createElement('track');
-      trackElem.kind = 'subtitles';
-      trackElem.label = 'English';
-      trackElem.srclang = 'en';
-      trackElem.src = subtitles;
-      trackElem.default = true;
-
-      videoElem.appendChild(sourceElem);
-      videoElem.appendChild(trackElem);
-
-      container.appendChild(titleElem);
-      container.appendChild(videoElem);
-    });
+    // LIVE FEED: Fetch from your serverless function (ytFeed API)
+    fetch('/.netlify/functions/ytFeed?channel=UC0iP4yT2PpQqhFQ0oEc7ZVw&limit=8') // Replace with your playlist/channel!
+      .then(res => res.json())
+      .then(({ items }) => {
+        container.innerHTML = ''; // Clear out any placeholder junk
+        if (!items || !items.length) {
+          container.innerHTML = '<div style="color:var(--danger, #fa3c3c);text-align:center">No videos found. Please check your API key and config.</div>';
+          return;
+        }
+        items.forEach(({ videoId, title, description, thumbnail, url }) => {
+          const card = document.createElement('div');
+          card.className = 'ps-video-card';
+          card.innerHTML = `
+            <a href="${url}" target="_blank" rel="noopener" class="ps-thumb-wrap">
+              <img src="${thumbnail}" alt="${title}" class="ps-thumb" loading="lazy" />
+            </a>
+            <div class="ps-info">
+              <h3 class="ps-title">${title}</h3>
+              <p class="ps-desc">${description.substring(0, 120)}...</p>
+              <a href="${url}" target="_blank" class="ps-watch-btn">▶ Watch on YouTube</a>
+            </div>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(err => {
+        console.error("Feed error:", err);
+        container.innerHTML = '<div style="color:var(--danger, #fa3c3c);text-align:center">⚡ Error loading videos. Try refreshing in a moment.</div>';
+      });
   }
 
-  // ======= END Videos Page Script =======
+  // ======= END Sanity Hub Feed =======
 });
