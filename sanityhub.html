@@ -1,58 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sanity Hub – Pleading Sanity</title>
-
-  <!-- SEO & Social Meta -->
-  <meta name="description" content="Sanity Hub: Cosmic healing feed for survivors, creators, and mental health warriors. Breathe, scroll, and rise with Pleading Sanity." />
-  <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
-  <meta property="og:description" content="Cosmic mental health, positive feeds, healing audio, and AI support. Breathe and rise with us." />
-  <meta property="og:image" content="assets/crying-brain-og.png" />
-  <link rel="icon" href="assets/favicon.ico" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta name="description" content="Cosmic healing, positive energy, and real survivor stories. Rise from madness with Pleading Sanity.">
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
   <style>
     body {
-      background: radial-gradient(ellipse at 50% 120%, #191b3a 0%, #030c1b 85%, #000 100%);
+      background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
       min-height: 100vh;
       color: #fff;
-      font-family: Inter, Arial, sans-serif;
-      background-attachment: fixed;
+      font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      position: relative;
     }
-    .stars {
-      position: fixed; width: 100vw; height: 100vh; z-index: 0; left: 0; top: 0; pointer-events: none; overflow: hidden;
+    header {
+      position: sticky; top: 0; background: rgba(0,0,0,0.8);
+      border-bottom: 1.5px solid #00fff0; padding: 12px; z-index: 10; text-align:center;
     }
-    .star { position: absolute; border-radius: 50%; opacity: 0.85; }
-    header { position: sticky; top: 0; z-index: 10; background: rgba(0,0,0,0.78); border-bottom: 1.5px solid #00fff0; padding: 13px; text-align: center; }
-    nav ul { list-style: none; display: flex; gap: 1.1rem; justify-content: center; margin: 8px 0 0 0; padding: 0; }
-    nav a { color: #00fff0; text-decoration: none; font-weight: 700; transition: .2s; padding: 3px 10px; border-radius: 8px;}
-    nav a.active, nav a:hover { color: #ff00ff; background: rgba(0,255,240,0.06); }
-    main { max-width: 1100px; margin: auto; padding: 26px 12px; z-index: 2; position: relative;}
-    .cosmic-hero { text-align: center; margin-bottom: 16px;}
-    .cosmic-hero img { width: 90px; filter: drop-shadow(0 0 16px #00fff099); margin-bottom: 7px;}
-    h1, h2 { font-family: inherit; letter-spacing: .01em;}
-    .slogan { color: #ff00ff; font-weight: 800; font-size: 1.2em; margin-bottom: 0;}
-    .motivation { font-size: 1.13em; margin: 13px 0; color: #00fff0;}
-    .feed-intro { margin: 1rem auto 1.3rem auto; font-size: 1.13em; background: rgba(0,255,240,0.03); padding: 10px 24px; border-radius: 15px; border-left: 3px solid #00fff0;}
-    .feed-item { background: rgba(255,255,255,0.055); border: 1px solid #00fff0; border-radius: 15px; padding: 15px; margin: 24px 0; box-shadow: 0 0 25px #00fff028; animation: fade .44s;}
-    .feed-item iframe { width: 100%; aspect-ratio: 16/9; border-radius: 11px; border: none;}
-    .meta { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; gap: 10px; flex-wrap: wrap;}
-    .meta .title { font-weight: 700; color: #00fff0; font-size: 1.09em;}
-    .btn { cursor: pointer; border: 0; border-radius: 8px; padding: .5rem 1.1rem; background: #00fff0; color: #000; font-weight: 900; transition: .17s;}
-    .btn:hover { background: #ff00ff; color: #fff; }
-    .points { display: inline-block; margin-left: 8px; background: #ff00ff; color: #fff; padding: 3px 10px; border-radius: 12px; font-size: .97em; font-weight: 700;}
-    .journal-link { display: inline-block; background: linear-gradient(90deg,#00fff0,#ff00ff); color: #000; font-weight: bold; border-radius: 9px; padding: 6px 20px; text-decoration: none; margin: 13px 0 0; box-shadow: 0 0 14px #00fff0aa;}
-    .journal-link:hover { color: #fff; background: #ff00ff; }
-    @keyframes fade { from{opacity:0;transform:translateY(12px);} to{opacity:1;transform:translateY(0);} }
-    @media(max-width:700px){main{padding:9px}.feed-item{padding:7px}.cosmic-hero img{width:60px}}
+    nav ul { display:flex; justify-content:center; list-style:none; gap:1.1rem; margin:0; padding:0; }
+    nav a { color:#00fff0; text-decoration:none; font-weight:700; transition:.2s; border-radius:6px; padding:3px 8px; }
+    nav a:hover, nav a.active { color:#ff00ff; background:rgba(0,255,240,0.08); }
+    main { max-width: 1100px; margin:auto; padding:20px; position:relative; z-index:2; }
+    .cosmic-hero img { width:90px; filter:drop-shadow(0 0 16px #00fff0aa); }
+    h1,h2 { text-align:center; margin-bottom:10px; }
+    .slogan { text-align:center; color:#ff00ff; font-weight:700; margin:5px 0 10px; }
+    .feed-item { background:rgba(255,255,255,0.05); border:1px solid #00fff0; border-radius:14px; padding:14px; margin:20px 0; box-shadow:0 0 25px #00fff020; animation:fade .4s; }
+    .feed-item iframe { width:100%; aspect-ratio:16/9; border:none; border-radius:10px; }
+    .meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-top:8px; }
+    .btn { border:0; border-radius:6px; padding:.4rem .9rem; background:#00fff0; color:#000; font-weight:800; cursor:pointer; transition:.2s; }
+    .btn:hover { background:#ff00ff; color:#fff; }
+    .promo-card {
+      text-align:center; background:linear-gradient(135deg,#00fff033,#ff00ff33);
+      padding:25px 15px; border-radius:14px; margin:25px 0;
+      border:1px solid #00fff0; box-shadow:0 0 18px #00fff020;
+    }
+    .promo-card a {
+      display:inline-block; background:linear-gradient(90deg,#00fff0,#ff00ff);
+      color:#000; font-weight:800; text-decoration:none; padding:10px 24px; border-radius:10px;
+      margin-top:8px; box-shadow:0 0 14px #00fff066;
+    }
+    canvas.stars { position:fixed; left:0; top:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+    @keyframes fade { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
   </style>
 </head>
 <body>
   <canvas class="stars"></canvas>
+
   <header>
     <h1>🧠 Sanity Hub</h1>
     <nav>
@@ -67,186 +62,90 @@
   </header>
 
   <main>
-    <div class="cosmic-hero">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity Crying Brain Logo" />
-      <div class="slogan">Built from the bottom, getting real ones to the top.<br>P.S. It's not over.</div>
-      <div class="motivation" id="motivation"></div>
-    </div>
-
-    <div class="feed-intro">
-      Cosmic healing. Infinite scroll. Real stories, no algorithm. <b>Listen</b> to a frequency, <b>watch</b> a survivor, <b>rise</b> from madness.<br>
-      <span class="points" id="points">+0</span>
-      <a class="journal-link" href="journal-vault.html">✍️ Journal your story</a>
-    </div>
-
-    <section>
-      <h2>Infinite, Auto-Updating Cosmic Feed</h2>
-      <div id="feed"></div>
+    <section class="cosmic-hero">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity logo">
+      <div class="slogan">Built from the bottom, rising to the cosmos — P.S. It’s not over.</div>
     </section>
+
+    <section id="feed"></section>
   </main>
 
-  <!-- Healing Frequencies -->
   <audio id="tone" loop autoplay>
-    <source src="assets/audio/432hz.mp3" type="audio/mpeg"/>
-    <source src="assets/audio/432hz.ogg" type="audio/ogg"/>
-    Your browser does not support the audio element.
+    <source src="assets/audio/432hz.mp3" type="audio/mpeg">
   </audio>
-  <div style="position:fixed;right:16px;bottom:22px;z-index:20;">
-    <button id="muteBtn" class="btn" aria-pressed="false">🔊 Mute</button>
-  </div>
-
-  <!-- Loader -->
-  <div id="loader" style="display:none;position:fixed;inset:0;align-items:center;justify-content:center;background:rgba(0,0,0,.82);z-index:20;">
-    <div class="spinner" style="width:54px;height:54px;border-radius:50%;border:3px solid #00fff066;border-top-color:#00fff0;animation:spin 1.3s linear infinite;"></div>
-  </div>
 
   <script>
-    // ---- COSMIC STARFIELD ----
-    (function cosmicStars(){
-      const canvas = document.querySelector('.stars');
-      const ctx = canvas.getContext('2d');
-      let w = window.innerWidth, h = window.innerHeight;
-      let stars = Array.from({length: 130}, () => ({
-        x: Math.random()*w,
-        y: Math.random()*h,
-        r: Math.random()*1.2+0.4,
-        dx: (Math.random()-0.5)*0.03,
-        dy: (Math.random()-0.5)*0.03,
-        o: Math.random()*0.7+0.3
-      }));
-
-      function resize(){ w=window.innerWidth; h=window.innerHeight; canvas.width=w; canvas.height=h;}
-      window.addEventListener('resize',resize); resize();
-
-      function draw(){
-        ctx.clearRect(0,0,w,h);
+    // STARFIELD
+    (function stars(){
+      const c=document.querySelector('.stars'),x=c.getContext('2d');
+      let w,h; const resize=()=>{w=innerWidth;h=innerHeight;c.width=w;c.height=h};
+      resize(); addEventListener('resize',resize);
+      const stars=Array.from({length:130},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.2+0.4,o:Math.random()*0.7+0.3,dx:(Math.random()-0.5)*0.1,dy:(Math.random()-0.5)*0.1}));
+      (function draw(){
+        x.clearRect(0,0,w,h);
         for(let s of stars){
-          ctx.beginPath();
-          ctx.arc(s.x,s.y,s.r,0,2*Math.PI);
-          ctx.fillStyle=`rgba(0,255,240,${s.o})`;
-          ctx.shadowColor="#ff00ff";
-          ctx.shadowBlur=8;
-          ctx.fill();
+          x.beginPath(); x.arc(s.x,s.y,s.r,0,2*Math.PI);
+          x.fillStyle=`rgba(0,255,240,${s.o})`;
+          x.shadowBlur=8; x.shadowColor="#ff00ff"; x.fill();
           s.x+=s.dx; s.y+=s.dy;
-          if(s.x<0)s.x=w; if(s.x>w)s.x=0;
-          if(s.y<0)s.y=h; if(s.y>h)s.y=0;
+          if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0;
         }
         requestAnimationFrame(draw);
-      }
-      draw();
+      })();
     })();
 
-    // ---- MOTIVATIONAL QUOTES ----
-    const quotes = [
-      "You don’t rise by hiding your scars. Show them. That’s your superpower.",
-      "Cosmic healing is rebellion in a world that profits off your pain.",
-      "Every survivor is a creator. Tell your story; help someone rise.",
-      "You’re not just surviving — you’re building the next universe.",
-      "Every storm you outlive becomes your energy.",
-      "You’re the rarest star in the galaxy. Shine.💫",
-      "Madness is proof you felt too much — that’s the real magic.",
-      "P.S. It’s not over. The best chapters haven’t started yet."
-    ];
-    document.getElementById('motivation').textContent = quotes[Math.floor(Math.random()*quotes.length)];
+    const API_KEY = "YOUR_YOUTUBE_API_KEY"; // Replace with your real one
+    const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA"; // can be your playlist ID
+    let nextPageToken = "";
 
-    // ---- POINTS SYSTEM ----
-    let points = parseInt(localStorage.getItem('sanity_points') || '0');
-    function updatePoints(val) {
-      points += val;
-      localStorage.setItem('sanity_points', points);
-      document.getElementById('points').textContent = `+${points}`;
-    }
-    document.getElementById('points').textContent = `+${points}`;
+    async function loadVideos() {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken ? "&pageToken="+nextPageToken : ""}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      nextPageToken = data.nextPageToken || "";
 
-    // ---- FEED LOADER (YOUTUBE API, FALLBACK TO BRANDED VIDEOS) ----
-    async function loadFeed() {
-      document.getElementById('loader').style.display='flex';
-      try {
-        // Replace with dynamic API if you want
-        // const res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=8');
-        // const data = await res.json();
-        // For demo, use real branded videos:
-        const data = {
-          items: [
-            {
-              videoId: "I6tNnYjbg3A",
-              title: "Built From The Bottom — Brand Trailer",
-              description: "Our story in one punch: turning pain into power.",
-            },
-            {
-              videoId: "INPx4ypr2Uw",
-              title: "Sanity Stories: Survivor Spotlight #1",
-              description: "Real voices. Real healing. The first in our series of true survival stories.",
-            },
-            {
-              videoId: "ZXmrmAAN4Kk",
-              title: "Cosmic Affirmations – Energy Loop",
-              description: "Take a cosmic break. Soak up positive energy with our brand affirmations.",
-            },
-            {
-              videoId: "yeYRIQ1cwOg",
-              title: "Founder’s Message: Why ‘Pleading Sanity’ Exists",
-              description: "Shane breaks it down. This isn’t just a site — it’s a new movement.",
-            },
-            {
-              videoId: "tF796w_d0ZY",
-              title: "Rise Anthem – Original",
-              description: "The official anthem for all who rise from madness. Play it loud.",
-            },
-            {
-              videoId: "iKc8jCkaabA",
-              title: "Mental Health x MMA – How Fighting Saved Me",
-              description: "Pain into power, struggle into skill. Your story matters.",
-            }
-          ]
-        };
+      const feed = document.getElementById("feed");
+      let index = feed.children.length;
+      data.items.forEach((item, i) => {
+        const vid = item.snippet.resourceId.videoId;
+        const title = item.snippet.title;
+        const desc = item.snippet.description;
+        const thumb = item.snippet.thumbnails.high.url;
+        const card = document.createElement("div");
+        card.className="feed-item";
+        card.innerHTML=`
+          <iframe src="https://www.youtube.com/embed/${vid}" title="${title}" loading="lazy" allowfullscreen poster="${thumb}"></iframe>
+          <div class="meta">
+            <div>${title}</div>
+            <button class="btn" onclick="like(this)">👍 Positive</button>
+          </div>
+          <p style="opacity:0.8">${desc}</p>
+        `;
+        feed.appendChild(card);
 
-        const feed = document.getElementById('feed');
-        feed.innerHTML = '';
-        data.items.forEach(v => {
-          const card = document.createElement('div');
-          card.className = 'feed-item';
-          card.innerHTML = `
-            <iframe src="https://www.youtube.com/embed/${v.videoId}" title="${v.title.replace(/"/g,'&quot;')}" allowfullscreen loading="lazy"></iframe>
-            <div class="meta">
-              <div class="title">${v.title}</div>
-              <div>
-                <button class="btn" onclick="like(this,true)">👍 Positive</button>
-                <button class="btn" onclick="like(this,false)">👎 Negative</button>
-              </div>
-            </div>
-            <div style="margin-top:6px;font-size:1.01em;color:#fff9;">
-              ${v.description}
-            </div>
-          `;
-          feed.appendChild(card);
-        });
-      } catch (err) {
-        document.getElementById('feed').innerHTML = 
-          `<div style="color:#ff3b5c">⚠️ Error loading feed. <button class="btn" onclick="window.location.reload()">Reload</button></div>`;
-      }
-      document.getElementById('loader').style.display='none';
-    }
-    function like(btn, yes=true){
-      btn.textContent = yes ? '✅ Liked!' : '❌ Not for me';
-      btn.style.background = yes ? '#00ff90' : '#ff3b5c';
-      btn.style.color = yes ? '#001' : '#fff';
-      if (yes) updatePoints(1); else updatePoints(-1);
-      setTimeout(()=>{ btn.blur(); }, 400);
-    }
-    loadFeed();
-
-    // ---- AUDIO CONTROLS ----
-    (function(){
-      const a = document.getElementById('tone'), m = document.getElementById('muteBtn');
-      a.muted = false;
-      m.addEventListener('click',()=>{ 
-        a.muted = !a.muted; 
-        m.textContent = a.muted ? '🔇 Unmute' : '🔊 Mute'; 
-        m.setAttribute('aria-pressed', String(!a.muted));
+        // Every 10th: add promo section
+        if ((index+i+1)%10===0){
+          const promo=document.createElement("div");
+          promo.className="promo-card";
+          promo.innerHTML=`<h3>✨ Be part of the Movement ✨</h3><p>Wear strength, not stress. Join Pleading Sanity.</p><a href="shop.html">Explore Merch</a>`;
+          feed.appendChild(promo);
+        }
       });
-      window.addEventListener('pointerdown', ()=>{ if (a.paused) a.play().catch(()=>{}); }, {once:true});
-    })();
+    }
+
+    function like(btn){
+      btn.textContent="✅ +1 Positive Energy";
+      btn.disabled=true;
+      btn.style.background="#00ff90";
+    }
+
+    window.addEventListener("scroll",()=>{
+      if(window.innerHeight + window.scrollY >= document.body.offsetHeight-600 && nextPageToken){
+        loadVideos();
+      }
+    });
+
+    loadVideos();
   </script>
 </body>
 </html>
