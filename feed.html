@@ -188,6 +188,14 @@
       }
     });
 
+    // Restore last search before first load
+    const saved = (typeof localStorage !== 'undefined' && localStorage.getItem('feedSearch')) || '';
+    if (saved) {
+      query = saved;
+      if (searchInput) searchInput.value = saved;
+      if (searchTermEl) searchTermEl.textContent = saved;
+      if (searchMeta) searchMeta.style.display = 'block';
+    }
     // First load
     loadFeed();
 
@@ -198,12 +206,14 @@
       nextPageToken = null;
       end = false;
       feed.innerHTML = "";
-      // Update UI chip
+      // Update UI chip and persist
       if (query) {
         searchTermEl.textContent = query;
         searchMeta.style.display = 'block';
+        try { localStorage.setItem('feedSearch', query); } catch {}
       } else {
         searchMeta.style.display = 'none';
+        try { localStorage.removeItem('feedSearch'); } catch {}
       }
       loadFeed();
     }

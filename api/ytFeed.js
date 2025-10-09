@@ -37,6 +37,24 @@ function setCors(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
 }
 
+async function getWithRetry(url, attempts = 3) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await axios.get(url, { timeout: 10000 });
+    } catch (err) {
+      lastErr = err;
+      const status = err?.response?.status;
+      const retriable = !status || status >= 500 || status === 429;
+      if (!retriable || i === attempts - 1) break;
+      const base = 300 * Math.pow(2, i);
+      const jitter = Math.floor(Math.random() * 150);
+      await new Promise((r) => setTimeout(r, base + jitter));
+    }
+  }
+  throw lastErr;
+}
+
 module.exports = async function handler(req, res) {
   setCors(req, res);
   if (req.method === "OPTIONS") return res.status(204).end();
@@ -57,7 +75,7 @@ module.exports = async function handler(req, res) {
       )}&pageToken=${pageToken}&key=${YT_KEY}`;
     } else if (channel) {
       // Fetch uploads playlist for channel
-      const ch = await axios.get(
+      const ch = await getWithRetry(
         `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${encodeURIComponent(
           channel
         )}&key=${YT_KEY}`
@@ -69,7 +87,7 @@ module.exports = async function handler(req, res) {
       url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&maxResults=${limit}&pageToken=${pageToken}&key=${YT_KEY}`;
     }
 
-    const ytRes = await axios.get(url);
+    const ytRes = await getWithRetry(url);
     const items = (ytRes.data.items || []).map((it) => {
       const id = it.id?.videoId || it.snippet?.resourceId?.videoId;
       const sn = it.snippet || {};
