@@ -1,0 +1,81 @@
+/* Pleading Sanity Asset Placeholders */
+/* This file contains instructions for creating missing assets */
+
+/*
+REQUIRED ASSETS TO CREATE:
+
+1. FAVICON FILES:
+   - assets/favicon.ico (32x32 ICO format)
+   - assets/apple-touch-icon.png (180x180)
+   - assets/favicon-32x32.png
+   - assets/favicon-16x16.png
+
+2. PWA ICONS (PNG format):
+   - assets/icons/icon-72x72.png
+   - assets/icons/icon-96x96.png
+   - assets/icons/icon-128x128.png
+   - assets/icons/icon-144x144.png
+   - assets/icons/icon-152x152.png
+   - assets/icons/icon-192x192.png
+   - assets/icons/icon-384x384.png
+   - assets/icons/icon-512x512.png
+
+3. SHORTCUT ICONS:
+   - assets/icons/hub-shortcut.png (96x96)
+   - assets/icons/journal-shortcut.png (96x96)
+   - assets/icons/shop-shortcut.png (96x96)
+
+4. NOTIFICATION ICONS:
+   - assets/icons/badge-72x72.png
+   - assets/icons/explore-action.png
+   - assets/icons/close-action.png
+
+5. MAIN BRAND ASSETS:
+   - assets/images/crying-brain-og.png (1200x630 for social sharing)
+   - assets/images/ps-brain-drip-blue.png
+   - assets/images/ps-hoodie-mock.png
+   - assets/images/ps-tracksuit-mockup.png
+   - assets/images/ps-fivepanel-mockup.png
+
+6. GAME ASSETS:
+   - assets/images/games/brain-teasers.png
+   - assets/images/games/sanity-dodge.png
+   - assets/images/games/math-mission.png
+   - assets/images/games/word-wizard.png
+   - assets/images/games/breathe-buddy.png
+
+7. SCREENSHOTS FOR PWA:
+   - assets/screenshots/desktop-home.png (1280x720)
+   - assets/screenshots/mobile-hub.png (390x844)
+
+8. AUDIO FILES:
+   - assets/audio/432hz.mp3 (healing frequency)
+   - assets/audio/528hz.mp3 (love frequency)
+   - assets/audio/639hz.mp3 (connection frequency)
+   - assets/audio/852hz.mp3 (intuition frequency)
+
+DESIGN GUIDELINES:
+- Use the Pleading Sanity color scheme: #00fff0 (cyan) and #ff00ff (magenta)
+- Include the "crying brain" logo concept
+- Dark cosmic background (#0d1b2a to #000)
+- Modern, clean design with glassmorphism effects
+- Consistent branding across all assets
+
+TOOLS TO CREATE ASSETS:
+1. Use Canva, Figma, or Photoshop for graphics
+2. Use favicon generators for ICO files
+3. Use audio generators for healing frequencies
+4. Ensure all images are optimized for web (WebP preferred)
+*/
+
+/* Temporary placeholders until assets are created */
+.missing-asset {
+  background: linear-gradient(135deg, #00fff0, #ff00ff);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 8px;
+  border: 2px dashed #fff;
+}

@@ -81,6 +81,16 @@
       <strong>No algorithms, no doomscroll. Only sanity.</strong>
     </p>
 
+    <!-- Simple search -->
+    <div style="text-align:center;margin:8px 0 8px 0;">
+      <input id="feed-search" type="search" placeholder="Search topics (e.g., resilience, bipolar, calm)" 
+             style="max-width:520px;width:96%;padding:10px 14px;border-radius:20px;border:1px solid rgba(0,255,240,0.25);background:rgba(255,255,255,0.06);color:#fff;outline:none;"/>
+    </div>
+    <div id="search-meta" style="display:none;text-align:center;margin:0 0 16px 0;color:#b9faff;">
+      <span>Showing results for: <strong id="search-term" style="color:#00fff0"></strong></span>
+      <button id="clear-search" class="btn" style="margin-left:10px;padding:6px 12px;font-size:.9rem;">Clear</button>
+    </div>
+
     <!-- Feed container -->
     <div id="feed"></div>
     <div id="loader"><span class="loader">🚀 Loading cosmic feed...</span></div>
@@ -100,10 +110,14 @@
   </footer>
 
   <script>
-    let loading = false, nextPageToken = null, end = false;
+    let loading = false, nextPageToken = null, end = false, query = "";
     const feed = document.getElementById('feed');
     const loader = document.getElementById('loader');
     const endDiv = document.getElementById('end');
+    const searchInput = document.getElementById('feed-search');
+    const searchMeta = document.getElementById('search-meta');
+    const searchTermEl = document.getElementById('search-term');
+    const clearBtn = document.getElementById('clear-search');
 
     // Demo fallback if API fails
     const demo = [
@@ -115,7 +129,8 @@
     async function fetchFeed() {
       loader.style.display = 'block';
       try {
-        const res = await fetch(`/api/video?pageToken=${nextPageToken || ""}`);
+        const q = query ? `&q=${encodeURIComponent(query)}` : "";
+        const res = await fetch(`/api/video?pageToken=${nextPageToken || ""}${q}`);
         if (!res.ok) throw new Error("API error");
         const data = await res.json();
         loader.style.display = 'none';
@@ -175,6 +190,48 @@
 
     // First load
     loadFeed();
+
+    // Search with debounce
+    let t;
+    function resetAndSearch(val){
+      query = (val || "").trim();
+      nextPageToken = null;
+      end = false;
+      feed.innerHTML = "";
+      // Update UI chip
+      if (query) {
+        searchTermEl.textContent = query;
+        searchMeta.style.display = 'block';
+      } else {
+        searchMeta.style.display = 'none';
+      }
+      loadFeed();
+    }
+    if (searchInput){
+      searchInput.addEventListener('input', (e)=>{
+        clearTimeout(t);
+        const v = e.target.value;
+        t = setTimeout(()=> resetAndSearch(v), 350);
+      });
+      searchInput.addEventListener('keydown', (e)=>{
+        if (e.key === 'Enter'){
+          e.preventDefault();
+          clearTimeout(t);
+          resetAndSearch(e.target.value);
+        }
+        if (e.key === 'Escape'){
+          e.preventDefault();
+          searchInput.value = '';
+          resetAndSearch('');
+        }
+      });
+    }
+    if (clearBtn){
+      clearBtn.addEventListener('click', ()=>{
+        searchInput.value = '';
+        resetAndSearch('');
+      });
+    }
   </script>
 </body>
 </html>

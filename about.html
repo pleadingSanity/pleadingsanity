@@ -2,13 +2,293 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>About - Pleading Sanity</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us – Pleading Sanity</title>
+  <meta name="description" content="Learn about Pleading Sanity's mission to turn pain into power, madness into meaning. Founded by Shane Cooper for mental health warriors worldwide.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
+  <link rel="stylesheet" href="accessibility.css">
+  <link rel="stylesheet" href="nav-component.css">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="About Pleading Sanity – Rise From Madness">
+  <meta property="og:description" content="A movement born from pain, turned into purpose. Founded by Shane Cooper for mental health warriors worldwide.">
+  <meta property="og:image" content="assets/images/crying-brain-og.png">
+  <meta property="og:type" content="website">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00fff0">
+  
+  <style>
+    .about-hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: radial-gradient(ellipse at center, rgba(0,255,240,0.1) 0%, transparent 70%);
+      border-radius: 20px;
+      margin: 40px 0;
+    }
+    
+    .founder-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 40px;
+      align-items: center;
+      margin: 60px 0;
+      padding: 40px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(0,255,240,0.1);
+    }
+    
+    .founder-image {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,255,240,0.2);
+      border: 3px solid #00fff0;
+    }
+    
+    .mission-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+    }
+    
+    .mission-card {
+      background: rgba(255,255,255,0.05);
+      padding: 30px;
+      border-radius: 16px;
+      border-left: 4px solid #ff00ff;
+      transition: transform 0.3s ease;
+    }
+    
+    .mission-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(255,0,255,0.2);
+    }
+    
+    .timeline {
+      margin: 60px 0;
+    }
+    
+    .timeline-item {
+      display: flex;
+      margin: 30px 0;
+      padding: 20px;
+      background: rgba(0,255,240,0.05);
+      border-radius: 12px;
+      border-left: 4px solid #00fff0;
+    }
+    
+    .timeline-date {
+      min-width: 120px;
+      font-weight: 800;
+      color: #00fff0;
+      font-size: 1.1rem;
+    }
+    
+    .timeline-content h4 {
+      margin: 0 0 10px 0;
+      color: #ff00ff;
+      font-size: 1.2rem;
+    }
+    
+    @media (max-width: 768px) {
+      .founder-section {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .mission-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .timeline-item {
+        flex-direction: column;
+      }
+      
+      .timeline-date {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
 </head>
+
 <body class="universe">
-  <header><h1>About Us</h1></header>
-  <main>
-    <p>Pleading Sanity is more than a brand. It's a movement born from pain, turned into purpose. We're rising from madness to make this world feel again.</p>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <header role="banner">
+    <h1>🧠 About Pleading Sanity</h1>
+    <nav aria-label="Main Navigation" role="navigation">
+      <a href="index.html" aria-label="Home">🏠 Home</a>
+      <a href="about.html" class="active" aria-label="About" aria-current="page">ℹ️ About</a>
+      <a href="sanityhub.html" aria-label="Sanity Hub">🧠 Hub</a>
+      <a href="shop.html" aria-label="Shop">🛒 Shop</a>
+      <a href="feed.html" aria-label="Sanity Feed">📺 Feed</a>
+      <a href="games.html" aria-label="Games">🎮 Games</a>
+      <a href="videos.html" aria-label="Videos">🎥 Videos</a>
+      <a href="movement.html" aria-label="Movement">⚡ Movement</a>
+    </nav>
+  </header>
+
+  <main id="main" role="main">
+    <section class="about-hero animate-fade-in-up">
+      <h2>Rise From Madness</h2>
+      <p style="font-size: 1.3rem; max-width: 800px; margin: 0 auto; line-height: 1.6;">
+        Pleading Sanity isn't just a brand—it's a <strong style="color: #00fff0;">cosmic uprising</strong> for anyone who's ever felt too much, been broken, or battled in silence. We turn <strong style="color: #ff00ff;">pain into power</strong>, survival into strength, and madness into meaning.
+      </p>
+    </section>
+
+    <section class="founder-section animate-fade-in observe-fade">
+      <div>
+        <img src="assets/images/shane-founder.jpg" alt="Shane Cooper, Founder of Pleading Sanity" class="founder-image missing-asset" style="background: linear-gradient(45deg, #00fff0, #ff00ff); height: 300px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: bold;">Shane Cooper</img>
+      </div>
+      <div>
+        <h3 style="color: #00fff0; font-size: 2rem; margin-bottom: 20px;">Founded by Shane Cooper</h3>
+        <p style="font-size: 1.2rem; line-height: 1.7; margin-bottom: 20px;">
+          "I built this for everyone told to <em>shut up</em>, <em>fit in</em>, <em>get over it</em>. For the ones who know pain and still show up. For the ones who carry madness like a crown and turn trauma into hope for others."
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.6; color: #b9faff;">
+          Shane's journey through bipolar disorder, survival fights, and rebuilding from zero became the foundation for Pleading Sanity. What started as personal healing transformed into a global movement that refuses to let anyone suffer in silence.
+        </p>
+        <blockquote style="border-left: 4px solid #ff00ff; padding-left: 20px; margin: 30px 0; font-style: italic; color: #ff00ff; font-size: 1.1rem;">
+          "We're not selling hoodies—we're selling survival. We're selling proof you can rebuild from the ruins."
+        </blockquote>
+      </div>
+    </section>
+
+    <section class="mission-grid">
+      <div class="mission-card animate-fade-in observe-fade">
+        <h4 style="color: #00fff0; font-size: 1.3rem; margin-bottom: 15px;">🧠 Mental Health First</h4>
+        <p>Every product, every piece of content, every interaction is designed with mental health at its core. We create safe spaces for healing, growth, and authentic expression.</p>
+      </div>
+      
+      <div class="mission-card animate-fade-in observe-fade">
+        <h4 style="color: #ff00ff; font-size: 1.3rem; margin-bottom: 15px;">🌌 Cosmic Community</h4>
+        <p>Building a global network of survivors, creators, and warriors who support each other through the darkness and celebrate together in the light.</p>
+      </div>
+      
+      <div class="mission-card animate-fade-in observe-fade">
+        <h4 style="color: #00fff0; font-size: 1.3rem; margin-bottom: 15px;">⚡ Radical Authenticity</h4>
+        <p>No masks, no pretending. We embrace the full spectrum of human experience—the beauty, the pain, the chaos, and the healing.</p>
+      </div>
+      
+      <div class="mission-card animate-fade-in observe-fade">
+        <h4 style="color: #ff00ff; font-size: 1.3rem; margin-bottom: 15px;">🎯 Purpose-Driven Action</h4>
+        <p>Every purchase supports mental health initiatives. Every story shared helps someone else feel less alone. Every moment of healing creates ripple effects.</p>
+      </div>
+    </section>
+
+    <section class="timeline">
+      <h3 style="text-align: center; color: #00fff0; font-size: 2rem; margin-bottom: 40px;">The Journey So Far</h3>
+      
+      <div class="timeline-item animate-fade-in observe-fade">
+        <div class="timeline-date">2023</div>
+        <div class="timeline-content">
+          <h4>The Beginning</h4>
+          <p>Shane's personal breakthrough moment—transforming rock bottom into the foundation for something bigger. First designs sketched during recovery.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item animate-fade-in observe-fade">
+        <div class="timeline-date">Early 2024</div>
+        <div class="timeline-content">
+          <h4>Brand Birth</h4>
+          <p>Pleading Sanity officially launches with the iconic "Crying Brain" logo. First hoodies sold to friends and local community.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item animate-fade-in observe-fade">
+        <div class="timeline-date">Mid 2024</div>
+        <div class="timeline-content">
+          <h4>Digital Expansion</h4>
+          <p>Social media presence grows organically. Stories of real survival and authentic struggle resonate across platforms.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item animate-fade-in observe-fade">
+        <div class="timeline-date">Late 2024</div>
+        <div class="timeline-content">
+          <h4>Community Growth</h4>
+          <p>Sanity Hub launches as a safe space for healing content. Journal Vault and AI companion "Arron" help thousands process their experiences.</p>
+        </div>
+      </div>
+      
+      <div class="timeline-item animate-fade-in observe-fade">
+        <div class="timeline-date">2025</div>
+        <div class="timeline-content">
+          <h4>Global Movement</h4>
+          <p>International shipping, partnerships with mental health organizations, and plans for physical healing spaces. The vision becomes reality.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-hero animate-fade-in observe-fade">
+      <h3 style="color: #ff00ff; font-size: 2rem; margin-bottom: 20px;">What Makes Us Different</h3>
+      <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto 30px; line-height: 1.6;">
+        We don't just talk about mental health—we live it, breathe it, and build our entire existence around it. Every thread in our clothing carries intention. Every pixel on our website serves healing. Every word we share comes from genuine experience.
+      </p>
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
+        <a href="shop.html" class="btn hover-scale">🛒 Shop with Purpose</a>
+        <a href="sanityhub.html" class="btn hover-scale">🧠 Join the Hub</a>
+        <a href="mailto:pleadingsanity1@gmail.com" class="btn hover-scale">✉️ Connect With Us</a>
+      </div>
+    </section>
   </main>
+
+  <footer role="contentinfo">
+    <div class="brand">Pleading Sanity — Rise From Madness</div>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
+    </div>
+    <div style="margin-top: 10px; font-size: 0.9rem;">
+      &copy; 2025 Pleading Sanity. All Rights Reserved. | 
+      <a href="mailto:pleadingsanity1@gmail.com" style="color: #00fff0;">Contact</a> | 
+      <a href="#privacy" style="color: #00fff0;">Privacy</a>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="error-handler.js" defer></script>
+  <script src="script.js" defer></script>
+  
+  <script>
+    // Initialize intersection observer for animations
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.observe-fade').forEach(el => {
+        observer.observe(el);
+      });
+    }
+    
+    // Register service worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js');
+    }
+  </script>
 </body>
 </html>

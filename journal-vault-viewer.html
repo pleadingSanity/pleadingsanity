@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journal Vault Viewer - Pleading Sanity</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-cyan: #00fff0;
+      --secondary-magenta: #ff00ff;
+      --bg-dark: #0d1b2a;
+      --bg-darker: #000;
+      --text-light: #f0faff;
+      --text-muted: #b9faff;
+      --surface-alpha: rgba(0,255,240,0.06);
+      --border-alpha: rgba(0,255,240,0.13);
+      --shadow-glow: 0 0 48px #00fff009;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, var(--bg-dark) 0%, var(--bg-darker) 80%);
+      color: var(--text-light);
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      transition: var(--transition);
+    }
+    
+    body.light-mode {
+      --primary-cyan: #0066cc;
+      --secondary-magenta: #cc0066;
+      --bg-dark: #f5f7fa;
+      --bg-darker: #ffffff;
+      --text-light: #1a202c;
+      --text-muted: #4a5568;
+      --surface-alpha: rgba(0,102,204,0.06);
+      --border-alpha: rgba(0,102,204,0.13);
+      --shadow-glow: 0 0 48px rgba(0,102,204,0.09);
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--surface-alpha);
+      border-radius: 21px;
+      padding: 30px;
+      box-shadow: var(--shadow-glow);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-alpha);
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    h1 {
+      color: var(--primary-cyan);
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 22px rgba(0,255,240,0.33);
+      font-weight: 800;
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+    
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--surface-alpha);
+      border: 1px solid var(--border-alpha);
+      border-radius: 50px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    .theme-toggle:hover {
+      background: var(--primary-cyan);
+      color: var(--bg-darker);
+      transform: scale(1.05);
+    }
+    .controls {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .btn {
+      background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--secondary-magenta) 100%);
+      color: var(--bg-darker);
+      font-weight: 700;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      margin: 0 8px 10px 0;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,255,240,0.2);
+      font-size: 0.95rem;
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    .btn:hover {
+      background: var(--secondary-magenta);
+      color: var(--text-light);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 25px rgba(255,0,255,0.3);
+    }
+    
+    .btn:active {
+      transform: translateY(0) scale(0.98);
+    }
+    .entry {
+      background: var(--surface-alpha);
+      border: 1px solid var(--border-alpha);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-glow);
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+      animation: slideIn 0.5s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .entry::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--secondary-magenta));
+      opacity: 0;
+      transition: var(--transition);
+    }
+    
+    .entry:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,255,240,0.15);
+      border-color: var(--primary-cyan);
+    }
+    
+    .entry:hover::before {
+      opacity: 1;
+    }
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid rgba(0,255,240,0.2);
+      padding-bottom: 10px;
+    }
+    .entry-number {
+      color: #00fff0;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+    .entry-date {
+      color: #ff00ff;
+      font-size: 0.9rem;
+    }
+    .entry-source {
+      color: #00fff0;
+      font-size: 0.9rem;
+      background: rgba(0,255,240,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .entry-text {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-top: 15px;
+    }
+    .stats {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #b9faff;
+    }
+    .empty-state {
+      text-align: center;
+      color: #ff3b5c;
+      font-size: 1.2rem;
+      padding: 40px;
+    }
+    .search-box {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      border-radius: 25px;
+      border: 1px solid var(--border-alpha);
+      background: var(--surface-alpha);
+      color: var(--text-light);
+      margin: 10px auto;
+      display: block;
+      font-size: 1rem;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+    }
+    
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+      box-shadow: 0 0 20px rgba(0,255,240,0.2);
+      transform: scale(1.02);
+    }
+    
+    .search-box::placeholder {
+      color: var(--text-muted);
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .container {
+        padding: 20px;
+        border-radius: 16px;
+      }
+      
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 10px;
+      }
+      
+      .btn {
+        margin: 0;
+        font-size: 0.9rem;
+        padding: 10px 16px;
+      }
+      
+      .entry {
+        padding: 16px;
+        margin: 16px 0;
+      }
+      
+      .entry-header {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+      }
+      
+      .theme-toggle {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 0 auto 20px;
+        display: block;
+        width: fit-content;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+      
+      .search-box {
+        max-width: 100%;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+    <span id="theme-icon">🌙</span> <span id="theme-text">Dark</span>
+  </button>
+  
+  <div class="container">
+    <h1>🧠 Pleading Sanity - Journal Vault Viewer</h1>
+    
+    <div class="controls">
+      <button class="btn" onclick="loadVault()">🔄 Refresh Vault</button>
+      <button class="btn" onclick="exportVault()">⬇️ Export as Text</button>
+      <button class="btn" onclick="printVault()">🖨️ Print Vault</button>
+      <button class="btn" onclick="clearVault()">🗑️ Clear All</button>
+    </div>
+
+    <input type="text" id="searchBox" class="search-box" placeholder="Search your journal entries..." onkeyup="filterEntries()">
+
+    <div class="stats" id="stats"></div>
+    
+    <div id="vault-content"></div>
+  </div>
+
+  <script>
+    let allEntries = [];
+    let currentTheme = localStorage.getItem('vaultTheme') || 'dark';
+    
+    // Initialize theme on load
+    function initTheme() {
+      if (currentTheme === 'light') {
+        document.body.classList.add('light-mode');
+        document.getElementById('theme-icon').textContent = '☀️';
+        document.getElementById('theme-text').textContent = 'Light';
+      }
+    }
+    
+    function toggleTheme() {
+      currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.body.classList.toggle('light-mode');
+      
+      const icon = document.getElementById('theme-icon');
+      const text = document.getElementById('theme-text');
+      
+      if (currentTheme === 'light') {
+        icon.textContent = '☀️';
+        text.textContent = 'Light';
+      } else {
+        icon.textContent = '🌙';
+        text.textContent = 'Dark';
+      }
+      
+      localStorage.setItem('vaultTheme', currentTheme);
+    }
+    
+    function loadVault() {
+      try {
+        const vaultData = localStorage.getItem('journalVault');
+        allEntries = vaultData ? JSON.parse(vaultData) : [];
+        displayEntries(allEntries);
+        updateStats();
+      } catch (error) {
+        console.error('Error loading vault:', error);
+        document.getElementById('vault-content').innerHTML = `
+          <div class="empty-state">
+            ❌ Error loading Journal Vault: ${error.message}<br>
+            <small>Make sure you've used the ChatGPT widget on the Pleading Sanity website.</small>
+          </div>
+        `;
+      }
+    }
+
+    function displayEntries(entries) {
+      const container = document.getElementById('vault-content');
+      
+      if (!entries || entries.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            📝 Your Journal Vault is empty.<br>
+            <small>Start a conversation with Arron on the Pleading Sanity website to see entries here.</small>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      entries.forEach((entry, index) => {
+        const date = new Date(entry.timestamp).toLocaleString();
+        html += `
+          <div class="entry" data-text="${entry.text.toLowerCase()}">
+            <div class="entry-header">
+              <span class="entry-number">#${index + 1}</span>
+              <span class="entry-source">${entry.source || 'Unknown'}</span>
+              <span class="entry-date">${date}</span>
+            </div>
+            <div class="entry-text">${entry.text}</div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+
+    function updateStats() {
+      const stats = document.getElementById('stats');
+      if (allEntries.length > 0) {
+        const oldestDate = new Date(allEntries[0].timestamp).toLocaleDateString();
+        const newestDate = new Date(allEntries[allEntries.length - 1].timestamp).toLocaleDateString();
+        stats.innerHTML = `
+          📊 <strong>${allEntries.length}</strong> journal entries 
+          | 📅 From ${oldestDate} to ${newestDate}
+        `;
+      } else {
+        stats.innerHTML = '';
+      }
+    }
+
+    function filterEntries() {
+      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+      if (!searchTerm) {
+        displayEntries(allEntries);
+        return;
+      }
+      
+      const filteredEntries = allEntries.filter(entry => 
+        entry.text.toLowerCase().includes(searchTerm)
+      );
+      displayEntries(filteredEntries);
+    }
+
+    function exportVault() {
+      if (allEntries.length === 0) {
+        alert("⚠️ Journal Vault is empty!");
+        return;
+      }
+
+      let content = "🧠 Pleading Sanity – Journal Vault Export\\n";
+      content += `Exported on: ${new Date().toLocaleString()}\\n`;
+      content += `Total entries: ${allEntries.length}\\n\\n`;
+      content += "=" .repeat(50) + "\\n\\n";
+      
+      allEntries.forEach((entry, i) => {
+        content += `Entry #${i + 1}\\n`;
+        content += `Date: ${new Date(entry.timestamp).toLocaleString()}\\n`;
+        content += `Source: ${entry.source || 'Unknown'}\\n`;
+        content += `Text: ${entry.text}\\n`;
+        content += "-".repeat(30) + "\\n\\n";
+      });
+
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `PleadingSanity_JournalVault_${new Date().toISOString().split('T')[0]}.txt`;
+      link.click();
+    }
+
+    function printVault() {
+      if (allEntries.length === 0) {
+        alert("⚠️ Journal Vault is empty!");
+        return;
+      }
+
+      let win = window.open("", "PRINT", "height=600,width=800");
+      win.document.write(`
+        <html>
+          <head>
+            <title>Pleading Sanity - Journal Vault</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 20px; }
+              h1 { color: #00fff0; text-align: center; }
+              .entry { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
+              .entry-header { font-weight: bold; margin-bottom: 10px; }
+              .entry-date { color: #666; font-size: 0.9rem; }
+            </style>
+          </head>
+          <body>
+            <h1>🧠 Pleading Sanity – Journal Vault</h1>
+            <p><strong>Exported:</strong> ${new Date().toLocaleString()}</p>
+            <p><strong>Total Entries:</strong> ${allEntries.length}</p>
+            <hr>
+      `);
+      
+      allEntries.forEach((entry, i) => {
+        win.document.write(`
+          <div class="entry">
+            <div class="entry-header">Entry #${i + 1} - ${entry.source || 'Unknown'}</div>
+            <div class="entry-date">${new Date(entry.timestamp).toLocaleString()}</div>
+            <div class="entry-text">${entry.text}</div>
+          </div>
+        `);
+      });
+      
+      win.document.write('</body></html>');
+      win.document.close();
+      win.focus();
+      win.print();
+      win.close();
+    }
+
+    function clearVault() {
+      if (confirm("⚠️ Are you sure you want to clear ALL journal entries? This cannot be undone!")) {
+        localStorage.removeItem('journalVault');
+        allEntries = [];
+        displayEntries([]);
+        updateStats();
+        alert("✅ Journal Vault cleared successfully.");
+      }
+    }
+
+    // Auto-load on page start
+    document.addEventListener('DOMContentLoaded', function() {
+      initTheme();
+      loadVault();
+    });
+    
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey || e.metaKey) {
+        switch(e.key) {
+          case 'r':
+            e.preventDefault();
+            loadVault();
+            break;
+          case 'e':
+            e.preventDefault();
+            exportVault();
+            break;
+          case 'p':
+            e.preventDefault();
+            printVault();
+            break;
+          case '/':
+            e.preventDefault();
+            document.getElementById('searchBox').focus();
+            break;
+        }
+      }
+      if (e.key === 'Escape') {
+        document.getElementById('searchBox').value = '';
+        filterEntries();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+{
+  "name": "Pleading Sanity - Rise From Madness",
+  "short_name": "Pleading Sanity",
+  "description": "A cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#00fff0",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en",
+  "categories": ["health", "lifestyle", "entertainment", "social"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/screenshots/desktop-home.png",
+      "type": "image/png",
+      "sizes": "1280x720",
+      "form_factor": "wide",
+      "label": "Pleading Sanity Homepage"
+    },
+    {
+      "src": "assets/screenshots/mobile-hub.png",
+      "type": "image/png", 
+      "sizes": "390x844",
+      "form_factor": "narrow",
+      "label": "Sanity Hub Mobile"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Sanity Hub",
+      "short_name": "Hub",
+      "description": "Access the cosmic healing hub",
+      "url": "/sanityhub.html",
+      "icons": [{ "src": "assets/icons/hub-shortcut.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Journal Vault",
+      "short_name": "Journal", 
+      "description": "View your conversation history",
+      "url": "/journal-vault-viewer.html",
+      "icons": [{ "src": "assets/icons/journal-shortcut.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Shop",
+      "short_name": "Shop",
+      "description": "Browse official merch", 
+      "url": "/shop.html",
+      "icons": [{ "src": "assets/icons/shop-shortcut.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://pleadingsanity.co.uk/manifest.json"
+    }
+  ]
+}
