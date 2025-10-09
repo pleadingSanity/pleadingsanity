@@ -6,7 +6,9 @@
   "scripts": {
     "test": "node ./node_modules/jest/bin/jest.js --runInBand",
     "lint": "echo 'no lint configured'",
-    "start": "node example.js"
+    "start": "node example.js",
+    "arronlink:update": "node scripts/arronlink-update.js --auto",
+    "arronlink:read": "node scripts/arronlink-read.js --pretty"
   },
   "author": "",
   "license": "MIT",
