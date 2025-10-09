@@ -37,7 +37,7 @@ function setCors(req, res) {
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
 }
 
-async function getWithRetry(url, attempts = 3) {
+async function getWithRetry(url, attempts = 3, onRetry) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
     try {
@@ -47,6 +47,7 @@ async function getWithRetry(url, attempts = 3) {
       const status = err?.response?.status;
       const retriable = !status || status >= 500 || status === 429;
       if (!retriable || i === attempts - 1) break;
+      if (onRetry) try { onRetry(err, i + 1); } catch {}
       const base = 300 * Math.pow(2, i);
       const jitter = Math.floor(Math.random() * 150);
       await new Promise((r) => setTimeout(r, base + jitter));
@@ -65,6 +66,8 @@ module.exports = async function handler(req, res) {
 
     // Prefer explicit playlist; else keyword search; else channel uploads
     let url;
+    let retries = 0;
+    const onRetry = () => { retries++; };
     if (playlist) {
       url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${encodeURIComponent(
         playlist
@@ -79,7 +82,7 @@ module.exports = async function handler(req, res) {
         `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${encodeURIComponent(
           channel
         )}&key=${YT_KEY}`
-      );
+      , 3, onRetry);
       const uploads = ch.data.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
       url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${uploads}&maxResults=${limit}&pageToken=${pageToken}&key=${YT_KEY}`;
     } else {
@@ -87,7 +90,7 @@ module.exports = async function handler(req, res) {
       url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&maxResults=${limit}&pageToken=${pageToken}&key=${YT_KEY}`;
     }
 
-    const ytRes = await getWithRetry(url);
+    const ytRes = await getWithRetry(url, 3, onRetry);
     const items = (ytRes.data.items || []).map((it) => {
       const id = it.id?.videoId || it.snippet?.resourceId?.videoId;
       const sn = it.snippet || {};
@@ -99,6 +102,11 @@ module.exports = async function handler(req, res) {
         url: `https://www.youtube.com/watch?v=${id}`,
       };
     });
+
+    if (retries > 0) {
+      console.log(`[ytFeed] YouTube retries: ${retries} q="${q}" playlist="${playlist}" channel="${channel}" pageToken="${pageToken}"`);
+    }
+    res.setHeader('X-YouTube-Retries', String(retries));
 
     if (!items.length) {
       return res.status(200).json({

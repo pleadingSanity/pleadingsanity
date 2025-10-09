@@ -40,7 +40,7 @@ function setCors(req, res) {
 }
 
 // Exponential backoff wrapper to respect quotas / transient failures
-async function getWithRetry(url, attempts = 3) {
+async function getWithRetry(url, attempts = 3, onRetry) {
   let lastErr;
   for (let i = 0; i < attempts; i++) {
     try {
@@ -50,6 +50,7 @@ async function getWithRetry(url, attempts = 3) {
       const status = err?.response?.status;
       const retriable = !status || status >= 500 || status === 429;
       if (!retriable || i === attempts - 1) break;
+      if (onRetry) try { onRetry(err, i + 1); } catch {}
       const base = 300 * Math.pow(2, i);
       const jitter = Math.floor(Math.random() * 150);
       await new Promise((r) => setTimeout(r, base + jitter));
@@ -82,9 +83,13 @@ module.exports = async function handler(req, res) {
     let videos = [];
     let nextPageToken = null;
 
+    let retries = 0;
+    let endpointUsed = "search";
+    const onRetry = () => { retries++; };
+
     try {
       // Try primary keyword search
-      const ytRes = await getWithRetry(searchUrl);
+      const ytRes = await getWithRetry(searchUrl, 3, onRetry);
       videos = ytRes.data.items.map((vid) => ({
         id: vid.id.videoId,
         title: vid.snippet.title,
@@ -101,7 +106,8 @@ module.exports = async function handler(req, res) {
       console.error("Primary search failed, switching to playlist:", err.message);
 
       // Failover to curated playlist
-      const ytRes = await getWithRetry(playlistUrl);
+      endpointUsed = "playlist";
+      const ytRes = await getWithRetry(playlistUrl, 3, onRetry);
       videos = ytRes.data.items.map((item) => ({
         id: item.snippet.resourceId.videoId,
         title: item.snippet.title,
@@ -132,6 +138,11 @@ module.exports = async function handler(req, res) {
       ];
     }
 
+    if (retries > 0) {
+      console.log(`[videos] YouTube retries: ${retries} (endpoint=${endpointUsed}) q="${q}" pageToken="${pageToken}"`);
+    }
+    res.setHeader('X-YouTube-Retries', String(retries));
+    res.setHeader('X-YouTube-Endpoint', endpointUsed);
     return res.status(200).json({
       videos,
       nextPageToken,

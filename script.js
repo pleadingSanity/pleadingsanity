@@ -1,6 +1,17 @@
-// ===== Pleading Sanity Universal Script (UPGRADED YouTube Feed) =====
+// ===== Pleading Sanity Universal Script (UPGRADED YouTube Feed + Crisis Response) =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log("🚀 Pleading Sanity script loaded. Rise From Madness.");
+  
+  // Load crisis response system
+  if (typeof CrisisResponseSystem !== 'undefined') {
+    console.log("🚨 Crisis Response System loaded - 24/7 support active");
+  } else {
+    // Load crisis response system dynamically
+    const crisisScript = document.createElement('script');
+    crisisScript.src = 'crisis-response-system.js';
+    crisisScript.defer = true;
+    document.head.appendChild(crisisScript);
+  }
 
   // Highlight active nav link (handles / and /index.html)
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
