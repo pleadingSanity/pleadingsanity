@@ -1,7 +1,19 @@
-// Pleading Sanity Service Worker
-// Provides offline functionality and caching
+// Service Worker for Pleading Sanity PWA - Advanced Offline Crisis Support
+const CACHE_NAME = 'pleading-sanity-v1.3.0';
+const STATIC_CACHE = 'pleading-sanity-static-v1.3.0';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v1.3.0';
 
-const CACHE_NAME = 'pleading-sanity-v1.2';
+// Critical files to cache for offline crisis support
+const CRITICAL_CACHE = [
+    '/',
+    '/index.html',
+    '/crisis-response-system.js',
+    '/styles.css',
+    '/mobile-responsive.css',
+    '/error-handler.js',
+    '/manifest.json'
+];
+
 const STATIC_CACHE_URLS = [
   '/',
   '/index.html',
