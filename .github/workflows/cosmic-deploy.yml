@@ -1,0 +1,47 @@
+name: Cosmic Deploy
+
+on:
+  push:
+    branches: [ main, cosmic-sync ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build (if present)
+        run: |
+          # Run build if package.json exposes a build script
+          if npm run | grep -E "\\bbuild\\b"; then
+            npm run build
+          else
+            echo "no build script; skipping build"
+          fi
+        shell: bash
+
+      - name: Install Netlify CLI
+        run: |
+          npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          # deploy the repo root or the build output if present
+          DEPLOY_DIR=./
+          if [ -d ./dist ]; then DEPLOY_DIR=./dist; fi
+          if [ -d ./build ]; then DEPLOY_DIR=./build; fi
+          echo "Deploying directory: $DEPLOY_DIR"
+          netlify deploy --prod --dir="$DEPLOY_DIR" --site="$NETLIFY_SITE_ID"
+        shell: bash

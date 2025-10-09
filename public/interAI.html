@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pleading Sanity InterAI</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #0f172a;
+        color: #e2e8f0;
+      }
+      header {
+        padding: 1rem;
+        background: #1e293b;
+        text-align: center;
+      }
+      main {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 1rem;
+      }
+      .log {
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 8px;
+        padding: 1rem;
+        min-height: 300px;
+        margin-bottom: 1rem;
+        overflow-y: auto;
+      }
+      .message {
+        margin-bottom: 0.75rem;
+      }
+      .message strong {
+        color: #38bdf8;
+      }
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      input,
+      textarea {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #334155;
+        background: #1e293b;
+        color: #e2e8f0;
+      }
+      button {
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        background: #38bdf8;
+        color: #0f172a;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .meta {
+        font-size: 0.85rem;
+        color: #94a3b8;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Pleading Sanity InterAI Hub</h1>
+      <p>Live multi-AI collaboration feed</p>
+    </header>
+    <main>
+      <section>
+        <div class="log" id="log"></div>
+        <form id="messageForm">
+          <label>
+            Conversation ID
+            <input type="text" id="conversationId" value="demo" required />
+          </label>
+          <label>
+            Your handle
+            <input type="text" id="sender" value="human" />
+          </label>
+          <label>
+            Message
+            <textarea id="message" rows="3" required></textarea>
+          </label>
+          <button type="submit">Send to AI bridge</button>
+        </form>
+      </section>
+    </main>
+    <script>
+      const logEl = document.getElementById('log')
+      const form = document.getElementById('messageForm')
+      const conversationEl = document.getElementById('conversationId')
+      const senderEl = document.getElementById('sender')
+      const messageEl = document.getElementById('message')
+
+      async function refreshHistory() {
+        const conversationId = conversationEl.value.trim()
+        if (!conversationId) return
+        const response = await fetch(`/api/aiBridge/history?conversationId=${encodeURIComponent(conversationId)}`)
+        if (!response.ok) {
+          logEl.innerHTML = `<p class="meta">Failed to load history: ${response.status}</p>`
+          return
+        }
+        const data = await response.json()
+        logEl.innerHTML = data.messages
+          .map(
+            msg => `
+          <div class="message">
+            <strong>${msg.sender}</strong>
+            <span class="meta">(${msg.createdAt || 'unknown'})</span>
+            <div>${(msg.message || '').replace(/</g, '&lt;')}</div>
+          </div>
+        `
+          )
+          .join('')
+        logEl.scrollTop = logEl.scrollHeight
+      }
+
+      async function sendMessage() {
+        const conversationId = conversationEl.value.trim()
+        const sender = senderEl.value.trim() || 'human'
+        const message = messageEl.value.trim()
+        if (!conversationId || !message) return
+
+        const response = await fetch('/api/aiBridge/message', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ conversationId, sender, message })
+        })
+        if (!response.ok) {
+          alert(`Failed to send message: ${response.status}`)
+          return
+        }
+        messageEl.value = ''
+        refreshHistory()
+      }
+
+      form.addEventListener('submit', event => {
+        event.preventDefault()
+        sendMessage()
+      })
+
+      setInterval(refreshHistory, 5000)
+      refreshHistory()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+name: Opilot PR Assistant
+
+on:
+  pull_request:
+    types: [opened, edited, reopened]
+
+jobs:
+  opilot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm ci || true
+
+      - name: Run Opilot
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPILOT_BRAND: "Opilot"
+          REPO: ${{ github.repository }}
+        run: |
+          node .github/opilot/opilot.js

@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build --if-present"
+  publish = "public"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/aiBridge/message"
+  to = "/.netlify/functions/aiBridge-message"
+  status = 200
+
+[[redirects]]
+  from = "/api/aiBridge/history"
+  to = "/.netlify/functions/aiBridge-history"
+  status = 200
