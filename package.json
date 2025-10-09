@@ -1,0 +1,16 @@
+{
+  "name": "cosmic-showcase",
+  "version": "0.1.0",
+  "description": "A small showcase: a cosmic, powerful leaderboard module with tests and CI",
+  "main": "leaderboard.js",
+  "scripts": {
+    "test": "node ./node_modules/jest/bin/jest.js --runInBand",
+    "lint": "echo 'no lint configured'",
+    "start": "node example.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "29.7.0"
+  }
+}
