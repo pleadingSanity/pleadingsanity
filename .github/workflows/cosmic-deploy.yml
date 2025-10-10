@@ -1,6 +1,7 @@
 name: Cosmic Deploy
 
 on:
+
   push:
     branches: [ main, cosmic-sync ]
 
@@ -44,4 +45,4 @@ jobs:
           if [ -d ./build ]; then DEPLOY_DIR=./build; fi
           echo "Deploying directory: $DEPLOY_DIR"
           netlify deploy --prod --dir="$DEPLOY_DIR" --site="$NETLIFY_SITE_ID"
-        shell: bash
+        shell:
