@@ -22,7 +22,7 @@ This guide explains how to configure webhooks to enable automatic deployments an
 
 4. **Copy Webhook URL**
    - Copy the generated webhook URL
-   - Format: `https://api.netlify.com/build_hooks/{HOOK_ID}`
+   - Format: `https://api.netlify.com/build_hooks/{YOUR_HOOK_ID}`
    - Store this securely
 
 ### Testing the Build Hook
