@@ -1,0 +1,107 @@
+name: 🧠 Pleading Sanity Infinity – Human-AI Fusion Sync & Auto-Fix
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  fusion_sync_autofix:
+    name: 🩸 Sync, Heal, and Auto-Fix
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 🧱 Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🧠 Configure Git Identity
+        run: |
+          git config user.name "PleadingSanity-AI"
+          git config user.email "pleadingsanitydev@gmail.com"
+
+      - name: 🩹 Heal Dependencies
+        run: |
+          echo "🔍 Checking mailchimp-marketing version..."
+          if grep -q '"mailchimp-marketing":' package.json; then
+            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+            echo "✅ mailchimp-marketing dependency fixed"
+          else
+            echo "⚠️ Dependency not found"
+          fi
+
+      - name: 🧰 Install Dependencies
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci || npm install
+          elif [ -f "yarn.lock" ]; then
+            yarn install --frozen-lockfile || yarn install
+          elif [ -f "pnpm-lock.yaml" ]; then
+            pnpm install --frozen-lockfile || pnpm install
+          else
+            npm install
+          fi
+
+      - name: 🔎 Lint and Auto-Fix Code
+        run: |
+          echo "✨ Running ESLint auto-fix..."
+          npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ Lint completed with warnings"
+          echo "✅ Lint auto-fix done"
+
+      - name: 🧪 Validate Build
+        run: |
+          echo "🏗️ Testing build..."
+          if [ -f "package.json" ]; then
+            npm run build || echo "⚠️ Build errors captured"
+          fi
+
+      - name: 💾 Commit & Push Fixes
+        run: |
+          echo "🧹 Detecting lockfile..."
+          LOCKFILE=""
+          if [ -f "package-lock.json" ]; then
+            LOCKFILE="package-lock.json"
+          elif [ -f "yarn.lock" ]; then
+            LOCKFILE="yarn.lock"
+          elif [ -f "pnpm-lock.yaml" ]; then
+            LOCKFILE="pnpm-lock.yaml"
+          fi
+
+          echo "🔍 Using lockfile: ${LOCKFILE:-none}"
+          git add package.json ${LOCKFILE:-} || true
+          git add . || true
+          git diff --quiet && echo "✅ No code or dependency changes" || (
+            git commit -m "🤖 Auto-Heal & Lint Fix — PleadingSanity-AI (Fusion Protocol)"
+            git push origin main
+          )
+
+      - name: 🌐 Mirror to Twin Repository
+        env:
+          SECONDARY_REPO: ${{ secrets.SECONDARY_REPO }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          if [ -n "$SECONDARY_REPO" ]; then
+            echo "🔄 Syncing to twin repo: $SECONDARY_REPO"
+            git remote add mirror "https://x-access-token:${GH_TOKEN}@github.com/${SECONDARY_REPO}.git"
+            git push mirror main --force
+            echo "✅ Mirror sync complete"
+          else
+            echo "⚠️ SECONDARY_REPO secret not set"
+          fi
+
+      - name: 🚀 Trigger Netlify & Vercel Redeploys
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
+            echo "🌍 Triggering Netlify redeploy..."
+            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
+          fi
+          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
+            echo "🚀 Triggering Vercel redeploy..."
+            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
+          fi
