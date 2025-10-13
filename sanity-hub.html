@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanity Hub – Pleading Sanity</title>
+  <meta name="description" content="Cosmic healing, positive energy, and real survivor stories. Rise from madness with Pleading Sanity.">
+  <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
+      min-height: 100vh;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+    header {
+      position: sticky; top: 0; background: rgba(0,0,0,0.8);
+      border-bottom: 1.5px solid #00fff0; padding: 12px; z-index: 10; text-align:center;
+    }
+    nav ul { display:flex; justify-content:center; list-style:none; gap:1.1rem; margin:0; padding:0; }
+    nav a { color:#00fff0; text-decoration:none; font-weight:700; transition:.2s; border-radius:6px; padding:3px 8px; }
+    nav a:hover, nav a.active { color:#ff00ff; background:rgba(0,255,240,0.08); }
+    main { max-width: 1100px; margin:auto; padding:20px; position:relative; z-index:2; }
+    .cosmic-hero img { width:90px; filter:drop-shadow(0 0 16px #00fff0aa); }
+    h1,h2 { text-align:center; margin-bottom:10px; }
+    .slogan { text-align:center; color:#ff00ff; font-weight:700; margin:5px 0 10px; }
+    .feed-item { background:rgba(255,255,255,0.05); border:1px solid #00fff0; border-radius:14px; padding:14px; margin:20px 0; box-shadow:0 0 25px #00fff020; animation:fade .4s; }
+    .feed-item iframe { width:100%; aspect-ratio:16/9; border:none; border-radius:10px; }
+    .meta { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-top:8px; }
+    .btn { border:0; border-radius:6px; padding:.4rem .9rem; background:#00fff0; color:#000; font-weight:800; cursor:pointer; transition:.2s; }
+    .btn:hover { background:#ff00ff; color:#fff; }
+    .promo-card {
+      text-align:center; background:linear-gradient(135deg,#00fff033,#ff00ff33);
+      padding:25px 15px; border-radius:14px; margin:25px 0;
+      border:1px solid #00fff0; box-shadow:0 0 18px #00fff020;
+    }
+    .promo-card a {
+      display:inline-block; background:linear-gradient(90deg,#00fff0,#ff00ff);
+      color:#000; font-weight:800; text-decoration:none; padding:10px 24px; border-radius:10px;
+      margin-top:8px; box-shadow:0 0 14px #00fff066;
+    }
+    canvas.stars { position:fixed; left:0; top:0; width:100%; height:100%; z-index:0; pointer-events:none; }
+    @keyframes fade { from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+  </style>
+</head>
+<body>
+  <canvas class="stars"></canvas>
+
+  <header>
+    <h1>🧠 Sanity Hub</h1>
+    <nav aria-label="Main Navigation" role="navigation">
+      <a href="index.html" aria-label="Home">🏠 Home</a>
+      <a href="about.html" aria-label="About">ℹ️ About</a>
+      <a href="sanityhub.html" class="active" aria-label="Sanity Hub" aria-current="page">🧠 Hub</a>
+      <a href="shop.html" aria-label="Shop">🛒 Shop</a>
+      <a href="feed.html" aria-label="Sanity Feed">📺 Feed</a>
+      <a href="games.html" aria-label="Games">🎮 Games</a>
+      <a href="videos.html" aria-label="Videos">🎥 Videos</a>
+      <a href="movement.html" aria-label="Movement">⚡ Movement</a>
+      <a href="journal-vault-viewer.html" aria-label="Journal Vault">📔 Journal</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="cosmic-hero">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity logo">
+      <div class="slogan">Built from the bottom, rising to the cosmos — P.S. It’s not over.</div>
+    </section>
+
+    <section id="feed"></section>
+  </main>
+
+  <audio id="tone" loop autoplay>
+    <source src="assets/audio/432hz.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // STARFIELD
+    (function stars(){
+      const c=document.querySelector('.stars'),x=c.getContext('2d');
+      let w,h; const resize=()=>{w=innerWidth;h=innerHeight;c.width=w;c.height=h};
+      resize(); addEventListener('resize',resize);
+      const stars=Array.from({length:130},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.2+0.4,o:Math.random()*0.7+0.3,dx:(Math.random()-0.5)*0.1,dy:(Math.random()-0.5)*0.1}));
+      (function draw(){
+        x.clearRect(0,0,w,h);
+        for(let s of stars){
+          x.beginPath(); x.arc(s.x,s.y,s.r,0,2*Math.PI);
+          x.fillStyle=`rgba(0,255,240,${s.o})`;
+          x.shadowBlur=8; x.shadowColor="#ff00ff"; x.fill();
+          s.x+=s.dx; s.y+=s.dy;
+          if(s.x<0)s.x=w; if(s.x>w)s.x=0; if(s.y<0)s.y=h; if(s.y>h)s.y=0;
+        }
+        requestAnimationFrame(draw);
+      })();
+    })();
+
+    const API_KEY = "YOUR_YOUTUBE_API_KEY"; // Replace with your real one
+    const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA"; // can be your playlist ID
+    let nextPageToken = "";
+
+    async function loadVideos() {
+      const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken ? "&pageToken="+nextPageToken : ""}`;
+      const res = await fetch(url);
+      const data = await res.json();
+      nextPageToken = data.nextPageToken || "";
+
+      const feed = document.getElementById("feed");
+      let index = feed.children.length;
+      data.items.forEach((item, i) => {
+        const vid = item.snippet.resourceId.videoId;
+        const title = item.snippet.title;
+        const desc = item.snippet.description;
+        const thumb = item.snippet.thumbnails.high.url;
+        const card = document.createElement("div");
+        card.className="feed-item";
+        card.innerHTML=`
+          <iframe src="https://www.youtube.com/embed/${vid}" title="${title}" loading="lazy" allowfullscreen poster="${thumb}"></iframe>
+          <div class="meta">
+            <div>${title}</div>
+            <button class="btn" onclick="like(this)">👍 Positive</button>
+          </div>
+          <p style="opacity:0.8">${desc}</p>
+        `;
+        feed.appendChild(card);
+
+        // Every 10th: add promo section
+        if ((index+i+1)%10===0){
+          const promo=document.createElement("div");
+          promo.className="promo-card";
+          promo.innerHTML=`<h3>✨ Be part of the Movement ✨</h3><p>Wear strength, not stress. Join Pleading Sanity.</p><a href="shop.html">Explore Merch</a>`;
+          feed.appendChild(promo);
+        }
+      });
+    }
+
+    function like(btn){
+      btn.textContent="✅ +1 Positive Energy";
+      btn.disabled=true;
+      btn.style.background="#00ff90";
+    }
+
+    window.addEventListener("scroll",()=>{
+      if(window.innerHeight + window.scrollY >= document.body.offsetHeight-600 && nextPageToken){
+        loadVideos();
+      }
+    });
+
+    loadVideos();
+  </script>
+</body>
+</html>
