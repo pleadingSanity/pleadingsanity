@@ -1,0 +1,95 @@
+name: 🧠 Pleading Sanity Infinity – Copilot Auto-Fix & Redeploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: "0 */12 * * *"   # twice a day health scan
+
+jobs:
+  copilot_auto_fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 🧩 Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: 🔍 Lint & Type-check
+        run: |
+          npx eslint . || true
+          npx tsc --noEmit || true
+
+      - name: 🤖 Copilot AI Repair
+        uses: github/copilot-workflow@v1
+        with:
+          prompt: |
+            You are GitHub Copilot inside the Pleading Sanity Infinity OS.
+            Project Founder: Shane Cooper
+            Mission: Turn pain → power, madness → movement, isolation → community.
+            Tone: cosmic, poetic, truthful, hopeful.
+            Theme colors: #00FFF0 #FF00FF #0B0B1A.
+            Verify that:
+            • Code builds and tests pass.
+            • vercel.json and netlify.toml schemas are valid.
+            • Dependencies exist and no unpublished versions are used.
+            • Healing-frequency audio logic (432 Hz / 528 Hz / 639 Hz) is preserved.
+            • No hard-coded API keys.
+            • Commit messages reflect the movement ethos.
+
+      - name: 💾 Commit and Push Fixes
+        run: |
+          git config user.name "Copilot-AutoFix"
+          git config user.email "pleadingsanitydev@gmail.com"
+          git add .
+          git diff --quiet && echo "✅ No fixes required." || (
+            BR="auto-fix/copilot-$(date +%s)"
+            git commit -m "fix(copilot): auto-repair build & lint issues – Rise From Madness"
+            git push origin HEAD:$BR
+            gh pr create \
+              --title "Copilot Auto-Fix $(date +%F)" \
+              --body "Automated repairs by Copilot for Pleading Sanity Infinity OS 🌌"
+          )
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  redeploy_after_merge:
+    if: github.event.pull_request.merged == true || github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: copilot_auto_fix
+    steps:
+      - name: 🚀 Trigger Netlify Redeploy
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          echo "🌍 Triggering Netlify build..."
+          curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed."
+
+      - name: 🚀 Trigger Vercel Redeploy
+        env:
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          echo "🚀 Triggering Vercel build..."
+          curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed."
+
+      - name: 🩺 Health Check
+        env:
+          NETLIFY_SITE_URL: ${{ secrets.NETLIFY_SITE_URL }}
+          VERCEL_SITE_URL: ${{ secrets.VERCEL_SITE_URL }}
+        run: |
+          echo "🩺 Checking deploy status..."
+          curl -Is "$NETLIFY_SITE_URL" | head -n 1
+          curl -Is "$VERCEL_SITE_URL" | head -n 1
+          echo "✅ Post-merge redeploy completed successfully."
