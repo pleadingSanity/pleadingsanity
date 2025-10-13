@@ -1,7 +1,7 @@
 // Arron AI Core - Netlify Serverless Function
 // Cosmic AI companion for Pleading Sanity movement
 
-const axios = require('axios');
+// Using built-in fetch API (Node.js 18+)
 
 // Fallback responses for when OpenAI is unavailable
 const fallbackResponses = {
