@@ -185,4 +185,4 @@ SHOPIFY_ACCESS_TOKEN=...
 
 🧠 **Pleading Sanity - Rise From Madness** 🌌
 
-Last updated: October 2025
+Last updated: October 2024
