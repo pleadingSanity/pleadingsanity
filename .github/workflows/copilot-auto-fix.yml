@@ -1,0 +1,63 @@
+name: 🧠 Pleading Sanity Infinity – Copilot Auto-Fix & Redeploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  copilot_auto_fix:
+    name: 🤖 Auto-Fix Dependencies & Config
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 🧩 Check & Fix mailchimp-marketing version
+        run: |
+          echo "🔧 Checking mailchimp-marketing version..."
+          if grep -q '"mailchimp-marketing":' package.json; then
+            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+            echo "✅ Fixed mailchimp-marketing version to ^3.0.80"
+          else
+            echo "⚠️ mailchimp-marketing not found in package.json"
+          fi
+
+      - name: 💾 Commit & Push Fix (if any)
+        run: |
+          git config user.name "Copilot-AutoFix"
+          git config user.email "pleadingsanitydev@gmail.com"
+          git add package.json || true
+          git diff --quiet && echo "✅ No changes needed" || (
+            git commit -m "fix(ai): auto-correct mailchimp dependency 🔧"
+            git push origin main
+          )
+
+  redeploy_after_merge:
+    name: 🌐 Trigger Netlify & Vercel Redeploy
+    needs: copilot_auto_fix
+    runs-on: ubuntu-latest
+    if: success()
+    env:
+      NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+      VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+    steps:
+      - name: 🚀 Redeploy to Netlify and Vercel
+        run: |
+          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
+            echo "🌍 Triggering Netlify build..."
+            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
+          fi
+          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
+            echo "🚀 Triggering Vercel build..."
+            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
+          fi
+          echo "✅ All redeploy triggers complete."
