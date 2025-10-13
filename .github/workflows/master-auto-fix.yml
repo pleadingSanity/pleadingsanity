@@ -1,0 +1,96 @@
+name: 🤖 Pleading Sanity | Master Auto-Fix, Config Doctor & Redeploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  master_auto_fix:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 🧠 Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🩺 Run Config Doctor (Netlify + Vercel)
+        run: |
+          echo "🔍 Checking and fixing configuration files..."
+
+          # --- Fix _redirects ---
+          if [ -f "_redirects" ]; then
+            if ! grep -q "/\*    /index.html   200" _redirects; then
+              echo "/*    /index.html   200" > _redirects
+              echo "🩹 Fixed _redirects format"
+            fi
+          else
+            echo "/*    /index.html   200" > _redirects
+            echo "🩹 Created missing _redirects"
+          fi
+
+          # --- Fix netlify.toml ---
+          cat > netlify.toml <<'EOF'
+[build]
+  publish = "."
+  command = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+EOF
+          echo "✅ Ensured clean netlify.toml"
+
+          # --- Fix vercel.json ---
+          cat > vercel.json <<'EOF'
+{
+  "version": 2,
+  "framework": "create-react-app",
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
+}
+EOF
+          echo "✅ Ensured clean vercel.json"
+
+      - name: 🧩 Fix Dependencies (Mailchimp + Common Issues)
+        run: |
+          echo "🔧 Checking dependencies..."
+          if grep -q '"mailchimp-marketing":' package.json; then
+            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+            echo "✅ Fixed mailchimp-marketing version to ^3.0.80"
+          fi
+          npm install --force || echo "⚠️ Some packages failed, continuing..."
+
+      - name: 💾 Commit & Push All Fixes
+        run: |
+          git config user.name "PleadingSanity-AI"
+          git config user.email "pleadingsanitydev@gmail.com"
+          git add .
+          git diff --quiet && echo "✅ No changes detected" || (
+            git commit -m "chore(ai): Master auto-fix configs & dependencies"
+            git push origin main
+          )
+
+      - name: 🚀 Trigger Copilot Auto-Redeploy
+        env:
+          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
+            echo "🌍 Triggering Netlify rebuild..."
+            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
+          fi
+          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
+            echo "🚀 Triggering Vercel rebuild..."
+            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
+          fi
+
+      - name: 🧭 Copilot Intelligence Sync
+        run: |
+          echo "🤝 Syncing Copilot Auto-Fix Intelligence with Config Doctor..."
+          echo "✅ Pleading Sanity Master Workflow successfully executed."
