@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arron AI - Pleading Sanity Cosmic Companion</title>
+  <link rel="stylesheet" href="../styles.css">
+  <meta name="description" content="Talk to Arron, your AI companion. Journal your thoughts, find cosmic support, rise from madness.">
+  <meta property="og:title" content="Arron AI - Cosmic Companion">
+  <meta property="og:description" content="Your AI companion for mental health support and journaling">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 80%);
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-attachment: fixed;
+    }
+
+    .chat-container {
+      max-width: 800px;
+      margin: 80px auto 20px;
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .chat-header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: rgba(0, 255, 240, 0.05);
+      border: 1px solid rgba(0, 255, 240, 0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-header h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.5em;
+      background: linear-gradient(135deg, #00fff0 0%, #ff00ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .chat-header p {
+      margin: 5px 0;
+      color: #a0a0a0;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 255, 240, 0.2);
+      border-radius: 16px;
+      margin-bottom: 20px;
+      min-height: 400px;
+      max-height: 60vh;
+    }
+
+    .message {
+      margin-bottom: 20px;
+      padding: 15px;
+      border-radius: 12px;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.user {
+      background: linear-gradient(135deg, rgba(0, 255, 240, 0.15) 0%, rgba(0, 255, 240, 0.05) 100%);
+      border-left: 3px solid #00fff0;
+      margin-left: 40px;
+    }
+
+    .message.arron {
+      background: linear-gradient(135deg, rgba(255, 0, 255, 0.15) 0%, rgba(255, 0, 255, 0.05) 100%);
+      border-left: 3px solid #ff00ff;
+      margin-right: 40px;
+    }
+
+    .message-header {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+
+    .message.user .message-header { color: #00fff0; }
+    .message.arron .message-header { color: #ff00ff; }
+
+    .message-content {
+      line-height: 1.6;
+    }
+
+    .affirmation {
+      margin-top: 10px;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      font-style: italic;
+      font-size: 0.9em;
+      color: #00fff0;
+    }
+
+    .chat-input-container {
+      display: flex;
+      gap: 10px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(0, 255, 240, 0.2);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .chat-input {
+      flex: 1;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 240, 0.3);
+      border-radius: 12px;
+      color: #f0f0f0;
+      font-family: inherit;
+      font-size: 16px;
+      resize: vertical;
+      min-height: 50px;
+      max-height: 150px;
+    }
+
+    .chat-input:focus {
+      outline: none;
+      border-color: #00fff0;
+      box-shadow: 0 0 20px rgba(0, 255, 240, 0.3);
+    }
+
+    .btn-send {
+      padding: 15px 30px;
+      background: linear-gradient(135deg, #00fff0 0%, #ff00ff 100%);
+      border: none;
+      border-radius: 12px;
+      color: #0b0b1a;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+
+    .btn-send:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(0, 255, 240, 0.5);
+    }
+
+    .btn-send:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quick-actions {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .quick-btn {
+      padding: 10px 20px;
+      background: rgba(0, 255, 240, 0.1);
+      border: 1px solid rgba(0, 255, 240, 0.3);
+      border-radius: 20px;
+      color: #00fff0;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+
+    .quick-btn:hover {
+      background: rgba(0, 255, 240, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .loading {
+      text-align: center;
+      color: #00fff0;
+      padding: 20px;
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #888;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #888;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #00fff0;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-header">
+      <h1>🧠 Arron AI</h1>
+      <p>Your Cosmic Companion for Mental Health Support</p>
+      <p style="font-size: 0.9em; color: #00fff0;">Rise From Madness</p>
+    </div>
+
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="sendQuickMessage('greeting')">👋 Say Hello</button>
+      <button class="quick-btn" onclick="sendQuickMessage('journal_prompt')">📝 Journal Prompt</button>
+      <button class="quick-btn" onclick="sendQuickMessage('affirmation')">✨ Affirmation</button>
+    </div>
+
+    <div class="chat-messages" id="chatMessages">
+      <div class="empty-state">
+        <p>💬 Start a conversation with Arron</p>
+        <p style="font-size: 0.9em;">Share your thoughts, ask for support, or request a journal prompt</p>
+      </div>
+    </div>
+
+    <div class="chat-input-container">
+      <textarea 
+        class="chat-input" 
+        id="messageInput" 
+        placeholder="Type your message here... Share what's on your mind."
+        onkeydown="handleKeyPress(event)"
+      ></textarea>
+      <button class="btn-send" id="sendBtn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      <a href="../index.html">Home</a> | 
+      <a href="../sanityhub.html">Sanity Hub</a> | 
+      <a href="../movement.html">Movement</a>
+    </p>
+    <p style="margin-top: 10px;">
+      Pleading Sanity — Turning pain into power, struggle into strength, madness into meaning.
+    </p>
+  </footer>
+
+  <script>
+    const chatMessages = document.getElementById('chatMessages');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Initialize chat
+    window.addEventListener('DOMContentLoaded', () => {
+      loadChatHistory();
+    });
+
+    function loadChatHistory() {
+      const history = JSON.parse(localStorage.getItem('arronChatHistory') || '[]');
+      if (history.length > 0) {
+        chatMessages.innerHTML = '';
+        history.forEach(msg => addMessageToUI(msg.type, msg.content, msg.affirmation));
+      }
+    }
+
+    function saveChatHistory(type, content, affirmation) {
+      const history = JSON.parse(localStorage.getItem('arronChatHistory') || '[]');
+      history.push({ type, content, affirmation, timestamp: new Date().toISOString() });
+      if (history.length > 50) history.shift();
+      localStorage.setItem('arronChatHistory', JSON.stringify(history));
+    }
+
+    function addMessageToUI(type, content, affirmation = null) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${type}`;
+      
+      const header = document.createElement('div');
+      header.className = 'message-header';
+      header.textContent = type === 'user' ? '👤 You' : '🧠 Arron';
+      
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.textContent = content;
+      
+      messageDiv.appendChild(header);
+      messageDiv.appendChild(contentDiv);
+      
+      if (affirmation && type === 'arron') {
+        const affirmDiv = document.createElement('div');
+        affirmDiv.className = 'affirmation';
+        affirmDiv.textContent = affirmation;
+        messageDiv.appendChild(affirmDiv);
+      }
+      
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      messageInput.value = '';
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Sending...';
+
+      addMessageToUI('user', message);
+      saveChatHistory('user', message);
+
+      try {
+        const response = await fetch('/.netlify/functions/arron-ai-core', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message, type: 'chat' })
+        });
+
+        const data = await response.json();
+        
+        addMessageToUI('arron', data.response, data.affirmation);
+        saveChatHistory('arron', data.response, data.affirmation);
+
+      } catch (error) {
+        console.error('Error:', error);
+        addMessageToUI('arron', "I'm having trouble connecting right now. But remember: You're not alone, and this moment will pass. 🌌", "✨ Your words still matter.");
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Send';
+        messageInput.focus();
+      }
+    }
+
+    async function sendQuickMessage(type) {
+      sendBtn.disabled = true;
+      
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'loading';
+      loadingDiv.textContent = '🌌 Connecting with Arron...';
+      chatMessages.appendChild(loadingDiv);
+
+      try {
+        const response = await fetch(`/.netlify/functions/arron-ai-core?type=${type}`);
+        const data = await response.json();
+        
+        chatMessages.removeChild(loadingDiv);
+        
+        if (type === 'greeting') {
+          addMessageToUI('arron', data.response, data.affirmation);
+          saveChatHistory('arron', data.response, data.affirmation);
+        } else if (type === 'journal_prompt') {
+          addMessageToUI('arron', data.prompt, data.affirmation);
+          saveChatHistory('arron', data.prompt, data.affirmation);
+        } else if (type === 'affirmation') {
+          addMessageToUI('arron', data.affirmation);
+          saveChatHistory('arron', data.affirmation);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        chatMessages.removeChild(loadingDiv);
+        addMessageToUI('arron', "Connection issue. Remember: Rise from madness. You've got this. 💎");
+      } finally {
+        sendBtn.disabled = false;
+      }
+    }
+
+    function handleKeyPress(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        sendMessage();
+      }
+    }
+  </script>
+</body>
+</html>

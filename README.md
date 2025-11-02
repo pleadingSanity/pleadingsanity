@@ -67,15 +67,22 @@ Brave, Gym King, Calm, TikTok Shop… Your Brand Here.
 
 Frontend: HTML, CSS, Next.js (React)
 
-Hosting: GitHub + Netlify / Vercel (auto-deploy pipeline)
+Hosting: GitHub + Netlify (auto-deploy pipeline)
 
 APIs:
 
 YouTube Data API (auto-updating video feed)
 
+OpenAI API (Arron AI companion)
+
 ZenQuotes API (daily inspiration)
 
 Custom Arron AI endpoints (journaling, automation, sanity checks)
+
+
+CI/CD: GitHub Actions (Cosmic-Master-Sync protocol)
+
+Functions: Netlify Serverless Functions
 
 
 
@@ -174,3 +181,60 @@ From pain to power. From scars to style. From chaos to cosmos.
 
 We don’t beg for sanity.
 We build it.
+
+
+---
+
+## 🔧 Setup & Development
+
+### Prerequisites
+- Node.js >= 18.17
+- npm >= 10
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/pleadingSanity/pleadingsanity.git
+cd pleadingsanity
+
+# Install dependencies
+npm install
+
+# Copy environment template
+cp .env.example .env.local
+# Edit .env.local with your API keys
+
+# Run development server
+npm run dev
+
+# Visit http://localhost:3000
+```
+
+### Environment Variables
+See `.env.example` for all required environment variables:
+- `OPENAI_API_KEY` - For Arron AI Core
+- `YOUTUBE_API_KEY` - For video feed integration
+- `SHOPIFY_API_KEY` - For merch store
+- `PAYHIP_API` - For alternative store
+
+Full documentation in [DEPLOYMENT.md](DEPLOYMENT.md)
+
+### Key Files & Directories
+- `/netlify/functions/` - Serverless functions (Arron AI, YouTube feed)
+- `/public/chat.html` - Standalone Arron AI chat interface
+- `/Components/chatGPTwidget.js` - React chat widget component
+- `Next.config.js` - Next.js configuration with environment variables
+- `COSMIC_SYNC.md` - Repository synchronization protocol
+- `DEPLOYMENT.md` - Deployment guide and checklist
+
+### Scripts
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run format       # Format code with Prettier
+```
+
+### Cosmic-Master-Sync Protocol
+Automatic synchronization between dev and main repositories via GitHub Actions. See [COSMIC_SYNC.md](COSMIC_SYNC.md) for details.
