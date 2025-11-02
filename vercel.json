@@ -1,0 +1,37 @@
+{
+  "framework": "other",
+  "functions": {
+    "api/*.js": { "runtime": "nodejs18.x" }
+  },
+  "env": {
+    "ALLOWED_ORIGINS": "https://pleadingsanity.co.uk https://www.pleadingsanity.co.uk https://pleadingsanity.uk https://www.pleadingsanity.uk https://*.netlify.app https://*.vercel.app"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/api/video", "destination": "/api/FetchVideos" },
+    { "source": "/api/fetchVideos", "destination": "/api/FetchVideos" },
+    { "source": "/api/fetchvideos", "destination": "/api/FetchVideos" },
+    { "source": "/api/:path*", "destination": "/api/:path*" }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
+      "destination": "https://pleadingsanity.uk/:path*",
+      "permanent": true
+    }
+  ]
+}

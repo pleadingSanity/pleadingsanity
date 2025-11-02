@@ -1,0 +1,36 @@
+<!-- Pleading Sanity Favicon SVG -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="cosmicGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00fff0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Brain outline -->
+  <path d="M16 20 C16 12, 22 8, 32 8 C42 8, 48 12, 48 20 C48 22, 47 24, 46 26 C50 28, 52 32, 52 36 C52 42, 48 46, 42 48 C40 52, 36 56, 32 56 C28 56, 24 52, 22 48 C16 46, 12 42, 12 36 C12 32, 14 28, 18 26 C17 24, 16 22, 16 20" 
+        fill="url(#cosmicGradient)" 
+        stroke="#ffffff" 
+        stroke-width="1"/>
+  
+  <!-- Brain details -->
+  <path d="M20 24 C24 22, 28 24, 32 22 C36 24, 40 22, 44 24" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="1.5"/>
+  
+  <path d="M18 30 C22 28, 26 30, 30 28 C34 30, 38 28, 42 30" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="1.5"/>
+  
+  <path d="M22 36 C26 34, 30 36, 34 34 C38 36, 42 34, 46 36" 
+        fill="none" 
+        stroke="#ffffff" 
+        stroke-width="1.5"/>
+  
+  <!-- Tears -->
+  <ellipse cx="26" cy="46" rx="2" ry="4" fill="#00fff0" opacity="0.8"/>
+  <ellipse cx="32" cy="48" rx="1.5" ry="3" fill="#00fff0" opacity="0.6"/>
+  <ellipse cx="38" cy="46" rx="2" ry="4" fill="#ff00ff" opacity="0.8"/>
+</svg>

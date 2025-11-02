@@ -1,6 +1,70 @@
-import axios from "axios";
+const axios = require("axios");
 
-export default async function handler(req, res) {
+// Simple CORS setup so you can call this from Netlify or other frontends
+function setCors(req, res) {
+  const cfg = process.env.ALLOWED_ORIGINS || "*"; // space or comma separated, supports wildcards like https://*.netlify.app
+  const list = cfg.split(/[\s,]+/).filter(Boolean);
+  const origin = req.headers?.origin;
+  let allow = "*";
+  function matchesWildcard(item, originHost) {
+    // item like https://*.netlify.app or *.netlify.app
+    try {
+      const url = item.includes("://") ? new URL(item) : null;
+      const hostPattern = (url ? url.hostname : item).replace(/^\*\.?/, "");
+      return originHost === hostPattern || originHost.endsWith("." + hostPattern);
+    } catch { return false; }
+  }
+  if (list.length && list[0] !== "*") {
+    if (origin) {
+      try {
+        const oh = new URL(origin).hostname;
+        if (list.includes(origin) || list.some(i => matchesWildcard(i, oh))) {
+          allow = origin;
+        } else {
+          allow = list[0];
+        }
+      } catch {
+        allow = list[0];
+      }
+    } else {
+      allow = list[0];
+    }
+  }
+  res.setHeader("Access-Control-Allow-Origin", allow);
+  res.setHeader("Vary", "Origin");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+}
+
+// Exponential backoff wrapper to respect quotas / transient failures
+async function getWithRetry(url, attempts = 3, onRetry) {
+  let lastErr;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await axios.get(url, { timeout: 10000 });
+    } catch (err) {
+      lastErr = err;
+      const status = err?.response?.status;
+      const retriable = !status || status >= 500 || status === 429;
+      if (!retriable || i === attempts - 1) break;
+      if (onRetry) try { onRetry(err, i + 1); } catch {}
+      const base = 300 * Math.pow(2, i);
+      const jitter = Math.floor(Math.random() * 150);
+      await new Promise((r) => setTimeout(r, base + jitter));
+    }
+  }
+  throw lastErr;
+}
+
+module.exports = async function handler(req, res) {
+  setCors(req, res);
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+
   try {
     const YT_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -19,9 +83,13 @@ export default async function handler(req, res) {
     let videos = [];
     let nextPageToken = null;
 
+    let retries = 0;
+    let endpointUsed = "search";
+    const onRetry = () => { retries++; };
+
     try {
       // Try primary keyword search
-      const ytRes = await axios.get(searchUrl);
+      const ytRes = await getWithRetry(searchUrl, 3, onRetry);
       videos = ytRes.data.items.map((vid) => ({
         id: vid.id.videoId,
         title: vid.snippet.title,
@@ -35,10 +103,11 @@ export default async function handler(req, res) {
       }));
       nextPageToken = ytRes.data.nextPageToken || null;
     } catch (err) {
-      console.error("⚠️ Primary search failed, switching to playlist:", err.message);
+      console.error("Primary search failed, switching to playlist:", err.message);
 
       // Failover to curated playlist
-      const ytRes = await axios.get(playlistUrl);
+      endpointUsed = "playlist";
+      const ytRes = await getWithRetry(playlistUrl, 3, onRetry);
       videos = ytRes.data.items.map((item) => ({
         id: item.snippet.resourceId.videoId,
         title: item.snippet.title,
@@ -57,7 +126,7 @@ export default async function handler(req, res) {
       videos = [
         {
           id: "8nTFjVm9sTQ",
-          title: "Shane’s Story – Building Pleading Sanity",
+          title: "Shane's Story — Building Pleading Sanity",
           description: "From pain to power: why Pleading Sanity was created.",
           channel: "Pleading Sanity",
           publishedAt: "2025-01-01T00:00:00Z",
@@ -69,14 +138,19 @@ export default async function handler(req, res) {
       ];
     }
 
-    res.status(200).json({
+    if (retries > 0) {
+      console.log(`[videos] YouTube retries: ${retries} (endpoint=${endpointUsed}) q="${q}" pageToken="${pageToken}"`);
+    }
+    res.setHeader('X-YouTube-Retries', String(retries));
+    res.setHeader('X-YouTube-Endpoint', endpointUsed);
+    return res.status(200).json({
       videos,
       nextPageToken,
       total: videos.length,
       source: nextPageToken ? "search" : "playlist/fallback",
     });
   } catch (err) {
-    console.error("❌ Video API failure:", err);
-    res.status(500).json({ error: "Video service unavailable." });
+    console.error("Video API failure:", err);
+    return res.status(500).json({ error: "Video service unavailable." });
   }
-}
+};

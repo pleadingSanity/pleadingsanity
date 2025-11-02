@@ -75,8 +75,9 @@
       feed.innerHTML = '<div style="color:#ccc">🚀 Loading real stories…</div>';
 
       try {
-        // Try API first (change the endpoint if you rename the function)
-        const res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
+        // Prefer Vercel API first, then fallback to Netlify function
+        let res = await fetch('/api/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
+        if (!res.ok) res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
         const data = await res.json();
 
         if (!data.items || !data.items.length) throw new Error("No videos returned");

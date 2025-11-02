@@ -1,6 +1,17 @@
-// ===== Pleading Sanity Universal Script (UPGRADED YouTube Feed) =====
+// ===== Pleading Sanity Universal Script (UPGRADED YouTube Feed + Crisis Response) =====
 document.addEventListener('DOMContentLoaded', () => {
   console.log("🚀 Pleading Sanity script loaded. Rise From Madness.");
+  
+  // Load crisis response system
+  if (typeof CrisisResponseSystem !== 'undefined') {
+    console.log("🚨 Crisis Response System loaded - 24/7 support active");
+  } else {
+    // Load crisis response system dynamically
+    const crisisScript = document.createElement('script');
+    crisisScript.src = 'crisis-response-system.js';
+    crisisScript.defer = true;
+    document.head.appendChild(crisisScript);
+  }
 
   // Highlight active nav link (handles / and /index.html)
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
@@ -60,10 +71,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // ======= Sanity Hub: REAL YouTube Community Feed =======
   const container = document.getElementById('video-list');
   if (container) {
-    // LIVE FEED: Fetch from your serverless function (ytFeed API)
-    fetch('/.netlify/functions/ytFeed?channel=UC0iP4yT2PpQqhFQ0oEc7ZVw&limit=8') // Replace with your playlist/channel!
-      .then(res => res.json())
-      .then(({ items }) => {
+    // Prefer Vercel API first, fall back to Netlify function
+    const params = new URLSearchParams({ channel: 'UC0iP4yT2PpQqhFQ0oEc7ZVw', limit: '8' });
+    const primary = `/api/ytFeed?${params.toString()}`;
+    const fallback = `/.netlify/functions/ytFeed?${params.toString()}`;
+    const tryFetch = async () => {
+      try {
+        const r1 = await fetch(primary);
+        if (r1.ok) return r1.json();
+        const r2 = await fetch(fallback);
+        return r2.json();
+      } catch {
+        const r2 = await fetch(fallback).catch(() => null);
+        return r2 ? r2.json() : { items: [] };
+      }
+    };
+    tryFetch().then(({ items }) => {
         container.innerHTML = ''; // Clear out any placeholder junk
         if (!items || !items.length) {
           container.innerHTML = '<div style="color:var(--danger, #fa3c3c);text-align:center">No videos found. Please check your API key and config.</div>';
@@ -87,7 +110,20 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(err => {
         console.error("Feed error:", err);
-        container.innerHTML = '<div style="color:var(--danger, #fa3c3c);text-align:center">⚡ Error loading videos. Try refreshing in a moment.</div>';
+        container.innerHTML = `
+          <div style="color: #fa3c3c; text-align: center; padding: 20px; background: rgba(255, 59, 92, 0.1); border-radius: 12px; border: 1px solid rgba(255, 59, 92, 0.3);">
+            <h3 style="margin: 0 0 10px 0;">⚡ Cosmic Connection Issues</h3>
+            <p style="margin: 0 0 15px 0;">We're having trouble loading the latest videos right now.</p>
+            <button onclick="location.reload()" style="background: #fa3c3c; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; margin-right: 10px;">🔄 Try Again</button>
+            <a href="/videos.html" style="background: #00fff0; color: #000; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-weight: bold;">📺 Browse All Videos</a>
+          </div>
+        `;
+        
+        // Announce error to screen readers
+        const announcer = document.getElementById('announcements');
+        if (announcer) {
+          announcer.textContent = 'Error loading video feed. Please try again or browse all videos.';
+        }
       });
   }
 

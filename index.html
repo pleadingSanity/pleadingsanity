@@ -9,10 +9,15 @@
   <!-- Canonical -->
   <link rel="canonical" href="https://pleadingsanity.co.uk/" />
 
-  <!-- Favicon & Preloads -->
+  <!-- Favicon & PWA -->
   <link rel="icon" href="assets/favicon.ico" />
   <link rel="preload" as="image" href="assets/crying-brain-og.png" />
+  <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#0d1b2a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Pleading Sanity" />
+  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png" />
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,6 +26,26 @@
 
   <!-- External CSS -->
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-responsive.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <link rel="stylesheet" href="accessibility.css" />
+  <link rel="stylesheet" href="nav-component.css" />
+  
+  <!-- Enhanced JavaScript -->
+    <!-- Scripts -->
+  <script src="error-handler.js" defer></script>
+  <script src="security-hardening.js"></script>
+  <script src="performance-optimizer.js"></script>
+  <script src="analytics-monitoring.js"></script>
+  <script src="crisis-response-system.js" defer></script>
+  <script src="partnership-api-system.js" defer></script>
+  <script src="research-analytics-framework.js" defer></script>
+  <script src="content-media-system.js" defer></script>
+  <script src="platform-orchestrator.js" defer></script>
+  <script src="maintenance-system.js" defer></script>
+  <script src="cosmic-audio-system.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="cosmic-bg.js" defer></script>
 
   <!-- Open Graph -->
   <meta property="og:title" content="Pleading Sanity – Rise From Madness" />
@@ -57,37 +82,53 @@
   </script>
 </head>
 <body class="universe">
+  <a href="#main" class="skip-link">Skip to main content</a>
+  
+  <div class="live-region" aria-live="polite" aria-atomic="true" id="announcements"></div>
+  
   <header role="banner">
     <h1>🧠 RISE FROM MADNESS</h1>
-    <nav aria-label="Main Navigation">
-      <a href="index.html" class="active" aria-label="Home">Home</a>
-      <a href="about.html" aria-label="About">About</a>
-      <a href="shop.html" aria-label="Shop">Shop</a>
-      <a href="feed.html" aria-label="Sanity Feed">Feed</a>
-      <a href="public/chat.html" aria-label="Arron AI Chat">🧠 Chat</a>
-      <a href="games.html" aria-label="Games">Games</a>
-      <a href="videos.html" aria-label="Videos">Videos</a>
+    <nav aria-label="Main Navigation" role="navigation">
+      <a href="index.html" class="active" aria-label="Home" aria-current="page">🏠 Home</a>
+      <a href="about.html" aria-label="About">ℹ️ About</a>
+      <a href="sanityhub.html" aria-label="Sanity Hub">🧠 Hub</a>
+      <a href="community-dashboard.html" aria-label="Community Governance">🗳️ Community</a>
+      <a href="shop.html" aria-label="Shop">🛒 Shop</a>
+      <a href="feed.html" aria-label="Sanity Feed">📺 Feed</a>
+      <a href="games.html" aria-label="Games">🎮 Games</a>
+      <a href="videos.html" aria-label="Videos">🎥 Videos</a>
+      <a href="movement.html" aria-label="Movement">⚡ Movement</a>
     </nav>
   </header>
 
-  <main role="main">
-    <div class="hero">
+  <main role="main" id="main">
+    <section class="hero animate-fade-in-up">
       <h2>Welcome to the Movement</h2>
       <p>We turn pain into power, survival into strength, and madness into meaning.  
          This is more than a site – it’s a sanctuary. Scroll, play, heal, and rise with us.</p>
       <a class="btn" href="sanityhub.html" aria-label="Enter the Sanity Hub">🌌 Enter the Sanity Hub</a>
-    </div>
-    <div class="manifesto">
+    </section>
+    <section class="manifesto animate-fade-in observe-fade">
       <strong>Pleading Sanity isn’t just a brand. It’s a cosmic uprising for anyone who’s ever felt too much, been broken, or battled in silence.<br><br>
       <span style="color:#00fff0;font-weight:600;">We build hope from darkness. We make struggle count. We rise together.</span></strong>
       <br><br>
       <span style="color:#ff00ff;">Wearing Pleading Sanity, sharing our content, or joining the Hub doesn’t just help yourself—it helps others find a light they didn’t know was possible.</span>
-    </div>
-    <div class="newsletter">
+    </section>
+    <section class="newsletter animate-fade-in observe-fade">
       <h3>Get inspiration in your inbox</h3>
-      <form action="https://YOUR_MAILCHIMP_URL" method="post" target="_blank" rel="noopener noreferrer" class="newsletter-form">
-        <input type="email" name="EMAIL" placeholder="Your email" required aria-label="Email address" />
-        <button type="submit">Subscribe</button>
+      <form action="https://YOUR_MAILCHIMP_URL" method="post" target="_blank" rel="noopener noreferrer" class="newsletter-form" aria-label="Newsletter signup">
+        <label for="email-input" class="sr-only">Enter your email address</label>
+        <input 
+          type="email" 
+          id="email-input"
+          name="EMAIL" 
+          placeholder="Your email" 
+          required 
+          aria-describedby="email-help"
+          autocomplete="email"
+        />
+        <div id="email-help" class="sr-only">We'll send you cosmic inspiration and updates. No spam.</div>
+        <button type="submit" class="btn hover-scale focus-ring">Subscribe</button>
       </form>
     </div>
   </main>
@@ -112,6 +153,61 @@
   <script>
     // Auto-year
     document.getElementById('year').textContent = new Date().getFullYear();
+    
+    // Register Service Worker for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('🚀 SW registered:', registration.scope);
+          })
+          .catch(error => {
+            console.log('❌ SW registration failed:', error);
+          });
+      });
+    }
+    
+    // PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      // Show install button/banner
+      const installBanner = document.createElement('div');
+      installBanner.innerHTML = `
+        <div style="position: fixed; bottom: 20px; left: 20px; right: 20px; 
+                    background: linear-gradient(135deg, #00fff0, #ff00ff); 
+                    color: #000; padding: 15px; border-radius: 12px; 
+                    text-align: center; z-index: 1000; font-weight: 700;
+                    box-shadow: 0 4px 20px rgba(0,255,240,0.3);">
+          📱 Install Pleading Sanity app for the full cosmic experience!
+          <button onclick="installPWA()" style="margin-left: 10px; padding: 8px 16px; 
+                  background: #000; color: #fff; border: none; border-radius: 6px; 
+                  cursor: pointer; font-weight: bold;">Install</button>
+          <button onclick="dismissInstall()" style="margin-left: 8px; padding: 8px 12px; 
+                  background: transparent; border: 1px solid #000; border-radius: 6px; 
+                  cursor: pointer;">Later</button>
+        </div>
+      `;
+      
+      window.installPWA = () => {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((result) => {
+          if (result.outcome === 'accepted') {
+            console.log('✅ User accepted PWA install');
+          }
+          deferredPrompt = null;
+          installBanner.remove();
+        });
+      };
+      
+      window.dismissInstall = () => {
+        installBanner.remove();
+      };
+      
+      document.body.appendChild(installBanner);
+    });
   </script>
 </body>
 </html>

@@ -1,19 +1,54 @@
 {
   "name": "pleading-sanity",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Pleading Sanity – Rise From Madness. Cosmic hub for healing, videos, and the movement.",
+  "homepage": "https://pleadingsanity.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleadingSanity/pleadingsanity.git"
+  },
+  "author": {
+    "name": "Shane Cooper",
+    "email": "pleadingsanity1@gmail.com",
+    "url": "https://pleadingsanity.co.uk"
+  },
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
     "dev:netlify": "netlify dev",
-    "build": "next build",
-    "postbuild": "npm run sitemap",
+    "dev:static": "python -m http.server 3000",
+    "build": "next build && npm run optimize",
+    "build:static": "npm run optimize && npm run minify",
+    "postbuild": "npm run sitemap && npm run sw:update",
     "start": "next start -p 3000",
+    "start:static": "python -m http.server 3000",
     "export": "next export",
-    "lint": "next lint",
+    "preview": "npm run build && npm run start",
+    "setup:production": "./scripts/setup-production.sh",
+    "check:deployment": "node check-deployment.js",
+    "lint": "next lint && eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
     "analyze": "cross-env ANALYZE=true next build",
-    "sitemap": "next-sitemap"
+    "sitemap": "next-sitemap",
+    "sw:update": "node scripts/update-sw.js",
+    "optimize": "npm run optimize:images && npm run optimize:css",
+    "optimize:images": "node scripts/optimize-images.js",
+    "optimize:css": "cleancss -o dist/styles.min.css styles.css animations.css accessibility.css nav-component.css",
+    "minify": "node scripts/minify-html.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "deploy": "npm run build && npm run deploy:netlify",
+    "deploy:netlify": "netlify deploy --prod",
+    "deploy:vercel": "vercel --prod",
+    "health-check": "node scripts/health-check.js",
+    "backup": "node scripts/backup-data.js",
+    "db:seed": "node scripts/seed-data.js",
+    "security:audit": "npm audit && node scripts/security-scan.js"
   },
   "dependencies": {
     "axios": "^1.7.0",
@@ -52,7 +87,8 @@
     ]
   },
   "engines": {
-    "node": ">=18.17 <21"
+    "node": ">=18.17.0 <21",
+    "npm": ">=9.0.0"
   },
   "browserslist": {
     "production": [
@@ -71,9 +107,12 @@
     "movement",
     "videos",
     "sanity-hub",
-    "pleading-sanity"
-    ],
-  "author": "Shane Cooper",
-  "license": "MIT",
+    "pleading-sanity",
+    "pwa",
+    "healing",
+    "cosmic",
+    "streetwear",
+    "community"
+  ],
   "packageManager": "npm@10"
 }

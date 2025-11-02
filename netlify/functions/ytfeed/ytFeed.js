@@ -50,7 +50,19 @@ export default async function handler(req, res) {
   } catch (err) {
     console.error("YouTube API error:", err.message, url);
 
-    // 🔒 Brand-safe fallback (choose real vids, not just Rickroll!)
+    // Enhanced error response with helpful information
+    const errorResponse = {
+      error: true,
+      message: "YouTube API temporarily unavailable",
+      fallbackReason: err.response?.status === 403 ? "API quota exceeded" : 
+                     err.response?.status === 400 ? "Invalid request parameters" :
+                     err.code === 'ENOTFOUND' ? "Network connection issue" :
+                     "Service temporarily unavailable",
+      retryAfter: err.response?.headers?.['retry-after'] || 60,
+      timestamp: new Date().toISOString()
+    };
+
+    // 🔒 Brand-safe fallback content
     const fallback = [
       {
         videoId: "8nTFjVm9sTQ",
@@ -85,6 +97,12 @@ export default async function handler(req, res) {
         subtitles: "https://video.google.com/timedtext?lang=en&v=VbfpW0pbvaU",
       }
     ];
-    res.status(200).json({ items: fallback });
+    
+    res.status(200).json({ 
+      items: fallback,
+      fallback: true,
+      errorInfo: errorResponse,
+      message: "Showing curated content while YouTube API recovers"
+    });
   }
 }

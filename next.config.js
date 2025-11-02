@@ -68,7 +68,7 @@ const nextConfig = {
     ARRON_API_UPDATE: 'https://filefixerapi.com/api/v1/filefixer/update-website',
     ARRON_API_DEPLOY: 'https://filefixerapi.com/api/v1/filefixer/deploy-website',
     ARRON_API_STATUS: 'https://filefixerapi.com/api/v1/filefixer/get-website-status',
-    ARRON_API_KEY: 'PLEADINGSANITY_API_KEY_1234',
+    ARRON_API_KEY: process.env.ARRON_API_KEY || 'PLEADINGSANITY_API_KEY_1234',
   },
 };
 

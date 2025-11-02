@@ -1,1 +1,10 @@
+## Proxy API calls from Netlify → Vercel (custom domain)
+/api/* https://pleadingsanity.uk/api/:splat 200
+/.netlify/functions/ytFeed https://pleadingsanity.uk/api/ytFeed 200
+
+## Optional: force canonical host on Netlify
+http://www.pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
+https://www.pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
+http://pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
+
 /* /index.html 200
