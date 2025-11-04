@@ -1,0 +1,60 @@
+name: Universal Cosmic Sync
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  cosmic-sync:
+    runs-on: ubuntu-latest
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      AI_API_KEY: ${{ secrets.AI_API_KEY }}
+      AI_API_SECRET: ${{ secrets.AI_API_SECRET }}
+      AI_API_ADMIN: ${{ secrets.AI_API_ADMIN }}
+      API_V3_PS_KEY: ${{ secrets.API_V3_PS_KEY }}
+      NETLIFY_BUILD_TOKEN: ${{ secrets.NETLIFY_BUILD_TOKEN }}
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      SHOPIFY_API: ${{ secrets.SHOPIFY_API }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Cosmic Sync Status
+        run: |
+          echo "🚀 Starting Cosmic Sync for $GITHUB_REPOSITORY"
+          for key in OPENAI_API_KEY AI_API_KEY AI_API_SECRET AI_API_ADMIN API_V3_PS_KEY NETLIFY_BUILD_TOKEN NETLIFY_SITE_ID SHOPIFY_API
+          do
+            if [ -z "${!key}" ]; then
+              echo "⚠️  Missing $key"
+            else
+              echo "✅ $key detected and loaded"
+            fi
+          done
+      - name: Deploy to Netlify
+        if: env.NETLIFY_SITE_ID != '' && env.NETLIFY_BUILD_TOKEN != ''
+        uses: nwtgck/actions-netlify@v2
+        with:
+          publish-dir: ./out
+          production-deploy: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_BUILD_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Deploy to Vercel
+        if: secrets.VERCEL_TOKEN != ''
+        run: |
+          npm install -g vercel
+          vercel deploy --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Trigger AI Core Update
+        if: env.AI_API_KEY != ''
+        run: |
+          echo "🧩 Sending ping to Arron AI Core for sync"
+          curl -X POST https://filefixerapi.com/api/v1/filefixer/update-website \
+            -H "Authorization: Bearer $AI_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"repo":"'"$GITHUB_REPOSITORY"'", "actor":"'"$GITHUB_ACTOR"'"}' || echo "Arron core ping skipped."
+      - name: Cosmic Summary
+        run: |
+          echo "✨ Cosmic Sync Completed"
+          echo "Repo: $GITHUB_REPOSITORY"
+          echo "Actor: $GITHUB_ACTOR"
+          echo "Time: $(date)"
