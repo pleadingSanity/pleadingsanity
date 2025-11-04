@@ -44,11 +44,15 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       - name: Deploy to Vercel
         if: env.VERCEL_TOKEN != ''
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           npm install -g vercel
-          vercel deploy --prod --token=$VERCEL_TOKEN
+          vercel deploy --prod --token="$VERCEL_TOKEN"
       - name: Trigger AI Core Update
         if: env.AI_API_KEY != ''
+        env:
+          AI_API_KEY: ${{ secrets.AI_API_KEY }}
         run: |
           echo "🧩 Sending ping to Arron AI Core for sync"
           curl -X POST https://filefixerapi.com/api/v1/filefixer/update-website \
