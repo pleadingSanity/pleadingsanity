@@ -6,6 +6,8 @@ on:
 jobs:
   cosmic-sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       AI_API_KEY: ${{ secrets.AI_API_KEY }}
