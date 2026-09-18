@@ -1,8 +1,10 @@
 {
-  "framework": "other",
+  "framework": "nextjs",
   "functions": {
     "api/*.js": { "runtime": "nodejs18.x" }
   },
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
   "env": {
     "ALLOWED_ORIGINS": "https://pleadingsanity.co.uk https://www.pleadingsanity.co.uk https://pleadingsanity.uk https://www.pleadingsanity.uk https://*.netlify.app https://*.vercel.app"
   },
