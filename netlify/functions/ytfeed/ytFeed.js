@@ -1,10 +1,13 @@
 // /netlify/functions/ytFeed.js
 // Pleading Sanity — Video Feed Function
 // Powers: videos.html, cosmic hub, movement stories
-require('dotenv').config();
-const axios = require("axios");
+// Type: ES Module (matches package.json "type": "module")
 
-exports.handler = async (event, context) => {
+import dotenv from 'dotenv';
+import axios from 'axios';
+dotenv.config();
+
+export default async function handler(event, context) {
   const YT_KEY = process.env.YOUTUBE_API_KEY;
   const { playlist, channel, limit = "8" } = event.queryStringParameters;
 
@@ -79,7 +82,7 @@ exports.handler = async (event, context) => {
       })
     };
   }
-};
+}
 
 // 🔧 Extract video data — handles ALL API formats
 function extractVideoData(item) {
