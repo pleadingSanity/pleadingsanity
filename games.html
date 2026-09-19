@@ -1,141 +1,359 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Games – Pleading Sanity</title>
-  <link rel="stylesheet" href="styles.css" />
-  <meta property="og:title" content="Keep Kids Sane Games – Pleading Sanity" />
-  <meta property="og:description" content="Fun, safe, and positive games for all ages. No ads. No stress. Just play. Support mental health for the next generation." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brain Games — Pleading Sanity</title>
+  <meta name="description" content="Fun, safe, positive games for all ages. No ads. No stress. Just play. Build resilience. Grow together." />
+  <meta property="og:title" content="Brain Games — Pleading Sanity" />
+  <meta property="og:description" content="Mindful play for the next generation. Brain training, calm tools, word power — all free." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
+  <link rel="stylesheet" href="styles.css" />
   <style>
-    body.universe { margin:0; font-family:'Inter',Arial,sans-serif; background:radial-gradient(ellipse at 50% 120%,#0d1b2a 0%,#000 85%); color:#f0f0f0; background-attachment:fixed; min-height:100vh; display:flex; flex-direction:column;}
-    header { background:rgba(0,0,0,0.85); border-bottom:2px solid #00fff0; padding:16px; text-align:center; position:sticky; top:0; z-index:10;}
-    header h1 { margin:0; font-size:2.2rem; color:#00fff0; }
-    main { max-width:1200px; margin:auto; padding:20px; flex:1 0 auto;}
-    .games-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:30px; margin-top:28px;}
-    .game-card { background:rgba(255,255,255,0.08); border:2px solid #00fff033; border-radius:16px; box-shadow:0 0 28px #00fff022; transition:box-shadow .19s,transform .18s; overflow:hidden; display:flex; flex-direction:column; align-items:center; position:relative;}
-    .game-card:hover { box-shadow:0 0 50px #ff00ff55,0 0 30px #00fff033; transform:translateY(-4px) scale(1.03);}
-    .game-thumb { width:100%; min-height:170px; background:#131a25; display:flex; align-items:center; justify-content:center; position:relative; }
-    .game-thumb img { width:120px; height:120px; border-radius:17px; box-shadow:0 0 40px #00fff05c,0 0 14px #ff00ff99; background:#191925; object-fit:cover; border:3.5px solid #00fff0; }
-    .game-badge { position:absolute; top:9px; right:12px; background:#00fff0; color:#000; font-weight:700; font-size:.95em; padding:3px 13px; border-radius:10px; letter-spacing:.02em; box-shadow:0 2px 14px #00fff066;}
-    .game-card h3 { margin:0; padding:13px 8px 7px; font-size:1.13rem; color:#00fff0; text-align:center; font-weight:800;}
-    .game-desc { color:#fff; padding:0 16px 12px 16px; font-size:1em; min-height:48px; text-align:center;}
-    .game-iframe-container { position:relative; width:100%; padding-top:56.25%; background:#000;}
-    .game-iframe-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:none; border-radius:0 0 16px 16px; background:#000; min-height:280px; z-index:2;}
-    .game-card .game-actions { display:flex; justify-content:center; gap:12px; margin:12px 0 4px 0;}
-    .game-card .game-actions a { background:#ff00ff; color:#fff; border-radius:8px; padding:7px 17px; text-decoration:none; font-weight:700; transition:.15s; box-shadow:0 0 14px #ff00ff66;}
-    .game-card .game-actions a:hover { background:#00fff0; color:#000;}
-    .section-tips { background:rgba(0,255,240,0.07); border-radius:13px; margin:34px 0 0 0; padding:22px 4vw 19px 4vw; color:#b9faff; box-shadow:0 0 38px #00fff029; text-align:center; font-size:1.08em; max-width:1000px; margin-left:auto; margin-right:auto;}
-    @media (max-width:600px){ .game-card h3{font-size:1.05rem; padding:7px;} .game-iframe-container{padding-top:60%;}}
+    :root {
+      --cyan: #00fff0;
+      --fuchsia: #ff00ff;
+      --glass: rgba(0,255,240,0.06);
+      --card-bg: rgba(255,255,255,0.07);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 85%);
+      color: #e5f7ff;
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(0,0,0,0.85);
+      border-bottom: 2px solid var(--cyan);
+      padding: 16px 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: var(--cyan);
+      text-shadow: 0 0 15px rgba(0,255,240,0.35);
+    }
+
+    nav {
+      margin-top: 12px;
+    }
+
+    nav a {
+      color: #b9faff;
+      text-decoration: none;
+      margin: 0 10px;
+      padding-bottom: 3px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.25s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      flex: 1;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 35px;
+      font-size: 1.08rem;
+      line-height: 1.6;
+    }
+
+    .intro strong { color: var(--cyan); }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 28px;
+    }
+
+    .game-card {
+      background: var(--card-bg);
+      border: 2px solid rgba(0,255,240,0.2);
+      border-radius: 18px;
+      box-shadow: 0 0 25px rgba(0,255,240,0.08);
+      transition: all 0.22s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 35px rgba(255,0,255,0.2), 0 0 25px rgba(0,255,240,0.15);
+      border-color: var(--fuchsia);
+    }
+
+    .game-thumb {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(255,0,255,0.08));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 3rem;
+    }
+
+    .game-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--cyan);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.85rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      box-shadow: 0 0 12px rgba(0,255,240,0.4);
+    }
+
+    .game-badge.new {
+      background: var(--fuchsia);
+      color: #fff;
+      box-shadow: 0 0 12px rgba(255,0,255,0.4);
+    }
+
+    .game-card h3 {
+      margin: 0;
+      padding: 16px 16px 8px;
+      font-size: 1.2rem;
+      color: var(--cyan);
+      text-align: center;
+    }
+
+    .game-desc {
+      padding: 0 18px 14px;
+      text-align: center;
+      color: #caf0ff;
+      flex: 1;
+      line-height: 1.5;
+      min-height: 50px;
+    }
+
+    .game-actions {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 0 16px 18px;
+      flex-wrap: wrap;
+    }
+
+    .game-btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      text-align: center;
+      flex: 1;
+      min-width: 120px;
+    }
+
+    .game-btn.primary {
+      background: linear-gradient(90deg, var(--cyan), #00b8b0);
+      color: #000;
+    }
+
+    .game-btn.primary:hover {
+      box-shadow: 0 0 15px rgba(0,255,240,0.5);
+      transform: scale(1.03);
+    }
+
+    .game-btn.secondary {
+      background: rgba(255,0,255,0.15);
+      color: var(--fuchsia);
+      border: 1px solid rgba(255,0,255,0.3);
+    }
+
+    .game-btn.secondary:hover {
+      background: rgba(255,0,255,0.25);
+    }
+
+    .tips-box {
+      background: rgba(0,255,240,0.06);
+      border-radius: 16px;
+      margin-top: 45px;
+      padding: 28px 24px;
+      border: 1px solid rgba(0,255,240,0.15);
+      text-align: center;
+    }
+
+    .tips-box h3 {
+      color: var(--cyan);
+      margin-top: 0;
+    }
+
+    footer {
+      margin-top: 50px;
+      padding: 25px;
+      text-align: center;
+      border-top: 1px solid rgba(0,255,240,0.15);
+      color: #888;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--cyan);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      .games-grid { grid-template-columns: 1fr; }
+      header h1 { font-size: 1.4rem; }
+    }
   </style>
 </head>
-<body class="universe">
+<body>
   <header>
-    <h1>🎮 Keep Kids Sane Games</h1>
+    <h1>🎮 Brain Games — Pleading Sanity</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="sanity-hub.html">Hub</a>
+      <a href="journal-vault.html">Journal</a>
+      <a href="frequencies.html">Healing Hz</a>
+      <a href="games.html" class="active">Games</a>
+      <a href="shop.html">Shop</a>
+    </nav>
   </header>
+
   <main>
-    <p>Fun, safe, and brain-boosting games — no ads, no stress, just play.<br>
-      <span style="color:#00fff0">Support mental health. Build resilience. Play together.</span>
-    </p>
+    <div class="intro">
+      <p>Fun, safe, and brain-boosting play — <strong>no ads, no stress, just growth.</strong><br>
+      Build focus. Train calm. Think brighter. Together.</p>
+    </div>
+
     <div class="games-grid">
-      <!-- GAME CARD 1: Brain Teasers -->
+      <!-- GAME 1: Word Power -->
       <div class="game-card">
         <div class="game-thumb">
-          <img src="assets/games/brain-teasers.png" alt="Brain Teasers (AI art)" />
+          ✍️
           <span class="game-badge">TOP PICK</span>
         </div>
-        <h3>Brain Teasers</h3>
-        <div class="game-desc">Sharpen your mind. Logic, memory, and problem-solving for all ages.</div>
-        <div class="game-iframe-container">
-          <iframe src="https://www.crazygames.com/embed/brain-test" title="Brain Teasers" loading="lazy"></iframe>
-        </div>
+        <h3>Word Power</h3>
+        <div class="game-desc">Expand your mind, letter by letter. Strategy, vocabulary & calm focus.</div>
         <div class="game-actions">
-          <a href="https://www.crazygames.com/game/brain-test" target="_blank">Full Screen</a>
+          <a href="https://www.crazygames.com/game/wordmeister" target="_blank" class="game-btn primary">Play Now</a>
+          <a href="journal-vault.html" class="game-btn secondary">Share Score</a>
         </div>
       </div>
-      <!-- GAME CARD 2: Sanity Dodge -->
+
+      <!-- GAME 2: Breathe & Reset -->
       <div class="game-card">
         <div class="game-thumb">
-          <img src="assets/games/sanity-dodge.png" alt="Sanity Dodge (AI art)" />
-          <span class="game-badge" style="background:#ff00ff;color:#fff;">NEW</span>
+          🌬️
+          <span class="game-badge new">NEW</span>
         </div>
-        <h3>Sanity Dodge</h3>
-        <div class="game-desc">Fast reflexes? Prove it! Dodge obstacles, collect cosmic orbs, and train focus.</div>
-        <div class="game-iframe-container">
-          <iframe src="https://www.crazygames.com/embed/dodge" title="Sanity Dodge" loading="lazy"></iframe>
-        </div>
+        <h3>Breathe & Reset</h3>
+        <div class="game-desc">Guided breathing tool — calm the nervous system in under 2 minutes.</div>
         <div class="game-actions">
-          <a href="https://www.crazygames.com/game/dodge" target="_blank">Full Screen</a>
+          <a href="https://www.calm.com/breathe" target="_blank" class="game-btn primary">Breathe With Me</a>
+          <a href="frequencies.html" class="game-btn secondary">Healing Hz</a>
         </div>
       </div>
-      <!-- GAME CARD 3: Math Mission -->
+
+      <!-- GAME 3: Cosmic Focus -->
       <div class="game-card">
         <div class="game-thumb">
-          <img src="assets/games/math-mission.png" alt="Math Mission (AI art)" />
+          🧠
         </div>
-        <h3>Math Mission</h3>
-        <div class="game-desc">Make maths fun. Quick-fire challenges and cosmic calculations.</div>
-        <div class="game-iframe-container">
-          <iframe src="https://www.crazygames.com/embed/mathematician" title="Math Mission" loading="lazy"></iframe>
-        </div>
+        <h3>Cosmic Focus</h3>
+        <div class="game-desc">Memory, patterns & logic. Sharpen your mind — no timers, no pressure.</div>
         <div class="game-actions">
-          <a href="https://www.crazygames.com/game/mathematician" target="_blank">Full Screen</a>
+          <a href="sanity-hub.html" class="game-btn primary">Coming Soon</a>
+          <a href="journal-vault.html" class="game-btn secondary">Share Idea</a>
         </div>
       </div>
-      <!-- GAME CARD 4: Word Wizard -->
+
+      <!-- GAME 4: Number Nebula -->
       <div class="game-card">
         <div class="game-thumb">
-          <img src="assets/games/word-wizard.png" alt="Word Wizard (AI art)" />
+          🔢
         </div>
-        <h3>Word Wizard</h3>
-        <div class="game-desc">Expand vocabulary, spell, and think fast. Brain growth in every round.</div>
-        <div class="game-iframe-container">
-          <iframe src="https://www.crazygames.com/embed/wordmeister" title="Word Wizard" loading="lazy"></iframe>
-        </div>
+        <h3>Number Nebula</h3>
+        <div class="game-desc">Math made fun. Quick challenges that build confidence, not stress.</div>
         <div class="game-actions">
-          <a href="https://www.crazygames.com/game/wordmeister" target="_blank">Full Screen</a>
+          <a href="sanity-hub.html" class="game-btn primary">Coming Soon</a>
+          <a href="journal-vault.html" class="game-btn secondary">Share Idea</a>
         </div>
       </div>
-      <!-- GAME CARD 5: Breathe Buddy -->
+
+      <!-- GAME 5: Calm Collection -->
       <div class="game-card">
         <div class="game-thumb">
-          <img src="assets/games/breathe-buddy.png" alt="Breathe Buddy (AI art)" />
+          🎧
         </div>
-        <h3>Breathe Buddy</h3>
-        <div class="game-desc">Guided breathing mini-game for chill, calm, and cosmic vibes.</div>
-        <div class="game-iframe-container">
-          <iframe src="https://www.calm.com/breathe" title="Breathe Buddy" loading="lazy"></iframe>
-        </div>
+        <h3>Calm Collection</h3>
+        <div class="game-desc">Ambient tones, nature sounds & focus music. Play while you work or rest.</div>
         <div class="game-actions">
-          <a href="https://www.calm.com/breathe" target="_blank">Full Screen</a>
+          <a href="frequencies.html" class="game-btn primary">Listen Now</a>
+          <a href="journal-vault.html" class="game-btn secondary">Set Mood</a>
+        </div>
+      </div>
+
+      <!-- GAME 6: Sanity Stories -->
+      <div class="game-card">
+        <div class="game-thumb">
+          ✨
+        </div>
+        <h3>Sanity Stories</h3>
+        <div class="game-desc">Write, reflect & grow. Your words become your strength.</div>
+        <div class="game-actions">
+          <a href="journal-vault.html" class="game-btn primary">Start Writing</a>
+          <a href="sanity-hub.html" class="game-btn secondary">Read Others</a>
         </div>
       </div>
     </div>
-    <section class="section-tips">
-      <h3>Why These Games?</h3>
-      <p>
-        Every game here is picked by Arron & Shane for brain health, focus, and fun.<br>
-        All games are playable free, ad-free, and safe for any age.<br>
-        <b style="color:#00fff0">Tip:</b> Play together, talk about the puzzles, and see who beats their own score. It’s not about “winning” — it’s about thinking!
+
+    <div class="tips-box">
+      <h3>💡 Why These Games Matter</h3>
+      <p>Every activity here is chosen for <strong>real brain health</strong> — not just distraction.<br>
+      Play together, talk about what you discover, and celebrate progress over perfection.</p>
+      <p style="margin-top: 15px; color: var(--cyan);">
+        "It's not about being the best. It's about being better than you were yesterday." ✨
       </p>
-      <p style="margin-top:13px">
-        Want your own game featured? <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Submission">Submit your idea here</a>.
+      <p style="margin-top: 18px; font-size: 0.95rem; color: #888;">
+        Have a game idea that fits our mission? 
+        <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Idea%20Submission" style="color: var(--fuchsia);">Share it with us →</a>
       </p>
-    </section>
+    </div>
   </main>
+
   <footer>
-    <div class="brand">Pleading Sanity — Mindful Play for the Next Generation</div>
-    <div class="socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
-      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
-    </div>
-    <div style="margin-top:7px;">
-      TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">Visit</a> &nbsp;|&nbsp;
-      Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank">Visit</a>
-    </div>
+    <p>🧠 Pleading Sanity — Mindful Play for the Next Generation</p>
+    <p>
+      <a href="https://instagram.com/mentally.inshane" target="_blank">📸 Instagram</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank">🛒 Payhip Shop</a>
+      <a href="mailto:pleadingsanity1@gmail.com">✉️ Email</a>
+    </p>
+    <p style="margin-top: 10px; font-size: 0.85rem;">
+      One Source. One Consciousness. One Family. 💙
+    </p>
   </footer>
 </body>
 </html>
