@@ -1,206 +1,239 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Health Check Script
- * Performs comprehensive health checks on the application
+ * PLEADING SANITY — HEALTH CHECK v2.1-FINAL
+ * File System • PWA • Security • Env • Live URL
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const https = require('https');
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 class HealthChecker {
   constructor() {
     this.siteUrl = process.env.SITE_URL || 'https://pleadingsanity.co.uk';
     this.localPort = process.env.PORT || 3000;
+    this.rootDir = path.join(__dirname, '..');
+    
     this.results = {
+      project: 'Pleading Sanity',
       timestamp: new Date().toISOString(),
       overall: 'PASS',
+      passed: 0,
+      failed: 0,
+      warnings: 0,
       checks: []
     };
   }
 
+  // ==========================================
+  // COSMIC LOGGING
+  // ==========================================
   log(message, type = 'info') {
     const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
+      info: '\x1b[36m',     // cyan
+      success: '\x1b[32m',  // green
+      warning: '\x1b[33m',  // yellow
+      error: '\x1b[31m',    // red
       reset: '\x1b[0m'
     };
-    console.log(`${colors[type]}[${type.toUpperCase()}] ${message}${colors.reset}`);
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${colors[type]}[${ts}] ${message}${colors.reset}`);
   }
 
-  async checkFileExists(filePath, description) {
+  // ==========================================
+  // CHECK: FILE EXISTS
+  // ==========================================
+  async checkFile(filePath, description) {
+    const fullPath = path.join(this.rootDir, filePath);
     try {
-      await fs.promises.access(filePath);
-      this.addResult('file-check', description, 'PASS', `File exists: ${filePath}`);
+      await fs.access(fullPath);
+      this.addResult('file', description, 'PASS', `Found: ${filePath}`);
       return true;
-    } catch (error) {
-      this.addResult('file-check', description, 'FAIL', `File missing: ${filePath}`);
+    } catch {
+      this.addResult('file', description, 'FAIL', `MISSING: ${filePath}`);
       return false;
     }
   }
 
-  async checkUrl(url, description) {
+  // ==========================================
+  // CHECK: LIVE URL
+  // ==========================================
+  async checkUrl(url, description, timeoutMs = 5000) {
     return new Promise((resolve) => {
       const protocol = url.startsWith('https:') ? https : http;
       
-      protocol.get(url, (res) => {
-        if (res.statusCode >= 200 && res.statusCode < 400) {
-          this.addResult('url-check', description, 'PASS', `${url} returned ${res.statusCode}`);
+      const req = protocol.get(url, { timeout: timeoutMs }, (res) => {
+        const ok = res.statusCode >= 200 && res.statusCode < 400;
+        if (ok) {
+          this.addResult('network', description, 'PASS', `${url} → ${res.statusCode}`);
           resolve(true);
         } else {
-          this.addResult('url-check', description, 'FAIL', `${url} returned ${res.statusCode}`);
+          this.addResult('network', description, 'FAIL', `${url} → ${res.statusCode}`);
           resolve(false);
         }
-      }).on('error', (error) => {
-        this.addResult('url-check', description, 'FAIL', `${url} failed: ${error.message}`);
+      });
+
+      req.on('error', (err) => {
+        this.addResult('network', description, 'FAIL', `${url} — ${err.message}`);
         resolve(false);
-      }).setTimeout(5000, () => {
-        this.addResult('url-check', description, 'FAIL', `${url} timeout`);
+      });
+
+      req.on('timeout', () => {
+        this.addResult('network', description, 'FAIL', `${url} — timeout`);
+        req.destroy();
         resolve(false);
       });
     });
   }
 
+  // ==========================================
+  // CHECK: PWA MANIFEST
+  // ==========================================
   async checkManifest() {
     try {
-      const manifestPath = path.join(__dirname, '..', 'manifest.json');
-      const manifest = JSON.parse(await fs.promises.readFile(manifestPath, 'utf8'));
+      const manifestPath = path.join(this.rootDir, 'manifest.json');
+      const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
       
-      const requiredFields = ['name', 'start_url', 'display', 'icons'];
-      const missing = requiredFields.filter(field => !manifest[field]);
+      const required = ['name', 'start_url', 'display', 'icons'];
+      const missing = required.filter(f => !manifest[f]);
       
       if (missing.length === 0) {
-        this.addResult('pwa-check', 'PWA Manifest', 'PASS', 'All required fields present');
+        this.addResult('pwa', 'PWA Manifest', 'PASS', 'All required fields present ✨');
         return true;
-      } else {
-        this.addResult('pwa-check', 'PWA Manifest', 'FAIL', `Missing fields: ${missing.join(', ')}`);
-        return false;
       }
-    } catch (error) {
-      this.addResult('pwa-check', 'PWA Manifest', 'FAIL', error.message);
+      this.addResult('pwa', 'PWA Manifest', 'FAIL', `Missing: ${missing.join(', ')}`);
+      return false;
+    } catch (err) {
+      this.addResult('pwa', 'PWA Manifest', 'FAIL', err.message);
       return false;
     }
   }
 
+  // ==========================================
+  // CHECK: SERVICE WORKER
+  // ==========================================
   async checkServiceWorker() {
-    const swPath = path.join(__dirname, '..', 'sw.js');
-    return await this.checkFileExists(swPath, 'Service Worker');
+    return this.checkFile('sw.js', 'Service Worker');
   }
 
+  // ==========================================
+  // CHECK: CORE ASSETS — MATCHES YOUR STRUCTURE
+  // ==========================================
   async checkAssets() {
     const assets = [
-      ['styles.css', 'Main CSS'],
-      ['animations.css', 'Animations CSS'],
-      ['accessibility.css', 'Accessibility CSS'],
-      ['script.js', 'Main JavaScript'],
-      ['error-handler.js', 'Error Handler'],
-      ['assets/favicon.svg', 'Favicon SVG']
+      ['index.html', 'Main HTML'],
+      ['css/cosmic-core.css', 'Cosmic Theme CSS'],
+      ['js/main.js', 'Main JavaScript'],
+      ['manifest.json', 'PWA Manifest'],
+      ['assets/favicon.svg', 'Favicon'],
+      ['assets/logo.png', 'Brand Logo']
     ];
 
     const results = await Promise.all(
-      assets.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
+      assets.map(([file, desc]) => this.checkFile(file, desc))
     );
-
-    return results.every(result => result);
+    return results.every(Boolean);
   }
 
+  // ==========================================
+  // CHECK: PAGE FILES
+  // ==========================================
   async checkPages() {
     const pages = [
       ['index.html', 'Homepage'],
-      ['about.html', 'About Page'],
-      ['shop.html', 'Shop Page'],
-      ['sanityhub.html', 'Sanity Hub'],
-      ['feed.html', 'Feed Page'],
-      ['games.html', 'Games Page'],
-      ['videos.html', 'Videos Page'],
-      ['movement.html', 'Movement Page'],
-      ['journal-vault-viewer.html', 'Journal Vault Viewer']
+      ['about.html', 'About / Legacy'],
+      ['hub.html', 'Sanity Hub'],
+      ['journal.html', 'Survivor Journal'],
+      ['frequencies.html', 'Healing Frequencies'],
+      ['games.html', 'Brain Training'],
+      ['shop.html', 'Streetwear'],
+      ['ai-sanctuary.html', 'AI Sanctuary'],
+      ['movement.html', 'The Mission']
     ];
 
     const results = await Promise.all(
-      pages.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
+      pages.map(([file, desc]) => this.checkFile(file, desc))
     );
-
-    return results.every(result => result);
+    return results.every(Boolean);
   }
 
-  async checkNetlifyConfig() {
-    const netlifyPath = path.join(__dirname, '..', 'netlify.toml');
-    return await this.checkFileExists(netlifyPath, 'Netlify Configuration');
+  // ==========================================
+  // CHECK: DEPLOY CONFIG
+  // ==========================================
+  async checkDeployConfig() {
+    const files = [
+      ['netlify.toml', 'Netlify Config'],
+      ['package.json', 'Project Manifest'],
+      ['.gitignore', 'Git Ignore Rules']
+    ];
+    
+    const results = await Promise.all(
+      files.map(([file, desc]) => this.checkFile(file, desc))
+    );
+    return results.every(Boolean);
   }
 
-  async checkEnvironmentVars() {
-    const requiredEnvVars = [
-      'NODE_ENV',
-      'SITE_URL'
-    ];
-
-    const optionalEnvVars = [
-      'YOUTUBE_API_KEY',
-      'OPENAI_API_KEY',
-      'MAILCHIMP_URL'
-    ];
-
+  // ==========================================
+  // CHECK: ENVIRONMENT VARIABLES
+  // ==========================================
+  async checkEnvironment() {
+    const required = ['NODE_ENV', 'SITE_URL'];
+    const optional = ['OPENAI_API_KEY', 'YOUTUBE_API_KEY', 'STRIPE_PUBLIC_KEY'];
+    
     let allRequired = true;
-    let someOptional = false;
-
-    for (const envVar of requiredEnvVars) {
-      if (process.env[envVar]) {
-        this.addResult('env-check', `Required: ${envVar}`, 'PASS', 'Set');
+    
+    for (const v of required) {
+      if (process.env[v]) {
+        this.addResult('env', `Required: ${v}`, 'PASS', 'Set ✅');
       } else {
-        this.addResult('env-check', `Required: ${envVar}`, 'FAIL', 'Not set');
+        this.addResult('env', `Required: ${v}`, 'FAIL', 'NOT SET ⚠️');
         allRequired = false;
       }
     }
 
-    for (const envVar of optionalEnvVars) {
-      if (process.env[envVar]) {
-        this.addResult('env-check', `Optional: ${envVar}`, 'PASS', 'Set');
-        someOptional = true;
+    for (const v of optional) {
+      if (process.env[v]) {
+        this.addResult('env', `Optional: ${v}`, 'PASS', 'Set ✅');
       } else {
-        this.addResult('env-check', `Optional: ${envVar}`, 'WARNING', 'Not set');
+        this.addResult('env', `Optional: ${v}`, 'WARNING', 'Not set — optional');
       }
     }
 
     return allRequired;
   }
 
+  // ==========================================
+  // CHECK: SECURITY — NO SECRETS EXPOSED
+  // ==========================================
   async checkSecurity() {
-    const securityChecks = [
-      ['package-lock.json', 'Package Lock File'],
-      ['.gitignore', 'Git Ignore File'],
-      ['.env.example', 'Environment Example']
+    const safeFiles = [
+      ['package-lock.json', 'Dependency Lock'],
+      ['.env.example', 'Env Template']
     ];
 
-    const results = await Promise.all(
-      securityChecks.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
+    await Promise.all(
+      safeFiles.map(([file, desc]) => this.checkFile(file, desc))
     );
 
-    // Check for sensitive files that shouldn't exist
-    const sensitiveFiles = ['.env', 'config/keys.js'];
-    for (const file of sensitiveFiles) {
-      const filePath = path.join(__dirname, '..', file);
+    // ⚠️ These should NOT exist in repo
+    const secrets = ['.env', 'config/keys.js', 'api-keys.json'];
+    for (const file of secrets) {
+      const fullPath = path.join(this.rootDir, file);
       try {
-        await fs.promises.access(filePath);
-        this.addResult('security-check', `Sensitive File: ${file}`, 'WARNING', 'File exists - ensure it\'s in .gitignore');
-      } catch (error) {
-        this.addResult('security-check', `Sensitive File: ${file}`, 'PASS', 'File not found (good)');
+        await fs.access(fullPath);
+        this.addResult('security', `⚠️ ${file}`, 'WARNING', 'Exists — ensure in .gitignore!');
+      } catch {
+        this.addResult('security', `✅ ${file}`, 'PASS', 'Not present (good)');
       }
     }
-
-    return results.every(result => result);
   }
 
+  // ==========================================
+  // ADD RESULT & UPDATE STATUS
+  // ==========================================
   addResult(category, description, status, details) {
     this.results.checks.push({
       category,
@@ -210,68 +243,79 @@ class HealthChecker {
       timestamp: new Date().toISOString()
     });
 
-    const icon = status === 'PASS' ? '✅' : status === 'FAIL' ? '❌' : '⚠️';
-    const logType = status === 'PASS' ? 'success' : status === 'FAIL' ? 'error' : 'warning';
-    
-    this.log(`${icon} ${description}: ${details}`, logType);
-
+    if (status === 'PASS') this.results.passed++;
     if (status === 'FAIL') {
+      this.results.failed++;
       this.results.overall = 'FAIL';
-    } else if (status === 'WARNING' && this.results.overall === 'PASS') {
-      this.results.overall = 'WARNING';
     }
+    if (status === 'WARNING') {
+      this.results.warnings++;
+      if (this.results.overall === 'PASS') this.results.overall = 'WARNING';
+    }
+
+    const icon = status === 'PASS' ? '✅' : status === 'FAIL' ? '❌' : '⚠️';
+    const type = status === 'PASS' ? 'success' : status === 'FAIL' ? 'error' : 'warning';
+    this.log(`${icon} ${description}: ${details}`, type);
   }
 
-  async generateReport() {
-    const reportPath = path.join(__dirname, '..', 'health-report.json');
-    await fs.promises.writeFile(reportPath, JSON.stringify(this.results, null, 2));
-    this.log(`Health report saved to: ${reportPath}`, 'info');
+  // ==========================================
+  // GENERATE JSON REPORT
+  // ==========================================
+  async saveReport() {
+    const reportPath = path.join(this.rootDir, 'health-report.json');
+    await fs.writeFile(reportPath, JSON.stringify(this.results, null, 2));
+    this.log(`📄 Report saved → ${reportPath}`, 'info');
   }
 
+  // ==========================================
+  // RUN ALL CHECKS
+  // ==========================================
   async run() {
-    this.log('Starting Pleading Sanity Health Check...', 'info');
-    this.log('=====================================', 'info');
+    console.log('\n' + '═.✧ 🌌 PLEADING SANITY HEALTH CHECK ✧.═'.padStart(55, ' ') + '\n');
+    this.log('Scanning project integrity…', 'info');
+    this.log(`Target: ${this.rootDir}`, 'info');
+    console.log('─'.repeat(50));
 
-    // Run all checks
+    // Run every check
     await this.checkAssets();
     await this.checkPages();
     await this.checkManifest();
     await this.checkServiceWorker();
-    await this.checkNetlifyConfig();
-    await this.checkEnvironmentVars();
+    await this.checkDeployConfig();
+    await this.checkEnvironment();
     await this.checkSecurity();
 
-    // Optional: Check live URLs if site is deployed
+    // Live URL check — only if flag present
     if (process.argv.includes('--check-urls')) {
-      await this.checkUrl(this.siteUrl, 'Main Site');
-      await this.checkUrl(`${this.siteUrl}/manifest.json`, 'PWA Manifest URL');
+      console.log('─'.repeat(50));
+      this.log('Checking live endpoints…', 'info');
+      await this.checkUrl(this.siteUrl, 'Live Site');
+      await this.checkUrl(`${this.siteUrl}/manifest.json`, 'Manifest');
+      await this.checkUrl(`http://localhost:${this.localPort}/api/health`, 'Local Dev API');
     }
 
-    // Generate report
-    await this.generateReport();
+    // Save full report
+    await this.saveReport();
 
-    // Summary
-    this.log('=====================================', 'info');
-    const passCount = this.results.checks.filter(c => c.status === 'PASS').length;
-    const failCount = this.results.checks.filter(c => c.status === 'FAIL').length;
-    const warnCount = this.results.checks.filter(c => c.status === 'WARNING').length;
-
-    this.log(`Health Check Complete: ${this.results.overall}`, 
-      this.results.overall === 'PASS' ? 'success' : 
-      this.results.overall === 'FAIL' ? 'error' : 'warning');
+    // Final summary
+    console.log('─'.repeat(50));
+    const statusColor = this.results.overall === 'PASS' ? 'success' :
+                        this.results.overall === 'FAIL' ? 'error' : 'warning';
     
-    this.log(`Results: ${passCount} passed, ${failCount} failed, ${warnCount} warnings`, 'info');
+    this.log(`FINAL STATUS: ${this.results.overall}`, statusColor);
+    this.log(`✅ ${this.results.passed} passed • ❌ ${this.results.failed} failed • ⚠️ ${this.results.warnings} warnings`, 'info');
+    console.log('═'.repeat(50) + '\n');
 
-    // Exit with appropriate code
-    process.exit(failCount > 0 ? 1 : 0);
+    process.exit(this.results.failed > 0 ? 1 : 0);
   }
 }
 
-// Run health check if called directly
+// ==========================================
+// LAUNCH
+// ==========================================
 if (require.main === module) {
-  const healthChecker = new HealthChecker();
-  healthChecker.run().catch(error => {
-    console.error('Health check failed:', error);
+  new HealthChecker().run().catch(err => {
+    console.error('💥 Fatal error:', err);
     process.exit(1);
   });
 }
