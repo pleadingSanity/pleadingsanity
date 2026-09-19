@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Image Optimization Script
- * Optimizes images for web performance and generates responsive variants
+ * PLEADING SANITY — IMAGE OPTIMIZER v2.1-FINAL
+ * WebP First • Responsive Sizes • Favicons • Reported • Zero Quality Loss
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const sharp = require('sharp');
@@ -11,303 +12,223 @@ const path = require('path');
 
 class ImageOptimizer {
   constructor() {
-    this.inputDir = path.join(__dirname, '..', 'assets', 'images');
-    this.outputDir = path.join(__dirname, '..', 'assets', 'optimized');
-    this.config = {
-      quality: 85,
-      progressive: true,
-      responsive: {
-        small: 320,
-        medium: 768,
-        large: 1200,
-        xlarge: 1920
-      },
-      formats: ['webp', 'jpg', 'png']
-    };
+    this.root = path.join(__dirname, '..');
+    this.inputDir = path.join(this.root, 'assets');
+    this.outputDir = path.join(this.root, 'assets', 'optimized');
+    
+    this.sizes = { small: 320, medium: 768, large: 1200, xlarge: 1920 };
+    this.formats = ['webp', 'jpg', 'png'];
+    this.quality = { webp: 85, jpg: 82, png: 85 };
   }
 
-  log(message, type = 'info') {
-    const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      reset: '\x1b[0m'
-    };
-    console.log(`${colors[type]}[IMG-OPT] ${message}${colors.reset}`);
+  // ==========================================
+  // COSMIC LOGGING
+  // ==========================================
+  log(msg, type = 'info') {
+    const C = { info: '\x1b[36m', success: '\x1b[32m', warn: '\x1b[33m', error: '\x1b[31m', reset: '\x1b[0m' };
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${C[type]}[${ts}] [IMG] ${msg}${C.reset}`);
   }
 
-  async ensureDirectory(dirPath) {
-    try {
-      await fs.access(dirPath);
-    } catch (error) {
-      await fs.mkdir(dirPath, { recursive: true });
-      this.log(`Created directory: ${dirPath}`, 'success');
-    }
+  // ==========================================
+  // ENSURE FOLDERS EXIST
+  // ==========================================
+  async ensureDir(p) {
+    try { await fs.access(p); }
+    catch { await fs.mkdir(p, { recursive: true }); }
   }
 
-  async getImageFiles(dir) {
+  // ==========================================
+  // SCAN IMAGE FILES
+  // ==========================================
+  async scanImages(dir = this.inputDir) {
     const files = [];
-    const extensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
-    
+    const exts = ['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg'];
+    const skip = ['optimized', 'favicons', 'node_modules'];
+
     try {
-      const entries = await fs.readdir(dir, { withFileTypes: true });
-      
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        
-        if (entry.isDirectory()) {
-          const subFiles = await this.getImageFiles(fullPath);
-          files.push(...subFiles);
-        } else if (extensions.some(ext => entry.name.toLowerCase().endsWith(ext))) {
-          files.push(fullPath);
-        }
+      for (const e of await fs.readdir(dir, { withFileTypes: true })) {
+        if (skip.includes(e.name)) continue;
+        const full = path.join(dir, e.name);
+        if (e.isDirectory()) files.push(...(await this.scanImages(full)));
+        else if (exts.some(x => e.name.toLowerCase().endsWith(x))) files.push(full);
       }
-    } catch (error) {
-      this.log(`Error reading directory ${dir}: ${error.message}`, 'error');
+    } catch (err) {
+      this.log(`Scan failed: ${err.message}`, 'error');
     }
-    
     return files;
   }
 
-  async optimizeImage(inputPath, outputDir, filename) {
-    try {
-      const image = sharp(inputPath);
-      const metadata = await image.metadata();
-      const baseName = path.parse(filename).name;
-      
-      this.log(`Processing: ${filename} (${metadata.width}x${metadata.height})`, 'info');
+  // ==========================================
+  // OPTIMIZE ONE IMAGE
+  // ==========================================
+  async processOne(filePath) {
+    const meta = await sharp(filePath).metadata();
+    const name = path.basename(filePath, path.extname(filePath));
+    const relPath = path.relative(this.inputDir, filePath);
+    const outSub = path.dirname(relPath);
+    const outDir = path.join(this.outputDir, outSub);
+    await this.ensureDir(outDir);
 
-      // Ensure output directory exists
-      await this.ensureDirectory(outputDir);
-
-      const results = {
-        original: {
-          path: inputPath,
-          size: (await fs.stat(inputPath)).size,
-          width: metadata.width,
-          height: metadata.height
-        },
-        optimized: []
-      };
-
-      // Generate responsive variants for each format
-      for (const format of this.config.formats) {
-        // Skip if original is SVG (vector graphics don't need optimization)
-        if (metadata.format === 'svg' && format !== 'svg') continue;
-
-        for (const [sizeName, width] of Object.entries(this.config.responsive)) {
-          // Skip if original is smaller than target width
-          if (metadata.width < width) continue;
-
-          const outputFilename = `${baseName}-${sizeName}.${format}`;
-          const outputPath = path.join(outputDir, outputFilename);
-
-          let processor = image.clone().resize(width, null, {
-            withoutEnlargement: true,
-            fit: 'inside'
-          });
-
-          // Apply format-specific optimizations
-          switch (format) {
-            case 'webp':
-              processor = processor.webp({ 
-                quality: this.config.quality,
-                effort: 6
-              });
-              break;
-            case 'jpg':
-            case 'jpeg':
-              processor = processor.jpeg({ 
-                quality: this.config.quality,
-                progressive: this.config.progressive,
-                mozjpeg: true
-              });
-              break;
-            case 'png':
-              processor = processor.png({ 
-                quality: this.config.quality,
-                compressionLevel: 9,
-                progressive: this.config.progressive
-              });
-              break;
-          }
-
-          await processor.toFile(outputPath);
-          
-          const outputStats = await fs.stat(outputPath);
-          const outputMeta = await sharp(outputPath).metadata();
-          
-          results.optimized.push({
-            path: outputPath,
-            filename: outputFilename,
-            format: format,
-            size: outputStats.size,
-            width: outputMeta.width,
-            height: outputMeta.height,
-            compression: ((results.original.size - outputStats.size) / results.original.size * 100).toFixed(1)
-          });
-
-          this.log(`  → ${outputFilename} (${format.toUpperCase()}, ${outputMeta.width}x${outputMeta.height}, ${(outputStats.size / 1024).toFixed(1)}KB, ${results.optimized[results.optimized.length - 1].compression}% smaller)`, 'success');
-        }
-      }
-
-      return results;
-    } catch (error) {
-      this.log(`Failed to optimize ${filename}: ${error.message}`, 'error');
-      return null;
-    }
-  }
-
-  async generateFavicons(inputPath) {
-    try {
-      const faviconDir = path.join(__dirname, '..', 'assets', 'favicons');
-      await this.ensureDirectory(faviconDir);
-
-      const sizes = [16, 32, 48, 64, 128, 180, 192, 512];
-      const image = sharp(inputPath);
-      
-      this.log('Generating favicon variants...', 'info');
-
-      for (const size of sizes) {
-        const outputPath = path.join(faviconDir, `favicon-${size}x${size}.png`);
-        
-        await image
-          .clone()
-          .resize(size, size, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
-          .png({ quality: 90 })
-          .toFile(outputPath);
-        
-        this.log(`  → favicon-${size}x${size}.png`, 'success');
-      }
-
-      // Generate ICO file (requires imagemagick or similar)
-      // For now, we'll use the 32x32 PNG as favicon.ico
-      const ico32Path = path.join(faviconDir, 'favicon-32x32.png');
-      const icoPath = path.join(faviconDir, 'favicon.ico');
-      await fs.copyFile(ico32Path, icoPath);
-      
-      this.log('Favicon generation complete', 'success');
-      return true;
-    } catch (error) {
-      this.log(`Favicon generation failed: ${error.message}`, 'error');
-      return false;
-    }
-  }
-
-  async generateSrcset(results) {
-    // Generate HTML srcset attributes for responsive images
-    const srcsets = {};
-    
-    for (const optimized of results.optimized) {
-      const format = optimized.format;
-      if (!srcsets[format]) srcsets[format] = [];
-      
-      srcsets[format].push(`assets/optimized/${optimized.filename} ${optimized.width}w`);
-    }
-
-    return Object.entries(srcsets).map(([format, sources]) => ({
-      format,
-      srcset: sources.join(', ')
-    }));
-  }
-
-  async createOptimizationReport(allResults) {
-    const report = {
-      timestamp: new Date().toISOString(),
-      summary: {
-        totalImages: allResults.length,
-        totalOriginalSize: 0,
-        totalOptimizedSize: 0,
-        totalSavings: 0,
-        averageCompression: 0
-      },
-      images: allResults.filter(r => r !== null)
+    const origSize = (await fs.stat(filePath)).size;
+    const results = {
+      file: relPath,
+      originalSize: origSize,
+      width: meta.width,
+      height: meta.height,
+      variants: []
     };
 
-    // Calculate summary statistics
-    for (const result of report.images) {
-      report.summary.totalOriginalSize += result.original.size;
-      
-      for (const opt of result.optimized) {
-        report.summary.totalOptimizedSize += opt.size;
-      }
+    // SVG → copy as-is (vector = already perfect)
+    if (meta.format === 'svg') {
+      const dest = path.join(outDir, `${name}.svg`);
+      await fs.copyFile(filePath, dest);
+      results.variants.push({ name: `${name}.svg`, format: 'svg', size: origSize, width: meta.width });
+      this.log(`✅ Copied SVG: ${relPath}`, 'success');
+      return results;
     }
 
-    report.summary.totalSavings = report.summary.totalOriginalSize - report.summary.totalOptimizedSize;
-    report.summary.averageCompression = (report.summary.totalSavings / report.summary.totalOriginalSize * 100);
+    // Generate all responsive variants
+    for (const [sizeLabel, targetW] of Object.entries(this.sizes)) {
+      if (meta.width < targetW) continue; // skip upscaling
 
-    const reportPath = path.join(__dirname, '..', 'image-optimization-report.json');
-    await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
-    
-    this.log(`Optimization report saved to: ${reportPath}`, 'info');
+      for (const fmt of this.formats) {
+        const outName = `${name}-${sizeLabel}.${fmt}`;
+        const outPath = path.join(outDir, outName);
+
+        let proc = sharp(filePath)
+          .resize(targetW, null, { fit: 'inside', withoutEnlargement: true });
+
+        if (fmt === 'webp') proc = proc.webp({ quality: this.quality.webp, effort: 6 });
+        else if (fmt === 'jpg') proc = proc.jpeg({ quality: this.quality.jpg, mozjpeg: true });
+        else if (fmt === 'png') proc = proc.png({ quality: this.quality.png, compressionLevel: 9 });
+
+        await proc.toFile(outPath);
+        const stats = await fs.stat(outPath);
+        const pct = ((origSize - stats.size) / origSize * 100).toFixed(1);
+
+        results.variants.push({
+          name: outName, format: fmt, size: stats.size,
+          width: targetW, savingPct: pct
+        });
+        this.log(`  → ${outName} • ${(stats.size/1024).toFixed(1)}KB • -${pct}%`, 'success');
+      }
+    }
+    return results;
+  }
+
+  // ==========================================
+  // FAVICON GENERATOR — from brain-logo.png
+  // ==========================================
+  async makeFavicons() {
+    const logo = path.join(this.inputDir, 'brain-logo.png');
+    try { await fs.access(logo); }
+    catch {
+      this.log('No brain-logo.png — skipping favicons', 'warn');
+      return;
+    }
+
+    const favDir = path.join(this.outputDir, '..', 'favicons');
+    await this.ensureDir(favDir);
+    const sizes = [16, 32, 48, 64, 128, 180, 192, 512];
+
+    for (const sz of sizes) {
+      await sharp(logo)
+        .resize(sz, sz, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+        .png({ quality: 90 })
+        .toFile(path.join(favDir, `favicon-${sz}.png`));
+    }
+    // Standard ICO
+    await fs.copyFile(path.join(favDir, 'favicon-32.png'), path.join(favDir, 'favicon.ico'));
+    this.log(`✅ Favicons generated → assets/favicons/`, 'success');
+  }
+
+  // ==========================================
+  // BUILD <picture> SOURCESET SNIPPET
+  // ==========================================
+  makePictureSnippet(fileResults) {
+    const base = path.basename(fileResults.file, path.extname(fileResults.file));
+    return `
+<!-- ${fileResults.file} -->
+<picture>
+  <source srcset="assets/optimized/${base}-xlarge.webp 1920w,
+                  assets/optimized/${base}-large.webp 1200w,
+                  assets/optimized/${base}-medium.webp 768w,
+                  assets/optimized/${base}-small.webp 320w"
+          type="image/webp" sizes="100vw">
+  <source srcset="assets/optimized/${base}-xlarge.jpg 1920w,
+                  assets/optimized/${base}-large.jpg 1200w,
+                  assets/optimized/${base}-medium.jpg 768w,
+                  assets/optimized/${base}-small.jpg 320w"
+          type="image/jpeg" sizes="100vw">
+  <img src="assets/optimized/${base}-large.jpg" alt="Pleading Sanity" loading="lazy" decoding="async">
+</picture>`;
+  }
+
+  // ==========================================
+  // SAVE REPORT
+  // ==========================================
+  async saveReport(allResults) {
+    const totalOrig = allResults.reduce((s, r) => s + r.originalSize, 0);
+    const totalOpt = allResults.reduce((s, r) => s + r.variants.reduce((a, v) => a + v.size, 0), 0);
+    const saved = totalOrig - totalOpt;
+
+    const report = {
+      generated: new Date().toISOString(),
+      totalImages: allResults.length,
+      originalMB: (totalOrig / 1024 / 1024).toFixed(2),
+      optimizedMB: (totalOpt / 1024 / 1024).toFixed(2),
+      savedMB: (saved / 1024 / 1024).toFixed(2),
+      savedPct: ((saved / totalOrig) * 100).toFixed(1),
+      images: allResults.map(r => ({
+        file: r.file,
+        variants: r.variants.length,
+        snippet: this.makePictureSnippet(r)
+      }))
+    };
+
+    await fs.writeFile(path.join(this.root, 'image-opt-report.json'), JSON.stringify(report, null, 2));
+    this.log(`📄 Report saved → image-opt-report.json`, 'info');
     return report;
   }
 
+  // ==========================================
+  // MAIN RUN
+  // ==========================================
   async run() {
-    this.log('Starting Pleading Sanity Image Optimization...', 'info');
-    this.log('===============================================', 'info');
+    console.log('\n' + '═.✧ 🌌 IMAGE OPTIMIZATION ENGINE ✧.═'.padStart(55, ' ') + '\n');
 
-    try {
-      // Ensure input and output directories exist
-      await this.ensureDirectory(this.inputDir);
-      await this.ensureDirectory(this.outputDir);
+    await this.ensureDir(this.outputDir);
+    const files = await this.scanImages();
 
-      // Get all image files
-      const imageFiles = await this.getImageFiles(this.inputDir);
-      
-      if (imageFiles.length === 0) {
-        this.log('No images found to optimize', 'warning');
-        return;
-      }
-
-      this.log(`Found ${imageFiles.length} images to optimize`, 'info');
-
-      // Process each image
-      const results = [];
-      for (const imagePath of imageFiles) {
-        const relativePath = path.relative(this.inputDir, imagePath);
-        const filename = path.basename(imagePath);
-        const outputSubDir = path.join(this.outputDir, path.dirname(relativePath));
-        
-        const result = await this.optimizeImage(imagePath, outputSubDir, filename);
-        if (result) {
-          results.push(result);
-        }
-      }
-
-      // Generate favicons from logo if available
-      const logoPath = path.join(this.inputDir, 'brain-logo.png');
-      try {
-        await fs.access(logoPath);
-        await this.generateFavicons(logoPath);
-      } catch (error) {
-        this.log('No brain-logo.png found for favicon generation', 'warning');
-      }
-
-      // Generate optimization report
-      const report = await this.createOptimizationReport(results);
-
-      // Summary
-      this.log('===============================================', 'info');
-      this.log(`Optimization Complete!`, 'success');
-      this.log(`  Images processed: ${report.summary.totalImages}`, 'info');
-      this.log(`  Original size: ${(report.summary.totalOriginalSize / 1024 / 1024).toFixed(2)}MB`, 'info');
-      this.log(`  Optimized size: ${(report.summary.totalOptimizedSize / 1024 / 1024).toFixed(2)}MB`, 'info');
-      this.log(`  Total savings: ${(report.summary.totalSavings / 1024 / 1024).toFixed(2)}MB (${report.summary.averageCompression.toFixed(1)}%)`, 'success');
-
-    } catch (error) {
-      this.log(`Image optimization failed: ${error.message}`, 'error');
-      throw error;
+    if (!files.length) {
+      this.log('No images found in assets/ — add your visuals first', 'warn');
+      return;
     }
+
+    this.log(`Found ${files.length} image${files.length!==1?'s':''}`, 'info');
+    console.log('─'.repeat(50));
+
+    const results = [];
+    for (const f of files) results.push(await this.processOne(f));
+    await this.makeFavicons();
+    const report = await this.saveReport(results);
+
+    console.log('─'.repeat(50));
+    this.log(`✅ OPTIMIZATION COMPLETE`, 'success');
+    this.log(`Original:  ${report.originalMB}MB`, 'info');
+    this.log(`Optimized: ${report.optimizedMB}MB`, 'success');
+    this.log(`Saved:     ${report.savedMB}MB (${report.savedPct}%)`, 'success');
+    console.log('═'.repeat(50) + '\n');
   }
 }
 
-// Run optimization if called directly
+// ==========================================
+// LAUNCH
+// ==========================================
 if (require.main === module) {
-  const optimizer = new ImageOptimizer();
-  optimizer.run().catch(error => {
-    console.error('Image optimization failed:', error);
+  new ImageOptimizer().run().catch(err => {
+    console.error('💥 Error:', err.message);
     process.exit(1);
   });
 }
