@@ -9,640 +9,356 @@
   /* 🌟 COLOUR PALETTE — LOCKED IN */
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
+  --cyan-glow: rgba(0, 255, 240, 0.6);
   --magenta: #ff00ff;
   --magenta-deep: #c800c8;
-  --gold: #ffd700;
-  --gold-deep: #d4b000;
-  --deep-space: #030b18;
-  --nebula-dark: #080d13;
-  --nebula-mid: #10122d;
-  --nebula-light: #1a1f3a;
-  --text-bright: #f0faff;
-  --text-soft: #b9faff;
-  --text-muted: #7ab8b8;
-  --glass: rgba(0,255,240,0.06);
-  --glass-deep: rgba(0,0,0,0.65);
-  --glow-cyan: 0 0 25px rgba(0,255,240,0.35);
-  --glow-magenta: 0 0 25px rgba(255,0,255,0.25);
-  --glow-gold: 0 0 20px rgba(255,215,0,0.25);
+  --magenta-glow: rgba(255, 0, 255, 0.6);
+  --gold-yellow: #ffd700;
+  --gold-deep: #e6b800;
+  --gold-glow: rgba(255, 215, 0, 0.6);
+
+  /* 🌌 COSMIC BACKDROP */
+  --deepest: #01030a;
+  --deep: #070b20;
+  --mid: #0f1638;
+  --mid-light: #1a2456;
+  --surface: #243070;
+  --text-bright: #f0f4ff;
+  --text-soft: #b0b8e0;
+  --text-muted: #6068a0;
+
+  /* ✨ GRADIENTS */
+  --nebula-gradient: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.12));
+  --cosmic-glow: radial-gradient(ellipse at top, rgba(0,255,240,0.15), transparent 60%),
+                 radial-gradient(ellipse at bottom, rgba(255,0,255,0.12), transparent 60%);
+  --button-gradient: linear-gradient(135deg, var(--cyan-deep), var(--magenta-deep));
+  --hero-gradient: linear-gradient(180deg, var(--deepest), var(--deep) 40%, var(--mid));
+
+  /* 📐 SIZING & SPACING */
+  --nav-height: 70px;
+  --section-gap: 4rem;
+  --card-radius: 20px;
+  --glow-soft: 0 0 15px;
+  --glow-medium: 0 0 30px;
+  --glow-strong: 0 0 50px;
+
+  /* ⚡ MOTION */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
 }
 
-/* ===== BASE & STARFIELD BACKGROUND ===== */
+/* ==========================================
+   BASE RESET & FOUNDATION
+   ========================================== */
 *, *::before, *::after {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
-html, body {
-  min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-  background: radial-gradient(ellipse at 50% 120%, var(--nebula-mid) 0%, var(--deep-space) 70%, #000 100%);
-  color: var(--text-bright);
-  overflow-x: hidden;
-  position: relative;
-  line-height: 1.6;
+html {
   scroll-behavior: smooth;
+  font-size: 16px;
 }
 
-/* Moving Nebula Layer */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: transparent;
-  animation: stars-move 150s linear infinite;
-}
-
-/* Twinkling Star Texture — from transparenttextures.com */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: url("https://transparenttextures.com/patterns/stardust.png");
-  opacity: 0.28;
-  animation: stars-fade 15s ease-in-out infinite alternate;
-}
-
-@keyframes stars-move {
-  from { background-position: 0 0; }
-  to   { background-position: 3000px 6000px; }
-}
-
-@keyframes stars-fade {
-  from { opacity: 0.15; }
-  to   { opacity: 0.36; }
-}
-
-/* Canvas Starfield — for JS-generated stars (cosmic-bg.js) */
-canvas.stars {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ===== HEADER & NAVIGATION ===== */
-header {
-  background: rgba(0,0,0,0.93);
-  border-bottom: 2.5px solid var(--cyan);
-  box-shadow: 0 4px 32px rgba(0,255,240,0.2);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  text-align: center;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  padding: 18px 20px 14px;
-}
-
-header h1 {
-  color: var(--cyan);
-  margin: 0 0 10px 0;
-  font-size: clamp(1.5rem, 4vw, 2.4rem);
-  letter-spacing: 1.6px;
-  font-weight: 900;
-  text-shadow: 0 0 30px rgba(0,255,240,0.35), 0 2px 12px #000;
-}
-
-nav {
-  width: 100%;
-}
-
-nav ul {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-nav ul li a,
-nav a {
-  display: inline-block;
+body {
+  font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--deepest);
   color: var(--text-bright);
-  text-decoration: none;
-  font-weight: 800;
-  font-size: clamp(0.85rem, 2vw, 1.05rem);
-  letter-spacing: 0.03em;
-  background: linear-gradient(90deg, rgba(8,13,19,0.9) 70%, rgba(0,255,240,0.1) 100%);
-  padding: 7px 13px;
-  border-radius: 11px;
-  transition: all 0.2s ease;
-  border: 1px solid transparent;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-nav ul li a.active,
-nav a.active,
-nav ul li a:hover,
-nav a:hover {
-  color: var(--magenta);
-  background: linear-gradient(90deg, #000 0%, rgba(0,255,240,0.08) 50%, rgba(255,0,255,0.1) 100%);
-  text-shadow: 0 0 16px rgba(0,255,240,0.5);
-  border-color: rgba(0,255,240,0.25);
-  transform: translateY(-1px);
+/* ==========================================
+   COSMIC BACKGROUND — STARS, NEBULA, SHOOTING
+   ========================================== */
+.cosmic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--hero-gradient);
 }
 
-/* ===== MAIN CONTENT ===== */
-main {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 33px 16px 55px;
-  min-height: 70vh;
-  position: relative;
-  z-index: 2;
+/* Stars base layer */
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(0,255,240,0.7), transparent),
+    radial-gradient(2px 2px at 160px 120px, rgba(255,0,255,0.7), transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.6;
+  animation: starsTwinkle 8s ease-in-out infinite alternate;
 }
 
-section {
-  margin-bottom: 2.9rem;
-  border-radius: 21px;
-  background: var(--glass);
-  box-shadow: 0 0 48px rgba(0,255,240,0.06);
-  padding: 28px 5vw;
-  position: relative;
-  z-index: 2;
-  animation: fadeIn 0.55s cubic-bezier(0.22, 1.03, 0.46, 1.11);
-  border: 1px solid rgba(0,255,240,0.1);
+@keyframes starsTwinkle {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
 }
 
-h2, h3, h4 {
+/* Nebula clouds */
+.nebula {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(0,255,240,0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(255,0,255,0.06), transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0,200,192,0.05), transparent 55%);
+  animation: nebulaDrift 25s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(2%, 1%) scale(1.05); }
+}
+
+/* Shooting star */
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  border-radius: 1px;
+  filter: blur(0.5px);
+  animation: shoot 4s ease-in-out infinite;
+}
+
+@keyframes shoot {
+  0% { transform: translateX(-150px) translateY(-50px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateX(150vw) translateY(80px); opacity: 0; }
+}
+
+/* ==========================================
+   TYPOGRAPHY — MOVEMENT VOICE
+   ========================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text-bright);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 1rem;
   color: var(--cyan);
-  margin-top: 1.6rem;
-  margin-bottom: 0.8rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-shadow: 0 2px 22px rgba(0,255,240,0.25);
 }
 
-h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
-h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); }
-h4 { font-size: 1.2rem; }
+h3 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  margin-bottom: 0.75rem;
+  color: var(--magenta);
+}
 
-p, li, label, .meta, .brand {
-  font-size: 1.05rem;
-  line-height: 1.7;
+p {
+  margin-bottom: 1rem;
   color: var(--text-soft);
-  margin-bottom: 0.8rem;
+  font-size: 1.05rem;
 }
-
-strong { color: var(--text-bright); }
 
 a {
   color: var(--cyan);
-  transition: color 0.2s, text-shadow 0.2s;
+  text-decoration: none;
+  transition: color var(--transition-normal), text-shadow var(--transition-normal);
 }
 
 a:hover {
   color: var(--magenta);
-  text-shadow: 0 0 10px rgba(255,0,255,0.4);
+  text-shadow: 0 0 8px var(--magenta-glow);
 }
 
-/* ===== COSMIC BUTTONS — UNIVERSAL ===== */
-a.btn, button.btn, .btn {
-  display: inline-block;
-  background: linear-gradient(90deg, var(--cyan) 65%, var(--magenta) 100%);
-  color: #000;
-  font-weight: 900;
-  font-size: 1.05rem;
-  padding: 0.8rem 1.8rem;
-  border-radius: 13px;
-  border: none;
-  text-decoration: none;
-  box-shadow: 0 2px 23px rgba(0,255,240,0.25);
-  margin: 9px 12px 12px 0;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0.045em;
-  text-align: center;
-}
-
-a.btn:hover, button.btn:hover, .btn:hover {
-  background: linear-gradient(90deg, var(--magenta) 55%, var(--cyan) 100%);
-  color: #fff;
-  transform: scale(1.05);
-  box-shadow: 0 6px 35px rgba(255,0,255,0.25);
-}
-
-a.btn:active, button.btn:active, .btn:active {
-  transform: scale(0.98);
-}
-
-.btn-gold {
-  background: linear-gradient(90deg, var(--gold) 0%, #e6b800 100%);
-  box-shadow: 0 2px 23px rgba(255,215,0,0.25);
-}
-.btn-gold:hover {
-  background: linear-gradient(90deg, #e6b800 0%, var(--gold) 100%);
-  box-shadow: 0 6px 35px rgba(255,215,0,0.35);
-}
-
-.btn-magenta {
-  background: linear-gradient(90deg, var(--magenta) 0%, var(--magenta-deep) 100%);
-  color: #fff;
-  box-shadow: 0 2px 23px rgba(255,0,255,0.25);
-}
-.btn-magenta:hover {
-  background: linear-gradient(90deg, var(--magenta-deep) 0%, var(--magenta) 100%);
-}
-
-/* ===== ARRON AI CHAT COMPONENT ===== */
-#arron-chat-container {
-  max-width: 520px;
-  margin: 0 auto 40px;
-  padding: 24px;
-  border: 1px solid rgba(0,255,240,0.25);
-  border-radius: 16px;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 0 25px rgba(0,255,240,0.2);
-}
-
-.arron-welcome {
-  text-align: center;
-  margin-bottom: 18px;
-}
-
-.arron-welcome h3 {
-  color: var(--cyan);
-  font-size: 1.2rem;
-  margin-bottom: 4px;
-  margin-top: 0;
-}
-
-.arron-welcome p {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin-bottom: 0;
-}
-
-#arron-messages {
-  height: 300px;
-  overflow-y: auto;
-  margin-bottom: 15px;
-  padding: 14px;
-  background: rgba(0,0,0,0.4);
-  border-radius: 10px;
-  border: 1px solid rgba(0,255,240,0.1);
-}
-
-.arron-msg {
-  margin: 10px 0;
-  line-height: 1.5;
-}
-
-.arron-msg strong.cyan { color: var(--cyan); }
-.arron-msg strong.gold { color: var(--gold); }
-
-#arron-input-row {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-#arron-input {
-  flex: 1;
-  padding: 12px 14px;
-  border-radius: 8px;
-  border: 1px solid rgba(0,255,240,0.25);
-  background: rgba(0,0,0,0.8);
-  color: #fff;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-#arron-input:focus {
-  border-color: var(--cyan);
-  box-shadow: 0 0 12px rgba(0,255,240,0.3);
-}
-
-.arron-affirm {
-  text-align: center;
-  font-style: italic;
-  color: var(--text-muted);
-  min-height: 24px;
-  margin: 10px 0;
-  font-size: 0.9rem;
-}
-
-.vault-actions {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 5px;
-}
-
-/* ===== VIDEO FEED & FEED ITEMS ===== */
-.feed-item, .video-card {
-  background: rgba(255,255,255,0.08);
-  border: 2px solid rgba(0,255,240,0.15);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 24px auto;
-  max-width: 720px;
-  box-shadow: 0 0 30px rgba(0,255,240,0.1);
-  animation: fadeIn 0.5s cubic-bezier(0.22, 1.03, 0.46, 1.11);
-  opacity: 0;
-  transform: translateY(15px);
-  animation-fill-mode: forwards;
-}
-
-.feed-item iframe,
-.feed-item video,
-.video-card iframe {
-  width: 100%;
-  aspect-ratio: 16/9;
-  border: 0;
-  border-radius: 12px;
-  margin-bottom: 14px;
-  box-shadow: 0 0 15px rgba(0,255,240,0.2);
-}
-
-.feed-meta, .video-actions {
-  display: flex;
+/* ==========================================
+   BUTTONS — COSMIC GLOW STYLE
+   ========================================== */
+.btn {
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.feed-title, .video-title {
-  color: var(--cyan);
-  font-weight: 700;
-  font-size: 1.05rem;
-}
-
-.feed-desc, .video-desc {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.5;
-  margin-top: 8px;
-}
-
-.like-btn {
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: none;
-  background: var(--cyan);
-  color: #000;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.like-btn:hover {
-  background: var(--magenta);
-  color: #fff;
-  transform: scale(1.05);
-}
-
-.like-btn.liked {
-  background: #00ff90;
-  pointer-events: none;
-  transform: none;
-}
-
-/* ===== PROMO / HIGHLIGHT CARDS ===== */
-.promo-card {
-  text-align: center;
-  background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.12));
-  padding: 30px 20px;
-  border-radius: 16px;
-  margin: 35px 0;
-  border: 1px solid rgba(0,255,240,0.25);
-  box-shadow: 0 0 25px rgba(0,255,240,0.15);
-}
-
-.promo-card h3 {
-  color: var(--cyan);
-  margin-bottom: 8px;
-  margin-top: 0;
-}
-
-.promo-card p {
-  margin-bottom: 18px;
-  color: var(--text-soft);
-}
-
-.promo-link {
-  display: inline-block;
-  background: linear-gradient(90deg, var(--cyan), var(--magenta));
-  color: #000;
-  font-weight: 800;
-  text-decoration: none;
-  padding: 12px 28px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,255,240,0.3);
-  transition: all 0.25s ease;
-}
-
-.promo-link:hover {
-  transform: scale(1.05);
-  color: #fff;
-  box-shadow: 0 0 25px rgba(255,0,255,0.35);
-}
-
-/* ===== SHOP / MERCH LINKS ===== */
-.shop-links, .footer-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
   justify-content: center;
-  margin-top: 26px;
-}
-
-.shop-links a, .footer-links a {
-  min-width: 135px;
-  padding: 10px 18px;
-  background: linear-gradient(90deg, var(--cyan) 60%, rgba(255,0,255,0.8) 120%);
-  color: #000;
-  border-radius: 11px;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-decoration: none;
-  transition: all 0.2s ease;
-  box-shadow: 0 0 15px rgba(0,255,240,0.2);
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
   text-align: center;
 }
 
-.shop-links a:hover, .footer-links a:hover {
-  background: var(--magenta);
-  color: #fff;
-  box-shadow: 0 0 25px rgba(255,0,255,0.35);
+.btn-primary {
+  background: var(--button-gradient);
+  color: white;
+  box-shadow: var(--glow-soft) var(--cyan-glow);
+}
+
+.btn-primary:hover {
   transform: translateY(-2px);
+  box-shadow: var(--glow-medium) var(--cyan-glow);
 }
 
-/* ===== GAMES GRID ===== */
-.games-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  margin-top: 32px;
+.btn-secondary {
+  background: transparent;
+  color: var(--cyan);
+  border: 2px solid var(--cyan);
 }
 
-.game-card {
-  background: rgba(255,255,255,0.06);
-  border: 2px solid rgba(0,255,240,0.15);
-  border-radius: 19px;
-  box-shadow: 0 0 20px rgba(0,255,240,0.1);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: all 0.25s ease;
+.btn-secondary:hover {
+  background: rgba(0, 255, 240, 0.1);
+  box-shadow: inset 0 0 15px var(--cyan-glow);
 }
 
-.game-card:hover {
-  box-shadow: 0 0 40px rgba(0,255,240,0.25);
-  background: rgba(0,255,240,0.08);
-  transform: translateY(-4px);
-}
-
-.game-card img {
-  width: 100%;
-  max-width: 265px;
-  border-radius: 12px;
-  margin-bottom: 13px;
-  border: 1.5px solid rgba(255,0,255,0.25);
-  background: #111a28;
-  box-shadow: 0 0 15px rgba(255,0,255,0.15);
-  transition: transform 0.3s ease;
-}
-
-.game-card img:hover {
-  transform: scale(1.04);
-}
-
-.game-card h3 {
-  margin: 0 0 6px 0;
-  color: var(--magenta);
-  font-size: 1.1rem;
-  font-weight: 900;
-  text-shadow: 0 1px 12px rgba(255,0,255,0.3);
-  text-align: center;
-}
-
-.game-card p {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  background: rgba(0,0,0,0.9);
-  margin-top: 46px;
-  border-top: 2.4px solid var(--cyan);
-  text-align: center;
-  font-size: 1rem;
+.btn-outline {
+  background: transparent;
   color: var(--text-soft);
-  padding: 32px 20px 20px;
-  box-shadow: 0 -6px 22px rgba(0,255,240,0.1);
-  position: relative;
-  z-index: 10;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--text-muted);
+  padding: 0.65rem 1.5rem;
 }
 
-footer .brand {
-  font-size: 1.1rem;
-  letter-spacing: 0.045em;
-  font-weight: 900;
-  margin-bottom: 9px;
-  color: var(--cyan);
-}
-
-footer .socials {
-  margin: 19px 0 0 0;
-}
-
-footer .socials a {
-  color: var(--cyan);
-  margin: 0 10px;
-  font-size: 1.5rem;
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-
-footer .socials a:hover {
+.btn-outline:hover {
+  border-color: var(--magenta);
   color: var(--magenta);
-  text-shadow: 0 0 12px rgba(255,0,255,0.4);
 }
 
-/* ===== SCROLLBAR — COSMIC GLOW ===== */
-::-webkit-scrollbar {
-  width: 8px;
+.btn:disabled, .btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-::-webkit-scrollbar-track {
-  background: var(--deep-space);
+/* ==========================================
+   ERROR HANDLER — FULLY INTEGRATED ✅
+   ========================================== */
+.error-container {
+  padding: 2rem;
+  text-align: center;
+  animation: fade-in 0.4s ease-out;
 }
 
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, var(--cyan), var(--magenta));
-  border-radius: 4px;
+.error-card {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  background: rgba(10, 15, 40, 0.85);
+  border: 1px solid rgba(0, 255, 240, 0.3);
+  border-radius: var(--card-radius);
+  box-shadow: 0 0 30px rgba(0, 255, 240, 0.15),
+              inset 0 0 30px rgba(0, 255, 240, 0.05);
+  backdrop-filter: blur(10px);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, var(--magenta), var(--cyan));
+.error-title {
+  font-size: 1.5rem;
+  color: var(--cyan);
+  margin-bottom: 0.75rem;
+  text-shadow: 0 0 10px var(--cyan-glow);
 }
 
-/* ===== ANIMATIONS ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to   { opacity: 1; transform: translateY(0); }
+.error-desc {
+  color: var(--text-soft);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
-/* ===== RESPONSIVE — MOBILE PERFECTED ===== */
-@media (max-width: 700px) {
-  main { padding: 15px 4vw 30px; }
-  section { padding: 20px 5vw; }
-  
-  nav ul { gap: 6px 8px; }
-  nav ul li a, nav a {
-    font-size: 0.85rem;
-    padding: 5px 10px;
+.error-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.tech-details {
+  margin-top: 1.5rem;
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  padding-top: 1rem;
+}
+
+.tech-details summary {
+  cursor: pointer;
+  color: var(--magenta);
+  outline: none;
+}
+
+.tech-details summary:hover {
+  color: var(--magenta-deep);
+}
+
+.tech-info {
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  margin-top: 0.75rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+.tech-info p {
+  margin-bottom: 0.25rem;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
+
+/* ==========================================
+   RESPONSIVE — MOBILE FIRST
+   ========================================== */
+@media (max-width: 768px) {
+  .error-card {
+    padding: 2rem 1.25rem;
+    margin: 0 1rem;
   }
-  
-  header h1 { font-size: 1.5rem; }
-  
-  .games-grid { grid-template-columns: 1fr; gap: 18px; }
-  .game-card img { max-width: 100%; }
-  
-  .footer-links, .shop-links { gap: 8px; }
-  .btn, a.btn { padding: 0.7rem 1.3rem; font-size: 1rem; }
-  
-  #arron-chat-container { padding: 18px; }
-  .feed-item, .video-card { padding: 16px; margin: 16px 0; }
+
+  .error-buttons {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
 }
 
-/* ===== REDUCED MOTION RESPECT — ACCESSIBILITY ===== */
+/* ==========================================
+   ACCESSIBILITY
+   ========================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
   }
-  
-  body::after { animation: none; opacity: 0.2; }
-  body::before { animation: none; }
 }
 
-/* ===== FOCUS STATES — KEYBOARD NAVIGATION ===== */
-a:focus, button:focus, input:focus {
+.focus-ring:focus {
   outline: 2px solid var(--cyan);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
