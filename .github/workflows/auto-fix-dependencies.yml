@@ -1,77 +1,152 @@
-name: 🧠 Pleading Sanity Infinity – Auto-Heal Dependencies & Redeploy
+name: 🧠 Pleading Sanity — Auto-Heal & Redeploy
+run-name: 🔄 Auto-Heal • ${{ github.event_name }} • ${{ github.sha }}
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # Manual run from GitHub UI anytime
   schedule:
-    - cron: "0 */12 * * *"  # twice a day
+    - cron: "0 */12 * * *"  # Every 12h — self-heal while you sleep
 
 jobs:
-  heal_dependencies:
+  auto_heal:
+    name: 🩺 Dependency Heal → Verify → Redeploy
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-    steps:
-      - name: 🛠️ Checkout repo
-        uses: actions/checkout@v4
+      contents: write  # Required to commit fixes back
 
-      - name: ⚙️ Setup Node
+    steps:
+      # ==========================================
+      # 1. FRESH CODE
+      # ==========================================
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for clean commits
+
+      # ==========================================
+      # 2. NODE SETUP
+      # ==========================================
+      - name: ⚙️ Set up Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
+          cache: 'npm'  # Faster installs
 
-      - name: 🔍 Scan for broken or invalid dependencies
+      # ==========================================
+      # 3. SCAN & REPORT
+      # ==========================================
+      - name: 🔍 Scan dependency health
         run: |
-          echo "🔎 Checking all dependencies for Pleading Sanity Infinity OS..."
-          npm install --legacy-peer-deps || true
-          npm outdated || true
+          echo "════════════════════════════════════════"
+          echo "🔎 PLEADING SANITY — DEPENDENCY SCAN"
+          echo "════════════════════════════════════════"
+          npm install --legacy-peer-deps 2>&1 | tail -5
+          echo ""
+          echo "📊 Checking for outdated packages..."
+          npm outdated --long || true
+          echo ""
 
-      - name: 🧩 Auto-fix invalid or missing dependencies
+      # ==========================================
+      # 4. AUTO-FIX SPECIFIC PACKAGES
+      # ==========================================
+      - name: 🧩 Pin known-good versions
         run: |
-          echo "🧠 Auto-healing dependency issues..."
-          # Fix mailchimp-marketing if version invalid
+          echo "🧠 Applying known-stable versions..."
+
+          # mailchimp-marketing — confirmed working
           if grep -q '"mailchimp-marketing":' package.json; then
             sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-            echo "✅ mailchimp-marketing fixed to ^3.0.80"
+            echo "✅ mailchimp-marketing → ^3.0.80"
           fi
 
-          # Detect and remove unpublished/broken packages
-          npm ls || echo "⚠️ Some packages may be broken"
-          echo "🧹 Cleaning cache and reinstalling..."
-          rm -rf node_modules package-lock.json
-          npm install --legacy-peer-deps || echo "⚠️ Attempted auto-repair"
+          # Sharp image optimizer
+          if grep -q '"sharp":' package.json; then
+            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
+            echo "✅ sharp → ^0.33.5"
+          fi
 
-      - name: 💾 Commit & Push Fixes
+          # HTML minifier
+          if grep -q '"html-minifier-terser":' package.json; then
+            sed -i 's/"html-minifier-terser": "[^"]*"/"html-minifier-terser": "^7.2.0"/' package.json
+            echo "✅ html-minifier-terser → ^7.2.0"
+          fi
+
+          echo ""
+
+      # ==========================================
+      # 5. REBUILD LOCKFILE
+      # ==========================================
+      - name: 🧹 Clean & reinstall
         run: |
-          git config user.name "Copilot-AutoFix"
+          echo "🧹 Rebuilding clean dependency tree..."
+          rm -rf node_modules
+          npm install --legacy-peer-deps
+          echo "✅ Install complete"
+
+      # ==========================================
+      # 6. COMMIT IF CHANGES
+      # ==========================================
+      - name: 💾 Commit fixes to main
+        id: commit
+        run: |
+          git config user.name "Pleading-Sanity-AutoHeal"
           git config user.email "pleadingsanitydev@gmail.com"
+
           git add package.json package-lock.json
-          git diff --quiet && echo "✅ No dependency issues found" || (
-            git commit -m "fix(deps): auto-heal dependency issues – Rise From Madness"
+
+          if git diff --staged --quiet; then
+            echo "✅ No changes needed — already stable"
+            echo "CHANGES=none" >> $GITHUB_OUTPUT
+          else
+            git commit -m "🤖 auto-heal: fix deps • $(date +%Y-%m-%d)"
             git push origin main
-          )
-
-      - name: 🚀 Trigger Netlify & Vercel Redeploy
-        env:
-          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
-            echo "🌍 Triggering Netlify build..."
-            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
-          fi
-          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
-            echo "🚀 Triggering Vercel build..."
-            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
+            echo "✅ Fixes committed & pushed"
+            echo "CHANGES=applied" >> $GITHUB_OUTPUT
           fi
 
-      - name: 🩺 Health Check
+      # ==========================================
+      # 7. REDEPLOY — ALL PLATFORMS
+      # ==========================================
+      - name: 🚀 Trigger Netlify
         env:
-          NETLIFY_SITE_URL: ${{ secrets.NETLIFY_SITE_URL }}
-          VERCEL_SITE_URL: ${{ secrets.VERCEL_SITE_URL }}
+          NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        if: always()
         run: |
-          echo "🩺 Checking site health..."
-          curl -Is "$NETLIFY_SITE_URL" | head -n 1
-          curl -Is "$VERCEL_SITE_URL" | head -n 1
-          echo "✨ Dependency healing and redeploy complete."
+          if [ -n "$NETLIFY_HOOK" ]; then
+            echo "🌍 Netlify → building..."
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered" || echo "⚠️ Netlify hook failed"
+          else
+            echo "⚠️ Set NETLIFY_BUILD_HOOK in repo secrets"
+          fi
+
+      - name: ⚡ Trigger Vercel
+        env:
+          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        if: always()
+        run: |
+          if [ -n "$VERCEL_HOOK" ]; then
+            echo "⚡ Vercel → deploying..."
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered" || echo "⚠️ Vercel hook failed"
+          else
+            echo "⚠️ Set VERCEL_DEPLOY_HOOK in repo secrets"
+          fi
+
+      # ==========================================
+      # 8. LIVE HEALTH CHECK
+      # ==========================================
+      - name: 🩺 Verify live sites
+        env:
+          SITE_URL: ${{ secrets.NETLIFY_SITE_URL || 'https://pleadingsanity.co.uk' }}
+        if: always()
+        run: |
+          echo "════════════════════════════════════════"
+          echo "✨ PLEADING SANITY — AUTO-HEAL COMPLETE"
+          echo "════════════════════════════════════════"
+          echo "🕐 Checked: $(date)"
+          echo "🔄 Changes: ${{ steps.commit.outputs.CHANGES }}"
+          echo ""
+          echo "🌐 Verifying: $SITE_URL"
+          curl -Is "$SITE_URL" | head -n 1
+          echo ""
+          echo "✅ System self-sustaining • Rise From Madness ✨"
