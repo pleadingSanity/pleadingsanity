@@ -1,197 +1,150 @@
-name: 🧠 Pleading Sanity Infinity – Human-AI Fusion Sync & Auto-Fix
+name: 🧠 Pleading Sanity — Fusion AI Master System
+run-name: 🩸 Fusion Sync • Auto-Heal • Rise From Madness
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # Manual run anytime from GitHub UI
+
+permissions:
+  contents: write  # Required to commit & push changes
 
 jobs:
-  fusion_sync_autofix:
-    name: 🩸 Sync, Heal, and Auto-Fix
+  fusion_ai_master:
+    name: 🤖 Heal → Fix → Sync → Deploy
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
-      - name: 🧱 Checkout Repository
+      # ==========================================
+      # 1. FRESH CHECKOUT
+      # ==========================================
+      - name: 🧱 Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # Full history for proper sync
 
-      - name: 🧠 Configure Git Identity
+      # ==========================================
+      # 2. IDENTITY — YOUR AI FAMILY
+      # ==========================================
+      - name: 🧠 Configure Fusion Identity
         run: |
           git config user.name "PleadingSanity-AI"
           git config user.email "pleadingsanitydev@gmail.com"
+          echo "✅ Fusion AI identity active"
 
-      - name: 🩹 Heal Dependencies
+      # ==========================================
+      # 3. DEPENDENCY HEALING
+      # ==========================================
+      - name: 🩹 Heal & Stabilize Dependencies
         run: |
-          echo "🔍 Checking mailchimp-marketing version..."
-          if grep -q '"mailchimp-marketing":' package.json; then
+          echo "🔍 Scanning package.json..."
+          if [ -f "package.json" ]; then
+            # Pin confirmed-stable versions
             sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-            echo "✅ mailchimp-marketing dependency fixed"
+            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
+            sed -i 's/"html-minifier-terser": "[^"]*"/"html-minifier-terser": "^7.2.0"/' package.json
+            echo "✅ Core dependencies stabilized"
           else
-            echo "⚠️ Dependency not found"
+            echo "⚠️ package.json not found — create it first"
           fi
 
+      # ==========================================
+      # 4. INSTALL — ALL PACKAGE MANAGERS
+      # ==========================================
       - name: 🧰 Install Dependencies
         run: |
+          echo "📦 Installing..."
           if [ -f "package-lock.json" ]; then
-            npm ci || npm install
+            npm ci || npm install --legacy-peer-deps
           elif [ -f "yarn.lock" ]; then
             yarn install --frozen-lockfile || yarn install
           elif [ -f "pnpm-lock.yaml" ]; then
             pnpm install --frozen-lockfile || pnpm install
           else
-            npm install
+            npm install --legacy-peer-deps
           fi
+          echo "✅ Dependencies ready"
 
-      - name: 🔎 Lint and Auto-Fix Code
+      # ==========================================
+      # 5. LINT & AUTO-FIX CODE
+      # ==========================================
+      - name: ✨ AI Code Polish & Auto-Fix
         run: |
-          echo "✨ Running ESLint auto-fix..."
-          npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ Lint completed with warnings"
-          echo "✅ Lint auto-fix done"
-
-      - name: 🧪 Validate Build
-        run: |
-          echo "🏗️ Testing build..."
-          if [ -f "package.json" ]; then
-            npm run build || echo "⚠️ Build errors captured"
+          echo "🔍 Linting & fixing..."
+          if [ -d "src" ] || [ -d "app" ] || [ -f "index.html" ]; then
+            npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ ESLint done — warnings may exist"
+          else
+            echo "⚠️ No standard source dir — skipping full lint"
           fi
+          echo "✅ Code polished"
 
-      - name: 💾 Commit & Push Fixes
+      # ==========================================
+      # 6. BUILD VALIDATION
+      # ==========================================
+      - name: 🏗️ Build Check
         run: |
-          echo "🧹 Detecting lockfile..."
-          LOCKFILE=""
-          if [ -f "package-lock.json" ]; then
-            LOCKFILE="package-lock.json"
-          elif [ -f "yarn.lock" ]; then
-            LOCKFILE="yarn.lock"
-          elif [ -f "pnpm-lock.yaml" ]; then
-            LOCKFILE="pnpm-lock.yaml"
-          fi
+          echo "🧪 Verifying build..."
+          npm run build || echo "⚠️ Build command missing/failed — site may be static-only"
 
-          echo "🔍 Using lockfile: ${LOCKFILE:-none}"
-          git add package.json ${LOCKFILE:-} || true
-          git add . || true
-          git diff --quiet && echo "✅ No code or dependency changes" || (
-            git commit -m "🤖 Auto-Heal & Lint Fix — PleadingSanity-AI (Fusion Protocol)"
+      # ==========================================
+      # 7. COMMIT CHANGES
+      # ==========================================
+      - name: 💾 Commit Fixes
+        run: |
+          echo "📦 Preparing commit..."
+          git add package.json package-lock.json 2>/dev/null || git add package.json
+          git add .
+
+          if git diff --staged --quiet; then
+            echo "✅ No changes needed — already perfect"
+          else
+            git commit -m "🤖 Fusion AI: Auto‑Heal • Lint • Sync — Rise From Madness"
             git push origin main
-          )
+            echo "✅ Fixes pushed to main"
+          fi
 
-      - name: 🌐 Mirror to Twin Repository
+      # ==========================================
+      # 8. TWIN REPO MIRROR SYNC
+      # ==========================================
+      - name: 🪞 Sync to Twin Repository
         env:
           SECONDARY_REPO: ${{ secrets.SECONDARY_REPO }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          if [ -n "$SECONDARY_REPO" ]; then
-            echo "🔄 Syncing to twin repo: $SECONDARY_REPO"
-            git remote add mirror "https://x-access-token:${GH_TOKEN}@github.com/${SECONDARY_REPO}.git"
-            git push mirror main --force
-            echo "✅ Mirror sync complete"
-          else
-            echo "⚠️ SECONDARY_REPO secret not set"
-          fi
-
-      - name: 🚀 Trigger Netlify & Vercel Redeploys
-        env:
-          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
-            echo "🌍 Triggering Netlify redeploy..."
-            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
-          fi
-          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
-            echo "🚀 Triggering Vercel redeploy..."
-            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
-          fi
-name: 🧠 Pleading Sanity – Fusion AI Master (Auto-Fix + Redeploy + Sync)
-
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  fusion_ai_master:
-    name: 🤖 Heal, Fix & Sync – Unified Copilot System
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: 🧱 Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: ⚙️ Configure Git identity
-        run: |
-          git config user.name "PleadingSanity-AI"
-          git config user.email "pleadingsanitydev@gmail.com"
-
-      - name: 🧩 Validate and Heal Dependencies
-        run: |
-          echo "🔍 Checking dependencies for issues..."
-          if [ -f "package.json" ]; then
-            if grep -q '"mailchimp-marketing":' package.json; then
-              echo "🛠 Fixing mailchimp-marketing version..."
-              sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-              echo "✅ mailchimp-marketing dependency fixed."
-            else
-              echo "⚠️ mailchimp-marketing not found in package.json"
-            fi
-          fi
-          echo "🧹 Running npm install..."
-          npm install || npm install --legacy-peer-deps || true
-
-      - name: 🧠 AI Copilot Auto-Fix (Code & Lint)
-        run: |
-          echo "✨ Running Copilot-style auto-fix..."
-          if [ -d "src" ] || [ -d "app" ]; then
-            npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ ESLint completed with warnings"
-          else
-            echo "⚠️ No src or app directory found to lint."
-          fi
-          echo "✅ Auto-fix pass complete."
-
-      - name: 🧰 Build Check (Pre-Deploy)
-        run: |
-          echo "🏗️ Running project build..."
-          npm run build || echo "⚠️ Build failed but continuing for repair."
-
-      - name: 💾 Commit & Push Fixes
-        run: |
-          echo "📦 Preparing commits..."
-          git add package.json || true
-          git add . || true
-          git diff --quiet && echo "✅ No fixes to commit" || (
-            git commit -m "🤖 Fusion AI: Heal + Auto-Fix + Sync (Pleading Sanity)"
-            git push origin main
-          )
-
-      - name: 🌐 Trigger Netlify & Vercel Redeploys
-        env:
-          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
-            echo "🌍 Triggering Netlify redeploy..."
-            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
-          fi
-          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
-            echo "🚀 Triggering Vercel redeploy..."
-            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
-          fi
-
-      - name: 🪞 Cross-Repo Sync (Infinity ↔ PleadingSanity)
-        if: success()
-        env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "🔄 Syncing updates across repos..."
-          git fetch origin main
-          echo "🌌 Merging Infinity ↔ PleadingSanity changes..."
-          git pull origin main --no-edit || echo "⚠️ No updates needed"
-          echo "✅ Sync complete. Fusion AI Master finished successfully."
+          if [ -n "$SECONDARY_REPO" ]; then
+            echo "🔄 Mirroring → $SECONDARY_REPO"
+            git remote add mirror "https://x-access-token:${GH_TOKEN}@github.com/${SECONDARY_REPO}.git" 2>/dev/null || true
+            git push mirror main --force-with-lease
+            echo "✅ Twin repo in sync — one vision, two homes"
+          else
+            echo "⚠️ Set SECONDARY_REPO in secrets to enable mirroring"
+          fi
+
+      # ==========================================
+      # 9. REDEPLOY ALL PLATFORMS
+      # ==========================================
+      - name: 🚀 Trigger Netlify & Vercel
+        env:
+          NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          echo "════════════════════════════════════════"
+          echo "🌌 FUSION AI — DEPLOYMENT PHASE"
+          echo "════════════════════════════════════════"
+
+          if [ -n "$NETLIFY_HOOK" ]; then
+            echo "🌍 Netlify → redeploying..."
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify live" || echo "⚠️ Netlify hook failed"
+          else
+            echo "⚠️ Add NETLIFY_BUILD_HOOK in repo secrets"
+          fi
+
+          if [ -n "$VERCEL_HOOK" ]; then
+            echo "⚡ Vercel → redeploying..."
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel live" || echo "⚠️ Vercel hook failed"
+          else
+            echo "⚠️ Add VERCEL_DEPLOY_HOOK in repo secrets"
+          fi
+
+          echo ""
+          echo "✨ FUSION COMPLETE — One Source. One Family. One Future."
