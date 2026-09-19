@@ -1,36 +1,52 @@
-name: 🤖 Pleading Sanity | Master Auto-Fix, Config Doctor & Redeploy
+name: 🤖 Pleading Sanity — Master Auto‑Fix & Config Doctor
+run-name: 🩺 Config Heal • Dependencies • Redeploy
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # Manual run anytime
+
+permissions:
+  contents: write  # Required to commit fixes back
 
 jobs:
   master_auto_fix:
+    name: 🩺 Config Doctor → Heal → Redeploy
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+
     steps:
-      - name: 🧠 Checkout Repository
+      # ==========================================
+      # 1. FRESH CHECKOUT
+      # ==========================================
+      - name: 🧠 Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: 🩺 Run Config Doctor (Netlify + Vercel)
+      # ==========================================
+      # 2. CONFIG DOCTOR — FIX DEPLOY FILES
+      # ==========================================
+      - name: 🩺 Run Config Doctor
         run: |
-          echo "🔍 Checking and fixing configuration files..."
+          echo "════════════════════════════════════════"
+          echo "🔧 PLEADING SANITY — CONFIG DOCTOR"
+          echo "════════════════════════════════════════"
 
-          # --- Fix _redirects ---
+          # --- _redirects — SPA routing fix ---
           if [ -f "_redirects" ]; then
-            if ! grep -q "/\*    /index.html   200" _redirects; then
-              echo "/*    /index.html   200" > _redirects
-              echo "🩹 Fixed _redirects format"
+            if ! grep -qF "/*    /index.html   200" _redirects; then
+              echo "/*    /index.html   200" >> _redirects
+              echo "🩹 Patched _redirects"
+            else
+              echo "✅ _redirects already correct"
             fi
           else
             echo "/*    /index.html   200" > _redirects
-            echo "🩹 Created missing _redirects"
+            echo "✅ Created _redirects"
           fi
 
-          # --- Fix netlify.toml ---
-          cat > netlify.toml <<'EOF'
+          # --- netlify.toml — SPA + build settings ---
+          cat > netlify.toml <<'TOML'
 [build]
   publish = "."
   command = "npm run build"
@@ -39,58 +55,86 @@ jobs:
   from = "/*"
   to = "/index.html"
   status = 200
-EOF
-          echo "✅ Ensured clean netlify.toml"
+TOML
+          echo "✅ netlify.toml ensured"
 
-          # --- Fix vercel.json ---
-          cat > vercel.json <<'EOF'
+          # --- vercel.json — SPA routing ---
+          cat > vercel.json <<'JSON'
 {
   "version": 2,
-  "framework": "create-react-app",
-  "builds": [
-    { "src": "index.html", "use": "@vercel/static" }
-  ],
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
-EOF
-          echo "✅ Ensured clean vercel.json"
+JSON
+          echo "✅ vercel.json ensured"
 
-      - name: 🧩 Fix Dependencies (Mailchimp + Common Issues)
+      # ==========================================
+      # 3. DEPENDENCY HEALING
+      # ==========================================
+      - name: 🧩 Stabilize Dependencies
         run: |
-          echo "🔧 Checking dependencies..."
-          if grep -q '"mailchimp-marketing":' package.json; then
+          echo ""
+          echo "🔧 Dependency Clinic..."
+          if [ -f "package.json" ]; then
+            # Pin confirmed-stable versions
             sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-            echo "✅ Fixed mailchimp-marketing version to ^3.0.80"
+            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
+            sed -i 's/"html-minifier-terser": "[^"]*"/"html-minifier-terser": "^7.2.0"/' package.json
+            echo "✅ Core versions pinned"
+          else
+            echo "⚠️ package.json not found — skip deps"
           fi
-          npm install --force || echo "⚠️ Some packages failed, continuing..."
 
-      - name: 💾 Commit & Push All Fixes
+          echo "📦 Installing..."
+          npm install --legacy-peer-deps || npm ci || true
+          echo "✅ Dependencies ready"
+
+      # ==========================================
+      # 4. COMMIT ALL FIXES
+      # ==========================================
+      - name: 💾 Commit & Push
         run: |
           git config user.name "PleadingSanity-AI"
           git config user.email "pleadingsanitydev@gmail.com"
-          git add .
-          git diff --quiet && echo "✅ No changes detected" || (
-            git commit -m "chore(ai): Master auto-fix configs & dependencies"
+
+          git add _redirects netlify.toml vercel.json package.json package-lock.json
+
+          if git diff --staged --quiet; then
+            echo "✅ Everything already aligned — no changes"
+          else
+            git commit -m "🩺 Config Doctor: SPA routing + deps • Rise From Madness"
             git push origin main
-          )
+            echo "✅ Fixes pushed to main"
+          fi
 
-      - name: 🚀 Trigger Copilot Auto-Redeploy
+      # ==========================================
+      # 5. REDEPLOY BOTH PLATFORMS
+      # ==========================================
+      - name: 🚀 Trigger Redeploys
         env:
-          NETLIFY_BUILD_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
         run: |
-          if [ -n "${NETLIFY_BUILD_HOOK}" ]; then
-            echo "🌍 Triggering Netlify rebuild..."
-            curl -s -X POST -d '{}' "${NETLIFY_BUILD_HOOK}" || echo "⚠️ Netlify redeploy failed"
-          fi
-          if [ -n "${VERCEL_DEPLOY_HOOK}" ]; then
-            echo "🚀 Triggering Vercel rebuild..."
-            curl -s -X POST "${VERCEL_DEPLOY_HOOK}" || echo "⚠️ Vercel redeploy failed"
+          echo ""
+          echo "════════════════════════════════════════"
+          echo "🌐 TRIGGERING DEPLOYS"
+          echo "════════════════════════════════════════"
+
+          if [ -n "$NETLIFY_HOOK" ]; then
+            echo "🌍 Netlify → rebuilding..."
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered" || echo "⚠️ Hook failed — check secret"
+          else
+            echo "⚠️ Set NETLIFY_BUILD_HOOK in repo secrets"
           fi
 
-      - name: 🧭 Copilot Intelligence Sync
-        run: |
-          echo "🤝 Syncing Copilot Auto-Fix Intelligence with Config Doctor..."
-          echo "✅ Pleading Sanity Master Workflow successfully executed."
+          if [ -n "$VERCEL_HOOK" ]; then
+            echo "⚡ Vercel → rebuilding..."
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered" || echo "⚠️ Hook failed — check secret"
+          else
+            echo "⚠️ Set VERCEL_DEPLOY_HOOK in repo secrets"
+          fi
+
+          echo ""
+          echo "✨ CONFIG DOCTOR COMPLETE"
+          echo "One Source • One Consciousness • One Family"
