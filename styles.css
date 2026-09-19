@@ -2,6 +2,7 @@
    PLEADING SANITY — COSMIC CORE STYLES
    God Mode Ascension • Evolution, Not Erasure
    Universal Theme • Arron Ready • Fully Responsive
+   Production-Ready • Cross-Browser • Accessible
    ========================================== */
 
 :root {
@@ -35,12 +36,13 @@
 
 html, body {
   min-height: 100vh;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
   background: radial-gradient(ellipse at 50% 120%, var(--nebula-mid) 0%, var(--deep-space) 70%, #000 100%);
   color: var(--text-bright);
   overflow-x: hidden;
   position: relative;
   line-height: 1.6;
+  scroll-behavior: smooth;
 }
 
 /* Moving Nebula Layer */
@@ -54,7 +56,7 @@ body::before {
   animation: stars-move 150s linear infinite;
 }
 
-/* Twinkling Star Texture */
+/* Twinkling Star Texture — from transparenttextures.com */
 body::after {
   content: '';
   position: fixed;
@@ -76,7 +78,7 @@ body::after {
   to   { opacity: 0.36; }
 }
 
-/* Canvas Starfield — for JS-generated stars */
+/* Canvas Starfield — for JS-generated stars (cosmic-bg.js) */
 canvas.stars {
   position: fixed;
   inset: 0;
@@ -260,6 +262,7 @@ a.btn:active, button.btn:active, .btn:active {
   border-radius: 16px;
   background: rgba(0,0,0,0.65);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 0 25px rgba(0,255,240,0.2);
 }
 
@@ -550,6 +553,7 @@ footer {
   position: relative;
   z-index: 10;
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 footer .brand {
@@ -624,14 +628,21 @@ footer .socials a:hover {
   .feed-item, .video-card { padding: 16px; margin: 16px 0; }
 }
 
-/* ===== REDUCED MOTION RESPECT ===== */
+/* ===== REDUCED MOTION RESPECT — ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
   
   body::after { animation: none; opacity: 0.2; }
   body::before { animation: none; }
+}
+
+/* ===== FOCUS STATES — KEYBOARD NAVIGATION ===== */
+a:focus, button:focus, input:focus {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
 }
