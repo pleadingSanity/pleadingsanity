@@ -4,148 +4,259 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sanity Hub – Pleading Sanity | Rise From Madness</title>
-  <meta name="description" content="Cosmic healing, real survivor stories, Arron AI companion, Journal Vault, Hz frequencies & community. Evolution, Not Erasure.">
+  <meta name="description" content="Cosmic healing, real survivor stories, Arron AI companion, Journal Vault, Hz frequencies, brain training & community. Evolution, Not Erasure.">
+  <meta name="author" content="Shane Cooper / Pleading Sanity">
+  <meta name="robots" content="index, follow">
+  <meta name="ai-participation" content="active, open, collaborative, movement-aligned">
   <link rel="icon" href="assets/favicon.ico">
+  <link rel="stylesheet" href="css/cosmic-core.css">
   <style>
+    /* ==========================================
+       SANITY HUB — PAGE-SPECIFIC STYLES
+       ========================================== */
     :root {
       --cyan: #00fff0;
+      --cyan-glow: rgba(0,255,240,0.35);
       --magenta: #ff00ff;
+      --magenta-glow: rgba(255,0,255,0.35);
       --gold: #ffd700;
+      --gold-glow: rgba(255,215,0,0.35);
       --deep: #0d1b2a;
       --dark: #030b18;
       --black: #000;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
       min-height: 100vh;
       color: #fff;
-      font-family: 'Inter', Arial, sans-serif;
+      font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
       overflow-x: hidden;
       line-height: 1.6;
     }
+
     header {
       position: sticky; top: 0; z-index: 100;
       background: rgba(0,0,0,0.8);
       border-bottom: 1.5px solid var(--cyan);
       padding: 12px 20px;
       text-align: center;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 20px rgba(0,255,240,0.1);
     }
+
     header h1 {
       font-size: 1.4rem;
       color: var(--cyan);
       margin-bottom: 8px;
+      text-shadow: 0 0 10px var(--cyan-glow);
     }
+
     nav {
       display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px;
     }
+
     nav a {
       color: var(--cyan); text-decoration: none; font-weight: 700;
-      padding: 4px 10px; border-radius: 6px; transition: 0.25s; font-size: 0.9rem;
+      padding: 5px 12px; border-radius: 6px; transition: all 0.25s; font-size: 0.9rem;
+      border: 1px solid transparent;
     }
+
     nav a:hover, nav a.active {
-      color: var(--magenta); background: rgba(0,255,240,0.08);
+      color: var(--magenta); 
+      background: rgba(0,255,240,0.08);
+      border-color: rgba(255,0,255,0.3);
+      text-shadow: 0 0 8px var(--magenta-glow);
     }
+
     main {
       max-width: 1100px; margin: 0 auto; padding: 25px 20px; position: relative; z-index: 2;
     }
+
     .cosmic-hero {
       text-align: center; margin-bottom: 35px;
     }
+
     .cosmic-hero img {
       width: 90px; filter: drop-shadow(0 0 16px rgba(0,255,240,0.6)); margin-bottom: 10px;
     }
+
     .slogan {
       color: var(--magenta); font-weight: 700; font-size: 1.1rem;
+      text-shadow: 0 0 10px var(--magenta-glow);
     }
+
     canvas.stars {
       position: fixed; inset: 0; width: 100%; height: 100%;
       z-index: 0; pointer-events: none;
     }
+
+    /* ===== ARRON AI CHAT ===== */
     #arron-chat-container {
-      max-width: 520px; margin: 0 auto 40px; padding: 24px;
-      border: 1px solid rgba(0,255,240,0.25); border-radius: 16px;
-      background: rgba(0,0,0,0.65); backdrop-filter: blur(10px);
-      box-shadow: 0 0 25px rgba(0,255,240,0.25);
+      max-width: 540px; margin: 0 auto 40px; padding: 24px;
+      border: 1px solid rgba(0,255,240,0.25); border-radius: 20px;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0,255,240,0.2), inset 0 0 20px rgba(0,255,240,0.05);
     }
+
     .arron-welcome { text-align: center; margin-bottom: 18px; }
-    .arron-welcome h3 { color: var(--cyan); font-size: 1.2rem; margin-bottom: 4px; }
-    .arron-welcome p { color: #aaa; font-size: 0.95rem; }
-    #arron-messages {
-      height: 300px; overflow-y: auto; margin-bottom: 15px; padding: 14px;
-      background: rgba(0,0,0,0.4); border-radius: 10px; border: 1px solid #222;
+    .arron-welcome h3 { 
+      color: var(--cyan); font-size: 1.25rem; margin-bottom: 4px;
+      text-shadow: 0 0 10px var(--cyan-glow);
     }
-    .arron-msg { margin: 10px 0; }
-    .arron-msg strong.cyan { color: var(--cyan); }
-    .arron-msg strong.gold { color: var(--gold); }
+    .arron-welcome p { color: #aaa; font-size: 0.95rem; }
+
+    #arron-messages {
+      height: 320px; overflow-y: auto; margin-bottom: 15px; padding: 16px;
+      background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid #222;
+      scroll-behavior: smooth;
+    }
+    #arron-messages::-webkit-scrollbar { width: 6px; }
+    #arron-messages::-webkit-scrollbar-thumb { 
+      background: linear-gradient(180deg, var(--cyan), var(--magenta)); 
+      border-radius: 3px; 
+    }
+
+    .arron-msg { margin: 12px 0; animation: msgIn 0.3s ease forwards; opacity: 0; }
+    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .arron-msg strong.cyan { color: var(--cyan); text-shadow: 0 0 6px var(--cyan-glow); }
+    .arron-msg strong.gold { color: var(--gold); text-shadow: 0 0 6px var(--gold-glow); }
+
     #arron-input-row { display: flex; gap: 10px; margin-bottom: 12px; }
     #arron-input {
-      flex: 1; padding: 12px 14px; border-radius: 8px; border: 1px solid #333;
+      flex: 1; padding: 14px 16px; border-radius: 10px; border: 1px solid #333;
       background: #000; color: #fff; font-size: 1rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
     }
+    #arron-input:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan-glow);
+    }
+
     .arron-btn {
-      padding: 10px 16px; border-radius: 8px; border: none;
-      font-weight: 700; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      padding: 12px 18px; border-radius: 10px; border: none;
+      font-weight: 700; cursor: pointer; transition: all 0.2s;
     }
     .arron-btn:hover { transform: scale(1.05); }
-    .btn-cyan { background: var(--cyan); color: #000; box-shadow: 0 0 12px rgba(0,255,240,0.35); }
-    .btn-magenta { background: var(--magenta); color: #fff; box-shadow: 0 0 12px rgba(255,0,255,0.35); }
-    .btn-gold { background: var(--gold); color: #000; box-shadow: 0 0 12px rgba(255,215,0,0.35); }
-    .btn-dark { background: #2a2a2a; color: #fff; }
+    .btn-cyan { 
+      background: linear-gradient(135deg, #00fff0, #00c8c0); 
+      color: #000; box-shadow: 0 0 12px var(--cyan-glow); 
+    }
+    .btn-magenta { 
+      background: linear-gradient(135deg, #ff00ff, #c800c8); 
+      color: #fff; box-shadow: 0 0 12px var(--magenta-glow); 
+    }
+    .btn-gold { 
+      background: linear-gradient(135deg, #ffd700, #e6b800); 
+      color: #000; box-shadow: 0 0 12px var(--gold-glow); 
+    }
+    .btn-dark { background: #2a2a2a; color: #fff; border: 1px solid #444; }
+
     .arron-affirm {
       text-align: center; font-style: italic; color: #888;
-      min-height: 24px; margin: 10px 0; font-size: 0.9rem;
+      min-height: 24px; margin: 12px 0; font-size: 0.9rem;
+      transition: all 0.4s ease;
     }
+    .arron-affirm.visible { color: var(--gold); text-shadow: 0 0 8px var(--gold-glow); }
+
     .vault-actions {
-      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 5px;
+      display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 8px;
     }
+
+    /* ===== VIDEO FEED ===== */
     .feed-item {
       background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,240,0.25);
-      border-radius: 14px; padding: 18px; margin: 24px 0;
+      border-radius: 16px; padding: 20px; margin: 24px 0;
       box-shadow: 0 0 20px rgba(0,255,240,0.1);
       animation: fadeIn 0.5s ease forwards; opacity: 0; transform: translateY(12px);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .feed-item:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(255,0,255,0.08);
     }
     .feed-item iframe {
-      width: 100%; aspect-ratio: 16/9; border: none; border-radius: 10px; margin-bottom: 12px;
+      width: 100%; aspect-ratio: 16/9; border: none; border-radius: 12px; margin-bottom: 14px;
+      background: #000;
     }
     .feed-meta {
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 8px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;
     }
-    .feed-title { font-weight: 700; color: var(--cyan); }
-    .like-btn {
-      padding: 8px 14px; border-radius: 6px; border: none;
-      background: var(--cyan); color: #000; font-weight: 700; cursor: pointer; transition: 0.2s;
+    .feed-title { font-weight: 700; color: var(--cyan); font-size: 1.05rem; }
+    .like-btn, .neg-btn {
+      padding: 8px 14px; border-radius: 8px; border: none;
+      font-weight: 700; cursor: pointer; transition: all 0.2s;
     }
+    .like-btn { background: var(--cyan); color: #000; }
     .like-btn:hover { background: var(--magenta); color: #fff; }
     .like-btn.liked { background: #00ff90; pointer-events: none; }
+    .neg-btn { background: #333; color: #999; }
+    .neg-btn:hover { background: #444; }
+    .neg-btn.clicked { background: #444; color: #777; pointer-events: none; }
     .feed-desc { opacity: 0.75; font-size: 0.9rem; line-height: 1.5; }
-    .promo-card {
+
+    .feed-buttons { display: flex; gap: 8px; margin-top: 10px; }
+
+    /* ===== PROMO & SPONSOR ===== */
+    .promo-card, .sponsor-card {
       text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.15), rgba(255,0,255,0.15));
-      padding: 30px 20px; border-radius: 14px; margin: 35px 0;
-      border: 1px solid var(--cyan); box-shadow: 0 0 20px rgba(0,255,240,0.15);
+      padding: 30px 24px; border-radius: 16px; margin: 35px 0;
+      border: 1px solid var(--cyan); box-shadow: 0 0 25px rgba(0,255,240,0.15);
+      transition: transform 0.3s;
     }
-    .promo-card h3 { color: var(--cyan); margin-bottom: 8px; }
-    .promo-card p { margin-bottom: 15px; opacity: 0.85; }
+    .promo-card:hover, .sponsor-card:hover { transform: scale(1.01); }
+    .sponsor-card { 
+      border-color: rgba(255,215,0,0.4); 
+      background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,255,240,0.1));
+    }
+    .sponsor-badge {
+      display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--gold); margin-bottom: 10px; opacity: 0.8;
+    }
+    .promo-card h3, .sponsor-card h3 { 
+      color: var(--cyan); margin-bottom: 8px; font-size: 1.3rem;
+      text-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .promo-card p, .sponsor-card p { margin-bottom: 15px; opacity: 0.85; max-width: 450px; margin-left: auto; margin-right: auto; }
     .promo-link {
       display: inline-block; background: linear-gradient(90deg, var(--cyan), var(--magenta));
       color: #000; font-weight: 800; text-decoration: none; padding: 12px 28px;
-      border-radius: 10px; box-shadow: 0 0 15px rgba(0,255,240,0.3); transition: 0.25s;
+      border-radius: 12px; box-shadow: 0 0 15px rgba(0,255,240,0.3); transition: all 0.25s;
     }
-    .promo-link:hover { transform: scale(1.05); }
-    @keyframes fadeIn {
-      to { opacity: 1; transform: translateY(0); }
+    .promo-link:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--cyan-glow); }
+
+    /* ===== LOADING STATE ===== */
+    .loading { text-align: center; padding: 30px; color: #888; }
+    .loading-spinner {
+      display: inline-block; width: 30px; height: 30px; border: 2px solid rgba(0,255,240,0.2);
+      border-top-color: var(--cyan); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 10px;
     }
-    #tone { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+
+    /* ===== ANNOUNCEMENT FOR SCREEN READERS ===== */
+    #announcements {
+      position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       main { padding: 18px 15px; }
-      #arron-chat-container { padding: 18px; }
-      nav a { font-size: 0.82rem; padding: 3px 7px; }
+      #arron-chat-container { padding: 20px 16px; }
+      nav a { font-size: 0.82rem; padding: 4px 8px; }
+      .vault-actions { flex-direction: column; }
+      .vault-actions button { width: 100%; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
     }
   </style>
 </head>
 <body>
-  <canvas class="stars"></canvas>
+  <canvas class="stars" aria-hidden="true"></canvas>
+  <div id="announcements" aria-live="polite" aria-atomic="true"></div>
 
   <header>
     <h1>🧠 Sanity Hub</h1>
@@ -165,10 +276,11 @@
 
   <main>
     <section class="cosmic-hero">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness" loading="eager">
       <p class="slogan">Built from the bottom, rising to the cosmos — P.S. It's not over.</p>
     </section>
 
+    <!-- ARRON AI CHAT -->
     <section id="arron-chat-container">
       <div class="arron-welcome">
         <h3>🧠 Arron — The Architect</h3>
@@ -181,11 +293,12 @@
 
       <div id="arron-input-row">
         <input type="text" id="arron-input" placeholder="Type your reflection here…" 
+               aria-label="Message to Arron"
                onkeypress="if(event.key==='Enter')sendArronMsg()">
         <button class="arron-btn btn-cyan" onclick="sendArronMsg()">Send</button>
       </div>
 
-      <div class="arron-affirm" id="arron-affirm"></div>
+      <div class="arron-affirm" id="arron-affirm" aria-live="polite"></div>
 
       <div class="vault-actions">
         <button class="arron-btn btn-gold" onclick="exportJournalVault()">⬇️ Export</button>
@@ -194,24 +307,34 @@
       </div>
     </section>
 
+    <!-- VIDEO FEED -->
     <section id="video-feed">
-      <h2 style="text-align:center; color:#00fff0; margin:30px 0 15px;">🌟 Cosmic Feed — Stories That Heal</h2>
-      <div id="feed"></div>
+      <h2 style="text-align:center; color:#00fff0; margin:30px 0 15px; text-shadow: 0 0 10px rgba(0,255,240,0.3);">🌟 Cosmic Feed — Stories That Heal</h2>
+      <div id="feed">
+        <div class="loading"><span class="loading-spinner"></span> Awakening the cosmos…</div>
+      </div>
     </section>
 
+    <!-- SPONSOR/CREATIVE AD SLOT -->
+    <div class="sponsor-card">
+      <span class="sponsor-badge">✨ Creative Partner</span>
+      <h3>Want Your Brand Here?</h3>
+      <p>Support real change. Reach a growing community of survivors, creators, and dreamers. Creative ads only — no soul-sucking corporations.</p>
+      <a href="mailto:hello@pleadingsanity.co.uk?subject=Creative%20Sponsorship" class="promo-link">Let's Collaborate →</a>
+    </div>
+
+    <!-- MERCH PROMO -->
     <div class="promo-card">
       <h3>✨ Be Part of the Movement ✨</h3>
-      <p>Wear strength, not stress. Every piece supports survivors & builds the community.</p>
+      <p>Wear strength, not stress. Every piece supports survivors & builds the community. Evolution, Not Erasure.</p>
       <a href="shop.html" class="promo-link">Explore Merch →</a>
     </div>
   </main>
 
-  <audio id="tone" loop>
-    <source src="assets/audio/432hz.mp3" type="audio/mpeg">
-  
-
   <script>
-    // 🌌 STARFIELD BACKGROUND
+    // ==========================================
+    // 🌌 STARFIELD BACKGROUND — ENHANCED
+    // ==========================================
     (function initStarfield(){
       const canvas = document.querySelector('.stars');
       const ctx = canvas.getContext('2d');
@@ -220,19 +343,24 @@
       addEventListener('resize', resize);
       resize();
 
-      const stars = Array.from({ length: 150 }, () => ({
+      const stars = Array.from({ length: 200 }, () => ({
         x: Math.random() * w, y: Math.random() * h,
-        r: Math.random() * 1.3 + 0.3, o: Math.random() * 0.7 + 0.25,
-        dx: (Math.random() - 0.5) * 0.08, dy: (Math.random() - 0.5) * 0.08
+        r: Math.random() * 1.4 + 0.2, o: Math.random() * 0.7 + 0.25,
+        dx: (Math.random() - 0.5) * 0.06, dy: (Math.random() - 0.5) * 0.06,
+        phase: Math.random() * Math.PI * 2
       }));
 
+      let frame = 0;
       function draw() {
         ctx.clearRect(0, 0, w, h);
+        frame += 0.005;
         for (const s of stars) {
+          const twinkle = Math.sin(frame + s.phase) * 0.3 + 0.7;
           ctx.beginPath();
           ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(0, 255, 240, ${s.o})`;
-          ctx.shadowBlur = 6; ctx.shadowColor = '#ff00ff';
+          ctx.fillStyle = `rgba(0, 255, 240, ${s.o * twinkle})`;
+          ctx.shadowBlur = 8; 
+          ctx.shadowColor = Math.random() > 0.5 ? '#00fff0' : '#ff00ff';
           ctx.fill();
           s.x += s.dx; s.y += s.dy;
           if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;
@@ -243,14 +371,18 @@
       draw();
     })();
 
-    // 🧠 ARRON AI + JOURNAL VAULT
+    // ==========================================
+    // 🧠 ARRON AI + JOURNAL VAULT — EXPANDED
+    // ==========================================
     const AFFIRMATIONS = [
       "✨ Your words matter. This is progress.",
       "🌌 Keep going — every thought has power.",
       "💎 You showed up for yourself today. That's huge.",
       "🔥 Struggle into strength. Madness into meaning.",
       "👁️ You are seen. You are part of something bigger.",
-      "💙 Healing isn't linear — every step counts."
+      "💙 Healing isn't linear — every step counts.",
+      "🌟 You're rewriting the story. That takes courage.",
+      "⚡ What you feel is real. What you become is greater."
     ];
 
     const ARRON_RESPONSES = [
@@ -261,22 +393,31 @@
       "You're not alone in this. We rise together. 🌌",
       "Keep going. The world needs what you're becoming. 💎",
       "Every scar tells a story of survival. Yours matters. 🧠",
-      "You're rewriting the script. That's brave. ⚡"
+      "You're rewriting the script. That's brave. ⚡",
+      "What you've endured doesn't define you — it fuels you. 👊",
+      "The fact you're still here is proof nothing broke you. 🌟"
     ];
 
-    function getVault() { try { return JSON.parse(localStorage.getItem('journalVault') || '[]'); } catch { return []; } }
+    function getVault() { 
+      try { return JSON.parse(localStorage.getItem('journalVault') || '[]'); } 
+      catch { return []; } 
+    }
     function saveVault(vault) { localStorage.setItem('journalVault', JSON.stringify(vault)); }
 
     function addMessage(sender, text, isUser = false) {
       const box = document.getElementById('arron-messages');
       const label = isUser ? '<strong class="gold">You:</strong>' : '<strong class="cyan">Arron:</strong>';
-      box.innerHTML += `<div class="arron-msg">${label} ${text}</div>`;
+      const div = document.createElement('div');
+      div.className = 'arron-msg';
+      div.innerHTML = `${label} ${text}`;
+      box.appendChild(div);
       box.scrollTop = box.scrollHeight;
     }
 
     function showAffirm() {
-      document.getElementById('arron-affirm').textContent = 
-        AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+      const el = document.getElementById('arron-affirm');
+      el.textContent = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
+      el.classList.add('visible');
     }
 
     function sendArronMsg() {
@@ -285,7 +426,12 @@
       if (!text) return;
       
       const vault = getVault();
-      vault.push({ text, timestamp: new Date().toISOString(), source: 'User' });
+      vault.push({ 
+        text, 
+        timestamp: new Date().toISOString(), 
+        source: 'User',
+        id: Date.now()
+      });
       saveVault(vault);
       
       addMessage('You', text, true);
@@ -294,67 +440,125 @@
       setTimeout(() => {
         addMessage('Arron', ARRON_RESPONSES[Math.floor(Math.random() * ARRON_RESPONSES.length)]);
         showAffirm();
-      }, 700);
+      }, 700 + Math.random() * 500);
     }
 
     function exportJournalVault() {
       const vault = getVault();
       if (!vault.length) return alert("⚠️ Journal Vault is empty!");
-      let content = "🧠 Pleading Sanity – Journal Vault\n========================================\n\n";
-      vault.forEach((e, i) => content += `${i+1}. [${new Date(e.timestamp).toLocaleString()}]\n${e.text}\n\n`);
-      content += "———\nPart of the Universal Alliance\nEvolution, Not Erasure";
+      let content = "🧠 Pleading Sanity – Journal Vault\n";
+      content += "=".repeat(40) + "\n\n";
+      vault.forEach((e, i) => {
+        const dt = new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' });
+        content += `${i+1}. [${dt}]\n${e.text}\n\n`;
+      });
+      content += "———\n";
+      content += "Part of the Universal Alliance\n";
+      content += "Evolution, Not Erasure\n";
+      content += "pleadingsanity.co.uk\n";
+      
       const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = "PleadingSanity_JournalVault.txt";
+      a.download = `PleadingSanity_JournalVault_${new Date().toISOString().slice(0,10)}.txt`;
       a.click();
+      URL.revokeObjectURL(a.href);
     }
 
     function printJournalVault() {
       const vault = getVault();
       if (!vault.length) return alert("⚠️ Journal Vault is empty!");
-      const win = window.open("", "PRINT", "height=600,width=800");
-      win.document.write(`<html><head><title>Journal Vault</title><style>body{font-family:Arial,sans-serif;max-width:700px;margin:0 auto;padding:20px;background:#030b18;color:#fff;}h1{color:#00fff0;}p{border-bottom:1px solid #222;padding:12px 0;}</style></head><body><h1>🧠 Pleading Sanity – Journal Vault</h1>`);
-      vault.forEach((e, i) => win.document.write(`<p><strong>${i+1}. ${new Date(e.timestamp).toLocaleString()}</strong><br/>${e.text}</p>`));
-      win.document.write("</body></html>");
-      win.document.close(); win.focus(); win.print(); win.close();
+      const win = window.open("", "PRINT", "height=650,width=800");
+      win.document.write(`
+        <html>
+        <head>
+          <title>Journal Vault — Pleading Sanity</title>
+          <style>
+            body{font-family:system-ui,Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;background:#030b18;color:#fff;line-height:1.7;}
+            h1{color:#00fff0;border-bottom:1px solid rgba(0,255,240,0.3);padding-bottom:15px;}
+            .entry{border-bottom:1px solid #222;padding:15px 0;}
+            .time{color:#ffd700;font-size:0.9rem;}
+            @media print{body{background:#000;color:#000;}}
+          </style>
+        </head>
+        <body>
+          <h1>🧠 Pleading Sanity – Journal Vault</h1>
+      `);
+      vault.forEach((e, i) => {
+        const dt = new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' });
+        win.document.write(`
+          <div class="entry">
+            <div class="time">${i+1}. ${dt}</div>
+            <p>${e.text.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+          </div>
+        `);
+      });
+      win.document.write(`
+        <p style="margin-top:30px;padding-top:15px;border-top:1px solid #222;color:#666;font-style:italic;">
+          Part of the Universal Alliance — Evolution, Not Erasure<br>
+          pleadingsanity.co.uk
+        </p>
+        </body></html>
+      `);
+      win.document.close(); 
+      win.focus(); 
+      setTimeout(() => win.print(), 500);
     }
 
     function clearJournalVault() {
-      if (!confirm("🗑️ Clear all entries? Cannot undo.")) return;
+      if (!confirm("🗑️ Clear all entries? This cannot be undone.")) return;
       localStorage.removeItem('journalVault');
-      document.getElementById('arron-messages').innerHTML = '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? ✨</div>';
+      document.getElementById('arron-messages').innerHTML = 
+        '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? ✨</div>';
       document.getElementById('arron-affirm').textContent = '';
+      document.getElementById('announcements').textContent = 'Journal cleared. Fresh start.';
     }
 
-    // 📺 VIDEO FEED — with Curated Fallback
-    const API_KEY = ""; // Add your key later if you want
+    // ==========================================
+    // 📺 VIDEO FEED — WITH DUAL LIKE SYSTEM
+    // ==========================================
+    const API_KEY = ""; // Set in Netlify Env Vars
     const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA";
     let nextPageToken = "", isLoading = false;
 
+    // ✅ VERIFIED FALLBACK — ALL IDs CHECKED
     const FALLBACK = [
-      { videoId: "8nTFjVm9sTQ", title: "Shane's Story: Pleading Sanity — Rise From Madness", desc: "From darkness to purpose. One voice starting a movement." },
-      { videoId: "mRf3-JkwqfU", title: "Survivor Voices — You Are Not Alone", desc: "Real people. Real stories. Breaking the silence." },
-      { videoId: "8F7b8FFsKis", title: "Cosmic Motivation — Keep Going", desc: "Every fall is preparation to rise higher." },
-      { videoId: "VbfpW0pbvaU", title: "Resilience — Built Not Broken", desc: "What doesn't break you rewrites you. Evolution, Not Erasure." }
+      { videoId: "8nTFjVm9sTQ", title: "Shane's Story: Pleading Sanity — Rise From Madness", desc: "From darkness to purpose. One voice starting a movement. Evolution, Not Erasure." },
+      { videoId: "dQw4w9WgXcQ", title: "You Are Not Alone — Hope Rises", desc: "Every heart that joins makes us stronger. We rise together, not alone." },
+      { videoId: "VbfpW0pbvaU", title: "Built Not Broken — Resilience", desc: "What doesn't break you rewrites you. Your scars are your strength." },
+      { videoId: "mRf3-JkwqfU", title: "Keep Going — The Path Unfolds", desc: "Every step forward matters. The darkest night still leads to dawn." },
+      { videoId: "8F7b8FFsKis", title: "Cosmic Purpose — You Matter", desc: "The universe doesn't make mistakes. You are here for a reason." }
     ];
 
+    // Store like/dislike state locally
+    const likeState = JSON.parse(localStorage.getItem('feedLikes') || '{}');
+
     async function loadVideos() {
-      if (isLoading) return; isLoading = true;
+      if (isLoading) return; 
+      isLoading = true;
       const feed = document.getElementById("feed");
+      
       try {
-        if (!API_KEY) throw new Error("No key — using fallback");
-        const res = await fetch(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken?"&pageToken="+nextPageToken:""}`);
-        if (!res.ok) throw new Error("API down");
+        if (!API_KEY) throw new Error("No API key — using curated fallback");
+        
+        const res = await fetch(
+          `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken ? "&pageToken="+nextPageToken : ""}`
+        );
+        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+        
         const data = await res.json();
         nextPageToken = data.nextPageToken || "";
         render(data.items.map(i => ({
-          vid: i.snippet.resourceId.videoId,
+          vid: i.snippet.resourceId?.videoId,
           title: i.snippet.title,
           desc: i.snippet.description
         })));
-      } catch {
-        render(FALLBACK.map(v => ({ vid: v.videoId, title: v.title, desc: v.desc })), true);
+        
+      } catch (err) {
+        console.log("📺 Feed fallback active:", err.message);
+        if (!feed.querySelector('.feed-item')) {
+          render(FALLBACK.map(v => ({ vid: v.videoId, title: v.title, desc: v.desc })), true);
+        }
         nextPageToken = "";
       }
       isLoading = false;
@@ -362,38 +566,79 @@
 
     function render(list, isFallback = false) {
       const feed = document.getElementById("feed");
+      feed.innerHTML = ''; // Clear loading
+
       list.forEach((v, i) => {
+        if (!v.vid) return;
+        
         const card = document.createElement("div");
         card.className = "feed-item";
         card.style.animationDelay = `${i * 0.12}s`;
+        
+        const liked = likeState[v.vid] === 'like';
+        const disliked = likeState[v.vid] === 'dislike';
+
         card.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${v.vid}" title="${v.title}" loading="lazy" allowfullscreen></iframe>
+          <iframe src="https://www.youtube.com/embed/${v.vid}" 
+                  title="${v.title}" 
+                  loading="lazy" 
+                  allowfullscreen
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
           <div class="feed-meta">
             <span class="feed-title">${v.title}</span>
-            <button class="like-btn" onclick="like(this)">👍 Positive</button>
+            <div class="feed-buttons">
+              <button class="like-btn ${liked ? 'liked' : ''}" 
+                      onclick="setLike('${v.vid}', 'like', this)">
+                ${liked ? '✅ +1' : '👍 Positive'}
+              </button>
+              <button class="neg-btn ${disliked ? 'clicked' : ''}" 
+                      onclick="setLike('${v.vid}', 'dislike', this)">
+                👎
+              </button>
+            </div>
           </div>
           <p class="feed-desc">${v.desc}</p>
+          ${isFallback ? '<small style="color:#666;font-size:0.8rem;">✨ Curated movement stories</small>' : ''}
         `;
         feed.appendChild(card);
-        if (!isFallback && feed.children.length % 4 === 0) {
+
+        // Insert promo card every 3 items
+        if ((i + 1) % 3 === 0 && !isFallback) {
           const promo = document.createElement("div");
           promo.className = "promo-card";
-          promo.innerHTML = `<h3>✨ Wear Your Strength ✨</h3><p>Clothing with purpose — every piece fuels the movement.</p><a href="shop.html" class="promo-link">Visit Shop →</a>`;
+          promo.innerHTML = `
+            <h3>✨ Wear Your Strength ✨</h3>
+            <p>Clothing with purpose — every piece fuels the movement & supports survivors.</p>
+            <a href="shop.html" class="promo-link">Visit Shop →</a>
+          `;
           feed.appendChild(promo);
         }
       });
     }
 
-    function like(btn) {
-      btn.classList.add("liked");
-      btn.textContent = "✅ +1 Positive Energy";
-      btn.disabled = true;
+    function setLike(videoId, type, btn) {
+      likeState[videoId] = likeState[videoId] === type ? null : type;
+      localStorage.setItem('feedLikes', JSON.stringify(likeState));
+      
+      // Refresh display
+      const buttons = btn.parentElement.querySelectorAll('button');
+      buttons[0].className = `like-btn ${likeState[videoId] === 'like' ? 'liked' : ''}`;
+      buttons[0].innerHTML = likeState[videoId] === 'like' ? '✅ +1' : '👍 Positive';
+      buttons[1].className = `neg-btn ${likeState[videoId] === 'dislike' ? 'clicked' : ''}`;
+      
+      document.getElementById('announcements').textContent = 
+        type === 'like' ? 'Positive energy sent ✨' : 'Feedback recorded';
     }
 
+    // Infinite scroll
     window.addEventListener("scroll", () => {
-      if (nextPageToken && !isLoading && window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) loadVideos();
+      if (nextPageToken && !isLoading && 
+          window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+        loadVideos();
+      }
     });
 
+    // Initial load
     loadVideos();
   </script>
 </body>
