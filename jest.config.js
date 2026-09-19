@@ -1,56 +1,94 @@
+// ==============================================================
+// PLEADING SANITY — JEST TEST CONFIGURATION
+// Optimized · Fast · CI-Ready · Complete Coverage
+// Version: 2.0-BUFFED | Updated: 2026-09-19
+// ==============================================================
+
 module.exports = {
-  // Test environment
+  // Test environment — browser-like DOM for our frontend
   testEnvironment: 'jsdom',
-  
-  // Setup files
+
+  // Setup to run AFTER test framework is loaded
   setupFilesAfterEnv: ['<rootDir>/tests/setup.js'],
-  
-  // Test patterns
+
+  // Which files are tests
   testMatch: [
     '<rootDir>/tests/**/*.test.js',
     '<rootDir>/tests/**/*.spec.js'
   ],
-  
-  // Coverage configuration
+
+  // Exclude from testing
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/.netlify/',
+    '/dist/',
+    '/build/',
+    '/coverage/'
+  ],
+
+  // ─── PERFORMANCE OPTIMIZATIONS ───
+  cache: true,
+  cacheDirectory: '<rootDir>/.cache/jest',
+  maxWorkers: '50%', // Balance speed + memory — CI-safe
+
+  // ─── COVERAGE REPORTING ───
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html'],
+  coverageThreshold: {
+    global: {
+      branches: 70,
+      functions: 75,
+      lines: 80,
+      statements: 80
+    }
+  },
   collectCoverageFrom: [
     '**/*.js',
     '!node_modules/**',
     '!coverage/**',
     '!dist/**',
+    '!build/**',
+    '!.cache/**',
     '!scripts/**',
     '!tests/**',
-    '!netlify/functions/**'
+    '!netlify/functions/**',
+    '!**/*.config.js'
   ],
-  
-  // Module paths
-  moduleNameMapping: {
+
+  // ─── PATH ALIASES — matches our import structure ───
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
-    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+    '\\.(css|less|scss|sass|svg|png|jpg|gif)$': 'identity-obj-proxy'
   },
-  
-  // Transform files
+
+  // ─── TRANSFORMATION — Babel for modern JS ───
   transform: {
-    '^.+\\.js$': 'babel-jest'
+    '^.+\\.(js|jsx)$': ['babel-jest', {
+      cacheDirectory: '<rootDir>/.cache/babel'
+    }]
   },
-  
-  // Test timeout
-  testTimeout: 10000,
-  
-  // Global setup
+
+  // ─── TIMING & EXECUTION ───
+  testTimeout: 15000, // Slightly generous for DOM/async tests
+  slowTestThreshold: 3000, // Warn if test takes over 3s
+
+  // ─── GLOBAL LIFECYCLE ───
   globalSetup: '<rootDir>/tests/global-setup.js',
   globalTeardown: '<rootDir>/tests/global-teardown.js',
-  
-  // Mock configurations
-  clearMocks: true,
-  restoreMocks: true,
-  
-  // Verbose output
+
+  // ─── CLEANLINESS ───
+  clearMocks: true, // Auto-reset mocks between tests
+  restoreMocks: true, // Restore original implementations
+  resetModules: false, // Keep fast — set true if you need total isolation
+
+  // ─── OUTPUT ───
   verbose: true,
-  
-  // Error handling
-  bail: false,
-  errorOnDeprecated: true
+  silent: false,
+
+  // ─── ERROR HANDLING ───
+  bail: false, // Run ALL tests even if one fails
+  errorOnDeprecated: true, // Warn about outdated APIs
+  detectLeaks: true, // Catch memory leaks
+  detectOpenHandles: true // Catch hanging connections/promises
 };
