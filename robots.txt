@@ -1,4 +1,20 @@
+# ==============================================
+# PLEADING SANITY — ROBOTS.TXT
+# Rise From Madness · One Source · One Family
+# ==============================================
+
+# Allow ALL search engines to index the full site
 User-agent: *
 Allow: /
 
+# Direct them straight to your sitemap
 Sitemap: https://pleadingsanity.co.uk/sitemap.xml
+
+# ==============================================
+# Optional: Keep private paths hidden (uncomment
+# as you add pages you DON'T want indexed)
+# ==============================================
+# Disallow: /admin/
+# Disallow: /dashboard/
+# Disallow: /private/
+# Disallow: /_sources/
