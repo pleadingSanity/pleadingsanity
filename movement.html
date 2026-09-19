@@ -4,12 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pleading Sanity — The Movement | Rise From Madness</title>
+  <meta name="description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
   <link rel="stylesheet" href="styles.css" />
   <link rel="icon" href="assets/favicon.ico" />
   
+  <!-- Open Graph -->
   <meta property="og:title" content="Pleading Sanity — The Movement | Rise From Madness" />
   <meta property="og:description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/movement.html" />
+  
   <meta name="author" content="Shane Cooper" />
   <meta name="theme-color" content="#00fff0" />
   
@@ -24,6 +29,7 @@
       --text-soft: #b9faff;
       --glass: rgba(0,255,240,0.06);
       --glass-deep: rgba(18,4,42,0.85);
+      --transition: all 0.3s ease;
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -31,16 +37,16 @@
     body { 
       background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep-purple) 45%, var(--deepest) 90%); 
       color: var(--text-bright); 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.7;
       min-height: 100vh;
     }
     
-    /* Floating nebula particles */
+    /* Floating Nebula Particles */
     .nebula-particle {
       position: fixed;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,240,0.2), transparent 70%);
+      background: radial-gradient(circle, rgba(0,255,240,0.18), transparent 70%);
       pointer-events: none;
       z-index: 0;
       animation: float 20s infinite ease-in-out;
@@ -60,6 +66,12 @@
       justify-content: center;
       margin-top: 30px;
       padding: 20px;
+      animation: fadeIn 0.8s ease-out both;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .cosmic-header img { 
@@ -118,8 +130,8 @@
       font-size: clamp(0.95rem, 2vw, 1.1rem); 
       text-decoration: none; 
       border-bottom: 2px solid transparent; 
-      padding-bottom: 3px; 
-      transition: all 0.25s ease;
+      padding: 6px 4px;
+      transition: var(--transition);
     }
     
     nav a.active, nav a:hover { 
@@ -132,6 +144,12 @@
       max-width: 720px;
       margin: 0 auto;
       padding: 20px 24px 60px;
+      animation: fadeInUp 1s ease-out both;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
     .movement-blurb { 
@@ -214,15 +232,22 @@
     }
     
     .manifesto-point {
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       padding-left: 25px;
       border-left: 2px solid var(--magenta);
+      transition: var(--transition);
+    }
+    
+    .manifesto-point:hover {
+      padding-left: 30px;
+      border-left-width: 3px;
     }
     
     .manifesto-point strong {
       color: var(--cyan);
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
+      font-size: 1.05rem;
     }
     
     .legacy-section {
@@ -244,7 +269,8 @@
       font-size: 1.1rem;
       color: var(--gold);
       font-weight: 700;
-      margin: 10px 0;
+      margin: 12px 0;
+      letter-spacing: 0.05em;
     }
     
     .cta-row { 
@@ -264,7 +290,9 @@
       text-decoration: none; 
       font-size: 1.05rem; 
       box-shadow: 0 0 20px rgba(0,255,240,0.25); 
-      transition: all 0.25s ease;
+      transition: var(--transition);
+      text-align: center;
+      min-width: 160px;
     }
     
     .cta-row a:hover { 
@@ -275,7 +303,7 @@
     .founder-section { 
       text-align: center; 
       margin: 50px 0;
-      padding: 30px;
+      padding: 35px 30px;
       background: rgba(0,255,240,0.03);
       border-radius: 20px;
       border-top: 2px solid rgba(0,255,240,0.2);
@@ -283,12 +311,14 @@
     }
     
     .founder-img { 
-      width: 200px; 
+      width: 180px; 
+      height: 180px;
       margin: 0 auto 25px auto; 
       display: block; 
-      border-radius: 20px; 
+      border-radius: 50%; 
       background: rgba(0,0,0,0.5);
       box-shadow: 0 0 30px rgba(0,255,240,0.2);
+      object-fit: cover;
     }
     
     .founder-section h2 {
@@ -306,7 +336,7 @@
       padding: 30px; 
       text-align: center;
       border: 1px solid rgba(0,255,240,0.15);
-      transition: transform 0.3s ease;
+      transition: var(--transition);
     }
     
     .hoodie-section:hover {
@@ -344,7 +374,7 @@
     
     .socials a { 
       color: var(--cyan); 
-      transition: all 0.2s ease;
+      transition: var(--transition);
     }
     
     .socials a:hover { 
@@ -355,6 +385,7 @@
     footer a {
       color: var(--cyan);
       text-decoration: none;
+      transition: var(--transition);
     }
     
     footer a:hover {
@@ -362,13 +393,24 @@
       text-decoration: underline;
     }
     
+    /* Mobile Optimizations */
     @media (max-width: 700px){
-      .cosmic-title { font-size: 2rem;}
-      .movement-blurb { font-size: 1.1rem;}
-      .big-quote { font-size: 1.1rem; padding: 25px 20px;}
-      .cta-row { flex-direction: column; gap: 12px;}
-      .manifesto-section, .legacy-section { padding: 20px;}
+      .cosmic-title { font-size: 2rem; }
+      .movement-blurb { font-size: 1.1rem; }
+      .big-quote { font-size: 1.1rem; padding: 25px 20px; }
+      .cta-row { flex-direction: column; gap: 12px; }
+      .manifesto-section, .legacy-section, .founder-section { padding: 22px 18px; }
       nav ul { gap: 8px 12px; }
+      .founder-img { width: 150px; height: 150px; }
+      main { padding: 15px 18px 50px; }
+    }
+    
+    /* Reduced Motion Respect */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
     }
   </style>
 </head>
@@ -385,13 +427,13 @@
       <p class="cosmic-subtitle">One Source. One Consciousness. One Family.</p>
     </div>
 
-    <nav>
+    <nav aria-label="Main Navigation">
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="sanityhub.html">Sanity Hub</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a class="active" href="movement.html">Movement</a></li>
-        <li><a href="videos.html">Videos</a></li>
+        <li><a href="frequencies.html">Healing Hz</a></li>
         <li><a href="games.html">Games</a></li>
         <li><a href="journal-vault.html">Journal Vault</a></li>
       </ul>
@@ -400,7 +442,7 @@
     <main>
       <section class="movement-blurb">
         <p>
-          This is more than merch. More than a website. <b>This is a movement.</b><br><br>
+          This is more than merch. More than a website. <strong>This is a movement.</strong><br><br>
           Every piece of pain stitched into power. Every breakdown built into community.<br>
           <span class="highlight-cyan">Pleading Sanity is the cosmic uprising for the ones who never fit in.</span><br><br>
           The broken. The survivors. The ones who feel too much. The ones who love too hard.<br>
@@ -430,7 +472,7 @@
         
         <div class="manifesto-point">
           <strong>👁️ Lived Experience Is Truth</strong>
-          No book written thousands of years ago holds all the answers. No one from the outside can fully understand what lives on the inside. The experts are the ones living it.
+          No book written thousands of years ago holds all the answers. No one from the outside can fully understand what lives on the inside. The real experts are the ones living it.
         </div>
         
         <div class="manifesto-point">
@@ -440,12 +482,12 @@
         
         <div class="manifesto-point">
           <strong>🌍 Unity Over Division</strong>
-          Labels divide us. Stories connect us. Bipolar, survivor, warrior, dreamer — beneath every word is a beating heart. We stand as one.
+          Labels divide us. Stories connect us. Beneath every word is a beating heart. We stand as one.
         </div>
         
         <div class="manifesto-point">
           <strong>✨ Legacy Fuels The Future</strong>
-          Built on the quiet courage of those who came before. We carry their strength forward. We fight not just for ourselves — but for every generation that follows.
+          Built on the quiet courage of those who came before. We carry their strength forward — for ourselves, and every generation that follows.
         </div>
       </div>
 
@@ -493,14 +535,12 @@
     <footer>
       <div class="socials">
         <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
-        <a href="https://tiktok.com/@mentally.inshane" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
-        <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
         <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Shop">🛒</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Payhip Shop">🛒</a>
       </div>
       
       <div style="margin:15px 0;">
-        <a href="https://pleadingsanity.co.uk" target="_blank">Official Site</a> | 
+        <a href="https://pleadingsanity.co.uk" target="_blank" rel="noopener">Official Site</a> | 
         <a href="shop.html">Shop</a> | 
         <a href="sanityhub.html">Sanity Hub</a> | 
         <a href="journal-vault.html">Journal Vault</a>
@@ -511,10 +551,15 @@
       </div>
       
       <div style="margin-top:20px; font-size:0.9rem; color:#666;">
-        "Evolution, Not Erasure" © 2026 Pleading Sanity<br>
+        "Evolution, Not Erasure" © <span id="year"></span> Pleading Sanity<br>
         Awakened, not broken. Rising, not fallen. One family.
       </div>
     </footer>
   </div>
+
+  <script>
+    // Auto-update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
