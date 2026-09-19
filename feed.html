@@ -1,73 +1,316 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sanity Feed – Pleading Sanity</title>
   <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. No algorithms. Only sanity." />
   <meta property="og:title" content="Sanity Feed – Pleading Sanity" />
-  <meta property="og:description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. No algorithms. Only sanity." />
+  <meta property="og:description" content="Positive-first stories. Real survivors. Rising together. No doomscroll." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
+  <link rel="icon" href="assets/favicon.ico" />
+  
   <style>
+    :root {
+      --cyan: #00fff0;
+      --magenta: #ff00ff;
+      --gold: #ffd700;
+      --deep-space: #030b18;
+      --nebula-mid: #10122d;
+      --text-bright: #f0faff;
+      --text-soft: #b9faff;
+      --glass: rgba(0,255,240,0.06);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body.universe {
       margin: 0;
-      font-family: 'Inter', Arial, sans-serif;
-      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 80%);
-      color: #f0f0f0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% 120%, var(--nebula-mid) 0%, var(--deep-space) 70%, #000 100%);
+      color: var(--text-bright);
       background-attachment: fixed;
       min-height: 100vh;
       display: flex; flex-direction: column;
+      line-height: 1.6;
     }
+    
     header {
       background: rgba(0,0,0,0.85);
-      padding: 16px 0;
+      padding: 16px 20px;
       text-align: center;
-      border-bottom: 2px solid #00fff0;
-      position: sticky; top: 0; z-index: 10;
+      border-bottom: 2px solid var(--cyan);
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    header h1 { margin: 0; font-size: 2.4rem; color: #00fff0; }
-    main { max-width: 1000px; margin: auto; padding: 20px; flex: 1 0 auto; }
-    p.intro { font-size: 1.23rem; margin-bottom: 22px; color: #b9faff; }
+    
+    header h1 { 
+      margin: 0; 
+      font-size: clamp(1.6rem, 4vw, 2.4rem); 
+      color: var(--cyan); 
+      font-weight: 900;
+      text-shadow: 0 0 20px rgba(0,255,240,0.3);
+    }
+    
+    main { 
+      max-width: 1000px; 
+      margin: 0 auto; 
+      padding: 30px 20px 60px; 
+      flex: 1;
+      width: 100%;
+    }
+    
+    p.intro { 
+      font-size: 1.2rem; 
+      margin-bottom: 24px; 
+      color: var(--text-soft); 
+      text-align: center;
+    }
+    
+    .search-container {
+      text-align: center;
+      margin: 10px 0 20px;
+    }
+    
+    #feed-search {
+      max-width: 520px; 
+      width: 96%;
+      padding: 12px 20px;
+      border-radius: 30px;
+      border: 1px solid rgba(0,255,240,0.25);
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      outline: none;
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    
+    #feed-search:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 15px rgba(0,255,240,0.25);
+    }
+    
+    .search-meta {
+      display: none;
+      text-align: center;
+      margin: 0 0 20px;
+      color: var(--text-soft);
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .search-term { color: var(--cyan); font-weight: 700; }
+    
+    .btn {
+      border: none; 
+      border-radius: 8px; 
+      padding: 0.6rem 1.2rem;
+      background: var(--cyan); 
+      color: #000; 
+      font-weight: 800; 
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.95rem;
+    }
+    
+    .btn:hover { 
+      background: var(--magenta); 
+      color: #fff; 
+      transform: scale(1.05);
+    }
+    
+    .btn-small {
+      padding: 6px 14px;
+      font-size: 0.9rem;
+    }
+    
     .feed-item {
       background: rgba(255,255,255,0.05);
       border: 1.4px solid rgba(0,255,240,0.17);
-      border-radius: 13px;
-      padding: 17px;
+      border-radius: 16px;
+      padding: 24px;
       margin-bottom: 32px;
-      box-shadow: 0 0 24px rgba(0,255,240,0.15);
-      transition: .18s;
-      animation: fade .5s;
+      box-shadow: 0 0 24px rgba(0,255,240,0.1);
+      transition: all 0.25s ease;
+      animation: fadeIn 0.5s ease forwards;
+      opacity: 0;
+      transform: translateY(15px);
     }
-    .feed-item:hover { box-shadow: 0 0 38px rgba(0,255,240,0.34); }
+    
+    .feed-item:hover { 
+      box-shadow: 0 0 38px rgba(0,255,240,0.25); 
+      border-color: rgba(0,255,240,0.35);
+      transform: translateY(-2px);
+    }
+    
     .feed-item iframe {
-      width: 100%; aspect-ratio: 16/9; border: none; border-radius: 10px;
-      box-shadow:0 0 13px #00fff044;
+      width: 100%; 
+      aspect-ratio: 16/9; 
+      border: none; 
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,255,240,0.2);
+      margin-bottom: 16px;
     }
-    .meta { margin-top: 10px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .meta h3 { margin: 0; font-size: 1.03rem; color: #fff; font-weight: 700;}
-    .btn {
-      border: none; border-radius: 8px; padding: 0.55rem 1.12rem;
-      background: #00fff0; color: #000; font-weight: 800; cursor: pointer;
-      transition: .2s;
+    
+    .meta { 
+      margin-top: 10px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      gap: 16px;
     }
-    .btn:hover { background: #ff00ff; color: #fff; }
+    
+    .meta h3 { 
+      margin: 0; 
+      font-size: 1.1rem; 
+      color: #fff; 
+      font-weight: 700;
+      flex: 1;
+      min-width: 200px;
+    }
+    
+    .like-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .like-btn {
+      border: none; 
+      border-radius: 8px; 
+      padding: 0.5rem 1rem;
+      font-weight: 700; 
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    
+    .like-btn.pos {
+      background: rgba(0,255,240,0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(0,255,240,0.3);
+    }
+    
+    .like-btn.pos:hover, .like-btn.pos.active {
+      background: #00ff90;
+      color: #000;
+      border-color: #00ff90;
+    }
+    
+    .like-btn.neg {
+      background: rgba(255,59,92,0.15);
+      color: #ff6b8a;
+      border: 1px solid rgba(255,59,92,0.3);
+    }
+    
+    .like-btn.neg:hover, .like-btn.neg.active {
+      background: #ff3b5c;
+      color: #fff;
+      border-color: #ff3b5c;
+    }
+    
     #loader {
       text-align: center;
-      padding: 36px 0 12px 0;
-      color: #00fff0;
-      font-size:1.25rem;
-      display: none;
+      padding: 40px 0;
+      color: var(--cyan);
+      font-size: 1.2rem;
     }
-    .end { color:#9ef; text-align:center; margin:40px 0 0 0;}
+    
+    .end-msg { 
+      color: var(--text-soft); 
+      text-align: center; 
+      margin: 40px 0;
+      padding: 20px;
+      background: rgba(0,255,240,0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(0,255,240,0.15);
+    }
+    
+    .end-msg a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    
+    .end-msg a:hover {
+      color: var(--magenta);
+      text-decoration: underline;
+    }
+    
     footer {
-      background:rgba(0,0,0,0.85); margin-top:40px; border-top:2px solid #00fff0;
-      text-align:center; font-size:1.08rem; color:#b9faff; padding:20px 8px 15px 8px;
-      flex-shrink: 0;
+      background: rgba(0,0,0,0.85); 
+      margin-top: 40px; 
+      border-top: 2px solid var(--cyan);
+      text-align: center; 
+      padding: 30px 20px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .socials { margin:12px 0 0 0; }
-    .socials a { color:#00fff0; margin:0 9px; font-size:1.4em; transition:.2s;}
-    .socials a:hover { color:#ff00ff;}
-    @keyframes fade { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
+    
+    .footer-brand {
+      font-size: 1.1rem;
+      color: var(--cyan);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    
+    .socials { 
+      margin: 16px 0; 
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .socials a { 
+      color: var(--cyan); 
+      font-size: 1.8rem; 
+      transition: 0.2s;
+      text-decoration: none;
+    }
+    
+    .socials a:hover { 
+      color: var(--magenta); 
+      transform: scale(1.2);
+    }
+    
+    .social-label {
+      font-size: 0.9rem;
+      color: var(--text-soft);
+      margin-top: 8px;
+    }
+    
+    .social-label a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+    
+    .social-label a:hover {
+      color: var(--magenta);
+      text-decoration: underline;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .feed-item:nth-child(2) { animation-delay: 0.1s; }
+    .feed-item:nth-child(3) { animation-delay: 0.2s; }
+    .feed-item:nth-child(4) { animation-delay: 0.3s; }
+    .feed-item:nth-child(5) { animation-delay: 0.4s; }
+    
+    @media (max-width: 600px) {
+      main { padding: 20px 15px 40px; }
+      .feed-item { padding: 18px; }
+      .meta { flex-direction: column; align-items: flex-start; }
+      .like-buttons { width: 100%; justify-content: stretch; }
+      .like-btn { flex: 1; }
+    }
   </style>
 </head>
 <body class="universe">
@@ -77,40 +320,52 @@
 
   <main>
     <p class="intro">
-      Scroll real stories, cosmic drops, and uplifting content. All positive-first.<br>
-      <strong>No algorithms, no doomscroll. Only sanity.</strong>
+      Scroll real stories, cosmic drops, and uplifting content.<br>
+      <strong>No algorithms. No doomscroll. Only sanity.</strong>
     </p>
 
-    <!-- Simple search -->
-    <div style="text-align:center;margin:8px 0 8px 0;">
-      <input id="feed-search" type="search" placeholder="Search topics (e.g., resilience, bipolar, calm)" 
-             style="max-width:520px;width:96%;padding:10px 14px;border-radius:20px;border:1px solid rgba(0,255,240,0.25);background:rgba(255,255,255,0.06);color:#fff;outline:none;"/>
-    </div>
-    <div id="search-meta" style="display:none;text-align:center;margin:0 0 16px 0;color:#b9faff;">
-      <span>Showing results for: <strong id="search-term" style="color:#00fff0"></strong></span>
-      <button id="clear-search" class="btn" style="margin-left:10px;padding:6px 12px;font-size:.9rem;">Clear</button>
+    <!-- Search -->
+    <div class="search-container">
+      <input id="feed-search" type="search" placeholder="Search topics: resilience, bipolar, calm, hope..." />
+      <div id="search-meta" class="search-meta">
+        <span>Showing: <span id="search-term" class="search-term"></span></span>
+        <button id="clear-search" class="btn btn-small">✕ Clear</button>
+      </div>
     </div>
 
-    <!-- Feed container -->
+    <!-- Feed -->
     <div id="feed"></div>
-    <div id="loader"><span class="loader">🚀 Loading cosmic feed...</span></div>
-    <div id="end" class="end"></div>
+    <div id="loader">🚀 Loading cosmic stories...</div>
+    <div id="end" class="end-msg"></div>
   </main>
 
   <footer>
-    <div class="brand">Pleading Sanity — The Cosmic Feed</div>
+    <div class="footer-brand">Pleading Sanity — The Cosmic Feed</div>
+    <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
+    
     <div class="socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" aria-label="Instagram">📸</a>
-      <a href="https://tiktok.com/@mentally.inshane" target="_blank" aria-label="TikTok">🎵</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
       <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-      <a href="https://dqfzb1-ki.myshopify.com/" target="_blank" aria-label="Shopify">🛒</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Shop">🛒</a>
     </div>
-    <div style="margin-top:6px;">TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank">Visit</a></div>
-    <div style="margin-top:3px;">Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank">Visit</a></div>
+    
+    <div class="social-label">
+      Support the movement: 
+      <a href="https://payhip.com/Pleadingsanity" target="_blank">Merch & Downloads</a>
+      <span style="margin:0 8px;">|</span>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank">Subscribe on YouTube</a>
+    </div>
+    
+    <p style="margin-top:20px;font-size:0.85rem;color:#666;">
+      Evolution, Not Erasure © 2026<br>
+      Built on the legacy of Ivan & Arthur. Awakened, not broken.
+    </p>
   </footer>
 
   <script>
-    let loading = false, nextPageToken = null, end = false, query = "";
+    let loading = false, end = false, query = "", searchTimeout;
     const feed = document.getElementById('feed');
     const loader = document.getElementById('loader');
     const endDiv = document.getElementById('end');
@@ -119,128 +374,225 @@
     const searchTermEl = document.getElementById('search-term');
     const clearBtn = document.getElementById('clear-search');
 
-    // Demo fallback if API fails
-    const demo = [
-      { id: "8nTFjVm9sTQ", title: "Shane's Story: Building Pleading Sanity (Mini-Doc)" },
-      { id: "mRf3-JkwqfU", title: "Mental Health: Real Survivors. Real Talk." },
-      { id: "8F7b8FFsKis", title: "Cosmic Motivation: Get Up & Rise Again" }
+    // 🌟 EXPANDED FALLBACK — ALWAYS SHOWS CONTENT
+    const FALLBACK = [
+      { 
+        id: "8nTFjVm9sTQ", 
+        title: "Shane's Story — Rise From Madness", 
+        desc: "From darkness to purpose. One voice starting a movement." 
+      },
+      { 
+        id: "mRf3-JkwqfU", 
+        title: "You Are Not Alone — Survivor Voices", 
+        desc: "Real people. Real stories. Breaking the silence. We rise together." 
+      },
+      { 
+        id: "8F7b8FFsKis", 
+        title: "Keep Going — Cosmic Motivation", 
+        desc: "Every fall is just preparation to rise higher. The stars are with you." 
+      },
+      { 
+        id: "VbfpW0pbvaU", 
+        title: "Built Not Broken — Resilience", 
+        desc: "What doesn't break you rewrites you. Evolution, Not Erasure." 
+      },
+      { 
+        id: "dQw4w9WgXcQ", 
+        title: "Hope Rises — The Movement Grows", 
+        desc: "Every heart that joins makes us stronger. You matter. We matter." 
+      },
+      { 
+        id: "8nTFjVm9sTQ", 
+        title: "Healing Together — The Power of Community", 
+        desc: "No one walks this path alone. Together we heal faster." 
+      },
+      { 
+        id: "mRf3-JkwqfU", 
+        title: "Strength in Vulnerability — Speaking Up", 
+        desc: "True courage isn't fearlessness — it's feeling fear and moving forward anyway." 
+      }
     ];
 
-    async function fetchFeed() {
-      loader.style.display = 'block';
+    // 📥 Fetch from API → Fallback gracefully
+    async function fetchBatch() {
       try {
-        const q = query ? `&q=${encodeURIComponent(query)}` : "";
-        const res = await fetch(`/api/video?pageToken=${nextPageToken || ""}${q}`);
-        if (!res.ok) throw new Error("API error");
+        const params = new URLSearchParams();
+        if (query) params.set('q', query);
+        
+        // Try Vercel first
+        let res = await fetch(`/api/video?${params.toString()}`);
+        if (!res.ok) res = await fetch(`/.netlify/functions/video?${params.toString()}`);
+        if (!res.ok) throw new Error("API offline");
+        
         const data = await res.json();
-        loader.style.display = 'none';
-        nextPageToken = data.nextPageToken || null;
         return data.videos || [];
-      } catch {
-        loader.style.display = 'none';
-        end = true;
-        return demo;
+      } catch (err) {
+        console.log("📡 Using curated fallback feed");
+        // Filter fallback by search query if provided
+        if (!query) return FALLBACK;
+        const q = query.toLowerCase();
+        return FALLBACK.filter(v => 
+          v.title.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q)
+        );
       }
     }
 
-    function like(btn, yes = true) {
-      btn.textContent = yes ? "✅ Liked!" : "❌ Not for me";
-      btn.style.background = yes ? "#00ff90" : "#ff3b5c";
-      btn.style.color = yes ? "#001" : "#fff";
-      setTimeout(() => btn.blur(), 600);
+    // 👍 Like Handler — Saves to localStorage
+    function handleLike(btn, isPositive) {
+      const card = btn.closest('.feed-item');
+      const title = card.querySelector('h3').textContent;
+      
+      // Remove active from siblings
+      const siblings = btn.parentElement.querySelectorAll('.like-btn');
+      siblings.forEach(b => b.classList.remove('active'));
+      
+      // Mark this one
+      btn.classList.add('active');
+      btn.textContent = isPositive ? "✅ Liked!" : "❌ Not for me";
+      
+      // Save preference
+      try {
+        localStorage.setItem(`like_${title}`, isPositive ? 'pos' : 'neg');
+      } catch {}
     }
 
+    // 🎨 Render Single Card
+    function renderCard(video, index) {
+      const card = document.createElement('div');
+      card.className = 'feed-item';
+      
+      // Restore saved like state
+      let savedLike = null;
+      try { savedLike = localStorage.getItem(`like_${video.title}`); } catch {}
+      
+      card.innerHTML = `
+        <iframe 
+          src="https://www.youtube.com/embed/${video.id}" 
+          title="${video.title.replace(/"/g, '&quot;')}" 
+          allowfullscreen 
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
+        ></iframe>
+        <div class="meta">
+          <h3>${video.title}</h3>
+          <div class="like-buttons">
+            <button class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" 
+                    onclick="handleLike(this, true)">
+              ${savedLike === 'pos' ? '✅' : '👍'} Positive
+            </button>
+            <button class="like-btn neg ${savedLike === 'neg' ? 'active' : ''}" 
+                    onclick="handleLike(this, false)">
+              ${savedLike === 'neg' ? '❌' : '👎'} Not for me
+            </button>
+          </div>
+        </div>
+        ${video.desc ? `<p style="color:var(--text-soft);margin-top:10px;">${video.desc}</p>` : ''}
+      `;
+      return card;
+    }
+
+    // 🚀 Load & Append Feed
     async function loadFeed() {
       if (loading || end) return;
       loading = true;
-      const videos = await fetchFeed();
+      loader.style.display = 'block';
+      
+      const videos = await fetchBatch();
+      
+      loader.style.display = 'none';
+      
       if (!videos.length) {
         end = true;
-        endDiv.textContent = "🚩 End of the cosmic feed. Submit your story to keep it alive.";
+        endDiv.innerHTML = `
+          <p>✨ No stories match "${query}" — yet.</p>
+          <p style="margin-top:10px;">
+            <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Submit your story</a> 
+            to help grow the feed 💙
+          </p>
+        `;
         return;
       }
-      videos.forEach(v => {
-        const card = document.createElement('div');
-        card.className = 'feed-item';
-        card.innerHTML = `
-          <iframe src="https://www.youtube.com/embed/${v.id}" 
-                  title="${v.title.replace(/"/g,'&quot;')}" 
-                  allowfullscreen loading="lazy"></iframe>
-          <div class="meta">
-            <h3>${v.title}</h3>
-            <div>
-              <button class="btn" onclick="like(this,true)">👍 Positive</button>
-              <button class="btn" onclick="like(this,false)">👎 Negative</button>
-            </div>
-          </div>
-        `;
-        feed.appendChild(card);
+      
+      videos.forEach((v, i) => {
+        // Prevent duplicates
+        const existing = Array.from(feed.children).find(
+          el => el.querySelector('h3')?.textContent === v.title
+        );
+        if (!existing) {
+          feed.appendChild(renderCard(v, i));
+        }
       });
-      loading = false;
-      if (!nextPageToken) end = true;
-    }
-
-    // Infinite scroll
-    window.addEventListener('scroll', () => {
-      if (end || loading) return;
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 300) {
-        loadFeed();
-      }
-    });
-
-    // Restore last search before first load
-    const saved = (typeof localStorage !== 'undefined' && localStorage.getItem('feedSearch')) || '';
-    if (saved) {
-      query = saved;
-      if (searchInput) searchInput.value = saved;
-      if (searchTermEl) searchTermEl.textContent = saved;
-      if (searchMeta) searchMeta.style.display = 'block';
-    }
-    // First load
-    loadFeed();
-
-    // Search with debounce
-    let t;
-    function resetAndSearch(val){
-      query = (val || "").trim();
-      nextPageToken = null;
+      
+      // Fallback mode = infinite loop
       end = false;
-      feed.innerHTML = "";
-      // Update UI chip and persist
+      loading = false;
+    }
+
+    // 🔄 Reset & Search
+    function doSearch(newQuery) {
+      query = newQuery.trim();
+      end = false;
+      feed.innerHTML = '';
+      
       if (query) {
         searchTermEl.textContent = query;
-        searchMeta.style.display = 'block';
+        searchMeta.style.display = 'flex';
         try { localStorage.setItem('feedSearch', query); } catch {}
       } else {
         searchMeta.style.display = 'none';
         try { localStorage.removeItem('feedSearch'); } catch {}
       }
+      
       loadFeed();
     }
-    if (searchInput){
-      searchInput.addEventListener('input', (e)=>{
-        clearTimeout(t);
-        const v = e.target.value;
-        t = setTimeout(()=> resetAndSearch(v), 350);
+
+    // 📜 Infinite Scroll Trigger
+    window.addEventListener('scroll', () => {
+      if (end || loading) return;
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
+        loadFeed();
+      }
+    }, { passive: true });
+
+    // 🔍 Search Events
+    if (searchInput) {
+      searchInput.addEventListener('input', e => {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(() => doSearch(e.target.value), 350);
       });
-      searchInput.addEventListener('keydown', (e)=>{
-        if (e.key === 'Enter'){
+      
+      searchInput.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
           e.preventDefault();
-          clearTimeout(t);
-          resetAndSearch(e.target.value);
+          clearTimeout(searchTimeout);
+          doSearch(e.target.value);
         }
-        if (e.key === 'Escape'){
+        if (e.key === 'Escape') {
           e.preventDefault();
           searchInput.value = '';
-          resetAndSearch('');
+          doSearch('');
         }
       });
     }
-    if (clearBtn){
-      clearBtn.addEventListener('click', ()=>{
+    
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
         searchInput.value = '';
-        resetAndSearch('');
+        doSearch('');
       });
+    }
+
+    // 💾 Restore Saved Search
+    try {
+      const savedSearch = localStorage.getItem('feedSearch');
+      if (savedSearch && searchInput) {
+        searchInput.value = savedSearch;
+        doSearch(savedSearch);
+      } else {
+        loadFeed();
+      }
+    } catch {
+      loadFeed();
     }
   </script>
 </body>
