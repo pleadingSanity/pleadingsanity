@@ -4,19 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pleading Sanity — Rise From Madness | One Source. One Family.</title>
-  <meta name="description" content="Pleading Sanity: a cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning." />
+  <meta name="description" content="A cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="theme-color" content="#0d1b2a" />
   <meta name="color-scheme" content="dark light" />
 
-  <!-- Canonical → ONE TRUE URL -->
+  <!-- Canonical URL -->
   <link rel="canonical" href="https://pleadingsanity.co.uk/" />
 
-  <!-- ✅ NO GOOGLE FONTS FAILURE → SYSTEM STACK = INSTANT LOAD, ZERO ERRORS -->
+  <!-- No external font calls → instant load, zero errors -->
   <style>
     :root {
-      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
-                   'Helvetica Neue', Arial, sans-serif;
       --primary-cyan: #00fff0;
       --secondary-magenta: #ff00ff;
       --gold: #ffd700;
@@ -29,36 +27,54 @@
       --shadow-glow: 0 0 48px rgba(0,255,240,0.09);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      font-family: var(--font-sans);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--bg-dark) 45%, var(--bg-darker) 100%);
       color: var(--text-light);
       min-height: 100vh;
       line-height: 1.7;
     }
+
+    /* Accessibility skip link */
     .skip-link {
       position: absolute; top: -40px; left: 0;
       background: var(--primary-cyan); color: #000; padding: 8px 16px; z-index: 10000;
+      font-weight: 700;
     }
     .skip-link:focus { top: 0; }
+
     .sr-only {
       position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
       overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
+
     a { color: var(--primary-cyan); text-decoration: none; transition: var(--transition); }
     a:hover { color: var(--secondary-magenta); }
+
     .btn {
-      display:inline-block; background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-magenta));
-      color: #000; font-weight: 700; padding: 14px 28px; border-radius: 12px; border: none;
-      cursor: pointer; font-size: 1rem; transition: var(--transition); text-align: center;
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--secondary-magenta));
+      color: #000; font-weight: 700; padding: 14px 28px; border-radius: 12px;
+      border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
+      text-align: center; box-shadow: 0 0 20px rgba(0,255,240,0.2);
     }
-    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,255,240,0.25); color: #000; }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,255,240,0.3);
+      color: #000;
+    }
+
     header { text-align: center; padding: 30px 20px 20px; }
     header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.8rem); color: var(--primary-cyan);
-      text-shadow: 0 0 25px rgba(0,255,240,0.35); margin-bottom: 20px;
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      color: var(--primary-cyan);
+      text-shadow: 0 0 25px rgba(0,255,240,0.35);
+      margin-bottom: 20px;
     }
+
     nav {
       display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;
     }
@@ -66,54 +82,70 @@
       color: var(--text-light); font-weight: 700; padding: 10px 16px; border-radius: 10px;
       background: rgba(0,255,240,0.08); border: 1px solid rgba(0,255,240,0.15);
     }
-    nav a:hover, nav a[aria-current="page"] {
+    nav a:hover,
+    nav a[aria-current="page"] {
       background: linear-gradient(135deg, var(--secondary-magenta), var(--primary-cyan));
       color: #fff; border-color: transparent;
     }
+
     main { max-width: 900px; margin: 0 auto; padding: 0 20px 60px; }
-    section { margin-bottom: 50px; animation: fadeInUp 0.8s ease-out both; }
+
+    section {
+      margin-bottom: 50px;
+      animation: fadeInUp 0.8s ease-out both;
+    }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
     }
+
     .hero { text-align: center; padding: 30px 0; animation-delay: 0.1s; }
     .hero h2 { font-size: clamp(1.4rem, 3vw, 2rem); margin-bottom: 20px; color: #fff; }
     .hero p { font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px; color: var(--text-muted); }
+
     .manifesto {
       background: rgba(0,255,240,0.04); border-radius: 16px; padding: 30px;
       border: 1px solid rgba(0,255,240,0.1); animation-delay: 0.2s;
     }
     .manifesto strong { font-size: 1.1rem; line-height: 1.8; }
+
     .newsletter { text-align: center; animation-delay: 0.3s; }
     .newsletter h3 { margin-bottom: 15px; color: var(--primary-cyan); }
-    .newsletter-form { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto; }
+    .newsletter-form {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 500px; margin: 0 auto;
+    }
     .newsletter-form input {
-      flex: 1 1 250px; padding: 14px 18px; border-radius: 10px; border: 1px solid var(--border-alpha);
+      flex: 1 1 250px; padding: 14px 18px; border-radius: 10px;
+      border: 1px solid var(--border-alpha);
       background: rgba(0,0,0,0.3); color: var(--text-light); font-size: 1rem;
     }
-    .newsletter-form input:focus { outline: none; border-color: var(--primary-cyan); box-shadow: 0 0 15px rgba(0,255,240,0.2); }
+    .newsletter-form input:focus {
+      outline: none; border-color: var(--primary-cyan);
+      box-shadow: 0 0 15px rgba(0,255,240,0.2);
+    }
+
     footer {
       text-align: center; padding: 30px 20px; border-top: 1px solid rgba(0,255,240,0.1);
       color: var(--text-muted); font-size: 0.9rem;
     }
     .socials { margin: 12px 0; }
-    .socials a { font-size: 1.4rem; margin: 0 6px; display: inline-block; }
+    .socials a { font-size: 1.5rem; margin: 0 8px; display: inline-block; }
+    .socials a:hover { transform: scale(1.2); }
+
     @media (max-width: 768px) {
       nav { gap: 8px; }
       nav a { padding: 8px 12px; font-size: 0.95rem; }
     }
   </style>
 
-  <!-- ✅ PRELOAD ASSETS WITH CORRECT PATHS -->
+  <!-- Favicon & PWA -->
   <link rel="icon" href="assets/favicon.ico" />
-  <link rel="preload" as="image" href="assets/crying-brain-og.png" type="image/png" />
   <link rel="manifest" href="manifest.json" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Pleading Sanity" />
-  <link rel="apple-touch-icon" href="assets/icons/icon-192x192.png" />
 
-  <!-- ✅ PRECONNECT EXTERNAL PLATFORMS → FASTER LOAD, NO BLOCKING -->
+  <!-- Preconnect for speed -->
   <link rel="preconnect" href="https://www.youtube.com" crossorigin />
   <link rel="preconnect" href="https://www.tiktok.com" crossorigin />
   <link rel="preconnect" href="https://www.instagram.com" crossorigin />
@@ -126,23 +158,22 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/" />
 
-  <!-- Twitter -->
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Pleading Sanity — Rise From Madness" />
   <meta name="twitter:description" content="We turn pain into power. Cosmic hub for creators, survivors, and the next generation of mental health warriors." />
   <meta name="twitter:image" content="assets/crying-brain-og.png" />
 
-  <!-- JSON-LD Schema → SEO POWERED, NO FETCH -->
+  <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "Pleading Sanity",
     "url": "https://pleadingsanity.co.uk/",
-    "logo": "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+    "logo": "assets/crying-brain-og.png",
     "sameAs": [
       "https://instagram.com/mentally.inshane",
-      "https://tiktok.com/@mentally.inshane",
       "https://payhip.com/Pleadingsanity"
     ],
     "description": "A cosmic movement turning pain into power and madness into meaning. Sanctuary for mental health warriors, creators, and survivors.",
@@ -150,27 +181,10 @@
     "brand": "Pleading Sanity"
   }
   </script>
-
-  <!-- ✅ ALL SCRIPTS → DEFERRED / ASYNC → PAGE RENDERS FIRST -->
-  <script src="error-handler.js" defer></script>
-  <script src="security-hardening.js" defer></script>
-  <script src="performance-optimizer.js" defer></script>
-  <script src="analytics-monitoring.js" defer></script>
-  <script src="crisis-response-system.js" defer></script>
-  <script src="partnership-api-system.js" defer></script>
-  <script src="research-analytics-framework.js" defer></script>
-  <script src="content-media-system.js" defer></script>
-  <script src="platform-orchestrator.js" defer></script>
-  <script src="platform-maintenance.js" defer></script>
-  <script src="cosmic-audio-system.js" defer></script>
-  <script src="cosmic-bg.js" defer></script>
-  <script src="script.js" defer></script>
 </head>
-<body class="universe">
+<body>
   <a href="#main" class="skip-link">Skip to main content</a>
-  
-  <div class="live-region" aria-live="polite" aria-atomic="true" id="announcements"></div>
-  
+
   <header role="banner">
     <h1>🧠 RISE FROM MADNESS</h1>
     <nav aria-label="Main Navigation" role="navigation">
@@ -178,10 +192,9 @@
       <a href="about.html">ℹ️ About</a>
       <a href="journal-vault.html">📖 Journal</a>
       <a href="sanityhub.html">🧠 Hub</a>
-      <a href="community-dashboard.html">🗳️ Community</a>
-      <a href="shop.html">🛒 Shop</a>
-      <a href="feed.html">📺 Feed</a>
+      <a href="frequencies.html">🎧 Healing Hz</a>
       <a href="games.html">🎮 Games</a>
+      <a href="shop.html">🛒 Shop</a>
       <a href="movement.html">⚡ Movement</a>
     </nav>
   </header>
@@ -190,33 +203,38 @@
     <section class="hero">
       <h2>Welcome to the Movement</h2>
       <p>We turn pain into power, survival into strength, and madness into meaning.  
-         This is more than a site — it's a sanctuary. Scroll, play, heal, and rise with us.</p>
+         This is more than a website — it's a sanctuary. Scroll, play, heal, and rise with us.</p>
       <a class="btn" href="sanityhub.html" aria-label="Enter the Sanity Hub">🌌 Enter the Sanity Hub</a>
     </section>
 
     <section class="manifesto">
-      <strong>Pleading Sanity isn't just a brand. It's a cosmic uprising for anyone who's ever felt too much, been broken, or battled in silence.<br><br>
-      <span style="color:#00fff0;">We build hope from darkness. We make struggle count. We rise together.</span>
-      <br><br>
-      <span style="color:#ff00ff;">Wearing Pleading Sanity, sharing our content, or joining the Hub doesn't just help yourself — it helps others find a light they didn't know was possible.</span>
+      <strong>
+        Pleading Sanity isn't just a brand. It's a cosmic uprising for anyone who's ever felt too much, 
+        been broken, or battled in silence.<br><br>
+        <span style="color:#00fff0;">We build hope from darkness. We make struggle count. We rise together.</span>
+        <br><br>
+        <span style="color:#ff00ff;">Wearing Pleading Sanity, sharing our story, or joining the Hub doesn't just help yourself — 
+        it lights the way for others who haven't found their voice yet.</span>
       </strong>
     </section>
 
     <section class="newsletter">
-      <h3>Get inspiration in your inbox</h3>
+      <h3>🌌 Get cosmic inspiration in your inbox</h3>
       <form action="#" method="post" class="newsletter-form" aria-label="Newsletter signup">
         <label for="email-input" class="sr-only">Enter your email address</label>
         <input 
           type="email" 
           id="email-input"
           name="EMAIL" 
-          placeholder="Your email" 
+          placeholder="your.email@example.com" 
           required 
           autocomplete="email"
         />
-        <button type="submit" class="btn">Subscribe</button>
+        <button type="submit" class="btn">Subscribe ✨</button>
       </form>
-      <p style="margin-top:10px; font-size:0.85rem; color:var(--text-muted);">No spam. Only cosmic inspiration. ✨</p>
+      <p style="margin-top:12px; font-size:0.85rem; color:var(--text-muted);">
+        No spam. Just stories, updates & cosmic wisdom. 💙
+      </p>
     </section>
   </main>
 
@@ -224,31 +242,18 @@
     <div class="brand">Pleading Sanity — Built for the Warriors</div>
     <div class="socials">
       <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
-      <a href="https://tiktok.com/@mentally.inshane" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
       <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
       <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Payhip Shop">🛒</a>
     </div>
-    <div class="footer-links" style="margin-top:10px; font-size:0.85rem;">
-      TikTok Shop: <a href="https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop" target="_blank" rel="noopener noreferrer">Visit</a> &nbsp;|&nbsp;
-      Payhip: <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer">Visit</a>
-    </div>
     <div style="margin-top:12px; font-size:0.85rem;">
-      &copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.
+      &copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.<br>
+      <span style="color:#00fff0;">One Source. One Consciousness. One Family.</span>
     </div>
   </footer>
 
   <script>
     // Auto-update copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
-    
-    // ✅ PWA Service Worker — graceful fail, no error noise
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then(reg => console.log('🚀 SW Ready:', reg.scope))
-          .catch(err => console.log('ℹ️ SW not active yet:', err.message));
-      });
-    }
   </script>
 </body>
 </html>
