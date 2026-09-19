@@ -1,63 +1,225 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>About - Pleading Sanity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Pleading Sanity | Rise From Madness</title>
+  <meta name="description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours." />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="animations.css" />
+  <style>
+    :root {
+      --cyan: #00fff0;
+      --fuchsia: #ff00ff;
+      --deep-bg: rgba(0,0,0,0.6);
+      --glass: rgba(0,255,240,0.06);
+    }
+
+    body {
+      min-height: 100vh;
+      color: #e5f7ff;
+      font-family: system-ui, -apple-system, sans-serif;
+      line-height: 1.7;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px 40px;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: var(--cyan);
+      text-shadow: 0 0 20px rgba(0,255,240,0.4);
+      margin-bottom: 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      padding: 0;
+    }
+
+    nav a {
+      color: #b9faff;
+      text-decoration: none;
+      padding: 6px 4px;
+      border-bottom: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: var(--cyan);
+      border-bottom-color: var(--cyan);
+    }
+
+    main {
+      animation: fadeInUp 1s ease-out;
+    }
+
+    section {
+      background: var(--glass);
+      border-radius: 20px;
+      padding: 35px 30px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(0,255,240,0.15);
+      box-shadow: 0 0 30px rgba(0,255,240,0.08);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--cyan);
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      color: var(--fuchsia);
+      margin: 32px 0 14px;
+    }
+
+    p {
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+    }
+
+    blockquote {
+      border-left: 3px solid var(--cyan);
+      padding: 15px 20px;
+      margin: 25px 0;
+      background: rgba(255,0,255,0.04);
+      border-radius: 0 12px 12px 0;
+      font-style: italic;
+      color: #f0dfff;
+    }
+
+    ul {
+      padding-left: 22px;
+      margin-bottom: 20px;
+    }
+
+    li {
+      margin-bottom: 12px;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(0,255,240,0.08), rgba(255,0,255,0.05));
+      padding: 25px 22px;
+      border-radius: 18px;
+      margin: 32px 0;
+      border: 1px solid rgba(0,255,240,0.2);
+    }
+
+    a {
+      color: var(--fuchsia);
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+
+    a:hover {
+      text-shadow: 0 0 10px rgba(255,0,255,0.5);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      section { padding: 22px 18px; }
+      h1 { font-size: 1.7rem; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>About Pleading Sanity</h1>
+    <h1>🧠 Pleading Sanity</h1>
     <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="sanity-hub.html">Sanity Hub</a></li>
         <li><a href="shop.html">Shop</a></li>
         <li><a class="active" href="about.html">About</a></li>
+        <li><a href="frequencies.html">Healing Hz</a></li>
+        <li><a href="journal-vault.html">Journal Vault</a></li>
       </ul>
     </nav>
   </header>
+
   <main>
     <section>
-      <h2>We Rise From Madness</h2>
+      <h2>🌌 We Rise From Madness</h2>
+      
       <p>
-        <strong>Pleading Sanity</strong> was born from the chaos — the sleepless nights, the bruises you can’t see, the moments when hope was just a rumour.  
-        We are not polished. We are not perfect. We are proof that broken things still shine.
+        <strong>Pleading Sanity</strong> wasn't born in a boardroom. It was born in the dark — the sleepless nights, the labels that stuck, the moments when hope felt like a memory. 
+        We are not polished. We are not perfect. We are <em>proof</em> that broken things still shine.
       </p>
-      <blockquote style="color:#ff00ff;border-left:3px solid #00fff0;padding-left:12px;margin:18px 0;font-style:italic">
-        “They say it’s the genius disease. Maybe they’re right. But this movement wasn’t built for the spotlight — it was built for survival, for leaving something real behind for my kids, and for everyone who never got to tell their story.”<br>
-        — Shane, Founder
+
+      <blockquote>
+        “They say it's the genius disease. Maybe they're right. But this movement wasn't built for the spotlight — it was built for survival, for leaving something real behind, and for everyone who never got to tell their story.<br>
+        <strong>— Shane, Founder</strong>
       </blockquote>
+
       <p>
-        We believe pain is a superpower if you survive it. Every hoodie, every podcast, every game, every story in the Sanity Hub is a reminder: you are not alone in this fight.
+        We believe pain is a superpower if you survive it. Every hoodie, every podcast, every game, every story shared in the Sanity Hub is a reminder: 
+        <strong>you are not alone in this fight.</strong>
       </p>
-      <h3>What Makes Us Different</h3>
+
+      <h3>✨ What Makes Us Different</h3>
       <ul>
-        <li><strong>Unfiltered Truth:</strong> We don’t hide the scars. Here, your story is currency, your struggle is welcome, and your comeback is celebrated.</li>
-        <li><strong>Built By Survivors:</strong> This isn’t corporate — it’s crafted by those who lived it. Mental health isn’t a hashtag; it’s the frontline of our lives.</li>
-        <li><strong>Cosmic Community:</strong> Our goal is a galaxy of healing: streetwear with a story, gyms that welcome the broken, AI tools that actually listen, and a feed that feeds your soul.</li>
+        <li><strong>Unfiltered Truth:</strong> We don't smooth over the scars. Here, your story matters more than your stats. Your struggle is welcome. Your comeback is celebrated.</li>
+        <li><strong>Built By Survivors:</strong> This isn't corporate. It's crafted by those who've lived it. Mental health isn't a trend — it's the frontline of our lives.</li>
+        <li><strong>Cosmic Vision:</strong> Streetwear with a heartbeat. Gyms that heal as much as they train. AI that listens, not just talks. A feed that feeds your soul.</li>
+        <li><strong>Legacy Over Profit:</strong> Every purchase fuels free resources, safe spaces, and real change. We grow together — or not at all.</li>
       </ul>
-      <h3>This Movement Is For You</h3>
+
+      <h3>🤝 This Movement Is For You</h3>
       <p>
-        When you join Pleading Sanity, you’re not buying into hype. You’re helping build safe spaces for anyone who feels “too much” — and creating tools, content, and culture that give back.
+        When you join Pleading Sanity, you're not buying into hype. You're helping build what we never had: a place where anyone who feels "too much" can finally exhale. 
+        Where support is more than a slogan — it's a shared promise.
       </p>
       <p>
-        We’re building what we never had: a place where survival is respected, pain is transformed, and support is more than words on a page.
+        We're building safe spaces, tools, and culture that give back. Not because it's trendy — but because we needed it, and we know you do too.
       </p>
-      <div style="background:rgba(0,255,240,0.07);padding:18px 16px;border-radius:18px;margin:28px 0">
-        <p style="font-size:1.1em;font-weight:600;color:#00fff0">
-          This is Pleading Sanity — the movement where you become the message.<br>
-          Where your comeback becomes someone else’s survival guide.<br>
-          Where our madness builds a legacy, and our scars become our badge of honor.<br>
-          <a href="sanity-hub.html" style="color:#ff00ff;text-decoration:underline">Step inside the Sanity Hub</a>, or <a href="shop.html" style="color:#ff00ff;text-decoration:underline">wear the change</a> — and help us turn the world’s pain into a movement for hope.
+
+      <div class="highlight-box">
+        <p style="font-size: 1.1em; font-weight: 600; color: var(--cyan); margin: 0;">
+          This is Pleading Sanity — where you become the message.<br>
+          Where your comeback becomes someone else's survival guide.<br>
+          Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
+          <a href="sanity-hub.html">Step inside the Sanity Hub →</a><br>
+          <a href="shop.html">Wear the change →</a><br>
+          <a href="frequencies.html">Breathe. Align. Heal. →</a>
         </p>
       </div>
-      <h3>Why Now?</h3>
+
+      <h3>⚡ Why Now?</h3>
       <p>
-        Because the world is drowning in fake “motivation.” Because there’s no app for real hope. Because no brand is telling the raw truth — but we will.  
-        With your help, we’ll build gyms, launch podcasts, and drop gear that funds real healing.  
-        We’re not just here to talk — we’re here to change the story, one survivor at a time.
+        Because the world is drowning in fake motivation. Because there's no app for real hope. Because no one else is telling the raw, unpolished truth — but we will.
+      </p>
+      <p>
+        With your help, we'll open MMA therapy gyms, launch survivor-led podcasts, and drop gear that funds real healing. 
+        We're not just here to talk — we're here to <em>rewrite the story</em>, one survivor at a time.
+      </p>
+      <p style="text-align: center; margin-top: 30px; font-size: 1.15em; color: #b9faff;">
+        One Source. One Consciousness. One Family.<br>
+        <strong style="color: var(--cyan);">We don't beg for sanity. We build it.</strong>
       </p>
     </section>
   </main>
