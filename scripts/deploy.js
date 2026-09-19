@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Deploy Script
- * Comprehensive deployment automation for production releases
+ * PLEADING SANITY — DEPLOYMENT AUTOMATION v2.1-FINAL
+ * God Mode Deploy • Netlify + Git Fallback • Full Validation
+ * Evolution, Not Erasure • pleadingSanity / pleadingsanity.co.uk
  */
 
 const fs = require('fs').promises;
@@ -13,31 +14,45 @@ class DeployManager {
   constructor() {
     this.rootDir = path.join(__dirname, '..');
     this.distDir = path.join(this.rootDir, 'dist');
-    this.scriptsDir = path.join(__dirname);
+    this.scriptsDir = __dirname;
+
+    // ==========================================
+    // CONFIG LOCKED IN — YOUR SITE, YOUR BRANCH
+    // ==========================================
     this.deployConfig = {
       environment: process.env.NODE_ENV || 'production',
       siteName: process.env.NETLIFY_SITE_NAME || 'pleadingsanity',
+      siteUrl: process.env.SITE_URL || 'https://pleadingsanity.co.uk',
       buildCommand: 'npm run build',
       testCommand: 'npm run test:ci',
-      healthCheckUrl: process.env.SITE_URL || 'https://pleadingsanity.co.uk'
+      mainBranch: 'main',
+      requireCleanWorkingTree: !process.argv.includes('--force')
     };
+
+    this.startTime = null;
   }
 
+  // ==========================================
+  // COSMIC LOGGING — CLEAR, COLOURED, TIMESTAMPED
+  // ==========================================
   log(message, type = 'info') {
     const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      step: '\x1b[35m',
+      info: '\x1b[36m',     // cyan
+      success: '\x1b[32m',  // green
+      warning: '\x1b[33m',  // yellow
+      error: '\x1b[31m',    // red
+      step: '\x1b[35m',     // magenta
       reset: '\x1b[0m'
     };
-    const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+    const timestamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
     console.log(`${colors[type]}[${timestamp}] [DEPLOY] ${message}${colors.reset}`);
   }
 
+  // ==========================================
+  // SAFE COMMAND RUNNER — CONSISTENT ERROR HANDLING
+  // ==========================================
   async runCommand(command, description, options = {}) {
-    this.log(`${description}...`, 'step');
+    this.log(`→ ${description}…`, 'step');
     try {
       const output = execSync(command, {
         cwd: this.rootDir,
@@ -45,332 +60,306 @@ class DeployManager {
         stdio: options.silent ? 'pipe' : 'inherit',
         ...options
       });
-      this.log(`✅ ${description} completed`, 'success');
+      this.log(`✅ ${description}`, 'success');
       return output;
     } catch (error) {
-      this.log(`❌ ${description} failed: ${error.message}`, 'error');
+      this.log(`❌ ${description} failed`, 'error');
+      this.log(`   Error: ${error.message.trim()}`, 'error');
+      
       if (options.required !== false) {
-        throw error;
+        throw new Error(`${description} failed: ${error.message}`);
       }
       return null;
     }
   }
 
+  // ==========================================
+  // STEP 1 — CHECK EVERYTHING INSTALLED
+  // ==========================================
   async checkPrerequisites() {
-    this.log('Checking deployment prerequisites...', 'info');
+    this.log('Checking system prerequisites…', 'info');
     
     const checks = [
-      { command: 'git --version', name: 'Git' },
-      { command: 'node --version', name: 'Node.js' },
-      { command: 'npm --version', name: 'NPM' }
+      { cmd: 'git --version', name: 'Git' },
+      { cmd: 'node --version', name: 'Node.js' },
+      { cmd: 'npm --version', name: 'NPM' }
     ];
 
     for (const check of checks) {
       try {
-        const version = execSync(check.command, { encoding: 'utf8' }).trim();
-        this.log(`✅ ${check.name}: ${version}`, 'success');
-      } catch (error) {
-        this.log(`❌ ${check.name} not found`, 'error');
-        throw new Error(`${check.name} is required for deployment`);
+        const ver = execSync(check.cmd, { encoding: 'utf8' }).trim();
+        this.log(`✅ ${check.name}: ${ver}`, 'success');
+      } catch {
+        this.log(`❌ ${check.name} not found — required`, 'error');
+        throw new Error(`${check.name} is missing. Install it first.`);
       }
     }
 
-    // Check if we're in a git repository
+    // Verify git repo
     try {
-      execSync('git status', { cwd: this.rootDir, stdio: 'pipe' });
-      this.log('✅ Git repository detected', 'success');
-    } catch (error) {
-      this.log('❌ Not in a git repository', 'error');
-      throw new Error('Deployment requires a git repository');
+      execSync('git rev-parse --is-inside-work-tree', { cwd: this.rootDir, stdio: 'pipe' });
+      this.log('✅ Git repository confirmed', 'success');
+    } catch {
+      throw new Error('Not inside a Git repository. Run from your project root.');
     }
   }
 
+  // ==========================================
+  // STEP 2 — CHECK NOTHING UNCOMMITTED
+  // ==========================================
   async checkGitStatus() {
-    this.log('Checking git status...', 'info');
+    this.log('Checking Git status…', 'info');
     
-    try {
-      const status = execSync('git status --porcelain', { 
-        cwd: this.rootDir, 
-        encoding: 'utf8' 
-      });
+    const status = execSync('git status --porcelain', { 
+      cwd: this.rootDir, 
+      encoding: 'utf8' 
+    }).trim();
+
+    if (status) {
+      this.log('⚠️ Uncommitted changes detected:', 'warning');
+      console.log(status);
       
-      if (status.trim()) {
-        this.log('⚠️  Uncommitted changes detected:', 'warning');
-        console.log(status);
-        
-        if (process.argv.includes('--force')) {
-          this.log('Continuing with --force flag...', 'warning');
-        } else {
-          throw new Error('Please commit or stash your changes before deploying');
-        }
-      } else {
-        this.log('✅ Working directory clean', 'success');
+      if (this.deployConfig.requireCleanWorkingTree) {
+        throw new Error('Commit or stash changes first • Use --force to skip');
       }
-    } catch (error) {
-      if (error.message.includes('commit or stash')) {
-        throw error;
-      }
-      this.log(`Git status check failed: ${error.message}`, 'warning');
+      this.log('⚠️ Continuing anyway (--force mode)', 'warning');
+    } else {
+      this.log('✅ Working directory clean', 'success');
     }
+
+    // Current branch
+    const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim();
+    this.log(`📍 Current branch: ${branch}`, 'info');
   }
 
+  // ==========================================
+  // STEP 3 — RUN TESTS IF THEY EXIST
+  // ==========================================
   async runTests() {
     if (process.argv.includes('--skip-tests')) {
-      this.log('Skipping tests (--skip-tests flag)', 'warning');
+      this.log('⏭️ Tests skipped (--skip-tests)', 'warning');
       return;
     }
 
-    this.log('Running test suite...', 'info');
+    this.log('Running tests…', 'info');
     
+    let pkg;
     try {
-      // Check if test script exists
-      const packageJson = JSON.parse(
-        await fs.readFile(path.join(this.rootDir, 'package.json'), 'utf8')
-      );
-      
-      if (packageJson.scripts && packageJson.scripts['test:ci']) {
-        await this.runCommand('npm run test:ci', 'Running CI tests');
-      } else if (packageJson.scripts && packageJson.scripts.test) {
-        await this.runCommand('npm test', 'Running tests');
-      } else {
-        this.log('No test scripts found in package.json', 'warning');
-      }
-    } catch (error) {
-      this.log('Tests failed - deployment aborted', 'error');
-      throw error;
+      pkg = JSON.parse(await fs.readFile(path.join(this.rootDir, 'package.json'), 'utf8'));
+    } catch {
+      this.log('⚠️ No package.json found — skipping tests', 'warning');
+      return;
+    }
+
+    const scripts = pkg.scripts || {};
+    
+    if (scripts['test:ci']) {
+      await this.runCommand('npm run test:ci', 'CI Test Suite');
+    } else if (scripts.test) {
+      await this.runCommand('npm test', 'Test Suite');
+    } else {
+      this.log('ℹ️ No test scripts defined', 'info');
     }
   }
 
+  // ==========================================
+  // STEP 4 — OPTIMIZE ASSETS
+  // ==========================================
   async optimizeAssets() {
-    this.log('Optimizing assets for production...', 'info');
+    this.log('Optimizing production assets…', 'info');
     
     const optimizations = [
-      { script: 'optimize-images.js', name: 'Image optimization', required: false },
-      { script: 'minify-html.js', name: 'HTML minification', required: false },
-      { script: 'update-sw.js', name: 'Service worker update', required: false }
+      { file: 'optimize-images.js', label: 'Image Optimization', required: false },
+      { file: 'minify-html.js', label: 'HTML Minification', required: false },
+      { file: 'update-sw.js', label: 'Service Worker', required: false }
     ];
 
-    for (const opt of optimizations) {
-      const scriptPath = path.join(this.scriptsDir, opt.script);
-      
+    for (const item of optimizations) {
+      const fullPath = path.join(this.scriptsDir, item.file);
       try {
-        await fs.access(scriptPath);
-        await this.runCommand(
-          `node "${scriptPath}"`, 
-          opt.name, 
-          { required: opt.required }
-        );
-      } catch (error) {
-        if (opt.required) {
-          throw error;
-        }
-        this.log(`Skipping ${opt.name} - script not found`, 'warning');
+        await fs.access(fullPath);
+        await this.runCommand(`node "${fullPath}"`, item.label, { required: item.required });
+      } catch {
+        if (item.required) throw new Error(`${item.label} script missing`);
+        this.log(`⏭️ ${item.label} — not present, skipping`, 'info');
       }
     }
   }
 
+  // ==========================================
+  // STEP 5 — BUILD THE SITE
+  // ==========================================
   async buildProject() {
-    this.log('Building project for production...', 'info');
+    this.log('Building for production…', 'info');
     
-    // Install dependencies first
-    await this.runCommand('npm ci', 'Installing dependencies');
-    
-    // Run build command
-    await this.runCommand(this.deployConfig.buildCommand, 'Building project');
-    
-    // Verify build output
+    await this.runCommand('npm ci', 'Installing Dependencies');
+    await this.runCommand(this.deployConfig.buildCommand, 'Build Process');
+
+    // Verify output
     try {
       await fs.access(this.distDir);
-      this.log('✅ Build output directory exists', 'success');
-    } catch (error) {
-      // If no dist directory, assume build outputs to root
-      this.log('Build outputs to root directory', 'info');
+      this.log('✅ Build folder verified: /dist', 'success');
+    } catch {
+      this.log('ℹ️ Build outputs to root directory', 'info');
     }
   }
 
+  // ==========================================
+  // STEP 6 — DEPLOY TO NETLIFY
+  // ==========================================
+  async deployToNetlify() {
+    this.log('Deploying to Netlify…', 'info');
+    
+    const isProd = process.argv.includes('--production');
+    const deployCmd = isProd 
+      ? 'netlify deploy --prod' 
+      : 'netlify deploy';
+
+    try {
+      execSync('netlify --version', { stdio: 'pipe' });
+      await this.runCommand(deployCmd, isProd ? 'Production Deploy' : 'Draft Deploy');
+      return true;
+    } catch {
+      this.log('⚠️ Netlify CLI not installed — falling back to Git deploy', 'warning');
+      return await this.deployViaGit();
+    }
+  }
+
+  // ==========================================
+  // FALLBACK — DEPLOY VIA GIT PUSH
+  // ==========================================
+  async deployViaGit() {
+    this.log('Deploying via Git push…', 'info');
+    
+    const msg = `Deploy: ${new Date().toISOString()}`;
+    
+    try {
+      await this.runCommand('git add .', 'Staging files', { required: false });
+      
+      try {
+        await this.runCommand(`git commit -m "${msg}"`, 'Creating commit', { required: false });
+      } catch {
+        this.log('ℹ️ Nothing new to commit', 'info');
+      }
+      
+      await this.runCommand('git push', 'Pushing to GitHub');
+      this.log('✅ Git push complete — Netlify auto-deploys from main', 'success');
+      return true;
+    } catch (err) {
+      this.log(`❌ Git deploy failed: ${err.message}`, 'error');
+      throw err;
+    }
+  }
+
+  // ==========================================
+  // STEP 7 — HEALTH CHECK
+  // ==========================================
   async runHealthCheck() {
     if (process.argv.includes('--skip-health-check')) {
-      this.log('Skipping health check (--skip-health-check flag)', 'warning');
+      this.log('⏭️ Health check skipped', 'warning');
       return;
     }
 
-    this.log('Running health check...', 'info');
+    this.log('Running post-deploy health check…', 'info');
     
+    const healthScript = path.join(this.scriptsDir, 'health-check.js');
     try {
-      const healthCheckScript = path.join(this.scriptsDir, 'health-check.js');
-      await fs.access(healthCheckScript);
-      await this.runCommand(
-        `node "${healthCheckScript}"`, 
-        'Health check', 
-        { required: false }
-      );
-    } catch (error) {
-      this.log('Health check script not found - skipping', 'warning');
+      await fs.access(healthScript);
+      await this.runCommand(`node "${healthScript}"`, 'Health Check', { required: false });
+    } catch {
+      this.log(`ℹ️ Check manually: ${this.deployConfig.siteUrl}`, 'info');
     }
   }
 
-  async deployToNetlify() {
-    this.log('Deploying to Netlify...', 'info');
+  // ==========================================
+  // STEP 8 — GENERATE DEPLOYMENT REPORT
+  // ==========================================
+  async generateReport(success = true, errorMsg = null) {
+    const duration = ((Date.now() - this.startTime) / 1000).toFixed(2);
+    
+    let commit = 'unknown';
+    let version = 'unknown';
     
     try {
-      // Check if Netlify CLI is available
-      execSync('netlify --version', { stdio: 'pipe' });
-      
-      const deployCommand = process.argv.includes('--production') 
-        ? 'netlify deploy --prod'
-        : 'netlify deploy';
-        
-      await this.runCommand(deployCommand, 'Netlify deployment');
-      
-    } catch (error) {
-      if (error.message.includes('netlify')) {
-        this.log('Netlify CLI not found - attempting git push deployment', 'warning');
-        await this.deployViaGit();
-      } else {
-        throw error;
-      }
-    }
-  }
+      commit = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+      const pkg = JSON.parse(await fs.readFile(path.join(this.rootDir, 'package.json'), 'utf8'));
+      version = pkg.version || '0.1.0';
+    } catch { /* ignore */ }
 
-  async deployViaGit() {
-    this.log('Deploying via git push...', 'info');
-    
-    // Create deployment commit
-    const deployMessage = `Deploy: ${new Date().toISOString()}`;
-    
-    try {
-      await this.runCommand('git add .', 'Staging changes');
-      await this.runCommand(`git commit -m "${deployMessage}"`, 'Creating deploy commit', { required: false });
-      await this.runCommand('git push', 'Pushing to remote');
-    } catch (error) {
-      if (error.message.includes('nothing to commit')) {
-        this.log('No changes to deploy', 'info');
-        await this.runCommand('git push', 'Pushing to remote');
-      } else {
-        throw error;
-      }
-    }
-  }
-
-  async generateDeploymentReport() {
     const report = {
+      project: 'Pleading Sanity',
       timestamp: new Date().toISOString(),
       environment: this.deployConfig.environment,
-      deployment: {
-        successful: true,
-        duration: null,
-        version: null,
-        commit: null
-      },
-      build: {
-        command: this.deployConfig.buildCommand,
-        successful: true
-      },
-      checks: {
-        tests: 'passed',
-        healthCheck: 'passed',
-        assets: 'optimized'
-      }
+      siteUrl: this.deployConfig.siteUrl,
+      version,
+      commit,
+      durationSeconds: parseFloat(duration),
+      success,
+      error: errorMsg
     };
-
-    try {
-      // Get git info
-      report.deployment.commit = execSync('git rev-parse HEAD', { 
-        cwd: this.rootDir, 
-        encoding: 'utf8' 
-      }).trim();
-      
-      // Get package version
-      const packageJson = JSON.parse(
-        await fs.readFile(path.join(this.rootDir, 'package.json'), 'utf8')
-      );
-      report.deployment.version = packageJson.version;
-      
-    } catch (error) {
-      this.log(`Could not gather full deployment info: ${error.message}`, 'warning');
-    }
 
     const reportPath = path.join(this.rootDir, 'deployment-report.json');
     await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
-    
-    this.log(`Deployment report saved to: ${reportPath}`, 'info');
+    this.log(`📄 Report saved: deployment-report.json`, 'info');
     return report;
   }
 
+  // ==========================================
+  // MAIN RUN SEQUENCE
+  // ==========================================
   async run() {
-    const startTime = Date.now();
+    this.startTime = Date.now();
     
-    this.log('🚀 Starting Pleading Sanity Deployment', 'info');
-    this.log('======================================', 'info');
-    this.log(`Environment: ${this.deployConfig.environment}`, 'info');
-    this.log(`Site: ${this.deployConfig.siteName}`, 'info');
-    this.log('======================================', 'info');
+    console.log('\n' + '═.✧ 🌌 PLEADING SANITY DEPLOYMENT ✧.═'.padStart(60, ' ') + '\n');
+    this.log('🚀 Starting deployment sequence', 'info');
+    this.log(`Site: ${this.deployConfig.siteUrl}`, 'info');
+    this.log(`Env:  ${this.deployConfig.environment}`, 'info');
+    console.log('─'.repeat(50));
 
     try {
-      // Pre-deployment checks
       await this.checkPrerequisites();
       await this.checkGitStatus();
-      
-      // Run tests
       await this.runTests();
-      
-      // Build and optimize
       await this.optimizeAssets();
       await this.buildProject();
-      
-      // Deploy
       await this.deployToNetlify();
-      
-      // Post-deployment
       await this.runHealthCheck();
       
-      // Generate report
-      const report = await this.generateDeploymentReport();
-      report.deployment.duration = Date.now() - startTime;
+      const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
+      await this.generateReport(true);
       
-      // Success summary
-      const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-      this.log('======================================', 'info');
-      this.log('🎉 DEPLOYMENT SUCCESSFUL! 🎉', 'success');
-      this.log(`Total time: ${duration} seconds`, 'info');
-      this.log(`Site URL: ${this.deployConfig.healthCheckUrl}`, 'info');
-      this.log('======================================', 'info');
+      console.log('\n' + '🎉✨ DEPLOYMENT SUCCESSFUL ✨🎉'.padStart(55, ' ') + '\n');
+      this.log(`✅ Site live: ${this.deployConfig.siteUrl}`, 'success');
+      this.log(`⏱️  Total time: ${duration}s`, 'info');
+      console.log('═'.repeat(50) + '\n');
       
-    } catch (error) {
-      const duration = ((Date.now() - startTime) / 1000).toFixed(1);
-      this.log('======================================', 'info');
-      this.log('❌ DEPLOYMENT FAILED ❌', 'error');
-      this.log(`Error: ${error.message}`, 'error');
-      this.log(`Duration: ${duration} seconds`, 'info');
-      this.log('======================================', 'info');
+    } catch (err) {
+      const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
+      await this.generateReport(false, err.message);
       
-      // Generate failure report
-      try {
-        const report = await this.generateDeploymentReport();
-        report.deployment.successful = false;
-        report.deployment.duration = Date.now() - startTime;
-        report.deployment.error = error.message;
-      } catch (reportError) {
-        this.log(`Could not generate failure report: ${reportError.message}`, 'warning');
-      }
-      
+      console.log('\n' + '❌ DEPLOYMENT FAILED ❌'.padStart(52, ' ') + '\n');
+      this.log(`Reason: ${err.message}`, 'error');
+      this.log(`⏱️  Ran for: ${duration}s`, 'info');
+      console.log('═'.repeat(50) + '\n');
       process.exit(1);
     }
   }
 }
 
-// Run deployment if called directly
+// ==========================================
+// ENTRY POINT — RUN WHEN CALLED DIRECTLY
+// ==========================================
 if (require.main === module) {
   const deployer = new DeployManager();
-  
-  // Handle process signals
+
+  // Handle Ctrl+C
   process.on('SIGINT', () => {
-    deployer.log('Deployment interrupted by user', 'warning');
-    process.exit(1);
+    deployer.log('⚠️ Deployment interrupted by user', 'warning');
+    process.exit(130);
   });
-  
-  deployer.run().catch(error => {
-    console.error('Deployment script failed:', error);
+
+  deployer.run().catch(err => {
+    console.error('💥 Fatal error:', err);
     process.exit(1);
   });
 }
