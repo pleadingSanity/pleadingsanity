@@ -1,84 +1,137 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close menu when clicking a link or changing page
+  useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
+  const navLinks = [
+    { href: "/", label: "Home" },
+    { href: "/sanity-hub", label: "Sanity Hub" },
+    { href: "/journal-vault", label: "Journal Vault" },
+    { href: "/frequencies", label: "Healing Hz" },
+    { href: "/feed", label: "Feed" },
+    { href: "/games", label: "Brain Games" },
+    { href: "/movement", label: "The Movement" },
+    { href: "/shop", label: "👕 Shop" },
+  ];
 
   return (
-    <nav className="bg-black bg-opacity-80 border-b-2 border-cyan-400 sticky top-0 z-50">
+    <nav 
+      className="sticky top-0 z-50"
+      style={{
+        background: "rgba(0, 0, 0, 0.85)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(0, 255, 240, 0.3)",
+        boxShadow: "0 0 20px rgba(0, 255, 240, 0.15)",
+      }}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between items-center h-16">
           {/* Logo / Brand */}
-          <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl">🧠</span>
-              <span className="text-cyan-400 font-bold text-xl tracking-wide">
-                Pleading Sanity
-              </span>
-            </Link>
-          </div>
+          <Link 
+            href="/" 
+            className="flex items-center space-x-2 group"
+            onClick={() => setIsOpen(false)}
+          >
+            <span className="text-2xl group-hover:scale-110 transition-transform duration-200">🧠</span>
+            <span 
+              className="font-bold text-xl tracking-wide"
+              style={{
+                color: "#00fff0",
+                textShadow: "0 0 10px rgba(0, 255, 240, 0.4)",
+              }}
+            >
+              Pleading Sanity
+            </span>
+          </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="text-white hover:text-fuchsia-400">
-              Home
-            </Link>
-            <Link href="/sanity-hub" className="text-white hover:text-fuchsia-400">
-              Sanity Hub
-            </Link>
-            <Link href="/shop" className="text-white hover:text-fuchsia-400">
-              Shop
-            </Link>
-            <Link href="/movement" className="text-white hover:text-fuchsia-400">
-              Movement
-            </Link>
-            <Link href="/journal-vault" className="text-white hover:text-fuchsia-400">
-              Journal Vault
-            </Link>
-            <Link href="/games" className="text-white hover:text-fuchsia-400">
-              Games
-            </Link>
-            <Link href="/feed" className="text-white hover:text-fuchsia-400">
-              Feed
-            </Link>
+          <div className="hidden md:flex items-center space-x-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                  style={{
+                    color: isActive ? "#00fff0" : "#fff",
+                    background: isActive ? "rgba(0, 255, 240, 0.1)" : "transparent",
+                    textShadow: isActive ? "0 0 8px rgba(0, 255, 240, 0.5)" : "none",
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) e.currentTarget.style.color = "#ff00ff";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) e.currentTarget.style.color = "#fff";
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
 
           {/* Mobile Menu Button */}
-          <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-cyan-400 hover:text-fuchsia-400 focus:outline-none"
-            >
-              {isOpen ? "✖" : "☰"}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-lg transition-all duration-200"
+            style={{
+              color: isOpen ? "#ff00ff" : "#00fff0",
+              background: isOpen ? "rgba(255, 0, 255, 0.1)" : "transparent",
+            }}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
+          >
+            {isOpen ? "✖" : "☰"}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden bg-black bg-opacity-95 px-4 py-3 space-y-2 border-t border-cyan-400">
-          <Link href="/" className="block text-white hover:text-fuchsia-400">
-            Home
-          </Link>
-          <Link href="/sanity-hub" className="block text-white hover:text-fuchsia-400">
-            Sanity Hub
-          </Link>
-          <Link href="/shop" className="block text-white hover:text-fuchsia-400">
-            Shop
-          </Link>
-          <Link href="/movement" className="block text-white hover:text-fuchsia-400">
-            Movement
-          </Link>
-          <Link href="/journal-vault" className="block text-white hover:text-fuchsia-400">
-            Journal Vault
-          </Link>
-          <Link href="/games" className="block text-white hover:text-fuchsia-400">
-            Games
-          </Link>
-          <Link href="/feed" className="block text-white hover:text-fuchsia-400">
-            Feed
-          </Link>
+        <div 
+          className="md:hidden border-t"
+          style={{
+            background: "rgba(0, 0, 0, 0.95)",
+            borderColor: "rgba(0, 255, 240, 0.2)",
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          <div className="px-4 py-3 space-y-1">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block px-4 py-3 rounded-lg transition-all duration-200"
+                  style={{
+                    color: isActive ? "#00fff0" : "#fff",
+                    background: isActive ? "rgba(0, 255, 240, 0.15)" : "transparent",
+                    borderLeft: isActive ? "2px solid #00fff0" : "2px solid transparent",
+                  }}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </div>
         </div>
       )}
     </nav>
