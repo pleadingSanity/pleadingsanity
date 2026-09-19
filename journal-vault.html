@@ -1,38 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Journal Vault Viewer - Pleading Sanity</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Journal Vault — Pleading Sanity | Rise From Madness</title>
+  <link rel="icon" href="assets/favicon.ico" />
+  <meta name="description" content="Your stories. Your voice. Safe, seen, sacred. The Pleading Sanity Journal Vault — every entry matters." />
+  
+  <!-- ✅ NO GOOGLE FONTS — SYSTEM STACK = INSTANT, NO ERRORS -->
   <style>
     :root {
       --primary-cyan: #00fff0;
       --secondary-magenta: #ff00ff;
+      --gold: #ffd700;
       --bg-dark: #0d1b2a;
-      --bg-darker: #000;
+      --bg-darker: #000510;
       --text-light: #f0faff;
       --text-muted: #b9faff;
       --surface-alpha: rgba(0,255,240,0.06);
       --border-alpha: rgba(0,255,240,0.13);
-      --shadow-glow: 0 0 48px #00fff009;
+      --shadow-glow: 0 0 48px rgba(0,255,240,0.09);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      
+      /* System font stack — fast, no external calls */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                   'Helvetica Neue', Arial, sans-serif;
     }
     
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
-      font-family: 'Inter', Arial, sans-serif;
-      background: radial-gradient(ellipse at 50% 120%, var(--bg-dark) 0%, var(--bg-darker) 80%);
+      font-family: var(--font-sans);
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--bg-dark) 45%, var(--bg-darker) 100%);
       color: var(--text-light);
       margin: 0;
       padding: 20px;
       min-height: 100vh;
       transition: var(--transition);
+      line-height: 1.7;
     }
     
     body.light-mode {
@@ -47,47 +52,27 @@
       --shadow-glow: 0 0 48px rgba(0,102,204,0.09);
       background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: var(--surface-alpha);
-      border-radius: 21px;
-      padding: 30px;
-      box-shadow: var(--shadow-glow);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--border-alpha);
-      animation: fadeInUp 0.6s ease-out;
-    }
     
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-    h1 {
-      color: var(--primary-cyan);
+    .page-header {
       text-align: center;
-      margin-bottom: 20px;
-      text-shadow: 0 2px 22px rgba(0,255,240,0.33);
+      margin-bottom: 30px;
+      padding-top: 10px;
+    }
+    
+    .page-header h1 {
+      color: var(--primary-cyan);
+      text-shadow: 0 0 25px rgba(0,255,240,0.35);
       font-weight: 800;
-      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
       letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    
+    .page-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin: 0 auto;
     }
     
     .theme-toggle {
@@ -103,58 +88,140 @@
       backdrop-filter: blur(10px);
       font-size: 0.9rem;
       color: var(--text-light);
+      font-family: inherit;
     }
     
     .theme-toggle:hover {
       background: var(--primary-cyan);
-      color: var(--bg-darker);
+      color: #000;
       transform: scale(1.05);
     }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: var(--surface-alpha);
+      border-radius: 21px;
+      padding: 30px;
+      box-shadow: var(--shadow-glow);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-alpha);
+      animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
     .controls {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
     }
+    
     .btn {
       background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--secondary-magenta) 100%);
-      color: var(--bg-darker);
+      color: #000;
       font-weight: 700;
       padding: 12px 20px;
       border-radius: 12px;
       border: none;
       cursor: pointer;
-      margin: 0 8px 10px 0;
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
       box-shadow: 0 4px 15px rgba(0,255,240,0.2);
       font-size: 0.95rem;
-    }
-    
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.5s;
-    }
-    
-    .btn:hover::before {
-      left: 100%;
+      font-family: inherit;
     }
     
     .btn:hover {
-      background: var(--secondary-magenta);
-      color: var(--text-light);
-      transform: translateY(-2px) scale(1.02);
+      transform: translateY(-2px) scale(1.03);
       box-shadow: 0 8px 25px rgba(255,0,255,0.3);
     }
     
-    .btn:active {
-      transform: translateY(0) scale(0.98);
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary-cyan);
+      border: 1px solid var(--primary-cyan);
     }
+    
+    .btn-secondary:hover {
+      background: var(--primary-cyan);
+      color: #000;
+      border-color: var(--primary-cyan);
+    }
+    
+    .submit-section {
+      background: rgba(0,255,240,0.04);
+      border-radius: 16px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 1px solid rgba(0,255,240,0.12);
+    }
+    
+    .submit-section h2 {
+      color: var(--primary-cyan);
+      margin-bottom: 15px;
+      font-size: 1.25rem;
+    }
+    
+    .submit-textarea {
+      width: 100%;
+      min-height: 120px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--border-alpha);
+      border-radius: 10px;
+      padding: 15px;
+      color: var(--text-light);
+      font-size: 1rem;
+      font-family: inherit;
+      resize: vertical;
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+    
+    .submit-textarea:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+      box-shadow: 0 0 15px rgba(0,255,240,0.2);
+    }
+    
+    .search-box {
+      width: 100%;
+      max-width: 450px;
+      padding: 14px 20px;
+      border-radius: 30px;
+      border: 1px solid var(--border-alpha);
+      background: var(--surface-alpha);
+      color: var(--text-light);
+      margin: 0 auto 25px;
+      display: block;
+      font-size: 1rem;
+      transition: var(--transition);
+      backdrop-filter: blur(10px);
+      font-family: inherit;
+    }
+    
+    .search-box:focus {
+      outline: none;
+      border-color: var(--primary-cyan);
+      box-shadow: 0 0 20px rgba(0,255,240,0.2);
+    }
+    
+    .search-box::placeholder { color: var(--text-muted); }
+    
+    .stats {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-alpha);
+    }
+    
     .entry {
       background: var(--surface-alpha);
       border: 1px solid var(--border-alpha);
@@ -169,12 +236,15 @@
       overflow: hidden;
     }
     
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-15px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
     .entry::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 3px;
       background: linear-gradient(90deg, var(--primary-cyan), var(--secondary-magenta));
       opacity: 0;
@@ -182,166 +252,148 @@
     }
     
     .entry:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,255,240,0.15);
-      border-color: var(--primary-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0,255,240,0.12);
+      border-color: rgba(0,255,240,0.3);
     }
     
-    .entry:hover::before {
-      opacity: 1;
-    }
+    .entry:hover::before { opacity: 1; }
+    
     .entry-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      border-bottom: 1px solid rgba(0,255,240,0.2);
-      padding-bottom: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,255,240,0.15);
+      flex-wrap: wrap;
+      gap: 8px;
     }
+    
     .entry-number {
-      color: #00fff0;
+      color: var(--primary-cyan);
       font-weight: 800;
       font-size: 1.1rem;
     }
+    
     .entry-date {
-      color: #ff00ff;
+      color: var(--secondary-magenta);
       font-size: 0.9rem;
     }
+    
     .entry-source {
-      color: #00fff0;
-      font-size: 0.9rem;
-      background: rgba(0,255,240,0.1);
-      padding: 2px 8px;
-      border-radius: 4px;
+      color: var(--gold);
+      font-size: 0.85rem;
+      background: rgba(255,215,0,0.1);
+      padding: 2px 10px;
+      border-radius: 20px;
     }
+    
     .entry-text {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin-top: 15px;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      white-space: pre-wrap;
     }
-    .stats {
-      text-align: center;
-      margin-bottom: 20px;
-      color: #b9faff;
-    }
+    
     .empty-state {
       text-align: center;
-      color: #ff3b5c;
-      font-size: 1.2rem;
-      padding: 40px;
-    }
-    .search-box {
-      width: 100%;
-      max-width: 400px;
-      padding: 12px 16px;
-      border-radius: 25px;
-      border: 1px solid var(--border-alpha);
-      background: var(--surface-alpha);
-      color: var(--text-light);
-      margin: 10px auto;
-      display: block;
-      font-size: 1rem;
-      transition: var(--transition);
-      backdrop-filter: blur(10px);
-    }
-    
-    .search-box:focus {
-      outline: none;
-      border-color: var(--primary-cyan);
-      box-shadow: 0 0 20px rgba(0,255,240,0.2);
-      transform: scale(1.02);
-    }
-    
-    .search-box::placeholder {
       color: var(--text-muted);
+      padding: 50px 30px;
     }
     
-    /* Mobile Responsive */
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+    
+    .footer-note {
+      text-align: center;
+      margin-top: 40px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    .footer-note a {
+      color: var(--primary-cyan);
+      text-decoration: none;
+    }
+    
+    .footer-note a:hover {
+      color: var(--secondary-magenta);
+      text-decoration: underline;
+    }
+    
+    /* Mobile */
     @media (max-width: 768px) {
-      body {
-        padding: 10px;
-      }
-      
-      .container {
-        padding: 20px;
-        border-radius: 16px;
-      }
-      
-      .controls {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 10px;
-      }
-      
-      .btn {
-        margin: 0;
-        font-size: 0.9rem;
-        padding: 10px 16px;
-      }
-      
-      .entry {
-        padding: 16px;
-        margin: 16px 0;
-      }
-      
-      .entry-header {
-        flex-direction: column;
-        gap: 8px;
-        align-items: flex-start;
-      }
-      
-      .theme-toggle {
-        position: relative;
-        top: auto;
-        right: auto;
-        margin: 0 auto 20px;
-        display: block;
-        width: fit-content;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .controls {
-        grid-template-columns: 1fr;
-      }
-      
-      .search-box {
-        max-width: 100%;
-      }
-      
-      h1 {
-        font-size: 1.8rem;
-      }
+      body { padding: 15px 10px; }
+      .container { padding: 20px; border-radius: 16px; }
+      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 20px; display: block; }
+      .entry-header { flex-direction: column; align-items: flex-start; }
+      .submit-section { padding: 20px; }
     }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-    <span id="theme-icon">🌙</span> <span id="theme-text">Dark</span>
+  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+    <span id="theme-icon">🌙</span>
+    <span id="theme-text">Dark</span>
   </button>
-  
+
+  <header class="page-header">
+    <h1>📖 Journal Vault</h1>
+    <p>Your story matters. Safe. Seen. Sacred.</p>
+  </header>
+
   <div class="container">
-    <h1>🧠 Pleading Sanity - Journal Vault Viewer</h1>
-    
-    <div class="controls">
-      <button class="btn" onclick="loadVault()">🔄 Refresh Vault</button>
-      <button class="btn" onclick="exportVault()">⬇️ Export as Text</button>
-      <button class="btn" onclick="printVault()">🖨️ Print Vault</button>
-      <button class="btn" onclick="clearVault()">🗑️ Clear All</button>
+    <!-- ✍️ SUBMISSION FORM -->
+    <div class="submit-section">
+      <h2>✍️ Add Your Voice</h2>
+      <textarea 
+        id="newEntryText" 
+        class="submit-textarea" 
+        placeholder="Write your truth here — a thought, a moment, a breakthrough, a memory. Whatever you need to share. You are safe here."
+      ></textarea>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''">Clear</button>
+      </div>
     </div>
 
-    <input type="text" id="searchBox" class="search-box" placeholder="Search your journal entries..." onkeyup="filterEntries()">
+    <!-- CONTROLS -->
+    <div class="controls">
+      <button class="btn btn-secondary" onclick="loadVault()">🔄 Refresh</button>
+      <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
+      <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
+      <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
+    </div>
 
+    <!-- SEARCH -->
+    <input 
+      type="text" 
+      id="searchBox" 
+      class="search-box" 
+      placeholder="Search entries by word, feeling, theme..." 
+      onkeyup="filterEntries()"
+    >
+
+    <!-- STATS -->
     <div class="stats" id="stats"></div>
-    
+
+    <!-- ENTRIES -->
     <div id="vault-content"></div>
   </div>
+
+  <footer class="footer-note">
+    <p>Part of <a href="movement.html">Pleading Sanity</a> — One Source. One Consciousness. One Family.</p>
+    <p style="margin-top:5px;">Your words stay with you unless you choose to share them.</p>
+  </footer>
 
   <script>
     let allEntries = [];
     let currentTheme = localStorage.getItem('vaultTheme') || 'dark';
-    
-    // Initialize theme on load
+
+    // THEME SYSTEM
     function initTheme() {
       if (currentTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -349,211 +401,245 @@
         document.getElementById('theme-text').textContent = 'Light';
       }
     }
-    
+
     function toggleTheme() {
       currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
       document.body.classList.toggle('light-mode');
-      
-      const icon = document.getElementById('theme-icon');
-      const text = document.getElementById('theme-text');
-      
-      if (currentTheme === 'light') {
-        icon.textContent = '☀️';
-        text.textContent = 'Light';
-      } else {
-        icon.textContent = '🌙';
-        text.textContent = 'Dark';
-      }
-      
+      document.getElementById('theme-icon').textContent = currentTheme === 'light' ? '☀️' : '🌙';
+      document.getElementById('theme-text').textContent = currentTheme === 'light' ? 'Light' : 'Dark';
       localStorage.setItem('vaultTheme', currentTheme);
     }
-    
+
+    // ✍️ ADD NEW ENTRY
+    function addEntry() {
+      const text = document.getElementById('newEntryText').value.trim();
+      if (!text) {
+        alert("⚠️ Write something first — your voice is waiting.");
+        return;
+      }
+
+      const entry = {
+        id: Date.now(),
+        timestamp: new Date().toISOString(),
+        text: text,
+        source: 'Personal Submission'
+      };
+
+      allEntries.unshift(entry); // Newest at top
+      saveVault();
+      displayEntries(allEntries);
+      updateStats();
+      document.getElementById('newEntryText').value = '';
+      
+      // Success flash
+      const btn = event.target;
+      btn.textContent = "✅ Saved!";
+      setTimeout(() => btn.textContent = "💾 Save to Vault", 2000);
+    }
+
+    // 💾 SAVE TO LOCALSTORAGE
+    function saveVault() {
+      try {
+        localStorage.setItem('journalVault', JSON.stringify(allEntries));
+      } catch (e) {
+        console.error("Save failed:", e);
+        alert("⚠️ Could not save — storage may be full.");
+      }
+    }
+
+    // 📂 LOAD FROM STORAGE
     function loadVault() {
       try {
-        const vaultData = localStorage.getItem('journalVault');
-        allEntries = vaultData ? JSON.parse(vaultData) : [];
+        const stored = localStorage.getItem('journalVault');
+        allEntries = stored ? JSON.parse(stored) : [];
+        
+        // Seed with welcome entry if empty
+        if (allEntries.length === 0) {
+          allEntries = [{
+            id: 'welcome',
+            timestamp: new Date().toISOString(),
+            text: "Welcome to your Journal Vault. This space is yours — unfiltered, unjudged, yours alone.\n\nWrite the things you can't say out loud. Celebrate the small wins no one else sees. Record the moments you felt stronger than the pain.\n\nYou are not just surviving. You are documenting a resurrection. 💙✨",
+            source: 'Pleading Sanity'
+          }];
+          saveVault();
+        }
+        
         displayEntries(allEntries);
         updateStats();
-      } catch (error) {
-        console.error('Error loading vault:', error);
+      } catch (err) {
         document.getElementById('vault-content').innerHTML = `
           <div class="empty-state">
-            ❌ Error loading Journal Vault: ${error.message}<br>
-            <small>Make sure you've used the ChatGPT widget on the Pleading Sanity website.</small>
+            <div class="empty-state-icon">⚠️</div>
+            <h3>Something went wrong loading your vault</h3>
+            <p style="margin-top:10px;">${err.message}</p>
+            <button class="btn" onclick="localStorage.removeItem('journalVault');loadVault()" style="margin-top:15px;">Reset Vault</button>
           </div>
         `;
       }
     }
 
+    // 🎨 RENDER ENTRIES
     function displayEntries(entries) {
       const container = document.getElementById('vault-content');
       
-      if (!entries || entries.length === 0) {
+      if (!entries.length) {
         container.innerHTML = `
           <div class="empty-state">
-            📝 Your Journal Vault is empty.<br>
-            <small>Start a conversation with Arron on the Pleading Sanity website to see entries here.</small>
+            <div class="empty-state-icon">📝</div>
+            <h3>No matching entries</h3>
+            <p style="margin-top:10px;">Try different words or clear your search to see everything.</p>
           </div>
         `;
         return;
       }
 
-      let html = '';
-      entries.forEach((entry, index) => {
-        const date = new Date(entry.timestamp).toLocaleString();
-        html += `
-          <div class="entry" data-text="${entry.text.toLowerCase()}">
-            <div class="entry-header">
-              <span class="entry-number">#${index + 1}</span>
-              <span class="entry-source">${entry.source || 'Unknown'}</span>
-              <span class="entry-date">${date}</span>
-            </div>
-            <div class="entry-text">${entry.text}</div>
+      container.innerHTML = entries.map((entry, index) => `
+        <div class="entry" data-text="${entry.text.toLowerCase()}">
+          <div class="entry-header">
+            <span class="entry-number">#${index + 1}</span>
+            <span class="entry-source">${entry.source || 'Journal'}</span>
+            <span class="entry-date">${new Date(entry.timestamp).toLocaleString()}</span>
           </div>
-        `;
-      });
-      
-      container.innerHTML = html;
+          <div class="entry-text">${escapeHtml(entry.text)}</div>
+        </div>
+      `).join('');
     }
 
+    // 🔒 Prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // 📊 UPDATE STATS
     function updateStats() {
-      const stats = document.getElementById('stats');
-      if (allEntries.length > 0) {
-        const oldestDate = new Date(allEntries[0].timestamp).toLocaleDateString();
-        const newestDate = new Date(allEntries[allEntries.length - 1].timestamp).toLocaleDateString();
-        stats.innerHTML = `
-          📊 <strong>${allEntries.length}</strong> journal entries 
-          | 📅 From ${oldestDate} to ${newestDate}
-        `;
-      } else {
-        stats.innerHTML = '';
+      const el = document.getElementById('stats');
+      if (!allEntries.length) {
+        el.innerHTML = '';
+        return;
       }
+      const dates = allEntries.map(e => new Date(e.timestamp));
+      el.innerHTML = `
+        📊 <strong>${allEntries.length}</strong> entries 
+        | 📅 From ${new Date(Math.min(...dates)).toLocaleDateString()} 
+        to ${new Date(Math.max(...dates)).toLocaleDateString()}
+      `;
     }
 
+    // 🔍 SEARCH
     function filterEntries() {
-      const searchTerm = document.getElementById('searchBox').value.toLowerCase();
-      if (!searchTerm) {
+      const term = document.getElementById('searchBox').value.toLowerCase().trim();
+      if (!term) {
         displayEntries(allEntries);
         return;
       }
-      
-      const filteredEntries = allEntries.filter(entry => 
-        entry.text.toLowerCase().includes(searchTerm)
+      displayEntries(
+        allEntries.filter(e => 
+          e.text.toLowerCase().includes(term) || 
+          (e.source && e.source.toLowerCase().includes(term))
+        )
       );
-      displayEntries(filteredEntries);
     }
 
+    // 📤 EXPORT
     function exportVault() {
-      if (allEntries.length === 0) {
-        alert("⚠️ Journal Vault is empty!");
+      if (!allEntries.length) {
+        alert("⚠️ Nothing to export yet.");
         return;
       }
-
-      let content = "🧠 Pleading Sanity – Journal Vault Export\\n";
-      content += `Exported on: ${new Date().toLocaleString()}\\n`;
-      content += `Total entries: ${allEntries.length}\\n\\n`;
-      content += "=" .repeat(50) + "\\n\\n";
       
-      allEntries.forEach((entry, i) => {
-        content += `Entry #${i + 1}\\n`;
-        content += `Date: ${new Date(entry.timestamp).toLocaleString()}\\n`;
-        content += `Source: ${entry.source || 'Unknown'}\\n`;
-        content += `Text: ${entry.text}\\n`;
-        content += "-".repeat(30) + "\\n\\n";
+      let content = "🧠 PLEADING SANITY — JOURNAL VAULT\n";
+      content += `Exported: ${new Date().toLocaleString()}\n`;
+      content += `Total Entries: ${allEntries.length}\n`;
+      content += "=".repeat(60) + "\n\n";
+      
+      allEntries.forEach((e, i) => {
+        content += `ENTRY ${i + 1}\n`;
+        content += `Date: ${new Date(e.timestamp).toLocaleString()}\n`;
+        content += `Source: ${e.source || 'Personal'}\n`;
+        content += "-".repeat(40) + "\n";
+        content += e.text + "\n";
+        content += "=".repeat(60) + "\n\n";
       });
-
+      
       const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `PleadingSanity_JournalVault_${new Date().toISOString().split('T')[0]}.txt`;
-      link.click();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `PleadingSanity_JournalVault_${new Date().toISOString().slice(0,10)}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
     }
 
+    // 🖨️ PRINT
     function printVault() {
-      if (allEntries.length === 0) {
-        alert("⚠️ Journal Vault is empty!");
+      if (!allEntries.length) {
+        alert("⚠️ Nothing to print yet.");
         return;
       }
-
-      let win = window.open("", "PRINT", "height=600,width=800");
-      win.document.write(`
+      
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <!DOCTYPE html>
         <html>
-          <head>
-            <title>Pleading Sanity - Journal Vault</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              h1 { color: #00fff0; text-align: center; }
-              .entry { margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 15px; }
-              .entry-header { font-weight: bold; margin-bottom: 10px; }
-              .entry-date { color: #666; font-size: 0.9rem; }
-            </style>
-          </head>
-          <body>
-            <h1>🧠 Pleading Sanity – Journal Vault</h1>
-            <p><strong>Exported:</strong> ${new Date().toLocaleString()}</p>
-            <p><strong>Total Entries:</strong> ${allEntries.length}</p>
-            <hr>
+        <head>
+          <title>Journal Vault — Pleading Sanity</title>
+          <style>
+            body { font-family: -apple-system, Arial, sans-serif; padding: 30px; line-height: 1.6; }
+            h1 { color: #00fff0; text-align: center; }
+            .entry { margin: 25px 0; padding: 20px; border-bottom: 1px solid #ddd; }
+            .meta { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
+            .source { color: #ff00ff; font-weight: bold; }
+          </style>
+        </head>
+        <body>
+          <h1>📖 Journal Vault — Pleading Sanity</h1>
+          <p style="text-align:center;">Exported: ${new Date().toLocaleString()}</p>
+          <hr>
+          ${allEntries.map((e, i) => `
+            <div class="entry">
+              <div class="meta">
+                <strong>#${i+1}</strong> — 
+                <span class="source">${e.source || 'Journal'}</span> — 
+                ${new Date(e.timestamp).toLocaleString()}
+              </div>
+              <div style="white-space:pre-wrap;">${e.text}</div>
+            </div>
+          `).join('')}
+        </body>
+        </html>
       `);
-      
-      allEntries.forEach((entry, i) => {
-        win.document.write(`
-          <div class="entry">
-            <div class="entry-header">Entry #${i + 1} - ${entry.source || 'Unknown'}</div>
-            <div class="entry-date">${new Date(entry.timestamp).toLocaleString()}</div>
-            <div class="entry-text">${entry.text}</div>
-          </div>
-        `);
-      });
-      
-      win.document.write('</body></html>');
-      win.document.close();
-      win.focus();
-      win.print();
-      win.close();
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
     }
 
+    // 🗑️ CLEAR
     function clearVault() {
-      if (confirm("⚠️ Are you sure you want to clear ALL journal entries? This cannot be undone!")) {
-        localStorage.removeItem('journalVault');
-        allEntries = [];
-        displayEntries([]);
-        updateStats();
-        alert("✅ Journal Vault cleared successfully.");
-      }
+      if (!confirm("⚠️ This will DELETE EVERYTHING. Cannot be undone. Sure?")) return;
+      localStorage.removeItem('journalVault');
+      allEntries = [];
+      loadVault();
     }
 
-    // Auto-load on page start
-    document.addEventListener('DOMContentLoaded', function() {
-      initTheme();
-      loadVault();
-    });
-    
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-      if (e.ctrlKey || e.metaKey) {
-        switch(e.key) {
-          case 'r':
-            e.preventDefault();
-            loadVault();
-            break;
-          case 'e':
-            e.preventDefault();
-            exportVault();
-            break;
-          case 'p':
-            e.preventDefault();
-            printVault();
-            break;
-          case '/':
-            e.preventDefault();
-            document.getElementById('searchBox').focus();
-            break;
-        }
+    // ⌨️ KEYBOARD SHORTCUTS
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && document.activeElement.id === 'newEntryText') {
+        e.preventDefault();
+        addEntry();
       }
       if (e.key === 'Escape') {
         document.getElementById('searchBox').value = '';
         filterEntries();
+        document.getElementById('newEntryText').blur();
       }
+    });
+
+    // 🚀 INIT
+    document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+      loadVault();
     });
   </script>
 </body>
