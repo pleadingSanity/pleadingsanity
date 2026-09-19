@@ -1,10 +1,18 @@
-## Proxy API calls from Netlify → Vercel (custom domain)
-/api/* https://pleadingsanity.uk/api/:splat 200
-/.netlify/functions/ytFeed https://pleadingsanity.uk/api/ytFeed 200
+# ==============================================================
+# PLEADING SANITY — NETLIFY → VERCEL PROXY & CANONICAL RULES
+# Version: 2.0-BUFFED | 2026-09-19
+# Purpose: Proxy API to Vercel · Force HTTPS · Remove www · Clean URLs
+# ==============================================================
 
-## Optional: force canonical host on Netlify
-http://www.pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
-https://www.pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
-http://pleadingsanity.co.uk/* https://pleadingsanity.co.uk/:splat 301!
+# ─── API PROXY → VERCEL (pleadingsanity.uk) ───
+/api/*        https://pleadingsanity.uk/api/:splat   200
+/.netlify/functions/ytFeed   https://pleadingsanity.uk/api/ytFeed   200
 
-/* /index.html 200
+# ─── CANONICAL REDIRECTS → CLEAN DOMAIN ───
+# Remove www + Force HTTPS + Standardize on .co.uk
+http://www.pleadingsanity.co.uk/*    https://pleadingsanity.co.uk/:splat   301!
+https://www.pleadingsanity.co.uk/*   https://pleadingsanity.co.uk/:splat   301!
+http://pleadingsanity.co.uk/*        https://pleadingsanity.co.uk/:splat   301!
+
+# ─── FALLBACK — SPA / CLEAN ROUTING ───
+/*    /index.html   200
