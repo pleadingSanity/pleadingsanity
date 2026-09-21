@@ -56,7 +56,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.0.0",
-    "mailchimp-marketing": "^4.1.0",
+    "mailchimp-marketing": "^3.0.0",
     "next": "latest",
     "next-seo": "^6.5.0",
     "next-sitemap": "^4.2.3",
@@ -87,7 +87,7 @@
     ]
   },
   "engines": {
-    "node": ">=18.17.0 <21",
+    "node": "24.x",
     "npm": ">=9.0.0"
   },
   "browserslist": {
