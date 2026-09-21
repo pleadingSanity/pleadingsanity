@@ -3,7 +3,7 @@ const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
   skipWaiting: true,
-  disable: process.env.NODE_ENV === 'development', // don’t cache in dev
+  disable: process.env.NODE_ENV === 'development',
 });
 
 const nextConfig = {
@@ -22,6 +22,15 @@ const nextConfig = {
       'tikcdn.tiktokglobalshop.com',
     ],
   },
+
+  async rewrites() {
+    return [
+      { source: '/api/video', destination: '/api/FetchVideos' },
+      { source: '/api/fetchVideos', destination: '/api/FetchVideos' },
+      { source: '/api/fetchvideos', destination: '/api/FetchVideos' },
+    ];
+  },
+
   async headers() {
     return [
       {
@@ -38,6 +47,7 @@ const nextConfig = {
       },
     ];
   },
+
   async redirects() {
     return [
       {
@@ -55,8 +65,15 @@ const nextConfig = {
         destination: 'https://payhip.com/Pleadingsanity',
         permanent: true,
       },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.pleadingsanity.uk' }],
+        destination: 'https://pleadingsanity.uk/:path*',
+        permanent: true,
+      },
     ];
   },
+
   env: {
     BRAND_NAME: 'Pleading Sanity',
     BRAND_TAGLINE: 'Rise From Madness',
