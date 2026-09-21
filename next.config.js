@@ -8,18 +8,22 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   trailingSlash: true,
+  
+  // ✅ Tells Next: we use HTML files, not Next.js /pages folder → FIXES the ENOTDIR error
+  pageExtensions: false,
+
+  // ✅ Updated for Next.js 16 — no more deprecation warnings
   images: {
-    domains: [
-      'i.ytimg.com',
-      'img.youtube.com',
-      'vumbnail.com',
-      'cdn.shopify.com',
-      'dqfzb1-ki.myshopify.com',
-      'pleadingsanity.co.uk',
-      'payhip.com',
-      'tikcdn.tiktokglobalshop.com',
+    remotePatterns: [
+      { protocol: 'https', hostname: 'i.ytimg.com' },
+      { protocol: 'https', hostname: 'img.youtube.com' },
+      { protocol: 'https', hostname: 'vumbnail.com' },
+      { protocol: 'https', hostname: 'cdn.shopify.com' },
+      { protocol: 'https', hostname: 'dqfzb1-ki.myshopify.com' },
+      { protocol: 'https', hostname: 'pleadingsanity.co.uk' },
+      { protocol: 'https', hostname: 'payhip.com' },
+      { protocol: 'https', hostname: 'tikcdn.tiktokglobalshop.com' },
     ],
   },
 
@@ -50,21 +54,9 @@ const nextConfig = {
 
   async redirects() {
     return [
-      {
-        source: '/shop',
-        destination: 'https://shop.pleadingsanity.co.uk',
-        permanent: true,
-      },
-      {
-        source: '/tiktokshop',
-        destination: 'https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop',
-        permanent: true,
-      },
-      {
-        source: '/payhip',
-        destination: 'https://payhip.com/Pleadingsanity',
-        permanent: true,
-      },
+      { source: '/shop', destination: 'https://shop.pleadingsanity.co.uk', permanent: true },
+      { source: '/tiktokshop', destination: 'https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop', permanent: true },
+      { source: '/payhip', destination: 'https://payhip.com/Pleadingsanity', permanent: true },
       {
         source: '/:path*',
         has: [{ type: 'host', value: 'www.pleadingsanity.uk' }],
