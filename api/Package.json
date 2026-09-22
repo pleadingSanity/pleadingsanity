@@ -8,7 +8,7 @@
   "homepage": "https://pleadingsanity.co.uk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pleadingSanity/pleading-sanity.git"
+    "url": "https://github.com/pleadingSanity/pleadingsanity.git"
   },
   "scripts": {
     "dev": "next dev",
@@ -23,12 +23,12 @@
     "sitemap": "next-sitemap"
   },
   "dependencies": {
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "framer-motion": "^11.18.0",
-    "mailchimp-marketing": "^4.1.0",
     "next": "15.1.0",
     "next-seo": "^6.6.0",
     "next-sitemap": "^4.2.3",
@@ -39,8 +39,8 @@
     "react-player": "^2.16.0",
     "sharp": "^0.33.5",
     "swr": "^2.3.0",
-    "zustand": "^5.0.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.9.0",
