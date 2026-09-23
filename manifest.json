@@ -115,6 +115,20 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Journal Vault — Private & Safe"
+    },
+    {
+      "src": "assets/screenshots/desktop-videos.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Videos — Survivor Stories"
+    },
+    {
+      "src": "assets/screenshots/mobile-offline.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Offline Support — Always Here"
     }
   ],
   "shortcuts": [
@@ -129,6 +143,12 @@
       "short_name": "Feed",
       "description": "Positive stories — no doomscroll, only sanity",
       "url": "/feed.html"
+    },
+    {
+      "name": "Videos & Stories",
+      "short_name": "Videos",
+      "description": "Curated playlists & survivor voices",
+      "url": "/videos.html"
     },
     {
       "name": "Brain Games",
@@ -179,6 +199,18 @@
       "url": "/journal-vault.html"
     },
     {
+      "name": "Arron AI",
+      "short_name": "Arron",
+      "description": "Your companion — reflect, breathe, grow together",
+      "url": "/arron"
+    },
+    {
+      "name": "Community",
+      "short_name": "Community",
+      "description": "Dashboard & voice — shape the movement",
+      "url": "/community-dashboard.html"
+    },
+    {
       "name": "Offline Support",
       "short_name": "Offline",
       "description": "Crisis help & breathing — always available",
@@ -195,8 +227,29 @@
       "short_name": "Movement",
       "description": "Our story — One Source. One Family.",
       "url": "/movement.html"
+    },
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Who we are & why we're here",
+      "url": "/about.html"
+    },
+    {
+      "name": "Discord",
+      "short_name": "Discord",
+      "description": "Join the conversation — we rise together",
+      "url": "/discord"
+    },
+    {
+      "name": "Contact",
+      "short_name": "Contact",
+      "description": "Reach out — we're listening",
+      "url": "/contact.html"
     }
   ],
-  "related_applications": [],
-  "prefer_related_applications": false
+  "scope": "/",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }
