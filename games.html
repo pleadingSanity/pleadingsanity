@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Brain Games — Pleading Sanity | No Ads. No Stress. Just Play.</title>
-  <meta name="description" content="Your own brain-training games — Cosmic Focus, Word Power, Number Nebula & more. Download as an app. Free forever.">
+  <meta name="description" content="Your own brain-training games — Cosmic Focus, Number Nebula, Pattern Galaxy, Memory Ocean, Rhythm Resonance. Download as an app. Free forever.">
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/games.html" />
@@ -17,6 +17,7 @@
       --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
       --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
       --gold:#ffd700;--gold-glow:rgba(255,215,0,.3);
+      --violet:#a855f7;--aqua:#00d4e8;
       --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
       --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
       --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
@@ -68,7 +69,7 @@
     }
     main{max-width:1200px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
-    .intro{text-align:center;max-width:700px;margin:0 auto 30px;color:var(--text-soft);font-size:1.05rem;}
+    .intro{text-align:center;max-width:750px;margin:0 auto 35px;color:var(--text-soft);font-size:1.05rem;}
     .intro strong{color:var(--cyan);text-shadow:0 0 10px rgba(0,255,240,.2);}
 
     .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;}
@@ -85,6 +86,7 @@
     .game-card:nth-child(4){animation-delay:.4s;}
     .game-card:nth-child(5){animation-delay:.5s;}
     .game-card:nth-child(6){animation-delay:.6s;}
+    .game-card:nth-child(7){animation-delay:.7s;}
     
     .game-card::before{
       content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
@@ -106,14 +108,15 @@
       position:absolute;top:12px;right:12px;padding:5px 14px;border-radius:50px;font-weight:800;font-size:.8rem;
       box-shadow:0 0 15px currentColor;z-index:1;
     }
-    .badge.top{background:var(--cyan);color:#000;}
+    .badge.official{background:var(--cyan);color:#000;}
     .badge.new{background:var(--magenta);color:#fff;}
-    .badge.official{background:var(--gold);color:#000;}
+    .badge.live{background:var(--gold);color:#000;}
+    .badge.calm{background:var(--aqua);color:#000;}
     
     .game-content{padding:20px;}
     .game-content h3{color:var(--cyan);font-size:1.2rem;margin-bottom:8px;text-align:center;}
     .game-desc{color:var(--text-soft);text-align:center;margin-bottom:20px;line-height:1.6;min-height:3.2rem;}
-    .game-stats{display:flex;justify-content:center;gap:15px;margin-bottom:15px;font-size:.8rem;color:var(--muted);}
+    .game-stats{display:flex;justify-content:center;gap:15px;margin-bottom:15px;font-size:.8rem;color:var(--muted);flex-wrap:wrap;}
     .game-stats span{display:flex;align-items:center;gap:4px;}
     
     .btn-wrap{display:flex;gap:10px;flex-wrap:wrap;}
@@ -168,7 +171,7 @@
       border-radius:50%;transition:var(--t);color:var(--cyan);
     }
     .socials a:hover{color:var(--magenta);transform:scale(1.2);background:rgba(255,0,255,.1);box-shadow:0 0 15px rgba(255,0,255,.2);}
-    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(0,255,240,.08);font-size:.85rem;}
+    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,240,.08);font-size:.85rem;}
     .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
     
     @media (max-width:768px){
@@ -203,10 +206,13 @@
   </header>
 
   <main id="main">
-    <p class="intro">Safe, mindful play — <strong>download as a phone app, works offline, free forever.</strong> Build focus. Train calm. Grow brighter 💙✨</p>
+    <p class="intro">
+      100% built in-house — <strong>zero external links, zero ads, zero pressure.</strong><br>
+      Download as a phone app → works offline → auto-saves progress → grows with your mind 💙✨
+    </p>
 
     <div class="games-grid">
-      <!-- 1 COSMIC FOCUS — OFFICIAL -->
+      <!-- 1 COSMIC FOCUS — MEMORY -->
       <article class="game-card">
         <div class="game-thumb">
           🧠
@@ -214,7 +220,7 @@
         </div>
         <div class="game-content">
           <h3>Cosmic Focus</h3>
-          <p class="game-desc">Memory sequence game — watch, remember, repeat. Levels grow with you. Progress saved.</p>
+          <p class="game-desc">Watch, remember, repeat. Memory sequences that expand gently — never overwhelming.</p>
           <div class="game-stats">
             <span>🔥 Levels</span>
             <span>💾 Auto-Save</span>
@@ -227,79 +233,103 @@
         </div>
       </article>
 
-      <!-- 2 WORD POWER -->
-      <article class="game-card">
-        <div class="game-thumb">
-          ✍️
-          <span class="badge top">TOP PICK</span>
-        </div>
-        <div class="game-content">
-          <h3>Word Power</h3>
-          <p class="game-desc">Letter strategy — expand vocabulary, calm focus, play at your own pace.</p>
-          <div class="game-stats">
-            <span>🎯 Strategy</span>
-            <span>🌐 Browser</span>
-            <span>🆓 Free</span>
-          </div>
-          <div class="btn-wrap">
-            <a href="https://www.crazygames.com/game/wordmeister" target="_blank" rel="noopener noreferrer" class="btn primary">▶ Play Now</a>
-            <a href="journal-vault.html" class="btn secondary">📝 Share Score</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 3 BREATHE & RESET -->
-      <article class="game-card">
-        <div class="game-thumb">
-          🌬️
-          <span class="badge new">NEW</span>
-        </div>
-        <div class="game-content">
-          <h3>Breathe & Reset</h3>
-          <p class="game-desc">Guided breathing — calm your nervous system in under 2 minutes.</p>
-          <div class="game-stats">
-            <span>🧘 Calm</span>
-            <span>⏱️ Quick</span>
-            <span>💙 Safe</span>
-          </div>
-          <div class="btn-wrap">
-            <a href="https://www.calm.com/breathe" target="_blank" rel="noopener noreferrer" class="btn primary">🌬️ Breathe With Me</a>
-            <a href="frequencies.html" class="btn secondary">🎵 Healing Hz</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 4 NUMBER NEBULA -->
+      <!-- 2 NUMBER NEBULA — LOGIC & MATH -->
       <article class="game-card">
         <div class="game-thumb">
           🔢
-          <span class="badge new">BUILDING</span>
+          <span class="badge live">LIVE</span>
         </div>
         <div class="game-content">
           <h3>Number Nebula</h3>
-          <p class="game-desc">Math patterns & logic — build confidence, not stress. Coming soon.</p>
+          <p class="game-desc">Patterns, sequences & mental math — build confidence, not stress. Free-text mode unlocks at Level 8.</p>
           <div class="game-stats">
-            <span>🔜 In Dev</span>
-            <span>📅 Next Update</span>
-            <span>✨ Yours</span>
+            <span>🧮 5 Types</span>
+            <span>💾 Auto-Save</span>
+            <span>📈 Gently Scales</span>
           </div>
           <div class="btn-wrap">
-            <span class="btn primary disabled">🔜 Coming Soon</span>
-            <a href="journal-vault.html" class="btn secondary">💡 Suggest Feature</a>
+            <a href="number-nebula.html" class="btn primary">▶ Play Now</a>
+            <a href="journal-vault.html" class="btn secondary">📝 Log Score</a>
           </div>
         </div>
       </article>
 
-      <!-- 5 CALM COLLECTION -->
+      <!-- 3 PATTERN GALAXY — VISUAL PERCEPTION -->
       <article class="game-card">
-        <div class="game-thumb">🎧</div>
+        <div class="game-thumb">
+          🌈
+          <span class="badge new">NEW</span>
+        </div>
         <div class="game-content">
-          <h3>Calm Collection</h3>
-          <p class="game-desc">Healing frequencies & ambient tones — listen while you work, rest, or play.</p>
+          <h3>Pattern Galaxy</h3>
+          <p class="game-desc">See the flow — shapes, shifts & cycles. Train intuition, visual focus & calm awareness.</p>
           <div class="game-stats">
-            <span>🎵 5 Tones</span>
-            <span>🔊 Local</span>
+            <span>👁️ Perception</span>
+            <span>✨ Intuition</span>
             <span>📱 Offline</span>
+          </div>
+          <div class="btn-wrap">
+            <a href="pattern-galaxy.html" class="btn primary">▶ Play Now</a>
+            <a href="journal-vault.html" class="btn secondary">📝 Log Flow</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 4 MEMORY OCEAN — CALM MATCHING -->
+      <article class="game-card">
+        <div class="game-thumb">
+          🧩
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-content">
+          <h3>Memory Ocean</h3>
+          <p class="game-desc">Find the pairs — no timers, no rush. Breathe deeply while your mind gently strengthens.</p>
+          <div class="game-stats">
+            <span>🌊 No Timers</span>
+            <span>🧘 Calm Mode</span>
+            <span>💾 Auto-Save</span>
+          </div>
+          <div class="btn-wrap">
+            <a href="memory-ocean.html" class="btn primary">▶ Play Now</a>
+            <a href="journal-vault.html" class="btn secondary">📝 Log Peace</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 5 RHYTHM RESONANCE — AUDIO & VIBRATION -->
+      <article class="game-card">
+        <div class="game-thumb">
+          🎵
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-content">
+          <h3>Rhythm Resonance</h3>
+          <p class="game-desc">Listen, feel, repeat — pure healing frequencies. Entrain your nervous system to calm.</p>
+          <div class="game-stats">
+            <span>🎧 8 Notes</span>
+            <span>💜 Frequency</span>
+            <span>✨ Flow State</span>
+          </div>
+          <div class="btn-wrap">
+            <a href="rhythm-resonance.html" class="btn primary">▶ Play Now</a>
+            <a href="journal-vault.html" class="btn secondary">📝 Log Vibe</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 6 HEALING HZ — FREQUENCY LISTENING -->
+      <article class="game-card">
+        <div class="game-thumb">
+          🎧
+          <span class="badge calm">CALM</span>
+        </div>
+        <div class="game-content">
+          <h3>Healing Hz</h3>
+          <p class="game-desc">528Hz, 432Hz & more — ambient tones to work, rest, heal or sleep deeply to.</p>
+          <div class="game-stats">
+            <span>🔊 5 Tones</span>
+            <span>📱 Offline</span>
+            <span>💙 Always Free</span>
           </div>
           <div class="btn-wrap">
             <a href="frequencies.html" class="btn primary">🎧 Listen Now</a>
@@ -308,20 +338,23 @@
         </div>
       </article>
 
-      <!-- 6 SANITY STORIES -->
+      <!-- 7 SANITY STORIES — JOURNALING -->
       <article class="game-card">
-        <div class="game-thumb">✨</div>
+        <div class="game-thumb">
+          ✨
+          <span class="badge calm">HEALING</span>
+        </div>
         <div class="game-content">
           <h3>Sanity Stories</h3>
-          <p class="game-desc">Write, reflect & grow. Your words become your strength. Your journey matters.</p>
+          <p class="game-desc">Your words, safely yours. Write. Reflect. Release. Turn pain into purpose.</p>
           <div class="game-stats">
             <span>📖 Private</span>
             <span>🔒 Yours</span>
-            <span>💜 Healing</span>
+            <span>💜 Forever</span>
           </div>
           <div class="btn-wrap">
             <a href="journal-vault.html" class="btn primary">✍️ Start Writing</a>
-            <a href="sanityhub.html" class="btn secondary">📖 Read Others</a>
+            <a href="sanityhub.html" class="btn secondary">📖 Community</a>
           </div>
         </div>
       </article>
@@ -329,8 +362,8 @@
 
     <div class="inspire">
       <h3>💡 Why This Matters — & How It Grows</h3>
-      <p>Every game built for <strong>real brain health</strong> — no addiction tricks, no timers, no pressure.<br>
-      Install as an app → works offline → updates automatically → new games added every month.</p>
+      <p>Every game built for <strong>whole-person health</strong> — memory → logic → perception → calm → vibration.<br>
+      No addiction tricks, no paywalls, no timers breathing down your neck. Just you and your mind, gently growing stronger.</p>
       <p class="quote">"It's not about being the best. It's about being better than you were yesterday." ✨</p>
       <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Idea%20%7C%20Pleading%20Sanity" class="idea-link">Got a game idea? Suggest it → we build it 💙</a>
     </div>
@@ -348,7 +381,7 @@
     </div>
     <div class="legacy">
       <p>&copy; <span id="yr"></span> Pleading Sanity — All Rights Reserved</p>
-      <p class="names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
       <p>Built on their shoulders. Awakened, not broken.</p>
     </div>
   </footer>
@@ -376,7 +409,6 @@
       installBtn.classList.add('hidden');
     });
     
-    // Hide if already installed
     window.addEventListener('appinstalled', () => {
       installBtn.classList.add('hidden');
       deferredPrompt = null;
