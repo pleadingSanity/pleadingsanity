@@ -4,44 +4,69 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pleading Sanity — The Movement | Rise From Madness</title>
-  <meta name="description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family. Evolution, Not Erasure." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/movement.html" />
+
+  <!-- Favicons & PWA -->
   <link rel="icon" href="assets/favicon.ico" />
-  
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+
   <!-- Open Graph -->
   <meta property="og:title" content="Pleading Sanity — The Movement | Rise From Madness" />
   <meta property="og:description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/movement.html" />
-  
-  <meta name="author" content="Shane Cooper" />
-  <meta name="theme-color" content="#00fff0" />
-  
+
+  <!-- ==========================================
+       MOVEMENT PAGE — COSMIC PRODUCTION v2.2
+       Nebula background · Manifesto · Legacy
+       Fully aligned · Accessible · SEO-locked
+       ========================================== -->
   <style>
     :root {
       --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
       --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
       --gold: #ffd700;
       --deep-purple: #13002e;
       --deepest: #060014;
       --text-bright: #eafffd;
       --text-soft: #b9faff;
+      --text-muted: #7ab8c8;
       --glass: rgba(0,255,240,0.06);
       --glass-deep: rgba(18,4,42,0.85);
-      --transition: all 0.3s ease;
+      --border-glow: rgba(0,255,240,0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
-    
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body { 
       background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep-purple) 45%, var(--deepest) 90%); 
       color: var(--text-bright); 
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: var(--font-sans);
       line-height: 1.7;
       min-height: 100vh;
+      background-attachment: fixed;
     }
-    
+
+    /* Accessibility skip link */
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
+
+    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+
     /* Floating Nebula Particles */
     .nebula-particle {
       position: fixed;
@@ -80,6 +105,7 @@
       margin-bottom: 20px; 
       filter: drop-shadow(0 0 25px rgba(0,255,240,0.4));
       animation: pulse 3s infinite ease-in-out;
+      alt: "Pleading Sanity — Crying Brain Logo";
     }
     
     @keyframes pulse {
@@ -112,7 +138,7 @@
       background: rgba(6,0,20,0.85);
       backdrop-filter: blur(10px);
       padding: 12px 0;
-      border-bottom: 1px solid rgba(0,255,240,0.15);
+      border-bottom: 1px solid var(--border-glow);
     }
     
     nav ul { 
@@ -132,6 +158,9 @@
       border-bottom: 2px solid transparent; 
       padding: 6px 4px;
       transition: var(--transition);
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
     }
     
     nav a.active, nav a:hover { 
@@ -293,6 +322,10 @@
       transition: var(--transition);
       text-align: center;
       min-width: 160px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .cta-row a:hover { 
@@ -319,6 +352,7 @@
       background: rgba(0,0,0,0.5);
       box-shadow: 0 0 30px rgba(0,255,240,0.2);
       object-fit: cover;
+      alt: "Shane Cooper — Awakened Not Broken";
     }
     
     .founder-section h2 {
@@ -349,6 +383,7 @@
       display: block; 
       margin: 0 auto 20px auto; 
       border-radius: 12px;
+      alt: "Crying Brain Hoodie";
     }
     
     .hoodie-section h3 {
@@ -375,11 +410,18 @@
     .socials a { 
       color: var(--cyan); 
       transition: var(--transition);
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
     }
     
     .socials a:hover { 
       color: var(--magenta); 
       transform: scale(1.2);
+      background: rgba(0,255,240,0.1);
     }
     
     footer a {
@@ -411,21 +453,24 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
+      .hoodie-section:hover, .cta-row a:hover { transform: none; }
     }
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
   <!-- Floating Nebula Background -->
-  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s;"></div>
-  <div class="nebula-particle" style="width:200px;height:200px;top:40%;right:5%;animation-delay:-7s;"></div>
-  <div class="nebula-particle" style="width:250px;height:250px;bottom:10%;left:15%;animation-delay:-14s;"></div>
+  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:200px;height:200px;top:40%;right:5%;animation-delay:-7s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:250px;height:250px;bottom:10%;left:15%;animation-delay:-14s;" aria-hidden="true"></div>
 
   <div class="page-wrapper">
-    <div class="cosmic-header">
+    <header class="cosmic-header" role="banner">
       <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Crying Brain Logo" />
       <h1 class="cosmic-title">RISE FROM MADNESS</h1>
       <p class="cosmic-subtitle">One Source. One Consciousness. One Family.</p>
-    </div>
+    </header>
 
     <nav aria-label="Main Navigation">
       <ul>
@@ -439,7 +484,7 @@
       </ul>
     </nav>
 
-    <main>
+    <main id="main" role="main">
       <section class="movement-blurb">
         <p>
           This is more than merch. More than a website. <strong>This is a movement.</strong><br><br>
@@ -450,7 +495,7 @@
         </p>
       </section>
 
-      <div class="divider">
+      <div class="divider" aria-hidden="true">
         <span></span> ✦ <span></span>
       </div>
 
@@ -462,8 +507,8 @@
         <p class="mini-quote">— The Pleading Sanity Manifesto</p>
       </div>
 
-      <div class="manifesto-section">
-        <h2>🌌 What We Stand For</h2>
+      <section class="manifesto-section" aria-labelledby="manifesto-heading">
+        <h2 id="manifesto-heading">🌌 What We Stand For</h2>
         
         <div class="manifesto-point">
           <strong>🧠 Evolution, Not Erasure</strong>
@@ -489,27 +534,27 @@
           <strong>✨ Legacy Fuels The Future</strong>
           Built on the quiet courage of those who came before. We carry their strength forward — for ourselves, and every generation that follows.
         </div>
-      </div>
+      </section>
 
-      <div class="legacy-section">
-        <h2>🏛️ Built On Their Shoulders</h2>
+      <section class="legacy-section" aria-labelledby="legacy-heading">
+        <h2 id="legacy-heading">🏛️ Built On Their Shoulders</h2>
         <p>Rooted in resilience. Forged in service. Carried through blood and bravery.</p>
         <p class="legacy-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
         <p>One escaped captivity at 14 and chose loyalty to a new home.<br>
         One delivered hope to the frontline and turned down medals so others might be seen.<br>
         <em>They did not break. Neither will we.</em></p>
-      </div>
+      </section>
 
-      <div class="cta-row">
+      <nav class="cta-row" aria-label="Join the movement">
         <a href="shop.html">🛒 Cop the Gear</a>
         <a href="journal-vault.html">📓 Share Your Story</a>
         <a href="sanityhub.html">🧠 Join the Feed</a>
         <a href="mailto:pleadingsanity1@gmail.com?subject=I%27m%20In%20—%20Join%20The%20Movement">🤝 I'm In</a>
-      </div>
+      </nav>
 
-      <section class="founder-section">
+      <section class="founder-section" aria-labelledby="founder-heading">
         <img src="assets/ps-brain-drip-blue.png" alt="Pleading Sanity — Awakened Not Broken" class="founder-img" />
-        <h2>Why This Exists</h2>
+        <h2 id="founder-heading">Why This Exists</h2>
         <p>
           "I built this for everyone told to shut up, fit in, get over it.<br><br>
           For the ones labeled without being heard. Diagnosed without being understood. Seen as 'unwell' instead of <em>awakened</em>.<br><br>
@@ -520,9 +565,9 @@
         <p class="mini-quote">— Shane Cooper, Founder & Still Standing</p>
       </section>
 
-      <section class="hoodie-section">
-        <img src="assets/ps-hoodie-mock.png" alt="Crying Brain Hoodie" />
-        <h3>Wear The Journey</h3>
+      <section class="hoodie-section" aria-labelledby="gear-heading">
+        <img src="assets/ps-hoodie-mock.png" alt="Crying Brain Hoodie — Strength is built through struggle" />
+        <h3 id="gear-heading">Wear The Journey</h3>
         <p>
           <strong>Strength is built through struggle.<br>
           Hope is stitched in every thread.</strong><br><br>
@@ -532,15 +577,15 @@
       </section>
     </main>
 
-    <footer>
-      <div class="socials">
-        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+    <footer role="contentinfo">
+      <div class="socials" aria-label="Connect with us">
+        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
         <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Payhip Shop">🛒</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Payhip Shop">🛒</a>
       </div>
       
       <div style="margin:15px 0;">
-        <a href="https://pleadingsanity.co.uk" target="_blank" rel="noopener">Official Site</a> | 
+        <a href="https://pleadingsanity.co.uk" target="_blank" rel="noopener noreferrer">Official Site</a> | 
         <a href="shop.html">Shop</a> | 
         <a href="sanityhub.html">Sanity Hub</a> | 
         <a href="journal-vault.html">Journal Vault</a>
