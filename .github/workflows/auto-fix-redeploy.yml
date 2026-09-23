@@ -1,51 +1,121 @@
-name: Auto Fix & Redeploy
+name: 🧠 Pleading Sanity — Auto Fix & Redeploy
+run-name: 🔧 Auto-Fix • ${{ github.event_name }} • ${{ github.sha }}
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
+  workflow_dispatch  # Manual run from GitHub UI anytime
 
 jobs:
   autofix:
+    name: 🩺 Fix → Build → Sync → Redeploy
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+    permissions:
+      contents: write  # Required to commit fixes back
 
-      - name: Setup Node
+    steps:
+      # ==========================================
+      # 1. FRESH CODE
+      # ==========================================
+      - name: 🛠️ Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ==========================================
+      # 2. NODE ENVIRONMENT
+      # ==========================================
+      - name: ⚙️ Set up Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
-      - name: Auto fix dependency issues
+      # ==========================================
+      # 3. PIN STABLE DEPENDENCIES
+      # ==========================================
+      - name: 🧩 Fix & pin confirmed versions
         run: |
-          echo "🔍 Checking for mailchimp-marketing version issue..."
+          echo "🔍 Checking mailchimp-marketing..."
           if grep -q '"mailchimp-marketing":' package.json; then
-            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "4.1.0"/' package.json
+            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+            echo "✅ mailchimp-marketing → ^3.0.80 (stable)"
           else
-            npm install mailchimp-marketing@4.1.0 --save
+            npm install mailchimp-marketing@^3.0.80 --save
+            echo "✅ Added mailchimp-marketing ^3.0.80"
           fi
 
-          echo "📦 Installing dependencies..."
-          npm install || npm install --legacy-peer-deps
+          echo ""
+          echo "📦 Installing all dependencies..."
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps
+          echo "✅ Install complete"
 
-      - name: Build Test
+      # ==========================================
+      # 4. BUILD VERIFICATION
+      # ==========================================
+      - name: 🏗️ Build test
         run: |
-          echo "🏗️ Building project..."
-          npm run build || echo "⚠️ Build completed with warnings."
+          echo "🔨 Building project..."
+          npm run build
+          echo "✅ Build successful"
 
-      - name: Sync configs for Netlify + Vercel
+      # ==========================================
+      # 5. BACKUP CONFIGS
+      # ==========================================
+      - name: 💾 Backup deploy configs
         run: |
-          echo "🧩 Ensuring deploy configs are valid..."
+          echo "🧩 Protecting deploy configs..."
           cp -n vercel.json vercel.json.bak || true
           cp -n netlify.toml netlify.toml.bak || true
-          echo "✅ Configs backed up."
+          cp -n _redirects _redirects.bak || true
+          echo "✅ All configs backed up"
 
-      - name: Commit and push fixes
+      # ==========================================
+      # 6. COMMIT CHANGES
+      # ==========================================
+      - name: 📤 Commit & push fixes
+        id: commit
         run: |
-          git config user.name "CosmicSyncBot"
-          git config user.email "actions@github.com"
-          git add .
-          git commit -m "chore: auto-fix dependencies and sync deploy configs" || echo "No changes to commit"
-          git push
+          git config user.name "Pleading-Sanity-AutoHeal"
+          git config user.email "pleadingsanitydev@gmail.com"
+
+          git add package.json package-lock.json
+
+          if git diff --staged --quiet; then
+            echo "✅ Already stable — nothing to commit"
+            echo "STATUS=unchanged" >> $GITHUB_OUTPUT
+          else
+            git commit -m "🤖 auto-fix: deps pinned • build verified"
+            git push origin main
+            echo "✅ Changes pushed to main"
+            echo "STATUS=updated" >> $GITHUB_OUTPUT
+          fi
+
+      # ==========================================
+      # 7. TRIGGER DEPLOYS
+      # ==========================================
+      - name: 🌍 Trigger Netlify
+        if: always()
+        env:
+          NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$NETLIFY_HOOK" ]; then
+            echo "🌍 Netlify → building..."
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered"
+          else
+            echo "⚠️ Set NETLIFY_BUILD_HOOK in repo secrets"
+          fi
+
+      - name: ⚡ Trigger Vercel
+        if: always()
+        env:
+          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$VERCEL_HOOK" ]; then
+            echo "⚡ Vercel → deploying..."
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered"
+          else
+            echo "⚠️ Set VERCEL_DEPLOY_HOOK in repo secrets"
+          fi
