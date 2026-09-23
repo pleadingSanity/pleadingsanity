@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>You're Not Alone — Pleading Sanity</title>
-    <meta name="description" content="Offline or online — we're here. Crisis support, breathing tools, hope. Pleading Sanity: Rise From Madness.">
-    <meta name="theme-color" content="#060713">
-    <link rel="manifest" href="manifest.json">
-    
+    <meta name="description" content="Offline or online — we're here. Crisis support, breathing tools, hope. Pleading Sanity: Rise From Madness." />
+    <meta name="author" content="Shane Cooper / Pleading Sanity" />
+    <meta name="theme-color" content="#00fff0" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" href="assets/favicon.ico" />
+
+    <meta property="og:title" content="You're Not Alone — Pleading Sanity" />
+    <meta property="og:description" content="Connection lost? You're still supported. Crisis resources, breathing guides, and hope — always available." />
+    <meta property="og:image" content="assets/crying-brain-og.png" />
+    <meta property="og:type" content="website" />
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
         :root {
             --deep-space: #060713;
             --cosmic-blue: #0d1b2a;
             --electric-cyan: #00fff0;
+            --cyan-glow: rgba(0,255,240,.35);
             --cosmic-pink: #ff00ff;
             --gold-glow: #ffd700;
             --soft-white: #E9ECFF;
             --muted-blue: #A5B0DA;
             --crisis-red: #ff4444;
+            --crisis-soft: rgba(255,68,68,.12);
+            --t: .3s cubic-bezier(.4,0,.2,1);
         }
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
             background: 
-                radial-gradient(ellipse at top left, rgba(0,255,240,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(255,0,255,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at top left, rgba(0,255,240,.08) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(255,0,255,.06) 0%, transparent 50%),
                 linear-gradient(135deg, var(--deep-space) 0%, var(--cosmic-blue) 100%);
             color: var(--soft-white);
             min-height: 100vh;
@@ -41,496 +46,363 @@
             position: relative;
             overflow-x: hidden;
         }
-        
-        /* Nebula star particles */
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 3s ease-in-out infinite;
+
+        /* Skip Link — Accessibility First */
+        .skip-link {
+            position: absolute; top: -50px; left: 6px;
+            background: var(--gold-glow); color: #000; padding: 12px 24px;
+            border-radius: 8px; font-weight: 700; z-index: 10000; transition: top .25s ease;
         }
-        
+        .skip-link:focus { top: 12px; }
+
+        /* Nebula Stars */
+        .star {
+            position: absolute; width: 2px; height: 2px; background: white;
+            border-radius: 50%; animation: twinkle 3s ease-in-out infinite;
+        }
         @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
+            0%,100% { opacity: .2; transform: scale(1); }
             50% { opacity: 1; transform: scale(1.3); }
         }
-        
+
         .offline-container {
-            text-align: center;
-            max-width: 680px;
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 24px;
-            padding: 45px 35px;
-            border: 2px solid rgba(0, 255, 240, 0.35);
+            text-align: center; max-width: 680px; width: 100%;
+            background: rgba(255,255,255,.04); border-radius: 24px;
+            padding: 45px 35px; border: 2px solid rgba(0,255,240,.35);
             backdrop-filter: blur(12px);
             box-shadow: 
-                0 0 60px rgba(0, 255, 240, 0.1),
-                inset 0 0 40px rgba(0, 255, 240, 0.02);
-            position: relative;
-            z-index: 10;
-            animation: fadeSlideUp 0.6s ease-out;
+                0 0 60px rgba(0,255,240,.1),
+                inset 0 0 40px rgba(0,255,240,.02);
+            position: relative; z-index: 10;
+            animation: fadeSlideUp .6s ease-out;
         }
-        
         @keyframes fadeSlideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .brain-icon {
-            font-size: 4.5rem;
-            margin-bottom: 15px;
+            font-size: 4.5rem; margin-bottom: 15px;
             animation: pulse 2.5s ease-in-out infinite;
-            filter: drop-shadow(0 0 20px rgba(0, 255, 240, 0.4));
+            filter: drop-shadow(0 0 20px var(--cyan-glow));
         }
-        
         @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.85; }
+            0%,100% { transform: scale(1); opacity: .85; }
             50% { transform: scale(1.08); opacity: 1; }
         }
-        
+
         h1 {
-            color: var(--electric-cyan);
-            font-size: 2.4rem;
-            margin-bottom: 12px;
-            font-weight: 800;
-            text-shadow: 0 0 25px rgba(0, 255, 240, 0.35);
-            line-height: 1.2;
+            color: var(--electric-cyan); font-size: clamp(1.8rem,5vw,2.4rem);
+            margin-bottom: 12px; font-weight: 800;
+            text-shadow: 0 0 25px var(--cyan-glow); line-height: 1.3;
         }
-        
-        .subtitle {
-            font-size: 1.15rem;
-            color: var(--muted-blue);
-            margin-bottom: 35px;
-            line-height: 1.7;
-        }
-        
-        .heart-line {
-            display: inline-block;
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-        
+        .heart-line { display: inline-block; animation: heartbeat 1.5s ease-in-out infinite; }
         @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
+            0%,100% { transform: scale(1); }
             50% { transform: scale(1.15); }
         }
-        
+
+        .subtitle {
+            font-size: 1.1rem; color: var(--muted-blue); margin-bottom: 35px;
+            line-height: 1.7; max-width: 540px; margin-left: auto; margin-right: auto;
+        }
+
         .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 18px;
-            margin: 35px 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+            gap: 18px; margin: 35px 0;
         }
-        
         .feature {
-            background: rgba(0, 255, 240, 0.06);
-            border-radius: 16px;
-            padding: 22px 18px;
-            border: 1px solid rgba(0, 255, 240, 0.2);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            background: rgba(0,255,240,.06); border-radius: 16px;
+            padding: 22px 18px; border: 1px solid rgba(0,255,240,.2);
+            transition: var(--t);
         }
-        
-        .feature:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0, 255, 240, 0.5);
+        .feature:hover { transform: translateY(-4px); border-color: rgba(0,255,240,.5); }
+        .feature h3 { color: var(--cosmic-pink); margin-bottom: 10px; font-size: 1.05rem; font-weight: 700; }
+        .feature p { font-size: .9rem; line-height: 1.6; color: #b8c5e0; }
+
+        .breathing-guide {
+            margin: 25px 0; padding: 20px;
+            background: rgba(0,255,240,.06); border-radius: 16px;
         }
-        
-        .feature h3 {
-            color: var(--cosmic-pink);
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-            font-weight: 700;
+        .breathing-guide p { color: var(--muted-blue); font-size: .9rem; margin-bottom: 12px; }
+        .breathe-circle {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(0,255,240,.4), transparent 70%);
+            margin: 0 auto; animation: breathe 16s ease-in-out infinite;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--electric-cyan);
         }
-        
-        .feature p {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: #b8c5e0;
+        @keyframes breathe {
+            0%,100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,255,240,.4); content: 'INHALE'; }
+            25% { transform: scale(1.4); box-shadow: 0 0 40px rgba(0,255,240,.3); }
+            50% { transform: scale(1); box-shadow: 0 0 0 rgba(0,255,240,.4); }
+            75% { transform: scale(1.4); box-shadow: 0 0 40px rgba(0,255,240,.3); }
         }
-        
+
+        .crisis-quick {
+            margin: 25px 0; padding: 22px; background: var(--crisis-soft);
+            border-radius: 16px; border: 1px solid rgba(255,68,68,.25); text-align: left;
+        }
+        .crisis-quick h3 { color: #ff7777; margin-bottom: 14px; font-size: 1rem; text-align: center; }
+        .crisis-quick ul { list-style: none; line-height: 1.8; font-size: .95rem; }
+        .crisis-quick li { padding: 6px 0; border-bottom: 1px solid rgba(255,68,68,.1); }
+        .crisis-quick li:last-child { border-bottom: none; }
+        .crisis-quick strong { color: #fff; }
+
         .actions {
-            display: flex;
-            gap: 14px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 10px;
+            display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 10px;
         }
-        
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 13px 26px;
-            border-radius: 30px;
-            font-weight: 700;
-            text-decoration: none;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 0.95rem;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 13px 26px; border-radius: 30px; font-weight: 700;
+            text-decoration: none; border: 2px solid transparent;
+            transition: var(--t); cursor: pointer; font-size: .95rem;
+            min-height: 48px; font-family: inherit;
         }
-        
         .btn-primary {
             background: linear-gradient(135deg, #00fff0 0%, #06b6d4 100%);
-            color: #000;
-            border-color: var(--electric-cyan);
-            box-shadow: 0 0 20px rgba(0, 255, 240, 0.25);
+            color: #000; border-color: var(--electric-cyan);
+            box-shadow: 0 0 20px rgba(0,255,240,.25);
         }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 255, 240, 0.4);
-        }
-        
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,255,240,.4); }
         .btn-crisis {
             background: linear-gradient(135deg, #ff4444 0%, #ff6b6b 100%);
-            color: white;
-            border-color: var(--crisis-red);
-            box-shadow: 0 0 20px rgba(255, 68, 68, 0.25);
+            color: white; border-color: var(--crisis-red);
+            box-shadow: 0 0 20px rgba(255,68,68,.25);
         }
-        
-        .btn-crisis:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(255, 68, 68, 0.4);
-        }
-        
+        .btn-crisis:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,68,68,.4); }
         .btn-secondary {
-            background: transparent;
-            color: var(--cosmic-pink);
+            background: transparent; color: var(--cosmic-pink);
             border-color: var(--cosmic-pink);
         }
-        
         .btn-secondary:hover {
-            background: rgba(255, 0, 255, 0.1);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(255, 0, 255, 0.25);
+            background: rgba(255,0,255,.1); transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,0,255,.25);
         }
-        
+
         .status {
-            margin-top: 35px;
-            padding: 18px 22px;
-            background: rgba(255, 165, 0, 0.08);
-            border-radius: 14px;
+            margin-top: 30px; padding: 18px 22px;
+            background: rgba(255,165,0,.08); border-radius: 14px;
             border-left: 4px solid #ffa500;
         }
-        
         .connection-status {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            color: #ffcc66;
+            display: inline-flex; align-items: center; gap: 10px;
+            font-weight: 600; color: #ffcc66;
         }
-        
-        .offline-indicator {
-            width: 12px;
-            height: 12px;
-            background: #ff4444;
-            border-radius: 50%;
-            animation: blink 1s ease-in-out infinite;
+        .conn-dot {
+            width: 12px; height: 12px; border-radius: 50%;
+            background: #ff4444; animation: blink 1s ease-in-out infinite;
         }
-        
-        .online-indicator {
-            background: #00ff88;
-            animation: steady 2s ease-in-out infinite;
+        .conn-dot.online {
+            background: #00ff88; animation: steady 2s ease-in-out infinite;
         }
-        
         @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0.3; }
+            0%,50% { opacity: 1; }
+            51%,100% { opacity: .3; }
         }
-        
         @keyframes steady {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%,100% { opacity: 1; }
+            50% { opacity: .6; }
         }
-        
-        .crisis-quick {
-            margin-top: 25px;
-            padding: 20px;
-            background: rgba(255, 68, 68, 0.08);
-            border-radius: 14px;
-            border: 1px solid rgba(255, 68, 68, 0.25);
+
+        .legacy {
+            margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,215,0,.15);
+            font-size: .85rem; color: #667; font-style: italic; line-height: 1.6;
         }
-        
-        .crisis-quick h3 {
-            color: #ff7777;
-            margin-bottom: 12px;
-            font-size: 1rem;
-        }
-        
-        .crisis-quick ul {
-            list-style: none;
-            text-align: left;
-            font-size: 0.9rem;
-            line-height: 1.8;
-        }
-        
-        .crisis-quick li {
-            padding: 4px 0;
-            border-bottom: 1px solid rgba(255, 68, 68, 0.1);
-        }
-        
-        .crisis-quick li:last-child {
-            border-bottom: none;
-        }
-        
-        .breathing-guide {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 255, 240, 0.06);
-            border-radius: 12px;
-        }
-        
-        .breathe-circle {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(0,255,240,0.4), transparent 70%);
-            margin: 0 auto;
-            animation: breathe 16s ease-in-out infinite;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--electric-cyan);
-        }
-        
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(0,255,240,0.4); }
-            25% { transform: scale(1.4); box-shadow: 0 0 40px rgba(0,255,240,0.3); }
-            50% { transform: scale(1); box-shadow: 0 0 0 rgba(0,255,240,0.4); }
-            75% { transform: scale(1.4); box-shadow: 0 0 40px rgba(0,255,240,0.3); }
-        }
-        
-        .legacy-line {
-            margin-top: 30px;
-            font-size: 0.85rem;
-            color: #667;
-            font-style: italic;
-        }
-        
+        .legacy .names { color: var(--gold-glow); font-weight: 700; margin: 6px 0; }
+
         @media (max-width: 768px) {
-            .offline-container {
-                padding: 30px 22px;
-                margin: 10px;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-            
-            .actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 280px;
-                justify-content: center;
-            }
+            .offline-container { padding: 30px 20px; }
+            .features { grid-template-columns: 1fr; }
+            .actions { flex-direction: column; align-items: center; }
+            .btn { width: 100%; max-width: 280px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *,*::before,*::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+            .btn:hover,.feature:hover { transform: none; }
         }
     </style>
 </head>
 <body>
-    <!-- Background stars auto-generated -->
-    <script>
-        // Generate twinkling background stars
-        const starCount = 60;
-        for (let i = 0; i < starCount; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = `${Math.random() * 100}%`;
-            star.style.top = `${Math.random() * 100}%`;
-            star.style.animationDelay = `${Math.random() * 3}s`;
-            star.style.opacity = Math.random() * 0.5 + 0.2;
-            document.body.appendChild(star);
-        }
-    </script>
+  <a href="#main" class="skip-link">Skip to support</a>
 
-    <div class="offline-container">
-        <div class="brain-icon">🧠</div>
-        <h1>You're Offline — But Not Alone <span class="heart-line">💙</span></h1>
-        <p class="subtitle">
-            The connection dropped, but your support hasn't gone anywhere. 
-            Pleading Sanity is built to stand by you — even when the internet can't.
-        </p>
-        
-        <div class="features">
-            <div class="feature">
-                <h3>🚨 Crisis Support</h3>
-                <p>Emergency contacts, breathing tools, and grounding techniques — all ready instantly.</p>
-            </div>
-            
-            <div class="feature">
-                <h3>📱 Cached for You</h3>
-                <p>Your journal, saved pages, and healing frequencies stay right here — no signal needed.</p>
-            </div>
-            
-            <div class="feature">
-                <h3>🔄 Auto-Reconnects</h3>
-                <p>Everything you do offline safely syncs the moment you're back online. Nothing lost.</p>
-            </div>
-            
-            <div class="feature">
-                <h3>🧘 Calm in the Now</h3>
-                <p>Use the breathing guide below. Inhale… hold… let go. You'll get through this.</p>
-            </div>
-        </div>
+  <!-- Background Stars -->
+  <script>
+    const starCount = 60;
+    for (let i = 0; i < starCount; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = `${Math.random()*100}%`;
+      star.style.top = `${Math.random()*100}%`;
+      star.style.animationDelay = `${Math.random()*3}s`;
+      star.style.opacity = Math.random()*.5 + .2;
+      document.body.appendChild(star);
+    }
+  </script>
 
-        <!-- Breathing Guide -->
-        <div class="breathing-guide">
-            <p style="font-size: 0.9rem; color: #99a; margin-bottom: 10px;">Follow the circle — breathe with it</p>
-            <div class="breathe-circle">INHALE</div>
-        </div>
+  <main id="main" class="offline-container" role="main" aria-live="polite">
+    <div class="brain-icon">🧠</div>
+    <h1>You're Offline — But Not Alone <span class="heart-line">💙</span></h1>
+    <p class="subtitle">
+      The connection dropped, but your support hasn't gone anywhere.<br>
+      Pleading Sanity stands by you — even when the internet can't.
+    </p>
 
-        <!-- Quick Crisis Contacts -->
-        <div class="crisis-quick">
-            <h3>🚩 If You Need Immediate Help — Save These Now</h3>
-            <ul>
-                <li><strong>UK Emergency:</strong> Call <strong>999</strong> or go to A&E — always available</li>
-                <li><strong>Samaritans (24/7):</strong> Call <strong>116 123</strong> — free, confidential, always there</li>
-                <li><strong>SHOUT Text Line:</strong> Text <strong>SHOUT</strong> to <strong>85258</strong> — trained volunteers, no charge</li>
-                <li><strong>NHS 111:</strong> Free medical help — dial <strong>111</strong>, option 2 for mental health</li>
-                <li><strong>Breathing:</strong> Inhale 4s → Hold 4s → Exhale 6s → Repeat. Your body follows your breath.</li>
-            </ul>
-        </div>
-        
-        <div class="actions">
-            <button onclick="goHome()" class="btn btn-primary">
-                🏠 Go to Cached Home
-            </button>
-            <button onclick="checkConnection()" class="btn btn-secondary">
-                🔄 Check Connection
-            </button>
-            <button onclick="showFullCrisis()" class="btn btn-crisis">
-                🚨 Full Crisis Support
-            </button>
-        </div>
-        
-        <div class="status">
-            <div class="connection-status">
-                <div class="offline-indicator" id="conn-indicator"></div>
-                <span id="status-text">Currently offline — we're checking every few seconds</span>
-            </div>
-        </div>
-
-        <p class="legacy-line">
-            Built on the quiet courage of Ivan & Arthur. You carry that same strength. It's in your blood.
-        </p>
+    <div class="features">
+      <div class="feature">
+        <h3>🚨 Crisis Support</h3>
+        <p>Emergency contacts, breathing tools, and grounding techniques — ready instantly.</p>
+      </div>
+      <div class="feature">
+        <h3>📱 Cached for You</h3>
+        <p>Your journal, saved pages, and healing frequencies stay right here — no signal needed.</p>
+      </div>
+      <div class="feature">
+        <h3>🔄 Auto-Reconnects</h3>
+        <p>Everything syncs safely the moment you're back online. Nothing lost. Nothing forgotten.</p>
+      </div>
+      <div class="feature">
+        <h3>🧘 Calm in the Now</h3>
+        <p>Follow the circle below. Inhale… hold… let go. You'll get through this.</p>
+      </div>
     </div>
 
-    <script>
-        // Check connection status
-        function checkConnection() {
-            const statusText = document.getElementById('status-text');
-            const indicator = document.getElementById('conn-indicator');
-            
-            if (navigator.onLine) {
-                statusText.textContent = '✅ Connection restored! Taking you home...';
-                indicator.classList.add('online-indicator');
-                indicator.style.background = '#00ff88';
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 1200);
-            } else {
-                statusText.textContent = '❌ Still offline — retrying in 5s...';
-                setTimeout(checkConnection, 5000);
-            }
-        }
-        
-        // Go to home page (cached version)
-        function goHome() {
-            window.location.href = '/';
-        }
-        
-        // Auto-check connection periodically
-        setInterval(() => {
-            if (navigator.onLine) {
-                checkConnection();
-            }
-        }, 8000);
-        
-        // Listen for online events
-        window.addEventListener('online', () => {
-            checkConnection();
-        });
-        
-        // Update status on offline
-        window.addEventListener('offline', () => {
-            document.getElementById('status-text').textContent = '📡 Connection lost — offline mode active';
-            document.getElementById('conn-indicator').classList.remove('online-indicator');
-            document.getElementById('conn-indicator').style.background = '#ff4444';
-        });
-        
-        // Full crisis modal
-        function showFullCrisis() {
-            const modal = document.createElement('div');
-            modal.style.cssText = `
-                position: fixed; inset: 0; background: rgba(2,2,10,0.95); z-index: 10000;
-                display: flex; align-items: center; justify-content: center; padding: 20px;
-                animation: fadeIn 0.4s ease;
-            `;
-            modal.innerHTML = `
-                <style>@keyframes fadeIn{from{opacity:0}to{opacity:1}}</style>
-                <div style="
-                    background: linear-gradient(145deg, #0a1020, #152540);
-                    border: 2px solid #ff4444; border-radius: 20px; padding: 35px;
-                    max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;
-                    box-shadow: 0 0 50px rgba(255,68,68,0.15);
-                ">
-                    <h2 style="color:#ff6666; margin-bottom:20px; text-align:center; font-size:1.4rem;">
-                        🚨 You Matter — Here's Help Right Now
-                    </h2>
-                    
-                    <div style="background:rgba(255,68,68,0.08); padding:15px; border-radius:10px; margin-bottom:20px;">
-                        <p style="font-weight:700; color:#ff9999; margin-bottom:8px;">UK Emergency Services</p>
-                        <p style="font-size:1.1rem; margin:4px 0;"><strong>📞 999</strong> — for immediate danger</p>
-                        <p style="font-size:1.1rem; margin:4px 0;"><strong>📞 116 123</strong> — Samaritans, 24/7, free</p>
-                        <p style="font-size:1.1rem; margin:4px 0;"><strong>📞 111</strong> — NHS mental health support</p>
-                        <p style="font-size:1.1rem; margin:4px 0;"><strong>📱 Text SHOUT to 85258</strong> — free, confidential</p>
-                    </div>
-                    
-                    <div style="background:rgba(0,255,240,0.08); padding:15px; border-radius:10px; margin-bottom:20px;">
-                        <p style="font-weight:700; color:#00fff0; margin-bottom:8px;">🧘 Grounding — 5-4-3-2-1 Method</p>
-                        <p>Name out loud:</p>
-                        <ul style="margin:8px 0 8px 20px; line-height:1.7;">
-                            <li><strong>5</strong> things you can SEE</li>
-                            <li><strong>4</strong> things you can FEEL</li>
-                            <li><strong>3</strong> things you can HEAR</li>
-                            <li><strong>2</strong> things you can SMELL</li>
-                            <li><strong>1</strong> thing you know is TRUE about yourself</li>
-                        </ul>
-                    </div>
-                    
-                    <div style="background:rgba(255,215,0,0.08); padding:15px; border-radius:10px; margin-bottom:25px;">
-                        <p style="font-weight:700; color:#ffd700; margin-bottom:8px;">💙 Remember — From One Survivor to Another</p>
-                        <p style="line-height:1.7;">
-                            This feeling is heavy, but it's temporary. You've survived 100% of your hardest days so far. 
-                            That makes you strong. Stronger than you know. You don't have to be perfect — you just have to keep going. 
-                            We're building something new here, and you're part of it. Stay with us.
-                        </p>
-                    </div>
-                    
-                    <button onclick="this.closest('div[style*=inset]').remove()" style="
-                        width:100%; background:linear-gradient(135deg, #00fff0, #06b6d4);
-                        color:#000; border:none; padding:14px; border-radius:30px;
-                        font-weight:700; font-size:1rem; cursor:pointer;
-                    ">I'm Here. I'm Staying.</button>
-                </div>
-            `;
-            document.body.appendChild(modal);
-        }
-    </script>
+    <div class="breathing-guide">
+      <p>🌬️ Breathe with the circle — 4-7-8 rhythm</p>
+      <div class="breathe-circle" id="breathe-text">INHALE</div>
+    </div>
+
+    <div class="crisis-quick">
+      <h3>🚩 Immediate Help — Save These Now</h3>
+      <ul>
+        <li><strong>UK Emergency:</strong> Call <strong>999</strong> or go to A&E — always available</li>
+        <li><strong>Samaritans (24/7):</strong> Call <strong>116 123</strong> — free, confidential, always there</li>
+        <li><strong>SHOUT Text Line:</strong> Text <strong>SHOUT</strong> to <strong>85258</strong> — trained volunteers, no charge</li>
+        <li><strong>NHS 111:</strong> Dial <strong>111</strong> → Option 2 — free mental health support</li>
+        <li><strong>Breathing:</strong> Inhale 4s → Hold 7s → Exhale 8s → Repeat. Your body follows your breath.</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button onclick="goHome()" class="btn btn-primary">🏠 Cached Home</button>
+      <button onclick="checkConnection()" class="btn btn-secondary">🔄 Reconnect</button>
+      <button onclick="showFullCrisis()" class="btn btn-crisis">🚨 Full Support</button>
+    </div>
+
+    <div class="status">
+      <div class="connection-status">
+        <div class="conn-dot" id="conn-dot"></div>
+        <span id="status-text">Checking connection…</span>
+      </div>
+    </div>
+
+    <div class="legacy">
+      <p>Built on the quiet courage of those who walked before us.</p>
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
+      <p>You carry that same strength. It's in your blood. Evolution, Not Erasure.</p>
+    </div>
+  </main>
+
+  <script>
+    // Breathing text sync
+    const breatheText = document.getElementById('breathe-text');
+    const breathePhases = ['INHALE', 'HOLD', 'EXHALE', 'HOLD'];
+    let phaseIndex = 0;
+    setInterval(() => {
+      breatheText.textContent = breathePhases[phaseIndex];
+      phaseIndex = (phaseIndex + 1) % 4;
+    }, 4000);
+
+    // Connection monitoring
+    const statusText = document.getElementById('status-text');
+    const connDot = document.getElementById('conn-dot');
+
+    function updateStatus() {
+      if (navigator.onLine) {
+        connDot.classList.add('online');
+        connDot.style.background = '#00ff88';
+        statusText.textContent = '✅ Connected! Taking you home…';
+        setTimeout(() => window.location.href = '/', 1200);
+      } else {
+        connDot.classList.remove('online');
+        connDot.style.background = '#ff4444';
+        statusText.textContent = '📡 Offline — retrying every 5s…';
+      }
+    }
+
+    function checkConnection() {
+      updateStatus();
+      if (!navigator.onLine) setTimeout(checkConnection, 5000);
+    }
+
+    // Auto-check listeners
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    setInterval(() => { if (navigator.onLine) updateStatus(); }, 8000);
+    updateStatus();
+
+    function goHome() {
+      window.location.href = '/';
+    }
+
+    // Full Crisis Modal
+    function showFullCrisis() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed; inset: 0; background: rgba(2,2,10,.95); z-index: 10000;
+        display: flex; align-items: center; justify-content: center; padding: 20px;
+        animation: fadeIn .4s ease;
+      `;
+      modal.innerHTML = `
+        <style>@keyframes fadeIn{from{opacity:0}to{opacity:1}}</style>
+        <div style="
+          background: linear-gradient(145deg, #0a1020, #152540);
+          border: 2px solid #ff4444; border-radius: 20px; padding: 35px;
+          max-width: 520px; width: 100%; max-height: 90vh; overflow-y: auto;
+          box-shadow: 0 0 50px rgba(255,68,68,.15);
+        ">
+          <h2 style="color:#ff6666; margin-bottom:20px; text-align:center; font-size:1.4rem;">
+            🚨 You Matter — Here's Help Right Now
+          </h2>
+          
+          <div style="background:rgba(255,68,68,.08); padding:18px; border-radius:12px; margin-bottom:20px;">
+            <p style="font-weight:700; color:#ff9999; margin-bottom:10px;">📞 Free • 24/7 • Confidential</p>
+            <p style="font-size:1.1rem; margin:6px 0;"><strong>999</strong> — immediate danger or emergency</p>
+            <p style="font-size:1.1rem; margin:6px 0;"><strong>116 123</strong> — Samaritans, any time, day or night</p>
+            <p style="font-size:1.1rem; margin:6px 0;"><strong>Text SHOUT → 85258</strong> — trained volunteers reply</p>
+            <p style="font-size:1.1rem; margin:6px 0;"><strong>111 → Option 2</strong> — NHS mental health support</p>
+          </div>
+          
+          <div style="background:rgba(0,255,240,.08); padding:18px; border-radius:12px; margin-bottom:20px;">
+            <p style="font-weight:700; color:#00fff0; margin-bottom:10px;">🧘 5-4-3-2-1 Grounding</p>
+            <p>Name out loud or in your mind:</p>
+            <ul style="margin:10px 0 10px 22px; line-height:1.8;">
+              <li><strong>5</strong> things you can SEE</li>
+              <li><strong>4</strong> things you can FEEL (fabric, floor, air)</li>
+              <li><strong>3</strong> things you can HEAR</li>
+              <li><strong>2</strong> things you can SMELL</li>
+              <li><strong>1</strong> truth about yourself — I am still here</li>
+            </ul>
+          </div>
+          
+          <div style="background:rgba(255,215,0,.08); padding:18px; border-radius:12px; margin-bottom:25px;">
+            <p style="font-weight:700; color:#ffd700; margin-bottom:10px;">💙 From One Survivor to Another</p>
+            <p style="line-height:1.7;">
+              This feeling is heavy, but it's temporary. You've survived 100% of your hardest days so far.
+              That makes you strong — stronger than you know. You don't have to be perfect. You just have to keep going.
+              We're building something new here, and you're part of it. Stay with us.
+            </p>
+          </div>
+          
+          <button onclick="this.closest('div[style*=inset]').remove()" style="
+            width:100%; background:linear-gradient(135deg, #00fff0, #06b6d4);
+            color:#000; border:none; padding:15px; border-radius:30px;
+            font-weight:700; font-size:1rem; cursor:pointer;
+          ">I'm Here. I'm Staying.</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+  </script>
 </body>
 </html>
