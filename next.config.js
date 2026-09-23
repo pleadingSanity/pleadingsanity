@@ -9,11 +9,11 @@ const withPWA = require('next-pwa')({
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash: true,
-  
-  // ✅ Tells Next: we use HTML files, not Next.js /pages folder → FIXES the ENOTDIR error
+
+  // Fix: tell Next we use HTML files, not /pages folder
   pageExtensions: false,
 
-  // ✅ Updated for Next.js 16 — no more deprecation warnings
+  // Fix: updated for Next 15+
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'i.ytimg.com' },
