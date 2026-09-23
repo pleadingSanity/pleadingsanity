@@ -9,110 +9,184 @@
   <meta name="robots" content="index, follow" />
   <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
   <link rel="icon" href="assets/favicon.ico" />
-  
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta name="color-scheme" content="dark" />
+
   <!-- Canonical URL -->
   <link rel="canonical" href="https://pleadingsanity.co.uk/sanityhub.html" />
-  
+
   <!-- Open Graph -->
   <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
   <meta property="og:description" content="Your cosmic sanctuary. Heal, connect, grow, rise together." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/sanityhub.html" />
-  
-  <!-- Core Styles — ALIGNED ✅ -->
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="mobile-responsive.css" />
-  <link rel="stylesheet" href="nav.css" />
-  <link rel="stylesheet" href="css/animations.css" />
-  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sanity Hub – Pleading Sanity" />
+  <meta name="twitter:description" content="Where healing happens. Your words matter. You are not alone." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+
+  <!-- ==========================================
+       SANITY HUB — COSMIC STANDARD v2.0
+       Aligned with index.html · about.html · movement.html
+       Starfield · Arron AI · Journal Vault · Video Feed
+       ========================================== -->
   <style>
-    /* ==========================================
-       SANITY HUB — COSMIC ENHANCEMENTS
-       Matches core vars · Zero conflicts
-       ========================================== */
     :root {
+      --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
+      --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
+      --gold: #ffd700;
+      --deep: #0d1b2a;
+      --dark: #030712;
+      --deepest: #060014;
+      --text-bright: #eafffd;
+      --text-soft: #b9faff;
+      --text-muted: #7ab8c8;
+      --glass: rgba(0,255,240,0.06);
+      --border-glow: rgba(0,255,240,0.15);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
+      font-family: var(--font-sans);
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
+      color: var(--text-bright);
       min-height: 100vh;
+      line-height: 1.7;
+      background-attachment: fixed;
       overflow-x: hidden;
     }
 
-    /* Skip Link — Already in styles.css, kept for safety */
+    /* Force cosmic dark theme always */
+    @media (prefers-color-scheme: light) {
+      body {
+        background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
+      }
+    }
+
+    /* Accessibility skip link */
     .skip-link {
       position: absolute; top: -50px; left: 6px;
       background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
-      font-weight: 700; border-radius: 8px;
-      transition: top 0.25s ease;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
     }
     .skip-link:focus { top: 12px; }
 
-    header {
-      position: sticky; top: 0; z-index: 100;
-      background: rgba(0,0,0,0.85);
-      border-bottom: 1.5px solid var(--cyan);
-      padding: 12px 20px;
-      text-align: center;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 4px 20px rgba(0,255,240,0.1);
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
 
-    header h1 {
-      font-size: 1.4rem;
-      color: var(--cyan);
-      margin-bottom: 8px;
-      text-shadow: 0 0 10px var(--cyan-glow);
+    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 12px;
+      border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
+      text-align: center; box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      min-height: 48px; font-family: inherit;
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      color: #000;
     }
 
-    main {
-      max-width: 1100px; margin: 0 auto; padding: 25px 20px; position: relative; z-index: 2;
-    }
-
-    .cosmic-hero {
-      text-align: center; margin-bottom: 35px;
-      animation: fadeIn 0.8s ease-out both;
-    }
-
-    .cosmic-hero img {
-      width: 90px; filter: drop-shadow(0 0 16px rgba(0,255,240,0.6)); margin-bottom: 10px;
-    }
-
-    .slogan {
-      color: var(--magenta); font-weight: 700; font-size: 1.1rem;
-      text-shadow: 0 0 10px var(--magenta-glow);
-    }
-
+    /* Starfield Canvas */
     canvas.stars {
       position: fixed; inset: 0; width: 100%; height: 100%;
       z-index: 0; pointer-events: none;
     }
 
-    /* ===== ARRON AI CHAT ===== */
-    #arron-chat-container {
-      max-width: 540px; margin: 0 auto 40px; padding: 24px;
-      border: 1px solid rgba(0,255,240,0.25); border-radius: 20px;
-      background: rgba(0,0,0,0.65); backdrop-filter: blur(12px);
-      box-shadow: 0 0 30px rgba(0,255,240,0.2), inset 0 0 20px rgba(0,255,240,0.05);
-      animation: fadeInUp 0.9s ease-out both; animation-delay: 0.15s;
+    .page-wrapper { position: relative; z-index: 1; }
+
+    header { 
+      position: sticky; top: 0; z-index: 100;
+      text-align: center; padding: 15px 20px;
+      background: rgba(6,0,20,0.85); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-glow);
+      animation: fadeIn 0.8s ease-out both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header .logo-img {
+      width: 90px; margin-bottom: 8px;
+      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
+      animation: pulse 3s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)); }
+      50% { filter: drop-shadow(0 0 30px rgba(255,0,255,0.35)); }
+    }
+    header h1 {
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      color: var(--cyan);
+      text-shadow: 0 0 15px rgba(0,255,240,0.3);
+      margin-bottom: 5px;
+      letter-spacing: 0.05em;
+    }
+    header .tagline {
+      color: var(--magenta);
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 15px;
     }
 
+    nav {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 16px;
+    }
+    nav a {
+      color: var(--cyan); font-weight: 700; padding: 6px 4px;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
+    nav a[aria-current="page"],
+    nav a:hover {
+      border-bottom: 2px solid var(--magenta);
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,0,255,0.5);
+    }
+
+    main { max-width: 720px; margin: 0 auto; padding: 30px 20px 70px; animation: fadeInUp 1s ease-out both; }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .arron-welcome { text-align: center; margin-bottom: 18px; }
+    .cosmic-hero { text-align: center; margin-bottom: 35px; }
+    .cosmic-hero p { color: var(--text-soft); font-size: 1.05rem; margin-top: 10px; }
+
+    /* ===== ARRON AI CHAT ===== */
+    #arron-chat-container {
+      margin: 0 auto 45px; padding: 25px;
+      border: 1px solid rgba(0,255,240,0.25); border-radius: 20px;
+      background: rgba(0,0,0,0.65); backdrop-filter: blur(12px);
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(0,255,240,0.05);
+    }
+
+    .arron-welcome { text-align: center; margin-bottom: 20px; }
     .arron-welcome h3 {
-      color: var(--cyan); font-size: 1.25rem; margin-bottom: 4px;
-      text-shadow: 0 0 10px var(--cyan-glow);
+      color: var(--cyan); font-size: 1.25rem; margin-bottom: 5px;
+      text-shadow: 0 0 10px rgba(0,255,240,0.25);
     }
     .arron-welcome p { color: var(--text-soft); font-size: 0.95rem; }
 
     #arron-messages {
-      height: 320px; overflow-y: auto; margin-bottom: 15px; padding: 16px;
+      height: 320px; overflow-y: auto; margin-bottom: 15px; padding: 18px;
       background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
       scroll-behavior: smooth;
     }
@@ -122,20 +196,20 @@
       border-radius: 3px;
     }
 
-    .arron-msg { margin: 12px 0; animation: msgIn 0.3s ease forwards; opacity: 0; }
-    @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-    .arron-msg strong.cyan { color: var(--cyan); text-shadow: 0 0 6px var(--cyan-glow); }
-    .arron-msg strong.gold { color: var(--gold-yellow); text-shadow: 0 0 6px var(--gold-glow); }
+    .arron-msg { margin: 14px 0; line-height: 1.6; }
+    .arron-msg strong.cyan { color: var(--cyan); }
+    .arron-msg strong.gold { color: var(--gold); }
 
     #arron-input-row { display: flex; gap: 10px; margin-bottom: 12px; }
     #arron-input {
-      flex: 1; padding: 14px 16px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15);
+      flex: 1; padding: 14px 18px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15);
       background: rgba(0,0,0,0.6); color: var(--text-bright); font-size: 1rem;
       transition: border-color 0.25s, box-shadow 0.25s;
+      min-height: 48px; font-family: inherit;
     }
     #arron-input:focus {
       outline: none; border-color: var(--cyan);
-      box-shadow: 0 0 12px var(--cyan-glow);
+      box-shadow: 0 0 15px rgba(0,255,240,0.25);
     }
 
     .arron-btn {
@@ -147,15 +221,15 @@
     .arron-btn:active { transform: scale(0.98); }
     .btn-cyan {
       background: linear-gradient(135deg, var(--cyan), var(--cyan-deep));
-      color: #000; box-shadow: 0 0 12px var(--cyan-glow);
+      color: #000; box-shadow: 0 0 12px rgba(0,255,240,0.25);
     }
     .btn-magenta {
       background: linear-gradient(135deg, var(--magenta), var(--magenta-deep));
-      color: #fff; box-shadow: 0 0 12px var(--magenta-glow);
+      color: #fff; box-shadow: 0 0 12px rgba(255,0,255,0.25);
     }
     .btn-gold {
-      background: linear-gradient(135deg, var(--gold-yellow), var(--gold-deep));
-      color: #000; box-shadow: 0 0 12px var(--gold-glow);
+      background: linear-gradient(135deg, var(--gold), #d4b000);
+      color: #000; box-shadow: 0 0 12px rgba(255,215,0,0.25);
     }
     .btn-dark { background: #2a2a2a; color: #fff; border: 1px solid #444; }
 
@@ -164,7 +238,7 @@
       min-height: 24px; margin: 12px 0; font-size: 0.9rem;
       transition: all 0.4s ease;
     }
-    .arron-affirm.visible { color: var(--gold-yellow); text-shadow: 0 0 8px var(--gold-glow); }
+    .arron-affirm.visible { color: var(--gold); text-shadow: 0 0 8px rgba(255,215,0,0.3); }
 
     .vault-actions {
       display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 8px;
@@ -172,15 +246,14 @@
 
     /* ===== VIDEO FEED ===== */
     #video-feed h2 {
-      text-align: center; color: var(--cyan); margin: 30px 0 15px;
-      text-shadow: 0 0 10px var(--cyan-glow); font-size: 1.4rem;
+      text-align: center; color: var(--cyan); margin: 35px 0 20px;
+      text-shadow: 0 0 15px rgba(0,255,240,0.25); font-size: 1.5rem;
     }
 
     .feed-item {
-      background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,240,0.25);
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(0,255,240,0.2);
       border-radius: 16px; padding: 20px; margin: 24px 0;
       box-shadow: 0 0 20px rgba(0,255,240,0.1);
-      animation: fadeInUp 0.5s ease forwards; opacity: 0; transform: translateY(12px);
       transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
     }
     .feed-item:hover {
@@ -202,8 +275,8 @@
       min-height: 40px; font-family: inherit;
     }
     .like-btn { background: rgba(0,255,240,0.15); color: var(--cyan); border: 1px solid transparent; }
-    .like-btn:hover { background: var(--cyan); color: #000; border-color: transparent; }
-    .like-btn.liked { background: #00ff90; color: #000; pointer-events: none; border-color: #00ff90; }
+    .like-btn:hover { background: var(--cyan); color: #000; }
+    .like-btn.liked { background: #00ff90; color: #000; pointer-events: none; }
     .neg-btn { background: #333; color: #999; border: 1px solid #444; }
     .neg-btn:hover { background: #444; color: #bbb; }
     .neg-btn.clicked { background: #2a2a2a; color: #666; pointer-events: none; }
@@ -212,34 +285,32 @@
 
     /* ===== PROMO CARDS ===== */
     .promo-card, .sponsor-card {
-      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.15), rgba(255,0,255,0.15));
+      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.08));
       padding: 30px 24px; border-radius: 16px; margin: 35px 0;
-      border: 1px solid var(--cyan); box-shadow: 0 0 25px rgba(0,255,240,0.15);
+      border: 1px solid rgba(0,255,240,0.2); box-shadow: 0 0 25px rgba(0,255,240,0.1);
       transition: var(--transition);
-      animation: fadeInUp 1s ease-out both; animation-delay: 0.45s;
     }
     .promo-card:hover, .sponsor-card:hover { transform: translateY(-3px); }
     .sponsor-card {
-      border-color: rgba(255,215,0,0.4);
-      background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(0,255,240,0.1));
-      animation-delay: 0.4s;
+      border-color: rgba(255,215,0,0.3);
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(0,255,240,0.08));
     }
     .sponsor-badge {
       display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--gold-yellow); margin-bottom: 10px; opacity: 0.8;
+      color: var(--gold); margin-bottom: 10px; opacity: 0.8;
     }
     .promo-card h3, .sponsor-card h3 {
-      color: var(--cyan); margin-bottom: 8px; font-size: 1.3rem;
-      text-shadow: 0 0 10px var(--cyan-glow);
+      color: var(--cyan); margin-bottom: 10px; font-size: 1.3rem;
+      text-shadow: 0 0 10px rgba(0,255,240,0.2);
     }
-    .promo-card p, .sponsor-card p { margin-bottom: 15px; opacity: 0.85; max-width: 450px; margin-left: auto; margin-right: auto; color: var(--text-soft); }
+    .promo-card p, .sponsor-card p { margin-bottom: 15px; color: var(--text-soft); }
     .promo-link {
       display: inline-block; background: linear-gradient(90deg, var(--cyan), var(--magenta));
       color: #000; font-weight: 800; text-decoration: none; padding: 12px 28px;
-      border-radius: 12px; box-shadow: 0 0 15px rgba(0,255,240,0.3); transition: var(--transition);
+      border-radius: 12px; box-shadow: 0 0 15px rgba(0,255,240,0.25); transition: var(--transition);
       min-height: 44px; display: inline-flex; align-items: center;
     }
-    .promo-link:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--cyan-glow); color: #000; }
+    .promo-link:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(0,255,240,0.35); color: #000; }
 
     /* ===== LOADING ===== */
     .loading { text-align: center; padding: 40px; color: var(--text-muted); }
@@ -250,23 +321,57 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.2);
+      color: var(--text-muted); font-size: 0.9rem;
+      background: rgba(6,0,20,0.8);
+      backdrop-filter: blur(10px);
+      margin-top: 20px;
+    }
+    .footer-brand {
+      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,255,240,0.15);
+    }
+    .socials { margin: 16px 0; display: flex; justify-content: center; gap: 18px; font-size: 1.8rem; }
+    .socials a { 
+      color: var(--cyan); transition: var(--transition);
+      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+    }
+    .socials a:hover { 
+      color: var(--magenta); transform: scale(1.2);
+      background: rgba(255,0,255,0.1);
+    }
+    .legacy {
+      margin-top: 20px; padding-top: 20px;
+      border-top: 1px solid rgba(0,255,240,0.08);
+      font-size: 0.85rem;
+    }
+    .legacy-names {
+      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.05em;
+    }
+
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 600px) {
-      main { padding: 18px 15px; }
+    @media (max-width: 700px) {
+      main { padding: 25px 15px 50px; }
       #arron-chat-container { padding: 20px 16px; }
       .vault-actions { flex-direction: column; }
       .vault-actions button { width: 100%; }
       .feed-item { padding: 16px; }
+    }
+    @media (max-width: 480px) {
+      nav { gap: 8px 10px; }
+      header h1 { font-size: 1.3rem; }
     }
 
     /* ===== REDUCED MOTION ===== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
-      .feed-item:hover, .promo-link:hover, .arron-btn:hover { transform: none; }
+      .btn:hover, .arron-btn:hover, .feed-item:hover, .promo-link:hover, .socials a:hover { transform: none; }
     }
   </style>
 </head>
@@ -275,77 +380,100 @@
   <canvas class="stars" aria-hidden="true"></canvas>
   <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
-  <header role="banner">
-    <h1>🧠 Sanity Hub</h1>
-    <nav aria-label="Main Navigation">
-      <a href="index.html">🏠 Home</a>
-      <a href="about.html">ℹ️ About</a>
-      <a href="sanityhub.html" class="active">🧠 Hub</a>
-      <a href="journal-vault.html">📔 Journal</a>
-      <a href="frequencies.html">🎵 Frequencies</a>
-      <a href="games.html">🎮 Games</a>
-      <a href="shop.html">🛒 Shop</a>
-      <a href="movement.html">⚡ Movement</a>
-    </nav>
-  </header>
+  <div class="page-wrapper">
+    <header role="banner">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness" class="logo-img" loading="eager" width="70" height="70" />
+      <h1>Sanity Hub</h1>
+      <p class="tagline">Your Cosmic Sanctuary — Heal, Connect, Rise</p>
+      
+      <nav aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="sanityhub.html" aria-current="page">Sanity Hub</a>
+        <a href="journal-vault.html">Journal Vault</a>
+        <a href="frequencies.html">Healing Hz</a>
+        <a href="games.html">Games</a>
+        <a href="shop.html">Shop</a>
+        <a href="movement.html">Movement</a>
+      </nav>
+    </header>
 
-  <main id="main" role="main">
-    <section class="cosmic-hero">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness" loading="eager" width="90" height="90" />
-      <p class="slogan">Built from the bottom, rising to the cosmos — P.S. It's not over.</p>
-    </section>
+    <main id="main" role="main">
+      <section class="cosmic-hero">
+        <p>Built from the bottom, rising to the cosmos — P.S. It's not over. 💙</p>
+      </section>
 
-    <!-- ARRON AI CHAT + JOURNAL VAULT -->
-    <section id="arron-chat-container" aria-labelledby="arron-heading">
-      <div class="arron-welcome">
-        <h3 id="arron-heading">🧠 Arron — The Architect</h3>
-        <p>Your companion in the Sanity Hub. What's one thought you'd like to release right now?</p>
+      <!-- ARRON AI CHAT + JOURNAL VAULT -->
+      <section id="arron-chat-container" aria-labelledby="arron-heading">
+        <div class="arron-welcome">
+          <h3 id="arron-heading">🧠 Arron — Your Companion</h3>
+          <p>What's one thought you'd like to release right now? I'm listening.</p>
+        </div>
+
+        <div id="arron-messages" aria-live="polite">
+          <div class="arron-msg"><strong class="cyan">Arron:</strong> I'm here. You're safe. Speak your truth. ✨</div>
+        </div>
+
+        <div id="arron-input-row">
+          <input type="text" id="arron-input" placeholder="Type your reflection here…"
+                 aria-label="Message to Arron — share your thoughts"
+                 onkeypress="if(event.key==='Enter')sendArronMsg()"
+                 autocomplete="off" />
+          <button class="arron-btn btn-cyan" onclick="sendArronMsg()">Send</button>
+        </div>
+
+        <div class="arron-affirm" id="arron-affirm" aria-live="polite"></div>
+
+        <div class="vault-actions" aria-label="Journal Vault actions">
+          <button class="arron-btn btn-gold" onclick="exportJournalVault()">⬇️ Export</button>
+          <button class="arron-btn btn-magenta" onclick="printJournalVault()">🖨️ Print</button>
+          <button class="arron-btn btn-dark" onclick="clearJournalVault()">🗑️ Clear</button>
+        </div>
+      </section>
+
+      <!-- VIDEO FEED -->
+      <section id="video-feed" aria-labelledby="feed-heading">
+        <h2 id="feed-heading">🌟 Cosmic Feed — Stories That Heal</h2>
+        <div id="feed" aria-live="polite">
+          <div class="loading"><span class="loading-spinner"></span> Awakening the cosmos…</div>
+        </div>
+      </section>
+
+      <!-- CREATIVE PARTNER -->
+      <div class="sponsor-card">
+        <span class="sponsor-badge">✨ Creative Partner</span>
+        <h3>Want Your Brand Here?</h3>
+        <p>Support real change. Reach a growing community of survivors, creators, and dreamers. Creative ads only — no soul-sucking corporations.</p>
+        <a href="mailto:hello@pleadingsanity.co.uk?subject=Creative%20Sponsorship" class="promo-link">Let's Collaborate →</a>
       </div>
 
-      <div id="arron-messages" aria-live="polite">
-        <div class="arron-msg"><strong class="cyan">Arron:</strong> I'm here. You're safe. Speak your truth. ✨</div>
+      <!-- MERCH PROMO -->
+      <div class="promo-card">
+        <h3>✨ Be Part of the Movement ✨</h3>
+        <p>Wear strength, not stress. Every piece supports survivors & builds the community. Evolution, Not Erasure.</p>
+        <a href="shop.html" class="promo-link">Explore Merch →</a>
       </div>
+    </main>
 
-      <div id="arron-input-row">
-        <input type="text" id="arron-input" placeholder="Type your reflection here…"
-               aria-label="Message to Arron — share your thoughts"
-               onkeypress="if(event.key==='Enter')sendArronMsg()"
-               autocomplete="off" />
-        <button class="arron-btn btn-cyan" onclick="sendArronMsg()">Send</button>
+    <footer role="contentinfo">
+      <div class="footer-brand">Pleading Sanity — Built for the Warriors</div>
+      <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
+      
+      <div class="socials">
+        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+        <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+        <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+        <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
       </div>
-
-      <div class="arron-affirm" id="arron-affirm" aria-live="polite"></div>
-
-      <div class="vault-actions" aria-label="Journal Vault actions">
-        <button class="arron-btn btn-gold" onclick="exportJournalVault()">⬇️ Export</button>
-        <button class="arron-btn btn-magenta" onclick="printJournalVault()">🖨️ Print</button>
-        <button class="arron-btn btn-dark" onclick="clearJournalVault()">🗑️ Clear</button>
+      
+      <div class="legacy">
+        <p>&copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.</p>
+        <p class="legacy-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+        <p>Built on their shoulders. Awakened, not broken.</p>
       </div>
-    </section>
-
-    <!-- VIDEO FEED -->
-    <section id="video-feed" aria-labelledby="feed-heading">
-      <h2 id="feed-heading">🌟 Cosmic Feed — Stories That Heal</h2>
-      <div id="feed" aria-live="polite">
-        <div class="loading"><span class="loading-spinner"></span> Awakening the cosmos…</div>
-      </div>
-    </section>
-
-    <!-- CREATIVE PARTNER -->
-    <div class="sponsor-card">
-      <span class="sponsor-badge">✨ Creative Partner</span>
-      <h3>Want Your Brand Here?</h3>
-      <p>Support real change. Reach a growing community of survivors, creators, and dreamers. Creative ads only — no soul-sucking corporations.</p>
-      <a href="mailto:hello@pleadingsanity.co.uk?subject=Creative%20Sponsorship" class="promo-link">Let's Collaborate →</a>
-    </div>
-
-    <!-- MERCH PROMO -->
-    <div class="promo-card">
-      <h3>✨ Be Part of the Movement ✨</h3>
-      <p>Wear strength, not stress. Every piece supports survivors & builds the community. Evolution, Not Erasure.</p>
-      <a href="shop.html" class="promo-link">Explore Merch →</a>
-    </div>
-  </main>
+    </footer>
+  </div>
 
   <script>
     // ==========================================
@@ -553,7 +681,7 @@
     // ==========================================
     // 📺 VIDEO FEED — FALLBACK + INFINITE SCROLL
     // ==========================================
-    const API_KEY = ""; // ✅ Set in Netlify/Vercel Env: YOUTUBE_API_KEY
+    const API_KEY = ""; // ✅ Set in Vercel/Netlify Env: YOUTUBE_API_KEY
     const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA";
     let nextPageToken = "", isLoading = false;
 
@@ -610,7 +738,6 @@
 
         const card = document.createElement("div");
         card.className = "feed-item";
-        card.style.animationDelay = `${i * 0.12}s`;
 
         const liked = likeState[v.vid] === 'like';
         const disliked = likeState[v.vid] === 'dislike';
@@ -677,6 +804,9 @@
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
       setTimeout(loadVideos, 100);
     }
+
+    // Auto-update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
