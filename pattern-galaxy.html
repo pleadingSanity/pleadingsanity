@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pattern Galaxy — Pleading Sanity | See. Feel. Align.</title>
+  <meta name="description" content="Shape & flow recognition — train visual focus, intuition, and calm alignment. Levels evolve with your awareness.">
+  <link rel="canonical" href="https://pleadingsanity.co.uk/pattern-galaxy.html" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <style>
+    :root{
+      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.5);
+      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
+      --gold:#ffd700;--gold-glow:rgba(255,215,0,.4);
+      --violet:#a855f7;--violet-deep:#7c3aed;
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(168,85,247,.15);
+      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(168,85,247,.3);
+      --success:#00ff88;--error:#ff3366;
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:radial-gradient(ellipse at 50% 120%,#2a1060 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;
+    }
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--cyan);color:#000;padding:12px 24px;border-radius:8px;z-index:1e4;}
+    .skip-link:focus{top:10px;}
+    a{color:var(--cyan);transition:var(--t);}
+    a:hover{color:var(--magenta);text-shadow:0 0 8px rgba(255,0,255,.3);}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo{width:60px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3s infinite;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4));}50%{filter:drop-shadow(0 0 35px rgba(168,85,247,.35));}}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin-bottom:5px;letter-spacing:.05em;}
+    .tag{color:var(--violet);font-weight:600;margin-bottom:12px;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;margin-top:12px;}
+    nav a{
+      color:var(--cyan);font-weight:700;padding:8px 12px;border-radius:8px;
+      border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;
+      transition:var(--t);
+    }
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.1);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.2);
+    }
+    nav a:hover{
+      border-color:var(--violet);background:rgba(168,85,247,.08);
+      color:#fff;box-shadow:0 0 20px rgba(168,85,247,.25);
+    }
+    main{max-width:620px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+
+    .game-card{
+      background:linear-gradient(135deg,rgba(0,255,240,.08),rgba(168,85,247,.05));
+      border-radius:24px;padding:30px;border:1px solid rgba(0,255,240,.2);
+      box-shadow:0 0 30px rgba(0,255,240,.1),inset 0 0 60px rgba(168,85,247,.03);
+      backdrop-filter:blur(16px);position:relative;overflow:hidden;
+    }
+    .game-card::before{
+      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:conic-gradient(from 0deg,transparent,var(--cyan),transparent,var(--violet),transparent);
+      animation:rotate 25s linear infinite;opacity:.05;pointer-events:none;
+    }
+    @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .game-card > *{position:relative;z-index:1;}
+
+    .stats{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+      margin-bottom:25px;padding:15px 20px;background:rgba(0,0,0,.3);border-radius:14px;
+      border:1px solid rgba(0,255,240,.15);
+    }
+    .stat{text-align:center;}
+    .stat-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+    .stat-val{font-size:1.4rem;font-weight:800;color:var(--cyan);}
+    .stat-val.level{color:var(--gold);text-shadow:0 0 10px var(--gold-glow);}
+    .stat-val.streak{color:var(--violet);text-shadow:0 0 10px rgba(168,85,247,.4);}
+    
+    .progress-bar{height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;margin:15px 0 20px;}
+    .progress-fill{height:100%;background:var(--btn-gradient);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px var(--cyan-glow);}
+
+    .pattern-display{
+      display:flex;flex-direction:column;align-items:center;gap:12px;padding:25px;background:rgba(255,255,255,.03);
+      border-radius:16px;border:1px solid rgba(0,255,240,.15);margin-bottom:20px;min-height:180px;justify-content:center;
+    }
+    .row{display:flex;gap:10px;}
+    .cell{
+      width:50px;height:50px;border-radius:10px;border:2px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.03);transition:var(--t);display:flex;align-items:center;justify-content:center;
+      font-size:1.5rem;
+    }
+    .cell.active{
+      background:linear-gradient(135deg,var(--cyan),var(--violet));border-color:var(--cyan);
+      box-shadow:0 0 20px var(--cyan-glow);animation:pulseCell .8s ease-in-out infinite;
+    }
+    @keyframes pulseCell{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}
+
+    .options-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0;}
+    .opt-cell{
+      aspect-ratio:1;border-radius:12px;border:2px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.03);cursor:pointer;transition:var(--t);font-size:1.4rem;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .opt-cell:hover:not(:disabled){
+      transform:scale(1.08);border-color:rgba(0,255,240,.4);background:rgba(0,255,240,.08);
+    }
+    .opt-cell:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+    .opt-cell.correct{
+      background:linear-gradient(135deg,#00ff88,#00cc66);border-color:#00ff88;
+      box-shadow:0 0 25px rgba(0,255,136,.4);animation:pop .3s ease;
+    }
+    .opt-cell.wrong{
+      background:linear-gradient(135deg,#ff3366,#cc0033);border-color:#ff3366;
+      box-shadow:0 0 25px rgba(255,51,102,.4);animation:shake .4s ease;
+    }
+    @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+    @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}
+
+    .btn{
+      width:100%;padding:16px 24px;border-radius:50px;font-weight:800;font-size:1.1rem;
+      border:none;cursor:pointer;transition:var(--t);font-family:inherit;
+      letter-spacing:.05em;min-height:56px;
+    }
+    .btn.primary{background:var(--btn-gradient);color:#000;box-shadow:var(--btn-glow);}
+    .btn.primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:var(--btn-glow-strong);}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    .status{
+      text-align:center;margin:20px 0;padding:15px;border-radius:12px;
+      background:rgba(255,255,255,.03);min-height:3.5rem;display:flex;
+      align-items:center;justify-content:center;font-size:1rem;
+    }
+    .status.playing{border-left:3px solid var(--cyan);background:rgba(0,255,240,.05);color:var(--cyan);}
+    .status.success{border-left:3px solid var(--success);background:rgba(0,255,136,.05);color:var(--success);font-weight:600;}
+    .status.fail{border-left:3px solid var(--error);background:rgba(255,51,102,.05);color:#ff6688;}
+    .status.levelup{border-left:3px solid var(--gold);background:rgba(255,215,0,.08);color:var(--gold);font-weight:700;font-size:1.1rem;animation:pulseGold 1s ease-in-out infinite;}
+    @keyframes pulseGold{0%,100%{text-shadow:0 0 10px var(--gold-glow);}50%{text-shadow:0 0 25px var(--gold-glow);}}
+
+    .tip{
+      margin-top:25px;padding:18px;background:rgba(0,255,240,.04);border-radius:12px;
+      border-left:3px solid var(--violet);font-size:.9rem;color:var(--text-soft);
+    }
+
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
+    }
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:18px;margin:16px 0;font-size:1.8rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--cyan);
+    }
+    .socials a:hover{color:var(--magenta);transform:scale(1.2);background:rgba(255,0,255,.1);box-shadow:0 0 15px rgba(255,0,255,.2);}
+    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(0,255,240,.08);font-size:.85rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+    
+    @media (max-width:480px){
+      main{padding:20px 15px 50px;}
+      .cell{width:44px;height:44px;font-size:1.2rem;}
+      .opt-cell{font-size:1.2rem;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .opt-cell:hover,.btn:hover,.socials a:hover{transform:none;}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to game</a>
+  <header>
+    <img src="assets/crying-brain-og.png" alt="Pleading Sanity" class="logo" width="60" height="60" loading="eager" />
+    <h1>🌈 Pattern Galaxy</h1>
+    <p class="tag">See. Feel. Align.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="sanityhub.html">Sanity Hub</a>
+      <a href="journal-vault.html">Journal Vault</a>
+      <a href="frequencies.html">Healing Hz</a>
+      <a href="games.html" aria-current="page">Games</a>
+      <a href="cosmic-focus.html">Cosmic Focus</a>
+      <a href="number-nebula.html">Number Nebula</a>
+      <a href="pattern-galaxy.html" aria-current="page">Pattern Galaxy</a>
+      <a href="shop.html">Shop</a>
+      <a href="movement.html">Movement</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="game-card">
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Level</div>
+          <div class="stat-val level" id="lvl">1</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Score</div>
+          <div class="stat-val" id="score">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Flow</div>
+          <div class="stat-val streak" id="streak">0✨</div>
+        </div>
+      </div>
+      
+      <div class="progress-bar" title="Awakening progress">
+        <div class="progress-fill" id="progress" style="width:0%"></div>
+      </div>
+
+      <div class="status" id="status">Press Begin to awaken your perception 🌌</div>
+      <div class="pattern-display" id="patternArea"></div>
+      <div id="optionsArea"></div>
+      <button class="btn primary" id="startBtn" onclick="startGame()">🚀 Begin Alignment</button>
+      
+      <div class="tip">
+        💡 <strong>How it works:</strong> Watch the pattern evolve → find what comes next. Trust your intuition — your mind already sees what your eyes are learning 💫
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — Pattern Galaxy</div>
+    <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family.</p>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop">🛒</a>
+    </div>
+    <div class="legacy">
+      <p>&copy; <span id="yr"></span> Pleading Sanity — All Rights Reserved</p>
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
+      <p>Patterns within patterns. Awakened, not broken.</p>
+    </div>
+  </footer>
+
+  <script>
+    let level=1, score=0, streak=0, isPlaying=false, current={}, canAnswer=false;
+    const symbols=['◆','◇','○','●','△','▲','☆','★','⬡','⬢'];
+    
+    function loadSave(){
+      const s=localStorage.getItem('patternGalaxy');
+      if(s){const d=JSON.parse(s);level=d.lvl||1;score=d.score||0;streak=d.streak||0;updateUI();}
+    }
+    function save(){
+      localStorage.setItem('patternGalaxy',JSON.stringify({lvl,score,streak,ts:Date.now()}));
+    }
+    function updateUI(){
+      lvl.textContent=level;score.textContent=score;streak.textContent=streak+'✨';
+      progress.style.width=((score%(level*120))/(level*120)*100||0)+'%';
+    }
+    function setStatus(msg,cls=''){status.className='status '+cls;status.textContent=msg;}
+    
+    function genPattern(){
+      const types=['repeat','shift','grow','rotate','fade'];
+      const t=types[Math.floor(Math.random()*Math.min(types.length,1+Math.floor(level/2)))];
+      let seq=[],ans='',opts=[];
+      const sym=symbols[Math.floor(Math.random()*symbols.length)];
+      const sym2=symbols.filter(s=>s!==sym)[Math.floor(Math.random()*(symbols.length-1))];
+      
+      if(t==='repeat'){
+        const cycle=[sym,sym2,sym];
+        seq=[...cycle,...cycle,...cycle];ans=cycle[0];
+      }else if(t==='shift'){
+        seq=[sym,' ',sym,' ',sym,' '];ans=sym;
+      }else if(t==='grow'){
+        seq=[sym,sym+sym,sym+sym+sym];ans=sym.repeat(4);
+      }else if(t==='rotate'){
+        seq=[sym,sym2,sym,sym2,sym];ans=sym2;
+      }else{
+        seq=[sym,sym,sym2,sym2,sym];ans=sym;
+      }
+      
+      opts=[ans];
+      while(opts.length<4){
+        const alt=[sym,sym2,sym+sym,sym2+sym2][Math.floor(Math.random()*4)];
+        if(!opts.includes(alt))opts.push(alt);
+      }
+      opts=opts.sort(()=>Math.random()-.5);
+      return {seq,ans,opts,type:t};
+    }
+    
+    function renderPattern(){
+      current=genPattern();
+      patternArea.innerHTML=`<div class="row">${current.seq.map(c=>`<div class="cell active">${c}</div>`).join('')}</div>`;
+      optionsArea.innerHTML=`<div class="options-grid">${current.opts.map(o=>`
+        <button class="opt-cell" data-val="${o}">${o||'?'}</button>
+      `).join('')}</div>`;
+      document.querySelectorAll('.opt-cell').forEach(b=>b.onclick=()=>check(b.dataset.val,b));
+      canAnswer=true;
+      setStatus('👀 What comes next?','playing');
+    }
+    
+    function check(given,btn){
+      if(!canAnswer||!isPlaying)return;
+      canAnswer=false;
+      document.querySelectorAll('.opt-cell').forEach(b=>b.disabled=true);
+      
+      if(given===current.ans){
+        btn.classList.add('correct');
+        score+=level*12+streak*4;streak++;
+        if(score>=level*120){
+          level++;setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies!`,'levelup');
+        }else{setStatus(`✅ Perfect flow! +${level*12+streak*4} points`,'success');}
+        save();updateUI();setTimeout(renderPattern,1400);
+      }else{
+        btn.classList.add('wrong');streak=0;
+        setStatus(`❌ The pattern repeats: ${current.ans}`,'fail');
+        save();updateUI();
+        setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🚀 Realign';},1600);
+      }
+    }
+    
+    function startGame(){if(isPlaying)return;isPlaying=true;startBtn.disabled=true;renderPattern();}
+    document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
+  </script>
+</body>
+</html>
