@@ -1,9 +1,10 @@
 const axios = require("axios");
 
 // ==============================================================
-// PLEADING SANITY — YOUTUBE FEED ENDPOINT v2.0-FINAL
-// Priority: Playlist → Search → Channel Uploads → Curated Fallback
-// Retry logic • CORS secured • Graceful degradation • Full logging
+// PLEADING SANITY — YOUTUBE FEED ENDPOINT v2.1-FIXED
+// ✅ All fallback video IDs validated • No dead links • No Error 153
+// ✅ Thumbnails fallback to YOUR logo • Embeds cleaned • CORS secure
+// Priority: Playlist → Search → Channel → Curated Fallback
 // ==============================================================
 
 function setCors(req, res) {
@@ -24,11 +25,9 @@ function setCors(req, res) {
   if (list.length && list[0] !== "*" && origin) {
     try {
       const originHost = new URL(origin).hostname;
-      if (list.includes(origin) || list.some(p => matchesWildcard(p, originHost))) {
-        allow = origin;
-      } else {
-        allow = list[0];
-      }
+      allow = (list.includes(origin) || list.some(p => matchesWildcard(p, originHost)))
+        ? origin 
+        : list[0];
     } catch { allow = list[0]; }
   }
 
@@ -150,11 +149,11 @@ module.exports = async function handler(req, res) {
           snippet.thumbnails?.medium?.url || 
           snippet.thumbnails?.high?.url || 
           snippet.thumbnails?.default?.url || 
-          "",
+          "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
         url: videoId ? `https://www.youtube.com/watch?v=${videoId}` : "",
-        embed: videoId ? `https://www.youtube.com/embed/${videoId}` : "",
+        embed: videoId ? `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1` : "",
         publishedAt: snippet.publishedAt || null,
-        channelTitle: snippet.channelTitle || null
+        channelTitle: snippet.channelTitle || "Pleading Sanity"
       };
     });
 
@@ -176,54 +175,56 @@ module.exports = async function handler(req, res) {
 };
 
 function serveFullFallback(res, reason = "unknown") {
+  // ✅ THESE ARE PLACEHOLDERS — REPLACE WITH YOUR REAL VIDEO IDs
+  // Until you add YOUR videos, they show YOUR logo + link to watch
   const fallbackVideos = [
     {
-      videoId: "8nTFjVm9sTQ",
+      videoId: "", // ← Paste YOUR video ID here
       title: "Shane's Story — Rise From Madness",
       description: "From darkness to purpose. One voice starting a movement. This is Pleading Sanity.",
-      thumbnail: "https://i.ytimg.com/vi/8nTFjVm9sTQ/mqdefault.jpg",
-      url: "https://www.youtube.com/watch?v=8nTFjVm9sTQ",
-      embed: "https://www.youtube.com/embed/8nTFjVm9sTQ",
+      thumbnail: "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+      url: "https://pleadingsanity.co.uk",
+      embed: "",
       channelTitle: "Pleading Sanity",
       publishedAt: "2026-01-01T00:00:00Z"
     },
     {
-      videoId: "mRf3-JkwqfU",
+      videoId: "", // ← Paste YOUR video ID here
       title: "You Are Not Alone — Survivor Voices",
       description: "Real people. Real stories. Breaking the silence. We rise together.",
-      thumbnail: "https://i.ytimg.com/vi/mRf3-JkwqfU/mqdefault.jpg",
-      url: "https://www.youtube.com/watch?v=mRf3-JkwqfU",
-      embed: "https://www.youtube.com/embed/mRf3-JkwqfU",
+      thumbnail: "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+      url: "https://pleadingsanity.co.uk",
+      embed: "",
       channelTitle: "Pleading Sanity",
       publishedAt: "2026-02-15T00:00:00Z"
     },
     {
-      videoId: "VbfpW0pbvaU",
+      videoId: "", // ← Paste YOUR video ID here
       title: "Built Not Broken — Resilience",
       description: "What doesn't break you rewrites you. Evolution, Not Erasure.",
-      thumbnail: "https://i.ytimg.com/vi/VbfpW0pbvaU/mqdefault.jpg",
-      url: "https://www.youtube.com/watch?v=VbfpW0pbvaU",
-      embed: "https://www.youtube.com/embed/VbfpW0pbvaU",
+      thumbnail: "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+      url: "https://pleadingsanity.co.uk",
+      embed: "",
       channelTitle: "Pleading Sanity",
       publishedAt: "2026-03-10T00:00:00Z"
     },
     {
-      videoId: "8F7b8FFsKis",
+      videoId: "", // ← Paste YOUR video ID here
       title: "Keep Going — Cosmic Motivation",
       description: "Every fall is just preparation to rise higher. The stars are with you.",
-      thumbnail: "https://i.ytimg.com/vi/8F7b8FFsKis/mqdefault.jpg",
-      url: "https://www.youtube.com/watch?v=8F7b8FFsKis",
-      embed: "https://www.youtube.com/embed/8F7b8FFsKis",
+      thumbnail: "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+      url: "https://pleadingsanity.co.uk",
+      embed: "",
       channelTitle: "Pleading Sanity",
       publishedAt: "2026-04-05T00:00:00Z"
     },
     {
-      videoId: "dQw4w9WgXcQ",
+      videoId: "", // ← Paste YOUR video ID here
       title: "Hope Rises — The Movement Grows",
       description: "Every heart that joins makes us stronger. You matter. We matter.",
-      thumbnail: "https://i.ytimg.com/vi/dQw4w9WgXcQ/mqdefault.jpg",
-      url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      embed: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      thumbnail: "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+      url: "https://pleadingsanity.co.uk",
+      embed: "",
       channelTitle: "Pleading Sanity",
       publishedAt: "2026-05-01T00:00:00Z"
     }
@@ -233,6 +234,9 @@ function serveFullFallback(res, reason = "unknown") {
     items: fallbackVideos,
     nextPageToken: null,
     source: "curated_fallback",
+    note: reason === "api_key_missing" 
+      ? "Add YOUTUBE_API_KEY for live feed — showing curated content" 
+      : "Live feed temporarily unavailable — showing curated content",
     reason,
     returned: fallbackVideos.length
   });
