@@ -3,64 +3,118 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Journal Vault Viewer — Pleading Sanity | Rise From Madness</title>
+  <title>Journal Vault Viewer — Pleading Sanity | Read & Reflect</title>
+  <meta name="description" content="View, search, export your Journal Vault entries. Your stories. Your voice. Safe, seen, sacred. Write, save, search, export — all yours." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/journal-vault-viewer.html" />
+
+  <!-- Favicons -->
   <link rel="icon" href="assets/favicon.ico" />
-  <meta name="description" content="Your stories. Your voice. Safe, seen, sacred. Write, save, search, export — all yours." />
-  
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#0d1b2a" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Journal Vault Viewer — Pleading Sanity" />
+  <meta property="og:description" content="Revisit your journey. Search your truth. Keep your words safe and yours alone." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/journal-vault-viewer.html" />
+
+  <!-- ==========================================
+       JOURNAL VAULT VIEWER — COSMIC PRODUCTION v2.1
+       Companion page → reads same storage as journal-vault.html
+       Dark theme locked · Navigation aligned · Privacy-first
+       ========================================== -->
   <style>
     :root {
-      --primary-cyan: #00fff0;
-      --secondary-magenta: #ff00ff;
+      --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
+      --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
       --gold: #ffd700;
-      --bg-dark: #0d1b2a;
-      --bg-darker: #000510;
-      --text-light: #f0faff;
-      --text-muted: #b9faff;
-      --surface-alpha: rgba(0,255,240,0.06);
-      --border-alpha: rgba(0,255,240,0.13);
-      --shadow-glow: 0 0 48px rgba(0,255,240,0.09);
+      --deep: #0d1b2a;
+      --dark: #000510;
+      --text-bright: #f0faff;
+      --text-soft: #b9faff;
+      --text-muted: #8ac8d8;
+      --surface: rgba(0,255,240,0.06);
+      --border: rgba(0,255,240,0.15);
+      --glow-cyan: 0 0 25px rgba(0,255,240,0.15);
+      --glow-magenta: 0 0 25px rgba(255,0,255,0.12);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      
-      /* ✅ NO GOOGLE FONTS — SYSTEM STACK = NO ERRORS */
-      --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
-                   'Helvetica Neue', Arial, sans-serif;
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
-    
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body {
       font-family: var(--font-sans);
-      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--bg-dark) 45%, var(--bg-darker) 100%);
-      color: var(--text-light);
-      margin: 0;
-      padding: 20px;
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%);
+      color: var(--text-bright);
       min-height: 100vh;
-      transition: var(--transition);
       line-height: 1.7;
+      background-attachment: fixed;
+      padding: 0;
     }
-    
+
+    /* ✅ DARK BACKGROUND — LOCKED FOREVER */
+    @media (prefers-color-scheme: light) {
+      body {
+        background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%) !important;
+      }
+    }
+
     body.light-mode {
-      --primary-cyan: #0066cc;
-      --secondary-magenta: #cc0066;
-      --bg-dark: #f5f7fa;
-      --bg-darker: #ffffff;
-      --text-light: #1a202c;
-      --text-muted: #4a5568;
-      --surface-alpha: rgba(0,102,204,0.06);
-      --border-alpha: rgba(0,102,204,0.13);
-      --shadow-glow: 0 0 48px rgba(0,102,204,0.09);
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      --cyan: #0066cc;
+      --magenta: #cc00aa;
+      --deep: #eef2f8;
+      --dark: #ffffff;
+      --text-bright: #1a202c;
+      --text-soft: #2d3748;
+      --text-muted: #718096;
+      --surface: rgba(0,102,204,0.06);
+      --border: rgba(0,102,204,0.18);
+      background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%) !important;
     }
-    
+
+    /* Accessibility skip link */
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
+
+    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+
+    /* Header & Navigation — aligned with journal-vault.html */
+    header.page-top {
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0,255,240,0.1);
+      padding: 15px 20px 20px;
+      position: sticky; top: 0; z-index: 100;
+    }
+
+    .nav-back {
+      text-align: left; margin-bottom: 10px;
+    }
+    .nav-back a {
+      color: var(--cyan); text-decoration: none; font-size: 0.9rem;
+    }
+    .nav-back a:hover {
+      text-shadow: 0 0 8px rgba(0,255,240,0.4); text-decoration: underline;
+    }
+
     .page-header {
       text-align: center;
-      margin-bottom: 30px;
-      padding-top: 10px;
-      position: relative;
+      margin-bottom: 5px;
+      padding-top: 5px;
     }
     
     .page-header h1 {
-      color: var(--primary-cyan);
+      color: var(--cyan);
       text-shadow: 0 0 25px rgba(0,255,240,0.35);
       font-weight: 800;
       font-size: clamp(1.8rem, 5vw, 2.6rem);
@@ -74,38 +128,44 @@
       max-width: 500px;
       margin: 0 auto;
     }
-    
+
     .theme-toggle {
       position: absolute;
-      top: 0;
-      right: 0;
-      background: var(--surface-alpha);
-      border: 1px solid var(--border-alpha);
+      top: 15px;
+      right: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 50px;
       padding: 8px 16px;
       cursor: pointer;
       transition: var(--transition);
       backdrop-filter: blur(10px);
       font-size: 0.9rem;
-      color: var(--text-light);
+      color: var(--text-bright);
       font-family: inherit;
+      min-height: 44px;
     }
     
     .theme-toggle:hover {
-      background: var(--primary-cyan);
+      background: var(--cyan);
       color: #000;
       transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,255,240,0.3);
     }
-    
-    .container {
+
+    main {
       max-width: 900px;
       margin: 0 auto;
-      background: var(--surface-alpha);
-      border-radius: 21px;
+      padding: 30px 20px 60px;
+    }
+
+    .container {
+      background: var(--surface);
+      border-radius: 20px;
       padding: 30px;
-      box-shadow: var(--shadow-glow);
+      box-shadow: var(--glow-cyan);
       backdrop-filter: blur(12px);
-      border: 1px solid var(--border-alpha);
+      border: 1px solid var(--border);
       animation: fadeInUp 0.6s ease-out;
     }
     
@@ -113,7 +173,7 @@
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
+
     .submit-section {
       background: rgba(0,255,240,0.04);
       border-radius: 16px;
@@ -123,32 +183,34 @@
     }
     
     .submit-section h2 {
-      color: var(--primary-cyan);
+      color: var(--cyan);
       margin-bottom: 15px;
       font-size: 1.25rem;
     }
     
     .submit-textarea {
       width: 100%;
-      min-height: 120px;
+      min-height: 140px;
       background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border-alpha);
+      border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 15px;
-      color: var(--text-light);
+      padding: 16px;
+      color: var(--text-bright);
       font-size: 1rem;
       font-family: inherit;
       resize: vertical;
       margin-bottom: 12px;
       transition: var(--transition);
+      line-height: 1.7;
     }
     
     .submit-textarea:focus {
       outline: none;
-      border-color: var(--primary-cyan);
+      border-color: var(--cyan);
       box-shadow: 0 0 15px rgba(0,255,240,0.2);
+      background: rgba(0,255,240,0.03);
     }
-    
+
     .controls {
       text-align: center;
       margin-bottom: 25px;
@@ -159,7 +221,7 @@
     }
     
     .btn {
-      background: linear-gradient(135deg, var(--primary-cyan) 0%, var(--secondary-magenta) 100%);
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--magenta) 100%);
       color: #000;
       font-weight: 700;
       padding: 12px 20px;
@@ -170,6 +232,7 @@
       box-shadow: 0 4px 15px rgba(0,255,240,0.2);
       font-size: 0.95rem;
       font-family: inherit;
+      min-height: 44px;
     }
     
     .btn:hover {
@@ -179,24 +242,24 @@
     
     .btn-secondary {
       background: transparent;
-      color: var(--primary-cyan);
-      border: 1px solid var(--primary-cyan);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
     }
     
     .btn-secondary:hover {
-      background: var(--primary-cyan);
+      background: var(--cyan);
       color: #000;
-      border-color: var(--primary-cyan);
+      border-color: var(--cyan);
     }
     
     .search-box {
       width: 100%;
-      max-width: 450px;
+      max-width: 480px;
       padding: 14px 20px;
       border-radius: 30px;
-      border: 1px solid var(--border-alpha);
-      background: var(--surface-alpha);
-      color: var(--text-light);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-bright);
       margin: 0 auto 25px;
       display: block;
       font-size: 1rem;
@@ -207,7 +270,7 @@
     
     .search-box:focus {
       outline: none;
-      border-color: var(--primary-cyan);
+      border-color: var(--cyan);
       box-shadow: 0 0 20px rgba(0,255,240,0.2);
     }
     
@@ -219,16 +282,16 @@
       color: var(--text-muted);
       font-size: 0.95rem;
       padding-bottom: 15px;
-      border-bottom: 1px solid var(--border-alpha);
+      border-bottom: 1px solid var(--border);
     }
     
     .entry {
-      background: var(--surface-alpha);
-      border: 1px solid var(--border-alpha);
+      background: var(--surface);
+      border: 1px solid var(--border);
       border-radius: 16px;
       padding: 24px;
       margin: 20px 0;
-      box-shadow: var(--shadow-glow);
+      box-shadow: inset 0 0 20px rgba(0,255,240,0.02);
       backdrop-filter: blur(8px);
       transition: var(--transition);
       animation: slideIn 0.5s ease-out;
@@ -246,7 +309,7 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--primary-cyan), var(--secondary-magenta));
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
       opacity: 0;
       transition: var(--transition);
     }
@@ -271,13 +334,13 @@
     }
     
     .entry-number {
-      color: var(--primary-cyan);
+      color: var(--cyan);
       font-weight: 800;
       font-size: 1.1rem;
     }
     
     .entry-date {
-      color: var(--secondary-magenta);
+      color: var(--magenta);
       font-size: 0.9rem;
     }
     
@@ -293,6 +356,7 @@
       font-size: 1.05rem;
       line-height: 1.8;
       white-space: pre-wrap;
+      color: var(--text-bright);
     }
     
     .empty-state {
@@ -306,94 +370,148 @@
       margin-bottom: 15px;
       opacity: 0.5;
     }
-    
-    .footer-note {
+
+    .privacy-note {
+      background: rgba(0,255,240,0.04);
+      border-radius: 12px;
+      padding: 16px;
+      margin-top: 25px;
+      border-left: 3px solid var(--cyan);
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    .sync-note {
+      background: rgba(255,215,0,0.05);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      border-left: 3px solid var(--gold);
+      font-size: 0.9rem;
+      color: var(--text-soft);
+    }
+
+    footer {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 50px;
+      padding: 30px 20px;
+      border-top: 1px solid var(--border);
       color: var(--text-muted);
       font-size: 0.9rem;
+      background: rgba(0,0,0,0.3);
     }
-    
-    .footer-note a {
-      color: var(--primary-cyan);
-      text-decoration: none;
+
+    .footer-brand {
+      font-size: 1.1rem;
+      color: var(--cyan);
+      font-weight: 800;
+      margin-bottom: 10px;
     }
-    
-    .footer-note a:hover {
-      color: var(--secondary-magenta);
-      text-decoration: underline;
-    }
-    
-    /* Mobile */
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      body { padding: 15px 10px; }
+      main { padding: 20px 15px 40px; }
       .container { padding: 20px; border-radius: 16px; }
-      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 20px; display: block; }
+      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 15px; display: block; }
       .entry-header { flex-direction: column; align-items: flex-start; }
       .submit-section { padding: 20px; }
+      .controls { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .entry:hover, .btn:hover { transform: none; }
     }
   </style>
 </head>
 <body>
-  <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
-    <span id="theme-icon">🌙</span>
-    <span id="theme-text">Dark</span>
-  </button>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header class="page-header">
-    <h1>📖 Journal Vault Viewer</h1>
-    <p>Your story matters. Safe. Seen. Sacred.</p>
+  <header class="page-top" role="banner">
+    <div class="nav-back">
+      <a href="journal-vault.html">← Write New Entry</a> |
+      <a href="index.html">← Home</a>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+      <span id="theme-icon">🌙</span>
+      <span id="theme-text">Dark</span>
+    </button>
+    <div class="page-header">
+      <h1>📖 Journal Vault Viewer</h1>
+      <p>Revisit your journey. Search your truth. Yours to keep.</p>
+    </div>
   </header>
 
-  <div class="container">
-    <!-- ✍️ WRITE DIRECTLY HERE -->
-    <div class="submit-section">
-      <h2>✍️ Add Your Voice</h2>
-      <textarea 
-        id="newEntryText" 
-        class="submit-textarea" 
-        placeholder="Write your truth here — a thought, a moment, a breakthrough, a memory. Whatever you need to share. You are safe here."
-      ></textarea>
-      <div style="display:flex;gap:10px;flex-wrap:wrap;">
-        <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
-        <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''">Clear</button>
+  <main id="main" role="main">
+    <div class="container">
+      <!-- 🔄 SYNC NOTE — same storage as journal-vault.html -->
+      <div class="sync-note">
+        🔄 <strong>Auto-synced:</strong> Reads the same vault as <a href="journal-vault.html">Journal Vault</a> — write there, view here. Everything stays on your device.
+      </div>
+
+      <!-- ✍️ OPTIONAL WRITE — can add entries directly here too -->
+      <section class="submit-section">
+        <h2>✍️ Add New Entry</h2>
+        <textarea 
+          id="newEntryText" 
+          class="submit-textarea" 
+          placeholder="Write your truth here — a thought, a moment, a breakthrough, a memory. Whatever you need to share. You are safe here."
+          aria-label="Write new journal entry"
+        ></textarea>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''" type="button">Clear</button>
+        </div>
+      </section>
+
+      <!-- CONTROLS -->
+      <section class="controls" aria-label="Vault tools">
+        <button class="btn btn-secondary" onclick="loadVault()">🔄 Refresh</button>
+        <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
+        <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
+        <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
+      </section>
+
+      <!-- SEARCH -->
+      <input 
+        type="text" 
+        id="searchBox" 
+        class="search-box" 
+        placeholder="Search entries by word, feeling, theme..." 
+        onkeyup="filterEntries()"
+        aria-label="Search journal entries"
+      >
+
+      <!-- STATS -->
+      <div class="stats" id="stats"></div>
+
+      <!-- ENTRIES LIST -->
+      <div id="vault-content" role="list"></div>
+
+      <!-- 🔒 PRIVACY NOTE -->
+      <div class="privacy-note">
+        🔒 <strong>Your words stay with you.</strong> Everything is stored locally on your device only — nothing is sent to any server. This viewer reads from the same private vault as your writer. Yours alone. 💙
       </div>
     </div>
+  </main>
 
-    <!-- CONTROLS -->
-    <div class="controls">
-      <button class="btn btn-secondary" onclick="loadVault()">🔄 Refresh</button>
-      <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
-      <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
-      <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
-    </div>
-
-    <!-- SEARCH -->
-    <input 
-      type="text" 
-      id="searchBox" 
-      class="search-box" 
-      placeholder="Search entries by word, feeling, theme..." 
-      onkeyup="filterEntries()"
-    >
-
-    <!-- STATS -->
-    <div class="stats" id="stats"></div>
-
-    <!-- ENTRIES -->
-    <div id="vault-content"></div>
-  </div>
-
-  <footer class="footer-note">
-    <p>Part of <a href="movement.html">Pleading Sanity</a> — One Source. One Consciousness. One Family.</p>
-    <p style="margin-top:5px;">Your words stay with you unless you choose to share them.</p>
+  <footer role="contentinfo">
+    <div class="footer-brand">Pleading Sanity — Journal Vault Viewer</div>
+    <p>Part of <a href="movement.html">One Source. One Consciousness. One Family.</a></p>
+    <p style="margin-top:10px; font-size:0.85rem;">Built on the legacy of Ivan Kurcharskyi & Arthur Lesley Cooper.<br>Awakened, not broken.</p>
   </footer>
 
   <script>
     let allEntries = [];
     let currentTheme = localStorage.getItem('vaultTheme') || 'dark';
+    const STORAGE_KEY = 'journalVault'; // ✅ SAME KEY as journal-vault.html = instant sync
 
-    // THEME SYSTEM
+    // THEME SYSTEM — matches writer page
     function initTheme() {
       if (currentTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -410,7 +528,7 @@
       localStorage.setItem('vaultTheme', currentTheme);
     }
 
-    // ✍️ ADD NEW ENTRY — WORKS DIRECTLY ON PAGE
+    // ✍️ ADD NEW ENTRY — saves to SAME shared storage
     function addEntry() {
       const text = document.getElementById('newEntryText').value.trim();
       if (!text) {
@@ -422,43 +540,42 @@
         id: Date.now(),
         timestamp: new Date().toISOString(),
         text: text,
-        source: 'Personal Submission'
+        source: 'Viewer Entry'
       };
 
-      allEntries.unshift(entry); // Newest at top
+      allEntries.unshift(entry);
       saveVault();
       displayEntries(allEntries);
       updateStats();
       document.getElementById('newEntryText').value = '';
       
-      // Success feedback
       const btn = event.target;
       btn.textContent = "✅ Saved!";
       setTimeout(() => btn.textContent = "💾 Save to Vault", 2000);
     }
 
-    // 💾 SAVE LOCALLY
+    // 💾 SAVE — SHARED with journal-vault.html
     function saveVault() {
       try {
-        localStorage.setItem('journalVault', JSON.stringify(allEntries));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(allEntries));
       } catch (e) {
         console.error("Save failed:", e);
-        alert("⚠️ Could not save — storage may be full.");
+        alert("⚠️ Could not save — storage may be full. Export first then clear old entries.");
       }
     }
 
-    // 📂 LOAD + AUTO-SEED WELCOME ENTRY
+    // 📂 LOAD — SHARED with journal-vault.html
     function loadVault() {
       try {
-        const stored = localStorage.getItem('journalVault');
+        const stored = localStorage.getItem(STORAGE_KEY);
         allEntries = stored ? JSON.parse(stored) : [];
         
-        // Auto-create welcome entry so NEVER blank
+        // Welcome entry if empty
         if (allEntries.length === 0) {
           allEntries = [{
             id: 'welcome',
             timestamp: new Date().toISOString(),
-            text: "Welcome to your Journal Vault. This space is yours — unfiltered, unjudged, yours alone.\n\nWrite the things you can't say out loud. Celebrate the small wins no one else sees. Record the moments you felt stronger than the pain.\n\nYou are not just surviving. You are documenting a resurrection. 💙✨",
+            text: "Welcome to your Journal Vault Viewer. This is where you return to see how far you've come.\n\nEvery entry is a marker. Every word is proof you're still here, still fighting, still growing.\n\nYou are not just surviving. You are documenting a resurrection. 💙✨",
             source: 'Pleading Sanity'
           }];
           saveVault();
@@ -470,9 +587,9 @@
         document.getElementById('vault-content').innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
-            <h3>Something went wrong</h3>
+            <h3>Something went wrong loading your vault</h3>
             <p style="margin-top:10px;">${err.message}</p>
-            <button class="btn" onclick="localStorage.removeItem('journalVault');loadVault()" style="margin-top:15px;">Reset Vault</button>
+            <button class="btn" onclick="localStorage.removeItem('${STORAGE_KEY}');loadVault()" style="margin-top:15px;">Reset Vault</button>
           </div>
         `;
       }
@@ -487,25 +604,25 @@
           <div class="empty-state">
             <div class="empty-state-icon">📝</div>
             <h3>No matching entries</h3>
-            <p style="margin-top:10px;">Try different words or clear search to see everything.</p>
+            <p style="margin-top:10px;">Try different words or clear your search to see everything.</p>
           </div>
         `;
         return;
       }
 
       container.innerHTML = entries.map((entry, index) => `
-        <div class="entry" data-text="${entry.text.toLowerCase()}">
+        <article class="entry" role="listitem" data-text="${entry.text.toLowerCase()}">
           <div class="entry-header">
             <span class="entry-number">#${index + 1}</span>
             <span class="entry-source">${entry.source || 'Journal'}</span>
             <span class="entry-date">${new Date(entry.timestamp).toLocaleString()}</span>
           </div>
           <div class="entry-text">${escapeHtml(entry.text)}</div>
-        </div>
+        </article>
       `).join('');
     }
 
-    // 🔒 Safe text rendering
+    // 🔒 XSS protection
     function escapeHtml(text) {
       const div = document.createElement('div');
       div.textContent = text;
@@ -527,7 +644,7 @@
       `;
     }
 
-    // 🔍 SEARCH — matches text AND source
+    // 🔍 SEARCH
     function filterEntries() {
       const term = document.getElementById('searchBox').value.toLowerCase().trim();
       if (!term) {
@@ -542,7 +659,7 @@
       );
     }
 
-    // 📤 EXPORT TXT FILE
+    // 📤 EXPORT
     function exportVault() {
       if (!allEntries.length) {
         alert("⚠️ Nothing to export yet.");
@@ -584,9 +701,9 @@
         <!DOCTYPE html>
         <html>
         <head>
-          <title>Journal Vault — Pleading Sanity</title>
+          <title>Journal Vault Viewer — Pleading Sanity</title>
           <style>
-            body { font-family: -apple-system, Arial, sans-serif; padding: 30px; line-height: 1.6; }
+            body { font-family: -apple-system, Arial, sans-serif; padding: 30px; line-height: 1.7; background: #fff; color: #111; }
             h1 { color: #00fff0; text-align: center; }
             .entry { margin: 25px 0; padding: 20px; border-bottom: 1px solid #ddd; }
             .meta { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
@@ -604,7 +721,7 @@
                 <span class="source">${e.source || 'Journal'}</span> — 
                 ${new Date(e.timestamp).toLocaleString()}
               </div>
-              <div style="white-space:pre-wrap;">${e.text}</div>
+              <div style="white-space:pre-wrap;">${(e.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')}</div>
             </div>
           `).join('')}
         </body>
@@ -615,19 +732,20 @@
       printWindow.print();
     }
 
-    // 🗑️ CLEAR
+    // 🗑️ CLEAR — double confirm
     function clearVault() {
-      if (!confirm("⚠️ DELETE EVERYTHING — cannot be undone. Sure?")) return;
-      localStorage.removeItem('journalVault');
+      if (!confirm("⚠️ This will DELETE EVERYTHING. Cannot be undone. Export first if you want to keep your entries.\n\nAre you absolutely sure?")) return;
+      if (!confirm("🔐 Final check — all entries will be gone forever. Proceed?")) return;
+      localStorage.removeItem(STORAGE_KEY);
       allEntries = [];
       loadVault();
     }
 
-    // ⌨️ SHORTCUTS
+    // ⌨️ KEYBOARD SHORTCUTS
     document.addEventListener('keydown', e => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && document.activeElement.id === 'newEntryText') {
         e.preventDefault();
-        addEntry(); // Ctrl+Enter = quick save
+        addEntry();
       }
       if (e.key === 'Escape') {
         document.getElementById('searchBox').value = '';
@@ -636,7 +754,7 @@
       }
     });
 
-    // 🚀 START
+    // 🚀 INIT
     document.addEventListener('DOMContentLoaded', () => {
       initTheme();
       loadVault();
