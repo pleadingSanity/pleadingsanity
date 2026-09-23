@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healing Hz — Pleading Sanity | Resonate. Restore. Rise.</title>
+  <meta name="description" content="Cosmic healing frequencies. Calm the mind, soothe the soul, strengthen the spirit. Safe, gentle, yours.">
+  <link rel="canonical" href="https://pleadingsanity.co.uk/frequencies.html" />
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <style>
+    :root{
+      --cyan:#00fff0;--cyan-glow:rgba(0,255,240,.4);--cyan-deep:#00c8c0;
+      --magenta:#ff00ff;--magenta-glow:rgba(255,0,255,.4);--magenta-deep:#c800c8;
+      --gold:#ffd700;--gold-glow:rgba(255,215,0,.3);
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
+      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
+      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(255,0,255,.3);
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      --t-fast:.15s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;
+    }
+    @media (prefers-color-scheme:light){body{background:radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%)!important;}}
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--cyan);color:#000;padding:12px 24px;border-radius:8px;z-index:1e4;}
+    .skip-link:focus{top:12px;}
+    a{color:var(--cyan);transition:var(--t);}
+    a:hover{color:var(--magenta);text-shadow:0 0 8px rgba(255,0,255,.3);}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo{width:60px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3s infinite;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4));}50%{filter:drop-shadow(0 0 35px rgba(255,0,255,.35));}}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin-bottom:5px;letter-spacing:.05em;}
+    .tag{color:var(--magenta);font-weight:600;margin-bottom:15px;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;}
+    nav a{
+      color:var(--cyan);font-weight:700;padding:8px 12px;border-radius:8px;
+      border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;
+      transition:var(--t);
+    }
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.1);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.2);
+    }
+    nav a:hover{
+      border-color:var(--magenta);background:rgba(255,0,255,.08);
+      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
+    }
+    main{max-width:720px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+    .card{
+      background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(255,0,255,.04));
+      border-radius:24px;padding:30px;border:1px solid rgba(0,255,240,.2);
+      box-shadow:0 0 30px rgba(0,255,240,.1),inset 0 0 60px rgba(0,255,240,.03);
+      backdrop-filter:blur(16px);margin-bottom:25px;position:relative;overflow:hidden;
+    }
+    .card::before{
+      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:conic-gradient(from 0deg,transparent,var(--cyan),transparent,var(--magenta),transparent);
+      animation:rotate 20s linear infinite;opacity:.05;z-index:0;pointer-events:none;
+    }
+    @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .card > *{position:relative;z-index:1;}
+
+    /* === FUTURISTIC FREQ BUTTONS === */
+    .freq{
+      padding:22px 24px;border-radius:16px;border:1px solid rgba(0,255,240,.15);margin:12px 0;
+      background:rgba(0,0,0,.3);cursor:pointer;transition:var(--t);position:relative;overflow:hidden;
+    }
+    .freq::before{
+      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(0,255,240,.15),transparent);
+      transition:left .6s ease;
+    }
+    .freq:hover::before{left:100%;}
+    .freq:hover{
+      border-color:var(--cyan);transform:translateY(-3px) scale(1.01);
+      box-shadow:0 10px 30px rgba(0,255,240,.15),0 0 20px rgba(0,255,240,.1);
+    }
+    .freq.active{
+      border-color:transparent;background:linear-gradient(135deg,rgba(0,255,240,.15),rgba(255,0,255,.12));
+      box-shadow:0 0 25px rgba(0,255,240,.25),0 0 50px rgba(255,0,255,.15),inset 0 0 20px rgba(0,255,240,.08);
+    }
+    .freq.active::after{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--btn-gradient);animation:glowBar 2s ease-in-out infinite;
+    }
+    @keyframes glowBar{0%,100%{opacity:.7;}50%{opacity:1;}}
+    .freq-name{font-size:1.15rem;font-weight:700;color:var(--cyan);margin-bottom:4px;}
+    .freq-hz{
+      display:inline-block;background:var(--btn-gradient);color:#000;
+      font-weight:800;font-size:.9rem;padding:4px 12px;border-radius:20px;
+      margin-bottom:8px;box-shadow:0 0 10px rgba(0,255,240,.3);
+    }
+    .freq-desc{color:var(--text-soft);font-size:.95rem;line-height:1.6;}
+
+    /* === FUTURISTIC MAIN BUTTON === */
+    .btn-primary{
+      position:relative;display:inline-flex;align-items:center;justify-content:center;
+      background:var(--btn-gradient);color:#000;font-weight:800;font-size:1.1rem;
+      padding:16px 36px;border-radius:50px;border:none;cursor:pointer;
+      min-height:56px;width:100%;transition:var(--t);overflow:hidden;
+      box-shadow:var(--btn-glow);letter-spacing:.05em;
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px) scale(1.02);box-shadow:var(--btn-glow-strong);
+    }
+    .btn-primary:active{transform:translateY(0) scale(.99);}
+    .btn-primary::before{
+      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+      transition:left .5s ease;
+    }
+    .btn-primary:hover::before{left:100%;}
+    .btn-primary.playing{
+      animation:pulsePlay 1.5s ease-in-out infinite;
+    }
+    @keyframes pulsePlay{
+      0%,100%{box-shadow:var(--btn-glow);}
+      50%{box-shadow:var(--btn-glow-strong),0 0 80px rgba(255,0,255,.2);}
+    }
+
+    /* === VOLUME SLIDER — COSMIC STYLE === */
+    .vol-wrap{margin-top:20px;}
+    .vol-label{display:flex;justify-content:space-between;margin-bottom:8px;color:var(--text-soft);font-size:.9rem;}
+    .volume{
+      width:100%;height:10px;border-radius:5px;-webkit-appearance:none;appearance:none;
+      background:linear-gradient(90deg,var(--cyan),var(--magenta));opacity:.8;
+      outline:none;
+    }
+    .volume::-webkit-slider-thumb{
+      -webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;
+      background:#fff;border:2px solid var(--cyan);cursor:pointer;
+      box-shadow:0 0 15px var(--cyan-glow);transition:var(--t-fast);
+    }
+    .volume::-webkit-slider-thumb:hover{transform:scale(1.2);box-shadow:0 0 25px var(--cyan-glow);}
+    .volume::-moz-range-thumb{
+      width:24px;height:24px;border-radius:50%;background:#fff;border:2px solid var(--cyan);
+      cursor:pointer;box-shadow:0 0 15px var(--cyan-glow);transition:var(--t-fast);
+    }
+    .volume::-moz-range-thumb:hover{transform:scale(1.2);box-shadow:0 0 25px var(--cyan-glow);}
+
+    .status{
+      color:var(--gold);margin-top:15px;font-size:1rem;min-height:2.5rem;padding:10px;
+      background:rgba(255,215,0,.05);border-radius:10px;border-left:2px solid var(--gold);
+      transition:var(--t);
+    }
+    .status.active{background:rgba(0,255,240,.08);border-color:var(--cyan);color:var(--cyan);}
+    .note{
+      background:rgba(0,255,240,.04);border-radius:14px;padding:20px;margin-top:25px;
+      border-left:3px solid var(--cyan);font-size:.9rem;color:var(--text-soft);
+      line-height:1.7;
+    }
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
+    }
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:18px;margin:16px 0;font-size:1.8rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--cyan);
+    }
+    .socials a:hover{color:var(--magenta);transform:scale(1.2);background:rgba(255,0,255,.1);box-shadow:0 0 15px rgba(255,0,255,.2);}
+    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(0,255,240,.08);font-size:.85rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+    .intro{text-align:center;color:var(--text-soft);margin-bottom:30px;font-size:1rem;}
+    @media (max-width:700px){main{padding:25px 15px 50px;}.card{padding:22px;}.freq{padding:18px;}}
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .btn-primary:hover,.freq:hover,.socials a:hover{transform:none;}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header>
+    <img src="assets/crying-brain-og.png" alt="Pleading Sanity" class="logo" width="60" height="60" loading="eager" />
+    <h1>🎵 Healing Hz</h1>
+    <p class="tag">Resonate. Restore. Rise.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="sanityhub.html">Sanity Hub</a>
+      <a href="journal-vault.html">Journal Vault</a>
+      <a href="frequencies.html" aria-current="page">Healing Hz</a>
+      <a href="games.html">Games</a>
+      <a href="shop.html">Shop</a>
+      <a href="movement.html">Movement</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="card">
+      <p class="intro">Gentle, calming frequencies — no loud sounds, no sudden changes. Safe for sensitive ears and minds 💙✨</p>
+      
+      <div id="freqList">
+        <div class="freq" data-hz="528" data-desc="Love · Transformation · DNA Repair — the frequency of miracles">
+          <div class="freq-name">✨ 528 Hz</div>
+          <span class="freq-hz">Miracle Tone</span>
+          <div class="freq-desc">Transformation, healing, and restoration. The core frequency of life itself.</div>
+        </div>
+        <div class="freq" data-hz="432" data-desc="Deep Peace · Harmony · Alignment — resonates with nature">
+          <div class="freq-name">🌿 432 Hz</div>
+          <span class="freq-hz">Nature's Tune</span>
+          <div class="freq-desc">Soothing, gentle, naturally calming. Aligns you with the universe's own rhythm.</div>
+        </div>
+        <div class="freq" data-hz="396" data-desc="Liberation from Fear · Guilt Release">
+          <div class="freq-name">🕊️ 396 Hz</div>
+          <span class="freq-hz">Freedom</span>
+          <div class="freq-desc">Release fear. Let go of guilt. Stand in your truth.</div>
+        </div>
+        <div class="freq" data-hz="639" data-desc="Heart Connection · Self-Love · Harmony with Others">
+          <div class="freq-name">💜 639 Hz</div>
+          <span class="freq-hz">Heart Heal</span>
+          <div class="freq-desc">Open to love. Heal relationships. Remember your worth.</div>
+        </div>
+        <div class="freq" data-hz="741" data-desc="Expression · Truth · Spiritual Awakening">
+          <div class="freq-name">🌟 741 Hz</div>
+          <span class="freq-hz">Voice Your Truth</span>
+          <div class="freq-desc">Speak your reality. Awaken your spirit. Expand your consciousness.</div>
+        </div>
+      </div>
+
+      <div class="player" style="margin-top:30px;">
+        <button class="btn-primary" id="playBtn" onclick="togglePlay()">▶️ Begin Resonance</button>
+        <div class="status" id="status">Select a frequency above</div>
+        
+        <div class="vol-wrap">
+          <div class="vol-label">
+            <span>🔈 Volume</span>
+            <span id="volVal">30%</span>
+          </div>
+          <input type="range" class="volume" id="vol" min="5" max="60" value="30" oninput="updateVol(this.value)" aria-label="Volume control — keep low for safety">
+        </div>
+      </div>
+
+      <div class="note">
+        ⚠️ <strong>Always keep volume low.</strong> These are subtle tones — you shouldn't strain to hear them. Stop if you feel discomfort. Headphones in a quiet space work best.<br><br>
+        🔇 <em>Nothing downloads — everything runs locally in your browser. Zero data collected.</em>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — Healing Hz</div>
+    <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family.</p>
+    <div class="socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop">🛒</a>
+    </div>
+    <div class="legacy">
+      <p>&copy; <span id="yr"></span> Pleading Sanity. All Rights Reserved.</p>
+      <p class="names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+      <p>Built on their shoulders. Awakened, not broken.</p>
+    </div>
+  </footer>
+
+  <script>
+    let ctx=null, osc=null, gain=null;
+    let activeHz=null;
+    let isPlaying=false;
+
+    // Frequency selection
+    document.querySelectorAll('.freq').forEach(f=>f.addEventListener('click',()=>{
+      document.querySelectorAll('.freq').forEach(x=>{
+        x.classList.remove('active');
+        x.style.borderColor='';
+      });
+      f.classList.add('active');
+      activeHz=parseFloat(f.dataset.hz);
+      status.textContent=`Selected: ${activeHz} Hz — ${f.dataset.desc}`;
+      status.classList.remove('active');
+      if(isPlaying) start();
+    }));
+
+    // Volume control
+    function updateVol(v){
+      volVal.textContent=v+'%';
+      if(gain) gain.gain.value=v/100;
+    }
+
+    // Play/Pause toggle
+    function togglePlay(){
+      if(isPlaying) return stop();
+      if(!activeHz){
+        status.textContent="⚠️ Pick a frequency first";
+        status.classList.remove('active');
+        return;
+      }
+      start();
+    }
+
+    // Start audio
+    function start(){
+      try{
+        if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
+        if(osc) osc.stop();
+        
+        osc=ctx.createOscillator();
+        gain=ctx.createGain();
+        osc.type='sine';
+        osc.frequency.value=activeHz;
+        gain.gain.value=vol.value/100;
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        
+        isPlaying=true;
+        playBtn.textContent='⏸️ Pause Resonance';
+        playBtn.classList.add('playing');
+        status.textContent=`✨ Playing ${activeHz} Hz — breathe deeply 💙`;
+        status.classList.add('active');
+      }catch(e){
+        status.textContent="⚠️ Audio not supported — try a different browser";
+        status.classList.remove('active');
+      }
+    }
+
+    // Stop audio
+    function stop(){
+      if(osc){osc.stop();osc=null;}
+      isPlaying=false;
+      playBtn.textContent='▶️ Begin Resonance';
+      playBtn.classList.remove('playing');
+      status.textContent=activeHz?`Selected: ${activeHz} Hz — paused`:'Select a frequency above';
+      status.classList.remove('active');
+    }
+
+    // Init
+    document.addEventListener('DOMContentLoaded',()=>{
+      yr.textContent=new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
