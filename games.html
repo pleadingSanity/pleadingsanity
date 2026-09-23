@@ -3,105 +3,159 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Brain Games — Pleading Sanity</title>
-  <meta name="description" content="Fun, safe, positive games for all ages. No ads. No stress. Just play. Build resilience. Grow together." />
+  <title>Brain Games — Pleading Sanity | No Ads. No Stress. Just Play.</title>
+  <meta name="description" content="Fun, safe, positive games for all ages. Brain training, calm tools, word power — all free. Build focus. Grow together." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/games.html" />
+  
+  <!-- Open Graph -->
   <meta property="og:title" content="Brain Games — Pleading Sanity" />
-  <meta property="og:description" content="Mindful play for the next generation. Brain training, calm tools, word power — all free." />
+  <meta property="og:description" content="Mindful play for the next generation. No ads. No stress. Just growth." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/games.html" />
+  
+  <link rel="icon" href="assets/favicon.ico" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-responsive.css" />
+  
   <style>
+    /* ==========================================
+       GAMES — COSMIC PRODUCTION v2.1
+       Fixed links · SEO complete · Accessible
+       ========================================== */
     :root {
-      --cyan: #00fff0;
-      --fuchsia: #ff00ff;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --glass: rgba(0,255,240,0.06);
-      --card-bg: rgba(255,255,255,0.07);
+      --card-bg: rgba(255,255,255,0.05);
+      --border-soft: rgba(0,255,240,0.15);
+      --glow-cyan: 0 0 20px rgba(0,255,240,0.15);
+      --glow-fuchsia: 0 0 20px rgba(255,0,255,0.15);
     }
 
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, sans-serif;
-      background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #000 85%);
-      color: #e5f7ff;
+      font-family: var(--font-sans);
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%);
+      color: var(--text-bright);
       background-attachment: fixed;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      line-height: 1.6;
     }
 
+    /* Skip Link — Accessibility First */
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
+
     header {
-      background: rgba(0,0,0,0.85);
-      border-bottom: 2px solid var(--cyan);
+      background: rgba(0,0,0,0.75);
+      border-bottom: 1.5px solid rgba(0,255,240,0.25);
       padding: 16px 20px;
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      position: sticky; top: 0; z-index: 100;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .nav-back {
+      text-align: left; margin-bottom: 8px;
+    }
+    .nav-back a {
+      color: var(--cyan); text-decoration: none; font-size: 0.9rem;
+    }
+    .nav-back a:hover {
+      text-shadow: 0 0 8px var(--cyan-glow); text-decoration: underline;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: clamp(1.6rem, 4vw, 2rem);
       color: var(--cyan);
-      text-shadow: 0 0 15px rgba(0,255,240,0.35);
+      text-align: center;
+      text-shadow: 0 0 15px var(--cyan-glow);
     }
 
     nav {
-      margin-top: 12px;
+      margin-top: 14px;
+      text-align: center;
     }
 
     nav a {
-      color: #b9faff;
+      display: inline-block;
+      color: var(--text-soft);
       text-decoration: none;
-      margin: 0 10px;
-      padding-bottom: 3px;
+      margin: 0 6px;
+      padding: 6px 10px;
+      border-radius: 8px 8px 0 0;
       border-bottom: 2px solid transparent;
-      transition: all 0.25s ease;
+      transition: var(--transition-smooth);
+      font-size: 0.9rem;
     }
 
     nav a:hover, nav a.active {
       color: var(--cyan);
       border-bottom-color: var(--cyan);
+      background: rgba(0,255,240,0.06);
     }
 
     main {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 30px 20px;
+      padding: 30px 20px 60px;
       flex: 1;
+      width: 100%;
     }
 
     .intro {
       text-align: center;
-      margin-bottom: 35px;
-      font-size: 1.08rem;
-      line-height: 1.6;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 700px; margin-left: auto; margin-right: auto;
+      color: var(--text-soft);
     }
 
     .intro strong { color: var(--cyan); }
 
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
-      gap: 28px;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
     }
 
     .game-card {
       background: var(--card-bg);
-      border: 2px solid rgba(0,255,240,0.2);
-      border-radius: 18px;
-      box-shadow: 0 0 25px rgba(0,255,240,0.08);
-      transition: all 0.22s ease;
+      border: 1.5px solid rgba(0,255,240,0.15);
+      border-radius: 20px;
+      box-shadow: var(--glow-cyan);
+      transition: var(--transition-smooth);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+      transform: translateY(20px);
     }
+
+    .game-card:nth-child(1) { animation-delay: 0.1s; }
+    .game-card:nth-child(2) { animation-delay: 0.2s; }
+    .game-card:nth-child(3) { animation-delay: 0.3s; }
+    .game-card:nth-child(4) { animation-delay: 0.4s; }
+    .game-card:nth-child(5) { animation-delay: 0.5s; }
+    .game-card:nth-child(6) { animation-delay: 0.6s; }
 
     .game-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 0 35px rgba(255,0,255,0.2), 0 0 25px rgba(0,255,240,0.15);
-      border-color: var(--fuchsia);
+      box-shadow: 0 0 30px rgba(255,0,255,0.15), 0 0 25px rgba(0,255,240,0.12);
+      border-color: var(--magenta);
     }
 
     .game-thumb {
@@ -122,117 +176,194 @@
       background: var(--cyan);
       color: #000;
       font-weight: 800;
-      font-size: 0.85rem;
-      padding: 4px 12px;
+      font-size: 0.8rem;
+      padding: 5px 14px;
       border-radius: 20px;
       box-shadow: 0 0 12px rgba(0,255,240,0.4);
     }
 
     .game-badge.new {
-      background: var(--fuchsia);
+      background: var(--magenta);
       color: #fff;
       box-shadow: 0 0 12px rgba(255,0,255,0.4);
     }
 
     .game-card h3 {
       margin: 0;
-      padding: 16px 16px 8px;
+      padding: 18px 18px 8px;
       font-size: 1.2rem;
       color: var(--cyan);
       text-align: center;
     }
 
     .game-desc {
-      padding: 0 18px 14px;
+      padding: 0 20px 16px;
       text-align: center;
-      color: #caf0ff;
+      color: var(--text-soft);
       flex: 1;
-      line-height: 1.5;
-      min-height: 50px;
+      line-height: 1.6;
+      min-height: 60px;
+      font-size: 0.95rem;
     }
 
     .game-actions {
       display: flex;
       justify-content: center;
       gap: 10px;
-      padding: 0 16px 18px;
+      padding: 0 18px 20px;
       flex-wrap: wrap;
     }
 
     .game-btn {
-      padding: 10px 20px;
-      border-radius: 10px;
+      padding: 11px 16px;
+      border-radius: 12px;
       text-decoration: none;
       font-weight: 700;
-      transition: all 0.2s ease;
+      transition: var(--transition-smooth);
       text-align: center;
       flex: 1;
-      min-width: 120px;
+      min-width: 110px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
     }
 
     .game-btn.primary {
       background: linear-gradient(90deg, var(--cyan), #00b8b0);
       color: #000;
+      box-shadow: 0 0 10px rgba(0,255,240,0.2);
     }
 
     .game-btn.primary:hover {
-      box-shadow: 0 0 15px rgba(0,255,240,0.5);
+      box-shadow: 0 0 20px rgba(0,255,240,0.4);
       transform: scale(1.03);
     }
 
     .game-btn.secondary {
-      background: rgba(255,0,255,0.15);
-      color: var(--fuchsia);
-      border: 1px solid rgba(255,0,255,0.3);
+      background: rgba(255,0,255,0.12);
+      color: var(--magenta);
+      border: 1px solid rgba(255,0,255,0.25);
     }
 
     .game-btn.secondary:hover {
-      background: rgba(255,0,255,0.25);
+      background: rgba(255,0,255,0.2);
+      box-shadow: 0 0 12px rgba(255,0,255,0.15);
     }
 
     .tips-box {
-      background: rgba(0,255,240,0.06);
-      border-radius: 16px;
-      margin-top: 45px;
-      padding: 28px 24px;
-      border: 1px solid rgba(0,255,240,0.15);
+      background: var(--glass);
+      border-radius: 18px;
+      margin-top: 50px;
+      padding: 32px 28px;
+      border: 1.5px solid var(--border-soft);
       text-align: center;
     }
 
     .tips-box h3 {
       color: var(--cyan);
       margin-top: 0;
+      font-size: 1.4rem;
+      text-shadow: 0 0 10px var(--cyan-glow);
+    }
+
+    .tips-box p {
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      color: var(--text-soft);
+    }
+
+    .quote-line {
+      margin-top: 18px;
+      padding: 14px;
+      background: rgba(0,255,240,0.05);
+      border-radius: 10px;
+      border-left: 3px solid var(--cyan);
+      font-style: italic;
+      color: var(--cyan);
     }
 
     footer {
       margin-top: 50px;
-      padding: 25px;
+      padding: 30px 20px;
       text-align: center;
-      border-top: 1px solid rgba(0,255,240,0.15);
-      color: #888;
+      border-top: 1.5px solid var(--border-soft);
+      color: var(--text-muted);
       font-size: 0.9rem;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    footer .footer-brand {
+      font-size: 1.1rem;
+      color: var(--cyan);
+      font-weight: 800;
+      margin-bottom: 12px;
     }
 
     footer a {
       color: var(--cyan);
       text-decoration: none;
       margin: 0 8px;
+      transition: var(--transition-smooth);
     }
 
     footer a:hover {
+      color: var(--magenta);
       text-decoration: underline;
     }
 
-    @media (max-width: 600px) {
+    .legacy-note {
+      margin-top: 20px;
+      padding-top: 15px;
+      border-top: 1px solid var(--border-soft);
+      font-size: 0.85rem;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .games-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+      main { padding: 20px 15px 40px; }
+      nav a { margin: 0 3px; padding: 6px 6px; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 480px) {
       .games-grid { grid-template-columns: 1fr; }
       header h1 { font-size: 1.4rem; }
+      .game-actions { flex-direction: column; }
+      .game-btn { width: 100%; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .game-card:hover, .game-btn:hover { transform: none; }
     }
   </style>
 </head>
 <body>
-  <header>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
+    <div class="nav-back">
+      <a href="index.html">← Back to Home</a>
+    </div>
     <h1>🎮 Brain Games — Pleading Sanity</h1>
-    <nav>
+    <nav aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="sanity-hub.html">Hub</a>
       <a href="journal-vault.html">Journal</a>
@@ -242,118 +373,123 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
     <div class="intro">
       <p>Fun, safe, and brain-boosting play — <strong>no ads, no stress, just growth.</strong><br>
       Build focus. Train calm. Think brighter. Together.</p>
     </div>
 
-    <div class="games-grid">
+    <div class="games-grid" role="list">
       <!-- GAME 1: Word Power -->
-      <div class="game-card">
-        <div class="game-thumb">
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">
           ✍️
           <span class="game-badge">TOP PICK</span>
         </div>
         <h3>Word Power</h3>
-        <div class="game-desc">Expand your mind, letter by letter. Strategy, vocabulary & calm focus.</div>
+        <p class="game-desc">Expand your mind, letter by letter. Strategy, vocabulary & calm focus.</p>
         <div class="game-actions">
-          <a href="https://www.crazygames.com/game/wordmeister" target="_blank" class="game-btn primary">Play Now</a>
-          <a href="journal-vault.html" class="game-btn secondary">Share Score</a>
+          <a href="https://www.crazygames.com/game/wordmeister" target="_blank" rel="noopener noreferrer" class="game-btn primary">▶ Play Now</a>
+          <a href="journal-vault.html" class="game-btn secondary">📝 Share Score</a>
         </div>
-      </div>
+      </article>
 
       <!-- GAME 2: Breathe & Reset -->
-      <div class="game-card">
-        <div class="game-thumb">
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">
           🌬️
           <span class="game-badge new">NEW</span>
         </div>
         <h3>Breathe & Reset</h3>
-        <div class="game-desc">Guided breathing tool — calm the nervous system in under 2 minutes.</div>
+        <p class="game-desc">Guided breathing tool — calm your nervous system in under 2 minutes.</p>
         <div class="game-actions">
-          <a href="https://www.calm.com/breathe" target="_blank" class="game-btn primary">Breathe With Me</a>
-          <a href="frequencies.html" class="game-btn secondary">Healing Hz</a>
+          <a href="https://www.calm.com/breathe" target="_blank" rel="noopener noreferrer" class="game-btn primary">🌬️ Breathe With Me</a>
+          <a href="frequencies.html" class="game-btn secondary">🎵 Healing Hz</a>
         </div>
-      </div>
+      </article>
 
       <!-- GAME 3: Cosmic Focus -->
-      <div class="game-card">
-        <div class="game-thumb">
-          🧠
-        </div>
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">🧠</div>
         <h3>Cosmic Focus</h3>
-        <div class="game-desc">Memory, patterns & logic. Sharpen your mind — no timers, no pressure.</div>
+        <p class="game-desc">Memory, patterns & logic. Sharpen your mind — no timers, no pressure.</p>
         <div class="game-actions">
-          <a href="sanity-hub.html" class="game-btn primary">Coming Soon</a>
-          <a href="journal-vault.html" class="game-btn secondary">Share Idea</a>
+          <a href="sanity-hub.html" class="game-btn primary" aria-disabled="true">🔜 Coming Soon</a>
+          <a href="journal-vault.html" class="game-btn secondary">💡 Share Idea</a>
         </div>
-      </div>
+      </article>
 
       <!-- GAME 4: Number Nebula -->
-      <div class="game-card">
-        <div class="game-thumb">
-          🔢
-        </div>
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">🔢</div>
         <h3>Number Nebula</h3>
-        <div class="game-desc">Math made fun. Quick challenges that build confidence, not stress.</div>
+        <p class="game-desc">Math made fun. Quick challenges that build confidence, not stress.</p>
         <div class="game-actions">
-          <a href="sanity-hub.html" class="game-btn primary">Coming Soon</a>
-          <a href="journal-vault.html" class="game-btn secondary">Share Idea</a>
+          <a href="sanity-hub.html" class="game-btn primary" aria-disabled="true">🔜 Coming Soon</a>
+          <a href="journal-vault.html" class="game-btn secondary">💡 Share Idea</a>
         </div>
-      </div>
+      </article>
 
       <!-- GAME 5: Calm Collection -->
-      <div class="game-card">
-        <div class="game-thumb">
-          🎧
-        </div>
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">🎧</div>
         <h3>Calm Collection</h3>
-        <div class="game-desc">Ambient tones, nature sounds & focus music. Play while you work or rest.</div>
+        <p class="game-desc">Ambient tones, nature sounds & focus music. Play while you work or rest.</p>
         <div class="game-actions">
-          <a href="frequencies.html" class="game-btn primary">Listen Now</a>
-          <a href="journal-vault.html" class="game-btn secondary">Set Mood</a>
+          <a href="frequencies.html" class="game-btn primary">🎧 Listen Now</a>
+          <a href="journal-vault.html" class="game-btn secondary">✨ Set Mood</a>
         </div>
-      </div>
+      </article>
 
       <!-- GAME 6: Sanity Stories -->
-      <div class="game-card">
-        <div class="game-thumb">
-          ✨
-        </div>
+      <article class="game-card" role="listitem">
+        <div class="game-thumb" aria-hidden="true">✨</div>
         <h3>Sanity Stories</h3>
-        <div class="game-desc">Write, reflect & grow. Your words become your strength.</div>
+        <p class="game-desc">Write, reflect & grow. Your words become your strength.</p>
         <div class="game-actions">
-          <a href="journal-vault.html" class="game-btn primary">Start Writing</a>
-          <a href="sanity-hub.html" class="game-btn secondary">Read Others</a>
+          <a href="journal-vault.html" class="game-btn primary">✍️ Start Writing</a>
+          <a href="feed.html" class="game-btn secondary">📖 Read Others</a>
         </div>
-      </div>
+      </article>
     </div>
 
     <div class="tips-box">
       <h3>💡 Why These Games Matter</h3>
       <p>Every activity here is chosen for <strong>real brain health</strong> — not just distraction.<br>
       Play together, talk about what you discover, and celebrate progress over perfection.</p>
-      <p style="margin-top: 15px; color: var(--cyan);">
+      
+      <p class="quote-line">
         "It's not about being the best. It's about being better than you were yesterday." ✨
       </p>
-      <p style="margin-top: 18px; font-size: 0.95rem; color: #888;">
+      
+      <p style="margin-top: 20px;">
         Have a game idea that fits our mission? 
-        <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Idea%20Submission" style="color: var(--fuchsia);">Share it with us →</a>
+        <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Idea%20Submission" style="color: var(--magenta); font-weight: 700;">Share it with us →</a>
       </p>
     </div>
   </main>
 
   <footer>
-    <p>🧠 Pleading Sanity — Mindful Play for the Next Generation</p>
-    <p>
-      <a href="https://instagram.com/mentally.inshane" target="_blank">📸 Instagram</a>
-      <a href="https://payhip.com/Pleadingsanity" target="_blank">🛒 Payhip Shop</a>
+    <div class="footer-brand">Pleading Sanity — Mindful Play for the Next Generation</div>
+    <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
+    
+    <div style="margin: 20px 0;">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">📸 Instagram</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer">🎵 TikTok</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer">🛒 Shop</a>
       <a href="mailto:pleadingsanity1@gmail.com">✉️ Email</a>
-    </p>
-    <p style="margin-top: 10px; font-size: 0.85rem;">
-      One Source. One Consciousness. One Family. 💙
-    </p>
+    </div>
+    
+    <div class="legacy-note">
+      <p>© <span id="year"></span> Pleading Sanity</p>
+      <p>Built on the legacy of Ivan Kurcharskyi & Arthur Lesley Cooper.<br>Awakened, not broken.</p>
+    </div>
   </footer>
+
+  <script>
+    // Auto-update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
