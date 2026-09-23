@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Development Server Script
- * Enhanced development server with live reload and debugging features
+ * PLEADING SANITY — DEVELOPMENT SERVER v2.1-FINAL
+ * Live Reload • Smart CSS Refresh • WebSocket • File Watcher
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const express = require('express');
@@ -21,323 +22,344 @@ class DevServer {
     this.server = null;
     this.wss = null;
     this.clients = new Set();
+    this.watcher = null;
   }
 
+  // ==========================================
+  // COSMIC LOGGING — CLEAR & COLOURED
+  // ==========================================
   log(message, type = 'info') {
     const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      server: '\x1b[35m',
+      info: '\x1b[36m',     // cyan
+      success: '\x1b[32m',  // green
+      warning: '\x1b[33m',  // yellow
+      error: '\x1b[31m',    // red
+      server: '\x1b[35m',   // magenta
       reset: '\x1b[0m'
     };
-    const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
-    console.log(`${colors[type]}[${timestamp}] [DEV-SERVER] ${message}${colors.reset}`);
+    const timestamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${colors[type]}[${timestamp}] [DEV] ${message}${colors.reset}`);
   }
 
+  // ==========================================
+  // MIDDLEWARE — LOGGING + CORS + DEV HEADERS
+  // ==========================================
   setupMiddleware() {
-    // Logging middleware
+    // Request logging with status colouring
     this.app.use((req, res, next) => {
       const start = Date.now();
       res.on('finish', () => {
         const duration = Date.now() - start;
-        const color = res.statusCode >= 400 ? 'error' : 
+        const color = res.statusCode >= 400 ? 'error' :
                      res.statusCode >= 300 ? 'warning' : 'success';
-        this.log(`${req.method} ${req.path} - ${res.statusCode} (${duration}ms)`, color);
+        this.log(`${req.method} ${req.path} → ${res.statusCode} (${duration}ms)`, color);
       });
       next();
     });
 
-    // CORS for development
+    // CORS — open for dev
     this.app.use((req, res, next) => {
       res.header('Access-Control-Allow-Origin', '*');
       res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
       res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-      if (req.method === 'OPTIONS') {
-        res.sendStatus(200);
-      } else {
-        next();
-      }
+      if (req.method === 'OPTIONS') return res.sendStatus(200);
+      next();
     });
 
-    // Development headers
+    // Dev headers — no caching
     this.app.use((req, res, next) => {
-      res.header('X-Dev-Server', 'Pleading Sanity Dev');
+      res.header('X-Pleading-Sanity-Dev', 'active');
       res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.header('Pragma', 'no-cache');
+      res.header('Expires', '0');
       next();
     });
   }
 
+  // ==========================================
+  // ROUTES — STATIC + API + SPA FALLBACK
+  // ==========================================
   setupRoutes() {
-    // Serve static files
+    // Static assets
     this.app.use('/assets', express.static(path.join(this.rootDir, 'assets')));
+    this.app.use('/css', express.static(path.join(this.rootDir, 'css')));
+    this.app.use('/js', express.static(path.join(this.rootDir, 'js')));
     this.app.use(express.static(this.rootDir));
 
-    // API routes for development
+    // API — Health check
     this.app.get('/api/health', (req, res) => {
       res.json({
-        status: 'healthy',
+        status: 'cosmically aligned ✅',
+        environment: 'development',
+        uptime: process.uptime().toFixed(1) + 's',
         timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        environment: 'development'
+        site: 'Pleading Sanity'
       });
     });
 
-    // Journal vault API for development testing
-    this.app.post('/api/journal', express.json(), (req, res) => {
-      this.log('Journal entry received (dev mode)', 'info');
-      res.json({ success: true, message: 'Journal entry saved (development)' });
+    // API — Journal endpoint (dev simulation)
+    this.app.post('/api/journal', express.json({ limit: '1mb' }), (req, res) => {
+      this.log('Journal entry received', 'success');
+      res.json({
+        success: true,
+        message: 'Entry saved to the collective ✨',
+        received: req.body,
+        timestamp: new Date().toISOString()
+      });
     });
 
-    // Development utilities
+    // Dev utilities
     this.app.get('/dev/reload', (req, res) => {
-      this.broadcastReload();
-      res.json({ message: 'Reload signal sent' });
+      this.broadcastReload({ manual: true });
+      res.json({ message: 'Reload signal broadcast 📡' });
     });
 
-    this.app.get('/dev/clients', (req, res) => {
-      res.json({ connectedClients: this.clients.size });
+    this.app.get('/dev/status', (req, res) => {
+      res.json({
+        clients: this.clients.size,
+        watching: !!this.watcher,
+        uptime: process.uptime().toFixed(1) + 's'
+      });
     });
 
-    // Catch-all for SPA routing
-    this.app.get('*', async (req, res) => {
+    // SPA fallback — serve index.html for clean URLs
+    this.app.get('*', async (req, res, next) => {
+      // Skip API paths
+      if (req.path.startsWith('/api/') || req.path.startsWith('/dev/')) return next();
+
       const filePath = path.join(this.rootDir, req.path);
       
       try {
-        // Check if file exists
-        await fs.access(filePath);
-        const stats = await fs.stat(filePath);
-        
-        if (stats.isFile()) {
-          res.sendFile(filePath);
-        } else {
-          // Serve index.html for directory requests
-          res.sendFile(path.join(this.rootDir, 'index.html'));
-        }
-      } catch (error) {
-        // File not found, serve index.html (SPA fallback)
-        try {
-          res.sendFile(path.join(this.rootDir, 'index.html'));
-        } catch (indexError) {
-          res.status(404).json({ error: 'Page not found', path: req.path });
-        }
+        const stat = await fs.stat(filePath);
+        if (stat.isFile()) return res.sendFile(filePath);
+      } catch {
+        // File doesn't exist → serve index.html
       }
+      
+      res.sendFile(path.join(this.rootDir, 'index.html'));
     });
 
     // Error handler
-    this.app.use((error, req, res, next) => {
-      this.log(`Server error: ${error.message}`, 'error');
-      res.status(500).json({ error: 'Internal server error' });
+    this.app.use((err, req, res, next) => {
+      this.log(`Server error: ${err.message}`, 'error');
+      res.status(500).json({ error: 'Internal server vortex', message: err.message });
     });
   }
 
+  // ==========================================
+  // WEBSOCKET — LIVE RELOAD CONNECTION
+  // ==========================================
   setupWebSocket() {
     this.wss = new WebSocket.Server({ server: this.server });
 
-    this.wss.on('connection', (ws, req) => {
+    this.wss.on('connection', (ws) => {
       this.clients.add(ws);
-      this.log(`WebSocket client connected (${this.clients.size} total)`, 'success');
+      this.log(`Client connected — ${this.clients.size} watching 👁️`, 'success');
+
+      ws.send(JSON.stringify({
+        type: 'connected',
+        message: 'Pleading Sanity dev server active ✨',
+        timestamp: new Date().toISOString()
+      }));
 
       ws.on('close', () => {
         this.clients.delete(ws);
-        this.log(`WebSocket client disconnected (${this.clients.size} remaining)`, 'info');
+        this.log(`Client disconnected — ${this.clients.size} remaining`, 'info');
       });
 
-      ws.on('error', (error) => {
-        this.log(`WebSocket error: ${error.message}`, 'error');
+      ws.on('error', (err) => {
+        this.log(`WebSocket error: ${err.message}`, 'warning');
         this.clients.delete(ws);
       });
-
-      // Send welcome message
-      ws.send(JSON.stringify({
-        type: 'connected',
-        message: 'Connected to Pleading Sanity dev server',
-        timestamp: new Date().toISOString()
-      }));
     });
   }
 
+  // ==========================================
+  // FILE WATCHER — DETECT CHANGES
+  // ==========================================
   setupFileWatcher() {
-    const watchPaths = [
-      path.join(this.rootDir, '*.html'),
-      path.join(this.rootDir, '*.css'),
-      path.join(this.rootDir, '*.js'),
-      path.join(this.rootDir, 'assets/**/*'),
-      path.join(this.rootDir, 'Components/**/*')
+    const paths = [
+      path.join(this.rootDir, '**/*.html'),
+      path.join(this.rootDir, 'css/**/*.css'),
+      path.join(this.rootDir, 'js/**/*.js'),
+      path.join(this.rootDir, 'assets/**/*')
     ];
 
-    const watcher = chokidar.watch(watchPaths, {
-      ignored: /node_modules|\.git|dist|coverage/,
+    this.watcher = chokidar.watch(paths, {
+      ignored: /node_modules|\.git|dist|deployment-report/,
       ignoreInitial: true,
       persistent: true
     });
 
-    watcher.on('change', (filePath) => {
-      const relativePath = path.relative(this.rootDir, filePath);
-      this.log(`File changed: ${relativePath}`, 'info');
-      this.broadcastReload({ file: relativePath, type: 'change' });
-    });
+    this.watcher
+      .on('change', (f) => {
+        const rel = path.relative(this.rootDir, f);
+        this.log(`Updated: ${rel}`, 'info');
+        this.broadcastReload({ file: rel, type: 'change' });
+      })
+      .on('add', (f) => {
+        const rel = path.relative(this.rootDir, f);
+        this.log(`Created: ${rel}`, 'success');
+        this.broadcastReload({ file: rel, type: 'add' });
+      })
+      .on('unlink', (f) => {
+        const rel = path.relative(this.rootDir, f);
+        this.log(`Removed: ${rel}`, 'warning');
+        this.broadcastReload({ file: rel, type: 'delete' });
+      })
+      .on('error', (err) => {
+        this.log(`Watcher error: ${err.message}`, 'error');
+      });
 
-    watcher.on('add', (filePath) => {
-      const relativePath = path.relative(this.rootDir, filePath);
-      this.log(`File added: ${relativePath}`, 'success');
-      this.broadcastReload({ file: relativePath, type: 'add' });
-    });
-
-    watcher.on('unlink', (filePath) => {
-      const relativePath = path.relative(this.rootDir, filePath);
-      this.log(`File deleted: ${relativePath}`, 'warning');
-      this.broadcastReload({ file: relativePath, type: 'delete' });
-    });
-
-    watcher.on('error', (error) => {
-      this.log(`File watcher error: ${error.message}`, 'error');
-    });
-
-    this.log('File watcher initialized', 'success');
-    return watcher;
+    this.log('File watcher active — listening for changes 👀', 'success');
+    return this.watcher;
   }
 
+  // ==========================================
+  // BROADCAST RELOAD TO ALL CONNECTED CLIENTS
+  // ==========================================
   broadcastReload(data = {}) {
-    const message = JSON.stringify({
+    const msg = JSON.stringify({
       type: 'reload',
       timestamp: new Date().toISOString(),
       ...data
     });
 
-    let sentCount = 0;
+    let sent = 0;
     this.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(message);
-        sentCount++;
+        client.send(msg);
+        sent++;
       } else {
         this.clients.delete(client);
       }
     });
 
-    if (sentCount > 0) {
-      this.log(`Reload signal sent to ${sentCount} clients`, 'info');
+    if (sent > 0) {
+      this.log(`Reload signal sent to ${sent} client${sent !== 1 ? 's' : ''} 🔄`, 'info');
     }
   }
 
-  injectReloadScript(html) {
-    const reloadScript = `
-    <script>
-      (function() {
-        const ws = new WebSocket('ws://${this.host}:${this.port}');
-        let reconnectAttempts = 0;
-        const maxReconnectAttempts = 5;
-        
-        ws.onopen = function() {
-          console.log('%c[DEV] Connected to dev server', 'color: #00fff0');
-          reconnectAttempts = 0;
-        };
-        
-        ws.onmessage = function(event) {
-          const data = JSON.parse(event.data);
-          
-          if (data.type === 'reload') {
-            console.log('%c[DEV] Reloading...', 'color: #ff00ff');
-            
-            // Smart reload based on file type
-            if (data.file && data.file.endsWith('.css')) {
-              // Reload CSS without full page refresh
-              const links = document.querySelectorAll('link[rel="stylesheet"]');
-              links.forEach(link => {
-                if (link.href.includes(data.file.replace('.css', ''))) {
-                  const newHref = link.href.split('?')[0] + '?v=' + Date.now();
-                  link.href = newHref;
-                }
-              });
-            } else {
-              // Full page reload for other files
-              setTimeout(() => location.reload(), 100);
-            }
-          }
-        };
-        
-        ws.onclose = function() {
-          console.log('%c[DEV] Disconnected from dev server', 'color: #ffaa00');
-          
-          // Attempt reconnection
-          if (reconnectAttempts < maxReconnectAttempts) {
-            reconnectAttempts++;
-            setTimeout(() => {
-              console.log(\`%c[DEV] Reconnecting... (attempt \${reconnectAttempts})\`, 'color: #ffaa00');
-              location.reload();
-            }, 2000 * reconnectAttempts);
-          }
-        };
-        
-        ws.onerror = function(error) {
-          console.error('%c[DEV] WebSocket error:', 'color: #ff0000', error);
-        };
-      })();
-    </script>
-    `;
+  // ==========================================
+  // AUTO-INJECT RELOAD SCRIPT INTO HTML
+  // ==========================================
+  injectReloadScript(htmlContent) {
+    const script = `
+<script>
+(function() {
+  const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+  const ws = new WebSocket(\`\${wsProtocol}//${this.host}:${this.port}\`);
+  let reconnects = 0;
+  const maxReconnects = 5;
 
-    // Inject before closing body tag
-    return html.replace('</body>', `${reloadScript}</body>`);
+  ws.onopen = () => {
+    console.log('%c✨ Dev server connected', 'color: #00fff0; font-weight: bold');
+    reconnects = 0;
+  };
+
+  ws.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    
+    if (data.type === 'reload') {
+      console.log('%c🔄 Change detected', 'color: #ff00ff; font-weight: bold', data.file || 'Full reload');
+      
+      // Smart CSS refresh — no full page flash
+      if (data.file?.endsWith('.css')) {
+        const links = document.querySelectorAll('link[rel="stylesheet"]');
+        links.forEach(link => {
+          if (link.href.includes(data.file)) {
+            link.href = link.href.split('?')[0] + '?v=' + Date.now();
+            console.log('%c🎨 CSS hot-reloaded', 'color: #00ff90');
+          }
+        });
+        return;
+      }
+      
+      // Full reload for everything else
+      setTimeout(() => location.reload(), 50);
+    }
+  };
+
+  ws.onclose = () => {
+    console.log('%c⚠️ Dev server disconnected', 'color: #ffaa00');
+    if (reconnects < maxReconnects) {
+      reconnects++;
+      setTimeout(() => location.reload(), 2000 * reconnects);
+    }
+  };
+
+  ws.onerror = (err) => {
+    console.error('%c❌ WebSocket error', 'color: #ff3b5c', err);
+  };
+})();
+</script>`;
+    return htmlContent.replace('</body>', `${script}\n</body>`);
   }
 
+  // ==========================================
+  // START EVERYTHING
+  // ==========================================
   async start() {
     try {
       this.setupMiddleware();
       this.setupRoutes();
-
-      // Create HTTP server
       this.server = http.createServer(this.app);
-
-      // Setup WebSocket for live reload
       this.setupWebSocket();
+      this.setupFileWatcher();
 
-      // Setup file watcher
-      const watcher = this.setupFileWatcher();
-
-      // Start server
       this.server.listen(this.port, this.host, () => {
-        this.log('=====================================', 'server');
-        this.log('🚀 Pleading Sanity Development Server', 'server');
-        this.log('=====================================', 'server');
-        this.log(`Local:   http://${this.host}:${this.port}`, 'success');
-        this.log(`Network: http://localhost:${this.port}`, 'info');
-        this.log('=====================================', 'server');
-        this.log('Features:', 'info');
-        this.log('  ✅ Live reload enabled', 'success');
-        this.log('  ✅ File watching active', 'success');
-        this.log('  ✅ CORS enabled', 'success');
-        this.log('  ✅ Development APIs available', 'success');
-        this.log('=====================================', 'server');
-        this.log('Press Ctrl+C to stop the server', 'info');
+        console.log('\n' + '═.✧ 🌌 PLEADING SANITY DEV SERVER ✧.═'.padStart(55, ' ') + '\n');
+        this.log('🚀 Server online', 'server');
+        this.log(`📍 Local:   http://${this.host}:${this.port}`, 'success');
+        this.log(`🌐 Network: http://${this.getLocalIP()}:${this.port}`, 'info');
+        console.log('─'.repeat(50));
+        this.log('✨ Features:', 'server');
+        this.log('  ✅ Live reload — instant updates', 'success');
+        this.log('  ✅ CSS hot-swap — no page flash', 'success');
+        this.log('  ✅ File watcher — auto-detect changes', 'success');
+        this.log('  ✅ CORS open — easy API testing', 'success');
+        this.log('  ✅ SPA routing — clean URLs work', 'success');
+        this.log('  ✅ Dev APIs — /api/health /dev/status', 'success');
+        console.log('─'.repeat(50));
+        this.log('Ctrl+C to stop • Edit files → browser updates', 'info');
+        console.log('═'.repeat(50) + '\n');
       });
 
       // Graceful shutdown
-      process.on('SIGINT', () => {
-        this.log('Shutting down development server...', 'warning');
-        
-        watcher.close();
-        this.wss.close();
-        this.server.close(() => {
-          this.log('Development server stopped', 'info');
-          process.exit(0);
-        });
+      process.on('SIGINT', async () => {
+        console.log('\n');
+        this.log('Shutting down gracefully…', 'warning');
+        await this.watcher?.close();
+        await new Promise(res => this.wss?.close(res));
+        await new Promise(res => this.server?.close(res));
+        this.log('Server stopped ✅', 'success');
+        process.exit(0);
       });
 
-    } catch (error) {
-      this.log(`Failed to start server: ${error.message}`, 'error');
-      throw error;
+    } catch (err) {
+      this.log(`Failed to start: ${err.message}`, 'error');
+      process.exit(1);
     }
+  }
+
+  // Helper — get local IP for network access
+  getLocalIP() {
+    const os = require('os');
+    const nets = os.networkInterfaces();
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal) return net.address;
+      }
+    }
+    return 'localhost';
   }
 }
 
-// Run server if called directly
+// ==========================================
+// LAUNCH
+// ==========================================
 if (require.main === module) {
-  const server = new DevServer();
-  server.start().catch(error => {
-    console.error('Failed to start development server:', error);
-    process.exit(1);
-  });
+  new DevServer().start();
 }
 
 module.exports = DevServer;

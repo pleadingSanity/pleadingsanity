@@ -1,42 +1,83 @@
-import axios from 'axios';
+const axios = require('axios');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
-    // query and pagination support
-    const { q = "mental health motivation", maxResults = 12, pageToken } = req.query;
+    // Extract & sanitize query params
+    const {
+      q = "mental health motivation healing resilience",
+      maxResults = 12,
+      pageToken = "",
+      safeSearch = "strict",
+      relevanceLanguage = "en"
+    } = req.query;
 
-    const url = `https://www.googleapis.com/youtube/v3/search`;
-    const ytRes = await axios.get(url, {
+    // Validate API key exists
+    const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+    if (!YOUTUBE_API_KEY) {
+      return res.status(500).json({
+        error: "YouTube API key missing",
+        detail: "Set YOUTUBE_API_KEY in environment variables",
+        videos: []
+      });
+    }
+
+    // Build request
+    const url = "https://www.googleapis.com/youtube/v3/search";
+    const response = await axios.get(url, {
       params: {
         part: "snippet",
         q,
         type: "video",
-        maxResults,
+        maxResults: Math.min(parseInt(maxResults, 10), 50), // Cap at 50
         pageToken,
-        key: process.env.YOUTUBE_API_KEY,
-        safeSearch: "strict",
-        relevanceLanguage: "en",
-      }
+        key: YOUTUBE_API_KEY,
+        safeSearch,
+        relevanceLanguage
+      },
+      timeout: 8000 // Fail fast if API hangs
     });
 
-    const videos = ytRes.data.items.map(item => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      publishedAt: item.snippet.publishedAt,
-      channelTitle: item.snippet.channelTitle,
-      thumbnail: item.snippet.thumbnails?.medium?.url || "",
-      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-      subtitles: `https://video.google.com/timedtext?lang=en&v=${item.id.videoId}`,
-    }));
+    // Transform & sanitize results
+    const videos = response.data.items.map(item => {
+      const videoId = item.id?.videoId;
+      const snippet = item.snippet || {};
 
+      return {
+        id: videoId,
+        title: snippet.title || "Untitled Video",
+        description: snippet.description || "",
+        publishedAt: snippet.publishedAt || null,
+        channelTitle: snippet.channelTitle || "Unknown Channel",
+        thumbnail: 
+          snippet.thumbnails?.medium?.url ||
+          snippet.thumbnails?.default?.url ||
+          "https://pleadingsanity.co.uk/assets/crying-brain-og.png",
+        url: videoId ? `https://www.youtube.com/watch?v=${videoId}` : null,
+        subtitles: videoId 
+          ? `https://video.google.com/timedtext?lang=en&v=${videoId}`
+          : null
+      };
+    }).filter(v => v.id); // Remove any invalid entries
+
+    // Success response
     res.status(200).json({
-      nextPageToken: ytRes.data.nextPageToken || null,
+      success: true,
+      query: q,
+      count: videos.length,
+      nextPageToken: response.data.nextPageToken || null,
+      prevPageToken: response.data.prevPageToken || null,
       videos
     });
 
   } catch (err) {
-    console.error("YouTube API error:", err.message);
-    res.status(500).json({ error: "Failed to fetch videos", detail: err.toString() });
+    console.error("🎬 YouTube API Error:", err.response?.status || err.code, err.message);
+
+    // Structured error response
+    res.status(err.response?.status || 500).json({
+      success: false,
+      error: "Failed to fetch videos",
+      detail: err.message,
+      videos: []
+    });
   }
-}
+};

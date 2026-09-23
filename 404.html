@@ -1,22 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Lost in the Cosmos | Pleading Sanity</title>
-    <meta name="description" content="Page not found - Return to your mental health journey">
+    <title>404 — Lost in the Cosmos | Pleading Sanity</title>
+    <meta name="description" content="Page not found — even stars drift sometimes. Find your way back home.">
+    <meta name="author" content="Shane Cooper / Pleading Sanity">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="animations.css">
     <link rel="stylesheet" href="accessibility.css">
-    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon.ico">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#00fff0">
+    <meta name="color-scheme" content="dark light">
     
-    <!-- Mental Health Crisis Resources (Emergency) -->
-    <meta name="crisis-text-line" content="Text HOME to 741741">
-    <meta name="suicide-prevention" content="988">
+    <!-- Crisis Support → UK + International -->
+    <meta name="crisis-uk" content="Samaritans: 116 123 — free, 24/7">
+    <meta name="crisis-text" content="Text HOME to 741741 (US/CA)">
+    <meta name="suicide-prevention" content="988 (UK) | 988 (US)">
     
     <style>
+        :root {
+            --bg-primary: #060713;
+            --bg-secondary: #0d1b2a;
+            --text-primary: #E9ECFF;
+            --text-secondary: #94A3B8;
+            --primary-cyan: #00fff0;
+            --primary-magenta: #ff00ff;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         .error-page {
             min-height: 100vh;
             display: flex;
@@ -25,7 +44,7 @@
             align-items: center;
             text-align: center;
             padding: 2rem;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             position: relative;
             overflow: hidden;
         }
@@ -38,11 +57,12 @@
 
         .error-code {
             font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: bold;
+            font-weight: 900;
             color: var(--primary-cyan);
             margin: 0;
             text-shadow: 0 0 20px rgba(0, 255, 240, 0.5);
-            animation: pulse-glow 2s ease-in-out infinite alternate;
+            animation: pulse-glow 2.5s ease-in-out infinite alternate;
+            line-height: 1;
         }
 
         .error-title {
@@ -53,10 +73,10 @@
         }
 
         .error-message {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--text-secondary);
             margin: 2rem 0;
-            line-height: 1.6;
+            line-height: 1.7;
         }
 
         .error-actions {
@@ -68,25 +88,28 @@
         }
 
         .error-button {
-            padding: 0.75rem 1.5rem;
+            padding: 0.85rem 1.75rem;
             border: 2px solid var(--primary-cyan);
             background: transparent;
             color: var(--primary-cyan);
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            min-height: 48px;
+            cursor: pointer;
         }
 
         .error-button:hover,
-        .error-button:focus {
+        .error-button:focus-visible {
             background: var(--primary-cyan);
             color: var(--bg-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 255, 240, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 240, 0.35);
+            outline: none;
         }
 
         .error-button.secondary {
@@ -95,27 +118,28 @@
         }
 
         .error-button.secondary:hover,
-        .error-button.secondary:focus {
+        .error-button.secondary:focus-visible {
             background: var(--primary-magenta);
             color: var(--bg-primary);
-            box-shadow: 0 5px 15px rgba(255, 0, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 0, 255, 0.35);
         }
 
         .cosmic-bg-404 {
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.3;
+            opacity: 0.4;
         }
 
         .floating-brain {
             position: absolute;
             font-size: 3rem;
             animation: float 6s ease-in-out infinite;
-            opacity: 0.1;
+            opacity: 0.08;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .floating-brain:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
@@ -123,37 +147,44 @@
         .floating-brain:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
             50% { transform: translateY(-20px) rotate(5deg); }
         }
 
         @keyframes pulse-glow {
             from { text-shadow: 0 0 20px rgba(0, 255, 240, 0.5); }
-            to { text-shadow: 0 0 30px rgba(0, 255, 240, 0.8), 0 0 40px rgba(0, 255, 240, 0.3); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 240, 0.7), 0 0 50px rgba(0, 255, 240, 0.3); }
         }
 
         .crisis-notice {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: rgba(255, 0, 0, 0.9);
+            background: rgba(255, 0, 85, 0.9);
             color: white;
-            padding: 1rem;
-            border-radius: 8px;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
             font-size: 0.9rem;
-            max-width: 300px;
+            max-width: 320px;
             z-index: 1000;
-            display: none;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.3);
         }
 
         .crisis-notice.show {
-            display: block;
-            animation: slideIn 0.5s ease;
+            transform: translateX(0);
         }
 
-        @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+        .crisis-notice strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .crisis-notice a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: 600;
         }
 
         @media (max-width: 768px) {
@@ -161,238 +192,155 @@
                 flex-direction: column;
                 align-items: center;
             }
-            
             .error-button {
                 width: 100%;
                 max-width: 300px;
                 justify-content: center;
             }
+            .crisis-notice {
+                left: 20px;
+                right: 20px;
+                max-width: unset;
+            }
         }
 
-        /* Accessibility improvements */
         @media (prefers-reduced-motion: reduce) {
-            .error-code,
-            .floating-brain {
-                animation: none;
-            }
+            .error-code, .floating-brain { animation: none; }
+            .error-button:hover { transform: none; }
+            .cosmic-bg-404 canvas { display: none; }
         }
 
         @media (prefers-color-scheme: light) {
-            .error-page {
-                background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            :root {
+                --bg-primary: #eef2f8;
+                --bg-secondary: #dfe6f0;
+                --text-primary: #0d1b2a;
+                --text-secondary: #475569;
             }
-            
-            .error-code {
-                color: #008080;
-            }
-            
-            .error-title {
-                color: #333;
-            }
-            
-            .error-message {
-                color: #666;
-            }
+            .error-code { color: #00a8a0; }
         }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" aria-label="Main navigation">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="/" aria-label="Return to Pleading Sanity homepage">
-                    <img src="assets/images/brain-logo.png" alt="Pleading Sanity Logo" width="40" height="40">
+                <a href="/" aria-label="Pleading Sanity — Home">
+                    <span style="font-size: 1.5rem;">🧠</span>
                     <span>Pleading Sanity</span>
                 </a>
             </div>
-            
-            <ul class="nav-menu">
+            <ul class="nav-menu" style="list-style: none; display: flex; gap: 2rem;">
                 <li><a href="/" class="nav-link">Home</a></li>
                 <li><a href="about.html" class="nav-link">About</a></li>
                 <li><a href="sanityhub.html" class="nav-link">Sanity Hub</a></li>
                 <li><a href="shop.html" class="nav-link">Shop</a></li>
             </ul>
-            
-            <button class="nav-toggle" aria-label="Toggle navigation menu">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </button>
         </div>
     </nav>
 
-    <!-- Error Page Content -->
     <main class="error-page" role="main">
-        <div class="cosmic-bg-404"></div>
+        <div class="cosmic-bg-404" aria-hidden="true"></div>
         
-        <!-- Floating decorative elements -->
         <div class="floating-brain" aria-hidden="true">🧠</div>
         <div class="floating-brain" aria-hidden="true">✨</div>
         <div class="floating-brain" aria-hidden="true">🌙</div>
         
         <div class="error-content">
-            <h1 class="error-code" aria-label="Error 404">404</h1>
+            <h1 class="error-code">404</h1>
             <h2 class="error-title">Lost in the Cosmos</h2>
             <p class="error-message">
-                The page you're looking for seems to have drifted into the void. 
-                Don't worry - even in the digital cosmos, we can find our way back to healing.
+                The page you're looking for seems to have drifted into the void.<br>
+                Don't worry — even stars wander. We can always find our way back.
             </p>
             
             <div class="error-actions">
-                <a href="/" class="error-button" role="button">
-                    <span>🏠</span>
-                    Return Home
+                <a href="/" class="error-button">
+                    <span>🏠</span> Return Home
                 </a>
-                <a href="sanityhub.html" class="error-button secondary" role="button">
-                    <span>🧠</span>
-                    Visit Sanity Hub
+                <a href="sanityhub.html" class="error-button secondary">
+                    <span>🧠</span> Sanity Hub
                 </a>
-                <a href="journal-vault-viewer.html" class="error-button" role="button">
-                    <span>📔</span>
-                    Open Journal
+                <a href="journal-vault.html" class="error-button">
+                    <span>📔</span> Journal Vault
                 </a>
             </div>
             
-            <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-secondary);">
-                Lost? Need support? Our AI companion Arron is always available to help.
+            <p style="margin-top: 2.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                Need a hand? <a href="sanityhub.html" style="color: var(--primary-cyan);">Arron</a> is here whenever you need.
             </p>
         </div>
     </main>
 
-    <!-- Crisis Support Notice -->
     <div id="crisis-notice" class="crisis-notice" role="alert" aria-live="polite">
-        <strong>Need immediate help?</strong><br>
-        Crisis Text Line: Text HOME to 741741<br>
-        Suicide Prevention: 988
+        <strong>💙 Not feeling okay right now?</strong>
+        Samaritans: <a href="tel:116123">116 123</a> — free, 24/7<br>
+        Text HOME to <a href="sms:741741">741741</a> (US/CA)<br>
+        Crisis line: <a href="tel:988">988</a>
     </div>
 
     <script>
-        // Cosmic background animation
-        class CosmicBackground404 {
-            constructor() {
-                this.canvas = document.createElement('canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.particles = [];
-                this.init();
-            }
-
-            init() {
-                const cosmicBg = document.querySelector('.cosmic-bg-404');
-                cosmicBg.appendChild(this.canvas);
-                
-                this.resize();
-                this.createParticles();
-                this.animate();
-                
-                window.addEventListener('resize', () => this.resize());
-            }
-
-            resize() {
-                this.canvas.width = window.innerWidth;
-                this.canvas.height = window.innerHeight;
-            }
-
-            createParticles() {
-                for (let i = 0; i < 50; i++) {
-                    this.particles.push({
-                        x: Math.random() * this.canvas.width,
-                        y: Math.random() * this.canvas.height,
-                        size: Math.random() * 2 + 1,
-                        speedX: (Math.random() - 0.5) * 0.5,
-                        speedY: (Math.random() - 0.5) * 0.5,
-                        hue: Math.random() * 60 + 180
-                    });
-                }
-            }
-
-            animate() {
-                this.ctx.fillStyle = 'rgba(0, 0, 17, 0.1)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-                this.particles.forEach((particle, index) => {
-                    particle.x += particle.speedX;
-                    particle.y += particle.speedY;
-
-                    if (particle.x < 0 || particle.x > this.canvas.width) particle.speedX *= -1;
-                    if (particle.y < 0 || particle.y > this.canvas.height) particle.speedY *= -1;
-
-                    this.ctx.beginPath();
-                    this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-                    this.ctx.fillStyle = `hsla(${particle.hue}, 70%, 60%, 0.8)`;
-                    this.ctx.fill();
-                });
-
-                if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-                    requestAnimationFrame(() => this.animate());
-                }
-            }
-        }
-
-        // Navigation functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize cosmic background
-            new CosmicBackground404();
+            // Cosmic background
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const container = document.querySelector('.cosmic-bg-404');
+            container.appendChild(canvas);
             
-            // Navigation toggle
-            const navToggle = document.querySelector('.nav-toggle');
-            const navMenu = document.querySelector('.nav-menu');
+            let particles = [];
+            const resize = () => {
+                canvas.width = innerWidth;
+                canvas.height = innerHeight;
+            };
+            window.addEventListener('resize', resize);
+            resize();
             
-            if (navToggle && navMenu) {
-                navToggle.addEventListener('click', function() {
-                    navMenu.classList.toggle('active');
-                    navToggle.classList.toggle('active');
+            for (let i = 0; i < 60; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    hue: 180 + Math.random() * 60
                 });
             }
             
-            // Show crisis notice for users who seem lost (after 10 seconds)
-            setTimeout(() => {
-                const crisisNotice = document.getElementById('crisis-notice');
-                if (crisisNotice && !localStorage.getItem('crisis-notice-seen')) {
-                    crisisNotice.classList.add('show');
-                    localStorage.setItem('crisis-notice-seen', 'true');
-                    
-                    // Auto-hide after 10 seconds
-                    setTimeout(() => {
-                        crisisNotice.classList.remove('show');
-                    }, 10000);
-                }
-            }, 10000);
-            
+            const animate = () => {
+                if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                ctx.fillStyle = 'rgba(6, 7, 19, 0.1)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fillStyle = `hsla(${p.hue}, 80%, 60%, 0.6)`;
+                    ctx.fill();
+                });
+                requestAnimationFrame(animate);
+            };
+            animate();
+
+            // Crisis notice
+            const notice = document.getElementById('crisis-notice');
+            if (notice && !localStorage.getItem('crisis-seen')) {
+                setTimeout(() => {
+                    notice.classList.add('show');
+                    localStorage.setItem('crisis-seen', 'true');
+                }, 8000);
+            }
+
             // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                // Alt + H for Home
-                if (e.altKey && e.key === 'h') {
-                    e.preventDefault();
-                    window.location.href = '/';
-                }
-                
-                // Alt + S for Sanity Hub
-                if (e.altKey && e.key === 's') {
-                    e.preventDefault();
-                    window.location.href = '/sanityhub.html';
-                }
-                
-                // Alt + J for Journal
-                if (e.altKey && e.key === 'j') {
-                    e.preventDefault();
-                    window.location.href = '/journal-vault-viewer.html';
+            document.addEventListener('keydown', e => {
+                if (e.altKey) {
+                    if (e.key === 'h') { e.preventDefault(); location.href = '/'; }
+                    if (e.key === 's') { e.preventDefault(); location.href = 'sanityhub.html'; }
+                    if (e.key === 'j') { e.preventDefault(); location.href = 'journal-vault.html'; }
                 }
             });
-            
-            // Track 404 errors for improvement
-            if (typeof gtag !== 'undefined') {
-                gtag('event', '404_error', {
-                    'page_location': window.location.href,
-                    'page_referrer': document.referrer
-                });
-            }
         });
-
-        // Service worker registration
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(console.error);
-        }
     </script>
     
     <script src="error-handler.js"></script>

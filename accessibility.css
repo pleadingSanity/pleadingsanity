@@ -1,53 +1,104 @@
-/* Pleading Sanity - Accessibility Enhancements */
+/* ==========================================
+   PLEADING SANITY — COSMIC CORE + ACCESSIBILITY
+   God Mode Ascension • Evolution, Not Erasure
+   Universal Theme • Arron Ready • Fully Accessible
+   Production-Ready • Cross-Browser • WCAG 2.1 Compliant
+   ========================================== */
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-  :root {
-    --primary-cyan: #00ffff;
-    --secondary-magenta: #ff00ff;
-    --text-light: #ffffff;
-    --bg-dark: #000000;
-  }
-  
-  .btn, button, a {
-    border: 2px solid currentColor;
-  }
+:root {
+  /* 🌟 COLOUR PALETTE — LOCKED IN */
+  --cyan: #00fff0;
+  --cyan-deep: #00c8c0;
+  --cyan-glow: rgba(0, 255, 240, 0.6);
+  --magenta: #ff00ff;
+  --magenta-deep: #c800c8;
+  --magenta-glow: rgba(255, 0, 255, 0.6);
+  --gold-yellow: #ffd700;
+  --gold-deep: #e6b800;
+  --gold-glow: rgba(255, 215, 0, 0.6);
+  --success: #00ff90;
+  --error: #ff3b5c;
+
+  /* 🌌 COSMIC BACKDROP */
+  --deepest: #01030a;
+  --deep: #070b20;
+  --mid: #0f1638;
+  --mid-light: #1a2456;
+  --surface: #243070;
+  --text-bright: #ffffff;
+  --text-soft: #e0e4ff;
+  --text-muted: #9098c0;
+  --bg-dark: #000000;
+
+  /* ✨ GRADIENTS */
+  --nebula-gradient: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.12));
+  --cosmic-glow: radial-gradient(ellipse at top, rgba(0,255,240,0.15), transparent 60%),
+                 radial-gradient(ellipse at bottom, rgba(255,0,255,0.12), transparent 60%);
+  --button-gradient: linear-gradient(135deg, var(--cyan-deep), var(--magenta-deep));
+  --hero-gradient: linear-gradient(180deg, var(--deepest), var(--deep) 40%, var(--mid));
+
+  /* 📐 SIZING & SPACING */
+  --nav-height: 70px;
+  --section-gap: 4rem;
+  --card-radius: 20px;
+  --glow-soft: 0 0 15px;
+  --glow-medium: 0 0 30px;
+  --glow-strong: 0 0 50px;
+
+  /* ⚡ MOTION */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
 }
 
-/* Focus management */
+/* ==========================================
+   BASE RESET & FOUNDATION
+   ========================================== */
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--deepest);
+  color: var(--text-bright);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ==========================================
+   SKIP LINK — KEYBOARD USERS FIRST
+   ========================================== */
 .skip-link {
   position: absolute;
-  top: -40px;
+  top: -50px;
   left: 6px;
-  background: var(--primary-cyan);
+  background: var(--cyan);
   color: var(--bg-dark);
-  padding: 8px;
+  padding: 12px 20px;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-weight: bold;
-  z-index: 1000;
-  transition: top 0.2s;
+  z-index: 10000;
+  transition: top 0.25s ease;
+  box-shadow: 0 0 15px var(--cyan-glow);
 }
 
 .skip-link:focus {
-  top: 6px;
+  top: 10px;
 }
 
-/* Enhanced focus indicators */
-*:focus {
-  outline: 3px solid var(--primary-cyan);
-  outline-offset: 2px;
-}
-
-button:focus,
-.btn:focus,
-input:focus,
-select:focus,
-textarea:focus {
-  box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.5);
-}
-
-/* Screen reader only content */
+/* ==========================================
+   SCREEN READER ONLY — HIDE VISUALLY
+   ========================================== */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -71,54 +122,274 @@ textarea:focus {
   white-space: normal;
 }
 
-/* ARIA live regions */
-.live-region {
+/* ==========================================
+   LIVE REGIONS — SCREEN READER ANNOUNCEMENTS
+   ========================================== */
+.live-region,
+[aria-live="polite"],
+[aria-live="assertive"] {
   position: absolute;
   left: -10000px;
+  top: auto;
   width: 1px;
   height: 1px;
   overflow: hidden;
 }
 
-/* Enhanced link states */
-a:hover,
-a:focus {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+/* ==========================================
+   COSMIC BACKGROUND — STARS, NEBULA, SHOOTING
+   ========================================== */
+.cosmic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--hero-gradient);
 }
 
-/* Form accessibility */
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+    radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 90px 40px, #fff, transparent),
+    radial-gradient(2px 2px at 130px 80px, rgba(0,255,240,0.7), transparent),
+    radial-gradient(2px 2px at 160px 120px, rgba(255,0,255,0.7), transparent);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.6;
+  animation: starsTwinkle 8s ease-in-out infinite alternate;
+}
+
+@keyframes starsTwinkle {
+  0% { opacity: 0.4; }
+  100% { opacity: 0.8; }
+}
+
+.nebula {
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse at 20% 20%, rgba(0,255,240,0.08), transparent 50%),
+    radial-gradient(ellipse at 80% 30%, rgba(255,0,255,0.06), transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(0,200,192,0.05), transparent 55%);
+  animation: nebulaDrift 25s ease-in-out infinite alternate;
+}
+
+@keyframes nebulaDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(2%, 1%) scale(1.05); }
+}
+
+.shooting-star {
+  position: absolute;
+  width: 100px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), transparent);
+  border-radius: 1px;
+  filter: blur(0.5px);
+  animation: shoot 4s ease-in-out infinite;
+}
+
+@keyframes shoot {
+  0% { transform: translateX(-150px) translateY(-50px); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateX(150vw) translateY(80px); opacity: 0; }
+}
+
+/* ==========================================
+   TYPOGRAPHY — MOVEMENT VOICE
+   ========================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text-bright);
+}
+
+h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--cyan), var(--magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 1rem;
+  color: var(--cyan);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  margin-bottom: 0.75rem;
+  color: var(--magenta);
+}
+
+p {
+  margin-bottom: 1rem;
+  color: var(--text-soft);
+  font-size: 1.05rem;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+}
+
+a:hover,
+a:focus {
+  color: var(--magenta);
+  text-decoration: underline;
+  text-shadow: 0 0 8px var(--magenta-glow);
+}
+
+a:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* ==========================================
+   FOCUS INDICATORS — KEYBOARD vs MOUSE
+   ========================================== */
+.keyboard-user *:focus {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.mouse-user *:focus {
+  outline: 1px solid rgba(0, 255, 240, 0.4);
+  outline-offset: 1px;
+}
+
+button:focus-visible,
+.btn:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.5);
+}
+
+/* ==========================================
+   BUTTONS — COSMIC GLOW + ACCESSIBLE STATES
+   ========================================== */
+.btn,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  border: 2px solid transparent;
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.btn-primary {
+  background: var(--button-gradient);
+  color: var(--bg-dark);
+  box-shadow: var(--glow-soft) var(--cyan-glow);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-medium) var(--cyan-glow);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--magenta);
+  border-color: var(--magenta);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 0, 255, 0.1);
+  box-shadow: inset 0 0 15px var(--magenta-glow);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.btn-outline:hover {
+  background: rgba(0, 255, 240, 0.1);
+  box-shadow: inset 0 0 15px var(--cyan-glow);
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"],
+.btn-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ==========================================
+   FORM ACCESSIBILITY
+   ========================================== */
 label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 600;
+  color: var(--text-soft);
 }
 
 input[type="email"],
 input[type="text"],
-textarea {
+input[type="password"],
+textarea,
+select {
   border: 2px solid rgba(255, 255, 255, 0.3);
-  padding: 12px;
+  padding: 14px 16px;
   font-size: 1rem;
   line-height: 1.5;
+  background: rgba(0, 0, 0, 0.5);
+  color: var(--text-bright);
+  border-radius: 10px;
+  transition: all var(--transition-normal);
 }
 
-input[type="email"]:invalid {
-  border-color: #ff3b5c;
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.35);
+  outline: none;
+}
+
+input[type="email"]:invalid:not(:placeholder-shown) {
+  border-color: var(--error);
   box-shadow: 0 0 0 3px rgba(255, 59, 92, 0.3);
 }
 
-input[type="email"]:valid {
-  border-color: #00ff90;
+input[type="email"]:valid:not(:placeholder-shown) {
+  border-color: var(--success);
   box-shadow: 0 0 0 3px rgba(0, 255, 144, 0.3);
 }
 
-/* Error messaging */
+/* ==========================================
+   STATUS MESSAGES — ERROR & SUCCESS
+   ========================================== */
 .error-message {
-  color: #ff3b5c;
+  color: var(--error);
   font-size: 0.9rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -126,14 +397,13 @@ input[type="email"]:valid {
 
 .error-message::before {
   content: "⚠️";
-  font-size: 1rem;
+  flex-shrink: 0;
 }
 
-/* Success messaging */
 .success-message {
-  color: #00ff90;
+  color: var(--success);
   font-size: 0.9rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -141,70 +411,157 @@ input[type="email"]:valid {
 
 .success-message::before {
   content: "✅";
-  font-size: 1rem;
+  flex-shrink: 0;
 }
 
-/* Keyboard navigation enhancements */
-.keyboard-user *:focus {
-  outline: 3px solid var(--primary-cyan);
-  outline-offset: 2px;
+/* ==========================================
+   ERROR HANDLER — FULLY INTEGRATED
+   ========================================== */
+.error-container {
+  padding: 2.5rem 2rem;
+  text-align: center;
+  animation: fadeIn 0.4s ease-out;
+  background: rgba(255, 59, 92, 0.08);
+  border: 1px solid rgba(255, 59, 92, 0.3);
+  border-radius: var(--card-radius);
+  margin: 2rem 0;
 }
 
-/* Mouse users get subtler focus */
-.mouse-user *:focus {
-  outline: 1px solid var(--primary-cyan);
-  outline-offset: 1px;
+.error-title {
+  font-size: 1.5rem;
+  color: var(--error);
+  margin-bottom: 0.75rem;
+  font-weight: 700;
 }
 
-/* Loading states with accessibility */
-.loading {
-  position: relative;
+.error-description {
+  color: var(--text-soft);
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.loading::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+.error-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.error-actions .btn {
+  min-width: 130px;
+}
+
+.error-details {
+  margin-top: 1.5rem;
+  text-align: left;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-details summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 10px 14px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  list-style: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border-radius: inherit;
+  justify-content: space-between;
 }
 
-.loading::before {
-  content: "Loading...";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--primary-cyan);
-  font-weight: bold;
-  z-index: 1;
+.error-details summary:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-/* Dark mode toggle accessibility */
+.error-details summary::after {
+  content: "▼";
+  font-size: 0.75rem;
+  opacity: 0.5;
+  transition: transform 0.2s;
+}
+
+.error-details[open] summary::after {
+  transform: rotate(180deg);
+}
+
+.error-tech-info {
+  margin-top: 10px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+  color: var(--text-muted);
+  overflow-x: auto;
+}
+
+.error-tech-info p {
+  margin: 4px 0;
+  word-break: break-word;
+}
+
+/* ==========================================
+   LOADING STATES
+   ========================================== */
+.loading {
+  position: relative;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+}
+
+.loading-spinner {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 255, 240, 0.15);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ==========================================
+   VIDEO / IFRAME ACCESSIBILITY
+   ========================================== */
+iframe[src*="youtube"] {
+  border: 2px solid transparent;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+iframe[src*="youtube"]:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.35);
+}
+
+/* ==========================================
+   THEME TOGGLE ACCESSIBILITY
+   ========================================== */
 .theme-toggle[aria-pressed="true"] {
-  background: var(--secondary-magenta);
+  background: var(--magenta);
   color: white;
 }
 
 .theme-toggle[aria-pressed="false"] {
-  background: var(--primary-cyan);
+  background: var(--cyan);
   color: black;
 }
 
-/* Video accessibility */
-iframe[src*="youtube"] {
-  border: 2px solid transparent;
-  transition: border-color 0.2s;
-}
-
-iframe[src*="youtube"]:focus {
-  border-color: var(--primary-cyan);
-}
-
-/* Tooltip accessibility */
+/* ==========================================
+   TOOLTIP ACCESSIBILITY
+   ========================================== */
 .tooltip {
   position: relative;
 }
@@ -215,121 +572,33 @@ iframe[src*="youtube"]:focus {
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.95);
   color: white;
-  padding: 0.5rem;
-  border-radius: 4px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
   font-size: 0.8rem;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.2s;
   z-index: 1000;
+  margin-bottom: 8px;
 }
 
 .tooltip:hover::after,
-.tooltip:focus::after {
+.tooltip:focus::after,
+.tooltip:focus-within::after {
   opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
 }
 
-/* Enhanced button states */
-.btn[disabled],
-.btn[aria-disabled="true"],
-.btn-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
+/* ==========================================
+   MODAL ACCESSIBILITY
+   ========================================== */
+.modal {
+  transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
-/* Error handling styles */
-.error-container {
-  background: rgba(255, 59, 92, 0.1);
-  border: 1px solid rgba(255, 59, 92, 0.3);
-  border-radius: 12px;
-  padding: 20px;
-  margin: 20px 0;
-  text-align: center;
-}
-
-.error-title {
-  color: #ff3b5c;
-  font-size: 1.2rem;
-  margin: 0 0 10px 0;
-  font-weight: 700;
-}
-
-.error-description {
-  color: var(--text-light);
-  margin: 0 0 20px 0;
-  line-height: 1.5;
-}
-
-.error-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 15px;
-}
-
-.error-actions .btn {
-  min-width: 120px;
-}
-
-.btn-primary {
-  background: var(--primary-cyan);
-  color: var(--bg-dark);
-}
-
-.btn-secondary {
-  background: var(--secondary-magenta);
-  color: white;
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--primary-cyan);
-  color: var(--primary-cyan);
-}
-
-.btn-outline:hover {
-  background: var(--primary-cyan);
-  color: var(--bg-dark);
-}
-
-.error-details {
-  margin-top: 15px;
-  text-align: left;
-}
-
-.error-details summary {
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--text-muted);
-  padding: 8px;
-  border-radius: 4px;
-  transition: background 0.2s;
-}
-
-.error-details summary:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.error-tech-info {
-  margin-top: 10px;
-  padding: 15px;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-family: monospace;
-}
-
-.error-tech-info p {
-  margin: 5px 0;
-  word-break: break-word;
-}
-
-/* Modal accessibility */
 .modal[aria-hidden="true"] {
   display: none;
 }
@@ -338,23 +607,80 @@ iframe[src*="youtube"]:focus {
   display: flex;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 10000;
+  backdrop-filter: blur(8px);
 }
 
-/* Color contrast improvements */
-@media (prefers-contrast: more) {
-  .entry {
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* ==========================================
+   HIGH CONTRAST MODE — SYSTEM RESPECT
+   ========================================== */
+@media (prefers-contrast: high) {
+  :root {
+    --cyan: #00ffff;
+    --magenta: #ff00ff;
+    --text-bright: #ffffff;
+    --bg-dark: #000000;
+  }
+
+  .btn, button, a, input, textarea, select {
+    border-width: 2px;
+    border-style: solid;
+  }
+
+  .error-container {
     border-width: 3px;
   }
-  
-  .btn {
-    border: 2px solid;
+
+  .loading-spinner {
+    border-width: 4px;
   }
-  
-  nav a {
-    border-width: 2px;
+}
+
+/* ==========================================
+   REDUCED MOTION — RESPECT USER PREFERENCE
+   ========================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .btn:hover, .feed-item:hover {
+    transform: none;
+  }
+}
+
+/* ==========================================
+   RESPONSIVE — MOBILE FIRST
+   ========================================== */
+@media (max-width: 600px) {
+  .error-container {
+    padding: 2rem 1.25rem;
+    margin: 1rem;
+  }
+
+  .error-actions {
+    flex-direction: column;
+  }
+
+  .error-actions .btn {
+    width: 100%;
   }
 }

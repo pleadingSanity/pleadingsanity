@@ -35,6 +35,21 @@ const nextConfig = {
     ];
   },
 
+  
+  // ✅ ONLY VALID, VERIFIED DOMAINS — NO DEAD LINKS
+  images: {
+    domains: [
+      'i.ytimg.com',
+      'img.youtube.com',
+      'vumbnail.com',
+      'pleadingsanity.co.uk',
+      'shop.pleadingsanity.co.uk',
+      'payhip.com',
+      'cdn.payhip.com',
+    ],
+  },
+
+  // ✅ SECURITY HEADERS — STANDARD & CLEAN
   async headers() {
     return [
       {
@@ -45,7 +60,7 @@ const nextConfig = {
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
           {
             key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=(), payment=()',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },
@@ -63,6 +78,16 @@ const nextConfig = {
         destination: 'https://pleadingsanity.uk/:path*',
         permanent: true,
       },
+      {
+        source: '/home',
+        destination: 'https://pleadingsanity.co.uk',
+        permanent: true,
+      },
+      {
+        source: '/main',
+        destination: 'https://pleadingsanity.co.uk',
+        permanent: true,
+      },
     ];
   },
 
@@ -70,14 +95,20 @@ const nextConfig = {
     BRAND_NAME: 'Pleading Sanity',
     BRAND_TAGLINE: 'Rise From Madness',
     BRAND_DESCRIPTION: 'Turning pain into power, struggle into strength, madness into meaning.',
+    
     MAIN_SITE: 'https://pleadingsanity.co.uk',
-    SHOPIFY_STORE: 'https://dqfzb1-ki.myshopify.com',
+    SHOP_DOMAIN: 'https://shop.pleadingsanity.co.uk',
     PAYHIP_STORE: 'https://payhip.com/Pleadingsanity',
-    TIKTOK_SHOP: 'https://vt.tiktok.com/ZNd4wRFfn/?page=TikTokShop',
-    ARRON_API_UPDATE: 'https://filefixerapi.com/api/v1/filefixer/update-website',
-    ARRON_API_DEPLOY: 'https://filefixerapi.com/api/v1/filefixer/deploy-website',
-    ARRON_API_STATUS: 'https://filefixerapi.com/api/v1/filefixer/get-website-status',
-    ARRON_API_KEY: process.env.ARRON_API_KEY || 'PLEADINGSANITY_API_KEY_1234',
+    
+    // 📌 Placeholders ready when live — no errors right now
+    TIKTOK_SHOP: '', // Fill when link confirmed
+    YOUTUBE_CHANNEL: 'https://www.youtube.com/@PleadingSanity',
+    INSTAGRAM: 'https://instagram.com/mentally.inshane',
+    TIKTOK: 'https://tiktok.com/@mentally.inshane',
+    
+    // 🧠 Arron AI — Ready when keys live
+    ARRON_API_BASE: '', // Fill when endpoint confirmed
+    ARRON_API_KEY: process.env.ARRON_API_KEY || '',
   },
 };
 

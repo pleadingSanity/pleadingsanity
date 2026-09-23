@@ -1,65 +1,68 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Health Check Script
- * Performs comprehensive health checks on the application
+ * PLEADING SANITY — HEALTH CHECK v2.1-FINAL
+ * File System • PWA • Security • Env • Live URL
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const https = require('https');
 const http = require('http');
-const fs = require('fs');
+const fs = require('fs').promises;
 const path = require('path');
 
 class HealthChecker {
   constructor() {
     this.siteUrl = process.env.SITE_URL || 'https://pleadingsanity.co.uk';
     this.localPort = process.env.PORT || 3000;
+    this.rootDir = path.join(__dirname, '..');
+    
     this.results = {
+      project: 'Pleading Sanity',
       timestamp: new Date().toISOString(),
       overall: 'PASS',
+      passed: 0,
+      failed: 0,
+      warnings: 0,
       checks: []
     };
   }
 
   log(message, type = 'info') {
     const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      reset: '\x1b[0m'
+      info: '\x1b[36m', success: '\x1b[32m', warning: '\x1b[33m', error: '\x1b[31m', reset: '\x1b[0m'
     };
-    console.log(`${colors[type]}[${type.toUpperCase()}] ${message}${colors.reset}`);
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${colors[type]}[${ts}] ${message}${colors.reset}`);
   }
 
-  async checkFileExists(filePath, description) {
+  async checkFile(filePath, description) {
+    const fullPath = path.join(this.rootDir, filePath);
     try {
-      await fs.promises.access(filePath);
-      this.addResult('file-check', description, 'PASS', `File exists: ${filePath}`);
+      await fs.access(fullPath);
+      this.addResult('file', description, 'PASS', `Found: ${filePath}`);
       return true;
-    } catch (error) {
-      this.addResult('file-check', description, 'FAIL', `File missing: ${filePath}`);
+    } catch {
+      this.addResult('file', description, 'FAIL', `MISSING: ${filePath}`);
       return false;
     }
   }
 
-  async checkUrl(url, description) {
+  async checkUrl(url, description, timeoutMs = 5000) {
     return new Promise((resolve) => {
       const protocol = url.startsWith('https:') ? https : http;
-      
-      protocol.get(url, (res) => {
-        if (res.statusCode >= 200 && res.statusCode < 400) {
-          this.addResult('url-check', description, 'PASS', `${url} returned ${res.statusCode}`);
-          resolve(true);
-        } else {
-          this.addResult('url-check', description, 'FAIL', `${url} returned ${res.statusCode}`);
-          resolve(false);
-        }
-      }).on('error', (error) => {
-        this.addResult('url-check', description, 'FAIL', `${url} failed: ${error.message}`);
+      const req = protocol.get(url, { timeout: timeoutMs }, (res) => {
+        const ok = res.statusCode >= 200 && res.statusCode < 400;
+        this.addResult('network', description, ok ? 'PASS' : 'FAIL', `${url} → ${res.statusCode}`);
+        resolve(ok);
+      });
+      req.on('error', (err) => {
+        this.addResult('network', description, 'FAIL', `${url} — ${err.message}`);
         resolve(false);
-      }).setTimeout(5000, () => {
-        this.addResult('url-check', description, 'FAIL', `${url} timeout`);
+      });
+      req.on('timeout', () => {
+        this.addResult('network', description, 'FAIL', `${url} — timeout`);
+        req.destroy();
         resolve(false);
       });
     });
@@ -67,211 +70,141 @@ class HealthChecker {
 
   async checkManifest() {
     try {
-      const manifestPath = path.join(__dirname, '..', 'manifest.json');
-      const manifest = JSON.parse(await fs.promises.readFile(manifestPath, 'utf8'));
-      
-      const requiredFields = ['name', 'start_url', 'display', 'icons'];
-      const missing = requiredFields.filter(field => !manifest[field]);
-      
-      if (missing.length === 0) {
-        this.addResult('pwa-check', 'PWA Manifest', 'PASS', 'All required fields present');
+      const manifest = JSON.parse(await fs.readFile(path.join(this.rootDir, 'manifest.json'), 'utf8'));
+      const required = ['name', 'start_url', 'display', 'icons'];
+      const missing = required.filter(f => !manifest[f]);
+      if (!missing.length) {
+        this.addResult('pwa', 'PWA Manifest', 'PASS', 'All required fields present ✨');
         return true;
-      } else {
-        this.addResult('pwa-check', 'PWA Manifest', 'FAIL', `Missing fields: ${missing.join(', ')}`);
-        return false;
       }
-    } catch (error) {
-      this.addResult('pwa-check', 'PWA Manifest', 'FAIL', error.message);
+      this.addResult('pwa', 'PWA Manifest', 'FAIL', `Missing: ${missing.join(', ')}`);
+      return false;
+    } catch (err) {
+      this.addResult('pwa', 'PWA Manifest', 'FAIL', err.message);
       return false;
     }
   }
 
   async checkServiceWorker() {
-    const swPath = path.join(__dirname, '..', 'sw.js');
-    return await this.checkFileExists(swPath, 'Service Worker');
+    return this.checkFile('sw.js', 'Service Worker');
   }
 
   async checkAssets() {
     const assets = [
-      ['styles.css', 'Main CSS'],
-      ['animations.css', 'Animations CSS'],
-      ['accessibility.css', 'Accessibility CSS'],
-      ['script.js', 'Main JavaScript'],
-      ['error-handler.js', 'Error Handler'],
-      ['assets/favicon.svg', 'Favicon SVG']
+      ['index.html', 'Main HTML'],
+      ['css/cosmic-core.css', 'Cosmic Theme CSS'],
+      ['js/main.js', 'Main JavaScript'],
+      ['manifest.json', 'PWA Manifest'],
+      ['assets/favicon.svg', 'Favicon'],
+      ['assets/logo.png', 'Brand Logo']
     ];
-
-    const results = await Promise.all(
-      assets.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
-    );
-
-    return results.every(result => result);
+    const results = await Promise.all(assets.map(([f, d]) => this.checkFile(f, d)));
+    return results.every(Boolean);
   }
 
   async checkPages() {
     const pages = [
       ['index.html', 'Homepage'],
-      ['about.html', 'About Page'],
-      ['shop.html', 'Shop Page'],
-      ['sanityhub.html', 'Sanity Hub'],
-      ['feed.html', 'Feed Page'],
-      ['games.html', 'Games Page'],
-      ['videos.html', 'Videos Page'],
-      ['movement.html', 'Movement Page'],
-      ['journal-vault-viewer.html', 'Journal Vault Viewer']
+      ['about.html', 'About / Legacy'],
+      ['hub.html', 'Sanity Hub'],
+      ['journal.html', 'Survivor Journal'],
+      ['frequencies.html', 'Healing Frequencies'],
+      ['games.html', 'Brain Training'],
+      ['shop.html', 'Streetwear'],
+      ['ai-sanctuary.html', 'AI Sanctuary'],
+      ['movement.html', 'The Mission']
     ];
-
-    const results = await Promise.all(
-      pages.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
-    );
-
-    return results.every(result => result);
+    const results = await Promise.all(pages.map(([f, d]) => this.checkFile(f, d)));
+    return results.every(Boolean);
   }
 
-  async checkNetlifyConfig() {
-    const netlifyPath = path.join(__dirname, '..', 'netlify.toml');
-    return await this.checkFileExists(netlifyPath, 'Netlify Configuration');
+  async checkDeployConfig() {
+    const files = [['netlify.toml', 'Netlify Config'], ['package.json', 'Manifest'], ['.gitignore', 'Git Rules']];
+    const results = await Promise.all(files.map(([f, d]) => this.checkFile(f, d)));
+    return results.every(Boolean);
   }
 
-  async checkEnvironmentVars() {
-    const requiredEnvVars = [
-      'NODE_ENV',
-      'SITE_URL'
-    ];
-
-    const optionalEnvVars = [
-      'YOUTUBE_API_KEY',
-      'OPENAI_API_KEY',
-      'MAILCHIMP_URL'
-    ];
-
+  async checkEnvironment() {
+    const required = ['NODE_ENV', 'SITE_URL'];
+    const optional = ['OPENAI_API_KEY', 'YOUTUBE_API_KEY', 'STRIPE_PUBLIC_KEY'];
     let allRequired = true;
-    let someOptional = false;
-
-    for (const envVar of requiredEnvVars) {
-      if (process.env[envVar]) {
-        this.addResult('env-check', `Required: ${envVar}`, 'PASS', 'Set');
-      } else {
-        this.addResult('env-check', `Required: ${envVar}`, 'FAIL', 'Not set');
-        allRequired = false;
-      }
+    for (const v of required) {
+      this.addResult('env', `Required: ${v}`, process.env[v] ? 'PASS' : 'FAIL', process.env[v] ? 'Set ✅' : 'NOT SET ⚠️');
+      if (!process.env[v]) allRequired = false;
     }
-
-    for (const envVar of optionalEnvVars) {
-      if (process.env[envVar]) {
-        this.addResult('env-check', `Optional: ${envVar}`, 'PASS', 'Set');
-        someOptional = true;
-      } else {
-        this.addResult('env-check', `Optional: ${envVar}`, 'WARNING', 'Not set');
-      }
+    for (const v of optional) {
+      this.addResult('env', `Optional: ${v}`, process.env[v] ? 'PASS' : 'WARNING', process.env[v] ? 'Set ✅' : 'Not set — optional');
     }
-
     return allRequired;
   }
 
   async checkSecurity() {
-    const securityChecks = [
-      ['package-lock.json', 'Package Lock File'],
-      ['.gitignore', 'Git Ignore File'],
-      ['.env.example', 'Environment Example']
-    ];
-
-    const results = await Promise.all(
-      securityChecks.map(([file, desc]) => 
-        this.checkFileExists(path.join(__dirname, '..', file), desc)
-      )
-    );
-
-    // Check for sensitive files that shouldn't exist
-    const sensitiveFiles = ['.env', 'config/keys.js'];
-    for (const file of sensitiveFiles) {
-      const filePath = path.join(__dirname, '..', file);
+    await Promise.all([['package-lock.json', 'Dependency Lock'], ['.env.production.example', 'Env Template']]
+      .map(([f, d]) => this.checkFile(f, d)));
+    for (const file of ['.env', '.env.production', 'config/keys.js']) {
       try {
-        await fs.promises.access(filePath);
-        this.addResult('security-check', `Sensitive File: ${file}`, 'WARNING', 'File exists - ensure it\'s in .gitignore');
-      } catch (error) {
-        this.addResult('security-check', `Sensitive File: ${file}`, 'PASS', 'File not found (good)');
+        await fs.access(path.join(this.rootDir, file));
+        this.addResult('security', `⚠️ ${file}`, 'WARNING', 'Exists — ensure in .gitignore!');
+      } catch {
+        this.addResult('security', `✅ ${file}`, 'PASS', 'Not present (good)');
       }
     }
-
-    return results.every(result => result);
   }
 
   addResult(category, description, status, details) {
-    this.results.checks.push({
-      category,
-      description,
-      status,
-      details,
-      timestamp: new Date().toISOString()
-    });
-
+    this.results.checks.push({ category, description, status, details, timestamp: new Date().toISOString() });
+    if (status === 'PASS') this.results.passed++;
+    if (status === 'FAIL') { this.results.failed++; this.results.overall = 'FAIL'; }
+    if (status === 'WARNING' && this.results.overall === 'PASS') this.results.overall = 'WARNING';
     const icon = status === 'PASS' ? '✅' : status === 'FAIL' ? '❌' : '⚠️';
-    const logType = status === 'PASS' ? 'success' : status === 'FAIL' ? 'error' : 'warning';
-    
-    this.log(`${icon} ${description}: ${details}`, logType);
-
-    if (status === 'FAIL') {
-      this.results.overall = 'FAIL';
-    } else if (status === 'WARNING' && this.results.overall === 'PASS') {
-      this.results.overall = 'WARNING';
-    }
+    const type = status === 'PASS' ? 'success' : status === 'FAIL' ? 'error' : 'warning';
+    this.log(`${icon} ${description}: ${details}`, type);
   }
 
-  async generateReport() {
-    const reportPath = path.join(__dirname, '..', 'health-report.json');
-    await fs.promises.writeFile(reportPath, JSON.stringify(this.results, null, 2));
-    this.log(`Health report saved to: ${reportPath}`, 'info');
+  async saveReport() {
+    const reportPath = path.join(this.rootDir, 'health-report.json');
+    await fs.writeFile(reportPath, JSON.stringify(this.results, null, 2));
+    this.log(`📄 Report saved → health-report.json`, 'info');
   }
 
   async run() {
-    this.log('Starting Pleading Sanity Health Check...', 'info');
-    this.log('=====================================', 'info');
+    console.log('\n' + '═.✧ 🌌 PLEADING SANITY HEALTH CHECK ✧.═'.padStart(55, ' ') + '\n');
+    this.log('Scanning project integrity…', 'info');
+    this.log(`Root: ${this.rootDir}`, 'info');
+    console.log('─'.repeat(50));
 
-    // Run all checks
     await this.checkAssets();
     await this.checkPages();
     await this.checkManifest();
     await this.checkServiceWorker();
-    await this.checkNetlifyConfig();
-    await this.checkEnvironmentVars();
+    await this.checkDeployConfig();
+    await this.checkEnvironment();
     await this.checkSecurity();
 
-    // Optional: Check live URLs if site is deployed
     if (process.argv.includes('--check-urls')) {
-      await this.checkUrl(this.siteUrl, 'Main Site');
-      await this.checkUrl(`${this.siteUrl}/manifest.json`, 'PWA Manifest URL');
+      console.log('─'.repeat(50));
+      this.log('Checking live endpoints…', 'info');
+      await this.checkUrl(this.siteUrl, 'Live Site');
+      await this.checkUrl(`${this.siteUrl}/manifest.json`, 'Manifest');
+      await this.checkUrl(`http://localhost:${this.localPort}/api/health`, 'Local Dev API');
     }
 
-    // Generate report
-    await this.generateReport();
+    await this.saveReport();
 
-    // Summary
-    this.log('=====================================', 'info');
-    const passCount = this.results.checks.filter(c => c.status === 'PASS').length;
-    const failCount = this.results.checks.filter(c => c.status === 'FAIL').length;
-    const warnCount = this.results.checks.filter(c => c.status === 'WARNING').length;
+    console.log('─'.repeat(50));
+    const statusColor = this.results.overall === 'PASS' ? 'success' :
+                        this.results.overall === 'FAIL' ? 'error' : 'warning';
+    this.log(`FINAL STATUS: ${this.results.overall}`, statusColor);
+    this.log(`✅ ${this.results.passed} passed • ❌ ${this.results.failed} failed • ⚠️ ${this.results.warnings} warnings`, 'info');
+    console.log('═'.repeat(50) + '\n');
 
-    this.log(`Health Check Complete: ${this.results.overall}`, 
-      this.results.overall === 'PASS' ? 'success' : 
-      this.results.overall === 'FAIL' ? 'error' : 'warning');
-    
-    this.log(`Results: ${passCount} passed, ${failCount} failed, ${warnCount} warnings`, 'info');
-
-    // Exit with appropriate code
-    process.exit(failCount > 0 ? 1 : 0);
+    process.exit(this.results.failed > 0 ? 1 : 0);
   }
 }
 
-// Run health check if called directly
 if (require.main === module) {
-  const healthChecker = new HealthChecker();
-  healthChecker.run().catch(error => {
-    console.error('Health check failed:', error);
+  new HealthChecker().run().catch(err => {
+    console.error('💥 Fatal:', err);
     process.exit(1);
   });
 }

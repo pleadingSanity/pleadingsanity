@@ -5,8 +5,12 @@
   "installCommand": "npm install",
   "env": {
     "ALLOWED_ORIGINS": "https://pleadingsanity.co.uk https://www.pleadingsanity.co.uk https://pleadingsanity.uk https://www.pleadingsanity.uk https://*.netlify.app https://*.vercel.app",
+
+  "env": {
+    "ALLOWED_ORIGINS": "https://pleadingsanity.co.uk https://pleadingsanity.uk https://pleadingsanity.netlify.app https://pleading-sanity.vercel.app",
     "NODE_ENV": "production"
   },
+
   "headers": [
     {
       "source": "/(.*)",
@@ -15,6 +19,209 @@
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
       ]
+    }
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=()" },
+        { "key": "Cross-Origin-Embedder-Policy", "value": "require-corp" },
+        { "key": "Cross-Origin-Resource-Policy", "value": "cross-origin" },
+        { "key": "Cross-Origin-Opener-Policy", "value": "same-origin" }
+      ]
+    },
+    {
+      "source": "/audio/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=86400, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/*.html",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" }
+      ]
+    }
+  ],
+
+  "rewrites": [
+    { "source": "/api/video", "destination": "/api/FetchVideos" },
+    { "source": "/api/fetchVideos", "destination": "/api/FetchVideos" },
+    { "source": "/api/fetchvideos", "destination": "/api/FetchVideos" },
+    { "source": "/api/arron", "destination": "/api/ArronChat" },
+    { "source": "/api/journal/(.*)", "destination": "/api/Journal/$1" },
+    { "source": "/api/frequencies", "destination": "/api/Frequencies" },
+    { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/:path*", "destination": "/$1" }
+  ],
+
+  "redirects": [
+    {
+      "source": "/:path*",
+      "host": [{ "type": "eq", "value": "www.pleadingsanity.co.uk" }],
+      "destination": "https://pleadingsanity.co.uk/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "host": [{ "type": "eq", "value": "www.pleadingsanity.uk" }],
+      "destination": "https://pleadingsanity.uk/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "host": [{ "type": "eq", "value": "pleadingsanity-netlify.netlify.app" }],
+      "destination": "https://pleadingsanity.co.uk",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html",
+      "status": 200
+    }
+  ]
+}
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  
+  "env": {
+    "ALLOWED_ORIGINS": "https://pleadingsanity.co.uk https://pleadingsanity.uk https://pleadingsanity.netlify.app https://pleading-sanity.vercel.app",
+    "NODE_ENV": "production"
+  },
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Resource-Policy",
+          "value": "cross-origin"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/audio/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/*.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, must-revalidate"
+        }
+      ]
+    }
+  ],
+
+  "rewrites": [
+    {
+      "source": "/api/video",
+      "destination": "/api/FetchVideos"
+    },
+    {
+      "source": "/api/fetchVideos",
+      "destination": "/api/FetchVideos"
+    },
+    {
+      "source": "/api/fetchvideos",
+      "destination": "/api/FetchVideos"
+    },
+    {
+      "source": "/api/arron",
+      "destination": "/api/ArronChat"
+    },
+    {
+      "source": "/api/journal/(.*)",
+      "destination": "/api/Journal/$1"
+    },
+    {
+      "source": "/api/frequencies",
+      "destination": "/api/Frequencies"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ],
+
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pleadingsanity.co.uk"
+        }
+      ],
+      "destination": "https://pleadingsanity.co.uk/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pleadingsanity.uk"
+        }
+      ],
+      "destination": "https://pleadingsanity.uk/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "pleadingsanity-netlify.netlify.app"
+        }
+      ],
+      "destination": "https://pleadingsanity.co.uk",
+      "permanent": true
     }
   ]
 }

@@ -1,294 +1,235 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - Service Worker Update Script
- * Updates service worker cache version and manages cache invalidation
+ * PLEADING SANITY — SERVICE WORKER UPDATER v2.1-FINAL
+ * Auto-Version • Smart Cache • Hash Validation • PWA Sync
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const fs = require('fs').promises;
 const path = require('path');
 const crypto = require('crypto');
+const { execSync } = require('child_process');
 
 class ServiceWorkerUpdater {
   constructor() {
-    this.swPath = path.join(__dirname, '..', 'sw.js');
-    this.manifestPath = path.join(__dirname, '..', 'manifest.json');
-    this.assetsDir = path.join(__dirname, '..', 'assets');
-    this.cacheableExtensions = ['.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.json', '.ico'];
-  }
-
-  log(message, type = 'info') {
-    const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      reset: '\x1b[0m'
-    };
-    console.log(`${colors[type]}[SW-UPDATE] ${message}${colors.reset}`);
-  }
-
-  async generateCacheVersion() {
-    // Generate version based on current timestamp and git commit (if available)
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    this.rootDir = path.join(__dirname, '..');
+    this.swPath = path.join(this.rootDir, 'sw.js');
+    this.manifestPath = path.join(this.rootDir, 'manifest.json');
     
+    this.cacheExts = ['.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.json', '.ico', '.woff2', '.woff'];
+    this.skipDirs = ['node_modules', '.git', 'dist', 'scripts', 'coverage', '.next'];
+  }
+
+  // ==========================================
+  // COSMIC LOGGING
+  // ==========================================
+  log(msg, type = 'info') {
+    const C = { info: '\x1b[36m', success: '\x1b[32m', warn: '\x1b[33m', error: '\x1b[31m', reset: '\x1b[0m' };
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${C[type]}[${ts}] [SW] ${msg}${C.reset}`);
+  }
+
+  // ==========================================
+  // GENERATE VERSION — timestamp + git hash
+  // ==========================================
+  makeVersion() {
+    const stamp = new Date().toISOString().replace(/[:.]/g, '-');
     try {
-      // Try to get git commit hash
-      const { execSync } = require('child_process');
-      const gitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
-      return `v${timestamp}-${gitHash}`;
-    } catch (error) {
-      // Fallback to timestamp only
-      return `v${timestamp}`;
+      const hash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+      return `v${stamp}-${hash}`;
+    } catch {
+      return `v${stamp}`;
     }
   }
 
-  async getAllCacheableFiles(dir = path.join(__dirname, '..'), baseDir = path.join(__dirname, '..')) {
+  // ==========================================
+  // SCAN CACHEABLE FILES
+  // ==========================================
+  async scanFiles(dir = this.rootDir, base = this.rootDir) {
     const files = [];
-    const skipDirs = ['node_modules', '.git', '.next', 'coverage', 'dist', 'scripts'];
-    
-    try {
-      const entries = await fs.readdir(dir, { withFileTypes: true });
-      
-      for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        const relativePath = path.relative(baseDir, fullPath);
-        
-        if (entry.isDirectory() && !skipDirs.includes(entry.name) && !entry.name.startsWith('.')) {
-          const subFiles = await this.getAllCacheableFiles(fullPath, baseDir);
-          files.push(...subFiles);
-        } else if (entry.isFile()) {
-          const ext = path.extname(entry.name).toLowerCase();
-          if (this.cacheableExtensions.includes(ext)) {
-            files.push('/' + relativePath.replace(/\\/g, '/'));
-          }
+    const entries = await fs.readdir(dir, { withFileTypes: true });
+
+    for (const e of entries) {
+      const full = path.join(dir, e.name);
+      const rel = '/' + path.relative(base, full).replace(/\\/g, '/');
+
+      if (e.isDirectory()) {
+        if (!this.skipDirs.includes(e.name) && !e.name.startsWith('.')) {
+          files.push(...(await this.scanFiles(full, base)));
         }
+      } else if (this.cacheExts.some(ext => e.name.toLowerCase().endsWith(ext))) {
+        files.push(rel);
       }
-    } catch (error) {
-      this.log(`Error reading directory ${dir}: ${error.message}`, 'error');
     }
-    
     return files;
   }
 
-  async generateFileHash(filePath) {
+  // ==========================================
+  // MD5 HASH — detect actual changes
+  // ==========================================
+  async hashFile(filePath) {
     try {
-      const content = await fs.readFile(filePath);
-      return crypto.createHash('md5').update(content).digest('hex').substring(0, 8);
-    } catch (error) {
-      return 'unknown';
+      const buf = await fs.readFile(filePath);
+      return crypto.createHash('md5').update(buf).digest('hex').slice(0, 8);
+    } catch {
+      return '------';
     }
   }
 
-  async updateServiceWorker() {
-    try {
-      // Read current service worker
-      const swContent = await fs.readFile(this.swPath, 'utf8');
-      
-      // Generate new cache version
-      const newVersion = await this.generateCacheVersion();
-      this.log(`Generated new cache version: ${newVersion}`, 'info');
-      
-      // Get all cacheable files
-      const cacheableFiles = await this.getAllCacheableFiles();
-      this.log(`Found ${cacheableFiles.length} cacheable files`, 'info');
-      
-      // Generate file hashes for cache busting
-      const fileHashes = {};
-      for (const file of cacheableFiles) {
-        const fullPath = path.join(__dirname, '..', file.substring(1));
-        fileHashes[file] = await this.generateFileHash(fullPath);
-      }
-      
-      // Update cache version
-      let updatedContent = swContent.replace(
-        /const CACHE_VERSION = ['"`][^'"`]*['"`];?/,
-        `const CACHE_VERSION = '${newVersion}';`
-      );
-      
-      // Update cache name
-      updatedContent = updatedContent.replace(
-        /const CACHE_NAME = ['"`][^'"`]*['"`];?/,
-        `const CACHE_NAME = 'pleading-sanity-${newVersion}';`
-      );
-      
-      // Update static cache files list
-      const staticCacheArray = JSON.stringify(cacheableFiles, null, 2);
-      updatedContent = updatedContent.replace(
-        /const STATIC_CACHE_FILES = \[[^\]]*\];?/s,
-        `const STATIC_CACHE_FILES = ${staticCacheArray};`
-      );
-      
-      // Add file hash mapping for cache validation
-      const hashMapping = JSON.stringify(fileHashes, null, 2);
-      if (updatedContent.includes('FILE_HASHES = {')) {
-        updatedContent = updatedContent.replace(
-          /const FILE_HASHES = \{[^}]*\};?/s,
-          `const FILE_HASHES = ${hashMapping};`
-        );
-      } else {
-        // Add file hashes section if it doesn't exist
-        const insertAfterCache = updatedContent.indexOf('const STATIC_CACHE_FILES = ');
-        if (insertAfterCache !== -1) {
-          const endOfCacheFiles = updatedContent.indexOf('];', insertAfterCache) + 2;
-          updatedContent = updatedContent.slice(0, endOfCacheFiles) + 
-            `\n\n// File hashes for cache validation\nconst FILE_HASHES = ${hashMapping};\n` +
-            updatedContent.slice(endOfCacheFiles);
-        }
-      }
-      
-      // Update timestamp
-      const timestamp = new Date().toISOString();
-      if (updatedContent.includes('LAST_UPDATED = ')) {
-        updatedContent = updatedContent.replace(
-          /const LAST_UPDATED = ['"`][^'"`]*['"`];?/,
-          `const LAST_UPDATED = '${timestamp}';`
-        );
-      } else {
-        // Add timestamp if it doesn't exist
-        const insertAfterVersion = updatedContent.indexOf(`const CACHE_VERSION = '${newVersion}';`) + `const CACHE_VERSION = '${newVersion}';`.length;
-        updatedContent = updatedContent.slice(0, insertAfterVersion) + 
-          `\nconst LAST_UPDATED = '${timestamp}';\n` +
-          updatedContent.slice(insertAfterVersion);
-      }
-      
-      // Write updated service worker
-      await fs.writeFile(this.swPath, updatedContent, 'utf8');
-      this.log('Service worker updated successfully', 'success');
-      
-      return {
-        version: newVersion,
-        timestamp: timestamp,
-        filesCount: cacheableFiles.length,
-        files: cacheableFiles
-      };
-      
-    } catch (error) {
-      this.log(`Failed to update service worker: ${error.message}`, 'error');
-      throw error;
+  // ==========================================
+  // UPDATE sw.js — all sections
+  // ==========================================
+  async updateSW() {
+    // Read existing SW
+    let sw = await fs.readFile(this.swPath, 'utf8');
+    const version = this.makeVersion();
+    const stamp = new Date().toISOString();
+    const files = await this.scanFiles();
+
+    // Build file hashes
+    const hashes = {};
+    for (const f of files) {
+      hashes[f] = await this.hashFile(path.join(this.rootDir, f.slice(1)));
     }
+
+    // Patch: CACHE_VERSION
+    sw = sw.replace(
+      /const\s+CACHE_VERSION\s*=\s*['"`][^'"`]+['"`]/,
+      `const CACHE_VERSION = '${version}'`
+    );
+
+    // Patch: CACHE_NAME
+    sw = sw.replace(
+      /const\s+CACHE_NAME\s*=\s*['"`][^'"`]+['"`]/,
+      `const CACHE_NAME = 'pleading-sanity-${version}'`
+    );
+
+    // Patch: STATIC_CACHE_FILES
+    const fileList = JSON.stringify(files, null, 2);
+    sw = sw.replace(
+      /const\s+STATIC_CACHE_FILES\s*=\s*\[[^\]]*\]/s,
+      `const STATIC_CACHE_FILES = ${fileList}`
+    );
+
+    // Patch/add: FILE_HASHES
+    const hashJSON = JSON.stringify(hashes, null, 2);
+    if (/const\s+FILE_HASHES\s*=/.test(sw)) {
+      sw = sw.replace(
+        /const\s+FILE_HASHES\s*=\s*\{[^}]*\}/s,
+        `const FILE_HASHES = ${hashJSON}`
+      );
+    } else {
+      const insertAt = sw.indexOf('const STATIC_CACHE_FILES');
+      const endList = sw.indexOf('];', insertAt) + 2;
+      sw = sw.slice(0, endList) +
+        `\n\n// File integrity hashes — auto-updated\nconst FILE_HASHES = ${hashJSON};\n` +
+        sw.slice(endList);
+    }
+
+    // Patch/add: LAST_UPDATED
+    if (/const\s+LAST_UPDATED\s*=/.test(sw)) {
+      sw = sw.replace(
+        /const\s+LAST_UPDATED\s*=\s*['"`][^'"`]+['"`]/,
+        `const LAST_UPDATED = '${stamp}'`
+      );
+    } else {
+      const verEnd = sw.indexOf('const CACHE_VERSION') + `const CACHE_VERSION = '${version}'`.length;
+      sw = sw.slice(0, verEnd) +
+        `\nconst LAST_UPDATED = '${stamp}';` +
+        sw.slice(verEnd);
+    }
+
+    // Write back
+    await fs.writeFile(this.swPath, sw, 'utf8');
+    return { version, stamp, fileCount: files.length, files };
   }
 
+  // ==========================================
+  // UPDATE manifest.json
+  // ==========================================
   async updateManifest() {
     try {
-      // Read current manifest
-      const manifestContent = await fs.readFile(this.manifestPath, 'utf8');
-      const manifest = JSON.parse(manifestContent);
-      
-      // Update version in manifest (if it exists)
-      if (manifest.version) {
-        const newVersion = await this.generateCacheVersion();
-        manifest.version = newVersion;
-        manifest.updated = new Date().toISOString();
-        
-        // Write updated manifest
-        await fs.writeFile(this.manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
-        this.log('PWA manifest updated', 'success');
-      }
-      
-      return manifest;
-    } catch (error) {
-      this.log(`Failed to update manifest: ${error.message}`, 'warning');
-      return null;
+      const json = JSON.parse(await fs.readFile(this.manifestPath, 'utf8'));
+      json.version = this.makeVersion();
+      json.updated = new Date().toISOString();
+      await fs.writeFile(this.manifestPath, JSON.stringify(json, null, 2), 'utf8');
+      this.log('manifest.json synced ✅', 'success');
+    } catch {
+      this.log('manifest.json not found — skipped', 'warn');
     }
   }
 
-  async generateCacheReport(updateResult) {
+  // ==========================================
+  // SAVE REPORT
+  // ==========================================
+  async saveReport(result) {
     const report = {
       timestamp: new Date().toISOString(),
-      serviceWorker: {
-        version: updateResult.version,
-        lastUpdated: updateResult.timestamp,
-        cacheableFiles: updateResult.filesCount,
-        files: updateResult.files
-      },
+      version: result.version,
+      filesCached: result.fileCount,
       recommendations: []
     };
 
-    // Add recommendations based on analysis
-    if (updateResult.filesCount > 100) {
-      report.recommendations.push({
-        type: 'performance',
-        message: 'Consider implementing selective caching - you have many cacheable files',
-        impact: 'medium'
-      });
-    }
-
-    // Check for large files that might impact cache performance
-    const largeFiles = [];
-    for (const file of updateResult.files) {
+    // Flag large files
+    const large = [];
+    for (const f of result.files) {
       try {
-        const fullPath = path.join(__dirname, '..', file.substring(1));
-        const stats = await fs.stat(fullPath);
-        if (stats.size > 1024 * 1024) { // Files larger than 1MB
-          largeFiles.push({ file, size: stats.size });
-        }
-      } catch (error) {
-        // File might not exist, skip
-      }
+        const kb = (await fs.stat(path.join(this.rootDir, f.slice(1)))).size / 1024;
+        if (kb > 500) large.push({ file: f, sizeKB: Math.round(kb) });
+      } catch {}
     }
-
-    if (largeFiles.length > 0) {
+    if (large.length) {
       report.recommendations.push({
-        type: 'optimization',
-        message: `Found ${largeFiles.length} large files that might slow down caching`,
-        files: largeFiles,
-        impact: 'high'
+        note: `${large.length} large file(s) may slow caching`,
+        files: large
       });
     }
 
-    const reportPath = path.join(__dirname, '..', 'sw-update-report.json');
-    await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
-    
-    this.log(`Service worker update report saved to: ${reportPath}`, 'info');
-    return report;
+    await fs.writeFile(
+      path.join(this.rootDir, 'sw-update-report.json'),
+      JSON.stringify(report, null, 2)
+    );
+    this.log('sw-update-report.json saved 📄', 'info');
   }
 
+  // ==========================================
+  // MAIN RUN
+  // ==========================================
   async run() {
-    this.log('Starting Service Worker Update...', 'info');
-    this.log('==================================', 'info');
+    console.log('\n' + '═.✧ 🌌 SERVICE WORKER UPDATER ✧.═'.padStart(55, ' ') + '\n');
 
+    // Check SW exists
     try {
-      // Check if service worker exists
       await fs.access(this.swPath);
-      
-      // Update service worker
-      const updateResult = await this.updateServiceWorker();
-      
-      // Update manifest
-      await this.updateManifest();
-      
-      // Generate report
-      const report = await this.generateCacheReport(updateResult);
-      
-      // Summary
-      this.log('==================================', 'info');
-      this.log(`Service Worker Update Complete!`, 'success');
-      this.log(`  New version: ${updateResult.version}`, 'info');
-      this.log(`  Files to cache: ${updateResult.filesCount}`, 'info');
-      this.log(`  Last updated: ${updateResult.timestamp}`, 'info');
-      
-      if (report.recommendations.length > 0) {
-        this.log(`  Recommendations: ${report.recommendations.length} items`, 'warning');
-      }
-
-    } catch (error) {
-      if (error.code === 'ENOENT' && error.path === this.swPath) {
-        this.log('Service worker file not found - skipping update', 'warning');
-        this.log('Run the PWA setup first to create the service worker', 'info');
-      } else {
-        this.log(`Service worker update failed: ${error.message}`, 'error');
-        throw error;
-      }
+    } catch {
+      this.log('sw.js NOT FOUND — create it first', 'error');
+      this.log('Run PWA setup or add sw.js to your project root', 'info');
+      process.exit(1);
     }
+
+    // Do the work
+    const result = await this.updateSW();
+    await this.updateManifest();
+    await this.saveReport(result);
+
+    // Final summary
+    console.log('─'.repeat(50));
+    this.log(`✅ VERSION: ${result.version}`, 'success');
+    this.log(`📄 FILES:   ${result.fileCount} cached`, 'info');
+    this.log(`🕐 UPDATED: ${result.stamp}`, 'info');
+    console.log('─'.repeat(50));
+    this.log('Browser will detect new version → refresh automatically ✨', 'success');
+    console.log('═'.repeat(50) + '\n');
   }
 }
 
-// Run update if called directly
+// ==========================================
+// LAUNCH
+// ==========================================
 if (require.main === module) {
-  const updater = new ServiceWorkerUpdater();
-  updater.run().catch(error => {
-    console.error('Service worker update failed:', error);
+  new ServiceWorkerUpdater().run().catch(err => {
+    console.error('💥 Error:', err.message);
     process.exit(1);
   });
 }

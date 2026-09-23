@@ -1,133 +1,118 @@
-# Pleading Sanity - Git Ignore File
+# ==============================================================
+# 🌌 PLEADING SANITY — GITIGNORE v2.1-FINAL
+# Keep secrets, builds & private data OFFLINE
+# Evolution, Not Erasure • Secure by Design
+# ==============================================================
 
-# Dependencies
+# ========================================
+# 🔑 SECURITY — NEVER COMMIT
+# ========================================
+.env
+.env.*
+!.env.example
+!.env.production.example
+config/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+ssl/
+secrets/
+
+# ========================================
+# 📦 DEPENDENCIES
+# ========================================
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+bun-debug.log*
 
-# Production builds
+# ========================================
+# 🏗️ BUILD OUTPUT & PLATFORMS
+# ========================================
 build/
 dist/
 .next/
 out/
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# API Keys (NEVER commit these!)
-.env.production
-config/keys.js
-config/production.json
-
-# Logs
-*.log
-logs/
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# Cache directories
 .cache/
 .parcel-cache/
 .netlify/
 .vercel/
+.fasthost/
 
-# Temporary files
-tmp/
-temp/
-*.tmp
-*.temp
-TEMPFILE*
-TEMPHEAD*
+# ========================================
+# 📝 LOGS & RUNTIME
+# ========================================
+*.log
+logs/
+pids/
+*.pid
+*.pid.lock
 
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-Desktop.ini
+# ========================================
+# 💾 DATABASE & SENSITIVE DATA
+# ========================================
+*.db
+*.sqlite
+*.sqlite3
+journal-backups/
+user-data/
+chat-logs/
+uploads/temp/
+private/
 
-# IDE files
+# ========================================
+# 🧪 TESTS & COVERAGE
+# ========================================
+coverage/
+.nyc_output/
+test-results/
+
+# ========================================
+# 💻 IDE, EDITOR & OS
+# ========================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.DS_Store
+.DS_Store?
+Thumbs.db
+Desktop.ini
+ehthumbs.db
 
-# Sass cache
-.sass-cache/
-
-# Build tools
-webpack-stats.json
-bundle-analyzer-report.html
-
-# PWA
-sw.js.map
-workbox-*.js
-
-# Local development
-.local/
+# ========================================
+# 📄 TEMP, DRAFTS & WORK IN PROGRESS
+# ========================================
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+*.backup
 dev-notes.md
 TODO.md
 NOTES.md
-
-# Backup files
-*.backup
-*.bak
-
-# Lock files (include yarn.lock or package-lock.json, but not both)
-# Uncomment the one you're NOT using:
-# package-lock.json
-# yarn.lock
-
-# Content Management
 content/drafts/
-content/private/
 
-# User uploads (if applicable)
-uploads/user/
-uploads/temp/
-
-# Analytics and tracking (local files)
-analytics/
-tracking/
-
-# Custom Pleading Sanity specific
-journal-backups/
-user-data/
-chat-logs/
-
-# Security
-*.pem
-*.key
-*.crt
-ssl/
-
-# Database (if using local DB)
-*.db
-*.sqlite
-*.sqlite3
-
-# Testing
-coverage/
-.nyc_output/
-test-results/
-
-# Local configuration overrides
+# ========================================
+# 🔒 LOCAL OVERRIDES
+# ========================================
 local.json
 config.local.js
+*.local.js
+
+# ========================================
+# 📦 LOCK FILES — KEEP npm ONLY
+# ========================================
+package-lock.json
+# yarn.lock          ← npm only
+# pnpm-lock.yaml     ← npm only
+
+# ========================================
+# ✅ END — SECURED • CLEAN • READY
+# ========================================

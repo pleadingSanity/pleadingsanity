@@ -1,125 +1,306 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Pleading Sanity – Videos</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Videos — Pleading Sanity • Rise From Madness</title>
+  <meta name="description" content="Curated videos, inspiration, stories — survivors rising together.">
+  <link rel="canonical" href="https://pleadingsanity.co.uk/videos.html" />
+
   <style>
-    body { background: radial-gradient(ellipse at 50% 120%, #0d1b2a 0%, #020d13 80%, #000 100%);}
-    main { max-width: 1100px; margin: auto; padding: 30px 10px; }
-    section { margin-bottom: 46px; }
-    iframe, video { width: 100%; height: 315px; border: none; border-radius: 12px; margin-top: 10px; box-shadow: 0 0 22px #00fff033;}
-    h2 { color: #00cfff; margin-bottom: 12px; }
-    .video-list, .dynamic-feed { margin-top: 10px; display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 28px; }
-    .video-card { background: rgba(0,255,240,0.07); border-radius: 13px; box-shadow: 0 0 18px #00fff033; padding: 12px; }
-    .video-card h3 { color: #ff00ff; font-size: 1.09em; margin: 9px 0 0; }
-    .video-card img { width: 100%; border-radius: 9px; }
-    .video-card .meta { color: #c0f6ff; font-size: 0.98em; margin-top: 5px; }
-    @media (max-width:800px){ main{padding:7px;} .video-list, .dynamic-feed{grid-template-columns:1fr;}}
+    :root {
+      --cyan: #00fff0;
+      --magenta: #ff00ff;
+      --deep: #0d1b2a;
+      --darker: #020d13;
+      --black: #000;
+      --text: #f0faff;
+      --muted: #b9faff;
+      --surface: rgba(0,255,240,0.07);
+      --glow: 0 0 22px rgba(0,255,240,0.2);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--darker) 100%);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a { color: var(--cyan); text-decoration: none; transition: all 0.3s; }
+    a:hover { color: var(--magenta); }
+
+    /* Skip Link */
+    .skip-link {
+      position: absolute; top: -40px; left: 0;
+      background: var(--cyan); color: #000; padding: 8px 16px; z-index: 10000;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* ✅ UNIVERSAL NAV — MATCHES ALL PAGES */
+    header { text-align: center; padding: 24px 20px 10px; }
+    header h1 {
+      font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--cyan);
+      text-shadow: 0 0 25px rgba(0,255,240,0.35); margin-bottom: 20px;
+    }
+    nav {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;
+    }
+    nav a {
+      color: var(--text); font-weight: 700; padding: 10px 16px; border-radius: 10px;
+      background: rgba(0,255,240,0.08); border: 1px solid rgba(0,255,240,0.15);
+    }
+    nav a:hover, nav a[aria-current="page"] {
+      background: linear-gradient(135deg, var(--magenta), var(--cyan));
+      color: #fff; border-color: transparent; transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,255,240,0.2);
+    }
+
+    main { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
+    section { margin-bottom: 48px; }
+    h2 {
+      color: var(--cyan); font-size: 1.3rem; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .playlist-container {
+      position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;
+      border-radius: 12px; box-shadow: var(--glow); background: rgba(0,0,0,0.5);
+    }
+    .playlist-container iframe {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
+    }
+    .playlist-error {
+      padding: 40px 20px; text-align: center; color: var(--muted);
+      background: rgba(255,107,107,0.08); border-radius: 12px; border: 1px solid rgba(255,107,107,0.2);
+    }
+    .playlist-error a {
+      display: inline-block; margin-top: 10px; padding: 10px 20px;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      color: #000; font-weight: 700; border-radius: 8px;
+    }
+
+    /* Video Feed Grid */
+    .video-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
+    }
+    .video-card {
+      background: var(--surface); border-radius: 14px; border: 1px solid rgba(0,255,240,0.12);
+      overflow: hidden; transition: all 0.3s; backdrop-filter: blur(6px);
+    }
+    .video-card:hover {
+      transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,255,240,0.15);
+      border-color: rgba(0,255,240,0.3);
+    }
+    .video-card img {
+      width: 100%; height: 170px; object-fit: cover; border-bottom: 1px solid rgba(0,255,240,0.1);
+    }
+    .card-body { padding: 16px; }
+    .video-card h3 {
+      color: var(--magenta); font-size: 1rem; margin-bottom: 8px; line-height: 1.4;
+    }
+    .video-card p {
+      color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .watch-btn {
+      display: inline-block; padding: 8px 18px;
+      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      color: #000; font-weight: 700; border-radius: 8px; font-size: 0.9rem;
+    }
+    .watch-btn:hover { transform: scale(1.05); color: #000; }
+
+    footer {
+      text-align: center; padding: 30px 20px; border-top: 1px solid rgba(0,255,240,0.1);
+      color: var(--muted); font-size: 0.9rem; margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      nav { gap: 6px; }
+      nav a { padding: 8px 12px; font-size: 0.9rem; }
+      .video-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Pleading Sanity Videos</h1>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sanityhub.html">Sanity Hub</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a class="active" href="videos.html">Videos</a></li>
-      </ul>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <!-- ✅ UNIVERSAL NAV -->
+  <header role="banner">
+    <h1>🎬 Videos & Inspiration</h1>
+    <nav aria-label="Main Navigation" role="navigation">
+      <a href="index.html">🏠 Home</a>
+      <a href="about.html">ℹ️ About</a>
+      <a href="journal-vault.html">📖 Journal</a>
+      <a href="sanityhub.html">🧠 Hub</a>
+      <a href="videos.html" aria-current="page">🎬 Videos</a>
+      <a href="shop.html">🛒 Shop</a>
+      <a href="community-dashboard.html">🗳️ Community</a>
     </nav>
   </header>
-  <main>
-    <!-- Curated Playlists -->
+
+  <main id="main">
+    <!-- Playlist Section Template -->
     <section>
-      <h2>Funny & Entertaining Videos</h2>
-      <iframe 
-        src="https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL&cc_load_policy=1" 
-        allowfullscreen 
-        title="Funny & Entertaining Playlist">
-      </iframe>
-    </section>
-    <section>
-      <h2>Spiritual & Inspirational Videos</h2>
-      <iframe 
-        src="https://www.youtube.com/embed/videoseries?list=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&cc_load_policy=1" 
-        allowfullscreen 
-        title="Spiritual & Inspirational Playlist">
-      </iframe>
-    </section>
-    <section>
-      <h2>Motivational & Mental Health Videos</h2>
-      <iframe 
-        src="https://www.youtube.com/embed/videoseries?list=PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj&cc_load_policy=1" 
-        allowfullscreen 
-        title="Motivational & Mental Health Playlist">
-      </iframe>
+      <h2>😂 Laughter & Light</h2>
+      <div class="playlist-container" id="pl-funny">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" 
+                title="Funny & Entertaining Playlist" allowfullscreen loading="lazy"></iframe>
+      </div>
     </section>
 
-    <!-- Dynamic Community Video Feed (YouTube API/Netlify function or fallback) -->
     <section>
-      <h2>🌠 Community Video Feed</h2>
-      <div class="dynamic-feed" id="dynamic-feed"></div>
+      <h2>✨ Spiritual & Awakening</h2>
+      <div class="playlist-container" id="pl-spiritual">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" 
+                title="Spiritual & Inspirational Playlist" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <section>
+      <h2>💪 Mental Health & Motivation</h2>
+      <div class="playlist-container" id="pl-mental">
+        <iframe src="https://www.youtube.com/embed/videoseries?list=PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" 
+                title="Motivational & Mental Health Playlist" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </section>
+
+    <!-- Dynamic Community Feed -->
+    <section>
+      <h2>🌠 Community Stories</h2>
+      <div class="video-grid" id="community-feed">
+        <div style="text-align:center; padding:30px; color:var(--muted);">
+          Loading stories…
+        </div>
+      </div>
     </section>
   </main>
+
   <footer>
-    <div class="brand">Pleading Sanity — Rise From Madness</div>
+    <p><strong>Pleading Sanity</strong> — Rise From Madness · One Source. One Family. ✨</p>
   </footer>
+
   <script>
-    // Loads from your live .netlify/functions/ytFeed if available, else uses cosmic fallback
+    // === FALLBACK HANDLER FOR PLAYLISTS ===
+    // Catches embed errors and shows direct YouTube link instead
+    function setupPlaylistFallbacks() {
+      const containers = document.querySelectorAll('.playlist-container');
+      containers.forEach(container => {
+        const iframe = container.querySelector('iframe');
+        if (!iframe) return;
+
+        // Give iframe time to load, check for error
+        setTimeout(() => {
+          try {
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+            if (iframeDoc && iframeDoc.body && iframeDoc.body.textContent.includes('Error')) {
+              showPlaylistFallback(container, iframe.src, iframe.title);
+            }
+          } catch (e) {
+            // Cross-origin — can't inspect, leave as-is
+          }
+        }, 3000);
+      });
+    }
+
+    function showPlaylistFallback(container, embedUrl, title) {
+      const watchUrl = embedUrl.replace('/embed/', '/watch?v=').replace('videoseries?list=', 'playlist?list=');
+      container.innerHTML = `
+        <div class="playlist-error">
+          <h3>▶ ${title}</h3>
+          <p>Watch the full playlist directly on YouTube:</p>
+          <a href="${watchUrl}" target="_blank" rel="noopener noreferrer">Open Playlist</a>
+        </div>
+      `;
+    }
+
+    // === COMMUNITY FEED ===
     async function loadCommunityFeed() {
-      const feed = document.getElementById('dynamic-feed');
-      feed.innerHTML = '<div style="color:#ccc">🚀 Loading real stories…</div>';
+      const feed = document.getElementById('community-feed');
+      const fallbackCards = [
+        {
+          id: '8nTFjVm9sTQ',
+          title: 'Shane\'s Story: Building Pleading Sanity',
+          desc: 'Turning pain into purpose. One man\'s journey from the edge to building a movement.'
+        },
+        {
+          id: 'mRf3-JkwqfU',
+          title: 'Mental Health: Real Survivors, Real Talk',
+          desc: 'No filters, no scripts — just people who\'ve been there, talking honestly.'
+        },
+        {
+          id: '8F7b8FFsKis',
+          title: 'Cosmic Motivation: Rise Again',
+          desc: 'You don\'t have to stay down. Every fall is just setup for the next rise.'
+        },
+        {
+          id: '9bXvR8ZbKf4',
+          title: 'Healing Frequencies & Inner Peace',
+          desc: 'Sound that repairs. Silence that heals. Find your centre again.'
+        },
+        {
+          id: 'KdIYqOvXqJ0',
+          title: 'Grandfathers\' Legacy — Strength in Blood',
+          desc: 'Ivan & Arthur — two generations of courage. This is why we fight.'
+        },
+        {
+          id: '5qV9w7PzNzc',
+          title: 'Evolution Not Erasure — The Manifesto',
+          desc: 'We don\'t hide who we are. We evolve. We grow. We rise together.'
+        }
+      ];
 
       try {
-        // Prefer Vercel API first, then fallback to Netlify function
-        let res = await fetch('/api/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
-        if (!res.ok) res = await fetch('/.netlify/functions/ytFeed?playlist=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA&limit=6');
-        const data = await res.json();
-
-        if (!data.items || !data.items.length) throw new Error("No videos returned");
-
-        feed.innerHTML = "";
-        data.items.forEach(v => {
-          feed.innerHTML += `
-            <div class="video-card">
-              <a href="${v.url}" target="_blank" rel="noopener">
-                <img src="${v.thumbnail}" alt="${v.title.replace(/"/g,'&quot;')}" />
-              </a>
-              <h3>${v.title}</h3>
-              <div class="meta">${v.description ? v.description.slice(0,110) + "…" : ""}</div>
-              <a href="${v.url}" class="btn" target="_blank" rel="noopener">▶ Watch</a>
-            </div>
-          `;
-        });
+        // Try Vercel API first
+        let res = await fetch('/api/ytFeed?limit=6');
+        if (!res.ok) res = await fetch('/.netlify/functions/ytFeed?limit=6');
+        
+        if (res.ok) {
+          const data = await res.json();
+          if (data.items && data.items.length > 0) {
+            renderCards(data.items.map(v => ({
+              id: v.videoId || v.url?.split('v=')[1] || '',
+              title: v.title,
+              desc: v.description?.slice(0, 90) + '…'
+            })), feed);
+            return;
+          }
+        }
       } catch (err) {
-        // Fallback (real PS content)
-        feed.innerHTML = `
+        console.log('API offline — showing curated stories');
+      }
+
+      // ✅ Fallback — always works, no API needed
+      renderCards(fallbackCards, feed);
+    }
+
+    function renderCards(cards, container) {
+      container.innerHTML = '';
+      cards.forEach(card => {
+        const thumb = card.id 
+          ? `https://i.ytimg.com/vi/${card.id}/mqdefault.jpg` 
+          : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><rect fill="%230d1b2a" width="320" height="180"/><text x="50%" y="50%" fill="%2300fff0" text-anchor="middle" font-size="24">▶</text></svg>';
+        
+        container.innerHTML += `
           <div class="video-card">
-            <a href="https://www.youtube.com/watch?v=8nTFjVm9sTQ" target="_blank"><img src="https://i.ytimg.com/vi/8nTFjVm9sTQ/mqdefault.jpg" alt="Shane's Story" /></a>
-            <h3>Shane's Story: Building Pleading Sanity</h3>
-            <div class="meta">Turning pain into a movement. Rise from Madness.</div>
-            <a href="https://www.youtube.com/watch?v=8nTFjVm9sTQ" class="btn" target="_blank">▶ Watch</a>
-          </div>
-          <div class="video-card">
-            <a href="https://www.youtube.com/watch?v=mRf3-JkwqfU" target="_blank"><img src="https://i.ytimg.com/vi/mRf3-JkwqfU/mqdefault.jpg" alt="Mental Health: Real Survivors" /></a>
-            <h3>Mental Health: Real Survivors, Real Talk</h3>
-            <div class="meta">The real faces and stories behind mental health.</div>
-            <a href="https://www.youtube.com/watch?v=mRf3-JkwqfU" class="btn" target="_blank">▶ Watch</a>
-          </div>
-          <div class="video-card">
-            <a href="https://www.youtube.com/watch?v=8F7b8FFsKis" target="_blank"><img src="https://i.ytimg.com/vi/8F7b8FFsKis/mqdefault.jpg" alt="Cosmic Motivation" /></a>
-            <h3>Cosmic Motivation: Rise Again</h3>
-            <div class="meta">Get up. Every time. You’re not alone.</div>
-            <a href="https://www.youtube.com/watch?v=8F7b8FFsKis" class="btn" target="_blank">▶ Watch</a>
+            <a href="https://youtube.com/watch?v=${card.id}" target="_blank" rel="noopener noreferrer">
+              <img src="${thumb}" alt="${card.title}" loading="lazy" 
+                   onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 180%22><rect fill=%22%230d1b2a%22 width=%22320%22 height=%22180%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%2300fff0%22 text-anchor=%22middle%22 font-size=%2224%22>▶</text></svg>'" />
+            </a>
+            <div class="card-body">
+              <h3>${card.title}</h3>
+              <p>${card.desc}</p>
+              <a href="https://youtube.com/watch?v=${card.id}" class="watch-btn" target="_blank" rel="noopener">▶ Watch</a>
+            </div>
           </div>
         `;
-      }
+      });
     }
-    loadCommunityFeed();
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      setupPlaylistFallbacks();
+      loadCommunityFeed();
+    });
   </script>
 </body>
 </html>

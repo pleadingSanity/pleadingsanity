@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Pleading Sanity - HTML Minification Script
- * Minifies HTML files while preserving functionality and inline scripts
+ * PLEADING SANITY — HTML MINIFIER v2.1-FINAL
+ * Preserve Arron • Preserve Frequencies • Preserve All Functionality
+ * Evolution, Not Erasure • pleadingSanity
  */
 
 const fs = require('fs').promises;
@@ -12,7 +13,11 @@ const { minify } = require('html-minifier-terser');
 class HTMLMinifier {
   constructor() {
     this.sourceDir = path.join(__dirname, '..');
-    this.outputDir = path.join(__dirname, '..', 'dist');
+    this.outputDir = path.join(this.sourceDir, 'dist');
+
+    // ==========================================
+    // MINIFY CONFIG — AGGRESSIVE BUT SAFE
+    // ==========================================
     this.options = {
       collapseWhitespace: true,
       collapseInlineTagWhitespace: false,
@@ -21,351 +26,318 @@ class HTMLMinifier {
       removeCommentsFromCDATA: true,
       removeCDATASectionsFromCDATA: true,
       removeEmptyAttributes: true,
-      removeEmptyElements: false, // Keep for accessibility
-      removeOptionalTags: false,
+      removeEmptyElements: false,       // Keep — accessibility & layout
+      removeOptionalTags: false,       // Keep — consistent DOM
       removeRedundantAttributes: true,
       removeScriptTypeAttributes: true,
       removeStyleLinkTypeAttributes: true,
       useShortDoctype: true,
-      minifyCSS: {
-        level: 2,
-        compatibility: 'ie8'
-      },
+      minifyCSS: { level: 2 },
       minifyJS: {
         compress: {
-          drop_console: false, // Keep console for debugging
+          drop_console: false,          // Keep — dev debugging
           drop_debugger: false,
-          pure_funcs: ['console.log'] // Remove console.log calls only
+          pure_funcs: []                // Preserve ALL console calls
         },
         mangle: {
-          reserved: ['Arron', 'ChatGPT', 'localStorage'] // Preserve important globals
+          reserved: [
+            'Arron', 'Dola', 'Shane',              // Core identities
+            'localStorage', 'sessionStorage',      // State persistence
+            'Tone', 'startFrequency', 'heal',      // Hz/Frequencies
+            'playBattle', 'submitEntry', 'vote'    // Interactive features
+          ]
         }
       },
-      caseSensitive: false,
+      caseSensitive: true,               // Preserve class case
       keepClosingSlash: true,
       processConditionalComments: true,
-      processScripts: ['text/html'],
       ignoreCustomFragments: [
         /<%[\s\S]*?%>/,
         /<\?[\s\S]*?\?>/,
-        /{{[\s\S]*?}}/  // Preserve template literals
+        /{{[\s\S]*?}}/,                   // Template placeholders
+        /<script[\s\S]*?Arron[\s\S]*?<\/script>/i,
+        /<script[\s\S]*?frequency[\s\S]*?<\/script>/i
       ]
     };
+
+    this.results = [];
   }
 
+  // ==========================================
+  // COSMIC LOGGING
+  // ==========================================
   log(message, type = 'info') {
     const colors = {
-      info: '\x1b[36m',
-      success: '\x1b[32m',
-      warning: '\x1b[33m',
-      error: '\x1b[31m',
-      reset: '\x1b[0m'
+      info: '\x1b[36m', success: '\x1b[32m', warning: '\x1b[33m', error: '\x1b[31m', reset: '\x1b[0m'
     };
-    console.log(`${colors[type]}[HTML-MIN] ${message}${colors.reset}`);
+    const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
+    console.log(`${colors[type]}[${ts}] [MINIFY] ${message}${colors.reset}`);
   }
 
-  async ensureDirectory(dirPath) {
+  // ==========================================
+  // ENSURE FOLDERS EXIST
+  // ==========================================
+  async ensureDir(dirPath) {
     try {
       await fs.access(dirPath);
-    } catch (error) {
+    } catch {
       await fs.mkdir(dirPath, { recursive: true });
-      this.log(`Created directory: ${dirPath}`, 'success');
+      this.log(`Created: ${dirPath}`, 'success');
     }
   }
 
-  async getHTMLFiles(dir = this.sourceDir, baseDir = this.sourceDir) {
+  // ==========================================
+  // FIND ALL HTML FILES
+  // ==========================================
+  async findHTML(dir = this.sourceDir, base = this.sourceDir) {
     const files = [];
-    const skipDirs = ['node_modules', 'dist', '.git', '.next', 'coverage'];
-    
+    const skip = ['node_modules', 'dist', '.git', '.next', 'coverage'];
+
     try {
       const entries = await fs.readdir(dir, { withFileTypes: true });
-      
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
-        const relativePath = path.relative(baseDir, fullPath);
-        
-        if (entry.isDirectory() && !skipDirs.includes(entry.name)) {
-          const subFiles = await this.getHTMLFiles(fullPath, baseDir);
-          files.push(...subFiles);
+        const full = path.join(dir, entry.name);
+        const rel = path.relative(base, full);
+
+        if (entry.isDirectory() && !skip.includes(entry.name)) {
+          files.push(...(await this.findHTML(full, base)));
         } else if (entry.name.endsWith('.html')) {
           files.push({
-            input: fullPath,
-            output: path.join(this.outputDir, relativePath),
-            relative: relativePath
+            input: full,
+            output: path.join(this.outputDir, rel),
+            relative: rel
           });
         }
       }
-    } catch (error) {
-      this.log(`Error reading directory ${dir}: ${error.message}`, 'error');
+    } catch (err) {
+      this.log(`Scan failed ${dir}: ${err.message}`, 'error');
     }
-    
     return files;
   }
 
-  async preProcessHTML(content, filePath) {
-    // Pre-process HTML to handle special cases
-    let processed = content;
-    
-    // Preserve ChatGPT widget functionality
-    const chatGPTRegex = /<script[^>]*>[\s\S]*?chatGPT[\s\S]*?<\/script>/gi;
-    const chatGPTScripts = processed.match(chatGPTRegex) || [];
-    const chatGPTPlaceholders = [];
-    
-    chatGPTScripts.forEach((script, index) => {
-      const placeholder = `<!-- CHATGPT_SCRIPT_${index} -->`;
-      chatGPTPlaceholders.push({ placeholder, script });
-      processed = processed.replace(script, placeholder);
+  // ==========================================
+  // PROTECT SENSITIVE CODE BEFORE MINIFY
+  // ==========================================
+  protectBlocks(html) {
+    const placeholders = [];
+    let protectedHtml = html;
+
+    // Protect Arron/Dola AI scripts
+    const aiPattern = /<script[^>]*>[\s\S]*?(Arron|Dola|AI Sanctuary)[\s\S]*?<\/script>/gi;
+    protectedHtml = protectedHtml.replace(aiPattern, (match) => {
+      const id = `__PROTECTED_${placeholders.length}__`;
+      placeholders.push({ id, content: match });
+      return id;
     });
-    
-    // Preserve localStorage operations
-    const localStorageRegex = /localStorage\.[^;]+;?/g;
-    const localStorageOps = processed.match(localStorageRegex) || [];
-    const localStoragePlaceholders = [];
-    
-    localStorageOps.forEach((op, index) => {
-      const placeholder = `LOCALSTORAGE_OP_${index}`;
-      localStoragePlaceholders.push({ placeholder, op });
-      processed = processed.replace(op, placeholder);
+
+    // Protect Frequency/Tone.js scripts
+    const freqPattern = /<script[^>]*>[\s\S]*?(Tone|frequency|heal|Hz)[\s\S]*?<\/script>/gi;
+    protectedHtml = protectedHtml.replace(freqPattern, (match) => {
+      if (!placeholders.some(p => p.content === match)) {
+        const id = `__PROTECTED_${placeholders.length}__`;
+        placeholders.push({ id, content: match });
+        return id;
+      }
+      return match;
     });
-    
-    return {
-      content: processed,
-      chatGPTPlaceholders,
-      localStoragePlaceholders
-    };
+
+    // Protect localStorage
+    const storagePattern = /localStorage\.[A-Za-z.]+(?:=[^;]+;)?/g;
+    protectedHtml = protectedHtml.replace(storagePattern, (match) => {
+      const id = `__PROTECTED_${placeholders.length}__`;
+      placeholders.push({ id, content: match });
+      return id;
+    });
+
+    return { html: protectedHtml, placeholders };
   }
 
-  async postProcessHTML(content, placeholders) {
-    let processed = content;
-    
-    // Restore ChatGPT scripts
-    placeholders.chatGPTPlaceholders.forEach(({ placeholder, script }) => {
-      processed = processed.replace(placeholder, script);
-    });
-    
-    // Restore localStorage operations
-    placeholders.localStoragePlaceholders.forEach(({ placeholder, op }) => {
-      processed = processed.replace(placeholder, op);
-    });
-    
-    return processed;
+  // ==========================================
+  // RESTORE PROTECTED BLOCKS AFTER MINIFY
+  // ==========================================
+  restoreBlocks(html, placeholders) {
+    return placeholders.reduce((out, p) => out.replace(p.id, p.content), html);
   }
 
-  async minifyFile(file) {
+  // ==========================================
+  // PROCESS ONE FILE
+  // ==========================================
+  async minifyOne(file) {
     try {
       this.log(`Processing: ${file.relative}`, 'info');
-      
-      const originalContent = await fs.readFile(file.input, 'utf8');
-      const originalSize = Buffer.byteLength(originalContent, 'utf8');
-      
-      // Pre-process to preserve critical functionality
-      const { content: preProcessed, ...placeholders } = await this.preProcessHTML(originalContent, file.input);
-      
-      // Minify the HTML
-      const minified = await minify(preProcessed, this.options);
-      
-      // Post-process to restore preserved content
-      const finalContent = await this.postProcessHTML(minified, placeholders);
-      
-      // Ensure output directory exists
-      const outputDir = path.dirname(file.output);
-      await this.ensureDirectory(outputDir);
-      
-      // Write minified file
-      await fs.writeFile(file.output, finalContent, 'utf8');
-      
-      const finalSize = Buffer.byteLength(finalContent, 'utf8');
-      const savings = ((originalSize - finalSize) / originalSize * 100).toFixed(1);
-      
-      this.log(`  → Saved ${savings}% (${originalSize} → ${finalSize} bytes)`, 'success');
-      
+
+      const original = await fs.readFile(file.input, 'utf8');
+      const origSize = Buffer.byteLength(original, 'utf8');
+
+      // Protect → minify → restore
+      const { html: protectedHtml, placeholders } = this.protectBlocks(original);
+      let minified = await minify(protectedHtml, this.options);
+      const final = this.restoreBlocks(minified, placeholders);
+
+      // Write output
+      await this.ensureDir(path.dirname(file.output));
+      await fs.writeFile(file.output, final, 'utf8');
+
+      const finalSize = Buffer.byteLength(final, 'utf8');
+      const saved = ((origSize - finalSize) / origSize * 100).toFixed(1);
+
+      this.log(`  → ${origSize} → ${finalSize} bytes • ${saved}% smaller`, 'success');
+
       return {
         file: file.relative,
-        originalSize,
+        originalSize: origSize,
         minifiedSize: finalSize,
-        savings: parseFloat(savings),
+        savingsPct: parseFloat(saved),
         status: 'success'
       };
-      
-    } catch (error) {
-      this.log(`Failed to minify ${file.relative}: ${error.message}`, 'error');
-      
-      // Copy original file if minification fails
-      try {
-        const outputDir = path.dirname(file.output);
-        await this.ensureDirectory(outputDir);
-        await fs.copyFile(file.input, file.output);
-        this.log(`  → Copied original file as fallback`, 'warning');
-      } catch (copyError) {
-        this.log(`  → Failed to copy original: ${copyError.message}`, 'error');
-      }
-      
-      return {
-        file: file.relative,
-        originalSize: 0,
-        minifiedSize: 0,
-        savings: 0,
-        status: 'failed',
-        error: error.message
-      };
+    } catch (err) {
+      this.log(`⚠️ Failed ${file.relative}: ${err.message}`, 'warning');
+      // Fallback — copy original so deploy never breaks
+      await this.ensureDir(path.dirname(file.output));
+      await fs.copyFile(file.input, file.output);
+      this.log(`  → Copied original as fallback`, 'info');
+      return { file: file.relative, status: 'fallback', error: err.message };
     }
   }
 
-  async copyStaticAssets() {
-    const staticFiles = [
-      'manifest.json',
-      'sw.js',
-      'robots.txt',
-      'sitemap.xml',
-      '_redirects',
-      'netlify.toml'
-    ];
+  // ==========================================
+  // COPY ASSETS & CONFIG — MATCHES YOUR STRUCTURE
+  // ==========================================
+  async copyAssets() {
+    this.log('Copying static assets…', 'info');
 
-    for (const file of staticFiles) {
-      const sourcePath = path.join(this.sourceDir, file);
-      const destPath = path.join(this.outputDir, file);
-      
+    // Root config files
+    const rootFiles = [
+      'manifest.json', 'sw.js', 'robots.txt', 'sitemap.xml',
+      '_redirects', 'netlify.toml'
+    ];
+    for (const f of rootFiles) {
       try {
-        await fs.access(sourcePath);
-        await fs.copyFile(sourcePath, destPath);
-        this.log(`Copied: ${file}`, 'info');
-      } catch (error) {
-        // File doesn't exist, skip silently
-      }
+        await fs.copyFile(path.join(this.sourceDir, f), path.join(this.outputDir, f));
+        this.log(`  ✅ ${f}`, 'success');
+      } catch { /* skip */ }
     }
 
-    // Copy entire assets directory
-    const assetsSource = path.join(this.sourceDir, 'assets');
+    // CSS — your cosmic theme
+    const cssFiles = ['cosmic-core.css', 'accessibility.css'];
+    const cssDest = path.join(this.outputDir, 'css');
+    await this.ensureDir(cssDest);
+    for (const f of cssFiles) {
+      try {
+        await fs.copyFile(path.join(this.sourceDir, 'css', f), path.join(cssDest, f));
+        this.log(`  ✅ css/${f}`, 'success');
+      } catch { /* skip */ }
+    }
+
+    // JS
+    const jsFiles = ['main.js', 'frequency-engine.js', 'journal.js', 'ai-chat.js'];
+    const jsDest = path.join(this.outputDir, 'js');
+    await this.ensureDir(jsDest);
+    for (const f of jsFiles) {
+      try {
+        await fs.copyFile(path.join(this.sourceDir, 'js', f), path.join(jsDest, f));
+        this.log(`  ✅ js/${f}`, 'success');
+      } catch { /* skip */ }
+    }
+
+    // Assets folder — full copy
+    const assetsSrc = path.join(this.sourceDir, 'assets');
     const assetsDest = path.join(this.outputDir, 'assets');
-    
     try {
-      await fs.access(assetsSource);
-      await this.copyDirectory(assetsSource, assetsDest);
-      this.log('Copied: assets directory', 'info');
-    } catch (error) {
-      this.log('No assets directory found', 'warning');
-    }
-
-    // Copy CSS and JS files
-    const webAssets = [
-      'styles.css',
-      'animations.css', 
-      'accessibility.css',
-      'script.js',
-      'error-handler.js',
-      'cosmic-bg.js',
-      'video-feed.js'
-    ];
-
-    for (const file of webAssets) {
-      const sourcePath = path.join(this.sourceDir, file);
-      const destPath = path.join(this.outputDir, file);
-      
-      try {
-        await fs.access(sourcePath);
-        await fs.copyFile(sourcePath, destPath);
-        this.log(`Copied: ${file}`, 'info');
-      } catch (error) {
-        // File doesn't exist, skip
-      }
+      await fs.access(assetsSrc);
+      await this.copyDirRecursive(assetsSrc, assetsDest);
+      this.log('  ✅ assets/ folder', 'success');
+    } catch {
+      this.log('  ⚠️ No assets/ folder found', 'warning');
     }
   }
 
-  async copyDirectory(src, dest) {
-    await this.ensureDirectory(dest);
+  async copyDirRecursive(src, dest) {
+    await this.ensureDir(dest);
     const entries = await fs.readdir(src, { withFileTypes: true });
-    
-    for (const entry of entries) {
-      const srcPath = path.join(src, entry.name);
-      const destPath = path.join(dest, entry.name);
-      
-      if (entry.isDirectory()) {
-        await this.copyDirectory(srcPath, destPath);
-      } else {
-        await fs.copyFile(srcPath, destPath);
-      }
+    for (const e of entries) {
+      const s = path.join(src, e.name);
+      const d = path.join(dest, e.name);
+      e.isDirectory() ? await this.copyDirRecursive(s, d) : await fs.copyFile(s, d);
     }
   }
 
-  async generateReport(results) {
+  // ==========================================
+  // GENERATE FINAL REPORT
+  // ==========================================
+  async saveReport() {
+    const totalOrig = this.results.reduce((s, r) => s + (r.originalSize || 0), 0);
+    const totalMin = this.results.reduce((s, r) => s + (r.minifiedSize || 0), 0);
+    const success = this.results.filter(r => r.status === 'success').length;
+    const fallback = this.results.filter(r => r.status === 'fallback').length;
+
     const report = {
       timestamp: new Date().toISOString(),
+      project: 'Pleading Sanity',
       summary: {
-        totalFiles: results.length,
-        successfulFiles: results.filter(r => r.status === 'success').length,
-        failedFiles: results.filter(r => r.status === 'failed').length,
-        totalOriginalSize: results.reduce((sum, r) => sum + r.originalSize, 0),
-        totalMinifiedSize: results.reduce((sum, r) => sum + r.minifiedSize, 0),
-        totalSavings: 0,
-        averageSavings: 0
+        totalFiles: this.results.length,
+        minifiedSuccess: success,
+        fallbackCopies: fallback,
+        originalTotalBytes: totalOrig,
+        minifiedTotalBytes: totalMin,
+        savedBytes: totalOrig - totalMin,
+        savedPercent: totalOrig ? ((totalOrig - totalMin) / totalOrig * 100).toFixed(1) : 0
       },
-      files: results
+      files: this.results
     };
-
-    report.summary.totalSavings = report.summary.totalOriginalSize - report.summary.totalMinifiedSize;
-    report.summary.averageSavings = report.summary.totalSavings / report.summary.totalOriginalSize * 100;
 
     const reportPath = path.join(this.outputDir, 'minification-report.json');
     await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
-    
-    this.log(`Minification report saved to: ${reportPath}`, 'info');
+    this.log(`📄 Report → ${reportPath}`, 'info');
+
     return report;
   }
 
+  // ==========================================
+  // MAIN RUN
+  // ==========================================
   async run() {
-    this.log('Starting Pleading Sanity HTML Minification...', 'info');
-    this.log('==============================================', 'info');
+    console.log('\n' + '═.✧ 🌌 HTML MINIFICATION ENGINE ✧.═'.padStart(55, ' ') + '\n');
 
-    try {
-      // Ensure output directory exists
-      await this.ensureDirectory(this.outputDir);
+    await this.ensureDir(this.outputDir);
+    const htmlFiles = await this.findHTML();
 
-      // Get all HTML files
-      const htmlFiles = await this.getHTMLFiles();
-      
-      if (htmlFiles.length === 0) {
-        this.log('No HTML files found to minify', 'warning');
-        return;
-      }
-
-      this.log(`Found ${htmlFiles.length} HTML files to minify`, 'info');
-
-      // Process each HTML file
-      const results = [];
-      for (const file of htmlFiles) {
-        const result = await this.minifyFile(file);
-        results.push(result);
-      }
-
-      // Copy static assets
-      this.log('Copying static assets...', 'info');
-      await this.copyStaticAssets();
-
-      // Generate report
-      const report = await this.generateReport(results);
-
-      // Summary
-      this.log('==============================================', 'info');
-      this.log(`HTML Minification Complete!`, 'success');
-      this.log(`  Files processed: ${report.summary.totalFiles}`, 'info');
-      this.log(`  Successful: ${report.summary.successfulFiles}`, 'success');
-      this.log(`  Failed: ${report.summary.failedFiles}`, report.summary.failedFiles > 0 ? 'error' : 'info');
-      this.log(`  Original size: ${(report.summary.totalOriginalSize / 1024).toFixed(1)}KB`, 'info');
-      this.log(`  Minified size: ${(report.summary.totalMinifiedSize / 1024).toFixed(1)}KB`, 'info');
-      this.log(`  Total savings: ${(report.summary.totalSavings / 1024).toFixed(1)}KB (${report.summary.averageSavings.toFixed(1)}%)`, 'success');
-
-    } catch (error) {
-      this.log(`HTML minification failed: ${error.message}`, 'error');
-      throw error;
+    if (!htmlFiles.length) {
+      this.log('No .html files found — check your folder', 'warning');
+      return;
     }
+
+    this.log(`Found ${htmlFiles.length} HTML file${htmlFiles.length !== 1 ? 's' : ''}`, 'info');
+    console.log('─'.repeat(50));
+
+    // Minify each file
+    for (const file of htmlFiles) {
+      this.results.push(await this.minifyOne(file));
+    }
+
+    // Copy supporting files
+    console.log('─'.repeat(50));
+    await this.copyAssets();
+
+    // Final summary
+    console.log('─'.repeat(50));
+    const report = await this.saveReport();
+    const s = report.summary;
+
+    this.log('✅ MINIFICATION COMPLETE', 'success');
+    this.log(`Files: ${s.totalFiles} • Minified: ${s.minifiedSuccess} • Fallback: ${s.fallbackCopies}`, 'info');
+    this.log(`Size: ${(s.originalTotalBytes/1024).toFixed(1)}KB → ${(s.minifiedTotalBytes/1024).toFixed(1)}KB`, 'success');
+    this.log(`Saved: ${(s.savedBytes/1024).toFixed(1)}KB (${s.savedPercent}%)`, 'success');
+    console.log('═'.repeat(50) + '\n');
   }
 }
 
-// Run minification if called directly
+// ==========================================
+// LAUNCH
+// ==========================================
 if (require.main === module) {
-  const minifier = new HTMLMinifier();
-  minifier.run().catch(error => {
-    console.error('HTML minification failed:', error);
+  new HTMLMinifier().run().catch(err => {
+    console.error('💥 Fatal:', err);
     process.exit(1);
   });
 }

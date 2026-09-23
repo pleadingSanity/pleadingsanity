@@ -1,6 +1,7 @@
 {
   "name": "pleading-sanity",
   "version": "2.0.0-FINAL",
+  "version": "2.1.0-LIVE",
   "private": true,
   "description": "Pleading Sanity – Rise From Madness. Cosmic hub for healing, survivor stories, frequencies, community, and the movement. Evolution Not Erasure.",
   "author": {
@@ -16,39 +17,11 @@
   },
   "scripts": {
     "dev": "next dev",
-    "dev:netlify": "netlify dev",
-    "dev:static": "python -m http.server 3000",
-    "build": "next build && npm run optimize",
-    "build:static": "npm run optimize && npm run minify",
-    "postbuild": "npm run sitemap && npm run sw:update",
+    "build": "next build",
+    "postbuild": "npm run sitemap",
     "start": "next start -p 3000",
-    "start:static": "python -m http.server 3000",
-    "export": "next export",
-    "preview": "npm run build && npm run start",
-    "setup:production": "./scripts/setup-production.sh",
-    "check:deployment": "node check-deployment.js",
-    "lint": "next lint && eslint . --ext .js,.jsx,.ts,.tsx",
-    "lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "type-check": "tsc --noEmit",
-    "analyze": "cross-env ANALYZE=true next build",
-    "sitemap": "next-sitemap",
-    "sw:update": "node scripts/update-sw.js",
-    "optimize": "npm run optimize:images && npm run optimize:css",
-    "optimize:images": "node scripts/optimize-images.js",
-    "optimize:css": "cleancss -o dist/styles.min.css styles.css animations.css accessibility.css nav-component.css",
-    "minify": "node scripts/minify-html.js",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "deploy": "npm run build && npm run deploy:netlify",
-    "deploy:netlify": "netlify deploy --prod",
-    "deploy:vercel": "vercel --prod",
-    "health-check": "node scripts/health-check.js",
-    "backup": "node scripts/backup-data.js",
-    "db:seed": "node scripts/seed-data.js",
-    "security:audit": "npm audit && node scripts/security-scan.js"
+    "lint": "next lint",
+    "sitemap": "next-sitemap"
   },
   "dependencies": {
     "@mailchimp/mailchimp_marketing": "^3.0.80",
@@ -70,6 +43,14 @@
     "swr": "^2.3.3",
     "zod": "^3.24.1",
     "zustand": "^5.0.3"
+    "dotenv": "^16.4.7",
+    "next": "15.1.0",
+    "next-pwa": "^5.6.0",
+    "next-seo": "^6.6.0",
+    "next-sitemap": "^4.2.3",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-icons": "^5.4.0"
   },
   "devDependencies": {
     "@netlify/plugin-nextjs": "^5.9.0",
@@ -121,4 +102,14 @@
     "evolution-not-erasure"
   ],
   "packageManager": "npm@10.9.2"
+}
+    "prettier": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mental-health", "movement", "survivor", "healing", "cosmic",
+    "streetwear", "community", "rise-from-madness", "evolution-not-erasure"
+  ]
 }

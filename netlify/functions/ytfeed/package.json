@@ -1,9 +1,44 @@
 {
   "name": "pleading-sanity-functions",
-  "version": "1.0.0",
+  "version": "2.1.0-FINAL",
   "private": true,
   "type": "module",
+  "description": "Pleading Sanity — Rise From Madness. API & backend functions. Universal Alliance.",
+  "author": "Shane Cooper",
+  "license": "MIT",
+  "homepage": "https://pleadingsanity.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleadingSanity/pleading-sanity.git"
+  },
+  "main": "index.html",
+  "engines": {
+    "node": ">=18.17 <21",
+    "npm": ">=10"
+  },
   "dependencies": {
-    "axios": "^1.7.0"
-  }
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.37.0"
+  },
+  "scripts": {
+    "dev": "npx serve .",
+    "dev:netlify": "netlify dev",
+    "build": "echo 'Functions ready — no build step needed'",
+    "preinstall": "node -v"
+  },
+  "keywords": [
+    "pleading-sanity",
+    "rise-from-madness",
+    "mental-health",
+    "survivor",
+    "healing",
+    "movement",
+    "sanity-hub",
+    "universal-alliance",
+    "evolution-not-erasure"
+  ],
+  "packageManager": "npm@10.9.2"
 }
