@@ -1,6 +1,6 @@
 [build]
-  command = "npm run build"
-  publish = ".next"
+  command = ""
+  publish = "."
 
 [[redirects]]
   from = "https://www.pleadingsanity.co.uk/*"
@@ -11,6 +11,11 @@
   from = "https://www.pleadingsanity.uk/*"
   to = "https://pleadingsanity.uk/:splat"
   status = 301
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
 
 [[headers]]
   for = "/*"
