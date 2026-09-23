@@ -7,31 +7,37 @@
   <meta name="description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours. Evolution, Not Erasure." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="robots" content="index, follow" />
+  <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/about.html" />
 
   <!-- Favicons & PWA -->
-  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="#favicon" />
   <link rel="manifest" href="manifest.json" />
   <meta name="theme-color" content="#00fff0" />
   <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+  <link rel="preconnect" href="https://www.tiktok.com" crossorigin />
+  <link rel="preconnect" href="https://instagram.com" crossorigin />
 
   <!-- Open Graph -->
   <meta property="og:title" content="About — Pleading Sanity | Rise From Madness" />
-  <meta property="og:description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours." />
-  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/about.html" />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="About — Pleading Sanity" />
-  <meta name="twitter:description" content="We don't beg for sanity. We build it. One Source. One Consciousness. One Family." />
-  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+  <meta name="twitter:description" content="We don't beg for sanity. We build it." />
 
   <!-- ==========================================
-       ABOUT PAGE — COSMIC STANDARD v2.0
-       Aligned with index.html & movement.html
-       Nebula glow · Unified nav · Full legacy
+       ABOUT — COSMIC MASTER BUILD v2.1
+       Unified design · SVG logo · Full Legacy
+       Matches index.html perfectly
        ========================================== -->
   <style>
     :root {
@@ -40,12 +46,15 @@
       --magenta: #ff00ff;
       --magenta-deep: #c800c8;
       --gold: #ffd700;
+      --gold-bright: #ffd000;
+      --orange-gold: #ff9500;
       --deep: #0d1b2a;
       --dark: #030712;
       --deepest: #060014;
       --text-bright: #eafffd;
       --text-soft: #b9faff;
       --text-muted: #7ab8c8;
+      --text-dim: #90a4ae;
       --glass: rgba(0,255,240,0.06);
       --glass-deep: rgba(18,4,42,0.85);
       --border-glow: rgba(0,255,240,0.15);
@@ -57,24 +66,28 @@
     
     body {
       font-family: var(--font-sans);
-      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
       line-height: 1.7;
       background-attachment: fixed;
     }
 
-    /* Force cosmic dark theme always */
     @media (prefers-color-scheme: light) {
       body {
-        background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
+        background: 
+          radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
 
-    /* Accessibility skip link */
     .skip-link {
       position: absolute; top: -50px; left: 6px;
-      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000;
       font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
     }
     .skip-link:focus { top: 12px; }
@@ -88,38 +101,47 @@
     a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
 
     .btn {
-      display: inline-block;
+      display: inline-flex; align-items: center; justify-content: center;
       background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
-      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 12px;
+      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px;
       border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
-      text-align: center; box-shadow: 0 0 20px rgba(0,255,240,0.25);
-      min-height: 48px; font-family: inherit;
+      box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      min-height: 48px; font-family: inherit; gap: 8px;
     }
     .btn:hover {
       transform: translateY(-3px) scale(1.03);
       box-shadow: 0 0 35px rgba(255,0,255,0.4);
       color: #000;
     }
+    .btn-gold {
+      background: linear-gradient(90deg, var(--gold-bright) 0%, var(--orange-gold) 100%);
+      box-shadow: 0 0 20px rgba(255,215,0,0.35);
+    }
+    .btn-gold:hover {
+      box-shadow: 0 0 35px rgba(255,215,0,0.6);
+    }
 
-    /* Floating Nebula Particles */
+    /* Nebula Particles */
     .nebula-particle {
-      position: fixed;
-      border-radius: 50%;
+      position: fixed; border-radius: 50%;
       background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      pointer-events: none; z-index: 0;
       animation: float 20s infinite ease-in-out;
     }
+    .nebula-particle.gold-glow {
+      background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%);
+      animation-delay: -7s;
+    }
     @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-30px) scale(1.1); }
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+      50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; }
     }
 
     .page-wrapper { position: relative; z-index: 1; }
 
     header { 
       text-align: center; padding: 30px 20px 15px;
-      background: rgba(6,0,20,0.85); backdrop-filter: blur(10px);
+      background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-glow);
       animation: fadeIn 0.8s ease-out both;
     }
@@ -127,17 +149,35 @@
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    header .logo-img {
-      width: 120px; max-width: 35vw; margin-bottom: 12px;
-      filter: drop-shadow(0 0 25px rgba(0,255,240,0.4));
-      animation: pulse 3s infinite ease-in-out;
+
+    /* === CUSTOM SVG LOGO — SAME AS INDEX === */
+    .logo-container {
+      display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px;
+      flex-wrap: wrap;
     }
-    @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 25px rgba(0,255,240,0.4)); }
-      50% { filter: drop-shadow(0 0 35px rgba(255,0,255,0.35)); }
+    .logo-mark {
+      width: 80px; height: 80px; flex-shrink: 0;
+      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
+      animation: logoPulse 3.5s infinite ease-in-out;
     }
+    @keyframes logoPulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 35px rgba(255,215,0,0.25)); }
+      50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 45px rgba(255,215,0,0.35)); }
+    }
+    .logo-text-wrap { text-align: left; }
+    .logo-main {
+      font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: 0.08em;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.1;
+    }
+    .logo-tag {
+      font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.15em;
+      margin-top: 4px;
+    }
+
     header h1 {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
       color: var(--cyan);
       text-shadow: 0 0 20px rgba(0,255,240,0.35);
       margin-bottom: 8px;
@@ -145,30 +185,32 @@
     }
     header .tagline {
       color: var(--magenta);
-      font-size: 1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       letter-spacing: 0.1em;
       margin-bottom: 25px;
     }
 
     nav {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 10px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 10px;
     }
     nav a {
-      color: var(--cyan); font-weight: 700; padding: 6px 4px;
-      border-bottom: 2px solid transparent;
+      color: var(--text-soft); font-weight: 700; padding: 8px 14px;
+      border-radius: 24px; border: 1px solid transparent;
       transition: var(--transition);
-      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      font-size: clamp(0.9rem, 2vw, 1rem);
       min-height: 44px; display: inline-flex; align-items: center;
+      background: rgba(0,255,240,0.04);
     }
     nav a[aria-current="page"],
     nav a:hover {
-      border-bottom: 2px solid var(--magenta);
+      border-color: var(--cyan);
+      background: rgba(0,255,240,0.12);
       color: #fff;
-      text-shadow: 0 0 10px rgba(255,0,255,0.5);
+      box-shadow: 0 0 15px rgba(0,255,240,0.15);
     }
 
-    main { max-width: 720px; margin: 0 auto; padding: 30px 24px 70px; animation: fadeInUp 1s ease-out both; }
+    main { max-width: 780px; margin: 0 auto; padding: 35px 24px 70px; animation: fadeInUp 1s ease-out both; }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
@@ -180,7 +222,7 @@
       padding: 35px 30px;
       margin-bottom: 30px;
       border: 1px solid rgba(0,255,240,0.15);
-      box-shadow: 0 0 25px rgba(0,255,240,0.1);
+      box-shadow: 0 0 25px rgba(0,255,240,0.08);
     }
 
     h2 {
@@ -208,7 +250,7 @@
 
     blockquote {
       border-left: 3px solid var(--cyan);
-      padding: 20px 25px;
+      padding: 22px 25px;
       margin: 25px 0;
       background: rgba(255,0,255,0.04);
       border-radius: 0 15px 15px 0;
@@ -236,16 +278,22 @@
       box-shadow: 0 0 25px rgba(0,255,240,0.08);
       text-align: center;
     }
-
-    .highlight-box p {
-      color: var(--text-bright);
-      font-size: 1.08rem;
-      line-height: 1.9;
-    }
-
     .highlight-box .btn {
       margin: 10px 8px;
       min-width: 160px;
+    }
+
+    .legacy-box {
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,149,0,0.04));
+      border-radius: 20px; padding: 30px; margin: 40px 0;
+      border: 1px solid rgba(255,215,0,0.2);
+      box-shadow: inset 0 0 30px rgba(255,215,0,0.05);
+    }
+    .legacy-box h3 { color: var(--gold); margin-top: 0; }
+    .legacy-box p { color: #fff3b0; }
+    .legacy-quote {
+      font-style: italic; border-left: 3px solid var(--gold); padding-left: 18px; margin: 20px 0;
+      color: #fff9c4; font-weight: 550;
     }
 
     .closing-tagline {
@@ -261,10 +309,15 @@
       margin-top: 10px;
     }
 
+    .divider {
+      display:flex; align-items:center; justify-content:center; gap:15px; margin:45px 0; color:rgba(0,255,240,0.35); font-size:1.5rem;
+    }
+    .divider span { flex:1; height:1px; background:linear-gradient(90deg,transparent,rgba(0,255,240,0.3),transparent); }
+
     footer {
-      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.2);
+      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.15);
       color: var(--text-muted); font-size: 0.9rem;
-      background: rgba(6,0,20,0.8);
+      background: rgba(6,0,20,0.75);
       backdrop-filter: blur(10px);
       margin-top: 20px;
     }
@@ -272,34 +325,37 @@
       font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
       text-shadow: 0 0 10px rgba(0,255,240,0.15);
     }
-    .socials { margin: 16px 0; display: flex; justify-content: center; gap: 18px; font-size: 1.8rem; }
+    .socials { margin: 20px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; }
     .socials a { 
-      color: var(--cyan); transition: var(--transition);
+      color: var(--text-soft); transition: var(--transition);
       min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 50%;
+      border-radius: 50%; background: rgba(0,255,240,0.05);
     }
     .socials a:hover { 
-      color: var(--magenta); transform: scale(1.2);
-      background: rgba(255,0,255,0.1);
+      color: var(--cyan); transform: scale(1.15);
+      background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2);
     }
-    .legacy {
-      margin-top: 20px; padding-top: 20px;
-      border-top: 1px solid rgba(0,255,240,0.08);
-      font-size: 0.85rem;
+    .footer-legacy {
+      margin-top: 25px; padding-top: 20px;
+      border-top: 1px solid rgba(255,215,0,0.15);
     }
-    .legacy-names {
-      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.05em;
+    .footer-names {
+      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.08em;
     }
+    .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 8px; }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 700px) {
-      nav { gap: 8px 12px; }
+      nav { gap: 6px 8px; }
+      nav a { padding: 7px 12px; font-size: 0.9rem; }
       main { padding: 25px 18px 50px; }
-      section { padding: 25px 20px; }
+      section, .legacy-box { padding: 25px 20px; }
       .highlight-box .btn { display: block; margin: 10px 0; width: 100%; }
+      .logo-container { gap: 12px; }
+      .logo-mark { width: 64px; height: 64px; }
     }
     @media (max-width: 480px) {
-      header h1 { font-size: 1.5rem; }
+      .logo-text-wrap { text-align: center; }
       blockquote { padding: 15px 18px; }
     }
 
@@ -317,25 +373,57 @@
   <a href="#main" class="skip-link">Skip to main content</a>
 
   <!-- Floating Nebula Background -->
-  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s;" aria-hidden="true"></div>
-  <div class="nebula-particle" style="width:200px;height:200px;top:40%;right:5%;animation-delay:-7s;" aria-hidden="true"></div>
-  <div class="nebula-particle" style="width:250px;height:250px;bottom:10%;left:15%;animation-delay:-14s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:320px;height:320px;top:8%;left:3%;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:240px;height:240px;top:35%;right:3%;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:280px;height:280px;bottom:15%;left:10%;animation-delay:-10s;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:200px;height:200px;bottom:25%;right:15%;animation-delay:-15s;" aria-hidden="true"></div>
 
   <div class="page-wrapper">
     <header role="banner">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Crying Brain Logo" class="logo-img" />
+      <!-- === CUSTOM SVG LOGO — MATCHES INDEX EXACTLY === -->
+      <div class="logo-container">
+        <svg class="logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00fff0" />
+              <stop offset="50%" stop-color="#9d4edd" />
+              <stop offset="100%" stop-color="#ffd700" />
+            </linearGradient>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" opacity="0.9"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.4"/>
+          <path d="M50 18 C32 18 22 32 22 45 C22 58 32 72 50 72 C68 72 78 58 78 45 C78 32 68 18 50 18 Z" 
+                fill="none" stroke="url(#logoGrad)" stroke-width="2.2" filter="url(#softGlow)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="8" fill="url(#logoGrad)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="4" fill="#000" opacity="0.8"/>
+          <line x1="50" y1="12" x2="50" y2="24" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+          <line x1="78" y1="28" x2="70" y2="36" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="88" y1="50" x2="76" y2="50" stroke="#ff00ff" stroke-width="1.5" opacity="0.7"/>
+          <line x1="22" y1="50" x2="34" y2="50" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="50" y1="76" x2="50" y2="88" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <div class="logo-main">PLEADING SANITY</div>
+          <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
+        </div>
+      </div>
+      
       <h1>About Pleading Sanity</h1>
       <p class="tagline">Born from Struggle. Built by Survivors. For You.</p>
       
       <nav aria-label="Main Navigation">
-        <a href="index.html">Home</a>
-        <a href="about.html" aria-current="page">About</a>
-        <a href="journal-vault.html">Journal Vault</a>
-        <a href="sanityhub.html">Sanity Hub</a>
-        <a href="frequencies.html">Healing Hz</a>
-        <a href="games.html">Games</a>
-        <a href="shop.html">Shop</a>
-        <a href="movement.html">Movement</a>
+        <a href="index.html">🏠 Home</a>
+        <a href="about.html" aria-current="page">📜 About</a>
+        <a href="journal-vault.html">📖 Journal Vault</a>
+        <a href="sanityhub.html">🌌 Sanity Hub</a>
+        <a href="frequencies.html">🎵 Healing Hz</a>
+        <a href="games.html">🧠 Brain Games</a>
+        <a href="shop.html">👕 Shop</a>
+        <a href="movement.html">✊ Movement</a>
       </nav>
     </header>
 
@@ -374,18 +462,27 @@
         <p>
           We're building safe spaces, tools, and culture that give back. Not because it's trendy — but because we needed it, and we know you do too.
         </p>
+      </section>
 
-        <div class="highlight-box">
-          <p>
-            This is Pleading Sanity — where you become the message.<br>
-            Where your comeback becomes someone else's survival guide.<br>
-            Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
-            <a href="sanityhub.html" class="btn">🧠 Enter the Hub</a>
-            <a href="shop.html" class="btn">🛒 Wear the Change</a>
-            <a href="movement.html" class="btn">⚡ Join the Movement</a>
-          </p>
-        </div>
+      <div class="divider"><span></span>🕊️<span></span></div>
 
+      <section class="legacy-box">
+        <h3>🕊️ BLOODLINE OF UNBREAKABLE STRENGTH</h3>
+        <p>
+          This entire movement stands upon the spirit of <strong>Ivan Kurcharskyi</strong> — taken prisoner of war at fourteen, enslaved, treated worse than property — and yet <em>he did not break</em>. He escaped, fought his way home through war-torn lands, and chose kindness. At seventy, he would arrive before dawn and shift twenty tonnes of feed before anyone else woke. They took his freedom. They could not take his character.
+        </p>
+        <p class="legacy-quote">They kidnapped him. They imprisoned him. They treated him as less than human. And when he was free — he still chose to be a good man. That is the power they cannot understand.</p>
+        <p>
+          And <strong>Arthur Lesley Cooper</strong> — frontline arms driver in WWII, carrying supplies under fire. Honoured by the King. Offered medals. He turned them down. He served because people needed him, not because he wanted to be seen. Quiet faith. Unseen courage.
+        </p>
+        <p style="margin-top: 16px; font-weight: 700; color: #ffd700;">
+          Two men. Two different lands. One bloodline. One truth: Evolve. Never erase. They suffered so we could stand. That is why we stand.
+        </p>
+      </section>
+
+      <div class="divider"><span></span>✦<span></span></div>
+
+      <section>
         <h3>⚡ Why Now?</h3>
         <p>
           Because the world is drowning in fake motivation. Because there's no app for real hope. Because no one else is telling the raw, unpolished truth — but we will.
@@ -394,6 +491,17 @@
           With your help, we'll grow into everything we imagine: safe spaces, creative outlets, and a global family that heals together. 
           We're not just here to talk — we're here to <em>rewrite the story</em>, one survivor at a time.
         </p>
+
+        <div class="highlight-box">
+          <p>
+            This is Pleading Sanity — where you become the message.<br>
+            Where your comeback becomes someone else's survival guide.<br>
+            Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
+            <a href="sanityhub.html" class="btn">🧠 Enter the Hub</a>
+            <a href="shop.html" class="btn btn-gold">🛒 Wear the Change</a>
+            <a href="movement.html" class="btn">⚡ Join the Movement</a>
+          </p>
+        </div>
         
         <p class="closing-tagline">
           One Source. One Consciousness. One Family.<br>
@@ -414,16 +522,15 @@
         <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
       </div>
       
-      <div class="legacy">
+      <div class="footer-legacy">
         <p>&copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.</p>
-        <p class="legacy-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
-        <p>Built on their shoulders. Awakened, not broken.</p>
+        <p class="footer-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+        <p class="footer-tagline">Built on their shoulders. Awakened, not broken.</p>
       </div>
     </footer>
   </div>
 
   <script>
-    // Auto-update copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
