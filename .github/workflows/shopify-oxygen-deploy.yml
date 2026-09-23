@@ -1,0 +1,61 @@
+name: 🛍️ Pleading Sanity — Shopify Oxygen Deploy
+run-name: 👕 Storefront Deploy • Ready
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'storefront/**'
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch  # Manual click — only when YOU want it
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy_oxygen:
+    name: 🚀 Hydrogen → Oxygen
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    concurrency:
+      group: oxygen-deploy
+      cancel-in-progress: true
+
+    steps:
+      - name: 🧱 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: ⚙️ Node.js LTS
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          check-latest: true
+          cache: 'npm'
+
+      - name: 📦 Install
+        run: npm ci
+
+      - name: 🏗️ Build
+        run: npx shopify hydrogen build
+
+      - name: 🚀 Deploy
+        if: env.OXYGEN_DEPLOYMENT_TOKEN_1000047008 != ''
+        run: npx shopify hydrogen deploy
+        env:
+          SHOPIFY_HYDROGEN_DEPLOYMENT_TOKEN: ${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000047008 }}
+
+      - name: ✅ Status
+        run: |
+          echo "════════════════════════════════════════"
+          if [ -n "${{ secrets.OXYGEN_DEPLOYMENT_TOKEN_1000047008 }}" ]; then
+            echo "🛍️  STOREFRONT DEPLOYED LIVE"
+          else
+            echo "⚠️ Token not set — Build only. Ready when you are."
+          fi
+          echo "════════════════════════════════════════"
+          echo "👕 Crying Brain Collection — Coming Soon"
+          echo "✨ One Source. One Family. Rise From Madness."
