@@ -1,22 +1,48 @@
 [build]
-  command = ""
-  publish = "."
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+# Canonical & www → naked domain
+[[redirects]]
+  from = "http://www.pleadingsanity.co.uk/*"
+  to = "https://pleadingsanity.co.uk/:splat"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.pleadingsanity.co.uk/*"
   to = "https://pleadingsanity.co.uk/:splat"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "http://pleadingsanity.co.uk/*"
+  to = "https://pleadingsanity.co.uk/:splat"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.pleadingsanity.uk/*"
   to = "https://pleadingsanity.uk/:splat"
   status = 301
+  force = true
 
+# API → functions proxy (CORRECT SYNTAX — no /.netlify in source)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
