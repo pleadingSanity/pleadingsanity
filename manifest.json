@@ -3,13 +3,15 @@
   "short_name": "Sanity",
   "description": "Cosmic healing hub. Brain games. Journal Vault. Frequencies. We turn pain into power, survival into strength, madness into meaning.",
   "start_url": "/index.html",
-  "display": "standalone",
   "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "lang": "en-GB",
+  "dir": "ltr",
   "background_color": "#000103",
   "theme_color": "#00fff0",
   "orientation": "portrait-primary",
-  "categories": ["health", "education", "games", "lifestyle", "social", "productivity"],
+  "categories": ["health", "education", "games", "lifestyle", "social", "productivity", "mental health", "wellness"],
   "icons": [
     {
       "src": "assets/favicon.ico",
@@ -99,6 +101,20 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Brain Games — All 5 Ready"
+    },
+    {
+      "src": "assets/screenshots/desktop-feed.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Sanity Feed — No Algorithms"
+    },
+    {
+      "src": "assets/screenshots/mobile-journal.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Journal Vault — Private & Safe"
     }
   ],
   "shortcuts": [
@@ -107,6 +123,12 @@
       "short_name": "Hub",
       "description": "Cosmic healing hub — stories, community, growth",
       "url": "/sanityhub.html"
+    },
+    {
+      "name": "Sanity Feed",
+      "short_name": "Feed",
+      "description": "Positive stories — no doomscroll, only sanity",
+      "url": "/feed.html"
     },
     {
       "name": "Brain Games",
@@ -157,6 +179,12 @@
       "url": "/journal-vault.html"
     },
     {
+      "name": "Offline Support",
+      "short_name": "Offline",
+      "description": "Crisis help & breathing — always available",
+      "url": "/offline.html"
+    },
+    {
       "name": "Shop",
       "short_name": "Shop",
       "description": "Official merch — support the movement",
@@ -168,5 +196,7 @@
       "description": "Our story — One Source. One Family.",
       "url": "/movement.html"
     }
-  ]
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
