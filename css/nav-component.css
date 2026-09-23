@@ -1,0 +1,249 @@
+/* ==============================================
+   PLEADING SANITY — UNIVERSAL NAVIGATION v2.1-FINAL
+   Consistent Across ALL Pages · Cosmic Theme
+   Mobile-First · Accessible · Aligned with Core
+   Evolution, Not Erasure · pleadingSanity
+============================================== */
+
+/* ─── ALIGNED WITH CORE — NO DUPLICATE VARS ─── */
+:root {
+  /* From styles.css — EXACT MATCH */
+  --cyan: #00fff0;
+  --cyan-deep: #00c8c0;
+  --cyan-glow: rgba(0, 255, 240, 0.6);
+  --magenta: #ff00ff;
+  --magenta-deep: #c800c8;
+  --magenta-glow: rgba(255, 0, 255, 0.5);
+  --text-bright: #ffffff;
+  --text-soft: #e0e4ff;
+  --deep: #070b20;
+  --mid: #0f1638;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --nav-height: 70px;
+  
+  /* Nav-Specific — Harmonized */
+  --nav-bg-start: rgba(8, 13, 30, 0.85);
+  --nav-bg-end: rgba(0, 255, 240, 0.08);
+  --nav-border: rgba(0, 255, 240, 0.25);
+  --nav-glow: 0 0 20px rgba(0, 255, 240, 0.4);
+  --nav-active-indicator: #00fff0;
+}
+
+/* ==============================================
+   NAV CONTAINER
+============================================== */
+nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 16px 0 24px 0;
+  padding: 0;
+  position: relative;
+  z-index: 1000; /* Above cosmic background */
+}
+
+/* Sticky Nav Option — Uncomment to Enable */
+/*
+nav {
+  position: sticky;
+  top: 0;
+  margin: 0;
+  padding: 12px 20px;
+  background: rgba(1, 3, 10, 0.8);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+*/
+
+/* ==============================================
+   NAV LINKS — COSMIC BUTTON STYLE
+============================================== */
+nav a {
+  color: var(--text-soft);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.03em;
+  background: linear-gradient(135deg, var(--nav-bg-start), var(--nav-bg-end));
+  padding: 12px 20px;
+  border-radius: 50px;
+  border: 1px solid var(--nav-border);
+  transition: all var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  min-height: 44px; /* ✅ WCAG touch target */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Shimmer Sweep Effect */
+nav a::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.15), 
+    transparent
+  );
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+nav a:hover::before {
+  left: 100%;
+}
+
+/* ==============================================
+   ACTIVE + HOVER — GRADIENT GLOW
+============================================== */
+nav a.active,
+nav a:hover,
+nav a:focus-visible {
+  color: var(--text-bright);
+  background: linear-gradient(135deg, var(--magenta), var(--cyan));
+  text-shadow: 0 0 18px rgba(0, 255, 240, 0.9);
+  box-shadow: 
+    0 4px 20px rgba(255, 0, 255, 0.35),
+    0 0 12px rgba(0, 255, 240, 0.15);
+  transform: translateY(-3px) scale(1.03);
+  border-color: var(--cyan);
+  outline: none;
+}
+
+/* Active Page Indicator — Pulsing Dot */
+nav a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--nav-active-indicator);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--cyan);
+  animation: activePulse 2s infinite;
+}
+
+@keyframes activePulse {
+  0%, 100% { opacity: 1; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.6; transform: translateX(-50%) scale(1.3); }
+}
+
+/* ==============================================
+   CLICK / ACTIVE PRESS — TACTILE FEEDBACK
+============================================== */
+nav a:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 
+    0 2px 10px rgba(255, 0, 255, 0.25),
+    inset 0 2px 6px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-fast);
+}
+
+/* ==============================================
+   ACCESSIBILITY — FOCUS RING ✅
+============================================== */
+nav a:focus-visible {
+  box-shadow: 
+    0 0 0 3px rgba(0, 255, 240, 0.5),
+    0 4px 20px rgba(255, 0, 255, 0.35);
+}
+
+/* ==============================================
+   REDUCED MOTION — FULL RESPECT ✅
+============================================== */
+@media (prefers-reduced-motion: reduce) {
+  nav a,
+  nav a::before {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  nav a:hover,
+  nav a.active {
+    transform: none;
+  }
+  nav a::before,
+  nav a.active::after {
+    animation: none !important;
+  }
+}
+
+/* ==============================================
+   RESPONSIVE — TABLET / SMALL
+============================================== */
+@media (max-width: 768px) {
+  nav {
+    gap: 10px;
+    margin: 12px 0 20px 0;
+    padding: 0 10px;
+  }
+  
+  nav a {
+    font-size: 0.98rem;
+    padding: 10px 16px;
+    border-radius: 50px;
+  }
+}
+
+/* ==============================================
+   RESPONSIVE — PHONE / NARROW
+============================================== */
+@media (max-width: 480px) {
+  nav {
+    flex-direction: column;
+    width: 100%;
+    gap: 8px;
+    margin: 10px 0 16px 0;
+    padding: 0 12px;
+  }
+  
+  nav a {
+    width: 100%;
+    text-align: center;
+    font-size: 1rem;
+    padding: 14px 16px;
+    border-radius: 12px;
+  }
+}
+
+/* ==============================================
+   HIGH CONTRAST MODE — BOLD BORDERS ✅
+============================================== */
+@media (prefers-contrast: high) {
+  nav a {
+    border-width: 2px;
+  }
+  nav a.active,
+  nav a:hover {
+    border: 3px solid var(--cyan);
+    outline: 2px solid var(--magenta);
+  }
+}
+
+/* ==============================================
+   USAGE — COPY INTO EVERY PAGE
+============================================== */
+/*
+<nav aria-label="Main Navigation">
+  <a href="index.html">Home</a>
+  <a href="sanity-hub.html">Sanity Hub</a>
+  <a href="journal-vault.html">Journal Vault</a>
+  <a href="frequencies.html">Hz Frequencies</a>
+  <a href="videos.html">Videos</a>
+  <a href="shop.html">Shop</a>
+  <a href="about.html">About</a>
+  <a href="movement.html">The Movement</a>
+</nav>
+*/
