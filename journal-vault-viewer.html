@@ -7,12 +7,14 @@
   <meta name="description" content="View, search, export your Journal Vault entries. Your stories. Your voice. Safe, seen, sacred. Write, save, search, export — all yours." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="robots" content="index, follow" />
+  <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/journal-vault-viewer.html" />
 
-  <!-- Favicons -->
-  <link rel="icon" href="assets/favicon.ico" />
+  <!-- Favicons & PWA -->
+  <link rel="icon" type="image/svg+xml" href="#favicon" />
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#0d1b2a" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta name="color-scheme" content="dark" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Journal Vault Viewer — Pleading Sanity" />
@@ -22,9 +24,11 @@
   <meta property="og:url" content="https://pleadingsanity.co.uk/journal-vault-viewer.html" />
 
   <!-- ==========================================
-       JOURNAL VAULT VIEWER — COSMIC PRODUCTION v2.1
-       Companion page → reads same storage as journal-vault.html
-       Dark theme locked · Navigation aligned · Privacy-first
+       JOURNAL VAULT VIEWER — COSMIC MASTER v2.2
+       ✅ Reads SAME storage as journal-vault.html
+       ✅ Unified SVG logo · Nav aligned with all pages
+       ✅ Dark locked + light toggle · Gold nebula particles
+       ✅ Ivan & Arthur legacy footer · Privacy-first
        ========================================== -->
   <style>
     :root {
@@ -33,15 +37,17 @@
       --magenta: #ff00ff;
       --magenta-deep: #c800c8;
       --gold: #ffd700;
+      --gold-bright: #ffd000;
+      --orange-gold: #ff9500;
       --deep: #0d1b2a;
-      --dark: #000510;
-      --text-bright: #f0faff;
+      --dark: #030712;
+      --deepest: #060014;
+      --text-bright: #eafffd;
       --text-soft: #b9faff;
-      --text-muted: #8ac8d8;
-      --surface: rgba(0,255,240,0.06);
-      --border: rgba(0,255,240,0.15);
-      --glow-cyan: 0 0 25px rgba(0,255,240,0.15);
-      --glow-magenta: 0 0 25px rgba(255,0,255,0.12);
+      --text-muted: #7ab8c8;
+      --text-dim: #90a4ae;
+      --glass: rgba(0,255,240,0.06);
+      --border-glow: rgba(0,255,240,0.15);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
@@ -50,38 +56,48 @@
     
     body {
       font-family: var(--font-sans);
-      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%);
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
       line-height: 1.7;
       background-attachment: fixed;
-      padding: 0;
     }
 
-    /* ✅ DARK BACKGROUND — LOCKED FOREVER */
+    /* ✅ DARK THEME — LOCKED BY DEFAULT */
     @media (prefers-color-scheme: light) {
       body {
-        background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%) !important;
+        background: 
+          radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
 
+    /* Light Mode Toggle */
     body.light-mode {
-      --cyan: #0066cc;
-      --magenta: #cc00aa;
-      --deep: #eef2f8;
+      --cyan: #0091cc;
+      --magenta: #b8009e;
+      --deep: #eef4f8;
       --dark: #ffffff;
-      --text-bright: #1a202c;
-      --text-soft: #2d3748;
-      --text-muted: #718096;
-      --surface: rgba(0,102,204,0.06);
-      --border: rgba(0,102,204,0.18);
-      background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%) !important;
+      --deepest: #dce8f0;
+      --text-bright: #0f1e2e;
+      --text-soft: #1e3a5f;
+      --text-muted: #5a7a8a;
+      --glass: rgba(0,145,204,0.06);
+      --border-glow: rgba(0,145,204,0.2);
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(0,145,204,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(184,0,158,0.05) 0%, transparent 50%),
+        linear-gradient(135deg, #f0f7ff 0%, #e0edf5 100%) !important;
     }
 
-    /* Accessibility skip link */
+    /* Accessibility */
     .skip-link {
       position: absolute; top: -50px; left: 6px;
-      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000;
       font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
     }
     .skip-link:focus { top: 12px; }
@@ -89,334 +105,298 @@
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
     a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
 
-    /* Header & Navigation — aligned with journal-vault.html */
-    header.page-top {
-      background: rgba(0,0,0,0.5); backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0,255,240,0.1);
-      padding: 15px 20px 20px;
+    /* Nebula Background Particles */
+    .nebula-particle {
+      position: fixed; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
+      pointer-events: none; z-index: 0;
+      animation: float 20s infinite ease-in-out;
+    }
+    .nebula-particle.gold-glow {
+      background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%);
+      animation-delay: -7s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+      50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; }
+    }
+
+    .page-wrapper { position: relative; z-index: 1; }
+
+    /* Header — FULLY ALIGNED with journal-vault.html */
+    header {
       position: sticky; top: 0; z-index: 100;
+      text-align: center; padding: 18px 20px 15px;
+      background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-glow);
+      animation: fadeIn 0.8s ease-out both;
     }
-
-    .nav-back {
-      text-align: left; margin-bottom: 10px;
-    }
-    .nav-back a {
-      color: var(--cyan); text-decoration: none; font-size: 0.9rem;
-    }
-    .nav-back a:hover {
-      text-shadow: 0 0 8px rgba(0,255,240,0.4); text-decoration: underline;
-    }
-
-    .page-header {
-      text-align: center;
-      margin-bottom: 5px;
-      padding-top: 5px;
-    }
-    
-    .page-header h1 {
-      color: var(--cyan);
-      text-shadow: 0 0 25px rgba(0,255,240,0.35);
-      font-weight: 800;
-      font-size: clamp(1.8rem, 5vw, 2.6rem);
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-    
-    .page-header p {
-      color: var(--text-muted);
-      font-size: 1.1rem;
-      max-width: 500px;
-      margin: 0 auto;
-    }
-
-    .theme-toggle {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 8px 16px;
-      cursor: pointer;
-      transition: var(--transition);
-      backdrop-filter: blur(10px);
-      font-size: 0.9rem;
-      color: var(--text-bright);
-      font-family: inherit;
-      min-height: 44px;
-    }
-    
-    .theme-toggle:hover {
-      background: var(--cyan);
-      color: #000;
-      transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0,255,240,0.3);
-    }
-
-    main {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 30px 20px 60px;
-    }
-
-    .container {
-      background: var(--surface);
-      border-radius: 20px;
-      padding: 30px;
-      box-shadow: var(--glow-cyan);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--border);
-      animation: fadeInUp 0.6s ease-out;
-    }
-    
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .submit-section {
-      background: rgba(0,255,240,0.04);
-      border-radius: 16px;
-      padding: 25px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(0,255,240,0.12);
+    /* Unified SVG Logo — SAME across ALL pages */
+    .logo-container {
+      display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px;
+      flex-wrap: wrap;
     }
-    
-    .submit-section h2 {
-      color: var(--cyan);
-      margin-bottom: 15px;
-      font-size: 1.25rem;
+    .logo-mark {
+      width: 56px; height: 56px; flex-shrink: 0;
+      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
+      animation: logoPulse 3.5s infinite ease-in-out;
     }
-    
-    .submit-textarea {
-      width: 100%;
-      min-height: 140px;
-      background: rgba(0,0,0,0.3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 16px;
-      color: var(--text-bright);
-      font-size: 1rem;
-      font-family: inherit;
-      resize: vertical;
-      margin-bottom: 12px;
-      transition: var(--transition);
-      line-height: 1.7;
+    @keyframes logoPulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25)); }
+      50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35)); }
     }
-    
-    .submit-textarea:focus {
-      outline: none;
-      border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0,255,240,0.2);
-      background: rgba(0,255,240,0.03);
+    .logo-text-wrap { text-align: left; }
+    .logo-main {
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 900; letter-spacing: 0.08em;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.1;
+    }
+    .logo-tag {
+      font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.15em;
+      margin-top: 2px;
     }
 
-    .controls {
-      text-align: center;
-      margin-bottom: 25px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+    .theme-toggle {
+      position: absolute; top: 18px; right: 20px;
+      background: var(--glass); border: 1px solid var(--border-glow);
+      border-radius: 50px; padding: 8px 14px; cursor: pointer;
+      transition: var(--transition); backdrop-filter: blur(10px);
+      font-size: 0.85rem; color: var(--text-bright); font-family: inherit;
+      min-height: 44px; display: inline-flex; align-items: center; gap: 6px;
     }
-    
-    .btn {
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--magenta) 100%);
-      color: #000;
-      font-weight: 700;
-      padding: 12px 20px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 15px rgba(0,255,240,0.2);
-      font-size: 0.95rem;
-      font-family: inherit;
-      min-height: 44px;
+    .theme-toggle:hover {
+      background: var(--cyan); color: #000; transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0,255,240,0.3);
     }
-    
-    .btn:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 8px 25px rgba(255,0,255,0.3);
-    }
-    
-    .btn-secondary {
-      background: transparent;
+
+    header h1 {
+      font-size: clamp(1.3rem, 3.5vw, 1.6rem);
       color: var(--cyan);
-      border: 1px solid var(--cyan);
+      text-shadow: 0 0 15px rgba(0,255,240,0.3);
+      margin: 8px 0 4px;
+      letter-spacing: 0.05em;
     }
-    
-    .btn-secondary:hover {
-      background: var(--cyan);
-      color: #000;
-      border-color: var(--cyan);
-    }
-    
-    .search-box {
-      width: 100%;
-      max-width: 480px;
-      padding: 14px 20px;
-      border-radius: 30px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-bright);
-      margin: 0 auto 25px;
-      display: block;
-      font-size: 1rem;
-      transition: var(--transition);
-      backdrop-filter: blur(10px);
-      font-family: inherit;
-    }
-    
-    .search-box:focus {
-      outline: none;
-      border-color: var(--cyan);
-      box-shadow: 0 0 20px rgba(0,255,240,0.2);
-    }
-    
-    .search-box::placeholder { color: var(--text-muted); }
-    
-    .stats {
-      text-align: center;
-      margin-bottom: 25px;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      padding-bottom: 15px;
-      border-bottom: 1px solid var(--border);
-    }
-    
-    .entry {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 20px 0;
-      box-shadow: inset 0 0 20px rgba(0,255,240,0.02);
-      backdrop-filter: blur(8px);
-      transition: var(--transition);
-      animation: slideIn 0.5s ease-out;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(-15px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    
-    .entry::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta));
-      opacity: 0;
-      transition: var(--transition);
-    }
-    
-    .entry:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 40px rgba(0,255,240,0.12);
-      border-color: rgba(0,255,240,0.3);
-    }
-    
-    .entry:hover::before { opacity: 1; }
-    
-    .entry-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(0,255,240,0.15);
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    
-    .entry-number {
-      color: var(--cyan);
-      font-weight: 800;
-      font-size: 1.1rem;
-    }
-    
-    .entry-date {
+    header .tagline {
       color: var(--magenta);
       font-size: 0.9rem;
-    }
-    
-    .entry-source {
-      color: var(--gold);
-      font-size: 0.85rem;
-      background: rgba(255,215,0,0.1);
-      padding: 2px 10px;
-      border-radius: 20px;
-    }
-    
-    .entry-text {
-      font-size: 1.05rem;
-      line-height: 1.8;
-      white-space: pre-wrap;
-      color: var(--text-bright);
-    }
-    
-    .empty-state {
-      text-align: center;
-      color: var(--text-muted);
-      padding: 50px 30px;
-    }
-    
-    .empty-state-icon {
-      font-size: 3rem;
+      font-weight: 600;
       margin-bottom: 15px;
-      opacity: 0.5;
     }
 
-    .privacy-note {
-      background: rgba(0,255,240,0.04);
-      border-radius: 12px;
-      padding: 16px;
-      margin-top: 25px;
-      border-left: 3px solid var(--cyan);
+    nav {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 5px;
+    }
+    nav a {
+      color: var(--text-soft); font-weight: 700; padding: 7px 13px;
+      border-radius: 24px; border: 1px solid transparent;
+      transition: var(--transition);
       font-size: 0.9rem;
-      color: var(--text-soft);
+      min-height: 44px; display: inline-flex; align-items: center;
+      background: rgba(0,255,240,0.04);
+    }
+    nav a[aria-current="page"],
+    nav a:hover {
+      border-color: var(--cyan);
+      background: rgba(0,255,240,0.12);
+      color: #fff;
+      box-shadow: 0 0 15px rgba(0,255,240,0.15);
+    }
+
+    main { max-width: 720px; margin: 0 auto; padding: 25px 20px 70px; animation: fadeInUp 1s ease-out both; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .sync-note {
-      background: rgba(255,215,0,0.05);
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 20px;
-      border-left: 3px solid var(--gold);
-      font-size: 0.9rem;
-      color: var(--text-soft);
+      background: rgba(255,215,0,0.06); border-radius: 12px;
+      padding: 14px 18px; margin-bottom: 25px; border-left: 3px solid var(--gold);
+      font-size: 0.9rem; color: var(--text-soft);
     }
+    .sync-note strong { color: var(--text-bright); }
+
+    .container {
+      background: var(--glass);
+      border-radius: 20px;
+      padding: 28px 25px;
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 0 25px rgba(0,255,240,0.08);
+      backdrop-filter: blur(12px);
+    }
+
+    .submit-section {
+      background: rgba(0,255,240,0.03);
+      border-radius: 16px; padding: 24px; margin-bottom: 28px;
+      border: 1px solid rgba(0,255,240,0.12);
+    }
+    .submit-section h2 {
+      color: var(--cyan); margin-bottom: 14px; font-size: 1.25rem;
+      text-shadow: 0 0 10px rgba(0,255,240,0.2);
+    }
+    .submit-textarea {
+      width: 100%; min-height: 130px;
+      background: rgba(0,0,0,0.35); border: 1px solid var(--border-glow);
+      border-radius: 12px; padding: 16px;
+      color: var(--text-bright); font-size: 1rem;
+      font-family: inherit; resize: vertical; margin-bottom: 12px;
+      transition: var(--transition); line-height: 1.7;
+    }
+    .submit-textarea:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      background: rgba(0,255,240,0.03);
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      color: #000; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 50px;
+      border: none; cursor: pointer; font-size: 0.95rem; transition: var(--transition);
+      box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      min-height: 46px; font-family: inherit; gap: 6px;
+    }
+    .btn:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      color: #000;
+    }
+    .btn-secondary {
+      background: transparent; color: var(--cyan);
+      border: 1px solid var(--cyan);
+      box-shadow: none;
+    }
+    .btn-secondary:hover {
+      background: var(--cyan); color: #000; border-color: var(--cyan);
+      transform: none;
+    }
+
+    .controls {
+      text-align: center; margin-bottom: 22px;
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    }
+
+    .search-box {
+      width: 100%; max-width: 480px; padding: 14px 22px;
+      border-radius: 30px; border: 1px solid var(--border-glow);
+      background: rgba(0,0,0,0.35); color: var(--text-bright);
+      margin: 0 auto 22px; display: block; font-size: 1rem;
+      transition: var(--transition); font-family: inherit;
+    }
+    .search-box:focus {
+      outline: none; border-color: var(--cyan);
+      box-shadow: 0 0 20px rgba(0,255,240,0.25);
+    }
+    .search-box::placeholder { color: var(--text-muted); }
+
+    .stats {
+      text-align: center; margin-bottom: 22px; color: var(--text-muted);
+      font-size: 0.9rem; padding-bottom: 15px;
+      border-bottom: 1px solid var(--border-glow);
+    }
+    .stats strong { color: var(--cyan); }
+
+    .entry {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(0,255,240,0.1);
+      border-radius: 16px; padding: 24px; margin: 20px 0;
+      transition: var(--transition);
+      position: relative; overflow: hidden;
+    }
+    .entry::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      opacity: 0; transition: var(--transition);
+    }
+    .entry:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0,255,240,0.1);
+      border-color: rgba(0,255,240,0.25);
+    }
+    .entry:hover::before { opacity: 1; }
+
+    .entry-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 14px; padding-bottom: 12px;
+      border-bottom: 1px solid rgba(0,255,240,0.1);
+      flex-wrap: wrap; gap: 8px;
+    }
+    .entry-number { color: var(--cyan); font-weight: 800; font-size: 1.1rem; }
+    .entry-date { color: var(--magenta); font-size: 0.9rem; }
+    .entry-source {
+      color: var(--gold); font-size: 0.8rem;
+      background: rgba(255,215,0,0.08); padding: 3px 12px;
+      border-radius: 20px; font-weight: 600;
+    }
+    .entry-text {
+      font-size: 1rem; line-height: 1.8;
+      white-space: pre-wrap; color: var(--text-soft);
+    }
+
+    .empty-state {
+      text-align: center; color: var(--text-muted); padding: 50px 30px;
+    }
+    .empty-state-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
+
+    .privacy-note {
+      background: rgba(0,255,240,0.04); border-radius: 12px;
+      padding: 18px; margin-top: 25px; border-left: 3px solid var(--cyan);
+      font-size: 0.9rem; color: var(--text-soft);
+      line-height: 1.7;
+    }
+    .privacy-note strong { color: var(--text-bright); }
 
     footer {
-      text-align: center;
-      margin-top: 50px;
-      padding: 30px 20px;
-      border-top: 1px solid var(--border);
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      background: rgba(0,0,0,0.3);
+      text-align: center; padding: 35px 20px; border-top: 2px solid rgba(0,255,240,0.15);
+      color: var(--text-muted); font-size: 0.9rem;
+      background: rgba(6,0,20,0.75);
+      backdrop-filter: blur(10px);
+      margin-top: 20px;
     }
-
     .footer-brand {
-      font-size: 1.1rem;
-      color: var(--cyan);
-      font-weight: 800;
-      margin-bottom: 10px;
+      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,255,240,0.15);
     }
+    .socials { margin: 16px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; }
+    .socials a { 
+      color: var(--text-soft); transition: var(--transition);
+      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: rgba(0,255,240,0.05);
+    }
+    .socials a:hover { 
+      color: var(--cyan); transform: scale(1.15);
+      background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2);
+    }
+    .footer-legacy {
+      margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid rgba(255,215,0,0.15);
+    }
+    .footer-names {
+      color: var(--gold); font-weight: 700; margin: 6px 0; letter-spacing: 0.08em;
+    }
+    .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 6px; }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 768px) {
-      main { padding: 20px 15px 40px; }
-      .container { padding: 20px; border-radius: 16px; }
-      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 15px; display: block; }
-      .entry-header { flex-direction: column; align-items: flex-start; }
+    @media (max-width: 700px) {
+      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 12px; }
+      nav { gap: 6px 6px; }
+      nav a { padding: 6px 11px; font-size: 0.85rem; }
+      main { padding: 20px 15px 50px; }
+      .container { padding: 22px 18px; }
       .submit-section { padding: 20px; }
       .controls { flex-direction: column; }
       .btn { width: 100%; }
+      .entry-header { flex-direction: column; align-items: flex-start; }
+      .logo-container { gap: 10px; }
+      .logo-mark { width: 48px; height: 48px; }
+    }
+    @media (max-width: 480px) {
+      .logo-text-wrap { text-align: center; }
     }
 
     /* ===== REDUCED MOTION ===== */
@@ -425,93 +405,154 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
-      .entry:hover, .btn:hover { transform: none; }
+      .btn:hover, .entry:hover, .socials a:hover { transform: none; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header class="page-top" role="banner">
-    <div class="nav-back">
-      <a href="journal-vault.html">← Write New Entry</a> |
-      <a href="index.html">← Home</a>
-    </div>
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
-      <span id="theme-icon">🌙</span>
-      <span id="theme-text">Dark</span>
-    </button>
-    <div class="page-header">
-      <h1>📖 Journal Vault Viewer</h1>
-      <p>Revisit your journey. Search your truth. Yours to keep.</p>
-    </div>
-  </header>
+  <!-- Floating Nebula Background — SAME as journal-vault.html -->
+  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:2%;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:220px;height:220px;top:40%;right:2%;animation-delay:-5s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:260px;height:260px;bottom:10%;left:5%;animation-delay:-12s;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:180px;height:180px;bottom:20%;right:8%;animation-delay:-18s;" aria-hidden="true"></div>
 
-  <main id="main" role="main">
-    <div class="container">
-      <!-- 🔄 SYNC NOTE — same storage as journal-vault.html -->
-      <div class="sync-note">
-        🔄 <strong>Auto-synced:</strong> Reads the same vault as <a href="journal-vault.html">Journal Vault</a> — write there, view here. Everything stays on your device.
-      </div>
+  <div class="page-wrapper">
+    <header role="banner">
+      <!-- Theme Toggle -->
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light mode">
+        <span id="theme-icon">🌙</span>
+        <span id="theme-text">Dark</span>
+      </button>
 
-      <!-- ✍️ OPTIONAL WRITE — can add entries directly here too -->
-      <section class="submit-section">
-        <h2>✍️ Add New Entry</h2>
-        <textarea 
-          id="newEntryText" 
-          class="submit-textarea" 
-          placeholder="Write your truth here — a thought, a moment, a breakthrough, a memory. Whatever you need to share. You are safe here."
-          aria-label="Write new journal entry"
-        ></textarea>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
-          <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''" type="button">Clear</button>
+      <!-- Unified SVG Logo -->
+      <div class="logo-container">
+        <svg class="logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00fff0" />
+              <stop offset="50%" stop-color="#9d4edd" />
+              <stop offset="100%" stop-color="#ffd700" />
+            </linearGradient>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" opacity="0.9"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.4"/>
+          <path d="M50 18 C32 18 22 32 22 45 C22 58 32 72 50 72 C68 72 78 58 78 45 C78 32 68 18 50 18 Z" 
+                fill="none" stroke="url(#logoGrad)" stroke-width="2.2" filter="url(#softGlow)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="8" fill="url(#logoGrad)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="4" fill="#000" opacity="0.8"/>
+          <line x1="50" y1="12" x2="50" y2="24" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+          <line x1="78" y1="28" x2="70" y2="36" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="88" y1="50" x2="76" y2="50" stroke="#ff00ff" stroke-width="1.5" opacity="0.7"/>
+          <line x1="22" y1="50" x2="34" y2="50" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="50" y1="76" x2="50" y2="88" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <div class="logo-main">PLEADING SANITY</div>
+          <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
         </div>
-      </section>
-
-      <!-- CONTROLS -->
-      <section class="controls" aria-label="Vault tools">
-        <button class="btn btn-secondary" onclick="loadVault()">🔄 Refresh</button>
-        <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
-        <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
-        <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
-      </section>
-
-      <!-- SEARCH -->
-      <input 
-        type="text" 
-        id="searchBox" 
-        class="search-box" 
-        placeholder="Search entries by word, feeling, theme..." 
-        onkeyup="filterEntries()"
-        aria-label="Search journal entries"
-      >
-
-      <!-- STATS -->
-      <div class="stats" id="stats"></div>
-
-      <!-- ENTRIES LIST -->
-      <div id="vault-content" role="list"></div>
-
-      <!-- 🔒 PRIVACY NOTE -->
-      <div class="privacy-note">
-        🔒 <strong>Your words stay with you.</strong> Everything is stored locally on your device only — nothing is sent to any server. This viewer reads from the same private vault as your writer. Yours alone. 💙
       </div>
-    </div>
-  </main>
+      
+      <h1>📖 Journal Vault Viewer</h1>
+      <p class="tagline">Revisit your journey. Search your truth. Yours to keep.</p>
+      
+      <nav aria-label="Main Navigation">
+        <a href="index.html">🏠 Home</a>
+        <a href="about.html">📜 About</a>
+        <a href="journal-vault.html">✍️ Write</a>
+        <a href="journal-vault-viewer.html" aria-current="page">👁️ Viewer</a>
+        <a href="sanityhub.html">🌌 Hub</a>
+        <a href="frequencies.html">🎵 Hz</a>
+        <a href="games.html">🧠 Games</a>
+        <a href="shop.html">👕 Shop</a>
+        <a href="movement.html">✊ Movement</a>
+      </nav>
+    </header>
 
-  <footer role="contentinfo">
-    <div class="footer-brand">Pleading Sanity — Journal Vault Viewer</div>
-    <p>Part of <a href="movement.html">One Source. One Consciousness. One Family.</a></p>
-    <p style="margin-top:10px; font-size:0.85rem;">Built on the legacy of Ivan Kurcharskyi & Arthur Lesley Cooper.<br>Awakened, not broken.</p>
-  </footer>
+    <main id="main" role="main">
+      <div class="container">
+        <!-- 🔄 SYNC NOTE — SAME STORAGE KEY = INSTANT SYNC -->
+        <div class="sync-note">
+          🔄 <strong>Auto-synced:</strong> Reads the exact same vault as <a href="journal-vault.html">Journal Vault</a> — write there, view here. Everything stays on your device. Nothing uploaded. 💙
+        </div>
+
+        <!-- ✍️ OPTIONAL WRITE — can add entries directly here too -->
+        <section class="submit-section">
+          <h2>✍️ Add New Entry</h2>
+          <textarea 
+            id="newEntryText" 
+            class="submit-textarea" 
+            placeholder="Write your truth here — a thought, a moment, a breakthrough, a memory. Whatever you need to share. You are safe here."
+            aria-label="Write new journal entry"
+          ></textarea>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''" type="button">Clear</button>
+          </div>
+        </section>
+
+        <!-- CONTROLS -->
+        <section class="controls" aria-label="Vault tools">
+          <button class="btn btn-secondary" onclick="loadVault()">🔄 Refresh</button>
+          <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
+          <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
+          <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
+        </section>
+
+        <!-- SEARCH -->
+        <input 
+          type="text" 
+          id="searchBox" 
+          class="search-box" 
+          placeholder="Search entries by word, feeling, theme…" 
+          onkeyup="filterEntries()"
+          aria-label="Search journal entries"
+        >
+
+        <!-- STATS -->
+        <div class="stats" id="stats"></div>
+
+        <!-- ENTRIES LIST -->
+        <div id="vault-content" role="list"></div>
+
+        <!-- 🔒 PRIVACY NOTE -->
+        <div class="privacy-note">
+          🔒 <strong>Your words stay with you.</strong> Everything is stored locally on your device only — nothing is sent to any server. This viewer reads from the same private vault as your writer. Yours alone. 💙
+        </div>
+      </div>
+    </main>
+
+    <footer role="contentinfo">
+      <div class="footer-brand">Pleading Sanity — Journal Vault Viewer</div>
+      <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
+      
+      <div class="socials">
+        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+        <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+        <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+        <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop">🛒</a>
+      </div>
+      
+      <div class="footer-legacy">
+        <p>&copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.</p>
+        <p class="footer-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+        <p class="footer-tagline">Built on their shoulders. Awakened, not broken.</p>
+      </div>
+    </footer>
+  </div>
 
   <script>
     let allEntries = [];
     let currentTheme = localStorage.getItem('vaultTheme') || 'dark';
-    const STORAGE_KEY = 'journalVault'; // ✅ SAME KEY as journal-vault.html = instant sync
+    const STORAGE_KEY = 'journalVault'; // ✅ EXACT SAME KEY as journal-vault.html = INSTANT SYNC
 
-    // THEME SYSTEM — matches writer page
+    // 🎨 THEME SYSTEM — matches writer page
     function initTheme() {
       if (currentTheme === 'light') {
         document.body.classList.add('light-mode');
@@ -528,7 +569,7 @@
       localStorage.setItem('vaultTheme', currentTheme);
     }
 
-    // ✍️ ADD NEW ENTRY — saves to SAME shared storage
+    // ✍️ ADD NEW ENTRY — saves to SHARED storage
     function addEntry() {
       const text = document.getElementById('newEntryText').value.trim();
       if (!text) {
@@ -611,18 +652,18 @@
       }
 
       container.innerHTML = entries.map((entry, index) => `
-        <article class="entry" role="listitem" data-text="${entry.text.toLowerCase()}">
+        <article class="entry" role="listitem">
           <div class="entry-header">
             <span class="entry-number">#${index + 1}</span>
             <span class="entry-source">${entry.source || 'Journal'}</span>
-            <span class="entry-date">${new Date(entry.timestamp).toLocaleString()}</span>
+            <span class="entry-date">${new Date(entry.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })}</span>
           </div>
           <div class="entry-text">${escapeHtml(entry.text)}</div>
         </article>
       `).join('');
     }
 
-    // 🔒 XSS protection
+    // 🔒 XSS Protection
     function escapeHtml(text) {
       const div = document.createElement('div');
       div.textContent = text;
@@ -632,26 +673,20 @@
     // 📊 STATS
     function updateStats() {
       const el = document.getElementById('stats');
-      if (!allEntries.length) {
-        el.innerHTML = '';
-        return;
-      }
+      if (!allEntries.length) { el.innerHTML = ''; return; }
       const dates = allEntries.map(e => new Date(e.timestamp));
       el.innerHTML = `
         📊 <strong>${allEntries.length}</strong> entries 
-        | 📅 From ${new Date(Math.min(...dates)).toLocaleDateString()} 
-        to ${new Date(Math.max(...dates)).toLocaleDateString()}
+        | 📅 From ${new Date(Math.min(...dates)).toLocaleDateString('en-GB')} 
+        to ${new Date(Math.max(...dates)).toLocaleDateString('en-GB')}
       `;
     }
 
     // 🔍 SEARCH
     function filterEntries() {
       const term = document.getElementById('searchBox').value.toLowerCase().trim();
-      if (!term) {
-        displayEntries(allEntries);
-        return;
-      }
       displayEntries(
+        !term ? allEntries :
         allEntries.filter(e => 
           e.text.toLowerCase().includes(term) || 
           (e.source && e.source.toLowerCase().includes(term))
@@ -661,24 +696,25 @@
 
     // 📤 EXPORT
     function exportVault() {
-      if (!allEntries.length) {
-        alert("⚠️ Nothing to export yet.");
-        return;
-      }
+      if (!allEntries.length) return alert("⚠️ Nothing to export yet.");
       
       let content = "🧠 PLEADING SANITY — JOURNAL VAULT\n";
-      content += `Exported: ${new Date().toLocaleString()}\n`;
+      content += `Exported: ${new Date().toLocaleString('en-GB')}\n`;
       content += `Total Entries: ${allEntries.length}\n`;
       content += "=".repeat(60) + "\n\n";
       
       allEntries.forEach((e, i) => {
         content += `ENTRY ${i + 1}\n`;
-        content += `Date: ${new Date(e.timestamp).toLocaleString()}\n`;
+        content += `Date: ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })}\n`;
         content += `Source: ${e.source || 'Personal'}\n`;
         content += "-".repeat(40) + "\n";
         content += e.text + "\n";
         content += "=".repeat(60) + "\n\n";
       });
+      
+      content += "———\n";
+      content += "100% Private · Local Only · Yours Alone\n";
+      content += "Evolution, Not Erasure · pleadingsanity.co.uk\n";
       
       const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
       const url = URL.createObjectURL(blob);
@@ -691,51 +727,62 @@
 
     // 🖨️ PRINT
     function printVault() {
-      if (!allEntries.length) {
-        alert("⚠️ Nothing to print yet.");
-        return;
-      }
+      if (!allEntries.length) return alert("⚠️ Nothing to print yet.");
       
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <!DOCTYPE html>
+      const win = window.open("", "PRINT_VAULT", "height=700,width=850");
+      if (!win) return alert("⚠️ Allow pop-ups to print");
+      
+      win.document.write(`
         <html>
         <head>
-          <title>Journal Vault Viewer — Pleading Sanity</title>
+          <title>Full Journal Vault — Pleading Sanity</title>
           <style>
-            body { font-family: -apple-system, Arial, sans-serif; padding: 30px; line-height: 1.7; background: #fff; color: #111; }
-            h1 { color: #00fff0; text-align: center; }
-            .entry { margin: 25px 0; padding: 20px; border-bottom: 1px solid #ddd; }
-            .meta { color: #666; font-size: 0.9rem; margin-bottom: 10px; }
-            .source { color: #ff00ff; font-weight: bold; }
+            body{font-family:system-ui,Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;background:#030b18;color:#fff;line-height:1.7;}
+            h1{color:#00fff0;border-bottom:1px solid rgba(0,255,240,0.3);padding-bottom:15px;}
+            .entry{border-bottom:1px solid #222;padding:25px 0;}
+            .meta{color:#ffd700;font-size:0.9rem;margin-bottom:10px;}
+            .body{white-space:pre-wrap;}
+            @media print{
+              body{background:#fff;color:#000;}
+              .meta{color:#b8860b;}
+              @page{margin:1.5cm;}
+            }
           </style>
         </head>
         <body>
-          <h1>📖 Journal Vault — Pleading Sanity</h1>
-          <p style="text-align:center;">Exported: ${new Date().toLocaleString()}</p>
-          <hr>
-          ${allEntries.map((e, i) => `
-            <div class="entry">
-              <div class="meta">
-                <strong>#${i+1}</strong> — 
-                <span class="source">${e.source || 'Journal'}</span> — 
-                ${new Date(e.timestamp).toLocaleString()}
-              </div>
-              <div style="white-space:pre-wrap;">${(e.text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;')}</div>
-            </div>
-          `).join('')}
-        </body>
-        </html>
+          <h1>📖 Full Journal Vault — Pleading Sanity</h1>
+          <p style="text-align:center;color:#888;margin-bottom:20px;">
+            Exported: ${new Date().toLocaleString('en-GB')} · ${allEntries.length} entries
+          </p>
       `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
+      
+      allEntries.forEach((e, i) => {
+        win.document.write(`
+          <div class="entry">
+            <div class="meta">
+              Entry ${i+1} — ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })} — ${e.source || 'Journal'}
+            </div>
+            <div class="body">${e.text.replace(/</g, '&lt;')}</div>
+          </div>
+        `);
+      });
+      
+      win.document.write(`
+        <p style="margin-top:30px;padding-top:20px;border-top:1px solid #222;color:#666;font-style:italic;text-align:center;">
+          One Source. One Consciousness. One Family.<br>
+          pleadingsanity.co.uk
+        </p>
+        </body></html>
+      `);
+      win.document.close();
+      win.focus();
+      setTimeout(() => win.print(), 600);
     }
 
-    // 🗑️ CLEAR — double confirm
+    // 🗑️ CLEAR — DOUBLE CONFIRM
     function clearVault() {
-      if (!confirm("⚠️ This will DELETE EVERYTHING. Cannot be undone. Export first if you want to keep your entries.\n\nAre you absolutely sure?")) return;
-      if (!confirm("🔐 Final check — all entries will be gone forever. Proceed?")) return;
+      if (!confirm("⚠️ This will DELETE EVERYTHING. Cannot be undone.\n\nExport first if you want to keep your entries.\n\nProceed?")) return;
+      if (!confirm("🔐 Final check — all entries gone forever. Sure?")) return;
       localStorage.removeItem(STORAGE_KEY);
       allEntries = [];
       loadVault();
@@ -756,6 +803,7 @@
 
     // 🚀 INIT
     document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
       initTheme();
       loadVault();
     });
