@@ -17,21 +17,21 @@ jobs:
 
     steps:
       # ==========================================
-      # 1. FRESH CODE
+      # 1. FRESH CODE — FULL HISTORY
       # ==========================================
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for clean commits
+          fetch-depth: 0  # Complete history for clean, traceable commits
 
       # ==========================================
-      # 2. NODE SETUP
+      # 2. NODE ENVIRONMENT
       # ==========================================
       - name: ⚙️ Set up Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'  # Faster installs
+          cache: 'npm'  # Speed up repeat runs
 
       # ==========================================
       # 3. SCAN & REPORT
@@ -48,19 +48,19 @@ jobs:
           echo ""
 
       # ==========================================
-      # 4. AUTO-FIX SPECIFIC PACKAGES
+      # 4. PIN STABLE VERSIONS
       # ==========================================
-      - name: 🧩 Pin known-good versions
+      - name: 🧩 Lock known-good versions
         run: |
-          echo "🧠 Applying known-stable versions..."
+          echo "🧠 Applying confirmed-stable releases..."
 
-          # mailchimp-marketing — confirmed working
+          # mailchimp-marketing — verified compatible
           if grep -q '"mailchimp-marketing":' package.json; then
             sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
             echo "✅ mailchimp-marketing → ^3.0.80"
           fi
 
-          # Sharp image optimizer
+          # Sharp — image optimization
           if grep -q '"sharp":' package.json; then
             sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
             echo "✅ sharp → ^0.33.5"
@@ -75,19 +75,19 @@ jobs:
           echo ""
 
       # ==========================================
-      # 5. REBUILD LOCKFILE
+      # 5. CLEAN INSTALL
       # ==========================================
-      - name: 🧹 Clean & reinstall
+      - name: 🧹 Rebuild clean dependency tree
         run: |
-          echo "🧹 Rebuilding clean dependency tree..."
-          rm -rf node_modules
+          echo "🧹 Fresh install..."
+          rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
           echo "✅ Install complete"
 
       # ==========================================
-      # 6. COMMIT IF CHANGES
+      # 6. COMMIT CHANGES
       # ==========================================
-      - name: 💾 Commit fixes to main
+      - name: 💾 Commit fixes
         id: commit
         run: |
           git config user.name "Pleading-Sanity-AutoHeal"
@@ -96,57 +96,60 @@ jobs:
           git add package.json package-lock.json
 
           if git diff --staged --quiet; then
-            echo "✅ No changes needed — already stable"
+            echo "✅ Already stable — no changes needed"
             echo "CHANGES=none" >> $GITHUB_OUTPUT
           else
-            git commit -m "🤖 auto-heal: fix deps • $(date +%Y-%m-%d)"
+            git commit -m "🤖 auto-heal: deps refreshed • $(date +%Y-%m-%d)"
             git push origin main
-            echo "✅ Fixes committed & pushed"
+            echo "✅ Fixes committed & pushed to main"
             echo "CHANGES=applied" >> $GITHUB_OUTPUT
           fi
 
       # ==========================================
-      # 7. REDEPLOY — ALL PLATFORMS
+      # 7. DEPLOY — NETLIFY
       # ==========================================
-      - name: 🚀 Trigger Netlify
+      - name: 🌍 Trigger Netlify
+        if: always()
         env:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
-        if: always()
         run: |
           if [ -n "$NETLIFY_HOOK" ]; then
             echo "🌍 Netlify → building..."
-            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered" || echo "⚠️ Netlify hook failed"
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered" || echo "⚠️ Hook responded with error"
           else
-            echo "⚠️ Set NETLIFY_BUILD_HOOK in repo secrets"
+            echo "⚠️ Add NETLIFY_BUILD_HOOK → Repository → Settings → Secrets"
           fi
 
+      # ==========================================
+      # 8. DEPLOY — VERCEL
+      # ==========================================
       - name: ⚡ Trigger Vercel
+        if: always()
         env:
           VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        if: always()
         run: |
           if [ -n "$VERCEL_HOOK" ]; then
             echo "⚡ Vercel → deploying..."
-            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered" || echo "⚠️ Vercel hook failed"
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered" || echo "⚠️ Hook responded with error"
           else
-            echo "⚠️ Set VERCEL_DEPLOY_HOOK in repo secrets"
+            echo "⚠️ Add VERCEL_DEPLOY_HOOK → Repository → Settings → Secrets"
           fi
 
       # ==========================================
-      # 8. LIVE HEALTH CHECK
+      # 9. FINAL HEALTH CHECK
       # ==========================================
-      - name: 🩺 Verify live sites
-        env:
-          SITE_URL: ${{ secrets.NETLIFY_SITE_URL || 'https://pleadingsanity.co.uk' }}
+      - name: 🩺 Verify live site
         if: always()
+        env:
+          SITE_URL: ${{ secrets.SITE_URL || 'https://pleadingsanity.co.uk' }}
         run: |
           echo "════════════════════════════════════════"
           echo "✨ PLEADING SANITY — AUTO-HEAL COMPLETE"
           echo "════════════════════════════════════════"
           echo "🕐 Checked: $(date)"
           echo "🔄 Changes: ${{ steps.commit.outputs.CHANGES }}"
+          echo "🌐 Site: $SITE_URL"
           echo ""
-          echo "🌐 Verifying: $SITE_URL"
           curl -Is "$SITE_URL" | head -n 1
           echo ""
           echo "✅ System self-sustaining • Rise From Madness ✨"
