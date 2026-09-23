@@ -10,6 +10,9 @@
   <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
   <link rel="icon" href="assets/favicon.ico" />
   
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://pleadingsanity.co.uk/sanityhub.html" />
+  
   <!-- Open Graph -->
   <meta property="og:title" content="Sanity Hub – Pleading Sanity" />
   <meta property="og:description" content="Your cosmic sanctuary. Heal, connect, grow, rise together." />
@@ -17,41 +20,35 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/sanityhub.html" />
   
+  <!-- Core Styles — ALIGNED ✅ -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-responsive.css" />
+  <link rel="stylesheet" href="nav.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  
   <style>
     /* ==========================================
-       SANITY HUB — FULLY POLISHED PRODUCTION
+       SANITY HUB — COSMIC ENHANCEMENTS
+       Matches core vars · Zero conflicts
        ========================================== */
     :root {
-      --cyan: #00fff0;
-      --cyan-glow: rgba(0,255,240,0.35);
-      --magenta: #ff00ff;
-      --magenta-glow: rgba(255,0,255,0.35);
-      --gold: #ffd700;
-      --gold-glow: rgba(255,215,0,0.35);
-      --deep: #0d1b2a;
-      --dark: #030b18;
-      --black: #000;
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
       min-height: 100vh;
-      color: #fff;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       overflow-x: hidden;
-      line-height: 1.6;
     }
 
-    /* Skip Link — Accessibility First */
+    /* Skip Link — Already in styles.css, kept for safety */
     .skip-link {
-      position: absolute; top: -40px; left: 0;
-      background: var(--cyan); color: #000; padding: 8px 16px; z-index: 10000;
-      font-weight: 700;
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px;
+      transition: top 0.25s ease;
     }
-    .skip-link:focus { top: 0; }
+    .skip-link:focus { top: 12px; }
 
     header {
       position: sticky; top: 0; z-index: 100;
@@ -70,25 +67,6 @@
       text-shadow: 0 0 10px var(--cyan-glow);
     }
 
-    nav {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 10px;
-    }
-
-    nav a {
-      color: var(--cyan); text-decoration: none; font-weight: 700;
-      padding: 6px 12px; border-radius: 8px; transition: var(--transition); font-size: 0.9rem;
-      border: 1px solid transparent;
-      min-height: 40px; display: flex; align-items: center;
-    }
-
-    nav a:hover, nav a.active {
-      color: var(--magenta);
-      background: rgba(0,255,240,0.08);
-      border-color: rgba(255,0,255,0.3);
-      text-shadow: 0 0 8px var(--magenta-glow);
-      transform: translateY(-1px);
-    }
-
     main {
       max-width: 1100px; margin: 0 auto; padding: 25px 20px; position: relative; z-index: 2;
     }
@@ -96,11 +74,6 @@
     .cosmic-hero {
       text-align: center; margin-bottom: 35px;
       animation: fadeIn 0.8s ease-out both;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
 
     .cosmic-hero img {
@@ -117,7 +90,7 @@
       z-index: 0; pointer-events: none;
     }
 
-    /* ===== ARRON AI CHAT — ENHANCED ===== */
+    /* ===== ARRON AI CHAT ===== */
     #arron-chat-container {
       max-width: 540px; margin: 0 auto 40px; padding: 24px;
       border: 1px solid rgba(0,255,240,0.25); border-radius: 20px;
@@ -136,11 +109,11 @@
       color: var(--cyan); font-size: 1.25rem; margin-bottom: 4px;
       text-shadow: 0 0 10px var(--cyan-glow);
     }
-    .arron-welcome p { color: #aaa; font-size: 0.95rem; }
+    .arron-welcome p { color: var(--text-soft); font-size: 0.95rem; }
 
     #arron-messages {
       height: 320px; overflow-y: auto; margin-bottom: 15px; padding: 16px;
-      background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid #222;
+      background: rgba(0,0,0,0.4); border-radius: 14px; border: 1px solid rgba(255,255,255,0.1);
       scroll-behavior: smooth;
     }
     #arron-messages::-webkit-scrollbar { width: 6px; }
@@ -152,12 +125,12 @@
     .arron-msg { margin: 12px 0; animation: msgIn 0.3s ease forwards; opacity: 0; }
     @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .arron-msg strong.cyan { color: var(--cyan); text-shadow: 0 0 6px var(--cyan-glow); }
-    .arron-msg strong.gold { color: var(--gold); text-shadow: 0 0 6px var(--gold-glow); }
+    .arron-msg strong.gold { color: var(--gold-yellow); text-shadow: 0 0 6px var(--gold-glow); }
 
     #arron-input-row { display: flex; gap: 10px; margin-bottom: 12px; }
     #arron-input {
-      flex: 1; padding: 14px 16px; border-radius: 10px; border: 1px solid #333;
-      background: #000; color: #fff; font-size: 1rem;
+      flex: 1; padding: 14px 16px; border-radius: 10px; border: 2px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.6); color: var(--text-bright); font-size: 1rem;
       transition: border-color 0.25s, box-shadow 0.25s;
     }
     #arron-input:focus {
@@ -168,40 +141,39 @@
     .arron-btn {
       padding: 12px 18px; border-radius: 10px; border: none;
       font-weight: 700; cursor: pointer; transition: var(--transition);
-      min-height: 44px;
+      min-height: 44px; font-family: inherit;
     }
     .arron-btn:hover { transform: scale(1.05); }
     .arron-btn:active { transform: scale(0.98); }
     .btn-cyan {
-      background: linear-gradient(135deg, #00fff0, #00c8c0);
+      background: linear-gradient(135deg, var(--cyan), var(--cyan-deep));
       color: #000; box-shadow: 0 0 12px var(--cyan-glow);
     }
     .btn-magenta {
-      background: linear-gradient(135deg, #ff00ff, #c800c8);
+      background: linear-gradient(135deg, var(--magenta), var(--magenta-deep));
       color: #fff; box-shadow: 0 0 12px var(--magenta-glow);
     }
     .btn-gold {
-      background: linear-gradient(135deg, #ffd700, #e6b800);
+      background: linear-gradient(135deg, var(--gold-yellow), var(--gold-deep));
       color: #000; box-shadow: 0 0 12px var(--gold-glow);
     }
     .btn-dark { background: #2a2a2a; color: #fff; border: 1px solid #444; }
 
     .arron-affirm {
-      text-align: center; font-style: italic; color: #888;
+      text-align: center; font-style: italic; color: var(--text-muted);
       min-height: 24px; margin: 12px 0; font-size: 0.9rem;
       transition: all 0.4s ease;
     }
-    .arron-affirm.visible { color: var(--gold); text-shadow: 0 0 8px var(--gold-glow); }
+    .arron-affirm.visible { color: var(--gold-yellow); text-shadow: 0 0 8px var(--gold-glow); }
 
     .vault-actions {
       display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 8px;
     }
 
-    /* ===== VIDEO FEED — POLISHED ===== */
-    #video-feed { animation: fadeInUp 1s ease-out both; animation-delay: 0.3s; }
+    /* ===== VIDEO FEED ===== */
     #video-feed h2 {
       text-align: center; color: var(--cyan); margin: 30px 0 15px;
-      text-shadow: 0 0 10px rgba(0,255,240,0.3); font-size: 1.4rem;
+      text-shadow: 0 0 10px var(--cyan-glow); font-size: 1.4rem;
     }
 
     .feed-item {
@@ -209,15 +181,16 @@
       border-radius: 16px; padding: 20px; margin: 24px 0;
       box-shadow: 0 0 20px rgba(0,255,240,0.1);
       animation: fadeInUp 0.5s ease forwards; opacity: 0; transform: translateY(12px);
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
     }
     .feed-item:hover {
       transform: translateY(-4px);
       box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(255,0,255,0.08);
+      border-color: var(--cyan);
     }
     .feed-item iframe {
       width: 100%; aspect-ratio: 16/9; border: none; border-radius: 12px; margin-bottom: 14px;
-      background: #000;
+      background: #000; loading: lazy;
     }
     .feed-meta {
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;
@@ -226,7 +199,7 @@
     .like-btn, .neg-btn {
       padding: 10px 16px; border-radius: 8px; border: none;
       font-weight: 700; cursor: pointer; transition: var(--transition);
-      min-height: 40px;
+      min-height: 40px; font-family: inherit;
     }
     .like-btn { background: rgba(0,255,240,0.15); color: var(--cyan); border: 1px solid transparent; }
     .like-btn:hover { background: var(--cyan); color: #000; border-color: transparent; }
@@ -234,11 +207,10 @@
     .neg-btn { background: #333; color: #999; border: 1px solid #444; }
     .neg-btn:hover { background: #444; color: #bbb; }
     .neg-btn.clicked { background: #2a2a2a; color: #666; pointer-events: none; }
-    .feed-desc { opacity: 0.75; font-size: 0.9rem; line-height: 1.5; margin-top: 8px; }
-
+    .feed-desc { opacity: 0.75; font-size: 0.9rem; line-height: 1.5; margin-top: 8px; color: var(--text-soft); }
     .feed-buttons { display: flex; gap: 8px; margin-top: 10px; }
 
-    /* ===== PROMO & SPONSOR — CREATIVE PARTNER ===== */
+    /* ===== PROMO CARDS ===== */
     .promo-card, .sponsor-card {
       text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.15), rgba(255,0,255,0.15));
       padding: 30px 24px; border-radius: 16px; margin: 35px 0;
@@ -254,23 +226,23 @@
     }
     .sponsor-badge {
       display: inline-block; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px;
-      color: var(--gold); margin-bottom: 10px; opacity: 0.8;
+      color: var(--gold-yellow); margin-bottom: 10px; opacity: 0.8;
     }
     .promo-card h3, .sponsor-card h3 {
       color: var(--cyan); margin-bottom: 8px; font-size: 1.3rem;
       text-shadow: 0 0 10px var(--cyan-glow);
     }
-    .promo-card p, .sponsor-card p { margin-bottom: 15px; opacity: 0.85; max-width: 450px; margin-left: auto; margin-right: auto; }
+    .promo-card p, .sponsor-card p { margin-bottom: 15px; opacity: 0.85; max-width: 450px; margin-left: auto; margin-right: auto; color: var(--text-soft); }
     .promo-link {
       display: inline-block; background: linear-gradient(90deg, var(--cyan), var(--magenta));
       color: #000; font-weight: 800; text-decoration: none; padding: 12px 28px;
       border-radius: 12px; box-shadow: 0 0 15px rgba(0,255,240,0.3); transition: var(--transition);
       min-height: 44px; display: inline-flex; align-items: center;
     }
-    .promo-link:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--cyan-glow); }
+    .promo-link:hover { transform: scale(1.05); box-shadow: 0 0 25px var(--cyan-glow); color: #000; }
 
-    /* ===== LOADING STATE ===== */
-    .loading { text-align: center; padding: 40px; color: #888; }
+    /* ===== LOADING ===== */
+    .loading { text-align: center; padding: 40px; color: var(--text-muted); }
     .loading-spinner {
       display: inline-block; width: 32px; height: 32px; border: 2px solid rgba(0,255,240,0.2);
       border-top-color: var(--cyan); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 12px;
@@ -278,36 +250,30 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ===== SCREEN READER ANNOUNCEMENTS ===== */
-    #announcements {
-      position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;
-    }
-
-    /* ===== RESPONSIVE — MOBILE PERFECTED ===== */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       main { padding: 18px 15px; }
       #arron-chat-container { padding: 20px 16px; }
-      nav a { font-size: 0.82rem; padding: 5px 9px; min-height: 38px; }
       .vault-actions { flex-direction: column; }
       .vault-actions button { width: 100%; }
-      .like-btn, .neg-btn { padding: 10px 12px; font-size: 0.9rem; }
       .feed-item { padding: 16px; }
     }
 
-    /* ===== REDUCED MOTION RESPECT ===== */
+    /* ===== REDUCED MOTION ===== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
       }
+      .feed-item:hover, .promo-link:hover, .arron-btn:hover { transform: none; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
   <canvas class="stars" aria-hidden="true"></canvas>
-  <div id="announcements" aria-live="polite" aria-atomic="true"></div>
+  <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 
   <header role="banner">
     <h1>🧠 Sanity Hub</h1>
@@ -325,11 +291,11 @@
 
   <main id="main" role="main">
     <section class="cosmic-hero">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness" loading="eager" width="90" height="90">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Rise From Madness" loading="eager" width="90" height="90" />
       <p class="slogan">Built from the bottom, rising to the cosmos — P.S. It's not over.</p>
     </section>
 
-    <!-- ARRON AI CHAT — COMPLETE & WORKING -->
+    <!-- ARRON AI CHAT + JOURNAL VAULT -->
     <section id="arron-chat-container" aria-labelledby="arron-heading">
       <div class="arron-welcome">
         <h3 id="arron-heading">🧠 Arron — The Architect</h3>
@@ -357,7 +323,7 @@
       </div>
     </section>
 
-    <!-- VIDEO FEED — WORKING FALLBACK + DUAL LIKE SYSTEM -->
+    <!-- VIDEO FEED -->
     <section id="video-feed" aria-labelledby="feed-heading">
       <h2 id="feed-heading">🌟 Cosmic Feed — Stories That Heal</h2>
       <div id="feed" aria-live="polite">
@@ -365,7 +331,7 @@
       </div>
     </section>
 
-    <!-- CREATIVE SPONSOR PARTNER SLOT -->
+    <!-- CREATIVE PARTNER -->
     <div class="sponsor-card">
       <span class="sponsor-badge">✨ Creative Partner</span>
       <h3>Want Your Brand Here?</h3>
@@ -383,10 +349,11 @@
 
   <script>
     // ==========================================
-    // 🌌 ENHANCED STARFIELD BACKGROUND
+    // 🌌 STARFIELD BACKGROUND — OPTIMIZED
     // ==========================================
     (function initStarfield(){
       const canvas = document.querySelector('.stars');
+      if (!canvas) return;
       const ctx = canvas.getContext('2d');
       let w = innerWidth, h = innerHeight;
       const resize = () => { w = innerWidth; h = innerHeight; canvas.width = w; canvas.height = h; };
@@ -422,7 +389,7 @@
     })();
 
     // ==========================================
-    // 🧠 ARRON AI — COMPANION + JOURNAL VAULT
+    // 🧠 ARRON AI + JOURNAL VAULT — ENHANCED
     // ==========================================
     const AFFIRMATIONS = [
       "✨ Your words matter. This is progress.",
@@ -456,16 +423,9 @@
       try { return JSON.parse(localStorage.getItem('journalVault') || '[]'); }
       catch { return []; }
     }
-    function saveVault(vault) { localStorage.setItem('journalVault', JSON.stringify(vault)); }
-
-    function addMessage(sender, text, isUser = false) {
-      const box = document.getElementById('arron-messages');
-      const label = isUser ? '<strong class="gold">You:</strong>' : '<strong class="cyan">Arron:</strong>';
-      const div = document.createElement('div');
-      div.className = 'arron-msg';
-      div.innerHTML = `${label} ${escapeHtml(text)}`;
-      box.appendChild(div);
-      box.scrollTop = box.scrollHeight;
+    function saveVault(vault) { 
+      try { localStorage.setItem('journalVault', JSON.stringify(vault)); }
+      catch (e) { console.warn('Vault save failed:', e); }
     }
 
     function escapeHtml(text) {
@@ -474,14 +434,27 @@
       return div.innerHTML;
     }
 
+    function addMessage(sender, text, isUser = false) {
+      const box = document.getElementById('arron-messages');
+      if (!box) return;
+      const label = isUser ? '<strong class="gold">You:</strong>' : '<strong class="cyan">Arron:</strong>';
+      const div = document.createElement('div');
+      div.className = 'arron-msg';
+      div.innerHTML = `${label} ${escapeHtml(text)}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
     function showAffirm() {
       const el = document.getElementById('arron-affirm');
+      if (!el) return;
       el.textContent = AFFIRMATIONS[Math.floor(Math.random() * AFFIRMATIONS.length)];
       el.classList.add('visible');
     }
 
     function sendArronMsg() {
       const input = document.getElementById('arron-input');
+      if (!input) return;
       const text = input.value.trim();
       if (!text) return;
 
@@ -529,6 +502,7 @@
       const vault = getVault();
       if (!vault.length) return alert("⚠️ Journal Vault is empty — share something first!");
       const win = window.open("", "PRINT", "height=650,width=800");
+      if (!win) return alert("⚠️ Pop-up blocked — allow pop-ups to print");
       win.document.write(`
         <html>
         <head>
@@ -568,16 +542,18 @@
     function clearJournalVault() {
       if (!confirm("🗑️ Clear all entries? This cannot be undone.")) return;
       localStorage.removeItem('journalVault');
-      document.getElementById('arron-messages').innerHTML =
-        '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? ✨</div>';
-      document.getElementById('arron-affirm').textContent = '';
-      document.getElementById('announcements').textContent = 'Journal cleared. Fresh start.';
+      const msgs = document.getElementById('arron-messages');
+      if (msgs) msgs.innerHTML = '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? ✨</div>';
+      const affirm = document.getElementById('arron-affirm');
+      if (affirm) affirm.textContent = '';
+      const announce = document.getElementById('announcements');
+      if (announce) announce.textContent = 'Journal cleared. Fresh start.';
     }
 
     // ==========================================
-    // 📺 VIDEO FEED — DUAL LIKE + FALLBACK
+    // 📺 VIDEO FEED — FALLBACK + INFINITE SCROLL
     // ==========================================
-    const API_KEY = ""; // Set in Netlify Env Vars when ready
+    const API_KEY = ""; // ✅ Set in Netlify/Vercel Env: YOUTUBE_API_KEY
     const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA";
     let nextPageToken = "", isLoading = false;
 
@@ -596,9 +572,10 @@
       if (isLoading) return;
       isLoading = true;
       const feed = document.getElementById("feed");
+      if (!feed) { isLoading = false; return; }
 
       try {
-        if (!API_KEY) throw new Error("No API key — using curated stories");
+        if (!API_KEY) throw new Error("API key not set — using curated stories");
 
         const res = await fetch(
           `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken ? "&pageToken="+nextPageToken : ""}`
@@ -614,7 +591,7 @@
         })));
 
       } catch (err) {
-        console.log("📺 Feed live — curated stories showing:", err.message);
+        console.log("📺 Feed — curated stories showing:", err.message);
         if (!feed.querySelector('.feed-item')) {
           render(FALLBACK.map(v => ({ vid: v.videoId, title: v.title, desc: v.desc })), true);
         }
@@ -625,6 +602,7 @@
 
     function render(list, isFallback = false) {
       const feed = document.getElementById("feed");
+      if (!feed) return;
       feed.innerHTML = '';
 
       list.forEach((v, i) => {
@@ -683,8 +661,8 @@
       buttons[0].innerHTML = likeState[videoId] === 'like' ? '✅ +1' : '👍 Positive';
       buttons[1].className = `neg-btn ${likeState[videoId] === 'dislike' ? 'clicked' : ''}`;
 
-      document.getElementById('announcements').textContent =
-        type === 'like' ? 'Positive energy sent ✨' : 'Feedback recorded';
+      const announce = document.getElementById('announcements');
+      if (announce) announce.textContent = type === 'like' ? 'Positive energy sent ✨' : 'Feedback recorded';
     }
 
     window.addEventListener("scroll", () => {
@@ -694,7 +672,11 @@
       }
     });
 
-    loadVideos();
+    // Start loading
+    document.addEventListener('DOMContentLoaded', loadVideos);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      setTimeout(loadVideos, 100);
+    }
   </script>
 </body>
 </html>
