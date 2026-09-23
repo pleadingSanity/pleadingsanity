@@ -1,16 +1,34 @@
 {
-  "name": "Pleading Sanity - Rise From Madness",
-  "short_name": "Pleading Sanity",
-  "description": "A cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning.",
+  "name": "Pleading Sanity — Rise From Madness",
+  "short_name": "Sanity",
+  "description": "Cosmic healing hub. Brain games. Journal Vault. Frequencies. We turn pain into power, survival into strength, madness into meaning.",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#0d1b2a",
+  "scope": "/",
+  "lang": "en-GB",
+  "background_color": "#000103",
   "theme_color": "#00fff0",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "en",
-  "categories": ["health", "lifestyle", "entertainment", "social"],
+  "categories": ["health", "education", "games", "lifestyle", "social", "productivity"],
   "icons": [
+    {
+      "src": "assets/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/crying-brain-og.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "assets/crying-brain-og.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
     {
       "src": "assets/icons/icon-72x72.png",
       "sizes": "72x72",
@@ -63,46 +81,61 @@
   "screenshots": [
     {
       "src": "assets/screenshots/desktop-home.png",
-      "type": "image/png",
       "sizes": "1280x720",
+      "type": "image/png",
       "form_factor": "wide",
-      "label": "Pleading Sanity Homepage"
+      "label": "Home — Pleading Sanity"
     },
     {
       "src": "assets/screenshots/mobile-hub.png",
-      "type": "image/png", 
       "sizes": "390x844",
+      "type": "image/png",
       "form_factor": "narrow",
-      "label": "Sanity Hub Mobile"
+      "label": "Sanity Hub — Mobile"
     }
   ],
   "shortcuts": [
     {
       "name": "Sanity Hub",
       "short_name": "Hub",
-      "description": "Access the cosmic healing hub",
-      "url": "/sanityhub.html",
-      "icons": [{ "src": "assets/icons/hub-shortcut.png", "sizes": "96x96" }]
+      "description": "Cosmic healing hub — stories, community, growth",
+      "url": "/sanityhub.html"
+    },
+    {
+      "name": "Cosmic Focus",
+      "short_name": "Focus",
+      "description": "Brain-training memory game — levels & offline play",
+      "url": "/cosmic-focus.html"
+    },
+    {
+      "name": "Healing Hz",
+      "short_name": "Frequencies",
+      "description": "Calming tones — 528Hz, 432Hz & more",
+      "url": "/frequencies.html"
     },
     {
       "name": "Journal Vault",
-      "short_name": "Journal", 
-      "description": "View your conversation history",
-      "url": "/journal-vault-viewer.html",
-      "icons": [{ "src": "assets/icons/journal-shortcut.png", "sizes": "96x96" }]
+      "short_name": "Journal",
+      "description": "Private writing space — your thoughts, safely yours",
+      "url": "/journal-vault.html"
+    },
+    {
+      "name": "Brain Games",
+      "short_name": "Games",
+      "description": "Mindful play — Cosmic Focus, Word Power & more",
+      "url": "/games.html"
     },
     {
       "name": "Shop",
       "short_name": "Shop",
-      "description": "Browse official merch", 
-      "url": "/shop.html",
-      "icons": [{ "src": "assets/icons/shop-shortcut.png", "sizes": "96x96" }]
-    }
-  ],
-  "related_applications": [
+      "description": "Official merch — support the movement",
+      "url": "/shop.html"
+    },
     {
-      "platform": "webapp",
-      "url": "https://pleadingsanity.co.uk/manifest.json"
+      "name": "Movement",
+      "short_name": "Movement",
+      "description": "Our story — One Source. One Family.",
+      "url": "/movement.html"
     }
   ]
 }
