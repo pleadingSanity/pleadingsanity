@@ -1,50 +1,51 @@
 {
   "name": "pleading-sanity",
-  "version": "2.1.0-FINAL",
+  "version": "2.1.0-LIVE",
   "private": true,
-  "description": "Pleading Sanity — Rise From Madness. Cosmic hub for healing, videos, and the movement.",
-  "homepage": "https://pleadingsanity.co.uk",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pleadingSanity/pleadingsanity.git"
-  },
+  "description": "Pleading Sanity – Rise From Madness. Cosmic hub for healing, survivor stories, frequencies, community, and the movement. Evolution Not Erasure.",
   "author": {
     "name": "Shane Cooper",
     "email": "pleadingsanity1@gmail.com",
     "url": "https://pleadingsanity.co.uk"
   },
   "license": "MIT",
-  "engines": {
-    "node": ">=18.17 <21"
+  "homepage": "https://pleadingsanity.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleadingSanity/pleadingsanity.git"
   },
   "scripts": {
     "dev": "next dev",
-    "dev:netlify": "netlify dev",
     "build": "next build",
     "postbuild": "npm run sitemap",
     "start": "next start -p 3000",
-    "export": "next export",
     "lint": "next lint",
-    "format": "prettier --write .",
-    "analyze": "cross-env ANALYZE=true next build",
     "sitemap": "next-sitemap"
   },
   "dependencies": {
-    "axios": "^1.7.0",
-    "dotenv": "^16.4.5",
-    "next": "^15.1.0",
+    "@mailchimp/mailchimp_marketing": "^3.0.80",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "next": "15.1.0",
     "next-pwa": "^5.6.0",
+    "next-seo": "^6.6.0",
     "next-sitemap": "^4.2.3",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0"
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-icons": "^5.4.0"
   },
   "devDependencies": {
-    "@types/node": "^22.0.0",
-    "@types/react": "^18.3.0",
+    "@netlify/plugin-nextjs": "^5.9.0",
     "cross-env": "^7.0.3",
-    "eslint": "^9.0.0",
-    "eslint-config-next": "^15.1.0",
-    "prettier": "^3.3.0",
-    "typescript": "^5.5.0"
-  }
+    "eslint": "^9.17.0",
+    "eslint-config-next": "15.1.0",
+    "prettier": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "mental-health", "movement", "survivor", "healing", "cosmic",
+    "streetwear", "community", "rise-from-madness", "evolution-not-erasure"
+  ]
 }
