@@ -5,25 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — Pleading Sanity | Rise From Madness</title>
   <meta name="description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/about.html" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="About — Pleading Sanity | Rise From Madness" />
+  <meta property="og:description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/about.html" />
+  
+  <link rel="icon" href="assets/favicon.ico" />
+  
+  <!-- Core Styles — ALIGNED ✅ -->
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-responsive.css" />
   <link rel="stylesheet" href="animations.css" />
+  
   <style>
+    /* ==========================================
+       ABOUT PAGE — COSMIC POLISHED
+       Aligned with core vars · Fixed links · Accessible
+       ========================================== */
     :root {
-      --cyan: #00fff0;
-      --fuchsia: #ff00ff;
       --deep-bg: rgba(0,0,0,0.6);
       --glass: rgba(0,255,240,0.06);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     body {
       min-height: 100vh;
-      color: #e5f7ff;
-      font-family: system-ui, -apple-system, sans-serif;
+      color: var(--text-bright);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       line-height: 1.7;
       padding: 20px;
       max-width: 900px;
       margin: 0 auto;
+      background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
     }
+
+    /* Skip Link — Accessibility First */
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
 
     header {
       text-align: center;
@@ -34,7 +62,7 @@
     h1 {
       font-size: 2.2rem;
       color: var(--cyan);
-      text-shadow: 0 0 20px rgba(0,255,240,0.4);
+      text-shadow: 0 0 20px var(--cyan-glow);
       margin-bottom: 20px;
     }
 
@@ -43,22 +71,28 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px 24px;
+      gap: 10px 16px;
       padding: 0;
+      margin: 0;
     }
 
     nav a {
-      color: #b9faff;
+      color: var(--text-soft);
       text-decoration: none;
-      padding: 6px 4px;
-      border-bottom: 2px solid transparent;
-      transition: all 0.3s ease;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      transition: var(--transition-smooth);
+      min-height: 44px; display: inline-flex; align-items: center;
+      font-weight: 600;
     }
 
     nav a:hover,
     nav a.active {
       color: var(--cyan);
-      border-bottom-color: var(--cyan);
+      background: rgba(0,255,240,0.08);
+      border-color: rgba(0,255,240,0.25);
+      text-shadow: 0 0 8px var(--cyan-glow);
     }
 
     main {
@@ -72,6 +106,7 @@
       margin-bottom: 30px;
       border: 1px solid rgba(0,255,240,0.15);
       box-shadow: 0 0 30px rgba(0,255,240,0.08);
+      backdrop-filter: blur(8px);
     }
 
     h2 {
@@ -79,17 +114,24 @@
       color: var(--cyan);
       margin-bottom: 22px;
       text-align: center;
+      text-shadow: 0 0 10px var(--cyan-glow);
     }
 
     h3 {
       font-size: 1.3rem;
-      color: var(--fuchsia);
+      color: var(--magenta);
       margin: 32px 0 14px;
+      text-shadow: 0 0 8px var(--magenta-glow);
     }
 
     p {
       margin-bottom: 18px;
       font-size: 1.05rem;
+      color: var(--text-soft);
+    }
+
+    strong {
+      color: var(--text-bright);
     }
 
     blockquote {
@@ -109,6 +151,7 @@
 
     li {
       margin-bottom: 12px;
+      color: var(--text-soft);
     }
 
     .highlight-box {
@@ -117,23 +160,68 @@
       border-radius: 18px;
       margin: 32px 0;
       border: 1px solid rgba(0,255,240,0.2);
+      box-shadow: 0 0 20px rgba(0,255,240,0.05);
+    }
+
+    .highlight-box p {
+      color: var(--text-bright);
     }
 
     a {
-      color: var(--fuchsia);
+      color: var(--magenta);
       text-decoration: none;
-      transition: all 0.25s ease;
+      transition: var(--transition-smooth);
+      font-weight: 600;
     }
 
-    a:hover {
-      text-shadow: 0 0 10px rgba(255,0,255,0.5);
+    a:hover, a:focus-visible {
+      text-shadow: 0 0 10px var(--magenta-glow);
       text-decoration: underline;
+      outline: none;
     }
 
+    .highlight-box a {
+      display: inline-block;
+      margin: 8px 12px;
+      padding: 10px 20px;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      color: #000;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,255,240,0.25);
+      min-height: 44px;
+    }
+
+    .highlight-box a:hover {
+      transform: scale(1.05);
+      text-decoration: none;
+      color: #000;
+      box-shadow: 0 0 25px var(--cyan-glow);
+    }
+
+    .closing-tagline {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.15em;
+      color: #b9faff;
+    }
+
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 600px) {
       body { padding: 12px; }
       section { padding: 22px 18px; }
       h1 { font-size: 1.7rem; }
+      nav ul { gap: 6px 10px; }
+      nav a { padding: 6px 10px; font-size: 0.9rem; min-height: 40px; }
+      .highlight-box a { display: block; margin: 10px 0; text-align: center; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .highlight-box a:hover { transform: none; }
     }
 
     @keyframes fadeIn {
@@ -148,21 +236,24 @@
   </style>
 </head>
 <body>
-  <header>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
     <h1>🧠 Pleading Sanity</h1>
-    <nav>
+    <nav aria-label="Main Navigation">
       <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sanity-hub.html">Sanity Hub</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a class="active" href="about.html">About</a></li>
-        <li><a href="frequencies.html">Healing Hz</a></li>
-        <li><a href="journal-vault.html">Journal Vault</a></li>
+        <li><a href="index.html">🏠 Home</a></li>
+        <li><a href="sanityhub.html">🧠 Sanity Hub</a></li>
+        <li><a href="journal-vault.html">📔 Journal</a></li>
+        <li><a href="frequencies.html">🎵 Frequencies</a></li>
+        <li><a href="shop.html">🛒 Shop</a></li>
+        <li><a class="active" href="about.html">ℹ️ About</a></li>
+        <li><a href="movement.html">⚡ Movement</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
+  <main id="main" role="main">
     <section>
       <h2>🌌 We Rise From Madness</h2>
       
@@ -199,12 +290,12 @@
       </p>
 
       <div class="highlight-box">
-        <p style="font-size: 1.1em; font-weight: 600; color: var(--cyan); margin: 0;">
+        <p style="font-size: 1.1em; font-weight: 600; margin: 0;">
           This is Pleading Sanity — where you become the message.<br>
           Where your comeback becomes someone else's survival guide.<br>
           Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
-          <a href="sanity-hub.html">Step inside the Sanity Hub →</a><br>
-          <a href="shop.html">Wear the change →</a><br>
+          <a href="sanityhub.html">Step inside the Sanity Hub →</a>
+          <a href="shop.html">Wear the change →</a>
           <a href="frequencies.html">Breathe. Align. Heal. →</a>
         </p>
       </div>
@@ -217,9 +308,10 @@
         With your help, we'll open MMA therapy gyms, launch survivor-led podcasts, and drop gear that funds real healing. 
         We're not just here to talk — we're here to <em>rewrite the story</em>, one survivor at a time.
       </p>
-      <p style="text-align: center; margin-top: 30px; font-size: 1.15em; color: #b9faff;">
+      
+      <p class="closing-tagline">
         One Source. One Consciousness. One Family.<br>
-        <strong style="color: var(--cyan);">We don't beg for sanity. We build it.</strong>
+        <strong style="color: var(--cyan); font-size: 1.2em;">We don't beg for sanity. We build it.</strong>
       </p>
     </section>
   </main>
