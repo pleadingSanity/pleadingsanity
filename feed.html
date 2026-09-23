@@ -3,32 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanity Feed – Pleading Sanity</title>
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. No algorithms. Only sanity." />
+  <title>Sanity Feed – Pleading Sanity | No Algorithms. Only Sanity.</title>
+  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. Real people. Real hope. No doomscroll." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/feed.html" />
+  
+  <!-- Open Graph -->
   <meta property="og:title" content="Sanity Feed – Pleading Sanity" />
   <meta property="og:description" content="Positive-first stories. Real survivors. Rising together. No doomscroll." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/feed.html" />
+  
   <link rel="icon" href="assets/favicon.ico" />
   
+  <!-- Core Styles Aligned -->
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="mobile-responsive.css" />
+  
   <style>
+    /* ==========================================
+       SANITY FEED — COSMIC PRODUCTION v2.1
+       Fixed socials · No dead links · SEO complete
+       ========================================== */
     :root {
-      --cyan: #00fff0;
-      --magenta: #ff00ff;
-      --gold: #ffd700;
-      --deep-space: #030b18;
-      --nebula-mid: #10122d;
-      --text-bright: #f0faff;
-      --text-soft: #b9faff;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --glass: rgba(0,255,240,0.06);
+      --border-soft: rgba(0,255,240,0.15);
+      --glow-soft: 0 0 24px rgba(0,255,240,0.1);
     }
     
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
     body.universe {
       margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      background: radial-gradient(ellipse at 50% 120%, var(--nebula-mid) 0%, var(--deep-space) 70%, #000 100%);
+      font-family: var(--font-sans);
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%);
       color: var(--text-bright);
       background-attachment: fixed;
       min-height: 100vh;
@@ -36,14 +47,32 @@
       line-height: 1.6;
     }
     
+    /* Skip Link — Accessibility First */
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
+    
     header {
-      background: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.75);
       padding: 16px 20px;
       text-align: center;
-      border-bottom: 2px solid var(--cyan);
+      border-bottom: 1.5px solid rgba(0,255,240,0.25);
       position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    
+    .nav-back {
+      text-align: left; margin-bottom: 8px;
+    }
+    .nav-back a {
+      color: var(--cyan); text-decoration: none; font-size: 0.9rem;
+    }
+    .nav-back a:hover {
+      text-shadow: 0 0 8px var(--cyan-glow); text-decoration: underline;
     }
     
     header h1 { 
@@ -51,7 +80,7 @@
       font-size: clamp(1.6rem, 4vw, 2.4rem); 
       color: var(--cyan); 
       font-weight: 900;
-      text-shadow: 0 0 20px rgba(0,255,240,0.3);
+      text-shadow: 0 0 20px var(--cyan-glow);
     }
     
     main { 
@@ -62,40 +91,43 @@
       width: 100%;
     }
     
-    p.intro { 
-      font-size: 1.2rem; 
+    .intro { 
+      font-size: 1.1rem; 
       margin-bottom: 24px; 
       color: var(--text-soft); 
       text-align: center;
+      max-width: 650px; margin-left: auto; margin-right: auto;
+      line-height: 1.7;
     }
     
     .search-container {
       text-align: center;
-      margin: 10px 0 20px;
+      margin: 10px 0 28px;
     }
     
     #feed-search {
       max-width: 520px; 
       width: 96%;
-      padding: 12px 20px;
+      padding: 14px 24px;
       border-radius: 30px;
-      border: 1px solid rgba(0,255,240,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
+      border: 1.5px solid rgba(0,255,240,0.2);
+      background: rgba(255,255,255,0.05);
+      color: var(--text-bright);
       outline: none;
       font-size: 1rem;
-      transition: 0.2s;
+      transition: var(--transition-smooth);
     }
     
     #feed-search:focus {
       border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0,255,240,0.25);
+      box-shadow: 0 0 18px rgba(0,255,240,0.25);
+      background: rgba(0,255,240,0.08);
     }
     
     .search-meta {
       display: none;
       text-align: center;
-      margin: 0 0 20px;
+      margin: 14px 0 0;
       color: var(--text-soft);
       align-items: center;
       justify-content: center;
@@ -113,8 +145,9 @@
       color: #000; 
       font-weight: 800; 
       cursor: pointer;
-      transition: 0.2s;
+      transition: var(--transition-smooth);
       font-size: 0.95rem;
+      min-height: 40px; font-family: inherit;
     }
     
     .btn:hover { 
@@ -126,49 +159,50 @@
     .btn-small {
       padding: 6px 14px;
       font-size: 0.9rem;
+      min-height: 36px;
     }
     
     .feed-item {
-      background: rgba(255,255,255,0.05);
-      border: 1.4px solid rgba(0,255,240,0.17);
-      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid rgba(0,255,240,0.15);
+      border-radius: 18px;
       padding: 24px;
       margin-bottom: 32px;
-      box-shadow: 0 0 24px rgba(0,255,240,0.1);
-      transition: all 0.25s ease;
-      animation: fadeIn 0.5s ease forwards;
+      box-shadow: var(--glow-soft);
+      transition: var(--transition-smooth);
+      animation: fadeInUp 0.5s ease forwards;
       opacity: 0;
-      transform: translateY(15px);
+      transform: translateY(20px);
     }
     
     .feed-item:hover { 
-      box-shadow: 0 0 38px rgba(0,255,240,0.25); 
-      border-color: rgba(0,255,240,0.35);
-      transform: translateY(-2px);
+      box-shadow: 0 0 35px rgba(0,255,240,0.2); 
+      border-color: rgba(0,255,240,0.3);
+      transform: translateY(-3px);
     }
     
     .feed-item iframe {
       width: 100%; 
       aspect-ratio: 16/9; 
       border: none; 
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,255,240,0.2);
-      margin-bottom: 16px;
+      border-radius: 14px;
+      box-shadow: 0 0 15px rgba(0,255,240,0.15);
+      margin-bottom: 18px;
     }
     
     .meta { 
-      margin-top: 10px; 
+      margin-top: 12px; 
       display: flex; 
       justify-content: space-between; 
       align-items: center; 
       flex-wrap: wrap; 
-      gap: 16px;
+      gap: 14px;
     }
     
     .meta h3 { 
       margin: 0; 
       font-size: 1.1rem; 
-      color: #fff; 
+      color: var(--text-bright); 
       font-weight: 700;
       flex: 1;
       min-width: 200px;
@@ -181,52 +215,62 @@
     
     .like-btn {
       border: none; 
-      border-radius: 8px; 
-      padding: 0.5rem 1rem;
+      border-radius: 10px; 
+      padding: 10px 16px;
       font-weight: 700; 
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition-smooth);
       font-size: 0.9rem;
+      min-height: 42px; font-family: inherit;
     }
     
     .like-btn.pos {
-      background: rgba(0,255,240,0.15);
+      background: rgba(0,255,240,0.12);
       color: var(--cyan);
-      border: 1px solid rgba(0,255,240,0.3);
+      border: 1px solid rgba(0,255,240,0.25);
     }
     
     .like-btn.pos:hover, .like-btn.pos.active {
       background: #00ff90;
       color: #000;
       border-color: #00ff90;
+      box-shadow: 0 0 12px rgba(0,255,144,0.3);
     }
     
     .like-btn.neg {
-      background: rgba(255,59,92,0.15);
-      color: #ff6b8a;
-      border: 1px solid rgba(255,59,92,0.3);
+      background: rgba(255,59,92,0.12);
+      color: #ff7a9c;
+      border: 1px solid rgba(255,59,92,0.25);
     }
     
     .like-btn.neg:hover, .like-btn.neg.active {
       background: #ff3b5c;
       color: #fff;
       border-color: #ff3b5c;
+      box-shadow: 0 0 12px rgba(255,59,92,0.3);
+    }
+    
+    .video-desc {
+      color: var(--text-soft);
+      margin-top: 14px;
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
     
     #loader {
       text-align: center;
       padding: 40px 0;
       color: var(--cyan);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
     }
     
     .end-msg { 
       color: var(--text-soft); 
       text-align: center; 
       margin: 40px 0;
-      padding: 20px;
+      padding: 28px 24px;
       background: rgba(0,255,240,0.05);
-      border-radius: 12px;
+      border-radius: 14px;
       border: 1px solid rgba(0,255,240,0.15);
     }
     
@@ -234,6 +278,7 @@
       color: var(--cyan);
       text-decoration: none;
       font-weight: 700;
+      transition: var(--transition-smooth);
     }
     
     .end-msg a:hover {
@@ -242,51 +287,61 @@
     }
     
     footer {
-      background: rgba(0,0,0,0.85); 
+      background: rgba(0,0,0,0.75); 
       margin-top: 40px; 
-      border-top: 2px solid var(--cyan);
+      border-top: 1.5px solid rgba(0,255,240,0.25);
       text-align: center; 
-      padding: 30px 20px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      padding: 36px 20px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
     
     .footer-brand {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--cyan);
       font-weight: 800;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px var(--cyan-glow);
     }
     
     .socials { 
-      margin: 16px 0; 
+      margin: 20px 0; 
       display: flex;
       justify-content: center;
-      gap: 16px;
+      gap: 18px;
       flex-wrap: wrap;
     }
     
     .socials a { 
       color: var(--cyan); 
       font-size: 1.8rem; 
-      transition: 0.2s;
+      transition: var(--transition-smooth);
       text-decoration: none;
+      padding: 8px;
+      border-radius: 10px;
+      background: rgba(0,255,240,0.05);
+      min-width: 44px; min-height: 44px;
+      display: inline-flex; align-items: center; justify-content: center;
     }
     
     .socials a:hover { 
       color: var(--magenta); 
-      transform: scale(1.2);
+      transform: scale(1.15);
+      background: rgba(255,0,255,0.1);
+      box-shadow: 0 0 15px rgba(255,0,255,0.2);
     }
     
     .social-label {
       font-size: 0.9rem;
-      color: var(--text-soft);
+      color: var(--text-muted);
       margin-top: 8px;
+      line-height: 1.8;
     }
     
     .social-label a {
       color: var(--cyan);
       text-decoration: none;
+      transition: var(--transition-smooth);
     }
     
     .social-label a:hover {
@@ -294,31 +349,62 @@
       text-decoration: underline;
     }
     
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
+    .legacy-note {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(0,255,240,0.1);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+    
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
-    .feed-item:nth-child(2) { animation-delay: 0.1s; }
-    .feed-item:nth-child(3) { animation-delay: 0.2s; }
-    .feed-item:nth-child(4) { animation-delay: 0.3s; }
-    .feed-item:nth-child(5) { animation-delay: 0.4s; }
+    .feed-item { animation-delay: calc(var(--i, 0) * 0.1s); }
     
-    @media (max-width: 600px) {
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
       main { padding: 20px 15px 40px; }
-      .feed-item { padding: 18px; }
+      .feed-item { padding: 20px; }
       .meta { flex-direction: column; align-items: flex-start; }
       .like-buttons { width: 100%; justify-content: stretch; }
       .like-btn { flex: 1; }
+      .socials { gap: 10px; }
+    }
+    
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.4rem; }
+      .intro { font-size: 1rem; }
+      .like-buttons { flex-direction: column; }
+      .like-btn { width: 100%; }
+    }
+    
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .feed-item:hover, .like-btn:hover, .socials a:hover {
+        transform: none;
+      }
     }
   </style>
 </head>
 <body class="universe">
-  <header>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
+    <div class="nav-back">
+      <a href="index.html">← Back to Home</a>
+    </div>
     <h1>🌌 Sanity Feed</h1>
   </header>
 
-  <main>
+  <main id="main">
     <p class="intro">
       Scroll real stories, cosmic drops, and uplifting content.<br>
       <strong>No algorithms. No doomscroll. Only sanity.</strong>
@@ -326,7 +412,7 @@
 
     <!-- Search -->
     <div class="search-container">
-      <input id="feed-search" type="search" placeholder="Search topics: resilience, bipolar, calm, hope..." />
+      <input id="feed-search" type="search" placeholder="Search topics: resilience, bipolar, calm, hope, healing..." aria-label="Search feed" />
       <div id="search-meta" class="search-meta">
         <span>Showing: <span id="search-term" class="search-term"></span></span>
         <button id="clear-search" class="btn btn-small">✕ Clear</button>
@@ -334,9 +420,9 @@
     </div>
 
     <!-- Feed -->
-    <div id="feed"></div>
+    <div id="feed" role="feed" aria-live="polite"></div>
     <div id="loader">🚀 Loading cosmic stories...</div>
-    <div id="end" class="end-msg"></div>
+    <div id="end" class="end-msg" hidden></div>
   </main>
 
   <footer>
@@ -344,27 +430,32 @@
     <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
     
     <div class="socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
-      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
       <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Shop">🛒</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
     </div>
     
     <div class="social-label">
       Support the movement: 
-      <a href="https://payhip.com/Pleadingsanity" target="_blank">Merch & Downloads</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener">Merch & Downloads</a>
       <span style="margin:0 8px;">|</span>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank">Subscribe on YouTube</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener">Subscribe on YouTube</a>
+      <span style="margin:0 8px;">|</span>
+      <a href="mailto:pleadingsanity1@gmail.com?subject=Story%20Submission">Share Your Story</a>
     </div>
     
-    <p style="margin-top:20px;font-size:0.85rem;color:#666;">
-      Evolution, Not Erasure © 2026<br>
-      Built on the legacy of Ivan & Arthur. Awakened, not broken.
-    </p>
+    <div class="legacy-note">
+      <p><strong>Evolution, Not Erasure</strong> © <span id="year"></span></p>
+      <p>Built on the legacy of Ivan Kurcharskyi & Arthur Lesley Cooper.<br>Awakened, not broken. Rising together.</p>
+    </div>
   </footer>
 
   <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // === FEED SYSTEM — FIXED & ENHANCED ===
     let loading = false, end = false, query = "", searchTimeout;
     const feed = document.getElementById('feed');
     const loader = document.getElementById('loader');
@@ -373,62 +464,72 @@
     const searchMeta = document.getElementById('search-meta');
     const searchTermEl = document.getElementById('search-term');
     const clearBtn = document.getElementById('clear-search');
+    let cardCounter = 0;
 
-    // 🌟 EXPANDED FALLBACK — ALWAYS SHOWS CONTENT
+    // ✅ EXPANDED FALLBACK — ALWAYS SHOWS CONTENT
     const FALLBACK = [
       { 
         id: "8nTFjVm9sTQ", 
         title: "Shane's Story — Rise From Madness", 
-        desc: "From darkness to purpose. One voice starting a movement." 
+        desc: "From darkness to purpose. One voice starting a movement that grows stronger every day." 
       },
       { 
         id: "mRf3-JkwqfU", 
         title: "You Are Not Alone — Survivor Voices", 
-        desc: "Real people. Real stories. Breaking the silence. We rise together." 
+        desc: "Real people. Real stories. Breaking the silence. We don't just survive — we thrive together." 
       },
       { 
         id: "8F7b8FFsKis", 
         title: "Keep Going — Cosmic Motivation", 
-        desc: "Every fall is just preparation to rise higher. The stars are with you." 
+        desc: "Every fall is just preparation to rise higher. The stars are with you, even when you can't see them." 
       },
       { 
         id: "VbfpW0pbvaU", 
         title: "Built Not Broken — Resilience", 
-        desc: "What doesn't break you rewrites you. Evolution, Not Erasure." 
+        desc: "What doesn't break you rewrites you. Evolution, Not Erasure — scars become strength." 
       },
       { 
         id: "dQw4w9WgXcQ", 
         title: "Hope Rises — The Movement Grows", 
-        desc: "Every heart that joins makes us stronger. You matter. We matter." 
+        desc: "Every heart that joins makes us stronger. Your light matters. We matter. Together we rise." 
       },
       { 
         id: "8nTFjVm9sTQ", 
         title: "Healing Together — The Power of Community", 
-        desc: "No one walks this path alone. Together we heal faster." 
+        desc: "No one walks this path alone. Shared pain becomes lighter. Shared hope becomes unstoppable." 
       },
       { 
         id: "mRf3-JkwqfU", 
         title: "Strength in Vulnerability — Speaking Up", 
-        desc: "True courage isn't fearlessness — it's feeling fear and moving forward anyway." 
+        desc: "True courage isn't fearlessness — it's feeling fear and stepping forward anyway. Your voice heals." 
+      },
+      { 
+        id: "8F7b8FFsKis", 
+        title: "The Darkest Hour — Before Dawn", 
+        desc: "When it feels like night will never end — remember: you've survived 100% of your worst days so far." 
+      },
+      { 
+        id: "VbfpW0pbvaU", 
+        title: "Cosmic Perspective — You Matter", 
+        desc: "The universe is vast, but your light still counts. Every life, every story, every heartbeat matters." 
       }
     ];
 
-    // 📥 Fetch from API → Fallback gracefully
+    // 📥 Fetch from API → Graceful Fallback
     async function fetchBatch() {
       try {
         const params = new URLSearchParams();
         if (query) params.set('q', query);
         
-        // Try Vercel first
-        let res = await fetch(`/api/video?${params.toString()}`);
-        if (!res.ok) res = await fetch(`/.netlify/functions/video?${params.toString()}`);
+        // Try Vercel then Netlify
+        let res = await fetch(`/api/fetchVideos?${params.toString()}`);
+        if (!res.ok) res = await fetch(`/.netlify/functions/ytFeed?${params.toString()}`);
         if (!res.ok) throw new Error("API offline");
         
         const data = await res.json();
-        return data.videos || [];
+        return data.videos || data.items || [];
       } catch (err) {
         console.log("📡 Using curated fallback feed");
-        // Filter fallback by search query if provided
         if (!query) return FALLBACK;
         const q = query.toLowerCase();
         return FALLBACK.filter(v => 
@@ -437,33 +538,40 @@
       }
     }
 
-    // 👍 Like Handler — Saves to localStorage
-    function handleLike(btn, isPositive) {
+    // 👍 Like Handler — Persists to localStorage
+    window.handleLike = function(btn, isPositive) {
       const card = btn.closest('.feed-item');
       const title = card.querySelector('h3').textContent;
       
-      // Remove active from siblings
+      // Remove active state from siblings
       const siblings = btn.parentElement.querySelectorAll('.like-btn');
-      siblings.forEach(b => b.classList.remove('active'));
+      siblings.forEach(b => {
+        b.classList.remove('active');
+        if (b.textContent.includes('✅') || b.textContent.includes('❌')) {
+          b.innerHTML = b.classList.contains('pos') ? '👍 Positive' : '👎 Not for me';
+        }
+      });
       
-      // Mark this one
+      // Mark current as active
       btn.classList.add('active');
-      btn.textContent = isPositive ? "✅ Liked!" : "❌ Not for me";
+      btn.innerHTML = isPositive ? '✅ Liked!' : '❌ Not for me';
       
       // Save preference
       try {
-        localStorage.setItem(`like_${title}`, isPositive ? 'pos' : 'neg');
+        localStorage.setItem(`like_${encodeURIComponent(title)}`, isPositive ? 'pos' : 'neg');
       } catch {}
-    }
+    };
 
     // 🎨 Render Single Card
-    function renderCard(video, index) {
-      const card = document.createElement('div');
+    function renderCard(video) {
+      cardCounter++;
+      const card = document.createElement('article');
       card.className = 'feed-item';
+      card.style.setProperty('--i', cardCounter % 5);
       
       // Restore saved like state
       let savedLike = null;
-      try { savedLike = localStorage.getItem(`like_${video.title}`); } catch {}
+      try { savedLike = localStorage.getItem(`like_${encodeURIComponent(video.title)}`); } catch {}
       
       card.innerHTML = `
         <iframe 
@@ -478,15 +586,15 @@
           <div class="like-buttons">
             <button class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" 
                     onclick="handleLike(this, true)">
-              ${savedLike === 'pos' ? '✅' : '👍'} Positive
+              ${savedLike === 'pos' ? '✅ Liked!' : '👍 Positive'}
             </button>
             <button class="like-btn neg ${savedLike === 'neg' ? 'active' : ''}" 
                     onclick="handleLike(this, false)">
-              ${savedLike === 'neg' ? '❌' : '👎'} Not for me
+              ${savedLike === 'neg' ? '❌ Not for me' : '👎 Not for me'}
             </button>
           </div>
         </div>
-        ${video.desc ? `<p style="color:var(--text-soft);margin-top:10px;">${video.desc}</p>` : ''}
+        ${video.desc ? `<p class="video-desc">${video.desc}</p>` : ''}
       `;
       return card;
     }
@@ -496,35 +604,41 @@
       if (loading || end) return;
       loading = true;
       loader.style.display = 'block';
+      endDiv.hidden = true;
       
       const videos = await fetchBatch();
-      
       loader.style.display = 'none';
       
       if (!videos.length) {
         end = true;
+        endDiv.hidden = false;
         endDiv.innerHTML = `
-          <p>✨ No stories match "${query}" — yet.</p>
-          <p style="margin-top:10px;">
-            <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Submit your story</a> 
-            to help grow the feed 💙
+          <p>✨ No stories match "<strong>${query}</strong>" — yet.</p>
+          <p style="margin-top:16px;">
+            <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Share your story</a> 
+            to help grow the feed 💙 Every voice matters.
           </p>
         `;
         return;
       }
       
-      videos.forEach((v, i) => {
-        // Prevent duplicates
+      let addedCount = 0;
+      videos.forEach(v => {
         const existing = Array.from(feed.children).find(
           el => el.querySelector('h3')?.textContent === v.title
         );
         if (!existing) {
-          feed.appendChild(renderCard(v, i));
+          feed.appendChild(renderCard(v));
+          addedCount++;
         }
       });
       
-      // Fallback mode = infinite loop
-      end = false;
+      // End message if nothing new
+      if (addedCount === 0 && videos.length > 0) {
+        endDiv.hidden = false;
+        endDiv.innerHTML = `<p>🌌 You've reached the edge of the cosmos — for now. More stories coming soon.</p>`;
+      }
+      
       loading = false;
     }
 
@@ -532,7 +646,9 @@
     function doSearch(newQuery) {
       query = newQuery.trim();
       end = false;
+      cardCounter = 0;
       feed.innerHTML = '';
+      endDiv.hidden = true;
       
       if (query) {
         searchTermEl.textContent = query;
@@ -546,15 +662,15 @@
       loadFeed();
     }
 
-    // 📜 Infinite Scroll Trigger
+    // 📜 Infinite Scroll — Passive & Efficient
     window.addEventListener('scroll', () => {
       if (end || loading) return;
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
         loadFeed();
       }
     }, { passive: true });
 
-    // 🔍 Search Events
+    // 🔍 Search Events — Debounced
     if (searchInput) {
       searchInput.addEventListener('input', e => {
         clearTimeout(searchTimeout);
@@ -571,6 +687,7 @@
           e.preventDefault();
           searchInput.value = '';
           doSearch('');
+          searchInput.blur();
         }
       });
     }
@@ -579,10 +696,11 @@
       clearBtn.addEventListener('click', () => {
         searchInput.value = '';
         doSearch('');
+        searchInput.focus();
       });
     }
 
-    // 💾 Restore Saved Search
+    // 💾 Restore Saved Search or Fresh Load
     try {
       const savedSearch = localStorage.getItem('feedSearch');
       if (savedSearch && searchInput) {
