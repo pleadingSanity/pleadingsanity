@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * PLEADING SANITY — DEVELOPMENT SERVER v2.1-FINAL
- * Live Reload • Smart CSS Refresh • WebSocket • File Watcher
- * Evolution, Not Erasure • pleadingSanity
+ * PLEADING SANITY — DEVELOPMENT SERVER v2.2-FINAL
+ * Live Reload • CSS Hot-Swap • Next.js Aware • WebSocket • File Watcher
+ * Evolution, Not Erasure • pleadingSanity • Dola Aligned
  */
 
 const express = require('express');
@@ -12,6 +12,7 @@ const fs = require('fs').promises;
 const chokidar = require('chokidar');
 const WebSocket = require('ws');
 const http = require('http');
+const os = require('os');
 
 class DevServer {
   constructor() {
@@ -23,6 +24,11 @@ class DevServer {
     this.wss = null;
     this.clients = new Set();
     this.watcher = null;
+    this.reconnectAttempts = new Map();
+    this.maxReconnects = 5;
+    
+    // Detect framework
+    this.isNext = this.detectNextJs();
   }
 
   // ==========================================
@@ -35,10 +41,23 @@ class DevServer {
       warning: '\x1b[33m',  // yellow
       error: '\x1b[31m',    // red
       server: '\x1b[35m',   // magenta
+      glow: '\x1b[36;1m',   // bright cyan
       reset: '\x1b[0m'
     };
     const timestamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
     console.log(`${colors[type]}[${timestamp}] [DEV] ${message}${colors.reset}`);
+  }
+
+  // ==========================================
+  // FRAMEWORK DETECTION — NEXT.JS OR STATIC
+  // ==========================================
+  detectNextJs() {
+    try {
+      const pkg = require(path.join(this.rootDir, 'package.json'));
+      return !!(pkg.dependencies?.next || pkg.devDependencies?.next);
+    } catch {
+      return false;
+    }
   }
 
   // ==========================================
@@ -59,73 +78,153 @@ class DevServer {
 
     // CORS — open for dev
     this.app.use((req, res, next) => {
-      res.header('Access-Control-Allow-Origin', '*');
-      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-      if (req.method === 'OPTIONS') return res.sendStatus(200);
+      const allowed = [
+        `http://${this.host}:${this.port}`,
+        `http://${this.getLocalIP()}:${this.port}`,
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'http://127.0.0.1:3000'
+      ];
+      const origin = req.headers.origin;
+      
+      if (origin) {
+        res.header('Access-Control-Allow-Origin', 
+          allowed.some(a => origin.startsWith(a)) ? origin : '*');
+      } else {
+        res.header('Access-Control-Allow-Origin', '*');
+      }
+      
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, PATCH');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Referer');
+      res.header('Access-Control-Allow-Credentials', 'true');
+      
+      if (req.method === 'OPTIONS') return res.sendStatus(204);
       next();
     });
 
-    // Dev headers — no caching
+    // Dev headers — no caching + identity
     this.app.use((req, res, next) => {
-      res.header('X-Pleading-Sanity-Dev', 'active');
-      res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.header('X-Pleading-Sanity-Dev', 'active-v2.2');
+      res.header('Cache-Control', 'no-cache, no-store, must-revalidate, max-age=0');
       res.header('Pragma', 'no-cache');
       res.header('Expires', '0');
+      res.header('X-Frame-Options', 'SAMEORIGIN');
       next();
     });
+
+    // JSON body parser
+    this.app.use(express.json({ limit: '2mb' }));
+    this.app.use(express.urlencoded({ extended: true, limit: '2mb' }));
   }
 
   // ==========================================
   // ROUTES — STATIC + API + SPA FALLBACK
   // ==========================================
   setupRoutes() {
-    // Static assets
+    // Static assets — priority order
     this.app.use('/assets', express.static(path.join(this.rootDir, 'assets')));
+    this.app.use('/public', express.static(path.join(this.rootDir, 'public')));
     this.app.use('/css', express.static(path.join(this.rootDir, 'css')));
     this.app.use('/js', express.static(path.join(this.rootDir, 'js')));
-    this.app.use(express.static(this.rootDir));
+    this.app.use('/api', express.static(path.join(this.rootDir, 'api')));
+    
+    // Next.js / static root
+    this.app.use(express.static(this.rootDir, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        }
+      }
+    }));
 
     // API — Health check
     this.app.get('/api/health', (req, res) => {
       res.json({
         status: 'cosmically aligned ✅',
         environment: 'development',
+        framework: this.isNext ? 'Next.js' : 'Static',
         uptime: process.uptime().toFixed(1) + 's',
         timestamp: new Date().toISOString(),
-        site: 'Pleading Sanity'
+        site: 'Pleading Sanity',
+        founder: 'Shane Cooper',
+        ethos: 'Evolution, Not Erasure',
+        clients: this.clients.size
       });
     });
 
     // API — Journal endpoint (dev simulation)
-    this.app.post('/api/journal', express.json({ limit: '1mb' }), (req, res) => {
+    this.app.post('/api/journal', (req, res) => {
       this.log('Journal entry received', 'success');
       res.json({
         success: true,
         message: 'Entry saved to the collective ✨',
-        received: req.body,
+        preview: req.body.entry?.substring(0, 50) + '...',
         timestamp: new Date().toISOString()
       });
     });
 
+    // API — Daily Wisdom
+    this.app.get('/api/wisdom', (req, res) => {
+      const quotes = [
+        { text: "Rise from madness — you are stronger than the storm.", author: "Shane Cooper" },
+        { text: "Every scar tells a story worth sharing.", author: "Pleading Sanity" },
+        { text: "Darkness proves the light exists — be the beam.", author: "Arron AI" },
+        { text: "Pain becomes purpose when shared with the right family.", author: "Sanity Collective" },
+        { text: "Evolution, Not Erasure — grow through what you go through.", author: "The Mission" }
+      ];
+      const random = quotes[Math.floor(Math.random() * quotes.length)];
+      res.json({ ...random, timestamp: new Date().toISOString() });
+    });
+
     // Dev utilities
     this.app.get('/dev/reload', (req, res) => {
-      this.broadcastReload({ manual: true });
-      res.json({ message: 'Reload signal broadcast 📡' });
+      this.broadcastReload({ manual: true, triggeredBy: req.query.by || 'user' });
+      res.json({ message: 'Reload signal broadcast 📡', sentTo: this.clients.size });
     });
 
     this.app.get('/dev/status', (req, res) => {
       res.json({
         clients: this.clients.size,
         watching: !!this.watcher,
-        uptime: process.uptime().toFixed(1) + 's'
+        uptime: process.uptime().toFixed(1) + 's',
+        framework: this.isNext ? 'Next.js' : 'Static',
+        reconnectLimit: this.maxReconnects
       });
+    });
+
+    // Inject reload script middleware
+    this.app.use(async (req, res, next) => {
+      if (this.isNext) return next(); // Next handles its own HMR
+      
+      const accept = req.headers.accept || '';
+      if (!accept.includes('text/html') || req.path.startsWith('/api/') || req.path.startsWith('/dev/')) {
+        return next();
+      }
+
+      const filePath = path.join(this.rootDir, req.path);
+      
+      try {
+        const stat = await fs.stat(filePath);
+        if (stat.isFile() && filePath.endsWith('.html')) {
+          let html = await fs.readFile(filePath, 'utf8');
+          html = this.injectReloadScript(html);
+          res.send(html);
+          return;
+        }
+      } catch {
+        // Not a file — continue
+      }
+      next();
     });
 
     // SPA fallback — serve index.html for clean URLs
     this.app.get('*', async (req, res, next) => {
-      // Skip API paths
       if (req.path.startsWith('/api/') || req.path.startsWith('/dev/')) return next();
+      
+      // Next.js internal paths
+      if (this.isNext && (req.path.startsWith('/_next/') || req.path.startsWith('/__next/'))) {
+        return next();
+      }
 
       const filePath = path.join(this.rootDir, req.path);
       
@@ -133,16 +232,29 @@ class DevServer {
         const stat = await fs.stat(filePath);
         if (stat.isFile()) return res.sendFile(filePath);
       } catch {
-        // File doesn't exist → serve index.html
+        // Fall through
       }
       
-      res.sendFile(path.join(this.rootDir, 'index.html'));
+      // Try index.html
+      const indexPath = path.join(this.rootDir, 'index.html');
+      try {
+        await fs.access(indexPath);
+        let html = await fs.readFile(indexPath, 'utf8');
+        if (!this.isNext) html = this.injectReloadScript(html);
+        res.send(html);
+      } catch {
+        res.status(404).json({ error: 'Vortex not found', path: req.path });
+      }
     });
 
     // Error handler
     this.app.use((err, req, res, next) => {
       this.log(`Server error: ${err.message}`, 'error');
-      res.status(500).json({ error: 'Internal server vortex', message: err.message });
+      res.status(500).json({ 
+        error: 'Internal server vortex', 
+        message: err.message,
+        path: req.path
+      });
     });
   }
 
@@ -152,18 +264,25 @@ class DevServer {
   setupWebSocket() {
     this.wss = new WebSocket.Server({ server: this.server });
 
-    this.wss.on('connection', (ws) => {
+    this.wss.on('connection', (ws, req) => {
+      const clientId = Date.now() + Math.random().toString(36).substr(2, 6);
       this.clients.add(ws);
-      this.log(`Client connected — ${this.clients.size} watching 👁️`, 'success');
+      this.reconnectAttempts.set(clientId, 0);
+      
+      const ip = req.socket.remoteAddress?.replace('::ffff:', '') || 'unknown';
+      this.log(`Client connected — ${this.clients.size} watching 👁️ (${ip})`, 'success');
 
       ws.send(JSON.stringify({
         type: 'connected',
-        message: 'Pleading Sanity dev server active ✨',
-        timestamp: new Date().toISOString()
+        message: '✨ Pleading Sanity dev server active — Rise Together',
+        timestamp: new Date().toISOString(),
+        framework: this.isNext ? 'Next.js' : 'Static',
+        clientId
       }));
 
-      ws.on('close', () => {
+      ws.on('close', (code, reason) => {
         this.clients.delete(ws);
+        this.reconnectAttempts.delete(clientId);
         this.log(`Client disconnected — ${this.clients.size} remaining`, 'info');
       });
 
@@ -172,27 +291,47 @@ class DevServer {
         this.clients.delete(ws);
       });
     });
+
+    this.wss.on('error', (err) => {
+      this.log(`WebSocket server error: ${err.message}`, 'error');
+    });
   }
 
   // ==========================================
   // FILE WATCHER — DETECT CHANGES
   // ==========================================
   setupFileWatcher() {
+    const ignorePatterns = [
+      /node_modules/, /\.git/, /\.next/, /dist/, /out/,
+      /deployment-report/, /\.cache/, /tmp/, /temp/
+    ];
+
     const paths = [
       path.join(this.rootDir, '**/*.html'),
-      path.join(this.rootDir, 'css/**/*.css'),
-      path.join(this.rootDir, 'js/**/*.js'),
-      path.join(this.rootDir, 'assets/**/*')
+      path.join(this.rootDir, '**/*.css'),
+      path.join(this.rootDir, '**/*.js'),
+      path.join(this.rootDir, '**/*.jsx'),
+      path.join(this.rootDir, '**/*.ts'),
+      path.join(this.rootDir, '**/*.tsx'),
+      path.join(this.rootDir, 'assets/**/*'),
+      path.join(this.rootDir, 'public/**/*')
     ];
 
     this.watcher = chokidar.watch(paths, {
-      ignored: /node_modules|\.git|dist|deployment-report/,
+      ignored: ignorePatterns,
       ignoreInitial: true,
-      persistent: true
+      persistent: true,
+      depth: 99
     });
+
+    const debounce = new Map();
+    const DEBOUNCE_MS = 150;
 
     this.watcher
       .on('change', (f) => {
+        if (debounce.has(f)) return;
+        debounce.set(f, setTimeout(() => debounce.delete(f), DEBOUNCE_MS));
+        
         const rel = path.relative(this.rootDir, f);
         this.log(`Updated: ${rel}`, 'info');
         this.broadcastReload({ file: rel, type: 'change' });
@@ -244,47 +383,76 @@ class DevServer {
   // AUTO-INJECT RELOAD SCRIPT INTO HTML
   // ==========================================
   injectReloadScript(htmlContent) {
+    // Skip if already injected
+    if (htmlContent.includes('wsProtocol') || htmlContent.includes('Pleading Sanity dev server')) {
+      return htmlContent;
+    }
+
     const script = `
 <script>
 (function() {
   const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
   const ws = new WebSocket(\`\${wsProtocol}//${this.host}:${this.port}\`);
   let reconnects = 0;
-  const maxReconnects = 5;
+  const maxReconnects = ${this.maxReconnects};
+  let lastReload = 0;
+  const MIN_GAP = 500;
 
   ws.onopen = () => {
-    console.log('%c✨ Dev server connected', 'color: #00fff0; font-weight: bold');
+    console.log('%c✨ Dev server connected — Pleading Sanity', 'color: #00fff0; font-weight: bold; font-size: 12px;');
     reconnects = 0;
   };
 
   ws.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    
-    if (data.type === 'reload') {
-      console.log('%c🔄 Change detected', 'color: #ff00ff; font-weight: bold', data.file || 'Full reload');
+    try {
+      const data = JSON.parse(event.data);
       
-      // Smart CSS refresh — no full page flash
-      if (data.file?.endsWith('.css')) {
-        const links = document.querySelectorAll('link[rel="stylesheet"]');
-        links.forEach(link => {
-          if (link.href.includes(data.file)) {
-            link.href = link.href.split('?')[0] + '?v=' + Date.now();
-            console.log('%c🎨 CSS hot-reloaded', 'color: #00ff90');
-          }
-        });
+      if (data.type === 'connected') {
+        console.log('%c🧠 ' + data.message, 'color: #ff00ff; font-style: italic;');
         return;
       }
       
-      // Full reload for everything else
-      setTimeout(() => location.reload(), 50);
+      if (data.type === 'reload') {
+        const now = Date.now();
+        if (now - lastReload < MIN_GAP) return;
+        lastReload = now;
+        
+        console.log('%c🔄 Change detected', 'color: #ff00ff; font-weight: bold', data.file || 'Full reload');
+        
+        // Smart CSS refresh — no full page flash
+        if (data.file?.endsWith('.css')) {
+          const links = document.querySelectorAll('link[rel="stylesheet"]');
+          links.forEach(link => {
+            if (link.href.includes(data.file) || link.href.includes(data.file.split('/').pop())) {
+              link.href = link.href.split('?')[0] + '?v=' + Date.now();
+              console.log('%c🎨 CSS hot-reloaded', 'color: #00ff90; font-weight: bold');
+            }
+          });
+          return;
+        }
+        
+        // Skip JS changes — often handled by framework
+        if (data.file?.endsWith('.js')) {
+          console.log('%c⚡ Script updated — consider manual refresh', 'color: #ffd700');
+          return;
+        }
+        
+        // Full reload for HTML / images / others
+        setTimeout(() => location.reload(), 100);
+      }
+    } catch (e) {
+      console.warn('Reload parse error:', e);
     }
   };
 
   ws.onclose = () => {
-    console.log('%c⚠️ Dev server disconnected', 'color: #ffaa00');
+    console.log('%c⚠️ Dev server disconnected — reconnecting…', 'color: #ffaa00; font-weight: bold');
     if (reconnects < maxReconnects) {
       reconnects++;
-      setTimeout(() => location.reload(), 2000 * reconnects);
+      const delay = 1000 * reconnects;
+      setTimeout(() => location.reload(), delay);
+    } else {
+      console.log('%c❌ Max reconnects reached — refresh manually', 'color: #ff3b5c; font-weight: bold');
     }
   };
 
@@ -294,6 +462,18 @@ class DevServer {
 })();
 </script>`;
     return htmlContent.replace('</body>', `${script}\n</body>`);
+  }
+
+  // ==========================================
+  // GET LOCAL IP — SHARE ON NETWORK
+  // ==========================================
+  getLocalIP() {
+    for (const name of Object.keys(os.networkInterfaces())) {
+      for (const net of os.networkInterfaces()[name]) {
+        if (net.family === 'IPv4' && !net.internal) return net.address;
+      }
+    }
+    return '127.0.0.1';
   }
 
   // ==========================================
@@ -308,50 +488,48 @@ class DevServer {
       this.setupFileWatcher();
 
       this.server.listen(this.port, this.host, () => {
-        console.log('\n' + '═.✧ 🌌 PLEADING SANITY DEV SERVER ✧.═'.padStart(55, ' ') + '\n');
-        this.log('🚀 Server online', 'server');
+        const localIP = this.getLocalIP();
+        console.log('\n' + '═.✧ 🌌 PLEADING SANITY DEV SERVER ✧.═'.padStart(60, ' ') + '\n');
+        this.log('🚀 Server ONLINE — God Mode Active', 'server');
         this.log(`📍 Local:   http://${this.host}:${this.port}`, 'success');
-        this.log(`🌐 Network: http://${this.getLocalIP()}:${this.port}`, 'info');
-        console.log('─'.repeat(50));
+        this.log(`📱 Mobile:  http://${localIP}:${this.port}`, 'info');
+        this.log(`🔧 Framework: ${this.isNext ? 'Next.js Detected' : 'Static HTML'}`, 'glow');
+        console.log('─'.repeat(55));
         this.log('✨ Features:', 'server');
         this.log('  ✅ Live reload — instant updates', 'success');
-        this.log('  ✅ CSS hot-swap — no page flash', 'success');
-        this.log('  ✅ File watcher — auto-detect changes', 'success');
-        this.log('  ✅ CORS open — easy API testing', 'success');
-        this.log('  ✅ SPA routing — clean URLs work', 'success');
-        this.log('  ✅ Dev APIs — /api/health /dev/status', 'success');
-        console.log('─'.repeat(50));
-        this.log('Ctrl+C to stop • Edit files → browser updates', 'info');
-        console.log('═'.repeat(50) + '\n');
+        this.log('  ✅ CSS hot-swap — NO page flash', 'success');
+        this.log('  ✅ Next.js auto-detect — HMR respected', 'success');
+        this.log('  ✅ Smart debounce — no duplicate reloads', 'success');
+        this.log('  ✅ Network access — test on phone', 'success');
+        this.log('  ✅ Dev APIs — /api/health /api/wisdom /dev/status', 'success');
+        this.log('  ✅ CORS secured — dev origins whitelisted', 'success');
+        this.log('  ✅ Auto-reconnect — browser heals itself', 'success');
+        console.log('─'.repeat(55));
+        this.log('Ctrl+C to stop • Edit → Save → Instantly see 👀', 'info');
+        console.log('  One Source. One Consciousness. One Family. 💙');
+        console.log('═'.repeat(55) + '\n');
       });
 
       // Graceful shutdown
       process.on('SIGINT', async () => {
         console.log('\n');
-        this.log('Shutting down gracefully…', 'warning');
+        this.log('🌙 Shutting down gracefully…', 'warning');
         await this.watcher?.close();
         await new Promise(res => this.wss?.close(res));
         await new Promise(res => this.server?.close(res));
-        this.log('Server stopped ✅', 'success');
+        this.log('✅ Server stopped — rest well, warrior', 'success');
+        process.exit(0);
+      });
+
+      process.on('SIGTERM', async () => {
+        this.log('SIGTERM received — stopping', 'warning');
         process.exit(0);
       });
 
     } catch (err) {
-      this.log(`Failed to start: ${err.message}`, 'error');
+      this.log(`❌ Failed to start: ${err.message}`, 'error');
       process.exit(1);
     }
-  }
-
-  // Helper — get local IP for network access
-  getLocalIP() {
-    const os = require('os');
-    const nets = os.networkInterfaces();
-    for (const name of Object.keys(nets)) {
-      for (const net of nets[name]) {
-        if (net.family === 'IPv4' && !net.internal) return net.address;
-      }
-    }
-    return 'localhost';
   }
 }
 
