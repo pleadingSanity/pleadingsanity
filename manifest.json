@@ -92,6 +92,13 @@
       "type": "image/png",
       "form_factor": "narrow",
       "label": "Sanity Hub — Mobile"
+    },
+    {
+      "src": "assets/screenshots/mobile-games.png",
+      "sizes": "390x844",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Brain Games — All 5 Ready"
     }
   ],
   "shortcuts": [
@@ -102,28 +109,52 @@
       "url": "/sanityhub.html"
     },
     {
+      "name": "Brain Games",
+      "short_name": "Games",
+      "description": "All 5 — Focus, Numbers, Patterns, Memory, Rhythm",
+      "url": "/games.html"
+    },
+    {
       "name": "Cosmic Focus",
       "short_name": "Focus",
-      "description": "Brain-training memory game — levels & offline play",
+      "description": "Memory sequences — watch, remember, repeat",
       "url": "/cosmic-focus.html"
+    },
+    {
+      "name": "Number Nebula",
+      "short_name": "Numbers",
+      "description": "Logic & patterns — build confidence gently",
+      "url": "/number-nebula.html"
+    },
+    {
+      "name": "Pattern Galaxy",
+      "short_name": "Patterns",
+      "description": "Visual flow — train intuition & calm",
+      "url": "/pattern-galaxy.html"
+    },
+    {
+      "name": "Memory Ocean",
+      "short_name": "Memory",
+      "description": "Calm matching — no timers, no rush",
+      "url": "/memory-ocean.html"
+    },
+    {
+      "name": "Rhythm Resonance",
+      "short_name": "Rhythm",
+      "description": "Healing frequencies — listen, feel, align",
+      "url": "/rhythm-resonance.html"
     },
     {
       "name": "Healing Hz",
       "short_name": "Frequencies",
-      "description": "Calming tones — 528Hz, 432Hz & more",
+      "description": "528Hz, 432Hz — ambient tones to heal",
       "url": "/frequencies.html"
     },
     {
       "name": "Journal Vault",
       "short_name": "Journal",
-      "description": "Private writing space — your thoughts, safely yours",
+      "description": "Private writing — your thoughts, safely yours",
       "url": "/journal-vault.html"
-    },
-    {
-      "name": "Brain Games",
-      "short_name": "Games",
-      "description": "Mindful play — Cosmic Focus, Word Power & more",
-      "url": "/games.html"
     },
     {
       "name": "Shop",
