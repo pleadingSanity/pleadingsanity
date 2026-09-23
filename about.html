@@ -4,48 +4,74 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About — Pleading Sanity | Rise From Madness</title>
-  <meta name="description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours." />
+  <meta name="description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours. Evolution, Not Erasure." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/about.html" />
-  
+
+  <!-- Favicons & PWA -->
+  <link rel="icon" href="assets/favicon.ico" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta name="color-scheme" content="dark" />
+
   <!-- Open Graph -->
   <meta property="og:title" content="About — Pleading Sanity | Rise From Madness" />
-  <meta property="og:description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much." />
+  <meta property="og:description" content="Born from struggle. Built by survivors. For every soul who's ever felt too much. This is our story — and yours." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/about.html" />
-  
-  <link rel="icon" href="assets/favicon.ico" />
-  
-  <!-- Core Styles — ALIGNED ✅ -->
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="mobile-responsive.css" />
-  <link rel="stylesheet" href="animations.css" />
-  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="About — Pleading Sanity" />
+  <meta name="twitter:description" content="We don't beg for sanity. We build it. One Source. One Consciousness. One Family." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+
+  <!-- ==========================================
+       ABOUT PAGE — COSMIC STANDARD v2.0
+       Aligned with index.html & movement.html
+       Nebula glow · Unified nav · Full legacy
+       ========================================== -->
   <style>
-    /* ==========================================
-       ABOUT PAGE — COSMIC POLISHED
-       Aligned with core vars · Fixed links · Accessible
-       ========================================== */
     :root {
-      --deep-bg: rgba(0,0,0,0.6);
+      --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
+      --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
+      --gold: #ffd700;
+      --deep: #0d1b2a;
+      --dark: #030712;
+      --deepest: #060014;
+      --text-bright: #eafffd;
+      --text-soft: #b9faff;
+      --text-muted: #7ab8c8;
       --glass: rgba(0,255,240,0.06);
-      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --glass-deep: rgba(18,4,42,0.85);
+      --border-glow: rgba(0,255,240,0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      min-height: 100vh;
+      font-family: var(--font-sans);
+      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
       line-height: 1.7;
-      padding: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      background: radial-gradient(ellipse at 50% 120%, #10122d 0%, #030b18 85%, #000 100%);
+      background-attachment: fixed;
     }
 
-    /* Skip Link — Accessibility First */
+    /* Force cosmic dark theme always */
+    @media (prefers-color-scheme: light) {
+      body {
+        background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
+      }
+    }
+
+    /* Accessibility skip link */
     .skip-link {
       position: absolute; top: -50px; left: 6px;
       background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
@@ -53,75 +79,123 @@
     }
     .skip-link:focus { top: 12px; }
 
-    header {
-      text-align: center;
-      padding: 30px 20px 40px;
-      animation: fadeIn 0.8s ease-out;
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
     }
 
-    h1 {
-      font-size: 2.2rem;
+    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 12px;
+      border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
+      text-align: center; box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      min-height: 48px; font-family: inherit;
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      color: #000;
+    }
+
+    /* Floating Nebula Particles */
+    .nebula-particle {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      animation: float 20s infinite ease-in-out;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-30px) scale(1.1); }
+    }
+
+    .page-wrapper { position: relative; z-index: 1; }
+
+    header { 
+      text-align: center; padding: 30px 20px 15px;
+      background: rgba(6,0,20,0.85); backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-glow);
+      animation: fadeIn 0.8s ease-out both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    header .logo-img {
+      width: 120px; max-width: 35vw; margin-bottom: 12px;
+      filter: drop-shadow(0 0 25px rgba(0,255,240,0.4));
+      animation: pulse 3s infinite ease-in-out;
+    }
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 25px rgba(0,255,240,0.4)); }
+      50% { filter: drop-shadow(0 0 35px rgba(255,0,255,0.35)); }
+    }
+    header h1 {
+      font-size: clamp(1.8rem, 5vw, 2.5rem);
       color: var(--cyan);
-      text-shadow: 0 0 20px var(--cyan-glow);
-      margin-bottom: 20px;
+      text-shadow: 0 0 20px rgba(0,255,240,0.35);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
     }
-
-    nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px 16px;
-      padding: 0;
-      margin: 0;
-    }
-
-    nav a {
-      color: var(--text-soft);
-      text-decoration: none;
-      padding: 8px 14px;
-      border-radius: 8px;
-      border: 1px solid transparent;
-      transition: var(--transition-smooth);
-      min-height: 44px; display: inline-flex; align-items: center;
+    header .tagline {
+      color: var(--magenta);
+      font-size: 1rem;
       font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 25px;
     }
 
-    nav a:hover,
-    nav a.active {
-      color: var(--cyan);
-      background: rgba(0,255,240,0.08);
-      border-color: rgba(0,255,240,0.25);
-      text-shadow: 0 0 8px var(--cyan-glow);
+    nav {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 16px; margin-bottom: 10px;
+    }
+    nav a {
+      color: var(--cyan); font-weight: 700; padding: 6px 4px;
+      border-bottom: 2px solid transparent;
+      transition: var(--transition);
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      min-height: 44px; display: inline-flex; align-items: center;
+    }
+    nav a[aria-current="page"],
+    nav a:hover {
+      border-bottom: 2px solid var(--magenta);
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,0,255,0.5);
     }
 
-    main {
-      animation: fadeInUp 1s ease-out;
+    main { max-width: 720px; margin: 0 auto; padding: 30px 24px 70px; animation: fadeInUp 1s ease-out both; }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     section {
-      background: var(--glass);
+      background: rgba(0,255,240,0.04);
       border-radius: 20px;
       padding: 35px 30px;
       margin-bottom: 30px;
       border: 1px solid rgba(0,255,240,0.15);
-      box-shadow: 0 0 30px rgba(0,255,240,0.08);
-      backdrop-filter: blur(8px);
+      box-shadow: 0 0 25px rgba(0,255,240,0.1);
     }
 
     h2 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       color: var(--cyan);
-      margin-bottom: 22px;
+      margin-bottom: 25px;
       text-align: center;
-      text-shadow: 0 0 10px var(--cyan-glow);
+      text-shadow: 0 0 15px rgba(0,255,240,0.25);
     }
 
     h3 {
-      font-size: 1.3rem;
+      font-size: 1.25rem;
       color: var(--magenta);
-      margin: 32px 0 14px;
-      text-shadow: 0 0 8px var(--magenta-glow);
+      margin: 35px 0 15px;
+      text-shadow: 0 0 10px rgba(255,0,255,0.2);
     }
 
     p {
@@ -130,89 +204,103 @@
       color: var(--text-soft);
     }
 
-    strong {
-      color: var(--text-bright);
-    }
+    strong { color: var(--text-bright); }
 
     blockquote {
       border-left: 3px solid var(--cyan);
-      padding: 15px 20px;
+      padding: 20px 25px;
       margin: 25px 0;
       background: rgba(255,0,255,0.04);
-      border-radius: 0 12px 12px 0;
+      border-radius: 0 15px 15px 0;
       font-style: italic;
-      color: #f0dfff;
+      color: #e5d9ff;
+      box-shadow: inset 0 0 15px rgba(0,255,240,0.03);
     }
 
     ul {
-      padding-left: 22px;
+      padding-left: 25px;
       margin-bottom: 20px;
     }
 
     li {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       color: var(--text-soft);
     }
 
     .highlight-box {
       background: linear-gradient(135deg, rgba(0,255,240,0.08), rgba(255,0,255,0.05));
-      padding: 25px 22px;
+      padding: 30px 25px;
       border-radius: 18px;
-      margin: 32px 0;
+      margin: 35px 0;
       border: 1px solid rgba(0,255,240,0.2);
-      box-shadow: 0 0 20px rgba(0,255,240,0.05);
+      box-shadow: 0 0 25px rgba(0,255,240,0.08);
+      text-align: center;
     }
 
     .highlight-box p {
       color: var(--text-bright);
+      font-size: 1.08rem;
+      line-height: 1.9;
     }
 
-    a {
-      color: var(--magenta);
-      text-decoration: none;
-      transition: var(--transition-smooth);
-      font-weight: 600;
-    }
-
-    a:hover, a:focus-visible {
-      text-shadow: 0 0 10px var(--magenta-glow);
-      text-decoration: underline;
-      outline: none;
-    }
-
-    .highlight-box a {
-      display: inline-block;
-      margin: 8px 12px;
-      padding: 10px 20px;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta));
-      color: #000;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,255,240,0.25);
-      min-height: 44px;
-    }
-
-    .highlight-box a:hover {
-      transform: scale(1.05);
-      text-decoration: none;
-      color: #000;
-      box-shadow: 0 0 25px var(--cyan-glow);
+    .highlight-box .btn {
+      margin: 10px 8px;
+      min-width: 160px;
     }
 
     .closing-tagline {
       text-align: center;
-      margin-top: 30px;
-      font-size: 1.15em;
-      color: #b9faff;
+      margin-top: 20px;
+      font-size: 1.1rem;
+      color: var(--text-soft);
+    }
+    .closing-tagline strong {
+      color: var(--cyan);
+      font-size: 1.15rem;
+      display: block;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.2);
+      color: var(--text-muted); font-size: 0.9rem;
+      background: rgba(6,0,20,0.8);
+      backdrop-filter: blur(10px);
+      margin-top: 20px;
+    }
+    .footer-brand {
+      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,255,240,0.15);
+    }
+    .socials { margin: 16px 0; display: flex; justify-content: center; gap: 18px; font-size: 1.8rem; }
+    .socials a { 
+      color: var(--cyan); transition: var(--transition);
+      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+    }
+    .socials a:hover { 
+      color: var(--magenta); transform: scale(1.2);
+      background: rgba(255,0,255,0.1);
+    }
+    .legacy {
+      margin-top: 20px; padding-top: 20px;
+      border-top: 1px solid rgba(0,255,240,0.08);
+      font-size: 0.85rem;
+    }
+    .legacy-names {
+      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.05em;
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 600px) {
-      body { padding: 12px; }
-      section { padding: 22px 18px; }
-      h1 { font-size: 1.7rem; }
-      nav ul { gap: 6px 10px; }
-      nav a { padding: 6px 10px; font-size: 0.9rem; min-height: 40px; }
-      .highlight-box a { display: block; margin: 10px 0; text-align: center; }
+    @media (max-width: 700px) {
+      nav { gap: 8px 12px; }
+      main { padding: 25px 18px 50px; }
+      section { padding: 25px 20px; }
+      .highlight-box .btn { display: block; margin: 10px 0; width: 100%; }
+    }
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.5rem; }
+      blockquote { padding: 15px 18px; }
     }
 
     /* ===== REDUCED MOTION ===== */
@@ -221,99 +309,122 @@
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
-      .highlight-box a:hover { transform: none; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(25px); }
-      to { opacity: 1; transform: translateY(0); }
+      .btn:hover, .socials a:hover { transform: none; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <header role="banner">
-    <h1>🧠 Pleading Sanity</h1>
-    <nav aria-label="Main Navigation">
-      <ul>
-        <li><a href="index.html">🏠 Home</a></li>
-        <li><a href="sanityhub.html">🧠 Sanity Hub</a></li>
-        <li><a href="journal-vault.html">📔 Journal</a></li>
-        <li><a href="frequencies.html">🎵 Frequencies</a></li>
-        <li><a href="shop.html">🛒 Shop</a></li>
-        <li><a class="active" href="about.html">ℹ️ About</a></li>
-        <li><a href="movement.html">⚡ Movement</a></li>
-      </ul>
-    </nav>
-  </header>
+  <!-- Floating Nebula Background -->
+  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:200px;height:200px;top:40%;right:5%;animation-delay:-7s;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:250px;height:250px;bottom:10%;left:15%;animation-delay:-14s;" aria-hidden="true"></div>
 
-  <main id="main" role="main">
-    <section>
-      <h2>🌌 We Rise From Madness</h2>
+  <div class="page-wrapper">
+    <header role="banner">
+      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Crying Brain Logo" class="logo-img" />
+      <h1>About Pleading Sanity</h1>
+      <p class="tagline">Born from Struggle. Built by Survivors. For You.</p>
       
-      <p>
-        <strong>Pleading Sanity</strong> wasn't born in a boardroom. It was born in the dark — the sleepless nights, the labels that stuck, the moments when hope felt like a memory. 
-        We are not polished. We are not perfect. We are <em>proof</em> that broken things still shine.
-      </p>
+      <nav aria-label="Main Navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="journal-vault.html">Journal Vault</a>
+        <a href="sanityhub.html">Sanity Hub</a>
+        <a href="frequencies.html">Healing Hz</a>
+        <a href="games.html">Games</a>
+        <a href="shop.html">Shop</a>
+        <a href="movement.html">Movement</a>
+      </nav>
+    </header>
 
-      <blockquote>
-        “They say it's the genius disease. Maybe they're right. But this movement wasn't built for the spotlight — it was built for survival, for leaving something real behind, and for everyone who never got to tell their story.<br>
-        <strong>— Shane, Founder</strong>
-      </blockquote>
-
-      <p>
-        We believe pain is a superpower if you survive it. Every hoodie, every podcast, every game, every story shared in the Sanity Hub is a reminder: 
-        <strong>you are not alone in this fight.</strong>
-      </p>
-
-      <h3>✨ What Makes Us Different</h3>
-      <ul>
-        <li><strong>Unfiltered Truth:</strong> We don't smooth over the scars. Here, your story matters more than your stats. Your struggle is welcome. Your comeback is celebrated.</li>
-        <li><strong>Built By Survivors:</strong> This isn't corporate. It's crafted by those who've lived it. Mental health isn't a trend — it's the frontline of our lives.</li>
-        <li><strong>Cosmic Vision:</strong> Streetwear with a heartbeat. Gyms that heal as much as they train. AI that listens, not just talks. A feed that feeds your soul.</li>
-        <li><strong>Legacy Over Profit:</strong> Every purchase fuels free resources, safe spaces, and real change. We grow together — or not at all.</li>
-      </ul>
-
-      <h3>🤝 This Movement Is For You</h3>
-      <p>
-        When you join Pleading Sanity, you're not buying into hype. You're helping build what we never had: a place where anyone who feels "too much" can finally exhale. 
-        Where support is more than a slogan — it's a shared promise.
-      </p>
-      <p>
-        We're building safe spaces, tools, and culture that give back. Not because it's trendy — but because we needed it, and we know you do too.
-      </p>
-
-      <div class="highlight-box">
-        <p style="font-size: 1.1em; font-weight: 600; margin: 0;">
-          This is Pleading Sanity — where you become the message.<br>
-          Where your comeback becomes someone else's survival guide.<br>
-          Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
-          <a href="sanityhub.html">Step inside the Sanity Hub →</a>
-          <a href="shop.html">Wear the change →</a>
-          <a href="frequencies.html">Breathe. Align. Heal. →</a>
+    <main id="main" role="main">
+      <section>
+        <h2>🌌 We Rise From Madness</h2>
+        
+        <p>
+          <strong>Pleading Sanity</strong> wasn't born in a boardroom. It was born in the dark — the sleepless nights, the labels that stuck, the moments when hope felt like a memory. 
+          We are not polished. We are not perfect. We are <em>proof</em> that broken things still shine.
         </p>
-      </div>
 
-      <h3>⚡ Why Now?</h3>
-      <p>
-        Because the world is drowning in fake motivation. Because there's no app for real hope. Because no one else is telling the raw, unpolished truth — but we will.
-      </p>
-      <p>
-        With your help, we'll open MMA therapy gyms, launch survivor-led podcasts, and drop gear that funds real healing. 
-        We're not just here to talk — we're here to <em>rewrite the story</em>, one survivor at a time.
-      </p>
+        <blockquote>
+          "They say it's the genius disease. Maybe they're right. But this movement wasn't built for the spotlight — it was built for survival, for leaving something real behind, and for everyone who never got to tell their story.<br>
+          <strong>— Shane Cooper, Founder</strong>
+        </blockquote>
+
+        <p>
+          We believe pain is a superpower if you survive it. Every hoodie, every story, every moment shared in the Sanity Hub is a reminder: 
+          <strong>you are not alone in this fight.</strong>
+        </p>
+
+        <h3>✨ What Makes Us Different</h3>
+        <ul>
+          <li><strong>Unfiltered Truth:</strong> We don't smooth over the scars. Here, your story matters more than your stats. Your struggle is welcome. Your comeback is celebrated.</li>
+          <li><strong>Built By Survivors:</strong> This isn't corporate. It's crafted by those who've lived it. Mental health isn't a trend — it's the frontline of our lives.</li>
+          <li><strong>Cosmic Vision:</strong> Streetwear with a heartbeat. Safe spaces that heal. A feed that feeds your soul. AI that listens, not just talks.</li>
+          <li><strong>Legacy Over Profit:</strong> Every purchase fuels free resources, real change, and community care. We grow together — or not at all.</li>
+        </ul>
+
+        <h3>🤝 This Movement Is For You</h3>
+        <p>
+          When you join Pleading Sanity, you're not buying into hype. You're helping build what we never had: a place where anyone who feels "too much" can finally exhale. 
+          Where support is more than a slogan — it's a shared promise.
+        </p>
+        <p>
+          We're building safe spaces, tools, and culture that give back. Not because it's trendy — but because we needed it, and we know you do too.
+        </p>
+
+        <div class="highlight-box">
+          <p>
+            This is Pleading Sanity — where you become the message.<br>
+            Where your comeback becomes someone else's survival guide.<br>
+            Where our madness builds a legacy, and our scars become our badges of honour.<br><br>
+            <a href="sanityhub.html" class="btn">🧠 Enter the Hub</a>
+            <a href="shop.html" class="btn">🛒 Wear the Change</a>
+            <a href="movement.html" class="btn">⚡ Join the Movement</a>
+          </p>
+        </div>
+
+        <h3>⚡ Why Now?</h3>
+        <p>
+          Because the world is drowning in fake motivation. Because there's no app for real hope. Because no one else is telling the raw, unpolished truth — but we will.
+        </p>
+        <p>
+          With your help, we'll grow into everything we imagine: safe spaces, creative outlets, and a global family that heals together. 
+          We're not just here to talk — we're here to <em>rewrite the story</em>, one survivor at a time.
+        </p>
+        
+        <p class="closing-tagline">
+          One Source. One Consciousness. One Family.<br>
+          <strong>We don't beg for sanity. We build it.</strong>
+        </p>
+      </section>
+    </main>
+
+    <footer role="contentinfo">
+      <div class="footer-brand">Pleading Sanity — Built for the Warriors</div>
+      <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
       
-      <p class="closing-tagline">
-        One Source. One Consciousness. One Family.<br>
-        <strong style="color: var(--cyan); font-size: 1.2em;">We don't beg for sanity. We build it.</strong>
-      </p>
-    </section>
-  </main>
+      <div class="socials">
+        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+        <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+        <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+        <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
+      </div>
+      
+      <div class="legacy">
+        <p>&copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.</p>
+        <p class="legacy-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+        <p>Built on their shoulders. Awakened, not broken.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Auto-update copyright year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
