@@ -1,7 +1,7 @@
 # ==============================================================
-# 🌌 PLEADING SANITY — GITIGNORE
+# 🌌 PLEADING SANITY — GITIGNORE v2.1-FINAL
 # Keep secrets, builds & private data OFFLINE
-# Evolution, Not Erasure • Secure by design
+# Evolution, Not Erasure • Secure by Design
 # ==============================================================
 
 # ========================================
@@ -10,12 +10,15 @@
 .env
 .env.*
 !.env.example
-config/keys.js
-config/production.json
+!.env.production.example
+config/
 *.pem
 *.key
 *.crt
+*.p12
+*.pfx
 ssl/
+secrets/
 
 # ========================================
 # 📦 DEPENDENCIES
@@ -25,9 +28,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+bun-debug.log*
 
 # ========================================
-# 🏗️ BUILD OUTPUT
+# 🏗️ BUILD OUTPUT & PLATFORMS
 # ========================================
 build/
 dist/
@@ -37,6 +41,7 @@ out/
 .parcel-cache/
 .netlify/
 .vercel/
+.fasthost/
 
 # ========================================
 # 📝 LOGS & RUNTIME
@@ -48,7 +53,7 @@ pids/
 *.pid.lock
 
 # ========================================
-# 💾 DATABASE & LOCAL DATA
+# 💾 DATABASE & SENSITIVE DATA
 # ========================================
 *.db
 *.sqlite
@@ -57,6 +62,7 @@ journal-backups/
 user-data/
 chat-logs/
 uploads/temp/
+private/
 
 # ========================================
 # 🧪 TESTS & COVERAGE
@@ -66,7 +72,7 @@ coverage/
 test-results/
 
 # ========================================
-# 💻 IDE & EDITOR
+# 💻 IDE, EDITOR & OS
 # ========================================
 .vscode/
 .idea/
@@ -80,7 +86,7 @@ Desktop.ini
 ehthumbs.db
 
 # ========================================
-# 📄 TEMP & DRAFTS
+# 📄 TEMP, DRAFTS & WORK IN PROGRESS
 # ========================================
 tmp/
 temp/
@@ -92,21 +98,21 @@ dev-notes.md
 TODO.md
 NOTES.md
 content/drafts/
-content/private/
 
 # ========================================
-# 🔒 LOCAL CONFIG — OVERRIDES
+# 🔒 LOCAL OVERRIDES
 # ========================================
 local.json
 config.local.js
 *.local.js
 
 # ========================================
-# 📦 LOCK FILES — KEEP ONE, COMMENT THE OTHER
+# 📦 LOCK FILES — KEEP npm ONLY
 # ========================================
-# We use npm — keep package-lock.json, ignore yarn.lock
-yarn.lock
+package-lock.json
+# yarn.lock          ← npm only
+# pnpm-lock.yaml     ← npm only
 
 # ========================================
-# ✅ END — Protected & Ready
+# ✅ END — SECURED • CLEAN • READY
 # ========================================
