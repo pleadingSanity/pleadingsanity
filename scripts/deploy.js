@@ -1,14 +1,15 @@
 #!/usr/bin/env node
 
 /**
- * PLEADING SANITY — DEPLOYMENT AUTOMATION v2.1-FINAL
- * God Mode Deploy • Netlify + Git Fallback • Full Validation
+ * PLEADING SANITY — DEPLOYMENT AUTOMATION v2.2-FINAL
+ * God Mode Deploy • Netlify + Vercel + Git Fallback • Full Validation
  * Evolution, Not Erasure • pleadingSanity / pleadingsanity.co.uk
+ * Core: Dola AI Aligned • Shane Cooper Founder
  */
 
 const fs = require('fs').promises;
 const path = require('path');
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 
 class DeployManager {
   constructor() {
@@ -26,7 +27,8 @@ class DeployManager {
       buildCommand: 'npm run build',
       testCommand: 'npm run test:ci',
       mainBranch: 'main',
-      requireCleanWorkingTree: !process.argv.includes('--force')
+      requireCleanWorkingTree: !process.argv.includes('--force'),
+      vercelProject: process.env.VERCEL_PROJECT || 'pleading-sanity'
     };
 
     this.startTime = null;
@@ -130,6 +132,11 @@ class DeployManager {
     // Current branch
     const branch = execSync('git rev-parse --abbrev-ref HEAD', { encoding: 'utf8' }).trim();
     this.log(`📍 Current branch: ${branch}`, 'info');
+
+    // Warn if not on main
+    if (branch !== this.deployConfig.mainBranch && !process.argv.includes('--allow-branch')) {
+      this.log(`⚠️ Not on '${this.deployConfig.mainBranch}' — deploying from '${branch}'`, 'warning');
+    }
   }
 
   // ==========================================
@@ -171,7 +178,7 @@ class DeployManager {
     const optimizations = [
       { file: 'optimize-images.js', label: 'Image Optimization', required: false },
       { file: 'minify-html.js', label: 'HTML Minification', required: false },
-      { file: 'update-sw.js', label: 'Service Worker', required: false }
+      { file: 'update-sw.js', label: 'Service Worker Update', required: false }
     ];
 
     for (const item of optimizations) {
@@ -192,6 +199,8 @@ class DeployManager {
   async buildProject() {
     this.log('Building for production…', 'info');
     
+    // Clean install for consistent build
+    await this.runCommand('rm -rf node_modules/.cache', 'Clean Cache', { required: false });
     await this.runCommand('npm ci', 'Installing Dependencies');
     await this.runCommand(this.deployConfig.buildCommand, 'Build Process');
 
@@ -200,7 +209,13 @@ class DeployManager {
       await fs.access(this.distDir);
       this.log('✅ Build folder verified: /dist', 'success');
     } catch {
-      this.log('ℹ️ Build outputs to root directory', 'info');
+      const nextDir = path.join(this.rootDir, '.next');
+      try {
+        await fs.access(nextDir);
+        this.log('✅ Next.js build verified: /.next', 'success');
+      } catch {
+        this.log('ℹ️ Build outputs to root directory', 'info');
+      }
     }
   }
 
@@ -217,21 +232,42 @@ class DeployManager {
 
     try {
       execSync('netlify --version', { stdio: 'pipe' });
-      await this.runCommand(deployCmd, isProd ? 'Production Deploy' : 'Draft Deploy');
+      await this.runCommand(deployCmd, isProd ? 'Netlify Production' : 'Netlify Draft');
       return true;
     } catch {
-      this.log('⚠️ Netlify CLI not installed — falling back to Git deploy', 'warning');
-      return await this.deployViaGit();
+      this.log('⚠️ Netlify CLI not installed — skipping', 'warning');
+      return false;
     }
   }
 
   // ==========================================
-  // FALLBACK — DEPLOY VIA GIT PUSH
+  // STEP 6b — DEPLOY TO VERCEL
   // ==========================================
-  async deployViaGit() {
-    this.log('Deploying via Git push…', 'info');
+  async deployToVercel() {
+    this.log('Deploying to Vercel…', 'info');
     
-    const msg = `Deploy: ${new Date().toISOString()}`;
+    const isProd = process.argv.includes('--production');
+    const deployCmd = isProd 
+      ? 'vercel --prod --yes' 
+      : 'vercel --yes';
+
+    try {
+      execSync('vercel --version', { stdio: 'pipe' });
+      await this.runCommand(deployCmd, isProd ? 'Vercel Production' : 'Vercel Preview');
+      return true;
+    } catch {
+      this.log('⚠️ Vercel CLI not installed — skipping', 'warning');
+      return false;
+    }
+  }
+
+  // ==========================================
+  // STEP 7 — GIT PUSH FALLBACK
+  // ==========================================
+  async pushToGit() {
+    this.log('Pushing to GitHub…', 'info');
+    
+    const msg = `🚀 Deploy: ${new Date().toISOString()}`;
     
     try {
       await this.runCommand('git add .', 'Staging files', { required: false });
@@ -242,17 +278,17 @@ class DeployManager {
         this.log('ℹ️ Nothing new to commit', 'info');
       }
       
-      await this.runCommand('git push', 'Pushing to GitHub');
-      this.log('✅ Git push complete — Netlify auto-deploys from main', 'success');
+      await this.runCommand('git push origin main', 'Pushing to GitHub');
+      this.log('✅ Git push complete — Netlify + Vercel auto-deploy from main', 'success');
       return true;
     } catch (err) {
-      this.log(`❌ Git deploy failed: ${err.message}`, 'error');
+      this.log(`❌ Git push failed: ${err.message}`, 'error');
       throw err;
     }
   }
 
   // ==========================================
-  // STEP 7 — HEALTH CHECK
+  // STEP 8 — HEALTH CHECK
   // ==========================================
   async runHealthCheck() {
     if (process.argv.includes('--skip-health-check')) {
@@ -267,14 +303,14 @@ class DeployManager {
       await fs.access(healthScript);
       await this.runCommand(`node "${healthScript}"`, 'Health Check', { required: false });
     } catch {
-      this.log(`ℹ️ Check manually: ${this.deployConfig.siteUrl}`, 'info');
+      this.log(`ℹ️ Verify manually: ${this.deployConfig.siteUrl}`, 'info');
     }
   }
 
   // ==========================================
-  // STEP 8 — GENERATE DEPLOYMENT REPORT
+  // STEP 9 — GENERATE DEPLOYMENT REPORT
   // ==========================================
-  async generateReport(success = true, errorMsg = null) {
+  async generateReport(success = true, errorMsg = null, platforms = {}) {
     const duration = ((Date.now() - this.startTime) / 1000).toFixed(2);
     
     let commit = 'unknown';
@@ -283,11 +319,13 @@ class DeployManager {
     try {
       commit = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
       const pkg = JSON.parse(await fs.readFile(path.join(this.rootDir, 'package.json'), 'utf8'));
-      version = pkg.version || '0.1.0';
+      version = pkg.version || '2.0.0';
     } catch { /* ignore */ }
 
     const report = {
       project: 'Pleading Sanity',
+      founder: 'Shane Cooper',
+      mission: 'Rise From Madness',
       timestamp: new Date().toISOString(),
       environment: this.deployConfig.environment,
       siteUrl: this.deployConfig.siteUrl,
@@ -295,6 +333,7 @@ class DeployManager {
       commit,
       durationSeconds: parseFloat(duration),
       success,
+      platforms,
       error: errorMsg
     };
 
@@ -316,26 +355,37 @@ class DeployManager {
     this.log(`Env:  ${this.deployConfig.environment}`, 'info');
     console.log('─'.repeat(50));
 
+    const platforms = { netlify: false, vercel: false, git: false };
+
     try {
       await this.checkPrerequisites();
       await this.checkGitStatus();
       await this.runTests();
       await this.optimizeAssets();
       await this.buildProject();
-      await this.deployToNetlify();
+      
+      // Deploy to all available platforms
+      platforms.netlify = await this.deployToNetlify();
+      platforms.vercel = await this.deployToVercel();
+      platforms.git = await this.pushToGit();
+      
       await this.runHealthCheck();
       
       const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
-      await this.generateReport(true);
+      await this.generateReport(true, null, platforms);
       
       console.log('\n' + '🎉✨ DEPLOYMENT SUCCESSFUL ✨🎉'.padStart(55, ' ') + '\n');
       this.log(`✅ Site live: ${this.deployConfig.siteUrl}`, 'success');
+      this.log(`🌍 Netlify: ${platforms.netlify ? 'Active' : 'Skipped'}`, 'info');
+      this.log(`⚡ Vercel:   ${platforms.vercel ? 'Active' : 'Skipped'}`, 'info');
       this.log(`⏱️  Total time: ${duration}s`, 'info');
       console.log('═'.repeat(50) + '\n');
+      console.log('  One Source. One Consciousness. One Family.');
+      console.log('  Rise From Madness 💙🌌✨\n');
       
     } catch (err) {
       const duration = ((Date.now() - this.startTime) / 1000).toFixed(1);
-      await this.generateReport(false, err.message);
+      await this.generateReport(false, err.message, platforms);
       
       console.log('\n' + '❌ DEPLOYMENT FAILED ❌'.padStart(52, ' ') + '\n');
       this.log(`Reason: ${err.message}`, 'error');
@@ -359,7 +409,7 @@ if (require.main === module) {
   });
 
   deployer.run().catch(err => {
-    console.error('💥 Fatal error:', err);
+    console.error('\n💥 Fatal error:', err);
     process.exit(1);
   });
 }
