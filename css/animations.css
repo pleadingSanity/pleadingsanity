@@ -1,54 +1,72 @@
 /* ==============================================
-   PLEADING SANITY — COSMIC ANIMATION LIBRARY
-   Optimized • Accessible • GPU-Accelerated
-   Theme: Nebula • Starfield • Cyan/Magenta Glow
+   PLEADING SANITY — COSMIC ANIMATION LIBRARY v2.1-FINAL
+   GPU-Accelerated • Accessible • Motion-Respectful
+   Nebula • Starfield • Cyan/Magenta Glow
+   Evolution, Not Erasure • pleadingSanity
 ============================================== */
 
+/* ─── ALIGN WITH CORE VARIABLES ─── */
 :root {
-  /* ─── EASING ─── */
+  /* Re-export from cosmic-core.css — NO DUPLICATES if already loaded */
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-cosmic: cubic-bezier(0.1, 0.8, 0.2, 1);
 
-  /* ─── DURATIONS ─── */
   --duration-fast: 200ms;
   --duration-normal: 350ms;
   --duration-slow: 600ms;
   --duration-galactic: 8s;
 
-  /* ─── COLOUR GLOW BASES ─── */
+  /* Glow values — match core exactly */
   --glow-cyan: rgba(0, 255, 240, 0.6);
+  --glow-cyan-strong: rgba(0, 255, 240, 0.8);
   --glow-fuchsia: rgba(255, 0, 255, 0.5);
+  --glow-fuchsia-strong: rgba(255, 0, 255, 0.7);
   --glow-white-soft: rgba(255, 255, 255, 0.3);
 }
 
-/* ─── CORE ENTRANCE ─── */
+/* ==============================================
+   CORE ENTRANCE — GPU OPTIMIZED (transform + opacity only)
+   ============================================== */
 .animate-fade-in {
-  animation: fadeIn var(--duration-normal) var(--ease-out-quart);
+  animation: fadeIn var(--duration-normal) var(--ease-out-quart) forwards;
+  opacity: 0;
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp var(--duration-slow) var(--ease-cosmic);
+  animation: fadeInUp var(--duration-slow) var(--ease-cosmic) forwards;
+  opacity: 0;
 }
 
 .animate-fade-in-down {
-  animation: fadeInDown var(--duration-slow) var(--ease-cosmic);
+  animation: fadeInDown var(--duration-slow) var(--ease-cosmic) forwards;
+  opacity: 0;
 }
 
 .animate-slide-in-left {
-  animation: slideInLeft var(--duration-normal) var(--ease-out-quart);
+  animation: slideInLeft var(--duration-normal) var(--ease-out-quart) forwards;
+  opacity: 0;
 }
 
 .animate-slide-in-right {
-  animation: slideInRight var(--duration-normal) var(--ease-out-quart);
+  animation: slideInRight var(--duration-normal) var(--ease-out-quart) forwards;
+  opacity: 0;
 }
 
 .animate-bounce-in {
-  animation: bounceIn var(--duration-slow) var(--ease-out-back);
+  animation: bounceIn var(--duration-slow) var(--ease-out-back) forwards;
+  opacity: 0;
 }
 
-/* ─── COSMIC EFFECTS ─── */
+/* Stagger delays — use together */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+
+/* ==============================================
+   COSMIC EFFECTS — INFINITE • SMOOTH
+   ============================================== */
 .animate-pulse-cyan {
   animation: pulseCyan 2.5s var(--ease-in-out-quart) infinite;
 }
@@ -81,32 +99,38 @@
   animation: shootStar 3s linear infinite;
 }
 
-/* ─── INTERACTIVE HOVER ─── */
+/* ==============================================
+   INTERACTIVE HOVER — RESPONSIVE • FEATHER-LIGHT
+   ============================================== */
 .hover-lift {
   transition: transform var(--duration-fast) var(--ease-out-quart);
 }
-.hover-lift:hover {
+.hover-lift:hover,
+.hover-lift:focus-visible {
   transform: translateY(-5px);
 }
 
 .hover-scale {
   transition: transform var(--duration-fast) var(--ease-out-quart);
 }
-.hover-scale:hover {
+.hover-scale:hover,
+.hover-scale:focus-visible {
   transform: scale(1.05);
 }
 
 .hover-glow-cyan {
   transition: box-shadow var(--duration-normal) var(--ease-out-quart);
 }
-.hover-glow-cyan:hover {
+.hover-glow-cyan:hover,
+.hover-glow-cyan:focus-visible {
   box-shadow: 0 0 15px var(--glow-cyan), 0 0 30px rgba(0,255,240,0.35);
 }
 
 .hover-glow-fuchsia {
   transition: box-shadow var(--duration-normal) var(--ease-out-quart);
 }
-.hover-glow-fuchsia:hover {
+.hover-glow-fuchsia:hover,
+.hover-glow-fuchsia:focus-visible {
   box-shadow: 0 0 15px var(--glow-fuchsia), 0 0 30px rgba(255,0,255,0.25);
 }
 
@@ -124,11 +148,79 @@
   background: linear-gradient(90deg, transparent, var(--glow-white-soft), transparent);
   transition: left 600ms var(--ease-out-quart);
 }
-.hover-shine:hover::before {
+.hover-shine:hover::before,
+.hover-shine:focus-visible::before {
   left: 100%;
 }
 
-/* ─── KEYFRAMES — GPU OPTIMIZED ─── */
+/* ==============================================
+   SCROLL-TRIGGERED — REVEAL AS YOU GO
+   ============================================== */
+.observe-fade {
+  opacity: 0;
+  transform: translateY(25px);
+  transition: 
+    opacity var(--duration-slow) var(--ease-cosmic),
+    transform var(--duration-slow) var(--ease-cosmic);
+}
+.observe-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.observe-fade-left {
+  opacity: 0;
+  transform: translateX(-30px);
+  transition: 
+    opacity var(--duration-slow) var(--ease-out-quart),
+    transform var(--duration-slow) var(--ease-out-quart);
+}
+.observe-fade-left.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.observe-fade-right {
+  opacity: 0;
+  transform: translateX(30px);
+  transition: 
+    opacity var(--duration-slow) var(--ease-out-quart),
+    transform var(--duration-slow) var(--ease-out-quart);
+}
+.observe-fade-right.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.observe-scale-up {
+  opacity: 0;
+  transform: scale(0.92);
+  transition: 
+    opacity var(--duration-slow) var(--ease-out-quart),
+    transform var(--duration-slow) var(--ease-out-quart);
+}
+.observe-scale-up.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ==============================================
+   LOADING STATES — SKELETON SHIMMER
+   ============================================== */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(0,255,240,0.08) 25%, 
+    rgba(255,0,255,0.15) 50%, 
+    rgba(0,255,240,0.08) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite linear;
+  border-radius: 4px;
+}
+
+/* ==============================================
+   KEYFRAMES — ALL GPU-ACCELERATED (transform/opacity only)
+   ============================================== */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -262,44 +354,9 @@
   100% { transform: translate3d(0, 0, 0) scale(1.1); }
 }
 
-/* ─── SCROLL-TRIGGERED (Intersection Observer) ─── */
-.observe-fade {
-  opacity: 0;
-  transform: translateY(25px);
-  transition: 
-    opacity var(--duration-slow) var(--ease-cosmic),
-    transform var(--duration-slow) var(--ease-cosmic);
-}
-.observe-fade.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.observe-fade-left {
-  opacity: 0;
-  transform: translateX(-30px);
-  transition: 
-    opacity var(--duration-slow) var(--ease-out-quart),
-    transform var(--duration-slow) var(--ease-out-quart);
-}
-.observe-fade-left.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-/* ─── LOADING STATES ─── */
-.loading-shimmer {
-  background: linear-gradient(90deg, 
-    rgba(0,255,240,0.08) 25%, 
-    rgba(255,0,255,0.15) 50%, 
-    rgba(0,255,240,0.08) 75%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 2s infinite linear;
-  border-radius: 4px;
-}
-
-/* ─── ACCESSIBILITY: RESPECT REDUCED MOTION ─── */
+/* ==============================================
+   ACCESSIBILITY — RESPECT REDUCED MOTION
+   ============================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -316,17 +373,31 @@
   .animate-float-slow,
   .animate-glow-text,
   .animate-twinkle,
-  .animate-shooting-star {
+  .animate-shooting-star,
+  .loading-shimmer {
     animation: none !important;
   }
 
   .hover-lift:hover,
-  .hover-scale:hover {
+  .hover-scale:hover,
+  .hover-lift:focus-visible,
+  .hover-scale:focus-visible {
     transform: none;
+  }
+
+  .observe-fade,
+  .observe-fade-left,
+  .observe-fade-right,
+  .observe-scale-up {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
-/* ─── FOCUS RINGS — KEYBOARD NAV ─── */
+/* ==============================================
+   FOCUS RINGS — KEYBOARD NAVIGATION
+   ============================================== */
 .focus-ring {
   transition: box-shadow var(--duration-fast) var(--ease-out-quart);
 }
@@ -335,7 +406,9 @@
   box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.5), 0 0 0 6px rgba(0, 255, 240, 0.15);
 }
 
-/* ─── GPU HINTS ─── */
+/* ==============================================
+   GPU HINTS — SMOOTHER PERFORMANCE
+   ============================================== */
 .will-animate {
   will-change: transform, opacity;
 }
