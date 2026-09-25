@@ -14,121 +14,16 @@
   "categories": ["health", "education", "games", "lifestyle", "social", "productivity", "mental health", "wellness"],
   "icons": [
     {
-      "src": "assets/favicon.ico",
+      "src": "assets/favicon.svg",
       "sizes": "any",
-      "type": "image/x-icon",
+      "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "assets/crying-brain-og.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/crying-brain-og.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/desktop-home.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Home — Pleading Sanity"
-    },
-    {
-      "src": "assets/screenshots/mobile-hub.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Sanity Hub — Mobile"
-    },
-    {
-      "src": "assets/screenshots/mobile-games.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Brain Games — All 5 Ready"
-    },
-    {
-      "src": "assets/screenshots/desktop-feed.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Sanity Feed — No Algorithms"
-    },
-    {
-      "src": "assets/screenshots/mobile-journal.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Journal Vault — Private & Safe"
-    },
-    {
-      "src": "assets/screenshots/desktop-videos.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Videos — Survivor Stories"
-    },
-    {
-      "src": "assets/screenshots/mobile-offline.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Offline Support — Always Here"
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
@@ -199,12 +94,6 @@
       "url": "/journal-vault.html"
     },
     {
-      "name": "Arron AI",
-      "short_name": "Arron",
-      "description": "Your companion — reflect, breathe, grow together",
-      "url": "/arron"
-    },
-    {
       "name": "Community",
       "short_name": "Community",
       "description": "Dashboard & voice — shape the movement",
@@ -233,18 +122,6 @@
       "short_name": "About",
       "description": "Who we are & why we're here",
       "url": "/about.html"
-    },
-    {
-      "name": "Discord",
-      "short_name": "Discord",
-      "description": "Join the conversation — we rise together",
-      "url": "/discord"
-    },
-    {
-      "name": "Contact",
-      "short_name": "Contact",
-      "description": "Reach out — we're listening",
-      "url": "/contact.html"
     }
   ],
   "scope": "/",

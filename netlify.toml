@@ -1,11 +1,6 @@
 [build]
-  # Deploys invoked through the CLI do not run Netlify's dependency-install stage.
-  # Install from the committed lockfile before building so the Next.js CLI exists.
-  command = "npm ci --include=dev && npm run build"
-  publish = ".next"
-
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
+  publish = "."
+  functions = "netlify/functions"
 
 # Canonical & www → naked domain
 [[redirects]]
