@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- ==============================================
-       PLEADING SANITY — SITEMAP
+       PLEADING SANITY — OFFICIAL SITEMAP
        Rise From Madness · One Source · One Family
-       Last Updated: 2026-09-19
+       Last Updated: 2026-09-23
+       Canonical: https://pleadingsanity.co.uk/
        ============================================== -->
 
   <!-- 🏠 HOME — Highest Priority -->
@@ -11,7 +12,7 @@
     <loc>https://pleadingsanity.co.uk/</loc>
     <priority>1.0</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <!-- 📖 CORE PAGES -->
@@ -19,50 +20,59 @@
     <loc>https://pleadingsanity.co.uk/about.html</loc>
     <priority>0.85</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <url>
     <loc>https://pleadingsanity.co.uk/sanityhub.html</loc>
     <priority>0.9</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <url>
     <loc>https://pleadingsanity.co.uk/journal-vault.html</loc>
     <priority>0.85</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <url>
     <loc>https://pleadingsanity.co.uk/movement.html</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
-  <!-- 🎬 MEDIA & COMMUNITY -->
+  <!-- 🎬 MEDIA & FEEDS -->
   <url>
     <loc>https://pleadingsanity.co.uk/videos.html</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <url>
     <loc>https://pleadingsanity.co.uk/feed.html</loc>
     <priority>0.75</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
+  <!-- 🧘 FREQUENCIES & HEALING -->
+  <url>
+    <loc>https://pleadingsanity.co.uk/frequencies.html</loc>
+    <priority>0.75</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+
+  <!-- 🧩 GAMES & INTERACTIVE -->
   <url>
     <loc>https://pleadingsanity.co.uk/games.html</loc>
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <!-- 🛒 SHOP & OUTREACH -->
@@ -70,29 +80,30 @@
     <loc>https://pleadingsanity.co.uk/shop.html</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <url>
     <loc>https://pleadingsanity.co.uk/contact.html</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
-  <!-- 🤖 AI & COMMUNITY LINKS -->
+  <!-- 🤖 ARRON AI COMPANION -->
   <url>
     <loc>https://pleadingsanity.co.uk/arron</loc>
     <priority>0.85</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
+  <!-- 💬 COMMUNITY LINKS -->
   <url>
     <loc>https://pleadingsanity.co.uk/discord</loc>
     <priority>0.65</priority>
     <changefreq>weekly</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
   </url>
 
   <!-- 🏛️ COMMUNITY GOVERNANCE -->
@@ -100,6 +111,46 @@
     <loc>https://pleadingsanity.co.uk/community-dashboard.html</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
-    <lastmod>2026-09-19</lastmod>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+
+  <!-- 📴 OFFLINE CRISIS SUPPORT (Indexed for PWA) -->
+  <url>
+    <loc>https://pleadingsanity.co.uk/offline.html</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+
+  <!-- 🧠 BRAIN GAMES — Individual Pages -->
+  <url>
+    <loc>https://pleadingsanity.co.uk/cosmic-focus.html</loc>
+    <priority>0.65</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/number-nebula.html</loc>
+    <priority>0.65</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/pattern-galaxy.html</loc>
+    <priority>0.65</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/memory-ocean.html</loc>
+    <priority>0.65</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/rhythm-resonance.html</loc>
+    <priority>0.65</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-09-23</lastmod>
   </url>
 </urlset>

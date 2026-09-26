@@ -4,198 +4,253 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pleading Sanity — The Movement | Rise From Madness</title>
-  <meta name="description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" href="assets/favicon.ico" />
-  
+  <meta name="description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family. Evolution, Not Erasure." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/movement.html" />
+
+  <!-- Favicons & PWA -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://www.youtube.com" crossorigin />
+  <link rel="preconnect" href="https://www.tiktok.com" crossorigin />
+  <link rel="preconnect" href="https://instagram.com" crossorigin />
+
   <!-- Open Graph -->
   <meta property="og:title" content="Pleading Sanity — The Movement | Rise From Madness" />
-  <meta property="og:description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth. One Source. One Consciousness. One Family." />
-  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:description" content="This isn't just survival. It's a cosmic uprising. Built on legacy. Fueled by truth." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/movement.html" />
-  
-  <meta name="author" content="Shane Cooper" />
-  <meta name="theme-color" content="#00fff0" />
-  
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Pleading Sanity — The Movement" />
+  <meta name="twitter:description" content="Evolution, Not Erasure. One Source. One Consciousness. One Family." />
+
+  <!-- ==========================================
+       MOVEMENT — COSMIC MASTER BUILD v2.1
+       Unified design · SVG logo · Full Legacy
+       Matches index.html & about.html perfectly
+       ========================================== -->
   <style>
     :root {
       --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
       --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
       --gold: #ffd700;
-      --deep-purple: #13002e;
+      --gold-bright: #ffd000;
+      --orange-gold: #ff9500;
+      --deep: #0d1b2a;
+      --dark: #030712;
       --deepest: #060014;
       --text-bright: #eafffd;
       --text-soft: #b9faff;
+      --text-muted: #7ab8c8;
+      --text-dim: #90a4ae;
       --glass: rgba(0,255,240,0.06);
       --glass-deep: rgba(18,4,42,0.85);
-      --transition: all 0.3s ease;
+      --border-glow: rgba(0,255,240,0.15);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     }
-    
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     
-    body { 
-      background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep-purple) 45%, var(--deepest) 90%); 
-      color: var(--text-bright); 
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      line-height: 1.7;
+    body {
+      font-family: var(--font-sans);
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
+      color: var(--text-bright);
       min-height: 100vh;
+      line-height: 1.7;
+      background-attachment: fixed;
     }
-    
-    /* Floating Nebula Particles */
+
+    @media (prefers-color-scheme: light) {
+      body {
+        background: 
+          radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
+      }
+    }
+
+    .skip-link {
+      position: absolute; top: -50px; left: 6px;
+      background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000;
+      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
+    }
+    .skip-link:focus { top: 12px; }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+    }
+
+    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px;
+      border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
+      box-shadow: 0 0 20px rgba(0,255,240,0.25);
+      min-height: 48px; font-family: inherit; gap: 8px;
+    }
+    .btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      color: #000;
+    }
+    .btn-gold {
+      background: linear-gradient(90deg, var(--gold-bright) 0%, var(--orange-gold) 100%);
+      box-shadow: 0 0 20px rgba(255,215,0,0.35);
+    }
+    .btn-gold:hover {
+      box-shadow: 0 0 35px rgba(255,215,0,0.6);
+    }
+
+    /* Nebula Particles */
     .nebula-particle {
-      position: fixed;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,240,0.18), transparent 70%);
-      pointer-events: none;
-      z-index: 0;
+      position: fixed; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
+      pointer-events: none; z-index: 0;
       animation: float 20s infinite ease-in-out;
     }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-30px) scale(1.1); }
+    .nebula-particle.gold-glow {
+      background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%);
+      animation-delay: -7s;
     }
-    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+      50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; }
+    }
+
     .page-wrapper { position: relative; z-index: 1; }
-    
-    .cosmic-header {
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      justify-content: center;
-      margin-top: 30px;
-      padding: 20px;
+
+    header { 
+      text-align: center; padding: 30px 20px 15px;
+      background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-glow);
       animation: fadeIn 0.8s ease-out both;
     }
-    
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
-    .cosmic-header img { 
-      width: 165px; 
-      max-width: 50vw; 
-      margin-bottom: 20px; 
-      filter: drop-shadow(0 0 25px rgba(0,255,240,0.4));
-      animation: pulse 3s infinite ease-in-out;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { filter: drop-shadow(0 0 25px rgba(0,255,240,0.4)); }
-      50% { filter: drop-shadow(0 0 35px rgba(255,0,255,0.35)); }
-    }
-    
-    .cosmic-title { 
-      font-size: clamp(2rem, 6vw, 3rem); 
-      letter-spacing: 0.05em; 
-      font-weight: 900; 
-      color: var(--cyan); 
-      text-shadow: 0 0 20px rgba(0,255,240,0.5), 0 0 40px rgba(255,0,255,0.2);
-      text-transform: uppercase;
-    }
-    
-    .cosmic-subtitle {
-      color: var(--magenta);
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-top: 8px;
-      letter-spacing: 0.1em;
-    }
-    
-    nav { 
-      margin: 30px 0; 
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(6,0,20,0.85);
-      backdrop-filter: blur(10px);
-      padding: 12px 0;
-      border-bottom: 1px solid rgba(0,255,240,0.15);
-    }
-    
-    nav ul { 
-      display: flex; 
-      gap: 12px 20px; 
-      list-style: none; 
-      justify-content: center; 
-      padding: 0;
+
+    /* === CUSTOM SVG LOGO — SAME AS INDEX & ABOUT === */
+    .logo-container {
+      display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px;
       flex-wrap: wrap;
     }
-    
-    nav a { 
-      color: var(--cyan); 
-      font-weight: 700; 
-      font-size: clamp(0.95rem, 2vw, 1.1rem); 
-      text-decoration: none; 
-      border-bottom: 2px solid transparent; 
-      padding: 6px 4px;
+    .logo-mark {
+      width: 80px; height: 80px; flex-shrink: 0;
+      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
+      animation: logoPulse 3.5s infinite ease-in-out;
+    }
+    @keyframes logoPulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 35px rgba(255,215,0,0.25)); }
+      50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 45px rgba(255,215,0,0.35)); }
+    }
+    .logo-text-wrap { text-align: left; }
+    .logo-main {
+      font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: 0.08em;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.1;
+    }
+    .logo-tag {
+      font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.15em;
+      margin-top: 4px;
+    }
+
+    header h1 {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      color: var(--cyan);
+      text-shadow: 0 0 20px rgba(0,255,240,0.35);
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    header .tagline {
+      color: var(--magenta);
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      margin-bottom: 25px;
+    }
+
+    nav {
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 10px;
+    }
+    nav a {
+      color: var(--text-soft); font-weight: 700; padding: 8px 14px;
+      border-radius: 24px; border: 1px solid transparent;
       transition: var(--transition);
+      font-size: clamp(0.9rem, 2vw, 1rem);
+      min-height: 44px; display: inline-flex; align-items: center;
+      background: rgba(0,255,240,0.04);
     }
-    
-    nav a.active, nav a:hover { 
-      border-bottom: 2px solid var(--magenta); 
+    nav a[aria-current="page"],
+    nav a:hover {
+      border-color: var(--cyan);
+      background: rgba(0,255,240,0.12);
       color: #fff;
-      text-shadow: 0 0 10px rgba(255,0,255,0.5);
+      box-shadow: 0 0 15px rgba(0,255,240,0.15);
     }
-    
-    main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 20px 24px 60px;
-      animation: fadeInUp 1s ease-out both;
-    }
-    
+
+    main { max-width: 780px; margin: 0 auto; padding: 35px 24px 70px; animation: fadeInUp 1s ease-out both; }
     @keyframes fadeInUp {
       from { opacity: 0; transform: translateY(25px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    
+
+    section { margin-bottom: 50px; }
+
     .movement-blurb { 
       text-align: center; 
-      font-size: 1.25rem; 
+      font-size: 1.15rem; 
       color: var(--text-soft);
       margin-bottom: 40px;
+      line-height: 1.9;
     }
-    
     .movement-blurb strong { color: #fff; }
     .highlight-cyan { color: var(--cyan); font-weight: 700; }
     .highlight-magenta { color: var(--magenta); font-weight: 700; }
-    
+    .highlight-gold { color: var(--gold); font-weight: 700; }
+
     .divider {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      margin: 40px 0;
-      color: rgba(0,255,240,0.4);
-      font-size: 1.5rem;
+      display: flex; align-items: center; justify-content: center; gap: 15px; margin: 45px 0;
+      color: rgba(0,255,240,0.35); font-size: 1.5rem;
     }
-    
     .divider span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,240,0.3), transparent); }
-    
-    .quote-art {
-      margin: 40px 0; 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center;
-    }
-    
+
     .big-quote { 
-      font-size: 1.3rem; 
+      font-size: 1.2rem; 
       color: #fff; 
-      background: linear-gradient(135deg, rgba(26,1,58,0.9), rgba(18,4,42,0.9)); 
-      padding: 30px 35px; 
+      background: linear-gradient(135deg, rgba(26,1,58,0.8), rgba(18,4,42,0.8)); 
+      padding: 35px; 
       border-radius: 20px; 
       box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(255,0,255,0.08); 
       border: 1px solid rgba(0,255,240,0.2);
       font-weight: 600;
-      line-height: 1.8;
+      line-height: 1.9;
       text-align: center;
       position: relative;
+      margin: 40px 0;
     }
-    
     .big-quote::before, .big-quote::after {
       content: '"';
       position: absolute;
@@ -203,243 +258,201 @@
       color: rgba(0,255,240,0.15);
       font-family: Georgia, serif;
     }
-    
     .big-quote::before { top: 10px; left: 20px; }
-    .big-quote::after { bottom: -20px; right: 20px; }
-    
+    .big-quote::after { bottom: -10px; right: 20px; }
     .mini-quote { 
       color: var(--magenta); 
       margin-top: 15px; 
       font-weight: 700;
       font-size: 1rem;
+      display: block;
     }
-    
+
     .manifesto-section {
-      background: rgba(18,4,42,0.6);
+      background: rgba(0,255,240,0.04);
       border-radius: 20px;
-      padding: 30px;
-      margin: 40px 0;
+      padding: 35px 30px;
       border: 1px solid rgba(0,255,240,0.15);
-      box-shadow: 0 0 25px rgba(0,255,240,0.1);
+      box-shadow: 0 0 25px rgba(0,255,240,0.08);
     }
-    
     .manifesto-section h2 {
       color: var(--cyan);
       text-align: center;
       margin-bottom: 25px;
       font-size: 1.5rem;
-      text-shadow: 0 0 15px rgba(0,255,240,0.3);
+      text-shadow: 0 0 15px rgba(0,255,240,0.25);
     }
-    
     .manifesto-point {
-      margin-bottom: 22px;
-      padding-left: 25px;
+      margin-bottom: 25px;
+      padding-left: 20px;
       border-left: 2px solid var(--magenta);
       transition: var(--transition);
     }
-    
     .manifesto-point:hover {
-      padding-left: 30px;
+      padding-left: 28px;
       border-left-width: 3px;
     }
-    
     .manifesto-point strong {
       color: var(--cyan);
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 1.05rem;
     }
-    
-    .legacy-section {
-      background: rgba(255,215,0,0.05);
-      border-radius: 20px;
-      padding: 25px 30px;
-      margin: 40px 0;
+
+    .legacy-box {
+      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,149,0,0.04));
+      border-radius: 20px; padding: 30px; margin: 45px 0;
       border: 1px solid rgba(255,215,0,0.2);
+      box-shadow: inset 0 0 30px rgba(255,215,0,0.05);
       text-align: center;
     }
-    
-    .legacy-section h2 {
-      color: var(--gold);
-      margin-bottom: 15px;
-      font-size: 1.4rem;
+    .legacy-box h2 { color: var(--gold); margin-bottom: 18px; }
+    .legacy-box p { color: #fff3b0; line-height: 1.9; margin-bottom: 12px; }
+    .legacy-quote {
+      font-style: italic; border-left: 3px solid var(--gold); padding-left: 18px; margin: 20px 0;
+      color: #fff9c4; font-weight: 550; text-align: left;
     }
-    
     .legacy-names {
+      color: var(--gold); font-weight: 700; margin: 12px 0; letter-spacing: 0.08em;
       font-size: 1.1rem;
-      color: var(--gold);
-      font-weight: 700;
-      margin: 12px 0;
-      letter-spacing: 0.05em;
     }
-    
+
     .cta-row { 
-      display: flex; 
-      gap: 15px; 
-      justify-content: center; 
-      margin: 45px 0; 
-      flex-wrap: wrap;
+      display: flex; gap: 12px; justify-content: center; margin: 45px 0; flex-wrap: wrap;
     }
-    
-    .cta-row a {
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
-      color: #000; 
-      font-weight: 800; 
-      padding: 0.9rem 1.8rem;
-      border-radius: 12px; 
-      text-decoration: none; 
-      font-size: 1.05rem; 
-      box-shadow: 0 0 20px rgba(0,255,240,0.25); 
-      transition: var(--transition);
-      text-align: center;
-      min-width: 160px;
-    }
-    
-    .cta-row a:hover { 
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
-    }
-    
+    .cta-row .btn { min-width: 160px; }
+
     .founder-section { 
-      text-align: center; 
-      margin: 50px 0;
-      padding: 35px 30px;
+      text-align: center; margin: 50px 0; padding: 35px 30px;
       background: rgba(0,255,240,0.03);
       border-radius: 20px;
-      border-top: 2px solid rgba(0,255,240,0.2);
-      border-bottom: 2px solid rgba(255,0,255,0.2);
+      border-top: 1px solid rgba(0,255,240,0.15);
+      border-bottom: 1px solid rgba(255,0,255,0.15);
     }
-    
-    .founder-img { 
-      width: 180px; 
-      height: 180px;
-      margin: 0 auto 25px auto; 
-      display: block; 
-      border-radius: 50%; 
-      background: rgba(0,0,0,0.5);
-      box-shadow: 0 0 30px rgba(0,255,240,0.2);
-      object-fit: cover;
-    }
-    
     .founder-section h2 {
-      color: var(--cyan);
-      margin-bottom: 20px;
-      font-size: 1.4rem;
+      color: var(--cyan); margin-bottom: 20px; font-size: 1.4rem;
     }
-    
-    .hoodie-section { 
-      max-width: 450px; 
-      margin: 45px auto; 
-      background: var(--glass-deep); 
-      border-radius: 20px; 
-      box-shadow: 0 0 40px rgba(0,255,240,0.2); 
-      padding: 30px; 
-      text-align: center;
-      border: 1px solid rgba(0,255,240,0.15);
-      transition: var(--transition);
+    .founder-section p {
+      max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.9;
+      color: var(--text-soft);
     }
-    
-    .hoodie-section:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 50px rgba(0,255,240,0.3);
-    }
-    
-    .hoodie-section img { 
-      width: 170px; 
-      display: block; 
-      margin: 0 auto 20px auto; 
-      border-radius: 12px;
-    }
-    
-    .hoodie-section h3 {
-      color: var(--cyan);
-      margin-bottom: 10px;
-    }
-    
+    .founder-section strong { color: var(--text-bright); }
+
     footer {
-      margin-top: 60px; 
-      text-align: center; 
-      padding: 30px 20px;
-      background: rgba(6,0,20,0.8);
-      border-top: 2px solid rgba(0,255,240,0.2);
+      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.15);
+      color: var(--text-muted); font-size: 0.9rem;
+      background: rgba(6,0,20,0.75);
+      backdrop-filter: blur(10px);
+      margin-top: 20px;
     }
-    
-    .socials { 
-      margin: 15px 0; 
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-      font-size: 1.8rem;
+    .footer-brand {
+      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0,255,240,0.15);
     }
-    
+    .socials { margin: 20px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; }
     .socials a { 
-      color: var(--cyan); 
-      transition: var(--transition);
+      color: var(--text-soft); transition: var(--transition);
+      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 50%; background: rgba(0,255,240,0.05);
     }
-    
     .socials a:hover { 
-      color: var(--magenta); 
-      transform: scale(1.2);
+      color: var(--cyan); transform: scale(1.15);
+      background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2);
     }
-    
-    footer a {
-      color: var(--cyan);
-      text-decoration: none;
-      transition: var(--transition);
+    .footer-legacy {
+      margin-top: 25px; padding-top: 20px;
+      border-top: 1px solid rgba(255,215,0,0.15);
     }
-    
-    footer a:hover {
-      color: var(--magenta);
-      text-decoration: underline;
+    .footer-names {
+      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.08em;
     }
-    
-    /* Mobile Optimizations */
-    @media (max-width: 700px){
-      .cosmic-title { font-size: 2rem; }
-      .movement-blurb { font-size: 1.1rem; }
-      .big-quote { font-size: 1.1rem; padding: 25px 20px; }
-      .cta-row { flex-direction: column; gap: 12px; }
-      .manifesto-section, .legacy-section, .founder-section { padding: 22px 18px; }
-      nav ul { gap: 8px 12px; }
-      .founder-img { width: 150px; height: 150px; }
-      main { padding: 15px 18px 50px; }
+    .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 8px; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 700px) {
+      nav { gap: 6px 8px; }
+      nav a { padding: 7px 12px; font-size: 0.9rem; }
+      main { padding: 25px 18px 50px; }
+      .manifesto-section, .legacy-box, .founder-section { padding: 25px 20px; }
+      .cta-row { flex-direction: column; gap: 10px; }
+      .cta-row .btn { width: 100%; }
+      .logo-container { gap: 12px; }
+      .logo-mark { width: 64px; height: 64px; }
     }
-    
-    /* Reduced Motion Respect */
+    @media (max-width: 480px) {
+      .logo-text-wrap { text-align: center; }
+      .big-quote { padding: 25px 20px; font-size: 1.05rem; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
         animation-duration: 0.01ms !important;
         transition-duration: 0.01ms !important;
       }
+      .btn:hover, .socials a:hover { transform: none; }
     }
   </style>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
   <!-- Floating Nebula Background -->
-  <div class="nebula-particle" style="width:300px;height:300px;top:10%;left:5%;animation-delay:0s;"></div>
-  <div class="nebula-particle" style="width:200px;height:200px;top:40%;right:5%;animation-delay:-7s;"></div>
-  <div class="nebula-particle" style="width:250px;height:250px;bottom:10%;left:15%;animation-delay:-14s;"></div>
+  <div class="nebula-particle" style="width:320px;height:320px;top:8%;left:3%;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:240px;height:240px;top:35%;right:3%;" aria-hidden="true"></div>
+  <div class="nebula-particle" style="width:280px;height:280px;bottom:15%;left:10%;animation-delay:-10s;" aria-hidden="true"></div>
+  <div class="nebula-particle gold-glow" style="width:200px;height:200px;bottom:25%;right:15%;animation-delay:-15s;" aria-hidden="true"></div>
 
   <div class="page-wrapper">
-    <div class="cosmic-header">
-      <img src="assets/crying-brain-og.png" alt="Pleading Sanity — Crying Brain Logo" />
-      <h1 class="cosmic-title">RISE FROM MADNESS</h1>
-      <p class="cosmic-subtitle">One Source. One Consciousness. One Family.</p>
-    </div>
+    <header role="banner">
+      <!-- === CUSTOM SVG LOGO — MATCHES ALL PAGES === -->
+      <div class="logo-container">
+        <svg class="logo-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#00fff0" />
+              <stop offset="50%" stop-color="#9d4edd" />
+              <stop offset="100%" stop-color="#ffd700" />
+            </linearGradient>
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+              <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <circle cx="50" cy="50" r="46" fill="none" stroke="url(#logoGrad)" stroke-width="2.5" opacity="0.9"/>
+          <circle cx="50" cy="50" r="40" fill="none" stroke="url(#logoGrad)" stroke-width="1" opacity="0.4"/>
+          <path d="M50 18 C32 18 22 32 22 45 C22 58 32 72 50 72 C68 72 78 58 78 45 C78 32 68 18 50 18 Z" 
+                fill="none" stroke="url(#logoGrad)" stroke-width="2.2" filter="url(#softGlow)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="8" fill="url(#logoGrad)" opacity="0.9"/>
+          <circle cx="50" cy="45" r="4" fill="#000" opacity="0.8"/>
+          <line x1="50" y1="12" x2="50" y2="24" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+          <line x1="78" y1="28" x2="70" y2="36" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="88" y1="50" x2="76" y2="50" stroke="#ff00ff" stroke-width="1.5" opacity="0.7"/>
+          <line x1="22" y1="50" x2="34" y2="50" stroke="#00fff0" stroke-width="1.5" opacity="0.7"/>
+          <line x1="50" y1="76" x2="50" y2="88" stroke="#ffd700" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <div class="logo-main">PLEADING SANITY</div>
+          <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
+        </div>
+      </div>
+      
+      <h1>RISE FROM MADNESS</h1>
+      <p class="tagline">One Source. One Consciousness. One Family.</p>
+      
+      <nav aria-label="Main Navigation">
+        <a href="index.html">🏠 Home</a>
+        <a href="about.html">📜 About</a>
+        <a href="journal-vault.html">📖 Journal Vault</a>
+        <a href="sanityhub.html">🌌 Sanity Hub</a>
+        <a href="frequencies.html">🎵 Healing Hz</a>
+        <a href="games.html">🧠 Brain Games</a>
+        <a href="shop.html">👕 Shop</a>
+        <a href="movement.html" aria-current="page">✊ Movement</a>
+      </nav>
+    </header>
 
-    <nav aria-label="Main Navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="sanityhub.html">Sanity Hub</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a class="active" href="movement.html">Movement</a></li>
-        <li><a href="frequencies.html">Healing Hz</a></li>
-        <li><a href="games.html">Games</a></li>
-        <li><a href="journal-vault.html">Journal Vault</a></li>
-      </ul>
-    </nav>
-
-    <main>
+    <main id="main" role="main">
       <section class="movement-blurb">
         <p>
           This is more than merch. More than a website. <strong>This is a movement.</strong><br><br>
@@ -450,20 +463,18 @@
         </p>
       </section>
 
-      <div class="divider">
-        <span></span> ✦ <span></span>
-      </div>
+      <div class="divider"><span></span>✦<span></span></div>
 
-      <div class="quote-art">
-        <blockquote class="big-quote">
-          Nothing broke my spirit —<br>
-          only madness made me whole.
-        </blockquote>
-        <p class="mini-quote">— The Pleading Sanity Manifesto</p>
-      </div>
+      <blockquote class="big-quote">
+        Nothing broke my spirit —<br>
+        only madness made me whole.
+        <span class="mini-quote">— The Pleading Sanity Manifesto</span>
+      </blockquote>
 
-      <div class="manifesto-section">
-        <h2>🌌 What We Stand For</h2>
+      <div class="divider"><span></span>🌌<span></span></div>
+
+      <section class="manifesto-section" aria-labelledby="manifesto-heading">
+        <h2 id="manifesto-heading">✨ What We Stand For</h2>
         
         <div class="manifesto-point">
           <strong>🧠 Evolution, Not Erasure</strong>
@@ -472,7 +483,7 @@
         
         <div class="manifesto-point">
           <strong>👁️ Lived Experience Is Truth</strong>
-          No book written thousands of years ago holds all the answers. No one from the outside can fully understand what lives on the inside. The real experts are the ones living it.
+          No book holds all the answers. No one from the outside can fully understand what lives on the inside. The real experts are the ones living it.
         </div>
         
         <div class="manifesto-point">
@@ -489,76 +500,67 @@
           <strong>✨ Legacy Fuels The Future</strong>
           Built on the quiet courage of those who came before. We carry their strength forward — for ourselves, and every generation that follows.
         </div>
-      </div>
+      </section>
 
-      <div class="legacy-section">
-        <h2>🏛️ Built On Their Shoulders</h2>
-        <p>Rooted in resilience. Forged in service. Carried through blood and bravery.</p>
-        <p class="legacy-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
-        <p>One escaped captivity at 14 and chose loyalty to a new home.<br>
-        One delivered hope to the frontline and turned down medals so others might be seen.<br>
-        <em>They did not break. Neither will we.</em></p>
-      </div>
+      <div class="divider"><span></span>🕊️<span></span></div>
 
-      <div class="cta-row">
-        <a href="shop.html">🛒 Cop the Gear</a>
-        <a href="journal-vault.html">📓 Share Your Story</a>
-        <a href="sanityhub.html">🧠 Join the Feed</a>
-        <a href="mailto:pleadingsanity1@gmail.com?subject=I%27m%20In%20—%20Join%20The%20Movement">🤝 I'm In</a>
-      </div>
+      <section class="legacy-box" aria-labelledby="legacy-heading">
+        <h2 id="legacy-heading">🏛️ BLOODLINE OF UNBREAKABLE STRENGTH</h2>
+        <p>
+          This entire movement stands upon the spirit of <strong>Ivan Kurcharskyi</strong> — taken prisoner of war at fourteen, enslaved, treated worse than property — and yet <em>he did not break</em>. He escaped, fought his way home through war-torn lands, and chose kindness. At seventy, he would arrive before dawn and shift twenty tonnes of feed before anyone else woke. They took his freedom. They could not take his character.
+        </p>
+        <p class="legacy-quote">They kidnapped him. They imprisoned him. They treated him as less than human. And when he was free — he still chose to be a good man. That is the power they cannot understand.</p>
+        <p>
+          And <strong>Arthur Lesley Cooper</strong> — frontline arms driver in WWII, carrying supplies under fire. Honoured by the King. Offered medals. He turned them down. He served because people needed him, not because he wanted to be seen. Quiet faith. Unseen courage.
+        </p>
+        <p style="margin-top: 16px; font-weight: 700; color: #ffd700;">
+          Two men. Two different lands. One bloodline. One truth: Evolve. Never erase. They suffered so we could stand. That is why we stand.
+        </p>
+      </section>
 
-      <section class="founder-section">
-        <img src="assets/ps-brain-drip-blue.png" alt="Pleading Sanity — Awakened Not Broken" class="founder-img" />
-        <h2>Why This Exists</h2>
+      <div class="divider"><span></span>✦<span></span></div>
+
+      <section class="founder-section" aria-labelledby="founder-heading">
+        <h2 id="founder-heading">💙 Why This Exists</h2>
         <p>
           "I built this for everyone told to shut up, fit in, get over it.<br><br>
           For the ones labeled without being heard. Diagnosed without being understood. Seen as 'unwell' instead of <em>awakened</em>.<br><br>
-          I know what it's like to be sectioned, silenced, sidelined — and still see clearer than the ones writing the notes.<br><br>
+          I know what it's like to be silenced, sidelined — and still see clearer than the ones writing the notes.<br><br>
           We're not selling hoodies. We're selling <strong>proof</strong>. Proof you can fall apart and rebuild stronger. Proof your mind isn't a curse — it's a different kind of compass. Proof that madness can be medicine when shared.<br><br>
           This is how we rise from madness — <strong>together</strong>."
         </p>
-        <p class="mini-quote">— Shane Cooper, Founder & Still Standing</p>
+        <p class="mini-quote" style="margin-top: 20px;">— Shane Cooper, Founder & Still Standing</p>
       </section>
 
-      <section class="hoodie-section">
-        <img src="assets/ps-hoodie-mock.png" alt="Crying Brain Hoodie" />
-        <h3>Wear The Journey</h3>
-        <p>
-          <strong>Strength is built through struggle.<br>
-          Hope is stitched in every thread.</strong><br><br>
-          <span class="highlight-cyan">Limited drops. Real survivor gear.<br>
-          Every piece funds the movement.</span>
-        </p>
-      </section>
+      <div class="cta-row" aria-label="Join the movement">
+        <a href="shop.html" class="btn btn-gold">🛒 Wear the Change</a>
+        <a href="journal-vault.html" class="btn">📖 Share Your Story</a>
+        <a href="sanityhub.html" class="btn">🌌 Enter the Hub</a>
+        <a href="mailto:pleadingsanity1@gmail.com?subject=I%27m%20In%20—%20Join%20The%20Movement" class="btn">🤝 I'm In</a>
+      </div>
     </main>
 
-    <footer>
+    <footer role="contentinfo">
+      <div class="footer-brand">Pleading Sanity — Built for the Warriors</div>
+      <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
+      
       <div class="socials">
-        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
+        <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+        <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+        <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
         <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Payhip Shop">🛒</a>
+        <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
       </div>
       
-      <div style="margin:15px 0;">
-        <a href="https://pleadingsanity.co.uk" target="_blank" rel="noopener">Official Site</a> | 
-        <a href="shop.html">Shop</a> | 
-        <a href="sanityhub.html">Sanity Hub</a> | 
-        <a href="journal-vault.html">Journal Vault</a>
-      </div>
-      
-      <div style="margin-top:10px; color:var(--text-soft);">
-        Contact: <a href="mailto:pleadingsanity1@gmail.com" style="color:var(--magenta);">pleadingsanity1@gmail.com</a>
-      </div>
-      
-      <div style="margin-top:20px; font-size:0.9rem; color:#666;">
-        "Evolution, Not Erasure" © <span id="year"></span> Pleading Sanity<br>
-        Awakened, not broken. Rising, not fallen. One family.
+      <div class="footer-legacy">
+        <p>&copy; <span id="year"></span> Pleading Sanity. All Rights Reserved.</p>
+        <p class="footer-names">Ivan Kurcharskyi • Arthur Lesley Cooper</p>
+        <p class="footer-tagline">Built on their shoulders. Awakened, not broken.</p>
       </div>
     </footer>
   </div>
 
   <script>
-    // Auto-update copyright year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>

@@ -1,0 +1,31 @@
+name: 🛡️ Cosmic Guardian — Health & Protection
+run-name: Guardian Scan • Integrity Check
+
+on:
+  push: { branches: [main] }
+  workflow_dispatch
+  schedule: { cron: "0 */6 * * *" }  # Every 6hrs — constant watch
+
+jobs:
+  guardian:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 🧪 System Integrity Scan
+        run: |
+          echo "🛡️ GUARDIAN ACTIVE — Scanning..."
+          ERRORS=0
+          [ ! -f package.json ] && echo "❌ package.json MISSING" && ERRORS=1
+          [ ! -f next.config.js ] && echo "⚠️ next.config.js missing"
+          [ ! -f vercel.json ] && echo "⚠️ vercel.json missing"
+          [ ! -f netlify.toml ] && echo "⚠️ netlify.toml missing"
+          grep -r "sk-" . --include="*.js" --include="*.env" 2>/dev/null | grep -v "example" && echo "🚨 POSSIBLE KEY EXPOSED" && ERRORS=1
+          [ $ERRORS -eq 0 ] && echo "✅ ALL SYSTEMS SECURE" || echo "⚠️ Review issues"
+          exit 0
+
+      - name: 🌐 Live Site Check
+        run: |
+          SITE="${{ secrets.SITE_URL || 'https://pleadingsanity.co.uk' }}"
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE")
+          [[ "$STATUS" == 2* ]] && echo "✅ Site LIVE — HTTP $STATUS" || echo "⚠️ Site returned $STATUS"

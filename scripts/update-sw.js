@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 /**
- * PLEADING SANITY — SERVICE WORKER UPDATER v2.1-FINAL
- * Auto-Version • Smart Cache • Hash Validation • PWA Sync
- * Evolution, Not Erasure • pleadingSanity
+ * PLEADING SANITY — SERVICE WORKER UPDATER v2.2-FINAL
+ * Auto-Version • Smart Cache • Integrity Hashes • Next.js Aware • PWA Sync
+ * Offline Crisis Ready • Vercel + Netlify • Evolution, Not Erasure
+ * pleadingSanity • Shane Cooper Founder
  */
 
 const fs = require('fs').promises;
@@ -14,20 +15,70 @@ const { execSync } = require('child_process');
 class ServiceWorkerUpdater {
   constructor() {
     this.rootDir = path.join(__dirname, '..');
-    this.swPath = path.join(this.rootDir, 'sw.js');
-    this.manifestPath = path.join(this.rootDir, 'manifest.json');
     
-    this.cacheExts = ['.html', '.css', '.js', '.png', '.jpg', '.jpeg', '.svg', '.webp', '.json', '.ico', '.woff2', '.woff'];
-    this.skipDirs = ['node_modules', '.git', 'dist', 'scripts', 'coverage', '.next'];
+    // Next.js/PWA dual location support
+    this.swPaths = [
+      path.join(this.rootDir, 'public', 'sw.js'),
+      path.join(this.rootDir, 'sw.js')
+    ];
+    this.manifestPaths = [
+      path.join(this.rootDir, 'public', 'manifest.json'),
+      path.join(this.rootDir, 'manifest.json')
+    ];
+    
+    // Cacheable file types — includes PWA & font assets
+    this.cacheExts = [
+      '.html', '.css', '.js', '.mjs',
+      '.png', '.jpg', '.jpeg', '.svg', '.webp', '.ico',
+      '.json', '.woff2', '.woff',
+      '.txt' // robots/sitemap for offline search
+    ];
+    
+    // Skip directories — safe & clean
+    this.skipDirs = [
+      'node_modules', '.git', '.github',
+      'dist', 'build', '.next', 'out',
+      'scripts', 'coverage', '.netlify', '.vercel',
+      'tmp', 'temp'
+    ];
+    
+    // Critical offline files — ALWAYS cached for crisis access
+    this.criticalFiles = [
+      '/',
+      '/index.html',
+      '/offline.html',
+      '/styles.css',
+      '/manifest.json'
+    ];
   }
 
   // ==========================================
   // COSMIC LOGGING
   // ==========================================
   log(msg, type = 'info') {
-    const C = { info: '\x1b[36m', success: '\x1b[32m', warn: '\x1b[33m', error: '\x1b[31m', reset: '\x1b[0m' };
+    const C = {
+      info: '\x1b[36m',
+      success: '\x1b[32m',
+      warn: '\x1b[33m',
+      error: '\x1b[31m',
+      glow: '\x1b[36;1m',
+      reset: '\x1b[0m'
+    };
     const ts = new Date().toLocaleTimeString('en-GB', { hour12: false });
     console.log(`${C[type]}[${ts}] [SW] ${msg}${C.reset}`);
+  }
+
+  // ==========================================
+  // FIND ACTUAL FILE — supports public/ & root/
+  // ==========================================
+  async findFile(candidates) {
+    for (const p of candidates) {
+      try {
+        await fs.access(p);
+        return p;
+      } catch {}
+    }
+    return null;
   }
 
   // ==========================================
@@ -44,29 +95,43 @@ class ServiceWorkerUpdater {
   }
 
   // ==========================================
-  // SCAN CACHEABLE FILES
+  // SCAN CACHEABLE FILES — RECURSIVE & SMART
   // ==========================================
   async scanFiles(dir = this.rootDir, base = this.rootDir) {
     const files = [];
     const entries = await fs.readdir(dir, { withFileTypes: true });
 
-    for (const e of entries) {
-      const full = path.join(dir, e.name);
-      const rel = '/' + path.relative(base, full).replace(/\\/g, '/');
+    for (const entry of entries) {
+      // Skip ignored directories
+      if (this.skipDirs.some(skip => 
+        entry.name === skip || entry.name.startsWith(`${skip}/`)
+      )) continue;
 
-      if (e.isDirectory()) {
-        if (!this.skipDirs.includes(e.name) && !e.name.startsWith('.')) {
-          files.push(...(await this.scanFiles(full, base)));
-        }
-      } else if (this.cacheExts.some(ext => e.name.toLowerCase().endsWith(ext))) {
-        files.push(rel);
+      const fullPath = path.join(dir, entry.name);
+      const relPath = '/' + path.relative(base, fullPath).replace(/\\/g, '/');
+
+      if (entry.isDirectory()) {
+        files.push(...(await this.scanFiles(fullPath, base)));
+        continue;
+      }
+
+      const ext = path.extname(entry.name).toLowerCase();
+      if (this.cacheExts.includes(ext)) {
+        files.push(relPath);
       }
     }
-    return files;
+
+    // Ensure critical files are ALWAYS included
+    for (const critical of this.criticalFiles) {
+      if (!files.includes(critical)) files.unshift(critical);
+    }
+
+    // Deduplicate
+    return [...new Set(files)];
   }
 
   // ==========================================
-  // MD5 HASH — detect actual changes
+  // MD5 HASH — detect actual content changes
   // ==========================================
   async hashFile(filePath) {
     try {
@@ -78,41 +143,46 @@ class ServiceWorkerUpdater {
   }
 
   // ==========================================
-  // UPDATE sw.js — all sections
+  // UPDATE SERVICE WORKER — ALL SECTIONS
   // ==========================================
   async updateSW() {
-    // Read existing SW
-    let sw = await fs.readFile(this.swPath, 'utf8');
-    const version = this.makeVersion();
-    const stamp = new Date().toISOString();
-    const files = await this.scanFiles();
-
-    // Build file hashes
-    const hashes = {};
-    for (const f of files) {
-      hashes[f] = await this.hashFile(path.join(this.rootDir, f.slice(1)));
+    const swPath = await this.findFile(this.swPaths);
+    if (!swPath) {
+      throw new Error('sw.js not found in public/ or root/ — create it first');
     }
 
-    // Patch: CACHE_VERSION
+    let sw = await fs.readFile(swPath, 'utf8');
+    const version = this.makeVersion();
+    const timestamp = new Date().toISOString();
+    const files = await this.scanFiles();
+
+    // Build integrity hashes
+    const hashes = {};
+    for (const file of files) {
+      const diskPath = path.join(this.rootDir, file.slice(1));
+      hashes[file] = await this.hashFile(diskPath);
+    }
+
+    // ── Patch: CACHE_VERSION ──
     sw = sw.replace(
       /const\s+CACHE_VERSION\s*=\s*['"`][^'"`]+['"`]/,
       `const CACHE_VERSION = '${version}'`
     );
 
-    // Patch: CACHE_NAME
+    // ── Patch: CACHE_NAME ──
     sw = sw.replace(
       /const\s+CACHE_NAME\s*=\s*['"`][^'"`]+['"`]/,
       `const CACHE_NAME = 'pleading-sanity-${version}'`
     );
 
-    // Patch: STATIC_CACHE_FILES
+    // ── Patch: STATIC_CACHE_FILES ──
     const fileList = JSON.stringify(files, null, 2);
     sw = sw.replace(
       /const\s+STATIC_CACHE_FILES\s*=\s*\[[^\]]*\]/s,
       `const STATIC_CACHE_FILES = ${fileList}`
     );
 
-    // Patch/add: FILE_HASHES
+    // ── Patch/Add: FILE_HASHES ──
     const hashJSON = JSON.stringify(hashes, null, 2);
     if (/const\s+FILE_HASHES\s*=/.test(sw)) {
       sw = sw.replace(
@@ -120,107 +190,158 @@ class ServiceWorkerUpdater {
         `const FILE_HASHES = ${hashJSON}`
       );
     } else {
-      const insertAt = sw.indexOf('const STATIC_CACHE_FILES');
-      const endList = sw.indexOf('];', insertAt) + 2;
-      sw = sw.slice(0, endList) +
-        `\n\n// File integrity hashes — auto-updated\nconst FILE_HASHES = ${hashJSON};\n` +
-        sw.slice(endList);
+      const insertPoint = sw.indexOf('const STATIC_CACHE_FILES');
+      const endOfList = sw.indexOf('];', insertPoint) + 2;
+      sw = sw.slice(0, endOfList) +
+        `\n\n// File integrity hashes — auto-verified on load\nconst FILE_HASHES = ${hashJSON};\n` +
+        sw.slice(endOfList);
     }
 
-    // Patch/add: LAST_UPDATED
+    // ── Patch/Add: LAST_UPDATED ──
     if (/const\s+LAST_UPDATED\s*=/.test(sw)) {
       sw = sw.replace(
         /const\s+LAST_UPDATED\s*=\s*['"`][^'"`]+['"`]/,
-        `const LAST_UPDATED = '${stamp}'`
+        `const LAST_UPDATED = '${timestamp}'`
       );
     } else {
-      const verEnd = sw.indexOf('const CACHE_VERSION') + `const CACHE_VERSION = '${version}'`.length;
-      sw = sw.slice(0, verEnd) +
-        `\nconst LAST_UPDATED = '${stamp}';` +
-        sw.slice(verEnd);
+      const verMatch = sw.match(/const\s+CACHE_VERSION\s*=\s*['"`][^'"`]+['"`]/);
+      if (verMatch) {
+        const insertPos = verMatch.index + verMatch[0].length;
+        sw = sw.slice(0, insertPos) +
+          `\nconst LAST_UPDATED = '${timestamp}';` +
+          sw.slice(insertPos);
+      }
+    }
+
+    // ── Patch/Add: CRITICAL_OFFLINE ──
+    if (!/CRITICAL_OFFLINE/.test(sw)) {
+      const insertAfter = sw.indexOf('FILE_HASHES') > -1 
+        ? sw.indexOf('FILE_HASHES') + 300
+        : sw.indexOf('STATIC_CACHE_FILES') + 300;
+      sw = sw.slice(0, insertAfter) +
+        `\n// Critical offline — crisis support always available\nconst CRITICAL_OFFLINE = ${JSON.stringify(this.criticalFiles, null, 2)};\n` +
+        sw.slice(insertAfter);
     }
 
     // Write back
-    await fs.writeFile(this.swPath, sw, 'utf8');
-    return { version, stamp, fileCount: files.length, files };
+    await fs.writeFile(swPath, sw, 'utf8');
+    
+    this.log(`Service Worker updated → ${path.relative(this.rootDir, swPath)}`, 'success');
+    
+    return { version, timestamp, fileCount: files.length, files, swPath };
   }
 
   // ==========================================
-  // UPDATE manifest.json
+  // UPDATE MANIFEST — SYNC VERSION
   // ==========================================
-  async updateManifest() {
+  async updateManifest(version) {
+    const manifestPath = await this.findFile(this.manifestPaths);
+    if (!manifestPath) {
+      this.log('manifest.json not found — skipping', 'warn');
+      return;
+    }
+
     try {
-      const json = JSON.parse(await fs.readFile(this.manifestPath, 'utf8'));
-      json.version = this.makeVersion();
-      json.updated = new Date().toISOString();
-      await fs.writeFile(this.manifestPath, JSON.stringify(json, null, 2), 'utf8');
-      this.log('manifest.json synced ✅', 'success');
-    } catch {
-      this.log('manifest.json not found — skipped', 'warn');
+      const manifest = JSON.parse(await fs.readFile(manifestPath, 'utf8'));
+      manifest.version = version;
+      manifest.updatedAt = new Date().toISOString();
+      manifest.short_name = manifest.short_name || 'Pleading Sanity';
+      manifest.name = manifest.name || 'Pleading Sanity — Rise From Madness';
+      
+      await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), 'utf8');
+      this.log(`Manifest synced → ${path.relative(this.rootDir, manifestPath)}`, 'success');
+    } catch (err) {
+      this.log(`Manifest update skipped: ${err.message}`, 'warn');
     }
   }
 
   // ==========================================
-  // SAVE REPORT
+  // SAVE REPORT — INSIGHTS + WARNINGS
   // ==========================================
   async saveReport(result) {
-    const report = {
-      timestamp: new Date().toISOString(),
-      version: result.version,
-      filesCached: result.fileCount,
-      recommendations: []
-    };
+    const largeFiles = [];
+    const totalSize = { bytes: 0 };
 
-    // Flag large files
-    const large = [];
-    for (const f of result.files) {
+    for (const file of result.files) {
       try {
-        const kb = (await fs.stat(path.join(this.rootDir, f.slice(1)))).size / 1024;
-        if (kb > 500) large.push({ file: f, sizeKB: Math.round(kb) });
+        const diskPath = path.join(this.rootDir, file.slice(1));
+        const stats = await fs.stat(diskPath);
+        totalSize.bytes += stats.size;
+        
+        const kb = stats.size / 1024;
+        if (kb > 300) {
+          largeFiles.push({
+            file,
+            sizeKB: Math.round(kb),
+            note: kb > 500 ? '⚠️ May slow caching' : 'Consider optimizing'
+          });
+        }
       } catch {}
     }
-    if (large.length) {
-      report.recommendations.push({
-        note: `${large.length} large file(s) may slow caching`,
-        files: large
-      });
-    }
 
-    await fs.writeFile(
-      path.join(this.rootDir, 'sw-update-report.json'),
-      JSON.stringify(report, null, 2)
-    );
-    this.log('sw-update-report.json saved 📄', 'info');
+    const report = {
+      project: 'Pleading Sanity',
+      generated: new Date().toISOString(),
+      version: result.version,
+      serviceWorker: path.relative(this.rootDir, result.swPath),
+      filesCached: result.fileCount,
+      totalSizeKB: Math.round(totalSize.bytes / 1024),
+      totalSizeMB: (totalSize.bytes / 1024 / 1024).toFixed(2),
+      criticalOffline: this.criticalFiles,
+      largeFiles,
+      browserNote: 'New version detected → clients refresh automatically',
+      nextStep: 'git add . && git commit -m "SW: update cache" && git push'
+    };
+
+    const reportPath = path.join(this.rootDir, 'sw-update-report.json');
+    await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
+    this.log(`📄 Report saved → sw-update-report.json`, 'info');
+    
+    return report;
   }
 
   // ==========================================
-  // MAIN RUN
+  // MAIN EXECUTION
   // ==========================================
   async run() {
-    console.log('\n' + '═.✧ 🌌 SERVICE WORKER UPDATER ✧.═'.padStart(55, ' ') + '\n');
+    console.log('\n' + '═.✧ 🌌 PWA SERVICE WORKER UPDATER ✧.═'.padStart(60, ' ') + '\n');
 
-    // Check SW exists
-    try {
-      await fs.access(this.swPath);
-    } catch {
-      this.log('sw.js NOT FOUND — create it first', 'error');
-      this.log('Run PWA setup or add sw.js to your project root', 'info');
+    // Locate files
+    const swPath = await this.findFile(this.swPaths);
+    if (!swPath) {
+      this.log('❌ sw.js NOT FOUND', 'error');
+      this.log('Checked: public/sw.js + sw.js', 'info');
+      this.log('Create your service worker first or copy template', 'warn');
       process.exit(1);
     }
 
-    // Do the work
+    // Run updates
     const result = await this.updateSW();
-    await this.updateManifest();
-    await this.saveReport(result);
+    await this.updateManifest(result.version);
+    const report = await this.saveReport(result);
 
     // Final summary
-    console.log('─'.repeat(50));
-    this.log(`✅ VERSION: ${result.version}`, 'success');
+    console.log('─'.repeat(55));
+    this.log(`✅ VERSION: ${result.version}`, 'glow');
     this.log(`📄 FILES:   ${result.fileCount} cached`, 'info');
-    this.log(`🕐 UPDATED: ${result.stamp}`, 'info');
-    console.log('─'.repeat(50));
-    this.log('Browser will detect new version → refresh automatically ✨', 'success');
-    console.log('═'.repeat(50) + '\n');
+    this.log(`📦 SIZE:   ${report.totalSizeMB} MB total`, 'info');
+    this.log(`🕐 SOURCE:  ${path.relative(this.rootDir, result.swPath)}`, 'info');
+    
+    if (report.largeFiles.length) {
+      console.log('─'.repeat(55));
+      this.log(`⚠️  ${report.largeFiles.length} large file(s) — consider optimizing:`, 'warn');
+      report.largeFiles.slice(0, 3).forEach(f => {
+        this.log(`   ${f.file} → ${f.sizeKB} KB`, 'warn');
+      });
+      if (report.largeFiles.length > 3) {
+        this.log(`   …and ${report.largeFiles.length - 3} more`, 'warn');
+      }
+    }
+
+    console.log('─'.repeat(55));
+    this.log('🌐 Browser will detect & activate new version automatically', 'success');
+    this.log('💙 Offline crisis support updated — always accessible', 'glow');
+    console.log('═'.repeat(55) + '\n');
   }
 }
 
@@ -229,7 +350,8 @@ class ServiceWorkerUpdater {
 // ==========================================
 if (require.main === module) {
   new ServiceWorkerUpdater().run().catch(err => {
-    console.error('💥 Error:', err.message);
+    console.error('\n💥 Fatal Error:', err.message);
+    console.error('Check file paths & permissions above', '\n');
     process.exit(1);
   });
 }

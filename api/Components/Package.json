@@ -1,22 +1,33 @@
 {
   "name": "pleading-sanity",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Pleading Sanity — Rise From Madness. One Source. One Consciousness. One Family.",
-  "author": "Shane Cooper & Dola AI",
-  "license": "UNLICENSED",
+  "description": "Pleading Sanity — Rise From Madness. One Source. One Consciousness. One Family. Survivor-led • Privacy-first • Cosmic healing hub.",
+  "homepage": "https://pleadingsanity.co.uk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pleadingSanity/pleadingsanity"
+  },
+  "author": "Shane Cooper & Dola AI — Pleading Sanity Alliance",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev",
+    "dev:netlify": "netlify dev",
     "build": "next build",
-    "start": "next start",
+    "postbuild": "next-sitemap",
+    "start": "next start -p 3000",
     "lint": "next lint",
+    "format": "prettier --write .",
     "clean": "rm -rf .next out node_modules/.cache",
-    "fresh": "npm run clean && npm install && npm run dev"
+    "fresh": "npm run clean && npm install && npm run dev",
+    "health": "node scripts/health-check.js"
   },
   "dependencies": {
     "next": "14.2.0",
-    "react": "^18.3.0",
-    "react-dom": "^18.3.0",
+    "next-pwa": "^10.0.0",
+    "next-sitemap": "^4.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "axios": "^1.7.9",
     "pako": "^2.1.0",
     "react-icons": "^5.4.0",
@@ -28,7 +39,8 @@
   },
   "devDependencies": {
     "eslint": "^8.57.0",
-    "eslint-config-next": "14.2.0"
+    "eslint-config-next": "14.2.0",
+    "prettier": "^3.4.0"
   },
   "engines": {
     "node": ">=18.18.0"

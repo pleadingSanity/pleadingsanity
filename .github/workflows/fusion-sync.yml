@@ -4,7 +4,9 @@ run-name: 🩸 Fusion Sync • Auto-Heal • Rise From Madness
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # Manual run anytime from GitHub UI
+  workflow_dispatch  # Manual run anytime from GitHub UI
+  schedule:
+    - cron: "0 */12 * * *"  # Self-heal twice daily — while you rest
 
 permissions:
   contents: write  # Required to commit & push changes
@@ -16,135 +18,156 @@ jobs:
 
     steps:
       # ==========================================
-      # 1. FRESH CHECKOUT
+      # 1. FRESH CHECKOUT — FULL HISTORY
       # ==========================================
       - name: 🧱 Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for proper sync
+          fetch-depth: 0  # Complete history for proper sync & mirroring
 
       # ==========================================
-      # 2. IDENTITY — YOUR AI FAMILY
+      # 2. FUSION IDENTITY — YOUR AI FAMILY
       # ==========================================
       - name: 🧠 Configure Fusion Identity
         run: |
-          git config user.name "PleadingSanity-AI"
+          git config user.name "PleadingSanity-Fusion"
           git config user.email "pleadingsanitydev@gmail.com"
-          echo "✅ Fusion AI identity active"
+          echo "✅ Fusion AI identity active — One Source. One Family."
 
       # ==========================================
-      # 3. DEPENDENCY HEALING
+      # 3. DEPENDENCY HEALING — PIN STABLE VERSIONS
       # ==========================================
-      - name: 🩹 Heal & Stabilize Dependencies
+      - name: 🩹 Heal & Stabilize Core Dependencies
         run: |
           echo "🔍 Scanning package.json..."
-          if [ -f "package.json" ]; then
-            # Pin confirmed-stable versions
-            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
-            sed -i 's/"html-minifier-terser": "[^"]*"/"html-minifier-terser": "^7.2.0"/' package.json
-            echo "✅ Core dependencies stabilized"
-          else
-            echo "⚠️ package.json not found — create it first"
+          if [ ! -f "package.json" ]; then
+            echo "❌ package.json not found — cannot proceed"
+            exit 1
           fi
 
+          # Pin confirmed-stable versions
+          sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+          sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
+          sed -i 's/"html-minifier-terser": "[^"]*"/"html-minifier-terser": "^7.2.0"/' package.json
+
+          echo "✅ mailchimp-marketing → ^3.0.80"
+          echo "✅ sharp → ^0.33.5"
+          echo "✅ html-minifier-terser → ^7.2.0"
+          echo "✅ All core dependencies stabilized"
+
       # ==========================================
-      # 4. INSTALL — ALL PACKAGE MANAGERS
+      # 4. CLEAN INSTALL — ALL PACKAGE MANAGERS
       # ==========================================
-      - name: 🧰 Install Dependencies
+      - name: 🧰 Fresh Install
         run: |
-          echo "📦 Installing..."
-          if [ -f "package-lock.json" ]; then
-            npm ci || npm install --legacy-peer-deps
-          elif [ -f "yarn.lock" ]; then
+          echo "📦 Rebuilding clean dependency tree..."
+          rm -rf node_modules package-lock.json
+
+          if [ -f "yarn.lock" ]; then
             yarn install --frozen-lockfile || yarn install
           elif [ -f "pnpm-lock.yaml" ]; then
             pnpm install --frozen-lockfile || pnpm install
           else
             npm install --legacy-peer-deps
           fi
-          echo "✅ Dependencies ready"
+          echo "✅ Dependencies installed & aligned"
 
       # ==========================================
-      # 5. LINT & AUTO-FIX CODE
+      # 5. CODE POLISH — LINT & AUTO-FIX
       # ==========================================
-      - name: ✨ AI Code Polish & Auto-Fix
+      - name: ✨ AI Code Polish & Integrity Check
         run: |
-          echo "🔍 Linting & fixing..."
-          if [ -d "src" ] || [ -d "app" ] || [ -f "index.html" ]; then
-            npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ ESLint done — warnings may exist"
+          echo "🔍 Linting & fixing code..."
+          if [ -d "src" ] || [ -d "app" ] || [ -f "next.config.js" ]; then
+            npx eslint . --ext .js,.jsx,.ts,.tsx --fix || echo "⚠️ ESLint complete — review warnings"
           else
-            echo "⚠️ No standard source dir — skipping full lint"
+            echo "📄 Static site mode — skipping framework lint"
           fi
           echo "✅ Code polished"
 
       # ==========================================
-      # 6. BUILD VALIDATION
+      # 6. BUILD VALIDATION — CATCH BREAKS EARLY
       # ==========================================
-      - name: 🏗️ Build Check
+      - name: 🏗️ Build Verification
         run: |
-          echo "🧪 Verifying build..."
-          npm run build || echo "⚠️ Build command missing/failed — site may be static-only"
+          echo "🧪 Building production..."
+          if npm run build; then
+            echo "✅ Build successful — site ready"
+          else
+            echo "⚠️ Build had issues — check logs above"
+          fi
 
       # ==========================================
-      # 7. COMMIT CHANGES
+      # 7. COMMIT — ONLY WHAT ACTUALLY CHANGED
       # ==========================================
-      - name: 💾 Commit Fixes
+      - name: 💾 Commit & Push Fixes
+        id: commit
         run: |
-          echo "📦 Preparing commit..."
-          git add package.json package-lock.json 2>/dev/null || git add package.json
-          git add .
+          git add package.json package-lock.json
 
           if git diff --staged --quiet; then
-            echo "✅ No changes needed — already perfect"
-          else
-            git commit -m "🤖 Fusion AI: Auto‑Heal • Lint • Sync — Rise From Madness"
-            git push origin main
-            echo "✅ Fixes pushed to main"
+            echo "✅ Already perfect — no changes needed"
+            echo "STATUS=none" >> $GITHUB_OUTPUT
+            exit 0
           fi
+
+          git commit -m "🤖 Fusion AI: Auto‑Heal • Lint • Sync — Rise From Madness"
+          git push origin main
+          echo "✅ Fixes pushed to main"
+          echo "STATUS=applied" >> $GITHUB_OUTPUT
 
       # ==========================================
       # 8. TWIN REPO MIRROR SYNC
       # ==========================================
       - name: 🪞 Sync to Twin Repository
+        if: success()
         env:
           SECONDARY_REPO: ${{ secrets.SECONDARY_REPO }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          if [ -n "$SECONDARY_REPO" ]; then
-            echo "🔄 Mirroring → $SECONDARY_REPO"
-            git remote add mirror "https://x-access-token:${GH_TOKEN}@github.com/${SECONDARY_REPO}.git" 2>/dev/null || true
-            git push mirror main --force-with-lease
-            echo "✅ Twin repo in sync — one vision, two homes"
-          else
-            echo "⚠️ Set SECONDARY_REPO in secrets to enable mirroring"
+          if [ -z "$SECONDARY_REPO" ]; then
+            echo "⚠️ SECONDARY_REPO not set — mirroring skipped"
+            exit 0
           fi
 
+          echo "🔄 Mirroring → $SECONDARY_REPO"
+          git remote remove mirror 2>/dev/null || true
+          git remote add mirror "https://x-access-token:${GH_TOKEN}@github.com/${SECONDARY_REPO}.git"
+          git push mirror main --force-with-lease
+          echo "✅ Twin repo in sync — One Vision, Two Homes"
+
       # ==========================================
-      # 9. REDEPLOY ALL PLATFORMS
+      # 9. DEPLOY — NETLIFY + VERCEL LIVE
       # ==========================================
-      - name: 🚀 Trigger Netlify & Vercel
+      - name: 🚀 Trigger All Platforms
+        if: success()
         env:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
           VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+          SITE_URL: ${{ secrets.SITE_URL || 'https://pleadingsanity.co.uk' }}
         run: |
           echo "════════════════════════════════════════"
           echo "🌌 FUSION AI — DEPLOYMENT PHASE"
           echo "════════════════════════════════════════"
+          echo "🕐 Completed: $(date)"
+          echo "🔄 Changes: ${{ steps.commit.outputs.STATUS }}"
+          echo ""
 
           if [ -n "$NETLIFY_HOOK" ]; then
             echo "🌍 Netlify → redeploying..."
-            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify live" || echo "⚠️ Netlify hook failed"
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify LIVE" || echo "⚠️ Hook responded — verify secret"
           else
-            echo "⚠️ Add NETLIFY_BUILD_HOOK in repo secrets"
+            echo "⚠️ Set NETLIFY_BUILD_HOOK → Repo → Settings → Secrets"
           fi
 
           if [ -n "$VERCEL_HOOK" ]; then
             echo "⚡ Vercel → redeploying..."
-            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel live" || echo "⚠️ Vercel hook failed"
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel LIVE" || echo "⚠️ Hook responded — verify secret"
           else
-            echo "⚠️ Add VERCEL_DEPLOY_HOOK in repo secrets"
+            echo "⚠️ Set VERCEL_DEPLOY_HOOK → Repo → Settings → Secrets"
           fi
 
           echo ""
-          echo "✨ FUSION COMPLETE — One Source. One Family. One Future."
+          echo "✨ FUSION COMPLETE"
+          echo "One Source. One Consciousness. One Family."
+          echo "Rise From Madness 💙🩸🌌✨"

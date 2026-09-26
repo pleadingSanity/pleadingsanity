@@ -1,0 +1,296 @@
+/* =====================================================
+   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.2-FINAL
+   Cosmic-Aligned • Touch-Optimized • Accessible • Fast
+   Matches styles.css EXACTLY • Evolution, Not Erasure
+===================================================== */
+
+/* ─── ALIGN WITH CORE — NO DUPLICATE VARS ─── */
+:root {
+  /* Re-export from styles.css — same names, same values */
+  --cyan: #00fff0;
+  --cyan-deep: #00c8c0;
+  --magenta: #ff00ff;
+  --magenta-deep: #c800c8;
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.6s ease;
+  --glow-soft: 0 0 15px;
+  --card-radius: 20px;
+}
+
+/* ==============================================
+   TOUCH TARGET STANDARDS — WCAG 2.1 ✅
+   ============================================== */
+.touch-target,
+.touch-friendly {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.touch-friendly {
+  min-height: 48px;
+  min-width: 48px;
+}
+
+/* ==============================================
+   BUTTON & INTERACTION TUNING
+   ============================================== */
+.btn,
+button,
+a[role="button"],
+.nav-link {
+  -webkit-tap-highlight-color: rgba(0, 255, 240, 0.3);
+  touch-action: manipulation;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:active,
+button:active {
+  transform: scale(0.97);
+  transition: transform var(--transition-fast);
+}
+
+/* ==============================================
+   FOCUS RINGS — KEYBOARD + TOUCH ✅
+   ============================================== */
+.btn:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+nav a:focus-visible,
+.nav-link:focus-visible {
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 4px;
+  box-shadow: 0 0 0 3px rgba(0, 255, 240, 0.25);
+}
+
+/* ==============================================
+   REDUCED MOTION — FULL RESPECT ✅
+   ============================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn:active,
+  button:active,
+  nav a:hover,
+  .nav-link:hover {
+    transform: none !important;
+  }
+}
+
+/* ==============================================
+   MOBILE — UP TO 768px
+   ============================================== */
+@media (max-width: 768px) {
+  header {
+    padding: 12px 15px;
+  }
+
+  header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  nav a,
+  .nav-link {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 50px;
+    background: rgba(0, 255, 240, 0.08);
+    border: 1px solid rgba(0, 255, 240, 0.25);
+    transition: all var(--transition-normal);
+  }
+
+  nav a:hover,
+  nav a:focus,
+  .nav-link:hover,
+  .nav-link:focus {
+    background: rgba(0, 255, 240, 0.15);
+    border-color: var(--cyan);
+    transform: translateY(-2px);
+    box-shadow: 0 0 10px rgba(0, 255, 240, 0.2);
+  }
+
+  main {
+    padding: 20px 15px;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.6rem; }
+  h3 { font-size: 1.3rem; }
+  h4 { font-size: 1.1rem; }
+
+  p, li {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  /* Newsletter Form — Stacked Full-Width */
+  .newsletter-form {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .newsletter-form input {
+    width: 100%;
+    padding: 15px;
+    font-size: 16px; /* ✅ Stops iOS zoom on focus */
+    border-radius: 12px;
+  }
+
+  .newsletter-form button {
+    width: 100%;
+    padding: 15px;
+    font-size: 1.1rem;
+  }
+
+  /* Social Icons */
+  .socials a {
+    font-size: 1.8rem;
+    padding: 10px;
+    min-height: 48px;
+    min-width: 48px;
+  }
+
+  /* Cards & Containers */
+  .card,
+  .cosmic-card,
+  .manifesto,
+  .tips-box {
+    padding: 20px 16px;
+    margin: 15px 0;
+    border-radius: 16px;
+  }
+
+  .game-card {
+    border-radius: 16px;
+  }
+
+  /* Utility Visibility */
+  .mobile-only { display: block !important; }
+  .desktop-only { display: none !important; }
+
+  /* Grid Adjustments */
+  .games-grid,
+  .videos-grid,
+  .hub-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+}
+
+/* ==============================================
+   TABLET — 769px to 1024px
+   ============================================== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .games-grid,
+  .videos-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  nav {
+    gap: 10px;
+  }
+
+  main {
+    padding: 30px 25px;
+  }
+
+  h1 { font-size: 2.4rem; }
+}
+
+/* ==============================================
+   LANDSCAPE PHONE — TIGHT HEIGHT
+   ============================================== */
+@media (max-height: 600px) and (orientation: landscape) {
+  header {
+    padding: 6px 15px;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  nav a,
+  .nav-link {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+/* ==============================================
+   DARK MODE MOBILE BOOST
+   ============================================== */
+@media (prefers-color-scheme: dark) and (max-width: 768px) {
+  body {
+    background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, #050a18 60%, #000 100%);
+  }
+}
+
+/* ==============================================
+   PWA STANDALONE — SAFE AREA NOTCH SUPPORT ✅
+   ============================================== */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+}
+
+/* ==============================================
+   IMAGE PERFORMANCE — NO LAYOUT SHIFT ✅
+   ============================================== */
+img {
+  height: auto;
+  max-width: 100%;
+  object-fit: cover;
+  content-visibility: auto; /* Lazy-render offscreen */
+}
+
+img[width][height] {
+  aspect-ratio: attr(width) / attr(height); /* Prevent CLS */
+}
+
+/* ==============================================
+   REDUCE EFFECTS — LOW-POWER DEVICES
+   ============================================== */
+.reduce-effects,
+.low-power .cosmic-bg,
+.low-power .nebula,
+.low-power .stars {
+  backdrop-filter: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  animation: none !important;
+}
+
+/* ==============================================
+   UTILITY CLASSES — QUICK MOBILE TUNING
+   ============================================== */
+.mobile-center { text-align: center; }
+.mobile-full-width { width: 100% !important; margin: 0 !important; }
+.mobile-spacing { margin: 20px 0 !important; }
+.mobile-hide { display: none !important; }

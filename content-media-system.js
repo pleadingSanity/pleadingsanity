@@ -1,5 +1,5 @@
 // ==============================================================
-// PLEADING SANITY — CONTENT & MEDIA EMPIRE SYSTEM v1.0-FINAL
+// PLEADING SANITY — CONTENT & MEDIA EMPIRE SYSTEM v1.1-FINAL
 // Rise From Madness Global Network • Creator-Led • Survivor-Run
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // Built for Shane Cooper — Pleading Sanity Universal Alliance
@@ -7,7 +7,7 @@
 
 class ContentMediaSystem {
   constructor() {
-    this.VERSION = '1.0.0-FINAL';
+    this.VERSION = '1.1.0-FINAL';
     this.contentTypes = new Map();
     this.creators = new Map();
     this.distributionChannels = new Map();
@@ -15,17 +15,28 @@ class ContentMediaSystem {
     this.communityContent = new Map();
     this.podcastNetwork = new Map();
     this.educationalContent = new Map();
-    this.db = {
-      content: JSON.parse(localStorage.getItem('ps_content') || '[]'),
-      creators: JSON.parse(localStorage.getItem('ps_creators') || '[]'),
-      analytics: JSON.parse(localStorage.getItem('ps_analytics') || '[]'),
-      reports: JSON.parse(localStorage.getItem('ps_reports') || '[]')
+    this.submissions = new Map();
+    this.syncInterval = null;
+    
+    // ─── PERSISTENCE — Encapsulated Storage ───
+    this.STORAGE_KEYS = {
+      content: 'ps_content_v1',
+      creators: 'ps_creators_v1',
+      analytics: 'ps_analytics_v1',
+      reports: 'ps_reports_v1',
+      lastSync: 'ps_last_sync_v1'
     };
+    
+    this.db = this.loadDB();
     this.init();
   }
 
+  // ==============================================
+  // CORE INIT
+  // ==============================================
   init() {
     console.log(`🎙️ Pleading Sanity Media System v${this.VERSION} — ONLINE`);
+    
     this.setupContentInfrastructure();
     this.initPodcastNetwork();
     this.initEducationalPlatform();
@@ -33,7 +44,43 @@ class ContentMediaSystem {
     this.initDistributionNetwork();
     this.initGovernance();
     this.initAnalytics();
-    this.autoSync();
+    this.startAutoSync();
+    this.registerGlobalAPI();
+  }
+
+  // ==============================================
+  // STORAGE LAYER — Encapsulated + Migratable ✅
+  // ==============================================
+  loadDB() {
+    return {
+      content: this.safeParse(this.STORAGE_KEYS.content, []),
+      creators: this.safeParse(this.STORAGE_KEYS.creators, []),
+      analytics: this.safeParse(this.STORAGE_KEYS.analytics, []),
+      reports: this.safeParse(this.STORAGE_KEYS.reports, [])
+    };
+  }
+
+  safeParse(key, fallback) {
+    try {
+      const data = localStorage.getItem(key);
+      return data ? JSON.parse(data) : fallback;
+    } catch (err) {
+      console.warn(`⚠️ Storage parse failed: ${key} — resetting`, err);
+      return fallback;
+    }
+  }
+
+  saveDB() {
+    try {
+      localStorage.setItem(this.STORAGE_KEYS.content, JSON.stringify(this.db.content));
+      localStorage.setItem(this.STORAGE_KEYS.creators, JSON.stringify(this.db.creators));
+      localStorage.setItem(this.STORAGE_KEYS.analytics, JSON.stringify(this.db.analytics));
+      localStorage.setItem(this.STORAGE_KEYS.reports, JSON.stringify(this.db.reports));
+      return true;
+    } catch (err) {
+      console.error('❌ Storage save failed:', err);
+      return false;
+    }
   }
 
   // ==============================================
@@ -47,7 +94,8 @@ class ContentMediaSystem {
       pillars: ['survivor_stories', 'evidence_based', 'practical_tools', 'community_spotlight', 'expert_insights'],
       distribution: ['Spotify', 'Apple', 'Google', 'YouTube', 'Amazon'],
       monetization: 'diversified',
-      community_input: true
+      community_input: true,
+      accessibility: ['transcripts', 'captions', 'alt_text']
     });
 
     this.contentTypes.set('educational', {
@@ -55,7 +103,8 @@ class ContentMediaSystem {
       certifications: true,
       pricing: 'free & sliding scale',
       accessibility: 'universal design',
-      offline_available: true
+      offline_available: true,
+      progress_tracking: true
     });
 
     this.contentTypes.set('community', {
@@ -64,7 +113,8 @@ class ContentMediaSystem {
       creative_arts: true,
       advocacy: true,
       research_share: true,
-      submissions_open: true
+      submissions_open: true,
+      anonymity_options: ['pseudonym', 'anonymous', 'attributed']
     });
 
     this.contentTypes.set('multimedia', {
@@ -87,7 +137,8 @@ class ContentMediaSystem {
       schedule: 'Every Wednesday 12:00 PM GMT',
       duration: '45–60 min',
       features: ['Listener questions', 'Guest nominations', 'Topic voting', 'Call-ins'],
-      rss_ready: true
+      rss_ready: true,
+      transcript_available: true
     });
 
     const networkShows = [
@@ -105,7 +156,8 @@ class ContentMediaSystem {
       editing: 'Community-trained team',
       templates: 'Standardized branding',
       transcription: 'Auto + human review',
-      audiograms: 'Auto-generated for social'
+      audiograms: 'Auto-generated for social',
+      quality_standards: 'Accessibility-first — captions within 48hrs'
     });
   }
 
@@ -121,7 +173,8 @@ class ContentMediaSystem {
         duration: '6 weeks self-paced',
         cert: 'Mental Health Advocate',
         price: 'FREE',
-        audience: 'All'
+        audience: 'All',
+        progress_saved: true
       },
       {
         id: 'peer_support',
@@ -191,13 +244,15 @@ class ContentMediaSystem {
         mental_health: 'Mandatory check-ins',
         legal: 'Contracts reviewed',
         anti_harassment: 'Zero-tolerance policy',
-        data_rights: 'You own your content'
+        data_rights: 'You own your content',
+        withdrawal_rights: 'Remove your work at any time'
       },
       payout: {
         split: '70% Creator • 30% Movement',
         threshold: '£0 — every penny yours',
         schedule: 'Monthly — full transparency',
-        bonus: 'Impact awards quarterly'
+        bonus: 'Impact awards quarterly',
+        public_ledger: true
       }
     });
   }
@@ -221,7 +276,8 @@ class ContentMediaSystem {
         social: 'Daily 3x',
         stories: 'User-submitted continuously',
         reports: 'Monthly impact public'
-      }
+      },
+      cross_promotion: 'All channels link together — one ecosystem'
     });
   }
 
@@ -235,7 +291,8 @@ class ContentMediaSystem {
         team: 'Trained survivors',
         ai_role: 'Flag only — HUMANS decide',
         appeal: 'Elected community board',
-        logs: 'Public — no secrets'
+        logs: 'Public — no secrets',
+        response_time: '24hr acknowledgment target'
       },
       quality: {
         accuracy: 'Fact-checked',
@@ -254,52 +311,105 @@ class ContentMediaSystem {
       track: ['Reach', 'Engagement', 'Impact stories', 'Creator earnings'],
       privacy: 'No individual data sold',
       public_dashboard: true,
-      what_matters: 'Lives changed > Viral numbers'
+      what_matters: 'Lives changed > Viral numbers',
+      anonymization: 'Personal identifiers stripped where possible'
     });
   }
 
   // ==============================================
   // PUBLIC API — CREATE, PUBLISH, REPORT
   // ==============================================
-  submitContent(type, creatorId, data) {
+  submitContent(type, creatorId, data = {}) {
+    if (!type || !creatorId) {
+      console.warn('⚠️ Missing required fields: type or creatorId');
+      return null;
+    }
+
     const entry = {
-      id: `ps_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+      id: this.generateId(),
       type,
       creatorId,
       data,
       status: 'pending_review',
       submitted: new Date().toISOString(),
+      published: null,
       views: 0,
-      engagement: 0
+      engagement: 0,
+      anonymous: data.anonymous || false,
+      tags: data.tags || []
     };
+
     this.db.content.push(entry);
     this.saveDB();
     console.log(`📥 Content submitted: ${entry.id}`);
-    setTimeout(() => this.reviewContent(entry.id), 3000);
+    
+    // Auto-approve demo mode — replace with real review workflow
+    setTimeout(() => this.reviewContent(entry.id, 'approved'), 3000);
     return entry.id;
   }
 
-  reviewContent(id) {
+  reviewContent(id, decision = 'approved') {
     const idx = this.db.content.findIndex(c => c.id === id);
-    if (idx === -1) return;
-    this.db.content[idx].status = 'published';
-    this.db.content[idx].published = new Date().toISOString();
+    if (idx === -1) {
+      console.warn(`⚠️ Content not found: ${id}`);
+      return false;
+    }
+
+    this.db.content[idx].status = decision === 'approved' ? 'published' : 'rejected';
+    this.db.content[idx].published = decision === 'approved' ? new Date().toISOString() : null;
+    this.db.content[idx].reviewedAt = new Date().toISOString();
+    this.db.content[idx].reviewNotes = decision === 'approved' ? 'Welcome to the movement 💙' : 'Thank you — we’ll connect soon';
+    
     this.saveDB();
-    console.log(`✅ Published: ${id}`);
+    console.log(`✅ Content ${decision}: ${id}`);
+    return true;
   }
 
   recordView(id) {
     const item = this.db.content.find(c => c.id === id);
-    if (item) item.views++;
-    this.saveDB();
+    if (item) {
+      item.views++;
+      this.saveDB();
+      return item.views;
+    }
+    return null;
+  }
+
+  recordEngagement(id, type = 'like') {
+    const item = this.db.content.find(c => c.id === id);
+    if (item) {
+      item.engagement++;
+      this.db.analytics.push({
+        contentId: id,
+        type,
+        timestamp: new Date().toISOString()
+      });
+      this.saveDB();
+      return item.engagement;
+    }
+    return null;
+  }
+
+  getContent(id) {
+    return this.db.content.find(c => c.id === id) || null;
+  }
+
+  listPublishedContent(limit = 20) {
+    return this.db.content
+      .filter(c => c.status === 'published')
+      .sort((a, b) => new Date(b.published) - new Date(a.published))
+      .slice(0, limit);
   }
 
   getReport() {
+    const published = this.db.content.filter(c => c.status === 'published');
     return {
       generated: new Date().toLocaleString(),
       total_content: this.db.content.length,
-      published: this.db.content.filter(c => c.status === 'published').length,
+      published: published.length,
+      pending: this.db.content.filter(c => c.status === 'pending_review').length,
       total_views: this.db.content.reduce((s, c) => s + (c.views || 0), 0),
+      total_engagement: this.db.content.reduce((s, c) => s + (c.engagement || 0), 0),
       active_creators: new Set(this.db.content.map(c => c.creatorId)).size,
       by_type: Object.fromEntries(
         [...new Set(this.db.content.map(c => c.type))].map(t => [
@@ -309,25 +419,53 @@ class ContentMediaSystem {
     };
   }
 
-  saveDB() {
-    localStorage.setItem('ps_content', JSON.stringify(this.db.content));
+  // ==============================================
+  // UTILITIES
+  // ==============================================
+  generateId() {
+    return `ps_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
   }
 
-  autoSync() {
-    setInterval(() => {
-      localStorage.setItem('ps_last_sync', new Date().toISOString());
+  startAutoSync() {
+    if (this.syncInterval) clearInterval(this.syncInterval);
+    this.syncInterval = setInterval(() => {
+      localStorage.setItem(this.STORAGE_KEYS.lastSync, new Date().toISOString());
     }, 30000);
+  }
+
+  stopAutoSync() {
+    if (this.syncInterval) {
+      clearInterval(this.syncInterval);
+      this.syncInterval = null;
+    }
+  }
+
+  registerGlobalAPI() {
+    window.PS_Media_API = {
+      submit: (type, creatorId, data) => this.submitContent(type, creatorId, data),
+      get: (id) => this.getContent(id),
+      list: (limit) => this.listPublishedContent(limit),
+      view: (id) => this.recordView(id),
+      engage: (id, type) => this.recordEngagement(id, type),
+      report: () => this.getReport(),
+      version: this.VERSION
+    };
   }
 }
 
 // ==============================================
 // ACTIVATE — RUNS ON EVERY PAGE
 // ==============================================
-document.addEventListener('DOMContentLoaded', () => {
-  window.PS_Media = new ContentMediaSystem();
-  console.log('🌍 Pleading Sanity Media — AMPLIFYING SURVIVOR VOICES');
-});
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.PS_Media = new ContentMediaSystem();
+    console.log('🌍 Pleading Sanity Media — AMPLIFYING SURVIVOR VOICES');
+  });
+}
 
+// ==============================================
+// EXPORT — Node/Testing Compatible
+// ==============================================
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = ContentMediaSystem;
 }

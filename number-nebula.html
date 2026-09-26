@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Number Nebula — Pleading Sanity | Calculate. Grow. Glow.</title>
+  <meta name="description" content="Your cosmic math & pattern game — build confidence, not stress. Levels, streaks, offline play.">
+  <link rel="canonical" href="https://pleadingsanity.co.uk/number-nebula.html" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <style>
+    :root{
+      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.5);
+      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
+      --gold:#ffd700;--gold-glow:rgba(255,215,0,.4);
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
+      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
+      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(255,0,255,.3);
+      --success:#00ff88;--error:#ff3366;
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;
+    }
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--cyan);color:#000;padding:12px 24px;border-radius:8px;z-index:1e4;}
+    .skip-link:focus{top:10px;}
+    a{color:var(--cyan);transition:var(--t);}
+    a:hover{color:var(--magenta);text-shadow:0 0 8px rgba(255,0,255,.3);}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo{width:60px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3s infinite;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4));}50%{filter:drop-shadow(0 0 35px rgba(255,0,255,.35));}}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin-bottom:5px;letter-spacing:.05em;}
+    .tag{color:var(--magenta);font-weight:600;margin-bottom:12px;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;margin-top:12px;}
+    nav a{
+      color:var(--cyan);font-weight:700;padding:8px 12px;border-radius:8px;
+      border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;
+      transition:var(--t);
+    }
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.1);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.2);
+    }
+    nav a:hover{
+      border-color:var(--magenta);background:rgba(255,0,255,.08);
+      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
+    }
+    main{max-width:600px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+
+    .game-card{
+      background:linear-gradient(135deg,rgba(0,255,240,.08),rgba(255,0,255,.05));
+      border-radius:24px;padding:30px;border:1px solid rgba(0,255,240,.2);
+      box-shadow:0 0 30px rgba(0,255,240,.1),inset 0 0 60px rgba(0,255,240,.03);
+      backdrop-filter:blur(16px);position:relative;overflow:hidden;
+    }
+    .game-card::before{
+      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+      background:conic-gradient(from 0deg,transparent,var(--cyan),transparent,var(--magenta),transparent);
+      animation:rotate 20s linear infinite;opacity:.05;pointer-events:none;
+    }
+    @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+    .game-card > *{position:relative;z-index:1;}
+
+    .stats{
+      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
+      margin-bottom:25px;padding:15px 20px;background:rgba(0,0,0,.3);border-radius:14px;
+      border:1px solid rgba(0,255,240,.15);
+    }
+    .stat{text-align:center;}
+    .stat-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
+    .stat-val{font-size:1.4rem;font-weight:800;color:var(--cyan);}
+    .stat-val.level{color:var(--gold);text-shadow:0 0 10px var(--gold-glow);}
+    .stat-val.streak{color:var(--magenta);text-shadow:0 0 10px var(--magenta-glow);}
+    
+    .progress-bar{height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;margin:15px 0 20px;}
+    .progress-fill{height:100%;background:var(--btn-gradient);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px var(--cyan-glow);}
+
+    .question-display{
+      font-size:clamp(1.5rem,5vw,2.2rem);font-weight:700;text-align:center;
+      padding:25px 20px;background:rgba(255,255,255,.03);border-radius:16px;
+      border:1px solid rgba(0,255,240,.15);margin-bottom:20px;
+      letter-spacing:.05em;
+    }
+    
+    .options-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:20px 0;}
+    .option-btn{
+      padding:18px 12px;border-radius:14px;border:2px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.03);color:var(--text-bright);font-size:1.3rem;font-weight:700;
+      cursor:pointer;transition:var(--t);font-family:inherit;
+    }
+    .option-btn:hover:not(:disabled){
+      transform:scale(1.05);border-color:rgba(0,255,240,.4);
+      background:rgba(0,255,240,.08);
+    }
+    .option-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+    .option-btn.correct{
+      background:linear-gradient(135deg,#00ff88,#00cc66);border-color:#00ff88;
+      box-shadow:0 0 25px rgba(0,255,136,.4);animation:pop .3s ease;
+    }
+    .option-btn.wrong{
+      background:linear-gradient(135deg,#ff3366,#cc0033);border-color:#ff3366;
+      box-shadow:0 0 25px rgba(255,51,102,.4);animation:shake .4s ease;
+    }
+    @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.15);}100%{transform:scale(1);}}
+    @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}
+
+    .input-mode{display:flex;gap:10px;margin:20px 0;}
+    .answer-input{
+      flex:1;padding:16px 20px;border-radius:12px;border:2px solid rgba(0,255,240,.3);
+      background:rgba(0,0,0,.3);color:var(--text-bright);font-size:1.3rem;text-align:center;
+      font-weight:700;outline:none;transition:var(--t);
+    }
+    .answer-input:focus{border-color:var(--cyan);box-shadow:0 0 15px var(--cyan-glow);}
+
+    .btn{
+      width:100%;padding:16px 24px;border-radius:50px;font-weight:800;font-size:1.1rem;
+      border:none;cursor:pointer;transition:var(--t);font-family:inherit;
+      letter-spacing:.05em;min-height:56px;
+    }
+    .btn.primary{background:var(--btn-gradient);color:#000;box-shadow:var(--btn-glow);}
+    .btn.primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:var(--btn-glow-strong);}
+    .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+    .status{
+      text-align:center;margin:20px 0;padding:15px;border-radius:12px;
+      background:rgba(255,255,255,.03);min-height:3.5rem;display:flex;
+      align-items:center;justify-content:center;font-size:1rem;
+    }
+    .status.playing{border-left:3px solid var(--cyan);background:rgba(0,255,240,.05);color:var(--cyan);}
+    .status.success{border-left:3px solid var(--success);background:rgba(0,255,136,.05);color:var(--success);font-weight:600;}
+    .status.fail{border-left:3px solid var(--error);background:rgba(255,51,102,.05);color:#ff6688;}
+    .status.levelup{border-left:3px solid var(--gold);background:rgba(255,215,0,.08);color:var(--gold);font-weight:700;font-size:1.1rem;animation:pulseGold 1s ease-in-out infinite;}
+    @keyframes pulseGold{0%,100%{text-shadow:0 0 10px var(--gold-glow);}50%{text-shadow:0 0 25px var(--gold-glow);}}
+
+    .tip{
+      margin-top:25px;padding:18px;background:rgba(0,255,240,.04);border-radius:12px;
+      border-left:3px solid var(--cyan);font-size:.9rem;color:var(--text-soft);
+    }
+
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
+    }
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:18px;margin:16px 0;font-size:1.8rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--cyan);
+    }
+    .socials a:hover{color:var(--magenta);transform:scale(1.2);background:rgba(255,0,255,.1);box-shadow:0 0 15px rgba(255,0,255,.2);}
+    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(0,255,240,.08);font-size:.85rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+    
+    @media (max-width:480px){
+      main{padding:20px 15px 50px;}
+      .options-grid{grid-template-columns:1fr;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .option-btn:hover,.btn:hover,.socials a:hover{transform:none;}
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to game</a>
+  <header>
+    <img src="assets/favicon.svg" alt="Pleading Sanity" class="logo" width="60" height="60" loading="eager" />
+    <h1>🔢 Number Nebula</h1>
+    <p class="tag">Calculate. Grow. Glow.</p>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="sanityhub.html">Sanity Hub</a>
+      <a href="journal-vault.html">Journal Vault</a>
+      <a href="frequencies.html">Healing Hz</a>
+      <a href="games.html" aria-current="page">Games</a>
+      <a href="cosmic-focus.html">Cosmic Focus</a>
+      <a href="number-nebula.html" aria-current="page">Number Nebula</a>
+      <a href="shop.html">Shop</a>
+      <a href="movement.html">Movement</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="game-card">
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-label">Level</div>
+          <div class="stat-val level" id="lvl">1</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Score</div>
+          <div class="stat-val" id="score">0</div>
+        </div>
+        <div class="stat">
+          <div class="stat-label">Streak</div>
+          <div class="stat-val streak" id="streak">0🔥</div>
+        </div>
+      </div>
+      
+      <!-- PROGRESS -->
+      <div class="progress-bar" title="Progress to next level">
+        <div class="progress-fill" id="progress" style="width:0%"></div>
+      </div>
+
+      <!-- STATUS -->
+      <div class="status" id="status">Press Start to begin your cosmic training ✨</div>
+
+      <!-- QUESTION -->
+      <div class="question-display" id="question">—</div>
+
+      <!-- OPTIONS / INPUT -->
+      <div id="answersArea"></div>
+
+      <!-- START BUTTON -->
+      <button class="btn primary" id="startBtn" onclick="startGame()">🚀 Launch Nebula</button>
+      
+      <!-- TIP -->
+      <div class="tip">
+        💡 <strong>How it works:</strong> Find the pattern → calculate the answer → take your time. No rush. Calm focus beats speed 💙
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="brand">Pleading Sanity — Number Nebula</div>
+    <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family.</p>
+    <div class="socials">
+      <a href="https://instagram.com/pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://tiktok.com/@pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://youtube.com/@pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+      <a href="https://payhip.com/pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop">🛒</a>
+    </div>
+    <div class="legacy">
+      <p>&copy; <span id="yr"></span> Pleading Sanity — All Rights Reserved</p>
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
+      <p>Built on their shoulders. Awakened by truth.</p>
+    </div>
+  </footer>
+
+  <script>
+    let level=1, score=0, streak=0, isPlaying=false, current={}, canAnswer=false;
+    
+    // Load saved progress
+    function loadSave(){
+      const s=localStorage.getItem('numberNebula');
+      if(s){const d=JSON.parse(s);level=d.lvl||1;score=d.score||0;streak=d.streak||0;updateUI();}
+    }
+    function save(){
+      localStorage.setItem('numberNebula',JSON.stringify({lvl,score,streak,ts:Date.now()}));
+    }
+    
+    function updateUI(){
+      lvl.textContent=level;
+      score.textContent=score;
+      streak.textContent=streak+'🔥';
+      progress.style.width=((score%(level*100))/(level*100)*100||0)+'%';
+    }
+    
+    function setStatus(msg,cls=''){
+      status.className='status '+cls;
+      status.textContent=msg;
+    }
+    
+    // Generate question based on level
+    function genQuestion(){
+      const types=['add','subtract','multiply','pattern','sequence'];
+      const t=types[Math.floor(Math.random()*Math.min(types.length,1+Math.floor(level/2)))];
+      let q='',ans=0,opts=[];
+      
+      if(t==='add'){
+        const max=10+(level*5);
+        const a=Math.floor(Math.random()*max)+1;
+        const b=Math.floor(Math.random()*max)+1;
+        q=`${a} + ${b} = ?`; ans=a+b;
+      }else if(t==='subtract'){
+        const max=10+(level*5);
+        const b=Math.floor(Math.random()*max)+1;
+        const a=b+Math.floor(Math.random()*max)+1;
+        q=`${a} − ${b} = ?`; ans=a-b;
+      }else if(t==='multiply'){
+        const max=2+Math.floor(level/2);
+        const a=Math.floor(Math.random()*max)+2;
+        const b=Math.floor(Math.random()*max)+2;
+        q=`${a} × ${b} = ?`; ans=a*b;
+      }else if(t==='pattern'){
+        const diff=Math.floor(Math.random()*level)+1;
+        const start=Math.floor(Math.random()*10)+1;
+        const seq=Array.from({length:4},(_,i)=>start+(diff*i));
+        ans=start+(diff*4);
+        q=`${seq.join(' → ')} → ?`;
+      }else{
+        // sequence: what's the rule?
+        const rules=[
+          {fn:n=>n+2,label:'+2'},
+          {fn:n=>n*2,label:'×2'},
+          {fn:n=>n+5,label:'+5'},
+        ];
+        const r=rules[Math.floor(Math.random()*Math.min(rules.length,1+level))];
+        const start=Math.floor(Math.random()*5)+1;
+        const seq=Array.from({length:4},(_,i)=>{let v=start;for(let j=0;j<i;j++)v=r.fn(v);return v;});
+        ans=r.fn(seq.at(-1));
+        q=`${seq.join(' → ')} → ?`;
+      }
+      
+      // Generate distractors
+      opts=[ans];
+      while(opts.length<4){
+        const d=ans+Math.floor(Math.random()*10)-5;
+        if(d>0&&!opts.includes(d))opts.push(d);
+      }
+      opts=opts.sort(()=>Math.random()-.5);
+      
+      return {q,ans,opts,type:t};
+    }
+    
+    function renderQuestion(){
+      current=genQuestion();
+      question.textContent=current.q;
+      answersArea.innerHTML='';
+      
+      // Level 8+ = free-text mode
+      if(level>=8){
+        answersArea.innerHTML=`
+          <div class="input-mode">
+            <input type="number" class="answer-input" id="ansIn" placeholder="Your answer…" />
+            <button class="btn primary" style="flex:0 0 auto;width:auto;padding:16px 24px;" id="subBtn">Submit</button>
+          </div>
+        `;
+        document.getElementById('subBtn').onclick=submitFree;
+        document.getElementById('ansIn').onkeydown=e=>e.key==='Enter'&&submitFree();
+      }else{
+        answersArea.innerHTML=`<div class="options-grid">${current.opts.map((o,i)=>`
+          <button class="option-btn" data-opt="${o}" id="opt${i}">${o}</button>
+        `).join('')}</div>`;
+        document.querySelectorAll('.option-btn').forEach(b=>b.onclick=()=>checkAnswer(parseInt(b.dataset.opt),b));
+      }
+      
+      canAnswer=true;
+      setStatus('🎯 Your turn — find the answer!','playing');
+    }
+    
+    function checkAnswer(given,btnEl){
+      if(!canAnswer||!isPlaying)return;
+      canAnswer=false;
+      
+      const allBtns=document.querySelectorAll('.option-btn');
+      allBtns.forEach(b=>b.disabled=true);
+      
+      if(given===current.ans){
+        btnEl.classList.add('correct');
+        score+=level*10+streak*3;
+        streak++;
+        if(score>=level*150){
+          level++;
+          setStatus(`🌟 NEBULA LEVEL ${level}! Your mind is expanding across the cosmos!`,'levelup');
+        }else{
+          setStatus(`✅ Correct! +${level*10+streak*3} points`,'success');
+        }
+        save(); updateUI();
+        setTimeout(renderQuestion,1400);
+      }else{
+        btnEl.classList.add('wrong');
+        streak=0;
+        setStatus(`❌ Not quite! Answer: ${current.ans}`,'fail');
+        save(); updateUI();
+        setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🚀 Try Again';},1600);
+      }
+    }
+    
+    function submitFree(){
+      if(!canAnswer||!isPlaying)return;
+      const val=parseInt(document.getElementById('ansIn').value);
+      if(isNaN(val))return;
+      canAnswer=false;
+      
+      if(val===current.ans){
+        score+=level*15+streak*5;
+        streak++;
+        if(score>=level*150){
+          level++;
+          setStatus(`🌟 NEBULA LEVEL ${level}! Pure calculation power!`,'levelup');
+        }else{
+          setStatus(`✅ Perfect! +${level*15+streak*5} points`,'success');
+        }
+        save(); updateUI();
+        setTimeout(renderQuestion,1400);
+      }else{
+        streak=0;
+        setStatus(`❌ Answer: ${current.ans}`,'fail');
+        save(); updateUI();
+        setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🚀 Try Again';},1600);
+      }
+    }
+    
+    function startGame(){
+      if(isPlaying)return;
+      isPlaying=true;
+      startBtn.disabled=true;
+      renderQuestion();
+    }
+    
+    document.getElementById('yr').textContent=new Date().getFullYear();
+    loadSave();
+  </script>
+</body>
+</html>

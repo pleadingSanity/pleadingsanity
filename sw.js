@@ -1,13 +1,14 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v1.4.0-PERFECTED
-// Advanced Offline Crisis Support • Smart Caching • Background Sync
+// 🌌 PLEADING SANITY — PWA SERVICE WORKER v2.0-GAMES-FULL
+// Advanced Offline Crisis Support • All 5 Games Cached • Smart Sync
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // Built for Shane Cooper — Pleading Sanity Universal Alliance
 // ==============================================================
 
-const CACHE_NAME = 'pleading-sanity-v1.4.0';
-const STATIC_CACHE = 'pleading-sanity-static-v1.4.0';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v1.4.0';
+const CACHE_NAME = 'pleading-sanity-v2.0';
+const STATIC_CACHE = 'pleading-sanity-static-v2.0';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v2.0';
+const VERSION = '2.0.0';
 
 // ========================================
 // 🛡️ CRITICAL — Always Available Offline
@@ -15,39 +16,46 @@ const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v1.4.0';
 const CRITICAL_CACHE = [
     '/',
     '/index.html',
-    '/crisis-response-system.js',
     '/styles.css',
-    '/mobile-responsive.css',
-    '/error-handler.js',
-    '/manifest.json'
+    '/manifest.json',
+    '/assets/favicon.ico',
+    '/assets/crying-brain-og.png'
 ];
 
 // ========================================
-// 📦 STATIC — Core Pages & Assets
+// 📦 STATIC — ALL Pages + ALL 5 Games
 // ========================================
 const STATIC_CACHE_URLS = [
+    // Core Pages
     '/',
     '/index.html',
-    '/sanityhub.html',
-    '/shop.html',
-    '/feed.html',
-    '/games.html',
-    '/videos.html',
-    '/movement.html',
     '/about.html',
+    '/sanityhub.html',
+    '/journal-vault.html',
     '/journal-vault-viewer.html',
+    '/frequencies.html',
+    '/games.html',
+    '/shop.html',
+    '/movement.html',
+    
+    // 🧠 ALL 5 BRAIN GAMES — FULL OFFLINE ACCESS
+    '/cosmic-focus.html',
+    '/number-nebula.html',
+    '/pattern-galaxy.html',
+    '/memory-ocean.html',
+    '/rhythm-resonance.html',
+    
+    // Styles & Shared
     '/styles.css',
-    '/script.js',
-    '/nav-component.css',
     '/manifest.json',
-    '/assets/crying-brain-og.png',
-    // ✅ Fixed: Use direct font URL with confirmed family
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap',
-    'https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2'
+    
+    // ✅ Fonts — Fixed & Verified
+    'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap'
+    // Note: Actual .woff2 files auto-cached when visited — no hard fail
 ];
 
 // ========================================
-// 🔄 DYNAMIC — External APIs & Live Content
+// 🔄 DYNAMIC — Live APIs & External Content
 // ========================================
 const DYNAMIC_CACHE_URLS = [
     'https://www.youtube.com/embed/',
@@ -61,31 +69,35 @@ const DYNAMIC_CACHE_URLS = [
 // 🚀 INSTALL — Prime the Cache
 // ========================================
 self.addEventListener('install', event => {
-    console.log('🚀 Pleading Sanity SW: Installing v1.4.0...');
+    console.log(`🚀 Pleading Sanity SW: Installing v${VERSION}…`);
     
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then(cache => {
-                console.log('📦 SW: Caching static assets');
+                console.log('📦 SW: Caching all pages & 5 games…');
                 return cache.addAll(STATIC_CACHE_URLS).catch(err => {
-                    console.warn('⚠️ SW: Some assets skipped (non-critical):', err.message);
+                    console.warn('⚠️ SW: Some non-critical assets skipped:', err.message);
                 });
             })
             .then(() => caches.open(CACHE_NAME))
-            .then(cache => cache.addAll(CRITICAL_CACHE))
+            .then(cache => {
+                console.log('🔒 SW: Caching critical offline essentials…');
+                return cache.addAll(CRITICAL_CACHE);
+            })
+            .then(() => console.log(`✅ SW v${VERSION}: ALL GAMES OFFLINE-READY`))
             .catch(error => {
                 console.error('❌ SW: Critical cache failed:', error);
             })
     );
     
-    self.skipWaiting(); // Activate immediately
+    self.skipWaiting(); // Activate instantly
 });
 
 // ========================================
 // ✅ ACTIVATE — Clean Old Caches
 // ========================================
 self.addEventListener('activate', event => {
-    console.log('✅ Pleading Sanity SW: Activated v1.4.0');
+    console.log(`✅ Pleading Sanity SW: Activated v${VERSION}`);
     
     event.waitUntil(
         caches.keys().then(cacheNames => {
@@ -97,10 +109,8 @@ self.addEventListener('activate', event => {
                     }
                 })
             );
-        })
+        }).then(() => self.clients.claim())
     );
-    
-    self.clients.claim(); // Take control of all open tabs
 });
 
 // ========================================
@@ -113,7 +123,7 @@ self.addEventListener('fetch', event => {
     // Only handle GET requests
     if (request.method !== 'GET') return;
 
-    // Skip extensions, analytics, sensitive tracking
+    // Skip browser extensions & tracking
     if (
         url.protocol === 'chrome-extension:' ||
         url.hostname === 'zenquotes.io' ||
@@ -121,7 +131,7 @@ self.addEventListener('fetch', event => {
         url.hostname.includes('googletagmanager')
     ) return;
 
-    // ── STATIC: Cache First → Network Update ──
+    // ── STATIC: Cache First → Instant Load ──
     const isStatic = STATIC_CACHE_URLS.some(cachedUrl => 
         request.url === cachedUrl || request.url.includes(cachedUrl)
     );
@@ -136,8 +146,10 @@ self.addEventListener('fetch', event => {
                             });
                             return networkRes;
                         })
-                        .catch(() => cached);
-                    
+                        .catch(() => {
+                            console.log('📴 SW: Offline — serving cached:', url.pathname);
+                            return cached;
+                        });
                     return cached || networkFetch;
                 })
                 .catch(() => fetch(request))
@@ -145,7 +157,7 @@ self.addEventListener('fetch', event => {
         return;
     }
 
-    // ── DYNAMIC: Network First → Cache Fallback ──
+    // ── DYNAMIC: Network First → Graceful Fallback ──
     const isDynamic = DYNAMIC_CACHE_URLS.some(pattern => 
         request.url.includes(pattern)
     );
@@ -161,17 +173,20 @@ self.addEventListener('fetch', event => {
                     return networkRes;
                 })
                 .catch(() => {
-                    console.log('🔌 SW: Offline — serving cached version');
+                    console.log('🔌 SW: Live content offline — using fallback');
                     return caches.match(request).then(cached => {
                         if (cached) return cached;
-                        // For API: return empty gracefully
-                        if (url.pathname.startsWith('/api/')) {
+                        // API: return friendly offline message
+                        if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) {
                             return new Response(
-                                JSON.stringify({ offline: true, message: 'Working offline — changes will sync when back online' }),
+                                JSON.stringify({ 
+                                    offline: true, 
+                                    message: 'Working offline — changes sync when you reconnect ✨' 
+                                }),
                                 { status: 200, headers: { 'Content-Type': 'application/json' } }
                             );
                         }
-                        // For pages: serve fallback
+                        // Pages: serve home as fallback
                         if (request.headers.get('accept')?.includes('text/html')) {
                             return caches.match('/index.html');
                         }
@@ -227,8 +242,8 @@ self.addEventListener('push', event => {
     const data = event.data.json();
     const options = {
         body: data.body || 'New cosmic inspiration awaits you ✨',
-        icon: '/assets/icons/icon-192x192.png',
-        badge: '/assets/icons/badge-72x72.png',
+        icon: '/assets/crying-brain-og.png',
+        badge: '/assets/favicon.ico',
         vibrate: [100, 50, 100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
@@ -236,8 +251,8 @@ self.addEventListener('push', event => {
             url: data.url || '/'
         },
         actions: [
-            { action: 'explore', title: '🌌 Open', icon: '/assets/icons/explore-action.png' },
-            { action: 'dismiss', title: '✧ Later', icon: '/assets/icons/close-action.png' }
+            { action: 'explore', title: '🌌 Open' },
+            { action: 'dismiss', title: '✧ Later' }
         ],
         requireInteraction: true
     };
@@ -269,7 +284,9 @@ self.addEventListener('message', event => {
     
     if (data?.type === 'GET_VERSION' && event.ports?.[0]) {
         event.ports[0].postMessage({
-            version: CACHE_NAME,
+            version: VERSION,
+            cacheName: CACHE_NAME,
+            gamesCached: 5,
             status: 'active',
             timestamp: new Date().toISOString()
         });

@@ -1,108 +1,132 @@
 {
-  "name": "Pleading Sanity - Rise From Madness",
-  "short_name": "Pleading Sanity",
-  "description": "A cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning.",
+  "name": "Pleading Sanity — Rise From Madness",
+  "short_name": "Sanity",
+  "description": "Cosmic healing hub. Brain games. Journal Vault. Frequencies. We turn pain into power, survival into strength, madness into meaning.",
   "start_url": "/index.html",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#0d1b2a",
+  "display_override": ["standalone", "minimal-ui"],
+  "lang": "en-GB",
+  "dir": "ltr",
+  "background_color": "#000103",
   "theme_color": "#00fff0",
   "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "en",
-  "categories": ["health", "lifestyle", "entertainment", "social"],
+  "categories": ["health", "education", "games", "lifestyle", "social", "productivity", "mental health", "wellness"],
   "icons": [
     {
-      "src": "assets/icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "maskable any"
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "assets/icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "maskable any"
-    },
-    {
-      "src": "assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable any"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/desktop-home.png",
-      "type": "image/png",
-      "sizes": "1280x720",
-      "form_factor": "wide",
-      "label": "Pleading Sanity Homepage"
-    },
-    {
-      "src": "assets/screenshots/mobile-hub.png",
-      "type": "image/png", 
-      "sizes": "390x844",
-      "form_factor": "narrow",
-      "label": "Sanity Hub Mobile"
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
       "name": "Sanity Hub",
       "short_name": "Hub",
-      "description": "Access the cosmic healing hub",
-      "url": "/sanityhub.html",
-      "icons": [{ "src": "assets/icons/hub-shortcut.png", "sizes": "96x96" }]
+      "description": "Cosmic healing hub — stories, community, growth",
+      "url": "/sanityhub.html"
+    },
+    {
+      "name": "Sanity Feed",
+      "short_name": "Feed",
+      "description": "Positive stories — no doomscroll, only sanity",
+      "url": "/feed.html"
+    },
+    {
+      "name": "Videos & Stories",
+      "short_name": "Videos",
+      "description": "Curated playlists & survivor voices",
+      "url": "/videos.html"
+    },
+    {
+      "name": "Brain Games",
+      "short_name": "Games",
+      "description": "All 5 — Focus, Numbers, Patterns, Memory, Rhythm",
+      "url": "/games.html"
+    },
+    {
+      "name": "Cosmic Focus",
+      "short_name": "Focus",
+      "description": "Memory sequences — watch, remember, repeat",
+      "url": "/cosmic-focus.html"
+    },
+    {
+      "name": "Number Nebula",
+      "short_name": "Numbers",
+      "description": "Logic & patterns — build confidence gently",
+      "url": "/number-nebula.html"
+    },
+    {
+      "name": "Pattern Galaxy",
+      "short_name": "Patterns",
+      "description": "Visual flow — train intuition & calm",
+      "url": "/pattern-galaxy.html"
+    },
+    {
+      "name": "Memory Ocean",
+      "short_name": "Memory",
+      "description": "Calm matching — no timers, no rush",
+      "url": "/memory-ocean.html"
+    },
+    {
+      "name": "Rhythm Resonance",
+      "short_name": "Rhythm",
+      "description": "Healing frequencies — listen, feel, align",
+      "url": "/rhythm-resonance.html"
+    },
+    {
+      "name": "Healing Hz",
+      "short_name": "Frequencies",
+      "description": "528Hz, 432Hz — ambient tones to heal",
+      "url": "/frequencies.html"
     },
     {
       "name": "Journal Vault",
-      "short_name": "Journal", 
-      "description": "View your conversation history",
-      "url": "/journal-vault-viewer.html",
-      "icons": [{ "src": "assets/icons/journal-shortcut.png", "sizes": "96x96" }]
+      "short_name": "Journal",
+      "description": "Private writing — your thoughts, safely yours",
+      "url": "/journal-vault.html"
+    },
+    {
+      "name": "Community",
+      "short_name": "Community",
+      "description": "Dashboard & voice — shape the movement",
+      "url": "/community-dashboard.html"
+    },
+    {
+      "name": "Offline Support",
+      "short_name": "Offline",
+      "description": "Crisis help & breathing — always available",
+      "url": "/offline.html"
     },
     {
       "name": "Shop",
       "short_name": "Shop",
-      "description": "Browse official merch", 
-      "url": "/shop.html",
-      "icons": [{ "src": "assets/icons/shop-shortcut.png", "sizes": "96x96" }]
+      "description": "Official merch — support the movement",
+      "url": "/shop.html"
+    },
+    {
+      "name": "Movement",
+      "short_name": "Movement",
+      "description": "Our story — One Source. One Family.",
+      "url": "/movement.html"
+    },
+    {
+      "name": "About",
+      "short_name": "About",
+      "description": "Who we are & why we're here",
+      "url": "/about.html"
     }
   ],
-  "related_applications": [
-    {
-      "platform": "webapp",
-      "url": "https://pleadingsanity.co.uk/manifest.json"
-    }
-  ]
+  "scope": "/",
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  }
 }

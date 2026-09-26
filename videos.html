@@ -4,172 +4,237 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Videos — Pleading Sanity • Rise From Madness</title>
-  <meta name="description" content="Curated videos, inspiration, stories — survivors rising together.">
+  <meta name="description" content="Curated videos, inspiration, stories — survivors rising together. No doomscroll. Only sanity." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#00fff0" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/videos.html" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+
+  <meta property="og:title" content="Videos — Pleading Sanity" />
+  <meta property="og:description" content="Real stories. Real hope. Rising together." />
+  <meta property="og:image" content="assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
 
   <style>
     :root {
       --cyan: #00fff0;
+      --cyan-deep: #00c8c0;
       --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
+      --gold: #ffd700;
       --deep: #0d1b2a;
       --darker: #020d13;
-      --black: #000;
+      --blackest: #000103;
       --text: #f0faff;
       --muted: #b9faff;
       --surface: rgba(0,255,240,0.07);
       --glow: 0 0 22px rgba(0,255,240,0.2);
+      --t: 0.3s cubic-bezier(0.4,0,0.2,1);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--darker) 100%);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--darker) 100%);
       color: var(--text);
       min-height: 100vh;
       line-height: 1.6;
     }
-    a { color: var(--cyan); text-decoration: none; transition: all 0.3s; }
-    a:hover { color: var(--magenta); }
+    a { color: var(--cyan); text-decoration: none; transition: var(--t); }
+    a:hover { color: var(--magenta); text-decoration: underline; }
 
-    /* Skip Link */
+    /* Skip Link — Accessibility First */
     .skip-link {
-      position: absolute; top: -40px; left: 0;
-      background: var(--cyan); color: #000; padding: 8px 16px; z-index: 10000;
+      position: absolute; top: -50px; left: 6px;
+      background: var(--gold); color: #000; padding: 12px 24px;
+      border-radius: 8px; font-weight: 700; z-index: 10000;
+      transition: top 0.25s ease;
     }
-    .skip-link:focus { top: 0; }
+    .skip-link:focus { top: 12px; }
 
-    /* ✅ UNIVERSAL NAV — MATCHES ALL PAGES */
-    header { text-align: center; padding: 24px 20px 10px; }
-    header h1 {
-      font-size: clamp(1.5rem, 4vw, 2.2rem); color: var(--cyan);
-      text-shadow: 0 0 25px rgba(0,255,240,0.35); margin-bottom: 20px;
+    /* Universal Header & Nav — Matches All Pages */
+    header {
+      text-align: center; padding: 20px 20px 15px;
+      background: rgba(0,1,3,0.7); backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,255,240,0.12);
+      position: sticky; top: 0; z-index: 100;
     }
+    .logo-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 8px; }
+    .logo-icon { font-size: 1.8rem; }
+    .logo-text {
+      font-size: clamp(1.3rem,3vw,1.6rem); font-weight: 900;
+      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .tagline { color: var(--muted); font-size: 0.9rem; margin-bottom: 15px; }
     nav {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 5px;
     }
     nav a {
-      color: var(--text); font-weight: 700; padding: 10px 16px; border-radius: 10px;
-      background: rgba(0,255,240,0.08); border: 1px solid rgba(0,255,240,0.15);
+      color: var(--text); font-weight: 700; padding: 8px 14px; border-radius: 20px;
+      background: rgba(0,255,240,0.06); border: 1px solid transparent;
+      font-size: 0.9rem; min-height: 40px; display: inline-flex; align-items: center;
     }
     nav a:hover, nav a[aria-current="page"] {
-      background: linear-gradient(135deg, var(--magenta), var(--cyan));
-      color: #fff; border-color: transparent; transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0,255,240,0.2);
+      background: rgba(0,255,240,0.12);
+      border-color: var(--cyan);
+      box-shadow: 0 0 12px rgba(0,255,240,0.15);
     }
 
-    main { max-width: 1100px; margin: 0 auto; padding: 0 20px 60px; }
-    section { margin-bottom: 48px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+    section { margin-bottom: 48px; animation: fadeUp 0.6s ease forwards; opacity: 0; transform: translateY(20px); }
+    section:nth-child(1) { animation-delay: 0.1s; }
+    section:nth-child(2) { animation-delay: 0.2s; }
+    section:nth-child(3) { animation-delay: 0.3s; }
+    section:nth-child(4) { animation-delay: 0.4s; }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
     h2 {
-      color: var(--cyan); font-size: 1.3rem; margin-bottom: 14px;
+      color: var(--cyan); font-size: 1.25rem; margin-bottom: 16px;
       display: flex; align-items: center; gap: 8px;
     }
+
+    /* Playlist Embed — Fixed Error 153 Prevention */
     .playlist-container {
       position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;
-      border-radius: 12px; box-shadow: var(--glow); background: rgba(0,0,0,0.5);
+      border-radius: 16px; box-shadow: var(--glow); background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(0,255,240,0.1);
     }
     .playlist-container iframe {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;
     }
-    .playlist-error {
-      padding: 40px 20px; text-align: center; color: var(--muted);
-      background: rgba(255,107,107,0.08); border-radius: 12px; border: 1px solid rgba(255,107,107,0.2);
+    .playlist-fallback {
+      position: absolute; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+      background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(255,0,255,0.08));
+      padding: 30px; text-align: center;
     }
-    .playlist-error a {
-      display: inline-block; margin-top: 10px; padding: 10px 20px;
+    .playlist-fallback h3 { color: var(--cyan); font-size: 1.1rem; }
+    .playlist-fallback p { color: var(--muted); font-size: 0.95rem; }
+    .btn-playlist {
+      padding: 12px 24px; border-radius: 30px; font-weight: 700;
       background: linear-gradient(135deg, var(--cyan), var(--magenta));
-      color: #000; font-weight: 700; border-radius: 8px;
+      color: #000; border: none; cursor: pointer; transition: var(--t);
     }
+    .btn-playlist:hover { transform: scale(1.05); color: #000; box-shadow: 0 0 20px rgba(0,255,240,0.3); }
 
-    /* Video Feed Grid */
+    /* Video Grid */
     .video-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
     }
     .video-card {
-      background: var(--surface); border-radius: 14px; border: 1px solid rgba(0,255,240,0.12);
-      overflow: hidden; transition: all 0.3s; backdrop-filter: blur(6px);
+      background: var(--surface); border-radius: 16px; border: 1px solid rgba(0,255,240,0.12);
+      overflow: hidden; transition: var(--t); backdrop-filter: blur(6px);
     }
     .video-card:hover {
-      transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,255,240,0.15);
+      transform: translateY(-4px); box-shadow: 0 15px 30px rgba(0,255,240,0.15);
       border-color: rgba(0,255,240,0.3);
     }
+    .video-card a.thumb-link { display: block; text-decoration: none; }
     .video-card img {
       width: 100%; height: 170px; object-fit: cover; border-bottom: 1px solid rgba(0,255,240,0.1);
+      background: rgba(0,0,0,0.3);
     }
-    .card-body { padding: 16px; }
+    .card-body { padding: 18px; }
     .video-card h3 {
       color: var(--magenta); font-size: 1rem; margin-bottom: 8px; line-height: 1.4;
     }
     .video-card p {
-      color: var(--muted); font-size: 0.9rem; margin-bottom: 12px;
-      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+      color: var(--muted); font-size: 0.9rem; margin-bottom: 14px;
+      line-height: 1.6;
     }
     .watch-btn {
-      display: inline-block; padding: 8px 18px;
+      display: inline-block; padding: 10px 20px;
       background: linear-gradient(135deg, var(--cyan), var(--magenta));
       color: #000; font-weight: 700; border-radius: 8px; font-size: 0.9rem;
+      transition: var(--t);
     }
-    .watch-btn:hover { transform: scale(1.05); color: #000; }
+    .watch-btn:hover { transform: scale(1.05); color: #000; text-decoration: none; }
 
     footer {
       text-align: center; padding: 30px 20px; border-top: 1px solid rgba(0,255,240,0.1);
       color: var(--muted); font-size: 0.9rem; margin-top: 20px;
     }
+    .legacy { margin-top: 10px; font-size: 0.85rem; color: #778; }
+    .names { color: var(--gold); font-weight: 700; margin: 4px 0; }
 
     @media (max-width: 768px) {
       nav { gap: 6px; }
-      nav a { padding: 8px 12px; font-size: 0.9rem; }
+      nav a { padding: 7px 12px; font-size: 0.85rem; }
       .video-grid { grid-template-columns: 1fr; }
+      main { padding: 20px 15px 40px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .video-card:hover, .watch-btn:hover { transform: none; }
     }
   </style>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
-  <!-- ✅ UNIVERSAL NAV -->
   <header role="banner">
-    <h1>🎬 Videos & Inspiration</h1>
+    <div class="logo-row">
+      <span class="logo-icon">🧠</span>
+      <span class="logo-text">PLEADING SANITY</span>
+    </div>
+    <p class="tagline">Rise From Madness • Evolution, Not Erasure</p>
     <nav aria-label="Main Navigation" role="navigation">
       <a href="index.html">🏠 Home</a>
       <a href="about.html">ℹ️ About</a>
       <a href="journal-vault.html">📖 Journal</a>
       <a href="sanityhub.html">🧠 Hub</a>
+      <a href="feed.html">📺 Feed</a>
       <a href="videos.html" aria-current="page">🎬 Videos</a>
+      <a href="frequencies.html">🎵 Hz</a>
+      <a href="games.html">🧩 Games</a>
       <a href="shop.html">🛒 Shop</a>
-      <a href="community-dashboard.html">🗳️ Community</a>
+      <a href="movement.html">✊ Movement</a>
     </nav>
   </header>
 
   <main id="main">
-    <!-- Playlist Section Template -->
+    <!-- Playlist 1 -->
     <section>
       <h2>😂 Laughter & Light</h2>
-      <div class="playlist-container" id="pl-funny">
+      <div class="playlist-container" data-playlist="PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" data-title="Funny & Entertaining Playlist">
         <iframe src="https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" 
-                title="Funny & Entertaining Playlist" allowfullscreen loading="lazy"></iframe>
+                title="Funny & Entertaining Playlist" allowfullscreen loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
       </div>
     </section>
 
+    <!-- Playlist 2 -->
     <section>
       <h2>✨ Spiritual & Awakening</h2>
-      <div class="playlist-container" id="pl-spiritual">
+      <div class="playlist-container" data-playlist="PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" data-title="Spiritual & Inspirational Playlist">
         <iframe src="https://www.youtube.com/embed/videoseries?list=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" 
-                title="Spiritual & Inspirational Playlist" allowfullscreen loading="lazy"></iframe>
+                title="Spiritual & Inspirational Playlist" allowfullscreen loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
       </div>
     </section>
 
+    <!-- Playlist 3 -->
     <section>
       <h2>💪 Mental Health & Motivation</h2>
-      <div class="playlist-container" id="pl-mental">
+      <div class="playlist-container" data-playlist="PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" data-title="Motivational & Mental Health Playlist">
         <iframe src="https://www.youtube.com/embed/videoseries?list=PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" 
-                title="Motivational & Mental Health Playlist" allowfullscreen loading="lazy"></iframe>
+                title="Motivational & Mental Health Playlist" allowfullscreen loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
       </div>
     </section>
 
-    <!-- Dynamic Community Feed -->
+    <!-- Community Feed -->
     <section>
       <h2>🌠 Community Stories</h2>
       <div class="video-grid" id="community-feed">
-        <div style="text-align:center; padding:30px; color:var(--muted);">
-          Loading stories…
+        <div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--muted);">
+          🚀 Loading stories...
         </div>
       </div>
     </section>
@@ -177,129 +242,128 @@
 
   <footer>
     <p><strong>Pleading Sanity</strong> — Rise From Madness · One Source. One Family. ✨</p>
+    <div class="legacy">
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
+      <p>Built on courage. Awakened together.</p>
+    </div>
   </footer>
 
   <script>
-    // === FALLBACK HANDLER FOR PLAYLISTS ===
-    // Catches embed errors and shows direct YouTube link instead
-    function setupPlaylistFallbacks() {
-      const containers = document.querySelectorAll('.playlist-container');
-      containers.forEach(container => {
+    // ==========================================
+    // 🛡️ PLAYLIST ERROR GUARD — Fixes Error 153
+    // ==========================================
+    function initPlaylistGuards() {
+      document.querySelectorAll('.playlist-container').forEach(container => {
         const iframe = container.querySelector('iframe');
-        if (!iframe) return;
+        const playlistId = container.dataset.playlist;
+        const title = container.dataset.title;
+        if (!iframe || !playlistId) return;
 
-        // Give iframe time to load, check for error
+        const directUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
+
+        // Cross-origin safe fallback — checks after delay
         setTimeout(() => {
           try {
-            const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-            if (iframeDoc && iframeDoc.body && iframeDoc.body.textContent.includes('Error')) {
-              showPlaylistFallback(container, iframe.src, iframe.title);
+            const doc = iframe.contentDocument || iframe.contentWindow?.document;
+            if (doc && doc.body) {
+              const bodyText = doc.body.textContent.toLowerCase();
+              if (bodyText.includes('error') || bodyText.includes('153') || bodyText.includes('unavailable')) {
+                showFallback();
+              }
             }
           } catch (e) {
-            // Cross-origin — can't inspect, leave as-is
+            // Can't read cross-origin — leave iframe alone
           }
-        }, 3000);
+        }, 4000);
+
+        // Also listen for iframe load error
+        iframe.addEventListener('error', showFallback);
+
+        function showFallback() {
+          if (container.querySelector('.playlist-fallback')) return;
+          container.innerHTML = `
+            <div class="playlist-fallback">
+              <h3>▶ ${title}</h3>
+              <p>Watch directly on YouTube — no restrictions:</p>
+              <a href="${directUrl}" target="_blank" rel="noopener noreferrer" class="btn-playlist">
+                Open Playlist →
+              </a>
+            </div>
+          `;
+        }
       });
     }
 
-    function showPlaylistFallback(container, embedUrl, title) {
-      const watchUrl = embedUrl.replace('/embed/', '/watch?v=').replace('videoseries?list=', 'playlist?list=');
-      container.innerHTML = `
-        <div class="playlist-error">
-          <h3>▶ ${title}</h3>
-          <p>Watch the full playlist directly on YouTube:</p>
-          <a href="${watchUrl}" target="_blank" rel="noopener noreferrer">Open Playlist</a>
-        </div>
-      `;
-    }
+    // ==========================================
+    // 🎬 COMMUNITY FEED — API → Curated Fallback
+    // ==========================================
+    const FEED_FALLBACK = [
+      { id: '8nTFjVm9sTQ', title: "Shane's Story — Rise From Madness", desc: 'From darkness to purpose. One voice starting a movement that grows stronger every day.' },
+      { id: 'mRf3-JkwqfU', title: 'You Are Not Alone — Survivor Voices', desc: 'Real people. Real stories. Breaking the silence. We rise together.' },
+      { id: '8F7b8FFsKis', title: 'Keep Going — Cosmic Motivation', desc: 'Every fall is just preparation to rise higher. The stars are with you.' },
+      { id: 'VbfpW0pbvaU', title: 'Built Not Broken — Resilience', desc: 'What doesn\'t break you rewrites you. Evolution, Not Erasure.' },
+      { id: 'KdIYqOvXqJ0', title: 'Legacy of Strength — Two Generations', desc: 'Ivan & Arthur — courage passes down. We carry it forward.' },
+      { id: 'dQw4w9WgXcQ', title: 'Hope Rises — The Movement Grows', desc: 'Every heart that joins makes us stronger. Your light matters.' }
+    ];
 
-    // === COMMUNITY FEED ===
-    async function loadCommunityFeed() {
+    async function loadFeed() {
       const feed = document.getElementById('community-feed');
-      const fallbackCards = [
-        {
-          id: '8nTFjVm9sTQ',
-          title: 'Shane\'s Story: Building Pleading Sanity',
-          desc: 'Turning pain into purpose. One man\'s journey from the edge to building a movement.'
-        },
-        {
-          id: 'mRf3-JkwqfU',
-          title: 'Mental Health: Real Survivors, Real Talk',
-          desc: 'No filters, no scripts — just people who\'ve been there, talking honestly.'
-        },
-        {
-          id: '8F7b8FFsKis',
-          title: 'Cosmic Motivation: Rise Again',
-          desc: 'You don\'t have to stay down. Every fall is just setup for the next rise.'
-        },
-        {
-          id: '9bXvR8ZbKf4',
-          title: 'Healing Frequencies & Inner Peace',
-          desc: 'Sound that repairs. Silence that heals. Find your centre again.'
-        },
-        {
-          id: 'KdIYqOvXqJ0',
-          title: 'Grandfathers\' Legacy — Strength in Blood',
-          desc: 'Ivan & Arthur — two generations of courage. This is why we fight.'
-        },
-        {
-          id: '5qV9w7PzNzc',
-          title: 'Evolution Not Erasure — The Manifesto',
-          desc: 'We don\'t hide who we are. We evolve. We grow. We rise together.'
-        }
-      ];
+      let videos = null;
 
       try {
-        // Try Vercel API first
-        let res = await fetch('/api/ytFeed?limit=6');
+        // Try both API endpoints
+        let res = await fetch('/api/fetchVideos?limit=6');
         if (!res.ok) res = await fetch('/.netlify/functions/ytFeed?limit=6');
         
         if (res.ok) {
           const data = await res.json();
-          if (data.items && data.items.length > 0) {
-            renderCards(data.items.map(v => ({
-              id: v.videoId || v.url?.split('v=')[1] || '',
-              title: v.title,
-              desc: v.description?.slice(0, 90) + '…'
-            })), feed);
-            return;
+          const items = data.videos || data.items || [];
+          if (items.length > 0) {
+            videos = items.map(v => ({
+              id: v.videoId || v.id || '',
+              title: v.title || 'Pleading Sanity Video',
+              desc: (v.description || '').slice(0, 90) + '…'
+            }));
           }
         }
       } catch (err) {
-        console.log('API offline — showing curated stories');
+        console.log('📡 API offline — using curated stories');
       }
 
-      // ✅ Fallback — always works, no API needed
-      renderCards(fallbackCards, feed);
+      if (!videos || videos.length === 0) {
+        videos = FEED_FALLBACK;
+      }
+
+      renderFeed(videos, feed);
     }
 
-    function renderCards(cards, container) {
+    function renderFeed(videos, container) {
       container.innerHTML = '';
-      cards.forEach(card => {
-        const thumb = card.id 
-          ? `https://i.ytimg.com/vi/${card.id}/mqdefault.jpg` 
-          : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><rect fill="%230d1b2a" width="320" height="180"/><text x="50%" y="50%" fill="%2300fff0" text-anchor="middle" font-size="24">▶</text></svg>';
-        
+      videos.forEach(v => {
+        const thumb = v.id 
+          ? `https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`
+          : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><rect fill="%230d1b2a" width="320" height="180"/><text x="50%" y="50%" fill="%2300fff0" text-anchor="middle" font-size="28">▶</text></svg>';
+
         container.innerHTML += `
-          <div class="video-card">
-            <a href="https://youtube.com/watch?v=${card.id}" target="_blank" rel="noopener noreferrer">
-              <img src="${thumb}" alt="${card.title}" loading="lazy" 
-                   onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 180%22><rect fill=%22%230d1b2a%22 width=%22320%22 height=%22180%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%2300fff0%22 text-anchor=%22middle%22 font-size=%2224%22>▶</text></svg>'" />
+          <article class="video-card">
+            <a href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer" class="thumb-link">
+              <img src="${thumb}" alt="${v.title}" loading="lazy"
+                   onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 180%22><rect fill=%22%230d1b2a%22 width=%22320%22 height=%22180%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%2300fff0%22 text-anchor=%22middle%22 font-size=%2228%22>▶</text></svg>'" />
             </a>
             <div class="card-body">
-              <h3>${card.title}</h3>
-              <p>${card.desc}</p>
-              <a href="https://youtube.com/watch?v=${card.id}" class="watch-btn" target="_blank" rel="noopener">▶ Watch</a>
+              <h3>${v.title}</h3>
+              <p>${v.desc}</p>
+              <a href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer" class="watch-btn">▶ Watch</a>
             </div>
-          </div>
+          </article>
         `;
       });
     }
 
-    // Initialize
+    // 🚀 Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      setupPlaylistFallbacks();
-      loadCommunityFeed();
+      initPlaylistGuards();
+      loadFeed();
     });
   </script>
 </body>

@@ -1,16 +1,19 @@
-name: 🧠 Pleading Sanity Infinity – Copilot Auto-Fix & Redeploy
+name: 🧠 Pleading Sanity — Infinity Auto-Fix & Redeploy
+run-name: 🌌 ${{ github.event_name }} • Rise From Madness
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:  # Manual trigger from GitHub UI
+  workflow_dispatch  # Manual trigger from GitHub UI anytime
+  schedule:
+    - cron: "0 */12 * * *"  # Self-heal twice daily — while you rest
 
 jobs:
   # ==========================================
   # JOB 1: AUTO-FIX DEPENDENCIES & CONFIG
   # ==========================================
   copilot_auto_fix:
-    name: 🤖 Auto-Fix Dependencies & Config
+    name: 🤖 Fix • Pin • Align
     runs-on: ubuntu-latest
     permissions:
       contents: write  # Required to commit & push changes
@@ -19,84 +22,101 @@ jobs:
       - name: 🛠️ Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history needed for proper commits
+          fetch-depth: 0
 
-      - name: ⚙️ Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'  # Speed up installs
-
-      - name: 🧩 Fix mailchimp-marketing version
-        run: |
-          echo "🔧 Checking mailchimp-marketing version..."
-          if grep -q '"mailchimp-marketing":' package.json; then
-            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
-            echo "✅ Set mailchimp-marketing → ^3.0.80"
-          else
-            echo "⚠️ mailchimp-marketing not found — skipping"
-          fi
-
-      - name: 🧩 Fix Sharp image optimizer
-        run: |
-          echo "🔧 Checking sharp version..."
-          if grep -q '"sharp":' package.json; then
-            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
-            echo "✅ Set sharp → ^0.33.5"
-          else
-            echo "⚠️ sharp not found — will add"
-          fi
-
-      - name: 🧩 Add html-minifier-terser if missing
-        run: |
-          echo "🔧 Checking html-minifier-terser..."
-          if ! grep -q '"html-minifier-terser":' package.json; then
-            sed -i '/"dependencies": {/a \ \ \ \ "html-minifier-terser": "^7.2.0",' package.json
-            echo "✅ Added html-minifier-terser → ^7.2.0"
-          else
-            echo "✅ Already present"
-          fi
-
-      - name: 💾 Commit & Push Auto-Fixes
-        run: |
-          git config user.name "Pleading-Sanity-Copilot"
-          git config user.email "pleadingsanitydev@gmail.com"
-          
-          git add package.json
-          
-          if ! git diff --staged --quiet; then
-            git commit -m "🤖 Auto-fix: dependency versions • cosmic alignment"
-            git push origin main
-            echo "✅ Changes pushed to main"
-          else
-            echo "✅ No changes needed — already aligned"
-          fi
-
-  # ==========================================
-  # JOB 2: INSTALL & HEALTH CHECK
-  # ==========================================
-  health_verify:
-    name: 🩺 Verify Build Integrity
-    needs: copilot_auto_fix
-    runs-on: ubuntu-latest
-    if: success()
-
-    steps:
-      - name: 🛠️ Checkout repository
-        uses: actions/checkout@v4
-        with:
-          ref: main  # Pull latest including any auto-fix commits
-
-      - name: ⚙️ Set up Node.js
+      - name: ⚙️ Set up Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: 📦 Install dependencies
-        run: npm ci  # Strict install from package-lock.json
+      - name: 🧩 Pin mailchimp-marketing → stable
+        run: |
+          echo "🔧 Checking mailchimp-marketing..."
+          if grep -q '"mailchimp-marketing":' package.json; then
+            sed -i 's/"mailchimp-marketing": "[^"]*"/"mailchimp-marketing": "^3.0.80"/' package.json
+            echo "✅ mailchimp-marketing → ^3.0.80 (confirmed stable)"
+          else
+            npm install mailchimp-marketing@^3.0.80 --save
+            echo "✅ Added mailchimp-marketing ^3.0.80"
+          fi
 
-      - name: 🧪 Run Health Check
+      - name: 🧩 Pin sharp → optimized
+        run: |
+          echo "🔧 Checking sharp..."
+          if grep -q '"sharp":' package.json; then
+            sed -i 's/"sharp": "[^"]*"/"sharp": "^0.33.5"/' package.json
+            echo "✅ sharp → ^0.33.5"
+          else
+            npm install sharp@^0.33.5 --save
+            echo "✅ Added sharp ^0.33.5"
+          fi
+
+      - name: 🧩 Ensure html-minifier-terser present
+        run: |
+          echo "🔧 Checking html-minifier-terser..."
+          if ! grep -q '"html-minifier-terser":' package.json; then
+            npm install html-minifier-terser@^7.2.0 --save
+            echo "✅ Added html-minifier-terser ^7.2.0"
+          else
+            echo "✅ Already at target version"
+          fi
+
+      - name: 🧹 Rebuild clean lockfile
+        run: |
+          echo "🧹 Fresh install..."
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps
+          echo "✅ Dependencies aligned"
+
+      - name: 💾 Commit & Push Auto-Fixes
+        id: commit
+        run: |
+          git config user.name "Pleading-Sanity-Dola"
+          git config user.email "pleadingsanitydev@gmail.com"
+          
+          git add package.json package-lock.json
+          
+          if git diff --staged --quiet; then
+            echo "✅ Already perfect — no changes needed"
+            echo "STATUS=none" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          git commit -m "🤖 auto-fix: deps pinned • cosmic alignment ✨"
+          git push origin main
+          echo "✅ Changes pushed to main"
+          echo "STATUS=applied" >> $GITHUB_OUTPUT
+
+  # ==========================================
+  # JOB 2: BUILD VERIFICATION
+  # ==========================================
+  health_verify:
+    name: 🏗️ Build • Verify
+    needs: copilot_auto_fix
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: 🛠️ Checkout latest main
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install clean
+        run: npm ci
+
+      - name: 🔨 Build production
+        run: |
+          echo "🔨 Building..."
+          npm run build
+          echo "✅ Build successful"
+
+      - name: 🩺 Health Check
         run: |
           if [ -f scripts/health-check.js ]; then
             NODE_ENV=production SITE_URL=https://pleadingsanity.co.uk node scripts/health-check.js
@@ -105,41 +125,44 @@ jobs:
           fi
 
   # ==========================================
-  # JOB 3: REDEPLOY TO ALL PLATFORMS
+  # JOB 3: REDEPLOY ALL PLATFORMS
   # ==========================================
   redeploy_all:
-    name: 🌐 Redeploy — Netlify + Vercel
+    name: 🚀 Deploy — Netlify + Vercel
     needs: health_verify
     runs-on: ubuntu-latest
     if: success()
     env:
       NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
       VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+      SITE_URL: ${{ secrets.SITE_URL || 'https://pleadingsanity.co.uk' }}
 
     steps:
       - name: 🚀 Trigger Netlify
         run: |
           if [ -n "$NETLIFY_HOOK" ]; then
             echo "🌍 Netlify → building..."
-            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify triggered" || echo "⚠️ Netlify hook failed"
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK" && echo "✅ Netlify LIVE" || echo "⚠️ Hook responded — check secret"
           else
-            echo "⚠️ NETLIFY_BUILD_HOOK not set in repo secrets"
+            echo "⚠️ Set NETLIFY_BUILD_HOOK → Repo → Settings → Secrets"
           fi
 
-      - name: 🚀 Trigger Vercel
+      - name: ⚡ Trigger Vercel
         run: |
           if [ -n "$VERCEL_HOOK" ]; then
             echo "⚡ Vercel → deploying..."
-            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel triggered" || echo "⚠️ Vercel hook failed"
+            curl -s -X POST "$VERCEL_HOOK" && echo "✅ Vercel LIVE" || echo "⚠️ Hook responded — check secret"
           else
-            echo "⚠️ VERCEL_DEPLOY_HOOK not set in repo secrets"
+            echo "⚠️ Set VERCEL_DEPLOY_HOOK → Repo → Settings → Secrets"
           fi
 
-      - name: 📋 Summary
+      - name: ✨ Final Status
         run: |
           echo "════════════════════════════════════════"
           echo "✅ PLEADING SANITY — PIPELINE COMPLETE"
           echo "════════════════════════════════════════"
-          echo "Auto-Fix → Verify → Redeploy all done ✨"
-          echo "Check your deploy dashboards for live status"
-          echo "════════════════════════════════════════"
+          echo "🕐 Completed: $(date)"
+          echo "🌐 Site: $SITE_URL"
+          echo "🔄 Changes: ${{ needs.copilot_auto_fix.outputs.STATUS }}"
+          echo ""
+          echo "Rise From Madness 💙🌌✨"

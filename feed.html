@@ -3,368 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sanity Feed – Pleading Sanity</title>
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. No algorithms. Only sanity." />
+  <title>Sanity Feed – Pleading Sanity | No Algorithms. Only Sanity.</title>
+  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. Real people. Real hope. No doomscroll." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#00fff0" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/feed.html" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="manifest" href="manifest.json" />
+
   <meta property="og:title" content="Sanity Feed – Pleading Sanity" />
   <meta property="og:description" content="Positive-first stories. Real survivors. Rising together. No doomscroll." />
   <meta property="og:image" content="assets/crying-brain-og.png" />
-  <link rel="icon" href="assets/favicon.ico" />
-  
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/feed.html" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sanity Feed – Pleading Sanity" />
+  <meta name="twitter:description" content="Your daily dose of hope. No algorithms. Just heart." />
+  <meta name="twitter:image" content="assets/crying-brain-og.png" />
+
   <style>
-    :root {
-      --cyan: #00fff0;
-      --magenta: #ff00ff;
-      --gold: #ffd700;
-      --deep-space: #030b18;
-      --nebula-mid: #10122d;
-      --text-bright: #f0faff;
-      --text-soft: #b9faff;
-      --glass: rgba(0,255,240,0.06);
+    :root{
+      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
+      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
+      --gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;
+      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body.universe {
-      margin: 0;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-      background: radial-gradient(ellipse at 50% 120%, var(--nebula-mid) 0%, var(--deep-space) 70%, #000 100%);
-      color: var(--text-bright);
-      background-attachment: fixed;
-      min-height: 100vh;
-      display: flex; flex-direction: column;
-      line-height: 1.6;
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;
+      display:flex;flex-direction:column;
     }
-    
-    header {
-      background: rgba(0,0,0,0.85);
-      padding: 16px 20px;
-      text-align: center;
-      border-bottom: 2px solid var(--cyan);
-      position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}
+    .skip-link:focus{top:12px;}
+    a{color:var(--cyan);transition:var(--t);text-decoration:none;}
+    a:hover{color:var(--magenta);text-decoration:underline;}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
     }
-    
-    header h1 { 
-      margin: 0; 
-      font-size: clamp(1.6rem, 4vw, 2.4rem); 
-      color: var(--cyan); 
-      font-weight: 900;
-      text-shadow: 0 0 20px rgba(0,255,240,0.3);
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+    .logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}
+    .logo-text{text-align:left;}
+    .logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
+    .logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}
+    .back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}
+    .back-link:hover{color:var(--cyan);}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}
+    nav a{
+      color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;
+      min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;
+      background:rgba(0,255,240,0.04);
     }
-    
-    main { 
-      max-width: 1000px; 
-      margin: 0 auto; 
-      padding: 30px 20px 60px; 
-      flex: 1;
-      width: 100%;
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.12);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;
     }
-    
-    p.intro { 
-      font-size: 1.2rem; 
-      margin-bottom: 24px; 
-      color: var(--text-soft); 
-      text-align: center;
+    nav a:hover{
+      border-color:var(--magenta);background:rgba(255,0,255,.08);
+      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
     }
-    
-    .search-container {
-      text-align: center;
-      margin: 10px 0 20px;
+    main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+    .intro{text-align:center;max-width:650px;margin:0 auto 28px;color:var(--text-soft);font-size:1.05rem;}
+    .intro strong{color:var(--cyan);}
+
+    .search-wrap{margin-bottom:30px;}
+    #feed-search{
+      width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);
+      background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;
+      outline:none;transition:var(--t);font-family:inherit;
     }
-    
-    #feed-search {
-      max-width: 520px; 
-      width: 96%;
-      padding: 12px 20px;
-      border-radius: 30px;
-      border: 1px solid rgba(0,255,240,0.25);
-      background: rgba(255,255,255,0.06);
-      color: #fff;
-      outline: none;
-      font-size: 1rem;
-      transition: 0.2s;
+    #feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}
+    .search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}
+    .search-term{color:var(--cyan);font-weight:700;}
+    .btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:36px;}
+    .btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}
+
+    .feed-item{
+      background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(255,0,255,.04));
+      border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;
+      transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;
     }
-    
-    #feed-search:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 15px rgba(0,255,240,0.25);
+    @keyframes cardFade{to{opacity:1;transform:none;}}
+    .feed-item:nth-child(1){animation-delay:.1s;}
+    .feed-item:nth-child(2){animation-delay:.2s;}
+    .feed-item:nth-child(3){animation-delay:.3s;}
+    .feed-item:nth-child(4){animation-delay:.4s;}
+    .feed-item:nth-child(5){animation-delay:.5s;}
+    .feed-item:hover{
+      transform:translateY(-4px);border-color:var(--magenta);
+      box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(255,0,255,.1);
     }
-    
-    .search-meta {
-      display: none;
-      text-align: center;
-      margin: 0 0 20px;
-      color: var(--text-soft);
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
+    .feed-item iframe{
+      width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;
+      box-shadow:0 0 15px rgba(0,255,240,.15);
     }
-    
-    .search-term { color: var(--cyan); font-weight: 700; }
-    
-    .btn {
-      border: none; 
-      border-radius: 8px; 
-      padding: 0.6rem 1.2rem;
-      background: var(--cyan); 
-      color: #000; 
-      font-weight: 800; 
-      cursor: pointer;
-      transition: 0.2s;
-      font-size: 0.95rem;
+    .item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}
+    .item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}
+    .like-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+    .like-btn{
+      padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);
+      font-size:0.9rem;min-height:42px;font-family:inherit;flex:1;
     }
-    
-    .btn:hover { 
-      background: var(--magenta); 
-      color: #fff; 
-      transform: scale(1.05);
+    .like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}
+    .like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}
+    .like-btn.neg{background:rgba(255,59,92,.1);color:#ff7a9c;border:1px solid rgba(255,59,92,.25);}
+    .like-btn.neg:hover,.like-btn.neg.active{background:#ff3b5c;color:#fff;box-shadow:0 0 12px rgba(255,59,92,.3);}
+    .video-desc{color:var(--text-soft);line-height:1.7;}
+
+    #loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}
+    .end-msg{
+      text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;
+      border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;
     }
-    
-    .btn-small {
-      padding: 6px 14px;
-      font-size: 0.9rem;
+    .end-msg a{color:var(--cyan);font-weight:700;}
+    .end-msg a:hover{color:var(--magenta);}
+
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
     }
-    
-    .feed-item {
-      background: rgba(255,255,255,0.05);
-      border: 1.4px solid rgba(0,255,240,0.17);
-      border-radius: 16px;
-      padding: 24px;
-      margin-bottom: 32px;
-      box-shadow: 0 0 24px rgba(0,255,240,0.1);
-      transition: all 0.25s ease;
-      animation: fadeIn 0.5s ease forwards;
-      opacity: 0;
-      transform: translateY(15px);
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);
     }
-    
-    .feed-item:hover { 
-      box-shadow: 0 0 38px rgba(0,255,240,0.25); 
-      border-color: rgba(0,255,240,0.35);
-      transform: translateY(-2px);
+    .socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}
+    .quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}
+    .quick-links a{margin:0 6px;}
+    .legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+
+    @media (max-width:768px){
+      main{padding:25px 15px 50px;}
+      .like-buttons{width:100%;}
+      nav{gap:6px 6px;}
+      nav a{padding:6px 11px;font-size:0.85rem;}
     }
-    
-    .feed-item iframe {
-      width: 100%; 
-      aspect-ratio: 16/9; 
-      border: none; 
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,255,240,0.2);
-      margin-bottom: 16px;
-    }
-    
-    .meta { 
-      margin-top: 10px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      flex-wrap: wrap; 
-      gap: 16px;
-    }
-    
-    .meta h3 { 
-      margin: 0; 
-      font-size: 1.1rem; 
-      color: #fff; 
-      font-weight: 700;
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    .like-buttons {
-      display: flex;
-      gap: 10px;
-    }
-    
-    .like-btn {
-      border: none; 
-      border-radius: 8px; 
-      padding: 0.5rem 1rem;
-      font-weight: 700; 
-      cursor: pointer;
-      transition: all 0.2s ease;
-      font-size: 0.9rem;
-    }
-    
-    .like-btn.pos {
-      background: rgba(0,255,240,0.15);
-      color: var(--cyan);
-      border: 1px solid rgba(0,255,240,0.3);
-    }
-    
-    .like-btn.pos:hover, .like-btn.pos.active {
-      background: #00ff90;
-      color: #000;
-      border-color: #00ff90;
-    }
-    
-    .like-btn.neg {
-      background: rgba(255,59,92,0.15);
-      color: #ff6b8a;
-      border: 1px solid rgba(255,59,92,0.3);
-    }
-    
-    .like-btn.neg:hover, .like-btn.neg.active {
-      background: #ff3b5c;
-      color: #fff;
-      border-color: #ff3b5c;
-    }
-    
-    #loader {
-      text-align: center;
-      padding: 40px 0;
-      color: var(--cyan);
-      font-size: 1.2rem;
-    }
-    
-    .end-msg { 
-      color: var(--text-soft); 
-      text-align: center; 
-      margin: 40px 0;
-      padding: 20px;
-      background: rgba(0,255,240,0.05);
-      border-radius: 12px;
-      border: 1px solid rgba(0,255,240,0.15);
-    }
-    
-    .end-msg a {
-      color: var(--cyan);
-      text-decoration: none;
-      font-weight: 700;
-    }
-    
-    .end-msg a:hover {
-      color: var(--magenta);
-      text-decoration: underline;
-    }
-    
-    footer {
-      background: rgba(0,0,0,0.85); 
-      margin-top: 40px; 
-      border-top: 2px solid var(--cyan);
-      text-align: center; 
-      padding: 30px 20px;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    
-    .footer-brand {
-      font-size: 1.1rem;
-      color: var(--cyan);
-      font-weight: 800;
-      margin-bottom: 12px;
-    }
-    
-    .socials { 
-      margin: 16px 0; 
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    
-    .socials a { 
-      color: var(--cyan); 
-      font-size: 1.8rem; 
-      transition: 0.2s;
-      text-decoration: none;
-    }
-    
-    .socials a:hover { 
-      color: var(--magenta); 
-      transform: scale(1.2);
-    }
-    
-    .social-label {
-      font-size: 0.9rem;
-      color: var(--text-soft);
-      margin-top: 8px;
-    }
-    
-    .social-label a {
-      color: var(--cyan);
-      text-decoration: none;
-    }
-    
-    .social-label a:hover {
-      color: var(--magenta);
-      text-decoration: underline;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .feed-item:nth-child(2) { animation-delay: 0.1s; }
-    .feed-item:nth-child(3) { animation-delay: 0.2s; }
-    .feed-item:nth-child(4) { animation-delay: 0.3s; }
-    .feed-item:nth-child(5) { animation-delay: 0.4s; }
-    
-    @media (max-width: 600px) {
-      main { padding: 20px 15px 40px; }
-      .feed-item { padding: 18px; }
-      .meta { flex-direction: column; align-items: flex-start; }
-      .like-buttons { width: 100%; justify-content: stretch; }
-      .like-btn { flex: 1; }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}
     }
   </style>
 </head>
-<body class="universe">
-  <header>
+<body>
+  <a href="#main" class="skip-link">Skip to feed</a>
+  <header role="banner">
+    <div class="logo-container">
+      <img src="assets/favicon.svg" alt="Pleading Sanity" class="logo" width="56" height="56" loading="eager" />
+      <div class="logo-text">
+        <div class="logo-main">PLEADING SANITY</div>
+        <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
+      </div>
+    </div>
+    <a href="index.html" class="back-link">← Back to Home</a>
     <h1>🌌 Sanity Feed</h1>
+    <p class="tag" style="color:var(--magenta);font-weight:600;margin-bottom:12px;">No Algorithms. Only Sanity.</p>
+    <nav aria-label="Main Navigation">
+      <a href="index.html">🏠 Home</a>
+      <a href="about.html">📜 About</a>
+      <a href="sanityhub.html">🌌 Hub</a>
+      <a href="journal-vault.html">✍️ Journal</a>
+      <a href="frequencies.html">🎵 Hz</a>
+      <a href="feed.html" aria-current="page">📺 Feed</a>
+      <a href="games.html">🧠 Games</a>
+      <a href="shop.html">👕 Shop</a>
+      <a href="movement.html">✊ Movement</a>
+    </nav>
   </header>
 
-  <main>
+  <main id="main" role="main">
     <p class="intro">
-      Scroll real stories, cosmic drops, and uplifting content.<br>
+      Real stories, cosmic drops, and uplifting content.<br>
       <strong>No algorithms. No doomscroll. Only sanity.</strong>
     </p>
 
-    <!-- Search -->
-    <div class="search-container">
-      <input id="feed-search" type="search" placeholder="Search topics: resilience, bipolar, calm, hope..." />
+    <div class="search-wrap" style="text-align:center;">
+      <input id="feed-search" type="search" placeholder="Search topics: resilience, hope, healing, calm, bipolar..." aria-label="Search feed" />
       <div id="search-meta" class="search-meta">
         <span>Showing: <span id="search-term" class="search-term"></span></span>
-        <button id="clear-search" class="btn btn-small">✕ Clear</button>
+        <button id="clear-search" class="btn-small">✕ Clear</button>
       </div>
     </div>
 
-    <!-- Feed -->
-    <div id="feed"></div>
+    <div id="feed" role="feed" aria-live="polite"></div>
     <div id="loader">🚀 Loading cosmic stories...</div>
-    <div id="end" class="end-msg"></div>
+    <div id="end" class="end-msg" hidden></div>
   </main>
 
-  <footer>
-    <div class="footer-brand">Pleading Sanity — The Cosmic Feed</div>
+  <footer role="contentinfo">
+    <div class="brand">Pleading Sanity — The Cosmic Feed</div>
     <p style="color:var(--text-soft);max-width:500px;margin:0 auto;">One Source. One Consciousness. One Family. 💙</p>
     
     <div class="socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener" aria-label="Instagram">📸</a>
-      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener" aria-label="TikTok">🎵</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener" aria-label="YouTube">▶️</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
       <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener" aria-label="Shop">🛒</a>
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener noreferrer" aria-label="Shop — Payhip">🛒</a>
     </div>
-    
-    <div class="social-label">
-      Support the movement: 
-      <a href="https://payhip.com/Pleadingsanity" target="_blank">Merch & Downloads</a>
-      <span style="margin:0 8px;">|</span>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank">Subscribe on YouTube</a>
+
+    <div class="quick-links">
+      <a href="https://payhip.com/Pleadingsanity" target="_blank" rel="noopener">Merch & Downloads</a> |
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener">Subscribe on YouTube</a> |
+      <a href="mailto:pleadingsanity1@gmail.com?subject=Story%20Submission">Share Your Story</a>
     </div>
-    
-    <p style="margin-top:20px;font-size:0.85rem;color:#666;">
-      Evolution, Not Erasure © 2026<br>
-      Built on the legacy of Ivan & Arthur. Awakened, not broken.
-    </p>
+
+    <div class="legacy">
+      <p>&copy; <span id="yr"></span> Pleading Sanity — All Rights Reserved</p>
+      <p class="names">Ivan Kurcharskyi POW • Arthur Lesley Cooper • Shane Cooper</p>
+      <p>Built on their shoulders. Awakened, not broken.</p>
+    </div>
   </footer>
 
   <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
     let loading = false, end = false, query = "", searchTimeout;
     const feed = document.getElementById('feed');
     const loader = document.getElementById('loader');
@@ -373,62 +246,32 @@
     const searchMeta = document.getElementById('search-meta');
     const searchTermEl = document.getElementById('search-term');
     const clearBtn = document.getElementById('clear-search');
+    let cardCounter = 0;
 
-    // 🌟 EXPANDED FALLBACK — ALWAYS SHOWS CONTENT
+    // ✅ Curated fallback — always shows content
     const FALLBACK = [
-      { 
-        id: "8nTFjVm9sTQ", 
-        title: "Shane's Story — Rise From Madness", 
-        desc: "From darkness to purpose. One voice starting a movement." 
-      },
-      { 
-        id: "mRf3-JkwqfU", 
-        title: "You Are Not Alone — Survivor Voices", 
-        desc: "Real people. Real stories. Breaking the silence. We rise together." 
-      },
-      { 
-        id: "8F7b8FFsKis", 
-        title: "Keep Going — Cosmic Motivation", 
-        desc: "Every fall is just preparation to rise higher. The stars are with you." 
-      },
-      { 
-        id: "VbfpW0pbvaU", 
-        title: "Built Not Broken — Resilience", 
-        desc: "What doesn't break you rewrites you. Evolution, Not Erasure." 
-      },
-      { 
-        id: "dQw4w9WgXcQ", 
-        title: "Hope Rises — The Movement Grows", 
-        desc: "Every heart that joins makes us stronger. You matter. We matter." 
-      },
-      { 
-        id: "8nTFjVm9sTQ", 
-        title: "Healing Together — The Power of Community", 
-        desc: "No one walks this path alone. Together we heal faster." 
-      },
-      { 
-        id: "mRf3-JkwqfU", 
-        title: "Strength in Vulnerability — Speaking Up", 
-        desc: "True courage isn't fearlessness — it's feeling fear and moving forward anyway." 
-      }
+      { id: "8nTFjVm9sTQ", title: "Shane's Story — Rise From Madness", desc: "From darkness to purpose. One voice starting a movement that grows stronger every day." },
+      { id: "mRf3-JkwqfU", title: "You Are Not Alone — Survivor Voices", desc: "Real people. Real stories. Breaking the silence. We don't just survive — we thrive together." },
+      { id: "8F7b8FFsKis", title: "Keep Going — Cosmic Motivation", desc: "Every fall is just preparation to rise higher. The stars are with you, even when you can't see them." },
+      { id: "VbfpW0pbvaU", title: "Built Not Broken — Resilience", desc: "What doesn't break you rewrites you. Evolution, Not Erasure — scars become strength." },
+      { id: "dQw4w9WgXcQ", title: "Hope Rises — The Movement Grows", desc: "Every heart that joins makes us stronger. Your light matters. We matter. Together we rise." },
+      { id: "8nTFjVm9sTQ", title: "Healing Together — The Power of Community", desc: "No one walks this path alone. Shared pain becomes lighter. Shared hope becomes unstoppable." },
+      { id: "mRf3-JkwqfU", title: "Strength in Vulnerability — Speaking Up", desc: "True courage isn't fearlessness — it's feeling fear and stepping forward anyway. Your voice heals." },
+      { id: "8F7b8FFsKis", title: "The Darkest Hour — Before Dawn", desc: "When it feels like night will never end — remember: you've survived 100% of your worst days so far." },
+      { id: "VbfpW0pbvaU", title: "Cosmic Perspective — You Matter", desc: "The universe is vast, but your light still counts. Every life, every story, every heartbeat matters." }
     ];
 
-    // 📥 Fetch from API → Fallback gracefully
     async function fetchBatch() {
       try {
         const params = new URLSearchParams();
         if (query) params.set('q', query);
-        
-        // Try Vercel first
-        let res = await fetch(`/api/video?${params.toString()}`);
-        if (!res.ok) res = await fetch(`/.netlify/functions/video?${params.toString()}`);
+        let res = await fetch(`/api/fetchVideos?${params}`);
+        if (!res.ok) res = await fetch(`/.netlify/functions/ytFeed?${params}`);
         if (!res.ok) throw new Error("API offline");
-        
         const data = await res.json();
-        return data.videos || [];
+        return data.videos || data.items || [];
       } catch (err) {
         console.log("📡 Using curated fallback feed");
-        // Filter fallback by search query if provided
         if (!query) return FALLBACK;
         const q = query.toLowerCase();
         return FALLBACK.filter(v => 
@@ -437,102 +280,93 @@
       }
     }
 
-    // 👍 Like Handler — Saves to localStorage
-    function handleLike(btn, isPositive) {
+    window.handleLike = function(btn, isPositive) {
       const card = btn.closest('.feed-item');
       const title = card.querySelector('h3').textContent;
-      
-      // Remove active from siblings
       const siblings = btn.parentElement.querySelectorAll('.like-btn');
-      siblings.forEach(b => b.classList.remove('active'));
-      
-      // Mark this one
+      siblings.forEach(b => {
+        b.classList.remove('active');
+        if (b.textContent.includes('✅') || b.textContent.includes('❌')) {
+          b.innerHTML = b.classList.contains('pos') ? '👍 Positive' : '👎 Not for me';
+        }
+      });
       btn.classList.add('active');
-      btn.textContent = isPositive ? "✅ Liked!" : "❌ Not for me";
-      
-      // Save preference
+      btn.innerHTML = isPositive ? '✅ Liked!' : '❌ Not for me';
       try {
-        localStorage.setItem(`like_${title}`, isPositive ? 'pos' : 'neg');
+        localStorage.setItem(`like_${encodeURIComponent(title)}`, isPositive ? 'pos' : 'neg');
       } catch {}
-    }
+    };
 
-    // 🎨 Render Single Card
-    function renderCard(video, index) {
-      const card = document.createElement('div');
+    function renderCard(video) {
+      cardCounter++;
+      const card = document.createElement('article');
       card.className = 'feed-item';
-      
-      // Restore saved like state
       let savedLike = null;
-      try { savedLike = localStorage.getItem(`like_${video.title}`); } catch {}
-      
+      try { savedLike = localStorage.getItem(`like_${encodeURIComponent(video.title)}`); } catch {}
       card.innerHTML = `
-        <iframe 
-          src="https://www.youtube.com/embed/${video.id}" 
+        <iframe src="https://www.youtube.com/embed/${video.id}" 
           title="${video.title.replace(/"/g, '&quot;')}" 
-          allowfullscreen 
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
-        ></iframe>
-        <div class="meta">
+          allowfullscreen loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
+        <div class="item-meta">
           <h3>${video.title}</h3>
           <div class="like-buttons">
             <button class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" 
                     onclick="handleLike(this, true)">
-              ${savedLike === 'pos' ? '✅' : '👍'} Positive
+              ${savedLike === 'pos' ? '✅ Liked!' : '👍 Positive'}
             </button>
             <button class="like-btn neg ${savedLike === 'neg' ? 'active' : ''}" 
                     onclick="handleLike(this, false)">
-              ${savedLike === 'neg' ? '❌' : '👎'} Not for me
+              ${savedLike === 'neg' ? '❌ Not for me' : '👎 Not for me'}
             </button>
           </div>
         </div>
-        ${video.desc ? `<p style="color:var(--text-soft);margin-top:10px;">${video.desc}</p>` : ''}
+        ${video.desc ? `<p class="video-desc">${video.desc}</p>` : ''}
       `;
       return card;
     }
 
-    // 🚀 Load & Append Feed
     async function loadFeed() {
       if (loading || end) return;
       loading = true;
       loader.style.display = 'block';
+      endDiv.hidden = true;
       
       const videos = await fetchBatch();
-      
       loader.style.display = 'none';
       
       if (!videos.length) {
         end = true;
+        endDiv.hidden = false;
         endDiv.innerHTML = `
-          <p>✨ No stories match "${query}" — yet.</p>
-          <p style="margin-top:10px;">
-            <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Submit your story</a> 
-            to help grow the feed 💙
+          <p>✨ No stories match "<strong>${query}</strong>" — yet.</p>
+          <p style="margin-top:16px;">
+            <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Share your story</a> 
+            to help grow the feed 💙 Every voice matters.
           </p>
         `;
         return;
       }
       
-      videos.forEach((v, i) => {
-        // Prevent duplicates
-        const existing = Array.from(feed.children).find(
-          el => el.querySelector('h3')?.textContent === v.title
-        );
-        if (!existing) {
-          feed.appendChild(renderCard(v, i));
-        }
+      let added = 0;
+      videos.forEach(v => {
+        const exists = Array.from(feed.children).find(el => el.querySelector('h3')?.textContent === v.title);
+        if (!exists) { feed.appendChild(renderCard(v)); added++; }
       });
       
-      // Fallback mode = infinite loop
-      end = false;
+      if (added === 0) {
+        endDiv.hidden = false;
+        endDiv.innerHTML = `<p>🌌 You've reached the edge of the cosmos — for now. More stories coming soon.</p>`;
+      }
       loading = false;
     }
 
-    // 🔄 Reset & Search
     function doSearch(newQuery) {
       query = newQuery.trim();
       end = false;
+      cardCounter = 0;
       feed.innerHTML = '';
+      endDiv.hidden = true;
       
       if (query) {
         searchTermEl.textContent = query;
@@ -542,58 +376,29 @@
         searchMeta.style.display = 'none';
         try { localStorage.removeItem('feedSearch'); } catch {}
       }
-      
       loadFeed();
     }
 
-    // 📜 Infinite Scroll Trigger
     window.addEventListener('scroll', () => {
       if (end || loading) return;
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
-        loadFeed();
-      }
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) loadFeed();
     }, { passive: true });
 
-    // 🔍 Search Events
-    if (searchInput) {
-      searchInput.addEventListener('input', e => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(() => doSearch(e.target.value), 350);
-      });
-      
-      searchInput.addEventListener('keydown', e => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          clearTimeout(searchTimeout);
-          doSearch(e.target.value);
-        }
-        if (e.key === 'Escape') {
-          e.preventDefault();
-          searchInput.value = '';
-          doSearch('');
-        }
-      });
-    }
-    
-    if (clearBtn) {
-      clearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        doSearch('');
-      });
-    }
+    searchInput?.addEventListener('input', e => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => doSearch(e.target.value), 350);
+    });
+    searchInput?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') { clearTimeout(searchTimeout); doSearch(e.target.value); }
+      if (e.key === 'Escape') { searchInput.value = ''; doSearch(''); searchInput.blur(); }
+    });
+    clearBtn?.addEventListener('click', () => { searchInput.value = ''; doSearch(''); searchInput.focus(); });
 
-    // 💾 Restore Saved Search
     try {
-      const savedSearch = localStorage.getItem('feedSearch');
-      if (savedSearch && searchInput) {
-        searchInput.value = savedSearch;
-        doSearch(savedSearch);
-      } else {
-        loadFeed();
-      }
-    } catch {
-      loadFeed();
-    }
+      const saved = localStorage.getItem('feedSearch');
+      if (saved && searchInput) { searchInput.value = saved; doSearch(saved); }
+      else loadFeed();
+    } catch { loadFeed(); }
   </script>
 </body>
 </html>
