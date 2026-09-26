@@ -1,8 +1,8 @@
 [build]
   publish = "."
   functions = "netlify/functions"
+  command = "npm install --legacy-peer-deps && npm run build"
 
-# Canonical & www → naked domain
 [[redirects]]
   from = "http://www.pleadingsanity.co.uk/*"
   to = "https://pleadingsanity.co.uk/:splat"
@@ -27,19 +27,16 @@
   status = 301
   force = true
 
-# API → functions proxy (CORRECT SYNTAX — no /.netlify in source)
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# SPA fallback
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
