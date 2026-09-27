@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const fallbackApi = `/.netlify/functions/ytFeed?${params}`;
       
       try {
-        // Try Vercel first
+        // Try the /api route first, then the direct function path
         let res = await fetch(primary);
         if (!res.ok) res = await fetch(fallbackApi);
         if (!res.ok) throw new Error("API offline");
