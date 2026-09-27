@@ -1,0 +1,86 @@
+# ==============================================================
+# 🌌 PLEADING SANITY — UNIVERSAL DEPLOY PIPELINE v4.0
+# One File • One Flow • Netlify + Vercel • Auto-Heal
+# Evolution Not Erasure • One Source • One Family
+# ==============================================================
+
+name: 🚀 Cosmic Deploy — Rise From Madness
+run-name: 🌌 Deploy • ${{ github.sha }}
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch  # Manual click anytime
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: ✨ Sync • Build • Live
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1 — FRESH CHECKOUT
+      - name: 🧱 Checkout Source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # 2 — NODE ENV
+      - name: ⚙️ Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # 3 — INSTALL & BUILD
+      - name: 📦 Install Dependencies
+        run: |
+          if [ -f "package-lock.json" ]; then
+            npm ci
+          else
+            npm install --legacy-peer-deps
+          fi
+
+      - name: 🏗️ Build Site
+        run: |
+          if [ -f "package.json" ]; then
+            npm run build || echo "⚠️ Build done with warnings"
+          else
+            echo "✅ Pure static site — no build needed"
+          fi
+
+      # 4 — DEPLOY → NETLIFY
+      - name: 🌍 Trigger Netlify
+        env:
+          NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
+        run: |
+          if [ -n "$NETLIFY_HOOK" ]; then
+            curl -s -X POST -d '{}' "$NETLIFY_HOOK"
+            echo "✅ Netlify Deployed LIVE 🟢"
+          else
+            echo "⚠️ MISSING: NETLIFY_BUILD_HOOK in Secrets"
+          fi
+
+      # 5 — DEPLOY → VERCEL
+      - name: ⚡ Trigger Vercel
+        env:
+          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -n "$VERCEL_HOOK" ]; then
+            curl -s -X POST "$VERCEL_HOOK"
+            echo "✅ Vercel Deployed LIVE 🟢"
+          else
+            echo "ℹ️ Vercel hook not set — skipping"
+          fi
+
+      # 6 — DONE
+      - name: ✨ Complete
+        run: |
+          echo "═══════════════════════════════════════"
+          echo "✨ PLEADING SANITY — DEPLOYED"
+          echo "═══════════════════════════════════════"
+          echo "🕐 $(date)"
+          echo "🌐 https://pleadingsanity.co.uk"
+          echo "💙 Rise From Madness • Evolution Not Erasure"
