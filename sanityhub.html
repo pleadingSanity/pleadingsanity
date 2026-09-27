@@ -823,9 +823,7 @@
         const title = escapeHtml(v.title || 'Pleading Sanity story').replace(/"/g, '&quot;');
 
         card.innerHTML = `
-          <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.vid)}?rel=0&modestbranding=1"
-            title="${title}" loading="lazy"
-            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div data-ps-video data-id="${escapeHtml(v.vid).replace(/"/g, '&quot;')}" data-title="${title}"></div>
           <div class="feed-meta">
             <span class="feed-title">${title}</span>
           </div>
@@ -870,6 +868,7 @@
     });
     loadVideos();
   </script>
+  <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>

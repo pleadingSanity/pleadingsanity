@@ -60,8 +60,16 @@ async function chat(req: Request) {
   if (!validId(memoryId)) return json({ error: "Invalid memory id" }, 400);
   if (!message) return json({ error: "Message is empty" }, 400);
 
-  const memory = await ensureMemory(memoryId);
-  const history = await recentMessages(memoryId, HISTORY_FOR_CONTEXT);
+  // Memory makes Arron personal, but a database hiccup should never stop him replying.
+  let story = "";
+  let history: { role: string; content: string }[] = [];
+  try {
+    const [memory] = await db.select().from(arronMemories).where(eq(arronMemories.id, memoryId));
+    story = memory?.story ?? "";
+    history = await recentMessages(memoryId, HISTORY_FOR_CONTEXT);
+  } catch (error) {
+    console.error("Arron memory unavailable:", error);
+  }
 
   // Anthropic needs the conversation to start with a user turn and alternate roles.
   const turns: { role: "user" | "assistant"; content: string }[] = [];
@@ -79,7 +87,7 @@ async function chat(req: Request) {
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 700,
-    system: buildSystemPrompt(memory?.story ?? ""),
+    system: buildSystemPrompt(story),
     messages: turns,
   });
 
@@ -89,13 +97,20 @@ async function chat(req: Request) {
     .trim();
   if (!reply) throw new Error("Empty reply from model");
 
-  await db.insert(arronMessages).values([
-    { memoryId, role: "user", content: message },
-    { memoryId, role: "assistant", content: reply },
-  ]);
-  await db.update(arronMemories).set({ updatedAt: new Date() }).where(eq(arronMemories.id, memoryId));
+  let remembered = true;
+  try {
+    await ensureMemory(memoryId);
+    await db.insert(arronMessages).values([
+      { memoryId, role: "user", content: message },
+      { memoryId, role: "assistant", content: reply },
+    ]);
+    await db.update(arronMemories).set({ updatedAt: new Date() }).where(eq(arronMemories.id, memoryId));
+  } catch (error) {
+    remembered = false;
+    console.error("Arron could not save messages:", error);
+  }
 
-  return json({ reply });
+  return json({ reply, remembered });
 }
 
 // ─── MEMORY: read / save story / forget ───
@@ -127,8 +142,12 @@ async function memory(req: Request, url: URL) {
   }
 
   if (req.method === "DELETE") {
+    // Messages cascade with the memory row; check nothing is left before confirming.
+    await db.delete(arronMessages).where(eq(arronMessages.memoryId, body.memoryId));
     await db.delete(arronMemories).where(eq(arronMemories.id, body.memoryId));
-    return json({ ok: true });
+    const [left] = await db.select({ id: arronMemories.id }).from(arronMemories).where(eq(arronMemories.id, body.memoryId));
+    if (left) return json({ error: "Memory could not be erased" }, 500);
+    return json({ ok: true, cleared: true });
   }
 
   return json({ error: "Method not allowed" }, 405);
