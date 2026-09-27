@@ -1,6 +1,6 @@
 // ==============================================================
 // PLEADING SANITY — SHARED SITE SCRIPT
-// Footer year · Service worker (offline support)
+// Footer year · Install button · Service worker (offline support)
 // ==============================================================
 
 (function () {
@@ -18,6 +18,36 @@
     var row = current.parentElement;
     row.scrollLeft = current.offsetLeft - (row.clientWidth - current.offsetWidth) / 2;
   }
+
+  // PWA — install button. Any element with [data-pwa-install] stays
+  // hidden until the browser says the site can be installed.
+  var installPrompt = null;
+  var installButtons = document.querySelectorAll('[data-pwa-install]');
+  function showInstall(show) {
+    installButtons.forEach(function (btn) {
+      btn.hidden = !show;
+      btn.classList.toggle('hidden', !show);
+    });
+  }
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    installPrompt = e;
+    showInstall(true);
+  });
+  installButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!installPrompt) return;
+      installPrompt.prompt();
+      installPrompt.userChoice.finally(function () {
+        installPrompt = null;
+        showInstall(false);
+      });
+    });
+  });
+  window.addEventListener('appinstalled', function () {
+    installPrompt = null;
+    showInstall(false);
+  });
 
   // PWA — offline support
   if ('serviceWorker' in navigator && location.protocol === 'https:') {

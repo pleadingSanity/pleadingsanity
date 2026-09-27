@@ -417,11 +417,13 @@
       <a href="/games.html">Games</a>
       <a href="/frequencies.html">Hz</a>
       <a href="/feed.html">Feed</a>
+      <a href="/quote-wall.html">Quotes</a>
       <a href="/videos.html">Videos</a>
       <a href="/kids.html">Kids</a>
       <a href="/shop.html">Shop</a>
       <a href="/crisis.html" class="ps-crisis">Get Help</a>
     </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
 
@@ -534,6 +536,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/meditation.html">Meditation</a>
       <a href="/community-dashboard.html">Community</a>
+      <a href="/quote-wall.html">Quote Wall</a>
       <a href="/offline.html">Offline Support</a>
       <a href="/shop.html">Shop</a>
     </div>
@@ -738,7 +741,6 @@
           One Source. One Consciousness. One Family.<br>
           pleadingsanity.co.uk
         </p>
-  <script src="/js/site.js" defer></script>
 </body></html>
       `);
       win.document.close();
@@ -761,7 +763,6 @@
     // ==========================================
     // 📺 VIDEO FEED — Works WITH or WITHOUT API
     // ==========================================
-    const API_KEY = ""; // ✅ Set in Netlify/Vercel Env: YOUTUBE_API_KEY
     const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA";
     let nextPageToken = "", isLoading = false;
 
@@ -783,20 +784,18 @@
       if (!feed) { isLoading = false; return; }
 
       try {
-        if (!API_KEY) throw new Error("API key not set — using curated stories");
-
-        const res = await fetch(
-          `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=8&playlistId=${PLAYLIST_ID}&key=${API_KEY}${nextPageToken ? "&pageToken="+nextPageToken : ""}`
-        );
-        if (!res.ok) throw new Error(`API Error: ${res.status}`);
+        // Server function keeps the YouTube key private and has its own curated fallback
+        const res = await fetch(`/api/ytFeed?limit=8&playlist=${PLAYLIST_ID}`);
+        if (!res.ok) throw new Error(`Feed API ${res.status}`);
 
         const data = await res.json();
-        nextPageToken = data.nextPageToken || "";
-        render(data.items.map(i => ({
-          vid: i.snippet.resourceId?.videoId,
-          title: i.snippet.title,
-          desc: i.snippet.description
-        })));
+        const items = data.items || data.videos || [];
+        if (!items.length) throw new Error("No videos returned");
+        render(items.map(i => ({
+          vid: i.videoId || i.id,
+          title: i.title,
+          desc: i.description || i.desc || ""
+        })), Boolean(data.fallback));
 
       } catch (err) {
         console.log("📺 Feed — curated stories showing:", err.message);
@@ -820,4 +819,57 @@
         card.className = "feed-item";
 
         const liked = likeState[v.vid] === 'like';
-        const disliked = likeState[v
+        const disliked = likeState[v.vid] === 'dislike';
+        const title = escapeHtml(v.title || 'Pleading Sanity story').replace(/"/g, '&quot;');
+
+        card.innerHTML = `
+          <iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(v.vid)}?rel=0&modestbranding=1"
+            title="${title}" loading="lazy"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <div class="feed-meta">
+            <span class="feed-title">${title}</span>
+          </div>
+          ${v.desc ? `<p class="feed-desc">${escapeHtml(v.desc.slice(0, 180))}</p>` : ''}
+          <div class="feed-buttons">
+            <button type="button" class="like-btn${liked ? ' liked' : ''}" aria-pressed="${liked}">💙 ${liked ? 'Loved' : 'This helped'}</button>
+            <button type="button" class="neg-btn${disliked ? ' clicked' : ''}" aria-pressed="${disliked}">${disliked ? 'Noted' : 'Not for me'}</button>
+          </div>`;
+
+        const likeBtn = card.querySelector('.like-btn');
+        const negBtn = card.querySelector('.neg-btn');
+        likeBtn.addEventListener('click', () => {
+          likeState[v.vid] = 'like';
+          localStorage.setItem('feedLikes', JSON.stringify(likeState));
+          likeBtn.classList.add('liked'); likeBtn.textContent = '💙 Loved'; likeBtn.setAttribute('aria-pressed', 'true');
+          negBtn.classList.remove('clicked'); negBtn.textContent = 'Not for me'; negBtn.setAttribute('aria-pressed', 'false');
+        });
+        negBtn.addEventListener('click', () => {
+          likeState[v.vid] = 'dislike';
+          localStorage.setItem('feedLikes', JSON.stringify(likeState));
+          negBtn.classList.add('clicked'); negBtn.textContent = 'Noted'; negBtn.setAttribute('aria-pressed', 'true');
+          likeBtn.classList.remove('liked'); likeBtn.textContent = '💙 This helped'; likeBtn.setAttribute('aria-pressed', 'false');
+        });
+
+        feed.appendChild(card);
+      });
+
+      if (isFallback) {
+        const note = document.createElement('p');
+        note.className = 'feed-desc';
+        note.style.textAlign = 'center';
+        note.textContent = 'Curated movement stories — always here. 💙';
+        feed.appendChild(note);
+      }
+    }
+
+    // ==========================================
+    // 🚀 INIT
+    // ==========================================
+    document.getElementById('arron-input')?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendArronMsg(); }
+    });
+    loadVideos();
+  </script>
+  <script src="/js/site.js" defer></script>
+</body>
+</html>

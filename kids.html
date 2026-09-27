@@ -44,11 +44,13 @@
       <a href="/games.html">Games</a>
       <a href="/frequencies.html">Hz</a>
       <a href="/feed.html">Feed</a>
+      <a href="/quote-wall.html">Quotes</a>
       <a href="/videos.html">Videos</a>
       <a href="/kids.html" aria-current="page">Kids</a>
       <a href="/shop.html">Shop</a>
       <a href="/crisis.html" class="ps-crisis">Get Help</a>
     </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
 
@@ -60,7 +62,15 @@
       <p class="lead">Safe, positive games that build focus, calm and creativity. Hand-picked, no sign-ups needed.</p>
     </header>
 
-    <section aria-label="Kids games">
+    <section aria-labelledby="own-games-heading">
+      <h2 id="own-games-heading">🌟 Our Own Games — Ad-Free &amp; Offline</h2>
+      <div id="game-list" class="grid grid-2">
+        <noscript><p>Play our <a href="/games.html">Brain Games</a>.</p></noscript>
+      </div>
+    </section>
+
+    <section aria-labelledby="trusted-games-heading">
+      <h2 id="trusted-games-heading">🧩 Trusted Games Around the Web</h2>
       <div class="grid grid-3">
 
       <article class="cosmic-card">
@@ -141,6 +151,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/meditation.html">Meditation</a>
       <a href="/community-dashboard.html">Community</a>
+      <a href="/quote-wall.html">Quote Wall</a>
       <a href="/offline.html">Offline Support</a>
       <a href="/shop.html">Shop</a>
     </div>
@@ -157,6 +168,7 @@
     </div>
   </div>
 </footer>
+  <script src="/js/games.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>

@@ -117,6 +117,23 @@
   background: var(--ps-magenta);
   border-color: var(--ps-magenta);
 }
+.ps-nav .ps-install {
+  flex: none;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--ps-cyan);
+  border-radius: 999px;
+  background: rgba(0, 255, 240, 0.12);
+  color: var(--ps-text);
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.ps-nav .ps-install[hidden] { display: none; }
+.ps-nav .ps-install:hover { background: var(--ps-cyan); color: #000103; }
+.ps-nav .ps-install:focus-visible,
 .ps-nav a:focus-visible,
 .ps-footer a:focus-visible {
   outline: 3px solid var(--ps-cyan);
@@ -138,6 +155,7 @@
     scrollbar-width: thin;
   }
   .ps-nav .ps-links a { scroll-snap-align: start; padding: 0 14px; }
+  .ps-nav .ps-install { align-self: center; }
 }
 
 /* ─── FOOTER ─── */
