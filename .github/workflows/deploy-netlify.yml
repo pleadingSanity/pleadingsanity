@@ -1,0 +1,13 @@
+name: 🚀 Deploy to Netlify
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🌐 Trigger Netlify Deploy
+        run: curl -X POST ${{ secrets.NETLIFY_BUILD_HOOK }}
+concurrency:
+  
