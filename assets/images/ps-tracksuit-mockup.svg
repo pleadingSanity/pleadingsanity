@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" role="img" aria-label="P.S Tracksuit"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00fff0"/><stop offset="1" stop-color="#ff00ff"/></linearGradient></defs><rect width="240" height="200" fill="#0d1b2a"/>
+<path d="M60 25 L100 18 L120 30 L140 18 L180 25 L205 90 L185 95 L172 60 L170 110 L70 110 L68 60 L55 95 L35 90 Z" fill="#05070c" stroke="#00fff0" stroke-width="2"/>
+<line x1="120" y1="30" x2="120" y2="110" stroke="#ff00ff" stroke-width="2"/>
+<path d="M72 115 L168 115 L165 190 L128 190 L120 135 L112 190 L75 190 Z" fill="#05070c" stroke="#00fff0" stroke-width="2"/>
+<text x="92" y="62" font-family="DejaVu Sans, sans-serif" font-size="16" font-weight="700" fill="url(#g)">P.S</text></svg>

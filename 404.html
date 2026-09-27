@@ -3,22 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 — Lost in the Cosmos | Pleading Sanity</title>
+      <base href="/" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <meta name="robots" content="noindex, follow" />
+  <title>404 — Lost in the Cosmos | Pleading Sanity</title>
     <meta name="description" content="Page not found — even stars drift sometimes. Find your way back home.">
     <meta name="author" content="Shane Cooper / Pleading Sanity">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/accessibility.css">
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="manifest" href="manifest.json">
-    <link rel="canonical" href="https://pleadingsanity.co.uk/404.html">
-    <meta name="theme-color" content="#00fff0">
     <meta name="color-scheme" content="dark light">
     
     <!-- Crisis Support → UK + International -->
     <meta name="crisis-uk" content="Samaritans: 116 123 — free, 24/7">
-    <meta name="crisis-text" content="Text HOME to 741741 (US/CA)">
-    <meta name="suicide-prevention" content="988 (UK) | 988 (US)">
+    <meta name="crisis-text" content="Text SHOUT to 85258 (UK)">
+    <meta name="emergency" content="999 (UK)">
     
     <style>
         :root {
@@ -221,24 +225,31 @@
             .error-code { color: #00a8a0; }
         }
     </style>
+  <link rel="stylesheet" href="/css/site.css" />
 </head>
 <body>
-    <nav class="navbar" aria-label="Main navigation">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="/" aria-label="Pleading Sanity — Home">
-                    <span style="font-size: 1.5rem;">🧠</span>
-                    <span>Pleading Sanity</span>
-                </a>
-            </div>
-            <ul class="nav-menu" style="list-style: none; display: flex; gap: 2rem;">
-                <li><a href="/" class="nav-link">Home</a></li>
-                <li><a href="about.html" class="nav-link">About</a></li>
-                <li><a href="sanityhub.html" class="nav-link">Sanity Hub</a></li>
-                <li><a href="shop.html" class="nav-link">Shop</a></li>
-            </ul>
-        </div>
-    </nav>
+
+<nav class="ps-nav" aria-label="Main navigation">
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/logo.svg" alt="" width="34" height="34" /><span>Pleading Sanity</span></a>
+    <div class="ps-links">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/sanityhub.html">Hub</a>
+      <a href="/arron.html">Arron</a>
+      <a href="/journal-vault.html">Journal</a>
+      <a href="/games.html">Games</a>
+      <a href="/frequencies.html">Hz</a>
+      <a href="/feed.html">Feed</a>
+      <a href="/videos.html">Videos</a>
+      <a href="/kids.html">Kids</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/crisis.html" class="ps-crisis">Get Help</a>
+    </div>
+  </div>
+</nav>
+
 
     <main class="error-page" role="main">
         <div class="cosmic-bg-404" aria-hidden="true"></div>
@@ -268,16 +279,45 @@
             </div>
             
             <p style="margin-top: 2.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-                Need a hand? <a href="sanityhub.html" style="color: var(--primary-cyan);">Arron</a> is here whenever you need.
+                Need a hand? <a href="arron.html" style="color: var(--primary-cyan);">Arron</a> is here whenever you need.
             </p>
         </div>
     </main>
 
+<footer class="ps-footer" role="contentinfo">
+  <div class="ps-footer-inner">
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p>One Source. One Consciousness. One Family.</p>
+    <p class="ps-help">💙 Struggling right now? Call <a href="tel:116123">Samaritans on 116 123</a> (free, 24/7), text <a href="sms:85258">SHOUT to 85258</a>, or call <a href="tel:999">999</a> in an emergency. <a href="/crisis.html">All support →</a></p>
+    <div class="ps-footer-links">
+      <a href="/about.html">About</a>
+      <a href="/about.html#legacy">Legacy</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/meditation.html">Meditation</a>
+      <a href="/community-dashboard.html">Community</a>
+      <a href="/offline.html">Offline Support</a>
+      <a href="/shop.html">Shop</a>
+    </div>
+    <div class="ps-socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+    </div>
+    <div class="ps-legacy">
+      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
+      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
+      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">Crisis support</a></p>
+    </div>
+  </div>
+</footer>
+
+
     <div id="crisis-notice" class="crisis-notice" role="alert" aria-live="polite">
         <strong>💙 Not feeling okay right now?</strong>
         Samaritans: <a href="tel:116123">116 123</a> — free, 24/7<br>
-        Text HOME to <a href="sms:741741">741741</a> (US/CA)<br>
-        Crisis line: <a href="tel:988">988</a>
+        Text SHOUT to <a href="sms:85258">85258</a> — free, 24/7<br>
+        Emergency: <a href="tel:999">999</a> · <a href="crisis.html">All crisis support</a>
     </div>
 
     <script>
@@ -344,6 +384,7 @@
         });
     </script>
     
-    <script src="error-handler.js"></script>
+    <script src="js/error-handler.js"></script>
+  <script src="/js/site.js" defer></script>
 </body>
 </html>

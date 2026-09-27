@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 200" role="img" aria-label="P.S 5-Panel Cap"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#00fff0"/><stop offset="1" stop-color="#ff00ff"/></linearGradient></defs><rect width="240" height="200" fill="#0d1b2a"/>
+<path d="M50 125 Q50 50 120 45 Q190 50 190 125 Z" fill="#05070c" stroke="#00fff0" stroke-width="2"/>
+<path d="M40 125 L200 125 Q215 128 225 140 Q180 150 120 145 Q60 148 40 140 Z" fill="#00c8c0" opacity=".85"/>
+<line x1="120" y1="45" x2="120" y2="125" stroke="#1f3348" stroke-width="2"/>
+<text x="98" y="100" font-family="DejaVu Sans, sans-serif" font-size="20" font-weight="700" fill="url(#g)">P.S</text></svg>
