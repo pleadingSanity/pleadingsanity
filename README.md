@@ -101,4 +101,4 @@ Deploy: Netlify publishes the repo root as-is. No install, no build.
 > *"This isn't just a website. It's a voice that refused to be silenced."*  
 > — Evolution, Not Erasure —
 
-**Rise From Madness. One Source. One Consciousness. One Family. 💙**
+**Rise From Madness. One Source. One Consciousness. One Family. 💙** 
