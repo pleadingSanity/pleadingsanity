@@ -1,210 +1,126 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v2.0-GAMES-FULL
-// Advanced Offline Crisis Support • All 5 Games Cached • Smart Sync
+// 🌌 PLEADING SANITY — PWA SERVICE WORKER v3.0
+// Offline crisis support • All pages & games cached • Smart updates
 // Evolution Not Erasure • One Source • One Consciousness • One Family
-// Built for Shane Cooper — Pleading Sanity Universal Alliance
 // ==============================================================
 
-const CACHE_NAME = 'pleading-sanity-v2.0';
-const STATIC_CACHE = 'pleading-sanity-static-v2.0';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v2.0';
-const VERSION = '2.0.0';
+const VERSION = '3.0.0';
+const STATIC_CACHE = 'pleading-sanity-static-v3';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v3';
+const OFFLINE_URL = '/offline.html';
 
 // ========================================
-// 🛡️ CRITICAL — Always Available Offline
+// 📦 PRECACHE — every page, style & script the site needs offline
 // ========================================
-const CRITICAL_CACHE = [
+const PRECACHE_URLS = [
     '/',
-    '/index.html',
-    '/styles.css',
-    '/manifest.json',
-    '/assets/favicon.ico',
-    '/assets/crying-brain-og.png'
-];
-
-// ========================================
-// 📦 STATIC — ALL Pages + ALL 5 Games
-// ========================================
-const STATIC_CACHE_URLS = [
-    // Core Pages
-    '/',
-    '/index.html',
     '/about.html',
-    '/sanityhub.html',
-    '/journal-vault.html',
-    '/journal-vault-viewer.html',
+    '/arron.html',
+    '/community-dashboard.html',
+    '/cosmic-focus.html',
+    '/crisis.html',
+    '/feed.html',
     '/frequencies.html',
     '/games.html',
-    '/shop.html',
-    '/movement.html',
-    
-    // 🧠 ALL 5 BRAIN GAMES — FULL OFFLINE ACCESS
-    '/cosmic-focus.html',
-    '/number-nebula.html',
-    '/pattern-galaxy.html',
+    '/index.html',
+    '/journal-vault-viewer.html',
+    '/journal-vault.html',
+    '/kids.html',
+    '/meditation.html',
     '/memory-ocean.html',
+    '/movement.html',
+    '/number-nebula.html',
+    '/offline.html',
+    '/pattern-galaxy.html',
     '/rhythm-resonance.html',
-    
-    // Styles & Shared
-    '/styles.css',
+    '/sanityhub.html',
+    '/shop.html',
+    '/videos.html',
     '/manifest.json',
-    
-    // ✅ Fonts — Fixed & Verified
-    'https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap'
-    // Note: Actual .woff2 files auto-cached when visited — no hard fail
+    '/css/styles.css',
+    '/css/animations.css',
+    '/css/accessibility.css',
+    '/css/mobile-responsive.css',
+    '/css/site.css',
+    '/js/site.js',
+    '/js/arron-companion.js',
+    '/assets/logo.svg',
+    '/assets/favicon.svg',
+    '/assets/favicon.ico',
+    '/assets/icons/icon-192x192.png'
 ];
 
 // ========================================
-// 🔄 DYNAMIC — Live APIs & External Content
-// ========================================
-const DYNAMIC_CACHE_URLS = [
-    'https://www.youtube.com/embed/',
-    'https://i.ytimg.com/vi/',
-    'https://www.googleapis.com/youtube/v3/',
-    '/.netlify/functions/',
-    '/api/'
-];
-
-// ========================================
-// 🚀 INSTALL — Prime the Cache
+// 🚀 INSTALL — cache each file individually so one miss never breaks install
 // ========================================
 self.addEventListener('install', event => {
-    console.log(`🚀 Pleading Sanity SW: Installing v${VERSION}…`);
-    
     event.waitUntil(
         caches.open(STATIC_CACHE)
-            .then(cache => {
-                console.log('📦 SW: Caching all pages & 5 games…');
-                return cache.addAll(STATIC_CACHE_URLS).catch(err => {
-                    console.warn('⚠️ SW: Some non-critical assets skipped:', err.message);
-                });
-            })
-            .then(() => caches.open(CACHE_NAME))
-            .then(cache => {
-                console.log('🔒 SW: Caching critical offline essentials…');
-                return cache.addAll(CRITICAL_CACHE);
-            })
-            .then(() => console.log(`✅ SW v${VERSION}: ALL GAMES OFFLINE-READY`))
-            .catch(error => {
-                console.error('❌ SW: Critical cache failed:', error);
-            })
+            .then(cache => Promise.all(
+                PRECACHE_URLS.map(url => cache.add(url).catch(() => console.warn('SW: skipped', url)))
+            ))
+            .then(() => self.skipWaiting())
     );
-    
-    self.skipWaiting(); // Activate instantly
 });
 
 // ========================================
-// ✅ ACTIVATE — Clean Old Caches
+// ♻️ ACTIVATE — clear old caches
 // ========================================
 self.addEventListener('activate', event => {
-    console.log(`✅ Pleading Sanity SW: Activated v${VERSION}`);
-    
     event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (![CACHE_NAME, STATIC_CACHE, DYNAMIC_CACHE].includes(cacheName)) {
-                        console.log('🗑️ SW: Purging stale cache:', cacheName);
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        }).then(() => self.clients.claim())
+        caches.keys()
+            .then(names => Promise.all(
+                names.filter(n => n !== STATIC_CACHE && n !== DYNAMIC_CACHE).map(n => caches.delete(n))
+            ))
+            .then(() => self.clients.claim())
     );
 });
 
 // ========================================
-// 📡 FETCH — Smart Network → Cache Strategy
+// 🌐 FETCH
+// Pages → network first, cached copy or offline page when offline
+// Static files → cache first, refreshed in the background
+// APIs & third parties → straight to network
 // ========================================
 self.addEventListener('fetch', event => {
     const { request } = event;
-    const url = new URL(request.url);
-
-    // Only handle GET requests
     if (request.method !== 'GET') return;
 
-    // Skip browser extensions & tracking
-    if (
-        url.protocol === 'chrome-extension:' ||
-        url.hostname === 'zenquotes.io' ||
-        url.hostname.includes('analytics') ||
-        url.hostname.includes('googletagmanager')
-    ) return;
+    const url = new URL(request.url);
+    if (url.origin !== self.location.origin) return;
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
-    // ── STATIC: Cache First → Instant Load ──
-    const isStatic = STATIC_CACHE_URLS.some(cachedUrl => 
-        request.url === cachedUrl || request.url.includes(cachedUrl)
-    );
-    if (isStatic) {
-        event.respondWith(
-            caches.match(request)
-                .then(cached => {
-                    const networkFetch = fetch(request)
-                        .then(networkRes => {
-                            caches.open(STATIC_CACHE).then(cache => {
-                                cache.put(request, networkRes.clone());
-                            });
-                            return networkRes;
-                        })
-                        .catch(() => {
-                            console.log('📴 SW: Offline — serving cached:', url.pathname);
-                            return cached;
-                        });
-                    return cached || networkFetch;
-                })
-                .catch(() => fetch(request))
-        );
-        return;
-    }
-
-    // ── DYNAMIC: Network First → Graceful Fallback ──
-    const isDynamic = DYNAMIC_CACHE_URLS.some(pattern => 
-        request.url.includes(pattern)
-    );
-    if (isDynamic) {
+    if (request.mode === 'navigate') {
         event.respondWith(
             fetch(request)
-                .then(networkRes => {
-                    if (networkRes.ok) {
-                        caches.open(DYNAMIC_CACHE).then(cache => {
-                            cache.put(request, networkRes.clone());
-                        });
+                .then(response => {
+                    if (response.ok) {
+                        const copy = response.clone();
+                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
                     }
-                    return networkRes;
+                    return response;
                 })
-                .catch(() => {
-                    console.log('🔌 SW: Live content offline — using fallback');
-                    return caches.match(request).then(cached => {
-                        if (cached) return cached;
-                        // API: return friendly offline message
-                        if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) {
-                            return new Response(
-                                JSON.stringify({ 
-                                    offline: true, 
-                                    message: 'Working offline — changes sync when you reconnect ✨' 
-                                }),
-                                { status: 200, headers: { 'Content-Type': 'application/json' } }
-                            );
-                        }
-                        // Pages: serve home as fallback
-                        if (request.headers.get('accept')?.includes('text/html')) {
-                            return caches.match('/index.html');
-                        }
-                    });
-                })
+                .catch(async () =>
+                    (await caches.match(request, { ignoreSearch: true })) ||
+                    (await caches.match(OFFLINE_URL))
+                )
         );
         return;
     }
 
-    // ── DEFAULT: Network → Cache → Offline Fallback ──
     event.respondWith(
-        fetch(request)
-            .catch(() => caches.match(request))
-            .catch(() => {
-                if (request.headers.get('accept')?.includes('text/html')) {
-                    return caches.match('/index.html');
-                }
-            })
+        caches.match(request).then(cached => {
+            const network = fetch(request)
+                .then(response => {
+                    if (response.ok) {
+                        const copy = response.clone();
+                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
+                    }
+                    return response;
+                })
+                .catch(() => cached);
+            return cached || network;
+        })
     );
 });
 
@@ -242,8 +158,8 @@ self.addEventListener('push', event => {
     const data = event.data.json();
     const options = {
         body: data.body || 'New cosmic inspiration awaits you ✨',
-        icon: '/assets/crying-brain-og.png',
-        badge: '/assets/favicon.ico',
+        icon: '/assets/icons/icon-192x192.png',
+        badge: '/assets/icons/icon-96x96.png',
         vibrate: [100, 50, 100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
@@ -285,7 +201,7 @@ self.addEventListener('message', event => {
     if (data?.type === 'GET_VERSION' && event.ports?.[0]) {
         event.ports[0].postMessage({
             version: VERSION,
-            cacheName: CACHE_NAME,
+            cacheName: STATIC_CACHE,
             gamesCached: 5,
             status: 'active',
             timestamp: new Date().toISOString()

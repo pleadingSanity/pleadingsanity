@@ -1,42 +1,15 @@
+# ==============================================================
+# PLEADING SANITY — NETLIFY CONFIG
+# Pure static HTML/CSS/JS — nothing to install, nothing to build.
+# Redirects live in _redirects.
+# ==============================================================
+
 [build]
   publish = "."
+  command = "echo 'Static site — no build step'"
   functions = "netlify/functions"
-  command = "npm install --legacy-peer-deps && npm run build"
 
-[[redirects]]
-  from = "http://www.pleadingsanity.co.uk/*"
-  to = "https://pleadingsanity.co.uk/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.pleadingsanity.co.uk/*"
-  to = "https://pleadingsanity.co.uk/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "http://pleadingsanity.co.uk/*"
-  to = "https://pleadingsanity.co.uk/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://www.pleadingsanity.uk/*"
-  to = "https://pleadingsanity.uk/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
+# ─── SECURITY HEADERS ───
 [[headers]]
   for = "/*"
   [headers.values]
@@ -44,11 +17,44 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
-    Cross-Origin-Embedder-Policy = "require-corp"
-    Cross-Origin-Resource-Policy = "cross-origin"
-    Cross-Origin-Opener-Policy = "same-origin"
+    Strict-Transport-Security = "max-age=31536000"
+
+# ─── SERVICE WORKER & MANIFEST — always fresh ───
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
 
 [[headers]]
-  for = "/audio/*"
+  for = "/manifest.json"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=3600"
+
+# ─── STATIC ASSETS ───
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+# ─── KEEP REPO-ONLY FILES PRIVATE ───
+[[headers]]
+  for = "/scripts/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/docs/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"

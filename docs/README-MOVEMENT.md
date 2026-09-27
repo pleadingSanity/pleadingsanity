@@ -26,7 +26,7 @@ pleadingsanity/
 │   ├── rhythm-resonance.html           # 🎵 Game 5 — Healing frequencies
 │   ├── frequencies.html                # 🎧 Hz — Healing tones
 │   ├── community-dashboard.html        # 🤝 Community — Shape movement
-│   ├── deployment-status.html          # ✅ Status — Live readiness
+│   ├── docs/deployment-status.html        # ✅ Status — Live readiness
 │   ├── offline.html                    # 🆘 Crisis support
 │   ├── shop.html                       # 👕 Shop — Merch + income
 │   ├── 404.html                        # ⚠️ Error — Lost in cosmos

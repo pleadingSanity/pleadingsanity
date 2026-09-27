@@ -1,18 +1,34 @@
 # ==============================================================
-# PLEADING SANITY — CANONICAL + API PROXY RULES
-# Version: 2.2-FINAL | 2026-09-23
+# PLEADING SANITY — REDIRECTS
 # One Source. One Family. Evolution, Not Erasure.
+# Primary domain: https://pleadingsanity.co.uk
+# (HTTP → HTTPS is handled automatically by Netlify once HTTPS is on.)
 # ==============================================================
 
-# ─── CANONICAL REDIRECTS — FIRST (catch extra domains early) ───
-http://www.pleadingsanity.co.uk/*    https://pleadingsanity.co.uk/:splat   301!
+# ─── CANONICAL DOMAIN — www and .uk → pleadingsanity.co.uk ───
 https://www.pleadingsanity.co.uk/*   https://pleadingsanity.co.uk/:splat   301!
-http://pleadingsanity.co.uk/*        https://pleadingsanity.co.uk/:splat   301!
-http://pleadingsanity.uk/*           https://pleadingsanity.co.uk/:splat   301!
+http://www.pleadingsanity.co.uk/*    https://pleadingsanity.co.uk/:splat   301!
 https://pleadingsanity.uk/*          https://pleadingsanity.co.uk/:splat   301!
+http://pleadingsanity.uk/*           https://pleadingsanity.co.uk/:splat   301!
+https://www.pleadingsanity.uk/*      https://pleadingsanity.co.uk/:splat   301!
+http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
-# ─── API PROXY → VERCEL (BEFORE SPA FALLBACK!) ───
-/api/*        https://pleadingsanity.uk/api/:splat   200
+# ─── OLD / ALTERNATE URLS FROM PREVIOUS SITES ───
+/home                 /                       301
+/index                /                       301
+/journal.html         /journal-vault.html     301
+/journal              /journal-vault.html     301
+/aisanityhub.html     /sanityhub.html         301
+/portal.html          /sanityhub.html         301
+/index_portal.html    /                       301
+/crying-hoodie.html   /shop.html              301
+/tracksuit.html       /shop.html              301
+/contact.html         /about.html             301
+/help                 /crisis.html            301
+/crisis               /crisis.html            301
 
-# ─── PWA / SPA FALLBACK — LAST ───
-/*    /index.html   200
+# ─── VIDEO FEED API ───
+# /api/ytFeed and /api/fetchVideos are served by netlify/functions/ytFeed.mjs
+# Anything else under /api/ falls through to the 404 page.
+
+# Missing pages show the cosmic 404 page (404.html) automatically.

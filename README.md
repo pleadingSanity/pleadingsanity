@@ -9,9 +9,9 @@
 
 | Domain | Platform | Status |
 |---|---|---|
-| **pleadingsanity.uk** | Vercel | ✅ LIVE |
-| **pleadingsanity.netlify.app** | Netlify | ✅ LIVE |
-| **pleadingsanity.co.uk** | Netlify | ⏳ Domain release pending |
+| **pleadingsanity.co.uk** | Netlify | Primary domain — needs DNS pointing at Netlify |
+| **pleadingsanity.uk** | Netlify | Redirects to .co.uk once DNS is pointed at Netlify |
+| **pleadingsanity.netlify.app** | Netlify | Always-on Netlify address |
 
 ---
 
@@ -32,8 +32,12 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - **Journal Vault** — safe, private storytelling space
 - **Brain Games** — ad-free focus & resilience training
 - **Frequencies / Aura Hz** — healing sound medicine
-- **Arron AI** — compassionate companion
+- **Arron AI** — compassionate companion (private, on-device)
+- **Silence Challenge** — meditation timer & cosmic soundscape
+- **Keep Kids Sane** — safe, positive games for children
+- **Crisis Support** — UK helplines, always one tap away
 - **Community** — survivor-led governance
+- **Legacy** — built on the service of Private A.L. Cooper (RAOC, Mentioned in Despatches 1945)
 
 ---
 
@@ -44,6 +48,20 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - Privacy-first — no tracking
 - PWA-ready — installable, offline-capable
 - WCAG 2.1 accessible — for ALL
+
+### File tree
+
+```
+/                  index.html + every page (*.html), manifest.json, sw.js,
+                   netlify.toml, _redirects, sitemap.xml, robots.txt
+├── css/           styles, animations, accessibility, mobile-responsive, site (shared nav/footer)
+├── js/            site.js (shared), arron-companion.js and all feature scripts
+├── assets/        logo, favicons, icons/ (PWA), images/, audio/
+├── docs/          manifesto, vision, roadmap and project docs
+└── netlify/functions/ytFeed.mjs   video feed API (/api/ytFeed, /api/fetchVideos)
+```
+
+Deploy: Netlify publishes the repo root as-is. No install, no build.
 
 ---
 
@@ -75,8 +93,8 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 - **[MANIFESTO.md](./docs/MANIFESTO.md)** — Core philosophy & vision
 - **[README-MOVEMENT.md](./docs/README-MOVEMENT.md)** — Project structure & dev guide
-- **[CONTRIBUTING.md](./CONTRIBUTING.md)** — How to contribute
-- **[SECURITY.md](./SECURITY.md)** — Security policy
+- **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** — How to contribute
+- **[SECURITY.md](./docs/SECURITY.md)** — Security policy
 
 ---
 
