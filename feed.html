@@ -299,7 +299,11 @@
         if (!res.ok) res = await fetch(`/.netlify/functions/ytFeed?${params}`);
         if (!res.ok) throw new Error("API offline");
         const data = await res.json();
-        return data.videos || data.items || [];
+        return (data.videos || data.items || []).map(v => ({
+          id: v.videoId || v.id,
+          title: v.title || 'Pleading Sanity story',
+          desc: (v.desc || v.description || '').slice(0, 220)
+        })).filter(v => v.id);
       } catch (err) {
         console.log("📡 Using curated fallback feed");
         if (!query) return FALLBACK;
@@ -327,6 +331,10 @@
       } catch {}
     };
 
+    function esc(text) {
+      return String(text || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
+
     function renderCard(video) {
       cardCounter++;
       const card = document.createElement('article');
@@ -334,12 +342,9 @@
       let savedLike = null;
       try { savedLike = localStorage.getItem(`like_${encodeURIComponent(video.title)}`); } catch {}
       card.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/${video.id}" 
-          title="${video.title.replace(/"/g, '&quot;')}" 
-          allowfullscreen loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
+        <div data-ps-video data-id="${esc(video.id)}" data-title="${esc(video.title)}"></div>
         <div class="item-meta">
-          <h3>${video.title}</h3>
+          <h3>${esc(video.title)}</h3>
           <div class="like-buttons">
             <button class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" 
                     onclick="handleLike(this, true)">
@@ -351,7 +356,7 @@
             </button>
           </div>
         </div>
-        ${video.desc ? `<p class="video-desc">${video.desc}</p>` : ''}
+        ${video.desc ? `<p class="video-desc">${esc(video.desc)}</p>` : ''}
       `;
       return card;
     }
@@ -369,7 +374,7 @@
         end = true;
         endDiv.hidden = false;
         endDiv.innerHTML = `
-          <p>✨ No stories match "<strong>${query}</strong>" — yet.</p>
+          <p>✨ No stories match "<strong>${esc(query)}</strong>" — yet.</p>
           <p style="margin-top:16px;">
             <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Share your story</a> 
             to help grow the feed 💙 Every voice matters.
@@ -430,6 +435,7 @@
       else loadFeed();
     } catch { loadFeed(); }
   </script>
+  <script src="/js/video-feed.js" defer></script>
   <script src="/js/scrollFeed.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>

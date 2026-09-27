@@ -221,31 +221,19 @@
     <!-- Playlist 1 -->
     <section>
       <h2>😂 Laughter & Light</h2>
-      <div class="playlist-container" data-playlist="PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" data-title="Funny & Entertaining Playlist">
-        <iframe src="https://www.youtube.com/embed/videoseries?list=PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" 
-                title="Funny & Entertaining Playlist" allowfullscreen loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
-      </div>
+      <div data-ps-video data-list="PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" data-title="Funny &amp; Entertaining Playlist"></div>
     </section>
 
     <!-- Playlist 2 -->
     <section>
       <h2>✨ Spiritual & Awakening</h2>
-      <div class="playlist-container" data-playlist="PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" data-title="Spiritual & Inspirational Playlist">
-        <iframe src="https://www.youtube.com/embed/videoseries?list=PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" 
-                title="Spiritual & Inspirational Playlist" allowfullscreen loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
-      </div>
+      <div data-ps-video data-list="PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" data-title="Spiritual &amp; Inspirational Playlist"></div>
     </section>
 
     <!-- Playlist 3 -->
     <section>
       <h2>💪 Mental Health & Motivation</h2>
-      <div class="playlist-container" data-playlist="PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" data-title="Motivational & Mental Health Playlist">
-        <iframe src="https://www.youtube.com/embed/videoseries?list=PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" 
-                title="Motivational & Mental Health Playlist" allowfullscreen loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"></iframe>
-      </div>
+      <div data-ps-video data-list="PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" data-title="Motivational &amp; Mental Health Playlist"></div>
     </section>
 
     <!-- Community Feed -->
@@ -290,51 +278,6 @@
 
   <script>
     // ==========================================
-    // 🛡️ PLAYLIST ERROR GUARD — Fixes Error 153
-    // ==========================================
-    function initPlaylistGuards() {
-      document.querySelectorAll('.playlist-container').forEach(container => {
-        const iframe = container.querySelector('iframe');
-        const playlistId = container.dataset.playlist;
-        const title = container.dataset.title;
-        if (!iframe || !playlistId) return;
-
-        const directUrl = `https://www.youtube.com/playlist?list=${playlistId}`;
-
-        // Cross-origin safe fallback — checks after delay
-        setTimeout(() => {
-          try {
-            const doc = iframe.contentDocument || iframe.contentWindow?.document;
-            if (doc && doc.body) {
-              const bodyText = doc.body.textContent.toLowerCase();
-              if (bodyText.includes('error') || bodyText.includes('153') || bodyText.includes('unavailable')) {
-                showFallback();
-              }
-            }
-          } catch (e) {
-            // Can't read cross-origin — leave iframe alone
-          }
-        }, 4000);
-
-        // Also listen for iframe load error
-        iframe.addEventListener('error', showFallback);
-
-        function showFallback() {
-          if (container.querySelector('.playlist-fallback')) return;
-          container.innerHTML = `
-            <div class="playlist-fallback">
-              <h3>▶ ${title}</h3>
-              <p>Watch directly on YouTube — no restrictions:</p>
-              <a href="${directUrl}" target="_blank" rel="noopener noreferrer" class="btn-playlist">
-                Open Playlist →
-              </a>
-            </div>
-          `;
-        }
-      });
-    }
-
-    // ==========================================
     // 🎬 COMMUNITY FEED — API → Curated Fallback
     // ==========================================
     const FEED_FALLBACK = [
@@ -362,7 +305,7 @@
             videos = items.map(v => ({
               id: v.videoId || v.id || '',
               title: v.title || 'Pleading Sanity Video',
-              desc: (v.description || '').slice(0, 90) + '…'
+              desc: (v.description || '').length > 90 ? v.description.slice(0, 90) + '…' : (v.description || '')
             }));
           }
         }
@@ -377,35 +320,31 @@
       renderFeed(videos, feed);
     }
 
-    function renderFeed(videos, container) {
-      container.innerHTML = '';
-      videos.forEach(v => {
-        const thumb = v.id 
-          ? `https://i.ytimg.com/vi/${v.id}/mqdefault.jpg`
-          : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180"><rect fill="%230d1b2a" width="320" height="180"/><text x="50%" y="50%" fill="%2300fff0" text-anchor="middle" font-size="28">▶</text></svg>';
+    function esc(text) {
+      return String(text || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    }
 
-        container.innerHTML += `
+    // Each story streams inline, muted, as it scrolls into view (js/video-feed.js)
+    function renderFeed(videos, container) {
+      const seen = new Set();
+      container.innerHTML = videos
+        .filter(v => v.id && !seen.has(v.id) && seen.add(v.id))
+        .map(v => `
           <article class="video-card">
-            <a href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer" class="thumb-link">
-              <img src="${thumb}" alt="${v.title}" loading="lazy"
-                   onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 320 180%22><rect fill=%22%230d1b2a%22 width=%22320%22 height=%22180%22/><text x=%2250%25%22 y=%2250%25%22 fill=%22%2300fff0%22 text-anchor=%22middle%22 font-size=%2228%22>▶</text></svg>'" />
-            </a>
+            <div data-ps-video data-id="${esc(v.id)}" data-title="${esc(v.title)}"></div>
             <div class="card-body">
-              <h3>${v.title}</h3>
-              <p>${v.desc}</p>
-              <a href="https://youtube.com/watch?v=${v.id}" target="_blank" rel="noopener noreferrer" class="watch-btn">▶ Watch</a>
+              <h3>${esc(v.title)}</h3>
+              <p>${esc(v.desc)}</p>
+              <a href="https://www.youtube.com/watch?v=${encodeURIComponent(v.id)}" target="_blank" rel="noopener noreferrer" class="watch-btn">▶ Open on YouTube</a>
             </div>
           </article>
-        `;
-      });
+        `).join('');
     }
 
     // 🚀 Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      initPlaylistGuards();
-      loadFeed();
-    });
+    document.addEventListener('DOMContentLoaded', loadFeed);
   </script>
+  <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>

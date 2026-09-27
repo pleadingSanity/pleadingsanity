@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '3.2.0';
-const STATIC_CACHE = 'pleading-sanity-static-v5';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v5';
+const VERSION = '3.3.0';
+const STATIC_CACHE = 'pleading-sanity-static-v6';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v6';
 const OFFLINE_URL = '/offline.html';
 
 // ========================================
@@ -48,6 +48,7 @@ const PRECACHE_URLS = [
     '/js/games.js',
     '/js/mindmode.js',
     '/js/scrollFeed.js',
+    '/js/video-feed.js',
     '/content/content_feed.json',
     '/assets/logo.svg',
     '/assets/favicon.svg',

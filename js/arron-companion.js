@@ -23,6 +23,8 @@
   const ID_KEY = 'arron_memory_id';
   const CACHE_KEY = 'arron_messages';
   const STORY_KEY = 'arron_user_story';
+  const FORGET_KEY = 'arron_forget_pending';
+  const REQUEST_TIMEOUT = 30000;
   const GREETING = "Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?";
 
   // ─── OFFLINE FALLBACK — WORKS WITHOUT SERVER ───
@@ -96,17 +98,26 @@
     return wrapper;
   }
 
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function scrollToLatest(smooth) {
+    conversationBox.scrollTo({
+      top: conversationBox.scrollHeight,
+      behavior: smooth && !reduceMotion ? 'smooth' : 'auto'
+    });
+  }
+
   function render() {
     conversationBox.innerHTML = '';
     conversationBox.appendChild(bubble(GREETING, 'assistant'));
     messages.forEach(m => conversationBox.appendChild(bubble(m.content, m.role)));
-    conversationBox.scrollTop = conversationBox.scrollHeight;
+    scrollToLatest(false);
   }
 
   function addMessage(text, role) {
     messages.push({ role, content: text });
     conversationBox.appendChild(bubble(text, role));
-    conversationBox.scrollTop = conversationBox.scrollHeight;
+    scrollToLatest(true);
     cacheMessages();
   }
 
@@ -126,20 +137,34 @@
     if (statusEl) statusEl.textContent = text;
   }
 
+  // Three soft dots while Arron writes — feels alive, reads as "typing" to screen readers
   function showTyping() {
-    const el = bubble('Arron is thinking…', 'assistant');
-    el.classList.add('typing');
+    const el = document.createElement('div');
+    el.className = 'message arron-message typing';
+    el.setAttribute('aria-label', 'Arron is typing');
+    el.innerHTML = '<span class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="sr-only">Arron is typing…</span>';
     conversationBox.appendChild(el);
-    conversationBox.scrollTop = conversationBox.scrollHeight;
+    scrollToLatest(true);
     return el;
   }
 
+  // fetch with a timeout, so a slow network falls back instead of hanging
+  async function request(url, options) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
   // ─── SERVER MEMORY ───
-  async function memoryRequest(method, payload) {
-    const res = await fetch(MEMORY_API, {
+  async function memoryRequest(method, payload, id = memoryId) {
+    const res = await request(MEMORY_API, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ memoryId, ...payload })
+      body: JSON.stringify({ memoryId: id, ...payload })
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.json();
@@ -147,7 +172,7 @@
 
   // Pull the conversation + story Arron remembers for this code
   async function syncFromServer() {
-    const res = await fetch(`${MEMORY_API}?id=${encodeURIComponent(memoryId)}`);
+    const res = await request(`${MEMORY_API}?id=${encodeURIComponent(memoryId)}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     const remembered = Array.isArray(data.messages) ? data.messages : [];
@@ -179,18 +204,25 @@
 
     let reply;
     try {
-      const res = await fetch(CHAT_API, {
+      if (navigator.onLine === false) throw new Error('offline');
+      const res = await request(CHAT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text.trim(), memoryId })
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
+      if (!data.reply) throw new Error('Empty reply');
       reply = data.reply;
-      setStatus('Connected — Arron is here. 💙');
+      setStatus(data.remembered === false
+        ? "Arron replied, but couldn't save this message to your memory just now."
+        : 'Connected — Arron is here and remembers. 💙');
     } catch (e) {
+      // Crisis words always get real UK support numbers, online or not
       reply = offlineResponse(text);
-      setStatus("Offline mode — replies are still yours, just simpler.");
+      setStatus(navigator.onLine === false
+        ? "You're offline — Arron is still here with simpler replies."
+        : "Arron's connection is resting — simpler replies for now. Try again in a moment.");
     }
 
     typing.remove();
@@ -217,9 +249,10 @@
       e.preventDefault();
       const note = storyForm.querySelector('.form-note');
       try { localStorage.setItem(STORY_KEY, storyField.value); } catch (err) {}
+      if (note) note.textContent = 'Saving…';
       memoryRequest('PUT', { story: storyField.value })
-        .then(() => { if (note) note.textContent = 'Saved. Arron will remember this. 💙'; })
-        .catch(() => { if (note) note.textContent = "Saved on this device — Arron will pick it up when he's back online."; });
+        .then(() => { if (note) note.textContent = 'Saved to your memory ✓ Arron will remember this, on every visit. 💙'; })
+        .catch(() => { if (note) note.textContent = "Saved on this device — it'll sync to Arron's memory next time you're online."; });
     });
   }
 
@@ -260,10 +293,43 @@
     });
   }
 
+  // ─── FORGET ME — erase on the server, and retry later if offline ───
+  function pendingForgets() {
+    try { return JSON.parse(localStorage.getItem(FORGET_KEY) || '[]').filter(id => /^[a-f0-9]{32,64}$/i.test(id)); }
+    catch (e) { return []; }
+  }
+
+  function savePendingForgets(ids) {
+    try {
+      if (ids.length) localStorage.setItem(FORGET_KEY, JSON.stringify(ids));
+      else localStorage.removeItem(FORGET_KEY);
+    } catch (e) {}
+  }
+
+  async function eraseOnServer(id) {
+    const data = await memoryRequest('DELETE', {}, id);
+    if (!data.cleared) throw new Error('Not confirmed');
+  }
+
+  async function retryPendingForgets() {
+    const left = [];
+    for (const id of pendingForgets()) {
+      try { await eraseOnServer(id); } catch (e) { left.push(id); }
+    }
+    savePendingForgets(left);
+    return left.length === 0;
+  }
+
   if (forgetBtn) {
-    forgetBtn.addEventListener('click', () => {
+    forgetBtn.addEventListener('click', async () => {
       if (!confirm('Erase everything Arron remembers? This cannot be undone.')) return;
-      memoryRequest('DELETE').catch(() => {});
+      const oldId = memoryId;
+      forgetBtn.disabled = true;
+      setStatus('Erasing your memory…');
+      let erased = false;
+      try { await eraseOnServer(oldId); erased = true; }
+      catch (e) { savePendingForgets([...pendingForgets(), oldId]); }
+      forgetBtn.disabled = false;
       memoryId = newMemoryId();
       try {
         localStorage.setItem(ID_KEY, memoryId);
@@ -274,7 +340,9 @@
       if (storyField) storyField.value = '';
       render();
       if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
-      setStatus('Fresh start — Arron is still here. 💙');
+      setStatus(erased
+        ? 'Erased ✓ Arron\'s server memory is cleared. Fresh start — he\'s still here. 💙'
+        : "Erased on this device. The server couldn't be reached, so it'll be wiped automatically next time you're online.");
     });
   }
 
@@ -282,8 +350,15 @@
   loadCachedMessages();
   render();
   if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
-  setStatus('Ready — say hello. 💙');
-  syncFromServer().catch(() => {});
+  setStatus('Loading your conversation…');
+  retryPendingForgets().catch(() => {});
+  syncFromServer()
+    .then(() => setStatus(messages.length
+      ? 'Welcome back. Arron remembers your conversation. 💙'
+      : 'Ready — say hello. 💙'))
+    .catch(() => setStatus(navigator.onLine === false
+      ? "You're offline — Arron is still here with simpler replies."
+      : 'Ready — say hello. 💙'));
 
   window.ArronCompanion = { handleInput, offlineResponse };
 })();

@@ -273,3 +273,73 @@
 .ps-page .fade-in { animation: psFadeIn 0.7s ease-out both; }
 @keyframes psFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .ps-page .fade-in { animation: none; } }
+
+/* ==========================================
+   AUTO-STREAM VIDEO PLAYER — js/video-feed.js
+============================================ */
+.ps-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000103;
+  border: 1px solid rgba(0, 255, 240, 0.18);
+  box-shadow: 0 0 18px rgba(0, 255, 240, 0.12);
+  margin-bottom: 1rem;
+}
+.ps-video-stage, .ps-video-poster, .ps-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.ps-video-poster {
+  display: flex; align-items: flex-end; justify-content: flex-start;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 240, 0.18), transparent 60%),
+              radial-gradient(circle at 75% 70%, rgba(255, 0, 255, 0.16), transparent 60%), #0d1b2a;
+}
+.ps-video-poster img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
+.ps-video-shimmer {
+  position: relative; margin: 0.75rem; padding: 0.25rem 0.7rem; border-radius: 999px;
+  font-size: 0.8rem; color: #eafffd; background: rgba(0, 1, 3, 0.7);
+  animation: psVideoPulse 1.6s ease-in-out infinite;
+}
+.ps-video-shimmer:empty { display: none; }
+.ps-video.is-ready .ps-video-poster { opacity: 0; transition: opacity 0.6s ease; pointer-events: none; }
+.ps-video iframe { z-index: 1; }
+.ps-video.is-ready iframe { z-index: 2; }
+@keyframes psVideoPulse { 50% { opacity: 0.5; } }
+.ps-video-sound, .ps-video-play {
+  position: absolute; z-index: 3; min-width: 44px; min-height: 44px; border-radius: 999px;
+  border: 1px solid rgba(0, 255, 240, 0.55); background: rgba(0, 1, 3, 0.75); color: #eafffd;
+  font: inherit; font-size: 1.1rem; cursor: pointer;
+}
+.ps-video-sound { top: 0.6rem; right: 0.6rem; }
+.ps-video-play { top: 50%; left: 50%; transform: translate(-50%, -50%); padding: 0 1.4rem; font-weight: 700; }
+.ps-video-sound:hover, .ps-video-sound:focus-visible,
+.ps-video-play:hover, .ps-video-play:focus-visible { background: rgba(0, 255, 240, 0.2); border-color: #00fff0; outline: 3px solid #00fff0; outline-offset: 2px; }
+.ps-video-quote {
+  position: absolute; inset: 0; margin: 0; padding: 1.5rem; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 0.6rem; text-align: center;
+  background: radial-gradient(circle at 20% 25%, rgba(0, 255, 240, 0.22), transparent 55%),
+              radial-gradient(circle at 80% 75%, rgba(255, 0, 255, 0.2), transparent 55%),
+              linear-gradient(160deg, #0d1b2a, #000103);
+}
+.ps-video-quote blockquote {
+  margin: 0; padding: 0; border: 0; background: none; font-size: clamp(1rem, 2.6vw, 1.35rem);
+  line-height: 1.5; color: #eafffd; font-style: italic; max-width: 36ch;
+}
+.ps-video-quote figcaption { color: #00fff0; font-weight: 600; font-size: 0.9rem; }
+.ps-video-quote-link { color: #ff99ff; font-size: 0.9rem; min-height: 44px; display: inline-flex; align-items: center; }
+
+/* Home hero — muted looped video or live cosmic animation behind the headline */
+.ps-hero-stage { position: relative; isolation: isolate; overflow: hidden; border-radius: 24px; }
+.ps-hero-media { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.ps-hero-media::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0, 1, 3, 0.25), rgba(0, 1, 3, 0.7));
+}
+.ps-hero-video, .ps-hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-video-shimmer { animation: none; }
+  .ps-video.is-ready .ps-video-poster { transition: none; }
+}
+.ps-page .hero.ps-hero-stage { padding: 4rem 1.25rem 3rem; margin-top: 0.5rem; }
+.video-card .ps-video { margin: 0; border: 0; border-radius: 0; }

@@ -63,7 +63,9 @@
 
   <main id="main-content" class="container">
 
-    <header class="hero fade-in">
+    <header class="hero fade-in ps-hero-stage">
+      <!-- Live cosmic loop. To use real footage, add data-video-src="/assets/video/hero.mp4" (muted, looped, autoplays). -->
+      <div class="ps-hero-media" data-ps-hero aria-hidden="true"></div>
       <h1>Rise From Madness</h1>
       <p class="lead">
         One Source. One Consciousness. One Family.<br />
@@ -84,7 +86,7 @@
         <a href="arron.html" class="cosmic-card fade-in">
           <div class="card-icon" aria-hidden="true">🤖</div>
           <h3>Talk to Arron</h3>
-          <p>A gentle AI companion. Private — everything stays on your device.</p>
+          <p>A gentle AI companion who remembers your story. Private, and you can erase it anytime.</p>
         </a>
         <a href="journal-vault.html" class="cosmic-card fade-in">
           <div class="card-icon" aria-hidden="true">📖</div>
@@ -184,6 +186,7 @@
     </div>
   </div>
 </footer>
+  <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>

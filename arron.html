@@ -51,9 +51,13 @@
       background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 12px;
     }
     #arron-input:focus { outline: 3px solid #00fff0; outline-offset: 1px; }
-    #arron-conversation .typing { opacity: .75; font-style: italic; animation: arronPulse 1.4s ease-in-out infinite; }
-    @keyframes arronPulse { 50% { opacity: .4; } }
-    @media (prefers-reduced-motion: reduce) { #arron-conversation .typing { animation: none; } }
+    #arron-conversation .typing { width: fit-content; }
+    .typing-dots { display: inline-flex; gap: 6px; align-items: center; height: 1.6em; }
+    .typing-dots span { width: 8px; height: 8px; border-radius: 50%; background: #00fff0; opacity: .35; animation: arronDot 1.2s ease-in-out infinite; }
+    .typing-dots span:nth-child(2) { animation-delay: .15s; }
+    .typing-dots span:nth-child(3) { animation-delay: .3s; }
+    @keyframes arronDot { 30% { opacity: 1; transform: translateY(-4px); } 60% { opacity: .35; transform: none; } }
+    @media (prefers-reduced-motion: reduce) { .typing-dots span { animation: none; opacity: .8; } }
     #arron-status { font-size: .9rem; color: #b8d8d6; margin: 0; min-height: 1.4em; }
     .arron-memory { margin-top: 1.5rem; }
     .arron-memory details { border: 1px solid rgba(0, 255, 240, 0.2); border-radius: 16px; padding: 0 1rem; margin-bottom: 1rem; background: rgba(0, 1, 3, 0.45); }
@@ -203,7 +207,7 @@
 </footer>
 
 
-  <script src="js/arron-companion.js" defer></script>
+  <script src="/js/arron-companion.js" defer></script>
   <script src="/js/site.js" defer></script>
 </body>
 </html>
