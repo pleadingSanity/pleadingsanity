@@ -109,7 +109,7 @@ config.local.js
 # ========================================
 # 📦 LOCK FILES — KEEP npm ONLY
 # ========================================
-package-lock.json
+# package-lock.json is committed so installs are reproducible
 # yarn.lock          ← npm only
 # pnpm-lock.yaml     ← npm only
 
