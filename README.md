@@ -9,9 +9,15 @@
 
 | Domain | Platform | Status |
 |---|---|---|
-| **pleadingsanity.co.uk** | Netlify | Primary domain — needs DNS pointing at Netlify |
-| **pleadingsanity.uk** | Netlify | Redirects to .co.uk once DNS is pointed at Netlify |
+| **pleadingsanity.co.uk** | Netlify (hosting + Netlify DNS) | Primary domain. Registration must be renewed and moved off Fasthosts (see below) |
+| **www.pleadingsanity.co.uk** | Netlify | 301 → https://pleadingsanity.co.uk |
+| **pleadingsanity.uk** (+ www) | Netlify | Domain alias. 301 → https://pleadingsanity.co.uk once its name servers point at Netlify DNS |
 | **pleadingsanity.netlify.app** | Netlify | Always-on Netlify address |
+
+**Domain rules:** Netlify is the only host and DNS provider. Name servers for both domains
+must be the Netlify DNS (`dns1–4.p03.nsone.net`) servers shown in Netlify → Domains.
+Netlify can't accept registrar transfers, so the domain *registrations* sit with a separate
+.uk registrar. Its only job is to renew the domains and point them at those name servers.
 
 ---
 

@@ -249,8 +249,8 @@ class AnalyticsMonitoring {
 
     async checkDeploymentHealth() {
         const sites = [
-            { name: 'netlify', url: 'https://pleadingsanity.co.uk' },
-            { name: 'vercel', url: 'https://pleadingsanity.uk' }
+            { name: 'primary', url: 'https://pleadingsanity.co.uk' },
+            { name: 'netlify-app', url: 'https://pleadingsanity.netlify.app' }
         ];
         
         for (const site of sites) {
