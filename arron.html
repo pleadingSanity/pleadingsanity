@@ -15,13 +15,13 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/arron.html" />
   <title>Arron — Your Companion | Pleading Sanity</title>
-  <meta name="description" content="Talk to Arron, the Pleading Sanity companion. Gentle, private, always here — your conversation never leaves your device." />
+  <meta name="description" content="Talk to Arron, the Pleading Sanity AI companion. Gentle, private, always here — Arron remembers your story, and you can erase it anytime." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Pleading Sanity" />
   <meta property="og:title" content="Arron — Your Companion | Pleading Sanity" />
-  <meta property="og:description" content="Gentle, private, always here. Your conversation never leaves your device." />
+  <meta property="og:description" content="Gentle, private, always here. Arron remembers your story — and you can erase it anytime." />
   <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/arron.html" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -51,6 +51,27 @@
       background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 12px;
     }
     #arron-input:focus { outline: 3px solid #00fff0; outline-offset: 1px; }
+    #arron-conversation .typing { opacity: .75; font-style: italic; animation: arronPulse 1.4s ease-in-out infinite; }
+    @keyframes arronPulse { 50% { opacity: .4; } }
+    @media (prefers-reduced-motion: reduce) { #arron-conversation .typing { animation: none; } }
+    #arron-status { font-size: .9rem; color: #b8d8d6; margin: 0; min-height: 1.4em; }
+    .arron-memory { margin-top: 1.5rem; }
+    .arron-memory details { border: 1px solid rgba(0, 255, 240, 0.2); border-radius: 16px; padding: 0 1rem; margin-bottom: 1rem; background: rgba(0, 1, 3, 0.45); }
+    .arron-memory summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: #eafffd; }
+    .arron-memory summary:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; border-radius: 8px; }
+    .arron-memory .panel { padding: 0 0 1rem; display: grid; gap: .75rem; }
+    .arron-memory textarea, .arron-memory input[type="text"] {
+      width: 100%; box-sizing: border-box; padding: .75rem 1rem; font: inherit; font-size: 16px; color: #eafffd;
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 12px;
+    }
+    .arron-memory textarea { min-height: 160px; resize: vertical; line-height: 1.6; }
+    .arron-memory textarea:focus, .arron-memory input:focus { outline: 3px solid #00fff0; outline-offset: 1px; }
+    .arron-memory code { display: block; padding: .75rem 1rem; border-radius: 12px; background: rgba(0, 255, 240, 0.06); color: #00fff0; word-break: break-all; user-select: all; }
+    .arron-memory .row { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .arron-memory .btn { min-height: 44px; }
+    .btn-danger { background: transparent; border: 1px solid #ff6b9d; color: #ffd6e5; border-radius: 999px; padding: 0 1.25rem; font: inherit; cursor: pointer; }
+    .btn-danger:hover, .btn-danger:focus-visible { background: rgba(255, 107, 157, 0.15); }
+    .form-note { margin: 0; font-size: .9rem; color: #b8d8d6; min-height: 1.4em; }
   </style>
   <link rel="stylesheet" href="/css/site.css" />
 </head>
@@ -84,7 +105,7 @@
 
     <header class="hero fade-in">
       <h1>Talk to Arron</h1>
-      <p class="lead">Your gentle companion. Always here, always kind — and completely private. Everything you say stays on your device.</p>
+      <p class="lead">Your gentle AI companion. Always here, always kind. Arron knows the whole Pleading Sanity story and remembers yours. No account, no tracking, and you can erase it anytime.</p>
     </header>
 
     <section class="cosmic-card chat" aria-label="Conversation with Arron">
@@ -104,10 +125,47 @@
         <input type="text" id="arron-input" placeholder="Type to Arron…" maxlength="500" />
         <button type="submit" class="btn btn-primary">Send</button>
       </form>
+      <p id="arron-status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="arron-memory" aria-label="Your memory with Arron">
+      <details>
+        <summary>📖 Your story: what Arron remembers about you</summary>
+        <form id="arron-story-form" class="panel">
+          <label for="arron-story">Share whatever you'd like Arron to always remember: your journey, what helps, what you're working through, the people who matter. Only you decide what goes here.</label>
+          <textarea id="arron-story" maxlength="8000" placeholder="e.g. I'm a dad of three, living with bipolar. Music and training help me. Mornings are hardest…"></textarea>
+          <div class="row"><button type="submit" class="btn btn-primary">Save my story</button></div>
+          <p class="form-note" role="status" aria-live="polite"></p>
+        </form>
+      </details>
+
+      <details>
+        <summary>🔐 Your memory code: use Arron on your phone and other devices</summary>
+        <div class="panel">
+          <p>Arron remembers you with this private code. There are no accounts or emails. Keep it safe like a password, and enter it on another device to carry your conversations with you.</p>
+          <code id="arron-memory-code" aria-label="Your memory code"></code>
+          <div class="row"><button type="button" id="arron-copy-code" class="btn btn-primary">Copy code</button></div>
+          <form id="arron-restore-form" class="panel" style="padding: 0;">
+            <label for="arron-restore-code">Already have a code from another device?</label>
+            <input type="text" id="arron-restore-code" autocomplete="off" spellcheck="false" placeholder="Paste your memory code" />
+            <div class="row"><button type="submit" class="btn btn-primary">Use this code</button></div>
+          </form>
+        </div>
+      </details>
+
+      <details>
+        <summary>🛡️ Privacy: how your data is handled</summary>
+        <div class="panel">
+          <p>Your messages and story are stored securely so Arron can remember you. They're linked only to your memory code, never to your name, email or location. Replies are generated by an AI model through Netlify's AI Gateway. There's no advertising, no selling of data and no tracking.</p>
+          <p>You're in control: erase everything, instantly, whenever you like.</p>
+          <div class="row"><button type="button" id="arron-forget" class="btn-danger">Erase everything Arron remembers</button></div>
+          <p><strong>📱 Get Arron on your phone:</strong> on Android (Chrome), tap the menu, then <em>Install app</em> or <em>Add to Home screen</em>. On iPhone, open this page in Safari, tap Share, then <em>Add to Home Screen</em>.</p>
+        </div>
+      </details>
     </section>
 
     <p class="muted" style="text-align: center; margin-top: 1.5rem;">
-      Arron is a supportive companion, not a therapist or emergency service.
+      Arron is an AI companion, not a therapist or emergency service, and can get things wrong.
       If you're in crisis, please <a href="crisis.html">reach out for help now</a>.
     </p>
 

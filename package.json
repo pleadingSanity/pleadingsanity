@@ -1,0 +1,15 @@
+{
+  "name": "pleadingsanity",
+  "private": true,
+  "type": "module",
+  "description": "Pleading Sanity — static site plus the Arron AI companion function",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "@netlify/database": "^1.1.0",
+    "@netlify/functions": "^5.3.0",
+    "drizzle-orm": "^1.0.0-beta.22"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^1.0.0-beta.22"
+  }
+}
