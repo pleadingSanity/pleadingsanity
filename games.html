@@ -230,11 +230,13 @@
       <a href="/games.html" aria-current="page">Games</a>
       <a href="/frequencies.html">Hz</a>
       <a href="/feed.html">Feed</a>
+      <a href="/quote-wall.html">Quotes</a>
       <a href="/videos.html">Videos</a>
       <a href="/kids.html">Kids</a>
       <a href="/shop.html">Shop</a>
       <a href="/crisis.html" class="ps-crisis">Get Help</a>
     </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
 
@@ -248,7 +250,7 @@
     </div>
     <h1>🎮 Brain Games</h1>
     <p class="tag">No Ads. No Stress. Just Play.</p>
-    <button class="install-btn hidden" id="installPWA">📲 Install as App</button>
+    <button type="button" class="install-btn hidden" id="installPWA" data-pwa-install hidden>📲 Install as App</button>
   </header>
 
   <main id="main" role="main">
@@ -426,6 +428,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/meditation.html">Meditation</a>
       <a href="/community-dashboard.html">Community</a>
+      <a href="/quote-wall.html">Quote Wall</a>
       <a href="/offline.html">Offline Support</a>
       <a href="/shop.html">Shop</a>
     </div>
@@ -446,30 +449,6 @@
   <script>
     // Auto year
     document.getElementById('yr').textContent = new Date().getFullYear();
-
-    // === PWA INSTALL PROMPT ===
-    let deferredPrompt;
-    const installBtn = document.getElementById('installPWA');
-    
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      installBtn.classList.remove('hidden');
-    });
-    
-    installBtn.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      console.log('Install prompt outcome:', outcome);
-      deferredPrompt = null;
-      installBtn.classList.add('hidden');
-    });
-    
-    window.addEventListener('appinstalled', () => {
-      installBtn.classList.add('hidden');
-      deferredPrompt = null;
-    });
   </script>
   <script src="/js/site.js" defer></script>
 </body>

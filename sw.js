@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '3.1.0';
-const STATIC_CACHE = 'pleading-sanity-static-v4';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v4';
+const VERSION = '3.2.0';
+const STATIC_CACHE = 'pleading-sanity-static-v5';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v5';
 const OFFLINE_URL = '/offline.html';
 
 // ========================================
@@ -32,6 +32,7 @@ const PRECACHE_URLS = [
     '/number-nebula.html',
     '/offline.html',
     '/pattern-galaxy.html',
+    '/quote-wall.html',
     '/rhythm-resonance.html',
     '/sanityhub.html',
     '/shop.html',
@@ -44,6 +45,10 @@ const PRECACHE_URLS = [
     '/css/site.css',
     '/js/site.js',
     '/js/arron-companion.js',
+    '/js/games.js',
+    '/js/mindmode.js',
+    '/js/scrollFeed.js',
+    '/content/content_feed.json',
     '/assets/logo.svg',
     '/assets/favicon.svg',
     '/assets/favicon.ico',

@@ -137,10 +137,10 @@ body {
 
 /* ==========================================
    LIVE REGIONS — SCREEN READER ANNOUNCEMENTS
+   Hide only dedicated announcers — visible live regions (chat logs,
+   feeds, status lines) must stay on screen
    ========================================== */
-.live-region,
-[aria-live="polite"],
-[aria-live="assertive"] {
+.live-region {
   position: absolute;
   left: -10000px;
   top: auto;

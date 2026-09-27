@@ -17,7 +17,9 @@
 
   if (!conversationBox) return;
 
-  const API = '/.netlify/functions/arron';
+  // Served by netlify/functions/arron.mts (memory lives in Netlify Database)
+  const CHAT_API = '/api/arron/chat';
+  const MEMORY_API = '/api/arron/memory';
   const ID_KEY = 'arron_memory_id';
   const CACHE_KEY = 'arron_messages';
   const STORY_KEY = 'arron_user_story';
@@ -132,6 +134,38 @@
     return el;
   }
 
+  // ─── SERVER MEMORY ───
+  async function memoryRequest(method, payload) {
+    const res = await fetch(MEMORY_API, {
+      method,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ memoryId, ...payload })
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  }
+
+  // Pull the conversation + story Arron remembers for this code
+  async function syncFromServer() {
+    const res = await fetch(`${MEMORY_API}?id=${encodeURIComponent(memoryId)}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const remembered = Array.isArray(data.messages) ? data.messages : [];
+    if (remembered.length || !messages.length) {
+      messages = remembered.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
+      cacheMessages();
+      render();
+    }
+    if (data.story && storyField) {
+      storyField.value = data.story;
+      try { localStorage.setItem(STORY_KEY, data.story); } catch (e) {}
+    } else if (!data.story && storyField && storyField.value.trim()) {
+      // Story saved on this device before server memory existed — carry it over
+      memoryRequest('PUT', { story: storyField.value }).catch(() => {});
+    }
+    return data;
+  }
+
   // ─── CHAT HANDLER ───
   let busy = false;
 
@@ -145,14 +179,10 @@
 
     let reply;
     try {
-      const res = await fetch(API, {
+      const res = await fetch(CHAT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          message: text.trim(),
-          memoryId,
-          userStory: localStorage.getItem(STORY_KEY) || ''
-        })
+        body: JSON.stringify({ message: text.trim(), memoryId })
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
@@ -186,12 +216,10 @@
     storyForm.addEventListener('submit', e => {
       e.preventDefault();
       const note = storyForm.querySelector('.form-note');
-      try {
-        localStorage.setItem(STORY_KEY, storyField.value);
-        if (note) note.textContent = 'Saved. Arron will remember this. 💙';
-      } catch (err) {
-        if (note) note.textContent = "Couldn't save — try again.";
-      }
+      try { localStorage.setItem(STORY_KEY, storyField.value); } catch (err) {}
+      memoryRequest('PUT', { story: storyField.value })
+        .then(() => { if (note) note.textContent = 'Saved. Arron will remember this. 💙'; })
+        .catch(() => { if (note) note.textContent = "Saved on this device — Arron will pick it up when he's back online."; });
     });
   }
 
@@ -225,13 +253,17 @@
       render();
       if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
       restoreField.value = '';
-      setStatus('Memory restored. Welcome back. 💙');
+      setStatus('Restoring your memory…');
+      syncFromServer()
+        .then(() => setStatus('Memory restored. Welcome back. 💙'))
+        .catch(() => setStatus("Code saved — Arron will remember once he's back online."));
     });
   }
 
   if (forgetBtn) {
     forgetBtn.addEventListener('click', () => {
       if (!confirm('Erase everything Arron remembers? This cannot be undone.')) return;
+      memoryRequest('DELETE').catch(() => {});
       memoryId = newMemoryId();
       try {
         localStorage.setItem(ID_KEY, memoryId);
@@ -251,6 +283,7 @@
   render();
   if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
   setStatus('Ready — say hello. 💙');
+  syncFromServer().catch(() => {});
 
   window.ArronCompanion = { handleInput, offlineResponse };
 })();
