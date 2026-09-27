@@ -1,7 +1,9 @@
 // ==============================================================
 // 💙 ARRON AI — THE COMPANION ENGINE
-// Local-First · Privacy-First · Always Listening
-// Response logic — extend me with your own voice
+// Real AI conversations through /api/arron, with memory that
+// belongs to you: a private memory code lives on this device,
+// and you can move it, view it or erase it anytime.
+// Offline? Arron falls back to gentle built-in replies.
 // ==============================================================
 
 (function() {
@@ -10,9 +12,25 @@
   const conversationBox = document.getElementById('arron-conversation');
   const inputForm = document.getElementById('arron-input-form');
   const inputField = document.getElementById('arron-input');
+  const sendButton = inputForm ? inputForm.querySelector('button[type="submit"]') : null;
   const promptButtons = document.querySelectorAll('.prompt-btn');
+  const statusEl = document.getElementById('arron-status');
+  const storyForm = document.getElementById('arron-story-form');
+  const storyField = document.getElementById('arron-story');
+  const memoryCodeEl = document.getElementById('arron-memory-code');
+  const copyCodeBtn = document.getElementById('arron-copy-code');
+  const restoreForm = document.getElementById('arron-restore-form');
+  const restoreField = document.getElementById('arron-restore-code');
+  const forgetBtn = document.getElementById('arron-forget');
 
-  // ─── YOUR VOICE — CUSTOMISE THESE RESPONSES ───
+  if (!conversationBox) return;
+
+  const API = '/api/arron';
+  const ID_KEY = 'arron_memory_id';
+  const CACHE_KEY = 'arron_messages';
+  const GREETING = "Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?";
+
+  // ─── OFFLINE FALLBACK — used only when Arron can't reach the server ───
   const gentleResponses = {
     'I feel overwhelmed': [
       "That weight... I can feel how heavy it is. You don't have to carry it all at once. Just breathe with me — one breath at a time. You're doing enough just showing up.",
@@ -36,50 +54,145 @@
       "That takes courage. Being real with yourself is the bravest thing there is."
     ]
   };
+  const CRISIS_WORDS = /suicid|kill myself|end it all|want to die|self[- ]?harm|hurt myself|overdose|no reason to live/i;
+  const CRISIS_REPLY = "I'm really glad you told me. You matter, and you deserve support right now from a real person. Please call Samaritans free on 116 123 (24/7), text SHOUT to 85258, or call 999 if you're in immediate danger. Are you safe right now? 💙";
 
-  // ─── CONVERSATION LOGIC ───
-  function addMessage(text, sender = 'arron') {
-    const wrapper = document.createElement('div');
-    wrapper.className = `message ${sender === 'arron' ? 'arron-message' : 'user-message'}`;
-    const p = document.createElement('p');
-    p.textContent = text;
-    wrapper.appendChild(p);
-    conversationBox.appendChild(wrapper);
-    conversationBox.scrollTop = conversationBox.scrollHeight;
-    saveConversation();
-  }
-
-  function getResponse(userText) {
-    const trimmed = userText.trim();
+  function offlineResponse(userText) {
+    const trimmed = userText.trim().toLowerCase();
+    if (CRISIS_WORDS.test(trimmed)) return CRISIS_REPLY;
     for (const [prompt, replies] of Object.entries(gentleResponses)) {
-      if (trimmed.toLowerCase().includes(prompt.toLowerCase()) || prompt.toLowerCase().includes(trimmed.toLowerCase())) {
+      const p = prompt.toLowerCase();
+      if (trimmed.includes(p) || p.includes(trimmed)) {
         return replies[Math.floor(Math.random() * replies.length)];
       }
     }
     return gentleResponses.default[Math.floor(Math.random() * gentleResponses.default.length)];
   }
 
-  function handleInput(text) {
-    if (!text.trim()) return;
-    addMessage(text, 'user');
-    setTimeout(() => addMessage(getResponse(text)), 600 + Math.random() * 400);
-    inputField.value = '';
+  // ─── MEMORY CODE — random, private, stored on this device ───
+  function newMemoryId() {
+    if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, '');
+    const bytes = new Uint8Array(16);
+    crypto.getRandomValues(bytes);
+    return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
   }
 
-  // ─── LOCAL STORAGE — SAVE CONVERSATION ON YOUR DEVICE ONLY ───
-  function saveConversation() {
+  function getMemoryId() {
+    let id = null;
+    try { id = localStorage.getItem(ID_KEY); } catch (e) {}
+    if (!id || !/^[a-f0-9-]{32,64}$/i.test(id)) {
+      id = newMemoryId();
+      try { localStorage.setItem(ID_KEY, id); } catch (e) {}
+    }
+    return id;
+  }
+
+  let memoryId = getMemoryId();
+  let messages = [];
+
+  // ─── RENDERING ───
+  function bubble(text, role) {
+    const wrapper = document.createElement('div');
+    wrapper.className = `message ${role === 'assistant' ? 'arron-message' : 'user-message'}`;
+    const p = document.createElement('p');
+    p.textContent = text;
+    wrapper.appendChild(p);
+    return wrapper;
+  }
+
+  function render() {
+    conversationBox.innerHTML = '';
+    conversationBox.appendChild(bubble(GREETING, 'assistant'));
+    messages.forEach(m => conversationBox.appendChild(bubble(m.content, m.role)));
+    conversationBox.scrollTop = conversationBox.scrollHeight;
+  }
+
+  function addMessage(text, role) {
+    messages.push({ role, content: text });
+    conversationBox.appendChild(bubble(text, role));
+    conversationBox.scrollTop = conversationBox.scrollHeight;
+    cacheMessages();
+  }
+
+  function cacheMessages() {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(messages.slice(-60))); } catch (e) {}
+  }
+
+  function loadCachedMessages() {
     try {
-      localStorage.setItem('arron_convo', conversationBox.innerHTML);
+      localStorage.removeItem('arron_convo'); // old HTML-based cache
+      const saved = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
+      if (Array.isArray(saved)) messages = saved.filter(m => m && typeof m.content === 'string');
+    } catch (e) { messages = []; }
+  }
+
+  function setStatus(text) {
+    if (statusEl) statusEl.textContent = text;
+  }
+
+  function showTyping() {
+    const el = bubble('Arron is thinking…', 'assistant');
+    el.classList.add('typing');
+    el.setAttribute('aria-label', 'Arron is typing');
+    conversationBox.appendChild(el);
+    conversationBox.scrollTop = conversationBox.scrollHeight;
+    return el;
+  }
+
+  // ─── CONVERSATION ───
+  let busy = false;
+
+  async function handleInput(text) {
+    if (!text || !text.trim() || busy) return;
+    busy = true;
+    if (sendButton) sendButton.disabled = true;
+    inputField.value = '';
+    addMessage(text.trim(), 'user');
+    const typing = showTyping();
+
+    let reply;
+    try {
+      const res = await fetch(`${API}/chat`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ memoryId, message: text.trim() })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      reply = data.reply;
+      setStatus('Connected — Arron remembers your conversations with this memory code.');
     } catch (e) {
-      console.log('💙 Unable to save locally — that\'s okay, you\'re still safe here');
+      reply = offlineResponse(text);
+      setStatus("Arron can't reach the cosmos right now, so replies are simpler for the moment. Your message wasn't saved.");
+    }
+
+    typing.remove();
+    addMessage(reply, 'assistant');
+    busy = false;
+    if (sendButton) sendButton.disabled = false;
+    inputField.focus();
+  }
+
+  // ─── SERVER MEMORY ───
+  async function syncFromServer() {
+    try {
+      const res = await fetch(`${API}/memory?id=${encodeURIComponent(memoryId)}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      if (Array.isArray(data.messages) && data.messages.length) {
+        messages = data.messages;
+        cacheMessages();
+        render();
+      }
+      if (storyField && typeof data.story === 'string') storyField.value = data.story;
+      setStatus('Connected — Arron remembers your conversations with this memory code.');
+    } catch (e) {
+      setStatus('Offline — showing the conversation saved on this device.');
     }
   }
 
-  function loadConversation() {
-    try {
-      const saved = localStorage.getItem('arron_convo');
-      if (saved) conversationBox.innerHTML = saved;
-    } catch (e) {}
+  function showMemoryCode() {
+    if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
   }
 
   // ─── EVENTS ───
@@ -91,20 +204,89 @@
   }
 
   promptButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      handleInput(btn.dataset.prompt);
-    });
+    btn.addEventListener('click', () => handleInput(btn.dataset.prompt));
   });
 
+  if (storyForm) {
+    storyForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const note = storyForm.querySelector('.form-note');
+      try {
+        const res = await fetch(`${API}/memory`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ memoryId, story: storyField.value })
+        });
+        if (!res.ok) throw new Error();
+        if (note) note.textContent = 'Saved. Arron will remember this. 💙';
+      } catch (err) {
+        if (note) note.textContent = "Couldn't save right now — please try again when you're online.";
+      }
+    });
+  }
+
+  if (copyCodeBtn) {
+    copyCodeBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(memoryId);
+        copyCodeBtn.textContent = 'Copied ✓';
+      } catch (e) {
+        copyCodeBtn.textContent = 'Select & copy the code above';
+      }
+      setTimeout(() => { copyCodeBtn.textContent = 'Copy code'; }, 2500);
+    });
+  }
+
+  if (restoreForm) {
+    restoreForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const code = restoreField.value.trim().replace(/\s+/g, '');
+      if (!/^[a-f0-9-]{32,64}$/i.test(code)) {
+        restoreField.setCustomValidity('That code doesn\'t look right — it should be 32 letters and numbers.');
+        restoreField.reportValidity();
+        return;
+      }
+      restoreField.setCustomValidity('');
+      memoryId = code;
+      try { localStorage.setItem(ID_KEY, code); } catch (err) {}
+      messages = [];
+      cacheMessages();
+      render();
+      showMemoryCode();
+      restoreField.value = '';
+      syncFromServer();
+    });
+    restoreField.addEventListener('input', () => restoreField.setCustomValidity(''));
+  }
+
+  if (forgetBtn) {
+    forgetBtn.addEventListener('click', async () => {
+      if (!confirm('Erase everything Arron remembers about you? This cannot be undone.')) return;
+      try {
+        await fetch(`${API}/memory`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ memoryId })
+        });
+      } catch (e) {}
+      memoryId = newMemoryId();
+      try {
+        localStorage.setItem(ID_KEY, memoryId);
+        localStorage.removeItem(CACHE_KEY);
+      } catch (e) {}
+      messages = [];
+      if (storyField) storyField.value = '';
+      render();
+      showMemoryCode();
+      setStatus('Memory erased. A fresh start — Arron is still here. 💙');
+    });
+  }
+
   // ─── INIT ───
-  loadConversation();
+  loadCachedMessages();
+  render();
+  showMemoryCode();
+  syncFromServer();
 
-  // ─── EXPOSE FOR DEBUGGING & EXTENSION ───
-  window.ArronCompanion = {
-    addMessage,
-    getResponse,
-    handleInput
-  };
-
-  console.log('%c💙 Arron Companion Active', 'color: #00fff0; font-weight: bold;');
+  window.ArronCompanion = { handleInput, offlineResponse };
 })();
