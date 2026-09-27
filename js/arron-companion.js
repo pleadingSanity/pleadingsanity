@@ -1,18 +1,10 @@
-// ==============================================================
-// 💙 ARRON AI — THE COMPANION ENGINE
-// Real AI conversations through /api/arron, with memory that
-// belongs to you: a private memory code lives on this device,
-// and you can move it, view it or erase it anytime.
-// Offline? Arron falls back to gentle built-in replies.
-// ==============================================================
-
 (function() {
   'use strict';
 
   const conversationBox = document.getElementById('arron-conversation');
   const inputForm = document.getElementById('arron-input-form');
   const inputField = document.getElementById('arron-input');
-  const sendButton = inputForm ? inputForm.querySelector('button[type="submit"]') : null;
+  const sendButton = inputForm?.querySelector('button[type="submit"]');
   const promptButtons = document.querySelectorAll('.prompt-btn');
   const statusEl = document.getElementById('arron-status');
   const storyForm = document.getElementById('arron-story-form');
@@ -25,12 +17,13 @@
 
   if (!conversationBox) return;
 
-  const API = '/api/arron';
+  const API = '/.netlify/functions/arron';
   const ID_KEY = 'arron_memory_id';
   const CACHE_KEY = 'arron_messages';
+  const STORY_KEY = 'arron_user_story';
   const GREETING = "Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?";
 
-  // ─── OFFLINE FALLBACK — used only when Arron can't reach the server ───
+  // ─── OFFLINE FALLBACK — WORKS WITHOUT SERVER ───
   const gentleResponses = {
     'I feel overwhelmed': [
       "That weight... I can feel how heavy it is. You don't have to carry it all at once. Just breathe with me — one breath at a time. You're doing enough just showing up.",
@@ -54,6 +47,7 @@
       "That takes courage. Being real with yourself is the bravest thing there is."
     ]
   };
+
   const CRISIS_WORDS = /suicid|kill myself|end it all|want to die|self[- ]?harm|hurt myself|overdose|no reason to live/i;
   const CRISIS_REPLY = "I'm really glad you told me. You matter, and you deserve support right now from a real person. Please call Samaritans free on 116 123 (24/7), text SHOUT to 85258, or call 999 if you're in immediate danger. Are you safe right now? 💙";
 
@@ -69,9 +63,9 @@
     return gentleResponses.default[Math.floor(Math.random() * gentleResponses.default.length)];
   }
 
-  // ─── MEMORY CODE — random, private, stored on this device ───
+  // ─── MEMORY CODE — PRIVATE, ON-DEVICE ───
   function newMemoryId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, '');
+    if (window.crypto?.randomUUID) return crypto.randomUUID().replace(/-/g, '');
     const bytes = new Uint8Array(16);
     crypto.getRandomValues(bytes);
     return Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
@@ -80,7 +74,7 @@
   function getMemoryId() {
     let id = null;
     try { id = localStorage.getItem(ID_KEY); } catch (e) {}
-    if (!id || !/^[a-f0-9-]{32,64}$/i.test(id)) {
+    if (!id || !/^[a-f0-9]{32,64}$/i.test(id)) {
       id = newMemoryId();
       try { localStorage.setItem(ID_KEY, id); } catch (e) {}
     }
@@ -120,9 +114,9 @@
 
   function loadCachedMessages() {
     try {
-      localStorage.removeItem('arron_convo'); // old HTML-based cache
       const saved = JSON.parse(localStorage.getItem(CACHE_KEY) || '[]');
       if (Array.isArray(saved)) messages = saved.filter(m => m && typeof m.content === 'string');
+      if (storyField) storyField.value = localStorage.getItem(STORY_KEY) || '';
     } catch (e) { messages = []; }
   }
 
@@ -133,13 +127,12 @@
   function showTyping() {
     const el = bubble('Arron is thinking…', 'assistant');
     el.classList.add('typing');
-    el.setAttribute('aria-label', 'Arron is typing');
     conversationBox.appendChild(el);
     conversationBox.scrollTop = conversationBox.scrollHeight;
     return el;
   }
 
-  // ─── CONVERSATION ───
+  // ─── CHAT HANDLER ───
   let busy = false;
 
   async function handleInput(text) {
@@ -152,18 +145,22 @@
 
     let reply;
     try {
-      const res = await fetch(`${API}/chat`, {
+      const res = await fetch(API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ memoryId, message: text.trim() })
+        body: JSON.stringify({ 
+          message: text.trim(),
+          memoryId,
+          userStory: localStorage.getItem(STORY_KEY) || ''
+        })
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       reply = data.reply;
-      setStatus('Connected — Arron remembers your conversations with this memory code.');
+      setStatus('Connected — Arron is here. 💙');
     } catch (e) {
       reply = offlineResponse(text);
-      setStatus("Arron can't reach the cosmos right now, so replies are simpler for the moment. Your message wasn't saved.");
+      setStatus("Offline mode — replies are still yours, just simpler.");
     }
 
     typing.remove();
@@ -171,28 +168,6 @@
     busy = false;
     if (sendButton) sendButton.disabled = false;
     inputField.focus();
-  }
-
-  // ─── SERVER MEMORY ───
-  async function syncFromServer() {
-    try {
-      const res = await fetch(`${API}/memory?id=${encodeURIComponent(memoryId)}`);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (Array.isArray(data.messages) && data.messages.length) {
-        messages = data.messages;
-        cacheMessages();
-        render();
-      }
-      if (storyField && typeof data.story === 'string') storyField.value = data.story;
-      setStatus('Connected — Arron remembers your conversations with this memory code.');
-    } catch (e) {
-      setStatus('Offline — showing the conversation saved on this device.');
-    }
-  }
-
-  function showMemoryCode() {
-    if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
   }
 
   // ─── EVENTS ───
@@ -208,30 +183,26 @@
   });
 
   if (storyForm) {
-    storyForm.addEventListener('submit', async e => {
+    storyForm.addEventListener('submit', e => {
       e.preventDefault();
       const note = storyForm.querySelector('.form-note');
       try {
-        const res = await fetch(`${API}/memory`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ memoryId, story: storyField.value })
-        });
-        if (!res.ok) throw new Error();
+        localStorage.setItem(STORY_KEY, storyField.value);
         if (note) note.textContent = 'Saved. Arron will remember this. 💙';
       } catch (err) {
-        if (note) note.textContent = "Couldn't save right now — please try again when you're online.";
+        if (note) note.textContent = "Couldn't save — try again.";
       }
     });
   }
 
-  if (copyCodeBtn) {
+  if (copyCodeBtn && memoryCodeEl) {
+    memoryCodeEl.textContent = memoryId;
     copyCodeBtn.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(memoryId);
         copyCodeBtn.textContent = 'Copied ✓';
       } catch (e) {
-        copyCodeBtn.textContent = 'Select & copy the code above';
+        copyCodeBtn.textContent = 'Copy below';
       }
       setTimeout(() => { copyCodeBtn.textContent = 'Copy code'; }, 2500);
     });
@@ -241,8 +212,8 @@
     restoreForm.addEventListener('submit', e => {
       e.preventDefault();
       const code = restoreField.value.trim().replace(/\s+/g, '');
-      if (!/^[a-f0-9-]{32,64}$/i.test(code)) {
-        restoreField.setCustomValidity('That code doesn\'t look right — it should be 32 letters and numbers.');
+      if (!/^[a-f0-9]{32,64}$/i.test(code)) {
+        restoreField.setCustomValidity('Code should be 32+ letters/numbers');
         restoreField.reportValidity();
         return;
       }
@@ -252,41 +223,34 @@
       messages = [];
       cacheMessages();
       render();
-      showMemoryCode();
+      if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
       restoreField.value = '';
-      syncFromServer();
+      setStatus('Memory restored. Welcome back. 💙');
     });
-    restoreField.addEventListener('input', () => restoreField.setCustomValidity(''));
   }
 
   if (forgetBtn) {
-    forgetBtn.addEventListener('click', async () => {
-      if (!confirm('Erase everything Arron remembers about you? This cannot be undone.')) return;
-      try {
-        await fetch(`${API}/memory`, {
-          method: 'DELETE',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ memoryId })
-        });
-      } catch (e) {}
+    forgetBtn.addEventListener('click', () => {
+      if (!confirm('Erase everything Arron remembers? This cannot be undone.')) return;
       memoryId = newMemoryId();
       try {
         localStorage.setItem(ID_KEY, memoryId);
         localStorage.removeItem(CACHE_KEY);
+        localStorage.removeItem(STORY_KEY);
       } catch (e) {}
       messages = [];
       if (storyField) storyField.value = '';
       render();
-      showMemoryCode();
-      setStatus('Memory erased. A fresh start — Arron is still here. 💙');
+      if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
+      setStatus('Fresh start — Arron is still here. 💙');
     });
   }
 
   // ─── INIT ───
   loadCachedMessages();
   render();
-  showMemoryCode();
-  syncFromServer();
+  if (memoryCodeEl) memoryCodeEl.textContent = memoryId;
+  setStatus('Ready — say hello. 💙');
 
   window.ArronCompanion = { handleInput, offlineResponse };
 })();
