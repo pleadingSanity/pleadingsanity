@@ -171,6 +171,7 @@
     }
   </style>
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/social.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
@@ -216,6 +217,32 @@
       Real stories, cosmic drops, and uplifting content.<br>
       <strong>No algorithms. No doomscroll. Only sanity.</strong>
     </p>
+
+    <section id="community" class="social-main" aria-labelledby="community-heading" style="padding-top:0">
+      <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
+      <div id="community-guest" hidden>
+        <div class="panel center">
+          <p style="margin:0 0 1rem">Survivors sharing posts, stories and small wins — kindly moderated, no algorithms, no DMs.</p>
+          <div class="btn-row" style="justify-content:center">
+            <a class="sbtn primary" href="/signup.html?next=%2Ffeed.html%23community">Join the family</a>
+            <a class="sbtn ghost" href="/login.html?next=%2Ffeed.html%23community">Sign in</a>
+          </div>
+        </div>
+      </div>
+      <div id="community-member" hidden>
+        <div class="row" style="justify-content:space-between;margin-bottom:1rem">
+          <div class="tabs" role="group" aria-label="Show posts from" id="community-filters" style="margin:0">
+            <button type="button" data-filter="all" aria-pressed="true">🌍 Everyone</button>
+            <button type="button" data-filter="friends" aria-pressed="false">💙 Friends</button>
+            <button type="button" data-filter="mine" aria-pressed="false">👤 Mine</button>
+          </div>
+          <a class="sbtn primary" href="/post.html">✍️ Share</a>
+        </div>
+        <p id="community-tag" class="notice info" hidden></p>
+        <div id="community-posts" aria-live="polite"></div>
+        <div class="center"><button type="button" class="sbtn ghost" id="community-more" hidden>Load more</button></div>
+      </div>
+    </section>
 
     <div class="search-wrap" style="text-align:center;">
       <input id="feed-search" type="search" placeholder="Search topics: resilience, hope, healing, calm, bipolar..." aria-label="Search feed" />
@@ -438,5 +465,78 @@
   <script src="/js/video-feed.js" defer></script>
   <script src="/js/scrollFeed.js" defer></script>
   <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module">
+    import { api, esc, loadMe } from '/js/auth.js';
+    import { postHTML, wirePosts } from '/js/social.js';
+
+    const me = await loadMe();
+    const params = new URLSearchParams(location.search);
+    if (!me?.profile?.onboarded) {
+      document.getElementById('community-guest').hidden = false;
+      if (me) {
+        const link = document.querySelector('#community-guest .sbtn.primary');
+        link.href = '/onboarding.html?next=%2Ffeed.html%23community';
+        link.textContent = 'Finish your profile';
+        document.querySelector('#community-guest .sbtn.ghost').remove();
+      }
+    } else {
+      document.getElementById('community-member').hidden = false;
+      const list = document.getElementById('community-posts');
+      const more = document.getElementById('community-more');
+      const tagNote = document.getElementById('community-tag');
+      let filter = 'all';
+      let tag = params.get('tag') || '';
+      let nextBefore = null;
+      wirePosts(list);
+
+      async function load(append = false) {
+        if (!append) list.innerHTML = '<div class="skeleton"></div>';
+        more.hidden = true;
+        try {
+          const q = new URLSearchParams({ filter });
+          if (tag) q.set('tag', tag);
+          if (append && nextBefore) q.set('before', nextBefore);
+          const data = await api(`/api/posts?${q}`);
+          const html = data.posts.map((p) => postHTML(p)).join('');
+          if (append) list.insertAdjacentHTML('beforeend', html);
+          else list.innerHTML = html || `<p class="empty">${filter === 'friends' ? 'No posts from friends yet — <a href="/community.html">find your people</a>.' : 'Nothing here yet. <a href="/post.html">Be the first to share</a>. 💙'}</p>`;
+          nextBefore = data.nextBefore;
+          more.hidden = !nextBefore;
+        } catch (error) {
+          list.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
+        }
+      }
+
+      function showTag() {
+        tagNote.hidden = !tag;
+        tagNote.innerHTML = tag ? `Showing posts tagged <strong>#${esc(tag)}</strong> · <a href="/feed.html#community">show all</a>` : '';
+      }
+
+      document.getElementById('community-filters').addEventListener('click', (e) => {
+        const b = e.target.closest('[data-filter]');
+        if (!b) return;
+        filter = b.dataset.filter;
+        document.querySelectorAll('#community-filters [data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        load();
+      });
+      more.addEventListener('click', () => load(true));
+
+      const single = Number(params.get('post'));
+      if (single) {
+        try {
+          const { post } = await api(`/api/posts/${single}`);
+          list.innerHTML = postHTML(post, { full: true }) + '<p class="center"><a href="/feed.html#community">← All community posts</a></p>';
+          list.querySelector('[data-comments]')?.click();
+        } catch (error) {
+          list.innerHTML = `<p class="notice err">${esc(error.message)}</p><p class="center"><a href="/feed.html#community">← All community posts</a></p>`;
+        }
+      } else {
+        showTag();
+        load();
+      }
+      if (location.hash === '#community') document.getElementById('community').scrollIntoView();
+    }
+  </script>
 </body>
 </html>

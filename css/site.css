@@ -343,3 +343,49 @@
 }
 .ps-page .hero.ps-hero-stage { padding: 4rem 1.25rem 3rem; margin-top: 0.5rem; }
 .video-card .ps-video { margin: 0; border: 0; border-radius: 0; }
+
+/* ==========================================
+   ACCOUNT — sign in / avatar menu (js/auth.js)
+============================================ */
+.ps-nav .ps-account { position: relative; flex: none; display: flex; align-items: center; gap: 6px; }
+.ps-nav .ps-signin {
+  display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px;
+  border: 1px solid #00fff0; border-radius: 999px; background: rgba(0, 255, 240, 0.12);
+  color: #eafffd; font-weight: 700; font-size: 0.92rem; text-decoration: none; white-space: nowrap;
+}
+.ps-nav .ps-signin:hover, .ps-nav .ps-signin:focus-visible { background: #00fff0; color: #000103; }
+.ps-nav .ps-avatar-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px 0 4px;
+  border: 1px solid rgba(0, 255, 240, 0.35); border-radius: 999px; background: rgba(0, 255, 240, 0.06);
+  color: #eafffd; font: inherit; font-size: 0.92rem; font-weight: 600; cursor: pointer;
+}
+.ps-nav .ps-avatar-btn:hover, .ps-nav .ps-avatar-btn[aria-expanded="true"] { border-color: #ff00ff; }
+.ps-nav .ps-avatar-btn:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }
+.ps-nav .ps-avatar-btn .ps-badge { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: #ff00ff; color: #000103; font-size: 0.75rem; font-weight: 800; display: inline-flex; align-items: center; justify-content: center; }
+.ps-menu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 1100; min-width: 200px; padding: 6px;
+  background: #06101c; border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 14px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 255, 240, 0.1);
+}
+.ps-menu[hidden] { display: none; }
+.ps-menu a, .ps-menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%; min-height: 44px; padding: 0 12px;
+  border: 0; border-radius: 10px; background: none; color: #eafffd; font: inherit; font-size: 0.95rem;
+  text-align: left; text-decoration: none; cursor: pointer;
+}
+.ps-menu a:hover, .ps-menu a:focus-visible, .ps-menu button:hover, .ps-menu button:focus-visible { background: rgba(0, 255, 240, 0.1); color: #00fff0; outline: none; }
+.ps-menu hr { border: 0; border-top: 1px solid rgba(0, 255, 240, 0.15); margin: 4px 0; }
+@media (max-width: 960px) {
+  .ps-nav .ps-account { align-self: center; }
+  .ps-menu { right: 50%; transform: translateX(50%); }
+}
+
+.ps-nav .ps-avatar {
+  display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(0, 255, 240, 0.35), rgba(255, 0, 255, 0.25) 70%, #0d1b2a);
+  border: 1px solid rgba(0, 255, 240, 0.45); font-size: 17px; font-weight: 800; line-height: 1;
+}
+
+/* Toast */
+.ps-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 3000; max-width: min(92vw, 480px); padding: 12px 20px; border-radius: 14px; background: #06101c; border: 1px solid #00fff0; color: #eafffd; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); font-weight: 600; }
+
