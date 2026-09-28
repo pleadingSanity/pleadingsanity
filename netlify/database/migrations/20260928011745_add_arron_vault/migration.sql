@@ -1,0 +1,1 @@
+ALTER TABLE "arron_memories" ADD COLUMN "vault" jsonb DEFAULT '{}' NOT NULL;

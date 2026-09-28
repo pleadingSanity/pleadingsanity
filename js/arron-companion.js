@@ -622,7 +622,8 @@
 
     memoryId = newMemoryId();
     store.set(KEYS.id, memoryId);
-    [KEYS.messages, KEYS.story, KEYS.name, KEYS.mood, KEYS.moodLog, 'arron_story_unsynced'].forEach(store.remove);
+    [KEYS.messages, KEYS.story, KEYS.name, KEYS.mood, KEYS.moodLog, 'arron_story_unsynced',
+      'arron_app_messages', 'arron_app_vault', 'arron_app_vault_unsynced', 'arron_app_activity'].forEach(store.remove);
     try { sessionStorage.removeItem(KEYS.draft); } catch (e) {}
     messages = [];
     userName = '';

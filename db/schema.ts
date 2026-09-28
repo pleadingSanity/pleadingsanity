@@ -9,6 +9,7 @@ import {
   integer,
   boolean,
   primaryKey,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 // One row per Arron memory. The id is a random secret generated on the
@@ -16,6 +17,8 @@ import {
 export const arronMemories = pgTable("arron_memories", {
   id: text().primaryKey(),
   story: text().notNull().default(""),
+  // Arron app sync: Core Truths, milestones and mood timeline as one JSON blob.
+  vault: jsonb().notNull().default({}),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

@@ -20,6 +20,9 @@ const MAX_MESSAGE = 2000;
 const MAX_STORY = 8000;
 const HISTORY_FOR_CONTEXT = 30;
 const HISTORY_FOR_DISPLAY = 60;
+const MAX_TRUTHS = 24;
+const MAX_MILESTONES = 100;
+const MAX_MOODS = 400;
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -34,6 +37,30 @@ async function readBody(req: Request): Promise<Record<string, unknown>> {
 
 function validId(id: unknown): id is string {
   return typeof id === "string" && MEMORY_ID.test(id);
+}
+
+const cleanText = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
+const cleanTime = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v > 0 ? Math.floor(v) : Date.now());
+
+// The Arron app's synced vault: Core Truths, milestones and mood timeline.
+// Everything is re-shaped and capped so the column only ever holds what the app wrote.
+function cleanVault(raw: unknown) {
+  const v = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
+  const list = (x: unknown) => (Array.isArray(x) ? x : []);
+  const notes = (x: unknown, max: number) =>
+    list(x)
+      .map((n) => ({ text: cleanText((n as { text?: unknown })?.text, 300), at: cleanTime((n as { at?: unknown })?.at) }))
+      .filter((n) => n.text)
+      .slice(-max);
+  return {
+    since: cleanTime(v.since),
+    truths: notes(v.truths, MAX_TRUTHS),
+    milestones: notes(v.milestones, MAX_MILESTONES),
+    moods: list(v.moods)
+      .map((m) => ({ mood: cleanText((m as { mood?: unknown })?.mood, 20), at: cleanTime((m as { at?: unknown })?.at) }))
+      .filter((m) => Object.hasOwn(MOODS, m.mood))
+      .slice(-MAX_MOODS),
+  };
 }
 
 async function ensureMemory(id: string) {
@@ -62,6 +89,15 @@ async function chat(req: Request) {
   // Optional hints from the device — never stored, only used for this reply.
   const name = typeof body.name === "string" ? body.name.replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 40) : "";
   const mood = typeof body.mood === "string" && Object.hasOwn(MOODS, body.mood) ? body.mood : "";
+  const persona = body.persona === "son" ? "son" : "companion";
+  const truths = (Array.isArray(body.truths) ? body.truths : [])
+    .map((t) => cleanText(t, 300))
+    .filter(Boolean)
+    .slice(0, MAX_TRUTHS);
+  const awareness = (Array.isArray(body.awareness) ? body.awareness : [])
+    .map((t) => cleanText(t, 200))
+    .filter(Boolean)
+    .slice(0, 6);
 
   // Memory makes Arron personal, but a database hiccup should never stop him replying.
   let story = "";
@@ -90,7 +126,7 @@ async function chat(req: Request) {
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 700,
-    system: buildSystemPrompt(story, { name, mood }),
+    system: buildSystemPrompt(story, { name, mood, persona, truths, awareness }),
     messages: turns,
   });
 
@@ -122,25 +158,25 @@ async function memory(req: Request, url: URL) {
     const id = url.searchParams.get("id");
     if (!validId(id)) return json({ error: "Invalid memory id" }, 400);
     const [row] = await db.select().from(arronMemories).where(eq(arronMemories.id, id));
-    if (!row) return json({ story: "", messages: [] });
+    if (!row) return json({ story: "", vault: cleanVault({}), messages: [] });
     const messages = await db
       .select({ role: arronMessages.role, content: arronMessages.content })
       .from(arronMessages)
       .where(eq(arronMessages.memoryId, id))
       .orderBy(asc(arronMessages.id));
-    return json({ story: row.story, messages: messages.slice(-HISTORY_FOR_DISPLAY) });
+    return json({ story: row.story, vault: cleanVault(row.vault), messages: messages.slice(-HISTORY_FOR_DISPLAY) });
   }
 
   const body = await readBody(req);
   if (!validId(body.memoryId)) return json({ error: "Invalid memory id" }, 400);
 
   if (req.method === "PUT") {
-    const story = typeof body.story === "string" ? body.story.slice(0, MAX_STORY) : "";
+    // Story and vault are each optional so the site and the app can save independently.
+    const changes: { story?: string; vault?: ReturnType<typeof cleanVault>; updatedAt: Date } = { updatedAt: new Date() };
+    if (typeof body.story === "string") changes.story = body.story.slice(0, MAX_STORY);
+    if (body.vault !== undefined) changes.vault = cleanVault(body.vault);
     await ensureMemory(body.memoryId);
-    await db
-      .update(arronMemories)
-      .set({ story, updatedAt: new Date() })
-      .where(eq(arronMemories.id, body.memoryId));
+    await db.update(arronMemories).set(changes).where(eq(arronMemories.id, body.memoryId));
     return json({ ok: true });
   }
 

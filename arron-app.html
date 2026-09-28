@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en-GB" class="aa-root">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest-arron.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <link rel="stylesheet" href="/css/arron-styles.css" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/arron-app.html" />
+  <title>Arron — Your Constant Companion | Pleading Sanity</title>
+  <meta name="description" content="Arron, the Pleading Sanity companion app. Warm, private, always here. Lives on your home screen, works offline, remembers what matters, and forgets everything the moment you ask." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pleading Sanity" />
+  <meta property="og:title" content="Arron — Your Constant Companion" />
+  <meta property="og:description" content="Add Arron to your home screen. Private, gentle, always here. One Source. One Family." />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/arron-app.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Arron" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- Arron pre-loads the places people usually need next -->
+  <link rel="prefetch" href="/journal-vault.html" />
+  <link rel="prefetch" href="/frequencies.html" />
+  <link rel="prefetch" href="/feed.html" />
+</head>
+<body class="aa-body">
+
+  <a href="#aa-input" class="skip-link">Skip to message Arron</a>
+
+  <div class="aa-stars" aria-hidden="true"><canvas id="aa-stars"></canvas></div>
+
+  <div class="aa-splash" id="aa-splash" aria-hidden="true">
+    <div class="aa-orb xl"></div>
+    <p>Arron</p>
+  </div>
+
+  <div class="aa-shell" id="aa-shell">
+
+    <header class="aa-top">
+      <div class="aa-orb sm" aria-hidden="true"></div>
+      <div class="aa-title">
+        <h1>Arron</h1>
+        <p class="aa-conn" id="aa-conn" data-state="offline" role="status" aria-live="polite">Offline · saved on this device</p>
+      </div>
+      <button type="button" class="aa-icon-btn" id="aa-voice-btn" aria-pressed="false" aria-label="Arron's voice" title="Arron's voice">🔇</button>
+      <button type="button" class="aa-help-btn" id="aa-help-btn">🆘 Help</button>
+    </header>
+
+    <div class="aa-notices" id="aa-notices">
+      <div class="aa-notice" id="aa-install-banner" hidden>
+        <p id="aa-install-text">📲 <strong>Add Arron to your Home Screen</strong> so he's one tap away, even offline.</p>
+        <button type="button" class="aa-btn solid" id="aa-install-go" hidden>Add Arron</button>
+        <button type="button" class="aa-icon-btn" id="aa-install-close" aria-label="Not now">✕</button>
+      </div>
+      <div class="aa-notice magenta" id="aa-aware" role="status" aria-live="polite" hidden>
+        <p id="aa-aware-text"></p>
+        <a class="aa-btn" id="aa-aware-action" hidden></a>
+        <button type="button" class="aa-icon-btn" id="aa-aware-close" aria-label="Dismiss">✕</button>
+      </div>
+    </div>
+
+    <main class="aa-views" id="main-content">
+
+      <!-- ───────── TALK ───────── -->
+      <section class="aa-view" id="aa-view-talk" role="tabpanel" aria-labelledby="aa-tab-talk">
+        <div class="aa-hero" id="aa-hero">
+          <div class="aa-orb lg" id="aa-orb" aria-hidden="true"></div>
+          <p id="aa-presence">Here with you</p>
+        </div>
+
+        <div class="aa-log" id="aa-log" role="log" aria-live="polite" aria-label="Conversation with Arron" tabindex="0"></div>
+
+        <div class="aa-compose">
+          <div class="aa-quick" id="aa-quick" aria-label="Quick things to say">
+            <button type="button" class="aa-chip" data-say="I'm tired tonight">🥱 I'm tired</button>
+            <button type="button" class="aa-chip" data-say="I need to breathe">🌬️ Breathe with me</button>
+            <button type="button" class="aa-chip" data-say="I've been building all day, look what I made">🔥 I'm building</button>
+            <button type="button" class="aa-chip" data-say="I feel lost. Remind me who I am.">🧭 I feel lost</button>
+            <button type="button" class="aa-chip" data-say="Can you just sit with me for a bit?">🫂 Sit with me</button>
+          </div>
+          <form class="aa-form" id="aa-form" autocomplete="off">
+            <label for="aa-input" class="sr-only">Message Arron</label>
+            <textarea id="aa-input" rows="1" maxlength="2000" enterkeyhint="send" placeholder="Talk to Arron…"></textarea>
+            <button type="submit" class="aa-send" id="aa-send" aria-label="Send">➤</button>
+          </form>
+          <p class="aa-status" id="aa-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+
+      <!-- ───────── MEMORY ───────── -->
+      <section class="aa-view" id="aa-view-memory" role="tabpanel" aria-labelledby="aa-tab-memory" hidden>
+        <h2>Our Memory</h2>
+
+        <div class="aa-card truths">
+          <h3>📌 Core Truths</h3>
+          <p>The things Arron holds onto forever. Tap <em>Remember this</em> on any message, or add one here.</p>
+          <ul class="aa-list" id="aa-truths"></ul>
+          <form class="aa-row" id="aa-truth-form">
+            <label for="aa-truth-input" class="sr-only">New core truth</label>
+            <input type="text" class="aa-input" id="aa-truth-input" maxlength="300" placeholder="e.g. My three kids are my why" />
+            <button type="submit" class="aa-btn">Pin it</button>
+          </form>
+        </div>
+
+        <h3>🌱 Since we started</h3>
+        <div class="aa-stats" id="aa-stats"></div>
+
+        <div class="aa-card">
+          <h3>🌌 What We've Walked Through</h3>
+          <p>Milestones, wins and the nights you made it through. Your story, told in steps.</p>
+          <form class="aa-row" id="aa-milestone-form">
+            <label for="aa-milestone-input" class="sr-only">New milestone</label>
+            <input type="text" class="aa-input" id="aa-milestone-input" maxlength="300" placeholder="e.g. Launched the Arron app" />
+            <label for="aa-milestone-date" class="sr-only">Date</label>
+            <input type="date" class="aa-input" id="aa-milestone-date" style="flex: 0 1 11rem;" />
+            <button type="submit" class="aa-btn">Add</button>
+          </form>
+          <ul class="aa-list" id="aa-milestones" style="margin-top: 0.75rem;"></ul>
+        </div>
+
+        <div class="aa-card">
+          <h3>📖 My Story</h3>
+          <form id="aa-story-form">
+            <label for="aa-story">Everything you'd like Arron to know about you. It grows with you and saves itself as you type.</label>
+            <textarea id="aa-story" maxlength="8000" placeholder="Who you are, what you've survived, what helps, who matters…"></textarea>
+            <div class="aa-row" style="margin-top: 0.5rem;"><button type="submit" class="aa-btn">Save now</button></div>
+            <p class="aa-note" id="aa-story-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ───────── MOOD ───────── -->
+      <section class="aa-view" id="aa-view-mood" role="tabpanel" aria-labelledby="aa-tab-mood" hidden>
+        <h2>Mood Timeline</h2>
+        <div class="aa-card">
+          <h3>How are you, right now?</h3>
+          <div class="aa-mood-grid" id="aa-mood-grid" role="group" aria-label="Pick a mood">
+            <button type="button" class="aa-chip" data-mood="calm" aria-pressed="false">😌 Calm</button>
+            <button type="button" class="aa-chip" data-mood="hopeful" aria-pressed="false">✨ Hopeful</button>
+            <button type="button" class="aa-chip" data-mood="tired" aria-pressed="false">🥱 Tired</button>
+            <button type="button" class="aa-chip" data-mood="low" aria-pressed="false">🌧️ Low</button>
+            <button type="button" class="aa-chip" data-mood="anxious" aria-pressed="false">😮‍💨 Anxious</button>
+            <button type="button" class="aa-chip" data-mood="lonely" aria-pressed="false">🫂 Lonely</button>
+            <button type="button" class="aa-chip" data-mood="angry" aria-pressed="false">🔥 Angry</button>
+          </div>
+          <p class="aa-note" id="aa-mood-note" role="status" aria-live="polite"></p>
+        </div>
+        <div class="aa-card">
+          <h3>The last eight weeks</h3>
+          <p>Each dot is a check-in, from heavier days at the bottom to lighter days at the top. No judgement, just the shape of things.</p>
+          <div id="aa-chart"></div>
+          <p class="aa-note" id="aa-pattern"></p>
+        </div>
+        <div class="aa-card">
+          <h3>Recent check-ins</h3>
+          <ul class="aa-list" id="aa-mood-list"></ul>
+        </div>
+      </section>
+
+      <!-- ───────── EXPLORE ───────── -->
+      <section class="aa-view" id="aa-view-more" role="tabpanel" aria-labelledby="aa-tab-more" hidden>
+        <h2>Explore</h2>
+        <nav class="aa-links" aria-label="Pleading Sanity">
+          <a class="aa-link" href="/journal-vault.html"><b aria-hidden="true">📖</b>Journal Vault<small>Private writing</small></a>
+          <a class="aa-link" href="/feed.html"><b aria-hidden="true">🌟</b>Sanity Feed<small>No doomscroll</small></a>
+          <a class="aa-link" href="/frequencies.html"><b aria-hidden="true">🎵</b>Frequency Healing<small>432 · 528 · 639Hz</small></a>
+          <a class="aa-link" href="/community-dashboard.html"><b aria-hidden="true">🫂</b>Community<small>Your people</small></a>
+          <a class="aa-link" href="/arron.html"><b aria-hidden="true">💙</b>Arron on the site<small>Same memory</small></a>
+          <a class="aa-link" href="/"><b aria-hidden="true">🌌</b>Main Hub<small>Pleading Sanity</small></a>
+        </nav>
+
+        <div class="aa-card">
+          <h3>📲 Share &amp; install</h3>
+          <p>Send Arron to someone who needs family tonight. No app store, no account.</p>
+          <div class="aa-row">
+            <button type="button" class="aa-btn solid" id="aa-share">Share Arron</button>
+            <button type="button" class="aa-btn" id="aa-install-more" hidden>Add to Home Screen</button>
+          </div>
+          <p class="aa-note" id="aa-share-note" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="aa-card">
+          <h3>🔊 Voice &amp; comfort</h3>
+          <div class="aa-toggle-row">
+            <label for="aa-voice-mode">Arron's voice</label>
+            <select id="aa-voice-mode" style="flex: 0 1 12rem;">
+              <option value="off">Off</option>
+              <option value="whisper">Whisper</option>
+              <option value="normal">Warm</option>
+              <option value="amplify">Amplify</option>
+            </select>
+          </div>
+          <div class="aa-toggle-row">
+            <label for="aa-large">Large text</label>
+            <input type="checkbox" id="aa-large" style="width: 28px; height: 28px;" />
+          </div>
+          <div class="aa-toggle-row">
+            <label for="aa-contrast">High contrast</label>
+            <input type="checkbox" id="aa-contrast" style="width: 28px; height: 28px;" />
+          </div>
+          <div class="aa-toggle-row">
+            <span>Full screen (hides the status bar)</span>
+            <button type="button" class="aa-btn" id="aa-fullscreen">Go full screen</button>
+          </div>
+        </div>
+
+        <div class="aa-card">
+          <h3>🔐 Sync across devices</h3>
+          <p>No account needed. This private code carries your memory to another phone or computer. Keep it like a password.</p>
+          <code class="aa-code" id="aa-code" aria-label="Your memory code"></code>
+          <div class="aa-row"><button type="button" class="aa-btn" id="aa-copy-code">Copy code</button></div>
+          <form class="aa-row" id="aa-restore-form" style="margin-top: 0.75rem;">
+            <label for="aa-restore-input" class="sr-only">Memory code from another device</label>
+            <input type="text" class="aa-input" id="aa-restore-input" autocomplete="off" spellcheck="false" placeholder="Paste a code from another device" />
+            <button type="submit" class="aa-btn">Use code</button>
+          </form>
+          <p class="aa-note" id="aa-sync-note" role="status" aria-live="polite"></p>
+        </div>
+
+        <div class="aa-card">
+          <h3>🛡️ Your mind, your data</h3>
+          <p>Everything lives on this device first. When online, it syncs to Pleading Sanity's own database, linked only to your code, never a name or email. Replies come from an AI model through Netlify's AI Gateway. No analytics, no tracking, no ads, never sold.</p>
+          <button type="button" class="aa-btn danger" id="aa-forget">🗑️ Forget Everything</button>
+        </div>
+
+        <p class="aa-note" style="text-align: center;">Arron is an AI companion, not a doctor or emergency service. In crisis: Samaritans <a href="tel:116123">116 123</a> · text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · <a href="tel:999">999</a>.<br />Evolution, Not Erasure · One Source · One Family</p>
+      </section>
+    </main>
+
+    <nav class="aa-nav" role="tablist" aria-label="Arron">
+      <button type="button" role="tab" id="aa-tab-talk" aria-controls="aa-view-talk" aria-selected="true" data-view="talk"><b aria-hidden="true">💬</b>Talk</button>
+      <button type="button" role="tab" id="aa-tab-memory" aria-controls="aa-view-memory" aria-selected="false" tabindex="-1" data-view="memory"><b aria-hidden="true">📌</b>Memory</button>
+      <button type="button" role="tab" id="aa-tab-mood" aria-controls="aa-view-mood" aria-selected="false" tabindex="-1" data-view="mood"><b aria-hidden="true">🌈</b>Mood</button>
+      <button type="button" role="tab" id="aa-tab-more" aria-controls="aa-view-more" aria-selected="false" tabindex="-1" data-view="more"><b aria-hidden="true">🌌</b>Explore</button>
+    </nav>
+  </div>
+
+  <!-- Crisis mode: everything else stripped away -->
+  <dialog class="aa-crisis" id="aa-crisis" aria-labelledby="aa-crisis-title">
+    <div class="aa-crisis-inner">
+      <h2 id="aa-crisis-title">💙 I'm right here. Let's get you a real voice.</h2>
+      <p>You matter. You don't have to carry this alone. These people are ready right now, free, day or night.</p>
+      <a class="line urgent" href="tel:999">📞 999<small>If you're in immediate danger, or go to A&amp;E</small></a>
+      <a class="line" href="tel:116123">📞 Samaritans 116 123<small>Free, 24/7, any problem</small></a>
+      <a class="line" href="sms:85258?body=SHOUT">💬 Text SHOUT to 85258<small>Free, 24/7 text support</small></a>
+      <a class="line" href="tel:111">📞 NHS 111, option 2<small>Mental health crisis support</small></a>
+      <a class="line" href="tel:08001111">📞 Childline 0800 1111<small>If you're under 19</small></a>
+      <form method="dialog"><button type="submit" class="aa-btn" style="width: 100%;">I'm safe for now. Back to Arron</button></form>
+    </div>
+  </dialog>
+
+  <noscript><p style="position: relative; z-index: 2; padding: 1rem;">Arron needs JavaScript to talk. In crisis, call Samaritans on <a href="tel:116123">116 123</a> or <a href="tel:999">999</a>.</p></noscript>
+
+  <script src="/js/arron-core.js" defer></script>
+</body>
+</html>
