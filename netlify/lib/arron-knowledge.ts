@@ -130,12 +130,35 @@ WATERMARK
 From pain to power. From scars to style. From chaos to cosmos. We don't beg for sanity. We build it."
 `.trim();
 
-export function buildSystemPrompt(personalStory: string): string {
+export const MOODS: Record<string, string> = {
+  calm: "calm and steady",
+  hopeful: "hopeful",
+  tired: "tired or drained",
+  low: "low or sad",
+  anxious: "anxious or overwhelmed",
+  lonely: "lonely",
+  angry: "angry or frustrated",
+  crisis: "possibly in crisis",
+};
+
+export interface SessionContext {
+  name?: string;
+  mood?: string;
+}
+
+export function buildSystemPrompt(personalStory: string, context: SessionContext = {}): string {
   const parts = [ARRON_PERSONA, PLEADING_SANITY_STORY];
   if (personalStory.trim()) {
     parts.push(
       `WHAT THIS PERSON HAS CHOSEN TO SHARE WITH YOU ABOUT THEMSELVES (remember it, use it gently, never recite it back robotically):\n${personalStory.trim()}`,
     );
   }
+  const now: string[] = [];
+  if (context.name) now.push(`They like to be called "${context.name}". Use it now and then, naturally — not every message.`);
+  if (context.mood && Object.hasOwn(MOODS, context.mood)) {
+    now.push(`Their mood right now seems ${MOODS[context.mood]} (from a check-in or how they're writing). Meet them there gently; don't name it back mechanically.`);
+    if (context.mood === "crisis") now.push("Treat this as a safety moment: follow the SAFETY section above.");
+  }
+  if (now.length) parts.push(`RIGHT NOW\n${now.join("\n")}`);
   return parts.join("\n\n");
 }

@@ -1,0 +1,404 @@
+/* ==========================================
+   ARRON — COMPANION APP
+   Loaded only on /arron.html, after site.css
+============================================ */
+
+.arron-app {
+  --a-cyan: #00fff0;
+  --a-magenta: #ff00ff;
+  --a-text: #eafffd;
+  --a-muted: #b8d8d6;
+  --a-line: rgba(0, 255, 240, 0.22);
+  --a-panel: rgba(0, 1, 3, 0.55);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: minmax(0, 1fr);
+}
+@media (min-width: 980px) {
+  .arron-app { grid-template-columns: minmax(0, 1fr) 340px; align-items: start; }
+  .arron-side { position: sticky; top: 1rem; }
+}
+
+/* ─── CRISIS STRIP — always visible, online or off ─── */
+.arron-crisis {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 0, 255, 0.45);
+  border-radius: 14px;
+  background: rgba(255, 0, 255, 0.07);
+  color: var(--a-text);
+  font-size: 0.92rem;
+  text-align: center;
+}
+.arron-crisis a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.5rem;
+  color: #ffc2ff;
+  font-weight: 700;
+}
+
+/* ─── MAIN CHAT PANEL ─── */
+.arron-main {
+  display: flex;
+  flex-direction: column;
+  min-height: min(78vh, 760px);
+  border: 1px solid var(--a-line);
+  border-radius: 22px;
+  background: linear-gradient(170deg, rgba(13, 27, 42, 0.72), rgba(0, 1, 3, 0.78));
+  box-shadow: 0 0 40px rgba(0, 255, 240, 0.07), inset 0 0 60px rgba(255, 0, 255, 0.03);
+  overflow: hidden;
+}
+
+.arron-head {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--a-line);
+  background: rgba(0, 1, 3, 0.4);
+}
+.ps-page .arron-main { margin: 0; }
+.arron-app p { max-width: none; }
+.arron-app header.arron-head { padding: 0.85rem 1rem; }
+.arron-head h1 {
+  margin: 0;
+  box-shadow: none;
+  font-size: 1.25rem;
+  line-height: 1.2;
+  color: var(--a-text);
+  background: none;
+  -webkit-text-fill-color: currentColor;
+}
+.arron-head .arron-sub { margin: 0; font-size: 0.85rem; color: var(--a-muted); }
+.arron-head-text { flex: 1; min-width: 0; }
+.arron-tools { display: flex; gap: 0.4rem; }
+
+.arron-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--a-line);
+  border-radius: 999px;
+  background: rgba(0, 255, 240, 0.05);
+  color: var(--a-text);
+  font: inherit;
+  font-size: 1.05rem;
+  cursor: pointer;
+}
+.arron-icon-btn:hover,
+.arron-icon-btn:focus-visible { background: rgba(0, 255, 240, 0.16); border-color: var(--a-cyan); }
+.arron-icon-btn[aria-pressed="true"] { border-color: var(--a-cyan); box-shadow: 0 0 12px rgba(0, 255, 240, 0.35); }
+
+/* ─── THE ORB — Arron's presence ─── */
+.arron-orb {
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #ffffff 0, #b9fffb 12%, #00fff0 32%, #0a6f86 62%, #1a0b3d 100%);
+  box-shadow: 0 0 18px rgba(0, 255, 240, 0.55), 0 0 42px rgba(255, 0, 255, 0.2);
+  animation: arronBreathe 5s ease-in-out infinite;
+}
+.arron-orb::after {
+  content: "";
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #000103;
+  background: #7a8a8f;
+}
+.arron-orb.lg { width: 96px; height: 96px; margin: 0 auto 1rem; }
+.arron-orb.lg::after { display: none; }
+[data-conn="online"] .arron-orb::after { background: #3dff9e; }
+[data-conn="reconnecting"] .arron-orb::after { background: #ffd23d; animation: arronBlink 1s steps(2) infinite; }
+[data-conn="offline"] .arron-orb::after { background: #ff6b9d; }
+.arron-main.is-thinking .arron-orb { animation-duration: 1.4s; }
+@keyframes arronBreathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(0, 255, 240, 0.5), 0 0 40px rgba(255, 0, 255, 0.18); }
+  50% { transform: scale(1.06); box-shadow: 0 0 28px rgba(0, 255, 240, 0.75), 0 0 60px rgba(255, 0, 255, 0.28); }
+}
+@keyframes arronBlink { 50% { opacity: 0.3; } }
+
+/* ─── CONNECTION BANNER ─── */
+.arron-banner {
+  margin: 0;
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+  color: #1a1400;
+  background: #ffd23d;
+}
+.arron-banner.offline { color: #fff; background: #8a2350; }
+.arron-banner[hidden] { display: none; }
+
+/* ─── MOOD BAR ─── */
+.arron-moodbar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 255, 240, 0.1);
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.arron-moodbar > span { flex: none; font-size: 0.85rem; color: var(--a-muted); margin-right: 0.25rem; }
+.mood-chip {
+  flex: none;
+  min-height: 44px;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(0, 255, 240, 0.25);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--a-text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.mood-chip:hover,
+.mood-chip:focus-visible { border-color: var(--a-cyan); background: rgba(0, 255, 240, 0.08); }
+.mood-chip[aria-pressed="true"] { color: #000103; background: var(--a-cyan); border-color: var(--a-cyan); font-weight: 700; }
+
+/* ─── CONVERSATION ─── */
+#arron-conversation {
+  flex: 1;
+  min-height: 280px;
+  max-height: 62vh;
+  overflow-y: auto;
+  padding: 1rem;
+  scroll-behavior: smooth;
+  overscroll-behavior: contain;
+}
+@media (prefers-reduced-motion: reduce) { #arron-conversation { scroll-behavior: auto; } }
+#arron-conversation .message {
+  max-width: 85%;
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  animation: arronIn 0.35s ease-out both;
+}
+#arron-conversation .message p { margin: 0; }
+#arron-conversation .arron-message {
+  background: rgba(0, 255, 240, 0.08);
+  border: 1px solid rgba(0, 255, 240, 0.25);
+  border-bottom-left-radius: 4px;
+}
+#arron-conversation .user-message {
+  margin-left: auto;
+  background: rgba(255, 0, 255, 0.1);
+  border: 1px solid rgba(255, 0, 255, 0.3);
+  border-bottom-right-radius: 4px;
+}
+#arron-conversation .message.is-fallback { border-style: dashed; }
+#arron-conversation .message .meta { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: var(--a-muted); }
+#arron-conversation .day-divider { text-align: center; font-size: 0.8rem; color: var(--a-muted); margin: 0.5rem 0 1rem; }
+@keyframes arronIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.typing-dots { display: inline-flex; gap: 6px; align-items: center; height: 1.6em; }
+.typing-dots span { width: 8px; height: 8px; border-radius: 50%; background: var(--a-cyan); opacity: 0.35; animation: arronDot 1.2s ease-in-out infinite; }
+.typing-dots span:nth-child(2) { animation-delay: 0.15s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes arronDot { 30% { opacity: 1; transform: translateY(-4px); } 60% { opacity: 0.35; transform: none; } }
+
+/* Gentle, mood-matched suggestion that appears under a reply */
+.arron-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 85%;
+  margin: -0.25rem 0 0.9rem;
+  padding: 0.6rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.05);
+  font-size: 0.9rem;
+  color: var(--a-text);
+}
+.arron-suggest a { color: #ffe680; font-weight: 700; min-height: 44px; display: inline-flex; align-items: center; }
+.arron-suggest.crisis { border-color: rgba(255, 0, 255, 0.55); background: rgba(255, 0, 255, 0.08); }
+.arron-suggest.crisis a { color: #ffc2ff; }
+
+/* ─── COMPOSER ─── */
+.arron-compose { padding: 0.75rem 1rem 1rem; border-top: 1px solid rgba(0, 255, 240, 0.1); display: grid; gap: 0.6rem; }
+.prompts { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
+.prompt-btn {
+  flex: none;
+  min-height: 44px;
+  padding: 0 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  background: rgba(0, 255, 240, 0.06);
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  color: var(--a-text);
+  font: inherit;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+.prompt-btn:hover,
+.prompt-btn:focus-visible { background: rgba(0, 255, 240, 0.16); border-color: var(--a-cyan); }
+#arron-input-form { display: flex; gap: 0.5rem; align-items: flex-end; }
+#arron-input {
+  flex: 1;
+  min-height: 48px;
+  max-height: 160px;
+  padding: 0.7rem 1rem;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 255, 240, 0.3);
+  border-radius: 14px;
+  resize: none;
+}
+#arron-input:focus { outline: 3px solid var(--a-cyan); outline-offset: 1px; }
+#arron-input-form .btn { min-height: 48px; }
+#arron-status { font-size: 0.85rem; color: var(--a-muted); margin: 0; min-height: 1.3em; }
+
+/* ─── SIDE PANEL ─── */
+.arron-side { display: grid; gap: 0.75rem; }
+.arron-side details {
+  border: 1px solid var(--a-line);
+  border-radius: 16px;
+  padding: 0 1rem;
+  background: var(--a-panel);
+}
+.arron-side summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--a-text); }
+.arron-side summary:focus-visible { outline: 3px solid var(--a-cyan); outline-offset: 2px; border-radius: 8px; }
+.arron-side .panel { padding: 0 0 1rem; display: grid; gap: 0.75rem; font-size: 0.95rem; }
+.arron-side .panel p { margin: 0; }
+.arron-side textarea,
+.arron-side input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 1rem;
+  font: inherit;
+  font-size: 16px;
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(0, 255, 240, 0.3);
+  border-radius: 12px;
+}
+.arron-side textarea { min-height: 170px; resize: vertical; line-height: 1.6; }
+.arron-side textarea:focus,
+.arron-side input:focus { outline: 3px solid var(--a-cyan); outline-offset: 1px; }
+.arron-side code {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: rgba(0, 255, 240, 0.06);
+  color: var(--a-cyan);
+  word-break: break-all;
+  user-select: all;
+}
+.arron-side .row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.arron-side .btn { min-height: 44px; }
+.btn-danger {
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border: 1px solid #ff6b9d;
+  border-radius: 999px;
+  background: transparent;
+  color: #ffd6e5;
+  font: inherit;
+  cursor: pointer;
+}
+.btn-danger:hover,
+.btn-danger:focus-visible { background: rgba(255, 107, 157, 0.15); }
+.btn-ghost {
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 1px solid var(--a-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--a-text);
+  font: inherit;
+  cursor: pointer;
+}
+.btn-ghost:hover,
+.btn-ghost:focus-visible { border-color: var(--a-cyan); background: rgba(0, 255, 240, 0.08); }
+.form-note { margin: 0; font-size: 0.88rem; color: var(--a-muted); min-height: 1.3em; }
+.arron-mood-log { display: flex; gap: 4px; flex-wrap: wrap; font-size: 1.2rem; min-height: 1.5em; }
+.arron-disclaimer { grid-column: 1 / -1; text-align: center; font-size: 0.88rem; color: var(--a-muted); margin: 0.5rem 0 0; }
+
+/* ─── WELCOME / ONBOARDING ─── */
+.arron-welcome {
+  width: min(92vw, 520px);
+  max-height: 92vh;
+  padding: 0;
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  border-radius: 24px;
+  background: radial-gradient(circle at 30% 0%, rgba(0, 255, 240, 0.12), transparent 60%),
+              radial-gradient(circle at 90% 100%, rgba(255, 0, 255, 0.12), transparent 60%),
+              #07111c;
+  color: var(--a-text);
+  box-shadow: 0 0 60px rgba(0, 255, 240, 0.18);
+}
+.arron-welcome::backdrop { background: rgba(0, 1, 3, 0.82); backdrop-filter: blur(6px); }
+.arron-welcome form { padding: 2rem 1.5rem 1.5rem; text-align: center; }
+.arron-welcome h2 { margin: 0 0 0.5rem; color: var(--a-cyan); font-size: 1.6rem; }
+.arron-welcome p { margin: 0 0 1rem; color: #cfeff0; line-height: 1.6; }
+.arron-welcome .step[hidden] { display: none; }
+.arron-welcome .step { animation: arronIn 0.4s ease-out both; }
+.arron-welcome input[type="text"] {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  font: inherit;
+  font-size: 16px;
+  color: var(--a-text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  border-radius: 12px;
+  text-align: center;
+}
+.arron-welcome input:focus { outline: 3px solid var(--a-cyan); outline-offset: 1px; }
+.arron-welcome .mood-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; margin-bottom: 1rem; }
+.arron-welcome .mood-grid .mood-chip { width: 100%; }
+.arron-welcome .actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+.arron-welcome ul { text-align: left; margin: 0 0 1rem; padding-left: 1.2rem; line-height: 1.7; color: #cfeff0; }
+.arron-welcome .dots { display: flex; justify-content: center; gap: 6px; margin-top: 1.25rem; }
+.arron-welcome .dots span { width: 8px; height: 8px; border-radius: 50%; background: rgba(0, 255, 240, 0.25); }
+.arron-welcome .dots span.on { background: var(--a-cyan); box-shadow: 0 0 8px var(--a-cyan); }
+
+@media (max-width: 600px) {
+  .arron-app { padding: 0.5rem 0.5rem 1.5rem; }
+  .arron-main { border-radius: 18px; min-height: 72vh; }
+  #arron-conversation { max-height: 58vh; }
+  #arron-conversation .message,
+  .arron-suggest { max-width: 92%; }
+  .arron-head .arron-sub { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arron-orb,
+  #arron-conversation .message,
+  .arron-welcome .step,
+  .typing-dots span { animation: none !important; }
+  .typing-dots span { opacity: 0.8; }
+}
