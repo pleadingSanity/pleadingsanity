@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--
+PLEADING SANITY — RISE FROM MADNESS
+Survivor community · Safe, moderated, kind.
+Evolution, Not Erasure. One Source. One Family.
+-->
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/post.html" />
+  <title>Share Your Voice — Pleading Sanity | Rise From Madness</title>
+  <meta name="description" content="Write a post, tell your story, share a video or an image with the Pleading Sanity community." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="color-scheme" content="dark" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pleading Sanity" />
+  <meta property="og:title" content="Share Your Voice — Pleading Sanity" />
+  <meta property="og:description" content="Write a post, tell your story, share a video or an image with the Pleading Sanity community." />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/post.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/social.css" />
+</head>
+<body class="ps-page">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+<nav class="ps-nav" aria-label="Main navigation">
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/logo.svg" alt="" width="34" height="34" /><span>Pleading Sanity</span></a>
+    <div class="ps-links">
+      <a href="/">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/sanityhub.html">Hub</a>
+      <a href="/arron.html">Arron</a>
+      <a href="/journal-vault.html">Journal</a>
+      <a href="/games.html">Games</a>
+      <a href="/frequencies.html">Hz</a>
+      <a href="/feed.html">Feed</a>
+      <a href="/quote-wall.html">Quotes</a>
+      <a href="/videos.html">Videos</a>
+      <a href="/kids.html">Kids</a>
+      <a href="/shop.html">Shop</a>
+      <a href="/crisis.html" class="ps-crisis">Get Help</a>
+    </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
+  </div>
+</nav>
+
+  <main id="main-content" class="social-main">
+    <header class="social-head fade-in">
+      <h1>Share Your Voice</h1>
+      <p>Messy is welcome. Low days are welcome. Every post is checked for kindness before it goes live.</p>
+    </header>
+
+    <form class="panel" id="composer" novalidate>
+      <div id="form-msg" aria-live="polite"></div>
+
+      <fieldset class="field">
+        <legend>What are you sharing?</legend>
+        <div class="kind-tabs" id="kinds">
+          <button type="button" data-kind="text" aria-pressed="true">💬 Post</button>
+          <button type="button" data-kind="story" aria-pressed="false">📖 Story</button>
+          <button type="button" data-kind="video" aria-pressed="false">🎬 Video</button>
+          <button type="button" data-kind="image" aria-pressed="false">🖼️ Image</button>
+        </div>
+      </fieldset>
+
+      <label class="field"><span>Title <small style="display:inline">(optional)</small></span>
+        <input type="text" name="title" maxlength="120" placeholder="A few words that sum it up" />
+      </label>
+
+      <label class="field" id="video-field" hidden><span>YouTube link</span>
+        <input type="url" name="videoUrl" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" inputmode="url" />
+        <small>Plays muted in the feed. Only YouTube links for now.</small>
+      </label>
+
+      <div class="field" id="image-field" hidden>
+        <label for="image"><span>Image</span></label>
+        <input type="file" id="image" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <small>JPEG, PNG, WebP or GIF up to 5 MB. Don't include faces of others without consent, or anything that shows where you live.</small>
+        <img id="preview" class="preview-img" alt="Preview of your chosen image" hidden />
+      </div>
+
+      <label class="field"><span id="body-label">What's on your mind?</span>
+        <textarea name="body" id="body" maxlength="5000" rows="7" placeholder="Say it however it comes out…"></textarea>
+        <small id="body-count">0 / 5000</small>
+      </label>
+
+      <section class="ai-box" aria-labelledby="ai-title">
+        <h2 id="ai-title" style="margin:0 0 .4rem;font-size:1.1rem">✨ Help me write</h2>
+        <p class="muted" style="margin:0 0 .8rem">Not sure how to say it? The helper gently tidies your words, keeps your voice, and suggests a title, tags and mood. You choose what to keep.</p>
+        <button type="button" class="sbtn ghost" id="ai-btn">✨ Help me write</button>
+        <div id="ai-out" aria-live="polite"></div>
+      </section>
+
+      <fieldset class="field">
+        <legend>How are you feeling? *</legend>
+        <div class="picker" id="moods"></div>
+      </fieldset>
+
+      <fieldset class="field">
+        <legend>Tags</legend>
+        <div class="picker" id="tag-chips"></div>
+        <div class="row" style="margin-top:10px">
+          <label class="sr-only" for="tag-input">Add your own tag</label>
+          <input class="input" id="tag-input" maxlength="30" placeholder="Add your own tag" style="flex:1;min-width:160px" />
+          <button type="button" class="sbtn small ghost" id="tag-add">Add</button>
+        </div>
+        <small>Up to 8 tags.</small>
+      </fieldset>
+
+      <div class="row" style="align-items:flex-end;margin-bottom:1rem">
+        <label class="field" style="margin:0;flex:1;min-width:200px"><span>Who can see this?</span>
+          <select name="visibility" id="visibility">
+            <option value="public">🌍 Everyone signed in</option>
+            <option value="friends">💙 Friends only</option>
+          </select>
+        </label>
+        <label class="row" style="min-height:44px;flex:1;min-width:200px">
+          <input type="checkbox" name="contentWarning" id="cw" style="width:22px;height:22px" />
+          <span>⚠️ Add a content warning (heavy topics)</span>
+        </label>
+      </div>
+
+      <div class="btn-row">
+        <button type="submit" class="sbtn primary" id="submit">Share 💙</button>
+        <a class="sbtn ghost" href="/feed.html#community">Cancel</a>
+      </div>
+      <p class="muted" style="margin-top:1rem;font-size:.9rem">🛡️ Posts that are cruel, target others or describe methods of self-harm won't be published. Your pain is always allowed here.</p>
+    </form>
+  </main>
+
+<footer class="ps-footer" role="contentinfo">
+  <div class="ps-footer-inner">
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p>One Source. One Consciousness. One Family.</p>
+    <p class="ps-help">💙 Struggling right now? Call <a href="tel:116123">Samaritans on 116 123</a> (free, 24/7), text <a href="sms:85258">SHOUT to 85258</a>, or call <a href="tel:999">999</a> in an emergency. <a href="/crisis.html">All support →</a></p>
+    <div class="ps-footer-links">
+      <a href="/about.html">About</a>
+      <a href="/about.html#legacy">Legacy</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/meditation.html">Meditation</a>
+      <a href="/community-dashboard.html">Community</a>
+      <a href="/quote-wall.html">Quote Wall</a>
+      <a href="/offline.html">Offline Support</a>
+      <a href="/shop.html">Shop</a>
+    </div>
+    <div class="ps-socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+    </div>
+    <div class="ps-legacy">
+      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
+      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
+      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">Crisis support</a></p>
+    </div>
+  </div>
+</footer>
+  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module">
+import { api, esc, requireMember, toast } from '/js/auth.js';
+    import { CRISIS_STRIP, INTERESTS, MOODS, chipGroup, setChips } from '/js/social.js';
+
+    const me = await requireMember();
+    const form = document.getElementById('composer');
+    const msg = document.getElementById('form-msg');
+    const bodyEl = document.getElementById('body');
+    const count = document.getElementById('body-count');
+    let kind = 'text';
+    let imageKey = '';
+
+    if (me.profile.isPrivate) document.getElementById('visibility').value = 'friends';
+
+    // ─── KIND ───
+    const LIMITS = { text: 5000, story: 20000, video: 5000, image: 5000 };
+    const LABELS = { text: "What's on your mind?", story: 'Your story', video: 'Say something about the video', image: 'Say something about the image' };
+    function setKind(next) {
+      kind = next;
+      document.querySelectorAll('#kinds [data-kind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === kind)));
+      document.getElementById('video-field').hidden = kind !== 'video';
+      document.getElementById('image-field').hidden = kind !== 'image';
+      document.getElementById('body-label').textContent = LABELS[kind];
+      bodyEl.maxLength = LIMITS[kind];
+      bodyEl.rows = kind === 'story' ? 14 : 7;
+      updateCount();
+    }
+    document.getElementById('kinds').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-kind]');
+      if (b) setKind(b.dataset.kind);
+    });
+    const updateCount = () => { count.textContent = `${bodyEl.value.length} / ${bodyEl.maxLength}`; };
+    bodyEl.addEventListener('input', updateCount);
+    const wanted = new URLSearchParams(location.search).get('kind');
+    if (wanted in LIMITS) setKind(wanted);
+
+    // ─── MOOD & TAGS ───
+    const moodsBox = document.getElementById('moods');
+    const getMood = chipGroup(moodsBox, Object.entries(MOODS).map(([value, m]) => ({ value, label: `${m.icon} ${m.label}` })), [me.profile.mood || 'rising'], { single: true });
+    moodsBox.querySelectorAll('.chip').forEach((c) => { c.style.fontSize = '1rem'; });
+
+    const tagBox = document.getElementById('tag-chips');
+    let tagValues = [...INTERESTS];
+    let tagBoxRef = tagBox;
+    let getTags = chipGroup(tagBox, tagValues, []);
+    function addTags(list) {
+      const current = getTags();
+      const cleaned = list.map((t) => String(t).replace(/[^\p{L}\p{N}]/gu, '').slice(0, 30)).filter(Boolean);
+      const fresh = cleaned.filter((t) => !tagValues.some((v) => v.toLowerCase() === t.toLowerCase()));
+      if (fresh.length) {
+        tagValues = [...fresh, ...tagValues];
+        const box = tagBoxRef.cloneNode(false);
+        tagBoxRef.replaceWith(box);
+        getTags = chipGroup(box, tagValues, current);
+        tagBoxRef = box;
+      }
+      setChips(tagBoxRef, [...new Set([...current, ...cleaned])].slice(0, 8));
+    }
+    const tagInput = document.getElementById('tag-input');
+    const addTyped = () => {
+      if (!tagInput.value.trim()) return;
+      addTags([tagInput.value.trim()]);
+      tagInput.value = '';
+    };
+    document.getElementById('tag-add').addEventListener('click', addTyped);
+    tagInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addTyped(); } });
+
+    // ─── IMAGE ───
+    const fileInput = document.getElementById('image');
+    const preview = document.getElementById('preview');
+    fileInput.addEventListener('change', async () => {
+      imageKey = '';
+      const file = fileInput.files[0];
+      preview.hidden = true;
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { toast('That image is over 5 MB — try a smaller one.'); fileInput.value = ''; return; }
+      preview.src = URL.createObjectURL(file);
+      preview.hidden = false;
+      const data = new FormData();
+      data.append('image', file);
+      msg.innerHTML = '<p class="notice info">Uploading image…</p>';
+      try {
+        ({ key: imageKey } = await api('/api/images', { method: 'POST', form: data }));
+        msg.innerHTML = '<p class="notice ok">Image ready ✓</p>';
+      } catch (error) {
+        msg.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
+        fileInput.value = '';
+        preview.hidden = true;
+      }
+    });
+
+    // ─── AI HELPER ───
+    const aiBtn = document.getElementById('ai-btn');
+    const aiOut = document.getElementById('ai-out');
+    aiBtn.addEventListener('click', async () => {
+      const draft = bodyEl.value.trim();
+      if (draft.length < 5) { aiOut.innerHTML = '<p class="notice info" style="margin-top:1rem">Write a few words first — even messy ones are fine.</p>'; bodyEl.focus(); return; }
+      aiBtn.disabled = true;
+      aiBtn.textContent = '✨ Thinking…';
+      aiOut.innerHTML = '';
+      try {
+        const s = await api('/api/ai-post', { method: 'POST', body: { draft, kind, mood: getMood()[0] } });
+        aiOut.innerHTML = `
+          <div class="notice ok" style="margin-top:1rem">
+            ${s.note ? `<p style="margin:0 0 .6rem">${esc(s.note)}</p>` : ''}
+            ${s.title ? `<p style="margin:0 0 .4rem"><strong>Title:</strong> ${esc(s.title)}</p>` : ''}
+            <p style="margin:0 0 .6rem;white-space:pre-wrap">${esc(s.body)}</p>
+            ${s.tags.length ? `<p style="margin:0 0 .6rem"><strong>Tags:</strong> ${s.tags.map((t) => '#' + esc(t)).join(' ')}</p>` : ''}
+            <div class="btn-row"><button type="button" class="sbtn small primary" data-use>Use this</button><button type="button" class="sbtn small ghost" data-keep>Keep mine</button></div>
+          </div>
+          ${s.crisis ? CRISIS_STRIP : ''}`;
+        aiOut.querySelector('[data-use]').addEventListener('click', () => {
+          if (s.title) form.title.value = s.title;
+          bodyEl.value = s.body;
+          updateCount();
+          if (s.tags.length) addTags(s.tags);
+          if (s.mood) setChips(moodsBox, [s.mood]);
+          if (s.contentWarning) document.getElementById('cw').checked = true;
+          aiOut.querySelector('.notice').remove();
+          toast('Suggestion applied — edit anything you like.');
+        });
+        aiOut.querySelector('[data-keep]').addEventListener('click', () => aiOut.querySelector('.notice').remove());
+      } catch (error) {
+        aiOut.innerHTML = `<p class="notice info" style="margin-top:1rem">${esc(error.message)}</p>`;
+      } finally {
+        aiBtn.disabled = false;
+        aiBtn.textContent = '✨ Help me write';
+      }
+    });
+
+    // ─── SUBMIT ───
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const body = bodyEl.value.trim();
+      const mood = getMood()[0];
+      const problem =
+        !mood ? 'Pick how you are feeling.' :
+        kind === 'video' && !form.videoUrl.value.trim() ? 'Add a YouTube link.' :
+        kind === 'image' && !imageKey ? 'Choose an image (and wait for it to upload).' :
+        !body && kind !== 'video' && kind !== 'image' ? 'Write something first.' : '';
+      if (problem) { msg.innerHTML = `<p class="notice err">${problem}</p>`; msg.scrollIntoView({ block: 'center' }); return; }
+
+      const submit = document.getElementById('submit');
+      submit.disabled = true;
+      submit.textContent = 'Checking & sharing…';
+      msg.innerHTML = '';
+      try {
+        const result = await api('/api/posts', {
+          method: 'POST',
+          body: {
+            kind, body, mood, imageKey,
+            title: form.title.value.trim(),
+            videoUrl: form.videoUrl.value.trim(),
+            tags: getTags(),
+            visibility: form.visibility.value,
+            contentWarning: document.getElementById('cw').checked,
+          },
+        });
+        const target = `/feed.html?post=${result.post.id}#community`;
+        if (result.crisis) {
+          form.innerHTML = `
+            <h2>Your post is shared 💙</h2>
+            <p>It sounds like things are really heavy right now. You matter, and support is here any time — day or night.</p>
+            ${CRISIS_STRIP}
+            <div class="btn-row" style="margin-top:1rem"><a class="sbtn primary" href="${target}">See your post</a><a class="sbtn ghost" href="/crisis.html">Crisis support</a></div>`;
+          form.querySelector('h2').tabIndex = -1;
+          form.querySelector('h2').focus();
+        } else {
+          location.href = target;
+        }
+      } catch (error) {
+        if (error.data?.onboarding) { location.href = '/onboarding.html?next=/post.html'; return; }
+        msg.innerHTML = error.data?.blocked
+          ? `<div class="notice err"><strong>${esc(error.message)}</strong>${error.data.reason ? `<br />${esc(error.data.reason)}` : ''}</div>`
+          : `<p class="notice err">${esc(error.message)}</p>`;
+        msg.scrollIntoView({ block: 'center' });
+      } finally {
+        if (submit.isConnected) { submit.disabled = false; submit.textContent = 'Share 💙'; }
+      }
+    });
+  </script>
+</body>
+</html>

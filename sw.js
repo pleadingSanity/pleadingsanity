@@ -1,13 +1,23 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v3.0
+// 🌌 PLEADING SANITY — PWA SERVICE WORKER v3.5
 // Offline crisis support • All pages & games cached • Smart updates
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '3.4.0';
-const STATIC_CACHE = 'pleading-sanity-static-v7';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v7';
+const VERSION = '3.5.0';
+const STATIC_CACHE = 'pleading-sanity-static-v8';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v8';
 const OFFLINE_URL = '/offline.html';
+
+// Member-only pages hold personal data: always from the network, never cached.
+const PRIVATE_PAGES = [
+    '/profile.html',
+    '/post.html',
+    '/community.html',
+    '/settings.html',
+    '/onboarding.html',
+    '/admin.html'
+];
 
 // ========================================
 // 📦 PRECACHE — every page, style & script the site needs offline
@@ -26,6 +36,7 @@ const PRECACHE_URLS = [
     '/journal-vault-viewer.html',
     '/journal-vault.html',
     '/kids.html',
+    '/login.html',
     '/meditation.html',
     '/memory-ocean.html',
     '/movement.html',
@@ -33,9 +44,11 @@ const PRECACHE_URLS = [
     '/offline.html',
     '/pattern-galaxy.html',
     '/quote-wall.html',
+    '/reset-password.html',
     '/rhythm-resonance.html',
     '/sanityhub.html',
     '/shop.html',
+    '/signup.html',
     '/videos.html',
     '/manifest.json',
     '/css/styles.css',
@@ -44,8 +57,13 @@ const PRECACHE_URLS = [
     '/css/mobile-responsive.css',
     '/css/site.css',
     '/css/arron.css',
+    '/css/social.css',
     '/js/site.js',
     '/js/arron-companion.js',
+    '/js/auth.js',
+    '/js/social.js',
+    '/js/profile-form.js',
+    '/js/vendor/netlify-identity.js',
     '/js/games.js',
     '/js/mindmode.js',
     '/js/scrollFeed.js',
@@ -88,6 +106,7 @@ self.addEventListener('activate', event => {
 // ========================================
 // 🌐 FETCH
 // Pages → network first, cached copy or offline page when offline
+// Member pages → network only, offline page when offline
 // Static files → cache first, refreshed in the background
 // APIs & third parties → straight to network
 // ========================================
@@ -98,6 +117,11 @@ self.addEventListener('fetch', event => {
     const url = new URL(request.url);
     if (url.origin !== self.location.origin) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
+
+    if (request.mode === 'navigate' && PRIVATE_PAGES.includes(url.pathname)) {
+        event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
+        return;
+    }
 
     if (request.mode === 'navigate') {
         event.respondWith(

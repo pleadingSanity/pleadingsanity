@@ -118,6 +118,32 @@
       ]
     },
     {
+      "name": "Share a Post",
+      "short_name": "Post",
+      "description": "Share your voice with the community",
+      "url": "/post.html",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Find Your People",
+      "short_name": "People",
+      "description": "Search survivors, friend requests",
+      "url": "/community.html",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Sanity Hub",
       "short_name": "Hub",
       "description": "Cosmic healing hub — stories, community, growth",
