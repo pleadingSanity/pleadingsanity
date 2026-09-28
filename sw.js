@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '3.3.0';
-const STATIC_CACHE = 'pleading-sanity-static-v6';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v6';
+const VERSION = '3.4.0';
+const STATIC_CACHE = 'pleading-sanity-static-v7';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v7';
 const OFFLINE_URL = '/offline.html';
 
 // ========================================
@@ -43,6 +43,7 @@ const PRECACHE_URLS = [
     '/css/accessibility.css',
     '/css/mobile-responsive.css',
     '/css/site.css',
+    '/css/arron.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/games.js',
@@ -53,7 +54,9 @@ const PRECACHE_URLS = [
     '/assets/logo.svg',
     '/assets/favicon.svg',
     '/assets/favicon.ico',
-    '/assets/icons/icon-192x192.png'
+    '/assets/icons/icon-192x192.png',
+    '/assets/icons/icon-512x512.png',
+    '/assets/apple-touch-icon.png'
 ];
 
 // ========================================

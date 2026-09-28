@@ -25,63 +25,14 @@
   <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/arron.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <style>
-    .chat { display: flex; flex-direction: column; gap: 1rem; }
-    #arron-conversation {
-      height: min(55vh, 520px);
-      overflow-y: auto;
-      padding: 1rem;
-      border: 1px solid rgba(0, 255, 240, 0.2);
-      border-radius: 16px;
-      background: rgba(0, 1, 3, 0.55);
-    }
-    #arron-conversation .message { max-width: 85%; margin: 0 0 .75rem; padding: .75rem 1rem; border-radius: 16px; line-height: 1.6; }
-    #arron-conversation .message p { margin: 0; }
-    #arron-conversation .arron-message { background: rgba(0, 255, 240, 0.08); border: 1px solid rgba(0, 255, 240, 0.25); border-bottom-left-radius: 4px; }
-    #arron-conversation .user-message { margin-left: auto; background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); border-bottom-right-radius: 4px; }
-    .prompts { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .prompt-btn {
-      min-height: 44px; padding: 0 1rem; border-radius: 999px; cursor: pointer;
-      background: rgba(0, 255, 240, 0.06); border: 1px solid rgba(0, 255, 240, 0.35); color: #eafffd; font: inherit;
-    }
-    .prompt-btn:hover, .prompt-btn:focus-visible { background: rgba(0, 255, 240, 0.16); border-color: #00fff0; }
-    #arron-input-form { display: flex; gap: .5rem; }
-    #arron-input {
-      flex: 1; min-height: 48px; padding: 0 1rem; font: inherit; font-size: 16px; color: #eafffd;
-      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 12px;
-    }
-    #arron-input:focus { outline: 3px solid #00fff0; outline-offset: 1px; }
-    #arron-conversation .typing { width: fit-content; }
-    .typing-dots { display: inline-flex; gap: 6px; align-items: center; height: 1.6em; }
-    .typing-dots span { width: 8px; height: 8px; border-radius: 50%; background: #00fff0; opacity: .35; animation: arronDot 1.2s ease-in-out infinite; }
-    .typing-dots span:nth-child(2) { animation-delay: .15s; }
-    .typing-dots span:nth-child(3) { animation-delay: .3s; }
-    @keyframes arronDot { 30% { opacity: 1; transform: translateY(-4px); } 60% { opacity: .35; transform: none; } }
-    @media (prefers-reduced-motion: reduce) { .typing-dots span { animation: none; opacity: .8; } }
-    #arron-status { font-size: .9rem; color: #b8d8d6; margin: 0; min-height: 1.4em; }
-    .arron-memory { margin-top: 1.5rem; }
-    .arron-memory details { border: 1px solid rgba(0, 255, 240, 0.2); border-radius: 16px; padding: 0 1rem; margin-bottom: 1rem; background: rgba(0, 1, 3, 0.45); }
-    .arron-memory summary { min-height: 48px; display: flex; align-items: center; cursor: pointer; font-weight: 600; color: #eafffd; }
-    .arron-memory summary:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; border-radius: 8px; }
-    .arron-memory .panel { padding: 0 0 1rem; display: grid; gap: .75rem; }
-    .arron-memory textarea, .arron-memory input[type="text"] {
-      width: 100%; box-sizing: border-box; padding: .75rem 1rem; font: inherit; font-size: 16px; color: #eafffd;
-      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 12px;
-    }
-    .arron-memory textarea { min-height: 160px; resize: vertical; line-height: 1.6; }
-    .arron-memory textarea:focus, .arron-memory input:focus { outline: 3px solid #00fff0; outline-offset: 1px; }
-    .arron-memory code { display: block; padding: .75rem 1rem; border-radius: 12px; background: rgba(0, 255, 240, 0.06); color: #00fff0; word-break: break-all; user-select: all; }
-    .arron-memory .row { display: flex; flex-wrap: wrap; gap: .5rem; }
-    .arron-memory .btn { min-height: 44px; }
-    .btn-danger { background: transparent; border: 1px solid #ff6b9d; color: #ffd6e5; border-radius: 999px; padding: 0 1.25rem; font: inherit; cursor: pointer; }
-    .btn-danger:hover, .btn-danger:focus-visible { background: rgba(255, 107, 157, 0.15); }
-    .form-note { margin: 0; font-size: .9rem; color: #b8d8d6; min-height: 1.4em; }
-  </style>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Arron" />
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/arron.css" />
 </head>
 <body class="ps-page">
 
-  <a href="#main-content" class="skip-link">Skip to conversation</a>
+  <a href="#main-content" class="skip-link">Skip to Arron</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
@@ -107,38 +58,67 @@
 </nav>
 
 
-  <main id="main-content" class="container narrow">
+  <main id="main-content" class="arron-app" data-conn="online">
 
-    <header class="hero fade-in">
-      <h1>Talk to Arron</h1>
-      <p class="lead">Your gentle AI companion. Always here, always kind. Arron knows the whole Pleading Sanity story and remembers yours. No account, no tracking, and you can erase it anytime.</p>
-    </header>
+    <p class="arron-crisis" role="note">
+      <span>💙 Need a real person now?</span>
+      <a href="tel:116123">Samaritans 116 123</a>
+      <a href="sms:85258?body=SHOUT">Text SHOUT to 85258</a>
+      <a href="tel:999">999 emergency</a>
+      <a href="/crisis.html">All support</a>
+    </p>
 
-    <section class="cosmic-card chat" aria-label="Conversation with Arron">
-      <div id="arron-conversation" role="log" aria-live="polite">
+    <section class="arron-main" aria-labelledby="arron-title">
+      <header class="arron-head">
+        <div class="arron-orb" aria-hidden="true"></div>
+        <div class="arron-head-text">
+          <h1 id="arron-title">Arron</h1>
+          <p class="arron-sub" id="arron-presence">Your companion · listening</p>
+        </div>
+        <div class="arron-tools">
+          <button type="button" class="arron-icon-btn" id="arron-sound" aria-pressed="false" aria-label="Reply chime" title="Reply chime">🔕</button>
+          <button type="button" class="arron-icon-btn" id="arron-tour" aria-label="Show welcome again" title="Welcome">✨</button>
+        </div>
+      </header>
+
+      <p class="arron-banner" id="arron-banner" role="status" hidden></p>
+
+      <div class="arron-moodbar" role="group" aria-label="How are you feeling?">
+        <span>Feeling:</span>
+        <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false">😌 Calm</button>
+        <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false">✨ Hopeful</button>
+        <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false">🥱 Tired</button>
+        <button type="button" class="mood-chip" data-mood="low" aria-pressed="false">🌧️ Low</button>
+        <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false">😮‍💨 Anxious</button>
+        <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false">🫂 Lonely</button>
+        <button type="button" class="mood-chip" data-mood="angry" aria-pressed="false">🔥 Angry</button>
+      </div>
+
+      <div id="arron-conversation" role="log" aria-live="polite" aria-label="Conversation with Arron" tabindex="0">
         <div class="message arron-message"><p>Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?</p></div>
       </div>
 
-      <div class="prompts" aria-label="Quick prompts">
-        <button type="button" class="prompt-btn" data-prompt="I feel overwhelmed">😮‍💨 I feel overwhelmed</button>
-        <button type="button" class="prompt-btn" data-prompt="I need to breathe">🌬️ I need to breathe</button>
-        <button type="button" class="prompt-btn" data-prompt="I feel alone">🫂 I feel alone</button>
-        <button type="button" class="prompt-btn" data-prompt="I want to hope">✨ I want to hope</button>
+      <div class="arron-compose">
+        <div class="prompts" id="arron-prompts" aria-label="Quick things to say">
+          <button type="button" class="prompt-btn" data-prompt="I feel overwhelmed">😮‍💨 I feel overwhelmed</button>
+          <button type="button" class="prompt-btn" data-prompt="I need to breathe">🌬️ I need to breathe</button>
+          <button type="button" class="prompt-btn" data-prompt="I feel alone">🫂 I feel alone</button>
+          <button type="button" class="prompt-btn" data-prompt="I want to hope">✨ I want to hope</button>
+        </div>
+        <form id="arron-input-form" autocomplete="off">
+          <label for="arron-input" class="sr-only">Message Arron</label>
+          <textarea id="arron-input" rows="1" placeholder="Type to Arron…" maxlength="2000" enterkeyhint="send"></textarea>
+          <button type="submit" class="btn btn-primary">Send</button>
+        </form>
+        <p id="arron-status" role="status" aria-live="polite"></p>
       </div>
-
-      <form id="arron-input-form" autocomplete="off">
-        <label for="arron-input" class="sr-only">Message Arron</label>
-        <input type="text" id="arron-input" placeholder="Type to Arron…" maxlength="500" />
-        <button type="submit" class="btn btn-primary">Send</button>
-      </form>
-      <p id="arron-status" role="status" aria-live="polite"></p>
     </section>
 
-    <section class="arron-memory" aria-label="Your memory with Arron">
-      <details>
-        <summary>📖 Your story: what Arron remembers about you</summary>
+    <aside class="arron-side" aria-label="Your memory with Arron">
+      <details open>
+        <summary>📖 Your Story</summary>
         <form id="arron-story-form" class="panel">
-          <label for="arron-story">Share whatever you'd like Arron to always remember: your journey, what helps, what you're working through, the people who matter. Only you decide what goes here.</label>
+          <label for="arron-story">Whatever you'd like Arron to always remember: your journey, what helps, what you're working through, the people who matter. Only you decide what goes here.</label>
           <textarea id="arron-story" maxlength="8000" placeholder="e.g. I'm a dad of three, living with bipolar. Music and training help me. Mornings are hardest…"></textarea>
           <div class="row"><button type="submit" class="btn btn-primary">Save my story</button></div>
           <p class="form-note" role="status" aria-live="polite"></p>
@@ -146,9 +126,17 @@
       </details>
 
       <details>
-        <summary>🔐 Your memory code: use Arron on your phone and other devices</summary>
+        <summary>🌈 Your mood journey</summary>
         <div class="panel">
-          <p>Arron remembers you with this private code. There are no accounts or emails. Keep it safe like a password, and enter it on another device to carry your conversations with you.</p>
+          <p>The last few check-ins, kept only on this device.</p>
+          <div class="arron-mood-log" id="arron-mood-log" aria-live="polite"></div>
+        </div>
+      </details>
+
+      <details>
+        <summary>🔐 Memory code · other devices</summary>
+        <div class="panel">
+          <p>Arron remembers you with this private code. No accounts, no emails. Keep it safe like a password and enter it on another device to carry your conversations with you.</p>
           <code id="arron-memory-code" aria-label="Your memory code"></code>
           <div class="row"><button type="button" id="arron-copy-code" class="btn btn-primary">Copy code</button></div>
           <form id="arron-restore-form" class="panel" style="padding: 0;">
@@ -160,20 +148,72 @@
       </details>
 
       <details>
-        <summary>🛡️ Privacy: how your data is handled</summary>
+        <summary>🛡️ Privacy · Forget Me</summary>
         <div class="panel">
-          <p>Your messages and story are stored securely so Arron can remember you. They're linked only to your memory code, never to your name, email or location. Replies are generated by an AI model through Netlify's AI Gateway. There's no advertising, no selling of data and no tracking.</p>
-          <p>You're in control: erase everything, instantly, whenever you like.</p>
-          <div class="row"><button type="button" id="arron-forget" class="btn-danger">Erase everything Arron remembers</button></div>
-          <p><strong>📱 Get Arron on your phone:</strong> on Android (Chrome), tap the menu, then <em>Install app</em> or <em>Add to Home screen</em>. On iPhone, open this page in Safari, tap Share, then <em>Add to Home Screen</em>.</p>
+          <p>Your messages and story are stored securely so Arron can remember you, linked only to your memory code, never to your name, email or location. The name you give Arron stays on this device. Replies come from an AI model through Netlify's AI Gateway. No ads, no selling data, no tracking.</p>
+          <div class="row"><button type="button" id="arron-forget" class="btn-danger">🗑️ Forget Me: erase everything</button></div>
+          <p><strong>📱 Arron on your phone:</strong> tap <em>Install App</em> at the top, or on iPhone open this page in Safari, tap Share, then <em>Add to Home Screen</em>.</p>
+          <div class="row"><button type="button" class="btn-ghost" data-pwa-install hidden>📲 Install App</button></div>
         </div>
       </details>
-    </section>
+    </aside>
 
-    <p class="muted" style="text-align: center; margin-top: 1.5rem;">
+    <p class="arron-disclaimer">
       Arron is an AI companion, not a therapist or emergency service, and can get things wrong.
-      If you're in crisis, please <a href="crisis.html">reach out for help now</a>.
+      If you're in crisis, please <a href="/crisis.html">reach out for help now</a>.
     </p>
+
+    <dialog class="arron-welcome" id="arron-welcome" aria-labelledby="welcome-title">
+      <form method="dialog" id="arron-welcome-form">
+        <div class="step" data-step="0">
+          <div class="arron-orb lg" aria-hidden="true"></div>
+          <h2 id="welcome-title">Hey, I'm Arron 💙</h2>
+          <p>I'm the Pleading Sanity companion. I listen without judgement, I remember what you choose to share, and I'm here at 3am as much as 3pm.</p>
+          <div class="actions"><button type="button" class="btn btn-primary" data-next>Nice to meet you →</button></div>
+        </div>
+        <div class="step" data-step="1" hidden>
+          <h2>What should I call you?</h2>
+          <p>A first name, a nickname, anything. Or leave it blank. It stays on this device.</p>
+          <label for="welcome-name" class="sr-only">Your name</label>
+          <input type="text" id="welcome-name" maxlength="40" autocomplete="given-name" placeholder="e.g. Shane" />
+          <div class="actions">
+            <button type="button" class="btn-ghost" data-back>← Back</button>
+            <button type="button" class="btn btn-primary" data-next>Next →</button>
+          </div>
+        </div>
+        <div class="step" data-step="2" hidden>
+          <h2>How are you, really?</h2>
+          <p>No right answer. This just helps me meet you where you are.</p>
+          <div class="mood-grid" role="group" aria-label="Pick a mood">
+            <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false">😌 Calm</button>
+            <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false">✨ Hopeful</button>
+            <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false">🥱 Tired</button>
+            <button type="button" class="mood-chip" data-mood="low" aria-pressed="false">🌧️ Low</button>
+            <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false">😮‍💨 Anxious</button>
+            <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false">🫂 Lonely</button>
+            <button type="button" class="mood-chip" data-mood="angry" aria-pressed="false">🔥 Angry</button>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn-ghost" data-back>← Back</button>
+            <button type="button" class="btn btn-primary" data-next>Next →</button>
+          </div>
+        </div>
+        <div class="step" data-step="3" hidden>
+          <h2>Before we start</h2>
+          <ul>
+            <li>🔒 No account. I remember you with a private code on this device.</li>
+            <li>📖 Add to <strong>Your Story</strong> anytime and I'll keep it in mind.</li>
+            <li>🗑️ <strong>Forget Me</strong> erases everything, instantly.</li>
+            <li>🆘 I'm an AI, not an emergency service. Samaritans <a href="tel:116123">116 123</a> are always there.</li>
+          </ul>
+          <div class="actions">
+            <button type="button" class="btn-ghost" data-back>← Back</button>
+            <button type="submit" class="btn btn-primary" value="done">Let's talk 💙</button>
+          </div>
+        </div>
+        <div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span></div>
+      </form>
+    </dialog>
 
   </main>
 

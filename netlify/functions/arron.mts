@@ -10,7 +10,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
-import { buildSystemPrompt } from "../lib/arron-knowledge.js";
+import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 
 const anthropic = new Anthropic();
 const MODEL = "claude-sonnet-5";
@@ -59,6 +59,9 @@ async function chat(req: Request) {
   const message = typeof body.message === "string" ? body.message.trim().slice(0, MAX_MESSAGE) : "";
   if (!validId(memoryId)) return json({ error: "Invalid memory id" }, 400);
   if (!message) return json({ error: "Message is empty" }, 400);
+  // Optional hints from the device — never stored, only used for this reply.
+  const name = typeof body.name === "string" ? body.name.replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 40) : "";
+  const mood = typeof body.mood === "string" && Object.hasOwn(MOODS, body.mood) ? body.mood : "";
 
   // Memory makes Arron personal, but a database hiccup should never stop him replying.
   let story = "";
@@ -87,7 +90,7 @@ async function chat(req: Request) {
   const response = await anthropic.messages.create({
     model: MODEL,
     max_tokens: 700,
-    system: buildSystemPrompt(story),
+    system: buildSystemPrompt(story, { name, mood }),
     messages: turns,
   });
 
@@ -158,6 +161,7 @@ export default async (req: Request) => {
   const route = url.pathname.replace(/^\/api\/arron\/?/, "");
 
   try {
+    if (route === "health") return json({ ok: true, time: Date.now() });
     if (route === "chat" && req.method === "POST") return await chat(req);
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);
@@ -168,5 +172,5 @@ export default async (req: Request) => {
 };
 
 export const config: Config = {
-  path: ["/api/arron/chat", "/api/arron/memory"],
+  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health"],
 };
