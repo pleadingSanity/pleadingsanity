@@ -389,3 +389,66 @@
 /* Toast */
 .ps-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 3000; max-width: min(92vw, 480px); padding: 12px 20px; border-radius: 14px; background: #06101c; border: 1px solid #00fff0; color: #eafffd; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); font-weight: 600; }
 
+
+/* ==========================================
+   ARRON APP — homepage banner & "Meet Arron"
+========================================== */
+.ps-arron-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  margin: 1rem 0;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(0, 255, 240, 0.4);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(0, 255, 240, 0.1), rgba(255, 0, 255, 0.1));
+}
+.ps-arron-banner[hidden] { display: none; }
+.ps-arron-banner p { flex: 1 1 16rem; margin: 0; }
+.ps-arron-banner .btn { margin: 0; }
+.ps-arron-banner-close {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(0, 255, 240, 0.3);
+  border-radius: 12px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.ps-arron-banner-orb {
+  --size: 40px;
+  width: var(--size);
+  height: var(--size);
+  flex: none;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.95), transparent 22%),
+    radial-gradient(circle at 50% 55%, #00fff0, transparent 62%),
+    radial-gradient(circle at 70% 75%, #ff00ff, transparent 60%),
+    #06121f;
+  box-shadow: 0 0 18px rgba(0, 255, 240, 0.45), 0 0 36px rgba(255, 0, 255, 0.25);
+  animation: ps-arron-breathe 6s ease-in-out infinite;
+}
+.ps-arron-banner-orb.lg { --size: 110px; }
+@keyframes ps-arron-breathe {
+  0%, 100% { transform: scale(0.9); }
+  50% { transform: scale(1.06); }
+}
+.ps-meet-arron {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  border-color: rgba(0, 255, 240, 0.45);
+}
+.ps-meet-arron > div { flex: 1 1 18rem; }
+.ps-meet-arron ul { padding-left: 0; list-style: none; display: grid; gap: 0.4rem; }
+.ps-meet-arron-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.ps-meet-arron-actions .btn { margin: 0; }
+@media (max-width: 640px) {
+  .ps-meet-arron { justify-content: center; text-align: left; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-arron-banner-orb { animation: none; }
+}

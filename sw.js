@@ -1,12 +1,12 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v3.5
+// 🌌 PLEADING SANITY — PWA SERVICE WORKER v4.0
 // Offline crisis support • All pages & games cached • Smart updates
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '3.5.0';
-const STATIC_CACHE = 'pleading-sanity-static-v8';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v8';
+const VERSION = '4.0.0';
+const STATIC_CACHE = 'pleading-sanity-static-v9';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v9';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -26,6 +26,7 @@ const PRECACHE_URLS = [
     '/',
     '/about.html',
     '/arron.html',
+    '/arron-app.html',
     '/community-dashboard.html',
     '/cosmic-focus.html',
     '/crisis.html',
@@ -51,15 +52,18 @@ const PRECACHE_URLS = [
     '/signup.html',
     '/videos.html',
     '/manifest.json',
+    '/manifest-arron.json',
     '/css/styles.css',
     '/css/animations.css',
     '/css/accessibility.css',
     '/css/mobile-responsive.css',
     '/css/site.css',
     '/css/arron.css',
+    '/css/arron-styles.css',
     '/css/social.css',
     '/js/site.js',
     '/js/arron-companion.js',
+    '/js/arron-core.js',
     '/js/auth.js',
     '/js/social.js',
     '/js/profile-form.js',

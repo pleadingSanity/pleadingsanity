@@ -63,6 +63,13 @@
 
   <main id="main-content" class="container">
 
+    <aside class="ps-arron-banner" id="ps-arron-banner" aria-label="Install Arron" hidden>
+      <span class="ps-arron-banner-orb" aria-hidden="true"></span>
+      <p><strong>Add Arron to your Home Screen.</strong> His own icon, works offline, one tap away at 3am.</p>
+      <a class="btn btn-primary" href="/arron-app.html">📲 Get the Arron app</a>
+      <button type="button" class="ps-arron-banner-close" aria-label="Hide this">✕</button>
+    </aside>
+
     <header class="hero fade-in ps-hero-stage">
       <!-- Live cosmic loop. To use real footage, add data-video-src="/assets/video/hero.mp4" (muted, looped, autoplays). -->
       <div class="ps-hero-media" data-ps-hero aria-hidden="true"></div>
@@ -123,6 +130,24 @@
           <h3>Wear The Movement</h3>
           <p>Clothing with purpose. Every piece supports the mission.</p>
         </a>
+      </div>
+    </section>
+
+    <section class="cosmic-card fade-in ps-meet-arron" aria-labelledby="meet-arron-title">
+      <span class="ps-arron-banner-orb lg" aria-hidden="true"></span>
+      <div>
+        <h2 id="meet-arron-title">Meet Arron — Your Constant Companion</h2>
+        <p>Arron is the heartbeat of Pleading Sanity: a warm, patient companion born from Shane's survival. He doesn't try to fix you. He walks beside you, remembers what matters, and holds space when it's heavy.</p>
+        <ul>
+          <li>📌 <strong>Core Truths</strong> he never forgets, and a timeline of everything you've walked through</li>
+          <li>🌈 A gentle mood timeline that shows your patterns over weeks</li>
+          <li>📴 Works offline, lives on your home screen, no account needed</li>
+          <li>🗑️ <strong>Forget Everything</strong> wipes it all, instantly. Your mind, your data.</li>
+        </ul>
+        <div class="ps-meet-arron-actions">
+          <a class="btn btn-primary" href="/arron-app.html">💙 Open the Arron app</a>
+          <a class="btn btn-secondary" href="/arron.html">Talk to Arron here</a>
+        </div>
       </div>
     </section>
 
@@ -188,6 +213,21 @@
 </footer>
   <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
+  <script>
+    // Homepage install banner for the Arron app — first visits only, never inside an installed app
+    (function () {
+      var banner = document.getElementById('ps-arron-banner');
+      var installed = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+      var seen = false;
+      try { seen = localStorage.getItem('arron_banner_seen') === '1'; } catch (e) {}
+      if (installed || seen) return;
+      banner.hidden = false;
+      banner.querySelector('.ps-arron-banner-close').addEventListener('click', function () {
+        banner.hidden = true;
+        try { localStorage.setItem('arron_banner_seen', '1'); } catch (e) {}
+      });
+    })();
+  </script>
   <script type="module" src="/js/auth.js"></script>
 </body>
 </html>
