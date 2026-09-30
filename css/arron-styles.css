@@ -529,6 +529,35 @@ html.aa-root, .aa-body {
 .aa-principles { margin: 0 0 0.75rem; padding-left: 1.1rem; display: grid; gap: 0.35rem; }
 .aa-principles strong { color: var(--aa-cyan); font-weight: 600; }
 .aa-promise { font-style: italic; color: var(--aa-text) !important; }
+.aa-sub { margin: 0.25rem 0 0.4rem; font-size: 0.95rem; color: var(--aa-cyan); }
+.aa-final-promise {
+  margin: 0.75rem 0;
+  padding: 0.75rem 0.9rem;
+  border-left: 3px solid var(--aa-cyan);
+  border-radius: 0 12px 12px 0;
+  background: rgba(0, 255, 240, 0.05);
+  color: var(--aa-text);
+  line-height: 1.6;
+}
+
+/* ─── Creator badge — only ever shown to the founder's account ─── */
+.aa-creator-badge {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0 0.6rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 211, 107, 0.7);
+  background: rgba(255, 211, 107, 0.12);
+  color: #ffe2a0;
+  font-weight: 700;
+  cursor: pointer;
+}
+.aa-creator-badge:focus-visible { outline: 2px solid #ffd36b; outline-offset: 2px; }
+@media (max-width: 380px) { .aa-creator-label { display: none; } }
 
 /* ─── Crisis mode — nothing but help ─── */
 .aa-crisis {

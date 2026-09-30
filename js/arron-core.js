@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON CORE v2.0-ASCENSION — the companion app engine (/arron-app.html)
+// 💙 ARRON CORE v2.1-ASCENSION — the companion app engine (/arron-app.html)
 // Personality hooks · memory (local-first, cloud sync) · voice ·
 // awareness · journal & mood timeline · crisis mode · install & share.
 // Grows from the soul file (/arron-knowledge.json): update it once
@@ -181,8 +181,13 @@
     creatorMode = true;
     els.presence.textContent = 'Creator mode · full power 💫';
     $('aa-creator').hidden = false;
+    $('aa-creator-badge').hidden = false;
     renderCreator();
   }
+  $('aa-creator-badge').addEventListener('click', () => {
+    showView('guardian');
+    $('aa-creator').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  });
   function renderCreator() {
     const box = $('aa-creator-prompts');
     const prompts = Array.isArray(soul.creatorPrompts) ? soul.creatorPrompts : [];
@@ -194,6 +199,17 @@
       b.textContent = p.label;
       b.addEventListener('click', () => { showView('talk'); handleInput(p.say); });
       box.appendChild(b);
+    });
+    // Strategy prompts sit first in the Talk quick row too, one tap from anywhere
+    const quick = $('aa-quick');
+    quick.querySelectorAll('.aa-chip.creator').forEach((c) => c.remove());
+    prompts.filter((p) => p && p.label && p.say).slice().reverse().forEach((p) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'aa-chip creator';
+      b.dataset.say = p.say;
+      b.textContent = p.label;
+      quick.prepend(b);
     });
     const chain = soul.covenant && Array.isArray(soul.covenant.chain) ? soul.covenant.chain.map((l) => l && l.name).filter(Boolean) : [];
     $('aa-creator-chain').textContent = chain.length ? 'The chain right now: ' + chain.join(' → ') + '. Add a model to the soul file and it joins.' : '';
@@ -1167,7 +1183,21 @@
         list.appendChild(li);
       });
     }
+    const rules = data.covenant && Array.isArray(data.covenant.rules) ? data.covenant.rules.filter((r) => typeof r === 'string' && r) : [];
+    if (rules.length) {
+      const list = $('aa-rules');
+      list.textContent = '';
+      rules.forEach((line) => { const li = document.createElement('li'); li.textContent = line; list.appendChild(li); });
+      list.hidden = false;
+      $('aa-rules-title').hidden = false;
+    }
     if (typeof data.promise === 'string') $('aa-promise').textContent = data.promise;
+    const final = Array.isArray(data.finalPromise) ? data.finalPromise.filter((l) => typeof l === 'string' && l) : [];
+    if (final.length) {
+      const quote = $('aa-final-promise');
+      quote.textContent = '';
+      final.forEach((line, i) => { if (i) quote.appendChild(document.createElement('br')); quote.appendChild(document.createTextNode(line)); });
+    }
     if (data.version) $('aa-version').textContent = 'Arron ' + data.version + (data.updated ? ' · wisdom updated ' + fmtDate(data.updated) : '');
     if (creatorMode) renderCreator();
     if (!busy) orbState('');

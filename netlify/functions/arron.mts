@@ -31,7 +31,7 @@ type Provider = "anthropic" | "openai" | "gemini";
 type Link = { provider: Provider; model: string; creatorModel: string };
 const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini"];
 const FALLBACK_CHAIN: Link[] = [
-  { provider: "anthropic", model: "claude-sonnet-5", creatorModel: "claude-opus-5-5" },
+  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
   { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
 ];
