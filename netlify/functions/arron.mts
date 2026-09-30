@@ -66,11 +66,15 @@ async function ask(provider: Provider, model: string, system: string, turns: Tur
 }
 
 // Walk the chain until someone replies. Only throws if every lab is down.
-async function reply(system: string, turns: Turn[], creator: boolean) {
+// Raps, scripts and plans need room to breathe; everyday replies stay short.
+const CREATIVE_ASK = /\b(rap|raps|verse|verses|lyrics?|hook|spoken word|song|script|storyboard|voice-?over|caption|image prompt|edit guide|plan)\b/i;
+
+async function reply(system: string, turns: Turn[], creator: boolean, creative = false) {
+  const maxTokens = creator ? (creative ? 3000 : 2000) : creative ? 1800 : 700;
   for (const link of CHAIN) {
     const model = creator ? link.creatorModel : link.model;
     try {
-      const text = await ask(link.provider, model, system, turns, creator ? 2000 : 700);
+      const text = await ask(link.provider, model, system, turns, maxTokens);
       if (text) return { text, provider: link.provider, model };
       console.warn(`Arron: empty reply from ${model}, trying the next lab`);
     } catch (error) {
@@ -203,7 +207,8 @@ async function chat(req: Request) {
   else turns.push({ role: "user", content: message });
 
   const creator = await isCreator();
-  const answer = await reply(buildSystemPrompt(story, { name, mood, persona, truths, awareness, creator }), turns, creator);
+  const creative = persona === "son" && CREATIVE_ASK.test(message);
+  const answer = await reply(buildSystemPrompt(story, { name, mood, persona, truths, awareness, creator }), turns, creator, creative);
 
   let remembered = true;
   try {

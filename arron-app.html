@@ -2,7 +2,7 @@
 <html lang="en-GB" class="aa-root">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -100,6 +100,23 @@
           </form>
           <p class="aa-status" id="aa-status" role="status" aria-live="polite"></p>
         </div>
+      </section>
+
+      <!-- ───────── CREATOR STUDIO — founder only ───────── -->
+      <section class="aa-view" id="aa-view-studio" role="tabpanel" aria-labelledby="aa-tab-studio" hidden>
+        <h2 id="aa-studio-title">💫 Creator Studio</h2>
+        <p class="aa-note" id="aa-studio-note">I build the blueprint — you film/create the visual. Together we make it real.</p>
+        <div class="aa-studio-modes" id="aa-studio-modes" role="group" aria-label="What are we making?"></div>
+        <div class="aa-card" id="aa-studio-card">
+          <h3 id="aa-studio-mode-title"></h3>
+          <div class="aa-studio-templates" id="aa-studio-templates"></div>
+          <form id="aa-studio-form">
+            <label for="aa-studio-input" class="aa-note">Or brief Arron in your own words</label>
+            <textarea id="aa-studio-input" maxlength="2000" rows="3"></textarea>
+            <div class="aa-row"><button type="submit" class="aa-btn solid">Create with Arron ➤</button></div>
+          </form>
+        </div>
+        <p class="aa-note">Every answer lands in Talk, copy-ready: tap 📋 Copy under it, then paste, publish, record, go live.</p>
       </section>
 
       <!-- ───────── REMEMBER ───────── -->
@@ -292,6 +309,7 @@
 
     <nav class="aa-nav" role="tablist" aria-label="Arron">
       <button type="button" role="tab" id="aa-tab-talk" aria-controls="aa-view-talk" aria-selected="true" data-view="talk"><b aria-hidden="true">💬</b>Talk</button>
+      <button type="button" role="tab" id="aa-tab-studio" aria-controls="aa-view-studio" aria-selected="false" tabindex="-1" data-view="studio" hidden><b aria-hidden="true">💫</b>Studio</button>
       <button type="button" role="tab" id="aa-tab-remember" aria-controls="aa-view-remember" aria-selected="false" tabindex="-1" data-view="remember"><b aria-hidden="true">📌</b>Remember</button>
       <button type="button" role="tab" id="aa-tab-journal" aria-controls="aa-view-journal" aria-selected="false" tabindex="-1" data-view="journal"><b aria-hidden="true">📖</b>Journal</button>
       <button type="button" role="tab" id="aa-tab-guardian" aria-controls="aa-view-guardian" aria-selected="false" tabindex="-1" data-view="guardian"><b aria-hidden="true">🛡️</b>Guardian</button>

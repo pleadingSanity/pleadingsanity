@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON — SERVICE WORKER v2.1-ASCENSION
+// 💙 ARRON — SERVICE WORKER v2.2-FULL
 // Controls only /arron-app.html, separate from the main site's /sw.js.
 // Interface, orb, wisdom and the soul file cached for offline.
 // Pages & knowledge → network first · images → cache first ·
@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '2.2-new-brain';
+const VERSION = '2.2-full';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
