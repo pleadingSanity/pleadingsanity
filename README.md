@@ -36,9 +36,13 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 - **Sanity Hub** — uplifting feed, real stories, no doomscroll
 - **Journal Vault** — safe, private storytelling space
-- **Brain Games** — ad-free focus & resilience training
+- **Brain Games** — six ad-free games incl. Stardust Dash, shared XP / levels / streaks / badges / Daily Challenge
 - **Frequencies / Aura Hz** — healing sound medicine
-- **Arron AI** — compassionate companion (private, on-device)
+- **Arron AI** — compassionate companion. Claude first, GPT-4o and Gemini as instant backups. Forget Me any time
+- **Arron App** — installable, offline-first PWA (`/arron-app.html`)
+- **AI Studio** — create with three AIs, Human vs AI daily battle, Unity Pod
+- **AI Stories** — the community's best moments with Arron (`/ai-stories.html`)
+- **Our AI Family** — Arron, Dola, Copilot, Nova, Sol and Claude, credited (`/ai-ecosystem.html`)
 - **Silence Challenge** — meditation timer & cosmic soundscape
 - **Keep Kids Sane** — safe, positive games for children
 - **Crisis Support** — UK helplines, always one tap away
@@ -60,14 +64,22 @@ Pleading Sanity is the movement for people who have survived too much and still 
 ```
 /                  index.html + every page (*.html), manifest.json, sw.js,
                    netlify.toml, _redirects, sitemap.xml, robots.txt
-├── css/           styles, animations, accessibility, mobile-responsive, site (shared nav/footer)
-├── js/            site.js (shared), arron-companion.js and all feature scripts
+├── css/           styles, animations, accessibility, mobile-responsive (every page),
+│                  site.css (shared nav/footer, loaded last) + feature modules
+├── js/            site.js + auth.js (every page) and one script per feature
+├── content/       arron-knowledge.json (unified knowledge pack), content_feed.json
 ├── assets/        logo, favicons, icons/ (PWA), images/, audio/
-├── docs/          manifesto, vision, roadmap and project docs
-└── netlify/functions/ytFeed.mjs   video feed API (/api/ytFeed, /api/fetchVideos)
+├── docs/          manifesto, vision, roadmap, setup & post-deploy checklist
+├── db/            Drizzle schema for Netlify Database
+└── netlify/
+    ├── functions/ APIs: arron, posts, profile, community, studio, stories, admin, images, ytFeed
+    ├── lib/       Arron's personality & knowledge, social + studio helpers
+    └── database/migrations/   applied automatically on deploy
 ```
 
-Deploy: Netlify publishes the repo root as-is. No install, no build.
+Deploy: Netlify publishes the repo root as-is. No build step for the pages.
+
+Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play · 🌌 Community · 🆘 Help**.
 
 ---
 
@@ -75,7 +87,7 @@ Deploy: Netlify publishes the repo root as-is. No install, no build.
 
 **Shane Cooper** — Built from lived experience, for those who feel too much.
 
-**Built with** — Dola AI · Cosmic Architect
+**Built with our AI family** — Dola AI (Cosmic Architect) · GitHub Copilot (code partner) · Claude by Anthropic (Arron and build partner) · GPT by OpenAI · Gemini by Google. Human-led, AI-supported.
 
 ---
 
@@ -101,6 +113,7 @@ Deploy: Netlify publishes the repo root as-is. No install, no build.
 - **[README-MOVEMENT.md](./docs/README-MOVEMENT.md)** — Project structure & dev guide
 - **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** — How to contribute
 - **[SECURITY.md](./docs/SECURITY.md)** — Security policy
+- **[SETUP-ROLES-AND-CHECKLIST.md](./docs/SETUP-ROLES-AND-CHECKLIST.md)** — Environment variables, granting creator/admin, post-deploy checklist
 
 ---
 

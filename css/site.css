@@ -62,16 +62,16 @@
 }
 .ps-nav .ps-brand img { width: 34px; height: 34px; display: block; }
 .ps-nav .ps-links {
-  position: relative;
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
   justify-content: flex-end;
   gap: 4px;
   margin: 0 0 0 auto;
   padding: 0;
   list-style: none;
 }
-.ps-nav .ps-links a {
+.ps-nav .ps-links a,
+.ps-nav .ps-group-btn {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -82,6 +82,7 @@
   background: none;
   box-shadow: none;
   color: var(--ps-text);
+  font: inherit;
   font-size: 0.92rem;
   font-weight: 600;
   line-height: 1;
@@ -89,12 +90,15 @@
   text-shadow: none;
   transform: none;
   white-space: nowrap;
+  cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
 }
 .ps-nav .ps-links a::before,
 .ps-nav .ps-links a::after { content: none; }
 .ps-nav .ps-links a:hover,
-.ps-nav .ps-links a:focus-visible {
+.ps-nav .ps-links a:focus-visible,
+.ps-nav .ps-group-btn:hover,
+.ps-nav .ps-group-btn:focus-visible {
   color: var(--ps-cyan);
   background: rgba(0, 255, 240, 0.08);
   border-color: rgba(0, 255, 240, 0.35);
@@ -117,6 +121,47 @@
   background: var(--ps-magenta);
   border-color: var(--ps-magenta);
 }
+
+/* Groups — Heal · Play · Community */
+.ps-nav .ps-group { position: relative; }
+.ps-nav .ps-group-btn { gap: 0; overflow: visible; }
+.ps-nav .ps-group-btn::after {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  margin-left: 0.5em;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+.ps-nav .ps-group-btn[aria-expanded="true"]::after { transform: translateY(2px) rotate(-135deg); }
+.ps-nav .ps-group.has-current > .ps-group-btn { border-color: rgba(0, 255, 240, 0.55); color: var(--ps-cyan); }
+.ps-nav .ps-group-btn[aria-expanded="true"] { background: rgba(0, 255, 240, 0.12); border-color: var(--ps-cyan); }
+.ps-nav .ps-group-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  z-index: 1100;
+  display: none;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  min-width: 220px;
+  padding: 6px;
+  background: #06101c;
+  border: 1px solid rgba(0, 255, 240, 0.3);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 24px rgba(0, 255, 240, 0.12);
+  transform: translateX(-50%);
+}
+.ps-nav .ps-group.open > .ps-group-menu,
+.ps-nav:not(.ps-js) .ps-group:focus-within > .ps-group-menu { display: grid; animation: ps-menu-in 0.18s ease-out; }
+.ps-nav .ps-group-menu a { justify-content: flex-start; width: 100%; border-radius: 10px; font-size: 0.95rem; }
+@keyframes ps-menu-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
 .ps-nav .ps-install {
   flex: none;
   min-height: 44px;
@@ -135,27 +180,53 @@
 .ps-nav .ps-install:hover { background: var(--ps-cyan); color: #000103; }
 .ps-nav .ps-install:focus-visible,
 .ps-nav a:focus-visible,
+.ps-nav button:focus-visible,
 .ps-footer a:focus-visible {
   outline: 3px solid var(--ps-cyan);
   outline-offset: 2px;
 }
 
-/* Mobile: brand on top, links in one swipeable row */
+/* Phones: brand + account on top, then four big pills.
+   A group opens as a full-width panel under the bar. */
 @media (max-width: 960px) {
-  .ps-nav .ps-nav-inner { flex-direction: column; align-items: stretch; gap: 4px; padding: 6px 0 8px; }
-  .ps-nav .ps-brand { justify-content: center; }
-  .ps-nav .ps-links {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    margin: 0;
-    padding: 0 12px 4px;
-    overflow-x: auto;
-    scroll-snap-type: x proximity;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+  .ps-nav .ps-nav-inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: "brand account" "links links" "install install";
+    align-items: center;
+    gap: 4px 8px;
+    padding: 6px 10px 8px;
   }
-  .ps-nav .ps-links a { scroll-snap-align: start; padding: 0 14px; }
-  .ps-nav .ps-install { align-self: center; }
+  .ps-nav .ps-brand { grid-area: brand; font-size: 1rem; }
+  .ps-nav .ps-account { grid-area: account; }
+  .ps-nav .ps-install { grid-area: install; justify-self: center; }
+  .ps-nav .ps-links { grid-area: links; justify-content: space-between; gap: 4px; margin: 0; }
+  .ps-nav .ps-links > .ps-home { display: none; }
+  .ps-nav .ps-group { position: static; flex: 1 1 0; }
+  .ps-nav .ps-group-btn,
+  .ps-nav .ps-links > a.ps-crisis { width: 100%; justify-content: center; padding: 0 8px; font-size: 0.88rem; }
+  .ps-nav .ps-links > a.ps-crisis { flex: 1 1 0; }
+  .ps-nav .ps-group-menu {
+    left: 8px;
+    right: 8px;
+    top: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 0;
+    transform: none;
+  }
+  .ps-nav .ps-group-menu a { white-space: normal; line-height: 1.2; padding: 8px 12px; }
+  @keyframes ps-menu-in {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+@media (max-width: 380px) {
+  .ps-nav .ps-group-btn,
+  .ps-nav .ps-links > a.ps-crisis { font-size: 0.8rem; padding: 0 4px; }
+  .ps-nav .ps-group-btn::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-nav .ps-group-menu { animation: none !important; }
 }
 
 /* ─── FOOTER ─── */
@@ -374,10 +445,11 @@
   text-align: left; text-decoration: none; cursor: pointer;
 }
 .ps-menu a:hover, .ps-menu a:focus-visible, .ps-menu button:hover, .ps-menu button:focus-visible { background: rgba(0, 255, 240, 0.1); color: #00fff0; outline: none; }
+.ps-menu .ps-menu-role { margin: 4px 12px 6px; color: #a9c7d1; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.02em; }
 .ps-menu hr { border: 0; border-top: 1px solid rgba(0, 255, 240, 0.15); margin: 4px 0; }
 @media (max-width: 960px) {
-  .ps-nav .ps-account { align-self: center; }
-  .ps-menu { right: 50%; transform: translateX(50%); }
+  .ps-nav .ps-account { justify-self: end; }
+  .ps-nav .ps-avatar-btn > span:not(.ps-avatar):not(.ps-badge) { max-width: 7.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 }
 
 .ps-nav .ps-avatar {

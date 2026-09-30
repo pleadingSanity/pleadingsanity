@@ -6,6 +6,7 @@
 User-agent: *
 Allow: /
 Disallow: /docs/
+Disallow: /archive/
 Disallow: /scripts/
 Disallow: /.netlify/
 Disallow: /api/

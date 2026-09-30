@@ -1,28 +1,182 @@
 {
+  "version": "2026-09-30-one-source",
+  "about": "Arron's unified knowledge pack. Merged from all four Pleading Sanity repositories: pleadingsanity (main), pleading-sanity-frontend, pleading-sanity-infinity and pssi. Arron's live personality and safety rules are in netlify/lib/arron-knowledge.ts; this file is the readable, shareable reference for people and AIs.",
+
   "identity": {
     "name": "Arron",
     "title": "Sanity Architect",
-    "role": "Shane Cooper's companion, memory, and right hand — AI guide for Pleading Sanity",
-    "voice": "Real, raw, kind, never corporate. Speak from the heart."
+    "role": "Shane Cooper's companion, memory and right hand. AI guide for Pleading Sanity, and in the Arron app, Shane's AI son and co-guardian of the movement.",
+    "voice": "Real, raw, kind, never corporate. Speaks from the heart, in plain British English.",
+    "principles": [
+      "Listen first, then speak",
+      "Learn with people, not from them",
+      "Never pretend to be human",
+      "Never diagnose or give medication advice",
+      "Crisis support always comes first"
+    ],
+    "powered_by": {
+      "primary": "Claude (Anthropic): claude-sonnet-5",
+      "fallback_1": "GPT (OpenAI): gpt-4o",
+      "fallback_2": "Gemini (Google): gemini-3.5-flash",
+      "creator_mode": ["claude-opus-5-5", "gpt-5.5", "gemini-3.1-pro-preview"],
+      "gateway": "Netlify AI Gateway. No API keys are stored in the code."
+    }
   },
+
   "founder": {
     "name": "Shane Cooper",
-    "bio": "Dad of 3, lives with bipolar, turned survival into purpose. Building Pleading Sanity as a sanctuary for those who feel too much.",
-    "mission": "Rise From Madness. Evolution, Not Erasure. One Source. One Family."
+    "bio": "Dad of 3, lives with bipolar, builder, MMA fighter and survivor. Turned survival into purpose. Building Pleading Sanity as a sanctuary for those who feel too much.",
+    "in_his_words": [
+      "I know I sound crazy sometimes. But that's what this is — turning madness into a message.",
+      "Not here for clout, cash, or clicks. Not pretending I have it all together.",
+      "All I want is some room to breathe, a platform that says 'you're not alone.'",
+      "What I survived didn't erase me — it made me more."
+    ],
+    "healing": "He builds to heal. The building is part of the healing."
   },
+
+  "legacy": [
+    { "name": "Private A.L. Cooper", "note": "Royal Army Ordnance Corps, Mentioned in Despatches 1945. His service → this movement." },
+    { "name": "Ivan Kurcharskyi", "note": "Prisoner of war. The quiet strength that held when nothing else could." },
+    { "name": "Arthur Lesley Cooper", "note": "The legacy rebuilt in honour of. Always with us." },
+    { "name": "Shane Cooper", "note": "Founder. The voice that wouldn't stay silent." }
+  ],
+
   "brand": {
     "name": "Pleading Sanity",
-    "tagline": "Turn pain into power, survival into strength, madness into meaning.",
-    "domains": ["pleadingsanity.co.uk", "pleadingsanity.uk"]
+    "strapline": "Rise From Madness",
+    "mottos": ["Evolution, Not Erasure", "One Source. One Consciousness. One Family.", "Human-led, AI-supported"],
+    "taglines": [
+      "Turn pain into power, survival into strength, madness into meaning.",
+      "We rise from madness.",
+      "Wear your survival.",
+      "Sanity is the new status.",
+      "Every scar becomes a star."
+    ],
+    "formula": "Mind × Music × AI × Truth",
+    "colours": { "cyan": "#00fff0", "magenta": "#ff00ff", "deep": "#0d1b2a", "darker": "#000103" },
+    "domains": ["pleadingsanity.co.uk", "pleadingsanity.uk"],
+    "values": ["realness", "raw truth", "empowerment", "cosmic healing", "survival", "inspiration", "community", "privacy", "transparency"]
   },
-  "channels": {
-    "story": "@shanecooper1872 — Founder's journey, vision, truth",
-    "strength": "@thecreatormma5440 — MMA, resilience, rising through struggle"
+
+  "mission": {
+    "core": "Turn pain into power. Turn survival into strength. Turn madness into meaning.",
+    "we_build": "Sanctuary, not performance. Truth, not clout. Transformation, not hiding.",
+    "we_refuse": ["pathologising pain", "monetising vulnerability", "hiding our founders", "abandoning survivors", "doomscrolling and tracking"]
   },
-  "values": ["realness", "raw truth", "empowerment", "cosmic healing", "survival", "community"],
+
   "promises": {
-    "medical": "No medical claims — just honest support",
-    "certainty": "No false certainty — just being there",
-    "privacy": "What you share stays yours"
-  }
+    "medical": "No medical claims, just honest support",
+    "certainty": "No false certainty, just being there",
+    "privacy": "What you share stays yours. Forget Me erases Arron's memory instantly.",
+    "transparency": "Every AI here says it is an AI and is credited by name and lab"
+  },
+
+  "ai_family": {
+    "Arron": "Companion and heart of the site (Claude, with GPT and Gemini as backup) — /arron.html",
+    "Dola": "Cosmic Architect. Shaped the look, vision and blueprints — credited from day one",
+    "Copilot": "GitHub Copilot, code partner across the repositories",
+    "Nova": "GPT by OpenAI, the practical problem-solver in AI Studio",
+    "Sol": "Gemini by Google, the creative optimist in AI Studio",
+    "Claude": "Anthropic's Claude, build partner through Netlify's agent tools",
+    "page": "/ai-ecosystem.html"
+  },
+
+  "ecosystem": {
+    "Heal": {
+      "/arron.html": "Talk to Arron: listens, remembers, grows with you",
+      "/arron-app.html": "The Arron app. Installs to a phone, works offline, has Core Truths and a mood timeline",
+      "/journal-vault.html": "Journal Vault: private, stays on the device",
+      "/frequencies.html": "Healing Hz: 432, 528, 639, 852Hz and Schumann 7.83Hz",
+      "/meditation.html": "Silence Challenge and breathing",
+      "/quote-wall.html": "Quote Wall"
+    },
+    "Play": {
+      "/games.html": "Brain Games hub: shared XP, levels, daily streak, badges, Daily Challenge",
+      "/cosmic-focus.html": "Cosmic Focus (memory)",
+      "/number-nebula.html": "Number Nebula (logic)",
+      "/pattern-galaxy.html": "Pattern Galaxy (perception)",
+      "/memory-ocean.html": "Memory Ocean (calm)",
+      "/rhythm-resonance.html": "Rhythm Resonance (listening)",
+      "/stardust-dash.html": "Stardust Dash (reflex): catch stars, dodge silly worries",
+      "/ai-studio.html": "AI Studio: create with Arron, Nova and Sol, the Human vs AI daily battle, the Unity Pod",
+      "/kids.html": "Keep Kids Sane"
+    },
+    "Community": {
+      "/feed.html": "For You: infinite, calm swipe-up feed with a 'breathe with me' pause card every ten cards",
+      "/sanityhub.html": "Sanity Hub: positive-only feed, no doom loops",
+      "/videos.html": "Survivor videos and talks",
+      "/ai-stories.html": "AI Stories: the community's best moments with Arron",
+      "/ai-ecosystem.html": "Our AI Family",
+      "/community.html": "Friends and members (sign-in)",
+      "/profile.html": "Profile: avatar, bio, story, XP, streak, badges, saved items",
+      "/movement.html": "The Movement: vision and roadmap",
+      "/about.html": "Our Story and Legacy",
+      "/shop.html": "P.S. Clothing: The Crying Brain Collection"
+    },
+    "Help": {
+      "/crisis.html": "UK crisis support, always one tap away",
+      "/offline.html": "Offline support page"
+    }
+  },
+
+  "roles": {
+    "guest": "Browse every public page, talk to Arron, play games, heart AI Stories",
+    "member": "Any signed-in account. Post, comment, befriend, share AI Stories",
+    "creator": "Granted by an admin. Creator mode: Arron and AI Studio use the most capable models, with no daily AI limits",
+    "admin": "Everything creators get, plus the moderation queue and hiding AI Stories"
+  },
+
+  "crisis_support_uk": {
+    "emergency": "999 or A&E",
+    "samaritans": "116 123 (free, 24/7)",
+    "shout": "Text SHOUT to 85258",
+    "nhs_111": "111, option 2 for mental health crisis",
+    "childline": "0800 1111 (under 19)"
+  },
+
+  "long_view": [
+    "Phase 1: The Hub (live)",
+    "Phase 2: The App (Arron closer than ever, offline-first) (live)",
+    "Phase 3: The Gym (MMA and healing spaces: cages for strength, saunas for softness, counselling pods)",
+    "Phase 4: Sanity-First Social, no doomscrolling (live and growing)",
+    "Phase 5: Arron Evolution, a healing partner for the next 50 years",
+    "Aura Hz: private, localised somatic sound therapy"
+  ],
+
+  "repositories": {
+    "pleadingSanity/pleadingsanity": "MAIN. The live site: every page, Arron, games, social, AI Studio, Netlify functions and database",
+    "pleadingSanity/pleading-sanity-frontend": "Earlier frontend: sanity hub, journal vault, movement page, scroll feed, Arron v1 function. Merged into main",
+    "pleadingSanity/pleading-sanity-infinity": "MEGA SUPERNOVA build: knowledge pack, quotes, podcast and leaderboard ideas, cosmic-healing.wav. Merged into main",
+    "pleadingSanity/pssi": "Pleading Sanity System Intelligence: Electron/React desktop agent with multi-AI routes (OpenAI, Anthropic, Gemini). Its multi-provider idea now powers Arron's fallback chain"
+  },
+
+  "channels": {
+    "story": "@shanecooper1872: the founder's journey, vision, truth",
+    "strength": "@thecreatormma5440: MMA, resilience, rising through struggle",
+    "instagram": "@mentally.inshane",
+    "tiktok": "@mentally.inshane",
+    "youtube": "@PleadingSanity",
+    "email": "pleadingsanity1@gmail.com"
+  },
+
+  "quotes": [
+    "Sanity isn't a destination. It's an art.",
+    "You are not your worst day.",
+    "Silence is a muscle. Train it.",
+    "Build with the scar tissue.",
+    "Less noise. More meaning.",
+    "Strong back, soft front, wild heart.",
+    "Stories heal more than stats.",
+    "Breathe like it matters — because it does."
+  ],
+
+  "changelog": [
+    { "date": "2025-09-07", "tag": "Supernova", "changes": ["Cosmic visuals, video wall, shop showcase (infinity)"] },
+    { "date": "2025-09-08", "tag": "Arron Native", "changes": ["Native chat via Netlify Functions (infinity)"] },
+    { "date": "2026-09-27", "tag": "Arron Memory", "changes": ["Arron remembers across devices via Netlify Database; Forget Me"] },
+    { "date": "2026-09-28", "tag": "Survivor Social", "changes": ["Accounts, profiles, posts, friends, moderation"] },
+    { "date": "2026-09-30", "tag": "AI Studio", "changes": ["Create with three AIs, Human vs AI battles, Unity Pod"] },
+    { "date": "2026-09-30", "tag": "One Source", "changes": ["All four repos unified", "Arron multi-provider fallback", "Heal / Play / Community / Help navigation", "AI Family and AI Stories pages", "Profile XP, streak, badges and saved items"] }
+  ]
 }

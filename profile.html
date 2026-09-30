@@ -42,21 +42,41 @@ Evolution, Not Erasure. One Source. One Family.
   <div class="ps-nav-inner">
     <a href="/" class="ps-brand"><img src="/assets/logo.svg" alt="" width="34" height="34" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
-      <a href="/">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/movement.html">Movement</a>
-      <a href="/sanityhub.html">Hub</a>
-      <a href="/arron.html">Arron</a>
-      <a href="/ai-studio.html">AI Studio</a>
-      <a href="/journal-vault.html">Journal</a>
-      <a href="/games.html">Games</a>
-      <a href="/frequencies.html">Hz</a>
-      <a href="/feed.html">Feed</a>
-      <a href="/quote-wall.html">Quotes</a>
-      <a href="/videos.html">Videos</a>
-      <a href="/kids.html">Kids</a>
-      <a href="/shop.html">Shop</a>
-      <a href="/crisis.html" class="ps-crisis">Get Help</a>
+      <a href="/" class="ps-home">Home</a>
+      <div class="ps-group" data-group="heal">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Heal</button>
+        <div class="ps-group-menu" id="ps-g-heal">
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="play">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Play</button>
+        <div class="ps-group-menu" id="ps-g-play">
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+        </div>
+      </div>
+      <div class="ps-group has-current" data-group="community">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+        <div class="ps-group-menu" id="ps-g-community">
+          <a href="/feed.html">🌟 For You Feed</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/shop.html">👕 Shop</a>
+        </div>
+      </div>
+      <a href="/crisis.html" class="ps-crisis">🆘 Help</a>
     </div>
     <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
@@ -77,6 +97,8 @@ Evolution, Not Erasure. One Source. One Family.
       <a href="/movement.html">Movement</a>
       <a href="/meditation.html">Meditation</a>
       <a href="/community-dashboard.html">Community</a>
+      <a href="/ai-ecosystem.html">AI Family</a>
+      <a href="/ai-stories.html">AI Stories</a>
       <a href="/quote-wall.html">Quote Wall</a>
       <a href="/offline.html">Offline Support</a>
       <a href="/shop.html">Shop</a>
@@ -94,6 +116,7 @@ Evolution, Not Erasure. One Source. One Family.
     </div>
   </div>
 </footer>
+  <script src="/js/games.js"></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
   <script type="module">
@@ -106,6 +129,67 @@ import { api, clearMe, esc, requireMember, toast } from '/js/auth.js';
     const requested = (new URLSearchParams(location.search).get('user') || '').toLowerCase();
     const username = requested || me.profile.username;
     const isSelf = username === me.profile.username;
+
+    // ─── YOUR COSMIC PLAYER CARD — XP, streak and badges from every game ───
+    const ROLES = {
+      member: ['🌱', 'Member', 'Post, comment, befriend and share AI Stories.'],
+      creator: ['💫', 'Creator', 'Creator mode: Arron and the AI Studio run at full power for you.'],
+      admin: ['🛡️', 'Admin', 'Full power plus the moderation queue.'],
+    };
+    function roleBadge(role = 'member') {
+      const [icon, name, desc] = ROLES[role] || ROLES.member;
+      return `<span class="mood mood-rising" title="${esc(desc)}">${icon} ${esc(name)}</span>`;
+    }
+
+    function playerHTML() {
+      const G = window.PSGames;
+      if (!G) return '';
+      const pr = G.profile();
+      const li = G.levelInfo(pr.xp);
+      const day = G.dayKey();
+      const y = new Date();
+      y.setDate(y.getDate() - 1);
+      const yKey = G.dayKey(y);
+      const streak = pr.streak.last === day || pr.streak.last === yKey ? pr.streak.count : 0;
+      const earned = Object.keys(pr.badges).sort((a, b) => pr.badges[b] - pr.badges[a]);
+      const total = Object.keys(G.BADGES).length;
+      const badges = earned.filter((id) => G.BADGES[id]).slice(0, 12).map((id) => {
+        const b = G.BADGES[id];
+        return `<li class="pp-badge" title="${esc(b.desc)}"><span aria-hidden="true">${b.icon}</span>${esc(b.name)}</li>`;
+      }).join('');
+      return `
+        <section class="panel" aria-labelledby="player-title">
+          <h2 id="player-title">🌟 Cosmic Player</h2>
+          <div class="pp-stats">
+            <div><strong>Lv ${li.level}</strong><span>${esc(li.title)}</span></div>
+            <div><strong>${pr.xp}</strong><span>total XP</span></div>
+            <div><strong>🔥 ${streak}</strong><span>day streak</span></div>
+            <div><strong>${earned.length}/${total}</strong><span>badges</span></div>
+          </div>
+          <div class="pp-bar" role="progressbar" aria-label="XP to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${li.pct}"><span style="width:${li.pct}%"></span></div>
+          <p class="muted">${li.into} / ${li.need} XP to level ${li.level + 1}</p>
+          ${badges ? `<ul class="pp-badges">${badges}</ul>` : '<p class="muted">No badges yet — your first game unlocks ✨ First Light.</p>'}
+          <div class="btn-row"><a class="sbtn primary" href="/games.html">🎮 Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub">🏅 All badges</a></div>
+          <p class="muted" style="font-size:.85rem">Progress lives privately on this device.</p>
+        </section>`;
+    }
+
+    function savedHTML() {
+      let items = {};
+      try { items = JSON.parse(localStorage.getItem('ps-saved-items')) || {}; } catch {}
+      const list = Object.values(items).sort((a, b) => b.at - a.at).slice(0, 20);
+      const icon = { post: '🌟', video: '🎬', quote: '✨', tip: '💡' };
+      const rows = list.map((it) => {
+        const text = `<span aria-hidden="true">${icon[it.type] || '⭐'}</span> <span>${esc(it.title)}${it.sub ? ` <small class="muted">— ${esc(it.sub)}</small>` : ''}</span>`;
+        const ext = it.href?.startsWith('http');
+        return `<li>${it.href ? `<a href="${esc(it.href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${text}</a>` : text}</li>`;
+      }).join('');
+      return `
+        <section class="panel" aria-labelledby="saved-title">
+          <h2 id="saved-title">⭐ Saved</h2>
+          ${rows ? `<ul class="pp-saved">${rows}</ul>` : '<p class="muted">Tap ☆ on any card in the For You feed to keep it here.</p><a class="sbtn ghost" href="/feed.html">🌟 Open the feed</a>'}
+        </section>`;
+    }
 
     async function render() {
       let data;
@@ -126,7 +210,7 @@ import { api, clearMe, esc, requireMember, toast } from '/js/auth.js';
             <div style="flex:1;min-width:200px">
               <h1 id="p-name">${esc(p.displayName)}</h1>
               <div class="person-meta">@${esc(p.username)}${p.country ? ' · 📍 ' + esc(p.country) : ''} · Joined ${joined}${p.isPrivate ? ' · 🔒 Friends-only' : ''}</div>
-              <div class="row" style="margin-top:6px">${moodBadge(p.mood)}</div>
+              <div class="row" style="margin-top:6px">${moodBadge(p.mood)}${isSelf ? roleBadge(me.user.role) : ''}</div>
               <div class="profile-stats"><span><strong>${data.counts.posts}</strong> posts</span><span><strong>${data.counts.friends}</strong> friends</span></div>
             </div>
           </div>
@@ -144,6 +228,7 @@ import { api, clearMe, esc, requireMember, toast } from '/js/auth.js';
           <h2 id="edit-title">Edit your profile</h2>
           <div data-form></div>
         </section>
+        ${isSelf ? playerHTML() + savedHTML() : ''}
         ${data.locked
           ? `<section class="panel empty"><p>🔒 ${esc(p.displayName)} keeps their profile for friends only.</p><p class="muted">Send a friend request — if they accept, you'll see their story and posts.</p></section>`
           : `${p.story ? `

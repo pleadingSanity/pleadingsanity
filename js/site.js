@@ -12,11 +12,52 @@
     el.textContent = year;
   });
 
-  // Keep the active nav link visible on small screens
-  var current = document.querySelector('.ps-links a[aria-current="page"]');
-  if (current) {
-    var row = current.parentElement;
-    row.scrollLeft = current.offsetLeft - (row.clientWidth - current.offsetWidth) / 2;
+  // Nav groups — Heal · Play · Community. One open at a time;
+  // Escape, a tap outside or picking a link closes it.
+  var nav = document.querySelector('.ps-nav');
+  if (nav) {
+    nav.classList.add('ps-js');
+    var groups = nav.querySelectorAll('.ps-group');
+    var setOpen = function (group, open) {
+      group.classList.toggle('open', open);
+      group.querySelector('.ps-group-btn').setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    var closeAll = function (except) {
+      groups.forEach(function (g) { if (g !== except) setOpen(g, false); });
+    };
+    groups.forEach(function (group) {
+      var btn = group.querySelector('.ps-group-btn');
+      btn.addEventListener('click', function () {
+        var open = !group.classList.contains('open');
+        closeAll(group);
+        setOpen(group, open);
+        if (open) {
+          var first = group.querySelector('.ps-group-menu a');
+          var keyboard = false;
+          try { keyboard = btn.matches(':focus-visible'); } catch (err) { /* older browsers */ }
+          if (first && keyboard) first.focus();
+        }
+      });
+      group.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && group.classList.contains('open')) {
+          setOpen(group, false);
+          btn.focus();
+        }
+        if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+          var links = Array.prototype.slice.call(group.querySelectorAll('.ps-group-menu a'));
+          if (!group.classList.contains('open')) { closeAll(group); setOpen(group, true); }
+          var i = links.indexOf(document.activeElement);
+          var next = e.key === 'ArrowDown' ? (i + 1) % links.length : (i - 1 + links.length) % links.length;
+          if (links[next]) { e.preventDefault(); links[next].focus(); }
+        }
+      });
+      group.addEventListener('focusout', function (e) {
+        if (!group.contains(e.relatedTarget) && e.relatedTarget) setOpen(group, false);
+      });
+    });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest || !e.target.closest('.ps-group')) closeAll();
+    });
   }
 
   // PWA — install button. Any element with [data-pwa-install] stays

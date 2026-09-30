@@ -3,10 +3,14 @@
 // Real conversations via Netlify AI Gateway (no API keys needed),
 // memory in Netlify Database, keyed by a random secret from the
 // visitor's device. No accounts, no tracking, delete anytime.
+// Three labs, one Arron: Claude answers first; if it fails, GPT
+// and then Gemini take over instantly with the same heart.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
 import Anthropic from "@anthropic-ai/sdk";
+import OpenAI from "openai";
+import { GoogleGenAI } from "@google/genai";
 import { getUser } from "@netlify/identity";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
@@ -14,11 +18,60 @@ import { arronMemories, arronMessages } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 
 const anthropic = new Anthropic();
-const MODEL = "claude-sonnet-5";
+const openai = new OpenAI();
+const gemini = new GoogleGenAI({});
+
+type Turn = { role: "user" | "assistant"; content: string };
+type Provider = "anthropic" | "openai" | "gemini";
+
+// Tried in order — the first lab that answers wins.
 // Creator mode: signed-in accounts with the Identity role "admin" or "creator"
-// get the most capable model, longer replies and a builder's-partner brief.
-const CREATOR_MODEL = "claude-opus-5-5";
+// get each lab's most capable model, longer replies and a builder's-partner brief.
+const CHAIN: { provider: Provider; model: string; creatorModel: string }[] = [
+  { provider: "anthropic", model: "claude-sonnet-5", creatorModel: "claude-opus-5-5" },
+  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
+  { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
+];
 const CREATOR_ROLES = ["admin", "creator"];
+
+async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number) {
+  if (provider === "openai") {
+    const res = await openai.chat.completions.create({
+      model,
+      max_completion_tokens: model.startsWith("gpt-5") ? maxTokens * 4 : maxTokens, // room for reasoning tokens
+      messages: [{ role: "system", content: system }, ...turns],
+    });
+    return (res.choices[0]?.message?.content ?? "").trim();
+  }
+  if (provider === "gemini") {
+    const res = await gemini.models.generateContent({
+      model,
+      contents: turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
+      config: { systemInstruction: system, maxOutputTokens: maxTokens * 4 },
+    });
+    return (res.text ?? "").trim();
+  }
+  const res = await anthropic.messages.create({ model, max_tokens: maxTokens, system, messages: turns });
+  return res.content
+    .map((block) => (block.type === "text" ? block.text : ""))
+    .join("")
+    .trim();
+}
+
+// Walk the chain until someone replies. Only throws if all three labs are down.
+async function reply(system: string, turns: Turn[], creator: boolean) {
+  for (const link of CHAIN) {
+    const model = creator ? link.creatorModel : link.model;
+    try {
+      const text = await ask(link.provider, model, system, turns, creator ? 2000 : 700);
+      if (text) return { text, provider: link.provider, model };
+      console.warn(`Arron: empty reply from ${model}, trying the next lab`);
+    } catch (error) {
+      console.warn(`Arron: ${model} unavailable, trying the next lab`, error);
+    }
+  }
+  throw new Error("Every AI provider failed");
+}
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
 const MAX_MESSAGE = 2000;
@@ -127,7 +180,7 @@ async function chat(req: Request) {
   }
 
   // Anthropic needs the conversation to start with a user turn and alternate roles.
-  const turns: { role: "user" | "assistant"; content: string }[] = [];
+  const turns: Turn[] = [];
   for (const m of history) {
     const role = m.role === "assistant" ? "assistant" : "user";
     if (turns.length === 0 && role === "assistant") continue;
@@ -140,25 +193,14 @@ async function chat(req: Request) {
   else turns.push({ role: "user", content: message });
 
   const creator = await isCreator();
-  const response = await anthropic.messages.create({
-    model: creator ? CREATOR_MODEL : MODEL,
-    max_tokens: creator ? 2000 : 700,
-    system: buildSystemPrompt(story, { name, mood, persona, truths, awareness, creator }),
-    messages: turns,
-  });
-
-  const reply = response.content
-    .map((block) => (block.type === "text" ? block.text : ""))
-    .join("")
-    .trim();
-  if (!reply) throw new Error("Empty reply from model");
+  const answer = await reply(buildSystemPrompt(story, { name, mood, persona, truths, awareness, creator }), turns, creator);
 
   let remembered = true;
   try {
     await ensureMemory(memoryId);
     await db.insert(arronMessages).values([
       { memoryId, role: "user", content: message },
-      { memoryId, role: "assistant", content: reply },
+      { memoryId, role: "assistant", content: answer.text },
     ]);
     await db.update(arronMemories).set({ updatedAt: new Date() }).where(eq(arronMemories.id, memoryId));
   } catch (error) {
@@ -166,7 +208,7 @@ async function chat(req: Request) {
     console.error("Arron could not save messages:", error);
   }
 
-  return json({ reply, remembered, creator });
+  return json({ reply: answer.text, remembered, creator, provider: answer.provider, model: answer.model });
 }
 
 // ─── MEMORY: read / save story / forget ───
