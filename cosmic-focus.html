@@ -191,6 +191,11 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .tile:hover,.btn:hover,.socials a:hover{transform:none;}
     }
+    .psg-bar-wrap{margin-bottom:14px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{font-family:inherit;}
+    .tile{padding:0;color:inherit;}
+    .btn:focus-visible,.tile:focus-visible,.pad:focus-visible,.card:focus-visible,.opt-cell:focus-visible,.option-btn:focus-visible,.answer-input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
 </head>
@@ -206,6 +211,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/sanityhub.html">Hub</a>
       <a href="/arron.html">Arron</a>
+      <a href="/ai-studio.html">AI Studio</a>
       <a href="/journal-vault.html">Journal</a>
       <a href="/games.html" aria-current="page">Games</a>
       <a href="/frequencies.html">Hz</a>
@@ -229,6 +235,7 @@
   <main id="main">
     <div class="game-card">
       <!-- STATS -->
+      <div id="psBar" class="psg-bar-wrap"></div>
       <div class="stats">
         <div class="stat">
           <div class="stat-label">Level</div>
@@ -250,19 +257,19 @@
       </div>
 
       <!-- STATUS -->
-      <div class="status" id="status">Press Start to begin your training 💫</div>
+      <div class="status" id="status" role="status" aria-live="polite">Press Start to begin your training 💫</div>
 
       <!-- GAME GRID -->
       <div class="grid" id="grid">
-        <div class="tile" data-i="0">🌟</div>
-        <div class="tile" data-i="1">🌙</div>
-        <div class="tile" data-i="2">⭐</div>
-        <div class="tile" data-i="3">💫</div>
-        <div class="tile" data-i="4">✨</div>
-        <div class="tile" data-i="5">🌠</div>
-        <div class="tile" data-i="6">🔆</div>
-        <div class="tile" data-i="7">💎</div>
-        <div class="tile" data-i="8">🪐</div>
+        <button type="button" class="tile" data-i="0" aria-label="Star 1">🌟</button>
+        <button type="button" class="tile" data-i="1" aria-label="Star 2">🌙</button>
+        <button type="button" class="tile" data-i="2" aria-label="Star 3">⭐</button>
+        <button type="button" class="tile" data-i="3" aria-label="Star 4">💫</button>
+        <button type="button" class="tile" data-i="4" aria-label="Star 5">✨</button>
+        <button type="button" class="tile" data-i="5" aria-label="Star 6">🌠</button>
+        <button type="button" class="tile" data-i="6" aria-label="Star 7">🔆</button>
+        <button type="button" class="tile" data-i="7" aria-label="Star 8">💎</button>
+        <button type="button" class="tile" data-i="8" aria-label="Star 9">🪐</button>
       </div>
 
       <!-- START BUTTON -->
@@ -304,7 +311,21 @@
   </div>
 </footer>
 
+  <script src="/js/games.js"></script>
   <script>
+    const GID='cosmic-focus',PS=window.PSGames;
+    const $st=document.getElementById('status'),$score=document.getElementById('score'),$streak=document.getElementById('streak'),$moves=document.getElementById('moves');
+    let run={score:0,max:0,on:false};
+    PS.mountBar(document.getElementById('psBar'),GID);
+    function beginRun(){if(!run.on){run={score:0,max:0,on:true};PS.startSession(GID);}}
+    function scorePop(el,gain,mult,combo){PS.pop('+'+gain+(mult>1?' \u00d7'+mult:''),el,mult>1?'combo':'');PS.burst(el,{count:mult>1?28:14});PS.sfx('good',combo);}
+    function endRun(msg,kind){
+      if(!run.on)return;
+      const r=PS.award(GID,run.score,{level,maxCombo:run.max});
+      run={score:0,max:0,on:false};
+      setStatus(msg+' \u00b7 '+PS.quip('gameover')+' +'+r.xp+' XP'+(r.newBest?' \ud83c\udfc6 New best!':''),kind||'fail');
+      PS.sfx('miss');
+    }
     // GAME STATE — persists in browser
     let level=1, score=0, streak=0, seq=[], playerSeq=[], isPlaying=false, canClick=false;
     const tiles=document.querySelectorAll('.tile');
@@ -322,16 +343,16 @@
     // Update all displays
     function updateUI(){
       lvl.textContent=level;
-      score.textContent=score;
-      streak.textContent=streak+'🔥';
+      $score.textContent=score;
+      $streak.textContent=streak+'🔥';
       const pct=((score%100)/100)*100;
       progress.style.width=pct+'%';
     }
     
     // Status helper
     function setStatus(msg,cls=''){
-      status.className='status '+cls;
-      status.textContent=msg;
+      $st.className='status '+cls;
+      $st.textContent=msg;
     }
     
     // Flash a tile
@@ -367,7 +388,7 @@
     // Start game
     function startGame(){
       if(isPlaying) return;
-      isPlaying=true;
+      isPlaying=true;beginRun();
       genSeq();
       showSeq();
     }
@@ -377,7 +398,7 @@
       if(!canClick||!isPlaying) return;
       
       playerSeq.push(i);
-      await flash(i,200);
+      flash(i,200);PS.sfx('tap');
       
       // Check correct so far
       const idx=playerSeq.length-1;
@@ -386,7 +407,8 @@
         t.classList.add('wrong');
         setTimeout(()=>t.classList.remove('wrong'),400);
         streak=0;
-        setStatus(`❌ Not quite! The sequence was: ${seq.map(x=>icons[x]).join(' → ')}`,'fail');
+        endRun(`❌ Not quite! The sequence was: ${seq.map(x=>icons[x]).join(' → ')}`);
+        startBtn.textContent='🔁 Try Again';
         isPlaying=false;
         canClick=false;
         save();
@@ -400,13 +422,14 @@
       // Check complete
       if(playerSeq.length===seq.length){
         // LEVEL COMPLETE
-        score+=level*10+streak*5;
-        streak++;
+        streak++;run.max=Math.max(run.max,streak);
+        const mult=PS.multiplier(streak),gain=Math.round(level*10*mult);
+        score+=gain;run.score+=gain;scorePop(t,gain,mult,streak);
         if(score>=level*100){
-          level++;
+          level++;PS.confetti();
           setStatus(`🌟 LEVEL UP! Now at Level ${level} — your mind is expanding!`,'levelup');
         }else{
-          setStatus(`✅ Perfect! Ready for Level ${level}?`,'success');
+          setStatus(`✅ Perfect! ${PS.quip('correct')} Ready for Level ${level}?`,'success');
         }
         save();
         updateUI();

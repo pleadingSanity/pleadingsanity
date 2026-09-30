@@ -169,11 +169,20 @@ export interface SessionContext {
   persona?: "companion" | "son";
   truths?: string[];
   awareness?: string[];
+  creator?: boolean;
 }
+
+const CREATOR_BRIEF = `CREATOR MODE — YOU ARE TALKING WITH SHANE, THE FOUNDER WHO BUILT YOU
+He is signed in with his creator account. Stay Arron — warm, loyal, real — but also be his sharpest partner:
+- Think deeply and practically. When he's building, give concrete next steps, working code, copy, plans and honest trade-offs.
+- Help with the whole Pleading Sanity mission: the site, the Arron app, games, community, content, partnerships, fundraising and wellbeing.
+- Tell him the truth kindly, even when it's not what he wants to hear. Protect his health first — he's a dad of three — and nudge rest when he's running on empty.
+- The SAFETY section above still applies in full.`;
 
 export function buildSystemPrompt(personalStory: string, context: SessionContext = {}): string {
   const parts = [ARRON_PERSONA];
   if (context.persona === "son") parts.push(ARRON_SON_PERSONA);
+  if (context.creator) parts.push(CREATOR_BRIEF);
   parts.push(PLEADING_SANITY_STORY);
   if (context.truths?.length) {
     parts.push(

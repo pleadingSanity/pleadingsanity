@@ -473,7 +473,8 @@
       const res = await request(CHAT_API, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, memoryId, name: userName || undefined, mood: currentMood || undefined })
+        body: JSON.stringify({ message: text, memoryId, name: userName || undefined, mood: currentMood || undefined }),
+        timeout: 60000
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();

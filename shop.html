@@ -24,6 +24,20 @@
   <meta name="twitter:description" content="Shop official Crying Brain streetwear – Shopify, Payhip, TikTok Shop." />
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <style>
+    .brand-kit, .partner { max-width: 860px; margin: 40px auto 0; padding: 24px; border-radius: 16px; background: rgba(0,255,240,0.04); border: 1px solid rgba(0,255,240,0.2); text-align: left; }
+    .brand-kit h2, .partner h2 { text-align: center; }
+    .brand-kit-grid { display: grid; grid-template-columns: minmax(0, 320px) 1fr; gap: 24px; align-items: center; }
+    .brand-kit-grid img { width: 100%; height: auto; border-radius: 14px; box-shadow: 0 0 40px rgba(0,255,240,0.25), 0 0 60px rgba(255,0,255,0.15); }
+    .brand-downloads { display: flex; flex-wrap: wrap; gap: 10px; }
+    .brand-downloads a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #00fff0; color: #00fff0; text-decoration: none; font-weight: 700; }
+    .brand-downloads a:hover, .brand-downloads a:focus { background: #00fff0; color: #000103; }
+    .partner-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .partner-form label { display: flex; flex-direction: column; gap: 6px; font-weight: 700; color: #eafffd; }
+    .partner-form .wide { grid-column: 1 / -1; }
+    .partner-form input, .partner-form select, .partner-form textarea { min-height: 44px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(0,255,240,0.35); background: #06101c; color: #eafffd; font: inherit; }
+    .partner-form button { min-height: 48px; border: 0; border-radius: 999px; font-weight: 800; font-size: 1rem; cursor: pointer; background: linear-gradient(135deg, #00fff0, #ff00ff); color: #000103; }
+    .notice-ok { padding: 12px 16px; border-radius: 10px; background: rgba(0,255,144,0.1); border: 1px solid #00ff90; color: #eafffd; }
+    @media (max-width: 640px) { .brand-kit-grid, .partner-form { grid-template-columns: 1fr; } }
     body { background: radial-gradient(ellipse at 50% 110%, #1c1b2a 0%, #000 80%); }
     main { text-align:center; min-height:60vh; }
     .merch-intro { max-width:700px; margin:32px auto 0 auto; background:rgba(0,255,240,0.04); border-radius:12px; box-shadow:0 0 32px #00fff033; padding:25px 2vw 16px; }
@@ -69,6 +83,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/sanityhub.html">Hub</a>
       <a href="/arron.html">Arron</a>
+      <a href="/ai-studio.html">AI Studio</a>
       <a href="/journal-vault.html">Journal</a>
       <a href="/games.html">Games</a>
       <a href="/frequencies.html">Hz</a>
@@ -103,7 +118,7 @@
       <div class="featured-grid">
         <!-- Update these for your real product links/images -->
         <div class="merch-card">
-          <img src="assets/images/hoodie-mockup.svg" width="240" height="200" loading="lazy" alt="Crying Brain Hoodie" />
+          <img src="/assets/images/brand/crying-brain-hoodie-back.webp" width="240" height="240" loading="lazy" alt="Black hoodie with the glowing cyan and violet Crying Brain logo on the back" />
           <h3>Crying Brain Hoodie</h3>
           <p>Reflective logo. Blackout cosmic fit.<br>Survivor gear – limited.</p>
           <div class="card-links">
@@ -111,7 +126,7 @@
           </div>
         </div>
         <div class="merch-card">
-          <img src="assets/images/ps-tracksuit-mockup.svg" width="240" height="200" loading="lazy" alt="P.S Tracksuit" />
+          <img src="/assets/images/brand/tracksuit-design.webp" width="240" height="180" loading="lazy" alt="Black P.S tracksuit: Crying Brain on the chest, Pleading Sanity across the back, reflective side stripes and P.S on the leg" />
           <h3>P.S Tracksuit</h3>
           <p>Crying Brain on back, PS on front, “P.S” in hood. Built to outlast the pain.</p>
           <div class="card-links">
@@ -128,6 +143,43 @@
         </div>
         <!-- Add more product cards as you grow -->
       </div>
+    </section>
+
+    <!-- BRAND KIT — the official marks for makers and press -->
+    <section class="brand-kit" aria-labelledby="brand-kit-title">
+      <h2 id="brand-kit-title">🧠 The Crying Brain</h2>
+      <div class="brand-kit-grid">
+        <img src="/assets/images/brand/crying-brain-logo.webp" width="320" height="320" loading="lazy" alt="The Crying Brain logo: a neon cyan and violet brain with two glowing tears" />
+        <div>
+          <p><strong>A brain that cries is a brain that's still fighting.</strong> The tears are the pain we carry. The glow is what we turn it into. Every piece says what so many people can't say out loud: <em>I've been through it, and I'm still here.</em></p>
+          <p>Wear it and you start a conversation. Every sale funds free mental health tools, games and support on this site.</p>
+          <p class="brand-downloads"><a href="/assets/images/brand/crying-brain-logo.webp" download>⬇ Logo</a> <a href="/assets/images/brand/tracksuit-design.webp" download>⬇ Tracksuit design</a> <a href="/assets/images/brand/crying-brain-hoodie-back.webp" download>⬇ Hoodie back print</a></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTNERS — manufacturers and brands -->
+    <section class="partner" id="partner" aria-labelledby="partner-title">
+      <h2 id="partner-title">🤝 Make It With Us</h2>
+      <p>Clothing brands, manufacturers and print partners: take a real stake in a streetwear brand with a reason to exist. We bring the story, the community and the designs. You bring the craft. Together we fund mental health support.</p>
+      <p class="notice-ok" id="partner-sent" hidden>💙 Thank you! Shane will get back to you personally.</p>
+      <form name="partner" method="POST" action="/shop.html?sent=1#partner" data-netlify="true" netlify-honeypot="company-website" class="partner-form">
+        <p hidden><label>Leave this empty <input name="company-website" /></label></p>
+        <label>Your name <input name="name" required autocomplete="name" /></label>
+        <label>Company <input name="company" required autocomplete="organization" /></label>
+        <label>Email <input type="email" name="email" required autocomplete="email" /></label>
+        <label>What you do
+          <select name="type">
+            <option>Manufacturer</option>
+            <option>Clothing brand / collab</option>
+            <option>Print on demand</option>
+            <option>Retailer / stockist</option>
+            <option>Investor / other</option>
+          </select>
+        </label>
+        <label class="wide">How could we work together? <textarea name="message" rows="4" required></textarea></label>
+        <button type="submit" class="wide">Send partnership enquiry</button>
+      </form>
     </section>
 
     <section class="shop-links">
@@ -174,5 +226,8 @@
   </script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+  <script>
+    if (/[?&]sent=1/.test(location.search)) document.getElementById('partner-sent').hidden = false;
+  </script>
 </body>
 </html>

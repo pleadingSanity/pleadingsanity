@@ -34,9 +34,25 @@
     installPrompt = e;
     showInstall(true);
   });
+  // iPhone and iPad never fire beforeinstallprompt — show how to add it by hand.
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isIOS && !standalone) showInstall(true);
+  function iosHint() {
+    var old = document.getElementById('ps-ios-hint');
+    if (old) { old.remove(); return; }
+    var tip = document.createElement('div');
+    tip.id = 'ps-ios-hint';
+    tip.className = 'ps-toast';
+    tip.setAttribute('role', 'status');
+    tip.innerHTML = '📲 In Safari, tap <strong>Share</strong> <span aria-hidden="true">⎋</span> then <strong>Add to Home Screen</strong>.';
+    document.body.appendChild(tip);
+    setTimeout(function () { tip.remove(); }, 8000);
+  }
+
   installButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      if (!installPrompt) return;
+      if (!installPrompt) { if (isIOS) iosHint(); return; }
       installPrompt.prompt();
       installPrompt.userChoice.finally(function () {
         installPrompt = null;

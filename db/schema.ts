@@ -195,3 +195,50 @@ export const activityLog = pgTable(
   },
   (t) => [index("activity_log_created_idx").on(t.createdAt)],
 );
+
+// ─── AI STUDIO — humans and AIs creating side by side ───
+// kind: "creation" (AI-made post), "battle" (daily Human vs AI entry),
+// "podcast" (a multi-AI Unity Pod episode; turns live in `script`).
+// authorId is null for AI-made items; `model` records which AI made it.
+export const studioItems = pgTable(
+  "studio_items",
+  {
+    id: serial().primaryKey(),
+    kind: text().notNull(),
+    authorId: text("author_id").references(() => users.id, { onDelete: "cascade" }),
+    authorLabel: text("author_label").notNull(),
+    model: text(),
+    style: text().notNull().default(""),
+    topic: text().notNull().default(""),
+    title: text().notNull().default(""),
+    body: text().notNull().default(""),
+    script: jsonb(),
+    day: text(),
+    hidden: boolean().notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("studio_items_kind_idx").on(t.kind, t.id), index("studio_items_day_idx").on(t.kind, t.day)],
+);
+
+// One heart per voter per item. voter is an Identity user id or a random device key.
+export const studioVotes = pgTable(
+  "studio_votes",
+  {
+    itemId: integer("item_id")
+      .notNull()
+      .references(() => studioItems.id, { onDelete: "cascade" }),
+    voter: text().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.itemId, t.voter] })],
+);
+
+// Daily AI usage per visitor (hashed IP or user id) so costs stay predictable.
+export const studioUsage = pgTable(
+  "studio_usage",
+  {
+    key: text().primaryKey(),
+    count: integer().notNull().default(0),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+);

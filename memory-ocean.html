@@ -162,6 +162,11 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .card:hover,.btn:hover,.socials a:hover{transform:none;}
     }
+    .psg-bar-wrap{margin-bottom:14px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{font-family:inherit;}
+    .tile{padding:0;color:inherit;}
+    .btn:focus-visible,.tile:focus-visible,.pad:focus-visible,.card:focus-visible,.opt-cell:focus-visible,.option-btn:focus-visible,.answer-input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
 </head>
@@ -177,6 +182,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/sanityhub.html">Hub</a>
       <a href="/arron.html">Arron</a>
+      <a href="/ai-studio.html">AI Studio</a>
       <a href="/journal-vault.html">Journal</a>
       <a href="/games.html" aria-current="page">Games</a>
       <a href="/frequencies.html">Hz</a>
@@ -199,6 +205,7 @@
 
   <main id="main">
     <div class="game-card">
+      <div id="psBar" class="psg-bar-wrap"></div>
       <div class="stats">
         <div class="stat">
           <div class="stat-label">Level</div>
@@ -218,7 +225,7 @@
         <div class="progress-fill" id="progress" style="width:0%"></div>
       </div>
 
-      <div class="status" id="status">Press Dive In — let your mind float freely 🌊</div>
+      <div class="status" id="status" role="status" aria-live="polite">Press Dive In — let your mind float freely 🌊</div>
       <div class="cards-grid" id="cardsArea"></div>
       <button class="btn primary" id="startBtn" onclick="startGame()">🌊 Dive In</button>
       
@@ -257,8 +264,22 @@
   </div>
 </footer>
 
+  <script src="/js/games.js"></script>
   <script>
-    let level=1, pairsFound=0, totalPairs=0, moves=0, isPlaying=false, flipped=[], matched=[], canClick=true;
+    const GID='memory-ocean',PS=window.PSGames;
+    const $st=document.getElementById('status'),$score=document.getElementById('score'),$streak=document.getElementById('streak'),$moves=document.getElementById('moves');
+    let run={score:0,max:0,on:false};
+    PS.mountBar(document.getElementById('psBar'),GID);
+    function beginRun(){if(!run.on){run={score:0,max:0,on:true};PS.startSession(GID);}}
+    function scorePop(el,gain,mult,combo){PS.pop('+'+gain+(mult>1?' \u00d7'+mult:''),el,mult>1?'combo':'');PS.burst(el,{count:mult>1?28:14});PS.sfx('good',combo);}
+    function endRun(msg,kind){
+      if(!run.on)return;
+      const r=PS.award(GID,run.score,{level,maxCombo:run.max});
+      run={score:0,max:0,on:false};
+      setStatus(msg+' \u00b7 '+PS.quip('gameover')+' +'+r.xp+' XP'+(r.newBest?' \ud83c\udfc6 New best!':''),kind||'fail');
+      PS.sfx('miss');
+    }
+    let combo=0, level=1, pairsFound=0, totalPairs=0, moves=0, isPlaying=false, flipped=[], matched=[], canClick=true;
     const icons=['🌊','🐬','🦋','✨','🌙','⭐','💎','🪐','🌸','🍃','🔮','🕊️'];
     
     function loadSave(){
@@ -267,16 +288,16 @@
     }
     function save(){localStorage.setItem('memoryOcean',JSON.stringify({lvl,ts:Date.now()}));}
     function updateUI(){
-      lvl.textContent=level;pairs.textContent=`${pairsFound}/${totalPairs}`;moves.textContent=moves;
+      lvl.textContent=level;pairs.textContent=`${pairsFound}/${totalPairs}`;$moves.textContent=moves;
       progress.style.width=`${(pairsFound/totalPairs)*100||0}%`;
     }
-    function setStatus(msg,cls=''){status.className='status '+cls;status.textContent=msg;}
+    function setStatus(msg,cls=''){$st.className='status '+cls;$st.textContent=msg;}
     
     function initLevel(){
-      const pairCount=Math.min(4+level,12);totalPairs=pairCount;pairsFound=0;moves=0;flipped=[];matched=[];
+      const pairCount=Math.min(4+level,12);totalPairs=pairCount;pairsFound=0;moves=0;combo=0;flipped=[];matched=[];
       const selected=icons.slice(0,pairCount);
       let deck=[...selected,...selected].sort(()=>Math.random()-.5);
-      cardsArea.innerHTML=deck.map((icon,i)=>`<button class="card" data-i="${i}" data-icon="${icon}">?</button>`).join('');
+      cardsArea.innerHTML=deck.map((icon,i)=>`<button type="button" class="card" data-i="${i}" data-icon="${icon}" aria-label="Face-down card">?</button>`).join('');
       cardsArea.querySelectorAll('.card').forEach(c=>c.onclick=flipCard);
       updateUI();
     }
@@ -286,7 +307,7 @@
       const card=this;
       if(card.classList.contains('flipped')||card.classList.contains('matched'))return;
       
-      card.classList.add('flipped');card.textContent=card.dataset.icon;flipped.push(card);
+      card.classList.add('flipped');card.textContent=card.dataset.icon;card.setAttribute('aria-label','Card '+card.dataset.icon);flipped.push(card);PS.sfx('tap');
       
       if(flipped.length===2){
         canClick=false;moves++;
@@ -294,21 +315,25 @@
         if(a.dataset.icon===b.dataset.icon){
           await new Promise(r=>setTimeout(r,300));
           a.classList.add('matched');b.classList.add('matched');
-          pairsFound++;
+          pairsFound++;combo++;run.max=Math.max(run.max,combo);
+          const mult=PS.multiplier(combo),gain=Math.round(100*mult);run.score+=gain;scorePop(b,gain,mult,combo);
           if(pairsFound===totalPairs){
-            level++;setStatus(`🌊 COMPLETE! Level ${level} awaits — dive deeper?`,'complete');save();
+            run.score+=Math.max(0,totalPairs*3-moves)*10;
+            const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};PS.confetti();
+            level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+` Level ${level} awaits.`,'complete');save();
             setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🌊 Dive Deeper';},2000);
-          }else{setStatus(`✅ Found one! Keep going…`,'success');}
+          }else{setStatus(`✅ Found one! ${combo>1?combo+' in a row! ':''}${PS.quip('correct')}`,'success');}
           updateUI();
         }else{
+          combo=0;
           await new Promise(r=>setTimeout(r,900));
-          a.classList.remove('flipped');b.classList.remove('flipped');a.textContent='?';b.textContent='?';
+          a.classList.remove('flipped');b.classList.remove('flipped');a.textContent='?';b.textContent='?';a.setAttribute('aria-label','Face-down card');b.setAttribute('aria-label','Face-down card');
         }
         flipped=[];canClick=true;
       }
     }
     
-    function startGame(){if(isPlaying)return;isPlaying=true;startBtn.disabled=true;initLevel();setStatus('🌊 Cards shuffled — breathe and begin…','playing');}
+    function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;initLevel();setStatus('🌊 Cards shuffled — breathe and begin…','playing');}
     document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
   </script>
   <script src="/js/site.js" defer></script>

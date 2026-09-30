@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.0.0';
-const STATIC_CACHE = 'pleading-sanity-static-v9';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v9';
+const VERSION = '4.2.0';
+const STATIC_CACHE = 'pleading-sanity-static-v11';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v11';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -25,6 +25,7 @@ const PRIVATE_PAGES = [
 const PRECACHE_URLS = [
     '/',
     '/about.html',
+    '/ai-studio.html',
     '/arron.html',
     '/arron-app.html',
     '/community-dashboard.html',
@@ -50,6 +51,7 @@ const PRECACHE_URLS = [
     '/sanityhub.html',
     '/shop.html',
     '/signup.html',
+    '/stardust-dash.html',
     '/videos.html',
     '/manifest.json',
     '/manifest-arron.json',
@@ -61,17 +63,22 @@ const PRECACHE_URLS = [
     '/css/arron.css',
     '/css/arron-styles.css',
     '/css/social.css',
+    '/css/ai-studio.css',
+    '/css/cosmic-scroll.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',
     '/js/social.js',
+    '/js/ai-studio.js',
     '/js/profile-form.js',
     '/js/vendor/netlify-identity.js',
     '/js/games.js',
+    '/js/stardust-dash.js',
     '/js/mindmode.js',
     '/js/scrollFeed.js',
     '/js/video-feed.js',
+    '/js/cosmic-scroll.js',
     '/content/content_feed.json',
     '/assets/logo.svg',
     '/assets/favicon.svg',
@@ -111,7 +118,8 @@ self.addEventListener('activate', event => {
 // 🌐 FETCH
 // Pages → network first, cached copy or offline page when offline
 // Member pages → network only, offline page when offline
-// Static files → cache first, refreshed in the background
+// Scripts, styles & JSON → network first, cached copy when offline
+// Images & audio → cache first, refreshed in the background
 // APIs & third parties → straight to network
 // ========================================
 self.addEventListener('fetch', event => {
@@ -145,6 +153,23 @@ self.addEventListener('fetch', event => {
         return;
     }
 
+    // Code and data → network first so a fresh page never runs stale scripts
+    if (/\.(?:js|css|json)$/.test(url.pathname)) {
+        event.respondWith(
+            fetch(request)
+                .then(response => {
+                    if (response.ok) {
+                        const copy = response.clone();
+                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
+                    }
+                    return response;
+                })
+                .catch(async () => (await caches.match(request)) || Response.error())
+        );
+        return;
+    }
+
+    // Images, icons, audio → cache first, refreshed in the background
     event.respondWith(
         caches.match(request).then(cached => {
             const network = fetch(request)
@@ -155,7 +180,7 @@ self.addEventListener('fetch', event => {
                     }
                     return response;
                 })
-                .catch(() => cached);
+                .catch(() => cached || Response.error());
             return cached || network;
         })
     );

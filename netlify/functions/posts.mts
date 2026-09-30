@@ -154,6 +154,30 @@ async function feed(viewer: Viewer, url: URL) {
   });
 }
 
+// Guests (home page "For You" stream) see public, visible, non-crisis posts only.
+async function publicFeed(url: URL) {
+  const before = Number(url.searchParams.get("before"));
+  const rows = await db
+    .select()
+    .from(posts)
+    .where(
+      and(
+        eq(posts.hidden, false),
+        eq(posts.visibility, "public"),
+        eq(posts.crisis, false),
+        Number.isInteger(before) && before > 0 ? lt(posts.id, before) : undefined,
+      ),
+    )
+    .orderBy(desc(posts.createdAt), desc(posts.id))
+    .limit(PAGE + 1);
+  const page = rows.slice(0, PAGE);
+  return json({
+    posts: await hydrate(page, ""),
+    nextBefore: rows.length > PAGE ? page[page.length - 1].id : null,
+    guest: true,
+  });
+}
+
 async function createPost(req: Request, viewer: Viewer) {
   const profile = await profileFor(viewer.id);
   if (!profile?.onboarded) return json({ error: "Finish setting up your profile first.", onboarding: true }, 409);
@@ -329,10 +353,13 @@ async function deleteComment(id: number, viewer: Viewer) {
 export default async (req: Request) => {
   try {
     const user = await currentUser();
-    if (!user) return unauthorized();
-    const viewer: Viewer = { id: user.id, roles: user.roles };
     const url = new URL(req.url);
     const parts = url.pathname.split("/").filter(Boolean); // ["api", "posts", id?, sub?]
+    if (!user && parts.length === 2 && parts[1] === "posts" && req.method === "GET" && url.searchParams.get("public") === "1") {
+      return await publicFeed(url);
+    }
+    if (!user) return unauthorized();
+    const viewer: Viewer = { id: user.id, roles: user.roles };
 
     if (parts[1] === "comments") {
       if (req.method === "DELETE") return await deleteComment(Number(parts[2]), viewer);

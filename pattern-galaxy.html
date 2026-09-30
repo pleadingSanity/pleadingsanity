@@ -182,6 +182,11 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .opt-cell:hover,.btn:hover,.socials a:hover{transform:none;}
     }
+    .psg-bar-wrap{margin-bottom:14px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{font-family:inherit;}
+    .tile{padding:0;color:inherit;}
+    .btn:focus-visible,.tile:focus-visible,.pad:focus-visible,.card:focus-visible,.opt-cell:focus-visible,.option-btn:focus-visible,.answer-input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;}
+    .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
 </head>
@@ -197,6 +202,7 @@
       <a href="/movement.html">Movement</a>
       <a href="/sanityhub.html">Hub</a>
       <a href="/arron.html">Arron</a>
+      <a href="/ai-studio.html">AI Studio</a>
       <a href="/journal-vault.html">Journal</a>
       <a href="/games.html" aria-current="page">Games</a>
       <a href="/frequencies.html">Hz</a>
@@ -219,6 +225,7 @@
 
   <main id="main">
     <div class="game-card">
+      <div id="psBar" class="psg-bar-wrap"></div>
       <div class="stats">
         <div class="stat">
           <div class="stat-label">Level</div>
@@ -238,7 +245,7 @@
         <div class="progress-fill" id="progress" style="width:0%"></div>
       </div>
 
-      <div class="status" id="status">Press Begin to awaken your perception 🌌</div>
+      <div class="status" id="status" role="status" aria-live="polite">Press Begin to awaken your perception 🌌</div>
       <div class="pattern-display" id="patternArea"></div>
       <div id="optionsArea"></div>
       <button class="btn primary" id="startBtn" onclick="startGame()">🚀 Begin Alignment</button>
@@ -278,7 +285,21 @@
   </div>
 </footer>
 
+  <script src="/js/games.js"></script>
   <script>
+    const GID='pattern-galaxy',PS=window.PSGames;
+    const $st=document.getElementById('status'),$score=document.getElementById('score'),$streak=document.getElementById('streak'),$moves=document.getElementById('moves');
+    let run={score:0,max:0,on:false};
+    PS.mountBar(document.getElementById('psBar'),GID);
+    function beginRun(){if(!run.on){run={score:0,max:0,on:true};PS.startSession(GID);}}
+    function scorePop(el,gain,mult,combo){PS.pop('+'+gain+(mult>1?' \u00d7'+mult:''),el,mult>1?'combo':'');PS.burst(el,{count:mult>1?28:14});PS.sfx('good',combo);}
+    function endRun(msg,kind){
+      if(!run.on)return;
+      const r=PS.award(GID,run.score,{level,maxCombo:run.max});
+      run={score:0,max:0,on:false};
+      setStatus(msg+' \u00b7 '+PS.quip('gameover')+' +'+r.xp+' XP'+(r.newBest?' \ud83c\udfc6 New best!':''),kind||'fail');
+      PS.sfx('miss');
+    }
     let level=1, score=0, streak=0, isPlaying=false, current={}, canAnswer=false;
     const symbols=['◆','◇','○','●','△','▲','☆','★','⬡','⬢'];
     
@@ -290,10 +311,10 @@
       localStorage.setItem('patternGalaxy',JSON.stringify({lvl,score,streak,ts:Date.now()}));
     }
     function updateUI(){
-      lvl.textContent=level;score.textContent=score;streak.textContent=streak+'✨';
+      lvl.textContent=level;$score.textContent=score;$streak.textContent=streak+'✨';
       progress.style.width=((score%(level*120))/(level*120)*100||0)+'%';
     }
-    function setStatus(msg,cls=''){status.className='status '+cls;status.textContent=msg;}
+    function setStatus(msg,cls=''){$st.className='status '+cls;$st.textContent=msg;}
     
     function genPattern(){
       const types=['repeat','shift','grow','rotate','fade'];
@@ -328,7 +349,7 @@
       current=genPattern();
       patternArea.innerHTML=`<div class="row">${current.seq.map(c=>`<div class="cell active">${c}</div>`).join('')}</div>`;
       optionsArea.innerHTML=`<div class="options-grid">${current.opts.map(o=>`
-        <button class="opt-cell" data-val="${o}">${o||'?'}</button>
+        <button type="button" class="opt-cell" data-val="${o}" aria-label="Option ${o}">${o||'?'}</button>
       `).join('')}</div>`;
       document.querySelectorAll('.opt-cell').forEach(b=>b.onclick=()=>check(b.dataset.val,b));
       canAnswer=true;
@@ -342,20 +363,20 @@
       
       if(given===current.ans){
         btn.classList.add('correct');
-        score+=level*12+streak*4;streak++;
+        streak++;run.max=Math.max(run.max,streak);const mult=PS.multiplier(streak),gain=Math.round(level*12*mult);score+=gain;run.score+=gain;scorePop(btn,gain,mult,streak);
         if(score>=level*120){
-          level++;setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies!`,'levelup');
-        }else{setStatus(`✅ Perfect flow! +${level*12+streak*4} points`,'success');}
+          level++;PS.confetti();setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies!`,'levelup');
+        }else{setStatus(`✅ ${PS.quip('correct')} +${gain} points`,'success');}
         save();updateUI();setTimeout(renderPattern,1400);
       }else{
         btn.classList.add('wrong');streak=0;
-        setStatus(`❌ The pattern repeats: ${current.ans}`,'fail');
+        endRun(`❌ The pattern repeats: ${current.ans||'(blank)'}`);
         save();updateUI();
         setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🚀 Realign';},1600);
       }
     }
     
-    function startGame(){if(isPlaying)return;isPlaying=true;startBtn.disabled=true;renderPattern();}
+    function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;renderPattern();}
     document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
   </script>
   <script src="/js/site.js" defer></script>
