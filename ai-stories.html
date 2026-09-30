@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
 PLEADING SANITY — RISE FROM MADNESS
-Survivor community · Safe, moderated, kind.
+Built from lived experience. For those who feel too much.
 Evolution, Not Erasure. One Source. One Family.
+Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
 -->
 <html lang="en-GB">
 <head>
@@ -17,22 +18,23 @@ Evolution, Not Erasure. One Source. One Family.
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/accessibility.css" />
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://pleadingsanity.co.uk/admin.html" />
-  <title>Moderation Queue — Pleading Sanity | Rise From Madness</title>
-  <meta name="description" content="Pleading Sanity moderation queue for reported profiles, posts and comments." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/ai-stories.html" />
+  <title>AI Stories — Arron's Best Moments | Pleading Sanity</title>
+  <meta name="description" content="Uplifting conversations with Arron shared by the Pleading Sanity community: inspiring moments, funny exchanges, wisdom and wins." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Pleading Sanity" />
-  <meta property="og:title" content="Moderation Queue — Pleading Sanity" />
-  <meta property="og:description" content="Pleading Sanity moderation queue for reported profiles, posts and comments." />
+  <meta property="og:title" content="AI Stories — Arron's Best Moments | Pleading Sanity" />
+  <meta property="og:description" content="Wisdom, wins, laughs and little lights in the dark: moments shared with Arron." />
   <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
-  <meta property="og:url" content="https://pleadingsanity.co.uk/admin.html" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/ai-stories.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
+  <link rel="stylesheet" href="/css/ai-family.css" />
 </head>
 <body class="ps-page">
 
@@ -63,13 +65,13 @@ Evolution, Not Erasure. One Source. One Family.
           <a href="/kids.html">🧒 Keep Kids Sane</a>
         </div>
       </div>
-      <div class="ps-group" data-group="community">
+      <div class="ps-group has-current" data-group="community">
         <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
           <a href="/feed.html">🌟 For You Feed</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
-          <a href="/ai-stories.html">💬 AI Stories</a>
+          <a href="/ai-stories.html" aria-current="page">💬 AI Stories</a>
           <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
           <a href="/movement.html">✊ The Movement</a>
           <a href="/about.html">💜 Our Story</a>
@@ -82,20 +84,42 @@ Evolution, Not Erasure. One Source. One Family.
   </div>
 </nav>
 
-  <main id="main-content" class="social-main wide">
-    <header class="social-head fade-in">
-      <h1>🛡️ Moderation Queue</h1>
-      <p>Reports from the community. Act kindly, act quickly — someone reported this because they felt unsafe.</p>
+
+  <div class="cosmic-bg" aria-hidden="true"></div>
+  <div class="stars" aria-hidden="true"></div>
+
+  <main id="main-content" class="social-main stories">
+
+    <header class="hero fade-in as-hero">
+      <h1>💬 AI Stories</h1>
+      <p class="lead">Arron's best moments: wisdom, wins, laughs and little lights in the dark.</p>
+      <p class="muted">Shared by the community, checked for kindness, readable by everyone. <a href="/ai-ecosystem.html">Meet our AI family →</a></p>
     </header>
 
-    <div class="tabs" role="group" aria-label="Filter reports by status" id="filters">
-      <button type="button" data-status="open" aria-pressed="true">Open</button>
-      <button type="button" data-status="reviewed" aria-pressed="false">Reviewed</button>
-      <button type="button" data-status="actioned" aria-pressed="false">Actioned</button>
-      <button type="button" data-status="all" aria-pressed="false">All</button>
-    </div>
+    <section class="panel" id="share" aria-labelledby="share-title">
+      <h2 id="share-title">✨ Share a moment</h2>
+      <div data-share><p class="muted">Loading…</p></div>
+    </section>
 
-    <div id="queue" aria-live="polite"><div class="skeleton"></div></div>
+    <section aria-labelledby="wall-title">
+      <h2 id="wall-title" class="sr-only">Stories</h2>
+      <div class="as-filters" role="toolbar" aria-label="Filter stories">
+        <div class="as-chips" data-kinds>
+          <button type="button" class="as-chip" data-kind="all" aria-pressed="true">🌌 All</button>
+          <button type="button" class="as-chip" data-kind="inspiring" aria-pressed="false">🌟 Inspiring</button>
+          <button type="button" class="as-chip" data-kind="funny" aria-pressed="false">😂 Funny</button>
+          <button type="button" class="as-chip" data-kind="wisdom" aria-pressed="false">🦉 Wisdom</button>
+          <button type="button" class="as-chip" data-kind="win" aria-pressed="false">🏆 Wins</button>
+        </div>
+        <div class="as-chips" data-sorts>
+          <button type="button" class="as-chip" data-sort="new" aria-pressed="true">🆕 Newest</button>
+          <button type="button" class="as-chip" data-sort="top" aria-pressed="false">💗 Most loved</button>
+        </div>
+      </div>
+      <div class="as-wall" data-wall aria-live="polite"><div class="skeleton" style="height:160px"></div><div class="skeleton" style="height:160px"></div></div>
+      <div class="center" data-more></div>
+    </section>
+
   </main>
 
 <footer class="ps-footer" role="contentinfo">
@@ -130,83 +154,6 @@ Evolution, Not Erasure. One Source. One Family.
 </footer>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-  <script type="module">
-import { api, esc, requireMember, toast } from '/js/auth.js';
-    import { timeAgo } from '/js/social.js';
-
-    const me = await requireMember();
-    const queue = document.getElementById('queue');
-    let status = 'open';
-
-    if (!me.user.isAdmin) {
-      queue.innerHTML = '<p class="notice err">This page is for moderators only.</p>';
-      throw new Error('Not an admin');
-    }
-
-    const REASONS = {
-      harassment: 'Harassment or bullying', hate: 'Hate speech', 'self-harm-risk': 'Someone may be at risk',
-      spam: 'Spam', impersonation: 'Impersonation', 'unsafe-content': 'Unsafe content', other: 'Other',
-    };
-
-    function card(r) {
-      const t = r.target;
-      const canHide = t && r.targetType !== 'user';
-      return `
-        <article class="panel" data-id="${r.id}">
-          <div class="row" style="justify-content:space-between">
-            <strong>${r.reason === 'self-harm-risk' ? '🚨 ' : ''}${esc(REASONS[r.reason] || r.reason)}</strong>
-            <span class="post-time">${esc(r.targetType)} · ${esc(r.status)} · ${timeAgo(r.createdAt)}</span>
-          </div>
-          ${t
-            ? `<p style="margin:.6rem 0 .3rem"><a href="${esc(t.link)}">${esc(t.label)}</a>${t.hidden ? ' <span class="post-time">(hidden)</span>' : ''}</p>
-               ${t.excerpt ? `<blockquote class="muted" style="margin:0 0 .6rem;padding-left:12px;border-left:3px solid rgba(0,255,240,.4);white-space:pre-wrap">${esc(t.excerpt)}</blockquote>` : ''}`
-            : '<p class="muted">The reported content no longer exists.</p>'}
-          ${r.details ? `<p style="margin:0 0 .8rem"><strong>Reporter says:</strong> ${esc(r.details)}</p>` : ''}
-          <div class="btn-row">
-            ${canHide ? `<button type="button" class="sbtn small danger" data-act="actioned" data-hide="${!t.hidden}">${t.hidden ? 'Unhide' : 'Hide content'}</button>` : ''}
-            ${r.status !== 'reviewed' ? '<button type="button" class="sbtn small ghost" data-act="reviewed">Mark reviewed (no action)</button>' : ''}
-            ${r.status !== 'actioned' ? '<button type="button" class="sbtn small ghost" data-act="actioned">Mark actioned</button>' : ''}
-            ${r.status !== 'open' ? '<button type="button" class="sbtn small ghost" data-act="open">Reopen</button>' : ''}
-          </div>
-        </article>`;
-    }
-
-    async function load() {
-      queue.innerHTML = '<div class="skeleton"></div>';
-      try {
-        const { reports } = await api(`/api/admin/reports?status=${status}`);
-        queue.innerHTML = reports.length ? reports.map(card).join('') : '<p class="empty">Nothing here. The community is being kind. 💙</p>';
-      } catch (error) {
-        queue.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
-      }
-    }
-
-    document.getElementById('filters').addEventListener('click', (e) => {
-      const b = e.target.closest('[data-status]');
-      if (!b) return;
-      status = b.dataset.status;
-      document.querySelectorAll('#filters [data-status]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
-      load();
-    });
-
-    queue.addEventListener('click', async (e) => {
-      const b = e.target.closest('[data-act]');
-      if (!b) return;
-      const id = Number(b.closest('[data-id]').dataset.id);
-      const body = { id, status: b.dataset.act };
-      if (b.dataset.hide) body.hide = b.dataset.hide === 'true';
-      b.disabled = true;
-      try {
-        await api('/api/admin/reports', { method: 'POST', body });
-        toast('Updated ✓');
-        load();
-      } catch (error) {
-        toast(error.message);
-        b.disabled = false;
-      }
-    });
-
-    load();
-  </script>
+  <script type="module" src="/js/ai-stories.js"></script>
 </body>
 </html>

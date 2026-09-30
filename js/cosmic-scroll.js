@@ -6,7 +6,7 @@
 //   data-sources="posts,videos"   which live sources to mix in
 //   data-label="For You"          accessible name for the stream
 // Kind by design: a breathing card every few swipes and a gentle
-// "take a break" card after a long session. No tracking, ever.
+// "breathe with me" pause card every ten. No tracking, ever.
 // ==============================================================
 
 import { api, esc, avatarText, loadMe, toast } from '/js/auth.js';
@@ -14,8 +14,10 @@ import { api, esc, avatarText, loadMe, toast } from '/js/auth.js';
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const MAX_CARDS = 36; // older cards are recycled so long sessions stay light
 const PREFETCH_AT = 4; // start loading when this many cards are left
-const BREAK_EVERY = 25;
+const BREAK_EVERY = 10;
 const SAVED_KEY = 'ps-saved';
+// Small snapshots of saved cards so the profile page can list them.
+const SAVED_ITEMS = 'ps-saved-items';
 const LOCAL_LIKES = 'ps-local-likes';
 
 const AFFIRMATIONS = [
@@ -120,6 +122,13 @@ function calmSource() {
   };
 }
 
+function snapshot(item = {}) {
+  const at = Date.now();
+  if (item.type === 'post') return { type: 'post', title: item.post.title || item.post.body.slice(0, 90), href: `/feed.html?post=${item.post.id}#community`, at };
+  if (item.type === 'video') return { type: 'video', title: item.video.title, href: `https://www.youtube.com/watch?v=${encodeURIComponent(item.video.videoId)}`, at };
+  return { type: item.type || 'quote', title: item.title || '', sub: item.sub || '', href: item.href || '', at };
+}
+
 // ─── CARDS ───
 function actionRail(item) {
   const saved = readJSON(SAVED_KEY, []).includes(item.key);
@@ -175,8 +184,9 @@ function cardBody(item, index) {
       return `<div class="cs-center"><div class="cs-breath" aria-hidden="true"></div>
         <p class="cs-big sm">Breathe with the circle</p><p class="cs-sub">In as it grows · out as it shrinks. Three rounds. You've got this.</p></div>`;
     case 'break':
-      return `<div class="cs-center"><p class="cs-big">You've been scrolling a while 💙</p>
-        <p class="cs-sub">Maybe stretch, drink some water, or look out a window. The cosmos will still be here.</p>
+      return `<div class="cs-center"><div class="cs-breath" aria-hidden="true"></div>
+        <p class="cs-big">You've been scrolling a while — breathe with me 💙</p>
+        <p class="cs-sub">In as the circle grows · out as it shrinks. Then maybe stretch, sip some water, or look out a window. The cosmos will still be here.</p>
         <div class="cs-row"><a class="cs-cta" href="/meditation.html">🧘 Two quiet minutes</a><a class="cs-cta ghost" href="/crisis.html">Need to talk? Get help</a></div></div>`;
     default:
       return `<p>${index}</p>`;
@@ -430,6 +440,10 @@ class CosmicScroll {
     const on = !saved.has(key);
     on ? saved.add(key) : saved.delete(key);
     writeJSON(SAVED_KEY, [...saved].slice(-300));
+    const items = readJSON(SAVED_ITEMS, {});
+    if (on) items[key] = snapshot(card._item);
+    else delete items[key];
+    writeJSON(SAVED_ITEMS, Object.fromEntries(Object.entries(items).filter(([k]) => saved.has(k))));
     btn.setAttribute('aria-pressed', String(on));
     btn.querySelector('[aria-hidden]').textContent = on ? '⭐' : '☆';
     toast(on ? 'Saved on this device ⭐' : 'Removed from saved');

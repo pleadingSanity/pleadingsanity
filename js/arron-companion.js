@@ -193,9 +193,33 @@
       meta.className = 'meta';
       meta.textContent = 'Offline reply';
       wrapper.appendChild(meta);
+    } else if (role === 'assistant' && opts.shareable) {
+      const share = document.createElement('button');
+      share.type = 'button';
+      share.className = 'arron-share';
+      share.dataset.shareStory = '';
+      share.textContent = '✨ Share to AI Stories';
+      wrapper.appendChild(share);
     }
     return wrapper;
   }
+
+  // A lovely reply can go on the public AI Stories wall. Nothing is posted
+  // here — the story page opens with a draft the person can edit or bin.
+  conversationBox.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-share-story]');
+    if (!btn) return;
+    const reply = btn.closest('.message');
+    let prev = reply.previousElementSibling;
+    while (prev && !prev.classList.contains('user-message')) prev = prev.previousElementSibling;
+    try {
+      sessionStorage.setItem('ps-story-draft', JSON.stringify({
+        arronLine: reply.querySelector('p').textContent,
+        userLine: prev ? prev.querySelector('p').textContent : '',
+      }));
+    } catch (err) { /* private mode — the form just starts empty */ }
+    location.href = '/ai-stories.html#share';
+  });
 
   function scrollToLatest(smooth) {
     conversationBox.scrollTo({ top: conversationBox.scrollHeight, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
@@ -204,7 +228,7 @@
   function render() {
     conversationBox.innerHTML = '';
     conversationBox.appendChild(bubble(greeting(), 'assistant'));
-    messages.forEach((m) => conversationBox.appendChild(bubble(m.content, m.role, { fallback: m.fallback })));
+    messages.forEach((m) => conversationBox.appendChild(bubble(m.content, m.role, { fallback: m.fallback, shareable: true })));
     scrollToLatest(false);
   }
 
@@ -216,7 +240,7 @@
     const entry = { role, content: text };
     if (opts.fallback) entry.fallback = true;
     messages.push(entry);
-    conversationBox.appendChild(bubble(text, role, opts));
+    conversationBox.appendChild(bubble(text, role, { shareable: true, ...opts }));
     scrollToLatest(true);
     cacheMessages();
   }
@@ -359,9 +383,12 @@
   let retryTimer = null;
   let retryDelay = 2000;
 
+  // Signed-in creators and admins get Arron at full power (see /api/arron/chat).
+  let creatorMode = false;
+
   function updatePresence() {
     presenceEl.textContent = {
-      online: 'Your companion · here with you',
+      online: creatorMode ? 'Creator mode · full power 💫' : 'Your companion · here with you',
       reconnecting: 'Reconnecting…',
       offline: 'Offline · still here with simpler replies'
     }[conn];
@@ -480,6 +507,7 @@
       const data = await res.json();
       if (!data.reply) throw new Error('Empty reply');
       reply = data.reply;
+      creatorMode = Boolean(data.creator);
       setConn('online');
       setStatus(data.remembered === false
         ? "Arron replied, but couldn't save this to your memory just now."
@@ -701,6 +729,16 @@
       setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
       setStatus(messages.length ? 'Showing your saved conversation from this device.' : 'Ready. Say hello. 💙');
     });
+
+  // Show creator mode straight away for signed-in creators and admins.
+  request(HEALTH_API, { cache: 'no-store', timeout: 8000 })
+    .then((res) => (res.ok ? res.json() : {}))
+    .then((data) => {
+      if (!data.creator) return;
+      creatorMode = true;
+      updatePresence();
+    })
+    .catch(() => {});
 
   window.ArronCompanion = { handleInput, offlineResponse, detectMood };
 })();

@@ -242,3 +242,39 @@ export const studioUsage = pgTable(
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
   },
 );
+
+// ─── AI STORIES — the best moments people have shared with Arron ───
+// kind: inspiring | funny | wisdom | win. Members share; everyone reads.
+// Every story passes moderation before it is saved.
+export const aiStories = pgTable(
+  "ai_stories",
+  {
+    id: serial().primaryKey(),
+    authorId: text("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    kind: text().notNull().default("inspiring"),
+    title: text().notNull().default(""),
+    userLine: text("user_line").notNull().default(""),
+    arronLine: text("arron_line").notNull(),
+    reflection: text().notNull().default(""),
+    anonymous: boolean().notNull().default(false),
+    contentWarning: boolean("content_warning").notNull().default(false),
+    hidden: boolean().notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("ai_stories_created_idx").on(t.hidden, t.id), index("ai_stories_kind_idx").on(t.kind, t.id)],
+);
+
+// One heart per voter per story. voter is "u:<identity id>" or "d:<device key>".
+export const aiStoryHearts = pgTable(
+  "ai_story_hearts",
+  {
+    storyId: integer("story_id")
+      .notNull()
+      .references(() => aiStories.id, { onDelete: "cascade" }),
+    voter: text().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.storyId, t.voter] })],
+);

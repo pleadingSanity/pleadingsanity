@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.2.0';
-const STATIC_CACHE = 'pleading-sanity-static-v11';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v11';
+const VERSION = '4.3.0';
+const STATIC_CACHE = 'pleading-sanity-static-v12';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v12';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -25,6 +25,8 @@ const PRIVATE_PAGES = [
 const PRECACHE_URLS = [
     '/',
     '/about.html',
+    '/ai-ecosystem.html',
+    '/ai-stories.html',
     '/ai-studio.html',
     '/arron.html',
     '/arron-app.html',
@@ -65,6 +67,7 @@ const PRECACHE_URLS = [
     '/css/social.css',
     '/css/ai-studio.css',
     '/css/cosmic-scroll.css',
+    '/css/ai-family.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
@@ -79,6 +82,7 @@ const PRECACHE_URLS = [
     '/js/scrollFeed.js',
     '/js/video-feed.js',
     '/js/cosmic-scroll.js',
+    '/js/ai-stories.js',
     '/content/content_feed.json',
     '/assets/logo.svg',
     '/assets/favicon.svg',

@@ -187,3 +187,17 @@
 .skeleton { height: 120px; border-radius: 20px; margin-bottom: 18px; background: linear-gradient(90deg, rgba(0, 255, 240, 0.04), rgba(0, 255, 240, 0.1), rgba(0, 255, 240, 0.04)); background-size: 200% 100%; animation: psShimmer 1.4s infinite linear; }
 @keyframes psShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
 @media (prefers-reduced-motion: reduce) { .skeleton { animation: none; } }
+
+/* ─── PROFILE: Cosmic Player & Saved (own profile only) ─── */
+.pp-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0.5rem 0 1rem; }
+.pp-stats > div { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 12px 6px; border: 1px solid rgba(0, 255, 240, 0.25); border-radius: 14px; background: rgba(0, 255, 240, 0.05); text-align: center; }
+.pp-stats strong { color: #00fff0; font-size: 1.15rem; }
+.pp-stats span { color: #a9c7d1; font-size: 0.8rem; }
+.pp-bar { height: 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.pp-bar > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #00fff0, #ff00ff); box-shadow: 0 0 12px rgba(0, 255, 240, 0.5); }
+.pp-badges { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 1rem 0; list-style: none; }
+.pp-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid rgba(255, 0, 255, 0.45); border-radius: 999px; background: rgba(255, 0, 255, 0.08); font-size: 0.85rem; font-weight: 600; }
+.pp-saved { display: grid; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.pp-saved li > a, .pp-saved li > span { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(0, 255, 240, 0.18); color: #eafffd; text-decoration: none; }
+.pp-saved li > a:hover, .pp-saved li > a:focus-visible { border-color: #00fff0; background: rgba(0, 255, 240, 0.06); }
+@media (max-width: 520px) { .pp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

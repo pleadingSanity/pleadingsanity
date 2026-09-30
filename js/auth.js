@@ -198,11 +198,15 @@ function renderNav(me) {
     return;
   }
 
-  const links = inner.querySelector('.ps-links');
-  const crisis = links?.querySelector('.ps-crisis');
-  if (links) {
-    links.insertBefore(navLink('/community.html', 'Community'), crisis);
-    links.insertBefore(navLink('/post.html', '✍️ Post'), crisis);
+  // Members get their own corner at the top of the Community group.
+  const communityMenu = inner.querySelector('#ps-g-community');
+  if (communityMenu) {
+    communityMenu.prepend(navLink('/community.html', '🤝 My Community'), navLink('/post.html', '✍️ New Post'));
+  } else {
+    const links = inner.querySelector('.ps-links');
+    const crisis = links?.querySelector('.ps-crisis');
+    links?.insertBefore(navLink('/community.html', 'Community'), crisis);
+    links?.insertBefore(navLink('/post.html', '✍️ Post'), crisis);
   }
 
   const profile = me.profile;
@@ -215,6 +219,7 @@ function renderNav(me) {
       ${pending ? `<span class="ps-badge" aria-label="${pending} friend requests">${pending}</span>` : ''}
     </button>
     <div class="ps-menu" id="ps-account-menu" role="menu" hidden>
+      <p class="ps-menu-role">${{ admin: '🛡️ Admin', creator: '💫 Creator · full power' }[me.user.role] || '🌱 Member'}</p>
       ${profile?.onboarded
         ? `<a role="menuitem" href="/profile.html">👤 My profile</a>
            <a role="menuitem" href="/feed.html#community">🌌 Community feed</a>

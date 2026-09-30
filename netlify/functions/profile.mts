@@ -53,6 +53,14 @@ async function friendCount(userId: string) {
   return row?.n ?? 0;
 }
 
+// Guests have no account. Every signed-in account is at least a member;
+// "creator" and "admin" are granted by hand in Netlify → Identity.
+function roleTier(roles: string[]) {
+  if (roles.includes("admin")) return "admin";
+  if (roles.includes("creator")) return "creator";
+  return "member";
+}
+
 // ─── GET /api/me ───
 async function getMe(userId: string, email: string, roles: string[]) {
   const profile = await profileFor(userId);
@@ -61,7 +69,7 @@ async function getMe(userId: string, email: string, roles: string[]) {
     .from(friends)
     .where(and(eq(friends.addresseeId, userId), eq(friends.status, "pending")));
   return json({
-    user: { id: userId, email, isAdmin: roles.includes("admin") },
+    user: { id: userId, email, isAdmin: roles.includes("admin"), role: roleTier(roles) },
     profile: profile ? { ...publicProfile(profile), story: profile.story, onboarded: profile.onboarded } : null,
     counts: {
       posts: await postCount(userId, true),
