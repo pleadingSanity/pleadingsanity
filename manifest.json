@@ -14,7 +14,7 @@
   "dir": "ltr",
   "background_color": "#000103",
   "theme_color": "#000103",
-  "orientation": "portrait-primary",
+  "orientation": "any",
   "categories": [
     "health",
     "lifestyle",

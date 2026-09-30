@@ -7,6 +7,7 @@
 
 import type { Config } from "@netlify/functions";
 import Anthropic from "@anthropic-ai/sdk";
+import { getUser } from "@netlify/identity";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
@@ -14,6 +15,10 @@ import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 
 const anthropic = new Anthropic();
 const MODEL = "claude-sonnet-5";
+// Creator mode: signed-in accounts with the Identity role "admin" or "creator"
+// get the most capable model, longer replies and a builder's-partner brief.
+const CREATOR_MODEL = "claude-opus-5-5";
+const CREATOR_ROLES = ["admin", "creator"];
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
 const MAX_MESSAGE = 2000;
@@ -79,6 +84,17 @@ async function recentMessages(id: string, limit: number) {
   return rows.reverse();
 }
 
+// The browser sends the Identity session cookie with every same-origin request,
+// so no extra client work is needed — anyone else simply gets the normal Arron.
+async function isCreator() {
+  try {
+    const user = await getUser();
+    return Boolean(user?.roles?.some((role) => CREATOR_ROLES.includes(role)));
+  } catch {
+    return false;
+  }
+}
+
 // ─── CHAT ───
 async function chat(req: Request) {
   const body = await readBody(req);
@@ -123,10 +139,11 @@ async function chat(req: Request) {
   if (last && last.role === "user") last.content += `\n\n${message}`;
   else turns.push({ role: "user", content: message });
 
+  const creator = await isCreator();
   const response = await anthropic.messages.create({
-    model: MODEL,
-    max_tokens: 700,
-    system: buildSystemPrompt(story, { name, mood, persona, truths, awareness }),
+    model: creator ? CREATOR_MODEL : MODEL,
+    max_tokens: creator ? 2000 : 700,
+    system: buildSystemPrompt(story, { name, mood, persona, truths, awareness, creator }),
     messages: turns,
   });
 
@@ -149,7 +166,7 @@ async function chat(req: Request) {
     console.error("Arron could not save messages:", error);
   }
 
-  return json({ reply, remembered });
+  return json({ reply, remembered, creator });
 }
 
 // ─── MEMORY: read / save story / forget ───
@@ -197,7 +214,7 @@ export default async (req: Request) => {
   const route = url.pathname.replace(/^\/api\/arron\/?/, "");
 
   try {
-    if (route === "health") return json({ ok: true, time: Date.now() });
+    if (route === "health") return json({ ok: true, time: Date.now(), creator: await isCreator() });
     if (route === "chat" && req.method === "POST") return await chat(req);
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);

@@ -15,7 +15,7 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/games.html" />
   <title>Brain Games — Pleading Sanity | No Ads. No Stress. Just Play.</title>
-  <meta name="description" content="Your own brain-training games — Cosmic Focus, Number Nebula, Pattern Galaxy, Memory Ocean, Rhythm Resonance. Download as an app. Free forever.">
+  <meta name="description" content="Your own brain-training games — Cosmic Focus, Number Nebula, Pattern Galaxy, Memory Ocean, Rhythm Resonance, Stardust Dash. Download as an app. Free forever.">
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
 
@@ -211,6 +211,47 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .game-card:hover,.btn:hover,.socials a:hover{transform:none;}
     }
+
+    /* === NEXT-GEN HUB === */
+    @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false;}
+    @keyframes spinBorder{to{--ang:360deg;}}
+    .hub{display:grid;gap:20px;margin:0 0 32px;}
+    .hub-top,.daily,.shelf{position:relative;border-radius:22px;padding:22px;background:rgba(3,7,18,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid transparent;
+      background-image:linear-gradient(rgba(3,7,18,.82),rgba(3,7,18,.82)),conic-gradient(from var(--ang),var(--cyan),var(--magenta),var(--gold),var(--cyan));background-origin:border-box;background-clip:padding-box,border-box;animation:spinBorder 8s linear infinite;
+      box-shadow:0 0 28px rgba(0,255,240,.14),0 0 40px rgba(255,0,255,.1);}
+    .hub-level{display:flex;align-items:center;gap:18px;flex-wrap:wrap;}
+    .hub-lvl-num{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;font-size:2.4rem;font-weight:900;color:#000;background:var(--btn-gradient);box-shadow:0 0 30px var(--cyan-glow),0 0 50px var(--magenta-glow);flex:none;}
+    .hub-lvl-info{flex:1 1 240px;min-width:0;}
+    .hub h2{font-size:1.3rem;color:var(--cyan);text-shadow:0 0 14px rgba(0,255,240,.4);}
+    .hub-xpbar{height:14px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;margin:8px 0;}
+    .hub-xpbar span{display:block;height:100%;width:0;background:var(--btn-gradient);box-shadow:0 0 14px var(--cyan-glow);transition:width .8s ease;}
+    .hub-lvl-info p{color:var(--text-soft);font-size:.9rem;}
+    .hub-chips{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
+    .hub-chips li{padding:6px 14px;border-radius:99px;background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.25);display:inline-flex;align-items:center;gap:6px;min-height:44px;}
+    .hub-chips b{color:var(--gold);}
+    .hub-sound{background:none;border:0;color:var(--text-bright);font:inherit;cursor:pointer;min-height:44px;}
+    .daily{text-align:center;}
+    .daily-tag{display:inline-block;padding:4px 14px;border-radius:99px;background:var(--magenta);color:#fff;font-weight:800;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;}
+    .daily h3{font-size:1.6rem;margin:10px 0 4px;color:var(--gold);text-shadow:0 0 18px var(--gold-glow);}
+    .daily p{color:var(--text-soft);max-width:560px;margin:0 auto 14px;}
+    .daily .btn{max-width:280px;margin:0 auto;}
+    .shelf summary{cursor:pointer;font-weight:800;color:var(--cyan);min-height:44px;display:flex;align-items:center;}
+    .shelf summary:focus-visible,.hub-sound:focus-visible,.btn:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;}
+    .psg-badges{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:12px;}
+    .psg-badge{display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--dim);font-size:.8rem;}
+    .psg-badge.got{border-color:var(--gold);color:var(--text-bright);box-shadow:0 0 16px rgba(255,215,0,.2);}
+    .psg-badge-icon{font-size:1.5rem;}
+    .psg-badge-name{font-weight:800;}
+    .game-card{background:rgba(3,7,18,.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid transparent;
+      background-image:linear-gradient(rgba(6,14,28,.88),rgba(6,14,28,.88)),conic-gradient(from var(--ang),rgba(0,255,240,.7),rgba(255,0,255,.7),rgba(0,255,240,.15),rgba(0,255,240,.7));background-origin:border-box;background-clip:padding-box,border-box;animation:cardFade .6s ease forwards,spinBorder 10s linear infinite;
+      box-shadow:0 0 22px rgba(0,255,240,.12),0 0 30px rgba(255,0,255,.08);}
+    .game-card:hover{box-shadow:0 0 34px rgba(0,255,240,.4),0 0 50px rgba(255,0,255,.3);}
+    .game-card.is-daily::after{content:'🎯 TODAY';position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:99px;background:var(--gold);color:#000;font-weight:800;font-size:.75rem;z-index:2;}
+    .game-pb{text-align:center;color:var(--gold);font-weight:700;font-size:.9rem;margin-bottom:6px;}
+    .game-mastery{text-align:center;color:var(--cyan);font-size:.85rem;margin-bottom:6px;}
+    .game-card:nth-child(8){animation-delay:.8s;}
+    .badge.new,.badge.official,.badge.live,.badge.calm{box-shadow:none;}
+    @media (prefers-reduced-motion:reduce){.hub-top,.daily,.shelf,.game-card{animation:none!important;opacity:1;transform:none;}.game-card{opacity:1;}}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
 </head>
@@ -259,9 +300,37 @@
       Download as a phone app → works offline → auto-saves progress → grows with your mind 💙✨
     </p>
 
+    <section id="psg-hub" class="hub" aria-label="Your player profile">
+      <div class="hub-top">
+        <div class="hub-level">
+          <div class="hub-lvl-num" aria-hidden="true" data-hub="level">1</div>
+          <div class="hub-lvl-info">
+            <h2>Level <span data-hub="level">1</span> · <span data-hub="title">Stardust</span></h2>
+            <div class="hub-xpbar" data-hub="bar" role="progressbar" aria-label="XP to next player level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span></span></div>
+            <p><span data-hub="xp">0 / 100 XP</span> · <span data-hub="totalxp">0</span> XP total</p>
+          </div>
+        </div>
+        <ul class="hub-chips">
+          <li>🔥 <b data-hub="streak">0</b> day streak</li>
+          <li>🏅 <b data-hub="badges">0 / 0</b> badges</li>
+          <li><button type="button" class="hub-sound" data-hub="sound" aria-pressed="false">🔇 Game sounds off</button></li>
+        </ul>
+      </div>
+      <div class="daily">
+        <div class="daily-tag">🎯 Daily Challenge</div>
+        <h3 data-hub="daily-title">Loading…</h3>
+        <p data-hub="daily-desc"></p>
+        <a class="btn primary" data-hub="daily-link" href="/stardust-dash.html">🎯 Take the challenge</a>
+      </div>
+      <details class="shelf">
+        <summary>🏅 Badges shelf</summary>
+        <ul class="psg-badges" data-hub="badge-grid"></ul>
+      </details>
+    </section>
+
     <div class="games-grid">
       <!-- 1 COSMIC FOCUS — MEMORY -->
-      <article class="game-card">
+      <article class="game-card" data-game="cosmic-focus">
         <div class="game-thumb">
           🧠
           <span class="badge official">OFFICIAL</span>
@@ -274,15 +343,17 @@
             <span>💾 Auto-Save</span>
             <span>📱 Offline</span>
           </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
           <div class="btn-wrap">
-            <a href="cosmic-focus.html" class="btn primary">▶ Play Now</a>
+            <a href="cosmic-focus.html" class="btn primary" aria-label="Play Cosmic Focus">▶ Play Now</a>
             <a href="journal-vault.html" class="btn secondary">📝 Log Score</a>
           </div>
         </div>
       </article>
 
       <!-- 2 NUMBER NEBULA — LOGIC & MATH -->
-      <article class="game-card">
+      <article class="game-card" data-game="number-nebula">
         <div class="game-thumb">
           🔢
           <span class="badge live">LIVE</span>
@@ -295,15 +366,17 @@
             <span>💾 Auto-Save</span>
             <span>📈 Gently Scales</span>
           </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
           <div class="btn-wrap">
-            <a href="number-nebula.html" class="btn primary">▶ Play Now</a>
+            <a href="number-nebula.html" class="btn primary" aria-label="Play Number Nebula">▶ Play Now</a>
             <a href="journal-vault.html" class="btn secondary">📝 Log Score</a>
           </div>
         </div>
       </article>
 
       <!-- 3 PATTERN GALAXY — VISUAL PERCEPTION -->
-      <article class="game-card">
+      <article class="game-card" data-game="pattern-galaxy">
         <div class="game-thumb">
           🌈
           <span class="badge new">NEW</span>
@@ -316,15 +389,17 @@
             <span>✨ Intuition</span>
             <span>📱 Offline</span>
           </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
           <div class="btn-wrap">
-            <a href="pattern-galaxy.html" class="btn primary">▶ Play Now</a>
+            <a href="pattern-galaxy.html" class="btn primary" aria-label="Play Pattern Galaxy">▶ Play Now</a>
             <a href="journal-vault.html" class="btn secondary">📝 Log Flow</a>
           </div>
         </div>
       </article>
 
       <!-- 4 MEMORY OCEAN — CALM MATCHING -->
-      <article class="game-card">
+      <article class="game-card" data-game="memory-ocean">
         <div class="game-thumb">
           🧩
           <span class="badge new">NEW</span>
@@ -337,15 +412,17 @@
             <span>🧘 Calm Mode</span>
             <span>💾 Auto-Save</span>
           </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
           <div class="btn-wrap">
-            <a href="memory-ocean.html" class="btn primary">▶ Play Now</a>
+            <a href="memory-ocean.html" class="btn primary" aria-label="Play Memory Ocean">▶ Play Now</a>
             <a href="journal-vault.html" class="btn secondary">📝 Log Peace</a>
           </div>
         </div>
       </article>
 
       <!-- 5 RHYTHM RESONANCE — AUDIO & VIBRATION -->
-      <article class="game-card">
+      <article class="game-card" data-game="rhythm-resonance">
         <div class="game-thumb">
           🎵
           <span class="badge new">NEW</span>
@@ -358,9 +435,34 @@
             <span>💜 Frequency</span>
             <span>✨ Flow State</span>
           </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
           <div class="btn-wrap">
-            <a href="rhythm-resonance.html" class="btn primary">▶ Play Now</a>
+            <a href="rhythm-resonance.html" class="btn primary" aria-label="Play Rhythm Resonance">▶ Play Now</a>
             <a href="journal-vault.html" class="btn secondary">📝 Log Vibe</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- STARDUST DASH — REFLEX -->
+      <article class="game-card" data-game="stardust-dash">
+        <div class="game-thumb">
+          🌠
+          <span class="badge new">NEW</span>
+        </div>
+        <div class="game-content">
+          <h3>Stardust Dash</h3>
+          <p class="game-desc">Catch stars, dodge silly worries like “Did I leave the oven on?” Quick, funny and very replayable.</p>
+          <div class="game-stats">
+            <span>⚡ Reflex</span>
+            <span>🔥 Combos</span>
+            <span>😂 Silly</span>
+          </div>
+          <p class="game-pb" aria-live="polite">✨ Not played yet</p>
+          <p class="game-mastery" hidden>⭐ Mastered</p>
+          <div class="btn-wrap">
+            <a href="stardust-dash.html" class="btn primary" aria-label="Play Stardust Dash">▶ Play Now</a>
+            <a href="journal-vault.html" class="btn secondary">📝 Log Score</a>
           </div>
         </div>
       </article>
@@ -446,6 +548,7 @@
   </div>
 </footer>
 
+  <script src="/js/games.js"></script>
   <script>
     // Auto year
     document.getElementById('yr').textContent = new Date().getFullYear();

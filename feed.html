@@ -172,6 +172,7 @@
   </style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
+  <link rel="stylesheet" href="/css/cosmic-scroll.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
@@ -218,6 +219,14 @@
       <strong>No algorithms. No doomscroll. Only sanity.</strong>
     </p>
 
+    <div class="cs-view-toggle" role="group" aria-label="Feed view">
+      <button type="button" data-view="immersive" aria-pressed="true">📱 Immersive</button>
+      <button type="button" data-view="list" aria-pressed="false">📜 List</button>
+    </div>
+    <section id="immersive" aria-label="Immersive feed">
+      <div data-cosmic-scroll data-sources="posts,videos" data-label="Sanity Feed: swipe for the next story"></div>
+    </section>
+    <div id="list-view">
     <section id="community" class="social-main" aria-labelledby="community-heading" style="padding-top:0">
       <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
       <div id="community-guest" hidden>
@@ -261,6 +270,7 @@
       <p class="intro">Hand-picked themes from the movement — each one opens a YouTube search.</p>
       <div data-scroll-feed data-src="/content/content_feed.json"></div>
     </section>
+    </div>
   </main>
 
   <footer class="ps-footer" role="contentinfo">
@@ -293,6 +303,24 @@
 </footer>
 
   <script>
+    // Immersive (swipe-up) or classic list. Deep links to a post or #community open the list.
+    (function () {
+      var buttons = document.querySelectorAll('.cs-view-toggle [data-view]');
+      var immersive = document.getElementById('immersive');
+      var list = document.getElementById('list-view');
+      function setView(view, save) {
+        immersive.hidden = view !== 'immersive';
+        list.hidden = view !== 'list';
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === view)); });
+        if (save) try { localStorage.setItem('ps-feed-view', view); } catch (e) {}
+      }
+      var saved = null;
+      try { saved = localStorage.getItem('ps-feed-view'); } catch (e) {}
+      var deep = /[?&]post=/.test(location.search) || location.hash === '#community';
+      setView(deep ? 'list' : saved || 'immersive');
+      buttons.forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.view, true); }); });
+      addEventListener('hashchange', function () { if (location.hash === '#community') setView('list'); });
+    })();
     document.getElementById('yr').textContent = new Date().getFullYear();
 
     let loading = false, end = false, query = "", searchTimeout;
@@ -442,7 +470,7 @@
     }
 
     window.addEventListener('scroll', () => {
-      if (end || loading) return;
+      if (end || loading || document.getElementById('list-view').hidden) return;
       if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) loadFeed();
     }, { passive: true });
 

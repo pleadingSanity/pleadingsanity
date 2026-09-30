@@ -192,6 +192,12 @@
         </div>
 
         <div class="aa-card">
+          <h3>💫 Creator mode</h3>
+          <p id="aa-creator-text">Built Pleading Sanity? Sign in with your creator account and Arron answers with the most powerful AI model, longer and deeper replies, and helps you build.</p>
+          <div class="aa-row"><a class="aa-btn" id="aa-creator-link" href="/login.html?next=/arron-app.html">Creator sign in</a></div>
+        </div>
+
+        <div class="aa-card">
           <h3>🔊 Voice &amp; comfort</h3>
           <div class="aa-toggle-row">
             <label for="aa-voice-mode">Arron's voice</label>
@@ -264,5 +270,19 @@
   <noscript><p style="position: relative; z-index: 2; padding: 1rem;">Arron needs JavaScript to talk. In crisis, call Samaritans on <a href="tel:116123">116 123</a> or <a href="tel:999">999</a>.</p></noscript>
 
   <script src="/js/arron-core.js" defer></script>
+  <script type="module">
+    // Keeps a creator's sign-in fresh so Arron's server can recognise them.
+    import { getUser } from '/js/vendor/netlify-identity.js';
+    getUser().then((user) => {
+      if (!user) return;
+      const link = document.getElementById('aa-creator-link');
+      const creator = (user.roles || []).some((r) => r === 'admin' || r === 'creator');
+      document.getElementById('aa-creator-text').textContent = creator
+        ? 'Signed in as the creator. Arron is running at full power. 💫'
+        : 'Signed in as ' + (user.email || 'a member') + '. Creator mode needs the "admin" or "creator" role in Netlify Identity.';
+      link.textContent = 'Account settings';
+      link.href = '/settings.html';
+    }).catch(() => {});
+  </script>
 </body>
 </html>

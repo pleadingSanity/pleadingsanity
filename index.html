@@ -29,6 +29,7 @@
   <meta name="twitter:description" content="You're not alone. We turn pain into power. One Source. One Family." />
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/cosmic-scroll.css" />
 </head>
 <body class="ps-page">
 
@@ -81,6 +82,14 @@
       </p>
       <a class="btn btn-primary" href="sanityhub.html">🌌 Enter the Sanity Hub</a>
     </header>
+
+    <section aria-labelledby="foryou-title">
+      <div class="cs-heading">
+        <h2 id="foryou-title">✨ For You</h2>
+        <p>Swipe up through survivor voices, videos and little moments of calm. Tap ⛶ for full screen.</p>
+      </div>
+      <div data-cosmic-scroll data-sources="posts,videos" data-label="For You: stories, videos and calm"></div>
+    </section>
 
     <section aria-labelledby="paths-title">
       <h2 id="paths-title" style="text-align: center;">Choose Your Path</h2>
@@ -229,5 +238,6 @@
     })();
   </script>
   <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/cosmic-scroll.js"></script>
 </body>
 </html>

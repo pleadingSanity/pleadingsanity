@@ -143,6 +143,13 @@
   };
   const setStatus = (msg) => { els.status.textContent = msg || ''; };
 
+  // Signed in with the founder's account: the server answers with the most capable model.
+  let creatorMode = false;
+  function showCreator() {
+    creatorMode = true;
+    els.presence.textContent = 'Creator mode · full power 💫';
+  }
+
   // ─── NETWORK ───
   async function request(url, options = {}) {
     const ctrl = new AbortController();
@@ -236,6 +243,7 @@
       } else if (els.conn.dataset.state !== 'synced') {
         const res = await request(HEALTH_API, { cache: 'no-store', timeout: 8000 });
         if (!res.ok) throw new Error('HTTP ' + res.status);
+        if ((await res.json().catch(() => ({}))).creator) showCreator();
         await retryPendingForgets();
         await pull();
         return;
@@ -274,7 +282,7 @@
       o.classList.toggle('thinking', state === 'thinking');
       o.classList.toggle('speaking', state === 'speaking');
     });
-    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…' }[state] || 'Here with you';
+    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…' }[state] || (creatorMode ? 'Creator mode · full power 💫' : 'Here with you');
   }
 
   // ─── VOICE — warm and deep, can whisper or amplify ───
@@ -507,11 +515,13 @@
           persona: 'son',
           truths: vault.truths.map((t) => t.text),
           awareness: notes
-        })
+        }),
+        timeout: 60000
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       reply = data.reply;
+      if (data.creator) showCreator();
       setConn(data.remembered === false ? 'offline' : 'synced');
     } catch (e) {
       local = true;
