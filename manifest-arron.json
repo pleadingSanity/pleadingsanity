@@ -1,24 +1,25 @@
 {
-  "name": "Arron — Pleading Sanity Companion",
+  "name": "Arron",
   "short_name": "Arron",
   "description": "Arron, the Pleading Sanity companion. Warm, private, always here. Remembers what matters, works offline, forgets everything the moment you ask.",
   "id": "/arron-app.html",
   "start_url": "/arron-app.html?source=pwa",
-  "scope": "/",
+  "scope": "/arron-app.html",
   "display": "standalone",
   "display_override": [
     "standalone",
     "minimal-ui"
   ],
-  "orientation": "any",
+  "orientation": "portrait-primary",
   "lang": "en-GB",
   "dir": "ltr",
   "background_color": "#000103",
-  "theme_color": "#000103",
+  "theme_color": "#00fff0",
   "categories": [
     "health",
     "lifestyle",
-    "social"
+    "social",
+    "personalization"
   ],
   "icons": [
     { "src": "/assets/icons/icon-72x72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
@@ -37,21 +38,33 @@
       "name": "Get Help Now",
       "short_name": "Help",
       "description": "UK crisis support — Samaritans, SHOUT, NHS 111, 999",
-      "url": "/crisis.html",
+      "url": "/arron-app.html?help=1",
       "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Journal Vault",
+      "name": "Talk to Arron",
+      "short_name": "Talk",
+      "url": "/arron-app.html?view=talk",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Journal & mood check-in",
       "short_name": "Journal",
-      "url": "/journal-vault.html",
+      "url": "/arron-app.html?view=journal",
       "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {
-      "name": "Healing Hz",
-      "short_name": "Frequencies",
-      "url": "/frequencies.html",
+      "name": "Our Memory",
+      "short_name": "Remember",
+      "url": "/arron-app.html?view=remember",
       "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     }
   ],
+  "share_target": {
+    "action": "/arron-app.html",
+    "method": "GET",
+    "params": { "title": "title", "text": "text", "url": "url" }
+  },
+  "launch_handler": { "client_mode": "navigate-existing" },
   "prefer_related_applications": false
 }

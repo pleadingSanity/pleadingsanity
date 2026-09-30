@@ -4,7 +4,7 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.3.0';
+const VERSION = '4.4.0';
 const STATIC_CACHE = 'pleading-sanity-static-v12';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v12';
 const OFFLINE_URL = '/offline.html';
@@ -84,6 +84,7 @@ const PRECACHE_URLS = [
     '/js/cosmic-scroll.js',
     '/js/ai-stories.js',
     '/content/content_feed.json',
+    '/arron-knowledge.json',
     '/assets/logo.svg',
     '/assets/favicon.svg',
     '/assets/favicon.ico',
@@ -106,13 +107,13 @@ self.addEventListener('install', event => {
 });
 
 // ========================================
-// ♻️ ACTIVATE — clear old caches
+// ♻️ ACTIVATE — clear old caches (only our own; Arron's sw-arron.js keeps its cache)
 // ========================================
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys()
             .then(names => Promise.all(
-                names.filter(n => n !== STATIC_CACHE && n !== DYNAMIC_CACHE).map(n => caches.delete(n))
+                names.filter(n => n.startsWith('pleading-sanity-') && n !== STATIC_CACHE && n !== DYNAMIC_CACHE).map(n => caches.delete(n))
             ))
             .then(() => self.clients.claim())
     );

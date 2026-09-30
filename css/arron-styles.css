@@ -117,6 +117,11 @@ html.aa-root, .aa-body {
 .aa-orb.sm { --size: 34px; }
 .aa-orb.speaking { animation-duration: 1.6s; }
 .aa-orb.thinking { animation-duration: 2.4s; }
+.aa-orb.listening { animation-duration: 3.2s; filter: brightness(1.2); }
+
+/* ─── Time of day: the night is quieter ─── */
+.aa-body[data-phase="night"] .aa-stars { opacity: 0.7; }
+.aa-body[data-phase="dawn"] .aa-stars { opacity: 0.85; }
 
 @keyframes aa-breathe {
   0%, 100% { transform: scale(0.9); filter: brightness(0.85); }
@@ -195,7 +200,10 @@ html.aa-root, .aa-body {
   cursor: pointer;
 }
 
-/* ─── Notices (install, awareness) ─── */
+/* Component display rules never override the hidden attribute */
+.aa-body [hidden] { display: none !important; }
+
+/* ─── Notices (install, awareness, wisdom) ─── */
 .aa-notices { padding: 0 0.75rem; display: grid; gap: 0.5rem; }
 .aa-notice {
   display: flex;
@@ -276,7 +284,7 @@ html.aa-root, .aa-body {
   border-bottom-right-radius: 6px;
 }
 .aa-msg.pinned { box-shadow: 0 0 0 2px var(--aa-magenta), 0 0 16px rgba(255, 0, 255, 0.35); }
-.aa-msg-tools { display: flex; gap: 0.35rem; margin-top: 0.4rem; }
+.aa-msg-tools { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
 .aa-msg-tools button {
   min-height: 36px;
   padding: 0 0.6rem;
@@ -494,6 +502,33 @@ html.aa-root, .aa-body {
 .aa-nav button b { font-size: 1.35rem; font-weight: 400; line-height: 1; }
 .aa-nav button[aria-selected="true"] { color: var(--aa-cyan); }
 .aa-nav button[aria-selected="true"] b { filter: drop-shadow(0 0 6px rgba(0, 255, 240, 0.8)); }
+
+/* ─── Wisdom for heavy moments ─── */
+.aa-notice.wisdom { border-color: rgba(127, 216, 255, 0.55); }
+.aa-wisdom-label { display: block; font-size: 0.78rem; color: var(--aa-muted); margin-bottom: 0.15rem; }
+#aa-wisdom-text { display: block; font-style: italic; color: var(--aa-text); }
+
+/* ─── Guardian ─── */
+.aa-card.guardian { border-color: rgba(255, 107, 138, 0.55); }
+.aa-lines { display: grid; gap: 0.5rem; }
+.aa-line {
+  display: block;
+  min-height: 44px;
+  padding: 0.75rem 0.9rem;
+  border-radius: 14px;
+  border: 1px solid var(--aa-cyan);
+  background: rgba(0, 255, 240, 0.06);
+  color: var(--aa-text);
+  font-weight: 700;
+  text-decoration: none;
+}
+.aa-line small { display: block; font-weight: 400; font-size: 0.85rem; color: var(--aa-muted); }
+.aa-line.urgent { border-color: #ff6b8a; background: rgba(255, 60, 100, 0.12); }
+.aa-line:hover, .aa-line:focus-visible { background: rgba(0, 255, 240, 0.14); }
+.aa-card.creator { border-color: rgba(255, 211, 107, 0.6); box-shadow: 0 0 24px rgba(255, 211, 107, 0.12); }
+.aa-principles { margin: 0 0 0.75rem; padding-left: 1.1rem; display: grid; gap: 0.35rem; }
+.aa-principles strong { color: var(--aa-cyan); font-weight: 600; }
+.aa-promise { font-style: italic; color: var(--aa-text) !important; }
 
 /* ─── Crisis mode — nothing but help ─── */
 .aa-crisis {
