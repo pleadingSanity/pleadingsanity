@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON — SERVICE WORKER v2.0-ASCENSION
+// 💙 ARRON — SERVICE WORKER v2.1-ASCENSION
 // Controls only /arron-app.html, separate from the main site's /sw.js.
 // Interface, orb, wisdom and the soul file cached for offline.
 // Pages & knowledge → network first · images → cache first ·
@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '2.0-ascension';
+const VERSION = '2.1-ascension';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -28,6 +28,7 @@ const PRECACHE_URLS = [
     '/assets/favicon.svg',
     '/assets/favicon.ico',
     '/assets/apple-touch-icon.png',
+    '/assets/icons/icon-96x96.png',
     '/assets/icons/icon-192x192.png',
     '/assets/icons/icon-512x512.png'
 ];
