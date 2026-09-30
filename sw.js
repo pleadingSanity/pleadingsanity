@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.1.0';
-const STATIC_CACHE = 'pleading-sanity-static-v10';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v10';
+const VERSION = '4.2.0';
+const STATIC_CACHE = 'pleading-sanity-static-v11';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v11';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -25,6 +25,7 @@ const PRIVATE_PAGES = [
 const PRECACHE_URLS = [
     '/',
     '/about.html',
+    '/ai-studio.html',
     '/arron.html',
     '/arron-app.html',
     '/community-dashboard.html',
@@ -62,12 +63,14 @@ const PRECACHE_URLS = [
     '/css/arron.css',
     '/css/arron-styles.css',
     '/css/social.css',
+    '/css/ai-studio.css',
     '/css/cosmic-scroll.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',
     '/js/social.js',
+    '/js/ai-studio.js',
     '/js/profile-form.js',
     '/js/vendor/netlify-identity.js',
     '/js/games.js',

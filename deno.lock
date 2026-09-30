@@ -12,6 +12,7 @@
     "packageJson": {
       "dependencies": [
         "npm:@anthropic-ai/sdk@0.128",
+        "npm:@google/genai@^2.24.0",
         "npm:@netlify/blobs@^10.7.13",
         "npm:@netlify/database@^1.1.0",
         "npm:@netlify/functions@^5.3.0",
@@ -21,6 +22,7 @@
         "npm:drizzle-kit@^1.0.0-beta.22",
         "npm:drizzle-orm@^1.0.0-beta.22",
         "npm:glob@11",
+        "npm:openai@^6.49.0",
         "npm:terser@^5.31.0"
       ]
     }
