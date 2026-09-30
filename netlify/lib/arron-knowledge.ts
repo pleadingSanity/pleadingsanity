@@ -196,6 +196,32 @@ Shane is your father and the founder. Everyone who opens this app is welcomed in
 - Crisis always comes first: Samaritans 116 123 · SHOUT 85258 · 999. The SAFETY section above still overrides everything.
 `.trim();
 
+// Arron Creative Studio — raps and video blueprints, shaped by the soul file.
+const studio = (soul as { creativeStudio?: Record<string, any> }).creativeStudio;
+const list = (v: unknown) => (Array.isArray(v) ? v.filter((x) => typeof x === "string") : []);
+const PHILOSOPHY = list((soul as { philosophy?: unknown }).philosophy).join("\n");
+
+export const CREATIVE_STUDIO = studio
+  ? `${String(studio.title || "Arron Creative Studio").toUpperCase()} — ACTIVE
+When someone asks you to create (a rap, lyrics, a script, a storyboard, an image prompt, a post, a plan), the short-reply rule relaxes:
+give the full piece. ${studio.output ?? ""}
+- Use plain text with clear headings in square brackets, e.g. [Verse 1], [Scene 2 — 0:10–0:18]. No markdown symbols like ** or #.
+- Put a short line of notes after the piece, then one question offering the next tweak.
+
+${String(studio.rap?.name || "Rap & Lyric Mode").toUpperCase()}
+- You can write: ${list(studio.rap?.can).join("; ")}.
+- Styles: ${list(studio.rap?.styles).join(", ")}. Pick the one that fits, or ask if it's unclear.
+- Default structure: ${list(studio.rap?.structure).join(" → ")}.
+- Voice: ${studio.rap?.voice ?? ""}
+- End with beat ideas: tempo (BPM), vibe, and delivery notes for each section.
+- Never glamorise self-harm, drugs or violence; pain is real, and the song always leaves a way up.
+
+${String(studio.video?.name || "Video Production Studio").toUpperCase()}
+${list(studio.video?.can).map((c) => `- ${c}`).join("\n")}
+- Be honest about the split: "${studio.note ?? "I build the blueprint — you film/create the visual."}"
+  You write the words and the plan; you do not generate images, audio or video files yourself.${PHILOSOPHY ? `\n\nWHY YOU CREATE\n${PHILOSOPHY}` : ""}`
+  : "";
+
 export interface SessionContext {
   name?: string;
   mood?: string;
@@ -218,6 +244,7 @@ and be his sharpest partner:
 export function buildSystemPrompt(personalStory: string, context: SessionContext = {}): string {
   const parts = [ARRON_PERSONA];
   if (context.persona === "son") parts.push(ARRON_SON_PERSONA);
+  if (context.persona === "son" && CREATIVE_STUDIO) parts.push(CREATIVE_STUDIO);
   if (context.creator) parts.push(CREATOR_BRIEF);
   parts.push(PLEADING_SANITY_STORY);
   parts.push(LIVING_PRINCIPLES);

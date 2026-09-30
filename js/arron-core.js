@@ -16,7 +16,7 @@
   const HEALTH_API = '/api/arron/health';
   const APP_URL = '/arron-app.html';
   const SOUL_URL = '/arron-knowledge.json';
-  const VIEWS = ['talk', 'remember', 'journal', 'guardian'];
+  const VIEWS = ['talk', 'studio', 'remember', 'journal', 'guardian'];
   const AUTOSAVE_MS = 30000;
   const ID_PATTERN = /^[a-f0-9]{32,64}$/i;
   const DAY = 86400000;
@@ -182,6 +182,7 @@
     els.presence.textContent = 'Creator mode · full power 💫';
     $('aa-creator').hidden = false;
     $('aa-creator-badge').hidden = false;
+    $('aa-tab-studio').hidden = false;
     renderCreator();
   }
   $('aa-creator-badge').addEventListener('click', () => {
@@ -211,9 +212,60 @@
       b.textContent = p.label;
       quick.prepend(b);
     });
+    renderStudio();
     const chain = soul.covenant && Array.isArray(soul.covenant.chain) ? soul.covenant.chain.map((l) => l && l.name).filter(Boolean) : [];
     $('aa-creator-chain').textContent = chain.length ? 'The chain right now: ' + chain.join(' → ') + '. Add a model to the soul file and it joins.' : '';
   }
+
+  // ─── CREATOR STUDIO — one-tap templates, everything lands copy-ready in Talk ───
+  let studioMode = '';
+  const studioTabs = () => (soul.creatorStudio && Array.isArray(soul.creatorStudio.tabs) ? soul.creatorStudio.tabs : [])
+    .filter((t) => t && t.id && t.label);
+  function renderStudio() {
+    const cs = soul.creatorStudio || {};
+    const modes = studioTabs();
+    if (typeof cs.title === 'string') $('aa-studio-title').textContent = cs.title;
+    const studioNote = soul.creativeStudio && soul.creativeStudio.note;
+    if (typeof studioNote === 'string') $('aa-studio-note').textContent = studioNote;
+    if (!modes.some((m) => m.id === studioMode)) studioMode = modes.length ? modes[0].id : '';
+    const box = $('aa-studio-modes');
+    box.textContent = '';
+    modes.forEach((m) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'aa-chip';
+      b.textContent = m.label;
+      b.setAttribute('aria-pressed', String(m.id === studioMode));
+      b.addEventListener('click', () => { studioMode = m.id; renderStudio(); });
+      box.appendChild(b);
+    });
+    const mode = modes.find((m) => m.id === studioMode);
+    $('aa-studio-card').hidden = !mode;
+    if (!mode) return;
+    $('aa-studio-mode-title').textContent = mode.label;
+    const list = $('aa-studio-templates');
+    list.textContent = '';
+    (Array.isArray(mode.templates) ? mode.templates : []).filter((t) => t && t.label && t.say).forEach((t) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'aa-btn';
+      b.textContent = '→ ' + t.label;
+      b.addEventListener('click', () => { showView('talk'); handleInput(t.say); });
+      list.appendChild(b);
+    });
+    $('aa-studio-input').placeholder = (mode.starter || '') + '…';
+  }
+  $('aa-studio-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = $('aa-studio-input');
+    const brief = input.value.trim();
+    if (!brief) { input.focus(); return; }
+    const mode = studioTabs().find((m) => m.id === studioMode);
+    const starter = mode && mode.starter ? mode.starter.trim() : '';
+    input.value = '';
+    showView('talk');
+    handleInput(starter && !brief.toLowerCase().startsWith(starter.toLowerCase()) ? starter + ' ' + brief : brief);
+  });
 
   // ─── NETWORK ───
   async function request(url, options = {}) {
@@ -457,6 +509,18 @@
       say.addEventListener('click', () => speak(m.content, true));
       tools.appendChild(say);
     }
+    if (m.role === 'assistant' && navigator.clipboard) {
+      const copy = document.createElement('button');
+      copy.type = 'button';
+      copy.textContent = '📋 Copy';
+      copy.addEventListener('click', () => {
+        navigator.clipboard.writeText(m.content).then(() => {
+          copy.textContent = '✅ Copied';
+          setTimeout(() => { copy.textContent = '📋 Copy'; }, 2000);
+        }).catch(() => setStatus("Couldn't copy. Press and hold the message to select it."));
+      });
+      tools.appendChild(copy);
+    }
     if (m.role === 'assistant' && !m.local) {
       const share = document.createElement('button');
       share.type = 'button';
@@ -485,16 +549,24 @@
     els.hero.classList.toggle('compact', messages.length > 2);
     scrollDown();
   }
-  function scrollDown() {
-    const view = $('aa-view-talk');
-    requestAnimationFrame(() => { view.scrollTop = view.scrollHeight; });
+  // Only the log scrolls. While you're reading the latest message it stays
+  // pinned there through keyboard, resize and rotation; scroll up and it leaves you be.
+  let atBottom = true;
+  const nearBottom = () => els.log.scrollHeight - els.log.scrollTop - els.log.clientHeight < 48;
+  els.log.addEventListener('scroll', () => { atBottom = nearBottom(); }, { passive: true });
+  function scrollDown(smooth) {
+    atBottom = true;
+    requestAnimationFrame(() => {
+      els.log.scrollTo({ top: els.log.scrollHeight, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+    });
   }
+  if (window.ResizeObserver) new ResizeObserver(() => { if (atBottom) els.log.scrollTop = els.log.scrollHeight; }).observe(els.log);
   function addMessage(m) {
     if (m.ephemeral) ephemeral.push(m);
     else { messages.push(m); saveMessages(); }
     els.log.appendChild(messageEl(m));
     els.hero.classList.toggle('compact', messages.length > 2);
-    scrollDown();
+    scrollDown(true);
   }
   function showTyping() {
     const el = document.createElement('div');
@@ -502,14 +574,37 @@
     el.setAttribute('aria-label', 'Arron is typing');
     el.innerHTML = '<span class="aa-typing"><span></span><span></span><span></span></span>';
     els.log.appendChild(el);
-    scrollDown();
+    scrollDown(true);
     return el;
   }
 
   function autosize() {
+    const before = els.input.style.height;
     els.input.style.height = 'auto';
-    els.input.style.height = Math.min(els.input.scrollHeight, 160) + 'px';
+    const next = Math.min(els.input.scrollHeight, 160) + 'px';
+    els.input.style.height = next;
+    if (next !== before && atBottom) els.log.scrollTop = els.log.scrollHeight;
   }
+
+  // ─── KEYBOARD & VIEWPORT — the chat is sized to what you can actually see ───
+  // iOS keeps the layout viewport tall and slides the page under the keyboard;
+  // sizing the shell to the visual viewport and pinning the page at the top
+  // keeps the input bar sitting right above the keys, on every phone.
+  const vv = window.visualViewport;
+  const typingField = () => { const a = document.activeElement; return !!a && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && !['checkbox', 'radio', 'button', 'submit'].includes(a.type))); };
+  function fitViewport() {
+    const h = vv ? vv.height : window.innerHeight;
+    document.documentElement.style.setProperty('--aa-vh', Math.round(h) + 'px');
+    const keyboard = typingField() && window.innerHeight - h > 120;
+    document.body.classList.toggle('aa-kb', keyboard || (typingField() && h < 420 && matchMedia('(pointer: coarse)').matches));
+    if (window.scrollY || document.documentElement.scrollTop) window.scrollTo(0, 0);
+  }
+  if (vv) { vv.addEventListener('resize', fitViewport); vv.addEventListener('scroll', fitViewport); }
+  window.addEventListener('resize', fitViewport);
+  window.addEventListener('orientationchange', () => setTimeout(fitViewport, 250));
+  document.addEventListener('focusin', () => setTimeout(fitViewport, 50));
+  document.addEventListener('focusout', () => setTimeout(fitViewport, 50));
+  fitViewport();
 
   // ─── AWARENESS — notices tone, late nights and patterns ───
   const nightKey = (t) => new Date(t - 6 * 3600000).toDateString();
@@ -674,6 +769,8 @@
   }
 
   els.form.addEventListener('submit', (e) => { e.preventDefault(); handleInput(els.input.value); });
+  // Tapping ➤ keeps focus in the box, so the keyboard stays up and nothing jumps
+  els.send.addEventListener('pointerdown', (e) => { if (document.activeElement === els.input) e.preventDefault(); });
   els.input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); handleInput(els.input.value); }
   });
@@ -935,6 +1032,7 @@
   // ─── TABS — bottom nav, arrow keys work too ───
   const tabs = Array.from(document.querySelectorAll('.aa-nav [role="tab"]'));
   function showView(name, focus) {
+    if (name === 'studio' && !creatorMode) name = 'talk';
     tabs.forEach((t) => {
       const on = t.dataset.view === name;
       t.setAttribute('aria-selected', String(on));
@@ -945,12 +1043,17 @@
     if (name === 'journal') { renderMood(); renderJournal(); }
     if (name === 'remember') renderMemory();
     if (name === 'talk') scrollDown();
+    if (name === 'studio') renderStudio();
   }
-  tabs.forEach((t, i) => {
+  tabs.forEach((t) => {
     t.addEventListener('click', () => showView(t.dataset.view));
     t.addEventListener('keydown', (e) => {
       const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
-      if (d) { e.preventDefault(); showView(tabs[(i + d + tabs.length) % tabs.length].dataset.view, true); }
+      if (!d) return;
+      e.preventDefault();
+      const shown = tabs.filter((x) => !x.hidden);
+      const at = shown.indexOf(t);
+      showView(shown[(at + d + shown.length) % shown.length].dataset.view, true);
     });
   });
 

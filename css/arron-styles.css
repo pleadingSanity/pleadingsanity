@@ -28,6 +28,7 @@
 
 html.aa-root, .aa-body {
   height: 100%;
+  overflow: hidden;
   background: var(--aa-bg);
   scroll-padding-top: 0;
 }
@@ -133,7 +134,10 @@ html.aa-root, .aa-body {
 .aa-shell {
   position: relative;
   z-index: 1;
-  height: 100%;
+  /* --aa-vh tracks the visible viewport (keyboard included) so the input bar always sits on screen */
+  height: 100vh;
+  height: 100dvh;
+  height: var(--aa-vh, 100dvh);
   display: grid;
   grid-template-rows: auto auto 1fr auto;
   max-width: 820px;
@@ -221,6 +225,12 @@ html.aa-root, .aa-body {
 .aa-notice p { margin: 0; flex: 1 1 14rem; }
 .aa-notice.magenta { border-color: rgba(255, 0, 255, 0.5); }
 
+/* Keyboard open on a phone: fold the orb into a slim anchored strip and hide the tab bar */
+.aa-body.aa-kb .aa-hero { flex-direction: row; justify-content: center; gap: 0.5rem; padding: 0.15rem 0 0.35rem; }
+.aa-body.aa-kb .aa-hero .aa-orb { --size: 32px; }
+.aa-body.aa-kb .aa-hero p { font-size: 0.8rem; }
+.aa-body.aa-kb .aa-nav, .aa-body.aa-kb .aa-notices { display: none; }
+
 /* ─── Views ─── */
 .aa-views { position: relative; min-height: 0; }
 .aa-view {
@@ -238,10 +248,12 @@ html.aa-root, .aa-body {
 }
 .aa-view h3 { margin: 0 0 0.5rem; font-size: 1.05rem; color: var(--aa-magenta-soft); }
 
-/* Talk view is a column: orb, log, composer */
+/* Talk view is a locked column: the orb is anchored at the top, only the
+   message log scrolls, and the input bar is pinned to the bottom. */
 #aa-view-talk {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding-bottom: 0.5rem;
 }
 #aa-view-talk[hidden] { display: none; }
@@ -249,6 +261,7 @@ html.aa-root, .aa-body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: none;
   gap: 0.35rem;
   padding: 0.5rem 0 0.75rem;
   transition: padding 0.4s ease;
@@ -257,14 +270,22 @@ html.aa-root, .aa-body {
 .aa-hero.compact .aa-orb { --size: 72px; }
 
 .aa-log {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: calc(var(--aa-vh, 100dvh) - 180px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.1rem 0.75rem;
 }
+/* A short conversation settles at the bottom, next to the input, like any chat */
+.aa-log > :first-child { margin-top: auto; }
 .aa-msg {
-  max-width: 88%;
+  flex: none;
+  max-width: 90%;
   padding: 0.75rem 0.95rem;
   border-radius: 18px;
   animation: aa-fade-in 0.35s ease both;
@@ -307,11 +328,17 @@ html.aa-root, .aa-body {
 @keyframes aa-dot { 0%, 80%, 100% { opacity: 0.3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-4px); } }
 
 .aa-compose {
-  position: sticky;
-  bottom: 0;
+  flex: none;
+  position: relative;
+  z-index: 2;
   padding-top: 0.5rem;
-  background: linear-gradient(transparent, var(--aa-bg) 30%);
+  background: var(--aa-bg);
+  box-shadow: 0 -14px 14px -6px var(--aa-bg);
 }
+/* With the tab bar hidden, the input bar clears the iPhone home indicator itself */
+.aa-body.aa-kb .aa-compose { padding-bottom: var(--aa-safe-b); }
+.aa-body.aa-kb .aa-quick { display: none; }
+.aa-body.aa-kb .aa-log { max-height: none; }
 .aa-quick { display: flex; gap: 0.4rem; overflow-x: auto; padding-bottom: 0.5rem; scrollbar-width: none; }
 .aa-quick::-webkit-scrollbar { display: none; }
 .aa-chip {
@@ -479,7 +506,8 @@ html.aa-root, .aa-body {
 /* ─── Bottom nav ─── */
 .aa-nav {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
   padding: 0 0.25rem var(--aa-safe-b);
   border-top: 1px solid var(--aa-line);
   background: rgba(0, 1, 3, 0.94);
@@ -540,6 +568,13 @@ html.aa-root, .aa-body {
   line-height: 1.6;
 }
 
+/* ─── Creator Studio — Rap • Script • Image • Post • Plan ─── */
+.aa-studio-modes { display: flex; gap: 0.4rem; overflow-x: auto; padding: 0.25rem 0 0.75rem; scrollbar-width: none; }
+.aa-studio-modes::-webkit-scrollbar { display: none; }
+.aa-studio-templates { display: grid; gap: 0.5rem; margin-bottom: 0.75rem; }
+.aa-studio-templates .aa-btn { justify-content: flex-start; text-align: left; min-height: 48px; }
+#aa-studio-input { min-height: 5.5rem; margin-top: 0.25rem; }
+
 /* ─── Creator badge — only ever shown to the founder's account ─── */
 .aa-creator-badge {
   min-width: 44px;
@@ -594,9 +629,17 @@ html.aa-root, .aa-body {
 .aa-crisis a.line.urgent { border-color: #ff6b8a; background: rgba(255, 60, 100, 0.14); }
 
 /* ─── Landscape phones: give the conversation the room ─── */
+@media (max-width: 380px) {
+  .aa-view { padding-left: 0.5rem; padding-right: 0.5rem; }
+  .aa-hero { padding: 0.25rem 0 0.5rem; }
+  .aa-orb.lg { --size: 84px; }
+  .aa-nav button { font-size: 0.7rem; }
+}
+
 @media (orientation: landscape) and (max-height: 520px) {
   :root { --aa-nav-h: 52px; --aa-top-h: 48px; }
-  .aa-hero { display: none; }
+  .aa-hero { flex-direction: row; justify-content: center; gap: 0.5rem; padding: 0.15rem 0 0.35rem; }
+  .aa-hero .aa-orb { --size: 32px; }
   .aa-nav button { flex-direction: row; gap: 0.4rem; }
 }
 
