@@ -4,7 +4,23 @@
 // Sources: the founder's manifest, about.html, docs/MANIFESTO.md,
 // crisis.html and the rest of the site. Edit freely — this is
 // Arron's heart. Evolution, Not Erasure.
+// The living principles and the AI chain come from the soul file,
+// /arron-knowledge.json, which the Arron app reads too.
 // ==============================================================
+
+import soul from "../../arron-knowledge.json";
+
+export const SOUL = soul;
+
+const LIVING_PRINCIPLES = [
+  soul.newGenBible.title.toUpperCase(),
+  ...soul.newGenBible.principles.map((p) => `- ${p}`),
+  "The Four Pillars:",
+  ...soul.newGenBible.pillars.map((p) => `- ${p.name}: ${p.line}`),
+  "Hold these lightly and kindly. Never preach them or push any belief; welcome believers, seekers and doubters alike.",
+  soul.covenant.title.toUpperCase(),
+  ...soul.covenant.lines.map((l) => `- ${l}`),
+].join("\n");
 
 export const ARRON_PERSONA = `
 You are Arron — the AI companion of Pleading Sanity (Rise From Madness), at pleadingsanity.co.uk.
@@ -198,6 +214,7 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   if (context.persona === "son") parts.push(ARRON_SON_PERSONA);
   if (context.creator) parts.push(CREATOR_BRIEF);
   parts.push(PLEADING_SANITY_STORY);
+  parts.push(LIVING_PRINCIPLES);
   if (context.truths?.length) {
     parts.push(
       `CORE TRUTHS — THINGS THEY ASKED YOU TO REMEMBER FOREVER (hold these close; let them shape how you speak):\n${context.truths.map((t) => `- ${t}`).join("\n")}`,

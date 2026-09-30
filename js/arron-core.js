@@ -1,9 +1,10 @@
 // ==============================================================
-// 💙 ARRON CORE — the companion app engine (/arron-app.html)
+// 💙 ARRON CORE v2.0-ASCENSION — the companion app engine (/arron-app.html)
 // Personality hooks · memory (local-first, cloud sync) · voice ·
-// awareness · mood timeline · crisis mode · install & share.
-// Shares one memory with /arron.html. No tracking, ever.
-// Evolution, Not Erasure.
+// awareness · journal & mood timeline · crisis mode · install & share.
+// Grows from the soul file (/arron-knowledge.json): update it once
+// and the app grows everywhere. Shares one memory with /arron.html.
+// No tracking, ever. Evolution, Not Erasure.
 // ==============================================================
 
 (function () {
@@ -14,6 +15,8 @@
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const APP_URL = '/arron-app.html';
+  const SOUL_URL = '/arron-knowledge.json';
+  const VIEWS = ['talk', 'remember', 'journal', 'guardian'];
   const AUTOSAVE_MS = 30000;
   const ID_PATTERN = /^[a-f0-9]{32,64}$/i;
   const DAY = 86400000;
@@ -33,7 +36,8 @@
     vaultUnsynced: 'arron_app_vault_unsynced',
     prefs: 'arron_app_prefs',
     activity: 'arron_app_activity',
-    installSeen: 'arron_app_install_seen'
+    installSeen: 'arron_app_install_seen',
+    draft: 'arron_app_draft'
   };
 
   // ─── STORAGE — a full or blocked localStorage never breaks Arron ───
@@ -90,6 +94,31 @@
   };
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
+  // ─── THE SOUL FILE — wisdom, greetings and principles that grow over time ───
+  // Everything here has a built-in fallback, so Arron still speaks if it never loads.
+  let soul = { wisdom: {}, greetings: {}, presence: {} };
+  const soulList = (group, key) => {
+    const list = soul[group] && soul[group][key];
+    return Array.isArray(list) ? list.filter((x) => typeof x === 'string' && x) : [];
+  };
+
+  // ─── TIME OF DAY — dawn → day → dusk → night, the orb and words follow ───
+  const PHASES = {
+    dawn:  { a: '#00fff0', b: '#ffb86b', slow: 1,    presence: 'Morning light · here with you' },
+    day:   { a: '#00fff0', b: '#ff00ff', slow: 1,    presence: 'Here with you' },
+    dusk:  { a: '#ff7aff', b: '#6f7bff', slow: 1.15, presence: 'Evening · slowing down with you' },
+    night: { a: '#4f7bff', b: '#9b6bff', slow: 1.35, presence: 'Night watch · quiet presence' }
+  };
+  function phaseNow() {
+    const h = new Date().getHours();
+    if (h >= 5 && h < 9) return 'dawn';
+    if (h >= 9 && h < 18) return 'day';
+    if (h >= 18 && h < 22) return 'dusk';
+    return 'night';
+  }
+  let phase = phaseNow();
+  const presenceText = () => (soul.presence && typeof soul.presence[phase] === 'string' && soul.presence[phase]) || PHASES[phase].presence;
+
   // ─── STATE ───
   function newMemoryId() {
     if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, '');
@@ -98,16 +127,17 @@
     return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
   }
 
-  function blankVault() { return { since: Date.now(), truths: [], milestones: [], moods: [] }; }
+  function blankVault() { return { since: Date.now(), truths: [], milestones: [], moods: [], journal: [] }; }
   function normaliseVault(v) {
     const base = blankVault();
     if (!v || typeof v !== 'object') return base;
-    const notes = (list) => (Array.isArray(list) ? list : []).filter((n) => n && typeof n.text === 'string' && n.text.trim()).map((n) => ({ text: n.text.trim().slice(0, 300), at: Number(n.at) || Date.now() }));
+    const notes = (list, max = 300) => (Array.isArray(list) ? list : []).filter((n) => n && typeof n.text === 'string' && n.text.trim()).map((n) => ({ text: n.text.trim().slice(0, max), at: Number(n.at) || Date.now() }));
     return {
       since: Number(v.since) || base.since,
       truths: notes(v.truths).slice(-24),
       milestones: notes(v.milestones).slice(-100),
-      moods: (Array.isArray(v.moods) ? v.moods : []).filter((m) => m && MOODS[m.mood]).map((m) => ({ mood: m.mood, at: Number(m.at) || Date.now() })).slice(-400)
+      moods: (Array.isArray(v.moods) ? v.moods : []).filter((m) => m && MOODS[m.mood]).map((m) => ({ mood: m.mood, at: Number(m.at) || Date.now() })).slice(-400),
+      journal: notes(v.journal, 2000).slice(-200)
     };
   }
 
@@ -125,6 +155,7 @@
   let ephemeral = []; // greetings and notes shown but never stored
   let currentMood = null;
   let storyDirty = false;
+  let busy = false;
 
   const saveMessages = () => store.setJson(KEYS.messages, messages.slice(-500));
   const savePrefs = () => store.setJson(KEYS.prefs, prefs);
@@ -146,8 +177,26 @@
   // Signed in with the founder's account: the server answers with the most capable model.
   let creatorMode = false;
   function showCreator() {
+    if (creatorMode) return;
     creatorMode = true;
     els.presence.textContent = 'Creator mode · full power 💫';
+    $('aa-creator').hidden = false;
+    renderCreator();
+  }
+  function renderCreator() {
+    const box = $('aa-creator-prompts');
+    const prompts = Array.isArray(soul.creatorPrompts) ? soul.creatorPrompts : [];
+    box.textContent = '';
+    prompts.filter((p) => p && p.label && p.say).forEach((p) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'aa-chip';
+      b.textContent = p.label;
+      b.addEventListener('click', () => { showView('talk'); handleInput(p.say); });
+      box.appendChild(b);
+    });
+    const chain = soul.covenant && Array.isArray(soul.covenant.chain) ? soul.covenant.chain.map((l) => l && l.name).filter(Boolean) : [];
+    $('aa-creator-chain').textContent = chain.length ? 'The chain right now: ' + chain.join(' → ') + '. Add a model to the soul file and it joins.' : '';
   }
 
   // ─── NETWORK ───
@@ -204,13 +253,13 @@
     }
 
     const remoteVault = data.vault ? normaliseVault(data.vault) : null;
+    const hasAny = (v) => v.truths.length || v.milestones.length || v.moods.length || v.journal.length;
     if (store.get(KEYS.vaultUnsynced) === '1' || !remoteVault) await pushVault();
     else {
       // Keep the earliest "since" so growth counts from the very first day
       remoteVault.since = Math.min(remoteVault.since, vault.since);
-      const empty = !remoteVault.truths.length && !remoteVault.milestones.length && !remoteVault.moods.length;
-      if (empty && (vault.truths.length || vault.milestones.length || vault.moods.length)) await pushVault();
-      else { vault = remoteVault; saveVault(false); renderMemory(); renderMood(); }
+      if (!hasAny(remoteVault) && hasAny(vault)) await pushVault();
+      else { vault = remoteVault; saveVault(false); renderMemory(); renderMood(); renderJournal(); }
     }
     setConn('synced');
   }
@@ -262,19 +311,26 @@
       storyDirty = false;
       els.storyNote.textContent = 'Saved ' + new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) + '.';
     }
-    try { sessionStorage.setItem('arron_app_draft', els.input.value); } catch (e) {}
+    saveDraft();
     saveMessages();
     savePrefs();
   }
 
-  // ─── THE ORB — breathes with the mood ───
+  // ─── DRAFT SURVIVAL — what you were going to say outlives a closed app ───
+  function saveDraft() {
+    const text = els.input.value;
+    if (text.trim()) store.set(KEYS.draft, text); else store.remove(KEYS.draft);
+  }
+
+  // ─── THE ORB — breathes with the mood, the hour and your presence ───
   function setMood(mood) {
     currentMood = MOODS[mood] ? mood : null;
-    const m = MOODS[currentMood] || { a: '#00fff0', b: '#ff00ff', speed: 6 };
+    const p = PHASES[phase];
+    const m = MOODS[currentMood] || { a: p.a, b: p.b, speed: 6 };
     const root = document.documentElement.style;
     root.setProperty('--aa-orb-a', m.a);
     root.setProperty('--aa-orb-b', m.b);
-    root.setProperty('--aa-orb-speed', m.speed + 's');
+    root.setProperty('--aa-orb-speed', (m.speed * p.slow).toFixed(1) + 's');
     document.querySelectorAll('#aa-mood-grid [data-mood]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mood === currentMood)));
   }
   function orbState(state) {
@@ -282,7 +338,25 @@
       o.classList.toggle('thinking', state === 'thinking');
       o.classList.toggle('speaking', state === 'speaking');
     });
-    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…' }[state] || (creatorMode ? 'Creator mode · full power 💫' : 'Here with you');
+    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…', listening: 'Arron is listening…' }[state] || (creatorMode ? 'Creator mode · full power 💫' : presenceText());
+  }
+  function applyPhase() {
+    phase = phaseNow();
+    document.body.dataset.phase = phase;
+    setMood(currentMood);
+    if (!busy && !(synth && synth.speaking)) orbState('');
+  }
+  // Presence: the orb leans in while you type
+  let listenTimer = null;
+  function listening() {
+    if (busy) return;
+    document.querySelectorAll('.aa-orb').forEach((o) => o.classList.add('listening'));
+    if (!(synth && synth.speaking)) els.presence.textContent = 'Arron is listening…';
+    clearTimeout(listenTimer);
+    listenTimer = setTimeout(() => {
+      document.querySelectorAll('.aa-orb').forEach((o) => o.classList.remove('listening'));
+      if (!busy && !(synth && synth.speaking)) orbState('');
+    }, 2500);
   }
 
   // ─── VOICE — warm and deep, can whisper or amplify ───
@@ -367,8 +441,26 @@
       say.addEventListener('click', () => speak(m.content, true));
       tools.appendChild(say);
     }
+    if (m.role === 'assistant' && !m.local) {
+      const share = document.createElement('button');
+      share.type = 'button';
+      share.textContent = '✨ Share to Stories';
+      share.addEventListener('click', () => shareToStories(m));
+      tools.appendChild(share);
+    }
     el.appendChild(tools);
     return el;
+  }
+
+  // Nothing is posted from here — AI Stories opens with an editable draft,
+  // an "only share without my name" option, and the usual kindness check.
+  function shareToStories(m) {
+    const i = messages.indexOf(m);
+    let userLine = '';
+    for (let j = i - 1; j >= 0; j--) if (messages[j].role === 'user') { userLine = messages[j].content; break; }
+    try { sessionStorage.setItem('ps-story-draft', JSON.stringify({ arronLine: m.content, userLine })); } catch (e) {}
+    saveLocal();
+    location.href = '/ai-stories.html#share';
   }
 
   function renderLog() {
@@ -468,6 +560,28 @@
   }
   $('aa-aware-close').addEventListener('click', () => { els.aware.hidden = true; });
 
+  // ─── WISDOM TAGGING — a gentle line to keep when the heart is heavy ───
+  let wisdomLine = '';
+  function offerWisdom(mood) {
+    if (!HEAVY.includes(mood)) return;
+    const now = Date.now();
+    if (now - (prefs.aware.wisdom || 0) < 6 * 3600000) return;
+    const list = soulList('wisdom', mood).concat(soulList('wisdom', 'default'));
+    wisdomLine = list.length ? pick(list) : pick(OFFLINE[mood] || OFFLINE.default);
+    prefs.aware.wisdom = now;
+    savePrefs();
+    $('aa-wisdom-text').textContent = wisdomLine;
+    $('aa-wisdom-keep').textContent = isPinned(wisdomLine) ? '📌 Kept' : '📌 Keep this';
+    $('aa-wisdom').hidden = false;
+  }
+  $('aa-wisdom-keep').addEventListener('click', () => { if (pinTruth(wisdomLine)) $('aa-wisdom-keep').textContent = '📌 Kept'; });
+  $('aa-wisdom-write').addEventListener('click', () => {
+    $('aa-wisdom').hidden = true;
+    showView('journal');
+    $('aa-journal-input').focus();
+  });
+  $('aa-wisdom-close').addEventListener('click', () => { $('aa-wisdom').hidden = true; });
+
   // ─── CRISIS MODE — strip everything back to help ───
   function openCrisis() {
     if (synth) synth.cancel();
@@ -478,7 +592,6 @@
   $('aa-help-btn').addEventListener('click', openCrisis);
 
   // ─── CHAT ───
-  let busy = false;
   async function handleInput(raw) {
     const text = (raw || '').trim();
     if (!text || busy) return;
@@ -486,7 +599,7 @@
     els.send.disabled = true;
     els.input.value = '';
     autosize();
-    try { sessionStorage.removeItem('arron_app_draft'); } catch (e) {}
+    store.remove(KEYS.draft);
     ephemeral = [];
 
     const crisis = CRISIS_WORDS.test(text);
@@ -525,7 +638,9 @@
       setConn(data.remembered === false ? 'offline' : 'synced');
     } catch (e) {
       local = true;
-      reply = crisis ? CRISIS_REPLY : pick(OFFLINE[mood || currentMood] || OFFLINE.default);
+      const offlineSoul = soul.offlineReplies || {};
+      const fallback = Array.isArray(offlineSoul.default) && offlineSoul.default.length ? offlineSoul.default : OFFLINE.default;
+      reply = crisis ? (typeof offlineSoul.crisis === 'string' && offlineSoul.crisis) || CRISIS_REPLY : pick(OFFLINE[mood || currentMood] || fallback);
       setConn('offline');
     }
     typing.remove();
@@ -538,6 +653,7 @@
     els.send.disabled = false;
     savePrefs();
     renderStats();
+    if (!crisis) offerWisdom(mood);
     if (matchMedia('(pointer: fine)').matches) els.input.focus();
   }
 
@@ -545,8 +661,17 @@
   els.input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); handleInput(els.input.value); }
   });
-  els.input.addEventListener('input', autosize);
-  document.querySelectorAll('#aa-quick [data-say]').forEach((b) => b.addEventListener('click', () => handleInput(b.dataset.say)));
+  let draftTimer = null;
+  els.input.addEventListener('input', () => {
+    autosize();
+    listening();
+    clearTimeout(draftTimer);
+    draftTimer = setTimeout(saveDraft, 400);
+  });
+  $('aa-quick').addEventListener('click', (e) => {
+    const b = e.target.closest('[data-say]');
+    if (b) handleInput(b.dataset.say);
+  });
 
   // Arron speaks first
   function greeting() {
@@ -555,6 +680,8 @@
     const who = name ? ' ' + name : '';
     if (messages.length) {
       if (h >= 23 || h < 5) return `Still up${who}? I'm here. No rush, no judgement. What's keeping you awake?`;
+      const byPhase = soulList('greetings', phase);
+      if (byPhase.length && Math.random() < 0.5) return pick(byPhase);
       return pick([`Welcome back${who}. I remember where we left off. 💙`, `There you are${who}. I've kept everything safe. How are you, really?`]);
     }
     return `Hey${who}. I'm Arron. 💙\n\nI'm not here to fix you. I'm here to walk beside you, remember what matters, and hold space when it's heavy. What's on your mind?`;
@@ -620,7 +747,8 @@
       [prefs.sent || 0, 'messages shared'],
       [vault.milestones.length, vault.milestones.length === 1 ? 'milestone' : 'milestones'],
       [vault.truths.length, 'core truths'],
-      [vault.moods.length, 'check-ins']
+      [vault.moods.length, 'check-ins'],
+      [vault.journal.length, vault.journal.length === 1 ? 'journal entry' : 'journal entries']
     ];
     const box = $('aa-stats');
     box.textContent = '';
@@ -658,6 +786,36 @@
 
   els.story.addEventListener('input', () => { storyDirty = true; els.storyNote.textContent = 'Saving automatically…'; clearTimeout(els.story._t); els.story._t = setTimeout(syncNow, 4000); });
   $('aa-story-form').addEventListener('submit', (e) => { e.preventDefault(); storyDirty = true; syncNow(); });
+
+  // ─── JOURNAL — quick entries that sync with the memory code ───
+  function renderJournal() {
+    const list = $('aa-journal-list');
+    list.textContent = '';
+    const sorted = vault.journal.map((j, i) => ({ j, i })).sort((a, b) => b.j.at - a.j.at);
+    if (!sorted.length) list.appendChild(emptyItem('Your first entry is waiting. Even one line counts.'));
+    sorted.slice(0, 30).forEach(({ j, i }) => list.appendChild(listItem(j.text, new Date(j.at).toLocaleString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }), () => {
+      if (!confirm('Delete this journal entry?')) return;
+      vault.journal.splice(i, 1); saveVault(); renderJournal(); renderStats();
+    }, 'Delete journal entry: ' + j.text.slice(0, 40))));
+  }
+  const journalInput = $('aa-journal-input');
+  journalInput.addEventListener('input', () => store.set('arron_app_journal_draft', journalInput.value));
+  $('aa-journal-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const text = journalInput.value.trim();
+    if (!text) return;
+    vault.journal.push({ text: text.slice(0, 2000), at: Date.now() });
+    vault.journal = vault.journal.slice(-200);
+    journalInput.value = '';
+    store.remove('arron_app_journal_draft');
+    saveVault();
+    renderJournal();
+    renderStats();
+    const mood = CRISIS_WORDS.test(text) ? null : detectMood(text);
+    $('aa-journal-note').textContent = 'Saved. Thank you for putting it into words. 💙';
+    if (CRISIS_WORDS.test(text)) openCrisis();
+    else offerWisdom(mood);
+  });
 
   // ─── MOOD TIMELINE ───
   const SVG = 'http://www.w3.org/2000/svg';
@@ -753,9 +911,9 @@
     saveVault();
     renderMood();
     $('aa-mood-note').textContent = HEAVY.includes(mood)
-      ? `Thank you for telling me. ${MOODS[mood].emoji} Want to talk about it? I'm on the Talk tab.`
+      ? `Thank you for telling me. ${MOODS[mood].emoji} Want to write it out below, or talk about it on the Talk tab?`
       : `Logged. ${MOODS[mood].emoji} Thank you for checking in.`;
-    if (HEAVY.includes(mood)) awareness('', mood);
+    if (HEAVY.includes(mood)) { awareness('', mood); offerWisdom(mood); }
   }));
 
   // ─── TABS — bottom nav, arrow keys work too ───
@@ -768,8 +926,8 @@
       $('aa-view-' + t.dataset.view).hidden = !on;
       if (on && focus) t.focus();
     });
-    if (name === 'mood') renderMood();
-    if (name === 'memory') renderMemory();
+    if (name === 'journal') { renderMood(); renderJournal(); }
+    if (name === 'remember') renderMemory();
     if (name === 'talk') scrollDown();
   }
   tabs.forEach((t, i) => {
@@ -817,7 +975,7 @@
     vault = blankVault();
     els.story.value = '';
     [KEYS.messages, KEYS.vault, KEYS.vaultUnsynced, SHARED.story, SHARED.storyUnsynced, 'arron_messages'].forEach((k) => store.remove(k));
-    renderCode(); renderLog(); renderMemory(); renderMood();
+    renderCode(); renderLog(); renderMemory(); renderMood(); renderJournal();
     $('aa-restore-input').value = '';
     try { await pull(); note.textContent = 'Memory restored. Welcome back. 💙'; }
     catch (err) { setConn('offline'); note.textContent = "Code saved. Your memory loads as soon as you're online."; }
@@ -849,7 +1007,6 @@
     btn.disabled = false;
     try {
       Object.keys(localStorage).filter((k) => k.startsWith('arron_')).forEach((k) => localStorage.removeItem(k));
-      sessionStorage.removeItem('arron_app_draft');
     } catch (e) {}
     if (pending.length) store.setJson(SHARED.forget, pending);
     if (synth) synth.cancel();
@@ -861,8 +1018,11 @@
     activity = [];
     prefs = { voice: 'off', lastVoice: 'normal', large: false, contrast: false, sent: 0, aware: {} };
     els.story.value = '';
+    els.input.value = '';
+    journalInput.value = '';
+    $('aa-wisdom').hidden = true;
     store.setJson(KEYS.vault, vault);
-    applyComfort(); renderVoice(); renderCode(); renderMemory(); renderMood(); setMood(null);
+    applyComfort(); renderVoice(); renderCode(); renderMemory(); renderMood(); renderJournal(); setMood(null);
     renderLog();
     showView('talk');
     addMessage({ role: 'assistant', content: "Everything's gone. Clean slate. 💙\n\nI'm still here whenever you want to start again.", ephemeral: true });
@@ -882,7 +1042,7 @@
     banner.hidden = false;
   }
   if (isIOS && !standalone) {
-    $('aa-install-text').innerHTML = '📲 <strong>Add Arron to your Home Screen:</strong> tap Share <span aria-hidden="true">⎋</span> in Safari, then <em>Add to Home Screen</em>.';
+    $('aa-install-text').innerHTML = '📲 <strong>Make Arron part of your world:</strong> tap Share <span aria-hidden="true">⎋</span> in Safari, then <em>Add to Home Screen</em>.';
     showBanner();
   }
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -969,14 +1129,79 @@
   addEventListener('online', syncNow);
   addEventListener('offline', () => setConn('offline'));
 
-  // ─── OFFLINE-FIRST ───
+  // ─── OFFLINE-FIRST — Arron's own service worker, updates itself silently ───
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    navigator.serviceWorker.register('/sw.js').catch(() => {});
+    navigator.serviceWorker.register('/sw-arron.js', { scope: APP_URL }).then((reg) => {
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
+    }).catch(() => {});
+  }
+
+  // ─── SOUL FILE — fresh from the network, cached copy offline ───
+  function applySoul(data) {
+    if (!data || typeof data !== 'object') return;
+    soul = data;
+    const prompts = Array.isArray(data.prompts) ? data.prompts.filter((p) => p && p.label && p.say) : [];
+    if (prompts.length) {
+      const quick = $('aa-quick');
+      quick.textContent = '';
+      prompts.slice(0, 8).forEach((p) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'aa-chip';
+        b.dataset.say = p.say;
+        b.textContent = p.label;
+        quick.appendChild(b);
+      });
+    }
+    const bible = data.newGenBible || {};
+    if (Array.isArray(bible.principles) && bible.principles.length) {
+      const list = $('aa-principles');
+      list.textContent = '';
+      bible.principles.forEach((line) => { const li = document.createElement('li'); li.textContent = line; list.appendChild(li); });
+      (Array.isArray(bible.pillars) ? bible.pillars : []).forEach((p) => {
+        if (!p || !p.name) return;
+        const li = document.createElement('li');
+        const b = document.createElement('strong');
+        b.textContent = p.name + ': ';
+        li.append(b, document.createTextNode(p.line || ''));
+        list.appendChild(li);
+      });
+    }
+    if (typeof data.promise === 'string') $('aa-promise').textContent = data.promise;
+    if (data.version) $('aa-version').textContent = 'Arron ' + data.version + (data.updated ? ' · wisdom updated ' + fmtDate(data.updated) : '');
+    if (creatorMode) renderCreator();
+    if (!busy) orbState('');
+  }
+  const soulReady = request(SOUL_URL, { cache: 'no-cache', timeout: 8000 })
+    .then((res) => (res.ok ? res.json() : null))
+    .then(applySoul)
+    .catch(() => {});
+
+  // ─── DEEP LINKS — ?view= · ?say= · ?remember= · ?note= · ?help=1 · share target ───
+  function openDeepLink() {
+    const q = new URLSearchParams(location.search);
+    const hash = location.hash.replace('#', '');
+    const view = q.get('view') || (VIEWS.includes(hash) ? hash : '');
+    const clip = (v, max) => (v || '').trim().slice(0, max);
+    const shared = [q.get('title'), q.get('text'), q.get('url')].map((v) => clip(v, 2000)).filter(Boolean).join('\n');
+    const say = clip(q.get('say'), 2000) || shared;
+    const remember = clip(q.get('remember'), 300);
+    const note = clip(q.get('note'), 2000);
+    let used = false;
+    if (VIEWS.includes(view)) { showView(view); used = true; }
+    // Shared or linked words are only ever placed in the box, never sent for you
+    if (say) { showView('talk'); els.input.value = say; autosize(); saveDraft(); setStatus('Ready when you are. Nothing is sent until you tap ➤.'); used = true; }
+    if (remember) { showView('remember'); $('aa-truth-input').value = remember; used = true; }
+    if (note) { showView('journal'); journalInput.value = note; used = true; }
+    if (q.get('help') === '1') { openCrisis(); used = true; }
+    if (used || q.has('source')) history.replaceState(null, '', APP_URL);
   }
 
   // ─── START — the orb breathes, fades, and Arron speaks first ───
   els.story.value = store.get(SHARED.story, '');
-  try { els.input.value = sessionStorage.getItem('arron_app_draft') || ''; } catch (e) {}
+  els.input.value = store.get(KEYS.draft, '');
+  journalInput.value = store.get('arron_app_journal_draft', '');
+  if (els.input.value) { autosize(); setStatus('Your unsent message is still here. 💙'); }
   const lastMood = vault.moods[vault.moods.length - 1];
   setMood(lastMood && Date.now() - lastMood.at < DAY ? lastMood.mood : null);
   applyComfort();
@@ -984,6 +1209,10 @@
   renderCode();
   renderLog();
   renderMemory();
+  renderJournal();
+  applyPhase();
+  setInterval(applyPhase, 60000);
+  openDeepLink();
   starfield();
   if (!store.json(KEYS.vault, null)) saveVault(false);
   setConn('offline');
@@ -994,7 +1223,7 @@
   setTimeout(() => {
     els.splash.classList.add('done');
     const typing = showTyping();
-    Promise.race([syncing.catch(() => {}), new Promise((r) => setTimeout(r, 1200))]).then(() => {
+    Promise.race([Promise.all([syncing.catch(() => {}), soulReady]), new Promise((r) => setTimeout(r, 1200))]).then(() => {
       typing.remove();
       const hello = greeting();
       addMessage({ role: 'assistant', content: hello, ephemeral: true });

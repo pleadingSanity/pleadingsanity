@@ -15,7 +15,7 @@ import { getUser } from "@netlify/identity";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
-import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { buildSystemPrompt, MOODS, SOUL } from "../lib/arron-knowledge.js";
 
 const anthropic = new Anthropic();
 const openai = new OpenAI();
@@ -24,14 +24,21 @@ const gemini = new GoogleGenAI({});
 type Turn = { role: "user" | "assistant"; content: string };
 type Provider = "anthropic" | "openai" | "gemini";
 
-// Tried in order — the first lab that answers wins.
+// Tried in order — the first lab that answers wins. The chain lives in the soul
+// file (/arron-knowledge.json): welcoming a new model is one JSON block there.
 // Creator mode: signed-in accounts with the Identity role "admin" or "creator"
 // get each lab's most capable model, longer replies and a builder's-partner brief.
-const CHAIN: { provider: Provider; model: string; creatorModel: string }[] = [
+type Link = { provider: Provider; model: string; creatorModel: string };
+const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini"];
+const FALLBACK_CHAIN: Link[] = [
   { provider: "anthropic", model: "claude-sonnet-5", creatorModel: "claude-opus-5-5" },
   { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
   { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
 ];
+const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : [])
+  .filter((l) => PROVIDERS.includes(l?.provider as Provider) && typeof l.model === "string" && l.model)
+  .map((l) => ({ provider: l.provider as Provider, model: l.model, creatorModel: typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model }));
+const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
 const CREATOR_ROLES = ["admin", "creator"];
 
 async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number) {
@@ -58,7 +65,7 @@ async function ask(provider: Provider, model: string, system: string, turns: Tur
     .trim();
 }
 
-// Walk the chain until someone replies. Only throws if all three labs are down.
+// Walk the chain until someone replies. Only throws if every lab is down.
 async function reply(system: string, turns: Turn[], creator: boolean) {
   for (const link of CHAIN) {
     const model = creator ? link.creatorModel : link.model;
@@ -81,6 +88,8 @@ const HISTORY_FOR_DISPLAY = 60;
 const MAX_TRUTHS = 24;
 const MAX_MILESTONES = 100;
 const MAX_MOODS = 400;
+const MAX_JOURNAL = 200;
+const MAX_JOURNAL_TEXT = 2000;
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -100,14 +109,14 @@ function validId(id: unknown): id is string {
 const cleanText = (v: unknown, max: number) => (typeof v === "string" ? v.trim().slice(0, max) : "");
 const cleanTime = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v > 0 ? Math.floor(v) : Date.now());
 
-// The Arron app's synced vault: Core Truths, milestones and mood timeline.
+// The Arron app's synced vault: Core Truths, milestones, mood timeline and journal.
 // Everything is re-shaped and capped so the column only ever holds what the app wrote.
 function cleanVault(raw: unknown) {
   const v = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
   const list = (x: unknown) => (Array.isArray(x) ? x : []);
-  const notes = (x: unknown, max: number) =>
+  const notes = (x: unknown, max: number, length = 300) =>
     list(x)
-      .map((n) => ({ text: cleanText((n as { text?: unknown })?.text, 300), at: cleanTime((n as { at?: unknown })?.at) }))
+      .map((n) => ({ text: cleanText((n as { text?: unknown })?.text, length), at: cleanTime((n as { at?: unknown })?.at) }))
       .filter((n) => n.text)
       .slice(-max);
   return {
@@ -118,6 +127,7 @@ function cleanVault(raw: unknown) {
       .map((m) => ({ mood: cleanText((m as { mood?: unknown })?.mood, 20), at: cleanTime((m as { at?: unknown })?.at) }))
       .filter((m) => Object.hasOwn(MOODS, m.mood))
       .slice(-MAX_MOODS),
+    journal: notes(v.journal, MAX_JOURNAL, MAX_JOURNAL_TEXT),
   };
 }
 

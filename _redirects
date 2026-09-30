@@ -33,6 +33,10 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /supporters.html      /about.html             301
 /plan.html            /movement.html          301
 
+# ─── THE ARRON APP ───
+/app                  /arron-app.html         301
+/app/*                /arron-app.html         301
+
 # ─── VIDEO FEED API ───
 # /api/ytFeed and /api/fetchVideos are served by netlify/functions/ytFeed.mjs
 # Anything else under /api/ falls through to the 404 page.
