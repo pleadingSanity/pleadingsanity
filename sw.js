@@ -4,7 +4,7 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.4.0';
+const VERSION = '4.5.0';
 const STATIC_CACHE = 'pleading-sanity-static-v12';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v12';
 const OFFLINE_URL = '/offline.html';
