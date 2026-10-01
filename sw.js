@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.1.0'; // v3.1-OWNER — member profiles & live community feed
-const STATIC_CACHE = 'pleading-sanity-static-v14';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v14';
+const VERSION = '5.2.0'; // v3.2 — crying brain hero, Shining Lights, AI family wall, Arron grows nightly
+const STATIC_CACHE = 'pleading-sanity-static-v15';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v15';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -107,6 +107,7 @@ const PRECACHE_URLS = [
     '/content/content_feed.json',
     '/arron-knowledge.json',
     '/assets/logo.svg',
+    '/assets/images/brand/crying-brain-logo-512.webp',
     '/assets/favicon.svg',
     '/assets/favicon.ico',
     '/assets/icons/icon-192x192.png',
