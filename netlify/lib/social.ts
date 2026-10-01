@@ -41,7 +41,12 @@ export const str = (value: unknown, max: number) =>
 // Shane Cooper is the sole Owner and Founder. Ownership comes from his
 // verified email alone: it is never stored, so it can't be granted,
 // revoked, demoted or claimed by anyone else.
-export const OWNER_EMAILS = ["pleadingsanity1@gmail.com", "pleadingsanitydev@gmail.com"];
+// The addresses live only in the NETLIFY_OWNER_EMAILS env var (comma-separated),
+// never in code. If it's unset, nobody is Owner — the safe way to fail.
+export const OWNER_EMAILS = (process.env.NETLIFY_OWNER_EMAILS ?? "")
+  .split(/[,;\s]+/)
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
 export const OWNER_NAME = "Shane";
 export const isOwnerEmail = (email = "") => OWNER_EMAILS.includes(email.trim().toLowerCase());
 

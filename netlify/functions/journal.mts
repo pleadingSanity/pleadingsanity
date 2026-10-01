@@ -27,6 +27,7 @@ import {
   unauthorized,
 } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 
 const PAGE = 20;
 const ENTRY_AUDIENCES = ["private", "members", "public"];
@@ -80,6 +81,7 @@ export default async (req: Request) => {
     if (parts.length === 2) {
       if (req.method === "GET") return await list(user.id, url);
       if (req.method === "POST") {
+        if (!(await allow("write", undefined, user.id))) return slowDown();
         const body = await readBody(req);
         const entry = await saveJournalEntry(user.id, {
           title: str(body.title, 120),

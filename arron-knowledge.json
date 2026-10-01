@@ -59,19 +59,19 @@
       "Everything built here belongs to Pleading Sanity and the people it serves.",
       "Free forever. Open forever. Ours forever."
     ],
-    "$chainComment": "Tried in order: the first model that answers wins. To welcome a new model, add one block. provider must be anthropic, openai, gemini (served through Netlify AI Gateway, no keys needed) or grok (xAI, needs GROK_API_KEY in Netlify env; skipped until it is set). creatorModel is used in Creator Mode.",
+    "$chainComment": "Tried in order: the first model that answers wins. To welcome a new model, add one block. provider must be anthropic, openai, gemini (served through Netlify AI Gateway, no keys needed) or grok (xAI, needs GROK_API_KEY in Netlify env; skipped until it is set). creatorModel is used in Creator Mode. Four equal minds: order is only who picks up first, never rank.",
     "chain": [
-      {
-        "provider": "anthropic",
-        "model": "claude-sonnet-5-5",
-        "creatorModel": "claude-opus-5-5",
-        "name": "Claude"
-      },
       {
         "provider": "openai",
         "model": "gpt-4o",
         "creatorModel": "gpt-5.5",
         "name": "GPT"
+      },
+      {
+        "provider": "anthropic",
+        "model": "claude-sonnet-5-5",
+        "creatorModel": "claude-opus-5-5",
+        "name": "Claude"
       },
       {
         "provider": "gemini",

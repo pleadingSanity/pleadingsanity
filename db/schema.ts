@@ -420,3 +420,11 @@ export const siteSettings = pgTable("site_settings", {
   value: jsonb().notNull().default({}),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+// Per-minute request counters for the rate limiter (netlify/lib/rate-limit.ts).
+// The key is "bucket:who" where who is a member id or a hashed IP — never a raw address.
+export const rateLimits = pgTable("rate_limits", {
+  key: text().primaryKey(),
+  windowStart: integer("window_start").notNull(),
+  count: integer().notNull().default(0),
+});

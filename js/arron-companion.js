@@ -33,6 +33,9 @@
   const welcome = $('arron-welcome');
 
   const CHAT_API = '/api/arron/chat';
+  // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
+  const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
+  const answeredVia = (provider) => (MINDS[provider] ? `Answered via ${MINDS[provider]}` : '');
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const KEYS = {
@@ -575,9 +578,12 @@
       member = data.member || null;
       replyActions = Array.isArray(data.actions) ? data.actions : [];
       setConn('online');
-      setStatus(data.remembered === false
-        ? "Arron replied, but couldn't save this to your memory just now."
-        : 'Saved to your memory. 💙');
+      const via = answeredVia(data.provider);
+      setStatus(data.provider === 'none'
+        ? "Arron's minds are resting for a moment, so this reply isn't saved."
+        : (data.remembered === false
+          ? "Arron replied, but couldn't save this to your memory just now."
+          : 'Saved to your memory. 💙') + (via ? ` · ${via}` : ''));
     } catch (e) {
       // Crisis words always get real UK support numbers, online or not
       reply = offlineResponse(text);
