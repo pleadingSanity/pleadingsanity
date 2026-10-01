@@ -109,6 +109,8 @@ Evolution, Not Erasure. One Source. One Family.
         <legend>What are you sharing?</legend>
         <div class="kind-tabs" id="kinds">
           <button type="button" data-kind="text" aria-pressed="true">💬 Post</button>
+          <button type="button" data-kind="status" aria-pressed="false">🌿 Status</button>
+          <button type="button" data-kind="writing" aria-pressed="false">✍️ Writing</button>
           <button type="button" data-kind="story" aria-pressed="false">📖 Story</button>
           <button type="button" data-kind="video" aria-pressed="false">🎬 Video</button>
           <button type="button" data-kind="image" aria-pressed="false">🖼️ Image</button>
@@ -172,8 +174,10 @@ Evolution, Not Erasure. One Source. One Family.
       <div class="row" style="align-items:flex-end;margin-bottom:1rem">
         <label class="field" style="margin:0;flex:1;min-width:200px"><span>Who can see this?</span>
           <select name="visibility" id="visibility">
-            <option value="public">🌍 Everyone signed in</option>
+            <option value="public">🌍 Public — everyone, even guests</option>
+            <option value="members">🌿 Members only</option>
             <option value="friends">💙 Friends only</option>
+            <option value="private">🔒 Only me</option>
           </select>
         </label>
         <label class="row" style="min-height:44px;flex:1;min-width:200px">
@@ -238,11 +242,19 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
     let kind = 'text';
     let imageKey = '';
 
-    if (me.profile.isPrivate) document.getElementById('visibility').value = 'friends';
+    // Their Sanity Profile defaults: who sees new posts, and their usual Truth Tag.
+    document.getElementById('visibility').value = me.profile.isPrivate ? 'friends' : me.profile.defaultVisibility || 'public';
+    if (me.profile.truthTagDefault) {
+      const tag = form.querySelector(`input[name="truthTag"][value="${me.profile.truthTagDefault}"]`);
+      if (tag) tag.checked = true;
+    }
+    if (me.community?.reviewMode && !me.user.isGuardian && me.user.role !== 'creator') {
+      msg.innerHTML = '<p class="notice info">🌿 Shane is reviewing new posts right now — yours will appear on the feed once he\'s had a look. You\'ll see it on your page straight away.</p>';
+    }
 
     // ─── KIND ───
-    const LIMITS = { text: 5000, story: 20000, video: 5000, image: 5000 };
-    const LABELS = { text: "What's on your mind?", story: 'Your story', video: 'Say something about the video', image: 'Say something about the image' };
+    const LIMITS = { text: 5000, story: 20000, video: 5000, image: 5000, status: 1000, writing: 20000 };
+    const LABELS = { text: "What's on your mind?", story: 'Your story', video: 'Say something about the video', image: 'Say something about the image', status: "I'm feeling…", writing: 'Your poem, thought or story' };
     function setKind(next) {
       kind = next;
       document.querySelectorAll('#kinds [data-kind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === kind)));
@@ -250,7 +262,7 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
       document.getElementById('image-field').hidden = kind !== 'image';
       document.getElementById('body-label').textContent = LABELS[kind];
       bodyEl.maxLength = LIMITS[kind];
-      bodyEl.rows = kind === 'story' ? 14 : 7;
+      bodyEl.rows = kind === 'story' || kind === 'writing' ? 14 : kind === 'status' ? 3 : 7;
       updateCount();
     }
     document.getElementById('kinds').addEventListener('click', (e) => {
@@ -386,6 +398,11 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
           },
         });
         const target = `/feed.html?post=${result.post.id}#community`;
+        if (result.pending && !result.crisis) {
+          toast('Shared 💙 It will appear on the feed once Shane has reviewed it.', 6000);
+          location.href = `/@${me.profile.username}`;
+          return;
+        }
         if (result.crisis) {
           form.innerHTML = `
             <h2>Your post is shared 💙</h2>

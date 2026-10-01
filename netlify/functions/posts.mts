@@ -1,6 +1,7 @@
 // ==============================================================
 // ✍️ POSTS — feed, create, likes and comments
-//   GET    /api/posts?filter=all|friends|mine&tag=&author=&before=
+//   GET    /api/posts?filter=all|friends|mine|saved|uplifting&tag=&author=&before=
+//   GET    /api/posts?public=1            guests: public, live posts only
 //   POST   /api/posts                     create (moderated)
 //   GET    /api/posts/:id                 single post + comments
 //   DELETE /api/posts/:id                 own post
@@ -10,25 +11,26 @@
 //   POST   /api/posts/:id/pin             toggle pin (Guardians + creator)
 //   DELETE /api/comments/:id              own comment, or on own post
 // The feed is chronological, newest first. No ranking, ever.
+// Audiences: public · members · friends · private (only me).
+// status: live, or pending/held while the Owner reviews (review mode).
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { and, arrayContains, asc, desc, eq, inArray, lt, notInArray, or } from "drizzle-orm";
+import { and, arrayContains, asc, desc, eq, inArray, lt, ne, notInArray, or, type SQL } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { comments, likes, posts, profiles, saves } from "../../db/schema.js";
 import {
   areFriends,
+  badgesFor,
   blockedIds,
-  cleanMood,
   cleanTags,
-  cleanTruthTag,
   countSql,
-  CRISIS_SUPPORT,
   currentUser,
   friendIds,
   isBlockedEitherWay,
   isGuardian,
+  isOwner,
   json,
   logActivity,
   moderate,
@@ -37,38 +39,35 @@ import {
   str,
   unauthorized,
 } from "../lib/social.js";
+import { publishPost, type Post } from "../lib/publish.js";
 
 const PAGE = 15;
-const KINDS = ["text", "story", "video", "image"] as const;
-const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
+const UPLIFTING_MOODS = ["rising", "fierce"];
 
-type Post = typeof posts.$inferSelect;
 type Viewer = { id: string; roles: string[] };
 
-function youtubeId(input: string): string | null {
-  const value = input.trim();
-  if (YOUTUBE_ID.test(value)) return value;
-  try {
-    const url = new URL(value);
-    const host = url.hostname.replace(/^www\.|^m\./, "");
-    let id: string | null = null;
-    if (host === "youtu.be") id = url.pathname.slice(1);
-    else if (host === "youtube.com" || host === "youtube-nocookie.com") {
-      id = url.searchParams.get("v");
-      const parts = url.pathname.split("/").filter(Boolean);
-      if (!id && ["embed", "shorts", "live", "v"].includes(parts[0])) id = parts[1] ?? null;
-    }
-    return id && YOUTUBE_ID.test(id) ? id : null;
-  } catch {
-    return null;
-  }
+// Which posts a signed-in member may see: their own (any state), plus live
+// posts for public/members, and live friends-only posts from their circle.
+function visibleTo(viewerId: string, circle: string[]): SQL {
+  return or(
+    eq(posts.authorId, viewerId),
+    and(
+      eq(posts.status, "live"),
+      or(
+        inArray(posts.visibility, ["public", "members"]),
+        and(eq(posts.visibility, "friends"), inArray(posts.authorId, circle.length ? circle : ["-"])),
+      ),
+    ),
+  ) as SQL;
 }
 
 async function canView(post: Post, viewer: Viewer) {
   if (post.authorId === viewer.id) return true;
   if (post.hidden) return isGuardian(viewer.roles);
+  if (post.status !== "live") return isOwner(viewer.roles) || isGuardian(viewer.roles);
+  if (post.visibility === "private") return false;
   if (await isBlockedEitherWay(viewer.id, post.authorId)) return false;
-  if (post.visibility === "public") return true;
+  if (post.visibility === "public" || post.visibility === "members") return true;
   return areFriends(viewer.id, post.authorId);
 }
 
@@ -78,9 +77,11 @@ async function hydrate(rows: Post[], viewerId: string) {
   const ids = rows.map((p) => p.id);
   const authorIds = [...new Set(rows.map((p) => p.authorId))];
   // Hearts are never counted in public — no popularity contests.
-  const [authors, mine, commentCounts, saved] = await Promise.all([
+  const [authors, mine, commentCounts, saved, badges] = await Promise.all([
     db.select().from(profiles).where(inArray(profiles.userId, authorIds)),
-    db.select({ postId: likes.postId }).from(likes).where(and(inArray(likes.postId, ids), eq(likes.userId, viewerId))),
+    viewerId
+      ? db.select({ postId: likes.postId }).from(likes).where(and(inArray(likes.postId, ids), eq(likes.userId, viewerId)))
+      : Promise.resolve([] as { postId: number }[]),
     db
       .select({ postId: comments.postId, n: countSql })
       .from(comments)
@@ -89,6 +90,7 @@ async function hydrate(rows: Post[], viewerId: string) {
     viewerId
       ? db.select({ postId: saves.postId }).from(saves).where(and(inArray(saves.postId, ids), eq(saves.userId, viewerId)))
       : Promise.resolve([] as { postId: number }[]),
+    badgesFor(authorIds),
   ]);
   const savedSet = new Set(saved.map((s) => s.postId));
   const authorMap = new Map(authors.map((a) => [a.userId, a]));
@@ -109,12 +111,13 @@ async function hydrate(rows: Post[], viewerId: string) {
       contentWarning: p.contentWarning,
       crisis: p.crisis,
       visibility: p.visibility,
+      status: p.status,
       truthTag: p.truthTag,
       pinned: p.pinned,
       createdAt: p.createdAt,
       author: a
-        ? { username: a.username, displayName: a.displayName, avatar: a.avatar }
-        : { username: "", displayName: "Survivor", avatar: "🌌" },
+        ? { username: a.username, displayName: a.displayName, avatar: a.avatar, mood: a.mood, badge: badges.get(p.authorId) ?? "" }
+        : { username: "", displayName: "Survivor", avatar: "🌌", mood: "rising", badge: "" },
       liked: likedSet.has(p.id),
       saved: savedSet.has(p.id),
       comments: commentMap.get(p.id) ?? 0,
@@ -150,8 +153,13 @@ async function feed(viewer: Viewer, url: URL) {
       and(
         eq(posts.hidden, false),
         blocked.length ? notInArray(posts.authorId, blocked) : undefined,
-        or(eq(posts.visibility, "public"), inArray(posts.authorId, circle)),
+        visibleTo(viewer.id, circle),
+        // On someone's page, their private and pending posts stay theirs.
+        authorId && authorId !== viewer.id ? eq(posts.status, "live") : undefined,
         filter === "friends" ? inArray(posts.authorId, friendList.length ? friendList : ["-"]) : undefined,
+        filter === "uplifting"
+          ? and(inArray(posts.mood, UPLIFTING_MOODS), eq(posts.crisis, false), eq(posts.contentWarning, false))
+          : undefined,
         filter === "mine" ? eq(posts.authorId, viewer.id) : undefined,
         filter === "saved" ? inArray(posts.id, savedIds.length ? savedIds : [-1]) : undefined,
         authorId ? eq(posts.authorId, authorId) : undefined,
@@ -174,7 +182,8 @@ async function feed(viewer: Viewer, url: URL) {
         and(
           eq(posts.pinned, true),
           eq(posts.hidden, false),
-          eq(posts.visibility, "public"),
+          eq(posts.status, "live"),
+          inArray(posts.visibility, ["public", "members"]),
           blocked.length ? notInArray(posts.authorId, blocked) : undefined,
         ),
       )
@@ -189,9 +198,21 @@ async function feed(viewer: Viewer, url: URL) {
   });
 }
 
-// Guests (home page "For You" stream) see public, visible, non-crisis posts only.
+// Guests (home page "For You" stream, the feed, /@username pages) see public,
+// live, non-crisis posts only.
 async function publicFeed(url: URL) {
   const before = Number(url.searchParams.get("before"));
+  const filter = url.searchParams.get("filter");
+  const authorName = url.searchParams.get("author");
+  let authorId: string | undefined;
+  if (authorName) {
+    const [a] = await db
+      .select({ id: profiles.userId, isPrivate: profiles.isPrivate, page: profiles.pageVisibility })
+      .from(profiles)
+      .where(eq(profiles.username, authorName.toLowerCase()));
+    if (!a || a.isPrivate || a.page !== "public") return json({ posts: [], nextBefore: null, guest: true });
+    authorId = a.id;
+  }
   const rows = await db
     .select()
     .from(posts)
@@ -199,7 +220,10 @@ async function publicFeed(url: URL) {
       and(
         eq(posts.hidden, false),
         eq(posts.visibility, "public"),
+        eq(posts.status, "live"),
         eq(posts.crisis, false),
+        authorId ? eq(posts.authorId, authorId) : undefined,
+        filter === "uplifting" ? and(inArray(posts.mood, UPLIFTING_MOODS), eq(posts.contentWarning, false)) : undefined,
         Number.isInteger(before) && before > 0 ? lt(posts.id, before) : undefined,
       ),
     )
@@ -214,66 +238,13 @@ async function publicFeed(url: URL) {
 }
 
 async function createPost(req: Request, viewer: Viewer) {
-  const profile = await profileFor(viewer.id);
-  if (!profile?.onboarded) return json({ error: "Finish setting up your profile first.", onboarding: true }, 409);
-
-  const body = await readBody(req);
-  const kind = (KINDS as readonly string[]).includes(body.kind as string) ? (body.kind as Post["kind"]) : "text";
-  const title = str(body.title, 120);
-  const text = str(body.body, kind === "story" ? 20000 : 5000);
-
-  let videoId: string | null = null;
-  if (kind === "video") {
-    videoId = youtubeId(str(body.videoUrl, 300));
-    if (!videoId) return json({ error: "That doesn't look like a YouTube link. Try copying it again." }, 400);
+  const result = await publishPost(viewer, await readBody(req));
+  if (!result.ok) {
+    const { ok: _ok, status, ...body } = result;
+    return json(body, status);
   }
-
-  let imageKey: string | null = null;
-  if (kind === "image") {
-    const key = str(body.imageKey, 200);
-    if (!key.startsWith(`${viewer.id}/`)) return json({ error: "Please upload an image first." }, 400);
-    const exists = await getStore("post-images").getMetadata(key);
-    if (!exists) return json({ error: "That image upload has expired — please add it again." }, 400);
-    imageKey = key;
-  }
-
-  if (!title && !text && !videoId && !imageKey) return json({ error: "Your post is empty." }, 400);
-
-  const verdict = await moderate(`${title}\n\n${text}`, "post");
-  if (!verdict.allowed) {
-    await logActivity(viewer.id, "post.blocked", "post", undefined, verdict.reason);
-    return json(
-      {
-        error: "This post can't be shared as it is.",
-        reason: verdict.reason || "It may be hurtful to others. Try rewording it with kindness.",
-        blocked: true,
-      },
-      422,
-    );
-  }
-
-  const visibility = body.visibility === "friends" ? "friends" : body.visibility === "public" ? "public" : profile.isPrivate ? "friends" : "public";
-  const [post] = await db
-    .insert(posts)
-    .values({
-      authorId: viewer.id,
-      kind,
-      title,
-      body: text,
-      videoId,
-      imageKey,
-      tags: cleanTags(body.tags),
-      mood: cleanMood(body.mood),
-      truthTag: cleanTruthTag(body.truthTag),
-      contentWarning: verdict.contentWarning || body.contentWarning === true,
-      crisis: verdict.crisis,
-      visibility,
-    })
-    .returning();
-  await logActivity(viewer.id, "post.create", "post", post.id, verdict.crisis ? "crisis-strip" : "");
-
-  const [hydrated] = await hydrate([post], viewer.id);
-  return json({ post: hydrated, crisis: verdict.crisis, support: verdict.crisis ? CRISIS_SUPPORT : null }, 201);
+  const [hydrated] = await hydrate([result.post], viewer.id);
+  return json({ post: hydrated, pending: result.pending, crisis: result.crisis, support: result.support }, 201);
 }
 
 async function loadPost(id: number) {
@@ -345,7 +316,12 @@ async function toggleSave(post: Post, viewer: Viewer) {
 
 async function togglePin(post: Post, viewer: Viewer) {
   if (!isGuardian(viewer.roles)) return json({ error: "Only Guardians can pin posts." }, 403);
-  if (post.visibility !== "public") return json({ error: "Only public posts can be pinned." }, 400);
+  if (post.visibility !== "public" || post.status !== "live") return json({ error: "Only live, public posts can be pinned." }, 400);
+  // Up to three pins at a time, so the top of the feed stays calm.
+  if (!post.pinned) {
+    const [row] = await db.select({ n: countSql }).from(posts).where(and(eq(posts.pinned, true), ne(posts.id, post.id)));
+    if ((row?.n ?? 0) >= 3) return json({ error: "Three posts are already pinned — unpin one first." }, 409);
+  }
   const [row] = await db.update(posts).set({ pinned: !post.pinned }).where(eq(posts.id, post.id)).returning({ pinned: posts.pinned });
   await logActivity(viewer.id, row.pinned ? "post.pin" : "post.unpin", "post", post.id);
   return json({ pinned: row.pinned });
@@ -409,6 +385,16 @@ export default async (req: Request) => {
     const parts = url.pathname.split("/").filter(Boolean); // ["api", "posts", id?, sub?]
     if (!user && parts.length === 2 && parts[1] === "posts" && req.method === "GET" && url.searchParams.get("public") === "1") {
       return await publicFeed(url);
+    }
+    // Shared links open for guests too, when the post is public and live.
+    if (!user && parts[1] === "posts" && parts.length >= 3 && req.method === "GET") {
+      const post = await loadPost(Number(parts[2]));
+      if (!post || post.hidden || post.status !== "live" || post.visibility !== "public") return unauthorized();
+      const [hydrated] = await hydrate([post], "");
+      const list = await listComments(post.id, "");
+      if (parts[3] === "comments") return json({ comments: list });
+      if (!parts[3]) return json({ post: hydrated, comments: list, guest: true });
+      return unauthorized();
     }
     if (!user) return unauthorized();
     const viewer: Viewer = { id: user.id, roles: user.roles };

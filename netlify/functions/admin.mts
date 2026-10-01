@@ -16,7 +16,7 @@ const STATUSES = ["open", "reviewed", "actioned"];
 async function describe(targetType: string, targetId: string) {
   if (targetType === "user") {
     const [p] = await db.select().from(profiles).where(eq(profiles.userId, targetId));
-    return p ? { label: `@${p.username} (${p.displayName})`, excerpt: p.bio, link: `/profile.html?user=${p.username}` } : null;
+    return p ? { label: `@${p.username} (${p.displayName})`, excerpt: p.bio, link: `/@${p.username}` } : null;
   }
   const id = Number(targetId);
   if (targetType === "creation") {

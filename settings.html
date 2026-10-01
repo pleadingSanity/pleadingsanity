@@ -134,7 +134,7 @@ Evolution, Not Erasure. One Source. One Family.
 
     <section class="panel" aria-labelledby="del-title" style="border-color:rgba(255,90,130,.45)">
       <h2 id="del-title" style="color:#ffc2d0">🗑️ Delete my account</h2>
-      <p>This permanently deletes your account, profile, story, posts, comments, hearts, friendships and uploaded images. It can't be undone. <small class="muted">(Your right to erasure under UK GDPR.)</small></p>
+      <p>This permanently wipes everything: your account, Sanity Profile, story, journal, status, posts, comments, hearts, friendships, creations, uploaded images and your conversations with Arron. Nothing is kept, no backups. It can't be undone. <small class="muted">(Your right to erasure under UK GDPR.)</small></p>
       <form id="del-form" novalidate>
         <label class="field"><span>Type <strong>DELETE</strong> to confirm</span>
           <input type="text" name="confirm" autocomplete="off" autocapitalize="characters" />
@@ -252,6 +252,7 @@ import { updateUser, logout } from '/js/vendor/netlify-identity.js';
         await api('/api/me', { method: 'DELETE' });
         try { await logout(); } catch { /* account is already gone */ }
         clearMe();
+        try { localStorage.clear(); sessionStorage.clear(); } catch { /* storage blocked */ }
         location.replace('/login.html?deleted=1');
       } catch (error) {
         toast(error.message);

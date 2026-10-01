@@ -19,6 +19,9 @@ export const arronMemories = pgTable("arron_memories", {
   story: text().notNull().default(""),
   // Arron app sync: Core Truths, milestones and mood timeline as one JSON blob.
   vault: jsonb().notNull().default({}),
+  // v3.1: a signed-in member's memory belongs to their account, so Arron
+  // knows them on every device. Null for anonymous device memories.
+  userId: text("user_id").unique().references(() => users.id, { onDelete: "cascade" }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -65,6 +68,17 @@ export const profiles = pgTable(
     interests: text().array().notNull().default(sql`'{}'::text[]`),
     story: text().notNull().default(""),
     isPrivate: boolean("is_private").notNull().default(false),
+    // v3.1 Sanity Profile
+    pronouns: text().notNull().default(""),
+    // Who can open /@username: public (anyone, even guests) | members (signed-in only)
+    pageVisibility: text("page_visibility").notNull().default("public"),
+    // Default audience for new posts: public | members | friends | private
+    defaultVisibility: text("default_visibility").notNull().default("public"),
+    truthTagDefault: text("truth_tag_default").notNull().default(""),
+    // Daily check-in: "how I'm really doing"
+    statusText: text("status_text").notNull().default(""),
+    statusMood: text("status_mood").notNull().default(""),
+    statusAt: timestamp("status_at"),
     onboarded: boolean().notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -79,7 +93,7 @@ export const posts = pgTable(
     authorId: text("author_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    kind: text().notNull().default("text"), // text | story | video | image
+    kind: text().notNull().default("text"), // text | story | video | image | status | journal | writing
     title: text().notNull().default(""),
     body: text().notNull().default(""),
     videoId: text("video_id"),
@@ -88,7 +102,9 @@ export const posts = pgTable(
     mood: text().notNull().default("rising"), // low | anxious | rising | fierce
     contentWarning: boolean("content_warning").notNull().default(false),
     crisis: boolean().notNull().default(false),
-    visibility: text().notNull().default("public"), // public | friends
+    visibility: text().notNull().default("public"), // public | members | friends | private
+    // live | pending (waiting for the Owner's review) | held
+    status: text().notNull().default("live"),
     hidden: boolean().notNull().default(false),
     // Truth tag: evidence | experience | philosophy ("" = untagged)
     truthTag: text("truth_tag").notNull().default(""),
@@ -356,3 +372,51 @@ export const gameProgress = pgTable(
   },
   (t) => [primaryKey({ columns: [t.userId, t.game] })],
 );
+
+// ==============================================================
+// 💫 v3.1 — OWNER & COMMUNITY
+// ==============================================================
+
+// Roles the Owner grants by hand: guardian | creator. The Owner role itself
+// is never stored — it comes from Shane's verified email and can't be granted or removed.
+export const memberRoles = pgTable(
+  "member_roles",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    role: text().notNull(),
+    grantedBy: text("granted_by"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.role] })],
+);
+
+// A member's own journal — private first. Sharing creates a feed post (postId).
+export const journalEntries = pgTable(
+  "journal_entries",
+  {
+    id: serial().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    title: text().notNull().default(""),
+    body: text().notNull(),
+    mood: text().notNull().default(""),
+    truthTag: text("truth_tag").notNull().default(""),
+    // private (only me) | members | public — shown on their /@username page when not private
+    visibility: text().notNull().default("private"),
+    source: text().notNull().default("self"), // self | arron
+    postId: integer("post_id").references(() => posts.id, { onDelete: "set null" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("journal_entries_user_idx").on(t.userId, t.id)],
+);
+
+// Owner-controlled switches: review mode for member posts, Arron voice notes.
+export const siteSettings = pgTable("site_settings", {
+  key: text().primaryKey(),
+  value: jsonb().notNull().default({}),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});

@@ -1,7 +1,8 @@
 // ==============================================================
 // PLEADING SANITY — PROFILE FORM
 // Shared by onboarding and "edit profile": display name, username,
-// avatar, bio, mood, interests, country (optional) and privacy.
+// pronouns, avatar, bio, mood, interests, country (optional),
+// privacy controls and Truth Tag default.
 // ==============================================================
 
 import { api, esc } from '/js/auth.js';
@@ -21,7 +22,11 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
       </label>
       <label class="field"><span>Username</span>
         <input type="text" name="username" maxlength="24" required pattern="[a-z0-9_]{3,24}" value="${esc(p.username || '')}" autocapitalize="off" spellcheck="false" />
-        <small>3–24 characters: lowercase letters, numbers, underscores. Your profile lives at /profile.html?user=<span data-preview>${esc(p.username || 'you')}</span></small>
+        <small>3–24 characters: lowercase letters, numbers, underscores. Your page lives at /@<span data-preview>${esc(p.username || 'you')}</span></small>
+      </label>
+      <label class="field"><span>Pronouns <small style="display:inline">(optional)</small></span>
+        <input type="text" name="pronouns" maxlength="30" value="${esc(p.pronouns || '')}" placeholder="e.g. she/her, he/him, they/them" list="pronoun-ideas" autocomplete="off" />
+        <datalist id="pronoun-ideas"><option value="she/her"></option><option value="he/him"></option><option value="they/them"></option><option value="she/they"></option><option value="he/they"></option></datalist>
       </label>
       <div class="field" role="group" aria-labelledby="avatar-label">
         <span id="avatar-label">Avatar</span>
@@ -50,6 +55,28 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
       <label class="field"><span>📖 My Story <small style="display:inline">(optional — never required)</small></span>
         <textarea name="story" maxlength="10000" rows="8" placeholder="Share your journey, in your own words, when and if you're ready.">${esc(p.story || '')}</textarea>
       </label>` : ''}
+      <fieldset class="field">
+        <legend>🔐 Privacy — who sees what</legend>
+        <label class="field" style="margin-bottom:.75rem"><span>My page (/@${esc(p.username || 'you')})</span>
+          <select name="pageVisibility">
+            <option value="public" ${p.pageVisibility !== 'members' ? 'selected' : ''}>🌍 Public — anyone can visit</option>
+            <option value="members" ${p.pageVisibility === 'members' ? 'selected' : ''}>🌿 Members only — signed-in people</option>
+          </select>
+        </label>
+        <label class="field" style="margin-bottom:.75rem"><span>New posts are seen by</span>
+          <select name="defaultVisibility">
+            ${[['public', '🌍 Public'], ['members', '🌿 Members only'], ['friends', '💙 Friends only'], ['private', '🔒 Only me']]
+              .map(([v, l]) => `<option value="${v}" ${(p.defaultVisibility || 'public') === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+          <small>You can still change it on each post. Your journal is always private until you choose to share.</small>
+        </label>
+        <label class="field" style="margin:0"><span>My usual Truth Tag</span>
+          <select name="truthTagDefault">
+            ${[['', 'Choose each time'], ['experience', '💙 Experience'], ['evidence', '🔬 Evidence'], ['philosophy', '🌌 Philosophy']]
+              .map(([v, l]) => `<option value="${v}" ${(p.truthTagDefault || '') === v ? 'selected' : ''}>${l}</option>`).join('')}
+          </select>
+        </label>
+      </fieldset>
       <label class="check field">
         <input type="checkbox" name="isPrivate" ${p.isPrivate ? 'checked' : ''} />
         <span><strong>Friends-only profile</strong><br /><small>Only friends see your bio, story and posts. Everyone else just sees your name and avatar.</small></span>
@@ -104,6 +131,10 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
       interests: getInterests(),
       country: form.elements.country.value,
       isPrivate: form.elements.isPrivate.checked,
+      pronouns: form.elements.pronouns.value,
+      pageVisibility: form.elements.pageVisibility.value,
+      defaultVisibility: form.elements.defaultVisibility.value,
+      truthTagDefault: form.elements.truthTagDefault.value,
     };
     if (withStory) body.story = form.elements.story.value;
     try {

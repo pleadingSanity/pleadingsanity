@@ -1,7 +1,7 @@
 {
   "name": "Pleading Sanity — Rise From Madness",
   "short_name": "Sanity",
-  "description": "Cosmic healing hub. Brain games. Journal Vault. Frequencies. We turn pain into power, survival into strength, madness into meaning.",
+  "description": "Cosmic healing hub. Arron AI companion, your own Sanity Profile and journal, a live community feed, brain games and frequencies. Free forever. We turn pain into power, survival into strength, madness into meaning.",
   "id": "/",
   "start_url": "/",
   "scope": "/",
@@ -109,6 +109,19 @@
       "short_name": "Arron",
       "description": "Your private, gentle companion",
       "url": "/arron.html",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "My Sanity Profile",
+      "short_name": "My Profile",
+      "description": "Your journal, status and creations — free forever",
+      "url": "/profile.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",

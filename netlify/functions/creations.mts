@@ -110,12 +110,21 @@ async function list(url: URL, viewerId: string | null) {
   const scope = url.searchParams.get("scope") === "mine" ? "mine" : "gallery";
   if (scope === "mine" && !viewerId) return unauthorized();
   const before = Number(url.searchParams.get("before"));
+  // ?author=username → that member's shared creations, for their /@username page.
+  const authorName = url.searchParams.get("author");
+  let authorId: string | undefined;
+  if (authorName && scope === "gallery") {
+    const [a] = await db.select({ id: profiles.userId }).from(profiles).where(eq(profiles.username, authorName.toLowerCase()));
+    if (!a) return json({ creations: [], nextBefore: null });
+    authorId = a.id;
+  }
   const rows = await db
     .select()
     .from(creations)
     .where(
       and(
         scope === "mine" ? eq(creations.authorId, viewerId as string) : and(eq(creations.shared, true), eq(creations.hidden, false)),
+        authorId ? eq(creations.authorId, authorId) : undefined,
         Number.isInteger(before) && before > 0 ? lt(creations.id, before) : undefined,
       ),
     )

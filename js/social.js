@@ -46,7 +46,26 @@ export function timeAgo(iso) {
   return new Date(iso).toLocaleDateString('en-GB');
 }
 
-const KIND_LABEL = { story: '📖 My Story', video: '🎬 Video', image: '🖼️ Image', text: '' };
+const KIND_LABEL = { story: '📖 My Story', video: '🎬 Video', image: '🖼️ Image', text: '', status: '🌿 Status', journal: '📓 Journal', writing: '✍️ Writing' };
+
+// Role badges, shown next to a name everywhere it appears.
+export const ROLE_BADGES = {
+  owner: { icon: '💫', label: 'Owner', hint: 'Shane — founder of Pleading Sanity' },
+  guardian: { icon: '🛡️', label: 'Guardian', hint: 'Trusted helper chosen by Shane' },
+  creator: { icon: '✨', label: 'Creator', hint: 'Creator — chosen by Shane' },
+};
+export const roleBadge = (role) => {
+  const b = ROLE_BADGES[role];
+  return b ? `<span class="role-badge role-${esc(role)}" title="${esc(b.hint)}"><span aria-hidden="true">${b.icon}</span> ${b.label}</span>` : '';
+};
+
+// Every member's public face lives at /@username.
+export const pageLink = (username) => (username ? `/@${encodeURIComponent(username)}` : '#');
+
+const AUDIENCE_NOTE = { members: ' · 🌿 members', friends: ' · 🔒 friends', private: ' · 🔒 only you' };
+
+const UNSIGNED = 'Create your free Sanity Profile to heart, reply and save 💙';
+const friendly = (error) => (error.status === 401 ? UNSIGNED : error.message);
 
 // Truth tags — so readers know what kind of truth they're holding.
 export const TRUTH_TAGS = {
@@ -66,7 +85,7 @@ export const setViewer = (me) => { viewerCanPin = !!me?.user?.isGuardian; };
 
 export function postHTML(post, { full = false } = {}) {
   const author = post.author;
-  const profileLink = author.username ? `/profile.html?user=${encodeURIComponent(author.username)}` : '#';
+  const profileLink = pageLink(author.username);
   const media = post.videoId
     ? `<div class="post-media"><iframe src="https://www.youtube-nocookie.com/embed/${esc(post.videoId)}?autoplay=1&mute=1&playsinline=1&rel=0"
          title="${esc(post.title || 'Video post')}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
@@ -86,11 +105,12 @@ export function postHTML(post, { full = false } = {}) {
     <div class="post-head">
       <a href="${profileLink}" tabindex="-1">${avatar(author)}</a>
       <div>
-        <a class="post-author" id="post-${post.id}-by" href="${profileLink}">${esc(author.displayName)}</a>
-        <div class="post-time">${author.username ? '@' + esc(author.username) + ' · ' : ''}<time datetime="${esc(post.createdAt)}">${timeAgo(post.createdAt)}</time>${post.visibility === 'friends' ? ' · 🔒 friends' : ''}</div>
+        <a class="post-author" id="post-${post.id}-by" href="${profileLink}">${esc(author.displayName)}</a> ${roleBadge(author.badge)}
+        <div class="post-time">${author.username ? '@' + esc(author.username) + ' · ' : ''}<time datetime="${esc(post.createdAt)}">${timeAgo(post.createdAt)}</time>${AUDIENCE_NOTE[post.visibility] || ''}</div>
       </div>
       <span class="spacer"></span>
       ${post.pinned ? '<span class="tag pinned-tag">📌 Pinned</span>' : ''}
+      ${post.status === 'pending' ? '<span class="tag" title="Waiting for Shane to review — only you can see it for now">⏳ In review</span>' : post.status === 'held' ? '<span class="tag" title="Shane held this one back from the feed — only you can see it">⏸️ Held</span>' : ''}
       ${KIND_LABEL[post.kind] ? `<span class="tag">${KIND_LABEL[post.kind]}</span>` : ''}
       ${truthBadge(post.truthTag)}
       ${moodBadge(post.mood)}
@@ -116,7 +136,7 @@ export function postHTML(post, { full = false } = {}) {
         <span aria-hidden="true">${post.saved ? '🌟' : '☆'}</span> <span data-save-label>${post.saved ? 'Saved' : 'Save'}</span>
       </button>
       <button type="button" data-share>🔗 Share</button>
-      ${viewerCanPin && post.visibility === 'public' ? `<button type="button" data-pin aria-pressed="${!!post.pinned}">📌 ${post.pinned ? 'Unpin' : 'Pin'}</button>` : ''}
+      ${viewerCanPin && post.visibility === 'public' && post.status === 'live' ? `<button type="button" data-pin aria-pressed="${!!post.pinned}">📌 ${post.pinned ? 'Unpin' : 'Pin'}</button>` : ''}
       ${post.mine
         ? '<button type="button" class="report" data-delete>🗑️ Delete</button>'
         : '<button type="button" class="report" data-report>🚩 Report</button>'}
@@ -126,7 +146,7 @@ export function postHTML(post, { full = false } = {}) {
 }
 
 function commentHTML(c) {
-  const link = c.author.username ? `/profile.html?user=${encodeURIComponent(c.author.username)}` : '#';
+  const link = pageLink(c.author.username);
   return `
     <div class="comment" data-comment="${c.id}">
       ${avatar(c.author, 'sm')}
@@ -177,7 +197,7 @@ async function openComments(article, postId) {
         const count = article.querySelector('[data-comment-count]');
         count.textContent = String(Number(count.textContent) + 1);
       } catch (error) {
-        toast(error.data?.reason ? `${error.message} ${error.data.reason}` : error.message, 6000);
+        toast(error.data?.reason ? `${error.message} ${error.data.reason}` : friendly(error), 6000);
       } finally {
         button.removeAttribute('aria-busy');
         button.disabled = false;
@@ -276,7 +296,7 @@ export function wirePosts(container, { onDelete } = {}) {
         target.classList.toggle('liked', liked);
         target.setAttribute('aria-pressed', String(liked));
         target.querySelector('[aria-hidden]').textContent = liked ? '💗' : '🤍';
-      } catch (error) { toast(error.message); }
+      } catch (error) { toast(friendly(error)); }
     } else if (target.matches('[data-save]')) {
       try {
         const { saved } = await api(`/api/posts/${id}/save`, { method: 'POST' });
@@ -284,7 +304,7 @@ export function wirePosts(container, { onDelete } = {}) {
         target.querySelector('[aria-hidden]').textContent = saved ? '🌟' : '☆';
         target.querySelector('[data-save-label]').textContent = saved ? 'Saved' : 'Save';
         toast(saved ? 'Saved to My Sanctuary 🌟' : 'Removed from My Sanctuary');
-      } catch (error) { toast(error.message); }
+      } catch (error) { toast(friendly(error)); }
     } else if (target.matches('[data-pin]')) {
       try {
         const { pinned } = await api(`/api/posts/${id}/pin`, { method: 'POST' });
@@ -298,7 +318,7 @@ export function wirePosts(container, { onDelete } = {}) {
       const url = `${location.origin}/feed.html?post=${id}#community`;
       try {
         if (navigator.share) await navigator.share({ title: 'Pleading Sanity', url });
-        else { await navigator.clipboard.writeText(url); toast('Link copied — only members can open it. 💙'); }
+        else { await navigator.clipboard.writeText(url); toast('Link copied 💙'); }
       } catch { /* share sheet closed */ }
     } else if (target.matches('[data-report]')) {
       openReport('post', id);
@@ -316,7 +336,7 @@ export function wirePosts(container, { onDelete } = {}) {
 
 // ─── PEOPLE ───
 export function personHTML(p, actions = '') {
-  const link = `/profile.html?user=${encodeURIComponent(p.username)}`;
+  const link = pageLink(p.username);
   return `
     <div class="person" data-username="${esc(p.username)}">
       <a href="${link}" tabindex="-1">${avatar(p)}</a>

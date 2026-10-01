@@ -69,7 +69,7 @@ async function download(url, name) {
 }
 
 function card(c) {
-  const by = c.author.username ? `<a href="/profile.html?user=${encodeURIComponent(c.author.username)}">${esc(c.author.displayName)}</a>` : esc(c.author.displayName);
+  const by = c.author.username ? `<a href="/@${encodeURIComponent(c.author.username)}">${esc(c.author.displayName)}</a>` : esc(c.author.displayName);
   return `
   <figure class="sx-art" data-creation="${c.id}" data-key="${esc(c.imageKey || '')}">
     <img src="${esc(c.imageUrl)}" alt="${esc(c.title || c.prompt)} — created with Arron" loading="lazy" width="512" height="512" />
@@ -180,7 +180,7 @@ if (!me) {
     <form id="create-form" novalidate>
       <label class="field"><span>What would you like Arron to create?</span>
         <textarea name="prompt" id="prompt" maxlength="500" rows="3" required placeholder="e.g. A lighthouse made of starlight guiding a small boat home"></textarea>
-        <small>Every idea passes the Truth Filter first. Kind, hopeful, healing. Up to 6 creations a day.</small>
+        <small>Every idea passes the Truth Filter first. Kind, hopeful, healing. ${me.user?.role === 'owner' || me.user?.role === 'creator' ? 'Unlimited for you 💫' : 'Up to 6 creations a day, free.'}</small>
       </label>
       <p class="muted" id="ideas-label" style="margin:0 0 6px">Need a spark?</p>
       <div class="sx-ideas" role="group" aria-labelledby="ideas-label">
@@ -194,6 +194,9 @@ if (!me) {
     <div id="create-out" aria-live="polite"></div>`;
   const form = document.getElementById('create-form');
   const out = document.getElementById('create-out');
+  // Arron hands image ideas over from chat: /creations.html?prompt=…#create
+  const handed = new URLSearchParams(location.search).get('prompt');
+  if (handed) { form.prompt.value = handed.slice(0, 500); form.prompt.focus(); }
   wire(out);
   form.addEventListener('click', (e) => {
     const chip = e.target.closest('[data-idea]');
