@@ -59,7 +59,7 @@
       "Everything built here belongs to Pleading Sanity and the people it serves.",
       "Free forever. Open forever. Ours forever."
     ],
-    "$chainComment": "Tried in order: the first model that answers wins. To welcome a new model, add one block. provider must be anthropic, openai or gemini (served through Netlify AI Gateway, no keys needed). creatorModel is used in Creator Mode.",
+    "$chainComment": "Tried in order: the first model that answers wins. To welcome a new model, add one block. provider must be anthropic, openai, gemini (served through Netlify AI Gateway, no keys needed) or grok (xAI, needs GROK_API_KEY in Netlify env; skipped until it is set). creatorModel is used in Creator Mode.",
     "chain": [
       {
         "provider": "anthropic",
@@ -78,6 +78,12 @@
         "model": "gemini-3.5-flash",
         "creatorModel": "gemini-3.1-pro-preview",
         "name": "Gemini"
+      },
+      {
+        "provider": "grok",
+        "model": "grok-4",
+        "creatorModel": "grok-4",
+        "name": "Grok"
       }
     ]
   },
@@ -342,9 +348,9 @@
         "line": "Structure, design and future vision. The crying cosmic brain, the theme, the shape of the Sanctuary."
       },
       {
-        "name": "Claude · GPT · Gemini",
+        "name": "Claude · GPT · Gemini · Grok",
         "role": "The Chain",
-        "line": "Three labs, one heart. If one goes quiet, the next answers."
+        "line": "Four labs, one heart. If one goes quiet, the next answers."
       }
     ],
     "theme": {

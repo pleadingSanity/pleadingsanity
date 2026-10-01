@@ -6,8 +6,8 @@
 // v3.1: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Three labs, one Arron: Claude answers first; if it fails, GPT
-// and then Gemini take over instantly with the same heart.
+// Four labs, one Arron: Claude answers first; if it fails, GPT,
+// then Gemini, then Grok take over instantly with the same heart.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
@@ -24,7 +24,7 @@ import { approveAll, overview, setRole } from "../lib/owner.js";
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
 
-// The Claude → GPT → Gemini chain lives in ../lib/ai-chain.ts (read from the soul file).
+// The Claude → GPT → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
 // Creator mode: the Owner and members with the Creator or admin role get each
 // lab's most capable model and longer replies. Only Shane gets the founder's brief.
 
@@ -47,6 +47,28 @@ const MAX_MILESTONES = 100;
 const MAX_MOODS = 400;
 const MAX_JOURNAL = 200;
 const MAX_JOURNAL_TEXT = 2000;
+
+// ─── SAFETY NET ───
+// The SAFETY section of the prompt already guides every lab; this makes sure the
+// UK lines are always in the reply when someone may be in crisis, whoever answered.
+const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|want(?:ed)? to die|don'?t want to (?:be here|live|wake up)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdose|not safe|no reason to live|better off without me)\b/i;
+const SIGNPOST = "💙 If you need someone right now: Samaritans 116 123 (free, 24/7) · text SHOUT to 85258 · 999 if you're in danger.";
+
+// The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
+// Only plain user/assistant text is kept, newest 30, each capped like a single message.
+function clientMessages(raw: unknown): { role: "user" | "assistant"; content: string }[] {
+  if (!Array.isArray(raw)) return [];
+  return raw
+    .map((m) => ({
+      role: (m as { role?: unknown })?.role === "assistant" ? ("assistant" as const) : (m as { role?: unknown })?.role === "user" ? ("user" as const) : null,
+      content: cleanText((m as { content?: unknown })?.content, MAX_MESSAGE),
+    }))
+    .filter((m): m is { role: "user" | "assistant"; content: string } => Boolean(m.role && m.content))
+    .slice(-HISTORY_FOR_CONTEXT);
+}
+
+// Logs say what failed, never what was said: database errors can echo the message text back.
+const reason = (error: unknown) => (error instanceof Error ? error.name : "error");
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -237,8 +259,14 @@ async function runActions(message: string, history: { role: string; content: str
 // ─── CHAT ───
 async function chat(req: Request) {
   const body = await readBody(req);
-  const message = typeof body.message === "string" ? body.message.trim().slice(0, MAX_MESSAGE) : "";
+  // Two shapes, one Arron: { message, memoryId } (the site and app today) or { messages, saveToCloud }.
+  const sent = clientMessages(body.messages);
+  const fromClient = sent.length > 0;
+  if (fromClient && sent[sent.length - 1].role !== "user") return json({ error: "The last message must be from you" }, 400);
+  const message = fromClient ? sent[sent.length - 1].content : typeof body.message === "string" ? body.message.trim().slice(0, MAX_MESSAGE) : "";
   if (!message) return json({ error: "Message is empty" }, 400);
+  // saveToCloud: false → nothing is read from or written to the database. Local only.
+  const localOnly = body.saveToCloud === false;
   // Optional hints from the device — never stored, only used for this reply.
   const name = typeof body.name === "string" ? body.name.replace(/[^\p{L}\p{N} '\-]/gu, "").trim().slice(0, 40) : "";
   const mood = typeof body.mood === "string" && Object.hasOwn(MOODS, body.mood) ? body.mood : "";
@@ -254,10 +282,14 @@ async function chat(req: Request) {
 
   const who = await whoIsHere();
   const { user, profile } = who;
-  const resolved = await resolveMemory(body.memoryId, user).catch((error) => {
-    console.error("Arron memory unavailable:", error);
-    return validId(body.memoryId) ? { id: body.memoryId, readable: false } : null;
-  });
+  // The new shape can save without a device memory id only when signed in (the account's own memory).
+  const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
+  const resolved: Resolved | null = !wantsCloud
+    ? { id: "", readable: false }
+    : await resolveMemory(body.memoryId, user).catch((error) => {
+        console.error("Arron memory unavailable:", reason(error));
+        return validId(body.memoryId) ? { id: body.memoryId, readable: false } : null;
+      });
   if (!resolved) return json({ error: "Invalid memory id" }, 400);
   const memoryId = resolved.id;
 
@@ -268,11 +300,14 @@ async function chat(req: Request) {
     try {
       const [memory] = await db.select().from(arronMemories).where(eq(arronMemories.id, memoryId));
       story = memory?.story ?? "";
-      history = await recentMessages(memoryId, HISTORY_FOR_CONTEXT);
+      if (!fromClient) history = await recentMessages(memoryId, HISTORY_FOR_CONTEXT);
     } catch (error) {
-      console.error("Arron memory unavailable:", error);
+      console.error("Arron memory unavailable:", reason(error));
     }
   }
+
+  // The client's own conversation (everything before the newest message) is the context when it sends one.
+  if (fromClient) history = sent.slice(0, -1);
 
   // Anthropic needs the conversation to start with a user turn and alternate roles.
   const turns: Turn[] = [];
@@ -288,8 +323,10 @@ async function chat(req: Request) {
   else turns.push({ role: "user", content: message });
 
   // Journal, status, images and the Owner's commands happen before Arron replies, so he can confirm them truthfully.
-  const done = await runActions(message, history, who).catch((error) => {
-    console.error("Arron action failed:", error);
+  // Local-only chats never write anywhere, so actions (journal, status, owner commands) are skipped.
+  const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "" };
+  const done = localOnly ? noActions : await runActions(message, history, who).catch((error) => {
+    console.error("Arron action failed:", reason(error));
     return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "" };
   });
 
@@ -305,9 +342,10 @@ async function chat(req: Request) {
       }
     : null;
   const creative = persona === "son" && CREATIVE_ASK.test(message);
+  const crisis = mood === "crisis" || CRISIS_WORDS.test(message);
   const system = buildSystemPrompt(story, {
     name: name || profile?.displayName || "",
-    mood,
+    mood: crisis ? "crisis" : mood,
     persona,
     truths,
     awareness,
@@ -319,7 +357,14 @@ async function chat(req: Request) {
     ownerVoice,
     growth: growthBrief(growth),
   });
-  const answer = await reply(system, turns, creator, creative);
+  let answer: Awaited<ReturnType<typeof reply>>;
+  try {
+    answer = await reply(system, turns, creator, creative);
+  } catch {
+    // Every lab is down: a clean 502, no stack trace, and the lines are still there.
+    return json({ error: "Arron can't reach any of his minds right now. Please try again in a moment.", crisis, signpost: SIGNPOST }, 502);
+  }
+  const replyText = crisis && !answer.text.includes("116 123") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
 
   let remembered = resolved.readable;
   if (resolved.readable) {
@@ -327,17 +372,17 @@ async function chat(req: Request) {
       await ensureMemory(memoryId);
       await db.insert(arronMessages).values([
         { memoryId, role: "user", content: message },
-        { memoryId, role: "assistant", content: answer.text },
+        { memoryId, role: "assistant", content: replyText },
       ]);
       await db.update(arronMemories).set({ updatedAt: new Date() }).where(eq(arronMemories.id, memoryId));
     } catch (error) {
       remembered = false;
-      console.error("Arron could not save messages:", error);
+      console.error("Arron could not save messages:", reason(error));
     }
   }
 
   return json({
-    reply: answer.text,
+    reply: replyText,
     remembered,
     creator,
     owner,
@@ -414,7 +459,7 @@ export default async (req: Request) => {
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Arron error:", error);
+    console.error("Arron error:", reason(error));
     return json({ error: "Arron is resting for a moment" }, 503);
   }
 };
