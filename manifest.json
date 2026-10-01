@@ -118,6 +118,45 @@
       ]
     },
     {
+      "name": "My Sanctuary",
+      "short_name": "Sanctuary",
+      "description": "Your private corner — saved posts, creations, progress",
+      "url": "/sanctuary.html",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Create with Arron",
+      "short_name": "Create",
+      "description": "Turn a feeling into cosmic art",
+      "url": "/creations.html#create",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Mind Mode",
+      "short_name": "Breathe",
+      "description": "Breathing, grounding and calm",
+      "url": "/mind-mode.html",
+      "icons": [
+        {
+          "src": "/assets/icons/icon-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
       "name": "Share a Post",
       "short_name": "Post",
       "description": "Share your voice with the community",

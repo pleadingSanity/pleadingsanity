@@ -8,62 +8,19 @@
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
-import Anthropic from "@anthropic-ai/sdk";
-import OpenAI from "openai";
-import { GoogleGenAI } from "@google/genai";
 import { getUser } from "@netlify/identity";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
-import { buildSystemPrompt, MOODS, SOUL } from "../lib/arron-knowledge.js";
+import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { runChain, type Turn as AITurn } from "../lib/ai-chain.js";
 
-const anthropic = new Anthropic();
-const openai = new OpenAI();
-const gemini = new GoogleGenAI({});
+type Turn = AITurn;
 
-type Turn = { role: "user" | "assistant"; content: string };
-type Provider = "anthropic" | "openai" | "gemini";
-
-// Tried in order — the first lab that answers wins. The chain lives in the soul
-// file (/arron-knowledge.json): welcoming a new model is one JSON block there.
+// The Claude → GPT → Gemini chain lives in ../lib/ai-chain.ts (read from the soul file).
 // Creator mode: signed-in accounts with the Identity role "admin" or "creator"
 // get each lab's most capable model, longer replies and a builder's-partner brief.
-type Link = { provider: Provider; model: string; creatorModel: string };
-const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini"];
-const FALLBACK_CHAIN: Link[] = [
-  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
-  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
-  { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
-];
-const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : [])
-  .filter((l) => PROVIDERS.includes(l?.provider as Provider) && typeof l.model === "string" && l.model)
-  .map((l) => ({ provider: l.provider as Provider, model: l.model, creatorModel: typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model }));
-const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
 const CREATOR_ROLES = ["admin", "creator"];
-
-async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number) {
-  if (provider === "openai") {
-    const res = await openai.chat.completions.create({
-      model,
-      max_completion_tokens: model.startsWith("gpt-5") ? maxTokens * 4 : maxTokens, // room for reasoning tokens
-      messages: [{ role: "system", content: system }, ...turns],
-    });
-    return (res.choices[0]?.message?.content ?? "").trim();
-  }
-  if (provider === "gemini") {
-    const res = await gemini.models.generateContent({
-      model,
-      contents: turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
-      config: { systemInstruction: system, maxOutputTokens: maxTokens * 4 },
-    });
-    return (res.text ?? "").trim();
-  }
-  const res = await anthropic.messages.create({ model, max_tokens: maxTokens, system, messages: turns });
-  return res.content
-    .map((block) => (block.type === "text" ? block.text : ""))
-    .join("")
-    .trim();
-}
 
 // Walk the chain until someone replies. Only throws if every lab is down.
 // Raps, scripts and plans need room to breathe; everyday replies stay short.
@@ -71,17 +28,7 @@ const CREATIVE_ASK = /\b(rap|raps|verse|verses|lyrics?|hook|spoken word|song|scr
 
 async function reply(system: string, turns: Turn[], creator: boolean, creative = false) {
   const maxTokens = creator ? (creative ? 3000 : 2000) : creative ? 1800 : 700;
-  for (const link of CHAIN) {
-    const model = creator ? link.creatorModel : link.model;
-    try {
-      const text = await ask(link.provider, model, system, turns, maxTokens);
-      if (text) return { text, provider: link.provider, model };
-      console.warn(`Arron: empty reply from ${model}, trying the next lab`);
-    } catch (error) {
-      console.warn(`Arron: ${model} unavailable, trying the next lab`, error);
-    }
-  }
-  throw new Error("Every AI provider failed");
+  return runChain(system, turns, { creator, maxTokens });
 }
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;

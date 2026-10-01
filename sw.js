@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '4.5.0';
-const STATIC_CACHE = 'pleading-sanity-static-v12';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v12';
+const VERSION = '5.0.0'; // v3.0 THE SANCTUARY
+const STATIC_CACHE = 'pleading-sanity-static-v13';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v13';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -16,7 +16,9 @@ const PRIVATE_PAGES = [
     '/community.html',
     '/settings.html',
     '/onboarding.html',
-    '/admin.html'
+    '/admin.html',
+    '/sanctuary.html',
+    '/write.html'
 ];
 
 // ========================================
@@ -55,6 +57,13 @@ const PRECACHE_URLS = [
     '/signup.html',
     '/stardust-dash.html',
     '/videos.html',
+    '/creations.html',
+    '/blueprint.html',
+    '/wisdom.html',
+    '/mind-mode.html',
+    '/cosmic-connect.html',
+    '/truth-tag.html',
+    '/mood-journey.html',
     '/manifest.json',
     '/manifest-arron.json',
     '/css/styles.css',
@@ -68,6 +77,8 @@ const PRECACHE_URLS = [
     '/css/ai-studio.css',
     '/css/cosmic-scroll.css',
     '/css/ai-family.css',
+    '/css/sanctuary.css',
+    '/css/games-sanctuary.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
@@ -75,6 +86,14 @@ const PRECACHE_URLS = [
     '/js/social.js',
     '/js/ai-studio.js',
     '/js/profile-form.js',
+    '/js/progress.js',
+    '/js/creations.js',
+    '/js/blueprint.js',
+    '/js/wisdom.js',
+    '/js/mind-mode.js',
+    '/js/cosmic-connect.js',
+    '/js/truth-tag.js',
+    '/js/mood-journey.js',
     '/js/vendor/netlify-identity.js',
     '/js/games.js',
     '/js/stardust-dash.js',

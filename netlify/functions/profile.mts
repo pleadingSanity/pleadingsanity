@@ -7,9 +7,9 @@
 import type { Config } from "@netlify/functions";
 import { admin } from "@netlify/identity";
 import { getStore } from "@netlify/blobs";
-import { and, desc, eq, inArray, ne, or } from "drizzle-orm";
+import { and, desc, eq, ne, or } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { friends, likes, posts, profiles, users } from "../../db/schema.js";
+import { friends, posts, profiles, users } from "../../db/schema.js";
 import {
   areFriends,
   cleanMood,
@@ -23,6 +23,8 @@ import {
   profileFor,
   publicProfile,
   readBody,
+  roleTier,
+  isGuardian,
   str,
   unauthorized,
   USERNAME,
@@ -53,13 +55,6 @@ async function friendCount(userId: string) {
   return row?.n ?? 0;
 }
 
-// Guests have no account. Every signed-in account is at least a member;
-// "creator" and "admin" are granted by hand in Netlify → Identity.
-function roleTier(roles: string[]) {
-  if (roles.includes("admin")) return "admin";
-  if (roles.includes("creator")) return "creator";
-  return "member";
-}
 
 // ─── GET /api/me ───
 async function getMe(userId: string, email: string, roles: string[]) {
@@ -69,7 +64,7 @@ async function getMe(userId: string, email: string, roles: string[]) {
     .from(friends)
     .where(and(eq(friends.addresseeId, userId), eq(friends.status, "pending")));
   return json({
-    user: { id: userId, email, isAdmin: roles.includes("admin"), role: roleTier(roles) },
+    user: { id: userId, email, isAdmin: roles.includes("admin"), isGuardian: isGuardian(roles), role: roleTier(roles) },
     profile: profile ? { ...publicProfile(profile), story: profile.story, onboarded: profile.onboarded } : null,
     counts: {
       posts: await postCount(userId, true),
@@ -205,16 +200,6 @@ async function getProfile(viewerId: string, username: string) {
     .orderBy(desc(posts.createdAt))
     .limit(20);
 
-  const ids = recent.map((p) => p.id);
-  const likeCounts = ids.length
-    ? await db
-        .select({ postId: likes.postId, n: countSql })
-        .from(likes)
-        .where(inArray(likes.postId, ids))
-        .groupBy(likes.postId)
-    : [];
-  const likeMap = new Map(likeCounts.map((l) => [l.postId, l.n]));
-
   return json({
     profile: { ...publicProfile(profile), story: profile.story },
     relationship,
@@ -229,7 +214,7 @@ async function getProfile(viewerId: string, username: string) {
       tags: p.tags,
       contentWarning: p.contentWarning,
       crisis: p.crisis,
-      likes: likeMap.get(p.id) ?? 0,
+      truthTag: p.truthTag,
       createdAt: p.createdAt,
     })),
   });

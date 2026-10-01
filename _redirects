@@ -23,7 +23,9 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /index_portal.html    /                       301
 /crying-hoodie.html   /shop.html              301
 /tracksuit.html       /shop.html              301
-/contact.html         /about.html             301
+/contact.html         /about.html#contact     301
+/contact              /about.html#contact     301
+/feedback             /about.html#contact     301
 /help                 /crisis.html            301
 /crisis               /crisis.html            301
 /ai-family            /ai-ecosystem.html      301
@@ -42,3 +44,16 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 # Anything else under /api/ falls through to the 404 page.
 
 # Missing pages show the cosmic 404 page (404.html) automatically.
+
+# ─── v3.0 THE SANCTUARY — friendly short links ───
+/sanctuary            /sanctuary.html         301
+/create               /creations.html#create  301
+/gallery              /creations.html         301
+/creations            /creations.html         301
+/blueprint            /blueprint.html         301
+/write                /write.html             301
+/wisdom               /wisdom.html            301
+/mind-mode            /mind-mode.html         301
+/mood-journey         /mood-journey.html      301
+/truth-tag            /truth-tag.html         301
+/cosmic-connect       /cosmic-connect.html    301

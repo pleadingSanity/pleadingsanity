@@ -1,0 +1,164 @@
+/* ==========================================
+   PLEADING SANITY — HEALING GAMES
+   Mind Mode · Cosmic Connect · Truth Tag · Mood Journey
+   No scores, no timers, just you.
+   Loaded after social.css on the four healing game pages.
+============================================ */
+
+:root {
+  --sg-cyan: #00fff0;
+  --sg-magenta: #ff00ff;
+  --sg-deep: #0d1b2a;
+  --sg-dark: #000103;
+  --sg-text: #eafffd;
+  --sg-soft: #b9faff;
+  --sg-muted: #a9c7d1;
+}
+
+/* ─── SHARED ─── */
+.sg-back { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; color: var(--sg-soft); font-weight: 700; text-decoration: none; }
+.sg-back:hover { color: var(--sg-cyan); text-decoration: underline; }
+.sg-back:focus-visible { outline: 3px solid var(--sg-cyan); outline-offset: 2px; border-radius: 6px; }
+.sg-private { font-size: 0.9rem; color: var(--sg-muted); text-align: center; margin: 0 0 1.25rem; }
+.sg-private a { color: var(--sg-cyan); }
+.sg-stats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; }
+.sg-stats li { padding: 12px 14px; border-radius: 14px; background: rgba(0, 255, 240, 0.05); border: 1px solid rgba(0, 255, 240, 0.16); color: var(--sg-muted); font-size: 0.88rem; }
+.sg-stats b { display: block; color: var(--sg-text); font-size: 1.3rem; margin-bottom: 2px; overflow-wrap: anywhere; }
+.sg-label { display: block; margin: 0 0 8px; font-weight: 700; color: var(--sg-text); }
+.sg-group { margin: 0 0 1.1rem; border: 0; padding: 0; }
+.sg-group legend { padding: 0; margin: 0 0 8px; font-weight: 700; color: var(--sg-text); }
+.sg-msg { min-height: 1.6em; color: var(--sg-soft); text-align: center; font-size: 1.05rem; margin: 0.75rem 0; }
+.sg-big { font-size: clamp(1.15rem, 3.2vw, 1.45rem); line-height: 1.5; color: var(--sg-text); }
+.sg-section-title { font-size: 1.1rem; color: var(--sg-cyan); margin: 1.25rem 0 0.6rem; }
+.sg-mode[hidden] { display: none !important; }
+.sg-help { margin-top: 1rem; }
+.sg-help a { color: var(--sg-cyan); font-weight: 700; }
+.sg-help ul { margin: 0.5rem 0 0; padding-left: 1.2rem; line-height: 1.9; }
+
+/* ─── MIND MODE: BREATHING ORB ─── */
+.mm-stage { display: flex; flex-direction: column; align-items: center; gap: 1rem; padding: 1rem 0 0.5rem; }
+.mm-orb-wrap { width: min(72vw, 280px); aspect-ratio: 1; display: grid; place-items: center; }
+.mm-orb {
+  width: 100%; aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, rgba(255, 255, 255, 0.75), rgba(0, 255, 240, 0.55) 30%, rgba(255, 0, 255, 0.35) 70%, rgba(13, 27, 42, 0.2));
+  box-shadow: 0 0 40px rgba(0, 255, 240, 0.45), 0 0 90px rgba(255, 0, 255, 0.25);
+  transform: scale(0.55);
+  transition-property: transform, box-shadow;
+  transition-timing-function: ease-in-out;
+  display: grid; place-items: center;
+}
+.mm-orb.is-full { transform: scale(1); box-shadow: 0 0 60px rgba(0, 255, 240, 0.6), 0 0 120px rgba(255, 0, 255, 0.35); }
+.mm-cue { font-size: clamp(1.3rem, 4.5vw, 1.8rem); font-weight: 800; color: var(--sg-text); text-align: center; min-height: 1.4em; margin: 0; }
+.mm-count { font-size: 1rem; color: var(--sg-muted); min-height: 1.3em; margin: 0; }
+.mm-affirm {
+  min-height: 7rem; display: grid; place-items: center; text-align: center; padding: 1.5rem 1rem;
+  font-size: clamp(1.2rem, 3.8vw, 1.6rem); line-height: 1.55; color: var(--sg-text);
+  border-radius: 20px; background: radial-gradient(circle at 50% 0%, rgba(0, 255, 240, 0.12), transparent 70%);
+  transition: opacity 0.6s ease;
+}
+.mm-affirm.is-fading { opacity: 0; }
+.mm-ground-step { text-align: center; }
+.mm-ground-num { font-size: 3rem; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--sg-cyan), var(--sg-magenta)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mm-ground-dots { display: flex; justify-content: center; gap: 8px; margin: 1rem 0; padding: 0; list-style: none; }
+.mm-ground-dots li { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--sg-cyan); }
+.mm-ground-dots li.on { background: var(--sg-cyan); }
+
+/* ─── COSMIC CONNECT: MEMORY ─── */
+.cc-grid { display: grid; gap: 10px; grid-template-columns: repeat(var(--cols, 4), minmax(0, 1fr)); max-width: 640px; margin: 0 auto; }
+.cc-card {
+  aspect-ratio: 1; min-height: 56px; border-radius: 16px; font: inherit; cursor: pointer;
+  font-size: clamp(1.6rem, 7vw, 2.6rem); line-height: 1; color: var(--sg-text);
+  border: 1.5px solid rgba(0, 255, 240, 0.3);
+  background: radial-gradient(circle at 30% 25%, rgba(255, 0, 255, 0.2), rgba(13, 27, 42, 0.95) 70%);
+  display: grid; place-items: center; transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+.cc-card::before { content: "✦"; font-size: 0.6em; color: rgba(0, 255, 240, 0.55); }
+.cc-card.is-up::before, .cc-card.is-matched::before { content: none; }
+.cc-card:hover { border-color: var(--sg-magenta); }
+.cc-card:focus-visible { outline: 3px solid var(--sg-cyan); outline-offset: 3px; }
+.cc-card.is-up { background: rgba(0, 255, 240, 0.14); border-color: var(--sg-cyan); transform: scale(1.03); }
+.cc-card.is-matched { background: rgba(0, 255, 240, 0.08); border-color: rgba(0, 255, 240, 0.6); box-shadow: 0 0 14px rgba(0, 255, 240, 0.3); cursor: default; }
+.cc-affirm { text-align: center; color: var(--sg-soft); font-size: 1.1rem; min-height: 1.6em; margin: 1rem 0; }
+@media (min-width: 640px) { .cc-grid[data-size="12"] { --cols: 6; } }
+
+/* Constellations */
+.cc-sky { display: block; width: 100%; max-width: 520px; margin: 0 auto; border-radius: 20px; background: radial-gradient(ellipse at 50% 30%, #13304a, var(--sg-deep) 55%, var(--sg-dark)); border: 1px solid rgba(0, 255, 240, 0.2); touch-action: manipulation; }
+.cc-sky .cc-line { stroke: var(--sg-cyan); stroke-width: 2.5; stroke-linecap: round; filter: drop-shadow(0 0 4px rgba(0, 255, 240, 0.8)); }
+.cc-star { cursor: pointer; outline: none; }
+.cc-star .hit { fill: transparent; }
+.cc-star .dot { fill: #fff; transition: r 0.2s ease, fill 0.2s ease; }
+.cc-star .ring { fill: none; stroke: transparent; stroke-width: 2; }
+.cc-star text { fill: var(--sg-soft); font-size: 13px; font-weight: 700; font-family: inherit; pointer-events: none; }
+.cc-star.is-next .ring { stroke: var(--sg-magenta); }
+.cc-star.is-lit .dot { fill: var(--sg-cyan); }
+.cc-star:focus-visible .ring { stroke: #fff; stroke-width: 3; }
+.cc-reveal { text-align: center; font-size: 1.15rem; color: var(--sg-text); min-height: 1.6em; margin: 1rem auto; max-width: 48ch; }
+.cc-picker { justify-content: center; margin-bottom: 1rem; }
+.cc-picker .chip[data-found="true"]::after { content: " ✓"; color: var(--sg-cyan); }
+
+/* ─── TRUTH TAG ─── */
+.tt-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0; padding: 0; list-style: none; }
+.tt-legend li { padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(0, 255, 240, 0.25); color: var(--sg-text); font-size: 0.92rem; }
+.tt-statement { text-align: center; padding: 1.5rem 0.5rem; margin: 0; font-size: clamp(1.2rem, 3.6vw, 1.55rem); line-height: 1.5; color: var(--sg-text); quotes: "“" "”"; }
+.tt-statement::before { content: open-quote; color: var(--sg-magenta); }
+.tt-statement::after { content: close-quote; color: var(--sg-magenta); }
+.tt-progress { text-align: center; color: var(--sg-muted); margin: 0; font-size: 0.92rem; }
+.tt-answers { display: grid; gap: 10px; grid-template-columns: 1fr; margin: 0.5rem 0 1rem; }
+@media (min-width: 640px) { .tt-answers { grid-template-columns: repeat(3, 1fr); } }
+.tt-answer {
+  min-height: 72px; padding: 12px; border-radius: 18px; font: inherit; font-weight: 800; font-size: 1.1rem; cursor: pointer;
+  color: var(--sg-text); background: rgba(255, 255, 255, 0.04); border: 2px solid rgba(0, 255, 240, 0.3);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+}
+.tt-answer small { font-weight: 500; font-size: 0.8rem; color: var(--sg-muted); }
+.tt-answer:hover:not([disabled]) { border-color: var(--sg-magenta); background: rgba(255, 0, 255, 0.08); }
+.tt-answer:focus-visible { outline: 3px solid var(--sg-cyan); outline-offset: 3px; }
+.tt-answer[disabled] { cursor: default; opacity: 0.6; }
+.tt-answer.is-picked { opacity: 1; border-color: var(--sg-magenta); }
+.tt-answer.is-right { opacity: 1; border-color: var(--sg-cyan); background: rgba(0, 255, 240, 0.12); }
+.tt-feedback { border-radius: 16px; padding: 14px 16px; background: rgba(0, 255, 240, 0.06); border: 1px solid rgba(0, 255, 240, 0.25); margin: 0 0 1rem; }
+.tt-feedback h3 { margin: 0 0 6px; color: var(--sg-cyan); font-size: 1.1rem; }
+.tt-feedback p { margin: 0; color: var(--sg-text); line-height: 1.65; }
+.tt-bars { list-style: none; padding: 0; margin: 0.5rem 0 0; display: grid; gap: 10px; }
+.tt-bars li { display: grid; grid-template-columns: minmax(8.5rem, auto) 1fr auto; gap: 10px; align-items: center; color: var(--sg-text); font-size: 0.95rem; }
+.tt-bar { height: 10px; border-radius: 99px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.tt-bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--sg-cyan), var(--sg-magenta)); border-radius: inherit; }
+
+/* ─── MOOD JOURNEY ─── */
+.mj-path { list-style: none; margin: 0.5rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 10px; }
+@media (min-width: 640px) { .mj-path { grid-template-columns: repeat(8, 1fr); } }
+.mj-stone {
+  position: relative; aspect-ratio: 1; min-height: 56px; border-radius: 46% 54% 50% 50% / 55% 48% 52% 45%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+  background: rgba(255, 255, 255, 0.04); border: 1.5px dashed rgba(169, 199, 209, 0.4); color: var(--sg-muted); font-size: 0.78rem;
+}
+.mj-stone:nth-child(even) { transform: translateY(10px); }
+.mj-stone .mj-emoji { font-size: 1.5rem; line-height: 1.1; }
+.mj-stone.is-done { border: 1.5px solid rgba(0, 255, 240, 0.6); background: radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.25), rgba(13, 27, 42, 0.8)); color: var(--sg-text); box-shadow: 0 0 16px rgba(0, 255, 240, 0.25); }
+.mj-stone.is-current { border: 2px solid var(--sg-magenta); color: var(--sg-text); box-shadow: 0 0 18px rgba(255, 0, 255, 0.35); }
+.mj-moods { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.mj-moods button { flex-direction: column; display: flex; align-items: center; justify-content: center; gap: 2px; min-height: 72px; font-size: 1.7rem; padding: 6px 2px; }
+.mj-moods button span { font-size: 0.72rem; font-weight: 600; line-height: 1.2; }
+.mj-chart { display: flex; align-items: flex-end; gap: 8px; height: 150px; padding: 10px 4px 0; margin: 0; list-style: none; border-bottom: 1px solid rgba(0, 255, 240, 0.25); }
+.mj-chart li { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 4px; font-size: 0.75rem; color: var(--sg-muted); }
+.mj-chart .bar { width: 100%; max-width: 36px; border-radius: 10px 10px 4px 4px; background: linear-gradient(180deg, var(--sg-cyan), rgba(255, 0, 255, 0.6)); }
+.mj-chart .bar.empty { background: rgba(255, 255, 255, 0.06); }
+.mj-words { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.mj-words li { padding: 12px 14px; border-radius: 14px; border-left: 3px solid var(--sg-magenta); background: rgba(255, 255, 255, 0.03); color: var(--sg-text); overflow-wrap: anywhere; white-space: pre-wrap; }
+.mj-words b { color: var(--sg-cyan); display: block; font-size: 0.85rem; margin-bottom: 2px; white-space: normal; }
+.mj-archive summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; color: var(--sg-soft); }
+.mj-archive summary:focus-visible { outline: 3px solid var(--sg-cyan); outline-offset: 2px; }
+
+/* ─── GAMES HUB: HEALING SECTION (games.html) ─── */
+.sg-hub { margin: 2.5rem 0 1rem; }
+.sg-hub > h2 { text-align: center; color: var(--sg-cyan); margin: 0 0 0.5rem; font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
+.sg-hub > p { text-align: center; color: var(--sg-muted); margin: 0 auto 1.5rem; max-width: 60ch; }
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce) {
+  /* The orb stays still and gently brightens/dims instead of growing. */
+  .mm-orb { transform: scale(0.8) !important; transition-property: opacity, box-shadow !important; opacity: 0.5; }
+  .mm-orb.is-full { opacity: 1; }
+  .mm-affirm, .cc-card, .cc-star .dot { transition: none !important; }
+  .cc-card.is-up { transform: none; }
+}

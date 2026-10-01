@@ -6,24 +6,29 @@
 //   DELETE /api/posts/:id                 own post
 //   POST   /api/posts/:id/like            toggle heart
 //   POST   /api/posts/:id/comments        add comment (kind only)
+//   POST   /api/posts/:id/save            toggle "My Sanctuary" save
+//   POST   /api/posts/:id/pin             toggle pin (Guardians + creator)
 //   DELETE /api/comments/:id              own comment, or on own post
+// The feed is chronological, newest first. No ranking, ever.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { and, arrayContains, asc, desc, eq, inArray, lt, notInArray, or } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { comments, likes, posts, profiles } from "../../db/schema.js";
+import { comments, likes, posts, profiles, saves } from "../../db/schema.js";
 import {
   areFriends,
   blockedIds,
   cleanMood,
   cleanTags,
+  cleanTruthTag,
   countSql,
   CRISIS_SUPPORT,
   currentUser,
   friendIds,
   isBlockedEitherWay,
+  isGuardian,
   json,
   logActivity,
   moderate,
@@ -61,7 +66,7 @@ function youtubeId(input: string): string | null {
 
 async function canView(post: Post, viewer: Viewer) {
   if (post.authorId === viewer.id) return true;
-  if (post.hidden) return viewer.roles.includes("admin");
+  if (post.hidden) return isGuardian(viewer.roles);
   if (await isBlockedEitherWay(viewer.id, post.authorId)) return false;
   if (post.visibility === "public") return true;
   return areFriends(viewer.id, post.authorId);
@@ -72,18 +77,21 @@ async function hydrate(rows: Post[], viewerId: string) {
   if (!rows.length) return [];
   const ids = rows.map((p) => p.id);
   const authorIds = [...new Set(rows.map((p) => p.authorId))];
-  const [authors, likeCounts, mine, commentCounts] = await Promise.all([
+  // Hearts are never counted in public — no popularity contests.
+  const [authors, mine, commentCounts, saved] = await Promise.all([
     db.select().from(profiles).where(inArray(profiles.userId, authorIds)),
-    db.select({ postId: likes.postId, n: countSql }).from(likes).where(inArray(likes.postId, ids)).groupBy(likes.postId),
     db.select({ postId: likes.postId }).from(likes).where(and(inArray(likes.postId, ids), eq(likes.userId, viewerId))),
     db
       .select({ postId: comments.postId, n: countSql })
       .from(comments)
       .where(and(inArray(comments.postId, ids), eq(comments.hidden, false)))
       .groupBy(comments.postId),
+    viewerId
+      ? db.select({ postId: saves.postId }).from(saves).where(and(inArray(saves.postId, ids), eq(saves.userId, viewerId)))
+      : Promise.resolve([] as { postId: number }[]),
   ]);
+  const savedSet = new Set(saved.map((s) => s.postId));
   const authorMap = new Map(authors.map((a) => [a.userId, a]));
-  const likeMap = new Map(likeCounts.map((l) => [l.postId, l.n]));
   const likedSet = new Set(mine.map((l) => l.postId));
   const commentMap = new Map(commentCounts.map((c) => [c.postId, c.n]));
 
@@ -101,12 +109,14 @@ async function hydrate(rows: Post[], viewerId: string) {
       contentWarning: p.contentWarning,
       crisis: p.crisis,
       visibility: p.visibility,
+      truthTag: p.truthTag,
+      pinned: p.pinned,
       createdAt: p.createdAt,
       author: a
         ? { username: a.username, displayName: a.displayName, avatar: a.avatar }
         : { username: "", displayName: "Survivor", avatar: "🌌" },
-      likes: likeMap.get(p.id) ?? 0,
       liked: likedSet.has(p.id),
+      saved: savedSet.has(p.id),
       comments: commentMap.get(p.id) ?? 0,
       mine: p.authorId === viewerId,
     };
@@ -120,6 +130,10 @@ async function feed(viewer: Viewer, url: URL) {
   const before = Number(url.searchParams.get("before"));
 
   const [blocked, friendList] = await Promise.all([blockedIds(viewer.id), friendIds(viewer.id)]);
+  const savedIds =
+    filter === "saved"
+      ? (await db.select({ postId: saves.postId }).from(saves).where(eq(saves.userId, viewer.id))).map((r) => r.postId)
+      : [];
   const circle = [viewer.id, ...friendList];
 
   let authorId: string | undefined;
@@ -139,6 +153,7 @@ async function feed(viewer: Viewer, url: URL) {
         or(eq(posts.visibility, "public"), inArray(posts.authorId, circle)),
         filter === "friends" ? inArray(posts.authorId, friendList.length ? friendList : ["-"]) : undefined,
         filter === "mine" ? eq(posts.authorId, viewer.id) : undefined,
+        filter === "saved" ? inArray(posts.id, savedIds.length ? savedIds : [-1]) : undefined,
         authorId ? eq(posts.authorId, authorId) : undefined,
         tag ? arrayContains(posts.tags, [tag]) : undefined,
         Number.isInteger(before) && before > 0 ? lt(posts.id, before) : undefined,
@@ -148,8 +163,28 @@ async function feed(viewer: Viewer, url: URL) {
     .limit(PAGE + 1);
 
   const page = rows.slice(0, PAGE);
+
+  // Pinned posts sit above the first page of the main feed — chosen by Guardians, never by an algorithm.
+  let pinned: Post[] = [];
+  if (filter === "all" && !tag && !authorId && !(before > 0)) {
+    pinned = await db
+      .select()
+      .from(posts)
+      .where(
+        and(
+          eq(posts.pinned, true),
+          eq(posts.hidden, false),
+          eq(posts.visibility, "public"),
+          blocked.length ? notInArray(posts.authorId, blocked) : undefined,
+        ),
+      )
+      .orderBy(desc(posts.createdAt))
+      .limit(3);
+  }
+
   return json({
     posts: await hydrate(page, viewer.id),
+    pinned: await hydrate(pinned, viewer.id),
     nextBefore: rows.length > PAGE ? page[page.length - 1].id : null,
   });
 }
@@ -229,6 +264,7 @@ async function createPost(req: Request, viewer: Viewer) {
       imageKey,
       tags: cleanTags(body.tags),
       mood: cleanMood(body.mood),
+      truthTag: cleanTruthTag(body.truthTag),
       contentWarning: verdict.contentWarning || body.contentWarning === true,
       crisis: verdict.crisis,
       visibility,
@@ -279,7 +315,7 @@ async function getPost(post: Post, viewer: Viewer) {
 }
 
 async function deletePost(post: Post, viewer: Viewer) {
-  if (post.authorId !== viewer.id && !viewer.roles.includes("admin")) return json({ error: "Not your post." }, 403);
+  if (post.authorId !== viewer.id && !isGuardian(viewer.roles)) return json({ error: "Not your post." }, 403);
   if (post.imageKey) await getStore("post-images").delete(post.imageKey).catch(() => {});
   await db.delete(posts).where(eq(posts.id, post.id));
   await logActivity(viewer.id, "post.delete", "post", post.id);
@@ -295,8 +331,24 @@ async function toggleLike(post: Post, viewer: Viewer) {
     await db.insert(likes).values({ postId: post.id, userId: viewer.id }).onConflictDoNothing();
     await logActivity(viewer.id, "post.like", "post", post.id);
   }
-  const [row] = await db.select({ n: countSql }).from(likes).where(eq(likes.postId, post.id));
-  return json({ liked: !removed.length, likes: row?.n ?? 0 });
+  return json({ liked: !removed.length });
+}
+
+async function toggleSave(post: Post, viewer: Viewer) {
+  const removed = await db
+    .delete(saves)
+    .where(and(eq(saves.postId, post.id), eq(saves.userId, viewer.id)))
+    .returning({ postId: saves.postId });
+  if (!removed.length) await db.insert(saves).values({ postId: post.id, userId: viewer.id }).onConflictDoNothing();
+  return json({ saved: !removed.length });
+}
+
+async function togglePin(post: Post, viewer: Viewer) {
+  if (!isGuardian(viewer.roles)) return json({ error: "Only Guardians can pin posts." }, 403);
+  if (post.visibility !== "public") return json({ error: "Only public posts can be pinned." }, 400);
+  const [row] = await db.update(posts).set({ pinned: !post.pinned }).where(eq(posts.id, post.id)).returning({ pinned: posts.pinned });
+  await logActivity(viewer.id, row.pinned ? "post.pin" : "post.unpin", "post", post.id);
+  return json({ pinned: row.pinned });
 }
 
 async function addComment(req: Request, post: Post, viewer: Viewer) {
@@ -343,7 +395,7 @@ async function deleteComment(id: number, viewer: Viewer) {
   const [comment] = Number.isInteger(id) ? await db.select().from(comments).where(eq(comments.id, id)) : [];
   if (!comment) return json({ error: "Comment not found." }, 404);
   const post = await loadPost(comment.postId);
-  const allowed = comment.authorId === viewer.id || post?.authorId === viewer.id || viewer.roles.includes("admin");
+  const allowed = comment.authorId === viewer.id || post?.authorId === viewer.id || isGuardian(viewer.roles);
   if (!allowed) return json({ error: "Not your comment." }, 403);
   await db.delete(comments).where(eq(comments.id, id));
   await logActivity(viewer.id, "comment.delete", "comment", id);
@@ -379,6 +431,8 @@ export default async (req: Request) => {
     if (!sub && req.method === "GET") return await getPost(post, viewer);
     if (!sub && req.method === "DELETE") return await deletePost(post, viewer);
     if (sub === "like" && req.method === "POST") return await toggleLike(post, viewer);
+    if (sub === "save" && req.method === "POST") return await toggleSave(post, viewer);
+    if (sub === "pin" && req.method === "POST") return await togglePin(post, viewer);
     if (sub === "comments" && req.method === "GET") return json({ comments: await listComments(post.id, viewer.id) });
     if (sub === "comments" && req.method === "POST") return await addComment(req, post, viewer);
     return json({ error: "Not found" }, 404);

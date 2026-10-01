@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '2.2-full';
+const VERSION = '3.0-sanctuary';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
