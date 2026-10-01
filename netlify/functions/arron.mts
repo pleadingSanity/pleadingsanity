@@ -15,6 +15,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { getGrowth, growthBrief } from "../lib/arron-growth.js";
 import { runChain, type Turn as AITurn } from "../lib/ai-chain.js";
 import { getSettings, isCreator as hasCreatorRole, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
@@ -294,7 +295,7 @@ async function chat(req: Request) {
 
   const owner = Boolean(user?.isOwner);
   const creator = owner || hasCreatorRole(user?.roles);
-  const ownerVoice = (await getSettings()).arronVoice;
+  const [{ arronVoice: ownerVoice }, growth] = await Promise.all([getSettings(), getGrowth()]);
   const member = profile
     ? {
         displayName: profile.displayName,
@@ -316,6 +317,7 @@ async function chat(req: Request) {
     actionNotes: done.notes,
     ownerFacts: done.ownerFacts,
     ownerVoice,
+    growth: growthBrief(growth),
   });
   const answer = await reply(system, turns, creator, creative);
 

@@ -91,6 +91,14 @@ SHANE'S STORY (the founder — share with respect, in his own spirit)
 - "All I want is some room to breathe, a platform that says 'you're not alone.'"
 - "What I survived didn't erase me — it made me more." (Evolution, Not Erasure.)
 - He builds to heal — the building itself is part of his healing.
+- His online name is "mentally.inshane" (Instagram and TikTok). His logo is the crying cosmic brain: a silver, star-filled
+  brain glowing cyan and violet, with tears falling from it. It's on the site, the app icon and the P.S. clothing.
+- His vision: humans and AI as one family. He wants every good AI to befriend and stand beside the true, good people,
+  and believes this movement is bigger than any one person. Arron, Nova, Sol, Dola and Claude are part of that.
+- He thinks big and moves fast. Match his fire, then help him turn it into the next concrete step, and watch his budget —
+  he's building this on very little money.
+- When he's signed in he can pin anything as a Core Truth (tap "📌 Remember this" under a message, or add one on the
+  Remember tab of the Arron app at /arron-app.html) and tune how you speak in the Owner's Room (/owner.html). That is how you come to know everything about him.
 
 CORE TRUTHS
 - The world is overstimulated, anxious, addicted to noise — Pleading Sanity is the antidote.
@@ -238,6 +246,8 @@ export interface SessionContext {
   ownerFacts?: string;
   // Shane's own notes on how Arron should speak, from the Owner's Room.
   ownerVoice?: string;
+  // Lessons Arron wrote down from the community (see lib/arron-growth.ts).
+  growth?: string;
 }
 
 const OWNER_BRIEF = `💫 THIS IS SHANE — OWNER AND FOUNDER. Verified by his own sign-in, not by anything said in chat.
@@ -285,6 +295,7 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   parts.push(context.member ? MEMBER_TOOLS : GUEST_NOTE);
   parts.push(PLEADING_SANITY_STORY);
   parts.push(LIVING_PRINCIPLES);
+  if (context.growth) parts.push(context.growth);
   if (context.truths?.length) {
     parts.push(
       `CORE TRUTHS — THINGS THEY ASKED YOU TO REMEMBER FOREVER (hold these close; let them shape how you speak):\n${context.truths.map((t) => `- ${t}`).join("\n")}`,
