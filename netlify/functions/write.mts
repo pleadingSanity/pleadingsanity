@@ -30,6 +30,7 @@ import {
 } from "../lib/social.js";
 import { today, visitorKey, withinDailyLimit } from "../lib/studio.js";
 import { ARRON_VOICE, parseJSON, runChain } from "../lib/ai-chain.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 
 const KINDS: Record<string, string> = {
   wisdom: "a Daily Wisdom: 2-4 sentences, gentle, hopeful and real — something to carry through the day",
@@ -166,6 +167,9 @@ export default async (req: Request, context: Context) => {
     const user = await currentUser();
     if (!user) return unauthorized();
     const viewer = { id: user.id, roles: user.roles };
+    if (req.method === "POST" && (parts[0] === "draft" || !parts.length)) {
+      if (!(await allow("write", undefined, user.id))) return slowDown();
+    }
 
     if (req.method === "POST" && parts[0] === "draft") return await draft(req, context, viewer);
     if (req.method === "POST" && !parts.length) return await submit(req, viewer);

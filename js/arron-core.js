@@ -12,6 +12,9 @@
 
   const $ = (id) => document.getElementById(id);
   const CHAT_API = '/api/arron/chat';
+  // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
+  const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
+  const answeredVia = (provider) => (MINDS[provider] ? `Answered via ${MINDS[provider]}` : '');
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const APP_URL = '/arron-app.html';
@@ -726,6 +729,7 @@
 
     let reply = null;
     let local = false;
+    let via = '';
     try {
       if (navigator.onLine === false) throw new Error('offline');
       const res = await request(CHAT_API, {
@@ -745,6 +749,7 @@
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       reply = data.reply;
+      via = answeredVia(data.provider);
       if (data.creator) showCreator();
       setConn(data.remembered === false ? 'offline' : 'synced');
     } catch (e) {
@@ -759,7 +764,7 @@
     if (local) messages[messages.length - 1].local = true;
     addMessage(local ? { role: 'assistant', content: reply, local: true } : { role: 'assistant', content: reply });
     speak(reply);
-    setStatus(local ? "Offline reply. Every word is saved on this phone." : '');
+    setStatus(local ? "Offline reply. Every word is saved on this phone." : via);
     busy = false;
     els.send.disabled = false;
     savePrefs();
@@ -1315,6 +1320,8 @@
     const q = new URLSearchParams(location.search);
     const hash = location.hash.replace('#', '');
     const view = q.get('view') || (VIEWS.includes(hash) ? hash : '');
+    // The Community shortcut lives in the app's scope, then opens the calm community feed
+    if (view === 'community') { location.replace('/feed.html#community'); return; }
     const clip = (v, max) => (v || '').trim().slice(0, max);
     const shared = [q.get('title'), q.get('text'), q.get('url')].map((v) => clip(v, 2000)).filter(Boolean).join('\n');
     const say = clip(q.get('say'), 2000) || shared;

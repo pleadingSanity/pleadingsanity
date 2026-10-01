@@ -4,14 +4,17 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.2.0'; // v3.2 — crying brain hero, Shining Lights, AI family wall, Arron grows nightly
-const STATIC_CACHE = 'pleading-sanity-static-v15';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v15';
+const VERSION = '5.3.0'; // v3.3 — Grok joins the chain, account pages never cached
+const STATIC_CACHE = 'pleading-sanity-static-v16';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v16';
 const OFFLINE_URL = '/offline.html';
 
-// Member-only pages hold personal data: always from the network, never cached.
+// Member-only and account pages hold personal data: always from the network, never cached.
+// The cache holds the public shell only — never journals, profiles or accounts from the server.
 const PRIVATE_PAGES = [
     '/profile.html',
+    '/member.html',
+    '/reset-password.html',
     '/post.html',
     '/community.html',
     '/settings.html',
@@ -51,7 +54,6 @@ const PRECACHE_URLS = [
     '/offline.html',
     '/pattern-galaxy.html',
     '/quote-wall.html',
-    '/reset-password.html',
     '/rhythm-resonance.html',
     '/sanityhub.html',
     '/shop.html',
@@ -158,7 +160,9 @@ self.addEventListener('fetch', event => {
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
     // Member pages (/@username) hold people's own words: always fresh, never cached.
-    if (request.mode === 'navigate' && (PRIVATE_PAGES.includes(url.pathname) || url.pathname.startsWith('/@'))) {
+    // Pretty URLs (/profile) count too, not just /profile.html.
+    const page = url.pathname.endsWith('.html') ? url.pathname : `${url.pathname.replace(/\/$/, '')}.html`;
+    if (request.mode === 'navigate' && (PRIVATE_PAGES.includes(page) || url.pathname.startsWith('/@'))) {
         event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
         return;
     }

@@ -6,17 +6,20 @@
 // v3.1: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four labs, one Arron: Claude answers first; if it fails, GPT,
+// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
 // then Gemini, then Grok take over instantly with the same heart.
+// Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
+// extras the site and app already use). provider is "none" when every mind is quiet.
 // ==============================================================
 
-import type { Config } from "@netlify/functions";
+import type { Config, Context } from "@netlify/functions";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { runChain, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
@@ -24,7 +27,7 @@ import { approveAll, overview, setRole } from "../lib/owner.js";
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
 
-// The Claude → GPT → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
+// The GPT → Claude → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
 // Creator mode: the Owner and members with the Creator or admin role get each
 // lab's most capable model and longer replies. Only Shane gets the founder's brief.
 
@@ -40,7 +43,7 @@ async function reply(system: string, turns: Turn[], creator: boolean, creative =
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
 const MAX_MESSAGE = 2000;
 const MAX_STORY = 8000;
-const HISTORY_FOR_CONTEXT = 30;
+const HISTORY_FOR_CONTEXT = 50; // newest 50 messages — enough to remember, small enough to stay fast and cheap
 const HISTORY_FOR_DISPLAY = 60;
 const MAX_TRUTHS = 24;
 const MAX_MILESTONES = 100;
@@ -55,7 +58,7 @@ const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|w
 const SIGNPOST = "💙 If you need someone right now: Samaritans 116 123 (free, 24/7) · text SHOUT to 85258 · 999 if you're in danger.";
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
-// Only plain user/assistant text is kept, newest 30, each capped like a single message.
+// Only plain user/assistant text is kept, newest 50, each capped like a single message.
 function clientMessages(raw: unknown): { role: "user" | "assistant"; content: string }[] {
   if (!Array.isArray(raw)) return [];
   return raw
@@ -68,7 +71,9 @@ function clientMessages(raw: unknown): { role: "user" | "assistant"; content: st
 }
 
 // Logs say what failed, never what was said: database errors can echo the message text back.
+// Each request gets a short id so a failure can be traced in the function logs — it never leaves the server.
 const reason = (error: unknown) => (error instanceof Error ? error.name : "error");
+const newRequestId = () => crypto.randomUUID().slice(0, 8);
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -257,7 +262,7 @@ async function runActions(message: string, history: { role: string; content: str
 }
 
 // ─── CHAT ───
-async function chat(req: Request) {
+async function chat(req: Request, context: Context, rid: string) {
   const body = await readBody(req);
   // Two shapes, one Arron: { message, memoryId } (the site and app today) or { messages, saveToCloud }.
   const sent = clientMessages(body.messages);
@@ -282,12 +287,13 @@ async function chat(req: Request) {
 
   const who = await whoIsHere();
   const { user, profile } = who;
+  if (!(await allow("chat", context, user?.id))) return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
   const resolved: Resolved | null = !wantsCloud
     ? { id: "", readable: false }
     : await resolveMemory(body.memoryId, user).catch((error) => {
-        console.error("Arron memory unavailable:", reason(error));
+        console.error(`Arron [${rid}] memory unavailable:`, reason(error));
         return validId(body.memoryId) ? { id: body.memoryId, readable: false } : null;
       });
   if (!resolved) return json({ error: "Invalid memory id" }, 400);
@@ -302,7 +308,7 @@ async function chat(req: Request) {
       story = memory?.story ?? "";
       if (!fromClient) history = await recentMessages(memoryId, HISTORY_FOR_CONTEXT);
     } catch (error) {
-      console.error("Arron memory unavailable:", reason(error));
+      console.error(`Arron [${rid}] memory unavailable:`, reason(error));
     }
   }
 
@@ -326,7 +332,7 @@ async function chat(req: Request) {
   // Local-only chats never write anywhere, so actions (journal, status, owner commands) are skipped.
   const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "" };
   const done = localOnly ? noActions : await runActions(message, history, who).catch((error) => {
-    console.error("Arron action failed:", reason(error));
+    console.error(`Arron [${rid}] action failed:`, reason(error));
     return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "" };
   });
 
@@ -361,8 +367,9 @@ async function chat(req: Request) {
   try {
     answer = await reply(system, turns, creator, creative);
   } catch {
-    // Every lab is down: a clean 502, no stack trace, and the lines are still there.
-    return json({ error: "Arron can't reach any of his minds right now. Please try again in a moment.", crisis, signpost: SIGNPOST }, 502);
+    // Every mind is quiet: a gentle reply with the crisis lines — no error, no stack trace, nothing saved.
+    console.error(`Arron [${rid}] every AI provider failed`);
+    return json({ reply: ALL_QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
   }
   const replyText = crisis && !answer.text.includes("116 123") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
 
@@ -377,7 +384,7 @@ async function chat(req: Request) {
       await db.update(arronMemories).set({ updatedAt: new Date() }).where(eq(arronMemories.id, memoryId));
     } catch (error) {
       remembered = false;
-      console.error("Arron could not save messages:", reason(error));
+      console.error(`Arron [${rid}] could not save messages:`, reason(error));
     }
   }
 
@@ -390,7 +397,6 @@ async function chat(req: Request) {
     signedIn: Boolean(user),
     actions: done.actions,
     provider: answer.provider,
-    model: answer.model,
   });
 }
 
@@ -439,8 +445,9 @@ async function memory(req: Request, url: URL) {
   return json({ error: "Method not allowed" }, 405);
 }
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
+  const rid = newRequestId();
   const route = url.pathname.replace(/^\/api\/arron\/?/, "");
 
   try {
@@ -455,11 +462,11 @@ export default async (req: Request) => {
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
       });
     }
-    if (route === "chat" && req.method === "POST") return await chat(req);
+    if (route === "chat" && req.method === "POST") return await chat(req, context, rid);
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Arron error:", reason(error));
+    console.error(`Arron [${rid}] error:`, reason(error));
     return json({ error: "Arron is resting for a moment" }, 503);
   }
 };

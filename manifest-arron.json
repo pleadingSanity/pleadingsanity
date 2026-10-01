@@ -35,13 +35,6 @@
   ],
   "shortcuts": [
     {
-      "name": "Get Help Now",
-      "short_name": "Help",
-      "description": "UK crisis support — Samaritans, SHOUT, NHS 111, 999",
-      "url": "/arron-app.html?help=1",
-      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
-    },
-    {
       "name": "Talk to Arron",
       "short_name": "Talk",
       "url": "/arron-app.html?view=talk",
@@ -51,6 +44,20 @@
       "name": "Journal & mood check-in",
       "short_name": "Journal",
       "url": "/arron-app.html?view=journal",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Community feed",
+      "short_name": "Community",
+      "description": "The calm Sanity Feed — survivor stories, no doomscroll",
+      "url": "/arron-app.html?view=community",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    },
+    {
+      "name": "Get Help Now",
+      "short_name": "Help",
+      "description": "UK crisis support — Samaritans, SHOUT, NHS 111, 999",
+      "url": "/arron-app.html?help=1",
       "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
     },
     {

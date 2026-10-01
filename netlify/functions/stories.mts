@@ -14,6 +14,7 @@ import { and, desc, eq, gt, inArray, lt, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { aiStories, aiStoryHearts, profiles } from "../../db/schema.js";
 import { currentUser, json, logActivity, moderate, readBody, str, unauthorized } from "../lib/social.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 
 const KINDS = ["inspiring", "funny", "wisdom", "win"];
 const PAGE = 12;
@@ -160,6 +161,7 @@ export default async (req: Request) => {
     }
     if (!idPart && req.method === "POST") {
       if (!user) return unauthorized();
+      if (!(await allow("write", undefined, user.id))) return slowDown();
       return await share(req, user);
     }
 

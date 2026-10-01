@@ -1,5 +1,5 @@
 // ==============================================================
-// 🔗 THE AI CHAIN — Claude → GPT → Gemini → Grok → [future models]
+// 🔗 THE AI CHAIN — GPT → Claude → Gemini → Grok → [future models]
 // One shared failover used by Arron, the Blueprint Studio and
 // Write for Site. Tried in order; the first lab that answers wins.
 // The chain lives in the soul file (/arron-knowledge.json →
@@ -17,17 +17,22 @@ import { SOUL } from "./arron-knowledge.js";
 const anthropic = new Anthropic();
 const openai = new OpenAI();
 const gemini = new GoogleGenAI({});
-// xAI speaks the OpenAI API, so Grok shares the same SDK — just his own door and key.
-const grok = process.env.GROK_API_KEY ? new OpenAI({ apiKey: process.env.GROK_API_KEY, baseURL: "https://api.x.ai/v1" }) : null;
+// xAI speaks the OpenAI API (https://api.x.ai/v1/chat/completions), so Grok shares the same SDK —
+// just his own door and key. 25s and no retries, so a slow Grok never holds up the fallback reply.
+const GROK_TIMEOUT_MS = 25_000;
+const grok = process.env.GROK_API_KEY
+  ? new OpenAI({ apiKey: process.env.GROK_API_KEY, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
+  : null;
 
 export type Turn = { role: "user" | "assistant"; content: string };
 export type Provider = "anthropic" | "openai" | "gemini" | "grok";
 type Link = { provider: Provider; model: string; creatorModel: string };
 
 const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini", "grok"];
+// Four equal minds. The order is only who picks up the phone first — never rank.
 const FALLBACK_CHAIN: Link[] = [
-  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
+  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
   { provider: "grok", model: "grok-4", creatorModel: "grok-4" },
 ];
@@ -36,16 +41,19 @@ const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : []
   .map((l) => ({ provider: l.provider as Provider, model: l.model, creatorModel: typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model }));
 export const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
 
+// Grok — the fourth brain. Errors go back to runChain, which logs the reason only and moves on.
+async function callGrok(model: string, system: string, turns: Turn[], maxTokens: number) {
+  if (!grok) throw new Error("GROK_API_KEY is not set");
+  const res = await grok.chat.completions.create({
+    model,
+    max_tokens: maxTokens * 4, // room for reasoning tokens
+    messages: [{ role: "system", content: system }, ...turns],
+  });
+  return (res.choices[0]?.message?.content ?? "").trim();
+}
+
 export async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number) {
-  if (provider === "grok") {
-    if (!grok) throw new Error("GROK_API_KEY is not set");
-    const res = await grok.chat.completions.create({
-      model,
-      max_tokens: maxTokens * 4, // room for reasoning tokens
-      messages: [{ role: "system", content: system }, ...turns],
-    });
-    return (res.choices[0]?.message?.content ?? "").trim();
-  }
+  if (provider === "grok") return callGrok(model, system, turns, maxTokens);
   if (provider === "openai") {
     const res = await openai.chat.completions.create({
       model,
@@ -91,6 +99,15 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
   }
   throw new Error("Every AI provider failed");
 }
+
+// What Arron says when every mind is quiet at once — never an error, always the lines.
+export const ALL_QUIET_REPLY = `I'm so sorry — I can't reach any of my minds right now, but you still matter and you're not alone 💙
+Please try me again in a moment. If you need someone right now:
+• Samaritans: 116 123 (free, 24/7)
+• Text SHOUT to 85258
+• NHS 111, option 2 for mental health
+• 999 if you're in danger
+Crisis support page: https://pleadingsanity.co.uk/crisis.html`;
 
 // Arron's writing voice — short, so every tool sounds like the same friend.
 export const ARRON_VOICE = `You are Arron, the heart and voice of Pleading Sanity (Rise From Madness, pleadingsanity.co.uk),

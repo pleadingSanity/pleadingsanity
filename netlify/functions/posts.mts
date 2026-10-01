@@ -40,6 +40,7 @@ import {
   unauthorized,
 } from "../lib/social.js";
 import { publishPost, type Post } from "../lib/publish.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 
 const PAGE = 15;
 const UPLIFTING_MOODS = ["rising", "fierce"];
@@ -406,7 +407,10 @@ export default async (req: Request) => {
 
     if (parts.length === 2) {
       if (req.method === "GET") return await feed(viewer, url);
-      if (req.method === "POST") return await createPost(req, viewer);
+      if (req.method === "POST") {
+        if (!(await allow("write", undefined, user.id))) return slowDown();
+        return await createPost(req, viewer);
+      }
       return json({ error: "Method not allowed" }, 405);
     }
 
@@ -420,7 +424,10 @@ export default async (req: Request) => {
     if (sub === "save" && req.method === "POST") return await toggleSave(post, viewer);
     if (sub === "pin" && req.method === "POST") return await togglePin(post, viewer);
     if (sub === "comments" && req.method === "GET") return json({ comments: await listComments(post.id, viewer.id) });
-    if (sub === "comments" && req.method === "POST") return await addComment(req, post, viewer);
+    if (sub === "comments" && req.method === "POST") {
+      if (!(await allow("write", undefined, user.id))) return slowDown();
+      return await addComment(req, post, viewer);
+    }
     return json({ error: "Not found" }, 404);
   } catch (error) {
     console.error("Posts API error:", error);
