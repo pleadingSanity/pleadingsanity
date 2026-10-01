@@ -135,9 +135,28 @@ export async function afterSignIn(fallback = '/feed.html') {
   location.replace(me?.profile?.onboarded ? next : '/onboarding.html?next=' + encodeURIComponent(next));
 }
 
+// ─── STAY SIGNED IN ───
+// Ticked (the default): the session survives closing the browser, on every
+// device. Unticked: a browser-session cookie marks this visit, and the next
+// visit after the browser closes starts signed out.
+const SESSION_ONLY = 'ps-session-only';
+export function rememberChoice(stay) {
+  try {
+    if (stay) localStorage.removeItem(SESSION_ONLY);
+    else localStorage.setItem(SESSION_ONLY, '1');
+  } catch { /* storage blocked */ }
+  document.cookie = 'ps_alive=1; path=/; SameSite=Lax; Secure';
+}
+function sessionExpired() {
+  try {
+    return localStorage.getItem(SESSION_ONLY) === '1' && !/(?:^|; )ps_alive=1/.test(document.cookie);
+  } catch { return false; }
+}
+
 // Signing out leaves no trace: synced progress is saved to the account
-// first, then this device forgets the session and every cached copy.
-export async function signOut() {
+// first, then this device forgets the session, every draft, every cached
+// copy and all local data. Arron's memory stays safe in the account.
+export async function signOut({ redirect = true } = {}) {
   try {
     if (!window.psProgressFlush) await import('/js/progress.js');
     await window.psProgressFlush?.();
@@ -150,11 +169,15 @@ export async function signOut() {
     // Even if the server call fails, forget the session on this device.
   }
   clearMe();
+  try { sessionStorage.clear(); } catch { /* storage blocked */ }
+  try { localStorage.clear(); } catch { /* storage blocked */ }
+  document.cookie = 'ps_alive=; path=/; max-age=0';
   try {
-    sessionStorage.clear();
-    ['ps-sanctuary-drafts', 'ps-blueprint-last'].forEach((k) => localStorage.removeItem(k));
-  } catch { /* storage blocked */ }
-  location.href = '/';
+    // Pages are re-fetched next time; the offline crisis pages are kept.
+    const names = await caches.keys();
+    await Promise.all(names.filter((n) => n.includes('dynamic')).map((n) => caches.delete(n)));
+  } catch { /* no Cache API */ }
+  if (redirect) location.href = '/';
 }
 
 // ─── EMAIL LINKS ───
@@ -169,7 +192,10 @@ async function finishEmailLink() {
       location.replace('/reset-password.html?mode=set');
     } else if (result.type === 'confirmation' || result.type === 'oauth') {
       sessionStorage.setItem('ps-welcome', result.type);
-      await afterSignIn('/feed.html');
+      // One-tap sign in leaves the site, so where they were heading was kept in sessionStorage.
+      const kept = sessionStorage.getItem('ps-next') || '';
+      sessionStorage.removeItem('ps-next');
+      await afterSignIn(kept.startsWith('/') && !kept.startsWith('//') ? kept : '/feed.html');
     } else if (result.type === 'email_change') {
       toast('Email address updated 💙');
     } else if (result.type === 'invite') {
@@ -224,16 +250,21 @@ function renderNav(me) {
   const profile = me.profile;
   const name = profile?.displayName || me.user.email;
   const pending = me.counts?.pendingRequests || 0;
+  const review = me.counts?.awaitingReview || 0;
   account.innerHTML = `
     <button type="button" class="ps-avatar-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ps-account-menu">
       <span class="ps-avatar" aria-hidden="true">${esc(avatarText(profile?.avatar, name))}</span>
       <span>${esc(profile ? profile.displayName : 'Account')}</span>
-      ${pending ? `<span class="ps-badge" aria-label="${pending} friend requests">${pending}</span>` : ''}
+      ${me.user.isOwner ? '<span class="ps-owner-star" title="Owner">💫</span>' : ''}
+      ${pending + review ? `<span class="ps-badge" aria-label="${pending ? `${pending} friend requests` : ''}${pending && review ? ', ' : ''}${review ? `${review} posts to review` : ''}">${pending + review}</span>` : ''}
     </button>
     <div class="ps-menu" id="ps-account-menu" role="menu" hidden>
-      <p class="ps-menu-role">${{ admin: '🛡️ Admin', creator: '💫 Creator · full power', guardian: '✨ Guardian' }[me.user.role] || '🌿 Member'}</p>
+      <p class="ps-menu-role">${{ owner: '💫 Owner · Founder — welcome home', admin: '🛡️ Admin', creator: '✨ Creator · full power', guardian: '🛡️ Guardian' }[me.user.role] || '🌿 Member · free forever'}</p>
+      ${me.user.isOwner ? `<a role="menuitem" href="/owner.html">💫 Owner's Room${review ? ` (${review} to review)` : ''}</a>` : ''}
       ${profile?.onboarded
-        ? `<a role="menuitem" href="/profile.html">👤 My profile</a>
+        ? `<a role="menuitem" href="/profile.html">👤 My Sanity Profile</a>
+           <a role="menuitem" href="/@${esc(profile.username)}">🌿 My page</a>
+           <a role="menuitem" href="/profile.html#journal">📓 My Journal</a>
            <a role="menuitem" href="/sanctuary.html">🌟 My Sanctuary</a>
            <a role="menuitem" href="/feed.html#community">🌌 Community feed</a>
            <a role="menuitem" href="/creations.html#mine">🎨 My Creations</a>
@@ -273,7 +304,14 @@ function renderNav(me) {
 // ─── BOOT ───
 (async () => {
   await finishEmailLink();
-  renderNav(await loadMe());
+  if (sessionExpired() && (await currentUser())) await signOut({ redirect: false });
+  const me = await loadMe();
+  renderNav(me);
+  // Shane knows instantly he's home.
+  if (me?.user?.isOwner && !sessionStorage.getItem('ps-owner-welcomed')) {
+    sessionStorage.setItem('ps-owner-welcomed', '1');
+    toast(`💫 Welcome home, ${me.user.ownerName || 'Shane'}. Full power, full respect.${me.counts?.awaitingReview ? ` ${me.counts.awaitingReview} post${me.counts.awaitingReview === 1 ? '' : 's'} waiting for you.` : ''}`, 5000);
+  }
   onAuthChange((event) => {
     if (event === 'login' || event === 'logout') {
       clearMe();

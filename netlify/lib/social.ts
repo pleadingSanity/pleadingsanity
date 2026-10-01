@@ -5,10 +5,10 @@
 // ==============================================================
 
 import Anthropic from "@anthropic-ai/sdk";
-import { getUser } from "@netlify/identity";
-import { and, eq, or, sql } from "drizzle-orm";
+import { admin, getUser } from "@netlify/identity";
+import { and, eq, inArray, or, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { activityLog, blocks, friends, profiles, users } from "../../db/schema.js";
+import { activityLog, blocks, friends, memberRoles, profiles, siteSettings, users } from "../../db/schema.js";
 
 export const anthropic = new Anthropic();
 export const WRITER_MODEL = "claude-sonnet-5";
@@ -37,8 +37,52 @@ export async function readBody(req: Request): Promise<Record<string, unknown>> {
 export const str = (value: unknown, max: number) =>
   typeof value === "string" ? value.trim().slice(0, max) : "";
 
+// ─── OWNER ───
+// Shane Cooper is the sole Owner and Founder. Ownership comes from his
+// verified email alone: it is never stored, so it can't be granted,
+// revoked, demoted or claimed by anyone else.
+export const OWNER_EMAILS = ["pleadingsanity1@gmail.com", "pleadingsanitydev@gmail.com"];
+export const OWNER_NAME = "Shane";
+export const isOwnerEmail = (email = "") => OWNER_EMAILS.includes(email.trim().toLowerCase());
+
+// The email must be confirmed before it unlocks anything — a sign-up that
+// merely types Shane's address gets nothing until it's proven theirs.
+const verifiedOwners = new Map<string, boolean>();
+async function ownerVerified(user: { id: string; email?: string; provider?: string; confirmedAt?: string }) {
+  if (!isOwnerEmail(user.email)) return false;
+  const cached = verifiedOwners.get(user.id);
+  if (cached !== undefined) return cached;
+  let ok = Boolean(user.confirmedAt) || (user.provider !== undefined && user.provider !== "email");
+  if (!ok) {
+    try {
+      const full = await admin.getUser(user.id);
+      ok = Boolean(full.confirmedAt) && isOwnerEmail(full.email);
+    } catch (error) {
+      console.error("Could not verify the owner account:", error);
+      return false; // don't cache — try again next request
+    }
+  }
+  verifiedOwners.set(user.id, ok);
+  return ok;
+}
+
 // ─── AUTH ───
-export type AuthedUser = { id: string; email: string; roles: string[] };
+export type AuthedUser = { id: string; email: string; roles: string[]; isOwner: boolean };
+
+// Roles a member holds: Identity roles (set in the Netlify UI), roles the
+// Owner granted here, and — for Shane alone — owner + full power.
+async function effectiveRoles(userId: string, identityRoles: string[], owner: boolean) {
+  const granted = await db.select({ role: memberRoles.role }).from(memberRoles).where(eq(memberRoles.userId, userId));
+  const roles = new Set([...identityRoles, ...granted.map((g) => g.role)].filter((r) => r !== "owner"));
+  if (owner) {
+    ["owner", "creator", "admin"].forEach((r) => roles.add(r));
+    // A marker row so the 💫 Owner badge can show on Shane's posts for everyone.
+    if (!granted.some((g) => g.role === "owner")) {
+      await db.insert(memberRoles).values({ userId, role: "owner", grantedBy: "verified-email" }).onConflictDoNothing();
+    }
+  }
+  return [...roles];
+}
 
 export async function currentUser(): Promise<AuthedUser | null> {
   const user = await getUser();
@@ -49,24 +93,69 @@ export async function currentUser(): Promise<AuthedUser | null> {
     .insert(users)
     .values({ id: user.id, email })
     .onConflictDoUpdate({ target: users.id, set: { email, lastSeenAt: new Date() } });
-  return { id: user.id, email, roles: user.roles ?? [] };
+  const owner = await ownerVerified(user);
+  return { id: user.id, email, roles: await effectiveRoles(user.id, user.roles ?? [], owner), isOwner: owner };
+}
+
+// For pages that work for guests too (public profiles, Arron): never throws.
+export async function optionalUser(): Promise<AuthedUser | null> {
+  try {
+    return await currentUser();
+  } catch (error) {
+    console.error("Could not read the signed-in user:", error);
+    return null;
+  }
 }
 
 export const unauthorized = () => json({ error: "Please sign in first." }, 401);
 
 // ─── ROLES ───
-// 💫 creator (Shane) · 🛡️ admin · ✨ guardian (trusted helpers) · 🌿 member.
-// Roles are granted by hand in Netlify → Identity.
-export const GUARDIAN_ROLES = ["admin", "creator", "guardian"];
+// 💫 owner (Shane, automatic) · 💫 creator · 🛡️ admin · ✨ guardian · 🌿 member.
+// The Owner grants Guardian and Creator from the Owner's Room; admin stays in Netlify → Identity.
+export const GRANTABLE_ROLES = ["guardian", "creator"] as const;
+export const GUARDIAN_ROLES = ["owner", "admin", "creator", "guardian"];
 export const isGuardian = (roles: string[] = []) => roles.some((r) => GUARDIAN_ROLES.includes(r));
-export const isCreator = (roles: string[] = []) => roles.includes("creator") || roles.includes("admin");
+export const isCreator = (roles: string[] = []) => roles.includes("owner") || roles.includes("creator") || roles.includes("admin");
+export const isOwner = (roles: string[] = []) => roles.includes("owner");
 
 export function roleTier(roles: string[] = []) {
+  if (roles.includes("owner")) return "owner";
   if (roles.includes("creator")) return "creator";
   if (roles.includes("admin")) return "admin";
   if (roles.includes("guardian")) return "guardian";
   return "member";
 }
+
+// ─── OWNER SETTINGS ───
+// reviewMode: member posts wait for the Owner before going live. arronVoice: Shane's notes on how Arron speaks.
+export type SiteSettings = { reviewMode: boolean; arronVoice: string };
+const SETTINGS_DEFAULTS: SiteSettings = { reviewMode: false, arronVoice: "" };
+
+export async function getSettings(): Promise<SiteSettings> {
+  try {
+    const [row] = await db.select().from(siteSettings).where(eq(siteSettings.key, "owner"));
+    return { ...SETTINGS_DEFAULTS, ...((row?.value as Partial<SiteSettings>) ?? {}) };
+  } catch (error) {
+    console.error("Settings unavailable:", error);
+    return SETTINGS_DEFAULTS;
+  }
+}
+
+export async function saveSettings(changes: Partial<SiteSettings>) {
+  const value = { ...(await getSettings()), ...changes };
+  await db
+    .insert(siteSettings)
+    .values({ key: "owner", value })
+    .onConflictDoUpdate({ target: siteSettings.key, set: { value, updatedAt: new Date() } });
+  return value;
+}
+
+// ─── VISIBILITY ───
+// public: anyone (guests too) · members: signed-in members · friends: accepted friends · private: only me
+export const VISIBILITIES = ["public", "members", "friends", "private"] as const;
+export type Visibility = (typeof VISIBILITIES)[number];
+export const cleanVisibility = (value: unknown, fallback: Visibility = "public"): Visibility =>
+  typeof value === "string" && (VISIBILITIES as readonly string[]).includes(value) ? (value as Visibility) : fallback;
 
 export const TRUTH_TAGS = ["evidence", "experience", "philosophy"] as const;
 export const cleanTruthTag = (value: unknown) =>
@@ -247,12 +336,31 @@ export const publicProfile = (p: typeof profiles.$inferSelect) => ({
   username: p.username,
   displayName: p.displayName,
   avatar: p.avatar,
+  pronouns: p.pronouns,
   bio: p.bio,
   country: p.country,
   mood: p.mood,
   interests: p.interests,
   isPrivate: p.isPrivate,
+  pageVisibility: p.pageVisibility,
+  status: p.statusText ? { text: p.statusText, mood: p.statusMood, at: p.statusAt } : null,
   joinedAt: p.createdAt,
 });
 
 export const countSql = sql<number>`count(*)::int`;
+
+// Public role badges for a set of people: owner · guardian · creator (or nothing).
+export async function badgesFor(userIds: string[]): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  if (!userIds.length) return map;
+  const rows = await db
+    .select({ userId: memberRoles.userId, role: memberRoles.role })
+    .from(memberRoles)
+    .where(inArray(memberRoles.userId, userIds));
+  const rank = ["owner", "guardian", "creator"];
+  for (const r of rows) {
+    const current = map.get(r.userId);
+    if (rank.includes(r.role) && (!current || rank.indexOf(r.role) < rank.indexOf(current))) map.set(r.userId, r.role);
+  }
+  return map;
+}

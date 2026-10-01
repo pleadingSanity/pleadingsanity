@@ -266,12 +266,20 @@
       <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
       <div id="community-guest" hidden>
         <div class="panel center">
-          <p style="margin:0 0 1rem">Survivors sharing posts, stories and small wins — kindly moderated, no algorithms, no DMs.</p>
+          <p style="margin:0 0 1rem">Real people, real updates — newest first, no algorithm. Join free to heart, reply, journal and share your own voice.</p>
           <div class="btn-row" style="justify-content:center">
             <a class="sbtn primary" href="/signup.html?next=%2Ffeed.html%23community">Join the family</a>
             <a class="sbtn ghost" href="/login.html?next=%2Ffeed.html%23community">Sign in</a>
           </div>
         </div>
+      </div>
+      <div id="community-public" hidden>
+        <div class="tabs" role="group" aria-label="Show posts" id="public-filters" style="margin:0 0 1rem">
+          <button type="button" data-filter="all" aria-pressed="true">🌍 Everyone</button>
+          <button type="button" data-filter="uplifting" aria-pressed="false">🌅 Uplifting only</button>
+        </div>
+        <div id="public-posts" aria-live="polite"></div>
+        <div class="center"><button type="button" class="sbtn ghost" id="public-more" hidden>Load more</button></div>
       </div>
       <div id="community-member" hidden>
         <div class="row" style="justify-content:space-between;margin-bottom:1rem">
@@ -279,7 +287,8 @@
             <button type="button" data-filter="all" aria-pressed="true">🌍 Everyone</button>
             <button type="button" data-filter="friends" aria-pressed="false">💙 Friends</button>
             <button type="button" data-filter="mine" aria-pressed="false">👤 Mine</button>
-            <button type="button" data-filter="saved" aria-pressed="false">🌟 Saved</button>
+            <button type="button" data-filter="saved" aria-pressed="false">🌟 My Saved</button>
+            <button type="button" data-filter="uplifting" aria-pressed="false">🌅 Uplifting only</button>
           </div>
           <a class="sbtn primary" href="/post.html">✍️ Share</a>
         </div>
@@ -551,6 +560,47 @@
         link.textContent = 'Finish your profile';
         document.querySelector('#community-guest .sbtn.ghost').remove();
       }
+      // Guests read the public feed — chronological, read-only, no account needed.
+      const list = document.getElementById('public-posts');
+      const more = document.getElementById('public-more');
+      let filter = 'all';
+      let nextBefore = null;
+      document.getElementById('community-public').hidden = false;
+      wirePosts(list);
+      async function loadPublic(append = false) {
+        if (!append) list.innerHTML = '<div class="skeleton"></div>';
+        more.hidden = true;
+        try {
+          const q = new URLSearchParams({ public: '1', filter });
+          if (append && nextBefore) q.set('before', nextBefore);
+          const data = await api(`/api/posts?${q}`);
+          const html = data.posts.map((p) => postHTML(p)).join('');
+          if (append) list.insertAdjacentHTML('beforeend', html);
+          else list.innerHTML = html || '<p class="empty">Nothing public yet — <a href="/signup.html">be the first to share</a>. 💙</p>';
+          nextBefore = data.nextBefore;
+          more.hidden = !nextBefore;
+        } catch (error) {
+          list.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
+        }
+      }
+      document.getElementById('public-filters').addEventListener('click', (e) => {
+        const b = e.target.closest('[data-filter]');
+        if (!b) return;
+        filter = b.dataset.filter;
+        document.querySelectorAll('#public-filters [data-filter]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+        loadPublic();
+      });
+      more.addEventListener('click', () => loadPublic(true));
+      const single = Number(params.get('post'));
+      if (single) {
+        try {
+          const { post } = await api(`/api/posts/${single}`);
+          list.innerHTML = postHTML(post, { full: true }) + '<p class="center"><a href="/feed.html#community">← All community posts</a></p>';
+        } catch {
+          list.innerHTML = '<p class="notice info">This post is for members. <a href="/login.html?next=' + encodeURIComponent(location.pathname + location.search) + '">Sign in</a> or <a href="/signup.html">join free</a> to see it. 💙</p>';
+        }
+      } else loadPublic();
+      if (location.hash === '#community') document.getElementById('community').scrollIntoView();
     } else {
       document.getElementById('community-member').hidden = false;
       const list = document.getElementById('community-posts');
@@ -574,7 +624,7 @@
           const html = (append ? '' : (data.pinned || []).map((p) => postHTML(p)).join('')) +
             data.posts.filter((p) => append || !pinnedIds.has(p.id)).map((p) => postHTML(p)).join('');
           if (append) list.insertAdjacentHTML('beforeend', html);
-          else list.innerHTML = html || `<p class="empty">${filter === 'friends' ? 'No posts from friends yet — <a href="/community.html">find your people</a>.' : filter === 'saved' ? 'Nothing saved yet. Tap ☆ Save on any post to keep it in <a href="/sanctuary.html">My Sanctuary</a>.' : 'Nothing here yet. <a href="/post.html">Be the first to share</a>. 💙'}</p>`;
+          else list.innerHTML = html || `<p class="empty">${filter === 'friends' ? 'No posts from friends yet — <a href="/community.html">find your people</a>.' : filter === 'saved' ? 'Nothing saved yet. Tap ☆ Save on any post to keep it in <a href="/sanctuary.html">My Sanctuary</a>.' : filter === 'uplifting' ? 'No uplifting posts yet — <a href="/post.html?kind=status">share a small win</a>. 🌅' : 'Nothing here yet. <a href="/post.html">Be the first to share</a>. 💙'}</p>`;
           nextBefore = data.nextBefore;
           more.hidden = !nextBefore;
         } catch (error) {

@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.0.0'; // v3.0 THE SANCTUARY
-const STATIC_CACHE = 'pleading-sanity-static-v13';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v13';
+const VERSION = '5.1.0'; // v3.1-OWNER — member profiles & live community feed
+const STATIC_CACHE = 'pleading-sanity-static-v14';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v14';
 const OFFLINE_URL = '/offline.html';
 
 // Member-only pages hold personal data: always from the network, never cached.
@@ -17,6 +17,7 @@ const PRIVATE_PAGES = [
     '/settings.html',
     '/onboarding.html',
     '/admin.html',
+    '/owner.html',
     '/sanctuary.html',
     '/write.html'
 ];
@@ -102,6 +103,7 @@ const PRECACHE_URLS = [
     '/js/video-feed.js',
     '/js/cosmic-scroll.js',
     '/js/ai-stories.js',
+    '/js/oauth.js',
     '/content/content_feed.json',
     '/arron-knowledge.json',
     '/assets/logo.svg',
@@ -154,7 +156,8 @@ self.addEventListener('fetch', event => {
     if (url.origin !== self.location.origin) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
-    if (request.mode === 'navigate' && PRIVATE_PAGES.includes(url.pathname)) {
+    // Member pages (/@username) hold people's own words: always fresh, never cached.
+    if (request.mode === 'navigate' && (PRIVATE_PAGES.includes(url.pathname) || url.pathname.startsWith('/@'))) {
         event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
         return;
     }

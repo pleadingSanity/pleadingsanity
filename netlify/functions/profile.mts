@@ -1,39 +1,56 @@
 // ==============================================================
-// 🌌 PROFILES — /api/me and /api/profiles/:username
-// Own profile (read / onboard / edit / delete account) and public
-// profiles, respecting friends-only privacy and blocks.
+// 🌌 PROFILES — /api/me, /api/me/status and /api/profiles/:username
+// Own Sanity Profile (read / onboard / edit / delete account), the
+// daily status check-in, and public pages (/@username) — which
+// guests can open too when the member keeps their page public.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
 import { admin } from "@netlify/identity";
 import { getStore } from "@netlify/blobs";
-import { and, desc, eq, ne, or } from "drizzle-orm";
+import { and, desc, eq, inArray, ne, or } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { friends, posts, profiles, users } from "../../db/schema.js";
+import { friends, journalEntries, posts, profiles, users } from "../../db/schema.js";
 import {
   areFriends,
+  badgesFor,
   cleanMood,
   cleanTags,
+  cleanTruthTag,
+  cleanVisibility,
   countSql,
-  currentUser,
+  getSettings,
   isBlockedEitherWay,
+  isGuardian,
   json,
   logActivity,
   mentionsCrisis,
+  optionalUser,
+  OWNER_NAME,
   profileFor,
   publicProfile,
   readBody,
   roleTier,
-  isGuardian,
   str,
   unauthorized,
   USERNAME,
 } from "../lib/social.js";
+import { publishPost } from "../lib/publish.js";
 
 const MAX_BIO = 300;
 const MAX_STORY = 10000;
+const MAX_STATUS = 280;
 
-async function postCount(userId: string, includeFriendsOnly: boolean) {
+type Audience = "self" | "friends" | "members" | "guest";
+// Post audiences each kind of visitor may see on someone's page.
+const AUDIENCES: Record<Audience, string[]> = {
+  self: ["public", "members", "friends", "private"],
+  friends: ["public", "members", "friends"],
+  members: ["public", "members"],
+  guest: ["public"],
+};
+
+async function postCount(userId: string, audience: Audience) {
   const [row] = await db
     .select({ n: countSql })
     .from(posts)
@@ -41,7 +58,8 @@ async function postCount(userId: string, includeFriendsOnly: boolean) {
       and(
         eq(posts.authorId, userId),
         eq(posts.hidden, false),
-        includeFriendsOnly ? undefined : eq(posts.visibility, "public"),
+        audience === "self" ? undefined : eq(posts.status, "live"),
+        inArray(posts.visibility, AUDIENCES[audience]),
       ),
     );
   return row?.n ?? 0;
@@ -55,21 +73,45 @@ async function friendCount(userId: string) {
   return row?.n ?? 0;
 }
 
+const ownProfile = (p: typeof profiles.$inferSelect) => ({
+  ...publicProfile(p),
+  story: p.story,
+  onboarded: p.onboarded,
+  defaultVisibility: p.defaultVisibility,
+  truthTagDefault: p.truthTagDefault,
+});
 
 // ─── GET /api/me ───
-async function getMe(userId: string, email: string, roles: string[]) {
-  const profile = await profileFor(userId);
+async function getMe(user: { id: string; email: string; roles: string[]; isOwner: boolean }) {
+  const profile = await profileFor(user.id);
   const [pending] = await db
     .select({ n: countSql })
     .from(friends)
-    .where(and(eq(friends.addresseeId, userId), eq(friends.status, "pending")));
+    .where(and(eq(friends.addresseeId, user.id), eq(friends.status, "pending")));
+  const [journal] = await db.select({ n: countSql }).from(journalEntries).where(eq(journalEntries.userId, user.id));
+  let awaitingReview = 0;
+  if (user.isOwner) {
+    const [row] = await db.select({ n: countSql }).from(posts).where(eq(posts.status, "pending"));
+    awaitingReview = row?.n ?? 0;
+  }
   return json({
-    user: { id: userId, email, isAdmin: roles.includes("admin"), isGuardian: isGuardian(roles), role: roleTier(roles) },
-    profile: profile ? { ...publicProfile(profile), story: profile.story, onboarded: profile.onboarded } : null,
+    user: {
+      id: user.id,
+      email: user.email,
+      isOwner: user.isOwner,
+      isAdmin: user.roles.includes("admin"),
+      isGuardian: isGuardian(user.roles),
+      role: roleTier(user.roles),
+      ownerName: user.isOwner ? OWNER_NAME : undefined,
+    },
+    profile: profile ? ownProfile(profile) : null,
+    community: { reviewMode: (await getSettings()).reviewMode },
     counts: {
-      posts: await postCount(userId, true),
-      friends: await friendCount(userId),
+      posts: await postCount(user.id, "self"),
+      friends: await friendCount(user.id),
+      journal: journal?.n ?? 0,
       pendingRequests: pending?.n ?? 0,
+      awaitingReview,
     },
   });
 }
@@ -99,12 +141,16 @@ async function saveMe(req: Request, userId: string) {
     username,
     displayName,
     avatar,
+    pronouns: pick("pronouns", (v) => str(v, 30), existing?.pronouns ?? ""),
     bio: pick("bio", (v) => str(v, MAX_BIO), existing?.bio ?? ""),
     country: pick("country", (v) => str(v, 56), existing?.country ?? ""),
     mood: pick("mood", cleanMood, cleanMood(existing?.mood)),
     interests: pick("interests", cleanTags, existing?.interests ?? []),
     story: pick("story", (v) => str(v, MAX_STORY), existing?.story ?? ""),
     isPrivate: pick("isPrivate", (v) => v === true, existing?.isPrivate ?? false),
+    pageVisibility: pick("pageVisibility", (v) => (v === "members" ? "members" : "public"), existing?.pageVisibility ?? "public"),
+    defaultVisibility: pick("defaultVisibility", (v) => cleanVisibility(v), cleanVisibility(existing?.defaultVisibility)),
+    truthTagDefault: pick("truthTagDefault", cleanTruthTag, existing?.truthTagDefault ?? ""),
     onboarded: true,
     updatedAt: new Date(),
   };
@@ -117,26 +163,53 @@ async function saveMe(req: Request, userId: string) {
 
   const saved = await profileFor(userId);
   return json({
-    profile: saved ? { ...publicProfile(saved), story: saved.story, onboarded: saved.onboarded } : null,
+    profile: saved ? ownProfile(saved) : null,
     storyNeedsSupport: mentionsCrisis(values.story),
   });
 }
 
-// ─── DELETE /api/me — GDPR erasure ───
-// Removes every row we hold (profile, posts, comments, likes, friends,
-// blocks cascade from `users`), uploaded images, and the Identity account.
+// ─── PUT /api/me/status — "How are you really doing?" ───
+// Saved on their profile; `share` also posts it to their page and the feed.
+async function saveStatus(req: Request, user: { id: string; roles: string[] }) {
+  const profile = await profileFor(user.id);
+  if (!profile?.onboarded) return json({ error: "Finish setting up your profile first.", onboarding: true }, 409);
+  const body = await readBody(req);
+  const text = str(body.text, MAX_STATUS);
+  const mood = body.mood ? cleanMood(body.mood) : "";
+
+  let shared = null;
+  if (text && body.share === true) {
+    const result = await publishPost(user, { kind: "status", body: text, mood: mood || profile.mood, visibility: body.visibility, truthTag: "experience" });
+    if (!result.ok) {
+      const { ok: _ok, status, ...rest } = result;
+      return json(rest, status);
+    }
+    shared = { id: result.post.id, pending: result.pending, crisis: result.crisis };
+  }
+
+  await db
+    .update(profiles)
+    .set({ statusText: text, statusMood: mood, statusAt: text ? new Date() : null, ...(mood ? { mood } : {}), updatedAt: new Date() })
+    .where(eq(profiles.userId, user.id));
+  await logActivity(user.id, "profile.status", "user", user.id);
+  return json({ ok: true, shared, needsSupport: mentionsCrisis(text) });
+}
+
+// ─── DELETE /api/me — erase everything ───
+// Every row we hold cascades from `users` (profile, posts, comments, likes,
+// friends, blocks, journal, creations, Arron memory and messages), every
+// uploaded or created image is deleted, then the Identity account itself.
 async function deleteMe(userId: string) {
-  const images = await db
-    .select({ key: posts.imageKey })
-    .from(posts)
-    .where(eq(posts.authorId, userId));
   const store = getStore("post-images");
-  await Promise.all(
-    images.filter((i) => i.key).map((i) => store.delete(i.key as string).catch(() => {})),
-  );
+  try {
+    const { blobs } = await store.list({ prefix: `${userId}/` });
+    await Promise.all(blobs.map((b) => store.delete(b.key).catch(() => {})));
+  } catch (error) {
+    console.error("Could not list images for erasure:", error);
+  }
 
   await db.delete(users).where(eq(users.id, userId));
-  await logActivity(null, "account.delete", "user", userId);
+  await logActivity(null, "account.delete", "user", "erased");
 
   try {
     await admin.deleteUser(userId);
@@ -147,19 +220,18 @@ async function deleteMe(userId: string) {
   return json({ ok: true, identityDeleted: true });
 }
 
-// ─── GET /api/profiles/:username ───
-async function getProfile(viewerId: string, username: string) {
+// ─── GET /api/profiles/:username — the /@username page ───
+async function getProfile(viewerId: string | null, username: string) {
   const [profile] = await db.select().from(profiles).where(eq(profiles.username, username.toLowerCase()));
-  if (!profile) return json({ error: "No one here by that name." }, 404);
+  const notFound = () => json({ error: "No one here by that name." }, 404);
+  if (!profile || !profile.onboarded) return notFound();
 
   const isSelf = profile.userId === viewerId;
-  if (!isSelf && (await isBlockedEitherWay(viewerId, profile.userId))) {
-    return json({ error: "No one here by that name." }, 404);
-  }
+  if (viewerId && !isSelf && (await isBlockedEitherWay(viewerId, profile.userId))) return notFound();
 
   // Relationship between the viewer and this person.
-  let relationship: "self" | "friends" | "outgoing" | "incoming" | "none" = isSelf ? "self" : "none";
-  if (!isSelf) {
+  let relationship: "self" | "friends" | "outgoing" | "incoming" | "none" | "guest" = isSelf ? "self" : viewerId ? "none" : "guest";
+  if (viewerId && !isSelf) {
     const [link] = await db
       .select()
       .from(friends)
@@ -173,69 +245,74 @@ async function getProfile(viewerId: string, username: string) {
     else if (link) relationship = link.requesterId === viewerId ? "outgoing" : "incoming";
   }
 
-  const canSeeAll = isSelf || relationship === "friends" || (await areFriends(viewerId, profile.userId));
+  const isFriend = relationship === "friends" || (viewerId && !isSelf ? await areFriends(viewerId, profile.userId) : false);
+  const audience: Audience = isSelf ? "self" : isFriend ? "friends" : viewerId ? "members" : "guest";
+  const badge = (await badgesFor([profile.userId])).get(profile.userId) ?? "";
   const base = {
     username: profile.username,
     displayName: profile.displayName,
     avatar: profile.avatar,
+    pronouns: profile.pronouns,
     mood: profile.mood,
     isPrivate: profile.isPrivate,
+    pageVisibility: profile.pageVisibility,
+    badge,
     joinedAt: profile.createdAt,
   };
 
-  if (profile.isPrivate && !canSeeAll) {
-    return json({ profile: base, relationship, locked: true, posts: [], counts: { posts: 0, friends: 0 } });
+  // Members-only pages ask guests to sign in; friends-only pages stay locked to non-friends.
+  if (audience === "guest" && profile.pageVisibility !== "public") {
+    return json({ profile: base, relationship, locked: "members", posts: [], journal: [], counts: { posts: 0, friends: 0 } });
+  }
+  if (profile.isPrivate && audience !== "self" && audience !== "friends") {
+    return json({ profile: base, relationship, locked: "friends", posts: [], journal: [], counts: { posts: 0, friends: 0 } });
   }
 
-  const recent = await db
+  // Shared journal entries only — private ones never leave /profile.html.
+  const journal = await db
     .select()
-    .from(posts)
-    .where(
-      and(
-        eq(posts.authorId, profile.userId),
-        eq(posts.hidden, false),
-        canSeeAll ? undefined : eq(posts.visibility, "public"),
-      ),
-    )
-    .orderBy(desc(posts.createdAt))
-    .limit(20);
+    .from(journalEntries)
+    .where(and(eq(journalEntries.userId, profile.userId), inArray(journalEntries.visibility, audience === "guest" ? ["public"] : ["public", "members"])))
+    .orderBy(desc(journalEntries.id))
+    .limit(10);
 
   return json({
-    profile: { ...publicProfile(profile), story: profile.story },
+    profile: { ...publicProfile(profile), story: profile.story, badge },
     relationship,
     locked: false,
-    counts: { posts: await postCount(profile.userId, canSeeAll), friends: await friendCount(profile.userId) },
-    posts: recent.map((p) => ({
-      id: p.id,
-      kind: p.kind,
-      title: p.title,
-      body: p.body.slice(0, 400),
-      mood: p.mood,
-      tags: p.tags,
-      contentWarning: p.contentWarning,
-      crisis: p.crisis,
-      truthTag: p.truthTag,
-      createdAt: p.createdAt,
+    counts: { posts: await postCount(profile.userId, audience), friends: await friendCount(profile.userId) },
+    journal: journal.map((j) => ({
+      id: j.id,
+      title: j.title,
+      body: j.body.slice(0, 1200),
+      mood: j.mood,
+      truthTag: j.truthTag,
+      crisis: mentionsCrisis(j.body),
+      createdAt: j.createdAt,
     })),
   });
 }
 
 export default async (req: Request) => {
   try {
-    const user = await currentUser();
-    if (!user) return unauthorized();
+    const user = await optionalUser();
     const url = new URL(req.url);
 
-    if (url.pathname === "/api/me") {
-      if (req.method === "GET") return await getMe(user.id, user.email, user.roles);
-      if (req.method === "PUT") return await saveMe(req, user.id);
-      if (req.method === "DELETE") return await deleteMe(user.id);
-      return json({ error: "Method not allowed" }, 405);
+    if (url.pathname.startsWith("/api/profiles/")) {
+      const username = decodeURIComponent(url.pathname.replace("/api/profiles/", ""));
+      if (req.method === "GET" && username) return await getProfile(user?.id ?? null, username);
+      return json({ error: "Not found" }, 404);
     }
 
-    const username = decodeURIComponent(url.pathname.replace("/api/profiles/", ""));
-    if (req.method === "GET" && username) return await getProfile(user.id, username);
-    return json({ error: "Not found" }, 404);
+    if (!user) return unauthorized();
+    if (url.pathname === "/api/me/status") {
+      if (req.method === "PUT") return await saveStatus(req, user);
+      return json({ error: "Method not allowed" }, 405);
+    }
+    if (req.method === "GET") return await getMe(user);
+    if (req.method === "PUT") return await saveMe(req, user.id);
+    if (req.method === "DELETE") return await deleteMe(user.id);
+    return json({ error: "Method not allowed" }, 405);
   } catch (error) {
     console.error("Profile API error:", error);
     return json({ error: "Something went wrong. Please try again." }, 500);
@@ -243,5 +320,5 @@ export default async (req: Request) => {
 };
 
 export const config: Config = {
-  path: ["/api/me", "/api/profiles/:username"],
+  path: ["/api/me", "/api/me/status", "/api/profiles/:username"],
 };

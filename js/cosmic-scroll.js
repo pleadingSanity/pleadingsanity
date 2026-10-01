@@ -160,7 +160,7 @@ function cardBody(item, index) {
           <p class="cs-kicker">💬 Community voice</p>
           ${p.title ? `<h3>${esc(p.title)}</h3>` : ''}
           <p class="cs-body">${esc(p.body).slice(0, 600)}</p>
-          <a class="cs-author" href="/profile.html?user=${encodeURIComponent(p.author.username)}">
+          <a class="cs-author" href="/@${encodeURIComponent(p.author.username)}">
             <span class="cs-avatar" aria-hidden="true">${esc(avatarText(p.author.avatar, name))}</span>${esc(name)}
           </a>
         </div>`;

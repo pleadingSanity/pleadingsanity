@@ -105,6 +105,8 @@ Evolution, Not Erasure. One Source. One Family.
     <section class="panel panel-auth fade-in" aria-labelledby="signup-title" style="margin-top:0">
       <h2 id="signup-title">Create your account</h2>
       <div id="msg" aria-live="polite"></div>
+      <p class="muted" style="margin-top:0">🌿 Free forever — journal, post, create images with Arron and share. No tiers, no paywalls.</p>
+      <div data-oauth></div>
       <form id="signup-form" novalidate>
         <label class="field"><span>Email</span>
           <input type="email" name="email" autocomplete="email" required />
@@ -170,6 +172,9 @@ Evolution, Not Erasure. One Source. One Family.
   <script type="module">
 import { signup } from '/js/vendor/netlify-identity.js';
     import { AuthError, MissingIdentityError, afterSignIn, esc, loadMe, safeNext } from '/js/auth.js';
+    import { mountOAuth } from '/js/oauth.js';
+
+    mountOAuth(document.querySelector('[data-oauth]'));
 
     const form = document.getElementById('signup-form');
     const msg = document.getElementById('msg');

@@ -105,12 +105,17 @@ Evolution, Not Erasure. One Source. One Family.
     <section class="panel panel-auth fade-in" aria-labelledby="login-title" style="margin-top:0">
       <h2 id="login-title">Sign in</h2>
       <div id="msg" aria-live="polite"></div>
+      <div data-oauth></div>
       <form id="login-form" novalidate>
         <label class="field"><span>Email</span>
           <input type="email" name="email" autocomplete="email" required />
         </label>
         <label class="field"><span>Password</span>
           <input type="password" name="password" autocomplete="current-password" required />
+        </label>
+        <label class="check field">
+          <input type="checkbox" name="stay" id="stay" checked />
+          <span>Stay signed in <small>— untick on a shared device and you'll be signed out when the browser closes.</small></span>
         </label>
         <button class="sbtn primary block" type="submit">Sign in</button>
       </form>
@@ -168,8 +173,11 @@ Evolution, Not Erasure. One Source. One Family.
   <script type="module" src="/js/auth.js"></script>
   <script type="module">
 import { login, requestPasswordRecovery } from '/js/vendor/netlify-identity.js';
-    import { AuthError, MissingIdentityError, afterSignIn, esc, loadMe, safeNext } from '/js/auth.js';
+    import { AuthError, MissingIdentityError, afterSignIn, esc, loadMe, rememberChoice, safeNext } from '/js/auth.js';
+    import { mountOAuth } from '/js/oauth.js';
 
+    const stay = () => document.getElementById('stay').checked;
+    mountOAuth(document.querySelector('[data-oauth]'), { beforeRedirect: () => rememberChoice(stay()) });
     const msg = document.getElementById('msg');
     const show = (text, kind = 'err') => { msg.innerHTML = `<p class="notice ${kind}">${text}</p>`; };
     const params = new URLSearchParams(location.search);
@@ -192,6 +200,7 @@ import { login, requestPasswordRecovery } from '/js/vendor/netlify-identity.js';
       busy(loginForm, true);
       try {
         await login(email.value.trim(), password.value);
+        rememberChoice(stay());
         await afterSignIn();
       } catch (error) {
         if (error instanceof MissingIdentityError) show('Sign-in is being switched on right now. Please try again in a few minutes.');
@@ -210,6 +219,7 @@ import { login, requestPasswordRecovery } from '/js/vendor/netlify-identity.js';
       if (!email.value || !email.checkValidity()) return show('Please enter a valid email address.');
       busy(linkForm, true);
       try {
+        rememberChoice(stay());
         await requestPasswordRecovery(email.value.trim());
       } catch (error) {
         if (error instanceof MissingIdentityError) { busy(linkForm, false); return show('Sign-in is being switched on right now. Please try again in a few minutes.'); }

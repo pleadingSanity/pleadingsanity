@@ -408,3 +408,12 @@
   .typing-dots span { animation: none !important; }
   .typing-dots span { opacity: 0.8; }
 }
+/* Arron: one-tap actions under replies */
+.arron-actions { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 2px; }
+.arron-actions a, .arron-actions button {
+  min-height: 36px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(0, 255, 240, 0.4);
+  background: rgba(0, 255, 240, 0.08); color: #eafffd; font: inherit; font-size: 0.85rem; cursor: pointer; text-decoration: none;
+  display: inline-flex; align-items: center;
+}
+.arron-actions a:hover, .arron-actions button:hover { border-color: #ff00ff; }
+.arron-actions a:focus-visible, .arron-actions button:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }

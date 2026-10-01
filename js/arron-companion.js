@@ -245,6 +245,62 @@
     cacheMessages();
   }
 
+  // ─── ONE-TAP ACTIONS (signed-in members) ───
+  // Links for whatever Arron just did, plus "save to journal" / "share" for his reply.
+  let replyActions = [];
+  async function memberApi(path, body, method = 'POST') {
+    const token = (document.cookie.match(/(?:^|; )nf_jwt=([^;]*)/) || [])[1];
+    const headers = { 'Content-Type': 'application/json' };
+    if (token) headers.Authorization = `Bearer ${decodeURIComponent(token)}`;
+    const res = await fetch(path, { method, headers, credentials: 'same-origin', body: JSON.stringify(body) });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.reason || data.error || 'That didn\'t work — please try again.');
+    return data;
+  }
+
+  function addReplyActions(replyText, actions, userText) {
+    const box = document.createElement('div');
+    box.className = 'arron-actions';
+    actions.filter((a) => a.href && a.ok !== false).forEach((a) => {
+      const link = document.createElement('a');
+      link.href = a.href;
+      link.textContent = a.label;
+      box.appendChild(link);
+    });
+    if (member) {
+      const save = document.createElement('button');
+      save.type = 'button';
+      save.textContent = '📓 Save to my journal';
+      save.addEventListener('click', async () => {
+        save.disabled = true;
+        try {
+          await memberApi('/api/journal', { body: replyText, source: 'arron', title: userText.slice(0, 80) });
+          save.textContent = '📓 Saved — only you can see it';
+        } catch (e) { save.disabled = false; setStatus(e.message); }
+      });
+      const share = document.createElement('button');
+      share.type = 'button';
+      share.textContent = '🌿 Share as my status';
+      share.addEventListener('click', async () => {
+        if (!confirm('Share Arron\'s words as your status, on your page and the community feed?')) return;
+        share.disabled = true;
+        try {
+          const data = await memberApi('/api/me/status', { text: replyText.slice(0, 280), share: true }, 'PUT');
+          share.textContent = data.shared?.pending ? '🌿 Shared — waiting for review' : '🌿 Shared to the feed';
+        } catch (e) { share.disabled = false; setStatus(e.message); }
+      });
+      box.append(save, share);
+    } else if (++guestTurns === 3) {
+      const join = document.createElement('a');
+      join.href = '/signup.html?next=%2Farron.html';
+      join.textContent = 'Create your free Sanity Profile to keep what we build and share your voice 💙';
+      box.appendChild(join);
+    }
+    if (!box.children.length) return;
+    conversationBox.appendChild(box);
+    scrollToLatest(true);
+  }
+
   function addSuggestion(mood) {
     const box = document.createElement('div');
     if (mood === 'crisis') {
@@ -385,10 +441,17 @@
 
   // Signed-in creators and admins get Arron at full power (see /api/arron/chat).
   let creatorMode = false;
+  // Signed in with a Sanity Profile: Arron knows them and can save to their journal / share for them.
+  let ownerMode = false;
+  let member = null;
+  let guestTurns = 0;
 
   function updatePresence() {
     presenceEl.textContent = {
-      online: creatorMode ? 'Creator mode · full power 💫' : 'Your companion · here with you',
+      online: ownerMode ? 'Owner · Shane · full power 💫'
+        : creatorMode ? 'Creator mode · full power ✨'
+        : member ? `With you, ${member.displayName} · remembers you everywhere 💙`
+        : 'Your companion · here with you',
       reconnecting: 'Reconnecting…',
       offline: 'Offline · still here with simpler replies'
     }[conn];
@@ -508,6 +571,9 @@
       if (!data.reply) throw new Error('Empty reply');
       reply = data.reply;
       creatorMode = Boolean(data.creator);
+      ownerMode = Boolean(data.owner);
+      member = data.member || null;
+      replyActions = Array.isArray(data.actions) ? data.actions : [];
       setConn('online');
       setStatus(data.remembered === false
         ? "Arron replied, but couldn't save this to your memory just now."
@@ -524,6 +590,8 @@
     if (fallback && !reduceMotion) await new Promise((r) => setTimeout(r, 700));
     hideTyping(typing);
     addMessage(reply, 'assistant', { fallback });
+    if (!fallback) addReplyActions(reply, replyActions, text);
+    replyActions = [];
     if (detected === 'crisis' || (detected && detected !== 'calm')) addSuggestion(detected);
     chime();
 
@@ -734,9 +802,13 @@
   request(HEALTH_API, { cache: 'no-store', timeout: 8000 })
     .then((res) => (res.ok ? res.json() : {}))
     .then((data) => {
-      if (!data.creator) return;
-      creatorMode = true;
+      creatorMode = Boolean(data.creator);
+      ownerMode = Boolean(data.owner);
+      member = data.member || null;
+      if (member && !userName) userName = member.displayName;
       updatePresence();
+      if (ownerMode) setStatus('Welcome home, Shane. 💫 Try "show me everything" or "review posts".');
+      else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. 💙`);
     })
     .catch(() => {});
 

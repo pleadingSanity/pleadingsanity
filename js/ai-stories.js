@@ -42,7 +42,7 @@ const when = (d) => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', mo
 function storyHTML(s) {
   const [icon, label] = KINDS[s.kind] || KINDS.inspiring;
   const who = s.author
-    ? `<a class="as-who" href="/profile.html?user=${encodeURIComponent(s.author.username)}"><span class="ps-avatar sm" aria-hidden="true">${esc(avatarText(s.author.avatar, s.author.displayName))}</span>${esc(s.author.displayName)}</a>`
+    ? `<a class="as-who" href="/@${encodeURIComponent(s.author.username)}"><span class="ps-avatar sm" aria-hidden="true">${esc(avatarText(s.author.avatar, s.author.displayName))}</span>${esc(s.author.displayName)}</a>`
     : '<span class="as-who"><span class="ps-avatar sm" aria-hidden="true">🌌</span>A member of the family</span>';
   const body = `
     ${s.title ? `<h3>${esc(s.title)}</h3>` : ''}
