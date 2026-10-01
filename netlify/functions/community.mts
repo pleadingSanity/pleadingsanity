@@ -13,7 +13,7 @@
 import type { Config } from "@netlify/functions";
 import { and, desc, eq, ilike, inArray, notInArray, or, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { blocks, comments, friends, posts, profiles, reports } from "../../db/schema.js";
+import { blocks, comments, creations, friends, posts, profiles, reports } from "../../db/schema.js";
 import {
   blockedIds,
   currentUser,
@@ -238,7 +238,7 @@ async function changeBlock(req: Request, userId: string) {
 async function fileReport(req: Request, userId: string) {
   const body = await readBody(req);
   const targetType = body.targetType;
-  if (targetType !== "user" && targetType !== "post" && targetType !== "comment") {
+  if (targetType !== "user" && targetType !== "post" && targetType !== "comment" && targetType !== "creation") {
     return json({ error: "Unknown report type." }, 400);
   }
   const reason = typeof body.reason === "string" && REPORT_REASONS.includes(body.reason) ? body.reason : "other";
@@ -248,6 +248,10 @@ async function fileReport(req: Request, userId: string) {
   if (targetType === "user") {
     const target = await targetByUsername(body.targetId);
     targetId = target?.userId ?? "";
+  } else if (targetType === "creation") {
+    const id = Number(body.targetId);
+    const [row] = Number.isInteger(id) ? await db.select({ id: creations.id }).from(creations).where(eq(creations.id, id)) : [];
+    targetId = row ? String(row.id) : "";
   } else {
     const id = Number(body.targetId);
     if (Number.isInteger(id)) {

@@ -2,14 +2,14 @@
 // 🛡️ ADMIN — moderation queue
 //   GET  /api/admin/reports?status=open
 //   POST /api/admin/reports  {id, status, hide?}
-// Only accounts with the Identity role "admin" may use this.
+// Admins, the creator and Guardians (trusted helpers) may use this.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
 import { desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { comments, posts, profiles, reports } from "../../db/schema.js";
-import { currentUser, json, logActivity, readBody, unauthorized } from "../lib/social.js";
+import { comments, creations, posts, profiles, reports } from "../../db/schema.js";
+import { currentUser, isGuardian, json, logActivity, readBody, unauthorized } from "../lib/social.js";
 
 const STATUSES = ["open", "reviewed", "actioned"];
 
@@ -19,6 +19,10 @@ async function describe(targetType: string, targetId: string) {
     return p ? { label: `@${p.username} (${p.displayName})`, excerpt: p.bio, link: `/profile.html?user=${p.username}` } : null;
   }
   const id = Number(targetId);
+  if (targetType === "creation") {
+    const [c] = await db.select().from(creations).where(eq(creations.id, id));
+    return c ? { label: c.title || `Creation #${c.id}`, excerpt: c.prompt, link: `/api/creations/${c.id}/image`, hidden: c.hidden } : null;
+  }
   if (targetType === "post") {
     const [p] = await db.select().from(posts).where(eq(posts.id, id));
     return p ? { label: p.title || `Post #${p.id}`, excerpt: p.body.slice(0, 300), link: `/feed.html?post=${p.id}`, hidden: p.hidden } : null;
@@ -31,7 +35,7 @@ export default async (req: Request) => {
   try {
     const user = await currentUser();
     if (!user) return unauthorized();
-    if (!user.roles.includes("admin")) return json({ error: "Admins only." }, 403);
+    if (!isGuardian(user.roles)) return json({ error: "Guardians and admins only." }, 403);
 
     if (req.method === "GET") {
       const status = new URL(req.url).searchParams.get("status") ?? "open";
@@ -53,8 +57,12 @@ export default async (req: Request) => {
       if (!report) return json({ error: "Report not found." }, 404);
 
       if (typeof body.hide === "boolean" && report.targetType !== "user") {
-        const table = report.targetType === "post" ? posts : comments;
-        await db.update(table).set({ hidden: body.hide }).where(eq(table.id, Number(report.targetId)));
+        if (report.targetType === "creation") {
+          await db.update(creations).set({ hidden: body.hide }).where(eq(creations.id, Number(report.targetId)));
+        } else {
+          const table = report.targetType === "post" ? posts : comments;
+          await db.update(table).set({ hidden: body.hide }).where(eq(table.id, Number(report.targetId)));
+        }
         await logActivity(user.id, body.hide ? "admin.hide" : "admin.unhide", report.targetType, report.targetId);
       }
       await db.update(reports).set({ status }).where(eq(reports.id, id));

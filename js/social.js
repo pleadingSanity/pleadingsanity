@@ -48,6 +48,22 @@ export function timeAgo(iso) {
 
 const KIND_LABEL = { story: '📖 My Story', video: '🎬 Video', image: '🖼️ Image', text: '' };
 
+// Truth tags — so readers know what kind of truth they're holding.
+export const TRUTH_TAGS = {
+  evidence: { icon: '🔬', label: 'Evidence', hint: 'Backed by research or verifiable fact' },
+  experience: { icon: '💙', label: 'Experience', hint: 'Lived experience — true for the person sharing it' },
+  philosophy: { icon: '🌌', label: 'Philosophy', hint: 'Belief, meaning or reflection' },
+};
+
+export const truthBadge = (tag) => {
+  const t = TRUTH_TAGS[tag];
+  return t ? `<span class="truth-tag truth-${esc(tag)}" title="${esc(t.hint)}"><span aria-hidden="true">${t.icon}</span> ${t.label}</span>` : '';
+};
+
+// Guardians and the creator can pin; set once by the page after loadMe().
+let viewerCanPin = false;
+export const setViewer = (me) => { viewerCanPin = !!me?.user?.isGuardian; };
+
 export function postHTML(post, { full = false } = {}) {
   const author = post.author;
   const profileLink = author.username ? `/profile.html?user=${encodeURIComponent(author.username)}` : '#';
@@ -74,7 +90,9 @@ export function postHTML(post, { full = false } = {}) {
         <div class="post-time">${author.username ? '@' + esc(author.username) + ' · ' : ''}<time datetime="${esc(post.createdAt)}">${timeAgo(post.createdAt)}</time>${post.visibility === 'friends' ? ' · 🔒 friends' : ''}</div>
       </div>
       <span class="spacer"></span>
+      ${post.pinned ? '<span class="tag pinned-tag">📌 Pinned</span>' : ''}
       ${KIND_LABEL[post.kind] ? `<span class="tag">${KIND_LABEL[post.kind]}</span>` : ''}
+      ${truthBadge(post.truthTag)}
       ${moodBadge(post.mood)}
     </div>
     ${post.contentWarning ? '<p><span class="tw-banner">⚠️ TW · heavy topic</span></p>' : ''}
@@ -91,10 +109,14 @@ export function postHTML(post, { full = false } = {}) {
     ${post.crisis ? CRISIS_STRIP : ''}
     <div class="post-actions">
       <button type="button" data-like aria-pressed="${post.liked}" class="${post.liked ? 'liked' : ''}">
-        <span aria-hidden="true">${post.liked ? '💗' : '🤍'}</span> <span data-like-count>${post.likes}</span><span class="sr-only"> hearts</span>
+        <span aria-hidden="true">${post.liked ? '💗' : '🤍'}</span> <span>Heart</span>
       </button>
-      <button type="button" data-comments aria-expanded="false">💬 <span data-comment-count>${post.comments}</span><span class="sr-only"> comments</span></button>
+      <button type="button" data-comments aria-expanded="false">💬 <span>Reply</span><span class="sr-only"> (<span data-comment-count>${post.comments}</span> replies)</span></button>
+      <button type="button" data-save aria-pressed="${!!post.saved}" title="Save to My Sanctuary">
+        <span aria-hidden="true">${post.saved ? '🌟' : '☆'}</span> <span data-save-label>${post.saved ? 'Saved' : 'Save'}</span>
+      </button>
       <button type="button" data-share>🔗 Share</button>
+      ${viewerCanPin && post.visibility === 'public' ? `<button type="button" data-pin aria-pressed="${!!post.pinned}">📌 ${post.pinned ? 'Unpin' : 'Pin'}</button>` : ''}
       ${post.mine
         ? '<button type="button" class="report" data-delete>🗑️ Delete</button>'
         : '<button type="button" class="report" data-report>🚩 Report</button>'}
@@ -250,11 +272,25 @@ export function wirePosts(container, { onDelete } = {}) {
       target.remove();
     } else if (target.matches('[data-like]')) {
       try {
-        const { liked, likes } = await api(`/api/posts/${id}/like`, { method: 'POST' });
+        const { liked } = await api(`/api/posts/${id}/like`, { method: 'POST' });
         target.classList.toggle('liked', liked);
         target.setAttribute('aria-pressed', String(liked));
         target.querySelector('[aria-hidden]').textContent = liked ? '💗' : '🤍';
-        target.querySelector('[data-like-count]').textContent = likes;
+      } catch (error) { toast(error.message); }
+    } else if (target.matches('[data-save]')) {
+      try {
+        const { saved } = await api(`/api/posts/${id}/save`, { method: 'POST' });
+        target.setAttribute('aria-pressed', String(saved));
+        target.querySelector('[aria-hidden]').textContent = saved ? '🌟' : '☆';
+        target.querySelector('[data-save-label]').textContent = saved ? 'Saved' : 'Save';
+        toast(saved ? 'Saved to My Sanctuary 🌟' : 'Removed from My Sanctuary');
+      } catch (error) { toast(error.message); }
+    } else if (target.matches('[data-pin]')) {
+      try {
+        const { pinned } = await api(`/api/posts/${id}/pin`, { method: 'POST' });
+        target.setAttribute('aria-pressed', String(pinned));
+        target.textContent = pinned ? '📌 Unpin' : '📌 Pin';
+        toast(pinned ? 'Pinned to the top of the feed 📌' : 'Unpinned.');
       } catch (error) { toast(error.message); }
     } else if (target.matches('[data-comments]')) {
       openComments(article, id);

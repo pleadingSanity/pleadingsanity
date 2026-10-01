@@ -135,13 +135,25 @@ export async function afterSignIn(fallback = '/feed.html') {
   location.replace(me?.profile?.onboarded ? next : '/onboarding.html?next=' + encodeURIComponent(next));
 }
 
+// Signing out leaves no trace: synced progress is saved to the account
+// first, then this device forgets the session and every cached copy.
 export async function signOut() {
+  try {
+    if (!window.psProgressFlush) await import('/js/progress.js');
+    await window.psProgressFlush?.();
+  } catch {
+    // Progress that couldn't sync stays on the device rather than being lost.
+  }
   try {
     await logout();
   } catch {
     // Even if the server call fails, forget the session on this device.
   }
   clearMe();
+  try {
+    sessionStorage.clear();
+    ['ps-sanctuary-drafts', 'ps-blueprint-last'].forEach((k) => localStorage.removeItem(k));
+  } catch { /* storage blocked */ }
   location.href = '/';
 }
 
@@ -219,14 +231,17 @@ function renderNav(me) {
       ${pending ? `<span class="ps-badge" aria-label="${pending} friend requests">${pending}</span>` : ''}
     </button>
     <div class="ps-menu" id="ps-account-menu" role="menu" hidden>
-      <p class="ps-menu-role">${{ admin: '🛡️ Admin', creator: '💫 Creator · full power' }[me.user.role] || '🌱 Member'}</p>
+      <p class="ps-menu-role">${{ admin: '🛡️ Admin', creator: '💫 Creator · full power', guardian: '✨ Guardian' }[me.user.role] || '🌿 Member'}</p>
       ${profile?.onboarded
         ? `<a role="menuitem" href="/profile.html">👤 My profile</a>
+           <a role="menuitem" href="/sanctuary.html">🌟 My Sanctuary</a>
            <a role="menuitem" href="/feed.html#community">🌌 Community feed</a>
+           <a role="menuitem" href="/creations.html#mine">🎨 My Creations</a>
            <a role="menuitem" href="/community.html#requests">🤝 Friends${pending ? ` (${pending} new)` : ''}</a>`
         : `<a role="menuitem" href="/onboarding.html">✨ Finish your profile</a>`}
       <a role="menuitem" href="/settings.html">⚙️ Settings</a>
-      ${me.user.isAdmin ? '<a role="menuitem" href="/admin.html">🛡️ Moderation queue</a>' : ''}
+      ${me.user.isGuardian || me.user.isAdmin ? '<a role="menuitem" href="/admin.html">🛡️ Moderation queue</a>' : ''}
+      ${me.user.role === 'creator' || me.user.isAdmin ? '<a role="menuitem" href="/write.html#review">✍️ Review site writing</a>' : ''}
       <hr />
       <button type="button" role="menuitem" data-signout>🚪 Sign out</button>
     </div>`;

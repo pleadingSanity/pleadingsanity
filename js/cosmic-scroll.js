@@ -133,7 +133,7 @@ function snapshot(item = {}) {
 function actionRail(item) {
   const saved = readJSON(SAVED_KEY, []).includes(item.key);
   const liked = item.type === 'post' ? item.post.liked : readJSON(LOCAL_LIKES, []).includes(item.key);
-  const likes = item.type === 'post' ? item.post.likes : '';
+  const likes = ''; // hearts are private — no counts, no popularity contests
   const comment = item.type === 'post'
     ? `<a class="cs-act" href="/feed.html?post=${item.post.id}#community" aria-label="Comments (${item.post.comments})"><span aria-hidden="true">💬</span><small>${item.post.comments || ''}</small></a>`
     : '';
@@ -406,8 +406,8 @@ class CosmicScroll {
       }
       set(!on);
       try {
-        const { liked, likes } = await api(`/api/posts/${item.post.id}/like`, { method: 'POST' });
-        set(liked, likes);
+        const { liked } = await api(`/api/posts/${item.post.id}/like`, { method: 'POST' });
+        set(liked);
       } catch (error) {
         set(on);
         toast(error.message);

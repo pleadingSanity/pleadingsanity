@@ -54,6 +54,24 @@ export async function currentUser(): Promise<AuthedUser | null> {
 
 export const unauthorized = () => json({ error: "Please sign in first." }, 401);
 
+// ─── ROLES ───
+// 💫 creator (Shane) · 🛡️ admin · ✨ guardian (trusted helpers) · 🌿 member.
+// Roles are granted by hand in Netlify → Identity.
+export const GUARDIAN_ROLES = ["admin", "creator", "guardian"];
+export const isGuardian = (roles: string[] = []) => roles.some((r) => GUARDIAN_ROLES.includes(r));
+export const isCreator = (roles: string[] = []) => roles.includes("creator") || roles.includes("admin");
+
+export function roleTier(roles: string[] = []) {
+  if (roles.includes("creator")) return "creator";
+  if (roles.includes("admin")) return "admin";
+  if (roles.includes("guardian")) return "guardian";
+  return "member";
+}
+
+export const TRUTH_TAGS = ["evidence", "experience", "philosophy"] as const;
+export const cleanTruthTag = (value: unknown) =>
+  typeof value === "string" && (TRUTH_TAGS as readonly string[]).includes(value) ? value : "";
+
 // ─── RELATIONSHIPS ───
 export async function isBlockedEitherWay(a: string, b: string) {
   const rows = await db

@@ -524,3 +524,9 @@
 @media (prefers-reduced-motion: reduce) {
   .ps-arron-banner-orb { animation: none; }
 }
+
+/* Five pills on the smallest phones: Heal · Play · Create · Community · Help */
+@media (max-width: 420px) {
+  .ps-nav .ps-group-btn,
+  .ps-nav .ps-links > a.ps-crisis { font-size: 0.8rem; padding: 0 4px; }
+}

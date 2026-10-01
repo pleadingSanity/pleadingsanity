@@ -90,6 +90,10 @@ export const posts = pgTable(
     crisis: boolean().notNull().default(false),
     visibility: text().notNull().default("public"), // public | friends
     hidden: boolean().notNull().default(false),
+    // Truth tag: evidence | experience | philosophy ("" = untagged)
+    truthTag: text("truth_tag").notNull().default(""),
+    // Guardians and the creator can pin a post to the top of the feed.
+    pinned: boolean().notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [
@@ -277,4 +281,78 @@ export const aiStoryHearts = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [primaryKey({ columns: [t.storyId, t.voter] })],
+);
+
+// ==============================================================
+// ✨ v3.0 THE SANCTUARY
+// ==============================================================
+
+// "My Sanctuary" — a private collection of posts that matter to someone.
+export const saves = pgTable(
+  "saves",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    postId: integer("post_id")
+      .notNull()
+      .references(() => posts.id, { onDelete: "cascade" }),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.postId] }), index("saves_user_idx").on(t.userId, t.createdAt)],
+);
+
+// Images Arron creates with members. The file lives in the "post-images"
+// blob store under `imageKey`; `shared` puts it in the public gallery.
+export const creations = pgTable(
+  "creations",
+  {
+    id: serial().primaryKey(),
+    authorId: text("author_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    prompt: text().notNull(),
+    title: text().notNull().default(""),
+    imageKey: text("image_key").notNull(),
+    model: text().notNull().default(""),
+    shared: boolean().notNull().default(false),
+    hidden: boolean().notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("creations_author_idx").on(t.authorId, t.id), index("creations_gallery_idx").on(t.shared, t.hidden, t.id)],
+);
+
+// Writing for the site, drafted with Arron. kind: wisdom | story | educational | poetry | update.
+// status: pending → published (or rejected). The creator's own pieces publish instantly.
+export const siteContent = pgTable(
+  "site_content",
+  {
+    id: serial().primaryKey(),
+    authorId: text("author_id").references(() => users.id, { onDelete: "set null" }),
+    credit: text().notNull(),
+    kind: text().notNull(),
+    title: text().notNull().default(""),
+    body: text().notNull(),
+    truthTag: text("truth_tag").notNull().default("experience"),
+    anonymous: boolean().notNull().default(false),
+    status: text().notNull().default("pending"),
+    reviewNote: text("review_note").notNull().default(""),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    publishedAt: timestamp("published_at"),
+  },
+  (t) => [index("site_content_status_idx").on(t.status, t.kind, t.id)],
+);
+
+// Private game progress — one JSON blob per member per game, so it follows them across devices.
+export const gameProgress = pgTable(
+  "game_progress",
+  {
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    game: text().notNull(),
+    data: jsonb().notNull().default({}),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.userId, t.game] })],
 );

@@ -201,3 +201,15 @@
 .pp-saved li > a, .pp-saved li > span { display: flex; gap: 10px; align-items: flex-start; min-height: 44px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(0, 255, 240, 0.18); color: #eafffd; text-decoration: none; }
 .pp-saved li > a:hover, .pp-saved li > a:focus-visible { border-color: #00fff0; background: rgba(0, 255, 240, 0.06); }
 @media (max-width: 520px) { .pp-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ─── v3.0 THE SANCTUARY — truth tags, saves, pins ─── */
+.truth-tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; border: 1px solid; white-space: nowrap; }
+.truth-evidence { color: #b8f7ff; border-color: rgba(120, 220, 255, 0.55); background: rgba(120, 220, 255, 0.08); }
+.truth-experience { color: #c9d8ff; border-color: rgba(140, 160, 255, 0.55); background: rgba(140, 160, 255, 0.1); }
+.truth-philosophy { color: #f3c8ff; border-color: rgba(220, 120, 255, 0.55); background: rgba(220, 120, 255, 0.08); }
+.pinned-tag { border-color: rgba(255, 215, 0, 0.55); color: #ffe9a8; }
+.post-actions [data-save][aria-pressed="true"] { color: #ffe9a8; border-color: rgba(255, 215, 0, 0.5); }
+.chip-radio { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid rgba(0, 255, 240, 0.25); background: rgba(255, 255, 255, 0.04); cursor: pointer; font-weight: 600; }
+.chip-radio input { width: 18px; height: 18px; accent-color: #00fff0; }
+.chip-radio:has(input:checked) { border-color: #00fff0; background: rgba(0, 255, 240, 0.16); box-shadow: 0 0 12px rgba(0, 255, 240, 0.25); }
+.chip-radio:has(input:focus-visible) { outline: 3px solid #00fff0; outline-offset: 2px; }
