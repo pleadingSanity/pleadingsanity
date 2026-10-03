@@ -2,7 +2,11 @@ import { api, loadMe, esc } from "/js/auth.js";
 const KEY = "ps-circle";
 const me = await loadMe();
 if (!me) document.querySelector("#gate").hidden = false;
-else { document.querySelector("#gate").hidden = true; document.querySelector("#here").hidden = false; }
+else {
+  document.querySelector("#gate").hidden = true;
+  document.querySelector("#here").hidden = false;
+  document.querySelector("#count").textContent = String(me.counts?.friends || 0);
+}
 function read() { try { return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch { return []; } }
 function paint(items) { document.querySelector("#list").innerHTML = items.slice(0, 12).map((item) => `<p class="post">${esc(item.text)}</p>`).join(""); }
 paint(read());

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <title>Circle — Pleading Sanity</title>
-  <meta name="description" content="A quiet check-in. No likes. No counts. You are here." />
+  <meta name="description" content="A quiet check-in. Your real friend count. No likes." />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="/css/my-room.css" />
 </head>
@@ -17,11 +17,13 @@
       <a class="btn" href="/feed.html">Feed</a>
     </div>
     <h1>Circle</h1>
-    <p class="lede">Next to people, not above them. One line. No likes. No follower count.</p>
+    <p class="lede">Next to people, not above them. One line. No likes.</p>
     <section class="card" id="gate">
       <a class="btn solid" href="/login.html?next=/circle.html">Sign in</a>
     </section>
     <section class="card" id="here" hidden>
+      <p class="price" id="count">0</p>
+      <p class="note">Friends in your circle. Real accounts only.</p>
       <label for="line">I'm here</label>
       <input id="line" maxlength="80" placeholder="Still here." />
       <button type="button" class="solid" id="check">Check in</button>
