@@ -264,9 +264,22 @@
       background: rgba(0,255,240,0.03);
     }
 
-    .controls {
-      text-align: center; margin-bottom: 25px;
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    .prompt-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+    .prompt-row .btn { min-height: 44px; }
+    #vault-status { min-height: 1.4em; margin: 10px 0 0; color: #b9faff; }
+    .vault-crisis {
+      margin: 10px 0 0; padding: 0.75rem 1rem; border-radius: 12px;
+      border: 1px solid rgba(255, 128, 149, 0.55); color: #ffb3c0; background: rgba(255, 59, 92, 0.08);
+    }
+    .entry-actions { display: flex; gap: 8px; margin-top: 12px; }
+    .entry-actions .btn { min-height: 44px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; }
+    .vault-more { margin: 1.5rem 0; color: #eef6ff; }
+    .vault-more summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; }
+    .forget-form { display: grid; gap: 8px; margin-top: 12px; }
+    .forget-form input {
+      min-height: 44px; border-radius: 12px; border: 1px solid rgba(0, 255, 240, 0.3);
+      background: #000103; color: #eef6ff; padding: 0 12px; font: inherit;
     }
 
     .search-box {
@@ -499,53 +512,58 @@
         </div>
       </div>
       
-      <h1>📖 Journal Vault</h1>
-      <p class="tagline">Your Story. Safe. Sacred. Yours.</p>
+      <h1>Journal Vault</h1>
+      <p class="tagline">One line is enough. It stays on this phone.</p>
     </header>
 
     <main id="main" role="main">
       <div class="container">
-        <!-- ✍️ ADD NEW ENTRY -->
         <section class="submit-section">
-          <h2>✍️ Your Truth Here</h2>
-          <textarea 
-            id="newEntryText" 
-            class="submit-textarea" 
-            placeholder="Whatever you need to say — the things you can't tell anyone, the small wins nobody sees, the feelings that need a place to rest. This space is yours. Completely. 💙"
+          <h2>Write</h2>
+          <textarea
+            id="newEntryText"
+            class="submit-textarea"
+            placeholder="One line is enough."
             aria-label="Write your journal entry"
+            oninput="watchCrisis()"
           ></textarea>
-          <div style="display:flex;gap:10px;flex-wrap:wrap;">
-            <button class="btn" onclick="addEntry()">💾 Save to Vault</button>
-            <button class="btn btn-secondary" onclick="document.getElementById('newEntryText').value=''" type="button">Clear</button>
+          <div class="prompt-row" aria-label="Optional prompts">
+            <button type="button" class="btn btn-secondary" onclick="usePrompt('What was one small thing?')">One small thing</button>
+            <button type="button" class="btn btn-secondary" onclick="usePrompt('What did the 3am brain get wrong?')">The 3am brain</button>
+            <button type="button" class="btn btn-secondary" onclick="usePrompt('What should tomorrow-you know?')">Tomorrow-you</button>
           </div>
+          <button class="btn" id="save-btn" type="button" onclick="addEntry()">Save</button>
+          <p id="vault-status" role="status"></p>
+          <p id="vault-crisis" class="vault-crisis" hidden>Samaritans 116 123, text SHOUT to 85258, call 999 in an emergency.</p>
         </section>
 
-        <!-- TOOLS -->
-        <section class="controls" aria-label="Vault tools">
-          <button class="btn btn-secondary" onclick="exportVault()">⬇️ Export</button>
-          <button class="btn btn-secondary" onclick="printVault()">🖨️ Print</button>
-          <button class="btn btn-secondary" onclick="clearVault()">🗑️ Clear All</button>
-        </section>
-
-        <!-- SEARCH -->
-        <input 
-          type="text" 
-          id="searchBox" 
-          class="search-box" 
-          placeholder="Search your entries…" 
+        <input
+          type="text"
+          id="searchBox"
+          class="search-box"
+          placeholder="Search your notes"
           onkeyup="filterEntries()"
           aria-label="Search journal entries"
         >
 
-        <!-- STATS -->
         <div class="stats" id="stats"></div>
-
-        <!-- ENTRIES LIST -->
         <div id="vault-content" role="list"></div>
 
-        <!-- PRIVACY PROMISE -->
+        <details class="vault-more">
+          <summary>More</summary>
+          <div class="controls">
+            <button class="btn btn-secondary" type="button" onclick="exportVault()">Export</button>
+            <button class="btn btn-secondary" type="button" onclick="printVault()">Print</button>
+          </div>
+          <form class="forget-form" onsubmit="return forgetVault(event)">
+            <label for="forgetWord">To delete every note on this phone, type FORGET</label>
+            <input id="forgetWord" name="forget" autocomplete="off" autocapitalize="characters" />
+            <button class="btn btn-secondary" type="submit">Delete every note</button>
+          </form>
+        </details>
+
         <div class="privacy-note">
-          🔒 <strong>100% Private — Always.</strong> Everything stays on your device. Nothing is sent to any server. Your words are yours alone. 💙
+          Your notes stay on this phone. Nothing is sent. Export if you want a copy.
         </div>
       </div>
     </main>
@@ -588,32 +606,69 @@
 
   <script>
     let allEntries = [];
+    let editingId = null;
 
-    // ✍️ ADD NEW ENTRY
+    function setStatus(msg) {
+      const el = document.getElementById('vault-status');
+      if (el) el.textContent = msg || '';
+    }
+
+    function watchCrisis() {
+      const text = document.getElementById('newEntryText').value;
+      const heavy = /\b(suicid|kill myself|killing myself|end my life|self-harm|self harm|do not want to live|don'?t want to (live|be here))\b/i.test(text);
+      document.getElementById('vault-crisis').hidden = !heavy;
+    }
+
+    function usePrompt(line) {
+      const box = document.getElementById('newEntryText');
+      box.value = box.value.trim() ? box.value.replace(/\s*$/, '\n') + line + ' ' : line + ' ';
+      box.focus();
+    }
+
     function addEntry() {
-      const text = document.getElementById('newEntryText').value.trim();
-      if (!text) {
-        alert("⚠️ Write something first — your voice matters.");
-        return;
+      const box = document.getElementById('newEntryText');
+      const text = box.value.trim();
+      if (!text) { setStatus('Write one line first.'); return; }
+      if (editingId != null) {
+        const entry = allEntries.find((e) => e.id === editingId);
+        if (entry) entry.text = text;
+        editingId = null;
+        document.getElementById('save-btn').textContent = 'Save';
+        setStatus('Saved on this phone.');
+      } else {
+        allEntries.unshift({ id: Date.now(), timestamp: new Date().toISOString(), text, source: 'Personal' });
+        setStatus('Saved on this phone.');
       }
+      saveVault();
+      box.value = '';
+      watchCrisis();
+      displayEntries(allEntries);
+      updateStats();
+    }
 
-      const entry = {
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        text: text,
-        source: 'Personal'
-      };
+    function editEntry(id) {
+      const entry = allEntries.find((e) => e.id === id);
+      if (!entry) return;
+      editingId = id;
+      document.getElementById('newEntryText').value = entry.text;
+      document.getElementById('save-btn').textContent = 'Save changes';
+      setStatus('Editing this note.');
+      watchCrisis();
+      document.getElementById('newEntryText').focus();
+    }
 
-      allEntries.unshift(entry); // Newest first
+    function deleteEntry(id) {
+      if (!confirm('Delete this note? It is only on this phone.')) return;
+      allEntries = allEntries.filter((e) => e.id !== id);
+      if (editingId === id) {
+        editingId = null;
+        document.getElementById('newEntryText').value = '';
+        document.getElementById('save-btn').textContent = 'Save';
+      }
       saveVault();
       displayEntries(allEntries);
       updateStats();
-      document.getElementById('newEntryText').value = '';
-      
-      // Feedback
-      const btn = event.target;
-      btn.textContent = "✅ Saved!";
-      setTimeout(() => btn.textContent = "💾 Save to Vault", 2000);
+      setStatus('Deleted.');
     }
 
     // 💾 SAVE LOCALLY — ZERO DATA LEAVES DEVICE
@@ -631,18 +686,6 @@
       try {
         const stored = localStorage.getItem('journalVault');
         allEntries = stored ? JSON.parse(stored) : [];
-        
-        // Welcome entry if empty
-        if (allEntries.length === 0) {
-          allEntries = [{
-            id: 'welcome',
-            timestamp: new Date().toISOString(),
-            text: "Welcome to your Journal Vault. 🤍\n\nThis space is yours — unfiltered, unjudged, completely private.\n\nWrite what you can't say. Record what you survived. Celebrate the small wins no one else sees.\n\nYou're not just keeping notes. You're documenting a resurrection. 💙✨",
-            source: 'Pleading Sanity'
-          }];
-          saveVault();
-        }
-        
         displayEntries(allEntries);
         updateStats();
       } catch (err) {
@@ -662,24 +705,22 @@
       const container = document.getElementById('vault-content');
       
       if (!entries.length) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">📝</div>
-            <h3>No matching entries</h3>
-            <p style="margin-top:10px;">Try different words or clear your search.</p>
-          </div>
-        `;
+        container.innerHTML = allEntries.length
+          ? `<div class="empty-state"><h3>No note uses those words.</h3></div>`
+          : `<div class="empty-state"><h3>Nothing here yet. It stays on this phone.</h3></div>`;
         return;
       }
 
-      container.innerHTML = entries.map((entry, index) => `
+      container.innerHTML = entries.map((entry) => `
         <article class="entry" role="listitem">
           <div class="entry-header">
-            <span class="entry-number">#${index + 1}</span>
-            <span class="entry-source">${entry.source || 'Journal'}</span>
             <span class="entry-date">${new Date(entry.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })}</span>
           </div>
           <div class="entry-text">${escapeHtml(entry.text)}</div>
+          <div class="entry-actions">
+            <button type="button" class="btn btn-secondary" onclick="editEntry(${JSON.stringify(entry.id)})">Edit</button>
+            <button type="button" class="btn btn-secondary" onclick="deleteEntry(${JSON.stringify(entry.id)})">Delete</button>
+          </div>
         </article>
       `).join('');
     }
@@ -696,11 +737,10 @@
       const el = document.getElementById('stats');
       if (!allEntries.length) { el.innerHTML = ''; return; }
       const dates = allEntries.map(e => new Date(e.timestamp));
-      el.innerHTML = `
-        📊 <strong>${allEntries.length}</strong> entries 
-        | 📅 From ${new Date(Math.min(...dates)).toLocaleDateString('en-GB')} 
-        to ${new Date(Math.max(...dates)).toLocaleDateString('en-GB')}
-      `;
+      const from = new Date(Math.min(...dates)).toLocaleDateString('en-GB');
+      const to = new Date(Math.max(...dates)).toLocaleDateString('en-GB');
+      const span = from === to ? '' : ` From ${from} to ${to}.`;
+      el.innerHTML = `<strong>${allEntries.length}</strong> ${allEntries.length === 1 ? 'note' : 'notes'} on this phone.${span}`;
     }
 
     // 🔍 SEARCH
@@ -792,12 +832,20 @@
     }
 
     // 🗑️ CLEAR — DOUBLE CONFIRM
-    function clearVault() {
-      if (!confirm("⚠️ This will DELETE EVERYTHING. Cannot be undone.\n\nExport first if you want to keep your entries.\n\nProceed?")) return;
-      if (!confirm("🔐 Final check — all entries gone forever. Sure?")) return;
+    function forgetVault(ev) {
+      ev.preventDefault();
+      const input = document.getElementById('forgetWord');
+      if (input.value.trim() !== 'FORGET') { setStatus('Type FORGET to delete every note.'); return false; }
       localStorage.removeItem('journalVault');
       allEntries = [];
-      loadVault();
+      editingId = null;
+      input.value = '';
+      document.getElementById('newEntryText').value = '';
+      document.getElementById('save-btn').textContent = 'Save';
+      displayEntries(allEntries);
+      updateStats();
+      setStatus('Every note on this phone is gone.');
+      return false;
     }
 
     // ⌨️ Shortcuts
@@ -816,7 +864,8 @@
     // 🚀 INIT
     document.addEventListener('DOMContentLoaded', () => {
       loadVault();
-      document.getElementById('year').textContent = new Date().getFullYear();
+      const year = document.getElementById('year');
+      if (year) year.textContent = new Date().getFullYear();
     });
   </script>
   <script src="/js/site.js" defer></script>
