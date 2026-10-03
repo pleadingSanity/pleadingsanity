@@ -87,7 +87,7 @@ function tone(phase) {
   try {
     ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
     if (ctx.state === 'suspended') ctx.resume();
-    const freq = { in: 396, hold: 330, out: 264, rest: 330 }[phase] || 330;
+    const freq = { in: 432, hold: 528, out: 285, rest: 174 }[phase] || 174;
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
     osc.type = 'sine';

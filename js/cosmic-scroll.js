@@ -41,7 +41,7 @@ const TIPS = [
   ['🧊 Grounding trick', 'Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste.'],
   ['💧 Tiny reset', 'Drink a glass of water, roll your shoulders, unclench your jaw. Yes, that jaw.'],
   ['📖 Write it out', 'Two lines in the Journal Vault can shrink a storm to a drizzle.', '/journal-vault.html', 'Open Journal'],
-  ['🎵 Sound bath', '528Hz and a deep breath. Headphones on, world off.', '/frequencies.html', 'Play Hz'],
+  ['🎵 Sound bath', 'A soft tone and a deep breath. Headphones on, volume low.', '/frequencies.html', 'Play Hz'],
   ['🧠 Brain snack', 'Two minutes of a calm game resets a racing head.', '/games.html', 'Play a game'],
   ['💙 Talk it through', 'Arron is here at 3am, no judgement, no account needed.', '/arron.html', 'Talk to Arron'],
 ];
