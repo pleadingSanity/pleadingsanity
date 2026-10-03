@@ -15,12 +15,12 @@
 import type { Config, Context } from "@netlify/functions";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { arronMemories, arronMessages } from "../../db/schema.js";
+import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
 import { ALL_QUIET_REPLY, askGrokDirect, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
-import { getSettings, isCreator as hasCreatorRole, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
+import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
 
@@ -173,11 +173,28 @@ async function whoIsHere() {
 const JOURNAL_ASK = /\b(?:write|save|put|add|keep|log)\s+(?:this|that|it|these words)?\s*(?:in|into|to)\s+my\s+journal\b(?:\s*[:\-–—\n]\s*([\s\S]+))?/i;
 const STATUS_ASK = /\b(?:share|post)\s+(?:this|that|my|an?)?\s*(?:update|status|check-?in)\b(?:\s*[:\-–—\n]\s*([\s\S]+))?/i;
 const IMAGE_ASK = /\b(?:make|create|draw|paint|generate)\s+(?:me\s+)?(?:an?\s+)?(?:image|picture|painting|artwork|art)\s*(?:of|about|showing|for)?\s*([\s\S]{3,})/i;
-const PUBLISH_ASK = /^\s*publish\s+(?:this|that|it)\b(?:\s*[:\-–—\n]\s*([\s\S]+))?/i;
+const PUBLISH_ASK = /^\s*(?:publish|push)\s+(?:this|that|it)\b(?:\s*[:\-–—\n]\s*([\s\S]+))?/i;
 const OVERVIEW_ASK = /\b(show me everything|system overview|status report|what'?s happening on the site)\b/i;
 const REVIEW_ASK = /\b(review (?:the )?posts|pending posts|review queue)\b/i;
 const APPROVE_ALL_ASK = /\bapprove (?:them )?all\b/i;
 const ROLE_ASK = /\b(make|remove|revoke)\s+@?([a-z0-9_]{3,24})(?:'s)?\s+(?:an?\s+|as\s+)?(guardian|creator)\b/i;
+
+type LiveKind = "wisdom" | "story" | "educational" | "poetry" | "update" | "feed";
+
+// Owner only. A named piece goes live from this reply. "push this" still uses the last draft, not a new one.
+function pieceRequest(message: string): LiveKind | null {
+  if (/\b(don'?t|do not)\s+(publish|push|post)\b|\bjust (a )?draft\b|\bnot live\b/i.test(message)) return null;
+  if (/^\s*(?:publish|push)\s+(?:this|that|it)\b/i.test(message) && !/\b(wisdom|poem|poetry|rap|lyrics?|story|stories|update|page)\b/i.test(message)) return null;
+  if (!/\b(write|create|make|draft|publish|push|put)\b/i.test(message)) return null;
+  if (/\b(poem|poetry|rap|lyrics?)\b/i.test(message)) return "poetry";
+  if (/\bwisdom\b/i.test(message)) return "wisdom";
+  if (/\bstor(?:y|ies)\b/i.test(message)) return "story";
+  if (/\b(educational|explainer|lesson)\b/i.test(message)) return "educational";
+  if (/\bupdate\b/i.test(message)) return "update";
+  if (/\b(on the feed|feed post)\b/i.test(message)) return "feed";
+  if (/\b(page|piece)\b/i.test(message) && /\b(live|publish|push|on the site)\b/i.test(message)) return "update";
+  return null;
+}
 
 const lastOf = (history: { role: string; content: string }[], role: "user" | "assistant") =>
   [...history].reverse().find((m) => m.role === role)?.content ?? "";
@@ -187,7 +204,7 @@ async function runActions(message: string, history: { role: string; content: str
   const actions: Action[] = [];
   let ownerFacts = "";
   const { user, profile } = who;
-  if (!user || !profile) return { notes, actions, ownerFacts };
+  if (!user || !profile) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null };
   const author = { id: user.id, roles: user.roles };
 
   const journal = message.match(JOURNAL_ASK);
@@ -219,7 +236,7 @@ async function runActions(message: string, history: { role: string; content: str
     notes.push(`They want an image of: "${idea}". A button to create it in Image Creations is shown under your reply — say so warmly; it saves to their creations.`);
   }
 
-  if (!user.isOwner) return { notes, actions, ownerFacts };
+  if (!user.isOwner) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null };
 
   const publish = message.match(PUBLISH_ASK);
   if (publish) {
@@ -258,7 +275,46 @@ async function runActions(message: string, history: { role: string; content: str
     actions.push({ type: "owner", label: "💫 Open the Owner's Room", href: "/owner.html", ok: true });
   }
 
-  return { notes, actions, ownerFacts };
+  const liveKind = pieceRequest(message);
+  if (liveKind === "feed") {
+    notes.push("Shane asked for this to go on the community feed. Reply with ONLY the post. Plain words. No labels. Do not say it is live yet.");
+  } else if (liveKind) {
+    notes.push(`Shane asked for a ${liveKind} to go live on the site. Reply with ONLY the piece. First line is a short title. Then a blank line, then the words. Plain British English. No markdown and no labels. Do not say it is live yet.`);
+  }
+
+  return { notes, actions, ownerFacts, liveKind };
+}
+
+async function putLive(kind: LiveKind, raw: string, user: { id: string; roles: string[] }, credit: string) {
+  const text = raw.trim().slice(0, 8000);
+  const [first, ...rest] = text.split(/\n/);
+  const titled = kind !== "feed" && rest.length > 0 && first.trim().length > 0 && first.trim().length <= 80;
+  const title = titled ? first.trim().slice(0, 70) : "";
+  const body = (titled ? rest.join("\n") : text).trim();
+  if (body.length < 10) return { ok: false as const, error: "there wasn't enough to publish" };
+  const verdict = await moderate(`${title}\n\n${body}`, "post");
+  if (!verdict.allowed) return { ok: false as const, error: verdict.reason || "the kindness check stopped it" };
+  if (kind === "feed") {
+    const result = await publishPost({ id: user.id, roles: user.roles }, { kind: "writing", title, body, truthTag: "experience", visibility: "public" });
+    if (!result.ok) return { ok: false as const, error: result.error };
+    return { ok: true as const, action: { type: "publish", label: "🌌 See it on the feed", href: `/feed.html?post=${result.post.id}#community`, ok: true } };
+  }
+  const [row] = await db
+    .insert(siteContent)
+    .values({
+      authorId: user.id,
+      credit: credit.slice(0, 60) || "Shane Cooper",
+      kind,
+      title: title.slice(0, 120),
+      body,
+      truthTag: "experience",
+      anonymous: false,
+      status: "published",
+      publishedAt: new Date(),
+    })
+    .returning();
+  await logActivity(user.id, "write.publish", "content", row.id);
+  return { ok: true as const, action: { type: "live", label: "📖 Read it on the site", href: `/wisdom.html#piece-${row.id}`, ok: true } };
 }
 
 // ─── CHAT ───
@@ -330,10 +386,10 @@ async function chat(req: Request, context: Context, rid: string) {
 
   // Journal, status, images and the Owner's commands happen before Arron replies, so he can confirm them truthfully.
   // Local-only chats never write anywhere, so actions (journal, status, owner commands) are skipped.
-  const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "" };
+  const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null };
   const done = localOnly ? noActions : await runActions(message, history, who).catch((error) => {
     console.error(`Arron [${rid}] action failed:`, reason(error));
-    return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "" };
+    return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null };
   });
 
   const owner = Boolean(user?.isOwner);
@@ -371,7 +427,22 @@ async function chat(req: Request, context: Context, rid: string) {
     console.error(`Arron [${rid}] every AI provider failed`);
     return json({ reply: ALL_QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
   }
-  const replyText = crisis && !answer.text.includes("116 123") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  let replyText = crisis && !answer.text.includes("116 123") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  const actions = done.actions;
+  if (done.liveKind && user && profile && !localOnly && !crisis) {
+    try {
+      const live = await putLive(done.liveKind, answer.text, user, profile.displayName);
+      if (live.ok) {
+        actions.push(live.action);
+        replyText += "\n\nIt's live now.";
+      } else {
+        replyText += `\n\nThat stayed off the site: ${live.error}`;
+      }
+    } catch (error) {
+      console.error(`Arron [${rid}] could not publish:`, reason(error));
+      replyText += "\n\nThat stayed off the site. Try again in a moment.";
+    }
+  }
 
   let remembered = resolved.readable;
   if (resolved.readable) {
@@ -395,7 +466,7 @@ async function chat(req: Request, context: Context, rid: string) {
     owner,
     member: member ? { displayName: member.displayName, username: member.username } : null,
     signedIn: Boolean(user),
-    actions: done.actions,
+    actions: actions,
     provider: answer.provider,
   });
 }

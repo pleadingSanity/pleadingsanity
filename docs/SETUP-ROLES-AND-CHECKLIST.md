@@ -53,10 +53,7 @@ Add a new one instead.
 
 To remove it, delete the role in the same screen and have the person sign in again.
 
-> **About "builds & pushes code directly":** Arron in creator mode gives working code, plans and
-> next steps, but it does **not** get write access to GitHub. Giving a chat model a token that can
-> push to `main` would let any leaked session change the live site. Code still goes through a
-> human review (GitHub or Netlify Agent Runners), which is how we keep things human-led.
+> **About creating and pushing:** When Shane is signed in and asks Arron to write or create a wisdom, story, poem, update or feed post, Arron publishes it straight onto the live site. That does not rebuild the site. Arron does not git-push files. A file push rebuilds every function, and that is the expensive path.
 
 ---
 
