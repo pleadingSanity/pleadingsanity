@@ -16,18 +16,18 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/" />
   <title>Pleading Sanity — Rise From Madness | One Source. One Family.</title>
-  <meta name="description" content="A cosmic hub for healing, resilience, and community. We turn pain into power, survival into strength, and madness into meaning. Evolution, Not Erasure." />
+  <meta name="description" content="A free sanctuary. Talk, journal, games and quiet tones. Rise From Madness." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Pleading Sanity" />
   <meta property="og:title" content="Pleading Sanity — Rise From Madness" />
-  <meta property="og:description" content="Cosmic sanctuary for survivors. Real stories. Healing frequencies. Brain games. Journal Vault. We rise together." />
+  <meta property="og:description" content="A free sanctuary. Talk, journal, games and quiet tones. Rise From Madness." />
   <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Pleading Sanity — Rise From Madness" />
-  <meta name="twitter:description" content="You're not alone. We turn pain into power. One Source. One Family." />
+  <meta name="twitter:description" content="A free sanctuary. Talk, journal, games and quiet tones. Rise From Madness." />
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
@@ -118,12 +118,13 @@
       </picture>
       <p class="ps-hero-name">Pleading Sanity</p>
       <h1>Rise From Madness</h1>
-      <p class="lead">
-        One Source. One Consciousness. One Family.<br />
-        We turn <strong style="color: #00fff0;">pain into power</strong>, survival into strength,
-        and <strong style="color: #ff66ff;">madness into meaning</strong>.
-      </p>
-      <a class="btn btn-primary" href="sanityhub.html">🌌 Enter the Sanity Hub</a>
+      <p class="lead">One Source. One Consciousness. One Family.</p>
+      <nav class="ps-doors" aria-label="Start here">
+        <a href="/arron-app.html">Talk</a>
+        <a href="/journal-vault.html">Journal</a>
+        <a href="/crisis.html">Help</a>
+        <a href="/games.html">Games</a>
+      </nav>
     </header>
 
     <section class="sx-daily fade-in" aria-labelledby="daily-title">
@@ -131,13 +132,6 @@
       <blockquote id="daily-text">You do not have to carry today and tomorrow at the same time. Just today.</blockquote>
       <p class="sx-meta" id="daily-meta"><span class="truth-tag truth-philosophy">🌌 Philosophy</span><span>✍️ Arron</span></p>
       <p style="margin:0.75rem 0 0"><a href="/wisdom.html">More words from the family →</a> · <button type="button" class="linkish" id="daily-share">🔗 Share</button></p>
-    </section>
-
-    <section class="ps-lights fade-in" id="shining-lights" aria-labelledby="lights-title" hidden>
-      <h2 id="lights-title">🌟 Shining Lights this week</h2>
-      <p class="ps-lights-lead">A shout-out to the family members whose posts lifted the most people this week. Thank you for the light 💙</p>
-      <ol class="ps-lights-list" id="lights-list"></ol>
-      <p class="ps-lights-how">Hearts from others on public posts count. Keep showing up kindly, and it could be you next week.</p>
     </section>
 
     <section class="ps-aifam fade-in" id="ai-family-wall" aria-labelledby="aifam-title" hidden>
@@ -346,20 +340,6 @@
     const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; };
     try {
       const home = await (await fetch('/api/home')).json();
-      const lights = home.shiningLights || [];
-      if (lights.length) {
-        const list = document.getElementById('lights-list');
-        lights.forEach((p, i) => {
-          const li = el('li', 'ps-light' + (i === 0 ? ' ps-light-top' : ''));
-          const a = el('a');
-          a.href = '/@' + encodeURIComponent(p.username);
-          a.append(el('span', 'ps-light-avatar', p.avatar || '🌌'), el('strong', '', p.displayName), el('span', 'ps-light-user', '@' + p.username));
-          if (p.line) a.append(el('span', 'ps-light-line', p.line));
-          li.append(el('span', 'ps-light-rank', i === 0 ? '👑 Brightest light' : '✨ Shining'), a);
-          list.append(li);
-        });
-        document.getElementById('shining-lights').hidden = false;
-      }
       const fam = home.aiFamily || [];
       if (fam.length) {
         const wall = document.getElementById('aifam-list');
