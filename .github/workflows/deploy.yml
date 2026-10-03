@@ -10,7 +10,7 @@ run-name: 🌌 Deploy • ${{ github.sha }}
 on:
   push:
     branches: [main]
-  workflow_dispatch  # Manual click anytime
+  workflow_dispatch:
 
 permissions:
   contents: write
