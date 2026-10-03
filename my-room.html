@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your room — Pleading Sanity</title>
+  <link rel="manifest" href="/manifest-arron.json" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/my-room.css" />
+</head>
+<body>
+  <div class="wrap">
+    <section id="gate">
+      <div class="top">
+        <svg class="mark" viewBox="0 0 100 100" fill="none">
+          <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="2" />
+          <path d="M 50 20 L 65 50 L 50 80 L 35 50 Z" fill="currentColor" opacity="0.6" />
+        </svg>
+        <div>
+          <h1>Your room</h1>
+          <p class="lede">Private corner. Your look, your words, your pace.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>Sign in to see your room.</p>
+        <a href="/login.html?next=/my-room.html" class="btn solid">Sign in</a>
+        <button id="install-arron" class="btn">Install app</button>
+      </div>
+
+      <div class="crisis">
+        <strong>💙 If you need someone now:</strong> Samaritans 116 123 (free, 24/7) · text SHOUT to 85258 · 999 in danger
+      </div>
+    </section>
+
+    <section id="room" style="display: none;">
+      <div class="top">
+        <img id="pic-preview" class="pic" src="" alt="Your look" style="display: none;" />
+        <div style="flex: 1;">
+          <h1 id="headline-display">Your room</h1>
+          <p id="song-display" class="lede"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Your look</h2>
+        <label for="pic-file">Picture</label>
+        <input type="file" id="pic-file" accept="image/*" />
+
+        <label>Colour</label>
+        <div class="swatches" id="swatches">
+          <button class="swatch" style="background: #00fff0;" data-color="#00fff0" title="Cyan"></button>
+          <button class="swatch" style="background: #7aa2ff;" data-color="#7aa2ff" title="Frost"></button>
+          <button class="swatch" style="background: #c9a0ff;" data-color="#c9a0ff" title="Mauve"></button>
+          <button class="swatch" style="background: #ffb4d9;" data-color="#ffb4d9" title="Rose"></button>
+          <button class="swatch" style="background: #f0c36a;" data-color="#f0c36a" title="Gold"></button>
+        </div>
+
+        <label for="headline">Headline</label>
+        <input type="text" id="headline" placeholder="e.g., Rising from madness" maxlength="100" />
+
+        <label for="song">Your song or vibe</label>
+        <input type="text" id="song" placeholder="e.g., 432Hz frequencies" maxlength="100" />
+
+        <button id="save-look" class="solid">Save look</button>
+      </div>
+
+      <div class="card">
+        <h2>Journal</h2>
+        <p class="note">Private. Only you can see it.</p>
+        <label for="entry">Write</label>
+        <textarea id="entry" placeholder="Your thoughts, safely yours..." rows="4"></textarea>
+        <button id="save-entry" class="solid">Save to journal</button>
+        <div id="entries"></div>
+      </div>
+
+      <div class="card">
+        <h2>Share</h2>
+        <p class="note">Share on the community feed. Always kind. Always you.</p>
+        <label for="post">Your words</label>
+        <textarea id="post" placeholder="A moment. A truth. A story." rows="4"></textarea>
+        <button id="share" class="solid">Share on feed</button>
+        <div id="posts"></div>
+      </div>
+
+      <div class="crisis">
+        <strong>💙 Arron is here, not a therapist.</strong> Talk on the site stays free. Crisis: Samaritans 116 123 · text SHOUT to 85258 · 999 in danger.
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="/js/my-room.js"></script>
+</body>
+</html>
