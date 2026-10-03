@@ -60,7 +60,25 @@
   text-shadow: 0 0 12px rgba(0, 255, 240, 0.45);
   white-space: nowrap;
 }
-.ps-nav .ps-brand img { width: 34px; height: 34px; display: block; }
+.ps-nav .ps-brand img {
+  width: 36px;
+  height: 36px;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.45), transparent 46%),
+    #000103;
+  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.65), 0 0 12px rgba(0, 255, 240, 0.28);
+}
+img.logo, .logo-mark {
+  border-radius: 50%;
+  object-fit: cover;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.4), transparent 48%),
+    #000103;
+  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.55);
+}
 .ps-nav .ps-links {
   display: flex;
   align-items: center;
@@ -634,6 +652,22 @@
 }
 .ps-home-grid h3 { margin: 0 0 0.25rem; color: #00fff0; font-size: 1rem; }
 .ps-home-grid p { margin: 0; color: #c5d5e0; font-size: 0.95rem; }
+
+.ps-clips { max-width: 720px; margin: 1.25rem auto; }
+.ps-clips h2 { margin: 0 0 0.35rem; color: #eef6ff; font-size: 1.25rem; }
+.ps-clips > p { margin: 0 0 0.8rem; color: #c5d5e0; }
+.ps-clip-row { display: grid; gap: 12px; }
+@media (min-width: 700px) { .ps-clip-row { grid-template-columns: 1fr 1fr 1fr; } }
+.ps-clip, .ps-clip-frame {
+  width: 100%; aspect-ratio: 16/9; border: 1px solid rgba(0, 255, 240, 0.28);
+  border-radius: 14px; overflow: hidden; background: #000103; color: #eef6ff;
+  position: relative; padding: 0; font: inherit; text-align: left; cursor: pointer;
+}
+.ps-clip img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.85; }
+.ps-clip span {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 0.55rem 0.7rem;
+  background: linear-gradient(transparent, #000103 70%); font-weight: 700; font-size: 0.92rem;
+}
 
 .ps-stay { max-width: 720px; margin: 1.25rem auto; }
 .ps-stay h2 { margin: 0 0 0.35rem; color: #eef6ff; font-size: 1.25rem; text-align: left; }

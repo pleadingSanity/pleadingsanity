@@ -28,6 +28,8 @@ const WORLD = [
   { where: 'Nobel Prize · 2023', title: 'The mRNA work behind the Covid vaccines', sub: 'Years of quiet research, then a tool the world used. Katalin Karikó and Drew Weissman.', href: 'https://www.nobelprize.org/prizes/medicine/2023/press-release/' },
   { where: 'London', title: 'A program that maps the shape of proteins', sub: 'AlphaFold, from DeepMind. It opened work that used to take a lab years.', href: 'https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/' },
   { where: 'NASA · 2022', title: 'A view the size of a grain of sand', sub: 'Webb’s first deep field. One galaxy cluster, and thousands of galaxies behind it.', href: 'https://science.nasa.gov/mission/webb/webbs-first-images/' },
+  { where: 'World Health Organization · 2024', title: 'Vaccines have saved about 154 million lives in 50 years', sub: 'Most of them children. The WHO put the number on the record.', href: 'https://www.who.int/news/item/24-04-2024-global-immunization-efforts-have-saved-at-least-154-million-lives-over-the-past-50-years' },
+  { where: 'Boston · 2024', title: 'A pig kidney, edited, then transplanted', sub: 'Massachusetts General Hospital. A first in a living person. Early days, and real.', href: 'https://www.massgeneral.org/news/press-release/worlds-first-genetically-edited-pig-kidney-transplant-into-living-recipient' },
 ];
 
 const AFFIRMATIONS = [

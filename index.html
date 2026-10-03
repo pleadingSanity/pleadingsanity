@@ -40,7 +40,7 @@
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/logo.svg" alt="" width="34" height="34" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home" aria-current="page">Home</a>
       <div class="ps-group" data-group="heal">
@@ -179,6 +179,16 @@
       <div data-cosmic-scroll data-sources="world" data-label="Stories from the world"></div>
     </section>
 
+    <section class="ps-clips" aria-labelledby="clips-title">
+      <h2 id="clips-title">Clips</h2>
+      <p>Short talks already used on this site. Nothing starts until you tap.</p>
+      <div class="ps-clip-row">
+        <button type="button" class="ps-clip" data-yt="XiCrniLQGYc"><img src="https://i.ytimg.com/vi/XiCrniLQGYc/mqdefault.jpg" alt="" width="320" height="180" /><span>I had a black dog. WHO.</span></button>
+        <button type="button" class="ps-clip" data-yt="iCvmsMzlF7o"><img src="https://i.ytimg.com/vi/iCvmsMzlF7o/mqdefault.jpg" alt="" width="320" height="180" /><span>The power of vulnerability. Brené Brown.</span></button>
+        <button type="button" class="ps-clip" data-yt="F2hc2FLOdhI"><img src="https://i.ytimg.com/vi/F2hc2FLOdhI/mqdefault.jpg" alt="" width="320" height="180" /><span>Emotional first aid. Guy Winch.</span></button>
+      </div>
+    </section>
+
     <section class="ps-home-note" aria-labelledby="meet-arron-title">
       <h2 id="meet-arron-title">Arron</h2>
       <p>Arron is a companion, not a therapist. He can sit with you, remember what you tell him, and forget it all if you ask.<span id="arron-growth-count"></span></p>
@@ -315,6 +325,20 @@
         if (navigator.share) await navigator.share({ title: "Today's Wisdom", text: shareText, url: location.origin + '/wisdom.html' });
         else { await navigator.clipboard.writeText(`${shareText} ${location.origin}/wisdom.html`); toast('Copied — pass the light on 💙'); }
       } catch { /* closed */ }
+    });
+  </script>
+  <script>
+    document.querySelectorAll('.ps-clip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var frame = document.createElement('iframe');
+        frame.className = 'ps-clip-frame';
+        frame.dataset.userPlay = '1';
+        frame.title = btn.querySelector('span').textContent;
+        frame.allow = 'autoplay; encrypted-media; picture-in-picture';
+        frame.setAttribute('allowfullscreen', '');
+        frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.yt) + '?autoplay=1&rel=0&playsinline=1';
+        btn.replaceWith(frame);
+      });
     });
   </script>
 </body>

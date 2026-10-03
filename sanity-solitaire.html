@@ -17,7 +17,9 @@
     body.sea { background:radial-gradient(circle at 50% 0%, #0e6e62, #07352f 48%, #021612 100%); }
     body.rose { background:radial-gradient(circle at 50% 0%, #6a2a48, #2a1020 50%, #12060c 100%); }
     body.gold { background:radial-gradient(circle at 50% 0%, #6a5420, #241c0c 55%, #100c04 100%); }
-    .wrap { width:min(860px, calc(100% - 12px)); margin:0 auto; padding:10px 0 28px; }
+    .wrap { width:min(860px, calc(100% - 16px)); margin:0 auto; padding:max(10px, env(safe-area-inset-top)) 0 calc(28px + env(safe-area-inset-bottom)); }
+    .brand { display:inline-flex; align-items:center; gap:8px; color:#eef6ff; text-decoration:none; font-weight:800; min-height:44px; }
+    .brand img { width:36px; height:36px; border-radius:50%; object-fit:cover; background:radial-gradient(circle at 35% 30%, rgba(0,255,240,.45), #000103 70%); box-shadow:0 0 0 1px rgba(0,255,240,.65); }
     .btn { background:transparent; color:var(--ink); border:1px solid var(--gold); border-radius:999px; padding:10px 14px; text-decoration:none; font-family:inherit; min-height:44px; }
     .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
     .note { color:#d5ecdf; font-size:.92rem; line-height:1.4; }
@@ -85,26 +87,36 @@
       box-shadow:0 0 0 1px #6a4e16, 0 0 16px rgba(240,195,106,.75), 0 8px 14px rgba(0,0,0,.32);
       z-index:3;
     }
-    .dock { display:flex; gap:14px; align-items:flex-end; margin-top:8px; }
+    .dock { display:flex; gap:14px; align-items:flex-end; margin-top:8px; flex-wrap:wrap; }
+    @media (max-width:420px) {
+      h1 { font-size:1.35rem; }
+      .btn { padding:8px 12px; font-size:.92rem; }
+    }
     .pile { display:flex; flex-direction:column; align-items:center; gap:4px; }
     .pile span { font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:#d5ecdf; }
     .waste { display:grid; place-items:center; font-size:1.35rem; position:relative; }
     .waste .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.78rem; }
     .waste .tl { top:6px; left:6px; }
     .waste .mid { position:absolute; inset:0; display:grid; place-items:center; font-size:1.8rem; }
-    .stock { border:0; font-family:inherit; cursor:pointer; }
+    .card.back, .stock { position:relative; color:transparent; }
+    .card.back::after, .stock::after {
+      content:""; position:absolute; inset:16%;
+      background:url("/assets/images/brand/crying-brain-logo-512.webp") center/contain no-repeat;
+      pointer-events:none;
+    }
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   </style>
 </head>
 <body class="night">
   <div class="wrap">
-    <p class="note">If you need someone now: Samaritans 116 123 · text SHOUT to 85258. This is a game, not therapy.</p>
+    <p class="note">Samaritans 116 123, text SHOUT to 85258, call 999 in an emergency. This is a game, not therapy.</p>
+    <a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" />Pleading Sanity</a>
     <div class="row">
       <a class="btn" href="/games.html">Games</a>
       <strong id="level">Level 1</strong>
       <strong id="score">Calm 0</strong>
       <button class="btn" id="new" type="button">New peaks</button>
-      <button class="btn" id="install" type="button">Add to home screen</button>
+      <button class="btn" id="install" type="button">Install</button>
     </div>
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
@@ -183,7 +195,8 @@
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, then Install app."); };
     $("new").onclick=fresh; $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
-    load(); fresh();
+    if (window.visualViewport) visualViewport.addEventListener("resize", fit);
+    load(); fresh(); requestAnimationFrame(fit);
   </script>
 </body>
 </html>
