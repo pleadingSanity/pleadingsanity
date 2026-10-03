@@ -87,7 +87,7 @@ export function postHTML(post, { full = false } = {}) {
   const author = post.author;
   const profileLink = pageLink(author.username);
   const media = post.videoId
-    ? `<div class="post-media"><iframe src="https://www.youtube-nocookie.com/embed/${esc(post.videoId)}?autoplay=1&mute=1&playsinline=1&rel=0"
+    ? `<div class="post-media"><iframe src="https://www.youtube-nocookie.com/embed/${esc(post.videoId)}?autoplay=0&mute=1&playsinline=1&rel=0"
          title="${esc(post.title || 'Video post')}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
     : post.imageUrl
       ? `<div class="post-media"><img src="${esc(post.imageUrl)}" alt="${esc(post.title || 'Image shared by ' + author.displayName)}" loading="lazy" /></div>`

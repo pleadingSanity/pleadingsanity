@@ -9,28 +9,91 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/manifest.json" />
   <style>
-    :root { --ink:#eef6ff; --gold:#f0c36a; }
+    :root { --ink:#eef6ff; --gold:#f0c36a; --card-w:72px; --card-h:100px; }
     * { box-sizing:border-box; }
-    body { margin:0; min-height:100vh; color:var(--ink); font-family:Georgia, serif; background:radial-gradient(circle at 50% 0%, #1d6b52, #0c3b2e 42%, #04110d 100%); }
+    html, body { max-width:100%; overflow-x:hidden; }
+    body { margin:0; min-height:100vh; color:var(--ink); font-family:Georgia, "Iowan Old Style", serif; background:#04110d; }
+    body.night { background:radial-gradient(circle at 50% 0%, #16324a, #0d1b2a 46%, #000103 100%); }
+    body.sea { background:radial-gradient(circle at 50% 0%, #0e6e62, #07352f 48%, #021612 100%); }
     body.rose { background:radial-gradient(circle at 50% 0%, #6a2a48, #2a1020 50%, #12060c 100%); }
     body.gold { background:radial-gradient(circle at 50% 0%, #6a5420, #241c0c 55%, #100c04 100%); }
-    body.night { background:radial-gradient(circle at 50% 0%, #16324a, #0d1b2a 50%, #000103 100%); }
-    .wrap { width:min(860px, calc(100% - 16px)); margin:0 auto; padding:12px 0 32px; }
-    .btn { background:transparent; color:var(--ink); border:1px solid var(--gold); border-radius:999px; padding:8px 12px; text-decoration:none; font-family:inherit; }
+    .wrap { width:min(860px, calc(100% - 12px)); margin:0 auto; padding:10px 0 28px; }
+    .btn { background:transparent; color:var(--ink); border:1px solid var(--gold); border-radius:999px; padding:10px 14px; text-decoration:none; font-family:inherit; min-height:44px; }
     .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    .note { color:#d5ecdf; font-size:.9rem; }
-    h1 { font-size:1.6rem; margin:8px 0 4px; }
-    .stage { overflow-x:auto; }
-    .peaks { position:relative; height:340px; width:560px; margin:18px auto 8px; }
-    .card { position:absolute; width:72px; height:100px; border:0; border-radius:10px; background:#f7fbff; color:#102033; box-shadow:0 8px 16px rgba(0,0,0,.35); font-weight:700; text-align:left; padding:6px; }
-    .card .s { position:absolute; right:6px; bottom:4px; font-size:1.3rem; }
-    .card.red { color:#9d2348; }
-    .card.back { background:linear-gradient(145deg,#102033,#00fff0 140%); color:#eef6ff; }
-    .card.playable { outline:3px solid var(--gold); }
-    .dock { display:flex; gap:12px; align-items:center; }
-    .waste { width:84px; height:116px; border-radius:12px; display:grid; place-items:center; background:#f7fbff; color:#102033; font-size:1.6rem; font-weight:700; box-shadow:0 8px 16px rgba(0,0,0,.35); }
-    .waste.red { color:#9d2348; }
-    select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; }
+    .note { color:#d5ecdf; font-size:.92rem; line-height:1.4; }
+    h1 { font-size:1.55rem; margin:8px 0 4px; }
+    .stage { position:relative; width:100%; overflow:hidden; }
+    .scaler { width:560px; height:370px; transform-origin:top left; }
+    .felt {
+      position:relative; width:560px; height:370px;
+      border-radius:28px;
+      background:
+        radial-gradient(ellipse at 50% 38%, rgba(255,255,255,.07), transparent 58%),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0 2px, transparent 2px 7px),
+        linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.28));
+      box-shadow:inset 0 0 0 2px rgba(240,195,106,.28), inset 0 18px 40px rgba(0,0,0,.28);
+    }
+    .peaks { position:absolute; inset:0; }
+    .card, .waste, .stock {
+      width:var(--card-w); height:var(--card-h); border-radius:10px;
+      background:
+        linear-gradient(180deg, #fff 0%, #f4f7fb 100%);
+      color:#102033;
+      box-shadow:0 8px 14px rgba(0,0,0,.32), inset 0 0 0 1px rgba(16,32,51,.08);
+      font-weight:700;
+    }
+    .card {
+      position:absolute; border:0; padding:0; text-align:left; touch-action:manipulation;
+    }
+    .card:disabled { opacity:1; }
+    .card .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.78rem; }
+    .card .c b { font-size:.92rem; letter-spacing:-.03em; }
+    .card .c i { font-style:normal; font-size:.78rem; }
+    .card .tl { top:4px; left:5px; }
+    .card .br { right:5px; bottom:4px; transform:rotate(180deg); }
+    .card .mid, .card .pips {
+      position:absolute; inset:22px 8px 22px; display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:1px;
+      font-size:1rem; font-style:normal;
+    }
+    .card .mid { font-size:1.7rem; align-items:center; }
+    .card .pips i { font-style:normal; width:14px; text-align:center; }
+    .card.red, .waste.red { color:#9d2348; }
+    .card.back, .stock {
+      background:
+        radial-gradient(circle at 50% 42%, rgba(0,255,240,.28), transparent 46%),
+        repeating-linear-gradient(135deg, #102033 0 7px, #0b1826 7px 14px);
+      color:#00fff0;
+      display:grid; place-items:center;
+      font-size:.85rem; letter-spacing:.14em;
+    }
+    body.sea .card.back, body.sea .stock {
+      background:radial-gradient(circle at 50% 40%, rgba(180,255,236,.35), transparent 46%), repeating-linear-gradient(135deg, #0c4a42 0 7px, #08332e 7px 14px);
+      color:#e8fff8;
+    }
+    body.rose .card.back, body.rose .stock {
+      background:radial-gradient(circle at 50% 40%, rgba(255,186,214,.4), transparent 46%), repeating-linear-gradient(135deg, #4a1830 0 7px, #2c0d1c 7px 14px);
+      color:#ffd6e6;
+    }
+    body.gold .card.back, body.gold .stock {
+      background:radial-gradient(circle at 50% 40%, rgba(255,226,150,.45), transparent 46%), repeating-linear-gradient(135deg, #5a4312 0 7px, #3a2b0a 7px 14px);
+      color:#ffe7a3;
+    }
+    body.night .felt { box-shadow:inset 0 0 0 2px rgba(0,255,240,.22), inset 0 18px 40px rgba(0,0,0,.35); }
+    .card.playable {
+      outline:3px solid var(--gold);
+      outline-offset:1px;
+      box-shadow:0 0 0 1px #6a4e16, 0 0 16px rgba(240,195,106,.75), 0 8px 14px rgba(0,0,0,.32);
+      z-index:3;
+    }
+    .dock { display:flex; gap:14px; align-items:flex-end; margin-top:8px; }
+    .pile { display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .pile span { font-size:.75rem; letter-spacing:.08em; text-transform:uppercase; color:#d5ecdf; }
+    .waste { display:grid; place-items:center; font-size:1.35rem; position:relative; }
+    .waste .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.78rem; }
+    .waste .tl { top:6px; left:6px; }
+    .waste .mid { position:absolute; inset:0; display:grid; place-items:center; font-size:1.8rem; }
+    .stock { border:0; font-family:inherit; cursor:pointer; }
+    select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   </style>
 </head>
 <body class="night">
@@ -46,8 +109,12 @@
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     <div class="row"><label>Table <select id="table"></select></label></div>
-    <div class="stage"><div class="peaks" id="peaks"></div></div>
-    <div class="dock"><button class="btn" id="draw" type="button">Draw</button><div class="waste" id="waste">—</div><p class="note" id="status"></p></div>
+    <div class="stage"><div class="scaler" id="scaler"><div class="felt" id="felt"><div class="peaks" id="peaks"></div></div></div></div>
+    <div class="dock">
+      <div class="pile"><button class="stock" id="draw" type="button" aria-label="Draw from the stock">PS</button><span>Stock</span></div>
+      <div class="pile"><div class="waste" id="waste">—</div><span>Waste</span></div>
+      <p class="note" id="status"></p>
+    </div>
   </div>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
@@ -56,7 +123,7 @@
     const red=(s)=>s==="\u2665"||s==="\u2666";
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
-    let deck,board,waste,calm,combo,wins,look;
+    let deck,board,waste,calm,combo,wins,look,cleared;
     function load(){wins=Number(localStorage.getItem("ps-sol-wins")||0);look=localStorage.getItem("ps-sol-look")||"night";}
     function level(){return Math.min(4,1+wins);}
     function paintMeta(){
@@ -70,16 +137,44 @@
     function fresh(){
       const cards=[]; for(const s of suits) for(const r of ranks) cards.push({r,s}); shuffle(cards);
       board=cards.splice(0,28).map((c,i)=>({...c,i,up:i>=18,gone:false}));
-      deck=cards; waste=deck.pop(); calm=0; combo=0; paint();
+      deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; paint();
     }
     function covered(i){ if(i>=18) return false; const below=i<3?[3+i*2,4+i*2]:i<9?[9+(i-3),10+(i-3)]:[18+(i-9)]; return below.some((n)=>board[n]&&!board[n].gone); }
     function pos(i){ if(i<3) return {x:[90,270,450][i],y:8}; if(i<9) return {x:48+(i-3)*86,y:62}; if(i<18) return {x:8+(i-9)*58,y:124}; return {x:(i-18)*52,y:196}; }
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
-    function paint(){
-      paintMeta(); const box=$("peaks"); box.innerHTML="";
-      board.forEach((card)=>{ if(card.gone) return; const p=pos(card.i); const b=document.createElement("button"); b.className="card"+(card.up?"":" back")+(red(card.s)?" red":"")+(canPlay(card)?" playable":""); b.style.left=p.x+"px"; b.style.top=p.y+"px"; b.disabled=!canPlay(card); b.innerHTML=card.up?`${card.r}<span class="s">${card.s}</span>`:"PS"; b.onclick=()=>play(card); box.appendChild(b); });
-      const w=$("waste"); w.textContent=waste.r+waste.s; w.className="waste"+(red(waste.s)?" red":"");
-      if(board.every((c)=>c.gone)) win();
+    function faceHTML(card) {
+      const n = val(card.r);
+      const middle = (n === 0 || n >= 7)
+        ? `<span class="mid">${card.s}</span>`
+        : `<span class="pips">${Array.from({length:n+1}, () => `<i>${card.s}</i>`).join("")}</span>`;
+      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span>${middle}<span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
+    }
+    function fit() {
+      const stage = document.querySelector(".stage");
+      const scaler = $("scaler");
+      const scale = Math.min(1, (stage.clientWidth || 320) / 560);
+      scaler.style.transform = `scale(${scale})`;
+      stage.style.height = Math.ceil(370 * scale + 12) + "px";
+    }
+    function paint() {
+      paintMeta(); fit(); const box = $("peaks"); box.innerHTML = "";
+      board.forEach((card) => {
+        if (card.gone) return;
+        const p = pos(card.i);
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "card" + (card.up ? "" : " back") + (red(card.s) ? " red" : "") + (canPlay(card) ? " playable" : "");
+        b.style.left = p.x + "px"; b.style.top = p.y + "px";
+        b.disabled = !canPlay(card);
+        b.setAttribute("aria-label", card.up ? card.r + " " + card.s : "Face down");
+        b.innerHTML = card.up ? faceHTML(card) : "PS";
+        b.onclick = () => play(card);
+        box.appendChild(b);
+      });
+      const w = $("waste");
+      w.className = "waste" + (red(waste.s) ? " red" : "");
+      w.innerHTML = faceHTML(waste);
+      if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
     function play(card){ if(!canPlay(card)) return; card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } waste=deck.pop(); combo=0; paint(); }
@@ -87,6 +182,7 @@
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, then Install app."); };
     $("new").onclick=fresh; $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
+    addEventListener("resize", fit);
     load(); fresh();
   </script>
 </body>

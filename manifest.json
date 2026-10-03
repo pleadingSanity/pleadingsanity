@@ -8,7 +8,8 @@
   "display": "standalone",
   "display_override": [
     "standalone",
-    "minimal-ui"
+    "minimal-ui",
+    "window-controls-overlay"
   ],
   "lang": "en-GB",
   "dir": "ltr",
@@ -431,6 +432,49 @@
     }
   ],
   "prefer_related_applications": false,
+  "related_applications": [],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "share_target": {
+    "action": "/feed.html",
+    "method": "GET",
+    "params": {
+      "title": "title",
+      "text": "text",
+      "url": "url"
+    }
+  },
+  "protocol_handlers": [],
+  "scope_extensions": [],
+  "screenshots": [
+    {
+      "src": "/assets/crying-brain-og.png",
+      "sizes": "630x331",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Pleading Sanity home — Rise From Madness"
+    },
+    {
+      "src": "/assets/images/brand/tracksuit-design.webp",
+      "sizes": "1600x1200",
+      "type": "image/webp",
+      "form_factor": "wide",
+      "label": "Pleading Sanity tracksuit"
+    },
+    {
+      "src": "/assets/images/brand/crying-brain-hoodie-back.webp",
+      "sizes": "1200x1200",
+      "type": "image/webp",
+      "label": "Crying cosmic brain"
+    },
+    {
+      "src": "/assets/images/brand/sanctuary-brain-art.webp",
+      "sizes": "1200x1200",
+      "type": "image/webp",
+      "label": "Sanctuary mark"
+    }
+  ],
   "edge_side_panel": {
     "preferred_width": 400
   }

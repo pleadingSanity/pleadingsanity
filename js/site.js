@@ -1,10 +1,23 @@
 (function () {
   'use strict';
   document.querySelectorAll('.ps-year').forEach(function (el) { el.textContent = String(new Date().getFullYear()); });
-  document.querySelectorAll('iframe').forEach(function (frame) {
+  function stopSelfPlay(frame) {
+    if (!frame || frame.dataset.userPlay === '1') return;
     if (!frame.src || frame.src.indexOf('autoplay=1') === -1) return;
     frame.src = frame.src.replace('autoplay=1', 'autoplay=0');
-  });
+  }
+  document.querySelectorAll('iframe').forEach(stopSelfPlay);
+  if ('MutationObserver' in window) {
+    new MutationObserver(function (mutations) {
+      mutations.forEach(function (m) {
+        m.addedNodes.forEach(function (node) {
+          if (!node || node.nodeType !== 1) return;
+          if (node.tagName === 'IFRAME') stopSelfPlay(node);
+          if (node.querySelectorAll) node.querySelectorAll('iframe').forEach(stopSelfPlay);
+        });
+      });
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  }
   var installPrompt = null;
   var installButtons = document.querySelectorAll('[data-pwa-install]');
   function showInstall(show) { installButtons.forEach(function (btn) { btn.hidden = !show; btn.classList.toggle('hidden', !show); }); }

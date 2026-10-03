@@ -2,19 +2,18 @@
 // 📺 PLEADING SANITY — AUTO-STREAM VIDEO ENGINE v3.0
 // Sanity Feed · Videos · Hub · Home hero
 //
-// Any element with [data-ps-video] becomes an inline player that
-// streams muted as soon as it scrolls into view and pauses when it
-// leaves. No clicks needed. One tap turns the sound on.
+// Any element with [data-ps-video] becomes an inline player.
+// It does not start by itself. A tap plays it. It pauses when it leaves the screen.
 //
 //   <div data-ps-video data-id="VIDEO_ID" data-title="…"></div>
 //   <div data-ps-video data-list="PLAYLIST_ID" data-title="…"></div>
 //
 // • Lazy — players only load when they get close to the screen and
 //   unload again when far away, so long feeds stay fast.
-// • Only the most visible player streams at a time.
+// • Only one player runs at a time, and only after a tap.
 // • If a video can't load (offline, blocked, removed) a cosmic quote
 //   card takes its place.
-// • Respects "reduce motion": no autoplay, a play button instead.
+// • A play button is always there. Nothing starts on its own.
 // • Privacy: youtube-nocookie.com embeds, no tracking.
 //
 // The home hero ([data-ps-hero]) plays a muted looped <video> if one
@@ -80,8 +79,19 @@
       img.onerror = function () { img.remove(); };
       this.poster.appendChild(img);
     }
-    this.poster.appendChild(el('span', 'ps-video-shimmer', reduceMotion ? '' : 'Streaming soon…'));
+    this.poster.appendChild(el('span', 'ps-video-shimmer', 'Tap to play'));
     this.stage.appendChild(this.poster);
+
+    var play = el('button', 'ps-video-play', '▶ Play');
+    play.type = 'button';
+    play.setAttribute('aria-label', 'Play ' + this.title);
+    var self = this;
+    play.addEventListener('click', function () {
+      self.userStarted = true;
+      play.remove();
+      self.play();
+    });
+    this.stage.appendChild(play);
 
     this.sound = el('button', 'ps-video-sound');
     this.sound.type = 'button';
@@ -90,19 +100,6 @@
 
     root.appendChild(this.stage);
     root.appendChild(this.sound);
-
-    if (reduceMotion) {
-      var play = el('button', 'ps-video-play', '▶ Play');
-      play.type = 'button';
-      play.setAttribute('aria-label', 'Play ' + this.title);
-      var self = this;
-      play.addEventListener('click', function () {
-        self.userStarted = true;
-        play.remove();
-        self.play();
-      });
-      this.stage.appendChild(play);
-    }
   }
 
   Player.prototype.src = function (autoplay) {
@@ -133,6 +130,7 @@
     var iframe = el('iframe');
     iframe.title = this.title;
     iframe.src = this.src(autoplay);
+    if (autoplay) iframe.dataset.userPlay = '1';
     iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     iframe.allowFullscreen = true;
     iframe.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -168,8 +166,8 @@
     this.handshake = setInterval(function () {
       if (self.ready || self.iframe !== frame || ++tries > 20) {
         clearInterval(self.handshake);
-        // No handshake: let the embed autoplay itself if it should be streaming
-        if (!self.ready && self.iframe === frame && self.shouldPlay && !self.forcedAutoplay) {
+        // No handshake: only a tap may start the picture.
+        if (!self.ready && self.iframe === frame && self.userStarted && self.shouldPlay && !self.forcedAutoplay) {
           self.forcedAutoplay = true;
           frame.src = self.src(true);
         }
@@ -290,27 +288,18 @@
 
   // ─── WHO STREAMS: the most visible player ───
   function pickActive() {
-    if (reduceMotion || document.hidden) {
-      players.forEach(function (p) { if (!p.userStarted) p.pause(); });
-      return;
-    }
-    var best = null;
     players.forEach(function (p) {
-      if (p.failed || p.visible < 0.55) return;
-      if (!best || p.visible > best.visible) best = p;
-    });
-    players.forEach(function (p) {
-      if (p === best) p.play();
-      else if (p.playing || p.shouldPlay) p.pause();
+      if (document.hidden || p.visible < 0.55) {
+        if (p.playing || p.shouldPlay) p.pause();
+      }
     });
   }
 
   var nearObserver = 'IntersectionObserver' in window && new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       var p = entry.target._psPlayer;
-      if (!p) return;
-      if (entry.isIntersecting) { if (!reduceMotion) p.load(false); }
-      else p.unload();
+      if (!p || entry.isIntersecting) return;
+      p.unload();
     });
   }, { rootMargin: '600px 0px' });
 
@@ -330,8 +319,6 @@
     if (nearObserver) {
       nearObserver.observe(root);
       viewObserver.observe(root);
-    } else if (!reduceMotion) {
-      p.load(false);
     }
     return p;
   }

@@ -373,6 +373,7 @@ class CosmicScroll {
     if (video) {
       const frame = document.createElement('iframe');
       frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.dataset.video)}?autoplay=1&playsinline=1&rel=0`;
+      frame.dataset.userPlay = '1';
       frame.title = video.getAttribute('aria-label').replace('Play video: ', '');
       frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
       frame.className = 'cs-video';

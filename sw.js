@@ -4,26 +4,39 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.3.0'; // v3.3 — Grok joins the chain, account pages never cached
-const STATIC_CACHE = 'pleading-sanity-static-v16';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v16';
+const VERSION = '5.4.0'; // private pages stay off the cache; offline falls back to /offline.html
+const STATIC_CACHE = 'pleading-sanity-static-v17';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v17';
 const OFFLINE_URL = '/offline.html';
 
-// Member-only and account pages hold personal data: always from the network, never cached.
-// The cache holds the public shell only — never journals, profiles or accounts from the server.
+// Profile, member, journal and account pages hold personal data.
+// Always from the network. Never written into either cache.
 const PRIVATE_PAGES = [
     '/profile.html',
     '/member.html',
+    '/journal-vault.html',
+    '/journal-vault-viewer.html',
+    '/login.html',
+    '/signup.html',
     '/reset-password.html',
-    '/post.html',
-    '/community.html',
     '/settings.html',
     '/onboarding.html',
     '/admin.html',
     '/owner.html',
+    '/post.html',
+    '/community.html',
     '/sanctuary.html',
     '/write.html'
 ];
+
+function isPrivatePath(pathname) {
+    const bare = pathname.replace(/\/$/, '') || '/';
+    if (bare.startsWith('/@')) return true;
+    if (bare === '/journal' || bare.startsWith('/journal/') || bare.startsWith('/journal.')) return true;
+    if (/(^|\/)(profile|member|account)(\/|$|\.)/.test(bare)) return true;
+    const page = bare.endsWith('.html') ? bare : `${bare}.html`;
+    return PRIVATE_PAGES.includes(page) || PRIVATE_PAGES.includes(bare);
+}
 
 // ========================================
 // 📦 PRECACHE — every page, style & script the site needs offline
@@ -42,11 +55,12 @@ const PRECACHE_URLS = [
     '/feed.html',
     '/frequencies.html',
     '/games.html',
+    '/get-the-app.html',
+    '/safety.html',
+    '/sanity-solitaire.html',
+    '/circle.html',
     '/index.html',
-    '/journal-vault-viewer.html',
-    '/journal-vault.html',
     '/kids.html',
-    '/login.html',
     '/meditation.html',
     '/memory-ocean.html',
     '/movement.html',
@@ -57,7 +71,6 @@ const PRECACHE_URLS = [
     '/rhythm-resonance.html',
     '/sanityhub.html',
     '/shop.html',
-    '/signup.html',
     '/stardust-dash.html',
     '/videos.html',
     '/creations.html',
@@ -159,11 +172,12 @@ self.addEventListener('fetch', event => {
     if (url.origin !== self.location.origin) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
-    // Member pages (/@username) hold people's own words: always fresh, never cached.
-    // Pretty URLs (/profile) count too, not just /profile.html.
-    const page = url.pathname.endsWith('.html') ? url.pathname : `${url.pathname.replace(/\/$/, '')}.html`;
-    if (request.mode === 'navigate' && (PRIVATE_PAGES.includes(page) || url.pathname.startsWith('/@'))) {
-        event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
+    // Profile, member, journal, account: network only. Never stored.
+    // Offline, the sanctuary page is /offline.html — not a cached copy of someone's private page.
+    if (isPrivatePath(url.pathname)) {
+        if (request.mode === 'navigate') {
+            event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
+        }
         return;
     }
 
