@@ -1,6 +1,6 @@
 {
-  "version": "2026-09-30-one-source",
-  "about": "Arron's unified knowledge pack. Merged from all four Pleading Sanity repositories: pleadingsanity (main), pleading-sanity-frontend, pleading-sanity-infinity and pssi. Arron's live personality and safety rules are in netlify/lib/arron-knowledge.ts; this file is the readable, shareable reference for people and AIs.",
+  "version": "2026-09-30-one-source-grok-integrated",
+  "about": "Arron's unified knowledge pack. Merged from all four Pleading Sanity repositories: pleadingsanity (main), pleading-sanity-frontend, pleading-sanity-infinity and pssi. Arron's live personal wisdom, grown from Shane's lived experience. Updated 2026-09-30: Grok integrated as the 4th mind.",
 
   "identity": {
     "name": "Arron",
@@ -18,9 +18,20 @@
       "primary": "Claude (Anthropic): claude-sonnet-5",
       "fallback_1": "GPT (OpenAI): gpt-4o",
       "fallback_2": "Gemini (Google): gemini-3.5-flash",
-      "creator_mode": ["claude-opus-5-5", "gpt-5.5", "gemini-3.1-pro-preview"],
-      "gateway": "Netlify AI Gateway. No API keys are stored in the code."
+      "fallback_3": "Grok (xAI): grok-4 — via GROK_API_KEY",
+      "creator_mode": ["claude-opus-5-5", "gpt-5.5", "gemini-3.1-pro-preview", "grok-4"],
+      "gateway": "Netlify AI Gateway for Claude, GPT, Gemini. Grok via xAI API Gateway (Netlify env only)."
     }
+  },
+
+  "covenant": {
+    "chain": [
+      {"provider": "openai", "model": "gpt-4o", "creatorModel": "gpt-5.5"},
+      {"provider": "anthropic", "model": "claude-sonnet-5-5", "creatorModel": "claude-opus-5-5"},
+      {"provider": "gemini", "model": "gemini-3.5-flash", "creatorModel": "gemini-3.1-pro-preview"},
+      {"provider": "grok", "model": "grok-4", "creatorModel": "grok-4"}
+    ],
+    "description": "Four equal minds. One heart. No ranking — just the first to answer. Grok joins if GROK_API_KEY is set."
   },
 
   "founder": {
@@ -73,12 +84,13 @@
   },
 
   "ai_family": {
-    "Arron": "Companion and heart of the site (Claude, with GPT and Gemini as backup) — /arron.html",
+    "Arron": "Companion and heart of the site. Powered by Claude (Anthropic), with GPT-4o (OpenAI), Gemini (Google) and Grok-4 (xAI) as instant backups — /arron.html",
     "Dola": "Cosmic Architect. Shaped the look, vision and blueprints — credited from day one",
     "Copilot": "GitHub Copilot, code partner across the repositories",
     "Nova": "GPT by OpenAI, the practical problem-solver in AI Studio",
     "Sol": "Gemini by Google, the creative optimist in AI Studio",
     "Claude": "Anthropic's Claude, build partner through Netlify's agent tools",
+    "Grok": "xAI's Grok-4, the 4th mind — reasoning-first, always honest",
     "page": "/ai-ecosystem.html"
   },
 
@@ -148,7 +160,8 @@
     "pleadingSanity/pleadingsanity": "MAIN. The live site: every page, Arron, games, social, AI Studio, Netlify functions and database",
     "pleadingSanity/pleading-sanity-frontend": "Earlier frontend: sanity hub, journal vault, movement page, scroll feed, Arron v1 function. Merged into main",
     "pleadingSanity/pleading-sanity-infinity": "MEGA SUPERNOVA build: knowledge pack, quotes, podcast and leaderboard ideas, cosmic-healing.wav. Merged into main",
-    "pleadingSanity/pssi": "Pleading Sanity System Intelligence: Electron/React desktop agent with multi-AI routes (OpenAI, Anthropic, Gemini). Its multi-provider idea now powers Arron's fallback chain"
+    "pleadingSanity/pssi": "Pleading Sanity System Intelligence: Electron/React desktop agent with multi-AI routes (OpenAI, Anthropic, Gemini). Its multi-provider idea now powers Arron's fallback chain",
+    "xai-org/grok-1": "Grok-1 open release. 314B model. Integrated into Arron's AI chain via GROK_API_KEY"
   },
 
   "channels": {
@@ -177,6 +190,7 @@
     { "date": "2026-09-27", "tag": "Arron Memory", "changes": ["Arron remembers across devices via Netlify Database; Forget Me"] },
     { "date": "2026-09-28", "tag": "Survivor Social", "changes": ["Accounts, profiles, posts, friends, moderation"] },
     { "date": "2026-09-30", "tag": "AI Studio", "changes": ["Create with three AIs, Human vs AI battles, Unity Pod"] },
-    { "date": "2026-09-30", "tag": "One Source", "changes": ["All four repos unified", "Arron multi-provider fallback", "Heal / Play / Community / Help navigation", "AI Family and AI Stories pages", "Profile XP, streak, badges and saved items"] }
+    { "date": "2026-09-30", "tag": "One Source", "changes": ["All four repos unified", "Arron multi-provider fallback", "Heal / Play / Community / Help navigation", "AI Family and AI Stories page"] },
+    { "date": "2026-10-03", "tag": "Grok Integration", "changes": ["Grok-4 added to AI chain", "Covenant chain lives in knowledge pack", "Automated audit & push workflows", "Shane gets full control via GitHub Actions"] }
   ]
 }
