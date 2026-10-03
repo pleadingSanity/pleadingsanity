@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000103" />
+  <title>Circle — Pleading Sanity</title>
+  <meta name="description" content="A quiet check-in. No likes. No counts. You are here." />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/css/my-room.css" />
+</head>
+<body>
+  <div class="wrap">
+    <p class="note">If you need someone now: Samaritans 116 123 · text SHOUT to 85258. Arron is not a therapist.</p>
+    <div class="top">
+      <a href="/"><img class="mark" src="/assets/favicon.svg" alt="Crying brain" /></a>
+      <a class="btn" href="/feed.html">Feed</a>
+    </div>
+    <h1>Circle</h1>
+    <p class="lede">Next to people, not above them. One line. No likes. No follower count.</p>
+    <section class="card" id="gate">
+      <a class="btn solid" href="/login.html?next=/circle.html">Sign in</a>
+    </section>
+    <section class="card" id="here" hidden>
+      <label for="line">I'm here</label>
+      <input id="line" maxlength="80" placeholder="Still here." />
+      <button type="button" class="solid" id="check">Check in</button>
+      <p class="note" id="status"></p>
+      <div id="list"></div>
+    </section>
+  </div>
+  <script type="module" src="/js/circle.js"></script>
+</body>
+</html>
