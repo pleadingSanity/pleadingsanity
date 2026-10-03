@@ -13,7 +13,7 @@ html, body {
   margin: 0;
   background: var(--room-bg);
   color: var(--room-ink);
-  font-family: Segoe UI, system-ui, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -83,6 +83,13 @@ button, .btn {
   cursor: pointer;
   text-decoration: none;
   display: inline-block;
+  min-height: 44px;
+  margin-top: 10px;
+}
+
+button:focus-visible, .btn:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--room-accent);
+  outline-offset: 2px;
 }
 
 button.solid, .btn.solid {
@@ -123,12 +130,19 @@ label {
 }
 
 .swatch {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  margin-top: 0;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: 0;
   cursor: pointer;
+}
+
+.swatch[aria-pressed="true"] {
+  border-color: var(--room-ink);
+  box-shadow: 0 0 0 2px var(--room-bg), 0 0 0 4px var(--room-accent);
 }
 
 .price {
@@ -143,14 +157,18 @@ label {
 }
 
 .crisis {
-  background: color-mix(in srgb, #ff00ff 12%, transparent);
-  border-left: 3px solid #ff00ff;
+  background: var(--room-card);
+  border-left: 3px solid #00fff0;
   padding: 12px;
   border-radius: 6px;
   font-size: 0.9rem;
-  margin-top: 20px;
+  margin: 0 0 6px;
 }
 
-.crisis strong {
-  color: #ff00ff;
+.crisis strong, .crisis a {
+  color: #00fff0;
+}
+
+#room-note:empty {
+  display: none;
 }

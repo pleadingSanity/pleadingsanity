@@ -5,18 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Your room — Pleading Sanity</title>
   <link rel="manifest" href="/manifest-arron.json" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/my-room.html" />
+  <meta name="theme-color" content="#000103" />
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/my-room.css" />
 </head>
 <body>
   <div class="wrap">
+    <div class="crisis" role="note">
+      <strong>💙 If you need someone now:</strong> Samaritans <a href="tel:116123">116 123</a> (free, 24/7) · text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · 999 in danger.
+      Arron is a companion, not a therapist.
+    </div>
+
     <section id="gate">
       <div class="top">
-        <svg class="mark" viewBox="0 0 100 100" fill="none">
-          <circle cx="50" cy="50" r="48" stroke="currentColor" stroke-width="2" />
-          <path d="M 50 20 L 65 50 L 50 80 L 35 50 Z" fill="currentColor" opacity="0.6" />
-        </svg>
+        <img class="mark" src="/assets/favicon.svg" alt="Pleading Sanity" width="42" height="42" />
         <div>
           <h1>Your room</h1>
           <p class="lede">Private corner. Your look, your words, your pace.</p>
@@ -26,15 +32,12 @@
       <div class="card">
         <p>Sign in to see your room.</p>
         <a href="/login.html?next=/my-room.html" class="btn solid">Sign in</a>
-        <button id="install-arron" class="btn">Install app</button>
-      </div>
-
-      <div class="crisis">
-        <strong>💙 If you need someone now:</strong> Samaritans 116 123 (free, 24/7) · text SHOUT to 85258 · 999 in danger
+        <a href="/get-the-app.html" class="btn">Install the free sanctuary</a>
       </div>
     </section>
 
     <section id="room" style="display: none;">
+      <p id="room-note" class="note" role="status"></p>
       <div class="top">
         <img id="pic-preview" class="pic" src="" alt="Your look" style="display: none;" />
         <div style="flex: 1;">
@@ -50,11 +53,12 @@
 
         <label>Colour</label>
         <div class="swatches" id="swatches">
-          <button class="swatch" style="background: #00fff0;" data-color="#00fff0" title="Cyan"></button>
-          <button class="swatch" style="background: #7aa2ff;" data-color="#7aa2ff" title="Frost"></button>
-          <button class="swatch" style="background: #c9a0ff;" data-color="#c9a0ff" title="Mauve"></button>
-          <button class="swatch" style="background: #ffb4d9;" data-color="#ffb4d9" title="Rose"></button>
-          <button class="swatch" style="background: #f0c36a;" data-color="#f0c36a" title="Gold"></button>
+          <button type="button" class="swatch" style="background: #00fff0;" data-color="#00fff0" title="Cyan" aria-label="Cyan" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="background: #7aa2ff;" data-color="#7aa2ff" title="Frost" aria-label="Frost" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="background: #c9a0ff;" data-color="#c9a0ff" title="Mauve" aria-label="Mauve" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="background: #ffb4d9;" data-color="#ffb4d9" title="Rose" aria-label="Rose" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="background: #eef6ff;" data-color="#eef6ff" title="Snow" aria-label="Snow" aria-pressed="false"></button>
+          <button type="button" class="swatch" style="background: #f0c36a;" data-color="#f0c36a" title="Gold" aria-label="Gold" aria-pressed="false"></button>
         </div>
 
         <label for="headline">Headline</label>
@@ -84,9 +88,7 @@
         <div id="posts"></div>
       </div>
 
-      <div class="crisis">
-        <strong>💙 Arron is here, not a therapist.</strong> Talk on the site stays free. Crisis: Samaritans 116 123 · text SHOUT to 85258 · 999 in danger.
-      </div>
+      <p class="note">Talk, journal, safety and the feed stay free. The 70p Arron room is a label only — payment is not connected and no card is charged.</p>
     </section>
   </div>
 

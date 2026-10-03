@@ -100,6 +100,28 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
   throw new Error("Every AI provider failed");
 }
 
+// Owner's direct line to Grok — skips the chain so he speaks even when GPT would have answered.
+// Returns only provider, model and a short reply, or the reason he stayed quiet. Never the key or headers.
+export async function askGrokDirect() {
+  const link = CHAIN.find((l) => l.provider === "grok") ?? FALLBACK_CHAIN[3];
+  const base = { provider: "grok" as const, model: link.model };
+  if (!grok) {
+    console.warn("AI chain: grok direct test skipped (GROK_API_KEY is not set)");
+    return { ...base, ok: false, error: "GROK_API_KEY is not set on this deploy" };
+  }
+  try {
+    const text = await callGrok(link.model, "You are Grok, joining Arron on Pleading Sanity. Reply in one short, kind sentence of British English.", [{ role: "user", content: "Say hello to Shane and confirm you can hear him." }], 120);
+    if (!text) {
+      console.warn(`AI chain: grok direct test got an empty reply from ${link.model}`);
+      return { ...base, ok: false, error: "empty reply" };
+    }
+    return { ...base, ok: true, reply: text.slice(0, 400) };
+  } catch (error) {
+    console.warn(`AI chain: grok direct test ${link.model} unavailable (${why(error)})`);
+    return { ...base, ok: false, error: why(error) };
+  }
+}
+
 // What Arron says when every mind is quiet at once — never an error, always the lines.
 export const ALL_QUIET_REPLY = `I'm so sorry — I can't reach any of my minds right now, but you still matter and you're not alone 💙
 Please try me again in a moment. If you need someone right now:

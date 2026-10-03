@@ -18,7 +18,7 @@ import { db } from "../../db/index.js";
 import { arronMemories, arronMessages } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, askGrokDirect, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
@@ -463,6 +463,12 @@ export default async (req: Request, context: Context) => {
       });
     }
     if (route === "chat" && req.method === "POST") return await chat(req, context, rid);
+    // Owner only: ask Grok directly, bypassing the chain. Returns provider, model and a short reply or the error reason.
+    if (route === "grok-test") {
+      const user = await optionalUser();
+      if (!user?.isOwner) return json({ error: "Not found" }, 404);
+      return json(await askGrokDirect());
+    }
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);
   } catch (error) {
@@ -472,5 +478,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health"],
+  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test"],
 };
