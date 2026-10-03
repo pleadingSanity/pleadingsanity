@@ -5,6 +5,22 @@
     if (!frame.src || frame.src.indexOf('autoplay=1') === -1) return;
     frame.src = frame.src.replace('autoplay=1', 'autoplay=0');
   });
+  var installPrompt = null;
+  var installButtons = document.querySelectorAll('[data-pwa-install]');
+  function showInstall(show) { installButtons.forEach(function (btn) { btn.hidden = !show; btn.classList.toggle('hidden', !show); }); }
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); installPrompt = e; showInstall(true); });
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS && !(navigator.standalone === true)) showInstall(true);
+  installButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!installPrompt) { if (isIOS) alert('In Safari, tap Share, then Add to Home Screen.'); return; }
+      installPrompt.prompt();
+      installPrompt.userChoice.finally(function () { installPrompt = null; showInstall(false); });
+    });
+  });
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
   if (/\/games\.html$|\/games$/.test(location.pathname)) {
     var grid = document.querySelector('.games-grid');
     if (!grid) return;
