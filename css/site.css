@@ -634,3 +634,41 @@
 }
 .ps-home-grid h3 { margin: 0 0 0.25rem; color: #00fff0; font-size: 1rem; }
 .ps-home-grid p { margin: 0; color: #c5d5e0; font-size: 0.95rem; }
+
+.ps-stay { max-width: 720px; margin: 1.25rem auto; }
+.ps-stay h2 { margin: 0 0 0.35rem; color: #eef6ff; font-size: 1.25rem; text-align: left; }
+.ps-stay > p { margin: 0 0 0.8rem; color: #c5d5e0; }
+.ps-meme-row {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(78%, 280px);
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.35rem;
+}
+.ps-meme-row figure {
+  margin: 0;
+  scroll-snap-align: start;
+  background: #0d1b2a;
+  border: 1px solid rgba(0, 255, 240, 0.22);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.ps-meme-row img { width: 100%; height: auto; display: block; }
+.ps-stay-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  margin-top: 12px;
+  border-radius: 14px;
+  background: #00fff0;
+  color: #000103;
+  font-weight: 700;
+  text-decoration: none;
+}
+.ps-stay-play:focus-visible { outline: 3px solid #eef6ff; outline-offset: 2px; }
+@media (min-width: 800px) {
+  .ps-meme-row { grid-auto-flow: unset; grid-template-columns: 1fr 1fr 1fr; grid-auto-columns: auto; overflow: visible; }
+}
