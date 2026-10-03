@@ -5,143 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <title>Sanity Solitaire — Pleading Sanity</title>
-  <meta name="description" content="A calm solitaire. Build the suits. Free, no timer, no paywall." />
+  <meta name="description" content="A proper calm solitaire. Levels unlock new tables and card backs. Free to install." />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/manifest.json" />
   <style>
-    :root { --bg:#000103; --card:#0d1b2a; --ink:#eef6ff; --accent:#00fff0; }
+    :root { --bg:#000103; --ink:#eef6ff; --accent:#00fff0; --table:#0d1b2a; }
     * { box-sizing:border-box; }
-    body { margin:0; background:var(--bg); color:var(--ink); font-family:Segoe UI,system-ui,sans-serif; }
-    .wrap { width:min(980px,calc(100% - 16px)); margin:0 auto; padding:12px 0 40px; }
-    a { color:var(--accent); }
-    .note { color:#c9d7ea; font-size:.9rem; }
+    body { margin:0; min-height:100vh; color:var(--ink); font-family:Segoe UI,system-ui,sans-serif; background:var(--bg); }
+    body.sea { background:radial-gradient(circle at 20% 0%, #123, #000103 55%); }
+    body.rose { background:radial-gradient(circle at 80% 0%, #3a1830, #000103 60%); }
+    body.gold { background:radial-gradient(circle at 50% 0%, #3a2a10, #000103 60%); }
+    .wrap { width:min(980px, calc(100% - 12px)); margin:0 auto; padding:10px 0 28px; }
+    button, .btn { background:transparent; color:var(--ink); border:1px solid var(--accent); border-radius:999px; padding:8px 12px; font:inherit; text-decoration:none; }
     .row { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
-    button { background:transparent; color:var(--ink); border:1px solid var(--accent); border-radius:999px; padding:8px 12px; font:inherit; }
-    .board { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; margin-top:12px; }
-    .pile, .slot { min-height:92px; border-radius:10px; background:#071018; }
-    .card { width:100%; min-height:64px; margin-top:-42px; border-radius:8px; border:1px solid #245; background:#102033; padding:6px; font-size:.85rem; }
+    .note { color:#c9d7ea; font-size:.85rem; }
+    .top, .board { display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:6px; margin-top:10px; }
+    .slot, .pile { min-height:86px; border-radius:12px; background:#0d1b2acc; border:1px dashed #245; }
+    .card { width:100%; min-height:58px; margin-top:-36px; border:0; border-radius:8px; padding:6px; text-align:left; font-weight:700; background:#f7fbff; color:#102033; }
     .card:first-child { margin-top:0; }
-    .card.red { color:#ffb4d9; }
+    .card.red { color:#9d2348; }
     .card.on { outline:2px solid var(--accent); }
-    .card.back { background:#0d1b2a; color:var(--accent); }
-    .top { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:6px; margin-top:10px; }
-    h1 { font-size:1.4rem; margin:8px 0; }
+    .card.back { color:#00fff0; background:#102033; }
+    .card.back.sea { background:linear-gradient(135deg,#073042,#7aa2ff); color:#000; }
+    .card.back.rose { background:linear-gradient(135deg,#3a1830,#ffb4d9); color:#000; }
+    .card.back.gold { background:linear-gradient(135deg,#3a2a10,#f0c36a); color:#000; }
+    h1 { font-size:1.35rem; margin:8px 0; }
+    select { background:#000103; color:var(--ink); border:1px solid #245; border-radius:10px; padding:8px; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <p class="note">If you need someone now: Samaritans 116 123 · text SHOUT to 85258. This is a game, not therapy.</p>
     <div class="row">
-      <a href="/games.html">Games</a>
+      <a class="btn" href="/games.html">Games</a>
+      <strong id="level">Level 1</strong>
       <strong id="score">Calm 0</strong>
       <button type="button" id="new">New deal</button>
+      <button type="button" id="install">Add to home screen</button>
     </div>
     <h1>Sanity Solitaire</h1>
-    <p class="note">Tap a card, then tap where it should go. Build down in alternating colours. Aces start the suits.</p>
+    <p class="note">Tap a card, then tap a column or a suit. Kings fill empty columns. Aces start the foundations. Wins raise your level and open a new table.</p>
+    <div class="row">
+      <label>Table <select id="table"></select></label>
+      <label>Back <select id="back"></select></label>
+    </div>
     <div class="top" id="top"></div>
     <div class="board" id="board"></div>
+    <p class="note" id="status"></p>
   </div>
   <script>
-    const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
-    const suits = ["♥","♦","♣","♠"];
-    const red = (s) => s === "♥" || s === "♦";
-    const val = (r) => ranks.indexOf(r);
-    let deck, waste, found, table, selected, calm;
-    const $ = (id) => document.getElementById(id);
-    function fresh() {
-      deck = [];
-      for (const s of suits) for (const r of ranks) deck.push({ r, s, up: false });
-      for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
-      waste = []; found = { "♥": [], "♦": [], "♣": [], "♠": [] }; table = [[],[],[],[],[],[],[]]; selected = null; calm = 0;
-      for (let c = 0; c < 7; c++) for (let n = 0; n <= c; n++) { const card = deck.pop(); card.up = n === c; table[c].push(card); }
+    const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+    const suits=["♥","♦","♣","♠"];
+    const looks=[{id:"night",name:"Night",need:1},{id:"sea",name:"Deep sea",need:2},{id:"rose",name:"Rose",need:3},{id:"gold",name:"Gold",need:4}];
+    const red=(s)=>s==="♥"||s==="♦";
+    const val=(r)=>ranks.indexOf(r);
+    const $=(id)=>document.getElementById(id);
+    let deck,waste,found,table,selected,calm,wins,look,back;
+    function load(){wins=Number(localStorage.getItem("ps-sol-wins")||0);look=localStorage.getItem("ps-sol-look")||"night";back=localStorage.getItem("ps-sol-back")||"night";}
+    function level(){return Math.min(4,1+wins);}
+    function unlocked(item){return level()>=item.need;}
+    function paintMeta(){
+      $("level").textContent="Level "+level();
+      $("score").textContent="Calm "+calm+" · wins "+wins;
+      document.body.className=look==="night"?"":look;
+      for (const sel of ["table","back"]){
+        const el=$(sel);
+        el.innerHTML=looks.map((item)=>`<option value="${item.id}" ${unlocked(item)?"":"disabled"}>${item.name}${unlocked(item)?"":" · level "+item.need}</option>`).join("");
+        el.value=sel==="table"?look:back;
+      }
+    }
+    function fresh(){
+      deck=[];
+      for (const s of suits) for (const r of ranks) deck.push({r,s,up:false});
+      for (let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+      waste=[];found={"♥":[],"♦":[],"♣":[],"♠":[]};table=[[],[],[],[],[],[],[]];selected=null;calm=0;
+      for (let c=0;c<7;c++) for (let n=0;n<=c;n++){const card=deck.pop();card.up=n===c;table[c].push(card);}
       paint();
     }
-    function cardEl(card, where, index) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "card" + (card.up ? "" : " back") + (red(card.s) ? " red" : "");
-      b.textContent = card.up ? card.r + card.s : "PS";
-      b.dataset.where = where;
-      b.dataset.index = String(index);
-      if (selected && selected.where === where && String(selected.index) === String(index)) b.classList.add("on");
+    function cardEl(card,where,index){
+      const b=document.createElement("button");
+      b.type="button";
+      b.className="card"+(card.up?"":" back "+back)+(red(card.s)?" red":"");
+      b.textContent=card.up?card.r+card.s:"PS";
+      if (selected&&selected.where===where&&String(selected.index)===String(index)) b.classList.add("on");
+      b.onclick=(e)=>{e.stopPropagation();where==="waste"?choose("waste"):choose("col",Number(String(index).split(":")[0]),Number(String(index).split(":")[1]));};
       return b;
     }
-    function paint() {
-      $("score").textContent = "Calm " + calm;
-      const top = $("top"); top.innerHTML = "";
-      const stock = document.createElement("button");
-      stock.type = "button"; stock.className = "slot"; stock.textContent = deck.length ? "Draw" : "Turn";
-      stock.onclick = draw; top.appendChild(stock);
-      const w = document.createElement("div"); w.className = "slot";
-      if (waste.length) w.appendChild(cardEl(waste.at(-1), "waste", waste.length - 1));
-      top.appendChild(w);
-      for (const s of suits) {
-        const f = document.createElement("div"); f.className = "slot";
-        f.textContent = found[s].length ? found[s].at(-1).r + s : s;
-        f.onclick = () => place("found", s);
-        top.appendChild(f);
-      }
-      const board = $("board"); board.innerHTML = "";
-      table.forEach((col, i) => {
-        const pile = document.createElement("div"); pile.className = "pile";
-        pile.onclick = (e) => { if (e.target === pile) place("col", i); };
-        col.forEach((card, n) => {
-          const el = cardEl(card, "col", i + ":" + n);
-          el.onclick = (e) => { e.stopPropagation(); choose("col", i, n); };
-          pile.appendChild(el);
-        });
-        board.appendChild(pile);
-      });
+    function paint(){
+      paintMeta();
+      const top=$("top");top.innerHTML="";
+      const stock=document.createElement("button");stock.className="slot";stock.textContent=deck.length?"Draw":"Turn";stock.onclick=draw;top.appendChild(stock);
+      const w=document.createElement("div");w.className="slot";if (waste.length) w.appendChild(cardEl(waste.at(-1),"waste",waste.length-1));top.appendChild(w);
+      for (const s of suits){const f=document.createElement("button");f.className="slot";f.textContent=found[s].length?found[s].at(-1).r+s:s;f.onclick=()=>place("found",s);top.appendChild(f);}
+      const board=$("board");board.innerHTML="";
+      table.forEach((col,i)=>{const pile=document.createElement("div");pile.className="pile";pile.onclick=(e)=>{if(e.target===pile)place("col",i);};col.forEach((card,n)=>pile.appendChild(cardEl(card,"col",i+":"+n)));board.appendChild(pile);});
     }
-    function draw() {
-      if (!deck.length) { deck = waste.reverse().map((c) => ({ ...c, up: false })); waste = []; }
-      else { const c = deck.pop(); c.up = true; waste.push(c); }
-      selected = null; paint();
+    function draw(){if(!deck.length){deck=waste.reverse().map((c)=>({...c,up:false}));waste=[];}else{const c=deck.pop();c.up=true;waste.push(c);}selected=null;paint();}
+    function choose(where,col,n){if(where==="waste"){selected={where,index:waste.length-1};paint();return;}if(!table[col][n]?.up)return;selected={where,col,n};paint();}
+    function moving(){if(!selected)return null;if(selected.where==="waste")return[waste.at(-1)];return table[selected.col].slice(selected.n);}
+    function canStack(card,onto){return onto?red(card.s)!==red(onto.s)&&val(card.r)===val(onto.r)-1:card.r==="K";}
+    function take(){if(selected.where==="waste")waste.pop();else{table[selected.col]=table[selected.col].slice(0,selected.n);const left=table[selected.col].at(-1);if(left)left.up=true;}}
+    function place(dest,key){
+      const cards=moving();if(!cards)return;
+      if(dest==="found"){if(cards.length!==1)return;const card=cards[0],pile=found[key],topCard=pile.at(-1);if(card.s!==key)return;if(!topCard&&card.r!=="A")return;if(topCard&&val(card.r)!==val(topCard.r)+1)return;take();pile.push(card);calm+=5;}
+      else{if(!canStack(cards[0],table[key].at(-1)))return;take();table[key].push(...cards);calm+=cards.length;}
+      selected=null;paint();if(suits.every((s)=>found[s].length===13))win();
     }
-    function choose(where, col, n) {
-      if (where === "waste") { selected = { where, index: waste.length - 1 }; paint(); return; }
-      const card = table[col][n];
-      if (!card?.up) return;
-      selected = { where, col, n }; paint();
-    }
-    function moving() {
-      if (!selected) return null;
-      if (selected.where === "waste") return [waste.at(-1)];
-      return table[selected.col].slice(selected.n);
-    }
-    function canStack(card, onto) {
-      if (!onto) return card.r === "K";
-      return red(card.s) !== red(onto.s) && val(card.r) === val(onto.r) - 1;
-    }
-    function place(dest, key) {
-      const cards = moving();
-      if (!cards) return;
-      if (dest === "found") {
-        if (cards.length !== 1) return;
-        const card = cards[0];
-        const pile = found[key];
-        const topCard = pile.at(-1);
-        if (card.s !== key) return;
-        if (!topCard && card.r !== "A") return;
-        if (topCard && val(card.r) !== val(topCard.r) + 1) return;
-        take(); pile.push(card); calm += 5;
-      } else {
-        const col = table[key];
-        if (!canStack(cards[0], col.at(-1))) return;
-        take(); col.push(...cards); calm += cards.length;
-      }
-      selected = null; paint();
-      if (suits.every((s) => found[s].length === 13)) $("score").textContent = "Clear mind. Calm " + calm;
-    }
-    function take() {
-      if (selected.where === "waste") waste.pop();
-      else {
-        table[selected.col] = table[selected.col].slice(0, selected.n);
-        const left = table[selected.col].at(-1);
-        if (left) left.up = true;
-      }
-    }
-    $("new").onclick = fresh;
-    fresh();
+    function win(){wins+=1;localStorage.setItem("ps-sol-wins",String(wins));$("status").textContent="Clear mind. Level "+level()+" open. A new table may be waiting.";paintMeta();}
+    let deferred;window.addEventListener("beforeinstallprompt",(e)=>{e.preventDefault();deferred=e;});
+    $("install").onclick=async()=>{if(deferred){deferred.prompt();deferred=null;return;}alert("iPhone: Share, then Add to Home Screen. Android: menu, then Install app.");};
+    $("new").onclick=fresh;
+    $("table").onchange=(e)=>{look=e.target.value;localStorage.setItem("ps-sol-look",look);paint();};
+    $("back").onchange=(e)=>{back=e.target.value;localStorage.setItem("ps-sol-back",back);paint();};
+    load();fresh();
   </script>
 </body>
 </html>
