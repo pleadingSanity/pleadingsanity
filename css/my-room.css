@@ -1,0 +1,156 @@
+:root {
+  --room-bg: #000103;
+  --room-card: #0d1b2a;
+  --room-ink: #eef6ff;
+  --room-accent: #00fff0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  background: var(--room-bg);
+  color: var(--room-ink);
+  font-family: Segoe UI, system-ui, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background-image: radial-gradient(
+    circle at 20% 0%,
+    color-mix(in srgb, var(--room-accent) 18%, transparent),
+    transparent 42%
+  );
+}
+
+a {
+  color: var(--room-accent);
+}
+
+.wrap {
+  width: min(880px, calc(100% - 28px));
+  margin: 0 auto;
+  padding: 22px 0 64px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.mark {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--room-accent);
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 18px 0 6px;
+}
+
+.lede, .note {
+  color: #c9d7ea;
+}
+
+.card {
+  background: color-mix(in srgb, var(--room-card) 88%, black);
+  border: 1px solid color-mix(in srgb, var(--room-accent) 35%, transparent);
+  border-radius: 18px;
+  padding: 16px;
+  margin: 14px 0;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+button, .btn {
+  background: transparent;
+  color: var(--room-ink);
+  border: 1px solid var(--room-accent);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button.solid, .btn.solid {
+  background: var(--room-accent);
+  color: #000103;
+  font-weight: 700;
+}
+
+input, textarea {
+  width: 100%;
+  background: #000103;
+  color: var(--room-ink);
+  border: 1px solid #245;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  margin: 10px 0 4px;
+}
+
+.pic {
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--room-accent);
+  background: #0d1b2a;
+}
+
+.swatches {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.swatch {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 0;
+  cursor: pointer;
+}
+
+.price {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.post {
+  border-top: 1px solid #245;
+  padding-top: 10px;
+  margin-top: 10px;
+}
+
+.crisis {
+  background: color-mix(in srgb, #ff00ff 12%, transparent);
+  border-left: 3px solid #ff00ff;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+.crisis strong {
+  color: #ff00ff;
+}
