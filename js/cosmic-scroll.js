@@ -20,6 +20,16 @@ const SAVED_KEY = 'ps-saved';
 const SAVED_ITEMS = 'ps-saved-items';
 const LOCAL_LIKES = 'ps-local-likes';
 
+// Real reports only. Each card links out. Nothing is copied in full.
+const WORLD = [
+  { where: 'United States · July 2026', title: 'A gene therapy for sickle cell disease, from the age of two', sub: 'The FDA widened an existing CRISPR treatment so younger children can have it.', href: 'https://www.fda.gov/news-events/press-announcements/fda-approves-first-gene-therapy-young-children-sickle-cell-disease' },
+  { where: 'World Health Organization · 2023', title: 'A second malaria vaccine, cleared for wider use', sub: 'Made at Oxford and the Serum Institute of India. More children can be protected.', href: 'https://www.who.int/news/item/21-12-2023-who-prequalifies-a-second-malaria-vaccine-a-significant-milestone-in-prevention-of-the-disease' },
+  { where: 'California · 2022', title: 'A fusion test that gave more energy than it took', sub: 'The first controlled experiment to cross that line. Not a power station yet. A real step.', href: 'https://www.energy.gov/articles/doe-national-laboratory-makes-history-achieving-fusion-ignition' },
+  { where: 'Nobel Prize · 2023', title: 'The mRNA work behind the Covid vaccines', sub: 'Years of quiet research, then a tool the world used. Katalin Karikó and Drew Weissman.', href: 'https://www.nobelprize.org/prizes/medicine/2023/press-release/' },
+  { where: 'London', title: 'A program that maps the shape of proteins', sub: 'AlphaFold, from DeepMind. It opened work that used to take a lab years.', href: 'https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/' },
+  { where: 'NASA · 2022', title: 'A view the size of a grain of sand', sub: 'Webb’s first deep field. One galaxy cluster, and thousands of galaxies behind it.', href: 'https://science.nasa.gov/mission/webb/webbs-first-images/' },
+];
+
 const AFFIRMATIONS = [
   ['You survived 100% of your worst days.', 'That record is unbeaten.'],
   ['Healing isn\'t linear.', 'It\'s a spiral that keeps rising.'],
@@ -83,6 +93,14 @@ function postSource() {
       done = true;
       return [];
     }
+  };
+}
+
+function worldSource() {
+  let lap = 0;
+  return () => {
+    lap += 1;
+    return Promise.resolve(WORLD.map((story, i) => ({ type: 'world', key: `w${lap}-${i}`, ...story })));
   };
 }
 
@@ -175,6 +193,13 @@ function cardBody(item, index) {
           ${v.description ? `<p class="cs-body">${esc(v.description.slice(0, 200))}</p>` : ''}
         </div>`;
     }
+    case 'world':
+      return `<div class="cs-center cs-story">
+        <p class="cs-kicker">${esc(item.where)}</p>
+        <h3 class="cs-story-title">${esc(item.title)}</h3>
+        <p class="cs-sub">${esc(item.sub)}</p>
+        <a class="cs-cta" href="${esc(item.href)}" target="_blank" rel="noopener noreferrer">Read the source</a>
+      </div>`;
     case 'quote':
       return `<div class="cs-center"><p class="cs-big">${esc(item.title)}</p><p class="cs-sub">${esc(item.sub)}</p></div>`;
     case 'tip':
@@ -210,6 +235,8 @@ class CosmicScroll {
     this.sources = [];
     if (wanted.includes('posts')) this.sources.push({ next: postSource(), weight: 2 });
     if (wanted.includes('videos')) this.sources.push({ next: videoSource(), weight: 1 });
+    if (wanted.includes('world')) this.sources.push({ next: worldSource(), weight: 1 });
+    this.worldOnly = wanted.includes('world') && !wanted.includes('posts') && !wanted.includes('videos');
     this.calm = calmSource();
     this.queue = { live: [], calm: [] };
     this.count = 0;
@@ -288,9 +315,9 @@ class CosmicScroll {
   // Pick the next item: live sources first, calm filler in between.
   async nextItem() {
     this.count++;
-    if (this.count % BREAK_EVERY === 0) return { type: 'break', key: 'b' + this.count };
-    if (this.count % 7 === 0) return { type: 'breathe', key: 'br' + this.count };
-    const useLive = this.count % 3 !== 0;
+    if (!this.worldOnly && this.count % BREAK_EVERY === 0) return { type: 'break', key: 'b' + this.count };
+    if (!this.worldOnly && this.count % 7 === 0) return { type: 'breathe', key: 'br' + this.count };
+    const useLive = this.worldOnly || this.count % 3 !== 0;
     if (useLive && !this.queue.live.length && this.sources.length) {
       const pages = await Promise.all(this.sources.map((s) => s.next()));
       // Interleave sources so posts and videos mix naturally
@@ -301,6 +328,7 @@ class CosmicScroll {
       this.queue.live.push(...mixed.filter((it) => !this.seen.has(it.key)));
     }
     if (useLive && this.queue.live.length) return this.queue.live.shift();
+    if (this.worldOnly) return { type: 'world', key: 'w-end-' + this.count, where: 'Pleading Sanity', title: 'That is the list for now', sub: 'Six true stories. Swipe back and read them again.', href: '/about.html' };
     if (!this.queue.calm.length) this.queue.calm = await this.calm();
     return this.queue.calm.shift();
   }
