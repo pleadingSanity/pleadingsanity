@@ -16,8 +16,36 @@ permissions:
   contents: write
 
 jobs:
+  check:
+    name: House check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Manifests stay the same app
+        run: |
+          python3 - << 'PY'
+          import json, pathlib, sys
+          site = json.loads(pathlib.Path("manifest.json").read_text())
+          arron = json.loads(pathlib.Path("manifest-arron.json").read_text())
+          sol = json.loads(pathlib.Path("manifest-solitaire.json").read_text())
+          assert site.get("id") == "/" and site.get("start_url") == "/", site
+          assert arron.get("id") == "/arron-app.html", arron
+          assert sol.get("id") == "/sanity-solitaire.html", sol
+          for name in ["index.html","tools.html","crisis.html","games.html","sanity-solitaire.html","arron-app.html","assets/theme/sky.jpg"]:
+              assert pathlib.Path(name).exists(), name
+          bad = []
+          for p in pathlib.Path(".").glob("*.html"):
+              text = p.read_text(encoding="utf-8", errors="ignore")
+              if "116 123" in text or "Samaritans" in text or "SHOUT to 85258" in text:
+                  bad.append(p.name)
+          if bad:
+              print("Clinic lines returned:", ", ".join(bad))
+              sys.exit(1)
+          print("House check passed")
+          PY
   deploy:
     name: ✨ Sync • Build • Live
+    needs: check
     runs-on: ubuntu-latest
 
     steps:

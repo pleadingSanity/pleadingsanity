@@ -36,13 +36,13 @@ type Action = { type: string; label: string; href?: string; ok: boolean };
 // Raps, scripts and plans need room to breathe; everyday replies stay short.
 const CREATIVE_ASK = /\b(rap|raps|verse|verses|lyrics?|hook|spoken word|song|script|storyboard|voice-?over|caption|image prompt|edit guide|plan)\b/i;
 
-async function reply(system: string, turns: Turn[], creator: boolean, creative = false) {
-  const maxTokens = creator ? (creative ? 3000 : 2000) : creative ? 1800 : 700;
-  return runChain(system, turns, { creator, maxTokens });
+async function reply(system: string, turns: Turn[], creator: boolean, creative = false, signedIn = false) {
+  const maxTokens = creator ? (creative ? 3500 : 2800) : signedIn ? 2200 : creative ? 1800 : 1400;
+  return runChain(system, turns, { creator: creator || signedIn, maxTokens });
 }
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
-const MAX_MESSAGE = 2000;
+const MAX_MESSAGE = 4000;
 const MAX_STORY = 8000;
 const HISTORY_FOR_CONTEXT = 50; // newest 50 messages — enough to remember, small enough to stay fast and cheap
 const HISTORY_FOR_DISPLAY = 60;
@@ -460,7 +460,7 @@ async function chat(req: Request, context: Context, rid: string) {
       answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true);
       answer = { ...answer, provider: "council", model: "gpt-claude-gemini-grok" };
     } else {
-      answer = owner ? await workAsOne(system, turns, creative ? 1400 : 900) : await reply(system, turns, creator, creative);
+      answer = owner ? await workAsOne(system, turns, creative ? 2200 : 1600) : await reply(system, turns, creator, creative, Boolean(user));
     }
   } catch {
     // Every mind is quiet: a gentle reply with the crisis lines — no error, no stack trace, nothing saved.
