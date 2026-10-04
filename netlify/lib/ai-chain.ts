@@ -31,7 +31,9 @@ const openaiDirect = process.env.OPENAI_API_KEY
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
 // They are not in the council. They speak only when GPT, Claude, Gemini and Grok are all quiet.
-// Left out on purpose: anything that may train on a person's words, code-only models, and doors that retire this week.
+// A name that does not end in :free can bill. Those stay silent until PS_IN_PROFIT is set on Netlify.
+// Not here: labs that may train on a person's words, the free router (it can pick one of those),
+// music models, and Space Bunny, which retires on 5 Oct 2026.
 const FREE_SPARES: { name: string; model: string }[] = [
   { name: "gemma", model: "google/gemma-4-31b-it:free" },
   { name: "qwen", model: "qwen/qwen3.8-27b:free" },
@@ -41,7 +43,16 @@ const FREE_SPARES: { name: string; model: string }[] = [
   { name: "laguna-small", model: "poolside/laguna-xs-2.1:free" },
   { name: "apodex", model: "apodex/apodex-1.1-mini:free" },
   { name: "dots", model: "dots-studio/dots-3-note-preview:free" },
+  { name: "north-code", model: "cohere/north-mini-code:free" },
 ];
+const PAID_SPARES: { name: string; model: string }[] = [
+  { name: "ling-paid", model: "inclusionai/ling-3.1-flash" },
+];
+
+function inProfit() {
+  const v = (process.env.PS_IN_PROFIT || "").trim().toLowerCase();
+  return v === "1" || v === "true" || v === "yes";
+}
 
 export type Turn = { role: "user" | "assistant"; content: string };
 export type Provider = "anthropic" | "openai" | "gemini" | "grok";
@@ -136,7 +147,13 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number) {
   const client = spareClient();
   if (!client) return null;
   const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. Do not recite clinic numbers.`;
-  for (const spare of FREE_SPARES) {
+  const paidOk = inProfit();
+  const line = [
+    ...FREE_SPARES,
+    ...(paidOk ? PAID_SPARES : []),
+  ].filter((spare) => spare.model.endsWith(":free") || paidOk);
+  if (!paidOk && PAID_SPARES.length) console.warn("AI chain: paid spares sitting out until PS_IN_PROFIT is set");
+  for (const spare of line) {
     try {
       const res = await client.chat.completions.create({
         model: spare.model,
@@ -145,9 +162,9 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number) {
       });
       const text = (res.choices[0]?.message?.content ?? "").trim();
       if (text) return { text, provider: `spare:${spare.name}`, model: spare.model };
-      console.warn(`AI chain: empty reply from free spare ${spare.name}`);
+      console.warn(`AI chain: empty reply from spare ${spare.name}`);
     } catch (error) {
-      console.warn(`AI chain: free spare ${spare.name} unavailable (${why(error)})`);
+      console.warn(`AI chain: spare ${spare.name} unavailable (${why(error)})`);
     }
   }
   return null;

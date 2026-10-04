@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.9'; // eight free spares, still only if the four are quiet
-const STATIC_CACHE = 'pleading-sanity-static-v35';
+const VERSION = '5.12.10'; // paid spare stays off until the house is in profit
+const STATIC_CACHE = 'pleading-sanity-static-v36';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
