@@ -142,6 +142,12 @@
     .freq img{width:88px;height:88px;border-radius:18px;object-fit:cover;border:1px solid rgba(0,255,240,.28);box-shadow:0 0 18px rgba(0,255,240,.12);}
     .freq-copy{min-width:0;}
     .freq-time{margin-top:6px;color:var(--text);font-size:.88rem;}
+    .freq-test{
+      margin-top:10px;background:transparent;color:var(--cyan);
+      border:1px solid rgba(0,255,240,.5);border-radius:999px;
+      padding:7px 14px;font:inherit;font-size:.88rem;cursor:pointer;
+    }
+    .freq-test:hover{background:rgba(0,255,240,.12);}
     .day-table{width:100%;border-collapse:collapse;margin-top:14px;font-size:.95rem;color:var(--text-soft);}
     .day-table th,.day-table td{text-align:left;padding:8px 10px;border-bottom:1px solid rgba(0,255,240,.15);vertical-align:top;}
     .day-table th{color:var(--cyan);font-weight:700;}
@@ -308,10 +314,10 @@
 
   <main id="main" role="main">
     <div class="card">
-      <p class="intro">A soft tone to sit with. Not a cure. If you are new, start with 174 or 432, five minutes, once a day.</p>
+      <p class="intro">The number you pick is really in the sound. Under it: wind, water, and a slow chord. Not a cure. If you are new, test 174 or 432 for eight seconds, then sit for five minutes.</p>
 
       <div id="freqList" role="radiogroup" aria-label="Healing frequency selection">
-        <button class="freq" data-hz="174" data-desc="Low and steady" role="radio" aria-checked="false">
+        <div class="freq" tabindex="0" data-hz="174" data-desc="Low and steady" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/174.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">174 Hz</div>
@@ -319,8 +325,8 @@
             <div class="freq-desc">The lowest tone. People sit with it when the head is busy and they want to come back down. Heavy, quiet, steady.</div>
             <div class="freq-time">New listener: 5 minutes, once a day. A good place to start.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="285" data-desc="A little warmer" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="285" data-desc="A little warmer" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/285.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">285 Hz</div>
@@ -328,8 +334,8 @@
             <div class="freq-desc">A little warmer. People link it with starting again gently after a hard day. Still quiet.</div>
             <div class="freq-time">New listener: 5 minutes, once a day, after 174 feels easy.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="396" data-desc="A weight lifting" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="396" data-desc="A weight lifting" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/396.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">396 Hz</div>
@@ -337,8 +343,8 @@
             <div class="freq-desc">People link this with putting a weight down. Guilt, fear, the sentence you keep repeating. The tone does not remove it. It gives you something steady while you sit with it.</div>
             <div class="freq-time">New listener: 5 minutes, once a day.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="417" data-desc="A gentle change" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="417" data-desc="A gentle change" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/417.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">417 Hz</div>
@@ -346,8 +352,8 @@
             <div class="freq-desc">People use this when something is stuck and they want a small change, not a drama. A tide, not a storm.</div>
             <div class="freq-time">New listener: 5 minutes, once a day.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="432" data-desc="Calm" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="432" data-desc="Calm" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/432.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">432 Hz</div>
@@ -355,8 +361,8 @@
             <div class="freq-desc">A calm tuning. Some people find it softer than ordinary concert pitch. Easy to sit with before sleep.</div>
             <div class="freq-time">New listener: 5 minutes, once a day. The other good place to start.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="528" data-desc="A clear middle tone" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="528" data-desc="A clear middle tone" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/528.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">528 Hz</div>
@@ -364,8 +370,8 @@
             <div class="freq-desc">A clear middle tone. People call it the love frequency and sit with it when they want to feel a bit more open. It does not repair the body.</div>
             <div class="freq-time">New listener: 5 minutes, once a day.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="639" data-desc="Two lights meeting" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="639" data-desc="Two lights meeting" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/639.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">639 Hz</div>
@@ -373,8 +379,8 @@
             <div class="freq-desc">People link this with relationship and being able to hear another person. Use it when you feel cut off. It is company for the feeling, not a fix for the relationship.</div>
             <div class="freq-time">New listener: 5 minutes, once a day.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="741" data-desc="Brighter, still soft" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="741" data-desc="Brighter, still soft" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/741.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">741 Hz</div>
@@ -382,8 +388,8 @@
             <div class="freq-desc">Brighter. People sit with it before they write, or when thoughts are tangled and they want a cleaner line. Keep it soft.</div>
             <div class="freq-time">New listener: 3 to 5 minutes, and not on the first day.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="852" data-desc="A quiet mind" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="852" data-desc="A quiet mind" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/852.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">852 Hz</div>
@@ -391,8 +397,8 @@
             <div class="freq-desc">Higher still. People link it with a quiet mind and inner clarity. It is easy to overdo. Slider stays near the bottom.</div>
             <div class="freq-time">New listener: 3 to 5 minutes, only after the lower tones feel easy.</div>
           </span>
-        </button>
-        <button class="freq" data-hz="963" data-desc="The highest. Keep the volume down" role="radio" aria-checked="false">
+        </div>
+        <div class="freq" tabindex="0" data-hz="963" data-desc="The highest. Keep the volume down" role="radio" aria-checked="false">
           <img src="/assets/theme/hz/963.jpg" alt="" width="88" height="88" />
           <span class="freq-copy">
             <div class="freq-name">963 Hz</div>
@@ -400,7 +406,7 @@
             <div class="freq-desc">The highest. People link it with a sense of being part of something larger. It is a thin tone. Volume right down, or it will annoy you.</div>
             <div class="freq-time">New listener: 3 minutes. Leave this until the rest feel kind.</div>
           </span>
-        </button>
+        </div>
       </div>
 
       <div class="play-section">
@@ -466,6 +472,7 @@
       <h2 id="honest-truth-title" class="freq-name">The honest truth</h2>
       <div class="note" style="margin-top:12px;">
         <p><strong>This is a calming practice, not a treatment.</strong> The science on specific frequencies is limited. There is no good evidence that one number heals something another number cannot. These tones are not a cure for anything.</p>
+        <p style="margin-top:12px;">The hertz you choose is actually playing. Under it, this page makes a soft earth bed in the browser: wind, water, and a slow chord dropped into a gentler octave. That bed is not a recording of a real forest, and it is not a song from a record. The Test button plays eight seconds so you can hear the truth of it before you sit.</p>
         <p style="margin-top:12px;">What does help — and this part is well known — is slowing down, breathing gently and giving yourself a quiet moment. The tone is a doorway to that. If a certain tone means something to you, that meaning is real and it is yours. We respect it.</p>
         <p style="margin-top:12px;">If you are struggling right now, a tone is not enough on its own, and you deserve more than that. <a href="/crisis.html">Read the house truth</a> or <a href="/tools.html">see how to use this house</a>.</p>
       </div>
@@ -515,6 +522,8 @@
     let token = 0;
     let releaseTimer = null;
     let releasing = null;
+    let testTimer = null;
+    let noiseBuf = null;
 
     function softness(hz) {
       if (hz >= 900) return 0.16;
@@ -564,23 +573,23 @@
       var now = ctx.currentTime;
       var master = ctx.createGain();
       master.gain.setValueAtTime(0.0001, now);
-      master.gain.exponentialRampToValueAtTime(level(), now + 1.5);
-      var filter = ctx.createBiquadFilter();
-      filter.type = 'lowpass';
-      filter.frequency.value = hz >= 700 ? 1600 : 2800;
-      filter.Q.value = 0.35;
-      master.connect(filter);
-      filter.connect(ctx.destination);
+      master.gain.exponentialRampToValueAtTime(level(), now + 1.6);
+      var air = ctx.createBiquadFilter();
+      air.type = 'lowpass';
+      air.frequency.value = hz >= 700 ? 2200 : 4200;
+      air.Q.value = 0.3;
+      master.connect(air);
+      air.connect(ctx.destination);
       var oscs = [];
-      function voice(cents, pan) {
+      function tone(freq, gain, cents, pan) {
         var o = ctx.createOscillator();
         var g = ctx.createGain();
         o.type = 'sine';
-        o.frequency.value = hz;
-        o.detune.value = cents;
-        g.gain.value = 0.5;
+        o.frequency.value = freq;
+        o.detune.value = cents || 0;
+        g.gain.value = gain;
         o.connect(g);
-        if (ctx.createStereoPanner) {
+        if (ctx.createStereoPanner && pan) {
           var p = ctx.createStereoPanner();
           p.pan.value = pan;
           g.connect(p);
@@ -591,19 +600,57 @@
         o.start();
         oscs.push(o);
       }
-      voice(-3, -0.28);
-      voice(3, 0.28);
-      if (hz < 500) {
-        var sub = ctx.createOscillator();
-        var sg = ctx.createGain();
-        sub.type = 'sine';
-        sub.frequency.value = hz / 2;
-        sg.gain.value = 0.1;
-        sub.connect(sg);
-        sg.connect(master);
-        sub.start();
-        oscs.push(sub);
+      tone(hz, 0.42, -2, -0.15);
+      tone(hz, 0.42, 2, 0.15);
+      var root = hz;
+      while (root > 196) root = root / 2;
+      while (root < 98) root = root * 2;
+      tone(root, 0.16, 0, -0.2);
+      tone(root * 1.5, 0.09, 0, 0.2);
+      tone(root * 2, 0.05, 0, 0);
+      if (!noiseBuf) {
+        var len = ctx.sampleRate * 2;
+        noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
+        var data = noiseBuf.getChannelData(0);
+        var brown = 0;
+        for (var i = 0; i < len; i++) {
+          var white = Math.random() * 2 - 1;
+          brown = (brown + 0.02 * white) / 1.02;
+          data[i] = Math.max(-1, Math.min(1, brown * 3.2));
+        }
       }
+      function bedNoise(kind) {
+        var src = ctx.createBufferSource();
+        src.buffer = noiseBuf;
+        src.loop = true;
+        var filter = ctx.createBiquadFilter();
+        var g = ctx.createGain();
+        if (kind === 'wind') {
+          filter.type = 'lowpass';
+          filter.frequency.value = 320;
+          g.gain.value = 0.2;
+        } else {
+          filter.type = 'bandpass';
+          filter.frequency.value = 640;
+          filter.Q.value = 0.55;
+          g.gain.value = 0.07;
+          var lfo = ctx.createOscillator();
+          var lg = ctx.createGain();
+          lfo.frequency.value = 0.07;
+          lg.gain.value = 0.04;
+          lfo.connect(lg);
+          lg.connect(g.gain);
+          lfo.start();
+          oscs.push(lfo);
+        }
+        src.connect(filter);
+        filter.connect(g);
+        g.connect(master);
+        src.start();
+        oscs.push(src);
+      }
+      bedNoise('wind');
+      bedNoise('water');
       bed = { master: master, oscs: oscs };
     }
 
@@ -620,18 +667,57 @@
       });
     }
 
+    function selectFreq(f) {
+      document.querySelectorAll('.freq').forEach(x => {
+        x.classList.remove('active');
+        x.setAttribute('aria-checked', 'false');
+      });
+      f.classList.add('active');
+      f.setAttribute('aria-checked', 'true');
+      activeHz = parseFloat(f.dataset.hz);
+    }
+
+    function ensureCtx() {
+      if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === 'suspended') ctx.resume();
+    }
+
+    function playFor(seconds) {
+      if (testTimer) clearTimeout(testTimer);
+      isPlaying = true;
+      playBtn.textContent = 'Pause';
+      playBtn.classList.add('playing');
+      status.textContent = 'Testing ' + activeHz + ' Hz for ' + seconds + ' seconds. The number is in the sound. Wind, water and a slow chord sit under it.';
+      status.classList.add('active');
+      ensureCtx();
+      arm();
+      testTimer = setTimeout(stop, seconds * 1000);
+    }
+
     document.querySelectorAll('.freq').forEach(f => {
+      var test = document.createElement('button');
+      test.type = 'button';
+      test.className = 'freq-test';
+      test.textContent = 'Test 8 seconds';
+      f.querySelector('.freq-copy').appendChild(test);
       f.addEventListener('click', () => {
-        document.querySelectorAll('.freq').forEach(x => {
-          x.classList.remove('active');
-          x.setAttribute('aria-checked', 'false');
-        });
-        f.classList.add('active');
-        f.setAttribute('aria-checked', 'true');
-        activeHz = parseFloat(f.dataset.hz);
+        selectFreq(f);
         status.textContent = 'Selected: ' + activeHz + ' Hz. ' + f.dataset.desc + '.';
         status.classList.remove('active');
         if (isPlaying) arm();
+      });
+      f.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); f.click(); }
+      });
+      test.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectFreq(f);
+        try { playFor(8); }
+        catch (err) {
+          isPlaying = false;
+          status.textContent = 'Audio not supported. Try another browser.';
+          status.classList.remove('active');
+        }
       });
     });
 
@@ -653,11 +739,10 @@
       isPlaying = true;
       playBtn.textContent = 'Pause';
       playBtn.classList.add('playing');
-      status.textContent = 'Playing ' + activeHz + ' Hz. Breathe slowly.';
+      status.textContent = 'Playing ' + activeHz + ' Hz. Wind, water and a slow chord underneath. Breathe slowly.';
       status.classList.add('active');
       try {
-        if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-        if (ctx.state === 'suspended') ctx.resume();
+      ensureCtx();
         arm();
       } catch (e) {
         isPlaying = false;
@@ -667,6 +752,7 @@
     }
 
     function stop(){
+      if (testTimer) { clearTimeout(testTimer); testTimer = null; }
       token++;
       isPlaying = false;
       silence();
