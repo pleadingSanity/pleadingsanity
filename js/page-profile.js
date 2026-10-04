@@ -44,6 +44,11 @@ function playerHTML() {
     const b = G.BADGES[id];
     return `<li class="pp-badge" title="${esc(b.desc)}"><span aria-hidden="true">${b.icon}</span>${esc(b.name)}</li>`;
   }).join('');
+  const levels = (G.GAMES || []).map((game) => {
+    const st = pr.games[game.id] || { bestLevel: 0, plays: 0 };
+    const n = st.plays ? (st.bestLevel || 1) : 0;
+    return `<li><span>${esc(game.icon)} ${esc(game.title)}</span><strong>Lv ${n}</strong></li>`;
+  }).join('');
   return `
     <section class="panel" aria-labelledby="player-title">
       <h2 id="player-title">🌟 Cosmic Player</h2>
@@ -56,8 +61,10 @@ function playerHTML() {
       <div class="pp-bar" role="progressbar" aria-label="XP to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${li.pct}"><span style="width:${li.pct}%"></span></div>
       <p class="muted">${li.into} / ${li.need} XP to level ${li.level + 1}</p>
       ${badges ? `<ul class="pp-badges">${badges}</ul>` : '<p class="muted">No badges yet — your first game unlocks ✨ First Light.</p>'}
+      <h3 style="margin:1rem 0 .4rem;font-size:1rem">Game levels</h3>
+      <ul class="pp-levels">${levels}</ul>
       <div class="btn-row"><a class="sbtn primary" href="/games.html">🎮 Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub">🏅 All badges</a></div>
-      <p class="muted" style="font-size:.85rem">Progress lives privately on this device.</p>
+      <p class="muted" style="font-size:.85rem">Level numbers live on this device. They show on your profile, not on someone else's page.</p>
     </section>`;
 }
 

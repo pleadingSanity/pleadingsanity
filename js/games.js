@@ -728,7 +728,10 @@
         var id = card.getAttribute('data-game');
         var st = profile.games[id];
         var out = card.querySelector('.game-pb');
-        if (out) out.textContent = st && st.plays ? '🏆 Best ' + st.best + ' · ' + st.plays + ' play' + (st.plays === 1 ? '' : 's') : '✨ Not played yet';
+        var alias = { 'sanity-solitaire': 'solitaire' };
+        var gid = profile.games[id] ? id : (alias[id] || id);
+        st = profile.games[gid];
+        if (out) out.textContent = st && st.plays ? 'Lv ' + (st.bestLevel || 1) + ' · Best ' + st.best + ' · ' + st.plays + ' play' + (st.plays === 1 ? '' : 's') : 'Lv 0 · not played yet';
         var mb = card.querySelector('.game-mastery');
         if (mb) mb.hidden = !profile.badges[id + '-master'];
         card.classList.toggle('is-daily', id === dc.game.id);
