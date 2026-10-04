@@ -113,7 +113,8 @@ Evolution, Not Erasure. One Source. One Family.
           <button type="button" data-kind="writing" aria-pressed="false">✍️ Writing</button>
           <button type="button" data-kind="story" aria-pressed="false">📖 Story</button>
           <button type="button" data-kind="video" aria-pressed="false">🎬 Video</button>
-          <button type="button" data-kind="image" aria-pressed="false">🖼️ Image</button>
+          <button type="button" data-kind="image" aria-pressed="false">🖼️ Photo</button>
+          <button type="button" data-kind="meme" aria-pressed="false">😄 Meme</button>
         </div>
       </fieldset>
 
@@ -121,9 +122,10 @@ Evolution, Not Erasure. One Source. One Family.
         <input type="text" name="title" maxlength="120" placeholder="A few words that sum it up" />
       </label>
 
-      <label class="field" id="video-field" hidden><span>YouTube link</span>
+      <label class="field" id="video-field" hidden><span>YouTube link, or a short video under 8 MB</span>
         <input type="url" name="videoUrl" maxlength="300" placeholder="https://www.youtube.com/watch?v=…" inputmode="url" />
-        <small>Plays muted in the feed. Only YouTube links for now.</small>
+        <input type="file" id="video-file" accept="video/mp4,video/webm" />
+        <small>Plays muted in the feed. YouTube, or a short MP4 / WebM under 8 MB. Big films stay as links so this house stays free.</small>
       </label>
 
       <div class="field" id="image-field" hidden>
@@ -241,6 +243,8 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
     const count = document.getElementById('body-count');
     let kind = 'text';
     let imageKey = '';
+    let videoKey = '';
+    let meme = false;
 
     // Their Sanity Profile defaults: who sees new posts, and their usual Truth Tag.
     document.getElementById('visibility').value = me.profile.isPrivate ? 'friends' : me.profile.defaultVisibility || 'public';
@@ -256,10 +260,11 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
     const LIMITS = { text: 5000, story: 20000, video: 5000, image: 5000, status: 1000, writing: 20000 };
     const LABELS = { text: "What's on your mind?", story: 'Your story', video: 'Say something about the video', image: 'Say something about the image', status: "I'm feeling…", writing: 'Your poem, thought or story' };
     function setKind(next) {
-      kind = next;
-      document.querySelectorAll('#kinds [data-kind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === kind)));
-      document.getElementById('video-field').hidden = kind !== 'video';
-      document.getElementById('image-field').hidden = kind !== 'image';
+      meme = next === 'meme';
+      kind = meme ? 'image' : next;
+      document.querySelectorAll('#kinds [data-kind]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.kind === next)));
+      document.getElementById('video-field').hidden = next !== 'video';
+      document.getElementById('image-field').hidden = next !== 'image' && next !== 'meme';
       document.getElementById('body-label').textContent = LABELS[kind];
       bodyEl.maxLength = LIMITS[kind];
       bodyEl.rows = kind === 'story' || kind === 'writing' ? 14 : kind === 'status' ? 3 : 7;
@@ -368,6 +373,24 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
       }
     });
 
+    const videoFile = document.getElementById('video-file');
+    if (videoFile) videoFile.addEventListener('change', async () => {
+      videoKey = '';
+      const file = videoFile.files[0];
+      if (!file) return;
+      if (file.size > 8 * 1024 * 1024) { toast('That video is over 8 MB. Use a YouTube link for longer ones.'); videoFile.value = ''; return; }
+      const data = new FormData();
+      data.append('image', file);
+      msg.innerHTML = '<p class="notice info">Uploading video…</p>';
+      try {
+        ({ key: videoKey } = await api('/api/images', { method: 'POST', form: data }));
+        msg.innerHTML = '<p class="notice ok">Video ready ✓</p>';
+      } catch (error) {
+        msg.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
+        videoFile.value = '';
+      }
+    });
+
     // ─── SUBMIT ───
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -375,7 +398,7 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
       const mood = getMood()[0];
       const problem =
         !mood ? 'Pick how you are feeling.' :
-        kind === 'video' && !form.videoUrl.value.trim() ? 'Add a YouTube link.' :
+        kind === 'video' && !form.videoUrl.value.trim() && !videoKey ? 'Add a YouTube link or a short video.' :
         kind === 'image' && !imageKey ? 'Choose an image (and wait for it to upload).' :
         !body && kind !== 'video' && kind !== 'image' ? 'Write something first.' : '';
       if (problem) { msg.innerHTML = `<p class="notice err">${problem}</p>`; msg.scrollIntoView({ block: 'center' }); return; }
@@ -389,9 +412,10 @@ import { api, esc, requireMember, toast } from '/js/auth.js';
           method: 'POST',
           body: {
             kind, body, mood, imageKey,
+        videoKey,
             title: form.title.value.trim(),
             videoUrl: form.videoUrl.value.trim(),
-            tags: getTags(),
+            tags: meme ? ["meme"] : getTags(),
             visibility: form.visibility.value,
             truthTag: form.truthTag.value,
             contentWarning: document.getElementById('cw').checked,

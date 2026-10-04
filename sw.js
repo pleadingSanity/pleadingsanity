@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.5.0'; // private pages stay off the cache; offline falls back to /offline.html
-const STATIC_CACHE = 'pleading-sanity-static-v18';
+const VERSION = '5.6.0'; // private pages stay off the cache; offline falls back to /offline.html
+const STATIC_CACHE = 'pleading-sanity-static-v19';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v17';
 const OFFLINE_URL = '/offline.html';
 
@@ -52,6 +52,7 @@ const PRECACHE_URLS = [
     '/community-dashboard.html',
     '/cosmic-focus.html',
     '/crisis.html',
+    '/tools.html',
     '/feed.html',
     '/frequencies.html',
     '/games.html',

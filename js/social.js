@@ -18,16 +18,18 @@ export const moodBadge = (mood) => {
   return `<span class="mood mood-${esc(mood in MOODS ? mood : 'rising')}"><span aria-hidden="true">${m.icon}</span> ${m.label}</span>`;
 };
 
-export const avatar = (who, size = '') =>
-  `<span class="ps-avatar ${size}" aria-hidden="true">${esc(avatarText(who?.avatar, who?.displayName))}</span>`;
+export const avatar = (who, size = '') => {
+  const raw = who?.avatar || '';
+  if (raw.startsWith('photo:')) {
+    const key = raw.slice(6);
+    return `<span class="ps-avatar ${size} has-photo" aria-hidden="true"><img src="/api/images/${encodeURI(key)}" alt="" /></span>`;
+  }
+  return `<span class="ps-avatar ${size}" aria-hidden="true">${esc(avatarText(raw, who?.displayName))}</span>`;
+};
 
 export const CRISIS_STRIP = `
   <div class="crisis-strip" role="note">
-    💙 <strong>You're not alone.</strong> If this is you right now, please reach out:
-    <a href="tel:116123">Samaritans 116 123</a> (free, 24/7) ·
-    text <a href="sms:85258?body=SHOUT">SHOUT to 85258</a> ·
-    <a href="tel:999">999</a> in an emergency ·
-    <a href="/crisis.html">more support</a>
+    You are not a file. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a>
   </div>`;
 
 export function timeAgo(iso) {
@@ -89,7 +91,9 @@ export function postHTML(post, { full = false } = {}) {
   const media = post.videoId
     ? `<div class="post-media"><iframe src="https://www.youtube-nocookie.com/embed/${esc(post.videoId)}?autoplay=0&mute=1&playsinline=1&rel=0"
          title="${esc(post.title || 'Video post')}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
-    : post.imageUrl
+    : post.kind === 'video' && post.imageUrl
+      ? `<div class="post-media"><video src="${esc(post.imageUrl)}" controls playsinline preload="metadata"></video></div>`
+      : post.imageUrl
       ? `<div class="post-media"><img src="${esc(post.imageUrl)}" alt="${esc(post.title || 'Image shared by ' + author.displayName)}" loading="lazy" /></div>`
       : '';
   const long = !full && post.body.length > 600;

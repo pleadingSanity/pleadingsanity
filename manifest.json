@@ -1,5 +1,5 @@
 {
-  "name": "Pleading Sanity — Rise From Madness",
+  "name": "Pleading Sanity \u2014 Rise From Madness",
   "short_name": "Sanity",
   "description": "Cosmic healing hub. Arron AI companion, your own Sanity Profile and journal, a live community feed, brain games and frequencies. Free forever. We turn pain into power, survival into strength, madness into meaning.",
   "id": "/",
@@ -95,7 +95,7 @@
     {
       "name": "Get Help Now",
       "short_name": "Help",
-      "description": "UK crisis support — Samaritans, Shout, NHS 111, 999",
+      "description": "UK crisis support \u2014 Samaritans, Shout, NHS 111, 999",
       "url": "/crisis.html",
       "icons": [
         {
@@ -121,7 +121,7 @@
     {
       "name": "My Sanity Profile",
       "short_name": "My Profile",
-      "description": "Your journal, status and creations — free forever",
+      "description": "Your journal, status and creations \u2014 free forever",
       "url": "/profile.html",
       "icons": [
         {
@@ -134,7 +134,7 @@
     {
       "name": "My Sanctuary",
       "short_name": "Sanctuary",
-      "description": "Your private corner — saved posts, creations, progress",
+      "description": "Your private corner \u2014 saved posts, creations, progress",
       "url": "/sanctuary.html",
       "icons": [
         {
@@ -199,7 +199,7 @@
     {
       "name": "Sanity Hub",
       "short_name": "Hub",
-      "description": "Cosmic healing hub — stories, community, growth",
+      "description": "Cosmic healing hub \u2014 stories, community, growth",
       "url": "/sanityhub.html",
       "icons": [
         {
@@ -212,7 +212,7 @@
     {
       "name": "Sanity Feed",
       "short_name": "Feed",
-      "description": "Positive stories — no doomscroll, only sanity",
+      "description": "Positive stories \u2014 no doomscroll, only sanity",
       "url": "/feed.html",
       "icons": [
         {
@@ -238,7 +238,7 @@
     {
       "name": "Brain Games",
       "short_name": "Games",
-      "description": "All 5 — Focus, Numbers, Patterns, Memory, Rhythm",
+      "description": "All 5 \u2014 Focus, Numbers, Patterns, Memory, Rhythm",
       "url": "/games.html",
       "icons": [
         {
@@ -251,7 +251,7 @@
     {
       "name": "Cosmic Focus",
       "short_name": "Focus",
-      "description": "Memory sequences — watch, remember, repeat",
+      "description": "Memory sequences \u2014 watch, remember, repeat",
       "url": "/cosmic-focus.html",
       "icons": [
         {
@@ -264,7 +264,7 @@
     {
       "name": "Number Nebula",
       "short_name": "Numbers",
-      "description": "Logic & patterns — build confidence gently",
+      "description": "Logic & patterns \u2014 build confidence gently",
       "url": "/number-nebula.html",
       "icons": [
         {
@@ -277,7 +277,7 @@
     {
       "name": "Pattern Galaxy",
       "short_name": "Patterns",
-      "description": "Visual flow — train intuition & calm",
+      "description": "Visual flow \u2014 train intuition & calm",
       "url": "/pattern-galaxy.html",
       "icons": [
         {
@@ -290,7 +290,7 @@
     {
       "name": "Memory Ocean",
       "short_name": "Memory",
-      "description": "Calm matching — no timers, no rush",
+      "description": "Calm matching \u2014 no timers, no rush",
       "url": "/memory-ocean.html",
       "icons": [
         {
@@ -303,7 +303,7 @@
     {
       "name": "Rhythm Resonance",
       "short_name": "Rhythm",
-      "description": "Healing frequencies — listen, feel, align",
+      "description": "Healing frequencies \u2014 listen, feel, align",
       "url": "/rhythm-resonance.html",
       "icons": [
         {
@@ -316,7 +316,7 @@
     {
       "name": "Healing Hz",
       "short_name": "Frequencies",
-      "description": "528Hz, 432Hz — ambient tones to heal",
+      "description": "528Hz, 432Hz \u2014 ambient tones to heal",
       "url": "/frequencies.html",
       "icons": [
         {
@@ -329,7 +329,7 @@
     {
       "name": "Journal Vault",
       "short_name": "Journal",
-      "description": "Private writing — your thoughts, safely yours",
+      "description": "Private writing \u2014 your thoughts, safely yours",
       "url": "/journal-vault.html",
       "icons": [
         {
@@ -342,7 +342,7 @@
     {
       "name": "Community",
       "short_name": "Community",
-      "description": "Dashboard & voice — shape the movement",
+      "description": "Dashboard & voice \u2014 shape the movement",
       "url": "/community-dashboard.html",
       "icons": [
         {
@@ -355,7 +355,7 @@
     {
       "name": "Offline Support",
       "short_name": "Offline",
-      "description": "Crisis help & breathing — always available",
+      "description": "Crisis help & breathing \u2014 always available",
       "url": "/offline.html",
       "icons": [
         {
@@ -368,7 +368,7 @@
     {
       "name": "Shop",
       "short_name": "Shop",
-      "description": "Official merch — support the movement",
+      "description": "Official merch \u2014 support the movement",
       "url": "/shop.html",
       "icons": [
         {
@@ -381,7 +381,7 @@
     {
       "name": "Movement",
       "short_name": "Movement",
-      "description": "Our story — One Source. One Family.",
+      "description": "Our story \u2014 One Source. One Family.",
       "url": "/movement.html",
       "icons": [
         {
@@ -407,7 +407,7 @@
     {
       "name": "Silence Challenge",
       "short_name": "Meditate",
-      "description": "Sit in stillness — train the quiet",
+      "description": "Sit in stillness \u2014 train the quiet",
       "url": "/meditation.html",
       "icons": [
         {
@@ -453,7 +453,7 @@
       "sizes": "630x331",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "Pleading Sanity home — Rise From Madness"
+      "label": "Pleading Sanity home \u2014 Rise From Madness"
     },
     {
       "src": "/assets/images/brand/tracksuit-design.webp",

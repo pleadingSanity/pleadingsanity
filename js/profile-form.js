@@ -28,11 +28,21 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
         <input type="text" name="pronouns" maxlength="30" value="${esc(p.pronouns || '')}" placeholder="e.g. she/her, he/him, they/them" list="pronoun-ideas" autocomplete="off" />
         <datalist id="pronoun-ideas"><option value="she/her"></option><option value="he/him"></option><option value="they/them"></option><option value="she/they"></option><option value="he/they"></option></datalist>
       </label>
+      <div class="field">
+        <span>Profile photo</span>
+        <input type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <small>Replaces the mark above. Stays on this account when the app updates.</small>
+      </div>
+      <div class="field">
+        <span>Background</span>
+        <input type="file" name="banner" accept="image/jpeg,image/png,image/webp,image/gif" />
+        <small>Your sky behind the profile. Under 5 MB, so the house stays free.</small>
+      </div>
       <div class="field" role="group" aria-labelledby="avatar-label">
-        <span id="avatar-label">Avatar</span>
+        <span id="avatar-label">Or a simple mark</span>
         <div class="picker" data-avatars>
           ${AVATARS.map((a) => `<button type="button" data-avatar="${a}" aria-pressed="${p.avatar === a}" aria-label="Avatar ${a}">${a}</button>`).join('')}
-          <button type="button" data-avatar="" aria-pressed="${p.avatar && !AVATARS.includes(p.avatar)}" aria-label="Use my initials" style="font-size:1rem">Aa</button>
+          <button type="button" data-avatar="" aria-pressed="${p.avatar && !AVATARS.includes(p.avatar) && !String(p.avatar).startsWith('photo:')}" aria-label="Use my initials" style="font-size:1rem">Aa</button>
         </div>
         <small>Pick an emoji, or "Aa" to use your initials.</small>
       </div>
@@ -89,6 +99,7 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
   const show = (text, kind = 'err') => { msg.innerHTML = `<p class="notice ${kind}">${text}</p>`; msg.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
 
   let avatar = p.avatar || AVATARS[0];
+  let photoKey = (p.avatar || "").startsWith("photo:") ? p.avatar.slice(6) : "";
   const avatars = root.querySelector('[data-avatars]');
   if (!p.avatar) avatars.querySelector(`[data-avatar="${AVATARS[0]}"]`).setAttribute('aria-pressed', 'true');
   avatars.addEventListener('click', (e) => {
@@ -122,10 +133,30 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
     const button = form.querySelector('button[type="submit"]');
     button.disabled = true;
     button.setAttribute('aria-busy', 'true');
+    const upload = async (file, path) => {
+      const data = new FormData();
+      data.append('image', file);
+      const res = await fetch(path, { method: 'POST', body: data });
+      const out = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(out.error || 'Upload failed');
+      return out;
+    };
+    try {
+      if (form.elements.photo.files[0]) {
+        const up = await upload(form.elements.photo.files[0], '/api/images');
+        photoKey = up.key;
+        avatar = '';
+      }
+      if (form.elements.banner.files[0]) await upload(form.elements.banner.files[0], '/api/images/banner');
+    } catch (err) {
+      button.disabled = false;
+      button.removeAttribute('aria-busy');
+      return show(err.message || 'Upload failed');
+    }
     const body = {
       displayName: displayName.value,
       username: username.value,
-      avatar: avatar || displayName.value,
+      avatar: photoKey ? `photo:${photoKey}` : (avatar || displayName.value),
       bio: form.elements.bio.value,
       mood: getMood()[0] || 'rising',
       interests: getInterests(),

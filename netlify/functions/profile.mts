@@ -133,7 +133,7 @@ async function saveMe(req: Request, userId: string) {
   if (taken.length) return json({ error: "That username is taken — try another." }, 409);
 
   const displayName = str(body.displayName, 40) || existing?.displayName || username;
-  const avatar = str(body.avatar, 8) || existing?.avatar || "🌌";
+  const avatar = str(body.avatar, 220) || existing?.avatar || "🌌";
   const pick = <T,>(key: string, clean: (v: unknown) => T, fallback: T): T =>
     key in body ? clean(body[key]) : fallback;
 

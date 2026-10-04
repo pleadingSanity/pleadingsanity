@@ -70,12 +70,18 @@ export async function publishPost(author: Author, input: Record<string, unknown>
   const text = str(input.body, kind === "story" || kind === "writing" || kind === "journal" ? 20000 : 5000);
 
   let videoId: string | null = null;
+  let imageKey: string | null = null;
   if (kind === "video") {
     videoId = youtubeId(str(input.videoUrl, 300));
-    if (!videoId) return { ok: false, status: 400, error: "That doesn't look like a YouTube link. Try copying it again." };
+    const videoKey = str(input.videoKey, 200);
+    if (!videoId && videoKey.startsWith(`${author.id}/`)) {
+      const exists = await getStore("post-images").getMetadata(videoKey);
+      if (!exists) return { ok: false, status: 400, error: "That video upload has expired — please add it again." };
+      imageKey = videoKey;
+    } else if (!videoId) {
+      return { ok: false, status: 400, error: "Add a YouTube link, or a short video under 8 MB." };
+    }
   }
-
-  let imageKey: string | null = null;
   if (kind === "image") {
     const key = str(input.imageKey, 200);
     if (!key.startsWith(`${author.id}/`)) return { ok: false, status: 400, error: "Please upload an image first." };
