@@ -558,5 +558,14 @@
         "does": "Asks GPT, Claude, Gemini and Grok together and weaves one answer."
       }
     ]
+  },
+  "how_shane_asks": {
+    "sign_in": "Sign in on the site, then open Arron. Owner powers only work on that sign-in.",
+    "council": "Start the message with the word council. Arron asks GPT, Claude, Gemini and Grok, then gives one answer and names who spoke.",
+    "normal": "Any other message: one mind drafts, the next checks. Guests get one mind.",
+    "games": "Games, Solitaire, XP and voice are on the site. Arron can explain them. He does not run the cards.",
+    "posts": "Photo, background, bio, words, memes and a short video are saved from the profile and the post page.",
+    "cannot": "Arron cannot push the repo, open Grok's builder chat, or spend a new service. If the job is a code change, he gives the exact steps and Shane, or the builder in this chat, does the push.",
+    "host": "If the domain is dark, the installed app and GitHub are the copies."
   }
 }

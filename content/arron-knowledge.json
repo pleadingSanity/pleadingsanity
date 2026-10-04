@@ -353,5 +353,14 @@
     "truth": "A suspended host can take the domain down. Do not promise the site outlives an unpaid bill.",
     "what_holds": "The installed app and GitHub are the copies. The cached app is the shelter. Static pages do not need an AI to open.",
     "say_if_asked": "If asked whether the website will always be there, say plainly: a suspended host can take the domain down. The installed app keeps the cached pages. The GitHub repository is the other copy. Do not promise that pleadingsanity.co.uk outlives an unpaid Netlify bill."
+  },
+  "how_shane_asks": {
+    "sign_in": "Sign in on the site, then open Arron. Owner powers only work on that sign-in.",
+    "council": "Start the message with the word council. Arron asks GPT, Claude, Gemini and Grok, then gives one answer and names who spoke.",
+    "normal": "Any other message: one mind drafts, the next checks. Guests get one mind.",
+    "games": "Games, Solitaire, XP and voice are on the site. Arron can explain them. He does not run the cards.",
+    "posts": "Photo, background, bio, words, memes and a short video are saved from the profile and the post page.",
+    "cannot": "Arron cannot push the repo, open Grok's builder chat, or spend a new service. If the job is a code change, he gives the exact steps and Shane, or the builder in this chat, does the push.",
+    "host": "If the domain is dark, the installed app and GitHub are the copies."
   }
 }

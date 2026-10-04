@@ -52,6 +52,7 @@ Say this in plain British English when asked. Do not recite clinic numbers, NHS 
 ${houseLines(housePack.house_truth)}
 COUNCIL
 ${houseLines(housePack.council)}
+${houseLines(housePack.how_shane_asks)}
 GAMES SHELF
 ${houseLines(housePack.games)}
 HOST
