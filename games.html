@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/games.html" />
-  <title>Brain Games — Pleading Sanity | No Ads. No Stress. Just Play.</title>
+  <title>Brain Games | Pleading Sanity</title>
   <meta name="description" content="Your own brain-training games — Cosmic Focus, Number Nebula, Pattern Galaxy, Memory Ocean, Rhythm Resonance, Stardust Dash. Download as an app. Free forever.">
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
@@ -252,6 +252,14 @@
     .game-card:nth-child(8){animation-delay:.8s;}
     .badge.new,.badge.official,.badge.live,.badge.calm{box-shadow:none;}
     @media (prefers-reduced-motion:reduce){.hub-top,.daily,.shelf,.game-card{animation:none!important;opacity:1;transform:none;}.game-card{opacity:1;}}
+    .about-games{margin-top:50px;padding:28px 24px;background:var(--glass);border-radius:20px;border:1px solid var(--border);}
+    .about-games h2{color:var(--cyan);font-size:1.4rem;margin-bottom:10px;text-align:center;}
+    .about-lead{color:var(--text-soft);max-width:760px;margin:0 auto 20px;text-align:center;}
+    .about-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:14px;}
+    .about-list > div{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);}
+    .about-list dt{font-weight:800;margin-bottom:4px;}
+    .about-list dt a{text-decoration:none;}
+    .about-list dd{color:var(--text-soft);font-size:.95rem;line-height:1.6;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/games-sanctuary.css" />
@@ -334,8 +342,10 @@
 
   <main id="main" role="main">
     <p class="intro">
-      100% built in-house — <strong>zero external links, zero ads, zero pressure.</strong><br>
-      Download as a phone app → works offline → auto-saves progress → grows with your mind 💙✨
+      100% built in-house — <strong>no ads, no pressure, no leaderboards that shame you.</strong><br>
+      Play for two minutes or twenty. Feedback is gentle, mistakes are fine, and there is no one to compare yourself with.
+      Your progress is saved on this device, and if you sign in to a free <a href="/profile.html">Sanity Profile</a> it quietly follows you to any device. 💙✨
+      <br><a href="#about-games">What each game is for →</a>
     </p>
 
     <section id="psg-hub" class="hub" aria-label="Your player profile">
@@ -632,6 +642,37 @@
         </div>
       </article>
       </div>
+    </section>
+
+    <section id="about-games" class="about-games" aria-labelledby="about-games-h">
+      <h2 id="about-games-h">🧭 About the games — what each one is for</h2>
+      <p class="about-lead">These are small, kind games, not treatment. They can help you steady your focus, settle your breathing or give a busy mind somewhere softer to rest for a few minutes. Take what helps and leave the rest.</p>
+      <dl class="about-list">
+        <div><dt><a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a></dt>
+        <dd>A three-peaks card game: clear the cards one rank up or down from the one you are holding. It asks for steady, unhurried attention, which can be a quiet way to give an anxious mind one simple thing to hold on to.</dd></div>
+        <div><dt><a href="/cosmic-connect.html">🌌 Cosmic Connect</a></dt>
+        <dd>Match pairs of cosmic cards, or join the stars to reveal a hopeful message. There is no timer, so it gently exercises memory while letting you go at your own pace.</dd></div>
+        <div><dt><a href="/truth-tag.html">🏷️ Truth Tag</a></dt>
+        <dd>Practise sorting statements into evidence, lived experience or philosophy, with a kind explanation after each one. It helps you read posts here, and things you see online, with a clearer and calmer eye.</dd></div>
+        <div><dt><a href="/cosmic-focus.html">🧠 Cosmic Focus</a></dt>
+        <dd>Watch a sequence light up, then repeat it back; the sequences grow slowly as you go. It is a gentle workout for short-term memory and focus, and a way to practise staying with one thing.</dd></div>
+        <div><dt><a href="/number-nebula.html">🔢 Number Nebula</a></dt>
+        <dd>Number patterns, sequences and bite-sized mental maths that scale with you. It is designed to build confidence with numbers rather than stress, one small win at a time.</dd></div>
+        <div><dt><a href="/pattern-galaxy.html">🌈 Pattern Galaxy</a></dt>
+        <dd>Spot the shape, colour or shift that comes next. It trains visual attention and pattern-spotting, and many people find the noticing itself rather calming.</dd></div>
+        <div><dt><a href="/memory-ocean.html">🧩 Memory Ocean</a></dt>
+        <dd>A calm pair-matching game with no timers and no rush. It gives your memory some light exercise while you breathe slowly and let the rest of the day wait.</dd></div>
+        <div><dt><a href="/rhythm-resonance.html">🎵 Rhythm Resonance</a></dt>
+        <dd>Listen to a short run of soft notes and play it back. Listening closely draws your attention into the present moment, which can help when your thoughts are racing.</dd></div>
+        <div><dt><a href="/stardust-dash.html">🌠 Stardust Dash</a></dt>
+        <dd>A quick, silly reflex game: catch the stars and dodge worries like “Did I leave the oven on?” It is there for a laugh and a change of gear when your mood needs lifting.</dd></div>
+        <div><dt><a href="/frequencies.html">🎧 Healing Hz</a></dt>
+        <dd>Not a game so much as a place to listen: six soft, steady tones you can sit with. Some people find a gentle tone helps them slow down, rest or focus; we make no medical claims, so simply notice how it feels for you.</dd></div>
+        <div><dt><a href="/mind-mode.html">🫧 Mind Mode</a></dt>
+        <dd>Guided breathing with a glowing orb, a 5-4-3-2-1 grounding walk-through and gentle affirmations. It is for the moments you feel overwhelmed and want to come back to your body and the room around you.</dd></div>
+        <div><dt><a href="/mood-journey.html">🌱 Mood Journey</a></dt>
+        <dd>A private eight-week check-in: eight stepping stones, in your own words. Looking back over the weeks can help you notice patterns in your mood, and there is no pressure if you miss one.</dd></div>
+      </dl>
     </section>
 
     <div class="inspire">

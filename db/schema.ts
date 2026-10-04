@@ -110,6 +110,8 @@ export const posts = pgTable(
     truthTag: text("truth_tag").notNull().default(""),
     // Guardians and the creator can pin a post to the top of the feed.
     pinned: boolean().notNull().default(false),
+    // "X have walked this path" — one count per device per post (deduped on the device).
+    views: integer().notNull().default(0),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [
@@ -428,3 +430,25 @@ export const rateLimits = pgTable("rate_limits", {
   windowStart: integer("window_start").notNull(),
   count: integer().notNull().default(0),
 });
+
+// Arron's Workbench — changes Arron drafts for Shane from chat.
+// kind: page (a code/page change, handed to the builder as a ready brief)
+//     | feed | wisdom (content that goes live in one click on approval).
+// status: proposed → approved (ready to push) → done | dismissed.
+// Nothing here changes the site until Shane approves it.
+export const siteProposals = pgTable(
+  "site_proposals",
+  {
+    id: serial().primaryKey(),
+    kind: text().notNull().default("page"),
+    target: text().notNull().default(""), // e.g. "index.html", "feed", "games.html"
+    title: text().notNull(),
+    why: text().notNull().default(""),
+    body: text().notNull(), // the draft: ready-to-paste words or a precise build brief
+    status: text().notNull().default("proposed"),
+    liveHref: text("live_href").notNull().default(""),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("site_proposals_status_idx").on(t.status, t.id)],
+);

@@ -4,9 +4,9 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.7.0'; // shelter pages, sky, and free voice stay in the same install
-const STATIC_CACHE = 'pleading-sanity-static-v20';
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v17';
+const VERSION = '5.8.0'; // grows forever: silent updates, "Arron grew wiser" note, workbench
+const STATIC_CACHE = 'pleading-sanity-static-v21';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
 // Profile, member, journal and account pages hold personal data.

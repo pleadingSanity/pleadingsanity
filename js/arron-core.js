@@ -1307,6 +1307,16 @@
       final.forEach((line, i) => { if (i) quote.appendChild(document.createElement('br')); quote.appendChild(document.createTextNode(line)); });
     }
     if (data.version) $('aa-version').textContent = 'Arron ' + data.version + (data.updated ? ' · wisdom updated ' + fmtDate(data.updated) : '');
+    // Installed once, growing forever: a new soul file means Arron grew. Say so gently, once.
+    if (data.version) {
+      const key = data.version + '|' + (data.updated || '');
+      const seen = store.get('ps-soul-version', null);
+      store.set('ps-soul-version', key);
+      if (seen && seen !== key) {
+        const latest = Array.isArray(data.changelog) && data.changelog[0] && data.changelog[0].tag;
+        setStatus('Arron grew wiser ✨' + (latest ? ' — ' + latest : '') + '. No reinstall needed, ever.');
+      }
+    }
     if (creatorMode) renderCreator();
     if (!busy) orbState('');
   }

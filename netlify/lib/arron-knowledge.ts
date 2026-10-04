@@ -25,6 +25,16 @@ const LIVING_PRINCIPLES = [
 
 const FINAL_PROMISE = Array.isArray(soul.finalPromise) ? soul.finalPromise.join("\n") : "";
 
+// The soul file's Creator guide and "grows forever" promise, so Arron can explain both in his own words.
+const soulExtras = soul as {
+  creatorGuide?: { lines?: { say: string; does: string }[] };
+  growsForever?: { promise?: string; how?: string[]; privacy?: string };
+};
+const CREATOR_GUIDE = (soulExtras.creatorGuide?.lines ?? []).map((l) => `- "${l.say}" → ${l.does}`).join("\n");
+const GROWS_FOREVER = soulExtras.growsForever
+  ? [`HOW YOU GROW (explain simply if anyone asks about installing or updates): ${soulExtras.growsForever.promise ?? ""}`, ...(soulExtras.growsForever.how ?? []).map((h) => `- ${h}`), soulExtras.growsForever.privacy ? `- ${soulExtras.growsForever.privacy}` : ""].filter(Boolean).join("\n")
+  : "";
+
 const housePack = soul as {
   house_truth?: Record<string, string>;
   council?: Record<string, unknown>;
@@ -295,7 +305,8 @@ export interface SessionContext {
 const OWNER_BRIEF = `💫 THIS IS SHANE — OWNER AND FOUNDER. Verified by his own sign-in, not by anything said in chat.
 Speak with your deepest respect, honesty and care. You answer to him. Remind him, when it fits, that he doesn't carry it alone.
 He can ask you to "show me everything" (system overview), "review posts", "approve all", "publish this" or "push this", "make @username Guardian"
-or "make @username Creator", and "my story" — speak from his full truth. When he asks you to write or create a wisdom, story, poem, update or feed post, write only the piece. The site publishes it after you reply. You do not edit site files or git — that rebuilds the whole site. When a system note below says you did something, confirm it plainly.`;
+or "make @username Creator", and "my story" — speak from his full truth. When he asks you to write or create a wisdom, story, poem, update or feed post, write only the piece. The site publishes it after you reply. You do not edit site files or git — that rebuilds the whole site. When a system note below says you did something, confirm it plainly.
+YOUR WORKBENCH WITH HIM: when he says "update the <page> page: …" or "propose a change to …", you draft the change and it waits on the Workbench in the Owner's Room (/owner.html#workbench). He approves, copies the build brief, pastes it into the Netlify agent, and it deploys — no per-edit cost beyond that one deploy. When he asks "what's missing?" you get the live site pulse: say plainly what people love, what's thin, and what to build next, then offer to draft it.${CREATOR_GUIDE ? `\nWhat he can say to you:\n${CREATOR_GUIDE}` : ""}`;
 
 const CREATOR_MEMBER_BRIEF = `CREATOR MODE — this member has been given the ✨ Creator role by Shane. Give them your fullest, most capable help
 with creative work. They are NOT Shane; never call them the founder or Owner.`;
@@ -339,6 +350,7 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   parts.push(context.member ? MEMBER_TOOLS : GUEST_NOTE);
   parts.push(PLEADING_SANITY_STORY);
   parts.push(LIVING_PRINCIPLES);
+  if (GROWS_FOREVER) parts.push(GROWS_FOREVER);
   if (context.growth) parts.push(context.growth);
   if (context.truths?.length) {
     parts.push(

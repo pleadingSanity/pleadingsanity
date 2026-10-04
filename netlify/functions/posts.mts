@@ -6,18 +6,21 @@
 //   GET    /api/posts/:id                 single post + comments
 //   DELETE /api/posts/:id                 own post
 //   POST   /api/posts/:id/like            toggle heart
+//   POST   /api/posts/views  {ids:[]}     "X have walked this path" (anyone; deduped on the device)
 //   POST   /api/posts/:id/comments        add comment (kind only)
 //   POST   /api/posts/:id/save            toggle "My Sanctuary" save
 //   POST   /api/posts/:id/pin             toggle pin (Guardians + creator)
 //   DELETE /api/comments/:id              own comment, or on own post
 // The feed is chronological, newest first. No ranking, ever.
+// Hearts are positive-only (no downvotes, ever). Raw heart counts are shown
+// only to the author; everyone else sees the milestone glow (10/50/100/500/1000).
 // Audiences: public · members · friends · private (only me).
 // status: live, or pending/held while the Owner reviews (review mode).
 // ==============================================================
 
-import type { Config } from "@netlify/functions";
+import type { Config, Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { and, arrayContains, asc, desc, eq, inArray, lt, ne, notInArray, or, type SQL } from "drizzle-orm";
+import { and, arrayContains, asc, desc, eq, inArray, lt, ne, notInArray, or, sql, type SQL } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { comments, likes, posts, profiles, saves } from "../../db/schema.js";
 import {
@@ -43,6 +46,9 @@ import { publishPost, type Post } from "../lib/publish.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 
 const PAGE = 15;
+// Heart milestones — Arron's words for each live in the soul file (arron-knowledge.json → feedMilestones).
+const MILESTONES = [1000, 500, 100, 50, 10];
+const milestoneFor = (hearts: number) => MILESTONES.find((m) => hearts >= m) ?? 0;
 const UPLIFTING_MOODS = ["rising", "fierce"];
 
 type Viewer = { id: string; roles: string[] };
@@ -77,8 +83,9 @@ async function hydrate(rows: Post[], viewerId: string) {
   if (!rows.length) return [];
   const ids = rows.map((p) => p.id);
   const authorIds = [...new Set(rows.map((p) => p.authorId))];
-  // Hearts are never counted in public — no popularity contests.
-  const [authors, mine, commentCounts, saved, badges] = await Promise.all([
+  // Hearts are never ranked or shown as public numbers — no popularity contests.
+  // Only hearts from others count towards a milestone.
+  const [authors, mine, commentCounts, saved, badges, heartCounts] = await Promise.all([
     db.select().from(profiles).where(inArray(profiles.userId, authorIds)),
     viewerId
       ? db.select({ postId: likes.postId }).from(likes).where(and(inArray(likes.postId, ids), eq(likes.userId, viewerId)))
@@ -92,7 +99,14 @@ async function hydrate(rows: Post[], viewerId: string) {
       ? db.select({ postId: saves.postId }).from(saves).where(and(inArray(saves.postId, ids), eq(saves.userId, viewerId)))
       : Promise.resolve([] as { postId: number }[]),
     badgesFor(authorIds),
+    db
+      .select({ postId: likes.postId, n: countSql })
+      .from(likes)
+      .innerJoin(posts, eq(posts.id, likes.postId))
+      .where(and(inArray(likes.postId, ids), ne(likes.userId, posts.authorId)))
+      .groupBy(likes.postId),
   ]);
+  const heartMap = new Map(heartCounts.map((h) => [h.postId, h.n]));
   const savedSet = new Set(saved.map((s) => s.postId));
   const authorMap = new Map(authors.map((a) => [a.userId, a]));
   const likedSet = new Set(mine.map((l) => l.postId));
@@ -122,6 +136,9 @@ async function hydrate(rows: Post[], viewerId: string) {
       liked: likedSet.has(p.id),
       saved: savedSet.has(p.id),
       comments: commentMap.get(p.id) ?? 0,
+      views: p.views ?? 0,
+      milestone: milestoneFor(heartMap.get(p.id) ?? 0),
+      hearts: p.authorId === viewerId ? heartMap.get(p.id) ?? 0 : undefined,
       mine: p.authorId === viewerId,
     };
   });
@@ -379,11 +396,36 @@ async function deleteComment(id: number, viewer: Viewer) {
   return json({ ok: true });
 }
 
-export default async (req: Request) => {
+// "X have walked this path": the device sends each post id once, ever.
+// Only live, visible public/members posts count; own views are skipped.
+async function countViews(req: Request, context: Context, userId: string | null) {
+  if (!(await allow("views", context, userId))) return json({ ok: true, counted: 0 });
+  const body = await readBody(req);
+  const ids = [...new Set((Array.isArray(body.ids) ? body.ids : []).map(Number).filter((n) => Number.isInteger(n) && n > 0))].slice(0, 30);
+  if (!ids.length) return json({ ok: true, counted: 0 });
+  const conditions = [
+    inArray(posts.id, ids),
+    eq(posts.status, "live"),
+    eq(posts.hidden, false),
+    inArray(posts.visibility, userId ? ["public", "members"] : ["public"]),
+  ];
+  if (userId) conditions.push(ne(posts.authorId, userId));
+  const rows = await db
+    .update(posts)
+    .set({ views: sql`${posts.views} + 1` })
+    .where(and(...conditions))
+    .returning({ id: posts.id });
+  return json({ ok: true, counted: rows.length });
+}
+
+export default async (req: Request, context: Context) => {
   try {
     const user = await currentUser();
     const url = new URL(req.url);
     const parts = url.pathname.split("/").filter(Boolean); // ["api", "posts", id?, sub?]
+    if (parts[1] === "posts" && parts[2] === "views" && parts.length === 3) {
+      return req.method === "POST" ? await countViews(req, context, user?.id ?? null) : json({ error: "Method not allowed" }, 405);
+    }
     if (!user && parts.length === 2 && parts[1] === "posts" && req.method === "GET" && url.searchParams.get("public") === "1") {
       return await publicFeed(url);
     }

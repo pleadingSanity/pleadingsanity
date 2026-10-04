@@ -179,7 +179,8 @@ function cardBody(item, index) {
         <div class="cs-text">
           <p class="cs-kicker">💬 Community voice</p>
           ${p.title ? `<h3>${esc(p.title)}</h3>` : ''}
-          <p class="cs-body">${esc(p.body).slice(0, 600)}</p>
+          <p class="cs-body">${esc(p.body.slice(0, 600))}</p>
+          ${p.views > 0 ? `<p class="cs-kicker"><span aria-hidden="true">👣</span> ${p.views === 1 ? '1 has' : `${Number(p.views).toLocaleString('en-GB')} have`} walked this path</p>` : ''}
           <a class="cs-author" href="/@${encodeURIComponent(p.author.username)}">
             <span class="cs-avatar" aria-hidden="true">${esc(avatarText(p.author.avatar, name))}</span>${esc(name)}
           </a>

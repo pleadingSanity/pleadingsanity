@@ -14,12 +14,15 @@ import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
 import { SOUL } from "./arron-knowledge.js";
 
-const anthropic = new Anthropic();
-const openai = new OpenAI();
-const gemini = new GoogleGenAI({});
+// Every lab gets 25s and one retry, so a slow or hung provider hands over to the
+// next one long before the function itself times out. No single point of failure.
+const LAB_TIMEOUT_MS = 25_000;
+const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
+const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
+const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
 // xAI speaks the OpenAI API (https://api.x.ai/v1/chat/completions), so Grok shares the same SDK —
 // just his own door and key. 25s and no retries, so a slow Grok never holds up the fallback reply.
-const GROK_TIMEOUT_MS = 25_000;
+const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
 const grok = process.env.GROK_API_KEY
   ? new OpenAI({ apiKey: process.env.GROK_API_KEY, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
   : null;
