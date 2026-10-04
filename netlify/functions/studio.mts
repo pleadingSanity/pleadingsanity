@@ -19,6 +19,7 @@ import {
   battlePrompt,
   CREATOR_MODEL,
   isCreatorRoles,
+  familyCard,
   parseJSON,
   queuePodcast,
   speak,
@@ -50,7 +51,10 @@ async function withVotes(rows: Item[], voter: string | null) {
   ]);
   const countMap = new Map(counts.map((c) => [c.itemId, c.n]));
   const mineSet = new Set(mine.map((m) => m.itemId));
-  return rows.map((r) => ({
+  return rows.flatMap((r) => {
+    const card = r.authorId === null ? familyCard(r.title, r.body) : null;
+    if (r.authorId === null && !card) return [];
+    return [{
     id: r.id,
     kind: r.kind,
     author: r.authorLabel,
@@ -58,15 +62,16 @@ async function withVotes(rows: Item[], voter: string | null) {
     model: r.model,
     style: r.style.startsWith("pending") ? "" : r.style,
     topic: r.topic,
-    title: r.title,
-    body: r.body,
+    title: card?.title || r.title,
+    body: card?.body || (r.authorId === null ? "" : r.body),
     script: r.script,
     pending: r.kind === "podcast" && !r.script,
     day: r.day,
     createdAt: r.createdAt,
     votes: countMap.get(r.id) ?? 0,
     voted: mineSet.has(r.id),
-  }));
+  }];
+  });
 }
 
 function voterFor(userId: string | undefined, deviceKey: unknown) {
@@ -136,8 +141,8 @@ async function create(req: Request, context: Context) {
     creator && voice === "arron" ? CREATOR_MODEL : undefined,
   );
   const parsed = parseJSON<{ title?: string; body?: string }>(raw);
-  const text = str(parsed?.body ?? raw, 3000);
-  if (!text) throw new Error("Empty creation");
+  const card = familyCard(str(parsed?.title, 120), str(parsed?.body || raw, 3000));
+  if (!card) throw new Error("Empty creation");
 
   const [item] = await db
     .insert(studioItems)
@@ -147,8 +152,8 @@ async function create(req: Request, context: Context) {
       model: creator && voice === "arron" ? CREATOR_MODEL : VOICES[voice].model,
       style,
       topic,
-      title: str(parsed?.title, 120),
-      body: text,
+      title: card.title,
+      body: card.body,
     })
     .returning();
   return json({ item: (await withVotes([item], null))[0] }, 201);

@@ -14,6 +14,7 @@ import { and, desc, eq, gte, ne, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { likes, posts, profiles, studioItems } from "../../db/schema.js";
 import { getGrowth } from "../lib/arron-growth.js";
+import { familyCard } from "../lib/studio.js";
 
 const WEEK = 7 * 86_400_000;
 const hearts = sql<number>`count(*)::int`;
@@ -68,7 +69,10 @@ export default async () => {
     JSON.stringify({
       // Hearts stay countless in public: only the order is used.
       shiningLights: lights.map(({ hearts: _h, bio, status, ...p }) => ({ ...p, line: (status || bio).slice(0, 140) })),
-      aiFamily: family.map((f) => ({ ...f, body: f.body.slice(0, 600) })),
+      aiFamily: family.flatMap((f) => {
+        const card = familyCard(f.title, f.body);
+        return card ? [{ ...f, title: card.title, body: card.body }] : [];
+      }),
       growth: { total: growth.total, since: growth.startedAt, latest: latest?.text ?? "" },
     }),
     {

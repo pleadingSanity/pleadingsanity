@@ -366,11 +366,35 @@
       const fam = home.aiFamily || [];
       if (fam.length) {
         const wall = document.getElementById('aifam-list');
+        const present = (f) => {
+          let title = f.title || '';
+          let body = (f.body || '').trim();
+          if (body.startsWith('{')) {
+            try {
+              const parsed = JSON.parse(body);
+              title = title || parsed.title || '';
+              body = parsed.body || '';
+            } catch {
+              const t = body.match(/"title"\s*:\s*"((?:\\.|[^"\\])*)"/);
+              const b = body.match(/"body"\s*:\s*"([\s\S]*)$/);
+              if (t) title = title || t[1];
+              body = b ? b[1].replace(/"\s*\}?\s*$/, '').replace(/\\n/g, '\n').replace(/\\"/g, '"') : '';
+            }
+          }
+          body = body.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1').trim();
+          if (body && !/[.!?…]/.test(body.slice(-8))) {
+            const cut = Math.max(body.lastIndexOf('.'), body.lastIndexOf('!'), body.lastIndexOf('?'));
+            body = cut > 40 ? body.slice(0, cut + 1) : '';
+          }
+          return body ? { ...f, title, body } : null;
+        };
         fam.forEach((f) => {
+          const shown = present(f);
+          if (!shown) return;
           const card = el('article', 'ps-aifam-card');
-          card.append(el('p', 'ps-aifam-by', f.author));
-          if (f.title) card.append(el('h3', '', f.title));
-          card.append(el('p', 'ps-aifam-body', f.body));
+          card.append(el('p', 'ps-aifam-by', shown.author));
+          if (shown.title) card.append(el('h3', '', shown.title));
+          card.append(el('p', 'ps-aifam-body', shown.body));
           wall.append(card);
         });
         document.getElementById('ai-family-wall').hidden = false;

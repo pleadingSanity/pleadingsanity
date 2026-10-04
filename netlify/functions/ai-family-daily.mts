@@ -9,7 +9,7 @@
 import type { Config } from "@netlify/functions";
 import { db } from "../../db/index.js";
 import { studioItems } from "../../db/schema.js";
-import { parseJSON, speak, STYLES, VOICES, type VoiceId } from "../lib/studio.js";
+import { familyCard, parseJSON, speak, STYLES, VOICES, type VoiceId } from "../lib/studio.js";
 import { str } from "../lib/social.js";
 
 const ROTA: VoiceId[] = ["arron", "nova", "sol"];
@@ -44,16 +44,17 @@ export default async () => {
       450,
     );
     const parsed = parseJSON<{ title?: string; body?: string }>(raw);
-    const body = str(parsed?.body ?? raw, 3000);
-    if (!body) throw new Error("Empty post");
+    const card = familyCard(str(parsed?.title, 120), str(parsed?.body || raw, 3000));
+    // Never store the raw model string. A cut-off reply is skipped, not published.
+    if (!card) throw new Error("Unreadable post");
     await db.insert(studioItems).values({
       kind: "creation",
       authorLabel: `${VOICES[voice].name} · ${VOICES[voice].lab}`,
       model: VOICES[voice].model,
       style,
       topic,
-      title: str(parsed?.title, 120),
-      body,
+      title: card.title,
+      body: card.body,
     });
   } catch (error) {
     console.error(`AI family post (${voice}) failed:`, error);

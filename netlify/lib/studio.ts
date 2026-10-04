@@ -168,6 +168,41 @@ export function parseJSON<T>(raw: string): T | null {
   }
 }
 
+// A family card sometimes arrives as cut-off model JSON, or with **markdown**.
+// Pull the real title and body, drop a half-written last sentence, never show raw JSON.
+export function familyCard(rawTitle: string, rawBody: string): { title: string; body: string } | null {
+  let title = (rawTitle || "").trim();
+  let body = (rawBody || "").trim();
+  if (body.startsWith("{")) {
+    const parsed = parseJSON<{ title?: string; body?: string }>(body);
+    if (parsed?.body) {
+      title = title || String(parsed.title || "");
+      body = String(parsed.body);
+    } else {
+      const t = body.match(/"title"\s*:\s*"((?:\\.|[^"\\])*)"/);
+      const b = body.match(/"body"\s*:\s*"([\s\S]*)$/);
+      if (!b) return null;
+      title = title || (t ? t[1] : "");
+      body = b[1].replace(/"\s*\}?\s*$/, "");
+      body = body.replace(/\\n/g, "\n").replace(/\\"/g, '"').replace(/\\t/g, " ");
+    }
+  }
+  title = title.replace(/\\"/g, '"').replace(/\*+/g, "").trim().slice(0, 120);
+  body = body
+    .replace(/\*\*(.*?)\*\*/g, "$1")
+    .replace(/\*(.*?)\*/g, "$1")
+    .replace(/^#+\s*/gm, "")
+    .trim();
+  if (!body || body.startsWith("{")) return null;
+  // A full stop in the last few characters means it finished. A cut-off word does not.
+  if (!/[.!?…]/.test(body.slice(-8))) {
+    const cut = Math.max(body.lastIndexOf("."), body.lastIndexOf("!"), body.lastIndexOf("?"), body.lastIndexOf("…"));
+    if (cut < 40) return null;
+    body = body.slice(0, cut + 1).trim();
+  }
+  return { title, body };
+}
+
 // ─── PODCAST QUEUE ───
 // Saves a "Recording…" episode and hands it to the background recorder,
 // which can take a few minutes. The one-time token proves the request came from us.
