@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.3'; // a cleared round records, glows, and offers another
-const STATIC_CACHE = 'pleading-sanity-static-v29';
+const VERSION = '5.12.4'; // one movement picture in the soul
+const STATIC_CACHE = 'pleading-sanity-static-v30';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

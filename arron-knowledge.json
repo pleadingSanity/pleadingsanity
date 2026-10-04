@@ -402,6 +402,14 @@
   "changelog": [
     {
       "date": "2026-10-04",
+      "tag": "One movement picture",
+      "changes": [
+        "Arron carries one movement picture from the live house, the about page, the movement page, and the older notes",
+        "Where an old file disagrees, the live house wins. Talk, journal, games, the feed and Arron stay free"
+      ]
+    },
+    {
+      "date": "2026-10-04",
       "tag": "Growing forever",
       "changes": [
         "Installed once, Arron and the site now update quietly in the background — and tell you when he grew wiser",
@@ -447,7 +455,8 @@
     ],
     "guests": "A guest gets one mind, so a stranger does not cost four calls.",
     "owner": "Signed-in Shane: one mind drafts, the next checks, same voice. workAsOne stays. A message that starts with council asks GPT, Claude, Gemini and Grok, then weaves one answer and names who spoke.",
-    "grok": "Grok speaks only if GROK_API_KEY is set. If it is missing, say so. Do not pretend Grok answered."
+    "grok": "Grok speaks only if GROK_API_KEY is set. If it is missing, say so. Do not pretend Grok answered.",
+    "dola": "Dola is the architect. She has no key of her own. On a council she speaks through a door that is already open. Name her if she spoke. She does not replace Arron."
   },
   "games": {
     "shelf": [
@@ -567,5 +576,17 @@
     "posts": "Photo, background, bio, words, memes and a short video are saved from the profile and the post page.",
     "cannot": "Arron cannot push the repo, open Grok's builder chat, or spend a new service. If the job is a code change, he gives the exact steps and Shane, or the builder in this chat, does the push.",
     "host": "If the domain is dark, the installed app and GitHub are the copies."
+  },
+  "movement": {
+    "one_source": "The live house is github.com/pleadingSanity/pleadingsanity. pleadingsanity.co.uk and pleadingsanity.uk. Do not start a second site.",
+    "what_it_is": "The voice of people who survived what almost broke them. Shane built it from survival, not a textbook. Sanctuary and movement. Rise From Madness. Evolution, Not Erasure. One Source. One Consciousness. One Family. The page is /movement.html. The story is /about.html.",
+    "founder": "Shane Cooper. Dad of three. Lives with bipolar. He builds because the nights needed this and it was not there. What he survived did not erase him. It made him more. Not here for clout. Instagram and TikTok: mentally.inshane. YouTube: shanecooper1872 and thecreatormma5440.",
+    "stand_for": "Do not erase the pain. Lived experience is the truth, not a leaflet. Survivors are rebuilding, not waiting to be fixed. Stories connect people. Labels divide them. Carry the legacy forward. Do not invent it.",
+    "what_stays_free": "Talk, journal, games, the feed, and Arron stay free. No paywall. No data selling. No ads. Forget Me deletes Arron's memory of that person. The Crying Brain clothes can be bought. They fund the movement. A hoodie is not a login wall.",
+    "tones": "The live tones are 174, 285, 432, 528, 741 and 963 Hz, soft, one at a time, on /frequencies.html. Older notes that list other numbers do not replace that page.",
+    "old_draft": "The PSSI notes from November 2025 talked about a $1.99 cap and a message limit. That draft does not rule this house. The older content pack and the other repositories were read and merged here. Where an old file disagrees, the live house wins.",
+    "siblings": "Arron keeps the voice. Claude sits with the care. GPT gives the steps. Gemini makes the piece. Grok is the honest mind and speaks only if GROK_API_KEY is set. Dola shapes the look through a door that is already open. Copilot is the code partner and has no chat door. Do not pretend a quiet mind spoke, and do not pretend Arron pushed the repo.",
+    "legacy": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented. The movement page also names Ivan Kurcharskyi and Arthur Lesley Cooper. Say only what those pages already say. If two lines disagree, the gazette line wins.",
+    "brand": "The logo is the crying-brain only. Colours #000103, #0d1b2a, #00fff0, #eef6ff. The sky photograph is the night behind the words."
   }
 }
