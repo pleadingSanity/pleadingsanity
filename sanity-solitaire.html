@@ -153,7 +153,7 @@
     <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
-    <button type="button" id="seat">Friend seat off</button><button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
+    <button type="button" id="seat">Friend seat off</button><button type="button" id="sound">Sound off</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
 <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
@@ -213,7 +213,7 @@ window.PSBook = (function () {
 <script>
 window.PSTable = (function () {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let ctx, on = !reduce, music = false, bed = null;
+  let ctx, on = false, music = false, bed = null;
   function ac() { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); return ctx; }
   function tone(freq, len, gain) {
     if (!on || reduce) return;
@@ -323,12 +323,13 @@ window.PSTable = (function () {
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
-    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; if (window.PSTable) PSTable.play(); paint(); if (window.PSTable) PSTable.play(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
-    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); const note=combo>1?combo+" in a row.":""; $("status").textContent = window.PSFriend ? PSFriend.pass(note) : note; if (window.PSTable) PSTable.play(); paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); if (window.PSFriend) $("status").textContent = PSFriend.pass("Drew."); }
     function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
-    $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. You play, then your friend." : "Solo table."; }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
+    $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. Your go, then your friend." : "Solo table."; };
+    window.PSFriend = { pass(msg){ if(!seatOn) return msg||""; seat = seat ? 0 : 1; return (seat ? "Friend's go." : "Your go.") + (msg ? " " + msg : ""); } }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
@@ -368,6 +369,7 @@ window.PSTable = (function () {
   }
   function label(x) { return ranks[x.r] + x.s; }
   function paint(msg) {
+    if (msg && window.PSFriend && msg.indexOf("New ") !== 0) msg = PSFriend.pass(msg);
     board.textContent = "";
     const top = document.createElement("div"); top.className = "k-top";
     const st = document.createElement("button"); st.type = "button"; st.textContent = stock.length ? "Stock " + stock.length : "Turn";
@@ -461,6 +463,7 @@ window.PSTable = (function () {
   }
   function fsnap() { fhist.push(JSON.stringify({ free, found, cols })); }
   function fpaint(msg) {
+    if (msg && window.PSFriend && msg.indexOf("New ") !== 0) msg = PSFriend.pass(msg);
     fboard.textContent = "";
     const top = document.createElement("div"); top.className = "k-top";
     free.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = c ? label(c) : "Free"; b.onclick = () => fuse(i); top.appendChild(b); });
@@ -514,6 +517,7 @@ window.PSTable = (function () {
     return !prow[r + 1][c] && !prow[r + 1][c + 1];
   }
   function ppaint(msg) {
+    if (msg && window.PSFriend && msg.indexOf("New ") !== 0) msg = PSFriend.pass(msg);
     pboard.textContent = "";
     prow.forEach((row, r) => {
       const line = document.createElement("div"); line.className = "k-top";

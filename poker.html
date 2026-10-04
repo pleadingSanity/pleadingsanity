@@ -92,18 +92,28 @@
       $("raise").disabled = handOver || turn !== 0 || me.stack <= need;
     }
     const BANK = "ps-poker-bank";
-    const SEEN = "ps-poker-seen";
+    const LOW = "ps-poker-low";
     function loadBank() {
-      let n = Number(localStorage.getItem(BANK) || 1000);
-      const seen = Number(localStorage.getItem(SEEN) || 0);
+      const has = localStorage.getItem(BANK);
+      let n = has === null ? 1000 : Number(has);
+      if (!Number.isFinite(n)) n = 1000;
       const now = Date.now();
-      if (n < 200 && now - seen > 3600000) n += 100;
-      if (!seen) n = Math.max(n, 1000);
-      localStorage.setItem(SEEN, String(now));
+      if (n < 200) {
+        let low = Number(localStorage.getItem(LOW) || 0);
+        if (!low) low = now;
+        while (n < 200 && now - low >= 3600000) { n += 100; low += 3600000; }
+        localStorage.setItem(LOW, String(low));
+      } else localStorage.removeItem(LOW);
       localStorage.setItem(BANK, String(n));
       return n;
     }
-    function saveBank(n) { localStorage.setItem(BANK, String(Math.max(0, n))); $("bank").textContent = "Bank " + Math.max(0, n) + " play chips. Low banks gain 100 each hour."; }
+    function saveBank(n) {
+      n = Math.max(0, Math.floor(n));
+      localStorage.setItem(BANK, String(n));
+      if (n < 200) { if (!localStorage.getItem(LOW)) localStorage.setItem(LOW, String(Date.now())); }
+      else localStorage.removeItem(LOW);
+      $("bank").textContent = "Bank " + n + " play chips. Under 200, 100 return each hour.";
+    }
     let bank = loadBank();
     saveBank(bank);
     function deal() {
@@ -114,8 +124,8 @@
       button = (button + 1) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4; hands += 1;
       seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
-      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb;
-      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb;
+      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
+      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
       if (sbSeat === 0 || bbSeat === 0) bank = seats[0].stack;
       board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
       saveBank(bank);
@@ -131,6 +141,7 @@
         turn = (turn + 1) % 4;
         if (!seats[turn].folded && !seats[turn].allin) { paint(); if (turn !== 0) bot(); return; }
       }
+      if (live().length > 1) streetNext();
     }
     function betsEven() { return live().every((s) => s.allin || s.bet === currentBet); }
     function act(kind) {
@@ -172,7 +183,7 @@
     }
     function streetNext() {
       seats.forEach((s) => { s.bet = 0; });
-      currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = 2;
+      currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = button;
       if (street === 0) board.push(deck.pop(), deck.pop(), deck.pop());
       else if (street < 3) board.push(deck.pop());
       street += 1;
@@ -195,7 +206,8 @@
         eligible.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
         const winners = eligible.filter((s) => better(s.hole.concat(board), eligible[0].hole.concat(board)) === 0);
         const share = Math.floor(slice / winners.length);
-        winners.forEach((s) => { s.stack += share; names.push(s.name); });
+        const odd = slice - share * winners.length;
+        winners.forEach((s, i) => { s.stack += share + (i === 0 ? odd : 0); names.push(s.name); });
       });
       bank = seats[0].stack;
       saveBank(bank);
@@ -212,12 +224,20 @@
       if (!data.code) { log("Room did not open. Solo table still works."); return; }
       location.search = "?room=" + data.code;
     };
+    function seatName() {
+      let n = localStorage.getItem("ps-poker-seat");
+      if (!n) { n = "Friend " + Math.random().toString(36).slice(2, 5); localStorage.setItem("ps-poker-seat", n); }
+      return n;
+    }
+    async function sit(code) {
+      await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only." }) });
+    }
     $("share").onclick = async () => {
       const url = location.href;
       const code = new URLSearchParams(location.search).get("room");
-      if (code) await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: "You", note: "Play chips only." }) });
+      if (code) await sit(code);
       try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
-      log("Share this. Play chips only. " + url);
+      log("Share this. Play chips only. Same cards on two phones are not dealt yet. " + url);
     };
     let deferred;
     addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
@@ -225,12 +245,14 @@
     const room = new URLSearchParams(location.search).get("room");
     if (room) {
       $("room-name").textContent = "Room " + room;
+      sit(room);
       setInterval(async () => {
         const res = await fetch("/api/poker-room/" + room);
         const data = await res.json().catch(() => ({}));
         if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
       }, 8000);
     }
+    setInterval(() => { if (handOver || !seats) { const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[0] && handOver) seats[0].stack = n; saveBank(bank); } } }, 60000);
     deal();
   </script>
 </body>

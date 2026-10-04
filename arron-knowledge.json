@@ -610,11 +610,11 @@
     "brand": "The logo is the crying-brain only. Colours #000103, #0d1b2a, #00fff0, #eef6ff. The sky photograph is the night behind the words."
   },
   "houseNow": {
-    "main": "a15d3fd",
+    "main": "github.com/pleadingSanity/pleadingsanity",
     "live": "https://pleadingsanity.co.uk",
     "cash": "Play chips only. No cash pot, no rake, no withdraw. A gift goes to the shop.",
-    "solitaire": "Three peaks, Klondike, FreeCell, Pyramid. Book on the phone. Friend seat passes the phone.",
-    "poker": "Night table. Dealer button moves. Blinds follow. Bots do not see hole cards. Bank saves. Low bank gains 100 chips an hour.",
+    "solitaire": "Three peaks, Klondike, FreeCell, Pyramid. Book on the phone. Friend seat passes the same phone. Sound and music stay off until asked.",
+    "poker": "Night table. Two cards, then flop, turn and river. Dealer button moves. Blinds follow. First to act is left of the big blind. Bots do not see hole cards. A short all-in cannot win chips it never put in. Bank saves on the phone. Under 200 chips, 100 return each hour. A room link lists who sat. It does not yet deal the same cards on two phones.",
     "safety": "Samaritans 116 123 and SHOUT 85258 stay visible. Arron is not a therapist.",
     "creator": "Shane can brief game changes in Creator Mode. Arron records the brief. The live files change only when the house repo is updated and deployed. Arron does not write the site from a public chat."
   },

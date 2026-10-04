@@ -41,6 +41,7 @@ const housePack = soul as {
   games?: Record<string, unknown>;
   movement?: Record<string, unknown>;
   how_shane_asks?: Record<string, unknown>;
+  houseNow?: Record<string, unknown>;
   survival?: { truth?: string; what_holds?: string; say_if_asked?: string };
 };
 function houseLines(obj: Record<string, unknown> | undefined) {
@@ -57,6 +58,8 @@ ${houseLines(housePack.council)}
 ${houseLines(housePack.how_shane_asks)}
 GAMES SHELF
 ${houseLines(housePack.games)}
+TABLES AND CASH — play chips only
+${houseLines(housePack.houseNow)}
 MOVEMENT — one picture, the live house wins
 ${houseLines(housePack.movement)}
 HOST

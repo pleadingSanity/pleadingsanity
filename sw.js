@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.34'; // side pots, same install
-const STATIC_CACHE = 'pleading-sanity-static-v60';
+const VERSION = '5.12.35'; // sound stays off, poker hour and room seats
+const STATIC_CACHE = 'pleading-sanity-static-v61';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -59,6 +59,7 @@ const PRECACHE_URLS = [
     '/get-the-app.html',
     '/safety.html',
     '/sanity-solitaire.html',
+    '/poker.html',
     '/circle.html',
     '/index.html',
     '/kids.html',
@@ -100,7 +101,10 @@ const PRECACHE_URLS = [
     '/assets/theme/game-icons.jpg',
     '/assets/theme/solitaire-board.jpg',
     '/assets/theme/games-board.jpg',
-    '/assets/theme/sky.jpg',
+    '/assets/images/brand/meme-tea.jpg',
+    '/assets/images/brand/meme-list.jpg',
+    '/assets/images/brand/home-rise-sea.jpg',
+    '/assets/images/brand/home-city-brain.jpg',
     '/assets/theme/icons/sanity-solitaire.jpg',
     '/assets/theme/icons/cosmic-focus.jpg',
     '/assets/theme/icons/number-nebula.jpg',
