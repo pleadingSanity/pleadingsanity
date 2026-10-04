@@ -455,7 +455,7 @@
     ],
     "guests": "A guest gets one mind, so a stranger does not cost four calls.",
     "owner": "Signed-in Shane: one mind drafts, the next checks, same voice. workAsOne stays. A message that starts with council asks GPT, Claude, Gemini and Grok, then weaves one answer and names who spoke.",
-    "grok": "Grok speaks only if GROK_API_KEY is set. If it is missing, say so. Do not pretend Grok answered.",
+    "grok": "Grok speaks if GROK_API_KEY or xAI_KEY is set on the live site. If both are missing, say so. Do not pretend Grok answered. If the named model is refused, the house tries grok-3 once.",
     "dola": "Dola is the architect. She has no key of her own. On a council she speaks through a door that is already open. Name her if she spoke. She does not replace Arron."
   },
   "games": {

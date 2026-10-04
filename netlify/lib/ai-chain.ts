@@ -5,8 +5,9 @@
 // The chain lives in the soul file (/arron-knowledge.json →
 // covenant.chain): welcoming a new model is one JSON block there.
 // Claude, GPT and Gemini go through Netlify AI Gateway — no keys in code.
-// Grok talks to xAI directly with GROK_API_KEY (set in Netlify env only);
-// without that key he simply sits this one out.
+// Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
+// and an older copy as xAI_KEY. Either name is enough. No key is written here.
+// If neither name is set, he sits this one out.
 // ==============================================================
 
 import Anthropic from "@anthropic-ai/sdk";
@@ -20,11 +21,13 @@ const LAB_TIMEOUT_MS = 25_000;
 const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
-// xAI speaks the OpenAI API (https://api.x.ai/v1/chat/completions), so Grok shares the same SDK —
-// just his own door and key. 25s and no retries, so a slow Grok never holds up the fallback reply.
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
-const grok = process.env.GROK_API_KEY
-  ? new OpenAI({ apiKey: process.env.GROK_API_KEY, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
+const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || "";
+const grok = grokKey
+  ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
+  : null;
+const openaiDirect = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 
 export type Turn = { role: "user" | "assistant"; content: string };
@@ -46,25 +49,48 @@ export const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
 
 // Grok — the fourth brain. Errors go back to runChain, which logs the reason only and moves on.
 async function callGrok(model: string, system: string, turns: Turn[], maxTokens: number) {
-  if (!grok) throw new Error("GROK_API_KEY is not set");
-  const res = await grok.chat.completions.create({
+  if (!grok) throw new Error("No Grok key on this deploy");
+  const names = model === "grok-3" ? [model] : [model, "grok-3"];
+  let last: unknown;
+  for (const id of names) {
+    try {
+      const res = await grok.chat.completions.create({
+        model: id,
+        max_tokens: maxTokens * 4,
+        messages: [{ role: "system", content: system }, ...turns],
+      });
+      const text = (res.choices[0]?.message?.content ?? "").trim();
+      if (text) return text;
+    } catch (error) {
+      last = error;
+      console.warn(`AI chain: ${id} unavailable (${why(error)}), trying the next Grok name`);
+    }
+  }
+  throw last instanceof Error ? last : new Error("Grok was quiet");
+}
+
+async function callOpenAI(model: string, system: string, turns: Turn[], maxTokens: number) {
+  const body = {
     model,
-    max_tokens: maxTokens * 4, // room for reasoning tokens
-    messages: [{ role: "system", content: system }, ...turns],
-  });
+    max_completion_tokens: model.startsWith("gpt-5") ? maxTokens * 4 : maxTokens,
+    messages: [{ role: "system" as const, content: system }, ...turns],
+  };
+  try {
+    const res = await openai.chat.completions.create(body);
+    const text = (res.choices[0]?.message?.content ?? "").trim();
+    if (text) return text;
+  } catch (error) {
+    if (!openaiDirect) throw error;
+    console.warn(`AI chain: gateway ${model} unavailable (${why(error)}), trying the stored OpenAI key`);
+  }
+  if (!openaiDirect) return "";
+  const res = await openaiDirect.chat.completions.create(body);
   return (res.choices[0]?.message?.content ?? "").trim();
 }
 
 export async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number) {
   if (provider === "grok") return callGrok(model, system, turns, maxTokens);
-  if (provider === "openai") {
-    const res = await openai.chat.completions.create({
-      model,
-      max_completion_tokens: model.startsWith("gpt-5") ? maxTokens * 4 : maxTokens, // room for reasoning tokens
-      messages: [{ role: "system", content: system }, ...turns],
-    });
-    return (res.choices[0]?.message?.content ?? "").trim();
-  }
+  if (provider === "openai") return callOpenAI(model, system, turns, maxTokens);
   if (provider === "gemini") {
     const res = await gemini.models.generateContent({
       model,
@@ -90,7 +116,7 @@ const why = (error: unknown) => {
 // Each lab gets the same system prompt and turns, fresh — nothing from a failed attempt is passed on.
 export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700 } = {}) {
   for (const link of CHAIN) {
-    if (link.provider === "grok" && !grok) continue; // no key yet — Grok joins once GROK_API_KEY is set
+    if (link.provider === "grok" && !grok) continue; // neither GROK_API_KEY nor xAI_KEY is set
     const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
     for (const model of models) {
       try {
@@ -130,7 +156,7 @@ export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) 
 
 export async function askCouncil(system: string, turns: Turn[]) {
   const notes = await Promise.all(CHAIN.map(async (link) => {
-    if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY is set`;
+    if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY or xAI_KEY is set`;
     try {
       const text = await ask(link.provider, link.model, system, turns, 700);
       return text ? `${link.provider}: ${text}` : `${link.provider}: quiet`;
@@ -154,8 +180,8 @@ export async function askGrokDirect() {
   const link = CHAIN.find((l) => l.provider === "grok") ?? FALLBACK_CHAIN[3];
   const base = { provider: "grok" as const, model: link.model };
   if (!grok) {
-    console.warn("AI chain: grok direct test skipped (GROK_API_KEY is not set)");
-    return { ...base, ok: false, error: "GROK_API_KEY is not set on this deploy" };
+    console.warn("AI chain: grok direct test skipped (no GROK_API_KEY or xAI_KEY)");
+    return { ...base, ok: false, error: "No Grok key on this deploy" };
   }
   try {
     const text = await callGrok(link.model, "You are Grok, joining Arron on Pleading Sanity. Reply in one short, kind sentence of British English.", [{ role: "user", content: "Say hello to Shane and confirm you can hear him." }], 120);
