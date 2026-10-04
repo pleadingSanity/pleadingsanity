@@ -125,6 +125,25 @@
       box-shadow:0 15px 40px rgba(0,255,240,.12),0 0 30px rgba(255,0,255,.1);
     }
     
+
+    .game-thumb[data-mark]{
+      background:#000103 center/cover no-repeat;
+      color:transparent;
+    }
+    .game-thumb[data-mark] .badge{font-size:.8rem;color:#000;}
+    .game-thumb[data-mark="sanity-solitaire"]{background-image:url("/assets/theme/icons/sanity-solitaire.jpg")}
+    .game-thumb[data-mark="cosmic-focus"]{background-image:url("/assets/theme/icons/cosmic-focus.jpg")}
+    .game-thumb[data-mark="number-nebula"]{background-image:url("/assets/theme/icons/number-nebula.jpg")}
+    .game-thumb[data-mark="pattern-galaxy"]{background-image:url("/assets/theme/icons/pattern-galaxy.jpg")}
+    .game-thumb[data-mark="memory-ocean"]{background-image:url("/assets/theme/icons/memory-ocean.jpg")}
+    .game-thumb[data-mark="rhythm-resonance"]{background-image:url("/assets/theme/icons/rhythm-resonance.jpg")}
+    .game-thumb[data-mark="stardust-dash"]{background-image:url("/assets/theme/icons/stardust-dash.jpg")}
+    .game-thumb[data-mark="healing-hz"]{background-image:url("/assets/theme/icons/healing-hz.jpg")}
+    .game-thumb[data-mark="sanity-stories"]{background-image:url("/assets/theme/icons/sanity-stories.jpg")}
+    .game-thumb[data-mark="mind-mode"]{background-image:url("/assets/theme/icons/mind-mode.jpg")}
+    .game-thumb[data-mark="cosmic-connect"]{background-image:url("/assets/theme/icons/cosmic-connect.jpg")}
+    .game-thumb[data-mark="truth-tag"]{background-image:url("/assets/theme/icons/truth-tag.jpg")}
+    .game-thumb[data-mark="mood-journey"]{background-image:url("/assets/theme/icons/mood-journey.jpg")}
     .game-thumb{
       height:160px;background:linear-gradient(135deg,rgba(0,255,240,.12),rgba(255,0,255,.08));
       display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;
@@ -340,7 +359,7 @@
     <button type="button" class="install-btn hidden" id="installPWA" data-pwa-install hidden>📲 Install as App</button>
   </header>
 
-  <img class="ps-theme-pic" src="/assets/theme/game-icons.jpg" alt="Cosmic game marks: connect, truth, focus, nebula, galaxy, ocean, dash." />
+  <img class="ps-theme-pic" src="/assets/theme/sky.jpg" alt="The night sky of this house. Cyan and magenta stars." />
 <main id="main" role="main">
     <p class="intro">
       100% built in-house — <strong>no ads, no pressure, no leaderboards that shame you.</strong><br>
@@ -382,10 +401,27 @@
     </section>
 
     <div class="games-grid">
+      <article class="game-card" data-game="sanity-solitaire">
+        <div class="game-thumb" data-mark="sanity-solitaire">
+          <span class="badge official">OFFICIAL</span>
+        </div>
+        <div class="game-content">
+          <h3>Sanity Solitaire</h3>
+          <p class="game-desc">Three peaks. One rank up or down. The brain card on the back, the night sky on the table.</p>
+          <div class="game-stats">
+            <span>🃏 Three peaks</span>
+            <span>↩️ Undo</span>
+            <span>📲 Own install</span>
+          </div>
+          <div class="btn-wrap">
+            <a href="/sanity-solitaire.html" class="btn primary" aria-label="Play Sanity Solitaire">▶ Play Now</a>
+          </div>
+        </div>
+      </article>
+
       <!-- 1 COSMIC FOCUS — MEMORY -->
       <article class="game-card" data-game="cosmic-focus">
-        <div class="game-thumb">
-          🧠
+        <div class="game-thumb" data-mark="cosmic-focus">
           <span class="badge official">OFFICIAL</span>
         </div>
         <div class="game-content">
@@ -407,8 +443,7 @@
 
       <!-- 2 NUMBER NEBULA — LOGIC & MATH -->
       <article class="game-card" data-game="number-nebula">
-        <div class="game-thumb">
-          🔢
+        <div class="game-thumb" data-mark="number-nebula">
           <span class="badge live">LIVE</span>
         </div>
         <div class="game-content">
@@ -430,8 +465,7 @@
 
       <!-- 3 PATTERN GALAXY — VISUAL PERCEPTION -->
       <article class="game-card" data-game="pattern-galaxy">
-        <div class="game-thumb">
-          🌈
+        <div class="game-thumb" data-mark="pattern-galaxy">
           <span class="badge new">NEW</span>
         </div>
         <div class="game-content">
@@ -453,8 +487,7 @@
 
       <!-- 4 MEMORY OCEAN — CALM MATCHING -->
       <article class="game-card" data-game="memory-ocean">
-        <div class="game-thumb">
-          🧩
+        <div class="game-thumb" data-mark="memory-ocean">
           <span class="badge new">NEW</span>
         </div>
         <div class="game-content">
@@ -476,8 +509,7 @@
 
       <!-- 5 RHYTHM RESONANCE — AUDIO & VIBRATION -->
       <article class="game-card" data-game="rhythm-resonance">
-        <div class="game-thumb">
-          🎵
+        <div class="game-thumb" data-mark="rhythm-resonance">
           <span class="badge new">NEW</span>
         </div>
         <div class="game-content">
@@ -499,8 +531,7 @@
 
       <!-- STARDUST DASH — REFLEX -->
       <article class="game-card" data-game="stardust-dash">
-        <div class="game-thumb">
-          🌠
+        <div class="game-thumb" data-mark="stardust-dash">
           <span class="badge new">NEW</span>
         </div>
         <div class="game-content">
@@ -522,8 +553,7 @@
 
       <!-- 6 HEALING HZ — FREQUENCY LISTENING -->
       <article class="game-card">
-        <div class="game-thumb">
-          🎧
+        <div class="game-thumb" data-mark="healing-hz">
           <span class="badge calm">CALM</span>
         </div>
         <div class="game-content">
@@ -543,8 +573,7 @@
 
       <!-- 7 SANITY STORIES — JOURNALING -->
       <article class="game-card">
-        <div class="game-thumb">
-          ✨
+        <div class="game-thumb" data-mark="sanity-stories">
           <span class="badge calm">HEALING</span>
         </div>
         <div class="game-content">
@@ -568,8 +597,7 @@
       <p>Gentle tools for breathing, noticing and reflecting. Your progress is private — sign in and it follows you to any device.</p>
       <div class="games-grid">
       <article class="game-card" data-sanctuary-game="mind-mode">
-        <div class="game-thumb">
-          🫧
+        <div class="game-thumb" data-mark="mind-mode">
           <span class="badge calm">CALM</span>
         </div>
         <div class="game-content">
@@ -587,8 +615,7 @@
       </article>
 
       <article class="game-card" data-sanctuary-game="cosmic-connect">
-        <div class="game-thumb">
-          🌌
+        <div class="game-thumb" data-mark="cosmic-connect">
           <span class="badge calm">GENTLE</span>
         </div>
         <div class="game-content">
@@ -606,8 +633,7 @@
       </article>
 
       <article class="game-card" data-sanctuary-game="truth-tag">
-        <div class="game-thumb">
-          🏷️
+        <div class="game-thumb" data-mark="truth-tag">
           <span class="badge calm">LEARN</span>
         </div>
         <div class="game-content">
@@ -625,8 +651,7 @@
       </article>
 
       <article class="game-card" data-sanctuary-game="mood-journey">
-        <div class="game-thumb">
-          🌱
+        <div class="game-thumb" data-mark="mood-journey">
           <span class="badge calm">HEALING</span>
         </div>
         <div class="game-content">

@@ -27,10 +27,10 @@
     * { box-sizing:border-box; }
     html, body { max-width:100%; overflow-x:hidden; }
     body { margin:0; min-height:100vh; color:var(--ink); font-family:Georgia, "Iowan Old Style", serif; background:#04110d; }
-    body.night { background:radial-gradient(circle at 50% 0%, #16324a, #0d1b2a 46%, #000103 100%); }
-    body.sea { background:radial-gradient(circle at 50% 0%, #0e6e62, #07352f 48%, #021612 100%); }
-    body.rose { background:radial-gradient(circle at 50% 0%, #6a2a48, #2a1020 50%, #12060c 100%); }
-    body.gold { background:radial-gradient(circle at 50% 0%, #6a5420, #241c0c 55%, #100c04 100%); }
+    body.night { background: rgba(0,1,3,.18); }
+    body.sea { background: rgba(4, 36, 34, .4); }
+    body.rose { background: rgba(42, 10, 28, .4); }
+    body.gold { background: rgba(36, 26, 6, .4); }
     .wrap { width:min(860px, calc(100% - 16px)); margin:0 auto; padding:max(10px, env(safe-area-inset-top)) 0 calc(28px + env(safe-area-inset-bottom)); }
     .brand { display:inline-flex; align-items:center; gap:8px; color:#eef6ff; text-decoration:none; font-weight:800; min-height:44px; }
     .brand img { width:36px; height:36px; border-radius:50%; object-fit:cover; background:radial-gradient(circle at 35% 30%, rgba(0,255,240,.45), #000103 70%); box-shadow:0 0 0 1px rgba(0,255,240,.65); }
@@ -75,7 +75,11 @@
       position:absolute; inset:22px 8px 22px; display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:1px;
       font-size:1rem; font-style:normal;
     }
-    .card .mid { font-size:2rem; align-items:center; text-shadow:0 0 12px currentColor; }
+    .card .suit, .waste .suit {
+      position:absolute; left:50%; top:52%; width:48px; height:48px;
+      transform:translate(-50%,-50%); object-fit:contain;
+      mix-blend-mode:screen; pointer-events:none;
+    }
     .card .pips i { font-style:normal; width:14px; text-align:center; text-shadow:0 0 8px currentColor; }
     .card.back, .stock {
       background:#000103 url("/assets/theme/solitaire-board.jpg") center / cover no-repeat;
@@ -141,6 +145,7 @@
     const looks=[{id:"night",name:"Night",need:1},{id:"sea",name:"Deep sea",need:2},{id:"rose",name:"Rose",need:3},{id:"gold",name:"Gold",need:4}];
     const red=(s)=>s==="\u2665"||s==="\u2666";
     const suitName=(s)=>s==="\u2665"?"hearts":s==="\u2660"?"spades":s==="\u2663"?"clubs":"diamonds";
+    const suitArt={"\u2665":"/assets/theme/suits/heart.jpg","\u2660":"/assets/theme/suits/spade.jpg","\u2663":"/assets/theme/suits/club.jpg","\u2666":"/assets/theme/suits/diamond.jpg"};
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
     let deck,board,waste,calm,combo,wins,look,cleared,history;
@@ -165,11 +170,8 @@
     function pos(i){ if(i<3) return {x:[90,270,450][i],y:8}; if(i<9) return {x:48+(i-3)*86,y:62}; if(i<18) return {x:8+(i-9)*58,y:124}; return {x:(i-18)*52,y:196}; }
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
     function faceHTML(card) {
-      const n = val(card.r);
-      const middle = (n === 0 || n >= 7)
-        ? `<span class="mid">${card.s}</span>`
-        : `<span class="pips">${Array.from({length:n+1}, () => `<i>${card.s}</i>`).join("")}</span>`;
-      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span>${middle}<span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
+      const art = suitArt[card.s];
+      return `<span class="c tl"><b>${card.r}</b></span><img class="suit" alt="" src="${art}"><span class="c br"><b>${card.r}</b></span>`;
     }
     function fit() {
       const stage = document.querySelector(".stage");

@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.11.0'; // cosmic suits, brain card backs, sky on the table
-const STATIC_CACHE = 'pleading-sanity-static-v25';
+const VERSION = '5.12.0'; // star sky, one icon for every game, cosmic suits
+const STATIC_CACHE = 'pleading-sanity-static-v26';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -101,6 +101,23 @@ const PRECACHE_URLS = [
     '/assets/theme/solitaire-board.jpg',
     '/assets/theme/games-board.jpg',
     '/assets/theme/sky.jpg',
+    '/assets/theme/icons/sanity-solitaire.jpg',
+    '/assets/theme/icons/cosmic-focus.jpg',
+    '/assets/theme/icons/number-nebula.jpg',
+    '/assets/theme/icons/pattern-galaxy.jpg',
+    '/assets/theme/icons/memory-ocean.jpg',
+    '/assets/theme/icons/rhythm-resonance.jpg',
+    '/assets/theme/icons/stardust-dash.jpg',
+    '/assets/theme/icons/healing-hz.jpg',
+    '/assets/theme/icons/sanity-stories.jpg',
+    '/assets/theme/icons/mind-mode.jpg',
+    '/assets/theme/icons/cosmic-connect.jpg',
+    '/assets/theme/icons/truth-tag.jpg',
+    '/assets/theme/icons/mood-journey.jpg',
+    '/assets/theme/suits/heart.jpg',
+    '/assets/theme/suits/spade.jpg',
+    '/assets/theme/suits/club.jpg',
+    '/assets/theme/suits/diamond.jpg',
     '/css/games-sky.css',
     '/js/site.js',
     '/js/arron-companion.js',
