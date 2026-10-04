@@ -29,9 +29,17 @@
     }
     .board, .row, .seats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; justify-content: center; }
     .board { min-height: 92px; margin: 8px 0; }
-    .card { min-width: 52px; min-height: 76px; border-radius: 10px; border: 1px solid rgba(0,255,240,.45); background: #eef6ff; color: #000103; display: grid; place-items: center; font-weight: 800; box-shadow: 0 8px 16px rgba(0,0,0,.35); }
-    .card.red { color: #b4234d; }
-    .card.back { background: #000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color: transparent; }
+    .card { position:relative; width:58px; min-width:58px; height:84px; min-height:84px; border-radius:12px; border:0; background:linear-gradient(180deg,#12304a,#000103); color:#eef6ff; display:block; font-weight:800; box-shadow:inset 0 0 0 1px rgba(0,255,240,.45), 0 8px 16px rgba(0,0,0,.35); }
+    .card .c { position:absolute; line-height:1; font-size:.68rem; }
+    .card .c b { font-size:.82rem; text-shadow:0 0 8px currentColor; }
+    .card .tl { top:4px; left:5px; }
+    .card .br { right:5px; bottom:4px; transform:rotate(180deg); }
+    .card .suit { position:absolute; left:50%; top:58%; width:26px; height:26px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
+    .card.hearts { color:#ff6b9a; }
+    .card.diamonds { color:#c084fc; }
+    .card.spades { color:#5ee9ff; }
+    .card.clubs { color:#5dff9a; }
+    .card.back { background:#000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color:transparent; }
     button, select, .btn { min-height: 44px; border-radius: 999px; border: 1px solid rgba(0,255,240,.4); background: #0d1b2a; color: #eef6ff; padding: 0 14px; font: inherit; text-decoration: none; display: inline-flex; align-items: center; }
     button.do { background: #00fff0; color: #000103; font-weight: 800; }
     .seat { min-width: 140px; padding: 8px; border-radius: 16px; border: 1px solid rgba(0,255,240,.28); background: rgba(0,1,3,.72); }
@@ -68,12 +76,32 @@
     const SUIT = ["♠", "♥", "♦", "♣"];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
-    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 3, sbSeat = 0, bbSeat = 1, hands = 0;
+    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
     function card(r, s) { return { r, s }; }
     function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
-    function freshDeck() { const d = []; for (let s = 0; s < 4; s++) for (let r = 0; r < 13; r++) d.push(card(r, s)); return shuffle(d); }
+    function rng(seed) {
+      let a = seed >>> 0;
+      return () => {
+        a = (a + 0x6D2B79F5) >>> 0;
+        let t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+    function freshDeck() {
+      const d = [];
+      for (let s = 0; s < 4; s++) for (let r = 0; r < 13; r++) d.push(card(r, s));
+      if (!roomSeed) return shuffle(d);
+      const rnd = rng((roomSeed + hands * 997) >>> 0);
+      for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+      return d;
+    }
     function face(c) { return RANKS[c.r] + SUIT[c.s]; }
-    function cardHtml(c) { return `<span class="card ${c.s === 1 || c.s === 2 ? "red" : ""}">${face(c)}</span>`; }
+    const ART = ["/assets/theme/suits/spade.jpg", "/assets/theme/suits/heart.jpg", "/assets/theme/suits/diamond.jpg", "/assets/theme/suits/club.jpg"];
+    const KIND = ["spades", "hearts", "diamonds", "clubs"];
+    function cardHtml(c) {
+      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
+    }
     function paint() {
       const streets = ["Pre-flop", "Flop", "Turn", "River", "Show"];
       $("street").textContent = streets[Math.min(street, 4)] + (handOver ? " · shown" : ""); $("meta").textContent = "Hand " + hands + " · to call " + currentBet;
@@ -116,12 +144,13 @@
     }
     let bank = loadBank();
     saveBank(bank);
-    function deal() {
+    function deal(forced) {
       if (bank < 20) { log("Bank is empty. Open the house, or wait an hour, and 100 chips return."); return; }
+      if (typeof forced === "number") hands = forced; else hands += 1;
       deck = freshDeck();
       const friend = new URLSearchParams(location.search).get("room");
       const names = friend ? ["You", "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
-      button = (button + 1) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4; hands += 1;
+      button = ((hands - 1) % 4 + 4) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4;
       seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
@@ -129,7 +158,7 @@
       if (sbSeat === 0 || bbSeat === 0) bank = seats[0].stack;
       board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
       saveBank(bank);
-      log((friend ? "Friend room " + friend + ". " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
+      log((friend ? "Same cards in this room. Bets stay on each phone. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
       if (turn !== 0) bot();
     }
@@ -217,7 +246,13 @@
     $("fold").onclick = () => act("fold");
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
-    $("next").onclick = deal;
+    $("next").onclick = async () => {
+      if (!room) return deal();
+      const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), hand: hands + 1, note: "Play chips only." }) });
+      const data = await res.json().catch(() => ({}));
+      if (data.seed) roomSeed = Number(data.seed) || roomSeed;
+      if (Number(data.hand)) deal(Number(data.hand));
+    };
     $("room").onclick = async () => {
       const res = await fetch("/api/poker-room", { method: "POST" });
       const data = await res.json().catch(() => ({}));
@@ -237,7 +272,7 @@
       const code = new URLSearchParams(location.search).get("room");
       if (code) await sit(code);
       try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
-      log("Share this. Play chips only. Same cards on two phones are not dealt yet. " + url);
+      log("Share this. Play chips only. The cards match. The bets stay on each phone. " + url);
     };
     let deferred;
     addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
@@ -246,14 +281,19 @@
     if (room) {
       $("room-name").textContent = "Room " + room;
       sit(room);
-      setInterval(async () => {
+      const pull = async () => {
         const res = await fetch("/api/poker-room/" + room);
         const data = await res.json().catch(() => ({}));
         if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
-      }, 8000);
-    }
+        const n = Number(data.hand) || 1;
+        const seedChanged = Boolean(data.seed) && Number(data.seed) !== roomSeed;
+        if (data.seed) roomSeed = Number(data.seed) || roomSeed;
+        if (!hands || n !== hands || seedChanged) deal(n);
+      };
+      pull();
+      setInterval(pull, 8000);
+    } else deal();
     setInterval(() => { if (handOver || !seats) { const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[0] && handOver) seats[0].stack = n; saveBank(bank); } } }, 60000);
-    deal();
   </script>
 </body>
 </html>

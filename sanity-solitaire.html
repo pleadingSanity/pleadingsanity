@@ -119,7 +119,36 @@
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
   </style>
-<style>.k-board button{min-height:44px;margin:2px;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.35)} .k-top,.k-tab{display:flex;gap:6px;flex-wrap:wrap} .k-col{display:flex;flex-direction:column}</style><style>
+<style>
+.k-board button.k-slot { min-height:44px; min-width:52px; margin:2px; border-radius:10px; background:#0d1b2a; color:#eef6ff; border:1px solid rgba(0,255,240,.35); }
+.k-top, .k-tab { display:flex; gap:6px; flex-wrap:wrap; align-items:flex-start; justify-content:center; }
+.k-col { display:flex; flex-direction:column; align-items:center; min-height:84px; }
+.k-card {
+  position:relative; width:58px; height:84px; min-width:58px; min-height:84px; margin:2px; padding:0;
+  border:0; border-radius:12px; color:#eef6ff; font:inherit; font-weight:800;
+  background:linear-gradient(180deg,#12304a,#000103);
+  box-shadow:inset 0 0 0 1px rgba(0,255,240,.45), 0 8px 14px rgba(0,0,0,.4);
+}
+.k-col .k-card + .k-card { margin-top:-64px; }
+.k-card:disabled { opacity:1; }
+.k-card .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.68rem; }
+.k-card .c b { font-size:.82rem; text-shadow:0 0 8px currentColor; }
+.k-card .tl { top:4px; left:4px; }
+.k-card .br { right:4px; bottom:4px; transform:rotate(180deg); }
+.k-card .suit { position:absolute; left:50%; top:58%; width:24px; height:24px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
+.k-card.hearts { color:#ff6b9a; }
+.k-card.spades { color:#5ee9ff; }
+.k-card.clubs { color:#5dff9a; }
+.k-card.diamonds { color:#c084fc; }
+.k-card.back { background:#000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color:transparent; }
+.k-card .count { position:relative; z-index:1; color:#eef6ff; font-size:.85rem; }
+@media (max-width: 420px) {
+  .k-card { width:46px; height:68px; min-width:46px; min-height:68px; }
+  .k-col .k-card + .k-card { margin-top:-50px; }
+  .k-card .suit { width:18px; height:18px; }
+}
+.k-line { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin:2px 0; }
+</style><style>
 .row button, .row select { min-height:44px; padding:0 12px; border-radius:999px; border:1px solid rgba(0,255,240,.4); background:#0d1b2a; color:#eef6ff; font:inherit; }
 .row button { background:#00fff0; color:#000103; font-weight:800; }
 .k-board button { min-width:52px; }
@@ -368,22 +397,31 @@ window.PSTable = (function () {
     stock = d; waste = []; found = [[],[],[],[]]; score = 0; hist = []; drawN = Number(document.getElementById("k-draw").value); paint("New deal.");
   }
   function label(x) { return ranks[x.r] + x.s; }
+  const art = { "\u2665":"/assets/theme/suits/heart.jpg", "\u2660":"/assets/theme/suits/spade.jpg", "\u2663":"/assets/theme/suits/club.jpg", "\u2666":"/assets/theme/suits/diamond.jpg" };
+  function kindOf(s) { return s === "\u2665" ? "hearts" : s === "\u2660" ? "spades" : s === "\u2663" ? "clubs" : "diamonds"; }
+  function dress(btn, rank, suit, up) {
+    btn.className = "k-card " + (up ? kindOf(suit) : "back");
+    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b></span><img class="suit" alt="" src="${art[suit]}"><span class="c br"><b>${rank}</b></span>` : "";
+    btn.setAttribute("aria-label", up ? rank + " " + suit : "Face down");
+  }
+  window.PSNight = dress;
   function paint(msg) {
     if (msg && window.PSFriend && msg.indexOf("New ") !== 0) msg = PSFriend.pass(msg);
     board.textContent = "";
     const top = document.createElement("div"); top.className = "k-top";
-    const st = document.createElement("button"); st.type = "button"; st.textContent = stock.length ? "Stock " + stock.length : "Turn";
+    const st = document.createElement("button"); st.type = "button"; st.className = "k-card back"; st.innerHTML = `<span class="count">${stock.length || "\u21bb"}</span>`; st.setAttribute("aria-label", stock.length ? "Stock " + stock.length : "Turn the stock");
     st.onclick = draw; top.appendChild(st);
-    const w = document.createElement("button"); w.type = "button"; w.textContent = waste.length ? label(waste[waste.length - 1]) : "Waste";
+    const w = document.createElement("button"); w.type = "button";
+    if (waste.length) dress(w, ranks[waste[waste.length - 1].r], waste[waste.length - 1].s, true); else { w.className = "k-slot"; w.textContent = "Waste"; }
     w.onclick = () => playWaste(); top.appendChild(w);
-    found.forEach((f, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = f.length ? label(f[f.length - 1]) : "Ace"; b.onclick = () => {}; top.appendChild(b); });
+    found.forEach((f) => { const b = document.createElement("button"); b.type = "button"; if (f.length) dress(b, ranks[f[f.length - 1].r], f[f.length - 1].s, true); else { b.className = "k-slot"; b.textContent = "Ace"; } top.appendChild(b); });
     board.appendChild(top);
     const row = document.createElement("div"); row.className = "k-tab";
     tab.forEach((col, ci) => {
       const pile = document.createElement("div"); pile.className = "k-col";
-      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.textContent = "Empty"; e.onclick = () => dropKing(ci); pile.appendChild(e); }
+      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.className = "k-slot"; e.textContent = "Empty"; e.onclick = () => dropKing(ci); pile.appendChild(e); }
       col.forEach((x, ri) => {
-        const b = document.createElement("button"); b.type = "button"; b.textContent = x.up ? label(x) : "Back"; b.disabled = !x.up;
+        const b = document.createElement("button"); b.type = "button"; dress(b, ranks[x.r], x.s, x.up); b.disabled = !x.up;
         b.onclick = () => playTab(ci, ri); pile.appendChild(b);
       });
       row.appendChild(pile);
@@ -466,14 +504,14 @@ window.PSTable = (function () {
     if (msg && window.PSFriend && msg.indexOf("New ") !== 0) msg = PSFriend.pass(msg);
     fboard.textContent = "";
     const top = document.createElement("div"); top.className = "k-top";
-    free.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = c ? label(c) : "Free"; b.onclick = () => fuse(i); top.appendChild(b); });
-    found.forEach((f) => { const b = document.createElement("button"); b.type = "button"; b.textContent = f.length ? label(f[f.length - 1]) : "Home"; top.appendChild(b); });
+    free.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; if (c) window.PSNight(b, ranks[c.r], c.s, true); else { b.className = "k-slot"; b.textContent = "Free"; } b.onclick = () => fuse(i); top.appendChild(b); });
+    found.forEach((f) => { const b = document.createElement("button"); b.type = "button"; if (f.length) window.PSNight(b, ranks[f[f.length - 1].r], f[f.length - 1].s, true); else { b.className = "k-slot"; b.textContent = "Home"; } top.appendChild(b); });
     fboard.appendChild(top);
     const row = document.createElement("div"); row.className = "k-tab";
     cols.forEach((col, ci) => {
       const pile = document.createElement("div"); pile.className = "k-col";
-      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.textContent = "Empty"; e.onclick = () => fmoveTo(ci); pile.appendChild(e); }
-      col.forEach((c) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label(c); b.onclick = () => fplay(ci); pile.appendChild(b); });
+      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.className = "k-slot"; e.textContent = "Empty"; e.onclick = () => fmoveTo(ci); pile.appendChild(e); }
+      col.forEach((c) => { const b = document.createElement("button"); b.type = "button"; window.PSNight(b, ranks[c.r], c.s, true); b.onclick = () => fplay(ci); pile.appendChild(b); });
       row.appendChild(pile);
     });
     fboard.appendChild(row);
@@ -522,12 +560,16 @@ window.PSTable = (function () {
     prow.forEach((row, r) => {
       const line = document.createElement("div"); line.className = "k-top";
       row.forEach((c, i) => {
-        const b = document.createElement("button"); b.type = "button"; b.textContent = c ? label(c) : "·"; b.disabled = !c || !openAt(r, i);
+        const b = document.createElement("button"); b.type = "button";
+        if (c) window.PSNight(b, ranks[c.r], c.s, true); else { b.className = "k-slot"; b.textContent = "\u00b7"; }
+        b.disabled = !c || !openAt(r, i);
         b.onclick = () => ppick(r, i); line.appendChild(b);
       });
       pboard.appendChild(line);
     });
-    const w = document.createElement("button"); w.type = "button"; w.textContent = pwaste.length ? label(pwaste[pwaste.length - 1]) : "Waste"; w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
+    const w = document.createElement("button"); w.type = "button";
+    if (pwaste.length) window.PSNight(w, ranks[pwaste[pwaste.length - 1].r], pwaste[pwaste.length - 1].s, true); else { w.className = "k-slot"; w.textContent = "Waste"; }
+    w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
     if (prow.every((row) => row.every((c) => !c))) { pstatus.textContent = "Pyramid clear."; if (!pwon && window.PSBook) { pwon = true; PSBook.win("pyramid", 28); } } else pstatus.textContent = msg || "";
   }
   function ppick(r, c) {
