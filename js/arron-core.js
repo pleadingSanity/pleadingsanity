@@ -476,6 +476,68 @@
     renderVoice();
     setStatus(prefs.voice === 'off' ? 'Voice off.' : "Arron's voice is on.");
   });
+  const listenBtn = $('aa-listen');
+  const drawBtn = $('aa-draw');
+  const Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  let rec = null;
+  if (listenBtn && Rec) {
+    rec = new Rec();
+    rec.lang = 'en-GB';
+    rec.interimResults = false;
+    rec.onstart = () => { listenBtn.setAttribute('aria-pressed', 'true'); setStatus('Listening.'); orbState('listening'); };
+    rec.onend = () => { listenBtn.setAttribute('aria-pressed', 'false'); orbState(''); };
+    rec.onerror = () => { setStatus('The mic did not catch that.'); listenBtn.setAttribute('aria-pressed', 'false'); };
+    rec.onresult = (ev) => {
+      const said = ev.results && ev.results[0] && ev.results[0][0] ? ev.results[0][0].transcript : '';
+      if (!said) return;
+      els.input.value = said;
+      setStatus('Heard you.');
+    };
+    listenBtn.addEventListener('click', () => {
+      if (listenBtn.getAttribute('aria-pressed') === 'true') { rec.stop(); return; }
+      try { rec.start(); } catch (e) { setStatus('The mic is already open.'); }
+    });
+  } else if (listenBtn) {
+    listenBtn.hidden = true;
+  }
+  if (drawBtn) {
+    drawBtn.addEventListener('click', async () => {
+      const prompt = (els.input.value || '').trim();
+      if (!prompt) { setStatus('Say what you want to see first.'); return; }
+      drawBtn.disabled = true;
+      setStatus('Arron is drawing.');
+      try {
+        const res = await fetch('/api/creations', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ prompt, title: prompt.slice(0, 80) })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.imageUrl) {
+          setStatus(data.error || 'That picture did not come back.');
+          return;
+        }
+        const fig = document.createElement('figure');
+        fig.className = 'aa-msg arron aa-draw-card';
+        const img = document.createElement('img');
+        img.src = data.imageUrl;
+        img.alt = prompt;
+        const cap = document.createElement('figcaption');
+        cap.textContent = 'Drawn from your words.';
+        fig.append(img, cap);
+        els.log.appendChild(fig);
+        scrollDown();
+        els.input.value = '';
+        setStatus('Picture ready.');
+        speak('Here it is.');
+      } catch (e) {
+        setStatus('The draw did not go through.');
+      } finally {
+        drawBtn.disabled = false;
+      }
+    });
+  }
+
   els.voiceMode.addEventListener('change', () => {
     prefs.voice = els.voiceMode.value;
     if (prefs.voice !== 'off') { prefs.lastVoice = prefs.voice; speak("I'm here. This is how I'll sound.", true); }

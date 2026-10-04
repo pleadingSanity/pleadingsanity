@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.16'; // phone app polish, same install
-const STATIC_CACHE = 'pleading-sanity-static-v42';
+const VERSION = '5.12.17'; // voice listen and draw, same install
+const STATIC_CACHE = 'pleading-sanity-static-v43';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

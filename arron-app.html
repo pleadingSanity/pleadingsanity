@@ -98,7 +98,9 @@
           </div>
           <form class="aa-form" id="aa-form" autocomplete="off">
             <label for="aa-input" class="sr-only">Message Arron</label>
-            <textarea id="aa-input" rows="1" maxlength="2000" enterkeyhint="send" placeholder="Talk to Arron…"></textarea>
+            <button type="button" class="aa-tool" id="aa-listen" aria-pressed="false" aria-label="Speak to Arron">Mic</button>
+            <textarea id="aa-input" rows="1" maxlength="2000" enterkeyhint="send" placeholder="Talk, or say what to draw…"></textarea>
+            <button type="button" class="aa-tool" id="aa-draw" aria-label="Make this into a picture">Draw</button>
             <button type="submit" class="aa-send" id="aa-send" aria-label="Send">➤</button>
           </form>
           <p class="aa-status" id="aa-status" role="status" aria-live="polite"></p>

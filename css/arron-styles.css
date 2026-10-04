@@ -725,3 +725,21 @@ html.aa-root, .aa-body {
 @media (prefers-reduced-motion: reduce) {
   .aa-msg, .aa-orb, .aa-hero { animation: none; transition: none; }
 }
+
+.aa-tool {
+  flex: none;
+  min-width: 52px;
+  min-height: 48px;
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  border-radius: 14px;
+  background: #0d1b2a;
+  color: #eef6ff;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.aa-tool[aria-pressed="true"] { background: #00fff0; color: #000103; }
+.aa-draw-card { max-width: 100%; }
+.aa-draw-card img { width: 100%; border-radius: 14px; display: block; }
+.aa-draw-card figcaption { margin-top: 0.4rem; color: #b4c3d6; font-size: 0.85rem; }
