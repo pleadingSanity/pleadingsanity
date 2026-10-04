@@ -29,6 +29,16 @@ const grok = grokKey
 const openaiDirect = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
+// Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
+// They are not in the council. They speak only when GPT, Claude, Gemini and Grok are all quiet.
+// Left out on purpose: anything that may train on a person's words, code-only models, and doors that retire this week.
+const FREE_SPARES: { name: string; model: string }[] = [
+  { name: "gemma", model: "google/gemma-4-31b-it:free" },
+  { name: "qwen", model: "qwen/qwen3.8-27b:free" },
+  { name: "gemma-small", model: "google/gemma-4-26b-a4b-it:free" },
+  { name: "ling", model: "inclusionai/ling-3.0-flash-sante:free" },
+  { name: "apodex", model: "apodex/apodex-1.1-mini:free" },
+];
 
 export type Turn = { role: "user" | "assistant"; content: string };
 export type Provider = "anthropic" | "openai" | "gemini" | "grok";
@@ -112,6 +122,34 @@ const why = (error: unknown) => {
   return typeof e?.status === "number" ? `HTTP ${e.status}` : typeof e?.name === "string" ? e.name : "error";
 };
 
+function spareClient() {
+  const key = process.env.OPENROUTER_API_KEY;
+  if (!key) return null;
+  const base = (process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1").replace(/\/$/, "");
+  return new OpenAI({ apiKey: key, baseURL: base, timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+}
+
+async function runSpares(system: string, turns: Turn[], maxTokens: number) {
+  const client = spareClient();
+  if (!client) return null;
+  const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. Do not recite clinic numbers.`;
+  for (const spare of FREE_SPARES) {
+    try {
+      const res = await client.chat.completions.create({
+        model: spare.model,
+        max_tokens: maxTokens,
+        messages: [{ role: "system", content: voice }, ...turns],
+      });
+      const text = (res.choices[0]?.message?.content ?? "").trim();
+      if (text) return { text, provider: `spare:${spare.name}`, model: spare.model };
+      console.warn(`AI chain: empty reply from free spare ${spare.name}`);
+    } catch (error) {
+      console.warn(`AI chain: free spare ${spare.name} unavailable (${why(error)})`);
+    }
+  }
+  return null;
+}
+
 // Walk the chain until someone replies. Only throws if every lab is down.
 // Each lab gets the same system prompt and turns, fresh — nothing from a failed attempt is passed on.
 export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700 } = {}) {
@@ -128,6 +166,8 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
       }
     }
   }
+  const spare = await runSpares(system, turns, maxTokens);
+  if (spare) return spare;
   throw new Error("Every AI provider failed");
 }
 
@@ -143,7 +183,11 @@ export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) 
       if (draft) { author = link.provider; break; }
     } catch { /* next mind drafts */ }
   }
-  if (!draft) throw new Error("Every AI provider failed");
+  if (!draft) {
+    const spare = await runSpares(system, turns, maxTokens);
+    if (spare) return spare;
+    throw new Error("Every AI provider failed");
+  }
   const reviewer = live.find((l) => l.provider !== author);
   if (!reviewer) return { text: draft, provider: author, model: "one" };
   try {

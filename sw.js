@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.7'; // Grok accepts either key name; GPT can use the stored OpenAI key
-const STATIC_CACHE = 'pleading-sanity-static-v33';
+const VERSION = '5.12.8'; // free spares only if the four minds are quiet
+const STATIC_CACHE = 'pleading-sanity-static-v34';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
