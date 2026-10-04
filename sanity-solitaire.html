@@ -123,6 +123,10 @@
 .row button, .row select { min-height:44px; padding:0 12px; border-radius:999px; border:1px solid rgba(0,255,240,.4); background:#0d1b2a; color:#eef6ff; font:inherit; }
 .row button { background:#00fff0; color:#000103; font-weight:800; }
 .k-board button { min-width:52px; }
+</style><style>
+.book { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:10px 0; }
+.book span { display:block; min-height:52px; padding:6px; border-radius:12px; background:#0d1b2a; border:1px solid rgba(0,255,240,.28); color:#eef6ff; text-align:center; font-size:.78rem; }
+.book b { display:block; color:#00fff0; font-size:1.05rem; }
 </style></head>
 <body class="night">
   <div class="wrap">
@@ -138,7 +142,9 @@
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.jpg" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
-    <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
+    
+    <div class="book" id="book" aria-label="Your solitaire book"></div>
+<div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
       <p class="note">All cards face up. One free cell holds one card. Build down in alternating colours. Aces home. No timer.</p>
@@ -171,7 +177,29 @@
       <p class="note" id="status"></p>
     </div>
   </div>
-  <script src="/js/house-voice.js"></script>
+  
+<script>
+window.PSBook = (function () {
+  const key = "ps-sol-book";
+  const empty = () => ({ won: 0, left: 0, redeals: 0, cards: 0, best: 0, open: false });
+  function load() { try { return JSON.parse(localStorage.getItem(key)) || {}; } catch (e) { return {}; } }
+  function save(book) { localStorage.setItem(key, JSON.stringify(book)); paint(); }
+  function row(mode) { const book = load(); book[mode] = Object.assign(empty(), book[mode] || {}); return book; }
+  function paint() {
+    const el = document.getElementById("book"); if (!el) return;
+    const mode = (document.getElementById("mode") || {}).value || "peaks";
+    const book = load();
+    const r = Object.assign(empty(), book[mode] || {});
+    el.innerHTML = [["Cleared", r.won], ["Left", r.left], ["Redeals", r.redeals], ["Cards", r.cards]].map((pair) => `<span><b>${pair[1]}</b>${pair[0]}</span>`).join("");
+  }
+  function start(mode) { const book = row(mode); if (book[mode].open) book[mode].left += 1; book[mode].open = true; book[mode].redeals += 1; save(book); }
+  function card(mode, n) { const book = row(mode); book[mode].cards += n || 1; save(book); }
+  function win(mode, score) { const book = row(mode); book[mode].won += 1; book[mode].open = false; book[mode].best = Math.max(book[mode].best, score || 0); save(book); }
+  document.addEventListener("DOMContentLoaded", paint);
+  return { start, card, win, paint };
+})();
+</script>
+<script src="/js/house-voice.js"></script>
   <script src="/js/games.js"></script>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
@@ -195,6 +223,7 @@
     }
     function shuffle(list){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}return list;}
     function fresh(){
+      if (window.PSBook) PSBook.start("peaks");
       const cards=[]; for(const s of suits) for(const r of ranks) cards.push({r,s}); shuffle(cards);
       board=cards.splice(0,28).map((c,i)=>({...c,i,up:i>=18,gone:false}));
       deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; history=[]; snap(); paint();
@@ -234,9 +263,9 @@
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
-    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; paint(); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
@@ -268,7 +297,9 @@
     return d;
   }
   function snap() { hist.push(JSON.stringify({ stock, waste, found, tab, score })); if (hist.length > 40) hist.shift(); }
+  let kwon = false;
   function deal() {
+    if (window.PSBook) PSBook.start("klondike"); kwon = false;
     const d = deck();
     tab = [[],[],[],[],[],[],[]];
     for (let c = 0; c < 7; c++) for (let r = 0; r <= c; r++) { const x = d.pop(); x.up = r === c; tab[c].push(x); }
@@ -297,7 +328,7 @@
     board.appendChild(row);
     scoreEl.textContent = "Score " + score;
     status.textContent = msg || "";
-    if (found.every((f) => f.length === 13)) status.textContent = "Cleared. That is the win.";
+    if (found.every((f) => f.length === 13)) { status.textContent = "Cleared. That is the win."; if (!kwon && window.PSBook) { kwon = true; PSBook.win("klondike", score); } }
   }
   function draw() {
     snap();
@@ -356,11 +387,13 @@
     Object.entries(panels).forEach(([k, el]) => { if (el) el.hidden = k !== v; });
     if (peaks) peaks.hidden = v !== "peaks";
   }
-  mode.addEventListener("change", show);
+  mode.addEventListener("change", () => { show(); if (window.PSBook) PSBook.paint(); });
 
   let free = [null, null, null, null], found = [[], [], [], []], cols = [], fhist = [];
   const fboard = document.getElementById("f-board"), fstatus = document.getElementById("f-status"), fscore = document.getElementById("f-score");
+  let fwon = false;
   function fdeal() {
+    if (window.PSBook) PSBook.start("freecell"); fwon = false;
     const d = deck(); cols = [[], [], [], [], [], [], [], []];
     d.forEach((c, i) => cols[i % 8].push(c));
     free = [null, null, null, null]; found = [[], [], [], []]; fhist = []; fpaint("New FreeCell.");
@@ -381,7 +414,7 @@
     });
     fboard.appendChild(row);
     fscore.textContent = "Free " + free.filter((c) => !c).length;
-    fstatus.textContent = found.every((f) => f.length === 13) ? "Cleared." : (msg || "");
+    if (found.every((f) => f.length === 13)) { fstatus.textContent = "Cleared."; if (!fwon && window.PSBook) { fwon = true; PSBook.win("freecell", 52); } } else fstatus.textContent = msg || "";
   }
   function fcan(a, b) { return red(a.s) !== red(b.s) && a.r === b.r - 1; }
   function fhome(c) { for (let i = 0; i < 4; i++) { const t = found[i][found[i].length - 1]; if ((!t && c.r === 0) || (t && t.s === c.s && c.r === t.r + 1)) return i; } return -1; }
@@ -406,7 +439,9 @@
 
   let prow = [], pstock = [], pwaste = [], phist = [], picked = null;
   const pboard = document.getElementById("p-board"), pstatus = document.getElementById("p-status");
+  let pwon = false;
   function pdeal() {
+    if (window.PSBook) PSBook.start("pyramid"); pwon = false;
     const d = deck(); prow = []; let n = 0;
     for (let r = 0; r < 7; r++) { const row = []; for (let c = 0; c <= r; c++) row.push(d[n++]); prow.push(row); }
     pstock = d.slice(n); pwaste = []; phist = []; picked = null; ppaint("New pyramid.");
@@ -428,19 +463,19 @@
       pboard.appendChild(line);
     });
     const w = document.createElement("button"); w.type = "button"; w.textContent = pwaste.length ? label(pwaste[pwaste.length - 1]) : "Waste"; w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
-    pstatus.textContent = prow.every((row) => row.every((c) => !c)) ? "Pyramid clear." : (msg || "");
+    if (prow.every((row) => row.every((c) => !c))) { pstatus.textContent = "Pyramid clear."; if (!pwon && window.PSBook) { pwon = true; PSBook.win("pyramid", 28); } } else pstatus.textContent = msg || "";
   }
   function ppick(r, c) {
     const card = r < 0 ? pwaste[pwaste.length - 1] : prow[r][c];
     if (!card) return;
-    if (card.r === 12) { psnap(); if (r < 0) pwaste.pop(); else prow[r][c] = null; picked = null; ppaint("King leaves."); return; }
+    if (card.r === 12) { psnap(); if (r < 0) pwaste.pop(); else prow[r][c] = null; if (window.PSBook) PSBook.card("pyramid"); picked = null; ppaint("King leaves."); return; }
     if (!picked) { picked = { r, c, card }; pstatus.textContent = "Pick a pair that makes 13."; return; }
     if (picked.r === r && picked.c === c) { picked = null; pstatus.textContent = "Unpicked."; return; }
     if (val(picked.card.r) + val(card.r) === 13) {
       psnap();
       if (picked.r < 0) pwaste.pop(); else prow[picked.r][picked.c] = null;
       if (r < 0) pwaste.pop(); else prow[r][c] = null;
-      picked = null; ppaint("Pair cleared."); return;
+      if (window.PSBook) PSBook.card("pyramid", 2); picked = null; ppaint("Pair cleared."); return;
     }
     pstatus.textContent = "Those do not make 13."; picked = null;
   }

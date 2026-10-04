@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.19'; // more solitaire tables, same install
-const STATIC_CACHE = 'pleading-sanity-static-v45';
+const VERSION = '5.12.20'; // solitaire book, same install
+const STATIC_CACHE = 'pleading-sanity-static-v46';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
