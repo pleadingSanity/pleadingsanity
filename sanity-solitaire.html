@@ -119,7 +119,11 @@
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
   </style>
-<style>.k-board button{min-height:44px;margin:2px;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.35)} .k-top,.k-tab{display:flex;gap:6px;flex-wrap:wrap} .k-col{display:flex;flex-direction:column}</style></head>
+<style>.k-board button{min-height:44px;margin:2px;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.35)} .k-top,.k-tab{display:flex;gap:6px;flex-wrap:wrap} .k-col{display:flex;flex-direction:column}</style><style>
+.row button, .row select { min-height:44px; padding:0 12px; border-radius:999px; border:1px solid rgba(0,255,240,.4); background:#0d1b2a; color:#eef6ff; font:inherit; }
+.row button { background:#00fff0; color:#000103; font-weight:800; }
+.k-board button { min-width:52px; }
+</style></head>
 <body class="night">
   <div class="wrap">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
@@ -134,8 +138,21 @@
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.jpg" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
-    <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option></select></label><label>Table <select id="table"></select></label></div>
-    <section id="klondike" hidden>
+    <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
+    
+    <section id="freecell" hidden>
+      <p class="note">All cards face up. One free cell holds one card. Build down in alternating colours. Aces home. No timer.</p>
+      <div class="row"><button type="button" id="f-deal">New deal</button><button type="button" id="f-undo">Undo</button><span id="f-score">Free 4</span></div>
+      <div id="f-board" class="k-board"></div>
+      <p id="f-status" role="status"></p>
+    </section>
+    <section id="pyramid" hidden>
+      <p class="note">Clear the pyramid. Two open cards that add to 13 leave together. A king leaves alone. No timer.</p>
+      <div class="row"><button type="button" id="p-deal">New deal</button><button type="button" id="p-undo">Undo</button><button type="button" id="p-draw">Draw</button></div>
+      <div id="p-board" class="k-board"></div>
+      <p id="p-status" role="status"></p>
+    </section>
+<section id="klondike" hidden>
       <p class="note">Build down in alternating colours. Ace starts a foundation. Draw one or three. Undo, hint, and a soft win. No timer.</p>
       <div class="row">
         <button type="button" id="k-deal">New deal</button>
@@ -314,6 +331,124 @@
     klon.hidden = !on; if (peaks) peaks.hidden = on;
     if (on && !stock.length && !tab[0].length) deal();
   });
+})();
+</script>
+
+
+<script>
+(function () {
+  const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+  const suits = ["\u2660","\u2665","\u2666","\u2663"];
+  const red = (s) => s === "\u2665" || s === "\u2666";
+  const val = (r) => r + 1;
+  function deck() {
+    const d = [];
+    suits.forEach((s) => ranks.forEach((_, r) => d.push({ r, s, up: true })));
+    for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+    return d;
+  }
+  const label = (x) => ranks[x.r] + x.s;
+  const mode = document.getElementById("mode");
+  const peaks = document.querySelector(".stage");
+  const panels = { klondike: document.getElementById("klondike"), freecell: document.getElementById("freecell"), pyramid: document.getElementById("pyramid") };
+  function show() {
+    const v = mode.value;
+    Object.entries(panels).forEach(([k, el]) => { if (el) el.hidden = k !== v; });
+    if (peaks) peaks.hidden = v !== "peaks";
+  }
+  mode.addEventListener("change", show);
+
+  let free = [null, null, null, null], found = [[], [], [], []], cols = [], fhist = [];
+  const fboard = document.getElementById("f-board"), fstatus = document.getElementById("f-status"), fscore = document.getElementById("f-score");
+  function fdeal() {
+    const d = deck(); cols = [[], [], [], [], [], [], [], []];
+    d.forEach((c, i) => cols[i % 8].push(c));
+    free = [null, null, null, null]; found = [[], [], [], []]; fhist = []; fpaint("New FreeCell.");
+  }
+  function fsnap() { fhist.push(JSON.stringify({ free, found, cols })); }
+  function fpaint(msg) {
+    fboard.textContent = "";
+    const top = document.createElement("div"); top.className = "k-top";
+    free.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = c ? label(c) : "Free"; b.onclick = () => fuse(i); top.appendChild(b); });
+    found.forEach((f) => { const b = document.createElement("button"); b.type = "button"; b.textContent = f.length ? label(f[f.length - 1]) : "Home"; top.appendChild(b); });
+    fboard.appendChild(top);
+    const row = document.createElement("div"); row.className = "k-tab";
+    cols.forEach((col, ci) => {
+      const pile = document.createElement("div"); pile.className = "k-col";
+      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.textContent = "Empty"; e.onclick = () => fmoveTo(ci); pile.appendChild(e); }
+      col.forEach((c) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label(c); b.onclick = () => fplay(ci); pile.appendChild(b); });
+      row.appendChild(pile);
+    });
+    fboard.appendChild(row);
+    fscore.textContent = "Free " + free.filter((c) => !c).length;
+    fstatus.textContent = found.every((f) => f.length === 13) ? "Cleared." : (msg || "");
+  }
+  function fcan(a, b) { return red(a.s) !== red(b.s) && a.r === b.r - 1; }
+  function fhome(c) { for (let i = 0; i < 4; i++) { const t = found[i][found[i].length - 1]; if ((!t && c.r === 0) || (t && t.s === c.s && c.r === t.r + 1)) return i; } return -1; }
+  function fplay(ci) {
+    const c = cols[ci][cols[ci].length - 1]; if (!c) return;
+    const h = fhome(c);
+    if (h >= 0) { fsnap(); found[h].push(cols[ci].pop()); fpaint("Home."); return; }
+    for (let i = 0; i < 8; i++) if (i !== ci) { const t = cols[i][cols[i].length - 1]; if (!t || fcan(c, t)) { fsnap(); cols[i].push(cols[ci].pop()); fpaint("Moved."); return; } }
+    const slot = free.findIndex((x) => !x);
+    if (slot >= 0) { fsnap(); free[slot] = cols[ci].pop(); fpaint("Held."); return; }
+    fstatus.textContent = "No move for that card.";
+  }
+  function fuse(i) {
+    const c = free[i]; if (!c) return;
+    const h = fhome(c);
+    if (h >= 0) { fsnap(); found[h].push(c); free[i] = null; fpaint("Home."); return; }
+    for (let k = 0; k < 8; k++) { const t = cols[k][cols[k].length - 1]; if (!t || fcan(c, t)) { fsnap(); cols[k].push(c); free[i] = null; fpaint("From the cell."); return; } }
+  }
+  function fmoveTo() { fstatus.textContent = "Tap a card. An empty pile takes a king from a tap."; }
+  document.getElementById("f-deal").onclick = fdeal;
+  document.getElementById("f-undo").onclick = () => { const s = fhist.pop(); if (!s) return; const o = JSON.parse(s); free = o.free; found = o.found; cols = o.cols; fpaint("Undone."); };
+
+  let prow = [], pstock = [], pwaste = [], phist = [], picked = null;
+  const pboard = document.getElementById("p-board"), pstatus = document.getElementById("p-status");
+  function pdeal() {
+    const d = deck(); prow = []; let n = 0;
+    for (let r = 0; r < 7; r++) { const row = []; for (let c = 0; c <= r; c++) row.push(d[n++]); prow.push(row); }
+    pstock = d.slice(n); pwaste = []; phist = []; picked = null; ppaint("New pyramid.");
+  }
+  function psnap() { phist.push(JSON.stringify({ prow, pstock, pwaste, picked })); }
+  function openAt(r, c) {
+    const card = prow[r][c]; if (!card) return false;
+    if (r === 6) return true;
+    return !prow[r + 1][c] && !prow[r + 1][c + 1];
+  }
+  function ppaint(msg) {
+    pboard.textContent = "";
+    prow.forEach((row, r) => {
+      const line = document.createElement("div"); line.className = "k-top";
+      row.forEach((c, i) => {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = c ? label(c) : "·"; b.disabled = !c || !openAt(r, i);
+        b.onclick = () => ppick(r, i); line.appendChild(b);
+      });
+      pboard.appendChild(line);
+    });
+    const w = document.createElement("button"); w.type = "button"; w.textContent = pwaste.length ? label(pwaste[pwaste.length - 1]) : "Waste"; w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
+    pstatus.textContent = prow.every((row) => row.every((c) => !c)) ? "Pyramid clear." : (msg || "");
+  }
+  function ppick(r, c) {
+    const card = r < 0 ? pwaste[pwaste.length - 1] : prow[r][c];
+    if (!card) return;
+    if (card.r === 12) { psnap(); if (r < 0) pwaste.pop(); else prow[r][c] = null; picked = null; ppaint("King leaves."); return; }
+    if (!picked) { picked = { r, c, card }; pstatus.textContent = "Pick a pair that makes 13."; return; }
+    if (picked.r === r && picked.c === c) { picked = null; pstatus.textContent = "Unpicked."; return; }
+    if (val(picked.card.r) + val(card.r) === 13) {
+      psnap();
+      if (picked.r < 0) pwaste.pop(); else prow[picked.r][picked.c] = null;
+      if (r < 0) pwaste.pop(); else prow[r][c] = null;
+      picked = null; ppaint("Pair cleared."); return;
+    }
+    pstatus.textContent = "Those do not make 13."; picked = null;
+  }
+  document.getElementById("p-deal").onclick = pdeal;
+  document.getElementById("p-draw").onclick = () => { psnap(); if (!pstock.length) { pstock = pwaste.reverse(); pwaste = []; } const c = pstock.pop(); if (c) pwaste.push(c); ppaint("Drew."); };
+  document.getElementById("p-undo").onclick = () => { const s = phist.pop(); if (!s) return; const o = JSON.parse(s); prow = o.prow; pstock = o.pstock; pwaste = o.pwaste; picked = null; ppaint("Undone."); };
+  mode.addEventListener("change", () => { if (mode.value === "freecell" && !cols.length) fdeal(); if (mode.value === "pyramid" && !prow.length) pdeal(); });
+  show();
 })();
 </script>
 
