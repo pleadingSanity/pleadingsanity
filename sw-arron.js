@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.4-growing';
+const VERSION = '3.5-sky';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -29,6 +29,7 @@ const PRECACHE_URLS = [
     '/about.html',
     '/games.html',
     '/css/space.css',
+    '/assets/theme/sky.jpg',
     '/assets/favicon.svg',
     '/assets/images/brand/crying-brain-logo-512.webp',
     '/assets/favicon.ico',

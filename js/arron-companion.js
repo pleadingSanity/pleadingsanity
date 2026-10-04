@@ -479,7 +479,7 @@
       bannerEl.hidden = false;
       bannerEl.className = `arron-banner ${state}`;
       bannerEl.textContent = state === 'offline'
-        ? "📴 You're offline. Arron still answers with simpler replies, and crisis numbers work without internet."
+        ? "📴 You're offline. Arron still answers with simpler replies, and the house truth is saved on this device."
         : '🔄 Arron lost connection. Reconnecting automatically…';
       if (state === 'reconnecting') scheduleReconnect();
     }
@@ -585,7 +585,7 @@
           ? "Arron replied, but couldn't save this to your memory just now."
           : 'Saved to your memory. 💙') + (via ? ` · ${via}` : ''));
     } catch (e) {
-      // Crisis words always get real UK support numbers, online or not
+      // Crisis words always get Arron staying, plus the house truth and life tools, online or not
       reply = offlineResponse(text);
       fallback = true;
       setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
