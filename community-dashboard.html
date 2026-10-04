@@ -445,26 +445,26 @@
     <!-- Crisis Status -->
     <div class="crisis-status operational" id="crisis-status">
       🟢 <strong>Crisis Response: OPERATIONAL</strong><br />
-      24/7 support active · Average response: <strong>~47 seconds</strong>
+      24/7 support active · No invented response time
     </div>
 
     <!-- Key Metrics -->
     <section class="transparency-metrics">
       <div class="metric-card">
-        <span class="metric-value" id="active-members">12,847</span>
-        <div class="metric-label">Active Members</div>
+        <span class="metric-value" id="active-members">Not counted</span>
+        <div class="metric-label">Active members. This house does not invent a number.</div>
       </div>
       <div class="metric-card">
-        <span class="metric-value" id="crisis-responses">3,294</span>
-        <div class="metric-label">Crisis Responses</div>
+        <span class="metric-value" id="crisis-responses">Not counted</span>
+        <div class="metric-label">Sittings. Counted only when the house can prove them.</div>
       </div>
       <div class="metric-card">
-        <span class="metric-value" id="local-chapters">23</span>
-        <div class="metric-label">Local Chapters</div>
+        <span class="metric-value" id="local-chapters">Not counted</span>
+        <div class="metric-label">Local chapters. None claimed until they are real.</div>
       </div>
       <div class="metric-card">
-        <span class="metric-value" id="volunteer-hours">8,742</span>
-        <div class="metric-label">Volunteer Hours</div>
+        <span class="metric-value" id="volunteer-hours">Not counted</span>
+        <div class="metric-label">Hours given. Not a borrowed figure.</div>
       </div>
     </section>
 
@@ -737,16 +737,7 @@
       },
       
       updateNumbers() {
-        const els = {
-          'active-members': 12847 + Math.floor(Math.random() * 15),
-          'crisis-responses': 3294 + Math.floor(Math.random() * 8),
-          'local-chapters': 23,
-          'volunteer-hours': 8742 + Math.floor(Math.random() * 25)
-        };
-        Object.entries(els).forEach(([id, val]) => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = val.toLocaleString();
-        });
+        // Honest house. Do not paint a borrowed count.
       },
       
       restoreVotes() {

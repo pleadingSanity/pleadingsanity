@@ -1,6 +1,6 @@
 {
   "$comment": "ARRON — THE SOUL FILE. Update this once and the Arron app grows everywhere: the app reads it on every visit, the offline cache keeps a copy, and Arron's AI voice reads the principles and the AI chain on every deploy. Plain JSON, no build step. Evolution, Not Erasure.",
-  "version": "3.2 · House check",
+  "version": "3.3 · Safety line and honest counts",
   "updated": "2026-10-04",
   "promise": "This app does not belong to servers. It belongs to the people. It does not belong to one company. It belongs to the future. It does not belong to one mind. It belongs to all who seek good.",
   "finalPromise": [
@@ -402,6 +402,16 @@
   "changelog": [
     {
       "date": "2026-10-04",
+      "tag": "Safety line and honest counts",
+      "changes": [
+        "Two doors first: Talk to Arron, Our Legacy",
+        "Samaritans 116 123 and SHOUT 85258 are on the home, Arron, safety and house-truth pages",
+        "Dashboard figures that were not counted now say not counted",
+        "/legacy.html points at the about page"
+      ]
+    },
+    {
+      "date": "2026-10-04",
       "tag": "House check",
       "changes": [
         "Arron now knows the live house: main b7c5f9c, seven faults fixed, same install",
@@ -602,20 +612,21 @@
   "houseNow": {
     "checked": "2026-10-04",
     "source": "github.com/pleadingSanity/pleadingsanity",
-    "main": "b7c5f9ccc7f25753181de03c2a3e63c89f8d8e97",
+    "main": "pending",
     "live": "https://pleadingsanity.co.uk",
     "otherDoor": "https://pleadingsanity.uk points at the house",
-    "serviceWorker": "5.12.11",
-    "cache": "pleading-sanity-static-v37",
+    "serviceWorker": "5.12.12",
+    "cache": "pleading-sanity-static-v38",
     "install": "Same icon. Scope and manifest id were not changed.",
     "whatShipped": "Seven site faults fixed and merged. Peaks stay in place. Undo steps back one. Healing Hz finds its own status box. Year mark no longer stops the dashboard, journal viewer or movement page. Sky shows. Claude checked the branch and found nothing left to patch. Do not push a second copy.",
     "family": "Shane is owner. Grok and Claude both work on this one house. If they disagree, the live house wins.",
-    "doors": "Home says Talk to Arron. Legacy is on the about page, not /legacy.html. That address is a missing page.",
-    "legacyOnPage": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, 1945. The about page does not name the London Gazette date.",
+    "doors": "Home starts with two doors: Talk to Arron, and Our Legacy. Journal, how to use, and the truth sit one step down. /legacy.html now points at the about page.",
+    "legacyOnPage": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches. The about page names the London Gazette, 29 November 1945.",
     "arronLine": "Arron is an AI companion, not a therapist or emergency service, and can get things wrong.",
-    "safetyNow": "Home, the house-truth page and Arron do not show Samaritans 116 123 or SHOUT 85258. The house currently says it will not hand a clinic number. Shane has not closed this decision.",
+    "safetyNow": "Shane closed this. Home, Arron, the house-truth page and the safety page show Samaritans 116 123 and SHOUT 85258. Arron is still not a therapist. No NHS leaflet.",
     "tonesNow": "The tone page offers ten: 174, 285, 396, 417, 432, 528, 639, 741, 852, 963. The older brief said six. Shane has not closed this decision. Do not cut the four extra unless he says so.",
     "spares": "Free spare minds sit behind the four. A spare that can bill stays silent unless PS_IN_PROFIT is set. Do not print keys.",
-    "free": "Talk, journal, games, the feed and Arron stay free."
+    "free": "Talk, journal, games, the feed and Arron stay free.",
+    "counts": "The community dashboard no longer shows borrowed figures. Members, sittings, chapters and hours say not counted until the house can prove them."
   }
 }

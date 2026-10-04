@@ -707,3 +707,17 @@ img.logo, .logo-mark {
 @media (min-width: 800px) {
   .ps-meme-row { grid-auto-flow: unset; grid-template-columns: 1fr 1fr 1fr; grid-auto-columns: auto; overflow: visible; }
 }
+
+.ps-safety {
+  margin: 14px auto;
+  max-width: 720px;
+  padding: 12px 14px;
+  background: #0d1b2a;
+  border-left: 3px solid #00fff0;
+  border-radius: 8px;
+  color: #eef6ff;
+  font-size: 1rem;
+  line-height: 1.45;
+  text-align: left;
+}
+.ps-safety a { color: #00fff0; font-weight: 700; }
