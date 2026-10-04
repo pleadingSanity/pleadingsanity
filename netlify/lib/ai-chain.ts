@@ -91,13 +91,15 @@ const why = (error: unknown) => {
 export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700 } = {}) {
   for (const link of CHAIN) {
     if (link.provider === "grok" && !grok) continue; // no key yet — Grok joins once GROK_API_KEY is set
-    const model = creator ? link.creatorModel : link.model;
-    try {
-      const text = await ask(link.provider, model, system, turns, maxTokens);
-      if (text) return { text, provider: link.provider, model };
-      console.warn(`AI chain: empty reply from ${model}, trying the next lab`);
-    } catch (error) {
-      console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next lab`);
+    const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
+    for (const model of models) {
+      try {
+        const text = await ask(link.provider, model, system, turns, maxTokens);
+        if (text) return { text, provider: link.provider, model };
+        console.warn(`AI chain: empty reply from ${model}, trying the next`);
+      } catch (error) {
+        console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
+      }
     }
   }
   throw new Error("Every AI provider failed");
@@ -119,7 +121,7 @@ export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) 
   const reviewer = live.find((l) => l.provider !== author);
   if (!reviewer) return { text: draft, provider: author, model: "one" };
   try {
-    const checked = await ask(reviewer.provider, reviewer.model, system + "\nYou are checking a sibling mind. Keep the voice. Fix only what is wrong or thin. Return the full answer.", [...turns, { role: "assistant", content: draft }, { role: "user", content: "Improve this as one family. Name nothing corporate." }], 500);
+    const checked = await ask(reviewer.provider, reviewer.model, system + "\nYou are checking a sibling mind. Keep the voice. Fix only what is wrong or thin. Return the full answer, not a summary.", [...turns, { role: "assistant", content: draft }, { role: "user", content: "Improve this as one family. Keep every useful step." }], maxTokens);
     return { text: checked || draft, provider: `${author}+${reviewer.provider}`, model: "one-family" };
   } catch {
     return { text: draft, provider: author, model: "one" };
@@ -130,7 +132,7 @@ export async function askCouncil(system: string, turns: Turn[]) {
   const notes = await Promise.all(CHAIN.map(async (link) => {
     if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY is set`;
     try {
-      const text = await ask(link.provider, link.creatorModel, system, turns, 420);
+      const text = await ask(link.provider, link.model, system, turns, 700);
       return text ? `${link.provider}: ${text}` : `${link.provider}: quiet`;
     } catch (error) {
       return `${link.provider}: unavailable (${why(error)})`;

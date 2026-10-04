@@ -38,7 +38,7 @@ const CREATIVE_ASK = /\b(rap|raps|verse|verses|lyrics?|hook|spoken word|song|scr
 
 async function reply(system: string, turns: Turn[], creator: boolean, creative = false, signedIn = false) {
   const maxTokens = creator ? (creative ? 3500 : 2800) : signedIn ? 2200 : creative ? 1800 : 1400;
-  return runChain(system, turns, { creator: creator || signedIn, maxTokens });
+  return runChain(system, turns, { creator, maxTokens });
 }
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
