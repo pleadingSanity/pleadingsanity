@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.31'; // dealer moves, same install
-const STATIC_CACHE = 'pleading-sanity-static-v57';
+const VERSION = '5.12.32'; // Arron knows the tables, same install
+const STATIC_CACHE = 'pleading-sanity-static-v58';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
