@@ -871,3 +871,8 @@ img.logo, .logo-mark {
 .ps-stay img { width: 100%; max-height: 420px; object-fit: cover; border-radius: 18px; border: 1px solid rgba(0,255,240,.28); }
 .ps-stay article { margin-top: 10px; padding: 0.9rem 1rem; background: #0d1b2a; border: 1px solid rgba(0,255,240,.18); border-radius: 16px; }
 .ps-stay h3 { margin: 0 0 0.3rem; color: #00fff0; }
+
+.ps-memes { max-width: 720px; margin: 1.5rem auto; display: grid; gap: 12px; }
+.ps-memes h2 { color: #00fff0; }
+.ps-memes img { width: 100%; border-radius: 18px; border: 1px solid rgba(0,255,240,.28); }
+.ps-memes figcaption { margin-top: 6px; color: #eef6ff; }
