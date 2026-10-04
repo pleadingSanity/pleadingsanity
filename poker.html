@@ -112,10 +112,10 @@
       const friend = new URLSearchParams(location.search).get("room");
       const names = friend ? ["You", "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
       button = (button + 1) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4; hands += 1;
-      seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, folded: false, allin: false }));
+      seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
-      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb;
-      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb;
+      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb;
+      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb;
       if (sbSeat === 0 || bbSeat === 0) bank = seats[0].stack;
       board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
       saveBank(bank);
@@ -140,12 +140,12 @@
       const need = owe(me);
       if (kind === "call") {
         const pay = Math.min(me.stack, need);
-        me.stack -= pay; me.bet += pay; pot += pay; if (!me.stack) me.allin = true;
+        me.stack -= pay; me.bet += pay; me.put += pay; pot += pay; if (!me.stack) me.allin = true;
         log(need ? "You called." : "You checked.");
       }
       if (kind === "raise") {
         const add = Math.min(me.stack, need + 40);
-        me.stack -= add; me.bet += add; pot += add; currentBet = me.bet; toAct = 4; if (!me.stack) me.allin = true;
+        me.stack -= add; me.bet += add; me.put += add; pot += add; currentBet = me.bet; toAct = 4; if (!me.stack) me.allin = true;
         log("You raised to " + me.bet + ".");
       }
       toAct -= 1;
@@ -160,10 +160,10 @@
       if (need && !strong && s.name !== "Caller") { s.folded = true; log(s.name + " folded."); }
       else if (need) {
         const pay = Math.min(s.stack, need);
-        s.stack -= pay; s.bet += pay; pot += pay; if (!s.stack) s.allin = true;
+        s.stack -= pay; s.bet += pay; s.put += pay; pot += pay; if (!s.stack) s.allin = true;
         log(s.name + " called.");
       } else if (strong && s.stack > 40 && s.name === "Loose") {
-        s.stack -= 40; s.bet += 40; pot += 40; currentBet = s.bet; toAct = 4;
+        s.stack -= 40; s.bet += 40; s.put += 40; pot += 40; currentBet = s.bet; toAct = 4;
         log(s.name + " raised.");
       } else log(s.name + " checked.");
       toAct -= 1;
@@ -183,15 +183,23 @@
     }
     function show() {
       handOver = true;
-      const contenders = live();
-      if (contenders.length === 1) { contenders[0].stack += pot; if (contenders[0].name === "You") bank = contenders[0].stack; log(contenders[0].name + " takes the pot."); saveBank(seats[0].stack); }
-      else {
-        contenders.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
-        const winners = contenders.filter((s) => better(s.hole.concat(board), contenders[0].hole.concat(board)) === 0);
-        const share = Math.floor(pot / winners.length);
-        winners.forEach((s) => { s.stack += share; if (s.name === "You") bank = s.stack; }); saveBank(seats[0].stack);
-        log(winners.map((s) => s.name).join(" and ") + " win with " + label(winners[0].hole.concat(board)) + ".");
-      }
+      const levels = [...new Set(seats.map((s) => s.put))].filter((n) => n > 0).sort((a, b) => a - b);
+      let prev = 0;
+      const names = [];
+      levels.forEach((level) => {
+        const inPot = seats.filter((s) => s.put >= level);
+        const slice = (level - prev) * inPot.length;
+        prev = level;
+        const eligible = inPot.filter((s) => !s.folded);
+        if (!eligible.length || !slice) return;
+        eligible.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
+        const winners = eligible.filter((s) => better(s.hole.concat(board), eligible[0].hole.concat(board)) === 0);
+        const share = Math.floor(slice / winners.length);
+        winners.forEach((s) => { s.stack += share; names.push(s.name); });
+      });
+      bank = seats[0].stack;
+      saveBank(bank);
+      log(names.length ? [...new Set(names)].join(" and ") + " take the pots." : "No pot.");
       pot = 0; paint();
     }
     $("fold").onclick = () => act("fold");
@@ -215,7 +223,14 @@
     addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
     $("install").onclick = async () => { if (deferred) { deferred.prompt(); deferred = null; return; } log("iPhone: Share, then Add to Home Screen."); };
     const room = new URLSearchParams(location.search).get("room");
-    if (room) $("room-name").textContent = "Room " + room;
+    if (room) {
+      $("room-name").textContent = "Room " + room;
+      setInterval(async () => {
+        const res = await fetch("/api/poker-room/" + room);
+        const data = await res.json().catch(() => ({}));
+        if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
+      }, 8000);
+    }
     deal();
   </script>
 </body>
