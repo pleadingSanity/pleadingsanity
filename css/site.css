@@ -866,3 +866,8 @@ img.logo, .logo-mark {
 }
 @media (min-width: 721px) { .ps-dock { display: none; } }
 @media (prefers-reduced-motion: reduce) { .ps-dock { backdrop-filter: none; } }
+
+.ps-stay figure { margin: 0 0 12px; }
+.ps-stay img { width: 100%; max-height: 420px; object-fit: cover; border-radius: 18px; border: 1px solid rgba(0,255,240,.28); }
+.ps-stay article { margin-top: 10px; padding: 0.9rem 1rem; background: #0d1b2a; border: 1px solid rgba(0,255,240,.18); border-radius: 16px; }
+.ps-stay h3 { margin: 0 0 0.3rem; color: #00fff0; }
