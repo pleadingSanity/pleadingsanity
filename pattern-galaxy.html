@@ -353,10 +353,10 @@
     
     function loadSave(){
       const s=localStorage.getItem('patternGalaxy');
-      if(s){const d=JSON.parse(s);level=d.lvl||1;score=d.score||0;streak=d.streak||0;updateUI();}
+      if(s){const d=JSON.parse(s);level=Number(d.lvl)||1;score=Number(d.score)||0;streak=Number(d.streak)||0;updateUI();}
     }
     function save(){
-      localStorage.setItem('patternGalaxy',JSON.stringify({lvl,score,streak,ts:Date.now()}));
+      localStorage.setItem('patternGalaxy',JSON.stringify({lvl:level,score,streak,ts:Date.now()}));
     }
     function updateUI(){
       lvl.textContent=level;$score.textContent=score;$streak.textContent=streak+'✨';

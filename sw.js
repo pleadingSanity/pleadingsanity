@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.1'; // sky shows through the games, scroll stays free
-const STATIC_CACHE = 'pleading-sanity-static-v27';
+const VERSION = '5.12.2'; // game levels save as numbers, cards stay readable
+const STATIC_CACHE = 'pleading-sanity-static-v28';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

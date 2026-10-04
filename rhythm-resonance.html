@@ -365,7 +365,7 @@
 
     function loadSave(){
       const s=localStorage.getItem('rhythmResonance');
-      if(s){const d=JSON.parse(s);level=d.lvl||1;streak=d.streak||0;updateUI();}
+      if(s){const d=JSON.parse(s);level=Number(d.lvl)||1;streak=Number(d.streak)||0;updateUI();}
     }
     function save(){
       localStorage.setItem('rhythmResonance',JSON.stringify({lvl:level,streak,ts:Date.now()}));

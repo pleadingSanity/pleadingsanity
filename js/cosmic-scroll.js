@@ -390,7 +390,9 @@ class CosmicScroll {
       if (!entry.isIntersecting) {
         // Stop any playing video as it leaves the screen
         const frame = card.querySelector('iframe');
-        if (frame) frame.replaceWith(frame._button);
+        if (!frame) continue;
+        if (frame._button) frame.replaceWith(frame._button);
+        else frame.remove();
         continue;
       }
       if (card._title) this.announce.textContent = card._title;

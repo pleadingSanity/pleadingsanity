@@ -87,7 +87,7 @@
     }
     main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
-    .intro{text-align:center;max-width:650px;margin:0 auto 28px;color:var(--text-soft);font-size:1.05rem;}
+    .intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}
     .intro strong{color:var(--cyan);}
 
     .search-wrap{margin-bottom:30px;}
@@ -403,6 +403,7 @@
       var immersive = document.getElementById('immersive');
       var list = document.getElementById('list-view');
       function setView(view, save) {
+        if (!immersive || !list) return;
         immersive.hidden = view !== 'immersive';
         list.hidden = view !== 'list';
         buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.view === view)); });
@@ -433,11 +434,7 @@
       { id: "F2hc2FLOdhI", title: "How to Practice Emotional First Aid — Guy Winch (TED)", desc: "Why we should look after our minds as carefully as we look after our bodies." },
       { id: "PY9DcIMGxMs", title: "Everything You Think You Know About Addiction Is Wrong — Johann Hari (TED)", desc: "Connection, not isolation, is the opposite of addiction." },
       { id: "-eBUcBfkVCo", title: "Depression, the Secret We Share — Andrew Solomon (TED)", desc: "A raw, hopeful look at depression from someone who has lived it." },
-      { id: "XiCrniLQGYc", title: "I Had a Black Dog, His Name Was Depression — WHO", desc: "A gentle, honest animation about living with depression and finding a way through." },
-      { id: "iCvmsMzlF7o", title: "The Power of Vulnerability — Brené Brown (TED)", desc: "Why real courage starts with showing up and letting ourselves be seen." },
-      { id: "F2hc2FLOdhI", title: "How to Practice Emotional First Aid — Guy Winch (TED)", desc: "Why we should look after our minds as carefully as we look after our bodies." },
-      { id: "PY9DcIMGxMs", title: "Everything You Think You Know About Addiction Is Wrong — Johann Hari (TED)", desc: "Connection, not isolation, is the opposite of addiction." },
-      { id: "-eBUcBfkVCo", title: "Depression, the Secret We Share — Andrew Solomon (TED)", desc: "A raw, hopeful look at depression from someone who has lived it." }
+      { id: "XiCrniLQGYc", title: "I Had a Black Dog, His Name Was Depression — WHO", desc: "A gentle, honest animation about living with depression and finding a way through." }
     ];
 
     async function fetchBatch() {

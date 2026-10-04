@@ -332,9 +332,9 @@
     
     function loadSave(){
       const s=localStorage.getItem('memoryOcean');
-      if(s){const d=JSON.parse(s);level=d.lvl||1;}
+      if(s){const d=JSON.parse(s);level=Number(d.lvl)||1;}
     }
-    function save(){localStorage.setItem('memoryOcean',JSON.stringify({lvl,ts:Date.now()}));}
+    function save(){localStorage.setItem('memoryOcean',JSON.stringify({lvl:level,ts:Date.now()}));}
     function updateUI(){
       lvl.textContent=level;pairs.textContent=`${pairsFound}/${totalPairs}`;$moves.textContent=moves;
       progress.style.width=`${(pairsFound/totalPairs)*100||0}%`;

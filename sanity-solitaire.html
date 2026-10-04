@@ -67,16 +67,16 @@
     }
     .card:disabled { opacity:1; }
     .card .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.78rem; }
-    .card .c b { font-size:.92rem; letter-spacing:-.03em; }
+    .card .c b { font-size:.92rem; letter-spacing:-.03em; text-shadow:0 0 8px currentColor; }
     .card .c i { font-style:normal; font-size:.78rem; }
-    .card .tl { top:4px; left:5px; }
-    .card .br { right:5px; bottom:4px; transform:rotate(180deg); }
+    .card .tl { top:5px; left:6px; }
+    .card .br { right:6px; bottom:5px; transform:rotate(180deg); }
     .card .mid, .card .pips {
       position:absolute; inset:22px 8px 22px; display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:1px;
       font-size:1rem; font-style:normal;
     }
     .card .suit, .waste .suit {
-      position:absolute; left:50%; top:52%; width:48px; height:48px;
+      position:absolute; left:50%; top:56%; width:32px; height:32px;
       transform:translate(-50%,-50%); object-fit:contain;
       mix-blend-mode:screen; pointer-events:none;
     }
