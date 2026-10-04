@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.8.0'; // grows forever: silent updates, "Arron grew wiser" note, workbench
-const STATIC_CACHE = 'pleading-sanity-static-v21';
+const VERSION = '5.9.0'; // sky photograph shows on the pages that were still dark
+const STATIC_CACHE = 'pleading-sanity-static-v22';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
