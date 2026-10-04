@@ -117,7 +117,25 @@
       btn.textContent = open ? 'Close' : 'Menu';
     });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
-    if (links) links.addEventListener('click', function (e) { if (e.target.closest('a')) shut(); });
+    if (links) links.addEventListener('click', function (e) {
+      var gbtn = e.target.closest('.ps-group-btn');
+      if (gbtn) {
+        e.preventDefault();
+        var group = gbtn.closest('.ps-group');
+        var willOpen = !group.classList.contains('open');
+        links.querySelectorAll('.ps-group.open').forEach(function (g) {
+          g.classList.remove('open');
+          var b = g.querySelector('.ps-group-btn');
+          if (b) b.setAttribute('aria-expanded', 'false');
+        });
+        if (willOpen) {
+          group.classList.add('open');
+          gbtn.setAttribute('aria-expanded', 'true');
+        }
+        return;
+      }
+      if (e.target.closest('a')) shut();
+    });
   }
   var path = location.pathname;
   var onArron = /arron/.test(path);

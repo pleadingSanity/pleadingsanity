@@ -219,7 +219,6 @@ img.logo, .logo-mark {
   .ps-nav .ps-brand { grid-area: brand; font-size: 1rem; }
   .ps-nav .ps-account { grid-area: account; }
   .ps-nav .ps-install { grid-area: install; justify-self: center; }
-  .ps-nav .ps-links { grid-area: links; justify-content: space-between; gap: 4px; margin: 0; }
   .ps-nav .ps-links > .ps-home { display: none; }
   .ps-nav .ps-group { position: static; flex: 1 1 0; }
   .ps-nav .ps-group-btn,
@@ -766,7 +765,7 @@ img.logo, .logo-mark {
   font-weight: 800;
   cursor: pointer;
 }
-@media (max-width: 720px) {
+@media (max-width: 960px) {
   .ps-nav { position: sticky; top: 0; }
   .ps-nav-toggle { display: inline-flex; grid-area: toggle; justify-self: end; }
   .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
@@ -809,7 +808,8 @@ img.logo, .logo-mark {
   .ps-sheet-doors a:first-child { background: #00fff0; color: #000103; }
   .ps-nav.is-open .ps-group { width: 100%; background: #0d1b2a; border: 1px solid rgba(0, 255, 240, 0.18); border-radius: 16px; padding: 4px; }
   .ps-nav.is-open .ps-group-btn { width: 100%; justify-content: flex-start; color: #00fff0; font-weight: 800; }
-  .ps-nav.is-open .ps-group-menu {
+  .ps-nav.is-open .ps-group-menu { display: none; }
+  .ps-nav.is-open .ps-group.open > .ps-group-menu {
     position: static;
     display: grid;
     transform: none;
