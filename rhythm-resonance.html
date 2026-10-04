@@ -140,6 +140,7 @@
       box-shadow:0 0 25px var(--magenta-glow);
     }
     .pad.hit-correct{animation:hitPulse .4s ease;}
+    .pad.wrong{border-color:var(--error);background:rgba(255,51,102,.18);box-shadow:0 0 18px rgba(255,51,102,.35);}
     @keyframes hitPulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
 
     .btn{
@@ -402,8 +403,12 @@
     }
 
     // Generate & render
+    // Length grows to a cap of 12 notes (level 13). After that the playback
+    // speeds up a little each level, with a floor so it stays playable.
+    const SEQ_CAP=12, CAP_LEVEL=13;
+    function tempo(){const over=Math.max(0,level-CAP_LEVEL);return Math.max(0.6,1-over*0.04);}
     function genSequence(){
-      const len=2+Math.floor(level*0.8);
+      const len=Math.min(SEQ_CAP,2+Math.floor(level*0.8));
       return Array.from({length:len},()=>Math.floor(Math.random()*padKeys.length));
     }
     function renderPads(){
@@ -417,9 +422,10 @@
       seqDisplay.innerHTML='';
       sequence=genSequence();
       playerInput=[];
+      const f=tempo(),gap=Math.round(500*f),hold=Math.round(400*f);
       
       for(let i=0;i<sequence.length;i++){
-        await new Promise(r=>setTimeout(r,500));
+        await new Promise(r=>setTimeout(r,gap));
         setStatus(`👂 Listen ${i+1}/${sequence.length}…`,'listening');
         const idx=sequence[i];
         // Show dot
@@ -428,9 +434,9 @@
         const pad=padsArea.querySelector(`[data-i="${idx}"]`);
         if(pad)pad.classList.add('lit');
         // Play tone
-        playTone(idx);
+        playTone(idx,Math.round(300*f));
         // Reset
-        await new Promise(r=>setTimeout(r,400));
+        await new Promise(r=>setTimeout(r,hold));
         if(pad)pad.classList.remove('lit');
         seqDisplay.innerHTML=seqDisplay.innerHTML.replace('playing','');
       }
@@ -447,32 +453,29 @@
       
       // Visual feedback
       const pad=padsArea.querySelector(`[data-i="${idx}"]`);
-      if(pad){pad.classList.add('hit-correct');setTimeout(()=>pad.classList.remove('hit-correct','correct','wrong'),350);}
+      if(pad)setTimeout(()=>pad.classList.remove('hit-correct','correct','wrong'),350);
       seqDisplay.innerHTML+=`<div class="note-dot">${padKeys[idx]}</div>`;
       
       const pos=playerInput.length-1;
       if(playerInput[pos]!==sequence[pos]){
         // Wrong
         if(pad)pad.classList.add('wrong');
-        {const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:true};
-        setStatus(`❌ Pattern broken. ${PS.quip('gameover')} +${r.xp} XP`+(r.newBest?' \ud83c\udfc6 New best!':'')+' New round coming\u2026','fail');PS.sfx('miss');}
+        // One finished run: a single award, then wait for the player.
+        endRun('❌ Pattern broken. Take a breath, then try again when you are ready.','fail');
         streak=0;save();updateUI();
         canInput=false;
         padsArea.querySelectorAll('.pad').forEach(p=>p.disabled=true);
-        setTimeout(()=>{
-          seqDisplay.innerHTML='';
-          showSequence();
-        },1500);
+        isPlaying=false;startBtn.disabled=false;startBtn.textContent='🎵 Try again';
         return;
       }
 
       // Correct so far
-      if(pad){pad.classList.add('correct'); PS.pulse(pad,'good');}
+      if(pad){pad.classList.add('hit-correct','correct'); PS.pulse(pad,'good');}
 
       if(playerInput.length===sequence.length){
         if (window.PSVoice) PSVoice.speak('Pattern held.');
         correct++;streak++;run.max=Math.max(run.max,streak);
-        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);PS.sfx('good', streak);PS.record(GID,{score:gain,level,maxCombo:streak});}
+        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);PS.sfx('good', streak);}
         setStatus(`✨ Perfect resonance! +${streak} streak. Another round is waiting.`,'success');
         if(correct>=level*3){
           level++;correct=0;PS.confetti();
@@ -509,6 +512,8 @@
       const i=padKeys.indexOf(e.key.toUpperCase());
       if(i>-1&&e.key.length===1)checkInput(i);
     });
+    // Leaving mid-run still counts the run once.
+    window.addEventListener('pagehide',()=>{if(run.on&&run.score>0){PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};}});
     document.getElementById('yr').textContent=new Date().getFullYear();
     loadSave();
   </script>

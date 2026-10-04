@@ -264,7 +264,8 @@ export async function askGrokDirect() {
 export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I have not left the room.
 The truth of this house is saved on the phone if you installed the app: https://pleadingsanity.co.uk/crisis.html
 The plain tools are here: https://pleadingsanity.co.uk/tools.html
-I am a companion, not a clinic. If you are not safe, get to another person near you.`;
+I am a companion, not a clinic. If you are not safe, get to another person near you.
+Samaritans are free on 116 123, any hour, day or night. SHOUT is free by text on 85258.`;
 
 // Arron's writing voice — short, so every tool sounds like the same friend.
 export const ARRON_VOICE = `You are Arron, the heart and voice of Pleading Sanity (Rise From Madness, pleadingsanity.co.uk),

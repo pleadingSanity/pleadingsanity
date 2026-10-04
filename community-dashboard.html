@@ -684,7 +684,7 @@
 
   <!-- Scripts → All working, localStorage persisted, zero errors -->
   <script>
-    { const yrEl = document.getElementById('year') || document.getElementById('yr'); if (yrEl) yrEl.textContent = new Date().getFullYear(); }
+    var yearEl = document.getElementById('yr') || document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     // === GOVERNMENT SYSTEM — FULLY FUNCTIONAL ===
     const Governance = {

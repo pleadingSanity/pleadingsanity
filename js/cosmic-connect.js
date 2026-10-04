@@ -8,7 +8,7 @@ import { loadProgress, saveProgress, onProgressSync } from '/js/progress.js';
 import { loadMe } from '/js/auth.js';
 
 const GAME = 'cosmic-connect';
-const DEFAULTS = { completed: { 6: 0, 8: 0, 12: 0 }, history: [], found: [], drawn: 0, size: 6 };
+const DEFAULTS = { completed: { 6: 0, 8: 0, 12: 0 }, history: [], found: [], drawn: 0, size: 6, drawnOn: {} };
 
 const SYMBOLS = [
   ['🌙', 'crescent moon'], ['⭐', 'star'], ['🪐', 'ringed planet'], ['☄️', 'comet'],
@@ -57,7 +57,8 @@ const CONSTELLATIONS = [
 
 const $ = (id) => document.getElementById(id);
 const shuffle = (a) => { for (let i = a.length - 1; i > 0; i -= 1) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const today = () => new Date().toISOString().slice(0, 10);
+// Local calendar day, same YYYY-MM-DD format as before.
+const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 let state = load();
@@ -67,6 +68,7 @@ function load() {
   if (!Array.isArray(s.history)) s.history = [];
   if (!Array.isArray(s.found)) s.found = [];
   if (![6, 8, 12].includes(Number(s.size))) s.size = 6;
+  if (!s.drawnOn || typeof s.drawnOn !== 'object' || Array.isArray(s.drawnOn)) s.drawnOn = {};
   return s;
 }
 function save() {
@@ -74,6 +76,8 @@ function save() {
   saveProgress(GAME, state);
   renderStats();
 }
+
+if (window.PSGames) PSGames.startSession(GAME);
 
 loadMe().then((me) => {
   if (!me) return;
@@ -299,9 +303,12 @@ function tapStar(i) {
   reveal.textContent = `✨ ${c.name}: ${c.msg} Another round is waiting.`;
   state.drawn = (state.drawn || 0) + 1;
   if (!state.found.includes(c.id)) state.found.push(c.id);
+  // Only the first draw of each constellation per day counts as a run.
+  const firstToday = state.drawnOn[c.id] !== today();
+  state.drawnOn[c.id] = today();
   save();
   if (window.PSGames) {
-    PSGames.record('cosmic-connect', { score: 40, level: 1, maxCombo: 1 });
+    if (firstToday) PSGames.record('cosmic-connect', { score: 40, level: 1, maxCombo: 1 });
     PSGames.confetti();
     PSGames.sfx('good', 1);
     PSGames.pulse(sky, 'good');

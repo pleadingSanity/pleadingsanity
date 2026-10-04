@@ -105,7 +105,7 @@
       display:flex;flex-direction:column;align-items:center;gap:12px;padding:25px;background:rgba(255,255,255,.03);
       border-radius:16px;border:1px solid rgba(0,255,240,.15);margin-bottom:20px;min-height:180px;justify-content:center;
     }
-    .row{display:flex;gap:10px;}
+    .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
     .cell{
       width:50px;height:50px;border-radius:10px;border:2px solid rgba(255,255,255,.1);
       background:rgba(255,255,255,.03);transition:var(--t);display:flex;align-items:center;justify-content:center;
@@ -364,12 +364,19 @@
     }
     function setStatus(msg,cls=''){$st.className='status '+cls;$st.textContent=msg;}
     
+    function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+    // Smallest repeat inside a cycle, so a shown cycle never hides a shorter one
+    function period(c){for(let p=1;p<c.length;p++){if(c.length%p===0&&c.every((x,i)=>x===c[i%p]))return p;}return c.length;}
+    // Show two full turns of the cycle, then stop part-way; the answer is the next one
+    function fromCycle(cycle){const r=Math.floor(Math.random()*cycle.length);const seq=[...cycle,...cycle,...cycle.slice(0,r)];return {seq,ans:cycle[r]};}
     function genPattern(){
       const types=['repeat','shift','grow','rotate','fade'];
-      const t=types[Math.floor(Math.random()*Math.min(types.length,1+Math.floor(level/2)))];
+      let t=types[Math.floor(Math.random()*Math.min(types.length,1+Math.floor(level/2)))];
+      // From level 9 longer cycles with more symbols join in, rising gently
+      if(level>=9&&Math.random()<.7)t=(level>=12&&Math.random()<.25)?'mirror':'cycle';
       let seq=[],ans='',opts=[];
-      const sym=symbols[Math.floor(Math.random()*symbols.length)];
-      const sym2=symbols.filter(s=>s!==sym)[Math.floor(Math.random()*(symbols.length-1))];
+      const pool=shuffle(symbols);
+      const sym=pool[0],sym2=pool[1];
       
       if(t==='repeat'){
         const cycle=[sym,sym2,sym];
@@ -380,16 +387,30 @@
         seq=[sym,sym+sym,sym+sym+sym];ans=sym.repeat(4);
       }else if(t==='rotate'){
         seq=[sym,sym2,sym,sym2,sym];ans=sym2;
-      }else{
+      }else if(t==='fade'){
         seq=[sym,sym,sym2,sym2,sym];ans=sym;
+      }else if(t==='mirror'){
+        // there and back: A B C B A B C …, or A B C D C B …
+        const n=level>=24?4:3,side=pool.slice(0,n);
+        ({seq,ans}=fromCycle([...side,...side.slice(1,-1).reverse()]));
+      }else{
+        // cycle length 3 → 6 and 2 → 5 distinct symbols as the level rises
+        const len=Math.min(3+Math.floor((level-9)/8),6);
+        const k=Math.max(2,Math.min(len,2+Math.floor((level-9)/6),5));
+        let cycle;
+        do{cycle=shuffle([...pool.slice(0,k),...Array.from({length:len-k},()=>pool[Math.floor(Math.random()*k)])]);}
+        while(period(cycle)!==len);
+        ({seq,ans}=fromCycle(cycle));
       }
       
+      // Three wrong options from the wider pool: up to two that appear in the pattern, the rest from outside it
+      const used=[...new Set(seq)].filter(x=>x!==ans&&x!==' ');
+      let wrong=t==='grow'
+        ?[sym.repeat(3),sym2.repeat(4),pool[2].repeat(4),sym.repeat(2)+sym2]
+        :[...shuffle(used).slice(0,2),...shuffle(symbols)];
       opts=[ans];
-      while(opts.length<4){
-        const alt=[sym,sym2,sym+sym,sym2+sym2][Math.floor(Math.random()*4)];
-        if(!opts.includes(alt))opts.push(alt);
-      }
-      opts=opts.sort(()=>Math.random()-.5);
+      for(const w of wrong){if(opts.length>=4)break;if(!opts.includes(w))opts.push(w);}
+      opts=shuffle(opts);
       return {seq,ans,opts,type:t};
     }
     
@@ -414,7 +435,7 @@
         streak++;run.max=Math.max(run.max,streak);const mult=PS.multiplier(streak),gain=Math.round(level*12*mult);score+=gain;run.score+=gain;scorePop(btn,gain,mult,streak);
         PS.pulse(btn,'good'); PS.sfx('good', streak);
         if(score>=level*120){
-          level++;PS.confetti();PS.record(GID,{score:gain,level,maxCombo:streak});setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies! Another round is waiting.`,'levelup');
+          level++;PS.confetti();setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('The pattern held. Level '+level+'.');
         }else{setStatus(`✅ ${PS.quip('correct')} +${gain} points. Another round is waiting.`,'success');}
         save();updateUI();setTimeout(renderPattern,1400);
@@ -427,6 +448,8 @@
     }
     
     function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;renderPattern();}
+    // Leaving mid-run still counts it once, so the best score is kept
+    window.addEventListener('pagehide',()=>{if(run.on&&run.score>0){PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};}});
     document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
   </script>
   <script src="/js/site.js" defer></script>

@@ -314,7 +314,7 @@
 
   <main id="main" role="main">
     <div class="card">
-      <p class="intro">The number you pick is really in the sound. Under it: wind, water, and a slow chord. Not a cure. If you are new, test 174 or 432 for eight seconds, then sit for five minutes.</p>
+      <p class="intro">The number you pick is really in the sound. Under it: earth, wind, water, and a slow sky. Not a cure. If you are new, test 174 or 432 for eight seconds, then sit for five minutes.</p>
 
       <div id="freqList" role="radiogroup" aria-label="Healing frequency selection">
         <div class="freq" tabindex="0" data-hz="174" data-desc="Low and steady" role="radio" aria-checked="false">
@@ -472,7 +472,7 @@
       <h2 id="honest-truth-title" class="freq-name">The honest truth</h2>
       <div class="note" style="margin-top:12px;">
         <p><strong>This is a calming practice, not a treatment.</strong> The science on specific frequencies is limited. There is no good evidence that one number heals something another number cannot. These tones are not a cure for anything.</p>
-        <p style="margin-top:12px;">The hertz you choose is actually playing. Under it, this page makes a soft earth bed in the browser: wind, water, and a slow chord dropped into a gentler octave. That bed is not a recording of a real forest, and it is not a song from a record. The Test button plays eight seconds so you can hear the truth of it before you sit.</p>
+        <p style="margin-top:12px;">The hertz you choose is actually playing. Under it, this page makes a soft bed in the browser: the same tone halved down into a warm earth octave with its fifth, slow wind and water, and a faint shimmer that drifts across a wide night-sky room. The hertz itself is one exact, pure tone with no wobble. That bed is not a recording of a real forest, and it is not a song from a record. The Test button plays eight seconds so you can hear the truth of it before you sit.</p>
         <p style="margin-top:12px;">What does help — and this part is well known — is slowing down, breathing gently and giving yourself a quiet moment. The tone is a doorway to that. If a certain tone means something to you, that meaning is real and it is yours. We respect it.</p>
         <p style="margin-top:12px;">If you are struggling right now, a tone is not enough on its own, and you deserve more than that. <a href="/crisis.html">Read the house truth</a> or <a href="/tools.html">see how to use this house</a>.</p>
       </div>
@@ -515,11 +515,10 @@
 </footer>
 
   <script>
-    // Named lookups. A bare `status` is window.status (a string), not the element.
-    const playBtn = document.getElementById('playBtn');
-    const status = document.getElementById('status');
-    const volVal = document.getElementById('volVal');
-    const vol = document.getElementById('vol');
+    const status = document.getElementById("status");
+    const playBtn = document.getElementById("playBtn");
+    const volVal = document.getElementById("volVal");
+    const vol = document.getElementById("vol");
     let ctx = null;
     let activeHz = null;
     let isPlaying = false;
@@ -529,6 +528,7 @@
     let releasing = null;
     let testTimer = null;
     let noiseBuf = null;
+    let verbBuf = null;
 
     function softness(hz) {
       if (hz >= 900) return 0.16;
@@ -548,7 +548,8 @@
       group.oscs.forEach(function (o) { try { o.stop(); } catch (e) {} });
     }
 
-    function silence(done) {
+    function silence(done, secs) {
+      var fade = secs || 1.2;
       if (releaseTimer) {
         clearTimeout(releaseTimer);
         releaseTimer = null;
@@ -563,7 +564,7 @@
         current.master.gain.cancelScheduledValues(now);
         var at = Math.max(current.master.gain.value, 0.0001);
         current.master.gain.setValueAtTime(at, now);
-        current.master.gain.exponentialRampToValueAtTime(0.0001, now + 0.45);
+        current.master.gain.exponentialRampToValueAtTime(0.0001, now + fade);
       } catch (e) {}
       releasing = current;
       releaseTimer = setTimeout(function () {
@@ -571,59 +572,120 @@
         releasing = null;
         releaseTimer = null;
         if (done) done();
-      }, 480);
+      }, fade * 1000 + 60);
+    }
+
+    // Long brown-noise beds, one per ear, so the loop never ticks back round where you can hear it.
+    function noiseBed(seconds) {
+      var len = Math.floor(ctx.sampleRate * seconds);
+      var buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (var ch = 0; ch < 2; ch++) {
+        var data = buf.getChannelData(ch);
+        var brown = 0;
+        for (var i = 0; i < len; i++) {
+          brown = (brown + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+          data[i] = brown * 3.2;
+        }
+        // Ease the seam so the loop joins without a click.
+        var edge = Math.floor(ctx.sampleRate * 0.25);
+        for (var j = 0; j < edge; j++) {
+          var w = j / edge;
+          data[j] = data[j] * w + data[len - edge + j] * (1 - w);
+        }
+      }
+      return buf;
+    }
+
+    // A soft room the size of a sky: decaying stereo noise as the impulse.
+    function spaceVerb(seconds) {
+      var len = Math.floor(ctx.sampleRate * seconds);
+      var buf = ctx.createBuffer(2, len, ctx.sampleRate);
+      for (var ch = 0; ch < 2; ch++) {
+        var data = buf.getChannelData(ch);
+        for (var i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+      }
+      return buf;
     }
 
     function build(hz) {
       var now = ctx.currentTime;
+      var oscs = [];
       var master = ctx.createGain();
       master.gain.setValueAtTime(0.0001, now);
       master.gain.exponentialRampToValueAtTime(level(), now + 1.6);
       var air = ctx.createBiquadFilter();
       air.type = 'lowpass';
-      air.frequency.value = hz >= 700 ? 2200 : 4200;
+      air.frequency.value = hz >= 700 ? 2400 : 4200;
       air.Q.value = 0.3;
+      // A soft ceiling so layers never stack into a sharp peak.
+      var limit = ctx.createDynamicsCompressor();
+      limit.threshold.value = -18;
+      limit.knee.value = 12;
+      limit.ratio.value = 3;
+      limit.attack.value = 0.05;
+      limit.release.value = 0.4;
       master.connect(air);
-      air.connect(ctx.destination);
-      var oscs = [];
-      function tone(freq, gain, cents, pan) {
+      air.connect(limit);
+      limit.connect(ctx.destination);
+
+      if (!verbBuf) verbBuf = spaceVerb(3.6);
+      var verb = ctx.createConvolver();
+      verb.buffer = verbBuf;
+      var wet = ctx.createGain();
+      wet.gain.value = 0.32;
+      verb.connect(wet);
+      wet.connect(master);
+
+      function lfo(rate, depth, target) {
+        var o = ctx.createOscillator();
+        var g = ctx.createGain();
+        o.frequency.value = rate;
+        g.gain.value = depth;
+        o.connect(g);
+        g.connect(target);
+        o.start();
+        oscs.push(o);
+      }
+      function voice(freq, gain, pan, send) {
         var o = ctx.createOscillator();
         var g = ctx.createGain();
         o.type = 'sine';
         o.frequency.value = freq;
-        o.detune.value = cents || 0;
         g.gain.value = gain;
         o.connect(g);
-        if (ctx.createStereoPanner && pan) {
+        var out = g;
+        if (ctx.createStereoPanner) {
           var p = ctx.createStereoPanner();
-          p.pan.value = pan;
+          p.pan.value = pan || 0;
           g.connect(p);
-          p.connect(master);
-        } else {
-          g.connect(master);
+          out = p;
         }
+        out.connect(master);
+        var s = ctx.createGain();
+        s.gain.value = send;
+        out.connect(s);
+        s.connect(verb);
         o.start();
         oscs.push(o);
+        return { gain: g, pan: out === g ? null : out };
       }
-      tone(hz, 0.42, -2, -0.15);
-      tone(hz, 0.42, 2, 0.15);
+
+      // The true hertz: one exact sine, centre, breathing very slowly so it never nags.
+      var core = voice(hz, 0.5, 0, 0.35);
+      lfo(0.045, 0.05, core.gain.gain);
+
+      // Earth: the same tone halved down into the warm low end, with its fifth. Exact divisions, so it stays in tune.
       var root = hz;
-      while (root > 196) root = root / 2;
-      while (root < 98) root = root * 2;
-      tone(root, 0.16, 0, -0.2);
-      tone(root * 1.5, 0.09, 0, 0.2);
-      tone(root * 2, 0.05, 0, 0);
-      if (!noiseBuf) {
-        var len = ctx.sampleRate * 2;
-        noiseBuf = ctx.createBuffer(1, len, ctx.sampleRate);
-        var data = noiseBuf.getChannelData(0);
-        var brown = 0;
-        for (var i = 0; i < len; i++) {
-          var white = Math.random() * 2 - 1;
-          brown = (brown + 0.02 * white) / 1.02;
-          data[i] = Math.max(-1, Math.min(1, brown * 3.2));
-        }
-      }
+      while (root > 130) root = root / 2;
+      voice(root, 0.15, -0.12, 0.2);
+      voice(root * 1.5, 0.05, 0.12, 0.25);
+
+      // Space: a faint shimmer that drifts across the sky. High tones get a lower shimmer so they stay gentle.
+      var shimmer = voice(hz >= 700 ? hz / 2 : hz * 2, hz >= 700 ? 0.06 : 0.025, 0, 0.8);
+      lfo(0.031, 0.02, shimmer.gain.gain);
+      if (shimmer.pan) lfo(0.017, 0.6, shimmer.pan.pan);
+
+      if (!noiseBuf) noiseBuf = noiseBed(11);
       function bedNoise(kind) {
         var src = ctx.createBufferSource();
         src.buffer = noiseBuf;
@@ -632,26 +694,27 @@
         var g = ctx.createGain();
         if (kind === 'wind') {
           filter.type = 'lowpass';
-          filter.frequency.value = 320;
-          g.gain.value = 0.2;
+          filter.frequency.value = 300;
+          g.gain.value = 0.18;
+          lfo(0.083, 120, filter.frequency);
+          lfo(0.061, 0.06, g.gain);
         } else {
           filter.type = 'bandpass';
           filter.frequency.value = 640;
           filter.Q.value = 0.55;
-          g.gain.value = 0.07;
-          var lfo = ctx.createOscillator();
-          var lg = ctx.createGain();
-          lfo.frequency.value = 0.07;
-          lg.gain.value = 0.04;
-          lfo.connect(lg);
-          lg.connect(g.gain);
-          lfo.start();
-          oscs.push(lfo);
+          g.gain.value = 0.06;
+          lfo(0.07, 0.035, g.gain);
+          lfo(0.023, 140, filter.frequency);
+          src.playbackRate.value = 1.13;
         }
         src.connect(filter);
         filter.connect(g);
         g.connect(master);
-        src.start();
+        var s = ctx.createGain();
+        s.gain.value = 0.15;
+        g.connect(s);
+        s.connect(verb);
+        src.start(now, kind === 'wind' ? 0 : 5.5);
         oscs.push(src);
       }
       bedNoise('wind');
@@ -669,7 +732,7 @@
           status.textContent = 'Audio not supported. Try another browser.';
           status.classList.remove('active');
         }
-      });
+      }, bed ? 0.6 : 0);
     }
 
     function selectFreq(f) {
@@ -692,7 +755,7 @@
       isPlaying = true;
       playBtn.textContent = 'Pause';
       playBtn.classList.add('playing');
-      status.textContent = 'Testing ' + activeHz + ' Hz for ' + seconds + ' seconds. The number is in the sound. Wind, water and a slow chord sit under it.';
+      status.textContent = 'Testing ' + activeHz + ' Hz for ' + seconds + ' seconds. The true hertz is in the sound. Earth, wind, water and a slow sky sit under it.';
       status.classList.add('active');
       ensureCtx();
       arm();
@@ -744,7 +807,7 @@
       isPlaying = true;
       playBtn.textContent = 'Pause';
       playBtn.classList.add('playing');
-      status.textContent = 'Playing ' + activeHz + ' Hz. Wind, water and a slow chord underneath. Breathe slowly.';
+      status.textContent = 'Playing ' + activeHz + ' Hz. Earth, wind, water and a slow sky underneath. Breathe slowly.';
       status.classList.add('active');
       try {
       ensureCtx();

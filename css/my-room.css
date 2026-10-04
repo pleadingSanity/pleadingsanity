@@ -10,19 +10,21 @@
 }
 
 html {
+  margin: 0;
   background: var(--room-bg);
+  color: var(--room-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-/* The body stays clear so the house sky on body::before shows through. */
-html, body {
+body {
   margin: 0;
+  background-color: transparent;
   color: var(--room-ink);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
   min-height: 100vh;
-  background-color: transparent;
   background-image: radial-gradient(
     circle at 20% 0%,
     color-mix(in srgb, var(--room-accent) 18%, transparent),

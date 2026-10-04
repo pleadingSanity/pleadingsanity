@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.11'; // paid spare stays off until the house is in profit
-const STATIC_CACHE = 'pleading-sanity-static-v37';
+const VERSION = '5.12.12'; // true tones, long-play games, Arron gives the lines
+const STATIC_CACHE = 'pleading-sanity-static-v38';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

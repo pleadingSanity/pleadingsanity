@@ -47,14 +47,19 @@
     elCombo.textContent = '×' + PS.multiplier(st.combo) + (st.combo > 1 ? ' (' + st.combo + ')' : '');
   }
 
+  // After the first minute a slow long tail keeps it changing, with hard ceilings:
+  // the speed cap rises 1 per second (max +100, or +50 with reduced motion)
+  // and the share of worries rises a little (stars never fall below 42%).
+  function tail() { return Math.max(0, st.t - 60); }
   function speedNow() {
-    var cap = reduced ? 230 : 340;
+    var cap = (reduced ? 230 : 340) + Math.min(reduced ? 50 : 100, tail());
     return Math.min(cap, 105 + st.t * 4);
   }
+  function starShare() { return 0.5 - Math.min(0.08, tail() * 0.001); }
   function addItem() {
     var r = Math.random(), it = { y: -30, rot: Math.random() * 6 };
     if (r < 0.04 && st.lives < 3) { it.type = 'heart'; it.w = 26; }
-    else if (r < 0.5) { it.type = 'star'; it.w = 28; }
+    else if (r < starShare()) { it.type = 'star'; it.w = 28; }
     else {
       it.type = 'thought'; it.text = THOUGHTS[Math.floor(Math.random() * THOUGHTS.length)];
       ctx.font = '600 13px system-ui,sans-serif';
@@ -78,7 +83,7 @@
     for (var i = st.items.length - 1; i >= 0; i--) {
       var it = st.items[i];
       it.y += it.v * dt; it.rot += dt * 2;
-      var h = it.type === 'thought' ? 26 : 26;
+      var h = 26;
       var hitY = Math.abs(it.y - st.y) < (h / 2 + 16);
       var hitX = Math.abs(it.x - st.x) < (it.w / 2 + 16 - (it.type === 'thought' ? 6 : 0));
       if (hitY && hitX) {
@@ -154,10 +159,12 @@
     }
   }
 
+  // The loop only runs while a round is live; start() and resume restart it.
+  function loop() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
   function frame(ts) {
+    if (!running || paused) { raf = 0; return; }
     raf = requestAnimationFrame(frame);
-    var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
-    if (!running || paused) return;
+    var dt = Math.max(0, Math.min(0.05, (ts - last) / 1000 || 0)); last = ts;
     if (!reduced) stars.forEach(function (s) { s.y += s.v * dt; if (s.y > H) { s.y = 0; s.x = Math.random() * W; } });
     update(dt);
     if (running) draw();
@@ -171,7 +178,7 @@
     st = fresh(); over = false; running = true; paused = false; pointerX = null;
     PS.startSession(GID);
     overlay.hidden = true; pauseBtn.disabled = false; pauseBtn.textContent = '⏸ Pause';
-    hud(); say(PS.quip('start')); cv.focus && cv.blur(); last = performance.now();
+    hud(); say(PS.quip('start')); cv.focus && cv.blur(); last = performance.now(); loop();
   }
   function endGame() {
     running = false; over = true; pauseBtn.disabled = true;
@@ -188,7 +195,7 @@
     if (!running || over) return;
     paused = p; pauseBtn.textContent = p ? '▶ Resume' : '⏸ Pause';
     if (p) { say('Paused. Take a breath. 💙'); showOverlay('Paused', 'Breathe in… and out. Resume whenever you are ready.', '▶ Resume'); }
-    else { overlay.hidden = true; last = performance.now(); say('Back in the dash!'); }
+    else { overlay.hidden = true; last = performance.now(); loop(); say('Back in the dash!'); }
   }
 
   startBtn.addEventListener('click', function () { if (paused) setPause(false); else start(); });
@@ -228,5 +235,4 @@
   });
 
   resize(); hud();
-  raf = requestAnimationFrame(frame);
 })();

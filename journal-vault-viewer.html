@@ -874,7 +874,7 @@
 
     // 🚀 INIT
     document.addEventListener('DOMContentLoaded', () => {
-      { const yrEl = document.getElementById('year') || document.getElementById('yr'); if (yrEl) yrEl.textContent = new Date().getFullYear(); }
+      var yearEl = document.getElementById('yr') || document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
       initTheme();
       loadVault();
     });

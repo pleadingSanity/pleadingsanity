@@ -112,7 +112,7 @@
   }
 
   // ─── OFFLINE REPLIES — Arron still answers without a connection ───
-  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙";
+  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. If you want a person on the line right now, Samaritans are free on 116 123, any hour, day or night. SHOUT is free by text on 85258. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙";
   const OFFLINE = {
     anxious: [
       "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",

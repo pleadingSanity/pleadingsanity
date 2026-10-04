@@ -55,9 +55,10 @@ const MAX_JOURNAL_TEXT = 2000;
 // ─── SAFETY NET ───
 // The SAFETY section of the prompt already guides every lab; this makes sure
 // the house truth is in the reply when someone may be in crisis, whoever answered.
-// No clinic numbers. No NHS lines.
+// No clinic numbers. No NHS lines. Arron gives Samaritans and SHOUT himself; the public pages carry no numbers.
 const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|want(?:ed)? to die|don'?t want to (?:be here|live|wake up)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdose|not safe|no reason to live|better off without me)\b/i;
-const SIGNPOST = "I will stay. I am a companion, not a clinic. The house truth is https://pleadingsanity.co.uk/crisis.html and the tools are https://pleadingsanity.co.uk/tools.html. If you are not safe, get to another person near you.";
+const LINES_SPOKEN = "If you want a person on the line right now, Samaritans are free on 116 123, any hour, day or night. SHOUT is free by text on 85258.";
+const SIGNPOST = `I will stay. I am a companion, not a clinic. ${LINES_SPOKEN} The house truth is https://pleadingsanity.co.uk/crisis.html and the tools are https://pleadingsanity.co.uk/tools.html. If you are not safe, get to another person near you.`;
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
@@ -478,7 +479,11 @@ function siblingMap(message: string) {
     console.error(`Arron [${rid}] every AI provider failed`);
     return json({ reply: ALL_QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
   }
-  let replyText = crisis && !answer.text.includes("/crisis.html") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  // Whoever answered, a crisis reply always carries the house truth and the two numbers Arron gives.
+  let replyText = !crisis ? answer.text
+    : !answer.text.includes("/crisis.html") ? `${answer.text}\n\n${SIGNPOST}`
+    : !answer.text.includes("116 123") ? `${answer.text}\n\n${LINES_SPOKEN}`
+    : answer.text;
   const actions = done.actions;
   if (done.liveKind === "proposal" && user?.isOwner && !localOnly) {
     try {

@@ -99,6 +99,7 @@
     .progress-fill{height:100%;background:var(--btn-gradient);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px rgba(0,212,232,.4);}
 
     .cards-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:20px 0;}
+    .cards-grid.wide{grid-template-columns:repeat(6,1fr);}
     .card{
       aspect-ratio:1;border-radius:14px;border:2px solid rgba(0,255,240,.15);
       background:rgba(0,255,240,.05);cursor:pointer;transition:var(--t);
@@ -161,8 +162,12 @@
     @media (max-width:480px){
       main{padding:20px 15px 50px;}
       .cards-grid{gap:8px;}
+      .cards-grid.wide{grid-template-columns:repeat(5,1fr);}
       .card{font-size:1.4rem;}
     }
+    @media (max-width:360px){.cards-grid.wide{grid-template-columns:repeat(4,1fr);}}
+    /* The shared mobile .card rule adds padding and margin meant for content cards. */
+    .cards-grid .card{padding:0;margin:0;}
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .card:hover,.btn:hover,.socials a:hover{transform:none;}
@@ -328,13 +333,19 @@
       PS.sfx('miss');
     }
     let combo=0, level=1, pairsFound=0, totalPairs=0, moves=0, isPlaying=false, flipped=[], matched=[], canClick=true;
-    const icons=['🌊','🐬','🦋','✨','🌙','⭐','💎','🪐','🌸','🍃','🔮','🕊️'];
+    const icons=['🌊','🐬','🦋','✨','🌙','⭐','💎','🪐','🌸','🍃','🔮','🕊️','🐚','🐠','🐋','🌌','☄️','🐢'];
+    // The board grows to 18 pairs (level 14). After that each level sets a gentle
+    // move target for a star, never tighter than two moves per pair.
+    const MAX_PAIRS=18, CAP_LEVEL=MAX_PAIRS-4;
+    let bestMoves={};
+    function moveTarget(){if(level<CAP_LEVEL)return 0;return Math.max(MAX_PAIRS*2,MAX_PAIRS*3-(level-CAP_LEVEL)*2);}
     
     function loadSave(){
       const s=localStorage.getItem('memoryOcean');
-      if(s){const d=JSON.parse(s);level=Number(d.lvl)||1;}
+      if(s){try{const d=JSON.parse(s);level=Number(d.lvl)||1;if(d.best&&typeof d.best==='object')bestMoves=d.best;}catch(e){}}
+      updateUI();
     }
-    function save(){localStorage.setItem('memoryOcean',JSON.stringify({lvl:level,ts:Date.now()}));}
+    function save(){localStorage.setItem('memoryOcean',JSON.stringify({lvl:level,best:bestMoves,ts:Date.now()}));}
     function updateUI(){
       lvl.textContent=level;pairs.textContent=`${pairsFound}/${totalPairs}`;$moves.textContent=moves;
       progress.style.width=`${(pairsFound/totalPairs)*100||0}%`;
@@ -342,9 +353,10 @@
     function setStatus(msg,cls=''){$st.className='status '+cls;$st.textContent=msg;}
     
     function initLevel(){
-      const pairCount=Math.min(4+level,12);totalPairs=pairCount;pairsFound=0;moves=0;combo=0;flipped=[];matched=[];
+      const pairCount=Math.min(4+level,MAX_PAIRS);totalPairs=pairCount;pairsFound=0;moves=0;combo=0;flipped=[];matched=[];
       const selected=icons.slice(0,pairCount);
       let deck=[...selected,...selected].sort(()=>Math.random()-.5);
+      cardsArea.classList.toggle('wide',pairCount>10);
       cardsArea.innerHTML=deck.map((icon,i)=>`<button type="button" class="card" data-i="${i}" data-icon="${icon}" aria-label="Face-down card">?</button>`).join('');
       cardsArea.querySelectorAll('.card').forEach(c=>c.onclick=flipCard);
       updateUI();
@@ -370,7 +382,9 @@
             run.score+=Math.max(0,totalPairs*3-moves)*10;
             const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};PS.confetti();
             if (window.PSVoice) PSVoice.speak('The sea is clear.');
-            level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+` Level ${level} awaits. Another round is waiting.`,'complete');save();
+            const target=moveTarget();let starMsg='';
+            if(target){const prev=Number(bestMoves[level])||0;if(!prev||moves<prev)bestMoves[level]=moves;starMsg=(moves<=target?` ⭐ Star: ${moves} moves (target ${target}).`:` ${moves} moves. Target was ${target}.`)+` Best here: ${bestMoves[level]}.`;}
+            level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+starMsg+` Level ${level} awaits. Another round is waiting.`,'complete');save();
             setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🌊 Dive Deeper';},2000);
           }else{setStatus(`✅ Found one! ${combo>1?combo+' in a row! ':''}${PS.quip('correct')}`,'success');}
           updateUI();
@@ -383,7 +397,7 @@
       }
     }
     
-    function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;initLevel();setStatus('🌊 Cards shuffled — breathe and begin…','playing');}
+    function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;initLevel();const t=moveTarget();setStatus(t?`🌊 Clear it in ${t} moves for a star. No rush.`+(bestMoves[level]?` Best here: ${bestMoves[level]}.`:''):'🌊 Cards shuffled — breathe and begin…','playing');}
     document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
   </script>
   <script src="/js/site.js" defer></script>

@@ -40,6 +40,16 @@ const BANK = [
   ['e14', E, 'The crying-brain mark is the only logo this house uses.', 'You can check the pages. One mark, cyan on near-black. That is a fact about the site, not a belief.'],
   ['e15', E, 'Research suggests that slow breathing with a longer out-breath can help the body shift towards a calmer state.', 'This refers to studies on breathing and the nervous system. "Suggests" is honest wording — the evidence is promising rather than final.'],
   ['e16', E, 'A suspended host can take a website\'s domain offline. The files can still exist in a repository and in an installed app.', 'This is how hosting works. You can check it against any host\'s own suspension rules. It is not a promise that a site lasts forever.'],
+  ['e17', E, 'At sea level, water boils at 100 degrees Celsius.', 'A physical fact you can test with a pan and a thermometer. The conditions are stated, so it can be checked.'],
+  ['e18', E, 'The Moon takes about 27 days to orbit the Earth.', 'A measured figure from astronomy. It can be looked up and checked. It is not a feeling about the Moon.'],
+  ['e19', E, 'Sound travels faster through water than through air.', 'A checkable fact from physics. It has been measured many times.'],
+  ['e20', E, 'The Sun is a star.', 'A well-established fact of astronomy. It is the nearest star to us, and that can be checked.'],
+  ['e21', E, 'A leap year has 366 days.', 'A published calendar rule. You can check it on any calendar. It is not an opinion.'],
+  ['e22', E, 'The Second World War in Europe ended in May 1945.', 'A date from the historical record. It is written down in many places and can be checked.'],
+  ['e23', E, 'Mount Everest is the highest mountain above sea level.', 'A measured fact about the Earth. Note the words "above sea level" — careful facts say how they were measured.'],
+  ['e24', E, 'Green plants take in carbon dioxide and give out oxygen when they make food from light.', 'This is photosynthesis. It is well-established science that has been tested again and again.'],
+  ['e25', E, 'The Pacific is the largest ocean on Earth.', 'A checkable fact about geography. You can look up the sizes and compare them.'],
+  ['e26', E, 'Light from the Sun takes about eight minutes to reach the Earth.', 'A figure worked out from the distance and the speed of light. Both can be looked up.'],
   // ── EXPERIENCE ──
   ['x1', X, 'Running clears my head more than anything.', 'It\'s true for this person, and that matters — but it\'s their lived experience, not something that applies to everyone.'],
   ['x2', X, 'When I finally told my mum how I was feeling, I slept properly for the first time in weeks.', 'A personal story. Real and valid, and it may help others feel less alone — but it\'s one person\'s experience.'],
@@ -55,6 +65,16 @@ const BANK = [
   ['x12', X, 'When I have a panic attack, it feels like my chest is being squeezed.', 'A description of what it\'s like for them. Experience is how we learn what things feel like from the inside.'],
   ['x13', X, 'Making my bed each morning gives me a small sense of control.', 'A personal habit and how it feels to them — experience.'],
   ['x14', X, 'Losing my job knocked my confidence far more than I expected.', 'An honest account of their own life. No one can fact-check how it felt — and they don\'t need to.'],
+  ['x15', X, 'Walking by the sea helps me breathe more slowly.', 'The word "me" is a clue. It is true for them, from their own life, not a rule for everyone.'],
+  ['x16', X, 'I find it easier to talk when we are side by side in the car.', 'How talking feels for them. Real and useful to know, but it is one person\'s experience.'],
+  ['x17', X, 'Songs from when I was a teenager lift my mood straight away.', 'Their own experience. Someone else might feel nothing from the same songs, and both are honest.'],
+  ['x18', X, 'Cooking a proper meal for myself makes me feel looked after.', 'A personal habit and how it feels to them. That is lived experience.'],
+  ['x19', X, 'When I am tired, small problems feel much bigger to me.', 'It describes what happens inside them. Lived truth, told in the first person.'],
+  ['x20', X, 'Gardening gives my hands something to do while my mind settles.', 'What works for them. It does not need research to be worth sharing.'],
+  ['x21', X, 'I felt lonelier in a busy office than I do living on my own.', 'An honest account of their own life. It may surprise people, and it is still valid.'],
+  ['x22', X, 'Saying no to one plan last week gave me a whole evening of rest.', 'One person noticing a change in their own week. That is experience.'],
+  ['x23', X, 'A message from an old friend turned my whole day round.', 'A moment from their life and how it felt. Lived experience.'],
+  ['x24', X, 'Playing a simple game helps me stop overthinking for a while.', 'It is what they have noticed for themselves. True for them, not a promise for everyone.'],
   // ── PHILOSOPHY / OPINION ──
   ['p1', P, 'Everyone deserves a second chance.', 'A value or belief about how people should be treated. You can agree or disagree, but it can\'t be proven true or false.'],
   ['p2', P, 'Kindness is never wasted.', 'A hopeful belief about the world. Many people hold it, but it\'s a philosophy rather than a checkable fact.'],
@@ -70,6 +90,16 @@ const BANK = [
   ['p12', P, 'Healing isn\'t linear.', 'Many people\'s experience matches this, but as a general statement it\'s an interpretation of what recovery is like — philosophy.'],
   ['p13', P, 'Work should fit around life, not the other way round.', 'Another "should" — a view about how things ought to be.'],
   ['p14', P, 'A four-day working week would make the UK a happier country.', 'It\'s a prediction and an opinion. Trials can give evidence about parts of it, but the overall claim is a judgement.'],
+  ['p15', P, 'Rest is part of the work, not a reward for it.', 'A view about how we should treat rest. You can agree or disagree, but it cannot be proven.'],
+  ['p16', P, 'Nobody should have to face hard times alone.', '"Should" is a clue. It is a value about how people ought to be treated.'],
+  ['p17', P, 'It is better to be honest than to be liked.', 'A value judgement about what matters more. People weigh it differently.'],
+  ['p18', P, 'Money can\'t buy happiness.', 'An old saying and a belief about life. Some research looks at money and wellbeing, but the saying itself is a philosophy.'],
+  ['p19', P, 'The past doesn\'t decide who you can become.', 'A hopeful belief about change. Many people hold it. It is still a perspective, not a checkable fact.'],
+  ['p20', P, 'Everyone is doing the best they can with what they have.', 'A generous way of seeing people. It cannot be tested for everyone, so it is philosophy.'],
+  ['p21', P, 'Listening is the most important part of a conversation.', '"Most important" is a judgement. Others might choose honesty or kindness instead.'],
+  ['p22', P, 'A small act of courage counts as much as a big one.', 'A belief about how we measure courage. It may ring true, and it is still a value.'],
+  ['p23', P, 'Life is meant to be shared.', 'A belief about the purpose of life. Philosophers and faiths have answered this in many ways.'],
+  ['p24', P, 'Children should spend less time on screens.', 'Another "should". Studies can look at parts of it, but the overall claim is an opinion about what ought to happen.'],
 ];
 
 const $ = (id) => document.getElementById(id);
@@ -87,6 +117,8 @@ function save() {
   saveProgress(GAME, state);
   renderStats();
 }
+
+if (window.PSGames) PSGames.startSession(GAME);
 
 loadMe().then((me) => {
   if (!me) return;

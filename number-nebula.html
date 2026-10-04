@@ -382,31 +382,38 @@
     
     // Generate question based on level
     function genQuestion(){
-      const types=['add','subtract','multiply','pattern','sequence'];
+      const types=['add','subtract','multiply','pattern','sequence','twostep'];
       const t=types[Math.floor(Math.random()*Math.min(types.length,1+Math.floor(level/2)))];
       let q='',ans=0,opts=[];
       
       if(t==='add'){
-        const max=10+(level*5);
+        const max=Math.min(10+(level*5),120);
         const a=Math.floor(Math.random()*max)+1;
         const b=Math.floor(Math.random()*max)+1;
         q=`${a} + ${b} = ?`; ans=a+b;
       }else if(t==='subtract'){
-        const max=10+(level*5);
+        const max=Math.min(10+(level*5),120);
         const b=Math.floor(Math.random()*max)+1;
         const a=b+Math.floor(Math.random()*max)+1;
         q=`${a} − ${b} = ?`; ans=a-b;
       }else if(t==='multiply'){
-        const max=2+Math.floor(level/2);
+        const max=Math.min(2+Math.floor(level/2),11); // factors stay 2–12
         const a=Math.floor(Math.random()*max)+2;
         const b=Math.floor(Math.random()*max)+2;
         q=`${a} × ${b} = ?`; ans=a*b;
       }else if(t==='pattern'){
-        const diff=Math.floor(Math.random()*level)+1;
+        const diff=Math.floor(Math.random()*Math.min(level,25))+1;
         const start=Math.floor(Math.random()*10)+1;
         const seq=Array.from({length:4},(_,i)=>start+(diff*i));
         ans=start+(diff*4);
         q=`${seq.join(' → ')} → ?`;
+      }else if(t==='twostep'){
+        // two steps: a × b, then add or take away a small number
+        const a=Math.floor(Math.random()*8)+2;
+        const b=Math.floor(Math.random()*8)+2;
+        const c=Math.floor(Math.random()*Math.min(a*b-1,20))+1;
+        if(Math.random()<.5){q=`${a} × ${b} + ${c} = ?`;ans=a*b+c;}
+        else{q=`${a} × ${b} − ${c} = ?`;ans=a*b-c;}
       }else{
         // sequence: what's the rule?
         const rules=[
@@ -473,7 +480,6 @@
         score+=gain;run.score+=gain;scorePop(btnEl,gain,mult,streak);PS.sfx('good', streak);
         if(score>=level*150){
           level++;PS.confetti();
-          PS.record(GID,{score:gain,level,maxCombo:streak});
           setStatus(`🌟 NEBULA LEVEL ${level}! Your mind is expanding across the cosmos! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('That one landed. Level '+level+'.');
         }else{
@@ -502,7 +508,6 @@
         score+=gain;run.score+=gain;scorePop(document.getElementById('subBtn'),gain,mult,streak);PS.sfx('good', streak);PS.pulse(document.getElementById('subBtn'),'good');
         if(score>=level*150){
           level++;PS.confetti();
-          PS.record(GID,{score:gain,level,maxCombo:streak});
           setStatus(`🌟 NEBULA LEVEL ${level}! Pure calculation power! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('That one landed. Level '+level+'.');
         }else{
@@ -525,6 +530,8 @@
       renderQuestion();
     }
     
+    // Leaving mid-run still counts it once, so the best score is kept
+    window.addEventListener('pagehide',()=>{if(run.on&&run.score>0){PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};}});
     document.getElementById('yr').textContent=new Date().getFullYear();
     loadSave();
   </script>

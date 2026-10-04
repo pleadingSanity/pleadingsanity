@@ -412,7 +412,7 @@
     
     // Generate sequence based on level
     function genSeq(){
-      const len=Math.min(3+Math.floor(level/2),12); // grows slowly
+      const len=level<=18?Math.min(3+Math.floor(level/2),12):Math.min(12+Math.floor((level-18)/3),16); // grows slowly, tops out at 16
       seq=[];
       for(let i=0;i<len;i++) seq.push(Math.floor(Math.random()*9));
     }
@@ -424,7 +424,7 @@
       startBtn.disabled=true;
       for(let i=0;i<seq.length;i++){
         await new Promise(r=>setTimeout(r,350));
-        await flash(seq[i],450-Math.min(level*15,200)); // speeds slightly
+        await flash(seq[i],Math.max(200,450-Math.min(level*15,200)-Math.max(0,level-14)*2)); // speeds slightly, never below 200ms
       }
       await new Promise(r=>setTimeout(r,400));
       playerSeq=[];
@@ -475,8 +475,8 @@
         const mult=PS.multiplier(streak),gain=Math.round(level*10*mult);
         score+=gain;run.score+=gain;scorePop(t,gain,mult,streak);
         PS.pulse(t,'good'); PS.sfx('good', streak);
-        PS.record(GID,{score:gain,level,maxCombo:streak});
-        if(score>=level*100){
+        const levelledUp=score>=level*100;
+        if(levelledUp){
           level++;PS.confetti();
           setStatus(`🌟 LEVEL UP! Now at Level ${level} — your mind is expanding! Another round is waiting.`,'levelup');
         }else{
@@ -486,10 +486,12 @@
         updateUI();
         isPlaying=false;
         canClick=false;
-        startBtn.textContent='🚀 Next Level';
+        startBtn.textContent=levelledUp?'🚀 Next Level':'🚀 Next round';
       }
     }));
     
+    // Leaving mid-run still counts it once, so the best score is kept
+    window.addEventListener('pagehide',()=>{if(run.on&&run.score>0){PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};}});
     // Init
     document.getElementById('yr').textContent=new Date().getFullYear();
     loadSave();

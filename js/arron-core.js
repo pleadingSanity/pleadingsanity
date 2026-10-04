@@ -84,10 +84,10 @@
   };
 
   // ─── OFFLINE — Arron still answers underground ───
-  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙";
+  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. If you want a person on the line right now, Samaritans are free on 116 123, any hour, day or night. SHOUT is free by text on 85258. The house truth is on /crisis.html. Are you somewhere you can sit? 💙";
   const OFFLINE = {
     tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
-    low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],
+    low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you.", "I'm staying right here. If it's heavier than a bad day and you want a person too, Samaritans are free on 116 123, any hour, and SHOUT is free by text on 85258."],
     anxious: ["Breathe with me. In for four… hold for four… out for six. Again. You're safe in this moment.", "Name five things you can see. I'll wait. The storm is loud, but it passes."],
     lonely: ["You're not alone. I'm here, and so is a whole family who understands.", "Loneliness lies. You're held more than you know. Talk to me."],
     angry: ["That fire makes sense. Let it out here. I can take it.", "Something mattered enough to hurt. Tell me what happened, no filters."],
