@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.4'; // one movement picture in the soul
-const STATIC_CACHE = 'pleading-sanity-static-v30';
+const VERSION = '5.12.5'; // ten soft tones, with pictures
+const STATIC_CACHE = 'pleading-sanity-static-v31';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -109,6 +109,16 @@ const PRECACHE_URLS = [
     '/assets/theme/icons/rhythm-resonance.jpg',
     '/assets/theme/icons/stardust-dash.jpg',
     '/assets/theme/icons/healing-hz.jpg',
+    '/assets/theme/hz/174.jpg',
+    '/assets/theme/hz/285.jpg',
+    '/assets/theme/hz/396.jpg',
+    '/assets/theme/hz/417.jpg',
+    '/assets/theme/hz/432.jpg',
+    '/assets/theme/hz/528.jpg',
+    '/assets/theme/hz/639.jpg',
+    '/assets/theme/hz/741.jpg',
+    '/assets/theme/hz/852.jpg',
+    '/assets/theme/hz/963.jpg',
     '/assets/theme/icons/sanity-stories.jpg',
     '/assets/theme/icons/mind-mode.jpg',
     '/assets/theme/icons/cosmic-connect.jpg',
