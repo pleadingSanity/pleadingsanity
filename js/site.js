@@ -90,4 +90,33 @@
     card.innerHTML = '<div class="game-thumb" data-mark="sanity-solitaire"><span class="badge official">OFFICIAL</span></div><div class="game-content"><h3>Sanity Solitaire</h3><p class="game-desc">Three peaks. One rank up or down. The brain card on the back, the night sky on the table.</p><div class="game-stats"><span>Three peaks</span><span>Undo</span><span>Own install</span></div><div class="btn-wrap"><a href="/sanity-solitaire.html" class="btn primary">&#9654; Play Now</a></div></div>';
     grid.insertBefore(card, grid.firstChild);
   }
+  var nav = document.querySelector('.ps-nav');
+  if (nav && !nav.querySelector('.ps-nav-toggle')) {
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ps-nav-toggle';
+    btn.setAttribute('aria-expanded', 'false');
+    btn.textContent = 'Menu';
+    var inner = nav.querySelector('.ps-nav-inner') || nav;
+    inner.appendChild(btn);
+    var links = nav.querySelector('.ps-links');
+    if (links && !links.querySelector('.ps-sheet-doors')) {
+      var doors = document.createElement('div');
+      doors.className = 'ps-sheet-doors';
+      doors.innerHTML = '<a href="/arron.html">Talk to Arron</a><a href="/about.html#legacy">Our Legacy</a>';
+      links.insertBefore(doors, links.firstChild);
+    }
+    function shut() {
+      nav.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Menu';
+    }
+    btn.addEventListener('click', function () {
+      var open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Close' : 'Menu';
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+    if (links) links.addEventListener('click', function (e) { if (e.target.closest('a')) shut(); });
+  }
 })();

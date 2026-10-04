@@ -749,3 +749,83 @@ img.logo, .logo-mark {
   .ps-doors, .ps-rooms { max-width: 520px; }
   .ps-rooms { grid-template-columns: 1fr 1fr 1fr 1fr; }
 }
+
+/* Phone sheet. Wide screens keep the pills. */
+.ps-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: #00fff0;
+  color: #000103;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+@media (max-width: 720px) {
+  .ps-nav { position: sticky; top: 0; }
+  .ps-nav-toggle { display: inline-flex; grid-area: account; justify-self: end; }
+  .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
+  .ps-nav .ps-account { grid-area: account; justify-self: end; }
+  .ps-nav .ps-links {
+    display: none;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 1200;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    max-height: calc(100vh - 64px);
+    margin: 0;
+    padding: 12px;
+    overflow: auto;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(0, 255, 240, 0.08), transparent 28%),
+      #000103;
+    border-bottom: 1px solid rgba(0, 255, 240, 0.28);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  }
+  .ps-nav.is-open .ps-links { display: flex; }
+  .ps-sheet-doors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .ps-sheet-doors a {
+    min-height: 52px;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 255, 240, 0.45);
+    background: #0d1b2a;
+    color: #eef6ff;
+    font-weight: 800;
+    justify-content: center;
+  }
+  .ps-sheet-doors a:first-child { background: #00fff0; color: #000103; }
+  .ps-nav.is-open .ps-group { width: 100%; background: #0d1b2a; border: 1px solid rgba(0, 255, 240, 0.18); border-radius: 16px; padding: 4px; }
+  .ps-nav.is-open .ps-group-btn { width: 100%; justify-content: flex-start; color: #00fff0; font-weight: 800; }
+  .ps-nav.is-open .ps-group-menu {
+    position: static;
+    display: grid;
+    transform: none;
+    width: 100%;
+    min-width: 0;
+    left: auto;
+    right: auto;
+    top: auto;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    padding: 0 4px 6px;
+    animation: none;
+  }
+  .ps-nav.is-open .ps-group-menu a { min-height: 44px; color: #eef6ff; }
+  .ps-nav.is-open .ps-links > a { min-height: 48px; justify-content: flex-start; border-radius: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ps-nav .ps-links { transition: none; }
+}
