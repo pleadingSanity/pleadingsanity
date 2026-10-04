@@ -119,7 +119,7 @@
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
   </style>
-</head>
+<style>.k-board button{min-height:44px;margin:2px;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.35)} .k-top,.k-tab{display:flex;gap:6px;flex-wrap:wrap} .k-col{display:flex;flex-direction:column}</style></head>
 <body class="night">
   <div class="wrap">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
@@ -134,7 +134,19 @@
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.jpg" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
-    <div class="row"><label>Table <select id="table"></select></label></div>
+    <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option></select></label><label>Table <select id="table"></select></label></div>
+    <section id="klondike" hidden>
+      <p class="note">Build down in alternating colours. Ace starts a foundation. Draw one or three. Undo, hint, and a soft win. No timer.</p>
+      <div class="row">
+        <button type="button" id="k-deal">New deal</button>
+        <button type="button" id="k-undo">Undo</button>
+        <button type="button" id="k-hint">Hint</button>
+        <label>Draw <select id="k-draw"><option value="1">1</option><option value="3">3</option></select></label>
+        <span id="k-score">Score 0</span>
+      </div>
+      <div id="k-board" class="k-board"></div>
+      <p id="k-status" role="status"></p>
+    </section>
     <div class="stage"><div class="scaler" id="scaler"><div class="felt" id="felt"><div class="peaks" id="peaks"></div></div></div></div>
     <div class="dock">
       <div class="pile"><button class="stock" id="draw" type="button" aria-label="Draw from the stock">PS</button><span>Stock</span></div>
@@ -218,5 +230,92 @@
     if (window.visualViewport) visualViewport.addEventListener("resize", fit);
     load(); fresh(); requestAnimationFrame(fit);
   </script>
+
+<script>
+(function () {
+  const ranks = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
+  const suits = ["\u2660","\u2665","\u2666","\u2663"];
+  const red = (s) => s === "\u2665" || s === "\u2666";
+  const mode = document.getElementById("mode");
+  const peaks = document.querySelector(".stage");
+  const klon = document.getElementById("klondike");
+  const board = document.getElementById("k-board");
+  const status = document.getElementById("k-status");
+  const scoreEl = document.getElementById("k-score");
+  let stock = [], waste = [], found = [[],[],[],[]], tab = [[],[],[],[],[],[],[]], hist = [], score = 0, drawN = 1;
+  function card(r, s, up) { return { r, s, up }; }
+  function deck() {
+    const d = [];
+    suits.forEach((s) => ranks.forEach((r) => d.push(card(ranks.indexOf(r), s, false))));
+    for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+    return d;
+  }
+  function snap() { hist.push(JSON.stringify({ stock, waste, found, tab, score })); if (hist.length > 40) hist.shift(); }
+  function deal() {
+    const d = deck();
+    tab = [[],[],[],[],[],[],[]];
+    for (let c = 0; c < 7; c++) for (let r = 0; r <= c; r++) { const x = d.pop(); x.up = r === c; tab[c].push(x); }
+    stock = d; waste = []; found = [[],[],[],[]]; score = 0; hist = []; drawN = Number(document.getElementById("k-draw").value); paint("New deal.");
+  }
+  function label(x) { return ranks[x.r] + x.s; }
+  function paint(msg) {
+    board.textContent = "";
+    const top = document.createElement("div"); top.className = "k-top";
+    const st = document.createElement("button"); st.type = "button"; st.textContent = stock.length ? "Stock " + stock.length : "Turn";
+    st.onclick = draw; top.appendChild(st);
+    const w = document.createElement("button"); w.type = "button"; w.textContent = waste.length ? label(waste[waste.length - 1]) : "Waste";
+    w.onclick = () => playWaste(); top.appendChild(w);
+    found.forEach((f, i) => { const b = document.createElement("button"); b.type = "button"; b.textContent = f.length ? label(f[f.length - 1]) : "Ace"; b.onclick = () => {}; top.appendChild(b); });
+    board.appendChild(top);
+    const row = document.createElement("div"); row.className = "k-tab";
+    tab.forEach((col, ci) => {
+      const pile = document.createElement("div"); pile.className = "k-col";
+      if (!col.length) { const e = document.createElement("button"); e.type = "button"; e.textContent = "Empty"; e.onclick = () => dropKing(ci); pile.appendChild(e); }
+      col.forEach((x, ri) => {
+        const b = document.createElement("button"); b.type = "button"; b.textContent = x.up ? label(x) : "Back"; b.disabled = !x.up;
+        b.onclick = () => playTab(ci, ri); pile.appendChild(b);
+      });
+      row.appendChild(pile);
+    });
+    board.appendChild(row);
+    scoreEl.textContent = "Score " + score;
+    status.textContent = msg || "";
+    if (found.every((f) => f.length === 13)) status.textContent = "Cleared. That is the win.";
+  }
+  function draw() {
+    snap();
+    if (!stock.length) { stock = waste.reverse().map((x) => ({ ...x, up: false })); waste = []; paint("Stock turned."); return; }
+    for (let i = 0; i < drawN && stock.length; i++) { const x = stock.pop(); x.up = true; waste.push(x); }
+    paint("Drew.");
+  }
+  function canBuild(a, b) { return a && b && red(a.s) !== red(b.s) && a.r === b.r - 1; }
+  function canFound(x, pile) { if (!pile.length) return x.r === 0; const t = pile[pile.length - 1]; return t.s === x.s && x.r === t.r + 1; }
+  function playWaste() {
+    if (!waste.length) return;
+    const x = waste[waste.length - 1];
+    for (let i = 0; i < 4; i++) if (canFound(x, found[i])) { snap(); found[i].push(waste.pop()); score += 10; paint("To foundation."); return; }
+    for (let c = 0; c < 7; c++) { const topc = tab[c][tab[c].length - 1]; if ((!topc && x.r === 12) || canBuild(x, topc)) { snap(); tab[c].push(waste.pop()); score += 5; paint("To the table."); return; } }
+    status.textContent = "No move for that card.";
+  }
+  function playTab(ci, ri) {
+    const run = tab[ci].slice(ri);
+    if (run.length === 1) { for (let i = 0; i < 4; i++) if (canFound(run[0], found[i])) { snap(); found[i].push(tab[ci].pop()); flip(ci); score += 10; paint("To foundation."); return; } }
+    for (let c = 0; c < 7; c++) if (c !== ci) { const topc = tab[c][tab[c].length - 1]; if ((!topc && run[0].r === 12) || canBuild(run[0], topc)) { snap(); tab[c].push(...tab[ci].splice(ri)); flip(ci); score += 5; paint("Moved."); return; } }
+    status.textContent = "That run has nowhere to go.";
+  }
+  function dropKing(ci) { playWaste(); }
+  function flip(ci) { const col = tab[ci]; if (col.length && !col[col.length - 1].up) { col[col.length - 1].up = true; score += 5; } }
+  document.getElementById("k-deal").onclick = deal;
+  document.getElementById("k-undo").onclick = () => { const s = hist.pop(); if (!s) { status.textContent = "Nothing to undo."; return; } const o = JSON.parse(s); stock = o.stock; waste = o.waste; found = o.found; tab = o.tab; score = o.score; paint("Undone."); };
+  document.getElementById("k-hint").onclick = () => { status.textContent = waste.length ? "Try the waste card on a foundation or a pile." : "Draw, or move a face-up run."; };
+  document.getElementById("k-draw").onchange = () => { drawN = Number(document.getElementById("k-draw").value); };
+  mode.addEventListener("change", () => {
+    const on = mode.value === "klondike";
+    klon.hidden = !on; if (peaks) peaks.hidden = on;
+    if (on && !stock.length && !tab[0].length) deal();
+  });
+})();
+</script>
+
 </body>
 </html>
