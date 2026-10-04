@@ -37,7 +37,10 @@ const FREE_SPARES: { name: string; model: string }[] = [
   { name: "qwen", model: "qwen/qwen3.8-27b:free" },
   { name: "gemma-small", model: "google/gemma-4-26b-a4b-it:free" },
   { name: "ling", model: "inclusionai/ling-3.0-flash-sante:free" },
+  { name: "laguna", model: "poolside/laguna-s-2.1:free" },
+  { name: "laguna-small", model: "poolside/laguna-xs-2.1:free" },
   { name: "apodex", model: "apodex/apodex-1.1-mini:free" },
+  { name: "dots", model: "dots-studio/dots-3-note-preview:free" },
 ];
 
 export type Turn = { role: "user" | "assistant"; content: string };
@@ -126,7 +129,7 @@ function spareClient() {
   const key = process.env.OPENROUTER_API_KEY;
   if (!key) return null;
   const base = (process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1").replace(/\/$/, "");
-  return new OpenAI({ apiKey: key, baseURL: base, timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+  return new OpenAI({ apiKey: key, baseURL: base, timeout: 8_000, maxRetries: 0 });
 }
 
 async function runSpares(system: string, turns: Turn[], maxTokens: number) {
