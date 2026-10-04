@@ -578,6 +578,7 @@
   </script>
   <script src="/js/video-feed.js" defer></script>
   <script src="/js/scrollFeed.js" defer></script>
+  <script type="module" src="/js/cosmic-scroll.js"></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
   <script type="module">
@@ -593,7 +594,8 @@
         const link = document.querySelector('#community-guest .sbtn.primary');
         link.href = '/onboarding.html?next=%2Ffeed.html%23community';
         link.textContent = 'Finish your profile';
-        document.querySelector('#community-guest .sbtn.ghost').remove();
+        const ghost = document.querySelector('#community-guest .sbtn.ghost');
+        if (ghost) ghost.remove();
       }
       // Guests read the public feed — chronological, read-only, no account needed.
       const list = document.getElementById('public-posts');

@@ -24,6 +24,7 @@
   scroll-snap-type: y mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
 }
 .cs-scroller::-webkit-scrollbar { display: none; }
 .cs-scroller:focus-visible { outline: 3px solid #00fff0; outline-offset: -3px; }
@@ -216,4 +217,5 @@ button.cs-video:focus-visible { outline: 3px solid #ffd700; outline-offset: -3px
 @media (prefers-reduced-motion: reduce) {
   .cs-card::before, .cs-breath, .cs-card.is-active .cs-text, .cs-card.is-active .cs-center { animation: none !important; }
   .cs-breath { transform: scale(0.85); }
+  .cs-scroller { scroll-behavior: auto; }
 }
