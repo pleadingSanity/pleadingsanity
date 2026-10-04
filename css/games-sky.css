@@ -63,3 +63,13 @@ body::before {
   body::before { animation: none; }
   .game-card, .btn, .tile, .pad, .card { transition: none; }
 }
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,1,3,.4), rgba(0,1,3,.62)), url("/assets/theme/sky.jpg") center/cover no-repeat;
+}
+.ps-theme-pic { width: min(100%, 720px); border-radius: 22px; display: block; margin: 12px auto; border: 1px solid rgba(0,255,240,.28); }

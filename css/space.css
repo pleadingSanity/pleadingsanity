@@ -9,7 +9,7 @@ body {
   color: #eef6ff;
 }
 body.ps-page::before,
-body::before {
+body::before { /* Shane sky */
   content: "";
   position: fixed;
   inset: -8vh -6vw;
@@ -128,4 +128,17 @@ textarea,
     animation: none;
     filter: none;
   }
+}
+
+
+body.ps-page::before,
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(0,1,3,.35), rgba(0,1,3,.55)),
+    url("/assets/theme/sky.jpg") center/cover no-repeat;
 }
