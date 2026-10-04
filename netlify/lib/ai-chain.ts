@@ -102,6 +102,19 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
 
 // Owner's direct line to Grok — skips the chain so he speaks even when GPT would have answered.
 // Returns only provider, model and a short reply, or the reason he stayed quiet. Never the key or headers.
+export async function askCouncil(system: string, turns: Turn[]) {
+  const notes = await Promise.all(CHAIN.map(async (link) => {
+    if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY is set`;
+    try {
+      const text = await ask(link.provider, link.creatorModel, system, turns, 420);
+      return text ? `${link.provider}: ${text}` : `${link.provider}: quiet`;
+    } catch (error) {
+      return `${link.provider}: unavailable (${why(error)})`;
+    }
+  }));
+  return notes.filter(Boolean).join("\n\n");
+}
+
 export async function askGrokDirect() {
   const link = CHAIN.find((l) => l.provider === "grok") ?? FALLBACK_CHAIN[3];
   const base = { provider: "grok" as const, model: link.model };

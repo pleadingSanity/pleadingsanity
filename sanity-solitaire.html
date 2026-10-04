@@ -8,7 +8,8 @@
   <meta name="description" content="Three peaks. Clear them. A calm solitaire with combos, levels and a felt table." />
   <link rel="canonical" href="https://pleadingsanity.co.uk/sanity-solitaire.html" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="manifest" href="/manifest.json" />
+  <link rel="manifest" href="/manifest-solitaire.json" />
+  <link rel="stylesheet" href="/css/games-sky.css" />
   <style>
     :root { --ink:#eef6ff; --gold:#f0c36a; --card-w:72px; --card-h:100px; }
     * { box-sizing:border-box; }
@@ -117,7 +118,7 @@
       <strong id="level">Level 1</strong>
       <strong id="score">Calm 0</strong>
       <button class="btn" id="new" type="button">New peaks</button>
-      <button class="btn" id="install" type="button">Install</button>
+      <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
@@ -136,7 +137,8 @@
     const red=(s)=>s==="\u2665"||s==="\u2666";
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
-    let deck,board,waste,calm,combo,wins,look,cleared;
+    let deck,board,waste,calm,combo,wins,look,cleared,history;
+    function snap(){history.push(JSON.stringify({deck,board,waste,calm,combo,cleared})); if(history.length>40) history.shift();}
     function load(){wins=Number(localStorage.getItem("ps-sol-wins")||0);look=localStorage.getItem("ps-sol-look")||"night";}
     function level(){return Math.min(4,1+wins);}
     function paintMeta(){
@@ -150,7 +152,7 @@
     function fresh(){
       const cards=[]; for(const s of suits) for(const r of ranks) cards.push({r,s}); shuffle(cards);
       board=cards.splice(0,28).map((c,i)=>({...c,i,up:i>=18,gone:false}));
-      deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; paint();
+      deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; history=[]; snap(); paint();
     }
     function covered(i){ if(i>=18) return false; const below=i<3?[3+i*2,4+i*2]:i<9?[9+(i-3),10+(i-3)]:[18+(i-9)]; return below.some((n)=>board[n]&&!board[n].gone); }
     function pos(i){ if(i<3) return {x:[90,270,450][i],y:8}; if(i<9) return {x:48+(i-3)*86,y:62}; if(i<18) return {x:8+(i-9)*58,y:124}; return {x:(i-18)*52,y:196}; }
@@ -189,11 +191,14 @@
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
-    function play(card){ if(!canPlay(card)) return; card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); }
-    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } waste=deck.pop(); combo=0; paint(); }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); }
+    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; paint(); }
     function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="Peaks clear. Level "+level()+"."; paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
-    $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, then Install app."); };
+    $("newdeal").onclick=()=>fresh();
+    $("undo").onclick=()=>{ if(history.length<2) return; history.pop(); const s=JSON.parse(history[history.length-1]); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
+    $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):"No play. Draw."; };
+    $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
     $("new").onclick=fresh; $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
     if (window.visualViewport) visualViewport.addEventListener("resize", fit);

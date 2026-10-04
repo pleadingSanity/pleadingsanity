@@ -1,0 +1,37 @@
+{
+  "id": "/sanity-solitaire.html",
+  "name": "Sanity Solitaire",
+  "short_name": "Solitaire",
+  "description": "Three peaks. A full solitaire, its own icon, the same game after every update.",
+  "start_url": "/sanity-solitaire.html?source=pwa",
+  "scope": "/sanity-solitaire.html",
+  "display": "standalone",
+  "background_color": "#000103",
+  "theme_color": "#00fff0",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

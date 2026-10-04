@@ -18,7 +18,7 @@ import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, askGrokDirect, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, runChain, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
@@ -420,8 +420,15 @@ async function chat(req: Request, context: Context, rid: string) {
     growth: growthBrief(growth),
   });
   let answer: Awaited<ReturnType<typeof reply>>;
+  const council = owner && /^\/?council\b/i.test(message);
   try {
-    answer = await reply(system, turns, creator, creative);
+    if (council) {
+      const notes = await askCouncil(system, turns);
+      answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true);
+      answer = { ...answer, provider: "council", model: "gpt-claude-gemini-grok" };
+    } else {
+      answer = await reply(system, turns, creator, creative);
+    }
   } catch {
     // Every mind is quiet: a gentle reply with the crisis lines — no error, no stack trace, nothing saved.
     console.error(`Arron [${rid}] every AI provider failed`);
