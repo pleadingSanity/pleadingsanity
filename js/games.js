@@ -29,7 +29,13 @@
     { id: 'rhythm-resonance', title: 'Rhythm Resonance', icon: '🎵', url: '/rhythm-resonance.html', skill: 'Listening',
       desc: 'Listen, feel, repeat. Soothing tones that settle a busy mind.' },
     { id: 'stardust-dash', title: 'Stardust Dash', icon: '🌠', url: '/stardust-dash.html', skill: 'Reflex',
-      desc: 'Catch stars, dodge silly worries like "Did I leave the oven on?"' }
+      desc: 'Catch stars, dodge silly worries like "Did I leave the oven on?"' },
+    { id: 'solitaire', title: 'Sanity Solitaire', icon: '🃏', url: '/sanity-solitaire.html', skill: 'Patience',
+      desc: 'Clear the three peaks. One rank up or down. Your own app.' },
+    { id: 'cosmic-connect', title: 'Cosmic Connect', icon: '✨', url: '/cosmic-connect.html', skill: 'Memory',
+      desc: 'Turn two cards. No timer. Match the sky.' },
+    { id: 'truth-tag', title: 'Truth Tag', icon: '🏷️', url: '/truth-tag.html', skill: 'Discernment',
+      desc: 'Evidence, lived experience, or philosophy. Learn the difference.' }
   ];
   function game(id) {
     for (var i = 0; i < GAMES.length; i++) if (GAMES[i].id === id) return GAMES[i];
@@ -78,7 +84,7 @@
 
   // ─── PROFILE STORAGE ───
   function blank() {
-    return { v: 1, xp: 0, games: {}, badges: {}, streak: { count: 0, last: '' }, sound: false, daily: { date: '', done: false } };
+    return { v: 1, xp: 0, games: {}, badges: {}, streak: { count: 0, last: '' }, sound: false, daily: { date: '', done: false }, weekly: { key: '', done: false } };
   }
   var profile = (function () {
     try {
@@ -566,6 +572,29 @@
   });
 
   // ─── PUBLIC API ───
+  function weekKey() {
+    var d = new Date();
+    var one = new Date(d.getFullYear(), 0, 1);
+    var n = Math.ceil(((d - one) / 86400000 + one.getDay() + 1) / 7);
+    return d.getFullYear() + '-W' + n;
+  }
+  function weeklyChallenge() {
+    var key = weekKey();
+    var g = GAMES[key.length % GAMES.length];
+    if (!profile.weekly) profile.weekly = { key: '', done: false };
+    if (profile.weekly.key !== key) { profile.weekly = { key: key, done: false }; save(); }
+    return { key: key, game: g, done: profile.weekly.done, reward: 'Week cleared · 40 XP and the Steady Light badge' };
+  }
+  function markWeekly(id) {
+    var w = weeklyChallenge();
+    if (w.done || w.game.id !== id) return false;
+    profile.weekly.done = true;
+    addXP(40);
+    unlock('steady-light');
+    save();
+    return true;
+  }
+
   window.PSGames = {
     GAMES: GAMES,
     BADGES: BADGES,
@@ -575,6 +604,8 @@
     best: function (id) { return (profile.games[id] && profile.games[id].best) || 0; },
     levelInfo: levelInfo,
     dailyChallenge: dailyChallenge,
+    weeklyChallenge: weeklyChallenge,
+    markWeekly: markWeekly,
     startSession: startSession,
     addXP: addXP,
     endRun: endRun,
@@ -655,6 +686,10 @@
       set('[data-hub="daily-desc"]', dc.done
         ? 'Done for today — beautiful. A new pick lands at midnight. 🌙'
         : 'Play one round today for double XP. ' + dc.game.desc);
+      set('[data-hub="weekly-title"]', 'This week · ' + (weeklyChallenge().game.icon) + ' ' + weeklyChallenge().game.title);
+      set('[data-hub="weekly-desc"]', weeklyChallenge().done ? 'Week cleared. The light stays.' : weeklyChallenge().reward);
+      var wl = hub.querySelector('[data-hub="weekly-link"]');
+      if (wl) { wl.href = weeklyChallenge().game.url; wl.textContent = weeklyChallenge().done ? 'Week done' : 'Take the week'; }
       var dl = hub.querySelector('[data-hub="daily-link"]');
       if (dl) {
         dl.href = dc.game.url;

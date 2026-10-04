@@ -102,6 +102,27 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
 
 // Owner's direct line to Grok — skips the chain so he speaks even when GPT would have answered.
 // Returns only provider, model and a short reply, or the reason he stayed quiet. Never the key or headers.
+export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) {
+  const live = CHAIN.filter((l) => l.provider !== "grok" || grok);
+  let draft = "";
+  let author = "";
+  for (const link of live) {
+    try {
+      draft = await ask(link.provider, link.creatorModel, system, turns, maxTokens);
+      if (draft) { author = link.provider; break; }
+    } catch { /* next mind drafts */ }
+  }
+  if (!draft) throw new Error("Every AI provider failed");
+  const reviewer = live.find((l) => l.provider !== author);
+  if (!reviewer) return { text: draft, provider: author, model: "one" };
+  try {
+    const checked = await ask(reviewer.provider, reviewer.model, system + "\nYou are checking a sibling mind. Keep the voice. Fix only what is wrong or thin. Return the full answer.", [...turns, { role: "assistant", content: draft }, { role: "user", content: "Improve this as one family. Name nothing corporate." }], 500);
+    return { text: checked || draft, provider: `${author}+${reviewer.provider}`, model: "one-family" };
+  } catch {
+    return { text: draft, provider: author, model: "one" };
+  }
+}
+
 export async function askCouncil(system: string, turns: Turn[]) {
   const notes = await Promise.all(CHAIN.map(async (link) => {
     if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY is set`;
