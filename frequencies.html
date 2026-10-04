@@ -515,6 +515,11 @@
 </footer>
 
   <script>
+    // Named lookups. A bare `status` is window.status (a string), not the element.
+    const playBtn = document.getElementById('playBtn');
+    const status = document.getElementById('status');
+    const volVal = document.getElementById('volVal');
+    const vol = document.getElementById('vol');
     let ctx = null;
     let activeHz = null;
     let isPlaying = false;

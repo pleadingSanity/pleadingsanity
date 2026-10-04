@@ -111,9 +111,11 @@
     .waste .c { position:absolute; display:flex; flex-direction:column; align-items:center; line-height:1; font-size:.78rem; }
     .waste .tl { top:6px; left:6px; }
     .waste .mid { position:absolute; inset:0; display:grid; place-items:center; font-size:1.8rem; }
-    .card.back, .stock { position:relative; color:transparent; }
+    .card.back { color:transparent; } /* backs stay absolute so the three peaks keep their shape */
+    .stock { position:relative; color:transparent; }
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
+    @media (prefers-reduced-motion: reduce) { .card.playable { animation: none; } }
   </style>
 </head>
 <body class="night">
@@ -206,8 +208,8 @@
     function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
-    $("undo").onclick=()=>{ if(history.length<2) return; history.pop(); const s=JSON.parse(history[history.length-1]); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
-    $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):"No play. Draw."; };
+    $("undo").onclick=()=>{ if(history.length<2){ $("status").textContent="Nothing to undo."; return; } const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
+    $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No play and no draws. New deal when you are ready."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
     $("new").onclick=fresh; $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
