@@ -294,3 +294,21 @@ img[width][height] {
 .mobile-full-width { width: 100% !important; margin: 0 !important; }
 .mobile-spacing { margin: 20px 0 !important; }
 .mobile-hide { display: none !important; }
+
+
+/* Phones: gradient headings vanish on some Android browsers. Solid frost text always shows. */
+@media (max-width: 960px) {
+  h1, .ps-page h1, .ps-page h2, .ps-page h3 {
+    background: none !important;
+    -webkit-background-clip: border-box !important;
+    background-clip: border-box !important;
+    -webkit-text-fill-color: #eef6ff !important;
+    color: #eef6ff !important;
+  }
+  .ps-page h2, .ps-page h3 { -webkit-text-fill-color: #00fff0 !important; color: #00fff0 !important; }
+  .ps-page p, .ps-page li, .ps-aifam-body { color: #eef6ff; }
+  .ps-aifam-body { display: block; -webkit-line-clamp: unset; overflow: visible; }
+  .ps-doors, .ps-rooms { grid-template-columns: 1fr; }
+  .ps-nav .ps-links { flex-wrap: wrap; gap: 6px; }
+  .ps-nav .ps-links a, .ps-nav .ps-group-btn { white-space: normal; }
+}
