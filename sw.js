@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.30'; // dealer blinds street, same install
-const STATIC_CACHE = 'pleading-sanity-static-v56';
+const VERSION = '5.12.31'; // dealer moves, same install
+const STATIC_CACHE = 'pleading-sanity-static-v57';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

@@ -50,7 +50,7 @@
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
     <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name"></span></div>
     <div class="felt">
-      <p id="street">Pre-flop</p>
+      <p id="street">Pre-flop</p><p id="meta" class="note"></p>
       <div class="board" id="board"></div>
       <p id="pot">Pot 0</p>
       <div class="seats" id="seats"></div>
@@ -68,7 +68,7 @@
     const SUIT = ["♠", "♥", "♦", "♣"];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
-    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver;
+    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 3, sbSeat = 0, bbSeat = 1, hands = 0;
     function card(r, s) { return { r, s }; }
     function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
     function freshDeck() { const d = []; for (let s = 0; s < 4; s++) for (let r = 0; r < 13; r++) d.push(card(r, s)); return shuffle(d); }
@@ -76,11 +76,11 @@
     function cardHtml(c) { return `<span class="card ${c.s === 1 || c.s === 2 ? "red" : ""}">${face(c)}</span>`; }
     function paint() {
       const streets = ["Pre-flop", "Flop", "Turn", "River", "Show"];
-      $("street").textContent = streets[Math.min(street, 4)] + (handOver ? " · shown" : "");
+      $("street").textContent = streets[Math.min(street, 4)] + (handOver ? " · shown" : ""); $("meta").textContent = "Hand " + hands + " · to call " + currentBet;
       $("board").innerHTML = board.map(cardHtml).join("") || "<span class=\"card back\"></span>".repeat(5);
       $("pot").textContent = "Pot " + pot;
       $("seats").innerHTML = seats.map((s, i) => {
-        const mark = i === 3 ? '<span class="dealer">D</span>' : i === 1 ? '<span class="blind">SB</span>' : i === 0 ? '<span class="blind">BB</span>' : "";
+        const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
         const holes = (i === 0 || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
         return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
@@ -111,13 +111,15 @@
       deck = freshDeck();
       const friend = new URLSearchParams(location.search).get("room");
       const names = friend ? ["You", "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
+      button = (button + 1) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4; hands += 1;
       seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, folded: false, allin: false }));
-      const sb = Math.min(10, seats[1].stack); const bb = Math.min(20, seats[0].stack);
-      seats[1].bet = sb; seats[1].stack -= sb;
-      seats[0].bet = bb; seats[0].stack -= bb; bank = seats[0].stack;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = 2; toAct = 4; handOver = false;
+      const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
+      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb;
+      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb;
+      if (sbSeat === 0 || bbSeat === 0) bank = seats[0].stack;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
       saveBank(bank);
-      log(friend ? "Friend room " + friend + ". Pass the phone for Friend." : "Blinds are in. Your cards are yours.");
+      log((friend ? "Friend room " + friend + ". " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
       if (turn !== 0) bot();
     }
