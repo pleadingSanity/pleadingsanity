@@ -612,7 +612,7 @@
   "houseNow": {
     "checked": "2026-10-04",
     "source": "github.com/pleadingSanity/pleadingsanity",
-    "main": "pending",
+    "main": "8cef76e",
     "live": "https://pleadingsanity.co.uk",
     "otherDoor": "https://pleadingsanity.uk points at the house",
     "serviceWorker": "5.12.12",
