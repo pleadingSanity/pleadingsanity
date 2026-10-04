@@ -55,7 +55,7 @@ function toText(bp) {
     '', arr(bp.hashtags).map((h) => '#' + String(h).replace(/^#/, '')).join(' '),
     line, 'CALL TO ACTION', bp.callToAction || '',
     line, 'ACCESSIBILITY', bp.accessibility || '',
-    '', '🆘 UK support: Samaritans 116 123 · text SHOUT to 85258 · NHS 111 option 2 · 999 emergency',
+    '', 'House truth: /crisis.html · Life tools: /tools.html. This house does not publish clinic numbers.',
   ].join('\n');
 }
 

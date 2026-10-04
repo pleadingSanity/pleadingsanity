@@ -196,7 +196,7 @@ function renderShare(me) {
       });
       form.reset();
       msg.innerHTML = '<p class="notice ok">Shared. Thank you for lifting someone else today 💙</p>';
-      if (crisis) toast('Thank you for sharing. If things feel heavy, Samaritans are on 116 123, any time. 💙', 8000);
+      if (crisis) toast('Thank you for sharing. If this is heavy, the house truth is on the truth page, and Arron will sit. 💙', 8000);
       wall.querySelector('.empty')?.remove();
       if (state.sort === 'new' && (state.kind === 'all' || state.kind === story.kind)) wall.insertAdjacentHTML('afterbegin', storyHTML(story));
     } catch (error) {

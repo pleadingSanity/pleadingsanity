@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.6.0'; // private pages stay off the cache; offline falls back to /offline.html
-const STATIC_CACHE = 'pleading-sanity-static-v19';
+const VERSION = '5.7.0'; // shelter pages, sky, and free voice stay in the same install
+const STATIC_CACHE = 'pleading-sanity-static-v20';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v17';
 const OFFLINE_URL = '/offline.html';
 
@@ -96,6 +96,8 @@ const PRECACHE_URLS = [
     '/css/ai-family.css',
     '/css/sanctuary.css',
     '/css/games-sanctuary.css',
+    '/css/space.css',
+    '/css/games-sky.css',
     '/js/site.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
@@ -113,6 +115,7 @@ const PRECACHE_URLS = [
     '/js/mood-journey.js',
     '/js/vendor/netlify-identity.js',
     '/js/games.js',
+    '/js/house-voice.js',
     '/js/stardust-dash.js',
     '/js/mindmode.js',
     '/js/scrollFeed.js',
@@ -128,6 +131,8 @@ const PRECACHE_URLS = [
     '/assets/favicon.ico',
     '/assets/icons/icon-192x192.png',
     '/assets/icons/icon-512x512.png',
+    '/assets/icons/icon-72x72.png',
+    '/assets/icons/icon.svg',
     '/assets/apple-touch-icon.png'
 ];
 

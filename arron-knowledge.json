@@ -89,30 +89,19 @@
   },
   "crisisLines": [
     {
-      "label": "999",
-      "detail": "If you're in immediate danger, or go to A&E",
-      "href": "tel:999",
-      "urgent": true
+      "label": "The truth of this house",
+      "detail": "Loneliness, the waiting room, and the mind that sees the whole picture",
+      "href": "/crisis.html"
     },
     {
-      "label": "Samaritans 116 123",
-      "detail": "Free, 24/7, any problem",
-      "href": "tel:116123"
+      "label": "How to use this house",
+      "detail": "The doors, then water, sun, walk, sleep, food, breath, cold water, silence, story, prayer, movement",
+      "href": "/tools.html"
     },
     {
-      "label": "Text SHOUT to 85258",
-      "detail": "Free, 24/7 text support",
-      "href": "sms:85258?body=SHOUT"
-    },
-    {
-      "label": "NHS 111, option 2",
-      "detail": "Mental health crisis support",
-      "href": "tel:111"
-    },
-    {
-      "label": "Childline 0800 1111",
-      "detail": "If you're under 19",
-      "href": "tel:08001111"
+      "label": "Talk to Arron",
+      "detail": "A companion, not a clinic",
+      "href": "/arron-app.html"
     }
   ],
   "greetings": {
@@ -175,7 +164,7 @@
     ]
   },
   "offlineReplies": {
-    "crisis": "I'm here, and I'm not going anywhere. You matter so much. Right now I need you to reach a real voice too: Samaritans on 116 123, free, any hour. Text SHOUT to 85258. If you're in danger, 999. Are you safe right now? 💙",
+    "crisis": "I'm here. I will sit with this. I am not a clinic, and I will not hand you a leaflet. If you are not safe, get to another person near you. The truth of this house is saved on this phone. Are you safe right now?",
     "default": [
       "I'm offline right now, but I'm still here and I'm keeping every word safe. When the signal's back, I'll catch up properly.",
       "I hear you. Your words are saved on this phone. Keep going, I'm listening."
@@ -392,11 +381,13 @@
     "note": "This house does not publish clinic numbers or government health leaflets. Sit with the story."
   },
   "house_truth": {
-    "loneliness": "Most people lose themselves because they are lonely.",
-    "the_room": "A waiting room, a student taking notes, and a clock are not care.",
-    "the_whole": "A mind that sees the whole picture is often called crazy by minds that cannot fathom it.",
-    "tools": "Water, sun, walk, sleep, plain food, breath, cold water, silence, story, prayer, movement, kitchen plants as comfort not a cure.",
-    "refuse": "No government health leaflets. No clinic numbers on the public pages. No claimed cures. No dangerous plant recipes."
+    "loneliness": "Most people lose themselves because they are lonely. A full room can still be an empty court. When no one sits for the real sentence, the mind prosecutes itself. That is not madness.",
+    "the_room": "A waiting room, a student on notes, and a clock are not care. A note is not a conversation. A label is not a sitting. Almost no one asks what the person believes is actually bothering them.",
+    "the_whole": "A mind that sees the whole picture is often called crazy by minds that cannot fathom it. Being unsettled by a cruel world is not proof you are the problem. This house does not build a home out of horror.",
+    "tools": "Water, sun, walk, sleep, plain food, breath, cold water, silence, story, prayer, movement. Kitchen plants are comfort, not a cure. No dosing recipes.",
+    "doors": "Talk, then Journal, then How to use, then The truth. After that: breath, quiet tones, silence, the feed, the games, and the story of the house.",
+    "legacy": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented.",
+    "refuse": "No government health leaflets. No clinic numbers on the public pages. No NHS lines. No claimed cures. No dangerous plant recipes. No paywall on talk, journal, games, feed, or Arron."
   },
   "changelog": [
     {
@@ -416,6 +407,15 @@
         "Games rewards and free voice noted",
         "Host limit told plain"
       ]
+    },
+    {
+      "date": "2026-10-04",
+      "tag": "Shelter",
+      "changes": [
+        "Truth and tools pages written in more detail, still human",
+        "Games speak one free line at the start and on a win. Mute wins",
+        "Host limit kept: the cached app and GitHub are the copies"
+      ]
     }
   ],
   "council": {
@@ -425,17 +425,30 @@
       "gemini",
       "grok"
     ],
-    "owner": "Signed-in Shane gets a draft, then a sibling mind checks it. Say council to ask all four and weave one answer.",
-    "guests": "One mind answers, so the house does not bill four times.",
-    "grok": "Joins only if GROK_API_KEY is set in Netlify. If missing, say so."
+    "guests": "A guest gets one mind, so a stranger does not cost four calls.",
+    "owner": "Signed-in Shane: one mind drafts, the next checks, same voice. workAsOne stays. A message that starts with council asks GPT, Claude, Gemini and Grok, then weaves one answer and names who spoke.",
+    "grok": "Grok speaks only if GROK_API_KEY is set. If it is missing, say so. Do not pretend Grok answered."
   },
   "games": {
-    "rewards": "XP, levels, streaks, badges and a weekly challenge live on the device. Free.",
-    "voice": "The phone's own speech. No paid voice service.",
-    "solitaire": "/sanity-solitaire.html installs as its own app. Id stays /sanity-solitaire.html."
+    "shelf": [
+      "Sanity Solitaire — three peaks, its own installable app",
+      "Cosmic Connect — pairs and constellations",
+      "Truth Tag — evidence, experience, or philosophy",
+      "Cosmic Focus",
+      "Number Nebula",
+      "Pattern Galaxy",
+      "Memory Ocean",
+      "Rhythm Resonance",
+      "Stardust Dash"
+    ],
+    "rewards": "XP, levels, streaks, badges, a daily challenge and a weekly challenge live on the device only. The weekly clear is Steady Light. Free. No account required for the score.",
+    "earn": "Solitaire, Cosmic Connect and Truth Tag earn XP on the device.",
+    "voice": "Free voice through /js/house-voice.js, the phone's speechSynthesis, en-GB. One line at the start of a game and one line on a win. The mute switch on the games hub wins. No paid voice.",
+    "solitaire": "Sanity Solitaire stays a full three-peaks game at /sanity-solitaire.html. Manifest id and start stay /sanity-solitaire.html. New deal, undo, hint, install. Updates land in the same icon."
   },
   "survival": {
-    "truth": "If the host suspends the account, the domain can go dark. No code can outrun an unpaid bill.",
-    "what_holds": "The installed app keeps the cached pages. The repo on GitHub is the copy. Static pages do not need an AI to open."
+    "truth": "A suspended host can take the domain down. Do not promise the site outlives an unpaid bill.",
+    "what_holds": "The installed app and GitHub are the copies. The cached app is the shelter. Static pages do not need an AI to open.",
+    "say_if_asked": "If asked whether the website will always be there, say plainly: a suspended host can take the domain down. The installed app keeps the cached pages. The GitHub repository is the other copy. Do not promise that pleadingsanity.co.uk outlives an unpaid Netlify bill."
   }
 }

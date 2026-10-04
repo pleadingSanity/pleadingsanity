@@ -36,8 +36,7 @@ const SHAPE = `Reply with ONLY one JSON object, no prose, in exactly this shape:
   "accessibility": string
 }
 Rules: scenes must cover the whole runtime with realistic timings; captions mirror the voiceover word-for-word,
-max 42 characters per caption line; 8-14 hashtags without the # symbol; the description ends with
-"🆘 UK support: Samaritans 116 123 · SHOUT 85258 · 999" whenever the topic touches mental health.
+max 42 characters per caption line; 8-14 hashtags without the # symbol; if the topic is heavy, the description points to /crisis.html and /tools.html and does not list clinic numbers or NHS lines.
 Music suggestions describe mood, tempo and instrumentation only — never name copyrighted songs.`;
 
 export default async (req: Request, context: Context) => {

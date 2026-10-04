@@ -89,14 +89,8 @@ moodBox.addEventListener('click', (e) => {
 });
 
 const SUPPORT_HTML = `<div class="notice ok sg-help" role="note">
-  <p><strong>Thank you for being honest about this week.</strong> Really low weeks are heavy, and you don't have to carry them on your own. If talking to someone might help, these are free and there for you:</p>
-  <ul>
-    <li>Samaritans, any time, day or night: <a href="tel:116123">116 123</a></li>
-    <li>Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> to talk by text</li>
-    <li>NHS: call <a href="tel:111">111</a> and choose option 2 for mental health support</li>
-    <li>If you or someone else is in danger right now, call <a href="tel:999">999</a></li>
-  </ul>
-  <p>There's more on our <a href="/crisis.html">support page</a>. And you're welcome to carry on with your check-in — it's still yours.</p>
+  <p><strong>Thank you for being honest about this week.</strong> A very low week is heavy. You do not have to tidy it up. This house will sit with the story. It is not a clinic.</p>
+  <p>Read <a href="/crisis.html">why people lose themselves</a>, or the <a href="/tools.html">plain tools</a>: water, sun, a walk, sleep, breath. If you are not safe, get to another person near you. You can still finish this check-in. It stays yours.</p>
 </div>`;
 
 function paintForm() {

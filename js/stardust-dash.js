@@ -179,6 +179,7 @@
     draw();
     var extra = (r.newBest ? ' New personal best!' : '') + (r.newBadges.length ? ' Badge: ' + r.newBadges.join(', ') + '.' : '');
     say('Round over. Score ' + st.score + ', best combo ' + st.max + '. +' + r.xp + ' XP.' + extra);
+    if (window.PSVoice) PSVoice.speak('Round done. You stayed with it.');
     showOverlay(r.newBest ? '🏆 New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. ' + PS.quip('gameover'), '🔁 Dash again');
   }
   function setPause(p) {

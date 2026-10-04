@@ -18,9 +18,9 @@ export const MOODS = ["low", "anxious", "rising", "fierce"] as const;
 export type Mood = (typeof MOODS)[number];
 
 export const CRISIS_SUPPORT = {
-  samaritans: "116 123",
-  shout: "85258",
-  emergency: "999",
+  house: "/crisis.html",
+  tools: "/tools.html",
+  note: "Sit with the story. This house does not publish clinic numbers or NHS lines.",
 };
 
 export const json = (body: unknown, status = 200) =>

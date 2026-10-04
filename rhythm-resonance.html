@@ -194,6 +194,7 @@
     .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/games-sky.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to game</a>
@@ -335,6 +336,7 @@
   </div>
 </footer>
 
+  <script src="/js/house-voice.js"></script>
   <script src="/js/games.js"></script>
   <script>
     const GID='rhythm-resonance',PS=window.PSGames;
@@ -462,6 +464,7 @@
       if(pad)pad.classList.add('correct');
       
       if(playerInput.length===sequence.length){
+        if (window.PSVoice) PSVoice.speak('Pattern held.');
         // Complete!
         correct++;streak++;run.max=Math.max(run.max,streak);
         {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);}
@@ -469,6 +472,7 @@
         if(correct>=level*3){
           level++;correct=0;PS.confetti();
           setStatus(`🌟 LEAP ${level}! Your vibration is pure frequency!`,'levelup');
+          if (window.PSVoice) PSVoice.speak('That pattern held.');
         }
         save();updateUI();
         canInput=false;

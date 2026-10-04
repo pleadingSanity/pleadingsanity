@@ -1,19 +1,65 @@
-/* Game sky. Same crying-brain night, more depth, less box. */
+/* Game sky. Same night as the house, closer stars, a brighter blue nebula.
+   Glass cards, round edges. The felt and the play stay in front. */
+html { background: #000103; }
 body.ps-page, body {
   background:
-    radial-gradient(ellipse 40% 26% at 15% 18%, rgba(0,255,240,.35), transparent 60%),
-    radial-gradient(ellipse 34% 22% at 82% 12%, rgba(70,150,255,.4), transparent 62%),
-    radial-gradient(ellipse 46% 30% at 60% 80%, rgba(40,80,180,.28), transparent 68%),
+    radial-gradient(ellipse 26% 18% at 14% 16%, rgba(180, 220, 255, 0.45), transparent 46%),
+    radial-gradient(ellipse 34% 24% at 20% 22%, rgba(0, 160, 255, 0.48), transparent 62%),
+    radial-gradient(ellipse 22% 16% at 78% 12%, rgba(0, 255, 240, 0.32), transparent 58%),
+    radial-gradient(ellipse 40% 28% at 68% 78%, rgba(20, 80, 180, 0.4), transparent 70%),
     #000103;
+  color: #eef6ff;
 }
-.game-card, .psg-card, .cosmic-card {
-  border-radius: 22px;
-  background: rgba(6,14,28,.66);
-  border: 1px solid rgba(0,255,240,.2);
-  backdrop-filter: blur(8px);
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 12% 18%, rgba(0, 255, 240, 0.9), transparent),
+    radial-gradient(2px 2px at 18% 10%, #eef6ff, transparent),
+    radial-gradient(1px 1px at 24% 16%, rgba(160, 210, 255, 0.9), transparent),
+    radial-gradient(1.4px 1.4px at 70% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 76% 8%, rgba(0, 255, 240, 0.85), transparent),
+    radial-gradient(1.6px 1.6px at 84% 18%, #fff, transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(238, 246, 255, 0.75), transparent),
+    radial-gradient(1.2px 1.2px at 58% 84%, rgba(0, 255, 240, 0.7), transparent);
+  background-size: 100% 100%, 160px 160px, 160px 160px, 220px 220px, 100% 100%, 180px 180px, 100% 100%, 100% 100%, 200px 200px;
+  opacity: 0.85;
+  animation: psg-drift 80s linear infinite;
+}
+@keyframes psg-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-1.5%, -1%, 0); }
+}
+.game-card, .psg-card, .cosmic-card, .panel, .felt {
+  border-radius: 28px;
+  background: rgba(6, 16, 32, 0.62);
+  border: 1px solid rgba(0, 255, 240, 0.24);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.28),
+    inset 0 1px 0 rgba(238, 246, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.game-mark, .game-thumb {
+  border-radius: 18px;
 }
 .game-mark {
-  width: 42px; height: 42px; border-radius: 12px;
-  background: #000103 url('/assets/icons/icon-72x72.png') center/cover;
-  box-shadow: 0 0 18px rgba(0,255,240,.35);
+  width: 42px;
+  height: 42px;
+  background: #000103 url("/assets/icons/icon-72x72.png") center/cover;
+  box-shadow: 0 0 18px rgba(0, 255, 240, 0.35);
+}
+.btn, button, .option-btn, .opt-cell, .tile, .pad, .card {
+  border-radius: 18px;
+}
+.sd-stage, .stage, canvas {
+  border-radius: 28px;
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before { animation: none; }
+  .game-card, .btn, .tile, .pad, .card { transition: none; }
 }

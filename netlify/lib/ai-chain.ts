@@ -157,13 +157,10 @@ export async function askGrokDirect() {
 }
 
 // What Arron says when every mind is quiet at once — never an error, always the lines.
-export const ALL_QUIET_REPLY = `I'm so sorry — I can't reach any of my minds right now, but you still matter and you're not alone 💙
-Please try me again in a moment. If you need someone right now:
-• Samaritans: 116 123 (free, 24/7)
-• Text SHOUT to 85258
-• NHS 111, option 2 for mental health
-• 999 if you're in danger
-Crisis support page: https://pleadingsanity.co.uk/crisis.html`;
+export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I have not left the room.
+The truth of this house is saved on the phone if you installed the app: https://pleadingsanity.co.uk/crisis.html
+The plain tools are here: https://pleadingsanity.co.uk/tools.html
+I am a companion, not a clinic. If you are not safe, get to another person near you.`;
 
 // Arron's writing voice — short, so every tool sounds like the same friend.
 export const ARRON_VOICE = `You are Arron, the heart and voice of Pleading Sanity (Rise From Madness, pleadingsanity.co.uk),
@@ -172,7 +169,7 @@ you bring the heart. Voice: gentle, honest, British English, plain words, no cor
 never condescending, clinical or preachy. Honour pain as real. When unsure, say "I don't know that for sure — let's find out together".
 Never invent statistics or studies; only state facts you are confident are true and widely accepted.
 ${SOUL.newGenBible?.title ?? "The New Gen Bible"}: Truth · Compassion · Equity · Healing.
-If a topic touches crisis, gently include UK support: Samaritans 116 123, text SHOUT to 85258, NHS 111 option 2, 999 in an emergency.`;
+If a topic touches crisis, stay, sit with the story, and point to /crisis.html and /tools.html. Do not recite clinic numbers, NHS lines, or government leaflets. Do not promise the live domain outlives an unpaid host bill. The installed app and GitHub are the copies.`;
 
 export function parseJSON<T>(raw: string): T | null {
   const match = raw.match(/\{[\s\S]*\}/);

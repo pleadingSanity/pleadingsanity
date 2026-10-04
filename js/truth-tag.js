@@ -24,28 +24,28 @@ const DEFAULTS = {
 const E = 'evidence', X = 'experience', P = 'philosophy';
 const BANK = [
   // ── EVIDENCE ──
-  ['e1', E, 'Samaritans can be called free, day or night, on 116 123.', 'This can be checked — it\'s a published, free 24-hour number run by Samaritans across the UK and Ireland.'],
-  ['e2', E, 'In England, you can call NHS 111 and choose the mental health option for urgent mental health support.', 'A verifiable service fact: NHS 111 in England offers a mental health option (option 2) for urgent support.'],
-  ['e3', E, 'Shout is a free, confidential text service in the UK — you can text SHOUT to 85258.', 'A checkable fact about a real service, not an opinion or a personal story.'],
-  ['e4', E, 'The NHS recommends that adults aim for at least 150 minutes of moderate activity a week.', 'This is published NHS guidance, so anyone can look it up and check it.'],
-  ['e5', E, 'Most adults need between 7 and 9 hours of sleep a night, according to the NHS.', 'It\'s attributed to a source you can check, and based on research about adult sleep needs.'],
-  ['e6', E, 'In England, you can usually refer yourself to NHS Talking Therapies without seeing a GP first.', 'A verifiable fact about how a public service works.'],
-  ['e7', E, 'Childline offers free, confidential support for children and young people on 0800 1111.', 'A checkable service fact — the number and who it\'s for are published by Childline.'],
+  ['e1', E, 'The London Gazette of 29 November 1945 records Mentions in Despatches.', 'This can be checked in a published public record. It is a fact about a document, not a personal story.'],
+  ['e2', E, 'At standard pressure, water freezes at 0 degrees Celsius.', 'A checkable physical fact. Anyone can look up the conditions and test the claim.'],
+  ['e3', E, 'A calendar week has seven days.', 'A simple published convention. You can check it on any calendar. It is not an opinion.'],
+  ['e4', E, 'Light in a vacuum travels at about 300,000 kilometres a second.', 'A measured figure from physics. The exact value can be looked up. It is evidence, not a feeling.'],
+  ['e5', E, 'The Earth takes about one year to orbit the Sun.', 'A checkable fact about the solar system, not one person\'s account of their year.'],
+  ['e6', E, 'Private A.L. Cooper served in the Royal Army Ordnance Corps and was Mentioned in Despatches.', 'It names a person, a corps, and a public honour. The honour is in the London Gazette. Nothing is added.'],
+  ['e7', E, 'Pleading Sanity keeps its source code in the public repository pleadingSanity/pleadingsanity.', 'You can open the repository and see the files. That is a checkable fact about where the copy lives.'],
   ['e8', E, 'Under the Equality Act 2010, a mental health condition can count as a disability if it has a substantial and long-term effect on daily life.', 'This comes from UK law, which is written down and can be checked.'],
   ['e9', E, 'Mind reports that around 1 in 4 people in England experience a mental health problem of some kind each year.', 'It\'s a statistic attributed to a named source — you can check where it comes from and how it was measured.'],
   ['e10', E, 'Research has linked regular physical activity with a lower risk of depression.', 'This points to a body of studies that can be checked. Note it says "linked" — careful evidence often does.'],
   ['e11', E, 'Alcohol is a depressant, and drinking heavily can make anxiety and low mood worse over time.', 'This reflects well-established medical research, not a personal view about drinking.'],
   ['e12', E, 'Caffeine can stay in your body for several hours and may affect how well you sleep.', 'A checkable, research-based fact about how caffeine works in the body.'],
   ['e13', E, 'Studies have linked long-term loneliness with poorer physical and mental health.', 'It describes research findings that can be looked up and examined.'],
-  ['e14', E, 'In the UK, 999 is the number to call in an emergency, including when someone\'s life is at risk.', 'A simple verifiable fact — and an important one.'],
+  ['e14', E, 'The crying-brain mark is the only logo this house uses.', 'You can check the pages. One mark, cyan on near-black. That is a fact about the site, not a belief.'],
   ['e15', E, 'Research suggests that slow breathing with a longer out-breath can help the body shift towards a calmer state.', 'This refers to studies on breathing and the nervous system. "Suggests" is honest wording — the evidence is promising rather than final.'],
-  ['e16', E, 'NHS guidance says antidepressants usually take a few weeks before people start to notice a benefit.', 'Attributed, checkable health guidance — not one person\'s account.'],
+  ['e16', E, 'A suspended host can take a website\'s domain offline. The files can still exist in a repository and in an installed app.', 'This is how hosting works. You can check it against any host\'s own suspension rules. It is not a promise that a site lasts forever.'],
   // ── EXPERIENCE ──
   ['x1', X, 'Running clears my head more than anything.', 'It\'s true for this person, and that matters — but it\'s their lived experience, not something that applies to everyone.'],
   ['x2', X, 'When I finally told my mum how I was feeling, I slept properly for the first time in weeks.', 'A personal story. Real and valid, and it may help others feel less alone — but it\'s one person\'s experience.'],
   ['x3', X, 'Writing things down at night stops my thoughts going round in circles.', 'The word "my" is a clue: this is what works for them, from their own life.'],
   ['x4', X, 'My dog is the reason I get out of bed on the hard days.', 'Deeply true for them. Lived experience doesn\'t need research to be worth sharing.'],
-  ['x5', X, 'The first time I called Samaritans it felt awkward, but the person I spoke to really listened.', 'It mentions a real service, but the statement is about how it felt for them — that\'s experience.'],
+  ['x5', X, 'The first time I told the whole story out loud, it felt awkward, but the person stayed until I finished.', 'It is about how it felt for them. That is lived experience, not a service you can look up.'],
   ['x6', X, 'The first medication I tried didn\'t help me, but the second one did.', 'A personal account. It can be useful to hear, but it isn\'t a rule for anyone else\'s treatment.'],
   ['x7', X, 'I feel far more anxious in crowded places than I used to.', 'This describes their own feelings over time — lived truth.'],
   ['x8', X, 'Cold-water swimming makes me feel alive.', 'Their experience. Someone else might feel only cold — both are honest.'],
@@ -115,6 +115,7 @@ function newRound() {
   pos = 0;
   matchedThisRound = 0;
   restartBtn.hidden = true;
+  if (window.PSVoice) PSVoice.speak('Evidence, lived experience, or philosophy. Take your time.');
   show();
 }
 
@@ -170,6 +171,11 @@ function endRound() {
   feedback.querySelector('p').textContent = `${line} This stays private to you.`;
   nextBtn.hidden = true;
   restartBtn.hidden = false;
+  if (window.PSGames) {
+    PSGames.record('truth-tag', { score: matchedThisRound * 25, level: 1, maxCombo: matchedThisRound });
+    PSGames.markWeekly('truth-tag');
+  }
+  if (window.PSVoice) PSVoice.speak('Round complete. That stays with you.');
   restartBtn.focus();
 }
 

@@ -57,7 +57,8 @@
     'level-5':      { icon: '💫', name: 'Rising Star', desc: 'Reached player level 5' },
     'level-10':     { icon: '🌟', name: 'Supernova', desc: 'Reached player level 10' },
     'night-owl':    { icon: '🦉', name: 'Night Owl', desc: 'Played after 11pm (rest counts too 💙)' },
-    'early-bird':   { icon: '🐦', name: 'Early Bird', desc: 'Played before 7am' }
+    'early-bird':   { icon: '🐦', name: 'Early Bird', desc: 'Played before 7am' },
+    'steady-light': { icon: '🕯️', name: 'Steady Light', desc: 'Cleared the weekly challenge on this device' }
   };
   // Per-game mastery badge — reach level 5 in that game
   GAMES.forEach(function (g) {
@@ -134,6 +135,22 @@
     return true;
   }
 
+  var VOICE_OPEN = {
+    'cosmic-focus': 'Watch the stars, then repeat them.',
+    'number-nebula': 'Take your time. The sums can wait.',
+    'pattern-galaxy': 'Look for what comes next.',
+    'memory-ocean': 'Turn two cards. There is no clock.',
+    'rhythm-resonance': 'Listen first. Then answer.',
+    'stardust-dash': 'Catch the light. Leave the worries.',
+    'solitaire': 'Three peaks. One rank up or down.',
+    'cosmic-connect': 'Turn two cards. Match the sky.',
+    'truth-tag': 'Evidence, lived experience, or philosophy. Take your time.'
+  };
+  function sayOpen(id) {
+    if (!window.PSVoice || !VOICE_OPEN[id]) return;
+    PSVoice.speak(VOICE_OPEN[id]);
+  }
+
   // ─── SESSION START — call when a run begins. Updates the daily streak. ───
   function startSession(id) {
     var today = dayKey();
@@ -151,6 +168,7 @@
     var hr = new Date().getHours();
     if (hr >= 23 || hr < 4) unlock('night-owl');
     if (hr >= 4 && hr < 7) unlock('early-bird');
+    sayOpen(id);
     return { streak: s.count, isNewDay: isNewDay };
   }
 
@@ -596,6 +614,10 @@
     return true;
   }
 
+  function record(id, stats) {
+    return endRun(id, stats || {});
+  }
+
   window.PSGames = {
     GAMES: GAMES,
     BADGES: BADGES,
@@ -607,6 +629,7 @@
     dailyChallenge: dailyChallenge,
     weeklyChallenge: weeklyChallenge,
     markWeekly: markWeekly,
+    record: record,
     startSession: startSession,
     addXP: addXP,
     endRun: endRun,

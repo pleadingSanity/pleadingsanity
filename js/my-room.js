@@ -165,7 +165,7 @@ async function initMyRoom() {
     postsList.innerHTML = dated(data.posts);
     try {
       const res = await api("/api/posts", { method: "POST", body: { kind: "text", body: text } });
-      const support = res?.crisis ? " If you're struggling right now: Samaritans 116 123 · text SHOUT to 85258." : "";
+      const support = res?.crisis ? " If this is heavy, the house truth is on /crisis.html. This room will sit. It is not a clinic." : "";
       say((res?.pending ? "Shared — it shows on the feed once a guardian has had a look." : "Shared on the feed.") + support + local);
     } catch (error) {
       say(offline(error, "post") + local);

@@ -169,6 +169,7 @@
     .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/games-sky.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to game</a>
@@ -304,6 +305,7 @@
   </div>
 </footer>
 
+  <script src="/js/house-voice.js"></script>
   <script src="/js/games.js"></script>
   <script>
     const GID='memory-ocean',PS=window.PSGames;
@@ -360,6 +362,7 @@
           if(pairsFound===totalPairs){
             run.score+=Math.max(0,totalPairs*3-moves)*10;
             const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};PS.confetti();
+            if (window.PSVoice) PSVoice.speak('The sea is clear.');
             level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+` Level ${level} awaits.`,'complete');save();
             setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🌊 Dive Deeper';},2000);
           }else{setStatus(`✅ Found one! ${combo>1?combo+' in a row! ':''}${PS.quip('correct')}`,'success');}

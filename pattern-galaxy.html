@@ -189,6 +189,7 @@
     .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
   </style>
   <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/games-sky.css" />
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to game</a>
@@ -325,6 +326,7 @@
   </div>
 </footer>
 
+  <script src="/js/house-voice.js"></script>
   <script src="/js/games.js"></script>
   <script>
     const GID='pattern-galaxy',PS=window.PSGames;
@@ -406,6 +408,7 @@
         streak++;run.max=Math.max(run.max,streak);const mult=PS.multiplier(streak),gain=Math.round(level*12*mult);score+=gain;run.score+=gain;scorePop(btn,gain,mult,streak);
         if(score>=level*120){
           level++;PS.confetti();setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies!`,'levelup');
+          if (window.PSVoice) PSVoice.speak('The pattern held. Level '+level+'.');
         }else{setStatus(`✅ ${PS.quip('correct')} +${gain} points`,'success');}
         save();updateUI();setTimeout(renderPattern,1400);
       }else{

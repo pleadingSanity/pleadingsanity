@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.2-human-voice';
+const VERSION = '3.3-shelter';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -25,6 +25,10 @@ const PRECACHE_URLS = [
     '/css/arron-styles.css',
     '/offline.html',
     '/crisis.html',
+    '/tools.html',
+    '/about.html',
+    '/games.html',
+    '/css/space.css',
     '/assets/favicon.svg',
     '/assets/images/brand/crying-brain-logo-512.webp',
     '/assets/favicon.ico',

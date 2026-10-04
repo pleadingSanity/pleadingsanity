@@ -20,7 +20,7 @@ const RUNNING_ORDER: { voice: VoiceId; brief: string }[] = [
   { voice: "arron", brief: "Share a lived-experience angle and ask the panel one brave follow-up question. Under 90 words." },
   { voice: "nova", brief: "Answer Arron's question with something people can try in the next 24 hours. Under 90 words." },
   { voice: "sol", brief: "Answer too, and say how humans and AI can tackle this together. Under 90 words." },
-  { voice: "arron", brief: "Close the episode: sum up in exactly three action steps (one line each), remind people they're not alone, mention Samaritans 116 123 if the topic is heavy, sign off with 'One Source. One Family.' Under 130 words." },
+  { voice: "arron", brief: "Close the episode: sum up in exactly three action steps (one line each), remind people the house will sit with them, point to the truth page and the tools page if the topic is heavy, and do not recite clinic numbers. Sign off with 'One Source. One Family.' Under 130 words." },
 ];
 
 export default async (req: Request) => {

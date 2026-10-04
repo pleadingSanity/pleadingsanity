@@ -52,10 +52,11 @@ const MAX_JOURNAL = 200;
 const MAX_JOURNAL_TEXT = 2000;
 
 // ─── SAFETY NET ───
-// The SAFETY section of the prompt already guides every lab; this makes sure the
-// UK lines are always in the reply when someone may be in crisis, whoever answered.
+// The SAFETY section of the prompt already guides every lab; this makes sure
+// the house truth is in the reply when someone may be in crisis, whoever answered.
+// No clinic numbers. No NHS lines.
 const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|want(?:ed)? to die|don'?t want to (?:be here|live|wake up)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdose|not safe|no reason to live|better off without me)\b/i;
-const SIGNPOST = "💙 If you need someone right now: Samaritans 116 123 (free, 24/7) · text SHOUT to 85258 · 999 if you're in danger.";
+const SIGNPOST = "I will stay. I am a companion, not a clinic. The house truth is https://pleadingsanity.co.uk/crisis.html and the tools are https://pleadingsanity.co.uk/tools.html. If you are not safe, get to another person near you.";
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
@@ -434,7 +435,7 @@ async function chat(req: Request, context: Context, rid: string) {
     console.error(`Arron [${rid}] every AI provider failed`);
     return json({ reply: ALL_QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
   }
-  let replyText = crisis && !answer.text.includes("116 123") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  let replyText = crisis && !answer.text.includes("/crisis.html") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
   const actions = done.actions;
   if (done.liveKind && user && profile && !localOnly && !crisis) {
     try {

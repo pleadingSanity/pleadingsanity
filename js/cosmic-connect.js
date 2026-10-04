@@ -127,6 +127,7 @@ function newPuzzle() {
   deck.forEach((_, i) => paint(i));
   affirm.textContent = '';
   live.textContent = `New puzzle with ${size} pairs. ${deck.length} cards, all face down.`;
+  if (window.PSVoice) PSVoice.speak('Turn two cards. Match the sky.');
   document.querySelectorAll('#cc-sizes [data-size]').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.size) === size)));
 }
 
@@ -171,6 +172,12 @@ function finish() {
   const msg = `All ${size} pairs found, in ${moves} moves. However it felt, you gave your mind a gentle stretch. 🌌`;
   affirm.textContent = msg;
   live.textContent = msg;
+  if (window.PSGames) {
+    const score = Math.max(20, 240 - moves * 5);
+    PSGames.record('cosmic-connect', { score: score, level: size, maxCombo: size });
+    PSGames.markWeekly('cosmic-connect');
+  }
+  if (window.PSVoice) PSVoice.speak('All the pairs are found.');
   $('cc-new').focus();
 }
 
@@ -290,6 +297,8 @@ function tapStar(i) {
   state.drawn = (state.drawn || 0) + 1;
   if (!state.found.includes(c.id)) state.found.push(c.id);
   save();
+  if (window.PSGames) PSGames.record('cosmic-connect', { score: 40, level: 1, maxCombo: 1 });
+  if (window.PSVoice) PSVoice.speak(c.name + ' is drawn.');
   renderPicker();
 }
 
