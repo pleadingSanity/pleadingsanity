@@ -751,6 +751,7 @@ img.logo, .logo-mark {
 }
 
 /* Phone sheet. Wide screens keep the pills. */
+.ps-sheet-doors { display: none; }
 .ps-nav-toggle {
   display: none;
   align-items: center;
@@ -767,7 +768,7 @@ img.logo, .logo-mark {
 }
 @media (max-width: 720px) {
   .ps-nav { position: sticky; top: 0; }
-  .ps-nav-toggle { display: inline-flex; grid-area: account; justify-self: end; }
+  .ps-nav-toggle { display: inline-flex; grid-area: toggle; justify-self: end; }
   .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
   .ps-nav .ps-account { grid-area: account; justify-self: end; }
   .ps-nav .ps-links {
@@ -791,9 +792,9 @@ img.logo, .logo-mark {
     box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
   }
   .ps-nav.is-open .ps-links { display: flex; }
-  .ps-sheet-doors {
+  .ps-nav.is-open .ps-sheet-doors {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 8px;
   }
   .ps-sheet-doors a {
