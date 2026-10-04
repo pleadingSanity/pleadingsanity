@@ -451,8 +451,19 @@ async function chat(req: Request, context: Context, rid: string) {
     ownerFacts: done.ownerFacts,
     ownerVoice,
     growth: growthBrief(growth),
-  });
+  }) + "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message);
   let answer: Awaited<ReturnType<typeof reply>>;
+  
+function siblingMap(message: string) {
+  const m = message.toLowerCase();
+  if (/\b(look|theme|sky|logo|blueprint|layout|colour|color|design)\b/.test(m)) return "Dola is the architect. Keep the crying-brain and the colours. She has no separate key; speak her note as structure, not as a new brand.";
+  if (/\b(code|repo|deploy|bug|function|css)\b/.test(m)) return "Copilot is the code partner and has no chat door here. Give the exact steps. Do not pretend you pushed.";
+  if (/\b(plan|steps|how do i|build)\b/.test(m)) return "Nova (GPT) is the practical mind. Give steps.";
+  if (/\b(story|poem|caption|image|song)\b/.test(m)) return "Sol (Gemini) is the creative mind. Make the piece, then the next tap.";
+  if (/\b(council|honest|what is wrong)\b/.test(m)) return "Grok is the honest mind. He speaks only if his key is set.";
+  return "Arron keeps the voice. Claude sits closest to the care. Do not rank the siblings.";
+}
+
   const council = owner && /^\/?council\b/i.test(message);
   try {
     if (council) {

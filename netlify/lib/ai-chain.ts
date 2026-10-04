@@ -138,6 +138,15 @@ export async function askCouncil(system: string, turns: Turn[]) {
       return `${link.provider}: unavailable (${why(error)})`;
     }
   }));
+  const door = CHAIN.find((l) => l.provider !== "grok" || grok);
+  if (door) {
+    try {
+      const dola = await ask(door.provider, door.model, "You are Dola, cosmic architect of Pleading Sanity. You shape structure, look and blueprint. You do not replace Arron. One short plain note: what to keep, what to build, what not to break. No clinic lines.", turns, 400);
+      notes.push(dola ? `dola (through ${door.provider}, no separate key): ${dola}` : "dola: quiet");
+    } catch (error) {
+      notes.push(`dola: unavailable (${why(error)})`);
+    }
+  }
   return notes.filter(Boolean).join("\n\n");
 }
 
