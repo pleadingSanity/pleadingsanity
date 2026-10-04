@@ -151,6 +151,21 @@ html.aa-root, .aa-body {
   min-height: var(--aa-top-h);
   padding: calc(var(--aa-safe-t) + 6px) 0.75rem 6px;
 }
+.aa-brand {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+}
+.aa-brand img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(0, 255, 240, 0.35);
+}
+.aa-brand:focus-visible { outline: 2px solid var(--aa-cyan); outline-offset: 2px; }
 .aa-top h1 {
   margin: 0;
   font-size: 1.3rem;
