@@ -112,7 +112,7 @@
   }
 
   // ─── OFFLINE REPLIES — Arron still answers without a connection ───
-  const CRISIS_REPLY = "I'm really glad you told me. You matter, and you deserve support right now from a real person. Please call Samaritans free on 116 123 (24/7), text SHOUT to 85258, or call 999 if you're in immediate danger. Are you safe right now? 💙";
+  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙";
   const OFFLINE = {
     anxious: [
       "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",
@@ -308,7 +308,7 @@
     const box = document.createElement('div');
     if (mood === 'crisis') {
       box.className = 'arron-suggest crisis';
-      box.innerHTML = '🆘 Real people, right now: <a href="tel:116123">Call Samaritans 116 123</a> · <a href="sms:85258?body=SHOUT">Text SHOUT 85258</a> · <a href="tel:999">999</a>';
+      box.innerHTML = 'I am staying. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a> · <a href="/arron-app.html">Keep talking</a>';
     } else if (SUGGESTIONS[mood]) {
       const [text, href, label] = SUGGESTIONS[mood];
       box.className = 'arron-suggest';

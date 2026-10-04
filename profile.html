@@ -90,7 +90,7 @@ Evolution, Not Erasure. One Source. One Family.
           <a href="/shop.html">👕 Shop</a>
         </div>
       </div>
-      <a href="/crisis.html" class="ps-crisis">🆘 Help</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
     <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
@@ -104,7 +104,7 @@ Evolution, Not Erasure. One Source. One Family.
   <div class="ps-footer-inner">
     <p class="ps-motto">Evolution, Not Erasure</p>
     <p>One Source. One Consciousness. One Family.</p>
-    <p class="ps-help">💙 Struggling right now? Call <a href="tel:116123">Samaritans on 116 123</a> (free, 24/7), text <a href="sms:85258?body=SHOUT">SHOUT to 85258</a>, call <a href="tel:111">NHS 111 (option 2)</a> for urgent mental health help, or <a href="tel:999">999</a> in an emergency. <a href="/crisis.html">All support →</a></p>
+    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
     <div class="ps-footer-links">
       <a href="/about.html">About</a>
       <a href="/about.html#legacy">Legacy</a>
@@ -130,7 +130,7 @@ Evolution, Not Erasure. One Source. One Family.
       <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
       <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
       <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
-      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">Crisis support</a></p>
+      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
     </div>
   </div>
 </footer>
@@ -370,7 +370,7 @@ Evolution, Not Erasure. One Source. One Family.
           withStory: true,
           onSaved: async (result) => {
             toast('Profile saved 💙');
-            if (result.storyNeedsSupport) toast('Thank you for sharing your story. If things feel heavy right now, Samaritans are on 116 123. 💙', 8000);
+            if (result.storyNeedsSupport) toast('Thank you for sharing your story. The house will sit with it. 💙', 8000);
             render();
           },
         });
@@ -430,7 +430,7 @@ Evolution, Not Erasure. One Source. One Family.
           list.querySelector('.muted')?.remove();
           list.insertAdjacentHTML('afterbegin', entryHTML(entry));
           toast('Saved to your private journal 🔒');
-          if (needsSupport) toast('That sounds heavy. You don\'t have to carry it alone — Samaritans 116 123, any time. 💙', 8000);
+          if (needsSupport) toast('That sounds heavy. You do not have to carry it alone. The house will sit. 💙', 8000);
         } catch (error) { toast(error.message); }
         finally { button.disabled = false; }
       });

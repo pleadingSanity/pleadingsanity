@@ -84,7 +84,7 @@
   };
 
   // ─── OFFLINE — Arron still answers underground ───
-  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter so much. Right now I need you to reach a real voice too: Samaritans on 116 123, free, any hour. Text SHOUT to 85258. If you're in danger, 999. Are you safe right now? 💙";
+  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙";
   const OFFLINE = {
     tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
     low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],

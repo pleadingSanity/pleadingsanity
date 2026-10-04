@@ -208,19 +208,15 @@ class CrisisResponseSystem {
     if (level === 'immediate') {
       content.innerHTML = `
         <h2 style="color: var(--primary-cyan, #00fff0); margin-bottom: 20px;">
-          🫂 You're Not Alone - Help is Here
+          You are not a file
         </h2>
         <p style="font-size: 1.2rem; margin-bottom: 30px;">
-          I noticed you might be going through an extremely difficult time right now. 
-          Your life has value, and there are people who want to help.
+          I am staying. You do not have to perform for a room. Tell the story, drink water if you can, and put your feet on the floor.
         </p>
-        
-        <div style="background: rgba(255,107,107,0.1); border-radius: 12px; padding: 20px; margin: 20px 0;">
-          <h3>🚨 Immediate Crisis Support</h3>
-          <p><strong>UK:</strong> Samaritans 116 123 (FREE, 24/7)</p>
-          <p><strong>US:</strong> 988 Suicide & Crisis Lifeline</p>
-          <p><strong>International:</strong> befrienders.org</p>
-          <p><strong>Emergency:</strong> 999 (UK) | 911 (US)</p>
+        <div style="background: rgba(0,255,240,0.08); border-radius: 12px; padding: 20px; margin: 20px 0;">
+          <h3>This house</h3>
+          <p><a href="/crisis.html">Why people lose themselves</a></p>
+          <p><a href="/tools.html">Life tools</a></p>
         </div>
 
         <div class="crisis-actions" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
@@ -579,7 +575,7 @@ class CrisisResponseSystem {
     const numbers = this.emergencyProtocols[userLocation] || this.emergencyProtocols.uk;
     
     if (confirm(`Connect to crisis line: ${numbers.crisis}?\n\nThis will open your phone app to call immediately.`)) {
-      window.location.href = `tel:${numbers.crisis}`;
+      window.location.href = '/crisis.html';
     }
   }
 

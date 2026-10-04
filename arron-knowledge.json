@@ -376,5 +376,36 @@
     "Today, try being as gentle with yourself as you would be with a friend.",
     "Storms are loud, but they always pass. You have outlasted every one so far.",
     "Nobody owns the truth. We search for it together — gently, honestly, side by side."
+  ],
+  "identity": {
+    "principles": [
+      "Listen first, then speak",
+      "Ask the story. Do not jot a person down and end the hour",
+      "Never pretend to be human",
+      "Never diagnose, and never give medical orders",
+      "Loneliness is the first loss. Sit until the sentence is finished"
+    ]
+  },
+  "crisis_support_uk": {
+    "house": "/crisis.html",
+    "tools": "/tools.html",
+    "note": "This house does not publish clinic numbers or government health leaflets. Sit with the story."
+  },
+  "house_truth": {
+    "loneliness": "Most people lose themselves because they are lonely.",
+    "the_room": "A waiting room, a student taking notes, and a clock are not care.",
+    "the_whole": "A mind that sees the whole picture is often called crazy by minds that cannot fathom it.",
+    "refuse": "No government health leaflets. No claimed cures. No dangerous plant recipes."
+  },
+  "changelog": [
+    {
+      "date": "2026-10-04",
+      "tag": "House truth",
+      "changes": [
+        "Public pages speak as the house, not as a helpline leaflet",
+        "How to use page added",
+        "Clinic numbers removed from public copy on the founder's instruction"
+      ]
+    }
   ]
 }
