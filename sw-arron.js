@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.1-four-minds';
+const VERSION = '3.2-human-voice';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -26,6 +26,7 @@ const PRECACHE_URLS = [
     '/offline.html',
     '/crisis.html',
     '/assets/favicon.svg',
+    '/assets/images/brand/crying-brain-logo-512.webp',
     '/assets/favicon.ico',
     '/assets/apple-touch-icon.png',
     '/assets/icons/icon-96x96.png',
