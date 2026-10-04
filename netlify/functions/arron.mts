@@ -57,7 +57,7 @@ const MAX_JOURNAL_TEXT = 2000;
 // the house truth is in the reply when someone may be in crisis, whoever answered.
 // No clinic numbers. No NHS lines.
 const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|want(?:ed)? to die|don'?t want to (?:be here|live|wake up)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdose|not safe|no reason to live|better off without me)\b/i;
-const SIGNPOST = "I will stay. I am a companion, not a clinic. The house truth is https://pleadingsanity.co.uk/crisis.html and the tools are https://pleadingsanity.co.uk/tools.html. If you are not safe, get to another person near you.";
+const SIGNPOST = "I will stay. I am a companion, not a clinic. If you are not safe, Samaritans are free on 116 123. Text SHOUT to 85258. The house truth is https://pleadingsanity.co.uk/crisis.html.";
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
