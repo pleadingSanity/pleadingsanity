@@ -127,6 +127,15 @@
 .book { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; margin:10px 0; }
 .book span { display:block; min-height:52px; padding:6px; border-radius:12px; background:#0d1b2a; border:1px solid rgba(0,255,240,.28); color:#eef6ff; text-align:center; font-size:.78rem; }
 .book b { display:block; color:#00fff0; font-size:1.05rem; }
+</style><style>
+.card { transition: transform .18s ease, box-shadow .18s ease; }
+.card.playable { animation: ps-pulse 1.4s ease-in-out infinite; }
+.card.flip { animation: ps-flip .28s ease; }
+@keyframes ps-flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
+@keyframes ps-pulse { 50% { box-shadow: 0 0 0 2px #00fff0, 0 8px 14px rgba(0,0,0,.4); } }
+@media (prefers-reduced-motion: reduce) {
+  .card, .card.playable, .card.flip { animation: none; transition: none; }
+}
 </style></head>
 <body class="night">
   <div class="wrap">
@@ -143,7 +152,7 @@
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
-    <div class="book" id="book" aria-label="Your solitaire book"></div>
+    <button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><div class="book" id="book" aria-label="Your solitaire book"></div>
 <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
@@ -197,6 +206,51 @@ window.PSBook = (function () {
   function win(mode, score) { const book = row(mode); book[mode].won += 1; book[mode].open = false; book[mode].best = Math.max(book[mode].best, score || 0); save(book); }
   document.addEventListener("DOMContentLoaded", paint);
   return { start, card, win, paint };
+})();
+</script>
+
+<script>
+window.PSTable = (function () {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let ctx, on = !reduce, music = false, bed = null;
+  function ac() { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); return ctx; }
+  function tone(freq, len, gain) {
+    if (!on || reduce) return;
+    const c = ac();
+    const o = c.createOscillator();
+    const g = c.createGain();
+    o.type = "sine";
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, c.currentTime);
+    g.gain.exponentialRampToValueAtTime(gain || 0.05, c.currentTime + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + len);
+    o.connect(g); g.connect(c.destination);
+    o.start(); o.stop(c.currentTime + len + 0.02);
+  }
+  function play() { tone(528, 0.16, 0.04); }
+  function draw() { tone(285, 0.14, 0.035); }
+  function win() { tone(528, 0.2, 0.05); setTimeout(() => tone(741, 0.28, 0.04), 140); }
+  function startBed() {
+    if (!music || reduce) return;
+    const c = ac();
+    bed = c.createOscillator();
+    const g = c.createGain();
+    bed.type = "sine";
+    bed.frequency.value = 174;
+    g.gain.value = 0.015;
+    bed.connect(g); g.connect(c.destination);
+    bed.start();
+  }
+  function stopBed() { if (bed) { try { bed.stop(); } catch (e) {} bed = null; } }
+  document.getElementById("sound").onclick = () => { on = !on; document.getElementById("sound").textContent = on ? "Sound on" : "Sound off"; if (!on) stopBed(); };
+  document.getElementById("music").onclick = () => {
+    music = !music;
+    document.getElementById("music").textContent = music ? "Music on" : "Music off";
+    stopBed();
+    if (music) startBed();
+  };
+  if (reduce) { document.getElementById("music").textContent = "Music off"; on = false; document.getElementById("sound").textContent = "Sound off"; }
+  return { play, draw, win };
 })();
 </script>
 <script src="/js/house-voice.js"></script>
@@ -255,7 +309,7 @@ window.PSBook = (function () {
         b.disabled = !canPlay(card);
         b.setAttribute("aria-label", card.up ? card.r + " " + card.s : "Face down");
         b.innerHTML = card.up ? faceHTML(card) : "PS";
-        b.onclick = () => play(card);
+        b.classList.add("flip"); b.onclick = () => play(card);
         box.appendChild(b);
       });
       const w = $("waste");
@@ -263,9 +317,9 @@ window.PSBook = (function () {
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
-    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
-    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; paint(); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); if (window.PSTable) PSTable.play(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
