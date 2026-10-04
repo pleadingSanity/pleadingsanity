@@ -50,13 +50,18 @@
     }
     .peaks { position:absolute; inset:0; }
     .card, .waste, .stock {
-      width:var(--card-w); height:var(--card-h); border-radius:10px;
+      width:var(--card-w); height:var(--card-h); border-radius:12px;
       background:
-        linear-gradient(180deg, #fff 0%, #f4f7fb 100%);
-      color:#102033;
-      box-shadow:0 8px 14px rgba(0,0,0,.32), inset 0 0 0 1px rgba(16,32,51,.08);
+        radial-gradient(circle at 50% 40%, rgba(0,255,240,.14), transparent 58%),
+        linear-gradient(180deg, #12304a 0%, #000103 100%);
+      color:#eef6ff;
+      box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(0,255,240,.4);
       font-weight:700;
     }
+    .card.hearts, .waste.hearts { color:#ff6b9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,107,154,.7), 0 0 16px rgba(255,107,154,.28); }
+    .card.spades, .waste.spades { color:#5ee9ff; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(94,233,255,.7), 0 0 16px rgba(94,233,255,.25); }
+    .card.clubs, .waste.clubs { color:#5dff9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(93,255,154,.65), 0 0 16px rgba(93,255,154,.22); }
+    .card.diamonds, .waste.diamonds { color:#c084fc; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(192,132,252,.7), 0 0 16px rgba(192,132,252,.25); }
     .card {
       position:absolute; border:0; padding:0; text-align:left; touch-action:manipulation;
     }
@@ -70,30 +75,21 @@
       position:absolute; inset:22px 8px 22px; display:flex; flex-wrap:wrap; align-content:center; justify-content:center; gap:1px;
       font-size:1rem; font-style:normal;
     }
-    .card .mid { font-size:1.7rem; align-items:center; }
-    .card .pips i { font-style:normal; width:14px; text-align:center; }
-    .card.red, .waste.red { color:#9d2348; }
+    .card .mid { font-size:2rem; align-items:center; text-shadow:0 0 12px currentColor; }
+    .card .pips i { font-style:normal; width:14px; text-align:center; text-shadow:0 0 8px currentColor; }
     .card.back, .stock {
-      background:
-        radial-gradient(circle at 50% 42%, rgba(0,255,240,.28), transparent 46%),
-        repeating-linear-gradient(135deg, #102033 0 7px, #0b1826 7px 14px);
-      color:#00fff0;
+      background:#000103 url("/assets/theme/solitaire-board.jpg") center / cover no-repeat;
+      color:transparent;
       display:grid; place-items:center;
-      font-size:.85rem; letter-spacing:.14em;
+      box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(0,255,240,.55);
     }
-    body.sea .card.back, body.sea .stock {
-      background:radial-gradient(circle at 50% 40%, rgba(180,255,236,.35), transparent 46%), repeating-linear-gradient(135deg, #0c4a42 0 7px, #08332e 7px 14px);
-      color:#e8fff8;
-    }
-    body.rose .card.back, body.rose .stock {
-      background:radial-gradient(circle at 50% 40%, rgba(255,186,214,.4), transparent 46%), repeating-linear-gradient(135deg, #4a1830 0 7px, #2c0d1c 7px 14px);
-      color:#ffd6e6;
-    }
+    body.sea .card.back, body.sea .stock,
+    body.rose .card.back, body.rose .stock,
     body.gold .card.back, body.gold .stock {
-      background:radial-gradient(circle at 50% 40%, rgba(255,226,150,.45), transparent 46%), repeating-linear-gradient(135deg, #5a4312 0 7px, #3a2b0a 7px 14px);
-      color:#ffe7a3;
+      background:#000103 url("/assets/theme/solitaire-board.jpg") center / cover no-repeat;
     }
     body.night .felt { box-shadow:inset 0 0 0 2px rgba(0,255,240,.22), inset 0 18px 40px rgba(0,0,0,.35); }
+    .ps-theme-pic { width:112px; max-height:160px; object-fit:contain; background:transparent; border:0; box-shadow:none; margin:8px 0 4px; }
     .card.playable {
       outline:3px solid var(--gold);
       outline-offset:1px;
@@ -112,11 +108,6 @@
     .waste .tl { top:6px; left:6px; }
     .waste .mid { position:absolute; inset:0; display:grid; place-items:center; font-size:1.8rem; }
     .card.back, .stock { position:relative; color:transparent; }
-    .card.back::after, .stock::after {
-      content:""; position:absolute; inset:16%;
-      background:url("/assets/images/brand/crying-brain-logo-512.webp") center/contain no-repeat;
-      pointer-events:none;
-    }
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   </style>
 </head>
@@ -131,7 +122,7 @@
       <button class="btn" id="new" type="button">New peaks</button>
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
-    <img class="ps-theme-pic" src="/assets/theme/solitaire-board.jpg" alt="Sanity Solitaire table, cosmic cards, win light." />
+    <img class="ps-theme-pic" src="/assets/theme/solitaire-board.jpg" alt="Cosmic card back. The starry brain." />
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     <div class="row"><label>Table <select id="table"></select></label></div>
@@ -149,6 +140,7 @@
     const suits=["\u2660","\u2665","\u2666","\u2663"];
     const looks=[{id:"night",name:"Night",need:1},{id:"sea",name:"Deep sea",need:2},{id:"rose",name:"Rose",need:3},{id:"gold",name:"Gold",need:4}];
     const red=(s)=>s==="\u2665"||s==="\u2666";
+    const suitName=(s)=>s==="\u2665"?"hearts":s==="\u2660"?"spades":s==="\u2663"?"clubs":"diamonds";
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
     let deck,board,waste,calm,combo,wins,look,cleared,history;
@@ -193,7 +185,7 @@
         const p = pos(card.i);
         const b = document.createElement("button");
         b.type = "button";
-        b.className = "card" + (card.up ? "" : " back") + (red(card.s) ? " red" : "") + (canPlay(card) ? " playable" : "");
+        b.className = "card " + (card.up ? suitName(card.s) : "back") + (canPlay(card) ? " playable" : "");
         b.style.left = p.x + "px"; b.style.top = p.y + "px";
         b.disabled = !canPlay(card);
         b.setAttribute("aria-label", card.up ? card.r + " " + card.s : "Face down");
@@ -202,13 +194,13 @@
         box.appendChild(b);
       });
       const w = $("waste");
-      w.className = "waste" + (red(waste.s) ? " red" : "");
+      w.className = "waste " + suitName(waste.s);
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
     function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; paint(); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="Peaks clear. Level "+level()+"."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); } if(window.PSVoice) PSVoice.speak("Peaks clear. Level "+level()); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="You rose. Peaks clear. Level "+level()+"."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); } if(window.PSVoice) PSVoice.speak("You rose."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("undo").onclick=()=>{ if(history.length<2) return; history.pop(); const s=JSON.parse(history[history.length-1]); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
