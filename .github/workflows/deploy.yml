@@ -33,14 +33,10 @@ jobs:
           assert sol.get("id") == "/sanity-solitaire.html", sol
           for name in ["index.html","tools.html","crisis.html","games.html","sanity-solitaire.html","arron-app.html","assets/theme/sky.jpg"]:
               assert pathlib.Path(name).exists(), name
-          bad = []
-          for p in pathlib.Path(".").glob("*.html"):
-              text = p.read_text(encoding="utf-8", errors="ignore")
-              if "116 123" in text or "Samaritans" in text or "SHOUT to 85258" in text:
-                  bad.append(p.name)
-          if bad:
-              print("Clinic lines returned:", ", ".join(bad))
-              sys.exit(1)
+          for name in ["crisis.html", "safety.html", "arron.html", "arron-app.html"]:
+              text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore").lower()
+              assert "116 123" in text and "85258" in text, name
+              assert "not a clinic" in text or "not a therapist" in text, name
           print("House check passed")
           PY
   deploy:

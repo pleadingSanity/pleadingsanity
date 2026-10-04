@@ -358,7 +358,14 @@ window.PSTable = (function () {
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. Your go, then your friend." : "Solo table."; };
-    window.PSFriend = { pass(msg){ if(!seatOn) return msg||""; seat = seat ? 0 : 1; return (seat ? "Friend's go." : "Your go.") + (msg ? " " + msg : ""); } }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
+    window.PSFriend = { pass(msg){ if(!seatOn) return msg||""; seat = seat ? 0 : 1; return (seat ? "Friend's go." : "Your go.") + (msg ? " " + msg : ""); } };
+    window.PSClear = function (mode, score) {
+      const flash = document.getElementById("flash");
+      if (flash) { flash.textContent = "Cleared. You rose."; flash.className = "flash show"; }
+      if (window.PSTable) PSTable.win();
+      if (window.PSVoice) PSVoice.speak("You rose.");
+      if (window.PSGames) { PSGames.record("solitaire", { score: score || 1, level: 1, maxCombo: 1 }); if (PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); }
+    }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
@@ -429,7 +436,7 @@ window.PSTable = (function () {
     board.appendChild(row);
     scoreEl.textContent = "Score " + score;
     status.textContent = msg || "";
-    if (found.every((f) => f.length === 13)) { status.textContent = "Cleared. That is the win."; if (!kwon && window.PSBook) { kwon = true; PSBook.win("klondike", score); } }
+    if (found.every((f) => f.length === 13)) { status.textContent = "Cleared. You rose."; if (!kwon && window.PSBook) { kwon = true; PSBook.win("klondike", score); if (window.PSClear) PSClear("klondike", score); } }
   }
   function draw() {
     snap();
@@ -452,7 +459,15 @@ window.PSTable = (function () {
     for (let c = 0; c < 7; c++) if (c !== ci) { const topc = tab[c][tab[c].length - 1]; if ((!topc && run[0].r === 12) || canBuild(run[0], topc)) { snap(); tab[c].push(...tab[ci].splice(ri)); flip(ci); score += 5; paint("Moved."); return; } }
     status.textContent = "That run has nowhere to go.";
   }
-  function dropKing(ci) { playWaste(); }
+  function dropKing(ci) {
+    for (let c = 0; c < 7; c++) {
+      if (c === ci || !tab[c].length) continue;
+      const ri = tab[c].findIndex((x) => x.up);
+      if (ri < 0 || tab[c][ri].r !== 12) continue;
+      snap(); tab[ci].push(...tab[c].splice(ri)); flip(c); score += 5; paint("King to the empty pile."); return;
+    }
+    status.textContent = "No king is free to move.";
+  }
   function flip(ci) { const col = tab[ci]; if (col.length && !col[col.length - 1].up) { col[col.length - 1].up = true; score += 5; } }
   document.getElementById("k-deal").onclick = deal;
   document.getElementById("k-undo").onclick = () => { const s = hist.pop(); if (!s) { status.textContent = "Nothing to undo."; return; } const o = JSON.parse(s); stock = o.stock; waste = o.waste; found = o.found; tab = o.tab; score = o.score; paint("Undone."); };
@@ -516,7 +531,7 @@ window.PSTable = (function () {
     });
     fboard.appendChild(row);
     fscore.textContent = "Free " + free.filter((c) => !c).length;
-    if (found.every((f) => f.length === 13)) { fstatus.textContent = "Cleared."; if (!fwon && window.PSBook) { fwon = true; PSBook.win("freecell", 52); } } else fstatus.textContent = msg || "";
+    if (found.every((f) => f.length === 13)) { fstatus.textContent = "Cleared. You rose."; if (!fwon && window.PSBook) { fwon = true; PSBook.win("freecell", 52); if (window.PSClear) PSClear("freecell", 52); } } else fstatus.textContent = msg || "";
   }
   function fcan(a, b) { return red(a.s) !== red(b.s) && a.r === b.r - 1; }
   function fhome(c) { for (let i = 0; i < 4; i++) { const t = found[i][found[i].length - 1]; if ((!t && c.r === 0) || (t && t.s === c.s && c.r === t.r + 1)) return i; } return -1; }
@@ -570,7 +585,7 @@ window.PSTable = (function () {
     const w = document.createElement("button"); w.type = "button";
     if (pwaste.length) window.PSNight(w, ranks[pwaste[pwaste.length - 1].r], pwaste[pwaste.length - 1].s, true); else { w.className = "k-slot"; w.textContent = "Waste"; }
     w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
-    if (prow.every((row) => row.every((c) => !c))) { pstatus.textContent = "Pyramid clear."; if (!pwon && window.PSBook) { pwon = true; PSBook.win("pyramid", 28); } } else pstatus.textContent = msg || "";
+    if (prow.every((row) => row.every((c) => !c))) { pstatus.textContent = "Pyramid clear. You rose."; if (!pwon && window.PSBook) { pwon = true; PSBook.win("pyramid", 28); if (window.PSClear) PSClear("pyramid", 28); } } else pstatus.textContent = msg || "";
   }
   function ppick(r, c) {
     const card = r < 0 ? pwaste[pwaste.length - 1] : prow[r][c];

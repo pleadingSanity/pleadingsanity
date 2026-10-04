@@ -31,7 +31,9 @@
     { id: 'stardust-dash', title: 'Stardust Dash', icon: '🌠', url: '/stardust-dash.html', skill: 'Reflex',
       desc: 'Catch stars, dodge silly worries like "Did I leave the oven on?"' },
     { id: 'solitaire', title: 'Sanity Solitaire', icon: '🃏', url: '/sanity-solitaire.html', skill: 'Patience',
-      desc: 'Clear the three peaks. One rank up or down. Your own app.' },
+      desc: 'Four solitaire games. Night cards. Your own app.' },
+    { id: 'night-table', title: 'Night Table', icon: '♠️', url: '/poker.html', skill: 'Patience',
+      desc: 'Hold\'em with play chips. One table. No cash.' },
     { id: 'cosmic-connect', title: 'Cosmic Connect', icon: '✨', url: '/cosmic-connect.html', skill: 'Memory',
       desc: 'Turn two cards. No timer. Match the sky.' },
     { id: 'truth-tag', title: 'Truth Tag', icon: '🏷️', url: '/truth-tag.html', skill: 'Discernment',
@@ -142,7 +144,8 @@
     'memory-ocean': 'Turn two cards. There is no clock.',
     'rhythm-resonance': 'Listen first. Then answer.',
     'stardust-dash': 'Catch the light. Leave the worries.',
-    'solitaire': 'Three peaks. One rank up or down.',
+    'solitaire': 'Three peaks, or another game. One card at a time.',
+    'night-table': 'Play chips only. Your cards, then the board.',
     'cosmic-connect': 'Turn two cards. Match the sky.',
     'truth-tag': 'Evidence, lived experience, or philosophy. Take your time.'
   };

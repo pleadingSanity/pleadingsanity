@@ -66,17 +66,20 @@
         <button type="button" id="fold">Fold</button>
         <button type="button" class="do" id="call">Check</button>
         <button type="button" id="raise">Raise</button>
+        <label class="note">Add <input id="raise-size" type="number" min="20" step="10" value="40" style="width:4.5rem;min-height:44px;border-radius:12px;border:1px solid rgba(0,255,240,.4);background:#0d1b2a;color:#eef6ff;padding:0 8px" /></label>
         <button type="button" id="next">New hand</button>
       </div>
       <p id="log" role="status"></p>
     </div>
   </div>
+  <script src="/js/games.js"></script>
   <script type="module">
     import { RANKS, judge, better, label } from "/js/holdem-eval.js";
     const SUIT = ["♠", "♥", "♦", "♣"];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
     let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
+    let mySeat = 0, roomPlayers = [], roomActions = [], roomStacks = null, replaying = false, acting = false, lastPlayers = "";
     function card(r, s) { return { r, s }; }
     function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
     function rng(seed) {
@@ -109,15 +112,15 @@
       $("pot").textContent = "Pot " + pot;
       $("seats").innerHTML = seats.map((s, i) => {
         const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
-        const holes = (i === 0 || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
+        const holes = (i === mySeat || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
         return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
-      const me = seats[0];
+      const me = seats[mySeat] || seats[0];
       const need = Math.max(0, currentBet - me.bet);
       $("call").textContent = need ? "Call " + need : "Check";
-      $("fold").disabled = handOver || turn !== 0;
-      $("call").disabled = handOver || turn !== 0;
-      $("raise").disabled = handOver || turn !== 0 || me.stack <= need;
+      $("fold").disabled = handOver || turn !== mySeat;
+      $("call").disabled = handOver || turn !== mySeat;
+      $("raise").disabled = handOver || turn !== mySeat || me.stack <= need;
     }
     const BANK = "ps-poker-bank";
     const LOW = "ps-poker-low";
@@ -149,18 +152,20 @@
       if (typeof forced === "number") hands = forced; else hands += 1;
       deck = freshDeck();
       const friend = new URLSearchParams(location.search).get("room");
-      const names = friend ? ["You", "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
+      const names = friend ? [roomPlayers[0] || "You", roomPlayers.length > 1 ? roomPlayers[1] : "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
       button = ((hands - 1) % 4 + 4) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4;
-      seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
+      const start = friend && roomStacks && roomStacks.length === 4 ? roomStacks : null;
+      seats = names.map((name, i) => ({ name, stack: start ? start[i] : (friend ? 1000 : (i === 0 ? bank : 1000)), hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
       seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
-      if (sbSeat === 0 || bbSeat === 0) bank = seats[0].stack;
+      if (sbSeat === mySeat || bbSeat === mySeat) bank = seats[mySeat].stack;
       board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
-      saveBank(bank);
-      log((friend ? "Same cards in this room. Bets stay on each phone. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
+      if (!friend) saveBank(bank);
+      log((friend ? "One pot in this room. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
-      if (turn !== 0) bot();
+      if (window.PSGames && !friend && hands === 1) PSGames.startSession("night-table");
+      if (!friend && turn !== mySeat) bot();
     }
     function live() { return seats.filter((s) => !s.folded); }
     function owe(s) { return currentBet - s.bet; }
@@ -168,48 +173,51 @@
       if (live().length === 1) return show();
       for (let n = 0; n < 4; n++) {
         turn = (turn + 1) % 4;
-        if (!seats[turn].folded && !seats[turn].allin) { paint(); if (turn !== 0) bot(); return; }
+        if (!seats[turn].folded && !seats[turn].allin) {
+          if (!replaying) paint();
+          if (!replaying && !room && turn !== mySeat) bot();
+          return;
+        }
       }
       if (live().length > 1) streetNext();
     }
     function betsEven() { return live().every((s) => s.allin || s.bet === currentBet); }
-    function act(kind) {
-      if (handOver || turn !== 0) return;
-      const me = seats[0];
-      if (kind === "fold") { me.folded = true; log("You folded."); nextTurn(); return; }
-      const need = owe(me);
-      if (kind === "call") {
-        const pay = Math.min(me.stack, need);
-        me.stack -= pay; me.bet += pay; me.put += pay; pot += pay; if (!me.stack) me.allin = true;
-        log(need ? "You called." : "You checked.");
-      }
-      if (kind === "raise") {
-        const add = Math.min(me.stack, need + 40);
-        me.stack -= add; me.bet += add; me.put += add; pot += add; currentBet = me.bet; toAct = 4; if (!me.stack) me.allin = true;
-        log("You raised to " + me.bet + ".");
-      }
-      toAct -= 1;
-      if (betsEven() && toAct <= 0) return streetNext();
-      nextTurn();
-    }
-    function bot() {
-      const s = seats[turn];
+    function humanSeat(i) { return room ? (i === 0 || (i === 1 && roomPlayers.length > 1)) : i === mySeat; }
+    function choose(s) {
       const mine = judge(s.hole.concat(board));
       const need = owe(s);
       const strong = mine[0] >= 1;
-      if (need && !strong && s.name !== "Caller") { s.folded = true; log(s.name + " folded."); }
-      else if (need) {
+      if (need && !strong && s.name !== "Caller") return { kind: "fold", amount: 0 };
+      if (!need && strong && s.stack > 40 && s.name === "Loose") return { kind: "raise", amount: 40 };
+      return { kind: "call", amount: 0 };
+    }
+    function applyPlay(seat, kind, amount) {
+      if (handOver || turn !== seat) return;
+      const s = seats[seat];
+      const who = seat === mySeat ? "You" : s.name;
+      if (kind === "fold") { s.folded = true; log(who + " folded."); }
+      else if (kind === "raise") {
+        const add = Math.min(s.stack, owe(s) + Math.max(20, Number(amount) || 40));
+        s.stack -= add; s.bet += add; s.put += add; pot += add; currentBet = s.bet; toAct = 4; if (!s.stack) s.allin = true;
+        log(who + " raised to " + s.bet + ".");
+      } else {
+        const need = owe(s);
         const pay = Math.min(s.stack, need);
         s.stack -= pay; s.bet += pay; s.put += pay; pot += pay; if (!s.stack) s.allin = true;
-        log(s.name + " called.");
-      } else if (strong && s.stack > 40 && s.name === "Loose") {
-        s.stack -= 40; s.bet += 40; s.put += 40; pot += 40; currentBet = s.bet; toAct = 4;
-        log(s.name + " raised.");
-      } else log(s.name + " checked.");
+        log(need ? who + " called." : who + " checked.");
+      }
+      if (live().length === 1) return show();
       toAct -= 1;
       if (betsEven() && toAct <= 0) return streetNext();
       nextTurn();
     }
+    function act(kind) {
+      if (handOver || turn !== mySeat) return;
+      const amount = kind === "raise" ? Math.max(20, Number($("raise-size").value) || 40) : 0;
+      if (room) return pushPlay(mySeat, kind, amount);
+      applyPlay(mySeat, kind, amount);
+    }
+    function bot() { const c = choose(seats[turn]); applyPlay(turn, c.kind, c.amount); }
     function streetNext() {
       seats.forEach((s) => { s.bet = 0; });
       currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = button;
@@ -222,6 +230,7 @@
       nextTurn();
     }
     function show() {
+      if (handOver) return;
       handOver = true;
       const levels = [...new Set(seats.map((s) => s.put))].filter((n) => n > 0).sort((a, b) => a - b);
       let prev = 0;
@@ -238,20 +247,28 @@
         const odd = slice - share * winners.length;
         winners.forEach((s, i) => { s.stack += share + (i === 0 ? odd : 0); names.push(s.name); });
       });
-      bank = seats[0].stack;
+      const called = winners.length ? label(winners[0].hole.concat(board)) : "";
+      bank = seats[mySeat] ? seats[mySeat].stack : bank;
       saveBank(bank);
-      log(names.length ? [...new Set(names)].join(" and ") + " take the pots." : "No pot.");
+      log(names.length ? [...new Set(names)].join(" and ") + " take the pots" + (called ? " with " + called : "") + "." : "No pot.");
       pot = 0; paint();
+      const won = winners.some((s) => s === seats[mySeat]);
+      const mark = (room || "solo") + ":" + hands;
+      if (won && window.PSGames && sessionStorage.getItem("ps-poker-won") !== mark) {
+        sessionStorage.setItem("ps-poker-won", mark);
+        PSGames.record("night-table", { score: 40, level: 1, maxCombo: 1 });
+        if (PSGames.confetti) PSGames.confetti();
+      }
     }
     $("fold").onclick = () => act("fold");
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
     $("next").onclick = async () => {
       if (!room) return deal();
-      const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), hand: hands + 1, note: "Play chips only." }) });
+      const stacks = seats ? seats.map((s) => s.stack) : roomStacks;
+      const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), hand: hands + 1, stacks, note: "Play chips only." }) });
       const data = await res.json().catch(() => ({}));
-      if (data.seed) roomSeed = Number(data.seed) || roomSeed;
-      if (Number(data.hand)) deal(Number(data.hand));
+      applyRoom(data);
     };
     $("room").onclick = async () => {
       const res = await fetch("/api/poker-room", { method: "POST" });
@@ -272,28 +289,74 @@
       const code = new URLSearchParams(location.search).get("room");
       if (code) await sit(code);
       try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
-      log("Share this. Play chips only. The cards match. The bets stay on each phone. " + url);
+      log("Share this. Play chips only. One pot. " + url);
     };
     let deferred;
     addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
     $("install").onclick = async () => { if (deferred) { deferred.prompt(); deferred = null; return; } log("iPhone: Share, then Add to Home Screen."); };
+    function replay(n, actions) {
+      replaying = true;
+      hands = n;
+      deck = freshDeck();
+      const names = [roomPlayers[0] || "You", roomPlayers.length > 1 ? roomPlayers[1] : "Friend", "Tight", "Loose"];
+      const start = roomStacks && roomStacks.length === 4 ? roomStacks : [1000, 1000, 1000, 1000];
+      button = ((hands - 1) % 4 + 4) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4;
+      seats = names.map((name, i) => ({ name, stack: start[i], hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
+      const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
+      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
+      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      for (const a of actions) {
+        if (handOver || turn !== Number(a.seat)) break;
+        applyPlay(Number(a.seat), a.kind, a.amount);
+      }
+      roomActions = actions.slice();
+      replaying = false;
+      paint();
+      if (handOver && mySeat === 0) {
+        fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), stacks: seats.map((s) => s.stack), hand: hands, note: "Play chips only." }) }).catch(() => {});
+      } else if (!handOver) nudge();
+    }
+    function applyRoom(data) {
+      if (!data) return;
+      if (Array.isArray(data.players) && data.players.length) roomPlayers = data.players;
+      else if (Array.isArray(data.seats)) roomPlayers = data.seats;
+      const who = seatName();
+      const found = roomPlayers.indexOf(who);
+      mySeat = found >= 0 ? found : 0;
+      if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
+      if (data.seed) roomSeed = Number(data.seed) || roomSeed;
+      if (Array.isArray(data.stacks) && data.stacks.length === 4) roomStacks = data.stacks.map(Number);
+      const actions = Array.isArray(data.actions) ? data.actions : [];
+      const n = Number(data.hand) || 1;
+      const key = roomPlayers.join("|");
+      if (!hands || n !== hands || actions.length !== roomActions.length || key !== lastPlayers) {
+        lastPlayers = key;
+        replay(n, actions);
+      }
+    }
+    async function pushPlay(seat, kind, amount) {
+      if (!room || acting) return;
+      acting = true;
+      try {
+        const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only.", play: { seat, kind, amount, hand: hands, expect: roomActions.length } }) });
+        applyRoom(await res.json().catch(() => ({})));
+      } finally { acting = false; }
+    }
+    function nudge() {
+      if (!room || handOver || acting || replaying) return;
+      if (humanSeat(turn)) return;
+      if (mySeat !== 0) return;
+      const c = choose(seats[turn]);
+      pushPlay(turn, c.kind, c.amount);
+    }
     const room = new URLSearchParams(location.search).get("room");
     if (room) {
       $("room-name").textContent = "Room " + room;
-      sit(room);
-      const pull = async () => {
-        const res = await fetch("/api/poker-room/" + room);
-        const data = await res.json().catch(() => ({}));
-        if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
-        const n = Number(data.hand) || 1;
-        const seedChanged = Boolean(data.seed) && Number(data.seed) !== roomSeed;
-        if (data.seed) roomSeed = Number(data.seed) || roomSeed;
-        if (!hands || n !== hands || seedChanged) deal(n);
-      };
-      pull();
-      setInterval(pull, 8000);
+      sit(room).then(() => fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}));
+      setInterval(() => { fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}); }, 2500);
     } else deal();
-    setInterval(() => { if (handOver || !seats) { const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[0] && handOver) seats[0].stack = n; saveBank(bank); } } }, 60000);
+    setInterval(() => { if (room || !(handOver || !seats)) return; const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[mySeat] && handOver) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
   </script>
 </body>
 </html>

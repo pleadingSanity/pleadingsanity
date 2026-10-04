@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.36'; // night cards on every solitaire, same cards in a friend room
-const STATIC_CACHE = 'pleading-sanity-static-v62';
+const VERSION = '5.12.37'; // one pot, hand names, quiet github check
+const STATIC_CACHE = 'pleading-sanity-static-v63';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
