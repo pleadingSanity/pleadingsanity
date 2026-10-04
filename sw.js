@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.23'; // friend seat, same install
-const STATIC_CACHE = 'pleading-sanity-static-v49';
+const VERSION = '5.12.24'; // night table, same install
+const STATIC_CACHE = 'pleading-sanity-static-v50';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

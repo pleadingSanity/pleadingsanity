@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000103" />
+  <title>Night Table | Pleading Sanity</title>
+  <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money." />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <style>
+    body { margin: 0; background: #000103; color: #eef6ff; font-family: Georgia, serif; }
+    .wrap { width: min(720px, calc(100% - 16px)); margin: 0 auto; padding: 12px 0 32px; }
+    .brand { color: #eef6ff; text-decoration: none; font-weight: 800; }
+    h1 { color: #00fff0; font-size: 1.5rem; }
+    .note, .safe { color: #d5ecdf; }
+    .felt { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 20px; padding: 12px; }
+    .board, .row, .seats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .card { min-width: 46px; min-height: 64px; border-radius: 8px; border: 1px solid rgba(0,255,240,.4); background: #000103; color: #eef6ff; display: grid; place-items: center; font-weight: 800; }
+    .card.red { color: #ff6b9a; }
+    .card.back { color: #00fff0; }
+    button, select { min-height: 44px; border-radius: 999px; border: 1px solid rgba(0,255,240,.4); background: #0d1b2a; color: #eef6ff; padding: 0 14px; font: inherit; }
+    button.do { background: #00fff0; color: #000103; font-weight: 800; }
+    .seat { min-width: 140px; padding: 8px; border-radius: 12px; border: 1px solid rgba(0,255,240,.2); }
+    .seat.on { outline: 2px solid #00fff0; }
+    #log { min-height: 1.4rem; color: #00fff0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="brand" href="/games.html">Pleading Sanity</a>
+    <h1>Night Table</h1>
+    <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. If you are not safe, Samaritans are free on <a href="tel:116123">116 123</a>.</p>
+    <p class="note">You and three bots. They never see your cards. Pass is not online yet.</p>
+    <div class="felt">
+      <div class="board" id="board"></div>
+      <p id="pot">Pot 0</p>
+      <div class="seats" id="seats"></div>
+      <div class="row">
+        <button type="button" id="fold">Fold</button>
+        <button type="button" class="do" id="call">Check</button>
+        <button type="button" id="raise">Raise</button>
+        <button type="button" id="next">New hand</button>
+      </div>
+      <p id="log" role="status"></p>
+    </div>
+  </div>
+  <script type="module">
+    import { RANKS, judge, better, label } from "/js/holdem-eval.js";
+    const SUIT = ["♠", "♥", "♦", "♣"];
+    const $ = (id) => document.getElementById(id);
+    const log = (t) => { $("log").textContent = t; };
+    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver;
+    function card(r, s) { return { r, s }; }
+    function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
+    function freshDeck() { const d = []; for (let s = 0; s < 4; s++) for (let r = 0; r < 13; r++) d.push(card(r, s)); return shuffle(d); }
+    function face(c) { return RANKS[c.r] + SUIT[c.s]; }
+    function paint() {
+      $("board").innerHTML = board.map((c) => `<span class="card ${c.s === 1 || c.s === 2 ? "red" : ""}">${face(c)}</span>`).join("") || "<span class=\"card back\">?</span>";
+      $("pot").textContent = "Pot " + pot + " play chips";
+      $("seats").innerHTML = seats.map((s, i) => `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b><br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${i === 0 ? s.hole.map(face).join(" ") : (handOver && !s.folded ? s.hole.map(face).join(" ") : "🂠 🂠")}</div>`).join("");
+      const me = seats[0];
+      const need = Math.max(0, currentBet - me.bet);
+      $("call").textContent = need ? "Call " + need : "Check";
+      $("fold").disabled = handOver || turn !== 0;
+      $("call").disabled = handOver || turn !== 0;
+      $("raise").disabled = handOver || turn !== 0 || me.stack <= need;
+    }
+    function deal() {
+      deck = freshDeck();
+      seats = ["You", "Tight", "Loose", "Caller"].map((name, i) => ({ name, stack: i === 0 ? 1000 : 1000, hole: [deck.pop(), deck.pop()], bet: 0, folded: false, allin: false }));
+      seats[1].bet = 10; seats[1].stack -= 10;
+      seats[2].bet = 20; seats[2].stack -= 20;
+      board = []; pot = 30; street = 0; currentBet = 20; turn = 3; toAct = 4; handOver = false;
+      log("Blinds are in. Your cards are yours.");
+      paint();
+      if (turn !== 0) bot();
+    }
+    function live() { return seats.filter((s) => !s.folded); }
+    function owe(s) { return currentBet - s.bet; }
+    function nextTurn() {
+      if (live().length === 1) return show();
+      for (let n = 0; n < 4; n++) {
+        turn = (turn + 1) % 4;
+        if (!seats[turn].folded && !seats[turn].allin) { paint(); if (turn !== 0) bot(); return; }
+      }
+    }
+    function betsEven() { return live().every((s) => s.allin || s.bet === currentBet); }
+    function act(kind) {
+      if (handOver || turn !== 0) return;
+      const me = seats[0];
+      if (kind === "fold") { me.folded = true; log("You folded."); nextTurn(); return; }
+      const need = owe(me);
+      if (kind === "call") {
+        const pay = Math.min(me.stack, need);
+        me.stack -= pay; me.bet += pay; pot += pay; if (!me.stack) me.allin = true;
+        log(need ? "You called." : "You checked.");
+      }
+      if (kind === "raise") {
+        const add = Math.min(me.stack, need + 40);
+        me.stack -= add; me.bet += add; pot += add; currentBet = me.bet; toAct = 4; if (!me.stack) me.allin = true;
+        log("You raised to " + me.bet + ".");
+      }
+      toAct -= 1;
+      if (betsEven() && toAct <= 0) return streetNext();
+      nextTurn();
+    }
+    function bot() {
+      const s = seats[turn];
+      const mine = judge(s.hole.concat(board));
+      const need = owe(s);
+      const strong = mine[0] >= 1;
+      if (need && !strong && s.name !== "Caller") { s.folded = true; log(s.name + " folded."); }
+      else if (need) {
+        const pay = Math.min(s.stack, need);
+        s.stack -= pay; s.bet += pay; pot += pay; if (!s.stack) s.allin = true;
+        log(s.name + " called.");
+      } else if (strong && s.stack > 40 && s.name === "Loose") {
+        s.stack -= 40; s.bet += 40; pot += 40; currentBet = s.bet; toAct = 4;
+        log(s.name + " raised.");
+      } else log(s.name + " checked.");
+      toAct -= 1;
+      if (betsEven() && toAct <= 0) return streetNext();
+      nextTurn();
+    }
+    function streetNext() {
+      seats.forEach((s) => { s.bet = 0; });
+      currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = 2;
+      if (street === 0) board.push(deck.pop(), deck.pop(), deck.pop());
+      else if (street < 3) board.push(deck.pop());
+      street += 1;
+      if (street > 3 || live().length < 2) return show();
+      log("Next cards.");
+      paint();
+      nextTurn();
+    }
+    function show() {
+      handOver = true;
+      const contenders = live();
+      if (contenders.length === 1) { contenders[0].stack += pot; log(contenders[0].name + " takes the pot."); }
+      else {
+        contenders.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
+        const winners = contenders.filter((s) => better(s.hole.concat(board), contenders[0].hole.concat(board)) === 0);
+        const share = Math.floor(pot / winners.length);
+        winners.forEach((s) => { s.stack += share; });
+        log(winners.map((s) => s.name).join(" and ") + " win with " + label(winners[0].hole.concat(board)) + ".");
+      }
+      pot = 0; paint();
+    }
+    $("fold").onclick = () => act("fold");
+    $("call").onclick = () => act("call");
+    $("raise").onclick = () => act("raise");
+    $("next").onclick = deal;
+    deal();
+  </script>
+</body>
+</html>
