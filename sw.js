@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.2'; // game levels save as numbers, cards stay readable
-const STATIC_CACHE = 'pleading-sanity-static-v28';
+const VERSION = '5.12.3'; // a cleared round records, glows, and offers another
+const STATIC_CACHE = 'pleading-sanity-static-v29';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

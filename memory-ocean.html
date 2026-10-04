@@ -364,12 +364,13 @@
           await new Promise(r=>setTimeout(r,300));
           a.classList.add('matched');b.classList.add('matched');
           pairsFound++;combo++;run.max=Math.max(run.max,combo);
+          PS.pulse(b,'good'); PS.sfx('good', combo);
           const mult=PS.multiplier(combo),gain=Math.round(100*mult);run.score+=gain;scorePop(b,gain,mult,combo);
           if(pairsFound===totalPairs){
             run.score+=Math.max(0,totalPairs*3-moves)*10;
             const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:false};PS.confetti();
             if (window.PSVoice) PSVoice.speak('The sea is clear.');
-            level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+` Level ${level} awaits.`,'complete');save();
+            level++;setStatus(`🌊 COMPLETE! ${PS.quip('levelup')} +${r.xp} XP`+(r.newBest?' 🏆 New best!':'')+` Level ${level} awaits. Another round is waiting.`,'complete');save();
             setTimeout(()=>{isPlaying=false;startBtn.disabled=false;startBtn.textContent='🌊 Dive Deeper';},2000);
           }else{setStatus(`✅ Found one! ${combo>1?combo+' in a row! ':''}${PS.quip('correct')}`,'success');}
           updateUI();

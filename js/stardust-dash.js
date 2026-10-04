@@ -178,9 +178,11 @@
     var r = PS.award(GID, st.score, { level: Math.floor(st.t / 16) + 1, maxCombo: st.max });
     draw();
     var extra = (r.newBest ? ' New personal best!' : '') + (r.newBadges.length ? ' Badge: ' + r.newBadges.join(', ') + '.' : '');
-    say('Round over. Score ' + st.score + ', best combo ' + st.max + '. +' + r.xp + ' XP.' + extra);
+    say('Round over. Score ' + st.score + ', best combo ' + st.max + '. +' + r.xp + ' XP. Another round is waiting.' + extra);
+    PS.confetti();
+    PS.sfx('good', st.max);
     if (window.PSVoice) PSVoice.speak('Round done. You stayed with it.');
-    showOverlay(r.newBest ? '🏆 New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. ' + PS.quip('gameover'), '🔁 Dash again');
+    showOverlay(r.newBest ? '🏆 New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. Another round is waiting.', '🔁 Dash again');
   }
   function setPause(p) {
     if (!running || over) return;

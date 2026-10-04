@@ -467,15 +467,17 @@
       
       if(given===current.ans){
         btnEl.classList.add('correct');
+        PS.pulse(btnEl,'good');
         streak++;run.max=Math.max(run.max,streak);
         const mult=PS.multiplier(streak),gain=Math.round(level*10*mult);
-        score+=gain;run.score+=gain;scorePop(btnEl,gain,mult,streak);
+        score+=gain;run.score+=gain;scorePop(btnEl,gain,mult,streak);PS.sfx('good', streak);
         if(score>=level*150){
           level++;PS.confetti();
-          setStatus(`🌟 NEBULA LEVEL ${level}! Your mind is expanding across the cosmos!`,'levelup');
+          PS.record(GID,{score:gain,level,maxCombo:streak});
+          setStatus(`🌟 NEBULA LEVEL ${level}! Your mind is expanding across the cosmos! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('That one landed. Level '+level+'.');
         }else{
-          setStatus(`✅ ${PS.quip('correct')} +${gain} points`,'success');
+          setStatus(`✅ ${PS.quip('correct')} +${gain} points. Another round is waiting.`,'success');
         }
         save(); updateUI();
         setTimeout(renderQuestion,1400);
@@ -497,13 +499,14 @@
       if(val===current.ans){
         streak++;run.max=Math.max(run.max,streak);
         const mult=PS.multiplier(streak),gain=Math.round(level*15*mult);
-        score+=gain;run.score+=gain;scorePop(document.getElementById('subBtn'),gain,mult,streak);
+        score+=gain;run.score+=gain;scorePop(document.getElementById('subBtn'),gain,mult,streak);PS.sfx('good', streak);PS.pulse(document.getElementById('subBtn'),'good');
         if(score>=level*150){
           level++;PS.confetti();
-          setStatus(`🌟 NEBULA LEVEL ${level}! Pure calculation power!`,'levelup');
+          PS.record(GID,{score:gain,level,maxCombo:streak});
+          setStatus(`🌟 NEBULA LEVEL ${level}! Pure calculation power! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('That one landed. Level '+level+'.');
         }else{
-          setStatus(`✅ ${PS.quip('correct')} +${gain} points`,'success');
+          setStatus(`✅ ${PS.quip('correct')} +${gain} points. Another round is waiting.`,'success');
         }
         save(); updateUI();
         setTimeout(renderQuestion,1400);

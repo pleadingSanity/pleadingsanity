@@ -467,17 +467,16 @@
       }
 
       // Correct so far
-      if(pad)pad.classList.add('correct');
-      
+      if(pad){pad.classList.add('correct'); PS.pulse(pad,'good');}
+
       if(playerInput.length===sequence.length){
         if (window.PSVoice) PSVoice.speak('Pattern held.');
-        // Complete!
         correct++;streak++;run.max=Math.max(run.max,streak);
-        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);}
-        setStatus(`✨ Perfect resonance! +${streak} streak`,'success');
+        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);PS.sfx('good', streak);PS.record(GID,{score:gain,level,maxCombo:streak});}
+        setStatus(`✨ Perfect resonance! +${streak} streak. Another round is waiting.`,'success');
         if(correct>=level*3){
           level++;correct=0;PS.confetti();
-          setStatus(`🌟 LEAP ${level}! Your vibration is pure frequency!`,'levelup');
+          setStatus(`🌟 LEAP ${level}! Your vibration is pure frequency! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('That pattern held.');
         }
         save();updateUI();

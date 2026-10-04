@@ -412,10 +412,11 @@
       if(given===current.ans){
         btn.classList.add('correct');
         streak++;run.max=Math.max(run.max,streak);const mult=PS.multiplier(streak),gain=Math.round(level*12*mult);score+=gain;run.score+=gain;scorePop(btn,gain,mult,streak);
+        PS.pulse(btn,'good'); PS.sfx('good', streak);
         if(score>=level*120){
-          level++;PS.confetti();setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies!`,'levelup');
+          level++;PS.confetti();PS.record(GID,{score:gain,level,maxCombo:streak});setStatus(`🌟 COSMIC LEVEL ${level}! Your perception expands across galaxies! Another round is waiting.`,'levelup');
           if (window.PSVoice) PSVoice.speak('The pattern held. Level '+level+'.');
-        }else{setStatus(`✅ ${PS.quip('correct')} +${gain} points`,'success');}
+        }else{setStatus(`✅ ${PS.quip('correct')} +${gain} points. Another round is waiting.`,'success');}
         save();updateUI();setTimeout(renderPattern,1400);
       }else{
         btn.classList.add('wrong');streak=0;

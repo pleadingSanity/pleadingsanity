@@ -96,6 +96,8 @@
     main{max-width:1200px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
     .intro{text-align:center;max-width:750px;margin:0 auto 35px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:16px 18px;backdrop-filter:blur(10px);}
+    .ps-next{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto 18px;max-width:640px;}
+    .ps-next .btn{min-height:44px;text-decoration:none;}
     .intro strong{color:var(--cyan);text-shadow:0 0 10px rgba(0,255,240,.2);}
 
     .games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:16px;}
@@ -361,6 +363,7 @@
 
   <img class="ps-theme-pic" src="/assets/theme/sky.jpg" alt="The night sky of this house. Cyan and magenta stars." />
 <figure class="ps-share"><img class="ps-theme-pic" src="/assets/share/door.jpg" alt="A lit door in a night sky." /><figcaption>Games are a rest, not a test. Next tap: Solitaire, or the daily challenge.</figcaption></figure>
+<p class="ps-next"><a class="btn primary" href="/sanity-solitaire.html">Sanity Solitaire</a> <a class="btn" href="#psg-hub">Daily challenge</a></p>
 <main id="main" role="main">
     <p class="intro">
       100% built in-house — <strong>no ads, no pressure, no leaderboards that shame you.</strong><br>

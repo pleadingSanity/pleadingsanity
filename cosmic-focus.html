@@ -474,11 +474,13 @@
         streak++;run.max=Math.max(run.max,streak);
         const mult=PS.multiplier(streak),gain=Math.round(level*10*mult);
         score+=gain;run.score+=gain;scorePop(t,gain,mult,streak);
+        PS.pulse(t,'good'); PS.sfx('good', streak);
+        PS.record(GID,{score:gain,level,maxCombo:streak});
         if(score>=level*100){
           level++;PS.confetti();
-          setStatus(`🌟 LEVEL UP! Now at Level ${level} — your mind is expanding!`,'levelup');
+          setStatus(`🌟 LEVEL UP! Now at Level ${level} — your mind is expanding! Another round is waiting.`,'levelup');
         }else{
-          setStatus(`✅ Perfect! ${PS.quip('correct')} Ready for Level ${level}?`,'success');
+          setStatus(`✅ Perfect! ${PS.quip('correct')} Another round is waiting.`,'success');
         }
         save();
         updateUI();

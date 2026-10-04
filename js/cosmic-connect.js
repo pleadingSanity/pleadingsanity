@@ -170,12 +170,15 @@ function finish() {
   state.history.push({ s: size, m: moves, d: today() });
   save();
   const msg = `All ${size} pairs found, in ${moves} moves. However it felt, you gave your mind a gentle stretch. 🌌`;
-  affirm.textContent = msg;
-  live.textContent = msg;
+  affirm.textContent = msg + ' Another round is waiting.';
+  live.textContent = affirm.textContent;
   if (window.PSGames) {
     const score = Math.max(20, 240 - moves * 5);
     PSGames.record('cosmic-connect', { score: score, level: size, maxCombo: size });
     PSGames.markWeekly('cosmic-connect');
+    PSGames.confetti();
+    PSGames.sfx('good', size);
+    PSGames.pulse(grid, 'good');
   }
   if (window.PSVoice) PSVoice.speak('All the pairs are found.');
   $('cc-new').focus();
@@ -293,11 +296,16 @@ function tapStar(i) {
     if (next && document.activeElement?.closest?.('.cc-star')) next.focus();
     return;
   }
-  reveal.textContent = `✨ ${c.name}: ${c.msg}`;
+  reveal.textContent = `✨ ${c.name}: ${c.msg} Another round is waiting.`;
   state.drawn = (state.drawn || 0) + 1;
   if (!state.found.includes(c.id)) state.found.push(c.id);
   save();
-  if (window.PSGames) PSGames.record('cosmic-connect', { score: 40, level: 1, maxCombo: 1 });
+  if (window.PSGames) {
+    PSGames.record('cosmic-connect', { score: 40, level: 1, maxCombo: 1 });
+    PSGames.confetti();
+    PSGames.sfx('good', 1);
+    PSGames.pulse(sky, 'good');
+  }
   if (window.PSVoice) PSVoice.speak(c.name + ' is drawn.');
   renderPicker();
 }
