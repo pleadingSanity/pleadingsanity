@@ -23,6 +23,7 @@ import { allow, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
+import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
 
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
@@ -178,9 +179,26 @@ const PUBLISH_ASK = /^\s*(?:publish|push)\s+(?:this|that|it)\b(?:\s*[:\-–—\n
 const OVERVIEW_ASK = /\b(show me everything|system overview|status report|what'?s happening on the site)\b/i;
 const REVIEW_ASK = /\b(review (?:the )?posts|pending posts|review queue)\b/i;
 const APPROVE_ALL_ASK = /\bapprove (?:them )?all\b/i;
+// Owner only: "update the home page: …", "improve the games page", "propose a change to shop" → Arron drafts it for the Workbench.
+const PROPOSE_ASK = /\b(?:update|change|improve|fix|rewrite|redo|refresh|deepen|expand|add\b[^.?!\n]{0,60}\bto)\s+(?:the\s+|my\s+|our\s+)?([a-z][a-z0-9 -]{1,30}?)\s+page\b|\bpropose\b[^.?!\n]{0,40}?\b(?:to|for|on)\s+(?:the\s+)?([a-z][a-z0-9 -]{1,30}?)(?:\s+page)?\b(?=[\s:.,!?\-–—]|$)/i;
+const PULSE_ASK = /\b(what'?s missing|what (?:are|do) (?:people|members) (?:love|loving|like|enjoy)|what(?:'s| should we build| do we build) next|roadmap|site pulse|what could be better|what does the site need)\b/i;
 const ROLE_ASK = /\b(make|remove|revoke)\s+@?([a-z0-9_]{3,24})(?:'s)?\s+(?:an?\s+|as\s+)?(guardian|creator)\b/i;
 
-type LiveKind = "wisdom" | "story" | "educational" | "poetry" | "update" | "feed";
+type LiveKind = "wisdom" | "story" | "educational" | "poetry" | "update" | "feed" | "proposal";
+
+// "home", "the games", "healing hz" → the page file it most likely means.
+const PAGE_ALIASES: Record<string, string> = {
+  home: "index.html", homepage: "index.html", front: "index.html", landing: "index.html",
+  about: "about.html", games: "games.html", arron: "arron.html", shop: "shop.html", feed: "feed.html",
+  journal: "journal-vault.html", "journal vault": "journal-vault.html", vault: "journal-vault.html",
+  "healing hz": "frequencies.html", healing: "frequencies.html", frequencies: "frequencies.html", hz: "frequencies.html",
+  truth: "crisis.html", tools: "tools.html", wisdom: "wisdom.html", movement: "movement.html", app: "get-the-app.html",
+};
+const pageFor = (name: string) => {
+  const key = name.trim().toLowerCase().replace(/\s+/g, " ");
+  if (/^(?:the|this|that|a|an|my|our|web|whole)$/.test(key)) return "";
+  return PAGE_ALIASES[key] ?? (/^[a-z0-9-]+$/.test(key) ? `${key}.html` : key);
+};
 
 // Owner only. A named piece goes live from this reply. "push this" still uses the last draft, not a new one.
 function pieceRequest(message: string): LiveKind | null {
@@ -205,7 +223,7 @@ async function runActions(message: string, history: { role: string; content: str
   const actions: Action[] = [];
   let ownerFacts = "";
   const { user, profile } = who;
-  if (!user || !profile) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null };
+  if (!user || !profile) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null, target: "" };
   const author = { id: user.id, roles: user.roles };
 
   const journal = message.match(JOURNAL_ASK);
@@ -237,7 +255,7 @@ async function runActions(message: string, history: { role: string; content: str
     notes.push(`They want an image of: "${idea}". A button to create it in Image Creations is shown under your reply — say so warmly; it saves to their creations.`);
   }
 
-  if (!user.isOwner) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null };
+  if (!user.isOwner) return { notes, actions, ownerFacts, liveKind: null as LiveKind | null, target: "" };
 
   const publish = message.match(PUBLISH_ASK);
   if (publish) {
@@ -276,6 +294,20 @@ async function runActions(message: string, history: { role: string; content: str
     actions.push({ type: "owner", label: "💫 Open the Owner's Room", href: "/owner.html", ok: true });
   }
 
+  if (PULSE_ASK.test(message)) {
+    const pulse = await sitePulse();
+    ownerFacts = [ownerFacts, pulseFacts(pulse)].filter(Boolean).join("\n");
+    notes.push("Shane asked what the site needs. Use the SITE PULSE honestly: name what people love, what's thin or missing, and suggest 2-4 concrete next changes. Tell him he can say \"update the <page> page: …\" and you'll draft it for his Workbench.");
+    actions.push({ type: "workbench", label: "🛠️ Open the Workbench", href: "/owner.html#workbench", ok: true });
+  }
+
+  const propose = message.match(PROPOSE_ASK);
+  if (propose && !/\b(don'?t|do not)\b/i.test(message)) {
+    const target = pageFor(propose[1] ?? propose[2] ?? "");
+    notes.push(`Shane wants a change to ${target || "the site"}. Draft it for his Workbench — nothing goes live until he approves it. Reply with ONLY the draft: first line a short title; second line "WHY: " and one sentence; then the full change — ready-to-paste words in his voice (British English) and, where layout or code is needed, a short precise brief a builder can follow. No markdown headings.`);
+    return { notes, actions, ownerFacts, liveKind: "proposal" as LiveKind, target };
+  }
+
   const liveKind = pieceRequest(message);
   if (liveKind === "feed") {
     notes.push("Shane asked for this to go on the community feed. Reply with ONLY the post. Plain words. No labels. Do not say it is live yet.");
@@ -283,10 +315,10 @@ async function runActions(message: string, history: { role: string; content: str
     notes.push(`Shane asked for a ${liveKind} to go live on the site. Reply with ONLY the piece. First line is a short title. Then a blank line, then the words. Plain British English. No markdown and no labels. Do not say it is live yet.`);
   }
 
-  return { notes, actions, ownerFacts, liveKind };
+  return { notes, actions, ownerFacts, liveKind, target: "" };
 }
 
-async function putLive(kind: LiveKind, raw: string, user: { id: string; roles: string[] }, credit: string) {
+async function putLive(kind: Exclude<LiveKind, "proposal">, raw: string, user: { id: string; roles: string[] }, credit: string) {
   const text = raw.trim().slice(0, 8000);
   const [first, ...rest] = text.split(/\n/);
   const titled = kind !== "feed" && rest.length > 0 && first.trim().length > 0 && first.trim().length <= 80;
@@ -387,10 +419,10 @@ async function chat(req: Request, context: Context, rid: string) {
 
   // Journal, status, images and the Owner's commands happen before Arron replies, so he can confirm them truthfully.
   // Local-only chats never write anywhere, so actions (journal, status, owner commands) are skipped.
-  const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null };
+  const noActions = { notes: [] as string[], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null, target: "" };
   const done = localOnly ? noActions : await runActions(message, history, who).catch((error) => {
     console.error(`Arron [${rid}] action failed:`, reason(error));
-    return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null };
+    return { notes: ["Something you tried to do for them didn't work just now — say so honestly and suggest trying again."], actions: [] as Action[], ownerFacts: "", liveKind: null as LiveKind | null, target: "" };
   });
 
   const owner = Boolean(user?.isOwner);
@@ -437,9 +469,20 @@ async function chat(req: Request, context: Context, rid: string) {
   }
   let replyText = crisis && !answer.text.includes("/crisis.html") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
   const actions = done.actions;
-  if (done.liveKind && user && profile && !localOnly && !crisis) {
+  if (done.liveKind === "proposal" && user?.isOwner && !localOnly) {
     try {
-      const live = await putLive(done.liveKind, answer.text, user, profile.displayName);
+      const saved = await saveProposal(user.id, done.target, answer.text);
+      if (saved) {
+        actions.push({ type: "workbench", label: "🛠️ Review it on the Workbench", href: `/owner.html#proposal-${saved.id}`, ok: true });
+        replyText += "\n\nThat's on your Workbench, waiting for your go-ahead. Nothing has changed on the site yet.";
+      } else replyText += "\n\nThat draft was too short to save — tell me a little more and I'll try again.";
+    } catch (error) {
+      console.error(`Arron [${rid}] could not save the proposal:`, reason(error));
+      replyText += "\n\nI couldn't save that to the Workbench just now. Try again in a moment.";
+    }
+  } else if (done.liveKind && done.liveKind !== "proposal" && user && profile && !localOnly && !crisis) {
+    try {
+      const live = await putLive(done.liveKind as Exclude<LiveKind, "proposal">, answer.text, user, profile.displayName);
       if (live.ok) {
         actions.push(live.action);
         replyText += "\n\nIt's live now.";

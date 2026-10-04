@@ -31,9 +31,53 @@
       installPrompt.userChoice.finally(function () { installPrompt = null; showInstall(false); });
     });
   });
+  // ─── INSTALL ONCE, GROW FOREVER ───
+  // The service worker updates itself silently (sw.js skips waiting and
+  // clears old caches). A long-open app checks for a new version when it
+  // comes back to the screen, at most once an hour. Nothing is reloaded
+  // under anyone's fingers: fresh pages simply arrive on the next tap.
   if ('serviceWorker' in navigator && location.protocol === 'https:') {
-    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('/sw.js').then(function (reg) {
+        var lastCheck = Date.now();
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState !== 'visible' || Date.now() - lastCheck < 3600000) return;
+          lastCheck = Date.now();
+          reg.update().catch(function () {});
+          checkSoul();
+        });
+      }).catch(function () {});
+    });
   }
+
+  // "Arron grew wiser ✨" — when the soul file (/arron-knowledge.json) changes,
+  // a gentle note says so, once per new version. Never on someone's first visit.
+  var SOUL_SEEN = 'ps-soul-version';
+  function gentleNote(text) {
+    var note = document.createElement('div');
+    note.setAttribute('role', 'status');
+    note.textContent = text;
+    note.style.cssText = 'position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:9999;max-width:min(92vw,440px);padding:12px 18px;border-radius:14px;background:#0d1b2a;color:#e6ffff;border:1px solid #00fff0;box-shadow:0 6px 30px rgba(0,255,240,.25);font:inherit;font-size:.95rem;line-height:1.4;text-align:center;cursor:pointer';
+    note.addEventListener('click', function () { note.remove(); });
+    document.body.appendChild(note);
+    setTimeout(function () { note.remove(); }, 7000);
+  }
+  function checkSoul() {
+    if (!window.fetch) return;
+    fetch('/arron-knowledge.json', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (soul) {
+        if (!soul || !soul.version) return;
+        var key = soul.version + '|' + (soul.updated || '');
+        var seen = null;
+        try { seen = localStorage.getItem(SOUL_SEEN); localStorage.setItem(SOUL_SEEN, key); } catch (e) { return; }
+        if (!seen || seen === key) return;
+        var latest = Array.isArray(soul.changelog) && soul.changelog[0] && soul.changelog[0].tag;
+        gentleNote('Arron grew wiser ✨' + (latest ? ' — ' + latest : ''));
+      })
+      .catch(function () {});
+  }
+  window.addEventListener('load', function () { setTimeout(checkSoul, 2500); });
   if (/\/games\.html$|\/games$/.test(location.pathname)) {
     var grid = document.querySelector('.games-grid');
     if (!grid) return;

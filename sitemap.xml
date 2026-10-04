@@ -50,7 +50,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/games.html</loc>
-    <lastmod>2026-09-27</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -151,12 +151,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://pleadingsanity.co.uk/login.html</loc>
-    <lastmod>2026-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://pleadingsanity.co.uk/ai-studio.html</loc>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
@@ -214,5 +208,59 @@
     <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/sanity-solitaire.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/tools.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/safety.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/get-the-app.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/circle.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/sources.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/privacy.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/arron-intro.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/ai-welcome.html</loc>
+    <lastmod>2026-10-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
   </url>
 </urlset>

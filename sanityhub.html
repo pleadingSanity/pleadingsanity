@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/sanityhub.html" />
-  <title>Sanity Hub – Pleading Sanity | Rise From Madness</title>
+  <title>Sanity Hub | Pleading Sanity</title>
   <meta name="description" content="Cosmic healing, real survivor stories, Arron AI companion, Journal Vault, Hz frequencies, brain training & community. Evolution, Not Erasure." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="ai-participation" content="active, open, collaborative, movement-aligned" />
@@ -860,7 +860,6 @@
         card.className = "feed-item";
 
         const liked = likeState[v.vid] === 'like';
-        const disliked = likeState[v.vid] === 'dislike';
         const title = escapeHtml(v.title || 'Pleading Sanity story').replace(/"/g, '&quot;');
 
         card.innerHTML = `
@@ -871,22 +870,15 @@
           ${v.desc ? `<p class="feed-desc">${escapeHtml(v.desc.slice(0, 180))}</p>` : ''}
           <div class="feed-buttons">
             <button type="button" class="like-btn${liked ? ' liked' : ''}" aria-pressed="${liked}">💙 ${liked ? 'Loved' : 'This helped'}</button>
-            <button type="button" class="neg-btn${disliked ? ' clicked' : ''}" aria-pressed="${disliked}">${disliked ? 'Noted' : 'Not for me'}</button>
           </div>`;
 
+        // Positive only — a heart, never a dislike. Tap again to take it back.
         const likeBtn = card.querySelector('.like-btn');
-        const negBtn = card.querySelector('.neg-btn');
         likeBtn.addEventListener('click', () => {
-          likeState[v.vid] = 'like';
-          localStorage.setItem('feedLikes', JSON.stringify(likeState));
-          likeBtn.classList.add('liked'); likeBtn.textContent = '💙 Loved'; likeBtn.setAttribute('aria-pressed', 'true');
-          negBtn.classList.remove('clicked'); negBtn.textContent = 'Not for me'; negBtn.setAttribute('aria-pressed', 'false');
-        });
-        negBtn.addEventListener('click', () => {
-          likeState[v.vid] = 'dislike';
-          localStorage.setItem('feedLikes', JSON.stringify(likeState));
-          negBtn.classList.add('clicked'); negBtn.textContent = 'Noted'; negBtn.setAttribute('aria-pressed', 'true');
-          likeBtn.classList.remove('liked'); likeBtn.textContent = '💙 This helped'; likeBtn.setAttribute('aria-pressed', 'false');
+          const on = likeState[v.vid] !== 'like';
+          if (on) likeState[v.vid] = 'like'; else delete likeState[v.vid];
+          try { localStorage.setItem('feedLikes', JSON.stringify(likeState)); } catch {}
+          likeBtn.classList.toggle('liked', on); likeBtn.textContent = on ? '💙 Loved' : '💙 This helped'; likeBtn.setAttribute('aria-pressed', String(on));
         });
 
         feed.appendChild(card);

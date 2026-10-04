@@ -15,7 +15,7 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/feed.html" />
   <title>Sanity Feed – Pleading Sanity | No Algorithms. Only Sanity.</title>
-  <meta name="description" content="Scroll a cosmic feed of positive mental health stories, uplifting videos, and survivor voices. Real people. Real hope. No doomscroll." />
+  <meta name="description" content="A free, positive mental health feed. Real survivors, newest first, no algorithm. Hearts only, never dislikes. Hope and healing without the doomscroll." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
 
@@ -255,6 +255,30 @@
     </p>
     <p class="intro"><a href="/post.html">Share words</a> · <a href="/post.html?kind=image">a photo</a> · <a href="/post.html?kind=meme">a meme</a> · <a href="/post.html?kind=video">a video</a>. Your profile photo, background and bio live on <a href="/profile.html">your page</a>.</p>
 
+    <section class="panel" id="feed-promise" aria-labelledby="feed-promise-title">
+      <h2 id="feed-promise-title">What this feed is</h2>
+      <p>This is a feed of real people. Survivors, carers, friends, people having a hard week and people having a good one. Everything here was shared by someone who chose to be honest.</p>
+      <ul style="margin:0.75rem 0 0 1.4rem;">
+        <li><strong>Newest first. No algorithm.</strong> Nothing is pushed up because it is loud or angry. You see posts in the order they were shared.</li>
+        <li><strong>Hearts only. Never downvotes, never dislikes.</strong> We don&rsquo;t feed darkness. If a post moves you, give it a heart. If it doesn&rsquo;t, simply scroll on.</li>
+        <li><strong>&ldquo;X have walked this path.&rdquo;</strong> Each post shows how many people have read it. So even when nobody replies, you know you were heard.</li>
+        <li><strong>Arron marks the milestones.</strong> When a post reaches 10, 50, 100, 500 or 1,000 hearts, Arron speaks a few words to the person who wrote it. Others see a gentle glow on the post, but only the author sees their exact heart count. No one is ranked. No one is compared.</li>
+      </ul>
+      <p style="margin-top:0.75rem;">If you are carrying something heavy right now, you do not have to scroll through it alone. <a href="/crisis.html">Read the house truth</a> or <a href="/tools.html">see how to use this house</a>.</p>
+    </section>
+
+    <section class="panel" id="daily-light" aria-labelledby="daily-light-title">
+      <h2 id="daily-light-title">Daily light</h2>
+      <p>A few words from Arron to carry with you today.</p>
+      <ul style="margin:0.75rem 0 0 1.4rem;">
+        <li>You do not have to carry today and tomorrow at the same time. Just today. Just this hour, if that is all you can manage.</li>
+        <li>Small steps still move you. A shower, a glass of water, a text back &mdash; they all count.</li>
+        <li>Healing is not a straight line. Bad days are part of the path, not proof you have left it.</li>
+        <li>Storms are loud, but they always pass. You have outlasted every one so far.</li>
+        <li>Pain told honestly is the start of power. Evolution, not erasure.</li>
+      </ul>
+    </section>
+
     <section class="ps-stay" aria-labelledby="house-title">
       <h2 id="house-title">From the house</h2>
       <p>Three kind jokes. Newest house notes stay in this order. People&rsquo;s posts stay underneath, newest first.</p>
@@ -284,7 +308,7 @@
       <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
       <div id="community-guest" hidden>
         <div class="panel center">
-          <p style="margin:0 0 1rem">Real people, real updates — newest first, no algorithm. Join free to heart, reply, journal and share your own voice.</p>
+          <p style="margin:0 0 1rem">Real people, real updates — newest first, no algorithm. Hearts only, never dislikes: we don&rsquo;t feed darkness. Join free to heart, reply, journal and share your own voice.</p>
           <div class="btn-row" style="justify-content:center">
             <a class="sbtn primary" href="/signup.html?next=%2Ffeed.html%23community">Join the family</a>
             <a class="sbtn ghost" href="/login.html?next=%2Ffeed.html%23community">Sign in</a>
@@ -438,22 +462,18 @@
       }
     }
 
-    window.handleLike = function(btn, isPositive) {
-      const card = btn.closest('.feed-item');
-      const title = card.querySelector('h3').textContent;
-      const siblings = btn.parentElement.querySelectorAll('.like-btn');
-      siblings.forEach(b => {
-        b.classList.remove('active');
-        if (b.textContent.includes('✅') || b.textContent.includes('❌')) {
-          b.innerHTML = b.classList.contains('pos') ? '👍 Positive' : '👎 Not for me';
-        }
-      });
-      btn.classList.add('active');
-      btn.innerHTML = isPositive ? '✅ Liked!' : '❌ Not for me';
+    // Hearts only — never a dislike. Saved on this device, nowhere else.
+    function toggleHeart(btn) {
+      const title = btn.closest('.feed-item').querySelector('h3').textContent;
+      const on = !btn.classList.contains('active');
+      btn.classList.toggle('active', on);
+      btn.setAttribute('aria-pressed', String(on));
+      btn.textContent = on ? '💗 Hearted' : '🤍 Heart';
       try {
-        localStorage.setItem(`like_${encodeURIComponent(title)}`, isPositive ? 'pos' : 'neg');
+        if (on) localStorage.setItem(`like_${encodeURIComponent(title)}`, 'pos');
+        else localStorage.removeItem(`like_${encodeURIComponent(title)}`);
       } catch {}
-    };
+    }
 
     function esc(text) {
       return String(text || '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -463,6 +483,7 @@
       cardCounter++;
       const card = document.createElement('article');
       card.className = 'feed-item';
+      card.addEventListener('click', (e) => { const b = e.target.closest('.like-btn'); if (b) toggleHeart(b); });
       let savedLike = null;
       try { savedLike = localStorage.getItem(`like_${encodeURIComponent(video.title)}`); } catch {}
       card.innerHTML = `
@@ -470,13 +491,8 @@
         <div class="item-meta">
           <h3>${esc(video.title)}</h3>
           <div class="like-buttons">
-            <button class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" 
-                    onclick="handleLike(this, true)">
-              ${savedLike === 'pos' ? '✅ Liked!' : '👍 Positive'}
-            </button>
-            <button class="like-btn neg ${savedLike === 'neg' ? 'active' : ''}" 
-                    onclick="handleLike(this, false)">
-              ${savedLike === 'neg' ? '❌ Not for me' : '👎 Not for me'}
+            <button type="button" class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" aria-pressed="${savedLike === 'pos'}">
+              ${savedLike === 'pos' ? '💗 Hearted' : '🤍 Heart'}
             </button>
           </div>
         </div>

@@ -1,19 +1,7 @@
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js").then(function (reg) {
-    reg.addEventListener("updatefound", function () {
-      var next = reg.installing;
-      if (!next) return;
-      next.addEventListener("statechange", function () {
-        if (next.state === "installed" && navigator.serviceWorker.controller) {
-          next.postMessage({ type: "SKIP_WAITING" });
-        }
-      });
-    });
-  }).catch(function () {});
-  var reloaded = false;
-  navigator.serviceWorker.addEventListener("controllerchange", function () {
-    if (reloaded) return;
-    reloaded = true;
-    window.location.reload();
-  });
+// Kept for pages that still link it. Registration, silent updates and the
+// "Arron grew wiser ✨" note all live in /js/site.js now. This file no longer
+// reloads the page when a new service worker takes over — on a first visit
+// that reload fired for nothing, and mid-sentence it could lose someone's words.
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("/sw.js").catch(function () {});
 }

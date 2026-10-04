@@ -19,7 +19,7 @@ Evolution, Not Erasure. One Source. One Family.
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <meta name="robots" content="noindex, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/onboarding.html" />
-  <title>Set Up Your Profile — Pleading Sanity | Rise From Madness</title>
+  <title>Set Up Your Profile | Pleading Sanity</title>
   <meta name="description" content="Choose your name, avatar and bio for the Pleading Sanity community." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
@@ -143,23 +143,6 @@ Evolution, Not Erasure. One Source. One Family.
 </footer>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-  <script type="module">
-import { clearMe, requireMember, safeNext, toast } from '/js/auth.js';
-    import { mountProfileForm } from '/js/profile-form.js';
-
-    const me = await requireMember({ allowUnonboarded: true });
-    if (me.profile?.onboarded) location.replace(safeNext());
-
-    mountProfileForm(document.getElementById('form-root'), {
-      profile: me.profile,
-      submitLabel: 'Enter the community →',
-      onSaved: () => {
-        clearMe();
-        toast('Welcome in 💙');
-        location.replace(safeNext());
-      },
-    });
-    document.querySelector('#form-root input')?.focus();
-  </script>
+  <script type="module" src="/js/page-onboarding.js"></script>
 </body>
 </html>

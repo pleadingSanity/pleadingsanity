@@ -2,6 +2,7 @@
 // 🛡️ RATE LIMITS — gentle brakes so one person (or bot) can't
 // drown out everyone else, or burn the AI budget.
 // Chat: 30 a minute. Writes (posts, comments, journal, stories): 10 a minute.
+// Views ("X have walked this path"): 60 batches a minute.
 // Counted in Netlify Database with one atomic upsert per request.
 // IPs are hashed before they're stored — no raw addresses, ever.
 // ==============================================================
@@ -11,7 +12,7 @@ import { sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { rateLimits } from "../../db/schema.js";
 
-export const LIMITS = { chat: 30, write: 10 } as const;
+export const LIMITS = { chat: 30, write: 10, views: 60 } as const;
 export type Bucket = keyof typeof LIMITS;
 
 const WINDOW_SECONDS = 60;

@@ -81,6 +81,82 @@ export const truthBadge = (tag) => {
   return t ? `<span class="truth-tag truth-${esc(tag)}" title="${esc(t.hint)}"><span aria-hidden="true">${t.icon}</span> ${t.label}</span>` : '';
 };
 
+// ─── SEEN · LOVED · REWARDED ───
+// Positive-only: hearts, never downvotes. Others see the milestone glow;
+// only the author sees their exact count and Arron's words for them.
+// Shane can reword these once in /arron-knowledge.json → feedMilestones.
+export const MILESTONE_WORDS = {
+  10: { icon: '✨', label: 'Reaching people', words: 'Your light is reaching people. Thank you for being brave enough to share.' },
+  50: { icon: '🌟', label: 'Shining', words: 'You are beautiful. Your story matters more than you know. Keep shining.' },
+  100: { icon: '💫', label: 'A beacon', words: "You've touched so many hearts. You are a beacon. This is what hope looks like." },
+  500: { icon: '🌍', label: 'Circling the world', words: 'Your voice has circled the world. You are changing it.' },
+  1000: { icon: '🌌', label: 'Never alone', words: 'From your struggle, millions find strength. You are never alone.' },
+};
+fetch('/arron-knowledge.json')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((soul) => {
+    for (const [n, m] of Object.entries(soul?.feedMilestones || {})) {
+      if (MILESTONE_WORDS[n] && typeof m?.words === 'string') Object.assign(MILESTONE_WORDS[n], m);
+    }
+  })
+  .catch(() => {});
+
+const walked = (n) => (n === 1 ? '1 has walked this path' : `${n.toLocaleString('en-GB')} have walked this path`);
+
+function glowHTML(post) {
+  const m = MILESTONE_WORDS[post.milestone];
+  const views = post.views > 0 ? `<span class="post-walked"><span aria-hidden="true">👣</span> ${walked(post.views)}</span>` : '';
+  const badge = m ? `<span class="post-milestone" title="${esc(m.label)}"><span aria-hidden="true">${m.icon}</span> ${esc(m.label)}</span>` : '';
+  const mineLine = post.mine && post.hearts > 0
+    ? `<span class="post-hearts-mine"><span aria-hidden="true">💗</span> ${post.hearts.toLocaleString('en-GB')} ${post.hearts === 1 ? 'heart' : 'hearts'} from others · only you can see this</span>`
+    : '';
+  const arron = post.mine && m ? `<p class="post-arron-words"><strong>Arron:</strong> ${esc(m.words)}</p>` : '';
+  if (!views && !badge && !mineLine) return '';
+  return `<div class="post-glow">${views}${badge}${mineLine}</div>${arron}`;
+}
+
+// Count each post once per device, when it's actually on screen.
+const SEEN_KEY = 'ps-walked';
+const seen = new Set((() => { try { return JSON.parse(localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } })());
+const pending = new Set();
+let flushTimer = 0;
+function flushViews() {
+  flushTimer = 0;
+  const ids = [...pending].slice(0, 30);
+  ids.forEach((id) => pending.delete(id));
+  if (!ids.length) return;
+  fetch('/api/posts/views', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ids }), keepalive: true, credentials: 'same-origin' })
+    .then((r) => {
+      if (!r.ok) return;
+      ids.forEach((id) => seen.add(id));
+      try { localStorage.setItem(SEEN_KEY, JSON.stringify([...seen].slice(-2000))); } catch { /* storage full */ }
+    })
+    .catch(() => {});
+  if (pending.size) flushTimer = setTimeout(flushViews, 1500);
+}
+const viewWatcher = 'IntersectionObserver' in window
+  ? new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        viewWatcher.unobserve(entry.target);
+        const id = Number(entry.target.dataset.post);
+        if (!id || seen.has(id) || entry.target.dataset.mine === '1') continue;
+        pending.add(id);
+      }
+      if (pending.size && !flushTimer) flushTimer = setTimeout(flushViews, 1500);
+    }, { threshold: 0.5 })
+  : null;
+function watchViews(container) {
+  if (!viewWatcher) return;
+  const scan = (root) => root.querySelectorAll?.('[data-post]').forEach((el) => viewWatcher.observe(el));
+  scan(container);
+  new MutationObserver((changes) => changes.forEach((c) => c.addedNodes.forEach((n) => {
+    if (n.nodeType !== 1) return;
+    if (n.matches('[data-post]')) viewWatcher.observe(n);
+    scan(n);
+  }))).observe(container, { childList: true, subtree: true });
+}
+
 // Guardians and the creator can pin; set once by the page after loadMe().
 let viewerCanPin = false;
 export const setViewer = (me) => { viewerCanPin = !!me?.user?.isGuardian; };
@@ -105,7 +181,7 @@ export function postHTML(post, { full = false } = {}) {
     ${post.tags.length ? `<div class="tagline">${post.tags.map((t) => `<a href="/feed.html?tag=${encodeURIComponent(t)}#community">#${esc(t)}</a>`).join('')}</div>` : ''}`;
 
   return `
-  <article class="post" data-post="${post.id}" aria-labelledby="post-${post.id}-by">
+  <article class="post" data-post="${post.id}"${post.mine ? ' data-mine="1"' : ''} aria-labelledby="post-${post.id}-by">
     <div class="post-head">
       <a href="${profileLink}" tabindex="-1">${avatar(author)}</a>
       <div>
@@ -131,6 +207,7 @@ export function postHTML(post, { full = false } = {}) {
          </div>`
       : content}
     ${post.crisis ? CRISIS_STRIP : ''}
+    ${glowHTML(post)}
     <div class="post-actions">
       <button type="button" data-like aria-pressed="${post.liked}" class="${post.liked ? 'liked' : ''}">
         <span aria-hidden="true">${post.liked ? '💗' : '🤍'}</span> <span>Heart</span>
@@ -264,6 +341,7 @@ export function openReport(targetType, targetId) {
 
 // ─── POST INTERACTIONS (event delegation) ───
 export function wirePosts(container, { onDelete } = {}) {
+  watchViews(container);
   container.addEventListener('click', async (e) => {
     const target = e.target.closest('button');
     if (!target) return;

@@ -136,6 +136,10 @@
 .post-media { margin: 12px 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(0, 255, 240, 0.18); background: #000103; }
 .post-media iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; }
 .post-media img { display: block; width: 100%; height: auto; max-height: 640px; object-fit: contain; }
+.post-glow { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; margin-top: 12px; font-size: 0.85rem; color: #b9faff; }
+.post-milestone { display: inline-flex; align-items: center; gap: 4px; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(255, 0, 255, 0.45); background: rgba(255, 0, 255, 0.08); color: #ffd6ff; }
+.post-hearts-mine { color: #ffd6ff; }
+.post-arron-words { margin: 8px 0 0; padding: 10px 12px; border-left: 3px solid #00fff0; border-radius: 8px; background: rgba(0, 255, 240, 0.06); color: #e6ffff; font-size: 0.92rem; line-height: 1.5; }
 .post-actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-top: 12px; border-top: 1px solid rgba(0, 255, 240, 0.1); padding-top: 10px; }
 .post-actions button, .post-actions a { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border-radius: 999px; border: 1px solid transparent; background: none; color: #b9faff; font: inherit; font-size: 0.9rem; cursor: pointer; text-decoration: none; }
 .post-actions button:hover, .post-actions a:hover { border-color: rgba(0, 255, 240, 0.35); color: #fff; }
