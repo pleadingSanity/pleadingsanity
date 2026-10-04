@@ -314,7 +314,7 @@ export function openReport(targetType, targetId) {
         <label class="field"><span>Anything else? (optional)</span>
           <textarea name="details" maxlength="1000" rows="3"></textarea>
         </label>
-        <p class="post-time">If someone is in immediate danger, call 999.</p>
+        <p class="post-time">If someone is at risk, open <a href="/crisis.html">the house truth</a>. This report is not a clinic.</p>
         <div class="btn-row">
           <button class="sbtn primary" value="send">Send report</button>
           <button class="sbtn ghost" value="cancel" formnovalidate>Cancel</button>
