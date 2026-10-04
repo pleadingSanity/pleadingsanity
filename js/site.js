@@ -119,4 +119,24 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
     if (links) links.addEventListener('click', function (e) { if (e.target.closest('a')) shut(); });
   }
+  var path = location.pathname;
+  var onArron = /arron/.test(path);
+  if (onArron) document.body.classList.add('ps-no-dock');
+  if (!onArron && !document.querySelector('.ps-dock')) {
+    var dock = document.createElement('nav');
+    dock.className = 'ps-dock';
+    dock.setAttribute('aria-label', 'Phone doors');
+    dock.innerHTML = '<a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Truth</a><button type="button" class="ps-dock-menu">Menu</button>';
+    document.body.appendChild(dock);
+    var here = dock.querySelector('a[href="' + path + '"]');
+    if (here) here.setAttribute('aria-current', 'page');
+    var dockMenu = dock.querySelector('.ps-dock-menu');
+    if (dockMenu && nav) dockMenu.addEventListener('click', function () {
+      var open = nav.classList.toggle('is-open');
+      var top = nav.querySelector('.ps-nav-toggle');
+      if (top) { top.setAttribute('aria-expanded', open ? 'true' : 'false'); top.textContent = open ? 'Close' : 'Menu'; }
+      dockMenu.textContent = open ? 'Close' : 'Menu';
+    });
+  }
+
 })();
