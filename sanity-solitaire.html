@@ -136,7 +136,7 @@
 @media (prefers-reduced-motion: reduce) {
   .card, .card.playable, .card.flip { animation: none; transition: none; }
 }
-</style><style>.flash{min-height:1.4rem;color:#00fff0;font-weight:800}.flash.show{animation:ps-flash .8s ease}@keyframes ps-flash{from{opacity:0;transform:translateY(6px)}to{opacity:1}}</style></head>
+</style><style>.flash{min-height:1.4rem;color:#00fff0;font-weight:800}.flash.show{animation:ps-flash .8s ease}@keyframes ps-flash{from{opacity:0;transform:translateY(6px)}to{opacity:1}}</style><style>.seat-on{outline:2px solid #00fff0}.turn{color:#00fff0;font-weight:800}</style></head>
 <body class="night">
   <div class="wrap">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
@@ -152,7 +152,7 @@
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
-    <button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
+    <button type="button" id="seat">Friend seat off</button><button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
 <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
@@ -250,7 +250,7 @@ window.PSTable = (function () {
     if (music) startBed();
   };
   if (reduce) { document.getElementById("music").textContent = "Music off"; on = false; document.getElementById("sound").textContent = "Sound off"; }
-  return { play, draw, win };
+  function seat(){ tone(432, 0.12, 0.03); } return { play, draw, win, seat };
 })();
 </script>
 <script src="/js/house-voice.js"></script>
@@ -264,7 +264,7 @@ window.PSTable = (function () {
     const suitArt={"\u2665":"/assets/theme/suits/heart.jpg","\u2660":"/assets/theme/suits/spade.jpg","\u2663":"/assets/theme/suits/club.jpg","\u2666":"/assets/theme/suits/diamond.jpg"};
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
-    let deck,board,waste,calm,combo,wins,look,cleared,history;
+    let deck,board,waste,calm,combo,wins,look,cleared,history,seatOn=false,seat=0;
     function snap(){history.push(JSON.stringify({deck,board,waste,calm,combo,cleared})); if(history.length>40) history.shift();}
     function load(){wins=Number(localStorage.getItem("ps-sol-wins")||0);look=localStorage.getItem("ps-sol-look")||"night";}
     function level(){return Math.min(4,1+wins);}
@@ -326,7 +326,8 @@ window.PSTable = (function () {
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); }
     function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
-    $("newdeal").onclick=()=>fresh(); $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
+    $("newdeal").onclick=()=>fresh();
+    $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. You play, then your friend." : "Solo table."; }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
