@@ -94,7 +94,7 @@
     }
     body.night .felt { box-shadow:inset 0 0 0 2px rgba(0,255,240,.22), inset 0 18px 40px rgba(0,0,0,.35); }
     .ps-theme-pic { width:112px; max-height:160px; object-fit:contain; background:transparent; border:0; box-shadow:none; margin:8px 0 4px; }
-    .card.playable {
+    .card.playable { animation: pulse 1.4s ease-in-out infinite; 
       outline:3px solid var(--gold);
       outline-offset:1px;
       box-shadow:0 0 0 1px #6a4e16, 0 0 16px rgba(240,195,106,.75), 0 8px 14px rgba(0,0,0,.32);
@@ -113,6 +113,7 @@
     .waste .mid { position:absolute; inset:0; display:grid; place-items:center; font-size:1.8rem; }
     .card.back, .stock { position:relative; color:transparent; }
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
+  @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
   </style>
 </head>
 <body class="night">
@@ -202,7 +203,7 @@
     }
     function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; paint(); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="You rose. Peaks clear. Level "+level()+"."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); } if(window.PSVoice) PSVoice.speak("You rose."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("undo").onclick=()=>{ if(history.length<2) return; history.pop(); const s=JSON.parse(history[history.length-1]); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
