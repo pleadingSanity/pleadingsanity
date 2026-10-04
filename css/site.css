@@ -877,3 +877,60 @@ img.logo, .logo-mark {
 .ps-memes h2 { color: #00fff0; }
 .ps-memes img { width: 100%; border-radius: 18px; border: 1px solid rgba(0,255,240,.28); }
 .ps-memes figcaption { margin-top: 6px; color: #eef6ff; }
+
+/* Day page. Night stays the default. */
+.ps-theme {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 255, 240, 0.45);
+  border-radius: 999px;
+  background: #0d1b2a;
+  color: #eef6ff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme="light"] body,
+html[data-theme="light"] .ps-page {
+  background: #f4f8fb !important;
+  color: #0d1b2a !important;
+}
+html[data-theme="light"] .cosmic-bg,
+html[data-theme="light"] .stars { opacity: 0.12; }
+html[data-theme="light"] .ps-nav,
+html[data-theme="light"] .ps-footer {
+  background: #f7fbff;
+  color: #0d1b2a;
+  border-color: rgba(13, 27, 42, 0.12);
+}
+html[data-theme="light"] .ps-nav .ps-brand,
+html[data-theme="light"] .ps-nav .ps-links a,
+html[data-theme="light"] .ps-nav .ps-group-btn,
+html[data-theme="light"] .ps-page p,
+html[data-theme="light"] .ps-page li,
+html[data-theme="light"] .ps-footer,
+html[data-theme="light"] .ps-footer p { color: #0d1b2a; }
+html[data-theme="light"] .ps-home-note,
+html[data-theme="light"] .ps-home-help,
+html[data-theme="light"] .ps-stay article,
+html[data-theme="light"] .cosmic-card,
+html[data-theme="light"] .ps-safety {
+  background: #fff;
+  color: #0d1b2a;
+  border-color: rgba(13, 27, 42, 0.12);
+}
+html[data-theme="light"] .ps-doors a,
+html[data-theme="light"] .ps-rooms a,
+html[data-theme="light"] .ps-theme {
+  background: #fff;
+  color: #0d1b2a;
+  border-color: rgba(13, 27, 42, 0.2);
+}
+html[data-theme="light"] .ps-doors a:first-child,
+html[data-theme="light"] .ps-sheet-doors a:first-child { background: #00fff0; color: #000103; }
+html[data-theme="light"] .ps-nav .ps-group-menu { background: #fff; }
+html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }

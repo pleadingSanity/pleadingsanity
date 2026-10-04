@@ -18,6 +18,30 @@
       });
     }).observe(document.documentElement, { childList: true, subtree: true });
   }
+
+  // Day / night. The house starts dark. The choice stays on this device.
+  var themeBtn = document.createElement("button");
+  themeBtn.type = "button";
+  themeBtn.className = "ps-theme";
+  function paintTheme(theme) {
+    var light = theme === "light";
+    document.documentElement.dataset.theme = light ? "light" : "dark";
+    try { localStorage.setItem("ps-theme", light ? "light" : "dark"); } catch (e) {}
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute("content", light ? "#f4f8fb" : "#000103");
+    themeBtn.textContent = light ? "Dark" : "Light";
+    themeBtn.setAttribute("aria-pressed", light ? "false" : "true");
+    themeBtn.setAttribute("aria-label", light ? "Switch to dark mode" : "Switch to light mode");
+  }
+  var saved = "dark";
+  try { saved = localStorage.getItem("ps-theme") === "light" ? "light" : "dark"; } catch (e) {}
+  paintTheme(saved);
+  themeBtn.addEventListener("click", function () {
+    paintTheme(document.documentElement.dataset.theme === "light" ? "dark" : "light");
+  });
+  var navInner = document.querySelector(".ps-nav-inner");
+  if (navInner) navInner.appendChild(themeBtn);
+
   var installPrompt = null;
   var installButtons = document.querySelectorAll('[data-pwa-install]');
   function showInstall(show) { installButtons.forEach(function (btn) { btn.hidden = !show; btn.classList.toggle('hidden', !show); }); }
