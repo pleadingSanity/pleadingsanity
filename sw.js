@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.27'; // home night pictures, same install
-const STATIC_CACHE = 'pleading-sanity-static-v53';
+const VERSION = '5.12.28'; // felt chips and city, same install
+const STATIC_CACHE = 'pleading-sanity-static-v54';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

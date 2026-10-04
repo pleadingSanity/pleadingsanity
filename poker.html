@@ -15,7 +15,7 @@
     .brand { color: #eef6ff; text-decoration: none; font-weight: 800; }
     h1 { color: #00fff0; font-size: 1.5rem; }
     .note, .safe { color: #d5ecdf; }
-    .felt { background: #0d1b2a url("/assets/images/brand/table-felt-night.jpg") center/cover; border: 1px solid rgba(0,255,240,.35); border-radius: 20px; padding: 12px; }
+    .felt { background: #0d1b2a url("/assets/images/brand/felt-ring.jpg") center/cover; border: 1px solid rgba(0,255,240,.35); border-radius: 20px; padding: 12px; }
     .board, .row, .seats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .card { min-width: 46px; min-height: 64px; border-radius: 8px; border: 1px solid rgba(0,255,240,.4); background: #000103; color: #eef6ff; display: grid; place-items: center; font-weight: 800; }
     .card.red { color: #ff6b9a; }
@@ -26,13 +26,13 @@
     .seat.on { outline: 2px solid #00fff0; }
     #log { min-height: 1.4rem; color: #00fff0; }
   </style>
-</head>
+<style>.chips{width:120px;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style></head>
 <body>
   <div class="wrap">
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. If you are not safe, Samaritans are free on <a href="tel:116123">116 123</a>.</p>
-    <p class="note" id="bank">Bank 1000 play chips</p>
+    <img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220" /><p class="note" id="bank">Bank 1000 play chips</p>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
     <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name"></span></div>
     <div class="felt">
