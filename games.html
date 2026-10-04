@@ -352,6 +352,7 @@
           <li>🔥 <b data-hub="streak">0</b> day streak</li>
           <li>🏅 <b data-hub="badges">0 / 0</b> badges</li>
           <li><button type="button" class="hub-sound" data-hub="sound" aria-pressed="false">🔇 Game sounds off</button></li>
+          <li><button type="button" class="hub-sound" id="ps-voice" data-voice>Speak challenges</button></li>
         </ul>
       </div>
       <div class="daily">
@@ -677,6 +678,7 @@
   </div>
 </footer>
 
+  <script src="/js/house-voice.js"></script>
   <script src="/js/games.js"></script>
   <script>
     // Auto year
@@ -694,5 +696,14 @@
       }
     });
   </script>
+<script>
+  (function () {
+    var b = document.getElementById('ps-voice');
+    if (!b || !window.PSVoice) return;
+    function paint() { b.textContent = PSVoice.enabled() ? 'Voice on' : 'Voice off'; }
+    paint();
+    b.addEventListener('click', function () { PSVoice.toggle(); paint(); PSVoice.speak(PSVoice.enabled() ? 'Voice on' : ''); });
+  })();
+</script>
 </body>
 </html>

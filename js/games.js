@@ -129,6 +129,7 @@
     save();
     var b = BADGES[id];
     toast(b.icon + ' Badge unlocked: ' + b.name, { kind: 'badge', sub: b.desc });
+    if (window.PSVoice) PSVoice.speak(b.name + '. ' + b.desc);
     sfx('badge');
     return true;
   }

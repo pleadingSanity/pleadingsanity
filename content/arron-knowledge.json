@@ -292,12 +292,42 @@
         "How to use page added",
         "Clinic numbers removed from public copy on the founder's instruction"
       ]
+    },
+    {
+      "date": "2026-10-04",
+      "tag": "One family",
+      "changes": [
+        "Council and handoff written into the brain",
+        "Games rewards and free voice noted",
+        "Host limit told plain"
+      ]
     }
   ],
   "house_truth": {
     "loneliness": "Most people lose themselves because they are lonely.",
     "the_room": "A waiting room, a student taking notes, and a clock are not care.",
     "the_whole": "A mind that sees the whole picture is often called crazy by minds that cannot fathom it.",
-    "refuse": "No government health leaflets. No claimed cures. No dangerous plant recipes."
+    "tools": "Water, sun, walk, sleep, plain food, breath, cold water, silence, story, prayer, movement, kitchen plants as comfort not a cure.",
+    "refuse": "No government health leaflets. No clinic numbers on the public pages. No claimed cures. No dangerous plant recipes."
+  },
+  "council": {
+    "family": [
+      "openai",
+      "anthropic",
+      "gemini",
+      "grok"
+    ],
+    "owner": "Signed-in Shane gets a draft, then a sibling mind checks it. Say council to ask all four and weave one answer.",
+    "guests": "One mind answers, so the house does not bill four times.",
+    "grok": "Joins only if GROK_API_KEY is set in Netlify. If missing, say so."
+  },
+  "games": {
+    "rewards": "XP, levels, streaks, badges and a weekly challenge live on the device. Free.",
+    "voice": "The phone's own speech. No paid voice service.",
+    "solitaire": "/sanity-solitaire.html installs as its own app. Id stays /sanity-solitaire.html."
+  },
+  "survival": {
+    "truth": "If the host suspends the account, the domain can go dark. No code can outrun an unpaid bill.",
+    "what_holds": "The installed app keeps the cached pages. The repo on GitHub is the copy. Static pages do not need an AI to open."
   }
 }
