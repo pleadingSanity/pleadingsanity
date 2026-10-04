@@ -149,3 +149,6 @@ body {
   background-image: none;
 }
 img.ps-theme-pic.ps-game-icon { width: min(78vw, 280px); max-width: 280px; max-height: 280px; height: auto; aspect-ratio: 1; object-fit: cover; display: block; margin: 12px auto; border-radius: 22px; border: 1px solid rgba(0,255,240,.28); }
+
+.ps-first, .ps-share figcaption { max-width: 42rem; margin: 12px auto 0; color: #eef6ff; font-size: 1rem; line-height: 1.45; text-align: center; }
+.ps-share { margin: 0 auto 8px; }
