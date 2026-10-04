@@ -9,9 +9,16 @@
   box-sizing: border-box;
 }
 
-html, body {
+html {
   margin: 0;
   background: var(--room-bg);
+  color: var(--room-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: transparent;
   color: var(--room-ink);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
