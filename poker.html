@@ -34,7 +34,7 @@
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. If you are not safe, Samaritans are free on <a href="tel:116123">116 123</a>.</p>
     <p class="note" id="bank">Bank 1000 play chips</p>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
-    <div class="row"><button type="button" id="room">Friend room</button><button type="button" id="share">Share room</button><span id="room-name"></span></div>
+    <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name"></span></div>
     <div class="felt">
       <div class="board" id="board"></div>
       <p id="pot">Pot 0</p>
@@ -174,8 +174,22 @@
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
     $("next").onclick = deal;
-    $("room").onclick = () => { const code = Math.random().toString(36).slice(2, 8); location.search = "?room=" + code; };
-    $("share").onclick = async () => { const url = location.href; try { await navigator.clipboard.writeText(url); } catch (e) {} log("Room link ready. " + url); };
+    $("room").onclick = async () => {
+      const res = await fetch("/api/poker-room", { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (!data.code) { log("Room did not open. Solo table still works."); return; }
+      location.search = "?room=" + data.code;
+    };
+    $("share").onclick = async () => {
+      const url = location.href;
+      const code = new URLSearchParams(location.search).get("room");
+      if (code) await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: "You", note: "Play chips only." }) });
+      try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
+      log("Share this. Play chips only. " + url);
+    };
+    let deferred;
+    addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
+    $("install").onclick = async () => { if (deferred) { deferred.prompt(); deferred = null; return; } log("iPhone: Share, then Add to Home Screen."); };
     const room = new URLSearchParams(location.search).get("room");
     if (room) $("room-name").textContent = "Room " + room;
     deal();
