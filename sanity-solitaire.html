@@ -136,7 +136,7 @@
 @media (prefers-reduced-motion: reduce) {
   .card, .card.playable, .card.flip { animation: none; transition: none; }
 }
-</style></head>
+</style><style>.flash{min-height:1.4rem;color:#00fff0;font-weight:800}.flash.show{animation:ps-flash .8s ease}@keyframes ps-flash{from{opacity:0;transform:translateY(6px)}to{opacity:1}}</style></head>
 <body class="night">
   <div class="wrap">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
@@ -145,14 +145,14 @@
       <a class="btn" href="/games.html">Games</a>
       <strong id="level">Level 1</strong>
       <strong id="score">Calm 0</strong>
-      <button class="btn" id="new" type="button">New peaks</button>
+      <button class="btn" id="today" type="button">Today</button><button class="btn" id="new" type="button">New peaks</button>
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.jpg" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
-    <button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><div class="book" id="book" aria-label="Your solitaire book"></div>
+    <button type="button" id="sound">Sound on</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
 <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
@@ -199,7 +199,7 @@ window.PSBook = (function () {
     const mode = (document.getElementById("mode") || {}).value || "peaks";
     const book = load();
     const r = Object.assign(empty(), book[mode] || {});
-    el.innerHTML = [["Cleared", r.won], ["Left", r.left], ["Redeals", r.redeals], ["Cards", r.cards]].map((pair) => `<span><b>${pair[1]}</b>${pair[0]}</span>`).join("");
+    el.innerHTML = [["Cleared", r.won], ["Left", r.left], ["Redeals", r.redeals], ["Best", r.best]].map((pair) => `<span><b>${pair[1]}</b>${pair[0]}</span>`).join("");
   }
   function start(mode) { const book = row(mode); if (book[mode].open) book[mode].left += 1; book[mode].open = true; book[mode].redeals += 1; save(book); }
   function card(mode, n) { const book = row(mode); book[mode].cards += n || 1; save(book); }
@@ -276,9 +276,14 @@ window.PSTable = (function () {
       $("table").value=look;
     }
     function shuffle(list){for(let i=list.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[list[i],list[j]]=[list[j],list[i]];}return list;}
-    function fresh(){
+    function seeded(seed){ let s = seed; return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; }; }
+    function fresh(daily){
       if (window.PSBook) PSBook.start("peaks");
-      const cards=[]; for(const s of suits) for(const r of ranks) cards.push({r,s}); shuffle(cards);
+      const cards=[]; for(const s of suits) for(const r of ranks) cards.push({r,s});
+      if (daily) {
+        const day = new Date(); const rnd = seeded(day.getFullYear()*1000 + (day.getMonth()+1)*50 + day.getDate());
+        for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; }
+      } else shuffle(cards);
       board=cards.splice(0,28).map((c,i)=>({...c,i,up:i>=18,gone:false}));
       deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; history=[]; snap(); paint();
       if (window.PSVoice) PSVoice.speak("Three peaks. One rank up or down.");
@@ -317,11 +322,11 @@ window.PSTable = (function () {
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
     }
-    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; paint(); if (window.PSTable) PSTable.play(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); $("status").textContent=combo>1?combo+" in a row.":""; if (window.PSTable) PSTable.play(); paint(); if (window.PSTable) PSTable.play(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
-    $("newdeal").onclick=()=>fresh();
+    $("newdeal").onclick=()=>fresh(); $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
