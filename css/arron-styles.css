@@ -71,6 +71,8 @@ html.aa-root, .aa-body {
   background:
     radial-gradient(ellipse at 20% 10%, rgba(0, 255, 240, 0.08), transparent 55%),
     radial-gradient(ellipse at 85% 90%, rgba(255, 0, 255, 0.08), transparent 55%),
+    linear-gradient(180deg, rgba(0, 1, 3, 0.45), rgba(0, 1, 3, 0.7)),
+    url("/assets/theme/sky.jpg") center/cover no-repeat,
     var(--aa-bg);
 }
 .aa-stars canvas { width: 100%; height: 100%; display: block; }
