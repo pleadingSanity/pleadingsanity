@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.24'; // night table, same install
-const STATIC_CACHE = 'pleading-sanity-static-v50';
+const VERSION = '5.12.25'; // poker bank and room, same install
+const STATIC_CACHE = 'pleading-sanity-static-v51';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

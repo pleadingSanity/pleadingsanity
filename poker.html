@@ -15,11 +15,11 @@
     .brand { color: #eef6ff; text-decoration: none; font-weight: 800; }
     h1 { color: #00fff0; font-size: 1.5rem; }
     .note, .safe { color: #d5ecdf; }
-    .felt { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 20px; padding: 12px; }
+    .felt { background: #0d1b2a url("/assets/images/brand/table-felt-night.jpg") center/cover; border: 1px solid rgba(0,255,240,.35); border-radius: 20px; padding: 12px; }
     .board, .row, .seats { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .card { min-width: 46px; min-height: 64px; border-radius: 8px; border: 1px solid rgba(0,255,240,.4); background: #000103; color: #eef6ff; display: grid; place-items: center; font-weight: 800; }
     .card.red { color: #ff6b9a; }
-    .card.back { color: #00fff0; }
+    .card.back { background: #000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color: transparent; }
     button, select { min-height: 44px; border-radius: 999px; border: 1px solid rgba(0,255,240,.4); background: #0d1b2a; color: #eef6ff; padding: 0 14px; font: inherit; }
     button.do { background: #00fff0; color: #000103; font-weight: 800; }
     .seat { min-width: 140px; padding: 8px; border-radius: 12px; border: 1px solid rgba(0,255,240,.2); }
@@ -32,7 +32,9 @@
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. If you are not safe, Samaritans are free on <a href="tel:116123">116 123</a>.</p>
-    <p class="note">You and three bots. They never see your cards. Pass is not online yet.</p>
+    <p class="note" id="bank">Bank 1000 play chips</p>
+    <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
+    <div class="row"><button type="button" id="room">Friend room</button><button type="button" id="share">Share room</button><span id="room-name"></span></div>
     <div class="felt">
       <div class="board" id="board"></div>
       <p id="pot">Pot 0</p>
@@ -59,7 +61,7 @@
     function paint() {
       $("board").innerHTML = board.map((c) => `<span class="card ${c.s === 1 || c.s === 2 ? "red" : ""}">${face(c)}</span>`).join("") || "<span class=\"card back\">?</span>";
       $("pot").textContent = "Pot " + pot + " play chips";
-      $("seats").innerHTML = seats.map((s, i) => `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b><br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${i === 0 ? s.hole.map(face).join(" ") : (handOver && !s.folded ? s.hole.map(face).join(" ") : "🂠 🂠")}</div>`).join("");
+      $("seats").innerHTML = seats.map((s, i) => `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b><br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${i === 0 ? s.hole.map(face).join(" ") : (handOver && !s.folded ? s.hole.map(face).join(" ") : "<span class=\"card back\"></span><span class=\"card back\"></span>")}</div>`).join("");
       const me = seats[0];
       const need = Math.max(0, currentBet - me.bet);
       $("call").textContent = need ? "Call " + need : "Check";
@@ -67,13 +69,33 @@
       $("call").disabled = handOver || turn !== 0;
       $("raise").disabled = handOver || turn !== 0 || me.stack <= need;
     }
+    const BANK = "ps-poker-bank";
+    const SEEN = "ps-poker-seen";
+    function loadBank() {
+      let n = Number(localStorage.getItem(BANK) || 1000);
+      const seen = Number(localStorage.getItem(SEEN) || 0);
+      const now = Date.now();
+      if (n < 200 && now - seen > 3600000) n += 100;
+      if (!seen) n = Math.max(n, 1000);
+      localStorage.setItem(SEEN, String(now));
+      localStorage.setItem(BANK, String(n));
+      return n;
+    }
+    function saveBank(n) { localStorage.setItem(BANK, String(Math.max(0, n))); $("bank").textContent = "Bank " + Math.max(0, n) + " play chips. Low banks gain 100 each hour."; }
+    let bank = loadBank();
+    saveBank(bank);
     function deal() {
+      if (bank < 20) { log("Bank is empty. Open the house, or wait an hour, and 100 chips return."); return; }
       deck = freshDeck();
-      seats = ["You", "Tight", "Loose", "Caller"].map((name, i) => ({ name, stack: i === 0 ? 1000 : 1000, hole: [deck.pop(), deck.pop()], bet: 0, folded: false, allin: false }));
-      seats[1].bet = 10; seats[1].stack -= 10;
-      seats[2].bet = 20; seats[2].stack -= 20;
-      board = []; pot = 30; street = 0; currentBet = 20; turn = 3; toAct = 4; handOver = false;
-      log("Blinds are in. Your cards are yours.");
+      const friend = new URLSearchParams(location.search).get("room");
+      const names = friend ? ["You", "Friend", "Tight", "Loose"] : ["You", "Tight", "Loose", "Caller"];
+      seats = names.map((name, i) => ({ name, stack: i === 0 ? bank : 1000, hole: [deck.pop(), deck.pop()], bet: 0, folded: false, allin: false }));
+      const sb = Math.min(10, seats[1].stack); const bb = Math.min(20, seats[0].stack);
+      seats[1].bet = sb; seats[1].stack -= sb;
+      seats[0].bet = bb; seats[0].stack -= bb; bank = seats[0].stack;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = 2; toAct = 4; handOver = false;
+      saveBank(bank);
+      log(friend ? "Friend room " + friend + ". Pass the phone for Friend." : "Blinds are in. Your cards are yours.");
       paint();
       if (turn !== 0) bot();
     }
@@ -138,12 +160,12 @@
     function show() {
       handOver = true;
       const contenders = live();
-      if (contenders.length === 1) { contenders[0].stack += pot; log(contenders[0].name + " takes the pot."); }
+      if (contenders.length === 1) { contenders[0].stack += pot; if (contenders[0].name === "You") bank = contenders[0].stack; log(contenders[0].name + " takes the pot."); saveBank(seats[0].stack); }
       else {
         contenders.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
         const winners = contenders.filter((s) => better(s.hole.concat(board), contenders[0].hole.concat(board)) === 0);
         const share = Math.floor(pot / winners.length);
-        winners.forEach((s) => { s.stack += share; });
+        winners.forEach((s) => { s.stack += share; if (s.name === "You") bank = s.stack; }); saveBank(seats[0].stack);
         log(winners.map((s) => s.name).join(" and ") + " win with " + label(winners[0].hole.concat(board)) + ".");
       }
       pot = 0; paint();
@@ -152,6 +174,10 @@
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
     $("next").onclick = deal;
+    $("room").onclick = () => { const code = Math.random().toString(36).slice(2, 8); location.search = "?room=" + code; };
+    $("share").onclick = async () => { const url = location.href; try { await navigator.clipboard.writeText(url); } catch (e) {} log("Room link ready. " + url); };
+    const room = new URLSearchParams(location.search).get("room");
+    if (room) $("room-name").textContent = "Room " + room;
     deal();
   </script>
 </body>
