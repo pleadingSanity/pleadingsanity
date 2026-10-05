@@ -646,7 +646,7 @@
   function autosize() {
     const before = els.input.style.height;
     els.input.style.height = 'auto';
-    const next = Math.min(els.input.scrollHeight, 160) + 'px';
+    const next = Math.min(els.input.scrollHeight, 120) + 'px';
     els.input.style.height = next;
     if (next !== before && atBottom) els.log.scrollTop = els.log.scrollHeight;
   }
@@ -670,6 +670,11 @@
   document.addEventListener('focusin', () => setTimeout(fitViewport, 50));
   document.addEventListener('focusout', () => setTimeout(fitViewport, 50));
   fitViewport();
+
+  els.form.addEventListener('click', (e) => {
+    if (e.target === els.input || e.target.closest('button')) return;
+    els.input.focus();
+  });
 
   // ─── AWARENESS — notices tone, late nights and patterns ───
   const nightKey = (t) => new Date(t - 6 * 3600000).toDateString();

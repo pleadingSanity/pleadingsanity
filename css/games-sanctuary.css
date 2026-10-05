@@ -162,3 +162,13 @@
   .mm-affirm, .cc-card, .cc-star .dot { transition: none !important; }
   .cc-card.is-up { transform: none; }
 }
+
+/* Phone polish. Same games, bigger taps. */
+@media (max-width: 900px) {
+  .game-card, .gs-card, .play-area { overflow: visible; }
+  button, .btn, .game-card a.btn {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  body { overflow-x: hidden; }
+}

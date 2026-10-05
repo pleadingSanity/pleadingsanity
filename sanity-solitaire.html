@@ -118,7 +118,12 @@
     }
     select { background:#04110d; color:var(--ink); border:1px solid var(--gold); border-radius:10px; padding:8px; min-height:44px; }
   @keyframes pulse { 50% { box-shadow: 0 0 16px rgba(0,255,240,.85); } }
-  </style>
+  
+button, .btn { min-height: 44px; font-size: 16px; }
+.card, .peak .card { min-width: 44px; min-height: 62px; }
+body { overflow-x: hidden; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+</style>
 <style>
 .k-board button.k-slot { min-height:44px; min-width:52px; margin:2px; border-radius:10px; background:#0d1b2a; color:#eef6ff; border:1px solid rgba(0,255,240,.35); }
 .k-top, .k-tab { display:flex; gap:6px; flex-wrap:wrap; align-items:flex-start; justify-content:center; }
