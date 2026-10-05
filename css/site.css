@@ -765,7 +765,7 @@ img.logo, .logo-mark {
   font-weight: 800;
   cursor: pointer;
 }
-@media (max-width: 960px) {
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
   .ps-nav { position: sticky; top: 0; }
   .ps-nav-toggle { display: inline-flex; grid-area: toggle; justify-self: end; }
   .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
@@ -831,7 +831,7 @@ img.logo, .logo-mark {
   .ps-nav .ps-links { transition: none; }
 }
 
-@media (max-width: 720px) {
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
   body { padding-bottom: 76px; }
   body.ps-no-dock { padding-bottom: 0; }
   .ps-dock {
@@ -865,7 +865,7 @@ img.logo, .logo-mark {
   .ps-dock a:first-child { background: #00fff0; color: #000103; }
   .ps-dock a[aria-current="page"] { outline: 1px solid #00fff0; }
 }
-@media (min-width: 721px) { .ps-dock { display: none; } }
+@media (min-width: 961px) and (hover: hover) { .ps-dock { display: none; } }
 @media (prefers-reduced-motion: reduce) { .ps-dock { backdrop-filter: none; } }
 
 .ps-stay figure { margin: 0 0 12px; }
