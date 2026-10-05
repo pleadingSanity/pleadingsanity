@@ -275,7 +275,7 @@
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), options.timeout || 30000);
     try {
-      return await fetch(url, Object.assign({}, options, { signal: ctrl.signal }));
+      return await fetch(url, Object.assign({ credentials: 'same-origin' }, options, { signal: ctrl.signal }));
     } finally {
       clearTimeout(timer);
     }

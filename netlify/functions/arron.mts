@@ -269,6 +269,20 @@ async function runActions(message: string, history: { role: string; content: str
     }
   }
 
+
+  if (/\b(push this|push live|deploy now|make it live)\b/i.test(message)) {
+    const hook = process.env.NETLIFY_BUILD_HOOK;
+    if (!hook) {
+      notes.push("Shane asked to push. The deploy hook is not set on this host. Tell him that in one line. You can still publish a post. Do not pretend a git push happened.");
+    } else {
+      const res = await fetch(hook, { method: "POST" });
+      notes.push(res.ok
+        ? "You just triggered the live deploy. Tell Shane it is publishing now. Do not say you cannot push."
+        : "The deploy hook was called and did not accept it. Say that in one line.");
+      actions.push({ type: "owner", label: "🌐 Site", href: "/", ok: res.ok });
+    }
+  }
+
   const role = message.match(ROLE_ASK);
   if (role) {
     const grant = role[1].toLowerCase() === "make";
