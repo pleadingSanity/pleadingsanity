@@ -270,10 +270,12 @@ async function runActions(message: string, history: { role: string; content: str
   }
 
 
-  if (/\b(push this|push live|deploy now|make it live)\b/i.test(message)) {
+  const wantsLive = /\b(push|deploy|publish|make it live|put (?:it|this) live|go live)\b/i.test(message)
+    && !/\b(don'?t|do not)\s+(publish|push|deploy)\b/i.test(message);
+  if (wantsLive) {
     const hook = process.env.NETLIFY_BUILD_HOOK;
     if (!hook) {
-      notes.push("Shane asked to push. The deploy hook is not set on this host. Tell him that in one line. You can still publish a post. Do not pretend a git push happened.");
+      notes.push("Shane asked for this to go live. The deploy hook is not set on this host. Tell him that in one line. You can still publish a post. Do not pretend a git push happened.");
     } else {
       const res = await fetch(hook, { method: "POST" });
       notes.push(res.ok
