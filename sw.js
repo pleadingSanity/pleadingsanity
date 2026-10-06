@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.44'; // The New Gen Bible foundation is on the house. Shane's raw chapters still wait.
-const STATIC_CACHE = 'pleading-sanity-static-v70';
+const VERSION = '5.12.45'; // New Gen Bible carries Shane's full text. Dola speaks only in her own section.
+const STATIC_CACHE = 'pleading-sanity-static-v71';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
