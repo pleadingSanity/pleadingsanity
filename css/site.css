@@ -719,7 +719,14 @@ img.logo, .logo-mark {
   line-height: 1.45;
   text-align: left;
 }
-.ps-safety a { color: #00fff0; font-weight: 700; }
+.ps-safety a {
+  color: #00fff0;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.15rem;
+}
 
 .ps-doors-next { margin-top: 10px; }
 .ps-doors-next a { background: transparent; color: #eef6ff; font-weight: 650; }

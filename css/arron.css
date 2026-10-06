@@ -399,6 +399,11 @@
   #arron-conversation .message,
   .arron-suggest { max-width: 92%; }
   .arron-head .arron-sub { display: none; }
+  .arron-moodbar, .prompts {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .mood-chip, .prompt-btn { min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

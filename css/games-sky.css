@@ -116,3 +116,23 @@ html, body {
   .game-card, .hub-top, .daily, .shelf, .psg-card, .btn, button, .tile, .pad { transition: none; }
   .game-card:hover, .hub-top:hover, .shelf a:hover { transform: none; }
 }
+
+/* Phone play. Boards stay inside the night. No game removed. */
+@media (max-width: 720px) {
+  .grid, .cc-grid, .sd-stage, .stage, canvas, .board, .keys, .controls, .sd-controls, .opt-row {
+    max-width: 100%;
+  }
+  canvas, .sd-stage, .grid, .cc-sky, .cc-grid {
+    box-shadow:
+      0 0 0 1px rgba(0, 255, 240, 0.38),
+      0 0 26px rgba(0, 255, 240, 0.16),
+      0 14px 30px rgba(255, 0, 255, 0.1);
+  }
+  .cosmic-card, .game-card {
+    border-radius: 22px;
+  }
+  .btn, .option-btn, .opt-cell, .tile, .pad, .key {
+    min-height: 48px;
+  }
+  .game-thumb { height: 148px; }
+}

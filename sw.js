@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.38'; // Shane's voice and the manifesto
-const STATIC_CACHE = 'pleading-sanity-static-v64';
+const VERSION = '5.12.39'; // Phone play: chips wrap, games glow, kids share the sky
+const STATIC_CACHE = 'pleading-sanity-static-v65';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

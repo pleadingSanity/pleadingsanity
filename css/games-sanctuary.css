@@ -152,6 +152,18 @@
 /* ─── GAMES HUB: HEALING SECTION (games.html) ─── */
 .sg-hub { margin: 2.5rem 0 1rem; }
 .sg-hub > h2 { text-align: center; color: var(--sg-cyan); margin: 0 0 0.5rem; font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
+
+/* Phone. Stones and moods stay whole. No game removed. */
+@media (max-width: 420px) {
+  .mj-moods { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mj-path { gap: 12px 8px; }
+  .mj-stone { font-size: 0.72rem; }
+  .cc-grid { gap: 8px; }
+  .cc-card { min-height: 64px; border-radius: 18px; }
+  .tt-answer { min-height: 64px; }
+  .tt-bars li { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .mm-orb-wrap { width: min(78vw, 260px); }
+}
 .sg-hub > p { text-align: center; color: var(--sg-muted); margin: 0 auto 1.5rem; max-width: 60ch; }
 
 /* ─── REDUCED MOTION ─── */
