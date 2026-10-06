@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.42'; // Full help board on Arron. Forget Me clears the draft. Game cards show the level you earned.
-const STATIC_CACHE = 'pleading-sanity-static-v68';
+const VERSION = '5.12.43'; // Stay Sane AI named. The family door is open. Shane still decides.
+const STATIC_CACHE = 'pleading-sanity-static-v69';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -45,6 +45,7 @@ const PRECACHE_URLS = [
     '/',
     '/about.html',
     '/ai-ecosystem.html',
+    '/ai-family.html',
     '/ai-stories.html',
     '/ai-studio.html',
     '/arron.html',
