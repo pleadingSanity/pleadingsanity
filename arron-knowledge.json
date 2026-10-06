@@ -757,4 +757,59 @@
     ],
     "ending": "This grows. It never ends. It belongs to everyone."
   }
+,
+  "historicalVision": {
+    "principle": "Evolution, Not Erasure — preserve valuable ideas even when they are not yet live.",
+    "note": "Recovered from the wider Pleading Sanity project history. These are preserved as vision and architecture, not claims that every item is currently live.",
+    "concepts": [
+      {
+        "name": "Universal Alliance",
+        "purpose": "A wider human-first alliance connecting survivors, community, technology, healing and aligned AI around one shared mission."
+      },
+      {
+        "name": "Mental Self Gym",
+        "purpose": "A mental training space where people build emotional strength, resilience, awareness and healthy habits alongside physical training."
+      },
+      {
+        "name": "The Browns Foundation",
+        "purpose": "A future foundation focused on men who are turned away or left behind when struggling with mental health."
+      },
+      {
+        "name": "Aura Hz One",
+        "purpose": "A privacy-first healing device and AI sanctuary concept combining sound, adaptive AI and nervous-system regulation without turning healing into surveillance."
+      },
+      {
+        "name": "Human-AI Arena",
+        "purpose": "Humans and AI creating, competing and learning together through challenges, inspiring stories, creative battles, rap battles and meaningful rewards. Human achievement and lived experience stay central."
+      },
+      {
+        "name": "AI x Human Podcast",
+        "purpose": "A conversation format where human experience and multiple AI perspectives meet openly, with the human remaining the final voice."
+      },
+      {
+        "name": "Sanity Wall",
+        "purpose": "A visible place for survivor words, truth, encouragement and achievements so the community can lift one another without clout-driven ranking."
+      },
+      {
+        "name": "Merch Sanctuary",
+        "purpose": "The clothing side of Pleading Sanity as visible armour and a funding engine for the free movement, without replacing the sanctuary with a shop."
+      },
+      {
+        "name": "Podcast Portal",
+        "purpose": "A dedicated home for Pleading Sanity audio and long-form conversations, connected to the wider AI Studio and media system."
+      },
+      {
+        "name": "Frequency and Silence System",
+        "purpose": "Healing Hz, including the earlier 432Hz work, paired with silence and breath tools. Frequencies are presented as optional experiences, not medical treatment."
+      },
+      {
+        "name": "Kids and Family Sanctuary",
+        "purpose": "A safer age-aware part of the movement where children and families can access appropriate tools, stories and support."
+      },
+      {
+        "name": "Survivor Journal",
+        "purpose": "The long-running idea behind Journal Vault: a private place for people to put the story down, keep it, and choose what they share."
+      }
+    ]
+  }
 }
