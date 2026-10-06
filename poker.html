@@ -204,26 +204,32 @@ body { overflow-x: hidden; }
       const need = owe(s);
       const strong = mine[0] >= 1;
       if (need && !strong && s.name !== "Caller") return { kind: "fold", amount: 0 };
-      if (!need && strong && s.stack > 40 && s.name === "Loose") return { kind: "raise", amount: 40 };
+      if (!need && strong && s.stack > 40 && s.name === "Loose" && !s.raised) {
+        s.raised = true;
+        return { kind: "raise", amount: 40 };
+      }
       return { kind: "call", amount: 0 };
     }
     function applyPlay(seat, kind, amount) {
       if (handOver || turn !== seat) return;
       const s = seats[seat];
       const who = seat === mySeat ? "You" : s.name;
-      if (kind === "fold") { s.folded = true; log(who + " folded."); }
+      if (kind === "fold") { s.folded = true; log(who + " folded."); toAct -= 1; }
       else if (kind === "raise") {
         const add = Math.min(s.stack, owe(s) + Math.max(20, Number(amount) || 40));
-        s.stack -= add; s.bet += add; s.put += add; pot += add; currentBet = s.bet; toAct = 4; if (!s.stack) s.allin = true;
+        s.stack -= add; s.bet += add; s.put += add; pot += add;
+        if (s.bet > currentBet) currentBet = s.bet;
+        toAct = live().filter((p) => p !== s && !p.allin).length;
+        if (!s.stack) s.allin = true;
         log(who + " raised to " + s.bet + ".");
       } else {
         const need = owe(s);
         const pay = Math.min(s.stack, need);
         s.stack -= pay; s.bet += pay; s.put += pay; pot += pay; if (!s.stack) s.allin = true;
         log(need ? who + " called." : who + " checked.");
+        toAct -= 1;
       }
       if (live().length === 1) return show();
-      toAct -= 1;
       if (betsEven() && toAct <= 0) return streetNext();
       nextTurn();
     }
@@ -235,7 +241,7 @@ body { overflow-x: hidden; }
     }
     function bot() { const c = choose(seats[turn]); applyPlay(turn, c.kind, c.amount); }
     function streetNext() {
-      seats.forEach((s) => { s.bet = 0; });
+      seats.forEach((s) => { s.bet = 0; s.raised = false; });
       currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = button;
       if (street === 0) board.push(deck.pop(), deck.pop(), deck.pop());
       else if (street < 3) board.push(deck.pop());

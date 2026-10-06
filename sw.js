@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.40'; // Night Table pays the pot. Solitaire modes tell the truth.
-const STATIC_CACHE = 'pleading-sanity-static-v66';
+const VERSION = '5.12.41'; // A raise closes when the table has answered. The hand can finish.
+const STATIC_CACHE = 'pleading-sanity-static-v67';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
