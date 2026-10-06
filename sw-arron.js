@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.6-shane-voice';
+const VERSION = '3.7-no-hud';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -69,19 +69,37 @@ function networkFirst(request, fallback) {
         .catch(async () => (await caches.match(request, { ignoreSearch: true })) || (fallback && await fallback()) || Response.error());
 }
 
+function withoutHud(response) {
+    if (!response || !response.ok) return Promise.resolve(response);
+    const type = response.headers.get('content-type') || '';
+    if (!type.includes('text/html')) return Promise.resolve(response);
+    return response.text().then(html => {
+        const cleaned = html.replace(/<script\b[^>]*src=["']\/\.netlify\/scripts\/hud[^"']*["'][^>]*>\s*<\/script>/gi, '');
+        const headers = new Headers(response.headers);
+        headers.delete('content-length');
+        return new Response(cleaned, { status: response.status, statusText: response.statusText, headers });
+    });
+}
+
 self.addEventListener('fetch', event => {
     const { request } = event;
     if (request.method !== 'GET') return;
 
     const url = new URL(request.url);
     if (url.origin !== self.location.origin) return;
+    // Netlify appends a badge script after </html>. It is not Arron. An empty file
+    // means it never builds the inline frame the page lock is right to block.
+    if (url.pathname === '/.netlify/scripts/hud') {
+        event.respondWith(new Response('', { status: 200, headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }));
+        return;
+    }
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
     // Deep links (?view=journal, ?say=…, share target) all open the same cached app
     if (request.mode === 'navigate') {
         event.respondWith(networkFirst(request, async () =>
             (await caches.match(APP_URL)) || (await caches.match('/offline.html'))
-        ));
+        ).then(withoutHud));
         return;
     }
 

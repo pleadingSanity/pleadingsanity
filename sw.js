@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.48'; // Front door shows the Bible, the games and all six help lines. Titles carry the night glow.
-const STATIC_CACHE = 'pleading-sanity-static-v74';
+const VERSION = '5.12.49'; // The host badge is kept off the pages. Arron's lock stays tight.
+const STATIC_CACHE = 'pleading-sanity-static-v75';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -213,6 +213,10 @@ self.addEventListener('fetch', event => {
 
     const url = new URL(request.url);
     if (url.origin !== self.location.origin) return;
+    if (url.pathname === '/.netlify/scripts/hud') {
+        event.respondWith(new Response('', { status: 200, headers: { 'Content-Type': 'application/javascript; charset=utf-8' } }));
+        return;
+    }
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/.netlify/')) return;
 
     // Profile, member, journal, account: network only. Never stored.
@@ -228,11 +232,18 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             fetch(request)
                 .then(response => {
-                    if (response.ok) {
-                        const copy = response.clone();
+                    if (!response.ok) return response;
+                    const type = response.headers.get('content-type') || '';
+                    if (!type.includes('text/html')) return response;
+                    return response.text().then(html => {
+                        const cleaned = html.replace(/<script\b[^>]*src=["']\/\.netlify\/scripts\/hud[^"']*["'][^>]*>\s*<\/script>/gi, '');
+                        const headers = new Headers(response.headers);
+                        headers.delete('content-length');
+                        const clean = new Response(cleaned, { status: response.status, statusText: response.statusText, headers });
+                        const copy = clean.clone();
                         caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
-                    }
-                    return response;
+                        return clean;
+                    });
                 })
                 .catch(async () =>
                     (await caches.match(request, { ignoreSearch: true })) ||
