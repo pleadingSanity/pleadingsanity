@@ -1,5 +1,19 @@
 {
   "framework": null,
   "buildCommand": "",
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "redirects": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
+      "destination": "https://pleadingsanity.co.uk/",
+      "permanent": true
+    },
+    {
+      "source": "/:path+",
+      "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
+      "destination": "https://pleadingsanity.co.uk/:path+",
+      "permanent": true
+    }
+  ]
 }
