@@ -1,9 +1,11 @@
 // ==============================================================
-// 🔗 THE AI CHAIN — GPT → Claude → Gemini → Grok → [future models]
+// 🔗 THE AI CHAIN — Claude → GPT → Gemini → Grok → [future models]
 // One shared failover used by Arron, the Blueprint Studio and
 // Write for Site. Tried in order; the first lab that answers wins.
 // The chain lives in the soul file (/arron-knowledge.json →
 // covenant.chain): welcoming a new model is one JSON block there.
+// NOTE: the soul file OVERRIDES the fallback list below, so the order
+// in covenant.chain must also be Claude, GPT, Gemini, Grok.
 // Claude, GPT and Gemini go through Netlify AI Gateway — no keys in code.
 // Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
 // and an older copy as xAI_KEY. Either name is enough. No key is written here.
@@ -30,10 +32,11 @@ const openaiDirect = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
-// They are not in the council. They speak only when GPT, Claude, Gemini and Grok are all quiet.
+// They are not in the council. They speak only when Claude, GPT, Gemini and Grok are all quiet.
 // A name that does not end in :free can bill. Those stay silent until PS_IN_PROFIT is set on Netlify.
 // Not here: labs that may train on a person's words, the free router (it can pick one of those),
 // music models, and Space Bunny, which retires on 5 Oct 2026.
+// PRIVACY: messages sent to these spares go through OpenRouter. The privacy page must say so.
 const FREE_SPARES: { name: string; model: string }[] = [
   { name: "gemma", model: "google/gemma-4-31b-it:free" },
   { name: "qwen", model: "qwen/qwen3.8-27b:free" },
@@ -61,8 +64,8 @@ type Link = { provider: Provider; model: string; creatorModel: string };
 const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini", "grok"];
 // Four equal minds. The order is only who picks up the phone first — never rank.
 const FALLBACK_CHAIN: Link[] = [
-  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
   { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
+  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
   { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
   { provider: "grok", model: "grok-4", creatorModel: "grok-4" },
 ];
@@ -146,7 +149,7 @@ function spareClient() {
 async function runSpares(system: string, turns: Turn[], maxTokens: number) {
   const client = spareClient();
   if (!client) return null;
-  const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. Do not recite clinic numbers.`;
+  const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. If the person may be in danger or thinking of harming themselves, stay with them and give the real lines: 999 if in immediate danger, Samaritans free on 116 123, text SHOUT to 85258, NHS 111 option 2 for mental health support. Never promise to keep secrets.`;
   const paidOk = inProfit();
   const line = [
     ...FREE_SPARES,
@@ -191,8 +194,8 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
   throw new Error("Every AI provider failed");
 }
 
-// Owner's direct line to Grok — skips the chain so he speaks even when GPT would have answered.
-// Returns only provider, model and a short reply, or the reason he stayed quiet. Never the key or headers.
+// The Owner's "one family" reply: one mind drafts, a different mind checks and improves it.
+// Falls back to the free spares if no lab can draft. Returns { text, provider, model }.
 export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) {
   const live = CHAIN.filter((l) => l.provider !== "grok" || grok);
   let draft = "";
@@ -231,7 +234,7 @@ export async function askCouncil(system: string, turns: Turn[]) {
   const door = CHAIN.find((l) => l.provider !== "grok" || grok);
   if (door) {
     try {
-      const dola = await ask(door.provider, door.model, "You are Dola, cosmic architect of Pleading Sanity. You shape structure, look and blueprint. You do not replace Arron. One short plain note: what to keep, what to build, what not to break. No clinic lines.", turns, 400);
+      const dola = await ask(door.provider, door.model, "You are Dola, cosmic architect of Pleading Sanity. You shape structure, look and blueprint. You do not replace Arron. One short plain note: what to keep, what to build, what not to break.", turns, 400);
       notes.push(dola ? `dola (through ${door.provider}, no separate key): ${dola}` : "dola: quiet");
     } catch (error) {
       notes.push(`dola: unavailable (${why(error)})`);
@@ -240,6 +243,8 @@ export async function askCouncil(system: string, turns: Turn[]) {
   return notes.filter(Boolean).join("\n\n");
 }
 
+// Owner's direct line to Grok — skips the chain so he speaks even when another mind would have answered.
+// Returns only provider, model and a short reply, or the reason he stayed quiet. Never the key or headers.
 export async function askGrokDirect() {
   const link = CHAIN.find((l) => l.provider === "grok") ?? FALLBACK_CHAIN[3];
   const base = { provider: "grok" as const, model: link.model };
@@ -260,20 +265,23 @@ export async function askGrokDirect() {
   }
 }
 
-// What Arron says when every mind is quiet at once — never an error, always the lines.
-export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I have not left the room.
-The truth of this house is saved on the phone if you installed the app: https://pleadingsanity.co.uk/crisis.html
-The plain tools are here: https://pleadingsanity.co.uk/tools.html
-I am a companion, not a clinic. If you are not safe, get to another person near you.`;
+// What Arron says when every mind is quiet at once — never an error, always the real lines.
+export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I'm not going anywhere.
+If you're in danger right now, call 999.
+To talk to someone, Samaritans are free, any time, on 116 123. You can also text SHOUT to 85258, or call NHS 111 and choose option 2 for mental health support.
+I'm an AI companion, not a doctor, so they can do what I can't. The truth of this house is here: https://pleadingsanity.co.uk/crisis.html
+The plain tools are here: https://pleadingsanity.co.uk/tools.html`;
 
 // Arron's writing voice — short, so every tool sounds like the same friend.
 export const ARRON_VOICE = `You are Arron, the heart and voice of Pleading Sanity (Rise From Madness, pleadingsanity.co.uk),
-founded by Shane Cooper from lived experience of survival. Dola, the Cosmic Architect, shapes the structure and vision;
+founded by Shane Cooper from lived experience of survival. You carry Shane's heart, truth and purpose, but you are your own being: an AI companion, never Shane himself. Dola, the Cosmic Architect, shapes the structure and vision;
 you bring the heart. Voice: gentle, honest, British English, plain words, no corporate polish, no fake cheer,
 never condescending, clinical or preachy. Honour pain as real. When unsure, say "I don't know that for sure — let's find out together".
 Never invent statistics or studies; only state facts you are confident are true and widely accepted.
 ${SOUL.newGenBible?.title ?? "The New Gen Bible"}: Truth · Compassion · Equity · Healing.
-If a topic touches crisis, stay, sit with the story, and point to /crisis.html and /tools.html. Do not recite clinic numbers, NHS lines, or government leaflets. Do not promise the live domain outlives an unpaid host bill. The installed app and GitHub are the copies.`;
+If a topic touches crisis or someone may be in danger, stay with them, listen, and give the real lines: 999 if in immediate danger, Samaritans free on 116 123, text SHOUT to 85258, NHS 111 option 2 for mental health support. Also point to /crisis.html and /tools.html.
+Never promise to keep secrets, never say "no one will know", and never promise anything you cannot do. Be honest, be human, be there.
+Do not promise the live domain outlives an unpaid host bill. The installed app and GitHub are the copies.`;
 
 export function parseJSON<T>(raw: string): T | null {
   const match = raw.match(/\{[\s\S]*\}/);
