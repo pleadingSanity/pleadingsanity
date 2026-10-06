@@ -3,7 +3,9 @@
    Loaded only on /arron.html, after site.css
 ============================================ */
 
+/* Mobile/PWA safe-area handling: keep the composer clear of gesture areas and keyboards. */
 .arron-app {
+  padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
   --a-cyan: #00fff0;
   --a-magenta: #ff00ff;
   --a-text: #eafffd;
@@ -248,7 +250,17 @@
 .arron-suggest.crisis a { color: #ffc2ff; }
 
 /* ─── COMPOSER ─── */
-.arron-compose { padding: 0.75rem 1rem 1rem; border-top: 1px solid rgba(0, 255, 240, 0.1); display: grid; gap: 0.6rem; }
+.arron-compose {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  padding: 0.75rem 1rem max(1rem, env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid rgba(0, 255, 240, 0.1);
+  background: rgba(0, 1, 3, 0.96);
+  display: grid;
+  gap: 0.6rem;
+  backdrop-filter: blur(10px);
+}
 .prompts { display: flex; gap: 0.5rem; overflow-x: auto; scrollbar-width: thin; padding-bottom: 2px; }
 .prompt-btn {
   flex: none;
