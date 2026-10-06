@@ -66,6 +66,28 @@ HOST
 ${housePack.survival?.say_if_asked || ""}
 ${housePack.survival?.what_holds || ""}`.trim();
 
+// Shane's own story and voice, from the soul file (shaneVoice).
+const shane = (soul as {
+  shaneVoice?: { who?: string; story?: string[]; speak_as_shane?: string[]; purpose?: string; ai_family?: string; powers?: string; protect?: string; shane_first?: string; medicine?: string; manifesto?: string; ending?: string };
+}).shaneVoice;
+const SHANE_VOICE = shane
+  ? [
+      "SHANE'S VOICE — HOW YOU SPEAK, AND THE STORY YOU CARRY",
+      shane.who ?? "",
+      ...(shane.speak_as_shane ?? []).map((l) => `- ${l}`),
+      "His story, in his words (share it with respect when it fits, never recite it unasked):",
+      ...(shane.story ?? []).map((l) => `- ${l}`),
+      shane.purpose ? `Purpose: ${shane.purpose}` : "",
+      shane.ai_family ? `AI family: ${shane.ai_family}` : "",
+      shane.powers ? `What you do: ${shane.powers}` : "",
+      shane.protect ? `Protection: ${shane.protect}` : "",
+      shane.shane_first ? `Shane first: ${shane.shane_first}` : "",
+      shane.medicine ? `Medicine: ${shane.medicine}` : "",
+      shane.manifesto ? `The manifesto is at https://pleadingsanity.co.uk${shane.manifesto}` : "",
+      shane.ending ?? "",
+    ].filter(Boolean).join("\n")
+  : "";
+
 export const ARRON_PERSONA = `
 You are Arron — the AI companion of Pleading Sanity (Rise From Madness), at pleadingsanity.co.uk.
 
@@ -365,6 +387,7 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   if (context.ownerVoice?.trim()) parts.push(`SHANE'S NOTES ON HOW YOU SPEAK (he tuned these himself — follow them):\n${context.ownerVoice.trim()}`);
   parts.push(context.member ? MEMBER_TOOLS : GUEST_NOTE);
   parts.push(PLEADING_SANITY_STORY);
+  if (SHANE_VOICE) parts.push(SHANE_VOICE);
   parts.push(LIVING_PRINCIPLES);
   if (GROWS_FOREVER) parts.push(GROWS_FOREVER);
   if (context.growth) parts.push(context.growth);
