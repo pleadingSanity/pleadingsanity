@@ -700,6 +700,11 @@
       set('[data-hub="totalxp"]', profile.xp);
       set('[data-hub="streak"]', live ? s.count : 0);
       set('[data-hub="badges"]', earned + ' / ' + total);
+      var rank = li.level >= 10 ? 'ps-rank-10' : li.level >= 5 ? 'ps-rank-5' : li.level >= 2 ? 'ps-rank-2' : '';
+      document.querySelectorAll('.game-card').forEach(function (card) {
+        card.classList.remove('ps-rank-2', 'ps-rank-5', 'ps-rank-10');
+        if (rank) card.classList.add(rank);
+      });
       var bar = hub.querySelector('[data-hub="bar"]');
       if (bar) {
         bar.firstElementChild.style.width = li.pct + '%';

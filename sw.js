@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.41'; // A raise closes when the table has answered. The hand can finish.
-const STATIC_CACHE = 'pleading-sanity-static-v67';
+const VERSION = '5.12.42'; // Full help board on Arron. Forget Me clears the draft. Game cards show the level you earned.
+const STATIC_CACHE = 'pleading-sanity-static-v68';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

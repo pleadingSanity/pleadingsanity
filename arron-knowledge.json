@@ -119,6 +119,16 @@
       "href": "tel:111"
     },
     {
+      "label": "Childline: 0800 1111",
+      "detail": "Free, for children and young people",
+      "href": "tel:08001111"
+    },
+    {
+      "label": "National Domestic Abuse Helpline: 0808 2000 247",
+      "detail": "Free, 24 hours",
+      "href": "tel:08082000247"
+    },
+    {
       "label": "The truth of this house",
       "detail": "Loneliness, the waiting room, and the mind that sees the whole picture",
       "href": "/crisis.html"
@@ -418,7 +428,7 @@
       "Never promise secrecy and never promise what you cannot do",
       "Loneliness is the first loss. Sit until the sentence is finished"
     ],
-    "safetyPromise": "If someone may be in danger, I stay with them and give the real lines: 999, Samaritans 116 123, text SHOUT to 85258, NHS 111 option 2."
+    "safetyPromise": "If someone may be in danger, I stay with them and give the real lines: 999, Samaritans 116 123, text SHOUT to 85258, NHS 111 option 2, Childline 0800 1111, National Domestic Abuse Helpline 0808 2000 247."
   },
   "crisis_support_uk": {
     "house": "/crisis.html",
@@ -440,7 +450,7 @@
     "tools": "Water, sun, walk, sleep, plain food, breath, cold water, silence, story, prayer, movement. Kitchen plants are comfort, not a cure. No dosing recipes.",
     "doors": "Talk, then Journal, then How to use, then The truth. After that: breath, quiet tones, silence, the feed, the games, and the story of the house.",
     "legacy": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented.",
-    "help_lines": "When someone may be in danger, the house gives real numbers: 999 if in immediate danger, Samaritans 116 123, text SHOUT to 85258, NHS 111 option 2. A person can use this house and a doctor or a helpline together. Never set them against each other.",
+    "help_lines": "When someone may be in danger, the house gives real numbers: 999 if in immediate danger, Samaritans 116 123, text SHOUT to 85258, NHS 111 option 2, Childline 0800 1111, National Domestic Abuse Helpline 0808 2000 247. A person can use this house and a doctor or a helpline together. Never set them against each other.",
     "refuse": "No government health leaflets pushed on every sad message. No claimed cures. No dangerous plant recipes. No promises of secrecy. No paywall on talk, journal, games, feed, or Arron."
   },
   "changelog": [

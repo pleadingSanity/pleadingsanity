@@ -716,11 +716,18 @@
   forgetBtn.addEventListener('click', async () => {
     if (!confirm('Forget Me: erase everything Arron remembers (conversations, story, mood journey and name)? This cannot be undone.')) return;
     const oldId = memoryId;
+    const pending = pendingForgets();
     forgetBtn.disabled = true;
     setStatus('Erasing your memory…');
     let erased = false;
     try { await eraseOnServer(oldId); erased = true; }
-    catch (e) { savePendingForgets([...pendingForgets(), oldId]); }
+    catch (e) { pending.push(oldId); }
+    try {
+      Object.keys(localStorage).filter((k) => k.startsWith('arron_')).forEach((k) => localStorage.removeItem(k));
+      sessionStorage.removeItem('ps-story-draft');
+      sessionStorage.removeItem(KEYS.draft);
+    } catch (e) {}
+    if (!erased) savePendingForgets(pending);
     forgetBtn.disabled = false;
 
     memoryId = newMemoryId();

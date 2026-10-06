@@ -352,6 +352,7 @@ html.aa-root, .aa-body {
   box-shadow: 0 -14px 14px -6px var(--aa-bg);
 }
 /* With the tab bar hidden, the input bar clears the iPhone home indicator itself */
+.aa-body.aa-kb .aa-shell { transform: translateY(var(--aa-vv-top, 0px)); }
 .aa-body.aa-kb .aa-compose { padding-bottom: var(--aa-safe-b); }
 .aa-body.aa-kb .aa-quick { display: none; }
 .aa-body.aa-kb .aa-log { max-height: none; }
@@ -688,14 +689,21 @@ html.aa-root, .aa-body {
   color: #eef6ff;
   font-size: 0.86rem;
   line-height: 1.4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+  align-items: center;
 }
 .aa-safe a {
-  color: #00fff0;
+  color: #000103;
   font-weight: 800;
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 0.2rem;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #00fff0;
+  text-decoration: none;
 }
 .aa-body.aa-kb .aa-safe { display: none; }
 .aa-top {

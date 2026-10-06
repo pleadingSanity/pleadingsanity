@@ -659,10 +659,15 @@
   const typingField = () => { const a = document.activeElement; return !!a && (a.tagName === 'TEXTAREA' || (a.tagName === 'INPUT' && !['checkbox', 'radio', 'button', 'submit'].includes(a.type))); };
   function fitViewport() {
     const h = vv ? vv.height : window.innerHeight;
+    const top = vv ? Math.max(0, Math.round(vv.offsetTop)) : 0;
     document.documentElement.style.setProperty('--aa-vh', Math.round(h) + 'px');
-    const keyboard = typingField() && window.innerHeight - h > 120;
+    document.documentElement.style.setProperty('--aa-vv-top', top + 'px');
+    const keyboard = typingField() && window.innerHeight - h > 80;
     document.body.classList.toggle('aa-kb', keyboard || (typingField() && h < 420 && matchMedia('(pointer: coarse)').matches));
     if (window.scrollY || document.documentElement.scrollTop) window.scrollTo(0, 0);
+    if (document.body.classList.contains('aa-kb') && els.form) {
+      els.form.scrollIntoView({ block: 'nearest' });
+    }
   }
   if (vv) { vv.addEventListener('resize', fitViewport); vv.addEventListener('scroll', fitViewport); }
   window.addEventListener('resize', fitViewport);
@@ -1202,6 +1207,7 @@
     btn.disabled = false;
     try {
       Object.keys(localStorage).filter((k) => k.startsWith('arron_')).forEach((k) => localStorage.removeItem(k));
+      sessionStorage.removeItem('ps-story-draft');
     } catch (e) {}
     if (pending.length) store.setJson(SHARED.forget, pending);
     if (synth) synth.cancel();
@@ -1423,6 +1429,7 @@
   els.input.value = store.get(KEYS.draft, '');
   journalInput.value = store.get('arron_app_journal_draft', '');
   if (els.input.value) { autosize(); setStatus('Your unsent message is still here. 💙'); }
+  else if (navigator.onLine === false && messages.length) setStatus('Offline. Your last chat is still on this phone.');
   const lastMood = vault.moods[vault.moods.length - 1];
   setMood(lastMood && Date.now() - lastMood.at < DAY ? lastMood.mood : null);
   applyComfort();
