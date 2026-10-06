@@ -425,7 +425,8 @@ async function chat(req: Request, context: Context, rid: string) {
 
   const who = await whoIsHere();
   const { user, profile } = who;
-  if (!(await allow("chat", context, user?.id))) {
+  // Shane's verified Owner account is not rate-limited. Everyone else gets the normal gentle brake.
+  if (!user?.isOwner && !(await allow("chat", context, user?.id))) {
     // Never slow down someone who may be in crisis: give the real lines straight away.
     if (crisis) return json({ reply: SIGNPOST, provider: "none", remembered: false, crisis: true, signpost: SIGNPOST, actions: [] });
     return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
