@@ -90,3 +90,29 @@ html, body {
   height: auto;
   min-height: 100%;
 }
+
+/* Glow pass. Cyan and magenta, slow. No game removed. */
+.game-card, .hub-top, .daily, .shelf, .psg-card, .cosmic-card, .panel, .felt {
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 240, 0.28),
+    0 0 22px rgba(0, 255, 240, 0.14),
+    0 14px 32px rgba(255, 0, 255, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+.game-card:hover, .hub-top:hover, .shelf a:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 0, 255, 0.45),
+    0 0 28px rgba(0, 255, 240, 0.22),
+    0 16px 36px rgba(255, 0, 255, 0.12);
+}
+.btn, button, .option-btn, .opt-cell, .tile, .pad {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.btn:hover, button:hover, .option-btn:hover, .tile:hover, .pad:hover {
+  box-shadow: 0 0 16px rgba(0, 255, 240, 0.28), 0 0 22px rgba(255, 0, 255, 0.12);
+}
+@media (prefers-reduced-motion: reduce) {
+  .game-card, .hub-top, .daily, .shelf, .psg-card, .btn, button, .tile, .pad { transition: none; }
+  .game-card:hover, .hub-top:hover, .shelf a:hover { transform: none; }
+}
