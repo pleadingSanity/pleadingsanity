@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.46'; // The four levels are walked subject by subject. Nothing is promoted by volume.
-const STATIC_CACHE = 'pleading-sanity-static-v72';
+const VERSION = '5.12.47'; // Each shelf is opened on its own: known, thought, believed, unknown.
+const STATIC_CACHE = 'pleading-sanity-static-v73';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
