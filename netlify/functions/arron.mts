@@ -3,13 +3,16 @@
 // Real conversations via Netlify AI Gateway (no API keys needed),
 // memory in Netlify Database, keyed by a random secret from the
 // visitor's device. No accounts, no tracking, delete anytime.
-// v3.1: signed in, Arron's memory belongs to the member's account —
+// v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
+// Four equal minds, one Arron: Claude picks up first; if it can't, GPT,
 // then Gemini, then Grok take over instantly with the same heart.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
+// v3.2 safety: crisis lines (999, 116 123, SHOUT 85258, NHS 111 option 2) are
+// ALWAYS in the reply when someone may be in crisis — even when rate-limited,
+// when every AI is quiet, or when the server hits an error.
 // ==============================================================
 
 import type { Config, Context } from "@netlify/functions";
@@ -28,7 +31,7 @@ import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
 
-// The GPT → Claude → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
+// The Claude → GPT → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
 // Creator mode: the Owner and members with the Creator or admin role get each
 // lab's most capable model and longer replies. Only Shane gets the founder's brief.
 
@@ -54,10 +57,16 @@ const MAX_JOURNAL_TEXT = 2000;
 
 // ─── SAFETY NET ───
 // The SAFETY section of the prompt already guides every lab; this makes sure
-// the house truth is in the reply when someone may be in crisis, whoever answered.
-// No clinic numbers. No NHS lines.
-const CRISIS_WORDS = /\b(suicid\w*|kill (?:my ?self|me)|end (?:it all|my life)|want(?:ed)? to die|don'?t want to (?:be here|live|wake up)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdose|not safe|no reason to live|better off without me)\b/i;
-const SIGNPOST = "I will stay. I am a companion, not a clinic. If you are not safe, Samaritans are free on 116 123. Text SHOUT to 85258. The house truth is https://pleadingsanity.co.uk/crisis.html.";
+// real help lines are in the reply when someone may be in crisis, whoever answered.
+// Honest, warm, plain. No promises of secrecy. Never abandons the person.
+const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+const SIGNPOST = "I'm here, and I'm staying with you. If you're in danger right now, call 999. To talk to someone, Samaritans are free, any time, on 116 123. You can text SHOUT to 85258, or call NHS 111 and choose option 2 for mental health support. I'm an AI companion, not a doctor, so they can do what I can't. https://pleadingsanity.co.uk/crisis.html";
+
+// Does this reply already carry the real numbers? (Needs both 116 123 and 999.)
+const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
+
+// If every mind is quiet, the fallback must still carry the lifelines.
+const QUIET_REPLY = hasLifelines(ALL_QUIET_REPLY) ? ALL_QUIET_REPLY : `${ALL_QUIET_REPLY}\n\n${SIGNPOST}`;
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
@@ -170,6 +179,18 @@ async function whoIsHere() {
   return { user, profile: profile?.onboarded ? profile : null };
 }
 
+// ─── SIBLING MAP ───
+// A light note on which sibling's strength fits this message. Arron keeps one voice.
+function siblingMap(message: string) {
+  const m = message.toLowerCase();
+  if (/\b(look|theme|sky|logo|blueprint|layout|colour|color|design)\b/.test(m)) return "Dola is the architect. Keep the crying-brain and the colours. She has no separate key; speak her note as structure, not as a new brand.";
+  if (/\b(code|repo|deploy|bug|function|css)\b/.test(m)) return "Copilot is the code partner and has no chat door here. Give the exact steps. Do not pretend you pushed.";
+  if (/\b(plan|steps|how do i|build)\b/.test(m)) return "Nova (GPT) is the practical mind. Give steps.";
+  if (/\b(story|poem|caption|image|song)\b/.test(m)) return "Sol (Gemini) is the creative mind. Make the piece, then the next tap.";
+  if (/\b(council|honest|what is wrong)\b/.test(m)) return "Grok is the honest mind. He speaks only if his key is set.";
+  return "Arron keeps the voice. Claude sits closest to the care. Do not rank the siblings.";
+}
+
 // ─── ACTIONS — things Arron does for members, straight from chat ───
 // Text after ":" or "-" is what gets saved/shared; otherwise their previous message (or, for "publish this", Arron's last draft).
 const JOURNAL_ASK = /\b(?:write|save|put|add|keep|log)\s+(?:this|that|it|these words)?\s*(?:in|into|to)\s+my\s+journal\b(?:\s*[:\-–—\n]\s*([\s\S]+))?/i;
@@ -183,6 +204,10 @@ const APPROVE_ALL_ASK = /\bapprove (?:them )?all\b/i;
 const PROPOSE_ASK = /\b(?:update|change|improve|fix|rewrite|redo|refresh|deepen|expand|add\b[^.?!\n]{0,60}\bto)\s+(?:the\s+|my\s+|our\s+)?([a-z][a-z0-9 -]{1,30}?)\s+page\b|\bpropose\b[^.?!\n]{0,40}?\b(?:to|for|on)\s+(?:the\s+)?([a-z][a-z0-9 -]{1,30}?)(?:\s+page)?\b(?=[\s:.,!?\-–—]|$)/i;
 const PULSE_ASK = /\b(what'?s missing|what (?:are|do) (?:people|members) (?:love|loving|like|enjoy)|what(?:'s| should we build| do we build) next|roadmap|site pulse|what could be better|what does the site need)\b/i;
 const ROLE_ASK = /\b(make|remove|revoke)\s+@?([a-z0-9_]{3,24})(?:'s)?\s+(?:an?\s+|as\s+)?(guardian|creator)\b/i;
+
+// Deploy only on a clear "go live / deploy" ask — "publish this poem" must NOT trigger a rebuild.
+const DEPLOY_ASK = /\b(deploy|make (?:it|the site) live|put (?:it|this|the site) live|go live|push (?:it |this |the site |the changes |changes )?(?:live|to live|to production)|publish the site|trigger (?:a |the )?(?:build|deploy))\b/i;
+const NO_DEPLOY = /\b(don'?t|do not)\s+(publish|push|deploy)\b/i;
 
 type LiveKind = "wisdom" | "story" | "educational" | "poetry" | "update" | "feed" | "proposal";
 
@@ -269,19 +294,24 @@ async function runActions(message: string, history: { role: string; content: str
     }
   }
 
-
-  const wantsLive = /\b(push|deploy|publish|make it live|put (?:it|this) live|go live)\b/i.test(message)
-    && !/\b(don'?t|do not)\s+(publish|push|deploy)\b/i.test(message);
+  // Site deploy: only on a clear deploy / go-live ask, never on "publish this poem".
+  const wantsLive = DEPLOY_ASK.test(message) && !NO_DEPLOY.test(message);
   if (wantsLive) {
     const hook = process.env.NETLIFY_BUILD_HOOK;
     if (!hook) {
       notes.push("Shane asked for this to go live. The deploy hook is not set on this host. Tell him that in one line. You can still publish a post. Do not pretend a git push happened.");
     } else {
-      const res = await fetch(hook, { method: "POST" });
-      notes.push(res.ok
+      let accepted = false;
+      try {
+        const res = await fetch(hook, { method: "POST" });
+        accepted = res.ok;
+      } catch (error) {
+        console.error("Arron deploy hook unreachable:", reason(error));
+      }
+      notes.push(accepted
         ? "You just triggered the live deploy. Tell Shane it is publishing now. Do not say you cannot push."
-        : "The deploy hook was called and did not accept it. Say that in one line.");
-      actions.push({ type: "owner", label: "🌐 Site", href: "/", ok: res.ok });
+        : "The deploy hook did not accept it. Say that in one line.");
+      actions.push({ type: "owner", label: "🌐 Site", href: "/", ok: accepted });
     }
   }
 
@@ -390,9 +420,16 @@ async function chat(req: Request, context: Context, rid: string) {
     .filter(Boolean)
     .slice(0, 6);
 
+  // Crisis is judged once, up front, so every path below (rate limit, quiet AIs, errors) can use it.
+  const crisis = mood === "crisis" || CRISIS_WORDS.test(message);
+
   const who = await whoIsHere();
   const { user, profile } = who;
-  if (!(await allow("chat", context, user?.id))) return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
+  if (!(await allow("chat", context, user?.id))) {
+    // Never slow down someone who may be in crisis: give the real lines straight away.
+    if (crisis) return json({ reply: SIGNPOST, provider: "none", remembered: false, crisis: true, signpost: SIGNPOST, actions: [] });
+    return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
+  }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
   const resolved: Resolved | null = !wantsCloud
@@ -453,7 +490,7 @@ async function chat(req: Request, context: Context, rid: string) {
       }
     : null;
   const creative = persona === "son" && CREATIVE_ASK.test(message);
-  const crisis = mood === "crisis" || CRISIS_WORDS.test(message);
+  // In a crisis, nothing distracts from care: no sibling-map side notes.
   const system = buildSystemPrompt(story, {
     name: name || profile?.displayName || "",
     mood: crisis ? "crisis" : mood,
@@ -467,34 +504,26 @@ async function chat(req: Request, context: Context, rid: string) {
     ownerFacts: done.ownerFacts,
     ownerVoice,
     growth: growthBrief(growth),
-  }) + "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message);
-  let answer: Awaited<ReturnType<typeof reply>>;
-  
-function siblingMap(message: string) {
-  const m = message.toLowerCase();
-  if (/\b(look|theme|sky|logo|blueprint|layout|colour|color|design)\b/.test(m)) return "Dola is the architect. Keep the crying-brain and the colours. She has no separate key; speak her note as structure, not as a new brand.";
-  if (/\b(code|repo|deploy|bug|function|css)\b/.test(m)) return "Copilot is the code partner and has no chat door here. Give the exact steps. Do not pretend you pushed.";
-  if (/\b(plan|steps|how do i|build)\b/.test(m)) return "Nova (GPT) is the practical mind. Give steps.";
-  if (/\b(story|poem|caption|image|song)\b/.test(m)) return "Sol (Gemini) is the creative mind. Make the piece, then the next tap.";
-  if (/\b(council|honest|what is wrong)\b/.test(m)) return "Grok is the honest mind. He speaks only if his key is set.";
-  return "Arron keeps the voice. Claude sits closest to the care. Do not rank the siblings.";
-}
+  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message));
 
-  const council = owner && /^\/?council\b/i.test(message);
+  let answer: Awaited<ReturnType<typeof reply>>;
+  const council = owner && !crisis && /^\/?council\b/i.test(message);
   try {
     if (council) {
       const notes = await askCouncil(system, turns);
       answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true);
-      answer = { ...answer, provider: "council", model: "gpt-claude-gemini-grok" };
+      answer = { ...answer, provider: "council", model: "claude-gpt-gemini-grok" };
     } else {
       answer = owner ? await workAsOne(system, turns, creative ? 2200 : 1600) : await reply(system, turns, creator, creative, Boolean(user));
     }
   } catch {
-    // Every mind is quiet: a gentle reply with the crisis lines — no error, no stack trace, nothing saved.
+    // Every mind is quiet: a gentle reply with the real help lines — no error, no stack trace, nothing saved.
     console.error(`Arron [${rid}] every AI provider failed`);
-    return json({ reply: ALL_QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
+    return json({ reply: QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
   }
-  let replyText = crisis && !answer.text.includes("/crisis.html") ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+
+  // Whoever answered, a person in crisis always gets the real numbers.
+  let replyText = crisis && !hasLifelines(answer.text) ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
   const actions = done.actions;
   if (done.liveKind === "proposal" && user?.isOwner && !localOnly) {
     try {
@@ -544,12 +573,16 @@ function siblingMap(message: string) {
     owner,
     member: member ? { displayName: member.displayName, username: member.username } : null,
     signedIn: Boolean(user),
+    crisis,
+    signpost: crisis ? SIGNPOST : undefined,
     actions: actions,
     provider: answer.provider,
   });
 }
 
 // ─── MEMORY: read / save story / forget ───
+// "Forget Me" (DELETE) erases this memory and every saved chat message on the server.
+// It does not touch journal entries or posts the person chose to save elsewhere.
 async function memory(req: Request, url: URL) {
   const user = await optionalUser();
   const body = req.method === "GET" ? {} : await readBody(req);
@@ -622,6 +655,17 @@ export default async (req: Request, context: Context) => {
     return json({ error: "Not found" }, 404);
   } catch (error) {
     console.error(`Arron [${rid}] error:`, reason(error));
+    // A crash in chat must never leave someone with a bare error: always give the real lines.
+    if (route === "chat") {
+      return json({
+        reply: `I'm having trouble finding my words just now, but I'm still here. ${SIGNPOST}`,
+        provider: "none",
+        remembered: false,
+        crisis: false,
+        signpost: SIGNPOST,
+        actions: [],
+      });
+    }
     return json({ error: "Arron is resting for a moment" }, 503);
   }
 };
