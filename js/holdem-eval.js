@@ -30,7 +30,10 @@ function judge(cards) {
   const straight = straightHigh(cards.map((c) => c.r));
   const flushStraight = flush ? straightHigh(flush.map((c) => c.r)) : -1;
   if (flushStraight >= 0) return [8, flushStraight];
-  if (groups[0].n === 4) return [7, groups[0].r, groups.find((g) => g.n === 1).r];
+  if (groups[0].n === 4) {
+    const kick = groups.find((g) => g.r !== groups[0].r);
+    return [7, groups[0].r, kick ? kick.r : 0];
+  }
   if (groups[0].n === 3 && groups[1] && groups[1].n >= 2) return [6, groups[0].r, groups[1].r];
   if (flush) return [5, ...flush.map((c) => c.r).sort((a, b) => b - a).slice(0, 5)];
   if (straight >= 0) return [4, straight];

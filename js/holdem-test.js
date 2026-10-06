@@ -10,7 +10,9 @@ const hands = [
   ["four beats full house", [c(5, 0), c(5, 1), c(5, 2), c(5, 3), c(9, 0)], [c(12, 0), c(12, 1), c(12, 2), c(4, 3), c(4, 0)], 1],
   ["straight flush beats four", [c(6, 2), c(7, 2), c(8, 2), c(9, 2), c(10, 2)], [c(3, 0), c(3, 1), c(3, 2), c(3, 3), c(8, 0)], 1],
   ["wheel is a straight", [c(12, 0), c(0, 1), c(1, 2), c(2, 3), c(3, 0)], [c(12, 1), c(11, 2), c(8, 3), c(4, 0), c(2, 1)], 1],
-  ["kicker breaks a pair", [c(9, 0), c(9, 1), c(12, 2), c(3, 3), c(2, 0)], [c(9, 2), c(9, 3), c(8, 0), c(3, 1), c(2, 2)], 1]
+  ["kicker breaks a pair", [c(9, 0), c(9, 1), c(12, 2), c(3, 3), c(2, 0)], [c(9, 2), c(9, 3), c(8, 0), c(3, 1), c(2, 2)], 1],
+  ["quads with trips still judge", [c(12, 0), c(12, 1), c(12, 2), c(12, 3), c(11, 0), c(11, 1), c(11, 2)], [c(10, 0), c(10, 1), c(10, 2), c(9, 0), c(8, 0)], 1],
+  ["two cards still judge", [c(12, 0), c(12, 1)], [c(11, 0), c(3, 1)], 1]
 ];
 let failed = 0;
 hands.forEach(([name, a, b, want]) => {
@@ -20,4 +22,4 @@ hands.forEach(([name, a, b, want]) => {
   console.log(ok ? "ok" : "FAIL", name, "got", got, "judge", judge(a)[0], judge(b)[0]);
 });
 if (failed) process.exit(1);
-console.log("ten hands clean");
+console.log(hands.length + " hands clean");

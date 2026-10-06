@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.39'; // Phone play: chips wrap, games glow, kids share the sky
-const STATIC_CACHE = 'pleading-sanity-static-v65';
+const VERSION = '5.12.40'; // Night Table pays the pot. Solitaire modes tell the truth.
+const STATIC_CACHE = 'pleading-sanity-static-v66';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

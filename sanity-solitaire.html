@@ -163,6 +163,8 @@ body { overflow-x: hidden; }
 .book b { display:block; color:#00fff0; font-size:1.05rem; }
 </style><style>
 .card { transition: transform .18s ease, box-shadow .18s ease; }
+.k-card { transition: transform .18s ease, box-shadow .18s ease; }
+.k-card.picked, .k-card.picked.hearts, button.picked { outline: 3px solid #00fff0; outline-offset: 2px; }
 .card.playable { animation: ps-pulse 1.4s ease-in-out infinite; }
 .card.flip { animation: ps-flip .28s ease; }
 @keyframes ps-flip { from { transform: rotateY(90deg); } to { transform: rotateY(0); } }
@@ -191,7 +193,7 @@ body { overflow-x: hidden; }
 <div class="row"><label>Game <select id="mode"><option value="peaks">Three peaks</option><option value="klondike">Klondike</option><option value="freecell">FreeCell</option><option value="pyramid">Pyramid</option></select></label><label>Table <select id="table"></select></label></div>
     
     <section id="freecell" hidden>
-      <p class="note">All cards face up. One free cell holds one card. Build down in alternating colours. Aces home. No timer.</p>
+      <p class="note">All cards face up. Four free cells, one card each. Build down in alternating colours. Aces go home. An empty column takes any card. No timer.</p>
       <div class="row"><button type="button" id="f-deal">New deal</button><button type="button" id="f-undo">Undo</button><span id="f-score">Free 4</span></div>
       <div id="f-board" class="k-board"></div>
       <p id="f-status" role="status"></p>
@@ -555,7 +557,7 @@ window.PSTable = (function () {
     if (h >= 0) { fsnap(); found[h].push(c); free[i] = null; fpaint("Home."); return; }
     for (let k = 0; k < 8; k++) { const t = cols[k][cols[k].length - 1]; if (!t || fcan(c, t)) { fsnap(); cols[k].push(c); free[i] = null; fpaint("From the cell."); return; } }
   }
-  function fmoveTo() { fstatus.textContent = "Tap a card. An empty pile takes a king from a tap."; }
+  function fmoveTo() { fstatus.textContent = "Tap a card. An empty column takes any card."; }
   document.getElementById("f-deal").onclick = fdeal;
   document.getElementById("f-undo").onclick = () => { const s = fhist.pop(); if (!s) return; const o = JSON.parse(s); free = o.free; found = o.found; cols = o.cols; fpaint("Undone."); };
 
@@ -582,6 +584,7 @@ window.PSTable = (function () {
       row.forEach((c, i) => {
         const b = document.createElement("button"); b.type = "button";
         if (c) window.PSNight(b, ranks[c.r], c.s, true); else { b.className = "k-slot"; b.textContent = "\u00b7"; }
+        if (picked && picked.r === r && picked.c === i) b.classList.add("picked");
         b.disabled = !c || !openAt(r, i);
         b.onclick = () => ppick(r, i); line.appendChild(b);
       });
@@ -589,6 +592,7 @@ window.PSTable = (function () {
     });
     const w = document.createElement("button"); w.type = "button";
     if (pwaste.length) window.PSNight(w, ranks[pwaste[pwaste.length - 1].r], pwaste[pwaste.length - 1].s, true); else { w.className = "k-slot"; w.textContent = "Waste"; }
+    if (picked && picked.r < 0) w.classList.add("picked");
     w.onclick = () => ppick(-1, 0); pboard.appendChild(w);
     if (prow.every((row) => row.every((c) => !c))) { pstatus.textContent = "Pyramid clear. You rose."; if (!pwon && window.PSBook) { pwon = true; PSBook.win("pyramid", 28); if (window.PSClear) PSClear("pyramid", 28); } } else pstatus.textContent = msg || "";
   }
@@ -596,15 +600,15 @@ window.PSTable = (function () {
     const card = r < 0 ? pwaste[pwaste.length - 1] : prow[r][c];
     if (!card) return;
     if (card.r === 12) { psnap(); if (r < 0) pwaste.pop(); else prow[r][c] = null; if (window.PSBook) PSBook.card("pyramid"); picked = null; ppaint("King leaves."); return; }
-    if (!picked) { picked = { r, c, card }; pstatus.textContent = "Pick a pair that makes 13."; return; }
-    if (picked.r === r && picked.c === c) { picked = null; pstatus.textContent = "Unpicked."; return; }
+    if (!picked) { picked = { r, c, card }; ppaint("Pick a pair that makes 13."); return; }
+    if (picked.r === r && picked.c === c) { picked = null; ppaint("Unpicked."); return; }
     if (val(picked.card.r) + val(card.r) === 13) {
       psnap();
       if (picked.r < 0) pwaste.pop(); else prow[picked.r][picked.c] = null;
       if (r < 0) pwaste.pop(); else prow[r][c] = null;
       if (window.PSBook) PSBook.card("pyramid", 2); picked = null; ppaint("Pair cleared."); return;
     }
-    pstatus.textContent = "Those do not make 13."; picked = null;
+    picked = null; ppaint("Those do not make 13.");
   }
   document.getElementById("p-deal").onclick = pdeal;
   document.getElementById("p-draw").onclick = () => { psnap(); if (!pstock.length) { pstock = pwaste.reverse(); pwaste = []; } const c = pstock.pop(); if (c) pwaste.push(c); ppaint("Drew."); };

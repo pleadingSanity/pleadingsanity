@@ -251,6 +251,9 @@ body { overflow-x: hidden; }
       const levels = [...new Set(seats.map((s) => s.put))].filter((n) => n > 0).sort((a, b) => a - b);
       let prev = 0;
       const names = [];
+      let lastWinners = [];
+      let youWon = false;
+      const mine = seats[mySeat];
       levels.forEach((level) => {
         const inPot = seats.filter((s) => s.put >= level);
         const slice = (level - prev) * inPot.length;
@@ -259,18 +262,22 @@ body { overflow-x: hidden; }
         if (!eligible.length || !slice) return;
         eligible.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
         const winners = eligible.filter((s) => better(s.hole.concat(board), eligible[0].hole.concat(board)) === 0);
+        lastWinners = winners;
         const share = Math.floor(slice / winners.length);
         const odd = slice - share * winners.length;
-        winners.forEach((s, i) => { s.stack += share + (i === 0 ? odd : 0); names.push(s.name); });
+        winners.forEach((s, i) => {
+          s.stack += share + (i === 0 ? odd : 0);
+          names.push(s.name);
+          if (s === mine) youWon = true;
+        });
       });
-      const called = winners.length ? label(winners[0].hole.concat(board)) : "";
+      const called = lastWinners.length && board.length >= 5 ? label(lastWinners[0].hole.concat(board)) : "";
       bank = seats[mySeat] ? seats[mySeat].stack : bank;
       saveBank(bank);
       log(names.length ? [...new Set(names)].join(" and ") + " take the pots" + (called ? " with " + called : "") + "." : "No pot.");
       pot = 0; paint();
-      const won = winners.some((s) => s === seats[mySeat]);
       const mark = (room || "solo") + ":" + hands;
-      if (won && window.PSGames && sessionStorage.getItem("ps-poker-won") !== mark) {
+      if (youWon && window.PSGames && sessionStorage.getItem("ps-poker-won") !== mark) {
         sessionStorage.setItem("ps-poker-won", mark);
         PSGames.record("night-table", { score: 40, level: 1, maxCombo: 1 });
         if (PSGames.confetti) PSGames.confetti();
