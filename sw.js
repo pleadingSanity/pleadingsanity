@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.47'; // Each shelf is opened on its own: known, thought, believed, unknown.
-const STATIC_CACHE = 'pleading-sanity-static-v73';
+const VERSION = '5.12.48'; // Front door shows the Bible, the games and all six help lines. Titles carry the night glow.
+const STATIC_CACHE = 'pleading-sanity-static-v74';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
