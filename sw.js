@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.49'; // The host badge is kept off the pages. Arron's lock stays tight.
-const STATIC_CACHE = 'pleading-sanity-static-v75';
+const VERSION = '5.12.50'; // The sky shows on phones set to light mode. Offline page stands upright.
+const STATIC_CACHE = 'pleading-sanity-static-v76';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

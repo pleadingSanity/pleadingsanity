@@ -158,3 +158,12 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   body::after { animation: none; }
 }
+
+/* Some pages still paint the body when the phone is set to light mode. The house starts dark
+   whatever the phone says, so keep the photograph showing. The Light button still wins. */
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="light"]) body {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+}
