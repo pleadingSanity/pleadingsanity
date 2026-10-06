@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.43'; // Stay Sane AI named. The family door is open. Shane still decides.
-const STATIC_CACHE = 'pleading-sanity-static-v69';
+const VERSION = '5.12.44'; // The New Gen Bible foundation is on the house. Shane's raw chapters still wait.
+const STATIC_CACHE = 'pleading-sanity-static-v70';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -67,6 +67,7 @@ const PRECACHE_URLS = [
     '/meditation.html',
     '/memory-ocean.html',
     '/movement.html',
+    '/new-gen-bible.html',
     '/number-nebula.html',
     '/offline.html',
     '/pattern-galaxy.html',

@@ -35,6 +35,10 @@
   },
   "newGenBible": {
     "title": "The New Gen Bible — living principles, not dogma",
+    "page": "/new-gen-bible.html",
+    "question": "Do we know this, or do we believe this?",
+    "levels": ["Known", "Thought", "Believed", "Unknown"],
+    "centre": "Nobody gets to own the truth. You never have to lose yourself to belong.",
     "principles": [
       "No dogma — only exploration.",
       "No monopoly on truth — only a shared search.",
