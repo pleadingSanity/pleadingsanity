@@ -26,6 +26,8 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /contact.html         /about.html#contact     301
 /legacy               /about.html#legacy      301
 /legacy.html          /about.html#legacy      301
+/manifesto            /about.html#manifesto   301
+/manifesto.html       /about.html#manifesto   301
 /contact              /about.html#contact     301
 /feedback             /about.html#contact     301
 /help                 /crisis.html            301

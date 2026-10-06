@@ -823,7 +823,11 @@
       local = true;
       const offlineSoul = soul.offlineReplies || {};
       const fallback = Array.isArray(offlineSoul.default) && offlineSoul.default.length ? offlineSoul.default : OFFLINE.default;
-      reply = crisis ? (typeof offlineSoul.crisis === 'string' && offlineSoul.crisis) || CRISIS_REPLY : pick(OFFLINE[mood || currentMood] || fallback);
+      // Offline, a question about Shane or the house still gets a real answer from the soul file
+      const topic = !crisis && Array.isArray(offlineSoul.topics) && offlineSoul.topics.find((t) => {
+        try { return t && t.match && t.reply && new RegExp(t.match, 'i').test(text); } catch (err) { return false; }
+      });
+      reply = crisis ? (typeof offlineSoul.crisis === 'string' && offlineSoul.crisis) || CRISIS_REPLY : topic ? topic.reply : pick(OFFLINE[mood || currentMood] || fallback);
       setConn('offline');
     }
     typing.remove();

@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.5-sky';
+const VERSION = '3.6-shane-voice';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
