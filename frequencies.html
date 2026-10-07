@@ -531,6 +531,41 @@
     let testTimer = null;
     let noiseBuf = null;
 
+    // Media Session keeps Healing Hz represented on the lock screen and
+    // gives Android/browser media controls a direct path back into this player.
+    const mediaSessionSupported = typeof navigator !== 'undefined' && 'mediaSession' in navigator;
+    const mediaArtwork = new URL('/assets/images/brand/crying-brain-logo-512.webp', window.location.origin).href;
+
+    function syncMediaSession() {
+      if (!mediaSessionSupported) return;
+      try {
+        navigator.mediaSession.metadata = activeHz ? new MediaMetadata({
+          title: activeHz + ' Hz · Healing Hz',
+          artist: 'Pleading Sanity',
+          album: 'Rise From Madness · Healing Hz',
+          artwork: [{ src: mediaArtwork, sizes: '512x512', type: 'image/webp' }]
+        }) : null;
+        navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+      } catch (e) {}
+    }
+
+    function setupMediaSession() {
+      if (!mediaSessionSupported || typeof MediaMetadata === 'undefined') return;
+      const actions = {
+        play: function () {
+          if (!isPlaying && activeHz) togglePlay();
+        },
+        pause: function () {
+          if (isPlaying) stop();
+        }
+      };
+      Object.keys(actions).forEach(function (action) {
+        try { navigator.mediaSession.setActionHandler(action, actions[action]); } catch (e) {}
+      });
+    }
+
+    setupMediaSession();
+
     function softness(hz) {
       if (hz >= 900) return 0.16;
       if (hz >= 800) return 0.22;
@@ -681,6 +716,7 @@
       f.classList.add('active');
       f.setAttribute('aria-checked', 'true');
       activeHz = parseFloat(f.dataset.hz);
+      syncMediaSession();
     }
 
     function ensureCtx() {
@@ -693,6 +729,7 @@
       isPlaying = true;
       playBtn.textContent = 'Pause';
       playBtn.classList.add('playing');
+      syncMediaSession();
       status.textContent = 'Testing ' + activeHz + ' Hz for ' + seconds + ' seconds. The number is in the sound. Wind, water and a slow chord sit under it.';
       status.classList.add('active');
       ensureCtx();
@@ -745,6 +782,7 @@
       isPlaying = true;
       playBtn.textContent = 'Pause';
       playBtn.classList.add('playing');
+      syncMediaSession();
       status.textContent = 'Playing ' + activeHz + ' Hz. Wind, water and a slow chord underneath. Breathe slowly.';
       status.classList.add('active');
       try {
@@ -764,6 +802,7 @@
       silence();
       playBtn.textContent = 'Begin';
       playBtn.classList.remove('playing');
+      syncMediaSession();
       status.textContent = activeHz
         ? 'Selected: ' + activeHz + ' Hz. Paused.'
         : 'Select a frequency above';
