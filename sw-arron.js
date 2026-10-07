@@ -8,7 +8,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.7-no-hud';
+const VERSION = '3.8-chain-sentence';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';

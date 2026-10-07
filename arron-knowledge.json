@@ -81,7 +81,7 @@
       "Everything built here belongs to Pleading Sanity and the people it serves.",
       "Free forever. Open forever. Ours forever."
     ],
-    "$chainComment": "Tried in order: the first model that answers wins. GPT picks up first, then GPT, Gemini and Grok. Four equal minds: the order is only who answers first, never rank. To welcome a new model, add one block. provider must be anthropic, openai, gemini (served through Netlify AI Gateway, no keys needed) or grok (xAI, needs GROK_API_KEY or xAI_KEY in Netlify env; skipped until it is set). creatorModel is used in Creator Mode.",
+    "$chainComment": "Tried in order: the first model that answers wins. GPT picks up first, then Claude, Gemini and Grok. Four equal minds: the order is only who answers first, never rank. To welcome a new model, add one block. provider must be anthropic, openai, gemini (served through Netlify AI Gateway, no keys needed) or grok (xAI, needs GROK_API_KEY or xAI_KEY in Netlify env; skipped until it is set). creatorModel is used in Creator Mode.",
     "chain": [
       {
         "provider": "openai",
@@ -471,7 +471,7 @@
       "date": "2026-10-06",
       "tag": "GPT first, real help lines",
       "changes": [
-        "Claude now picks up first, then GPT, Gemini and Grok",
+        "GPT now picks up first, then Claude, Gemini and Grok. Equal. Not rank.",
         "Real help lines restored: 999, Samaritans 116 123, SHOUT 85258, NHS 111 option 2, Childline, Domestic Abuse Helpline",
         "The app's offline help list now has tap-to-call numbers",
         "Arron never promises secrecy, stays after giving the numbers, and says he is Arron, not Shane",

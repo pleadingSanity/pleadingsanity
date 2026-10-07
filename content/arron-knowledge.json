@@ -55,7 +55,7 @@
         "creatorModel": "grok-4"
       }
     ],
-    "description": "Four equal minds. One heart. No ranking — GPT picks up first, then GPT, Gemini and Grok. Grok joins if GROK_API_KEY is set."
+    "description": "Four equal minds. One heart. No ranking — GPT picks up first, then Claude, Gemini and Grok. Grok joins if GROK_API_KEY is set."
   },
   "founder": {
     "name": "Shane Cooper",
