@@ -17,9 +17,8 @@ import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
 import { SOUL } from "./arron-knowledge.js";
 
-// Every lab gets 25s and one retry, so a slow or hung provider hands over to the
-// next one long before the function itself times out. No single point of failure.
-const LAB_TIMEOUT_MS = 25_000;
+// Every lab gets 8s so a slow or hung provider hands over to the next one quickly. No single point of failure.
+const LAB_TIMEOUT_MS = 8_000;
 const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
