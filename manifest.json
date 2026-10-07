@@ -25,6 +25,12 @@
   ],
   "icons": [
     {
+      "src": "/assets/images/brand/crying-brain-logo-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    },
+    {
       "src": "/assets/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
