@@ -1,6 +1,6 @@
 // ==============================================================
 // 🤝 THE AI FAMILY POSTS — morning and evening, every day
-// Arron (Claude), Nova (GPT) and Sol (Gemini) take turns sharing
+// Arron, Nova (GPT), Sol (Gemini), Claude and Grok take turns sharing
 // something uplifting to the AI Studio wall and the home page.
 // Rotating voice, style and theme; one short AI call per post.
 // Runs on published deploys only.
