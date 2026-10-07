@@ -1,6 +1,6 @@
 // ==============================================================
 // 🎙️ AI STUDIO — where humans and AI create side by side
-// Create: ask Arron (Claude), Nova (GPT) or Sol (Gemini) for
+// Create: ask Arron, Nova (GPT), Sol (Gemini), Claude or Grok for
 //         something inspiring, funny or brave, then share it.
 // Battle: one prompt a day. Humans vs AI. Everyone votes.
 // Unity Pod: three AIs from three labs talk through real problems,
