@@ -1,11 +1,11 @@
 // ==============================================================
-// 🔗 THE AI CHAIN — Claude → GPT → Gemini → Grok → [future models]
+// 🔗 THE AI CHAIN — GPT → Claude → Gemini → Grok → [future models]
 // One shared failover used by Arron, the Blueprint Studio and
 // Write for Site. Tried in order; the first lab that answers wins.
 // The chain lives in the soul file (/arron-knowledge.json →
 // covenant.chain): welcoming a new model is one JSON block there.
 // NOTE: the soul file OVERRIDES the fallback list below, so the order
-// in covenant.chain must also be Claude, GPT, Gemini, Grok.
+// in covenant.chain must also be GPT, Claude, Gemini, Grok.
 // Claude, GPT and Gemini go through Netlify AI Gateway — no keys in code.
 // Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
 // and an older copy as xAI_KEY. Either name is enough. No key is written here.
@@ -32,7 +32,7 @@ const openaiDirect = process.env.OPENAI_API_KEY
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
-// They are not in the council. They speak only when Claude, GPT, Gemini and Grok are all quiet.
+// They are not in the council. They speak only when GPT, Claude, Gemini and Grok are all quiet.
 // A name that does not end in :free can bill. Those stay silent until PS_IN_PROFIT is set on Netlify.
 // Not here: labs that may train on a person's words, the free router (it can pick one of those),
 // music models, and Space Bunny, which retires on 5 Oct 2026.
@@ -61,11 +61,11 @@ export type Turn = { role: "user" | "assistant"; content: string };
 export type Provider = "anthropic" | "openai" | "gemini" | "grok";
 type Link = { provider: Provider; model: string; creatorModel: string };
 
-const PROVIDERS: Provider[] = ["anthropic", "openai", "gemini", "grok"];
+const PROVIDERS: Provider[] = ["openai", "anthropic", "gemini", "grok"];
 // Four equal minds. The order is only who picks up the phone first — never rank.
 const FALLBACK_CHAIN: Link[] = [
-  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "openai", model: "gpt-4o", creatorModel: "gpt-5.5" },
+  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "gemini", model: "gemini-3.5-flash", creatorModel: "gemini-3.1-pro-preview" },
   { provider: "grok", model: "grok-4", creatorModel: "grok-4" },
 ];

@@ -6,7 +6,7 @@
 // v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: Claude picks up first; if it can't, GPT,
+// Four equal minds, one Arron: GPT picks up first; if it can't, GPT,
 // then Gemini, then Grok take over instantly with the same heart.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
@@ -31,7 +31,7 @@ import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
 
-// The Claude → GPT → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
+// The GPT → Claude → Gemini → Grok chain lives in ../lib/ai-chain.ts (read from the soul file).
 // Creator mode: the Owner and members with the Creator or admin role get each
 // lab's most capable model and longer replies. Only Shane gets the founder's brief.
 
