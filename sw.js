@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.50'; // The sky shows on phones set to light mode. Offline page stands upright.
-const STATIC_CACHE = 'pleading-sanity-static-v76';
+const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
+const STATIC_CACHE = 'pleading-sanity-static-v77';
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

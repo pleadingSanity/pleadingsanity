@@ -38,7 +38,7 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - **Journal Vault** — safe, private storytelling space
 - **Brain Games** — six ad-free games incl. Stardust Dash, shared XP / levels / streaks / badges / Daily Challenge
 - **Frequencies / Aura Hz** — healing sound medicine
-- **Arron AI** — compassionate companion. Claude first, GPT-4o and Gemini as instant backups. Forget Me any time
+- **Arron AI** — compassionate companion. GPT picks up first, then Claude, Gemini and Grok. Equal. Not rank. Forget Me any time
 - **Arron App** — installable, offline-first PWA (`/arron-app.html`)
 - **AI Studio** — create with three AIs, Human vs AI daily battle, Unity Pod
 - **AI Stories** — the community's best moments with Arron (`/ai-stories.html`)
