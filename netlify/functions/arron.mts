@@ -6,7 +6,7 @@
 // v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: GPT picks up first; if it can't, GPT,
+// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
 // then Gemini, then Grok take over instantly with the same heart.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
