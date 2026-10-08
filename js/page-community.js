@@ -80,7 +80,6 @@ function mountCreatorHubTools() {
   });
 }
 
-const formMarker="const results = document.getElementById('results');\nconst form = document.getElementById('search-form');\n";
 mountCreatorHubTools();
 
 form.addEventListener('submit', async (e) => {
