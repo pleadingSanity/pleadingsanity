@@ -54,6 +54,25 @@ jobs:
           assert "samaritans" not in arron and "tel:116123" not in arron, "Arron page should not display crisis-line banner"
           assert "tel:116123" not in arron_app and "sms:85258" not in arron_app, "Arron app should not display crisis-line banner"
           assert "crisis.html" in safety, "Legacy safety page must route to the crisis anchor"
+          # Creator stage, social sign-in choices and existing social foundation.
+          live = pathlib.Path("live.html").read_text(encoding="utf-8", errors="ignore")
+          oauth = pathlib.Path("js/oauth.js").read_text(encoding="utf-8", errors="ignore")
+          login = pathlib.Path("login.html").read_text(encoding="utf-8", errors="ignore")
+          signup = pathlib.Path("signup.html").read_text(encoding="utf-8", errors="ignore")
+          profile_api = pathlib.Path("netlify/functions/profile.mts").read_text(encoding="utf-8", errors="ignore")
+          community_api = pathlib.Path("netlify/functions/community.mts").read_text(encoding="utf-8", errors="ignore")
+          site_js = pathlib.Path("js/site.js").read_text(encoding="utf-8", errors="ignore")
+          assert "live-alert" in live and "FOUNDING CREATOR BONUS" in live
+          assert "first 1,000 eligible creators" in live and "90%" in live
+          assert "api('/api/posts'" in live and "player.twitch.tv" in live and "youtube-nocookie.com/embed" in live
+          assert "not currently verified as active" in live and "not active yet" in live, "Don't imply native streaming or AI clipping is already live"
+          for provider in ["google", "github", "gitlab", "bitbucket", "facebook"]:
+              assert "['" + provider + "'" in oauth, f"Missing OAuth provider UI mapping: {provider}"
+          assert "requestPasswordRecovery" in login and "login-form" in login, "Email and magic-link sign-in must remain available"
+          assert "signup" in signup and "data-oauth" in signup, "Email and configured social sign-up must remain available"
+          assert "/api/profiles/" in profile_api and "/api/friends" in community_api, "Profiles and friends API routes must remain present"
+          assert "ps-live-link" in site_js and "ps-dock-live" in site_js, "LIVE must remain visible in site and mobile navigation"
+          assert "https://pleadingsanity.co.uk/live.html" in pathlib.Path("sitemap.xml").read_text(encoding="utf-8")
           print("House check passed")
           PY
   deploy:
