@@ -1,6 +1,6 @@
 # Creator Stage & Social Platform — verified status
 
-Last reviewed: 8 October 2026  
+Last reviewed: 8 October 2026 — Phase A/B foundation update  
 Canonical site: https://pleadingsanity.co.uk  
 Canonical repository: https://github.com/pleadingSanity/pleadingsanity  
 Production branch: `main`
@@ -12,6 +12,9 @@ Production branch: `main`
 - OAuth buttons are rendered only for social providers enabled in Netlify Identity settings. The UI supports Google, GitHub, GitLab, Bitbucket and Facebook provider identifiers; each provider still needs to be enabled and configured in the production Identity settings.
 - Member profiles, profile visibility controls, public/member/friends/private post audiences, feed posts, friend requests, blocks, reports and moderation are implemented in the current codebase.
 - The new `/live.html` page can preview public YouTube Live and Twitch channel URLs, and lets a signed-in, onboarded member share a stream link into the community feed. YouTube links use the existing video-post route; other stream links are shared as text posts with the URL included.
+- The LIVE page now has Live Now / Scheduled / Past Lives tabs, local scheduling and replay-link controls, creator-side stream state/privacy/chat controls, a local chat foundation, and explicit native-broadcast "Coming Soon" messaging.
+- A dedicated `/creator.html` dashboard now exposes stream status, clip status, earnings/90% offer status and a manual creator application route. The dashboard deliberately distinguishes UI foundations from live monetisation infrastructure.
+- Scheduled lives, replay links, creator controls and browser chat are currently device-local foundations. They are not cross-device or real-time production services until the server-side live/community layer is connected.
 
 ## Not yet verified as production capabilities
 
