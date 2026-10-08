@@ -274,6 +274,26 @@ form.addEventListener('submit',async(e)=>{
   renderList('scheduled-list',state.scheduled,'No scheduled lives have been added on this device yet.');
   renderList('past-list',state.past,'No replay links have been saved on this device yet.');
 
+  document.getElementById('schedule-form')?.addEventListener('submit',e=>{
+    e.preventDefault();
+    const title=document.getElementById('schedule-title').value.trim();
+    const when=document.getElementById('schedule-when').value;
+    if(!title||!when)return;
+    state.scheduled.push({title,when:new Date(when).toLocaleString('en-GB')});
+    state.scheduled=state.scheduled.slice(-20);write(state);
+    renderList('scheduled-list',state.scheduled,'No scheduled lives have been added on this device yet.');
+    e.target.reset();document.getElementById('schedule-status').textContent='Scheduled on this device. Shared reminders are coming with the backend.';
+  });
+  document.getElementById('past-form')?.addEventListener('submit',e=>{
+    e.preventDefault();
+    const title=document.getElementById('past-title').value.trim();
+    const url=document.getElementById('past-url').value.trim();
+    try{new URL(url)}catch{document.getElementById('past-status').textContent='Enter a valid replay URL.';return}
+    state.past.push({title,url,replay:true});state.past=state.past.slice(-20);write(state);
+    renderList('past-list',state.past,'No replay links have been saved on this device yet.');
+    e.target.reset();document.getElementById('past-status').textContent='Replay saved on this device.';
+  });
+
   document.querySelectorAll('.live-tab').forEach(tab=>tab.addEventListener('click',()=>{
     document.querySelectorAll('.live-tab').forEach(t=>{const on=t===tab;t.classList.toggle('active',on);t.setAttribute('aria-selected',on?'true':'false')});
     document.querySelectorAll('.live-tab-panel').forEach(p=>p.hidden=p.id!=='tab-'+tab.dataset.tab);
