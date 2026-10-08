@@ -42,6 +42,26 @@
   [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 
+# ─── THE SANE FINANCE GBT — finance figures stay on the device ───
+# Same-origin scripts and API only. No third-party scripts, no frames, no trackers.
+[[headers]]
+  for = "/finance.html"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+[[headers]]
+  for = "/finance"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
+
+[[headers]]
+  for = "/manifest-finance.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+    Cache-Control = "public, max-age=3600"
+
 # ─── PRIVATE PAGES — members' own words: never indexed, never cached ───
 # Strict CSP: our own scripts and functions only. The one approved embed is
 # privacy-enhanced YouTube (youtube-nocookie.com) for video posts.
