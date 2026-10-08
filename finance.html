@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103"><link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/finance.css">
+<title>Finance Sanctuary · Pleading Sanity</title>
+<meta name="description" content="A simple, transparent UK finance decision tool: affordability, repayments, offer comparison and application preparation without sales pressure.">
+</head><body class="ps-page">
+<nav class="ps-nav"><div class="ps-nav-inner">
+<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
+<div class="ps-links"><a href="/">Home</a><a href="/arron.html">Arron</a><a href="/games.html">Games</a><a href="/ai-studio.html">AI Studio</a><a href="/finance.html" aria-current="page">Finance</a><a href="/ai-ecosystem.html">AI Family</a></div>
+</div></nav>
+<main class="finance-main">
+<header class="finance-hero"><span class="finance-badge">FREE · HUMAN FIRST · NO SALES PRESSURE</span>
+<h1>Finance Sanctuary</h1><p>Know what you can afford. Compare the real cost. Prepare your application. Then decide for yourself.</p>
+<div class="finance-quick"><a href="#calculator">Calculate</a><a href="#compare">Compare an offer</a><a href="#pack">Prepare documents</a><a href="#adviser">Ask the AI adviser</a></div></header>
+
+<section class="finance-grid" id="calculator">
+<div class="finance-card"><div class="finance-kicker">01 · AFFORDABILITY</div><h2>What can I safely afford?</h2>
+<p class="finance-muted">This is a planning estimate, not a lender decision. Never enter money you need for essentials.</p>
+<div class="finance-fields">
+<label>Monthly take-home income <input id="f-income" inputmode="decimal" type="number" min="0" step="50" placeholder="£"></label>
+<label>Monthly essential spending <input id="f-essential" inputmode="decimal" type="number" min="0" step="25" placeholder="£"></label>
+<label>Existing credit repayments <input id="f-debt" inputmode="decimal" type="number" min="0" step="25" placeholder="£"></label>
+<label>Amount you want to borrow <input id="f-amount" inputmode="decimal" type="number" min="0" step="100" placeholder="£"></label>
+<label>Term <select id="f-term"><option value="12">1 year</option><option value="24">2 years</option><option value="36" selected>3 years</option><option value="48">4 years</option><option value="60">5 years</option><option value="72">6 years</option><option value="84">7 years</option></select></label>
+<label>APR to model <input id="f-apr" inputmode="decimal" type="number" min="0" step="0.1" value="12.9"></label>
+</div>
+<div class="finance-actions"><button class="finance-btn" id="f-calc">Calculate</button></div>
+<div id="f-result" class="finance-result" aria-live="polite">Enter your figures and calculate.</div>
+</div>
+
+<div class="finance-card" id="compare"><div class="finance-kicker">02 · COMPARE</div><h2>Put the salesman’s quote here</h2>
+<p class="finance-muted">We compare the numbers you were offered. No spin. Total cost matters more than a shiny monthly payment.</p>
+<div class="finance-fields">
+<label>Amount financed <input id="c-amount" type="number" min="0" step="100" placeholder="£"></label>
+<label>Monthly payment <input id="c-monthly" type="number" min="0" step="1" placeholder="£"></label>
+<label>Number of payments <input id="c-payments" type="number" min="1" step="1" placeholder="e.g. 48"></label>
+<label>Deposit / upfront payment <input id="c-deposit" type="number" min="0" step="50" value="0" placeholder="£"></label>
+<label>Fees added to deal <input id="c-fees" type="number" min="0" step="1" value="0" placeholder="£"></label>
+</div><div class="finance-actions"><button class="finance-btn" id="c-calc">Show the real cost</button></div>
+<div id="c-result" class="finance-result" aria-live="polite">Paste the figures from a quote and we’ll make them plain English.</div>
+</div>
+</section>
+
+<section class="finance-card" id="finder"><div class="finance-kicker">03 · FIND THE RIGHT ROUTE</div><h2>What kind of finance fits?</h2>
+<div class="finance-route-grid">
+<button data-route="personal">Personal loan<span>Fixed borrowing for a defined amount.</span></button>
+<button data-route="car">Car finance<span>HP, PCP and other vehicle finance routes.</span></button>
+<button data-route="card">Credit card<span>Useful for some purchases, but compare APR and limits.</span></button>
+<button data-route="consolidation">Debt consolidation<span>Only worthwhile when the total cost and risk improve.</span></button>
+</div><div id="route-result" class="finance-result">Choose a route. We’ll show what to compare and what to ask before applying.</div>
+</section>
+
+<section class="finance-grid">
+<div class="finance-card" id="pack"><div class="finance-kicker">04 · APPLICATION PACK</div><h2>Build your truthful application pack</h2>
+<p class="finance-muted">Turn your facts into a clean checklist and a factual cover note. Never invent income, documents or circumstances.</p>
+<div class="finance-checks">
+<label><input type="checkbox" data-doc="Proof of identity"> Proof of identity ready</label>
+<label><input type="checkbox" data-doc="Proof of address"> Proof of address ready</label>
+<label><input type="checkbox" data-doc="Income evidence"> Income evidence ready</label>
+<label><input type="checkbox" data-doc="Bank statements"> Bank statements ready</label>
+<label><input type="checkbox" data-doc="Existing credit details"> Existing credit details ready</label>
+<label><input type="checkbox" data-doc="Vehicle / purchase details"> Purchase or vehicle details ready</label>
+</div>
+<textarea id="letter" class="finance-letter" placeholder="Optional: facts you want the cover note to explain (employment, stable income, deposit, why the purchase is needed)."></textarea>
+<div class="finance-actions"><button class="finance-btn" id="make-letter">Create factual cover note</button><button class="finance-btn secondary" id="copy-pack">Copy pack</button></div>
+<div id="pack-result" class="finance-result" aria-live="polite"></div>
+</div>
+
+<div class="finance-card" id="adviser"><div class="finance-kicker">05 · AI ADVISER</div><h2>Ask before you apply</h2>
+<p class="finance-muted">The adviser explains options and helps you prepare. It does not see your credit file, approve you, submit an application or guarantee acceptance.</p>
+<textarea id="a-question" class="finance-letter" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
+<div class="finance-actions"><button class="finance-btn" id="ask-adviser">Ask the family</button></div>
+<div id="a-result" class="finance-result" aria-live="polite">No sales pitch. Ask the question in plain English.</div>
+</div>
+</section>
+
+<section class="finance-card finance-truth"><div class="finance-kicker">THE RULE</div><h2>You stay in control</h2>
+<div class="finance-truth-grid"><div><strong>Compare total cost</strong><p>APR, total repayment, fees, deposit, balloon/final payment and early-settlement terms.</p></div>
+<div><strong>Prefer soft-search eligibility</strong><p>Eligibility checks can show your likelihood before a full application. A full application can affect your credit record. </p></div>
+<div><strong>No fake approvals</strong><p>Only the lender can make the lending decision. We make the information easier to understand.</p></div>
+<div><strong>Regulated means regulated</strong><p>If Pleading Sanity ever brokers credit or earns commission from introductions, the legal/regulatory model must be established first.</p></div></div>
+<p class="finance-links">Independent guidance: <a href="https://www.moneyhelper.org.uk/en/everyday-money/credit/personal-loans" target="_blank" rel="noopener">MoneyHelper</a> · <a href="https://www.fca.org.uk/firms/financial-services-register" target="_blank" rel="noopener">FCA Firm Checker</a></p>
+</section>
+</main>
+<script src="/js/site.js" defer></script><script type="module" src="/js/finance.js"></script>
+</body></html>

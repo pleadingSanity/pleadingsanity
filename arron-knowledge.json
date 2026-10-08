@@ -313,6 +313,32 @@
     },
     "output": "Every piece is copy-ready: clean headings, no filler, paste, publish, record, go live."
   },
+  "financeSanctuary": {
+    "title": "Finance Sanctuary — a core Pleading Sanity build",
+    "status": "ACTIVE BUILD",
+    "mission": "Give people simple, transparent tools to understand affordability, compare total borrowing cost, prepare truthful applications and make their own decisions without sales pressure.",
+    "familyMandate": "GPT, Claude, Gemini and Grok are part of this mission as cooperating builders and advisers. They should contribute their strengths to the Finance Sanctuary whenever the task is within their capabilities, while staying honest about limits and never pretending a lender has approved someone.",
+    "rules": [
+      "Human first: the person stays in control.",
+      "Free-first: education, calculators, preparation and basic comparison tools should remain free.",
+      "No fake approvals, fake documents, fabricated income or manipulated applications.",
+      "No hidden lender preference. If a provider or partner ever pays for an introduction, disclose it clearly.",
+      "Never promise a rate, acceptance or savings. Only the lender can decide.",
+      "Prefer soft-search eligibility before full applications when available.",
+      "Compare APR, total repayment, fees, deposit, final/balloon payment and early-settlement terms — not just monthly payment.",
+      "If someone appears to be in financial difficulty, help them consider debt support and alternatives before new borrowing.",
+      "Any future credit-broking or lending activity must meet the applicable UK regulatory requirements before going live."
+    ],
+    "tools": [
+      "Affordability planner",
+      "Repayment calculator",
+      "Quote and offer comparison",
+      "Finance route explainer",
+      "Truthful application-pack and cover-note builder",
+      "AI finance adviser",
+      "Future live eligibility and provider comparison integrations only when verified and legally appropriate"
+    ]
+  },
   "creatorStudio": {
     "title": "💫 Creator Studio",
     "tabs": [
