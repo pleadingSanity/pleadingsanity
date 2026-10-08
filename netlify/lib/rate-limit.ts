@@ -53,5 +53,5 @@ export async function allow(bucket: Bucket, context: Context | undefined, userId
   }
 }
 
-export const slowDown = (message = "That's a lot at once — take a breath and try again in a minute 💙") =>
+export const slowDown = (message = "Give me a minute to catch my breath, then try again.") =>
   Response.json({ error: message }, { status: 429, headers: { "Cache-Control": "no-store", "Retry-After": String(WINDOW_SECONDS) } });
