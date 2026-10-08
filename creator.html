@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07101a"><meta name="robots" content="noindex,follow">
+<title>Creator Hub — Pleading Sanity</title>
+<meta name="description" content="Pleading Sanity creator dashboard: streams, clips, earnings status and founding creator information.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/creator.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/accessibility.css"><link rel="stylesheet" href="/css/mobile-responsive.css"><link rel="stylesheet" href="/css/site.css">
+<style>
+.creator-page{max-width:1050px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem) 4rem}
+.creator-hero{padding:1rem 0 2rem}.creator-hero h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05}
+.creator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem}
+.creator-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:1.25rem}
+.creator-card h2{margin-top:0;color:#00fff0}.creator-number{font-size:3rem;font-weight:950;color:#ff647d;line-height:1}
+.creator-badge{display:inline-block;background:#b80024;color:#fff;border-radius:999px;padding:.35rem .7rem;font-weight:900}
+.creator-status{border:1px solid #ffffff25;border-radius:12px;padding:.8rem;margin:.6rem 0;background:#03070d}
+.creator-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font-weight:800;text-decoration:none}
+.creator-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff}
+@media(max-width:480px){.creator-btn{width:100%}}
+</style>
+</head>
+<body class="ps-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav class="ps-nav" aria-label="Main navigation"><div class="ps-nav-inner">
+<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
+<div class="ps-links"><a href="/">Home</a><a href="/live.html">🔴 LIVE</a><a href="/feed.html">Feed</a><a href="/profile.html">Profile</a></div>
+</div></nav>
+<main id="main" class="creator-page">
+<section class="creator-hero"><span class="creator-badge">CREATOR HUB</span><h1>Your stage. Your people. Your share.</h1><p>One place to manage your lives, clips, creator status and earnings information without pretending unfinished infrastructure is already live.</p></section>
+<section class="creator-grid">
+<article class="creator-card"><h2>🔴 Your streams</h2><div class="creator-status">Live hub: <strong>READY</strong><br>External YouTube/Twitch preview + feed sharing is available.</div><div class="creator-status">Native Pleading Sanity broadcast: <strong>🔜 COMING SOON</strong></div><a class="creator-btn" href="/live.html">Open LIVE hub</a></article>
+<article class="creator-card"><h2>✂️ Your clips</h2><div class="creator-status">AI Highlights: <strong>🔜 COMING SOON</strong></div><p>Replay ingestion, transcription, highlight detection, vertical rendering and export still need to be connected and tested.</p><a class="creator-btn secondary" href="/live.html#live-chat">Creator tools</a></article>
+<article class="creator-card"><h2>💰 Your earnings</h2><div class="creator-number">90%</div><p><strong>Founding Creator offer</strong> — proposed share of qualifying creator income for the first 1,000 eligible creators.</p><div class="creator-status">Actual payouts: <strong>🔜 LAUNCHING SOON</strong><br>Estimated earnings are not a payment promise.</div><a class="creator-btn secondary" href="/live.html#founding-creators">Read the offer</a></article>
+</section>
+<section class="creator-card" style="margin-top:1rem"><h2>🌟 Founding Creator</h2><p>The first 1,000 eligible creators are intended to receive 90% of qualifying creator income generated through the platform. No income generated means no payout. Complete terms, attribution, fraud controls, payment eligibility and payout infrastructure must be live before the programme becomes active.</p><a class="creator-btn" href="mailto:pleadingsanity1@gmail.com?subject=Founding%20Creator%20Application">Apply as Creator</a><p class="creator-status">Applications are currently reviewed manually. Email us with your creator name, what you create and the platforms where you already stream. Approval is not automatic.</p></section>
+<section class="creator-card" style="margin-top:1rem"><h2>📋 Platform status</h2><div class="creator-status">✅ Live page + external stream preview</div><div class="creator-status">✅ Feed sharing</div><div class="creator-status">🟡 Creator UI + local planning controls</div><div class="creator-status">🔜 Real-time shared chat</div><div class="creator-status">🔜 Native broadcasting + multistreaming</div><div class="creator-status">🔜 AI highlight clips</div><div class="creator-status">🔜 Verified earnings + payouts</div><p><a href="/docs/CREATOR-PLATFORM-STATUS.md">Technical status is maintained in the repository.</a></p></section>
+</main>
+<footer class="ps-footer" role="contentinfo"><div class="ps-footer-inner"><p class="ps-motto">Evolution, Not Erasure</p><div class="ps-footer-links"><a href="/">Home</a><a href="/live.html">LIVE</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></div></div></footer>
+<script src="/js/site.js" defer></script><script type="module" src="/js/auth.js"></script>
+</body></html>
