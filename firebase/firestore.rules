@@ -1,0 +1,97 @@
+rules_version = '2';
+
+// Pleading Sanity — Firestore rules.
+// Paste into: Firebase Console → Firestore Database → Rules → Publish.
+// Admins (you, in the Firebase Console) bypass these rules automatically.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── helpers ─────────────────────────────────────────────
+    function signedIn() { return request.auth != null; }
+    function isMe(uid) { return signedIn() && request.auth.uid == uid; }
+    function incoming() { return request.resource.data; }
+    function shortText(v, max) { return v is string && v.size() <= max; }
+    function unchanged(field) { return incoming().get(field, null) == resource.data.get(field, null); }
+    function isCreator() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/profiles/$(request.auth.uid))
+        && get(/databases/$(database)/documents/profiles/$(request.auth.uid)).data.isCreator == true;
+    }
+
+    // ── users/{uid} — private account info. Only the owner. ─
+    match /users/{uid} {
+      allow read, delete: if isMe(uid);
+      allow create: if isMe(uid) && incoming().uid == uid;
+      allow update: if isMe(uid) && unchanged('uid') && unchanged('createdAt');
+    }
+
+    // ── profiles/{uid} — public display info. ──────────────
+    // isCreator / verified are set by you in the Console, never by the user.
+    match /profiles/{uid} {
+      allow read: if true;
+      allow create: if isMe(uid)
+        && shortText(incoming().displayName, 60)
+        && incoming().get('isCreator', false) == false
+        && incoming().get('verified', false) == false;
+      allow update: if isMe(uid)
+        && shortText(incoming().displayName, 60)
+        && unchanged('isCreator') && unchanged('verified') && unchanged('createdAt');
+      allow delete: if isMe(uid);
+    }
+
+    // ── follows/{followerId_followingId} — who follows who. ─
+    match /follows/{followId} {
+      allow read: if true;
+      allow create: if signedIn()
+        && incoming().followerId == request.auth.uid
+        && incoming().followingId is string
+        && incoming().followingId != request.auth.uid
+        && followId == incoming().followerId + '_' + incoming().followingId;
+      allow update: if false;
+      allow delete: if signedIn() && resource.data.followerId == request.auth.uid;
+    }
+
+    // ── lives/{liveId} — scheduled creator sessions. ────────
+    match /lives/{liveId} {
+      allow read: if true;
+      allow create: if isCreator()
+        && incoming().creatorId == request.auth.uid
+        && shortText(incoming().title, 120);
+      allow update: if signedIn()
+        && resource.data.creatorId == request.auth.uid
+        && unchanged('creatorId')
+        && shortText(incoming().title, 120);
+      allow delete: if signedIn() && resource.data.creatorId == request.auth.uid;
+    }
+
+    // ── posts/{postId} — community feed. ────────────────────
+    match /posts/{postId} {
+      // To take a harmful post down, delete it in the Console.
+      allow read: if true;
+      allow create: if signedIn()
+        && incoming().authorId == request.auth.uid
+        && shortText(incoming().text, 2000);
+      allow update: if signedIn()
+        && resource.data.authorId == request.auth.uid
+        && unchanged('authorId') && unchanged('createdAt')
+        && shortText(incoming().text, 2000);
+      allow delete: if signedIn() && resource.data.authorId == request.auth.uid;
+    }
+
+    // ── creator_applications — anyone may apply, only you read. ─
+    match /creator_applications/{appId} {
+      allow create: if shortText(incoming().name, 80)
+        && shortText(incoming().email, 120)
+        && shortText(incoming().about, 2000)
+        && incoming().status == 'pending'
+        // if signed in, the application must be in their own name
+        && (!signedIn() || incoming().get('uid', request.auth.uid) == request.auth.uid);
+      allow read, update, delete: if false;
+    }
+
+    // ── everything else: closed. ────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
