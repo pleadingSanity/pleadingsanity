@@ -1,5 +1,5 @@
 // ==============================================================
-// PLEADING SANITY — ONE-TAP SIGN IN (Google · GitHub)
+// PLEADING SANITY — ONE-TAP SIGN IN (configured OAuth providers)
 // Shows a button for each provider switched on in Netlify →
 // Identity. The return trip is finished by /js/auth.js on load.
 // ==============================================================
@@ -9,6 +9,9 @@ import { getSettings, oauthLogin } from '/js/vendor/netlify-identity.js';
 const PROVIDERS = [
   ['google', 'Continue with Google', 'G'],
   ['github', 'Continue with GitHub', '🐙'],
+  ['gitlab', 'Continue with GitLab', '🦊'],
+  ['bitbucket', 'Continue with Bitbucket', '🪣'],
+  ['facebook', 'Continue with Facebook', 'f'],
 ];
 
 export async function mountOAuth(container, { beforeRedirect } = {}) {
@@ -19,7 +22,7 @@ export async function mountOAuth(container, { beforeRedirect } = {}) {
   } catch {
     return; // Identity not reachable — email sign-in still works
   }
-  const available = PROVIDERS.filter(([id]) => enabled[id]);
+  const available = PROVIDERS.filter(([id]) => enabled[id] === true || enabled[id]?.enabled === true);
   if (!available.length) return;
   container.innerHTML = `
     <div class="oauth-row">
