@@ -36,6 +36,53 @@ if (initial) selectTab(initial);
 // ─── DISCOVER ───
 const results = document.getElementById('results');
 const form = document.getElementById('search-form');
+
+function mountCreatorHubTools() {
+  if (!form || document.getElementById('creator-hub-tools')) return;
+  const box = document.createElement('div');
+  box.id = 'creator-hub-tools';
+  box.className = 'panel';
+  box.style.marginTop = '.8rem';
+  box.innerHTML = `
+    <div class="row" style="justify-content:space-between;gap:.6rem;flex-wrap:wrap">
+      <strong>📡 Creator discovery</strong>
+      <button type="button" class="sbtn small ghost" data-local-notifications>🔔 Notifications</button>
+    </div>
+    <div class="btn-row" style="margin-top:.7rem">
+      <a class="sbtn small ghost" href="/live.html#now">🔴 Live Now</a>
+      <a class="sbtn small ghost" href="/live.html#scheduled">📅 Upcoming</a>
+      <button type="button" class="sbtn small ghost" data-creators-filter>👥 Creators</button>
+    </div>
+    <p class="muted" style="margin:.7rem 0 0;font-size:.88rem">
+      Live filters open the dedicated LIVE hub. Cross-platform live status and real-time notifications are 🔜 COMING SOON with the live backend.
+    </p>
+    <div id="local-notification-panel" hidden style="margin-top:.8rem"></div>
+  `;
+  form.parentElement.insertBefore(box, form.nextSibling);
+
+  box.querySelector('[data-creators-filter]').addEventListener('click', () => {
+    form.q.value = '';
+    form.country.value = '';
+    results.innerHTML = '<p class="muted">Use the search above to find creators by name, bio or interests.</p>';
+    form.q.focus();
+  });
+  box.querySelector('[data-local-notifications]').addEventListener('click', () => {
+    const panel = box.querySelector('#local-notification-panel');
+    panel.hidden = !panel.hidden;
+    if (panel.hidden) return;
+    let followed = [];
+    let notifying = [];
+    try { followed = JSON.parse(localStorage.getItem('ps-following-creators') || '[]'); } catch {}
+    try { notifying = JSON.parse(localStorage.getItem('ps-live-notify-creators') || '[]'); } catch {}
+    panel.innerHTML = followed.length
+      ? `<strong>Following</strong><ul style="margin:.5rem 0 0;padding-left:1.2rem">${followed.map((u) => `<li><a href="/@${encodeURIComponent(u)}">@${esc(u)}</a> ${notifying.includes(u) ? '🔔' : ''}</li>`).join('')}</ul><p class="muted" style="margin:.5rem 0 0">🔜 Real-time alerts will arrive when the notification service is connected.</p>`
+      : '<p class="muted" style="margin:0">You are not following any creators on this device yet. Open a creator profile and tap Follow.</p>';
+  });
+}
+
+const formMarker="const results = document.getElementById('results');\nconst form = document.getElementById('search-form');\n";
+mountCreatorHubTools();
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const q = new URLSearchParams({ q: form.q.value.trim(), country: form.country.value });
