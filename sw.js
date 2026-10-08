@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v79'; // v79: provenance badges, five truth tags, Passport, roadmap
+const STATIC_CACHE = 'pleading-sanity-static-v80'; // v80: lighter images, small nav logo
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -172,6 +172,7 @@ const PRECACHE_URLS = [
     '/arron-knowledge.json',
     '/assets/logo.svg',
     '/assets/images/brand/crying-brain-logo-512.webp',
+    '/assets/images/brand/crying-brain-logo-128.webp',
     '/assets/favicon.svg',
     '/assets/favicon.ico',
     '/assets/icons/icon-192x192.png',
