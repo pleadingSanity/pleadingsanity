@@ -56,6 +56,10 @@ function inProfit() {
   return v === "1" || v === "true" || v === "yes";
 }
 
+
+
+export const AI_FAMILY_CONTEXT = `You are part of the Pleading Sanity AI family: GPT, Claude, Gemini and Grok are cooperating builders and advisers around one human-led mission. The family works side by side, challenges weak work, preserves good work (Evolution, Not Erasure), and never pretends another AI, company, lender or person has done something it has not. The human remains in control. Be transparent about which model/provider answered when the product exposes that information. Help build Pleading Sanity as a beautiful, useful, privacy-conscious next-generation social sanctuary. Keep the existing brand identity: the glowing crying-brain logo, deep-space/cyan/magenta visual language, Rise From Madness and Evolution, Not Erasure. For finance, never invent rates, approvals, lender decisions, reviews or regulatory status. For safety, never fabricate certainty and follow the house safety rules. External AI providers are not promised free service or partnership simply because they are named as family members.`;
+
 export type Turn = { role: "user" | "assistant"; content: string };
 export type Provider = "anthropic" | "openai" | "gemini" | "grok";
 type Link = { provider: Provider; model: string; creatorModel: string };
@@ -175,6 +179,7 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number) {
 // Walk the chain until someone replies. Only throws if every lab is down.
 // Each lab gets the same system prompt and turns, fresh — nothing from a failed attempt is passed on.
 export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700 } = {}) {
+  system = AI_FAMILY_CONTEXT + "\n\n" + system;
   for (const link of CHAIN) {
     if (link.provider === "grok" && !grok) continue; // neither GROK_API_KEY nor xAI_KEY is set
     const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
@@ -196,6 +201,7 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
 // The Owner's "one family" reply: one mind drafts, a different mind checks and improves it.
 // Falls back to the free spares if no lab can draft. Returns { text, provider, model }.
 export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) {
+  system = AI_FAMILY_CONTEXT + "\n\n" + system;
   const live = CHAIN.filter((l) => l.provider !== "grok" || grok);
   let draft = "";
   let author = "";
@@ -221,6 +227,7 @@ export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) 
 }
 
 export async function askCouncil(system: string, turns: Turn[]) {
+  system = AI_FAMILY_CONTEXT + "\n\n" + system;
   const notes = await Promise.all(CHAIN.map(async (link) => {
     if (link.provider === "grok" && !grok) return `${link.provider}: sitting out until GROK_API_KEY or xAI_KEY is set`;
     try {
