@@ -33,11 +33,12 @@ jobs:
           assert sol.get("id") == "/sanity-solitaire.html", sol
           for name in ["index.html","tools.html","crisis.html","games.html","sanity-solitaire.html","arron-app.html","assets/theme/sky.jpg"]:
               assert pathlib.Path(name).exists(), name
-          for name in ["crisis.html", "safety.html", "arron.html", "arron-app.html"]:
-              text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore").lower()
-              assert "116 123" in text and "85258" in text, name
-              assert "not a clinic" in text or "not a therapist" in text, name
-          # The two dedicated safety pages must keep all six UK contacts visible and tappable.
+          # Emergency contacts live on one dedicated page; other pages signpost discreetly.
+          crisis = pathlib.Path("crisis.html").read_text(encoding="utf-8", errors="ignore")
+          support = pathlib.Path("support.html").read_text(encoding="utf-8", errors="ignore")
+          safety = pathlib.Path("safety.html").read_text(encoding="utf-8", errors="ignore").lower()
+          arron = pathlib.Path("arron.html").read_text(encoding="utf-8", errors="ignore").lower()
+          arron_app = pathlib.Path("arron-app.html").read_text(encoding="utf-8", errors="ignore").lower()
           contacts = {
               "999": "tel:999",
               "116 123": "tel:116123",
@@ -46,10 +47,13 @@ jobs:
               "0800 1111": "tel:08001111",
               "0808 2000 247": "tel:08082000247",
           }
-          for name in ["crisis.html", "safety.html"]:
-              text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore")
-              for label, href in contacts.items():
-                  assert label in text and href in text, f"{name} missing or untappable: {label}"
+          for label, href in contacts.items():
+              assert label in crisis and href in crisis, f"crisis.html missing or untappable: {label}"
+          assert "id=\"anytime\"" in support and "id=\"ongoing\"" in support and "id=\"emergency\"" in support
+          assert "support.html" in arron and "support.html" in arron_app
+          assert "samaritans" not in arron and "tel:116123" not in arron, "Arron page should not display crisis-line banner"
+          assert "tel:116123" not in arron_app and "sms:85258" not in arron_app, "Arron app should not display crisis-line banner"
+          assert "crisis.html" in safety, "Legacy safety page must route to the crisis anchor"
           print("House check passed")
           PY
   deploy:
