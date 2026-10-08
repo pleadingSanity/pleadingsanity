@@ -89,10 +89,26 @@
       <div class="live-player" id="live-now-empty">No Pleading Sanity-native broadcast is connected yet. When a creator brings a supported external live here, the stream preview appears above.</div>
     </div>
     <div id="tab-scheduled" class="live-tab-panel" role="tabpanel" hidden>
+      <form id="schedule-form">
+        <div class="live-grid">
+          <label class="live-field"><span>Upcoming live title</span><input id="schedule-title" maxlength="120" required placeholder="Friday night live"></label>
+          <label class="live-field"><span>Date &amp; time</span><input id="schedule-when" type="datetime-local" required></label>
+        </div>
+        <button class="live-btn secondary" type="submit">Save scheduled live</button>
+        <p class="live-status" id="schedule-status" role="status" aria-live="polite"></p>
+      </form>
       <div id="scheduled-list" class="live-list"><p class="live-note">No scheduled lives have been added on this device yet.</p></div>
-      <p class="live-note">🔜 Shared, cross-device scheduled lives will arrive with the creator/live backend. For now this is a local planning layer.</p>
+      <p class="live-note">🔜 Shared, cross-device scheduled lives and reminders will arrive with the creator/live backend. For now this is a local planning layer.</p>
     </div>
     <div id="tab-past" class="live-tab-panel" role="tabpanel" hidden>
+      <form id="past-form">
+        <div class="live-grid">
+          <label class="live-field"><span>Replay title</span><input id="past-title" maxlength="120" required placeholder="My latest live"></label>
+          <label class="live-field"><span>Replay URL</span><input id="past-url" type="url" required placeholder="https://…"></label>
+        </div>
+        <button class="live-btn secondary" type="submit">Save replay link</button>
+        <p class="live-status" id="past-status" role="status" aria-live="polite"></p>
+      </form>
       <div id="past-list" class="live-list"><p class="live-note">No replay links have been saved on this device yet.</p></div>
       <p class="live-note">Creators can add replay links here locally now. Cross-device replay storage is 🔜 COMING SOON.</p>
     </div>
