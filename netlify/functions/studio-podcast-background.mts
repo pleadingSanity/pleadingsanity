@@ -1,7 +1,7 @@
 // ==============================================================
 // 🎙️ UNITY POD RECORDER — background job (up to 15 minutes)
-// Three AIs from three labs talk through a real problem together:
-// Arron (Claude) hosts, Nova (GPT) and Sol (Gemini) bring fixes.
+// The AI family talks through a real problem together:
+// Arron (Claude) hosts; Nova (GPT), Sol (Gemini) and Grok (xAI) can contribute when their live providers are available.
 // Seven short turns, then Arron wraps up with steps people can take.
 // ==============================================================
 
@@ -14,7 +14,7 @@ import { parseJSON, speak, VOICES, type VoiceId } from "../lib/studio.js";
 type Turn = { voice: VoiceId; name: string; lab: string; text: string };
 
 const RUNNING_ORDER: { voice: VoiceId; brief: string }[] = [
-  { voice: "arron", brief: "Open the episode: welcome listeners to the Unity Pod, introduce Nova (GPT by OpenAI) and Sol (Gemini by Google), and frame today's problem with one real, relatable example. Under 110 words." },
+  { voice: "arron", brief: "Open the episode: welcome listeners to the Unity Pod, introduce Nova (GPT by OpenAI), Sol (Gemini by Google) and Grok (xAI), and frame today's problem with one real, relatable example. Under 110 words." },
   { voice: "nova", brief: "Give your take: why this problem happens, and two practical, evidence-informed fixes. Under 110 words." },
   { voice: "sol", brief: "Build on Nova: add a creative or community-based fix and one light, kind moment of humour. Under 110 words." },
   { voice: "arron", brief: "Share a lived-experience angle and ask the panel one brave follow-up question. Under 90 words." },
@@ -60,7 +60,7 @@ export default async (req: Request) => {
         body: (meta?.summary || "").slice(0, 600),
         script: turns,
         style: "episode",
-        model: "claude-sonnet-5 + gpt-5.4-mini + gemini-3.5-flash",
+        model: "claude-sonnet-5 + gpt-5.6-sol + gemini-3.8-flash + grok-4.7",
       })
       .where(eq(studioItems.id, item.id));
   } catch (error) {
