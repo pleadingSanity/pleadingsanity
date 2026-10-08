@@ -66,7 +66,7 @@ const SIGNPOST = "I'm here, and I'm staying with you. If you're in danger right 
 const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
 
 // If every mind is quiet, the fallback must still carry the lifelines.
-const QUIET_REPLY = hasLifelines(ALL_QUIET_REPLY) ? ALL_QUIET_REPLY : `${ALL_QUIET_REPLY}\n\n${SIGNPOST}`;
+const QUIET_REPLY = `${ALL_QUIET_REPLY}\n\nYou're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html`;
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
@@ -422,13 +422,15 @@ async function chat(req: Request, context: Context, rid: string) {
 
   // Crisis is judged once, up front, so every path below (rate limit, quiet AIs, errors) can use it.
   const crisis = mood === "crisis" || CRISIS_WORDS.test(message);
+  const alreadySignposted = sent.some((turn) => turn.role === "assistant" && hasLifelines(turn.content));
+  const crisisReply = alreadySignposted ? "I'm still here with you. I won't repeat the numbers; the full options are on https://pleadingsanity.co.uk/crisis.html, and ongoing listening options are at https://pleadingsanity.co.uk/support.html. Are you in immediate danger right now?" : CRISIS_SIGNPOST;
 
   const who = await whoIsHere();
   const { user, profile } = who;
   // Shane's verified Owner account is not rate-limited. Everyone else gets the normal gentle brake.
   if (!user?.isOwner && !(await allow("chat", context, user?.id))) {
     // Never slow down someone who may be in crisis: give the real lines straight away.
-    if (crisis) return json({ reply: SIGNPOST, provider: "none", remembered: false, crisis: true, signpost: SIGNPOST, actions: [] });
+    if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
     return slowDown("Give me a minute to catch my breath, then try again.");
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
@@ -524,7 +526,7 @@ async function chat(req: Request, context: Context, rid: string) {
   }
 
   // Whoever answered, a person in crisis always gets the real numbers.
-  let replyText = crisis && !hasLifelines(answer.text) ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  let replyText = crisis && !alreadySignposted && !hasLifelines(answer.text) ? `${answer.text}\n\n${CRISIS_SIGNPOST}` : crisis && alreadySignposted && hasLifelines(answer.text) ? "I'm still here with you. I won't repeat the numbers. The full options are at https://pleadingsanity.co.uk/crisis.html, and ongoing support is at https://pleadingsanity.co.uk/support.html. Are you in immediate danger right now?" : answer.text;
   const actions = done.actions;
   if (done.liveKind === "proposal" && user?.isOwner && !localOnly) {
     try {
@@ -659,7 +661,7 @@ export default async (req: Request, context: Context) => {
     // A crash in chat must never leave someone with a bare error: always give the real lines.
     if (route === "chat") {
       return json({
-        reply: `I'm having trouble finding my words just now, but I'm still here. ${SIGNPOST}`,
+        reply: `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
         provider: "none",
         remembered: false,
         crisis: false,
