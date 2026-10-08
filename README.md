@@ -38,7 +38,7 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - **Journal Vault** — safe, private storytelling space
 - **Brain Games** — six ad-free games incl. Stardust Dash, shared XP / levels / streaks / badges / Daily Challenge
 - **Frequencies / Aura Hz** — healing sound medicine
-- **Arron AI** — compassionate companion. GPT picks up first, then Claude, Gemini and Grok. The next takes over if the current provider is unavailable. Forget Me any time
+- **Arron AI** — compassionate companion. GPT → Claude → Gemini → Grok is the configured provider order; actual availability depends on the deployed provider connections. Forget Me any time
 - **Arron App** — installable, offline-first PWA (`/arron-app.html`)
 - **AI Studio** — create with the AI family, Human vs AI daily battle, Unity Pod
 - **AI Stories** — the community's best moments with Arron (`/ai-stories.html`)
@@ -55,7 +55,7 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 - Pure HTML5 / CSS3 / Vanilla JS — **zero build step**
 - Blazing fast — loads instantly
-- Privacy-first — no tracking
+- Privacy-first by design — no analytics/tracking product is intentionally enabled; some server endpoints still process minimal request metadata for abuse prevention.
 - PWA-ready — installable, offline-capable
 - WCAG 2.1 accessible — for ALL
 
@@ -94,7 +94,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 ## 🤝 PARTNERSHIPS
 
 - Brave Browser — privacy-first alignment discussions active
-- Netlify + Vercel — dual-platform hosting, unstoppable resilience
+- Netlify — canonical production hosting and deployment. Vercel is not a production dependency.
 
 ---
 
