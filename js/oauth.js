@@ -22,7 +22,7 @@ export async function mountOAuth(container, { beforeRedirect } = {}) {
   } catch {
     return; // Identity not reachable — email sign-in still works
   }
-  const available = PROVIDERS.filter(([id]) => enabled[id] === true || enabled[id]?.enabled === true);
+  const available = PROVIDERS.filter(([id]) => Boolean(enabled[id]));
   if (!available.length) return;
   container.innerHTML = `
     <div class="oauth-row">
