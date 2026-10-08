@@ -4,6 +4,12 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "pleading-sanity.vercel.app" }],
+      "destination": "https://pleadingsanity.co.uk/:path*",
+      "permanent": true
+    },
+    {
       "source": "/",
       "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
       "destination": "https://pleadingsanity.co.uk/",
