@@ -27,7 +27,10 @@ const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.X
 const grok = grokKey
   ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
   : null;
-const openaiDirect = process.env.OPENAI_API_KEY
+// A stored OpenAI key is only "direct" when Netlify didn't inject it for the Gateway.
+// If OPENAI_BASE_URL is set, OPENAI_API_KEY is the Gateway's own credential and must
+// never be sent to api.openai.com (it 401s there and hands a Netlify secret to a third party).
+const openaiDirect = process.env.OPENAI_API_KEY && !process.env.OPENAI_BASE_URL
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
@@ -290,4 +293,43 @@ export function parseJSON<T>(raw: string): T | null {
   } catch {
     return null;
   }
+}
+// ─── PROVIDER REGISTRY ───
+// What this deploy is configured to use. "configured" means the credential or
+// Gateway variable is present — not that the lab answered. A role is not a connection.
+// Never returns a key, a base URL or any part of one.
+export function providerRegistry() {
+  const has = (name: string) => Boolean(process.env[name]);
+  const gateway = has("NETLIFY_AI_GATEWAY_KEY") || has("NETLIFY_AI_GATEWAY_BASE_URL");
+  const via = (provider: Provider) => {
+    if (provider === "grok") return grok ? "xAI direct (GROK_API_KEY / xAI_KEY)" : "";
+    const vars: Record<string, string> = { openai: "OPENAI_API_KEY", anthropic: "ANTHROPIC_API_KEY", gemini: "GEMINI_API_KEY" };
+    return has(vars[provider]) || gateway ? "Netlify AI Gateway" : "";
+  };
+  const ROLE: Record<Provider, { name: string; role: string; capabilities: string[] }> = {
+    openai: { name: "GPT", role: "Reasoning, synthesis, architecture", capabilities: ["chat", "drafting", "review"] },
+    anthropic: { name: "Claude", role: "Long-form analysis, careful reasoning, review", capabilities: ["chat", "drafting", "review", "moderation"] },
+    gemini: { name: "Gemini", role: "Multimodal and research-style work", capabilities: ["chat", "drafting", "images"] },
+    grok: { name: "Grok", role: "Alternative perspectives", capabilities: ["chat"] },
+  };
+  const chain = CHAIN.map((link, i) => {
+    const route = via(link.provider);
+    return {
+      provider: link.provider,
+      ...ROLE[link.provider],
+      model: link.model,
+      order: i + 1,
+      requiresKey: link.provider === "grok" ? "GROK_API_KEY or xAI_KEY" : "none (Netlify AI Gateway)",
+      configured: Boolean(route),
+      route: route || "not configured on this deploy",
+    };
+  });
+  return {
+    note: "Configured means the credential is present on this deploy. It does not prove the provider answered today.",
+    chain,
+    backups: { provider: "OpenRouter", configured: has("OPENROUTER_API_KEY"), models: FREE_SPARES.map((s) => s.model), usedOnlyWhen: "every lab above failed" },
+    notConnected: [
+      { name: "Copilot", why: "A development tool used by Shane in GitHub. It does not answer on this site." },
+    ],
+  };
 }

@@ -418,11 +418,13 @@
         <div class="ps-group-menu" id="ps-g-community">
           <a href="/feed.html">🌟 For You Feed</a>
           <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/passport.html">🛂 Sanity Passport</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
           <a href="/ai-stories.html">💬 AI Stories</a>
           <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
           <a href="/movement.html">✊ The Movement</a>
+          <a href="/roadmap.html">🗺️ Roadmap</a>
           <a href="/about.html">💜 Our Story</a>
           <a href="/shop.html">👕 Shop</a>
         </div>
@@ -441,13 +443,13 @@
   <main class="dashboard-container" id="main">
     <section class="hero-section">
       <h2>Transparency. Democracy. Collective Power.</h2>
-      <p class="lead">Survivor-led governance — every voice counts, every decision visible, every direction chosen together.</p>
+      <p class="lead">Survivor-led governance is the aim: every voice heard, decisions made in the open, direction chosen together. Below is only what is real today.</p>
     </section>
 
-    <!-- Crisis Status -->
-    <div class="crisis-status operational" id="crisis-status">
-      🟢 <strong>Crisis Response: OPERATIONAL</strong><br />
-      24/7 support active · No invented response time
+    <!-- Crisis Status — honest: this site is not a crisis service -->
+    <div class="crisis-status" id="crisis-status">
+      🕊️ <strong>Pleading Sanity is not a crisis service.</strong><br />
+      No one here is on call. If you are not safe right now, <a href="/crisis.html">open the house truth page</a> for people who can sit with you.
     </div>
 
     <!-- Key Metrics -->
@@ -470,179 +472,65 @@
       </div>
     </section>
 
-    <!-- Governance Grid -->
+    <!-- Governance Grid — only what is real today. Nothing below is a borrowed or invented number. -->
     <div class="governance-grid">
-      <!-- Community Council -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5C9 8.57 7.43 7 5.5 7S2 8.57 2 10.5V18h2zm7.5-12.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM22 18v-2h-3v2h-2v-6.5c0-1.93-1.57-3.5-3.5-3.5S10 9.57 10 12.5V18h2v-2h3v2h7z"/>
-          </svg>
-          <h3 class="card-title">Community Council</h3>
-        </div>
-        <p>Elected survivor representatives guiding the movement with heart & accountability.</p>
-        <div class="council-members">
-          <div class="member-card">
-            <div class="member-avatar">SC</div>
-            <div><strong>Sarah C.</strong><br /><small>Lead Advocate</small></div>
-          </div>
-          <div class="member-card">
-            <div class="member-avatar">MJ</div>
-            <div><strong>Marcus J.</strong><br /><small>Crisis Lead</small></div>
-          </div>
-          <div class="member-card">
-            <div class="member-avatar">AR</div>
-            <div><strong>Aisha R.</strong><br /><small>Tech Ethics</small></div>
-          </div>
-        </div>
-        <button class="cta-button" onclick="openNominations()">Nominate Someone</button>
+        <h3 class="card-title">Community Council</h3>
+        <p>No council has been elected yet, so no names are shown. When members choose representatives, they will be listed here with their own consent.</p>
+        <a class="cta-button" href="mailto:pleadingsanity1@gmail.com?subject=Community%20council%20idea">Tell Shane how it should work</a>
       </div>
 
-      <!-- Active Votes -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 2l5.5 4L11 13V5z"/>
-          </svg>
-          <h3 class="card-title">Active Votes</h3>
-        </div>
-        <div class="voting-section">
-          <div class="vote-item" data-vote-id="privacy-1">
-            <h4>📱 Mobile App Privacy — Biometric Tracking</h4>
-            <p>Include opt-in mood tracking via device sensors? Fully anonymized & local-only.</p>
-            <div class="vote-buttons">
-              <button class="vote-btn" data-choice="yes" onclick="castVote('privacy-1','yes')">Yes (67%)</button>
-              <button class="vote-btn" data-choice="no" onclick="castVote('privacy-1','no')">No (23%)</button>
-              <button class="vote-btn" data-choice="abstain" onclick="castVote('privacy-1','abstain')">Abstain</button>
-            </div>
-            <small>⏳ Ends in 3 days · 2,847 votes</small>
-          </div>
-          <div class="vote-item" data-vote-id="crisis-1">
-            <h4>🚨 Crisis Response — 15s Target Protocol</h4>
-            <p>Update system to flag high-risk cases instantly? Response team expansion included.</p>
-            <div class="vote-buttons">
-              <button class="vote-btn" data-choice="approve" onclick="castVote('crisis-1','approve')">Approve (84%)</button>
-              <button class="vote-btn" data-choice="reject" onclick="castVote('crisis-1','reject')">Reject (12%)</button>
-              <button class="vote-btn" data-choice="modify" onclick="castVote('crisis-1','modify')">Modify (4%)</button>
-            </div>
-            <small>⏳ Ends in 1 day · 3,102 votes</small>
-          </div>
-        </div>
-        <button class="cta-button" onclick="proposeNewVote()">Propose a Vote</button>
+        <h3 class="card-title">Community Votes</h3>
+        <p>Voting isn't open yet. A vote only counts if it can be counted honestly, one person one vote, so there are no results to show. Questions we'd like the community to decide first:</p>
+        <ul>
+          <li>Should Arron be allowed to learn from public posts by default, or only when each person ticks the box? (Today it's only when you tick it.)</li>
+          <li>Which creative contest should open first in the Sanity Arena?</li>
+        </ul>
+        <a class="cta-button" href="/roadmap.html">See the roadmap</a>
       </div>
 
-      <!-- Financial Transparency -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-          </svg>
-          <h3 class="card-title">Financials</h3>
-        </div>
-        <div class="financial-summary">
-          <h4>Monthly Budget Breakdown</h4>
-          <div class="financial-chart">
-            <div class="chart-bar" style="height:80%">
-              <span class="chart-label">Crisis</span>
-            </div>
-            <div class="chart-bar" style="height:60%">
-              <span class="chart-label">Platform</span>
-            </div>
-            <div class="chart-bar" style="height:45%">
-              <span class="chart-label">Community</span>
-            </div>
-            <div class="chart-bar" style="height:30%">
-              <span class="chart-label">Ops</span>
-            </div>
-          </div>
-          <p><strong>Total Monthly:</strong> £124,500</p>
-          <p><strong>Crisis Response:</strong> £45,000 (36%)</p>
-          <p><strong>Forever Fund:</strong> £2.3M</p>
-        </div>
-        <button class="cta-button" onclick="showFullFinance()">📊 Full Report</button>
+        <h3 class="card-title">Money</h3>
+        <p>No accounts have been published yet, so no figures are shown here. The house is free to use. Any money comes from the <a href="/shop.html">shop</a>, and what it pays for will be published when there is something real to report.</p>
       </div>
 
-      <!-- Impact & Analytics -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"/>
-          </svg>
-          <h3 class="card-title">Impact Data</h3>
-        </div>
-        <div class="transparency-metrics" style="grid-template-columns: 1fr;">
-          <div class="metric-card">
-            <span class="metric-value">94.7%</span>
-            <div class="metric-label">Crisis Resolution Rate</div>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value">99.94%</span>
-            <div class="metric-label">Platform Uptime</div>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value">89%</span>
-            <div class="metric-label">Community Trust Rating</div>
-          </div>
-        </div>
-        <p style="margin-top:16px; font-size:0.85rem; color:var(--text-muted);">🔒 All data anonymized — your privacy is protected.</p>
-        <button class="cta-button" onclick="showImpactReport()">📈 Impact Report</button>
+        <h3 class="card-title">Impact</h3>
+        <p>Not measured. We don't track people, so there are no impact or "resolution" percentages. A number will only appear here when the house can prove it.</p>
       </div>
 
-      <!-- Crisis Network -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,4M11,6L18,10.5L11,15V6Z"/>
-          </svg>
-          <h3 class="card-title">Crisis Network</h3>
-        </div>
-        <p><strong>247</strong> trained responders worldwide</p>
-        <p><strong>~47s</strong> avg response time</p>
-        <p><strong>All time zones</strong> fully covered</p>
-        <p><strong>30-day</strong> follow-up care included</p>
-        <button class="cta-button" onclick="joinCrisisTeam()" style="margin-top:14px;">💚 Volunteer</button>
+        <h3 class="card-title">Support</h3>
+        <p>There's no responder team. Community Guardians welcome people, pin helpful posts and act on reports. They aren't therapists, doctors or emergency services.</p>
+        <a class="cta-button" href="/crisis.html">The house truth</a>
       </div>
 
-      <!-- Feedback -->
       <div class="governance-card">
-        <div class="card-header">
-          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22H9Z"/>
-          </svg>
-          <h3 class="card-title">Your Voice</h3>
-        </div>
-        <p style="font-size:0.9rem; color:var(--text-muted);">Shape what we build next — every idea matters.</p>
-        <div style="background:rgba(0,255,240,0.04); border-radius:10px; padding:14px; margin:12px 0;">
-          <p style="font-size:0.9rem;"><strong>💡 Suggestion:</strong> "Add group therapy scheduling per chapter"</p>
-          <p style="font-size:0.8rem; color:var(--text-muted);">Status: Under Review · 14 votes</p>
-        </div>
-        <div style="background:rgba(81,207,102,0.06); border-radius:10px; padding:14px; margin:12px 0;">
-          <p style="font-size:0.9rem;"><strong>✅ Implemented:</strong> "Faster crisis detection"</p>
-          <p style="font-size:0.8rem; color:var(--text-muted);">Suggested by Marcus J. · Now live</p>
-        </div>
-        <button class="cta-button" onclick="submitIdea()">💬 Submit Your Idea</button>
+        <h3 class="card-title">Your Voice</h3>
+        <p>Shape what we build next. Ideas go to Shane, who reads them himself.</p>
+        <a class="cta-button" href="mailto:pleadingsanity1@gmail.com?subject=An%20idea%20for%20Pleading%20Sanity">💬 Send an idea</a>
       </div>
     </div>
-
     <!-- Community Charter -->
     <section class="community-charter">
       <h2>📜 The Community Charter</h2>
       <div class="charter-grid">
         <div class="charter-principle">
-          <h3>🗳️ Democracy First</h3>
-          <p>Every major change needs your vote. No leader decides alone.</p>
+          <h3>🗳️ Asked, Not Told</h3>
+          <p>The community is asked before big changes. Votes open once they can be counted honestly.</p>
         </div>
         <div class="charter-principle">
           <h3>🔍 Radical Transparency</h3>
-          <p>Money, plans, data — open to all. Nothing hidden.</p>
+          <p>We publish what we can prove and say plainly when we can't.</p>
         </div>
         <div class="charter-principle">
           <h3>🛡️ Privacy Is Sacred</h3>
           <p>Your info belongs to YOU. Not sold, not mined, not shared.</p>
         </div>
         <div class="charter-principle">
-          <h3>⚡ Crisis Always First</h3>
-          <p>When someone is hurting — that comes before everything.</p>
+          <h3>⚡ Safety Always First</h3>
+          <p>When someone is hurting, pointing them to real help comes before everything.</p>
         </div>
       </div>
     </section>
@@ -684,7 +572,7 @@
   </div>
 </footer>
 
-  <!-- Scripts → All working, localStorage persisted, zero errors -->
+  <!-- Scripts: page helpers. Votes are not open, so nothing here records one. -->
   <script>
     var yearEl = document.getElementById('yr') || document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
 

@@ -27,7 +27,7 @@ export async function getGrowth(): Promise<Growth> {
       startedAt: v.startedAt || new Date().toISOString().slice(0, 10),
     };
   } catch (error) {
-    console.error("Arron's growth journal unavailable:", error);
+    console.error("Arron's growth journal unavailable:", (error as Error)?.name || "error");
     return { total: 0, lessons: [], startedAt: new Date().toISOString().slice(0, 10) };
   }
 }

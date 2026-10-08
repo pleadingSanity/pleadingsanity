@@ -57,7 +57,7 @@ export default async () => {
       body: card.body,
     });
   } catch (error) {
-    console.error(`AI family post (${voice}) failed:`, error);
+    console.error(`AI family post (${voice}) failed:`, (error as Error)?.name || "error");
   }
 };
 

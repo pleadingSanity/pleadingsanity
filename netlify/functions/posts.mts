@@ -44,6 +44,7 @@ import {
 } from "../lib/social.js";
 import { publishPost, type Post } from "../lib/publish.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
+import { provenanceOut } from "../lib/provenance.js";
 
 const PAGE = 15;
 // Heart milestones — Arron's words for each live in the soul file (arron-knowledge.json → feedMilestones).
@@ -128,6 +129,7 @@ async function hydrate(rows: Post[], viewerId: string) {
       visibility: p.visibility,
       status: p.status,
       truthTag: p.truthTag,
+      ...provenanceOut(p),
       pinned: p.pinned,
       createdAt: p.createdAt,
       author: a
@@ -472,7 +474,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Posts API error:", error);
+    console.error("Posts API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

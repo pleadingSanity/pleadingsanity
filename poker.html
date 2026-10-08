@@ -118,6 +118,8 @@ body { overflow-x: hidden; }
     function face(c) { return RANKS[c.r] + SUIT[c.s]; }
     const ART = ["/assets/theme/suits/spade.jpg", "/assets/theme/suits/heart.jpg", "/assets/theme/suits/diamond.jpg", "/assets/theme/suits/club.jpg"];
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
+    // Seat names can come from another player's room, so they are always escaped.
+    const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]);
     function cardHtml(c) {
       return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
     }
@@ -129,7 +131,7 @@ body { overflow-x: hidden; }
       $("seats").innerHTML = seats.map((s, i) => {
         const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
         const holes = (i === mySeat || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
-        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
+        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
       const me = seats[mySeat] || seats[0];
       const need = Math.max(0, currentBet - me.bet);

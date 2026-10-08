@@ -6,7 +6,7 @@
 // ==============================================================
 
 import { esc, toast } from '/js/auth.js';
-import { truthBadge } from '/js/social.js';
+import { originBadge, truthBadge } from '/js/social.js';
 
 const KINDS = {
   wisdom: { icon: '🌅', label: 'Daily Wisdom' },
@@ -29,7 +29,7 @@ function pieceHTML(p) {
     <article class="panel sx-piece" id="piece-${p.id}">
       <div class="sx-meta">
         <span class="sx-kind">${k.icon} ${k.label}</span>
-        ${truthBadge(p.truthTag)}
+        ${originBadge(p)}${truthBadge(p.truthTag)}
         <span>✍️ ${esc(p.credit)}</span>
         <time datetime="${esc(when)}">${new Date(when).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
       </div>

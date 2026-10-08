@@ -211,6 +211,17 @@
 .truth-evidence { color: #b8f7ff; border-color: rgba(120, 220, 255, 0.55); background: rgba(120, 220, 255, 0.08); }
 .truth-experience { color: #c9d8ff; border-color: rgba(140, 160, 255, 0.55); background: rgba(140, 160, 255, 0.1); }
 .truth-philosophy { color: #f3c8ff; border-color: rgba(220, 120, 255, 0.55); background: rgba(220, 120, 255, 0.08); }
+.truth-known { color: #b8f7ff; border-color: rgba(120, 220, 255, 0.55); background: rgba(120, 220, 255, 0.08); }
+.truth-thought { color: #fff1b8; border-color: rgba(255, 220, 120, 0.55); background: rgba(255, 220, 120, 0.08); }
+.truth-belief { color: #f3c8ff; border-color: rgba(220, 120, 255, 0.55); background: rgba(220, 120, 255, 0.08); }
+.truth-unknown { color: #e6e9f2; border-color: rgba(200, 205, 220, 0.5); background: rgba(200, 205, 220, 0.08); }
+/* Provenance: Together and AI are always labelled. Human is the default and carries no badge. */
+.origin-tag { border: 1px solid; font-weight: 700; }
+.origin-collaborative { color: #c8ffe9; border-color: rgba(80, 230, 170, 0.6); background: rgba(80, 230, 170, 0.08); }
+.origin-ai { color: #ffd2f2; border-color: rgba(255, 0, 255, 0.55); background: rgba(255, 0, 255, 0.08); }
+.passport-list { margin: 0 0 0.75rem; }
+.passport-list dt { font-weight: 700; color: #00fff0; margin-top: 0.75rem; }
+.passport-list dd { margin: 0.2rem 0 0; white-space: pre-wrap; }
 .pinned-tag { border-color: rgba(255, 215, 0, 0.55); color: #ffe9a8; }
 .post-actions [data-save][aria-pressed="true"] { color: #ffe9a8; border-color: rgba(255, 215, 0, 0.5); }
 .chip-radio { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; border: 1.5px solid rgba(0, 255, 240, 0.25); background: rgba(255, 255, 255, 0.04); cursor: pointer; font-weight: 600; }

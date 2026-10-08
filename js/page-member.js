@@ -85,6 +85,11 @@ async function render() {
         </div>
       </section>` : ''}
     ${journal}
+    <section class="panel" aria-labelledby="pp-title" data-passport-panel hidden>
+      <h2 id="pp-title">🛂 ${isSelf ? 'My' : 'Their'} Sanity Passport</h2>
+      <dl class="passport-list" data-passport></dl>
+      ${isSelf ? '<p class="muted" style="margin:0"><a href="/passport.html">Edit my Passport →</a></p>' : ''}
+    </section>
     <section class="panel" aria-labelledby="c-title" data-creations-panel hidden>
       <h2 id="c-title">🎨 Creations</h2>
       <div class="creation-strip" data-creations></div>
@@ -129,6 +134,14 @@ function wireActions(p) {
 }
 
 async function loadCreations() {
+  // Sanity Passport: only the fields this person made visible to this viewer.
+  api(`/api/passport/${encodeURIComponent(username)}`).then(({ fields }) => {
+    if (!fields?.length) return;
+    const LABELS = { whoIAm: 'Who I am', whatMatters: 'What matters to me', inspires: 'What inspires me', learning: "What I'm learning", creating: "What I'm creating", helps: 'What helps me', goals: 'My goals', story: 'My story', interests: 'My interests', journey: 'My journey' };
+    root.querySelector('[data-passport]').innerHTML = fields.map((f) => `<dt>${esc(LABELS[f.key] || '')}</dt><dd>${esc(f.text)}</dd>`).join('');
+    root.querySelector('[data-passport-panel]').hidden = false;
+  }).catch(() => {});
+
   try {
     const { creations } = await api(`/api/creations?author=${encodeURIComponent(username)}`);
     if (!creations.length) return;

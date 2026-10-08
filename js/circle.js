@@ -1,4 +1,5 @@
 import { api, loadMe, esc } from "/js/auth.js";
+// Possies and neggies are kept on this phone only: there is no server count for them.
 const KEY = "ps-circle";
 const LIGHT = "ps-possy-light";
 const me = await loadMe();
@@ -34,13 +35,11 @@ document.querySelector("#list").addEventListener("click", async (e) => {
     paint(items);
     showLight();
     document.querySelector("#status").textContent = light() >= 5 ? "Light mark: five possies. That is the reward for now — a mark, not money." : "Possy given.";
-    try { await api("/api/reactions", { method: "POST", body: { kind: "possy", text: items[possy].text } }); } catch { /* phone keeps it */ }
   }
   if (neggy != null) {
     items[neggy].neggy = (items[neggy].neggy || 0) + 1;
     localStorage.setItem(KEY, JSON.stringify(items));
     document.querySelector("#status").textContent = "Neggy kept private. It is care, not a public count.";
-    try { await api("/api/reactions", { method: "POST", body: { kind: "neggy", text: items[neggy].text, private: true } }); } catch { /* phone keeps it */ }
   }
 });
 document.querySelector("#check").addEventListener("click", async () => {

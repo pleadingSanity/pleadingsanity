@@ -49,6 +49,16 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
 # Missing pages show the cosmic 404 page (404.html) automatically.
 
+# ─── SOURCE FILES ARE NOT PAGES ───
+# The site publishes the repo root, so server code, the schema and env templates
+# would otherwise be downloadable. The code is public on GitHub; this just keeps
+# the live site to pages. (Functions run from /.netlify/functions and /api, not here.)
+/netlify/*            /404.html               404!
+/db/*                 /404.html               404!
+/.env.example          /404.html               404!
+/.env.production.example /404.html             404!
+/node_modules/*       /404.html               404!
+
 # ─── v3.0 THE SANCTUARY — friendly short links ───
 /sanctuary            /sanctuary.html         301
 /create               /creations.html#create  301

@@ -286,7 +286,7 @@ export default async (req: Request) => {
     if (path === "/api/reports" && req.method === "POST") return await fileReport(req, user.id);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Community API error:", error);
+    console.error("Community API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

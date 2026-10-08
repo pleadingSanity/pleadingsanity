@@ -63,7 +63,7 @@ async function ownerVerified(user: { id: string; email?: string; provider?: stri
       const full = await admin.getUser(user.id);
       ok = Boolean(full.confirmedAt) && isOwnerEmail(full.email);
     } catch (error) {
-      console.error("Could not verify the owner account:", error);
+      console.error("Could not verify the owner account:", (error as Error)?.name || "error");
       return false; // don't cache — try again next request
     }
   }
@@ -107,7 +107,7 @@ export async function optionalUser(): Promise<AuthedUser | null> {
   try {
     return await currentUser();
   } catch (error) {
-    console.error("Could not read the signed-in user:", error);
+    console.error("Could not read the signed-in user:", (error as Error)?.name || "error");
     return null;
   }
 }
@@ -141,7 +141,7 @@ export async function getSettings(): Promise<SiteSettings> {
     const [row] = await db.select().from(siteSettings).where(eq(siteSettings.key, "owner"));
     return { ...SETTINGS_DEFAULTS, ...((row?.value as Partial<SiteSettings>) ?? {}) };
   } catch (error) {
-    console.error("Settings unavailable:", error);
+    console.error("Settings unavailable:", (error as Error)?.name || "error");
     return SETTINGS_DEFAULTS;
   }
 }
@@ -162,7 +162,11 @@ export type Visibility = (typeof VISIBILITIES)[number];
 export const cleanVisibility = (value: unknown, fallback: Visibility = "public"): Visibility =>
   typeof value === "string" && (VISIBILITIES as readonly string[]).includes(value) ? (value as Visibility) : fallback;
 
-export const TRUTH_TAGS = ["evidence", "experience", "philosophy"] as const;
+// Truth Lab — five honest kinds of truth: known | experience | thought | belief | unknown.
+// "evidence" and "philosophy" are the older tags. They are still accepted and still shown,
+// so nothing written before stops making sense (the page reads evidence as Known and
+// philosophy as Thought or belief).
+export const TRUTH_TAGS = ["known", "experience", "thought", "belief", "unknown", "evidence", "philosophy"] as const;
 export const cleanTruthTag = (value: unknown) =>
   typeof value === "string" && (TRUTH_TAGS as readonly string[]).includes(value) ? value : "";
 
@@ -243,7 +247,7 @@ export async function logActivity(
       detail: detail.slice(0, 500),
     });
   } catch (error) {
-    console.error("Could not write activity log:", error);
+    console.error("Could not write activity log:", (error as Error)?.name || "error");
   }
 }
 
@@ -316,7 +320,7 @@ reason: one short, gentle sentence addressed to the writer explaining what to ch
     };
   } catch (error) {
     // If the AI check is unavailable we still publish — keyword safety nets stay on.
-    console.error("Moderation unavailable:", error);
+    console.error("Moderation unavailable:", (error as Error)?.name || "error");
     return fallback;
   }
 }

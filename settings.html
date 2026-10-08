@@ -84,11 +84,13 @@ Evolution, Not Erasure. One Source. One Family.
         <div class="ps-group-menu" id="ps-g-community">
           <a href="/feed.html">🌟 For You Feed</a>
           <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/passport.html">🛂 Sanity Passport</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
           <a href="/ai-stories.html">💬 AI Stories</a>
           <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
           <a href="/movement.html">✊ The Movement</a>
+          <a href="/roadmap.html">🗺️ Roadmap</a>
           <a href="/about.html">💜 Our Story</a>
           <a href="/shop.html">👕 Shop</a>
         </div>
@@ -109,9 +111,9 @@ Evolution, Not Erasure. One Source. One Family.
       <h2 id="privacy-title">🔒 Privacy</h2>
       <label class="check field">
         <input type="checkbox" id="private-toggle" />
-        <span><strong>Friends-only profile</strong><br /><small>Only friends see your bio, story and posts. New posts default to friends-only.</small></span>
+        <span><strong>Friends-only profile</strong><br /><small>Only friends see your bio and story. New posts default to friends-only.</small></span>
       </label>
-      <p class="muted">We never show your email, never ask for your real name, and never store more than your country. <a href="/profile.html">Edit your profile →</a></p>
+      <p class="muted">Posts you already shared stay at the audience you chose for each one. We never show your email and never ask for your real name or address; the only location we ask for is an optional country. <a href="/profile.html">Edit your profile →</a> · <a href="/passport.html">Your Sanity Passport →</a></p>
     </section>
 
     <section class="panel" aria-labelledby="pw-title">
@@ -135,9 +137,16 @@ Evolution, Not Erasure. One Source. One Family.
       <button type="button" class="sbtn ghost" id="signout">Sign out on this device</button>
     </section>
 
+    <section class="panel" aria-labelledby="export-title">
+      <h2 id="export-title">📦 Download my data</h2>
+      <p>One JSON file with everything our database holds for your account: profile, Passport, posts, comments, journal, creations, writing, Arron conversations, game progress, saves and friends. Things kept only on your phone (the on-device Journal Vault, finance figures) are not on our server, so they aren't in it.</p>
+      <button type="button" class="sbtn" id="export-btn">Download my data</button>
+    </section>
+
     <section class="panel" aria-labelledby="del-title" style="border-color:rgba(255,90,130,.45)">
       <h2 id="del-title" style="color:#ffc2d0">🗑️ Delete my account</h2>
-      <p>This permanently wipes everything: your account, Sanity Profile, story, journal, status, posts, comments, hearts, friendships, creations, uploaded images and your conversations with Arron. Nothing is kept, no backups. It can't be undone. <small class="muted">(Your right to erasure under UK GDPR.)</small></p>
+      <p>This deletes your account and what it holds from our live database: Sanity Profile, Passport, story, journal, status, posts, comments, hearts and votes, friendships, creations, writing for the site, uploaded images, your activity record and your conversations with Arron. It can't be undone. <small class="muted">(Your right to erasure under UK GDPR.)</small></p>
+      <p class="muted"><strong>What we can't reach from here:</strong> reports other members made about your account are kept as a safety record. Our hosting provider may hold routine backups for a limited time, which we can't erase on demand. Words you already sent to an AI (OpenAI, Anthropic, Google, xAI or the OpenRouter backups) were handled under their policies and can't be recalled by us. Anything copied or screenshotted by others is outside our reach. <a href="/privacy.html">Privacy details →</a></p>
       <form id="del-form" novalidate>
         <label class="field"><span>Type <strong>DELETE</strong> to confirm</span>
           <input type="text" name="confirm" autocomplete="off" autocapitalize="characters" />

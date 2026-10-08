@@ -127,6 +127,8 @@ aiBtn.addEventListener('click', async () => {
       if (s.tags.length) addTags(s.tags);
       if (s.mood) setChips(moodsBox, [s.mood]);
       if (s.contentWarning) document.getElementById('cw').checked = true;
+      // Arron helped write it, so it is honestly a Together post. The member can still change this.
+      if (form.origin.value === 'human') form.origin.value = 'collaborative';
       aiOut.querySelector('.notice').remove();
       toast('Suggestion applied — edit anything you like.');
     });
@@ -184,6 +186,8 @@ form.addEventListener('submit', async (e) => {
         tags: meme ? ["meme"] : getTags(),
         visibility: form.visibility.value,
         truthTag: form.truthTag.value,
+        origin: form.origin.value,
+        aiMemoryAllowed: form.aiMemoryAllowed.checked,
         contentWarning: document.getElementById('cw').checked,
       },
     });

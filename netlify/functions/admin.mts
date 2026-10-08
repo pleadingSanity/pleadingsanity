@@ -72,7 +72,7 @@ export default async (req: Request) => {
 
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Admin API error:", error);
+    console.error("Admin API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong." }, 500);
   }
 };

@@ -112,6 +112,13 @@ export const posts = pgTable(
     pinned: boolean().notNull().default(false),
     // "X have walked this path" — one count per device per post (deduped on the device).
     views: integer().notNull().default(0),
+    // Provenance (netlify/lib/provenance.ts): human | ai | collaborative.
+    // Provider and model are only ever set by our own functions.
+    origin: text().notNull().default("human"),
+    aiProvider: text("ai_provider").notNull().default(""),
+    aiModel: text("ai_model").notNull().default(""),
+    humanReviewed: boolean("human_reviewed").notNull().default(true),
+    aiMemoryAllowed: boolean("ai_memory_allowed").notNull().default(false),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [
@@ -355,6 +362,10 @@ export const siteContent = pgTable(
     anonymous: boolean().notNull().default(false),
     status: text().notNull().default("pending"),
     reviewNote: text("review_note").notNull().default(""),
+    origin: text().notNull().default("human"),
+    aiProvider: text("ai_provider").notNull().default(""),
+    aiModel: text("ai_model").notNull().default(""),
+    humanReviewed: boolean("human_reviewed").notNull().default(true),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     publishedAt: timestamp("published_at"),
   },
@@ -452,3 +463,18 @@ export const siteProposals = pgTable(
   },
   (t) => [index("site_proposals_status_idx").on(t.status, t.id)],
 );
+
+// Sanity Passport — a voluntary "who I am" layer. Not a medical record.
+// fields: { [key]: { text, visibility: private|members|public, ai: boolean } }
+// Every field starts private and hidden from Arron. aiMemoryAllowed and
+// personalise are the member's master switches over the per-field ticks.
+export const passports = pgTable("passports", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => users.id, { onDelete: "cascade" }),
+  fields: jsonb().notNull().default({}),
+  aiMemoryAllowed: boolean("ai_memory_allowed").notNull().default(false),
+  personalise: boolean().notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});

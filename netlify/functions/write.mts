@@ -12,6 +12,7 @@
 // Every piece carries an author credit and a truth tag.
 // ==============================================================
 
+import { cleanOrigin, provenanceOut } from "../lib/provenance.js";
 import type { Config, Context } from "@netlify/functions";
 import { and, desc, eq, lt } from "drizzle-orm";
 import { db } from "../../db/index.js";
@@ -49,6 +50,7 @@ const shape = (r: Row, viewerId?: string) => ({
   title: r.title,
   body: r.body,
   truthTag: r.truthTag,
+  ...provenanceOut(r),
   credit: r.anonymous ? "A member of the family" : r.credit,
   status: r.status,
   reviewNote: r.authorId && r.authorId === viewerId ? r.reviewNote : undefined,
@@ -56,6 +58,14 @@ const shape = (r: Row, viewerId?: string) => ({
   createdAt: r.createdAt,
   publishedAt: r.publishedAt,
 });
+
+// An AI suggestion can never be "known", and is only "experience" when it retells the member's own notes.
+const aiTag = (tag: unknown, hasNotes: boolean) => {
+  const t = cleanTruthTag(tag);
+  if (!t || t === "known" || t === "evidence") return "thought";
+  if (t === "experience" && !hasNotes) return "thought";
+  return t === "philosophy" ? "belief" : t;
+};
 
 async function draft(req: Request, context: Context, user: { id: string; roles: string[] }) {
   const body = await readBody(req);
@@ -75,15 +85,16 @@ async function draft(req: Request, context: Context, user: { id: string; roles: 
 
 You are writing for the Pleading Sanity website, together with a member who will review and edit before publishing.
 Write ${KINDS[kind]}.
-Choose the honest truth tag: "evidence" (backed by well-established research — no invented numbers),
-"experience" (lived experience, feelings, stories) or "philosophy" (beliefs, meaning, reflection).
-Reply with ONLY JSON: {"title": string (max 70 chars, no clickbait), "body": string, "truthTag": "evidence"|"experience"|"philosophy"}`;
+Suggest an honest truth tag: "experience" (only when retelling the member's own notes — you have no lived experience),
+"thought" (an idea or question), "belief" (meaning, faith, values) or "unknown" (genuinely unresolved).
+Never choose "known": only the member can stand behind evidence. No invented numbers.
+Reply with ONLY JSON: {"title": string (max 70 chars, no clickbait), "body": string, "truthTag": "experience"|"thought"|"belief"|"unknown"}`;
   const prompt = `${topic ? `Topic: ${topic}` : "Topic: something the family needs to hear today."}${notes ? `\nThe member's own words and notes (honour their voice):\n${notes}` : ""}`;
   const answer = await runChain(system, [{ role: "user", content: prompt }], { creator, maxTokens: creator ? 2400 : 1500 });
   const parsed = parseJSON<{ title?: string; body?: string; truthTag?: string }>(answer.text);
   const text = str(parsed?.body ?? answer.text, 8000);
   if (!text) return json({ error: "The words didn't come that time — try again." }, 502);
-  return json({ draft: { kind, title: str(parsed?.title, 120), body: text, truthTag: cleanTruthTag(parsed?.truthTag) || "experience" }, model: answer.model });
+  return json({ draft: { kind, title: str(parsed?.title, 120), body: text, truthTag: aiTag(parsed?.truthTag, Boolean(notes)) }, model: answer.model });
 }
 
 async function submit(req: Request, user: { id: string; roles: string[] }) {
@@ -109,6 +120,7 @@ async function submit(req: Request, user: { id: string; roles: string[] }) {
       title,
       body: text,
       truthTag: cleanTruthTag(body.truthTag) || "experience",
+      origin: cleanOrigin(body.origin),
       anonymous: body.anonymous === true,
       status: creator ? "published" : "pending",
       publishedAt: creator ? new Date() : null,
@@ -202,7 +214,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Write API error:", error);
+    console.error("Write API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };
