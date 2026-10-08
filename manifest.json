@@ -99,6 +99,13 @@
   ],
   "shortcuts": [
     {
+      "name": "The Sane Finance GBT",
+      "short_name": "Finance",
+      "description": "Affordability, quote comparison and AI finance preparation",
+      "url": "/finance.html",
+      "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]
+    },
+    {
       "name": "Get Help Now",
       "short_name": "Help",
       "description": "Why people lose themselves. The house truth.",

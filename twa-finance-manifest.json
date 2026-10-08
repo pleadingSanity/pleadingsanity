@@ -1,0 +1,22 @@
+{
+  "packageId":"uk.co.pleadingsanity.sanefinance",
+  "host":"pleadingsanity.co.uk",
+  "name":"The Sane Finance GBT",
+  "launcherName":"Sane Finance",
+  "display":"standalone",
+  "themeColor":"#000103",
+  "themeColorDark":"#000103",
+  "navigationColor":"#000103",
+  "navigationColorDark":"#000103",
+  "backgroundColor":"#000103",
+  "startUrl":"/finance.html",
+  "iconUrl":"https://pleadingsanity.co.uk/assets/icons/icon-512x512.png",
+  "maskableIconUrl":"https://pleadingsanity.co.uk/assets/icons/icon-512x512.png",
+  "webManifestUrl":"https://pleadingsanity.co.uk/manifest-finance.json",
+  "fallbackType":"customtabs",
+  "generatorApp":"bubblewrap-cli",
+  "signingKey":{"path":"./android.keystore","alias":"android"},
+  "fingerprints":[],
+  "appVersion":"1",
+  "appVersionName":"1.0.0"
+}

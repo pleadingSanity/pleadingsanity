@@ -1,0 +1,23 @@
+{
+  "name":"The Sane Finance GBT — Pleading Sanity",
+  "short_name":"Sane Finance",
+  "id":"/finance.html",
+  "start_url":"/finance.html",
+  "scope":"/",
+  "display":"standalone",
+  "display_override":["standalone","minimal-ui"],
+  "background_color":"#000103",
+  "theme_color":"#000103",
+  "lang":"en-GB",
+  "description":"A fast, transparent UK finance planning and application-preparation tool.",
+  "categories":["finance","education","utilities"],
+  "icons":[
+    {"src":"/assets/icons/icon-192x192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/assets/icons/icon-512x512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ],
+  "shortcuts":[
+    {"name":"Affordability","short_name":"Afford","url":"/finance.html#calculator","icons":[{"src":"/assets/icons/icon-96x96.png","sizes":"96x96","type":"image/png"}]},
+    {"name":"Compare a quote","short_name":"Compare","url":"/finance.html#compare","icons":[{"src":"/assets/icons/icon-96x96.png","sizes":"96x96","type":"image/png"}]},
+    {"name":"Ask the GBT","short_name":"Ask","url":"/finance.html#adviser","icons":[{"src":"/assets/icons/icon-96x96.png","sizes":"96x96","type":"image/png"}]}
+  ]
+}
