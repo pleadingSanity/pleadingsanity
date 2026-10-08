@@ -115,6 +115,18 @@
     grid.insertBefore(card, grid.firstChild);
   }
   var nav = document.querySelector('.ps-nav');
+  // The LIVE door is deliberately visible across the house.
+  if (nav) {
+    var navLinks = nav.querySelector('.ps-links');
+    if (navLinks && !navLinks.querySelector('a[href="/live.html"]')) {
+      var liveLink = document.createElement('a');
+      liveLink.href = '/live.html';
+      liveLink.className = 'ps-live-link';
+      liveLink.innerHTML = '<span aria-hidden="true">●</span> LIVE';
+      liveLink.setAttribute('aria-label', 'Live creator stage');
+      navLinks.insertBefore(liveLink, navLinks.firstChild);
+    }
+  }
   if (nav && !nav.querySelector('.ps-nav-toggle')) {
     var btn = document.createElement('button');
     btn.type = 'button';
@@ -168,7 +180,7 @@
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');
-    dock.innerHTML = '<a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Truth</a><button type="button" class="ps-dock-menu">Menu</button>';
+    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Truth</a><button type="button" class="ps-dock-menu">Menu</button>';
     document.body.appendChild(dock);
     var here = dock.querySelector('a[href="' + path + '"]');
     if (here) here.setAttribute('aria-current', 'page');
