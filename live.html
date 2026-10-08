@@ -43,6 +43,16 @@
     .live-offer .number{font-size:clamp(2.7rem,9vw,5rem);font-weight:950;line-height:1;color:#ff647d}
     .live-tag{display:inline-block;background:#b80024;color:white;border-radius:999px;padding:.25rem .65rem;font-size:.78rem;font-weight:900;letter-spacing:.05em}
     .live-status{min-height:1.5rem;color:#bafaf5}
+    .live-tabs{display:flex;gap:.5rem;overflow:auto;padding-bottom:.5rem}
+    .live-tab{flex:0 0 auto;min-height:44px;padding:.65rem .9rem;border:1px solid #ffffff2e;border-radius:999px;background:#07101a;color:#dff;font:inherit;font-weight:800;cursor:pointer}
+    .live-tab.active{background:#b80024;border-color:#ff4767;color:#fff}
+    .live-list{display:grid;gap:.7rem}
+    .live-list article,.chat-log article{padding:.8rem;border:1px solid #ffffff20;border-radius:12px;background:#03070d}
+    .coming-soon{border:1px solid #ff4767;border-radius:14px;padding:1rem;background:#260711;color:#fff;font-weight:900}
+    .chat-log{display:grid;gap:.6rem;max-height:260px;overflow:auto;margin:1rem 0}
+    .live-chat-form{display:grid;grid-template-columns:1fr auto;gap:.6rem}
+    .live-chat-form input{min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit}
+    @media(max-width:480px){.live-chat-form{grid-template-columns:1fr}.live-chat-form .live-btn{width:100%}}
     @media(max-width:480px){.live-card{border-radius:15px}.live-btn{width:100%}}
   </style>
 </head>
@@ -68,6 +78,26 @@
     </div>
   </section>
 
+  <section class="live-card" id="live-sections" aria-labelledby="live-sections-title">
+    <h2 id="live-sections-title">Live Hub</h2>
+    <div class="live-tabs" role="tablist" aria-label="Live streams">
+      <button class="live-tab active" type="button" data-tab="now" role="tab" aria-selected="true">🔴 Live Now</button>
+      <button class="live-tab" type="button" data-tab="scheduled" role="tab" aria-selected="false">📅 Scheduled</button>
+      <button class="live-tab" type="button" data-tab="past" role="tab" aria-selected="false">▶️ Past Lives</button>
+    </div>
+    <div id="tab-now" class="live-tab-panel" role="tabpanel">
+      <div class="live-player" id="live-now-empty">No Pleading Sanity-native broadcast is connected yet. When a creator brings a supported external live here, the stream preview appears above.</div>
+    </div>
+    <div id="tab-scheduled" class="live-tab-panel" role="tabpanel" hidden>
+      <div id="scheduled-list" class="live-list"><p class="live-note">No scheduled lives have been added on this device yet.</p></div>
+      <p class="live-note">🔜 Shared, cross-device scheduled lives will arrive with the creator/live backend. For now this is a local planning layer.</p>
+    </div>
+    <div id="tab-past" class="live-tab-panel" role="tabpanel" hidden>
+      <div id="past-list" class="live-list"><p class="live-note">No replay links have been saved on this device yet.</p></div>
+      <p class="live-note">Creators can add replay links here locally now. Cross-device replay storage is 🔜 COMING SOON.</p>
+    </div>
+  </section>
+
   <section class="live-card" id="bring-live">
     <h2>Bring your live to the house</h2>
     <p>Already live on YouTube or Twitch? Paste your public stream link below. You can do this before going live (if your platform has scheduled the stream) or while broadcasting. We'll show an embeddable preview when the link supports it, and you can share the stream to the Pleading Sanity feed.</p>
@@ -90,6 +120,38 @@
     <p>Our goal is one button that finds the strongest moments, creates polished vertical clips up to 60 seconds, adds captions and framing, and leaves them ready to post.</p>
     <button class="live-btn secondary" id="clip-status-button" type="button">Check highlight clip status</button>
     <p class="live-status" id="clip-status" role="status" aria-live="polite">AI highlight selection, automatic editing and export are not active yet. They need replay access, video processing, transcription/highlight detection, storage and an export pipeline. We won't pretend a clip has been created until that pipeline is connected.</p>
+  </section>
+
+  <section class="live-card" id="creator-tools">
+    <h2>Creator controls</h2>
+    <div class="live-grid">
+      <div>
+        <p class="live-note">Use these controls to prepare or manage the stream link currently on this device.</p>
+        <label class="live-field"><span>Stream state</span><select id="creator-state"><option value="draft">Ready / not live</option><option value="live">🔴 Live</option><option value="ended">Ended / replay available</option></select></label>
+        <label class="live-field"><span>Visibility</span><select id="creator-visibility"><option value="public">Public</option><option value="friends">Friends only</option></select></label>
+        <label class="live-field"><span>Chat</span><select id="creator-chat-toggle"><option value="on">Chat on</option><option value="off">Chat off</option></select></label>
+        <div class="live-grid">
+          <button class="live-btn" type="button" id="creator-save">Save controls</button>
+          <button class="live-btn secondary" type="button" id="creator-end">End live</button>
+        </div>
+        <p class="live-status" id="creator-status" role="status" aria-live="polite"></p>
+      </div>
+      <div>
+        <h3>Native broadcast</h3>
+        <div class="coming-soon">🔜 LIVE FROM PLEADING SANITY — COMING SOON</div>
+        <p class="live-note">Direct camera/microphone broadcast and server-side multistreaming need a verified live-video provider and secure ingest infrastructure. The buttons above manage the current browser-side planning state only.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="live-card" id="live-chat">
+    <h2>Community chat</h2>
+    <p class="live-note">Chat foundation is available in this browser now. 🔜 Real-time shared chat across viewers will be connected with the live backend.</p>
+    <div id="chat-log" class="chat-log" aria-live="polite"></div>
+    <form id="chat-form" class="live-chat-form">
+      <input id="chat-message" maxlength="280" placeholder="Say something kind…" aria-label="Chat message" required>
+      <button class="live-btn" type="submit">Send</button>
+    </form>
   </section>
 
   <section class="live-card live-offer" id="founding-creators">
@@ -171,6 +233,57 @@ form.addEventListener('submit',async(e)=>{
   }catch(error){status.textContent=error.message||'Could not share right now. Please try again.'}
   finally{button.disabled=false;button.textContent='Share live to the feed'}
 });
+</script>
+<script>
+(() => {
+  const key='ps-live-hub-v1';
+  const read=()=>{try{return JSON.parse(localStorage.getItem(key)||'{}')}catch{return{}}};
+  const write=s=>localStorage.setItem(key,JSON.stringify(s));
+  const state=read();
+  state.scheduled=Array.isArray(state.scheduled)?state.scheduled:[];
+  state.past=Array.isArray(state.past)?state.past:[];
+  state.chat=Array.isArray(state.chat)?state.chat:[];
+
+  const renderList=(id,items,empty)=>{
+    const root=document.getElementById(id); if(!root)return;
+    root.innerHTML='';
+    if(!items.length){root.innerHTML='<p class="live-note">'+empty+'</p>';return}
+    items.forEach((item,i)=>{
+      const el=document.createElement('article');
+      el.innerHTML='<strong>'+String(item.title||'Untitled').replace(/[<>&"]/g,'')+'</strong><br><span class="live-note">'+String(item.when||'')+'</span>';
+      if(item.url){const a=document.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=item.replay?' Watch replay →':' Open stream →';el.append(a)}
+      root.append(el);
+    });
+  };
+  renderList('scheduled-list',state.scheduled,'No scheduled lives have been added on this device yet.');
+  renderList('past-list',state.past,'No replay links have been saved on this device yet.');
+
+  document.querySelectorAll('.live-tab').forEach(tab=>tab.addEventListener('click',()=>{
+    document.querySelectorAll('.live-tab').forEach(t=>{const on=t===tab;t.classList.toggle('active',on);t.setAttribute('aria-selected',on?'true':'false')});
+    document.querySelectorAll('.live-tab-panel').forEach(p=>p.hidden=p.id!=='tab-'+tab.dataset.tab);
+  }));
+
+  const creatorState=document.getElementById('creator-state');
+  const creatorVisibility=document.getElementById('creator-visibility');
+  const creatorChat=document.getElementById('creator-chat-toggle');
+  if(creatorState){creatorState.value=state.creatorState||'draft';creatorVisibility.value=state.visibility||'public';creatorChat.value=state.chatEnabled===false?'off':'on'}
+  document.getElementById('creator-save')?.addEventListener('click',()=>{
+    state.creatorState=creatorState.value;state.visibility=creatorVisibility.value;state.chatEnabled=creatorChat.value==='on';write(state);
+    document.getElementById('creator-status').textContent='Controls saved on this device. Shared creator controls will arrive with the live backend.';
+  });
+  document.getElementById('creator-end')?.addEventListener('click',()=>{
+    creatorState.value='ended';state.creatorState='ended';write(state);
+    document.getElementById('creator-status').textContent='Live marked as ended on this device. Add a replay link above when you have one.';
+  });
+
+  const chatLog=document.getElementById('chat-log');
+  const renderChat=()=>{chatLog.innerHTML=state.chat.map(m=>'<article><strong>You</strong> <span class="live-note">'+new Date(m.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'</span><br>'+String(m.text).replace(/[<>&"]/g,'')+'</article>').join('')||'<p class="live-note">No messages yet.</p>';chatLog.scrollTop=chatLog.scrollHeight};
+  renderChat();
+  document.getElementById('chat-form')?.addEventListener('submit',e=>{
+    e.preventDefault();const input=document.getElementById('chat-message');const text=input.value.trim();if(!text)return;
+    state.chat.push({text,t:Date.now()});state.chat=state.chat.slice(-50);write(state);input.value='';renderChat();
+  });
+})();
 </script>
 </body>
 </html>
