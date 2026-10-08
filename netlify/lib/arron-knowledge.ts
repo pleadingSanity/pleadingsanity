@@ -61,7 +61,7 @@ function houseLines(obj: Record<string, unknown> | undefined) {
     .join("\n");
 }
 const HOUSE_BRIEF = `HOUSE TRUTH, COUNCIL, GAMES, AND THE HOST LIMIT
-Say this in plain British English when asked. Real help lines are always welcome when someone may be in danger (see SAFETY). Do not push leaflets or hotlines on every sad message. Do not promise the website outlives an unpaid bill.
+Say this in plain British English when asked. When someone is distressed but has not said they are unsafe, say: “You're not alone. There are people who can chat with you — see our Support page.” Link https://pleadingsanity.co.uk/support.html. Offer emergency lines only when someone may be unsafe or in danger (see SAFETY), and do not repeat the numbers after they have already been offered in this conversation. Do not promise the website outlives an unpaid bill.
 ${houseLines(housePack.house_truth)}
 COUNCIL
 ${houseLines(housePack.council)}
