@@ -227,6 +227,21 @@
     Cache-Control = "no-store, no-cache, must-revalidate, private"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 
+# ─── POKER — inline game script needs a page-specific CSP ───
+# The game has no third-party frames or providers. Inline JS/CSS are retained
+# only because this legacy single-file game has not yet been split into modules.
+[[headers]]
+  for = "/poker.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self'; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+
+[[headers]]
+  for = "/poker"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self'; font-src 'self'; connect-src 'self'; worker-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+
 # ─── SERVICE WORKER & MANIFEST — always fresh ───
 [[headers]]
   for = "/sw.js"

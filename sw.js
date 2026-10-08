@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v78'; // v78: Sane Finance GBT shell offline
+const STATIC_CACHE = 'pleading-sanity-static-v80'; // v80: image-optimised asset set and Sane Finance GBT shell
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
