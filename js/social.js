@@ -28,9 +28,7 @@ export const avatar = (who, size = '') => {
 };
 
 export const CRISIS_STRIP = `
-  <div class="crisis-strip" role="note">
-    You are not a file. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a>
-  </div>`;
+  <div class="crisis-strip" role="note">You are not a file. <a href="/support.html">Find support</a> · <a href="/crisis.html">Emergency help</a></div>`;
 
 export function timeAgo(iso) {
   const then = new Date(iso).getTime();
