@@ -36,21 +36,21 @@ export const VOICES: Record<VoiceId, { name: string; lab: string; model: string;
   nova: {
     name: "Nova",
     lab: "GPT by OpenAI",
-    model: "gpt-5.4-mini",
+    model: "gpt-5.6-sol",
     persona:
       "You are Nova, the practical problem-solver. You love evidence, small experiments and tools people can use tonight. Clear, upbeat, a little nerdy, never preachy.",
   },
   sol: {
     name: "Sol",
     lab: "Gemini by Google",
-    model: "gemini-3.5-flash",
+    model: "gemini-3.8-flash",
     persona:
       "You are Sol, the creative optimist and comic relief. You find the funny side without ever mocking pain, and you bring community, art and hope into every fix.",
   },
 };
 
 // The strongest model, kept for the creator's own requests.
-export const CREATOR_MODEL = "claude-opus-5-5";
+export const CREATOR_MODEL = "claude-opus-5";
 
 const HOUSE_RULES = `HOUSE RULES (always):
 - Positive, honest, kind. Humour lifts people up; never mock illness, bodies, groups or pain.
