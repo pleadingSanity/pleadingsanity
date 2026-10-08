@@ -1,60 +1,219 @@
 <!doctype html>
 <html lang="en-GB"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#000103"><link rel="manifest" href="/manifest-finance.json"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sane Finance GBT">
-<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/finance.css">
-<title>The Sane Finance GBT · Pleading Sanity</title>
-<meta name="description" content="A fast, transparent UK finance decision and preparation tool built to put the customer in control.">
-</head><body class="ps-page">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#000103">
+<link rel="icon" href="/assets/favicon.ico" sizes="any"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest-finance.json">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sane Finance"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/animations.css"><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/accessibility.css"><link rel="stylesheet" href="/css/mobile-responsive.css"><link rel="stylesheet" href="/css/space.css"><link rel="stylesheet" href="/css/finance.css">
+<link rel="canonical" href="https://pleadingsanity.co.uk/finance.html">
+<title>The Sane Finance GBT · Finance without the sales pressure · Pleading Sanity</title>
+<meta name="description" content="Free UK finance preparation: know what you can afford, what you're being offered, why you were declined and what to do next. No sales pressure. Your data stays on your device.">
+<meta property="og:type" content="website"><meta property="og:title" content="The Sane Finance GBT — Finance without the sales pressure"><meta property="og:description" content="Know what you can afford. Know what you're being offered. Know why you were declined. Know what to do next."><meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png"><meta property="og:url" content="https://pleadingsanity.co.uk/finance.html"><meta name="twitter:card" content="summary_large_image">
+</head><body class="ps-page finance-page">
+<a class="skip-link" href="#main-content">Skip to content</a>
 <nav class="ps-nav"><div class="ps-nav-inner">
 <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
 <div class="ps-links"><a href="/">Home</a><a href="/arron.html">Arron</a><a href="/games.html">Games</a><a href="/ai-studio.html">AI Studio</a><a href="/finance.html" aria-current="page">Finance</a><a href="/ai-ecosystem.html">AI Family</a></div>
 </div></nav>
-<main class="finance-main">
-<header class="finance-hero"><span class="finance-badge">FREE · HUMAN FIRST · NO SALES PRESSURE</span>
-<h1>Finance Sanctuary</h1><p>Know what you can afford. Compare the real cost. Prepare your application. Then decide for yourself.</p>
-<div class="finance-quick"><a href="#calculator">Calculate</a><a href="#compare">Compare an offer</a><a href="#pack">Prepare documents</a><a href="#adviser">Ask the AI adviser</a><a href="#radar">Provider radar</a></div></header>
 
-<section class="finance-grid" id="calculator">
-<div class="finance-card"><div class="finance-kicker">01 · AFFORDABILITY</div><h2>What can I safely afford?</h2>
-<p class="finance-muted">This is a planning estimate, not a lender decision. Never enter money you need for essentials.</p>
-<div class="finance-fields">
-<label>Monthly take-home income <input id="f-income" inputmode="decimal" type="number" min="0" step="50" placeholder="£"></label>
-<label>Monthly essential spending <input id="f-essential" inputmode="decimal" type="number" min="0" step="25" placeholder="£"></label>
-<label>Existing credit repayments <input id="f-debt" inputmode="decimal" type="number" min="0" step="25" placeholder="£"></label>
-<label>Amount you want to borrow <input id="f-amount" inputmode="decimal" type="number" min="0" step="100" placeholder="£"></label>
-<label>Term <select id="f-term"><option value="12">1 year</option><option value="24">2 years</option><option value="36" selected>3 years</option><option value="48">4 years</option><option value="60">5 years</option><option value="72">6 years</option><option value="84">7 years</option></select></label>
-<label>APR to model <input id="f-apr" inputmode="decimal" type="number" min="0" step="0.1" value="12.9"></label>
+<main class="finance-main" id="main-content">
+<header class="finance-hero">
+<img class="finance-hero-mark" src="/assets/images/finance/sane-finance-mark.svg" alt="" width="84" height="84">
+<span class="finance-badge">FREE · NO SALES PRESSURE · YOUR DATA STAYS ON YOUR DEVICE</span>
+<h1>The Sane Finance GBT</h1>
+<p class="finance-lede">Finance without the sales pressure.</p>
+<ul class="finance-promise"><li>Know what you can afford.</li><li>Know what you're being offered.</li><li>Know why you were declined.</li><li>Know what to do next.</li></ul>
+<div class="finance-quick">
+<a href="#profile">Start my profile</a><a href="#compare">Compare a quote</a><a href="#declined">I was declined</a><a href="#tracker">My applications</a><a href="#adviser">Ask the GBT</a>
+<button type="button" class="finance-install" id="install-finance" hidden>Install the app</button>
 </div>
-<div class="finance-actions"><button class="finance-btn" id="f-calc">Calculate</button></div>
-<div id="f-result" class="finance-result" aria-live="polite">Enter your figures and calculate.</div>
-</div>
+<p class="finance-ios" id="ios-install" hidden>On iPhone or iPad: tap the Share button, then <strong>Add to Home Screen</strong>.</p>
+</header>
 
-<div class="finance-card" id="compare"><div class="finance-kicker">02 · COMPARE</div><h2>Put the salesman’s quote here</h2>
-<p class="finance-muted">We compare the numbers you were offered. No spin. Total cost matters more than a shiny monthly payment.</p>
-<div class="finance-fields">
-<label>Amount financed <input id="c-amount" type="number" min="0" step="100" placeholder="£"></label>
-<label>Monthly payment <input id="c-monthly" type="number" min="0" step="1" placeholder="£"></label>
-<label>Number of payments <input id="c-payments" type="number" min="1" step="1" placeholder="e.g. 48"></label>
-<label>Deposit / upfront payment <input id="c-deposit" type="number" min="0" step="50" value="0" placeholder="£"></label>
-<label>Fees added to deal <input id="c-fees" type="number" min="0" step="1" value="0" placeholder="£"></label>
-</div><div class="finance-actions"><button class="finance-btn" id="c-calc">Show the real cost</button></div>
-<div id="c-result" class="finance-result" aria-live="polite">Paste the figures from a quote and we’ll make them plain English.</div>
+<section class="finance-card finance-status" aria-labelledby="what-h">
+<h2 id="what-h">What this is — and what it isn't</h2>
+<div class="finance-status-grid">
+<div class="is"><strong>It is</strong><p>A free education, calculator, comparison and preparation tool. You stay in charge and deal with the provider directly.</p></div>
+<div class="isnt"><strong>It isn't</strong><p>A lender, a credit broker or a regulated financial adviser. Pleading Sanity earns no commission here and sends nobody your details.</p></div>
+<div class="labels"><strong>Three different things</strong><p><span class="tag est">Planning estimate</span> our maths on your figures · <span class="tag elig">Provider eligibility</span> the provider's own check · <span class="tag dec">Lender decision</span> only the lender makes it.</p></div>
 </div>
 </section>
 
-<section class="finance-card" id="finder"><div class="finance-kicker">04 · FIND THE RIGHT ROUTE</div><h2>What kind of finance fits?</h2>
+<ol class="finance-journey" aria-label="Your journey">
+<li><a href="#profile">Profile</a></li><li><a href="#calculator">Afford</a></li><li><a href="#credit">Circumstances</a></li><li><a href="#finder">Route</a></li><li><a href="#radar">Providers</a></li><li><a href="#compare">Compare</a></li><li><a href="#pack">Documents</a></li><li><a href="#handoff">Handoff</a></li><li><a href="#tracker">Track</a></li>
+</ol>
+
+<!-- 01 · PROFILE -->
+<section class="finance-card" id="profile" aria-labelledby="profile-h">
+<div class="finance-kicker">01 · YOUR FINANCE PROFILE</div>
+<h2 id="profile-h">Tell it once</h2>
+<p class="finance-muted">Saved only on this device. Nothing is sent anywhere unless you choose to ask the AI and tick the box to include it. Leave anything blank you'd rather not say.</p>
+<form id="profile-form" novalidate>
+<div class="finance-steps" role="tablist" aria-label="Profile steps">
+<button type="button" role="tab" data-step="0" aria-selected="true">1 · What</button><button type="button" role="tab" data-step="1">2 · Income</button><button type="button" role="tab" data-step="2">3 · Spending</button><button type="button" role="tab" data-step="3">4 · Credit history</button><button type="button" role="tab" data-step="4" data-only="car">5 · Vehicle</button>
+</div>
+
+<fieldset class="finance-step" data-step="0"><legend>What are you trying to buy?</legend>
+<div class="finance-fields">
+<label>Type of finance <select name="purchaseType"><option value="personal">Personal loan</option><option value="car">Car finance (HP / PCP)</option><option value="card">Credit card</option><option value="consolidation">Debt consolidation</option><option value="retail">Retail / buy now pay later</option><option value="other">Something else</option></select><small>Each type has different costs and risks to compare.</small></label>
+<label>What it's for <input name="purpose" maxlength="120" placeholder="e.g. a reliable car for work"><small>Helps the cover note and your own record.</small></label>
+<label>Purchase price (£) <input name="price" type="number" inputmode="decimal" min="0" step="any"><small>The cash price before finance.</small></label>
+<label>Deposit (£) <input name="deposit" type="number" inputmode="decimal" min="0" step="any"><small>A bigger deposit means borrowing less.</small></label>
+<label>Amount to borrow (£) <input name="amount" type="number" inputmode="decimal" min="0" step="any"><small>Leave blank to use price minus deposit.</small></label>
+<label>Term <select name="term"><option value="12">1 year</option><option value="24">2 years</option><option value="36" selected>3 years</option><option value="48">4 years</option><option value="60">5 years</option><option value="72">6 years</option><option value="84">7 years</option></select><small>Longer terms lower the payment but usually raise the total cost.</small></label>
+<label>Monthly payment you'd like (£) <input name="preferredMonthly" type="number" inputmode="decimal" min="0" step="any"><small>Your own comfort limit.</small></label>
+<label>APR to model (%) <input name="apr" type="number" inputmode="decimal" min="0" max="1000" step="0.1" placeholder="e.g. 12.9"><small>Use the APR from a real quote if you have one.</small></label>
+<label>Fees added to the deal (£) <input name="fees" type="number" inputmode="decimal" min="0" step="any"><small>Arrangement or documentation fees.</small></label>
+<label data-only="car">Final / balloon payment (£) <input name="balloon" type="number" inputmode="decimal" min="0" step="any"><small>PCP deals usually have one at the end.</small></label>
+</div></fieldset>
+
+<fieldset class="finance-step" data-step="1" hidden><legend>Income</legend>
+<div class="finance-fields">
+<label>Take-home pay (£) <input name="income" type="number" inputmode="decimal" min="0" step="any"><small>After tax and National Insurance. Lenders check this against evidence.</small></label>
+<label>How often <select name="incomeFrequency"><option value="monthly">Monthly</option><option value="four-weekly">Every 4 weeks</option><option value="fortnightly">Fortnightly</option><option value="weekly">Weekly</option><option value="annually">Yearly</option></select><small>We turn it into a monthly figure.</small></label>
+<label>Work <select name="employment"><option value="employed">Employed</option><option value="self-employed">Self-employed</option><option value="variable">Zero-hours / agency / variable</option><option value="benefits">Benefits are my main income</option><option value="retired">Retired / pension</option><option value="student">Student</option><option value="not-working">Not working</option></select><small>Changes which documents providers ask for.</small></label>
+<label data-only-emp="employed">Months in current job <input name="employmentMonths" type="number" inputmode="numeric" min="0" step="1"><small>Some providers set a minimum.</small></label>
+<label data-only-emp="self-employed">Years self-employed <input name="selfEmployedYears" type="number" inputmode="decimal" min="0" step="0.5"><small>Many ask for one to two years of accounts or tax returns.</small></label>
+<label>Other regular income per month (£) <input name="otherIncome" type="number" inputmode="decimal" min="0" step="any"><small>Second job, maintenance, pension.</small></label>
+<label>Benefits per month (£) <input name="benefitsIncome" type="number" inputmode="decimal" min="0" step="any"><small>Some providers count some benefits; some don't.</small></label>
+<label>Are you 18 or over? <select name="ageOk"><option value="">Choose</option><option value="yes">Yes</option><option value="no">No</option></select><small>You must be 18+ to take out credit in the UK.</small></label>
+</div></fieldset>
+
+<fieldset class="finance-step" data-step="2" hidden><legend>Spending and existing credit</legend>
+<div class="finance-fields">
+<label>Essential spending per month (£) <input name="essentials" type="number" inputmode="decimal" min="0" step="any"><small>Rent/mortgage, bills, council tax, food, travel, childcare, insurance.</small></label>
+<label>Existing credit repayments per month (£) <input name="commitments" type="number" inputmode="decimal" min="0" step="any"><small>Loans, cards, car finance, BNPL.</small></label>
+<label>Total debt outstanding (£) <input name="totalDebt" type="number" inputmode="decimal" min="0" step="any"><small>All balances added together.</small></label>
+<label>Home <select name="housing"><option value="renting">Renting</option><option value="owner">Homeowner (mortgage or owned)</option><option value="family">Living with family</option><option value="other">Other</option></select><small>Matters for secured loans.</small></label>
+<label>Behind on any bills or credit now? <select name="behindOnBills"><option value="no">No</option><option value="yes">Yes</option></select><small>If yes, we'll show free help before anything else.</small></label>
+</div></fieldset>
+
+<fieldset class="finance-step" data-step="3" hidden><legend>Credit history (approximate is fine)</legend>
+<div class="finance-fields">
+<label>Missed payments <select name="missedPayments"><option value="none">None I know of</option><option value="older">Yes, over 6 months ago</option><option value="recent">Yes, in the last 6 months</option></select><small>Recent ones usually matter more.</small></label>
+<label>Defaults <select name="defaults"><option value="none">None</option><option value="settled">Yes, settled</option><option value="unsatisfied">Yes, not settled</option></select><small>Defaults show for six years.</small></label>
+<label>CCJs <select name="ccj"><option value="none">None</option><option value="satisfied">Yes, satisfied</option><option value="unsatisfied">Yes, unsatisfied</option></select><small>County Court Judgments show for six years.</small></label>
+<label>IVA, DRO, trust deed or bankruptcy <select name="insolvency"><option value="none">None</option><option value="active">Yes, still active</option><option value="completed">Yes, completed</option></select><small>An active one may need permission before new credit.</small></label>
+<label>Credit file <select name="creditHistory"><option value="unknown">Not sure</option><option value="good">Mostly clean</option><option value="thin">Thin / no credit history</option><option value="mixed">Some problems</option></select><small>Your best guess. Check your report to be sure.</small></label>
+<label>Declined for credit recently? <select name="recentDecline"><option value="no">No</option><option value="yes">Yes, in the last 3 months</option></select><small>Several hard searches close together can hurt.</small></label>
+</div></fieldset>
+
+<fieldset class="finance-step" data-step="4" data-only="car" hidden><legend>Vehicle</legend>
+<div class="finance-fields">
+<label>Registration <input name="vehicleReg" maxlength="10" autocomplete="off"><small>For your purchase summary.</small></label>
+<label>Vehicle age (years) <input name="vehicleAge" type="number" inputmode="numeric" min="0" step="1"><small>Some providers limit vehicle age.</small></label>
+<label>Current mileage <input name="vehicleMileage" type="number" inputmode="numeric" min="0" step="1"></label>
+<label>Miles you'll drive a year <input name="annualMileage" type="number" inputmode="numeric" min="0" step="500"><small>PCP deals charge for going over.</small></label>
+</div></fieldset>
+
+<div class="finance-actions">
+<button type="button" class="finance-btn secondary" id="step-back">Back</button>
+<button type="button" class="finance-btn secondary" id="step-next">Next</button>
+<button type="submit" class="finance-btn" id="f-calc">Save and check affordability</button>
+</div>
+<p class="finance-saved" id="profile-saved" aria-live="polite"></p>
+</form>
+</section>
+
+<!-- SAFETY ROUTE -->
+<section class="finance-card finance-safety" id="safety" hidden aria-live="polite"></section>
+
+<!-- 02 · AFFORDABILITY -->
+<section class="finance-card" id="calculator" aria-labelledby="calc-h">
+<div class="finance-kicker">02 · AFFORDABILITY</div>
+<h2 id="calc-h">What can I safely afford? <span class="tag est">Planning estimate</span></h2>
+<div id="f-result" class="finance-result" aria-live="polite">Fill in your profile and press <strong>Save and check affordability</strong>.</div>
+</section>
+
+<!-- 03 · CIRCUMSTANCES / BAD CREDIT MODE -->
+<section class="finance-card" id="credit" aria-labelledby="credit-h">
+<div class="finance-kicker">03 · CREDIT &amp; CIRCUMSTANCES</div>
+<h2 id="credit-h">What might matter to a provider</h2>
+<div id="credit-result" class="finance-result">Your circumstances appear here once your profile is saved.</div>
+</section>
+
+<!-- 04 · ROUTE -->
+<section class="finance-card" id="finder" aria-labelledby="route-h">
+<div class="finance-kicker">04 · YOUR ROUTE</div>
+<h2 id="route-h">What to compare and ask</h2>
 <div class="finance-route-grid">
-<button data-route="personal">Personal loan<span>Fixed borrowing for a defined amount.</span></button>
-<button data-route="car">Car finance<span>HP, PCP and other vehicle finance routes.</span></button>
-<button data-route="card">Credit card<span>Useful for some purchases, but compare APR and limits.</span></button>
-<button data-route="consolidation">Debt consolidation<span>Only worthwhile when the total cost and risk improve.</span></button>
-</div><div id="route-result" class="finance-result">Choose a route. We’ll show what to compare and what to ask before applying.</div>
+<button type="button" data-route="personal">Personal loan<span>Fixed borrowing for a set amount.</span></button>
+<button type="button" data-route="car">Car finance<span>HP, PCP and other vehicle finance.</span></button>
+<button type="button" data-route="card">Credit card<span>Compare APR and what happens after any promotion.</span></button>
+<button type="button" data-route="consolidation">Debt consolidation<span>Only worth it if total cost and risk improve.</span></button>
+<button type="button" data-route="retail">Retail / BNPL<span>Check whether it's regulated and what late fees cost.</span></button>
+</div>
+<div id="route-result" class="finance-result" aria-live="polite">Choose a route, or save your profile and we'll pick it for you.</div>
 </section>
 
-<section class="finance-grid">
-<div class="finance-card" id="pack"><div class="finance-kicker">05 · APPLICATION PACK</div><h2>Build your truthful application pack</h2>
-<p class="finance-muted">Turn your facts into a clean checklist and a factual cover note. Never invent income, documents or circumstances.</p>
+<!-- 05 · PROVIDERS -->
+<section class="finance-card" id="radar" aria-labelledby="radar-h">
+<div class="finance-kicker">05 · VERIFIED PROVIDERS</div>
+<h2 id="radar-h">Providers whose published criteria may fit</h2>
+<p class="finance-muted">We only ever show a provider when its data comes from a verified source and has been checked recently. No invented lenders, rates or reviews. Commission never changes the order.</p>
+<div id="provider-result" class="finance-result" aria-live="polite">Checking for a live provider feed…</div>
+<div class="finance-fca">
+<h3>Check any firm yourself</h3>
+<p class="finance-muted">Every UK lender and credit broker must be on the FCA Register. Got an FCA reference number from a quote? Check it.</p>
+<div class="finance-inline"><label>FCA reference number <input id="fca-frn" inputmode="numeric" pattern="[0-9]{6,7}" maxlength="7" placeholder="6 or 7 digits"></label><button type="button" class="finance-btn secondary" id="fca-check">Check</button></div>
+<div id="fca-result" class="finance-result" aria-live="polite"><a href="https://register.fca.org.uk/s/" target="_blank" rel="noopener">Open the official FCA Register</a></div>
+</div>
+<details class="finance-reviews"><summary>How to read reviews (and why they're kept separate)</summary>
+<div class="finance-truth-grid">
+<div><strong>Customer feedback</strong><p>What people say about service. Check the source, how many reviews, how recent, and whether the provider controls the review page.</p></div>
+<div><strong>Regulatory status</strong><p>Whether the firm is authorised, and as a lender or broker. Only the FCA Register confirms this.</p></div>
+<div><strong>Finance suitability</strong><p>Whether the product fits your budget and circumstances. Great reviews don't make a product right for you.</p></div>
+<div><strong>Price</strong><p>APR, fees and total repayable. A poorly reviewed firm can still have a fair product, and a loved one an expensive product.</p></div>
+</div></details>
+</section>
+
+<!-- 06 · COMPARE -->
+<section class="finance-card" id="compare" aria-labelledby="compare-h">
+<div class="finance-kicker">06 · COMPARE REAL QUOTES</div>
+<h2 id="compare-h">Put every quote you've been given here</h2>
+<p class="finance-muted">Copy the figures from each quote. We work out the true total. Total cost matters more than a shiny monthly payment.</p>
+<form id="quote-form" class="finance-fields" novalidate>
+<label>Provider / dealer name <input name="provider" maxlength="120" required></label>
+<label>Lender or broker? <select name="kind"><option value="unknown">Not sure</option><option value="lender">Lender</option><option value="broker">Broker / dealer arranging finance</option></select></label>
+<label>Amount financed (£) <input name="amount" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>Monthly payment (£) <input name="monthly" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>Number of payments <input name="payments" type="number" inputmode="numeric" min="1" max="600" step="1"></label>
+<label>APR (%) <input name="apr" type="number" inputmode="decimal" min="0" max="1000" step="0.1"></label>
+<label>Deposit (£) <input name="deposit" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>Fees not in the monthly payment (£) <input name="fees" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>Final / balloon payment (£) <input name="balloon" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>Commission disclosed <input name="commission" maxlength="120" placeholder="e.g. £450 paid by lender to dealer"></label>
+<label>FCA reference <input name="fca" inputmode="numeric" maxlength="7"></label>
+<label>Application link <input name="url" type="url" maxlength="300" placeholder="https://"></label>
+<label class="finance-check-inline"><input type="checkbox" name="paid"> This was a paid / promoted placement</label>
+<div class="finance-actions"><button type="submit" class="finance-btn">Add quote</button></div>
+</form>
+<div class="finance-inline finance-sort"><label>Sort by <select id="quote-sort"><option value="suitability">Best fit (default)</option><option value="total">Total cost</option><option value="apr">APR</option><option value="monthly">Monthly payment</option><option value="fees">Fees</option></select></label></div>
+<div id="c-result" class="finance-result" aria-live="polite">No quotes yet.</div>
+</section>
+
+<!-- 07 · WHY DID I FAIL? -->
+<section class="finance-card finance-flagship" id="declined" aria-labelledby="decl-h">
+<div class="finance-kicker">07 · WHY DID I FAIL?</div>
+<h2 id="decl-h">I was declined or referred</h2>
+<p class="finance-muted">We can't see a lender's private decision — nobody outside the lender can. What we can do is separate what you know from what you don't, and tell you exactly what to ask.</p>
+<form id="decline-form" class="finance-fields" novalidate>
+<label>Provider <input name="provider" maxlength="120"></label>
+<label>Outcome <select name="outcome"><option value="declined">Declined</option><option value="referred">Referred</option><option value="ineligible">Failed an eligibility check</option></select></label>
+<label>Type of check <select name="search"><option value="unknown">Not sure</option><option value="soft">Eligibility / soft search</option><option value="hard">Full application / hard search</option></select></label>
+<label>Date <input name="date" type="date"></label>
+<label class="wide">What did they actually tell you? <textarea name="told" maxlength="2000" class="finance-letter short" placeholder="Copy their exact words if you have them. Leave blank if they gave no reason."></textarea></label>
+<div class="finance-actions"><button type="submit" class="finance-btn">Build my report</button><button type="button" class="finance-btn secondary" id="decline-ai">Ask the AI family to explain</button></div>
+</form>
+<div id="decline-result" class="finance-result" aria-live="polite"></div>
+</section>
+
+<!-- 08 · DOCUMENTS -->
+<section class="finance-card" id="pack" aria-labelledby="pack-h">
+<div class="finance-kicker">08 · TRUTHFUL DOCUMENT PACK</div>
+<h2 id="pack-h">Prepare your paperwork</h2>
+<p class="finance-muted">Built only from what you typed. It will never make payslips, bank statements, proof of address, ID, references, credit reports, signatures or approvals — those must be real.</p>
 <div class="finance-checks">
 <label><input type="checkbox" data-doc="Proof of identity"> Proof of identity ready</label>
 <label><input type="checkbox" data-doc="Proof of address"> Proof of address ready</label>
@@ -63,28 +222,72 @@
 <label><input type="checkbox" data-doc="Existing credit details"> Existing credit details ready</label>
 <label><input type="checkbox" data-doc="Vehicle / purchase details"> Purchase or vehicle details ready</label>
 </div>
-<textarea id="letter" class="finance-letter" placeholder="Optional: facts you want the cover note to explain (employment, stable income, deposit, why the purchase is needed)."></textarea>
-<div class="finance-actions"><button class="finance-btn" id="make-letter">Create factual cover note</button><button class="finance-btn secondary" id="copy-pack">Copy pack</button></div>
-<div id="pack-result" class="finance-result" aria-live="polite"></div>
+<div class="finance-fields">
+<label>Document <select id="doc-type"></select></label>
+<label>Your decision (for a decision record) <input id="doc-decision" maxlength="300"></label>
 </div>
-
-<div class="finance-card" id="adviser"><div class="finance-kicker">06 · AI ADVISER</div><h2>Ask before you apply</h2>
-<p class="finance-muted">The adviser explains options and helps you prepare. It does not see your credit file, approve you, submit an application or guarantee acceptance.</p>
-<textarea id="a-question" class="finance-letter" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
-<textarea id="a-quote" class="finance-letter finance-quote" placeholder="Optional: paste the finance quote, lender wording or salesman message here. The GBT will turn it into a clean comparison checklist."></textarea>
-<div class="finance-mini-actions"><button class="finance-chip" type="button" data-question="What are the most important things to compare before accepting finance?">What should I compare?</button><button class="finance-chip" type="button" data-question="How do I tell whether this monthly payment is actually affordable?">Is it affordable?</button><button class="finance-chip" type="button" data-question="What should I ask a finance company before a full application?">What should I ask?</button></div>
-<div class="finance-actions"><button class="finance-btn" id="ask-adviser">Ask the family</button><button class="finance-btn secondary" id="save-brief">Save brief on this device</button></div>
-<div id="a-result" class="finance-result" aria-live="polite">No sales pitch. Ask the question in plain English.</div>
-</div>
+<textarea id="letter" class="finance-letter short" maxlength="2000" placeholder="Optional: true facts you want the cover note to explain (stable job, deposit saved, why you need it)."></textarea>
+<div class="finance-actions"><button type="button" class="finance-btn" id="make-letter">Create document</button><button type="button" class="finance-btn secondary" id="copy-pack">Copy</button><button type="button" class="finance-btn secondary" id="download-pack">Download</button><button type="button" class="finance-btn secondary" id="print-pack">Print / save as PDF</button></div>
+<pre id="pack-result" class="finance-result finance-doc" aria-live="polite"></pre>
 </section>
 
-<section class="finance-card finance-truth"><div class="finance-kicker">07 · THE RULE</div><h2>You stay in control</h2>
-<div class="finance-truth-grid"><div><strong>Compare total cost</strong><p>APR, total repayment, fees, deposit, balloon/final payment and early-settlement terms.</p></div>
-<div><strong>Prefer soft-search eligibility</strong><p>Eligibility checks can show your likelihood before a full application. A full application may leave a hard search on your credit record.</p></div>
-<div><strong>No fake approvals</strong><p>Only the lender can make the lending decision. We make the information easier to understand.</p></div>
-<div><strong>Regulated means regulated</strong><p>If Pleading Sanity ever brokers credit or earns commission from introductions, the legal/regulatory model must be established first.</p></div></div>
-<p class="finance-links">Independent guidance: <a href="https://www.moneyhelper.org.uk/en/everyday-money/credit/personal-loans" target="_blank" rel="noopener">MoneyHelper</a> · <a href="https://www.fca.org.uk/firms/financial-services-register" target="_blank" rel="noopener">FCA Firm Checker</a></p>
+<!-- 09 · HANDOFF -->
+<section class="finance-card" id="handoff" aria-labelledby="handoff-h">
+<div class="finance-kicker">09 · YOUR HANDOFF</div>
+<h2 id="handoff-h">Ready to deal with the provider directly</h2>
+<p class="finance-muted">Pick a quote in the comparison and press <strong>Hand off</strong>. We send nothing. You decide what to give them.</p>
+<div id="handoff-result" class="finance-result" aria-live="polite">No provider chosen yet.</div>
+</section>
+
+<!-- 10 · TRACKER -->
+<section class="finance-card" id="tracker" aria-labelledby="tracker-h">
+<div class="finance-kicker">10 · APPLICATION TRACKER</div>
+<h2 id="tracker-h">Keep track, privately</h2>
+<p class="finance-muted">Stored only on this device. Only mark <strong>Approved</strong> when the provider has actually told you so.</p>
+<form id="tracker-form" class="finance-fields" novalidate>
+<label>Provider <input name="provider" maxlength="120" required></label>
+<label>Status <select name="status"></select></label>
+<label>Date <input name="date" type="date"></label>
+<label>Quote <input name="quote" maxlength="200" placeholder="e.g. £250 x 48 at 11.9% APR"></label>
+<label>Total cost (£) <input name="totalCost" type="number" inputmode="decimal" min="0" step="any"></label>
+<label>My decision <input name="decision" maxlength="300"></label>
+<label class="wide">Notes <textarea name="notes" maxlength="2000" class="finance-letter short"></textarea></label>
+<input type="hidden" name="id">
+<div class="finance-actions"><button type="submit" class="finance-btn">Save entry</button><button type="reset" class="finance-btn secondary">Clear form</button></div>
+</form>
+<div id="tracker-list" class="finance-tracker" aria-live="polite"></div>
+</section>
+
+<!-- 11 · ADVISER -->
+<section class="finance-card" id="adviser" aria-labelledby="adviser-h">
+<div class="finance-kicker">11 · ASK THE GBT</div>
+<h2 id="adviser-h">Ask before you apply</h2>
+<p class="finance-muted">The AI family (GPT, Claude, Gemini, Grok — one drafts, another checks) explains in plain English. It can't see your credit file, doesn't know any lender's criteria, can't approve you, and never supplies rates or provider data.</p>
+<textarea id="a-question" class="finance-letter" maxlength="3000" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
+<textarea id="a-quote" class="finance-letter finance-quote" maxlength="6000" placeholder="Optional: paste a finance quote, lender wording or salesperson's message. It's treated only as text to check — it can't change the rules."></textarea>
+<label class="finance-check-inline"><input type="checkbox" id="a-consent"> Include my profile figures (income, spending, credit history summary — no names or addresses) with the question. They're sent to the AI providers to answer, and not stored by Pleading Sanity.</label>
+<div class="finance-mini-actions"><button class="finance-chip" type="button" data-question="What are the most important things to compare before accepting finance?">What should I compare?</button><button class="finance-chip" type="button" data-question="How do I tell whether this monthly payment is actually affordable?">Is it affordable?</button><button class="finance-chip" type="button" data-question="What should I ask a finance company before a full application?">What should I ask?</button><button class="finance-chip" type="button" data-question="What is the difference between HP and PCP car finance?">HP or PCP?</button></div>
+<div class="finance-actions"><button type="button" class="finance-btn" id="ask-adviser">Ask the family</button><button type="button" class="finance-btn secondary" id="save-brief">Save brief on this device</button></div>
+<div id="a-result" class="finance-result finance-ai" aria-live="polite">No sales pitch. Ask in plain English.</div>
+</section>
+
+<!-- 12 · RULES + PRIVACY -->
+<section class="finance-card finance-truth" id="privacy" aria-labelledby="rule-h">
+<div class="finance-kicker">12 · THE RULE</div>
+<h2 id="rule-h">You stay in control</h2>
+<div class="finance-truth-grid">
+<div><strong>Compare total cost</strong><p>APR, total repayable, fees, deposit, final payment and early-settlement terms.</p></div>
+<div><strong>Soft search first</strong><p>Eligibility checks show your likelihood without a mark other lenders can see. A full application usually leaves a hard search.</p></div>
+<div><strong>No fake approvals</strong><p>Only the lender decides. Nobody can guarantee approval — walk away from anyone who does.</p></div>
+<div><strong>Never invent anything</strong><p>False income, edited documents or hidden debts are fraud, and can leave you far worse off.</p></div>
+</div>
+<h3>Your data</h3>
+<p class="finance-muted">Your profile, quotes, tracker and documents live in this browser's storage only. Pleading Sanity has no copy. Clearing it here removes it from this device.</p>
+<div class="finance-actions"><button type="button" class="finance-btn secondary" id="export-data">Download my finance data</button><button type="button" class="finance-btn danger" id="delete-data">Delete all my finance data</button></div>
+<p id="privacy-result" class="finance-saved" aria-live="polite"></p>
+<p class="finance-links">Free, independent guidance: <a href="https://www.moneyhelper.org.uk/en/everyday-money/credit" target="_blank" rel="noopener">MoneyHelper</a> · <a href="https://register.fca.org.uk/s/" target="_blank" rel="noopener">FCA Register</a> · <a href="/privacy.html#finance">Privacy</a></p>
 </section>
 </main>
+<footer class="finance-foot"><p>The Sane Finance GBT is a free education and preparation tool from Pleading Sanity. It is not a lender, credit broker or financial adviser, is not authorised by the FCA, and does not arrange credit or receive commission.</p></footer>
 <script src="/js/site.js" defer></script><script type="module" src="/js/finance.js"></script>
 </body></html>
