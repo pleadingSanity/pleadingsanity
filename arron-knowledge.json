@@ -519,7 +519,7 @@
       "tag": "Safety line and honest counts",
       "changes": [
         "Two doors first: Talk to Arron, Our Legacy",
-        "Samaritans 116 123 and SHOUT 85258 are on the home, Arron, safety and house-truth pages",
+        "Samaritans 116 123 and SHOUT 85258 are on the dedicated /crisis.html page; /support.html offers listening and ongoing-support options without repeating emergency banners across the house",
         "Dashboard figures that were not counted now say not counted",
         "/legacy.html points at the about page"
       ]
@@ -733,7 +733,7 @@
     "cash": "Play chips only. No cash pot, no rake, no withdraw. A gift goes to the shop.",
     "solitaire": "Three peaks, Klondike, FreeCell, Pyramid. Book on the phone. Friend seat passes the same phone. Sound and music stay off until asked.",
     "poker": "Night table. Two cards, then flop, turn and river. Dealer button moves. Blinds follow. First to act is left of the big blind. Bots do not see hole cards. A short all-in cannot win chips it never put in. The showdown names the hand. The raise is a chosen amount of play chips. Bank saves on the phone. Under 200 chips, 100 return each hour. A room link is one pot: same cards, same bets, one winner. Play chips only.",
-    "safety": "999, Samaritans 116 123, SHOUT 85258 and NHS 111 option 2 stay visible. Arron is not a therapist.",
+    "safety": "Emergency contacts live on /crisis.html. Other pages should offer a discreet Support link; Arron is not a therapist.",
     "creator": "Shane can brief game changes in Creator Mode. Arron records the brief. The live files change only when the house repo is updated and deployed. Arron does not write the site from a public chat."
   },
   "aiChain": [
