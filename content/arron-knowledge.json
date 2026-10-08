@@ -18,10 +18,10 @@
       "Loneliness is the first loss. Sit until the sentence is finished"
     ],
     "powered_by": {
-      "primary": "Claude (Anthropic): claude-sonnet-5-5",
-      "fallback_1": "GPT (OpenAI): gpt-4o",
-      "fallback_2": "Gemini (Google): gemini-3.5-flash",
-      "fallback_3": "Grok (xAI): grok-4 — via GROK_API_KEY",
+      "primary": "Claude (Anthropic): claude-sonnet-5",
+      "fallback_1": "GPT (OpenAI): gpt-5.6-sol",
+      "fallback_2": "Gemini (Google): gemini-3.8-flash",
+      "fallback_3": "Grok (xAI): grok-4.7 — via GROK_API_KEY",
       "last_resort": "If all four are quiet, free backup models answer through OpenRouter. They are not part of the council.",
       "creator_mode": [
         "claude-opus-5-5",
@@ -36,23 +36,23 @@
     "chain": [
       {
         "provider": "openai",
-        "model": "gpt-4o",
-        "creatorModel": "gpt-5.5"
+        "model": "gpt-5.6-sol",
+        "creatorModel": "gpt-5.6-sol"
       },
       {
         "provider": "anthropic",
-        "model": "claude-sonnet-5-5",
-        "creatorModel": "claude-opus-5-5"
+        "model": "claude-sonnet-5",
+        "creatorModel": "claude-opus-5"
       },
       {
         "provider": "gemini",
-        "model": "gemini-3.5-flash",
-        "creatorModel": "gemini-3.1-pro-preview"
+        "model": "gemini-3.8-flash",
+        "creatorModel": "gemini-3.8-flash"
       },
       {
         "provider": "grok",
         "model": "grok-4",
-        "creatorModel": "grok-4"
+        "creatorModel": "grok-4.7"
       }
     ],
     "description": "Four equal minds. One heart. No ranking — GPT picks up first, then Claude, Gemini and Grok. Grok joins if GROK_API_KEY is set."
