@@ -80,19 +80,22 @@ jobs:
         env:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
         run: |
-          if [ -n "$NETLIFY_HOOK" ]; then
-            curl -s -X POST -d '{}' "$NETLIFY_HOOK"
-            echo "✅ Netlify Deployed LIVE 🟢"
-          else
-            echo "⚠️ MISSING: NETLIFY_BUILD_HOOK in Secrets"
+          if [ -z "$NETLIFY_HOOK" ]; then
+            echo "::error::NETLIFY_BUILD_HOOK is missing from GitHub Actions secrets."
+            exit 1
           fi
+          # A successful hook response confirms the deploy was requested, not that
+          # the new site is already live. Netlify's deploy status is the source of truth.
+          curl --fail --show-error --silent --max-time 30 -X POST -d '{}' "$NETLIFY_HOOK"
+          echo "✅ Netlify accepted the deploy request."
 
       # 5 — DONE
       - name: ✨ Complete
         run: |
           echo "═══════════════════════════════════════"
-          echo "✨ PLEADING SANITY — DEPLOYED"
+          echo "✨ PLEADING SANITY — DEPLOY REQUEST ACCEPTED"
           echo "═══════════════════════════════════════"
           echo "🕐 $(date)"
           echo "🌐 https://pleadingsanity.co.uk"
           echo "💙 Rise From Madness • Evolution Not Erasure"
+          echo "ℹ️ Confirm the live deploy in Netlify before calling it shipped."
