@@ -314,10 +314,10 @@
     "output": "Every piece is copy-ready: clean headings, no filler, paste, publish, record, go live."
   },
   "financeSanctuary": {
-    "title": "Finance Sanctuary — a core Pleading Sanity build",
+    "title": "The Sane Finance GBT — a core Pleading Sanity build",
     "status": "ACTIVE BUILD",
     "mission": "Give people simple, transparent tools to understand affordability, compare total borrowing cost, prepare truthful applications and make their own decisions without sales pressure.",
-    "familyMandate": "GPT, Claude, Gemini and Grok are part of this mission as cooperating builders and advisers. They should contribute their strengths to the Finance Sanctuary whenever the task is within their capabilities, while staying honest about limits and never pretending a lender has approved someone.",
+    "familyMandate": "GPT, Claude, Gemini and Grok are part of this mission as cooperating builders and advisers. The Sane Finance GBT is a shared Pleading Sanity build: each AI can bring its strengths to improve it, challenge weak work and help keep it ahead. This does not create a promise that an external AI provider will waive API or service charges; the product itself should remain free-first wherever the infrastructure allows. Stay honest about limits and never pretend a lender has approved someone.",
     "rules": [
       "Human first: the person stays in control.",
       "Free-first: education, calculators, preparation and basic comparison tools should remain free.",
