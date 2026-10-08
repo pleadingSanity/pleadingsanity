@@ -37,6 +37,19 @@ jobs:
               text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore").lower()
               assert "116 123" in text and "85258" in text, name
               assert "not a clinic" in text or "not a therapist" in text, name
+          # The two dedicated safety pages must keep all six UK contacts visible and tappable.
+          contacts = {
+              "999": "tel:999",
+              "116 123": "tel:116123",
+              "85258": "sms:85258",
+              "111": "tel:111",
+              "0800 1111": "tel:08001111",
+              "0808 2000 247": "tel:08082000247",
+          }
+          for name in ["crisis.html", "safety.html"]:
+              text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore")
+              for label, href in contacts.items():
+                  assert label in text and href in text, f"{name} missing or untappable: {label}"
           print("House check passed")
           PY
   deploy:
