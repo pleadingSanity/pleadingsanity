@@ -43,6 +43,12 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /app                  /arron-app.html         301
 /app/*                /arron-app.html         301
 
+# ─── ONE APP — no second Grok app ───
+/apps                 /get-the-app.html       301
+/grok                 /get-the-app.html       301
+/grok-apps            /get-the-app.html       301
+/grok-app             /get-the-app.html       301
+
 # ─── REPOSITORY / SOURCE FILES — NEVER SERVE ───
 /.env                /404.html 404!
 /.env.*              /404.html 404!
