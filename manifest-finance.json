@@ -5,111 +5,27 @@
   "start_url": "/finance.html",
   "scope": "/",
   "display": "standalone",
-  "display_override": [
-    "standalone",
-    "minimal-ui"
-  ],
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#000103",
   "theme_color": "#000103",
   "lang": "en-GB",
-  "description": "Finance without the sales pressure. Know what you can afford, what you're being offered, why you were declined and what to do next. A free UK education and preparation tool — not a lender or broker.",
-  "categories": [
-    "finance",
-    "education",
-    "utilities"
-  ],
+  "description": "A room in the Pleading Sanity app. Finance without the sales pressure. Not a second app, and not a lender.",
+  "categories": ["finance", "education", "utilities"],
   "icons": [
-    {
-      "src": "/assets/icons/icon-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/assets/icons/icon-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
-    }
+    {"src": "/assets/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
   ],
   "shortcuts": [
-    {
-      "name": "My finance profile",
-      "short_name": "Profile",
-      "url": "/finance.html#profile",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Affordability",
-      "short_name": "Afford",
-      "url": "/finance.html#calculator",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Compare a quote",
-      "short_name": "Compare",
-      "url": "/finance.html#compare",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Why did I fail?",
-      "short_name": "Declined",
-      "url": "/finance.html#declined",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "My applications",
-      "short_name": "Tracker",
-      "url": "/finance.html#tracker",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Ask the GBT",
-      "short_name": "Ask",
-      "url": "/finance.html#adviser",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    }
+    {"name": "The house", "short_name": "House", "url": "/", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]},
+    {"name": "My finance profile", "short_name": "Profile", "url": "/finance.html#profile", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]},
+    {"name": "Affordability", "short_name": "Afford", "url": "/finance.html#calculator", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]},
+    {"name": "Compare a quote", "short_name": "Compare", "url": "/finance.html#compare", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]},
+    {"name": "Why did I fail?", "short_name": "Declined", "url": "/finance.html#declined", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]},
+    {"name": "Ask the GBT", "short_name": "Ask", "url": "/finance.html#adviser", "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]}
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {"platform": "webapp", "url": "https://pleadingsanity.co.uk/manifest.json", "id": "pleadingsanity"}
   ]
 }
