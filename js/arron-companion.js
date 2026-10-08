@@ -327,10 +327,10 @@
   function showTyping() {
     const el = document.createElement('div');
     el.className = 'message arron-message typing';
-    el.innerHTML = '<span class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="sr-only">Arron is typing…</span>';
+    el.innerHTML = '<span class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="typing-label">Thinking…</span><span class="sr-only">Arron is thinking…</span>';
     conversationBox.appendChild(el);
     mainPanel.classList.add('is-thinking');
-    presenceEl.textContent = 'Arron is typing…';
+    presenceEl.textContent = 'Thinking…';
     scrollToLatest(true);
     return el;
   }
