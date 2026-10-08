@@ -85,26 +85,26 @@
     "chain": [
       {
         "provider": "openai",
-        "model": "gpt-4o",
-        "creatorModel": "gpt-5.5",
+        "model": "gpt-5.6-sol",
+        "creatorModel": "gpt-5.6-sol",
         "name": "GPT"
       },
       {
         "provider": "anthropic",
-        "model": "claude-sonnet-5-5",
-        "creatorModel": "claude-opus-5-5",
+        "model": "claude-sonnet-5",
+        "creatorModel": "claude-opus-5",
         "name": "Claude"
       },
       {
         "provider": "gemini",
-        "model": "gemini-3.5-flash",
-        "creatorModel": "gemini-3.1-pro-preview",
+        "model": "gemini-3.8-flash",
+        "creatorModel": "gemini-3.8-flash",
         "name": "Gemini"
       },
       {
         "provider": "grok",
-        "model": "grok-4",
-        "creatorModel": "grok-4",
+        "model": "grok-4.7",
+        "creatorModel": "grok-4.7",
         "name": "Grok"
       }
     ]
