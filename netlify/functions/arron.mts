@@ -429,7 +429,7 @@ async function chat(req: Request, context: Context, rid: string) {
   if (!user?.isOwner && !(await allow("chat", context, user?.id))) {
     // Never slow down someone who may be in crisis: give the real lines straight away.
     if (crisis) return json({ reply: SIGNPOST, provider: "none", remembered: false, crisis: true, signpost: SIGNPOST, actions: [] });
-    return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
+    return slowDown("Give me a minute to catch my breath, then try again.");
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
