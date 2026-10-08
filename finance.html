@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="en-GB"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#000103"><link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#000103"><link rel="manifest" href="/manifest-finance.json"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Sane Finance GBT">
 <link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/finance.css">
-<title>Finance Sanctuary · Pleading Sanity</title>
-<meta name="description" content="A simple, transparent UK finance decision tool: affordability, repayments, offer comparison and application preparation without sales pressure.">
+<title>The Sane Finance GBT · Pleading Sanity</title>
+<meta name="description" content="A fast, transparent UK finance decision and preparation tool built to put the customer in control.">
 </head><body class="ps-page">
 <nav class="ps-nav"><div class="ps-nav-inner">
 <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
@@ -13,7 +13,7 @@
 <main class="finance-main">
 <header class="finance-hero"><span class="finance-badge">FREE · HUMAN FIRST · NO SALES PRESSURE</span>
 <h1>Finance Sanctuary</h1><p>Know what you can afford. Compare the real cost. Prepare your application. Then decide for yourself.</p>
-<div class="finance-quick"><a href="#calculator">Calculate</a><a href="#compare">Compare an offer</a><a href="#pack">Prepare documents</a><a href="#adviser">Ask the AI adviser</a></div></header>
+<div class="finance-quick"><a href="#calculator">Calculate</a><a href="#compare">Compare an offer</a><a href="#pack">Prepare documents</a><a href="#adviser">Ask the AI adviser</a><a href="#radar">Provider radar</a></div></header>
 
 <section class="finance-grid" id="calculator">
 <div class="finance-card"><div class="finance-kicker">01 · AFFORDABILITY</div><h2>What can I safely afford?</h2>
@@ -43,7 +43,7 @@
 </div>
 </section>
 
-<section class="finance-card" id="finder"><div class="finance-kicker">03 · FIND THE RIGHT ROUTE</div><h2>What kind of finance fits?</h2>
+<section class="finance-card" id="finder"><div class="finance-kicker">04 · FIND THE RIGHT ROUTE</div><h2>What kind of finance fits?</h2>
 <div class="finance-route-grid">
 <button data-route="personal">Personal loan<span>Fixed borrowing for a defined amount.</span></button>
 <button data-route="car">Car finance<span>HP, PCP and other vehicle finance routes.</span></button>
@@ -53,7 +53,7 @@
 </section>
 
 <section class="finance-grid">
-<div class="finance-card" id="pack"><div class="finance-kicker">04 · APPLICATION PACK</div><h2>Build your truthful application pack</h2>
+<div class="finance-card" id="pack"><div class="finance-kicker">05 · APPLICATION PACK</div><h2>Build your truthful application pack</h2>
 <p class="finance-muted">Turn your facts into a clean checklist and a factual cover note. Never invent income, documents or circumstances.</p>
 <div class="finance-checks">
 <label><input type="checkbox" data-doc="Proof of identity"> Proof of identity ready</label>
@@ -68,17 +68,19 @@
 <div id="pack-result" class="finance-result" aria-live="polite"></div>
 </div>
 
-<div class="finance-card" id="adviser"><div class="finance-kicker">05 · AI ADVISER</div><h2>Ask before you apply</h2>
+<div class="finance-card" id="adviser"><div class="finance-kicker">06 · AI ADVISER</div><h2>Ask before you apply</h2>
 <p class="finance-muted">The adviser explains options and helps you prepare. It does not see your credit file, approve you, submit an application or guarantee acceptance.</p>
 <textarea id="a-question" class="finance-letter" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
-<div class="finance-actions"><button class="finance-btn" id="ask-adviser">Ask the family</button></div>
+<textarea id="a-quote" class="finance-letter finance-quote" placeholder="Optional: paste the finance quote, lender wording or salesman message here. The GBT will turn it into a clean comparison checklist."></textarea>
+<div class="finance-mini-actions"><button class="finance-chip" type="button" data-question="What are the most important things to compare before accepting finance?">What should I compare?</button><button class="finance-chip" type="button" data-question="How do I tell whether this monthly payment is actually affordable?">Is it affordable?</button><button class="finance-chip" type="button" data-question="What should I ask a finance company before a full application?">What should I ask?</button></div>
+<div class="finance-actions"><button class="finance-btn" id="ask-adviser">Ask the family</button><button class="finance-btn secondary" id="save-brief">Save brief on this device</button></div>
 <div id="a-result" class="finance-result" aria-live="polite">No sales pitch. Ask the question in plain English.</div>
 </div>
 </section>
 
-<section class="finance-card finance-truth"><div class="finance-kicker">THE RULE</div><h2>You stay in control</h2>
+<section class="finance-card finance-truth"><div class="finance-kicker">07 · THE RULE</div><h2>You stay in control</h2>
 <div class="finance-truth-grid"><div><strong>Compare total cost</strong><p>APR, total repayment, fees, deposit, balloon/final payment and early-settlement terms.</p></div>
-<div><strong>Prefer soft-search eligibility</strong><p>Eligibility checks can show your likelihood before a full application. A full application can affect your credit record. </p></div>
+<div><strong>Prefer soft-search eligibility</strong><p>Eligibility checks can show your likelihood before a full application. A full application may leave a hard search on your credit record.</p></div>
 <div><strong>No fake approvals</strong><p>Only the lender can make the lending decision. We make the information easier to understand.</p></div>
 <div><strong>Regulated means regulated</strong><p>If Pleading Sanity ever brokers credit or earns commission from introductions, the legal/regulatory model must be established first.</p></div></div>
 <p class="finance-links">Independent guidance: <a href="https://www.moneyhelper.org.uk/en/everyday-money/credit/personal-loans" target="_blank" rel="noopener">MoneyHelper</a> · <a href="https://www.fca.org.uk/firms/financial-services-register" target="_blank" rel="noopener">FCA Firm Checker</a></p>
