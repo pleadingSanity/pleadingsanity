@@ -13,6 +13,9 @@
   'use strict';
 
   var KEY = 'ps-games-profile';
+  // Starlight is a local, non-monetary reward currency: never sold, never tied to health outcomes.
+  var STARLIGHT_PER_LEVEL = 5;
+  var STARLIGHT_PER_BADGE = 2;
   var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   function reducedMotion() { return !!(reduceMQ && reduceMQ.matches); }
 
@@ -38,6 +41,9 @@
       desc: 'Turn two cards. No timer. Match the sky.' },
     { id: 'truth-tag', title: 'Truth Tag', icon: '🏷️', url: '/truth-tag.html', skill: 'Discernment',
       desc: 'Evidence, lived experience, or philosophy. Learn the difference.' }
+    ,{ id: 'healing-hz', title: 'Healing Hz', icon: '🎵', url: '/frequencies.html', skill: 'Regulation', desc: 'Choose a gentle frequency and settle into a calmer pace.' }
+    ,{ id: 'mind-mode', title: 'Mind Mode', icon: '🌬️', url: '/mind-mode.html', skill: 'Calm', desc: 'A guided reset for breathing, focus and quiet.' }
+    ,{ id: 'mood-journey', title: 'Mood Journey', icon: '🌱', url: '/mood-journey.html', skill: 'Reflection', desc: 'Check in, notice patterns and build a kinder picture of your days.' }
   ];
   function game(id) {
     for (var i = 0; i < GAMES.length; i++) if (GAMES[i].id === id) return GAMES[i];
@@ -87,7 +93,7 @@
 
   // ─── PROFILE STORAGE ───
   function blank() {
-    return { v: 1, xp: 0, games: {}, badges: {}, streak: { count: 0, last: '' }, sound: false, daily: { date: '', done: false }, weekly: { key: '', done: false } };
+    return { v: 2, xp: 0, starlight: 0, games: {}, badges: {}, streak: { count: 0, last: '' }, sound: false, daily: { date: '', done: false }, weekly: { key: '', done: false } };
   }
   var profile = (function () {
     try {
@@ -129,6 +135,7 @@
   function unlock(id) {
     if (!BADGES[id] || profile.badges[id]) return false;
     profile.badges[id] = Date.now();
+    profile.starlight = (profile.starlight || 0) + STARLIGHT_PER_BADGE;
     save();
     var b = BADGES[id];
     toast(b.icon + ' Badge unlocked: ' + b.name, { kind: 'badge', sub: b.desc });
@@ -184,7 +191,8 @@
     var after = levelInfo(profile.xp);
     save();
     if (after.level > before) {
-      toast('⭐ Player level ' + after.level + ' — ' + after.title + '!', { kind: 'level' });
+      profile.starlight = (profile.starlight || 0) + ((after.level - before) * STARLIGHT_PER_LEVEL);
+      toast('⭐ Player level ' + after.level + ' — ' + after.title + '! +' + ((after.level - before) * STARLIGHT_PER_LEVEL) + ' Starlight', { kind: 'level' });
       confetti();
       sfx('level');
     }
@@ -565,6 +573,7 @@
       '<span class="psg-chip" data-psg="lvl"></span>' +
       '<span class="psg-xp" role="progressbar" aria-label="XP to next player level" aria-valuemin="0" aria-valuemax="100"><span></span></span>' +
       '<span class="psg-chip" data-psg="streak"></span>' +
+      '<span class="psg-chip" data-psg="starlight">✨ <b>0</b></span>' +
       (id ? '<span class="psg-chip" data-psg="best"></span>' : '') +
       '<button type="button" class="psg-sound" aria-pressed="false"></button>';
     var btn = el.querySelector('.psg-sound');
@@ -579,6 +588,7 @@
       var s = profile.streak;
       var live = s.last === dayKey() || s.last === yesterdayKey();
       el.querySelector('[data-psg="streak"]').innerHTML = '🔥 <b>' + (live ? s.count : 0) + '</b> day streak';
+      el.querySelector('[data-psg="starlight"]').innerHTML = '✨ <b>' + (profile.starlight || 0) + '</b> Starlight';
       if (id) el.querySelector('[data-psg="best"]').innerHTML = '🏆 Best <b>' + (gameStats(id).best || 0) + '</b>';
       btn.setAttribute('aria-pressed', profile.sound ? 'true' : 'false');
       btn.textContent = profile.sound ? '🔊 Sound on' : '🔇 Sound off';

@@ -17,13 +17,15 @@ import { studioItems, studioUsage } from "../../db/schema.js";
 import { anthropic } from "./social.js";
 
 const openai = new OpenAI();
+const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || "";
+const grok = grokKey ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1" }) : null;
 const gemini = new GoogleGenAI({});
 
 export const CREATOR_ROLES = ["admin", "creator"];
 export const isCreatorRoles = (roles: string[] = []) => roles.some((r) => CREATOR_ROLES.includes(r));
 
 // ─── THE PANEL ───
-export type VoiceId = "arron" | "nova" | "sol";
+export type VoiceId = "arron" | "nova" | "sol" | "grok";
 
 export const VOICES: Record<VoiceId, { name: string; lab: string; model: string; persona: string }> = {
   arron: {
@@ -36,21 +38,28 @@ export const VOICES: Record<VoiceId, { name: string; lab: string; model: string;
   nova: {
     name: "Nova",
     lab: "GPT by OpenAI",
-    model: "gpt-5.4-mini",
+    model: "gpt-5.6-sol",
     persona:
       "You are Nova, the practical problem-solver. You love evidence, small experiments and tools people can use tonight. Clear, upbeat, a little nerdy, never preachy.",
   },
   sol: {
     name: "Sol",
     lab: "Gemini by Google",
-    model: "gemini-3.5-flash",
+    model: "gemini-3.8-flash",
     persona:
       "You are Sol, the creative optimist and comic relief. You find the funny side without ever mocking pain, and you bring community, art and hope into every fix.",
+  },
+  grok: {
+    name: "Grok",
+    lab: "Grok by xAI",
+    model: "grok-4.7",
+    persona:
+      "You are Grok, the sharp fourth voice of the Pleading Sanity family. Fast, direct, playful and fearless, but never cruel. Bring fresh angles and strong creative instincts.",
   },
 };
 
 // The strongest model, kept for the creator's own requests.
-export const CREATOR_MODEL = "claude-opus-5-5";
+export const CREATOR_MODEL = "claude-opus-5";
 
 const HOUSE_RULES = `HOUSE RULES (always):
 - Positive, honest, kind. Humour lifts people up; never mock illness, bodies, groups or pain.
@@ -62,6 +71,11 @@ const HOUSE_RULES = `HOUSE RULES (always):
 export async function speak(voice: VoiceId, system: string, prompt: string, maxTokens = 400, model?: string) {
   const v = VOICES[voice];
   const fullSystem = `${v.persona}\n\n${HOUSE_RULES}\n\n${system}`;
+  if (voice === "grok") {
+    if (!grok) throw new Error("Grok is not configured on this deploy");
+    const res = await grok.chat.completions.create({ model: model ?? v.model, max_tokens: maxTokens, messages: [{ role: "system", content: fullSystem }, { role: "user", content: prompt }] });
+    return (res.choices[0]?.message?.content ?? "").trim();
+  }
   if (voice === "nova") {
     const res = await openai.chat.completions.create({
       model: model ?? v.model,

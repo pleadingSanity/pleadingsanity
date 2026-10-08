@@ -172,7 +172,7 @@ async function battle(voter: string | null) {
 
   // The AI enters once a day, the first time anyone opens the battle.
   if (!entries.some((e) => e.authorId === null)) {
-    const voice: VoiceId = (["arron", "nova", "sol"] as const)[Math.floor(Date.parse(day) / 86_400_000) % 3];
+    const voice: VoiceId = (["arron", "nova", "sol", "grok"] as const)[Math.floor(Date.parse(day) / 86_400_000) % 3];
     try {
       const reply = await speak(voice, "You are entering a friendly Human vs AI creativity battle. Give your single best answer, under 90 words. No preamble.", prompt, 300);
       if (reply) {
