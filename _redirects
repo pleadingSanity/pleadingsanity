@@ -43,6 +43,8 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
 /support               /support.html            301
 
+/live                 /live.html               301
+
 # ─── THE ARRON APP ───
 /app                  /arron-app.html         301
 /app/*                /arron-app.html         301
