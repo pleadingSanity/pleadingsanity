@@ -46,7 +46,9 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - **Silence Challenge** — meditation timer & cosmic soundscape
 - **Keep Kids Sane** — safe, positive games for children
 - **Crisis Support** — UK helplines, always one tap away
-- **Community** — survivor-led governance
+- **Community** — member profiles, privacy-aware posts, feed, friend requests, blocks, reports and moderation
+- **Creator LIVE** — `/live.html` previews supported public YouTube Live/Twitch streams and shares links into the feed; native streaming, multistream relay, AI clip rendering and payouts still need infrastructure
+- **Founding Creator Bonus** — proposed 90% qualifying-income share for the first 1,000 eligible creators; payout programme is not active until full terms, attribution and payment systems are implemented
 - **Legacy** — built on the service of Private A.L. Cooper (RAOC, Mentioned in Despatches 1945)
 
 ---
