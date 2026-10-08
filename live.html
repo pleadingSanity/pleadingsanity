@@ -162,9 +162,9 @@ form.addEventListener('submit',async(e)=>{
   try{await requireMember()}catch{return}
   const button=document.getElementById('share-live');button.disabled=true;button.textContent='Sharing…';status.textContent='';
   try{
-    const host=new URL(url).hostname.toLowerCase().replace(/^www\\./,'');
+    const host=new URL(url).hostname.toLowerCase().replace(/^www\./,'');
     const isYouTube=['youtube.com','m.youtube.com','youtu.be','youtube-nocookie.com'].includes(host);
-    const postBody=body ? body+'\\n\\nWatch my live: '+url : 'Join my live stream: '+url;
+    const postBody=body ? body+'\n\nWatch my live: '+url : 'Join my live stream: '+url;
     const result=await api('/api/posts',{method:'POST',body:{kind:isYouTube?'video':'text',title,body:postBody,videoUrl:isYouTube?url:'',mood:'rising',visibility:'public',truthTag:'experience',contentWarning:false,tags:['live','creator']}});
     status.textContent=result.pending?'Your live post is saved and will appear after review.':'Your live link has been shared to the community feed.';
     if(result.post?.id) {const a=document.createElement('a');a.href='/feed.html?post='+encodeURIComponent(result.post.id)+'#community';a.textContent=' View your post';status.append(a)}
