@@ -13,3 +13,24 @@ document.querySelectorAll(".finance-chip").forEach(b=>b.addEventListener("click"
 $("save-brief")?.addEventListener("click",()=>{const brief={question:$("a-question").value.trim(),quote:$("a-quote").value.trim(),savedAt:new Date().toISOString()};localStorage.setItem("ps-sane-finance-brief",JSON.stringify(brief));$("a-result").textContent="Your finance brief was saved on this device only."});
 const saved=localStorage.getItem("ps-sane-finance-brief");if(saved){try{const b=JSON.parse(saved);if(b.question)$("a-question").value=b.question;if(b.quote)$("a-quote").value=b.quote}catch{}}
 if("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(()=>{});
+
+$("j-check")?.addEventListener("click",()=>{
+ const credit=$("j-credit").value,income=$("j-income").value,afford=$("j-afford").value,outcome=$("j-outcome").value;
+ const blockers=[],steps=[];
+ if(outcome==="declined"){blockers.push("The lender has declined the application, but the private underwriting reason is not visible to this tool.");steps.push("Ask the lender for the specific adverse reason or eligibility criterion, and whether a manual review or appeal is available.");}
+ if(outcome==="criteria"){blockers.push("An eligibility criterion was not met. The exact criterion must be confirmed by the provider.");steps.push("Do not immediately apply elsewhere. Record the failed criterion, check whether it is temporary, and use an eligibility checker where available.");}
+ if(outcome==="referred"){blockers.push("The application needs manual review. This is not the same as a final refusal.");steps.push("Wait for the provider's decision and provide only the documents they genuinely request.");}
+ if(credit==="late"){blockers.push("Recent missed or late payments can narrow lender choice.");steps.push("Check all three credit reports for errors and avoid unnecessary hard applications.");}
+ if(credit==="default"){blockers.push("Defaults can materially affect eligibility, especially when recent or unpaid.");steps.push("Record dates, balances and settlement status. Look for providers whose published criteria actually fit.");}
+ if(credit==="ccj"){blockers.push("A CCJ can restrict mainstream options depending on date, amount and status.");steps.push("Record the CCJ date, amount and whether it is satisfied. Use only providers whose criteria explicitly cover your situation.");}
+ if(credit==="iva"){blockers.push("An IVA or other debt solution can make new borrowing unsuitable or restricted.");steps.push("Speak to the organisation administering the debt solution before seeking new credit.");}
+ if(credit==="thin"){blockers.push("Limited credit history can make automated decisions harder.");steps.push("Use eligibility tools where available and avoid applying to multiple lenders just to test acceptance.");}
+ if(income==="variable"||income==="self"||income==="newjob"){blockers.push("Income stability or evidence requirements may affect eligibility.");steps.push("Prepare accurate income evidence and check the provider's exact employment criteria.");}
+ if(income==="benefits"){blockers.push("Whether benefits count depends on the provider and the type of benefit.");steps.push("Check the provider's current criteria before a full application and never guess at annual income.");}
+ if(afford==="tight"){blockers.push("The proposed payment appears tight against the figures entered.");steps.push("Reduce the amount, increase the deposit, extend the term only after checking total cost, or consider not borrowing.");}
+ if(afford==="unknown"){steps.push("Run the affordability calculator before applying.");}
+ if(!blockers.length) blockers.push("No common blocker was selected. That is not an approval prediction.");
+ steps.push("Compare APR, total repayment, fees, deposit, final/balloon payment and early-settlement terms.");
+ steps.push("Check the provider or broker on the FCA Register before paying a fee or sharing sensitive documents.");
+ $("j-result").innerHTML="<strong>Likely blockers</strong><br>• "+blockers.join("<br>• ")+"<br><br><strong>Next steps</strong><br>• "+steps.join("<br>• ")+"<br><br><span class='finance-muted'>Important: only the lender can give the definitive reason for a decline. We will never manufacture one.</span>";
+});
