@@ -636,8 +636,8 @@
   function showTyping() {
     const el = document.createElement('div');
     el.className = 'aa-msg arron';
-    el.setAttribute('aria-label', 'Arron is typing');
-    el.innerHTML = '<span class="aa-typing"><span></span><span></span><span></span></span>';
+    el.setAttribute('aria-label', 'Arron is thinking');
+    el.innerHTML = '<span class="aa-typing"><span></span><span></span><span></span></span><span class="aa-typing-label">Thinking…</span>';
     els.log.appendChild(el);
     scrollDown(true);
     return el;
