@@ -14,7 +14,7 @@ We take security seriously at Pleading Sanity, especially given the sensitive na
 Given the sensitive nature of mental health information, we implement additional security measures:
 
 - **Local-first storage**: Chat histories and journal entries stored locally by default
-- **Encryption**: All sensitive data encrypted before storage
+- **Encryption**: NOT currently guaranteed at the application/database layer. Data is protected in transit by HTTPS and access controls, but database-backed Arron memory, journals and social content must be treated as server-stored data unless the page explicitly says it is local-only.
 - **No tracking**: No user tracking without explicit consent
 - **Crisis protocols**: Special handling for crisis-related communications
 
