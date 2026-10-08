@@ -5,8 +5,8 @@ const clean=(v:unknown,max:number)=>String(v??"").trim().slice(0,max);
 export default async(req:Request,_context:Context)=>{
  if(req.method!=="POST")return json({error:"POST only"},405);
  try{
-  const body=await req.json().catch(()=>({}));const question=clean(body.question,5000);
-  if(!question)return json({error:"Ask a finance question first."},400);
+  const body=await req.json().catch(()=>({}));const question=clean(body.question,5000); const quote=clean(body.quote,9000);
+  if(!question && !quote)return json({error:"Ask a finance question first."},400);
   const system=`${ARRON_VOICE}
 You are the Pleading Sanity Finance Adviser: a neutral UK consumer-credit education and preparation assistant.
 Rules:
@@ -21,7 +21,7 @@ Rules:
 - For current lender rates or live availability, say the user must verify on the lender/comparison site's current eligibility checker.
 - If the user appears to be in financial difficulty, signpost free debt guidance rather than encouraging new borrowing.
 Answer in concise UK English with: 1) what matters, 2) what to compare, 3) safest next step. This tool is free-first and not a sales funnel.`;
-  const result=await runChain(system,[{role:"user",content:question}],{maxTokens:700});
+  const prompt=[question?`USER QUESTION:\n${question}`:"",quote?`PASTED QUOTE / MESSAGE:\n${quote}`:""].filter(Boolean).join("\n\n"); const result=await runChain(system,[{role:"user",content:prompt}],{maxTokens:900});
   return json({reply:result.text,provider:result.provider,model:result.model});
  }catch(error){console.error("Finance adviser error:",error);return json({error:"The adviser is unavailable right now. Try again shortly."},503)}
 };
