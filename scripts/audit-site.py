@@ -52,7 +52,22 @@ class Page(HTMLParser):
 
 def check_script(item):
     name, source, kind = item
-    result = subprocess.run(['node', '--check', '--input-type=' + kind],
+    if kind == 'typescript':
+        # --check alone does not validate TypeScript on every Node 24 release.
+        # Parse and strip explicitly, then syntax-check the resulting JS too.
+        stripped = subprocess.run(
+            ['node', '--input-type=module', '-e',
+             "import {stripTypeScriptTypes} from 'node:module';"
+             "import {readFileSync} from 'node:fs';"
+             "process.stdout.write(stripTypeScriptTypes(readFileSync(0, 'utf8')));"],
+            input=source, text=True, capture_output=True)
+        if stripped.returncode:
+            return f'{name}\n{stripped.stderr}'
+        source = stripped.stdout
+        kind = 'commonjs' if name.endswith('.cts') else 'module'
+    command = (['node', '--check', str(ROOT / name)] if kind == 'file'
+               else ['node', '--check', '--input-type=' + kind])
+    result = subprocess.run(command,
                             input=source, text=True, capture_output=True)
     return f'{name}\n{result.stderr}' if result.returncode else None
 
@@ -65,18 +80,24 @@ for path in pages:
         if count > 1:
             errors.append(f'{path.name}: duplicate id {identifier}')
 
-files = sorted((ROOT / 'js').rglob('*.js'))
-files += sorted((ROOT / 'netlify/functions').rglob('*.js'))
-files += sorted((ROOT / 'netlify/functions').rglob('*.cjs'))
-files += [ROOT / 'sw.js']
+# Check backend helpers and TypeScript as well as browser JavaScript. Node 24
+# parses erasable TypeScript without executing imports or requiring
+# API credentials. This is syntax coverage, not a type-check or integration test.
+extensions = {'.js', '.mjs', '.cjs', '.ts', '.mts', '.cts'}
+files = sorted({path for folder in ('js', 'netlify', 'db')
+                for path in (ROOT / folder).rglob('*')
+                if path.suffix in extensions}
+               | {path for path in ROOT.iterdir() if path.suffix in extensions})
 for path in files:
-    scripts.append((str(path.relative_to(ROOT)), path.read_text(encoding='utf-8'),
-                    'commonjs' if path.suffix == '.cjs' else 'module'))
+    is_typescript = path.suffix in {'.ts', '.mts', '.cts'}
+    scripts.append((str(path.relative_to(ROOT)),
+                    path.read_text(encoding='utf-8') if is_typescript else None,
+                    'typescript' if is_typescript else 'file'))
 with ThreadPoolExecutor(max_workers=4) as pool:
     errors.extend(filter(None, pool.map(check_script, scripts)))
 
 print(f'Checked {len(pages)} HTML pages, static href/src targets, duplicate IDs, '
-      f'and {len(scripts)} external/inline JavaScript blocks.')
+      f'and {len(scripts)} external/inline JavaScript and TypeScript blocks.')
 if errors:
     print('\n'.join(errors), file=sys.stderr)
     sys.exit(1)

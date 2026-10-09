@@ -16,6 +16,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      - name: Check pages, assets and external and inline JavaScript
+          node-version: '24'
+      - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
