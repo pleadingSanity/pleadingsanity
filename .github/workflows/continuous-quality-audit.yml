@@ -1,0 +1,19 @@
+name: Continuous quality audit
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JavaScript syntax
+        run: |
+          find js netlify/functions -type f \( -name '*.js' -o -name '*.cjs' \) -print0 2>/dev/null | xargs -0 -r -n1 node --check
