@@ -35,3 +35,28 @@ If Netlify blocks deploys because the account has reached its usage/credit limit
 
 ## Secrets and safety
 Never commit API secrets, private keys, OAuth client secrets, or service-account JSON. Use Netlify environment variables for server-side secrets. Do not expose OpenAI/Anthropic/Gemini secret keys in browser-side code.
+
+
+## Full requested scope — Gemini app + Firebase
+The intended deliverable is the complete AI Studio app, not only the pasted Sanctuary Notes manager. Treat these as one integration:
+- Arron AI companion and its server-side AI/API path, prompt/schema, and crisis-support handling.
+- Workspace Hub and Google Workspace/Keep-related UX.
+- Sanctuary Notes: safe rendering (no user fields interpolated into `innerHTML`), local fallback, authenticated Firestore sync, ownership checks, copy/export behavior, and honest Google Keep handoff (do not claim an external note was saved unless confirmed).
+- Audio engine: client-side Web Audio only; clear start/stop controls and graceful handling of browser audio restrictions.
+- PWA install prompt and manifest/service-worker compatibility.
+- Authentication and user profiles; social/email sign-in providers only when configured in Firebase Console and allowed domains are set.
+- Existing and new collections/features: users/profiles, posts, lives, creator applications, sanctuary notes, and any other collections actually used by the source.
+- Updated Firestore rules must preserve existing production permissions where still needed and scope private records to the authenticated owner. Validate every collection against actual queries before deploying rules.
+- Required package/dependency lockfile, Vite/React/TypeScript configuration, styles/assets, routing, environment-variable examples, and build/deploy configuration must be included as a coherent project.
+
+## Firebase configuration checklist
+1. Keep the existing Firebase project `pleading-sanity-36bfa`; do not create a replacement project.
+2. Inspect `js/firebase.js` and the Firebase Console configuration. Its existing `appId` placeholder must be resolved before declaring Firebase ready.
+3. Confirm Authentication providers and authorized domains; do not assume Google/social login works merely because UI buttons exist.
+4. Use the Firebase Web SDK config only for public client configuration; never add service-account credentials or private API keys to client code.
+5. Review `firebase/firestore.rules` and indexes against the actual app's reads/writes. Test unauthenticated, wrong-user, and owner access before any production rules change.
+6. Decide whether the static site and Vite app share the root or the Vite app lives under a dedicated route only after the full export and existing routes are inspected.
+7. Never run a production Firestore rules deployment as part of an unreviewed code import.
+
+## Current blocker
+The pasted Sanctuary Notes file is one component, not the complete source project. Implementation of the whole app requires the actual AI Studio export/ZIP (including all files and configuration). Until that is available, this branch contains preparation only and the live site remains unchanged.
