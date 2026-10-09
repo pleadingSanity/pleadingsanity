@@ -102,7 +102,7 @@
       .catch(function () {});
   }
   window.addEventListener('load', function () { setTimeout(checkSoul, 2500); });
-  if (/\/games\.html$|\/games$/.test(location.pathname)) {
+  function ensureSolitaireCard() {
     var grid = document.querySelector('.games-grid');
     if (!grid) return;
     var old = grid.querySelector('[data-game="sanity-solitaire"]');
@@ -114,6 +114,7 @@
     card.innerHTML = '<div class="game-thumb" data-mark="sanity-solitaire"><span class="badge official">OFFICIAL</span></div><div class="game-content"><h3>Sanity Solitaire</h3><p class="game-desc">Three peaks. One rank up or down. The brain card on the back, the night sky on the table.</p><div class="game-stats"><span>Three peaks</span><span>Undo</span><span>Own install</span></div><div class="btn-wrap"><a href="/sanity-solitaire.html" class="btn primary">&#9654; Play Now</a></div></div>';
     grid.insertBefore(card, grid.firstChild);
   }
+  if (/\/games\.html$|\/games$/.test(location.pathname)) ensureSolitaireCard();
   var nav = document.querySelector('.ps-nav');
   // The LIVE door is deliberately visible across the house.
   if (nav) {
@@ -136,23 +137,41 @@
     var inner = nav.querySelector('.ps-nav-inner') || nav;
     inner.appendChild(btn);
     var links = nav.querySelector('.ps-links');
+    if (links) {
+      if (!links.id) links.id = 'ps-main-links';
+      btn.setAttribute('aria-controls', links.id);
+    }
     if (links && !links.querySelector('.ps-sheet-doors')) {
       var doors = document.createElement('div');
       doors.className = 'ps-sheet-doors';
       doors.innerHTML = '<a href="/arron.html">Talk to Arron</a><a href="/about.html#legacy">Our Legacy</a>';
       links.insertBefore(doors, links.firstChild);
     }
-    function shut() {
-      nav.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      btn.textContent = 'Menu';
+    function setMenuOpen(open) {
+      nav.classList.toggle('is-open', open);
+      nav.querySelectorAll('.ps-group.open').forEach(function (group) {
+        if (open) return;
+        group.classList.remove('open');
+        var groupButton = group.querySelector('.ps-group-btn');
+        if (groupButton) groupButton.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.ps-nav-toggle, .ps-dock-menu').forEach(function (control) {
+        control.setAttribute('aria-expanded', open ? 'true' : 'false');
+        control.textContent = open ? 'Close' : 'Menu';
+      });
     }
+    function shut() { setMenuOpen(false); }
+    nav.psSetMenuOpen = setMenuOpen;
     btn.addEventListener('click', function () {
-      var open = nav.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      btn.textContent = open ? 'Close' : 'Menu';
+      setMenuOpen(!nav.classList.contains('is-open'));
     });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') shut(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        var wasOpen = nav.classList.contains('is-open') || !!nav.querySelector('.ps-group.open');
+        shut();
+        if (wasOpen) btn.focus();
+      }
+    });
     if (links) links.addEventListener('click', function (e) {
       var gbtn = e.target.closest('.ps-group-btn');
       if (gbtn) {
@@ -180,17 +199,18 @@
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');
-    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Truth</a><button type="button" class="ps-dock-menu">Menu</button>';
+    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Support</a><button type="button" class="ps-dock-menu" aria-expanded="false">Menu</button>';
     document.body.appendChild(dock);
     var here = dock.querySelector('a[href="' + path + '"]');
     if (here) here.setAttribute('aria-current', 'page');
     var dockMenu = dock.querySelector('.ps-dock-menu');
-    if (dockMenu && nav) dockMenu.addEventListener('click', function () {
-      var open = nav.classList.toggle('is-open');
-      var top = nav.querySelector('.ps-nav-toggle');
-      if (top) { top.setAttribute('aria-expanded', open ? 'true' : 'false'); top.textContent = open ? 'Close' : 'Menu'; }
-      dockMenu.textContent = open ? 'Close' : 'Menu';
-    });
+    if (dockMenu && nav) {
+      var menuLinks = nav.querySelector('.ps-links');
+      if (menuLinks && menuLinks.id) dockMenu.setAttribute('aria-controls', menuLinks.id);
+      dockMenu.addEventListener('click', function () {
+        if (nav.psSetMenuOpen) nav.psSetMenuOpen(!nav.classList.contains('is-open'));
+      });
+    }
   }
 
 })();
