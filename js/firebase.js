@@ -6,7 +6,7 @@
 // or use it from your own module:
 //   import { db, auth, firestore, firebaseReady } from "/js/firebase.js";
 //
-// Until the apiKey and appId below are filled in, this file does nothing
+// Until appId below is filled in, this file does nothing
 // (no network calls, no console errors), so it is safe to link today.
 // Setup guide: /docs/FIREBASE-SETUP.md
 
@@ -16,7 +16,7 @@ const CDN = "https://www.gstatic.com/firebasejs/" + FIREBASE_VERSION;
 // The web apiKey and appId are public identifiers, not secrets. They are safe
 // in GitHub. Security comes from the Firestore and Storage rules.
 export const firebaseConfig = {
-  apiKey: "PASTE_API_KEY_HERE",
+  apiKey: "AIzaSyCXJEEpk2RFmtNiI1dD4j0TzjT26nEnJho",
   authDomain: "pleading-sanity-36bfa.firebaseapp.com",
   projectId: "pleading-sanity-36bfa",
   storageBucket: "pleading-sanity-36bfa.firebasestorage.app",
