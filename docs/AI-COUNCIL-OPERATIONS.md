@@ -32,6 +32,9 @@ No AI can impersonate another reviewer or mark its own output as independently a
 - Preserve functional non-AI pages and games when AI endpoints are unavailable.
 - Do not assume a GitHub push means Netlify deployed successfully.
 
+## Netlify preview
+The 9 Oct 2026 preview failed after functions bundled. Smart secret scan flagged the public Firebase web key in `js/firebase.js`. That key is a public identifier, not a service-account secret. The safelist is a Netlify env setting. Do not delete the key to silence the scan.
+
 ## Games quality gate
 For each game: load and start; touch and keyboard interactions as applicable; win/lose/restart; pause/resume; offline and mobile behavior where supported; accessibility; console errors; performance; saved progress if promised. Record tested devices/browsers and failures. A syntax-only check is not a playable-game test.
 
