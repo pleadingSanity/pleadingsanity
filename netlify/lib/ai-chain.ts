@@ -64,7 +64,7 @@ const PROVIDERS: Provider[] = ["openai", "anthropic", "gemini", "grok"];
 // Four equal minds. The order is only who picks up the phone first — never rank.
 const FALLBACK_CHAIN: Link[] = [
   { provider: "openai", model: "gpt-5.6-sol", creatorModel: "gpt-5.6-sol" },
-  { provider: "anthropic", model: "claude-sonnet-5", creatorModel: "claude-opus-5" },
+  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
   { provider: "gemini", model: "gemini-3.8-flash", creatorModel: "gemini-3.8-flash" },
   { provider: "grok", model: "grok-4.7", creatorModel: "grok-4.7" },
 ];

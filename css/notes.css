@@ -1,0 +1,49 @@
+/* Sanctuary Notes — sits on the shared sky from space.css. */
+.sn-wrap { max-width: 760px; margin: 0 auto; padding: 24px 16px 56px; color: #eafffd; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif; position: relative; z-index: 1; }
+.sn-hero { text-align: center; margin: 12px 0 24px; }
+.sn-hero-pic { border-radius: 22px; box-shadow: 0 0 28px rgba(0, 255, 240, 0.35); object-fit: cover; }
+.sn-hero h1 { margin: 12px 0 6px; font-size: clamp(1.9rem, 6vw, 2.6rem); color: #00fff0; text-shadow: 0 0 18px rgba(0, 255, 240, 0.4); }
+.sn-tag { margin: 0; color: #d6fbff; }
+.sn-sync { display: inline-block; margin: 14px 0 0; padding: 8px 14px; border-radius: 999px; background: rgba(6, 16, 28, 0.85); border: 1px solid rgba(0, 255, 240, 0.35); font-size: 0.92rem; }
+.sn-sync a { color: #00fff0; }
+
+.sn-card { background: rgba(6, 16, 28, 0.88); border: 1px solid rgba(0, 255, 240, 0.22); border-radius: 18px; padding: 18px; margin: 0 0 24px; backdrop-filter: blur(6px); }
+.sn-h2 { margin: 0 0 12px; font-size: 1.2rem; color: #ffffff; }
+.sn-opt { color: #b9d7e0; font-weight: 400; font-size: 0.9rem; }
+.sn-card label { display: block; margin: 12px 0 6px; font-weight: 600; }
+.sn-card input, .sn-card select, .sn-card textarea, #sn-search {
+  width: 100%; box-sizing: border-box; min-height: 44px; padding: 10px 12px; border-radius: 12px;
+  background: #020a14; color: #eafffd; border: 1px solid rgba(0, 255, 240, 0.35); font: inherit;
+}
+.sn-card textarea { resize: vertical; min-height: 120px; }
+.sn-card :focus-visible, #sn-search:focus-visible, .sn-btn:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }
+.sn-card [aria-invalid="true"] { border-color: #ff6b9a; }
+.sn-err { color: #ffb3c8; margin: 6px 0 0; font-size: 0.92rem; }
+
+.sn-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.sn-btn { min-height: 44px; min-width: 44px; padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0, 255, 240, 0.45); background: rgba(0, 255, 240, 0.08); color: #eafffd; font: inherit; font-weight: 600; cursor: pointer; }
+.sn-btn:hover { background: rgba(0, 255, 240, 0.18); }
+.sn-btn[disabled] { opacity: 0.6; cursor: progress; }
+.sn-primary { background: linear-gradient(135deg, #00fff0, #ff00ff); color: #000103; border: 0; }
+.sn-danger { border-color: rgba(255, 107, 154, 0.6); }
+
+.sn-list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.sn-list-head .sn-h2 { margin: 0; }
+#sn-search { width: auto; flex: 1 1 200px; max-width: 280px; }
+.sn-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 14px; }
+.sn-note { background: rgba(6, 16, 28, 0.9); border: 1px solid rgba(0, 255, 240, 0.2); border-left: 4px solid #00fff0; border-radius: 14px; padding: 14px 16px; }
+.sn-note.is-pinned { border-left-color: #ffd700; }
+.sn-note[data-cat="gratitude"] { border-left-color: #ff9ad5; }
+.sn-note[data-cat="goal"] { border-left-color: #7cff9b; }
+.sn-note[data-cat="win"] { border-left-color: #ffd700; }
+.sn-note h3 { margin: 0 0 6px; font-size: 1.05rem; color: #ffffff; overflow-wrap: anywhere; }
+.sn-note .sn-body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: #e2f6fb; line-height: 1.55; }
+.sn-meta { margin: 8px 0 0; font-size: 0.85rem; color: #b9d7e0; }
+.sn-note .sn-actions { margin-top: 10px; gap: 8px; }
+.sn-note .sn-btn { padding: 8px 12px; font-size: 0.92rem; }
+.sn-empty { text-align: center; color: #d6fbff; }
+.sn-keep p { margin: 0; color: #d6fbff; line-height: 1.55; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sn-btn { transition: none; }
+}
