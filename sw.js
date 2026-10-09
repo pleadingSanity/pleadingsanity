@@ -16,6 +16,7 @@ const PRIVATE_PAGES = [
     '/member.html',
     '/journal-vault.html',
     '/journal-vault-viewer.html',
+    '/notes.html',
     '/login.html',
     '/signup.html',
     '/reset-password.html',

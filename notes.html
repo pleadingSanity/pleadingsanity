@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<!--
-PLEADING SANITY — THE SANCTUARY
-Evolution, Not Erasure. One Source. One Family.
--->
 <html lang="en-GB">
 <head>
-<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#000103" />
+  <title>Sanctuary Notes — Pleading Sanity</title>
+  <meta name="description" content="Free private notes for thoughts, wins and gratitude. Kept on your device, and synced to your account when you sign in. Only you can read them." />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -18,24 +14,11 @@ Evolution, Not Erasure. One Source. One Family.
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/accessibility.css" />
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
-  <meta name="robots" content="noindex, follow" />
-  <link rel="canonical" href="https://pleadingsanity.co.uk/sanctuary.html" />
-  <title>My Sanctuary — Your Private Corner | Pleading Sanity</title>
-  <meta name="description" content="Your private space on Pleading Sanity: saved posts, your creations, your writing and your gentle progress. Only you can see it." />
-  <meta name="author" content="Shane Cooper / Pleading Sanity" />
-  <meta name="color-scheme" content="dark" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Pleading Sanity" />
-  <meta property="og:title" content="My Sanctuary — Your Private Corner | Pleading Sanity" />
-  <meta property="og:description" content="Your private space on Pleading Sanity: saved posts, your creations, your writing and your gentle progress. Only you can see it." />
-  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
-  <meta property="og:url" content="https://pleadingsanity.co.uk/sanctuary.html" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/notes.html" />
   <link rel="stylesheet" href="/css/site.css" />
-  <link rel="stylesheet" href="/css/social.css" />
-  <link rel="stylesheet" href="/css/sanctuary.css" />
   <link rel="stylesheet" href="/css/space.css" />
+  <link rel="stylesheet" href="/css/notes.css" />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
@@ -46,22 +29,21 @@ Evolution, Not Erasure. One Source. One Family.
     gtag("config", "G-PS8EVEF31L");
   </script>
 </head>
-<body class="ps-page">
-
-  <a href="#main-content" class="skip-link">Skip to main content</a>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
     <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
-      <div class="ps-group" data-group="heal">
+      <div class="ps-group has-current" data-group="heal">
         <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Heal</button>
         <div class="ps-group-menu" id="ps-g-heal">
           <a href="/arron.html">🤖 Talk to Arron</a>
           <a href="/arron-app.html">📲 Arron App</a>
           <a href="/journal-vault.html">📖 Journal Vault</a>
-          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/notes.html" aria-current="page">🗒️ Sanctuary Notes</a>
           <a href="/mind-mode.html">🌬️ Mind Mode</a>
           <a href="/mood-journey.html">🌱 Mood Journey</a>
           <a href="/frequencies.html">🎵 Healing Hz</a>
@@ -89,11 +71,11 @@ Evolution, Not Erasure. One Source. One Family.
           <a href="/wisdom.html">📜 Words from the Family</a>
         </div>
       </div>
-      <div class="ps-group has-current" data-group="community">
+      <div class="ps-group" data-group="community">
         <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
           <a href="/feed.html">🌟 For You Feed</a>
-          <a href="/sanctuary.html" aria-current="page">🏡 My Sanctuary</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
           <a href="/ai-stories.html">💬 AI Stories</a>
@@ -109,49 +91,64 @@ Evolution, Not Erasure. One Source. One Family.
   </div>
 </nav>
 
-<main id="main-content" class="social-main wide">
-    <header class="social-head" id="welcome"><div class="skeleton" style="height:120px"></div></header>
+<main id="main" class="sn-wrap">
+  <header class="sn-hero">
+    <img class="sn-hero-pic" src="/assets/theme/icons/sanity-stories.jpg" alt="" width="96" height="96" />
+    <h1>Sanctuary Notes</h1>
+    <p class="sn-tag">Catch a thought before it slips away. Only you can read these.</p>
+    <p class="sn-sync" id="sn-sync" role="status" aria-live="polite">Checking where your notes are kept…</p>
+  </header>
 
-    <section aria-labelledby="quick-title">
-      <h2 id="quick-title" class="sr-only">Quick links</h2>
-      <div class="sx-cards">
-        <a class="sx-card" href="/arron.html"><span class="sx-icon" aria-hidden="true">🤖</span><h3>Talk to Arron</h3><p>He remembers what you choose to share.</p></a>
-        <a class="sx-card" href="/journal-vault.html"><span class="sx-icon" aria-hidden="true">📖</span><h3>Journal Vault</h3><p>Private pages, just for you.</p></a>
-        <a class="sx-card" href="/post.html"><span class="sx-icon" aria-hidden="true">✍️</span><h3>Share a post</h3><p>Your voice, truth-tagged and kind.</p></a>
-        <a class="sx-card" href="/crisis.html"><span class="sx-icon" aria-hidden="true">🕊️</span><h3>The house truth</h3><p>Why people lose themselves. No waiting room.</p></a>
+  <section class="sn-card" aria-labelledby="sn-form-title">
+    <h2 id="sn-form-title" class="sn-h2">New note</h2>
+    <form id="sn-form" novalidate>
+      <input type="hidden" id="sn-edit-id" value="" />
+      <label for="sn-title">Title <span class="sn-opt">(optional)</span></label>
+      <input id="sn-title" name="title" type="text" maxlength="120" autocomplete="off" />
+      <label for="sn-content">Your note</label>
+      <textarea id="sn-content" name="content" rows="5" maxlength="10000" required aria-describedby="sn-content-err"></textarea>
+      <p class="sn-err" id="sn-content-err" hidden>Write a few words first — the note is empty.</p>
+      <label for="sn-category">Kind of note</label>
+      <select id="sn-category" name="category">
+        <option value="thought">💭 Thought</option>
+        <option value="gratitude">🙏 Gratitude</option>
+        <option value="goal">🎯 Goal</option>
+        <option value="idea">💡 Idea</option>
+        <option value="reminder">⏰ Reminder</option>
+        <option value="win">🏆 Small win</option>
+      </select>
+      <div class="sn-actions">
+        <button type="submit" class="sn-btn sn-primary" id="sn-save">Save note</button>
+        <button type="button" class="sn-btn" id="sn-cancel" hidden>Cancel edit</button>
       </div>
-    </section>
+    </form>
+  </section>
 
-    <section class="panel" aria-labelledby="progress-title">
-      <h2 id="progress-title">🌱 Your gentle progress</h2>
-      <p class="muted">No scores, no comparison. Your progress follows you to any device you sign in on.</p>
-      <div class="sx-cards" id="progress" style="margin:0"></div>
-    </section>
+  <section aria-labelledby="sn-list-title">
+    <div class="sn-list-head">
+      <h2 id="sn-list-title" class="sn-h2">My notes <span id="sn-count" class="sn-opt"></span></h2>
+      <label class="sr-only" for="sn-search">Search notes</label>
+      <input id="sn-search" type="search" placeholder="Search notes" autocomplete="off" />
+    </div>
+    <ul id="sn-list" class="sn-list" aria-live="polite"></ul>
+    <p id="sn-empty" class="sn-empty" hidden>No notes yet. One line is enough.</p>
+  </section>
 
-    <section aria-labelledby="saved-title">
-      <h2 id="saved-title" class="center">🌟 Saved for later</h2>
-      <div id="saved" aria-live="polite"><div class="skeleton"></div></div>
-    </section>
+  <section class="sn-card sn-keep" aria-labelledby="sn-keep-title">
+    <h2 id="sn-keep-title" class="sn-h2">Sending a note to Google Keep</h2>
+    <p>Google doesn't let websites write into Keep for you. "Copy for Keep" puts the note on your clipboard and opens Keep in a new tab — tap <strong>Take a note</strong> there and paste. Nothing is sent to Google until you paste it yourself.</p>
+  </section>
+</main>
 
-    <section class="panel" aria-labelledby="art-title">
-      <h2 id="art-title">🎨 My Creations</h2>
-      <div class="sx-grid" id="art"><div class="skeleton"></div></div>
-      <p style="margin-top:1rem"><a href="/creations.html#create">Create something new →</a></p>
-    </section>
-
-    <section class="panel" aria-labelledby="writing-title">
-      <h2 id="writing-title">✍️ My Writing</h2>
-      <div id="writing"><div class="skeleton"></div></div>
-    </section>
-  </main>
-
-<footer class="ps-footer" role="contentinfo">
+    <footer class="ps-footer" role="contentinfo">
   <div class="ps-footer-inner">
     <p class="ps-motto">Evolution, Not Erasure</p>
     <p>One Source. One Consciousness. One Family.</p>
     <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
     <div class="ps-footer-links">
       <a href="/about.html">About</a>
+      <a href="/support.html">Support</a>
+      <a href="/crisis.html">Crisis</a>
       <a href="/about.html#legacy">Legacy</a>
       <a href="/movement.html">Movement</a>
       <a href="/feed.html">Feed</a>
@@ -181,7 +178,6 @@ Evolution, Not Erasure. One Source. One Family.
 </footer>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/js/progress.js"></script>
-  <script type="module" src="/js/sanctuary.js"></script>
+  <script type="module" src="/js/sanctuary-notes.js"></script>
 </body>
 </html>

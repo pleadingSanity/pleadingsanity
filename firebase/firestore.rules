@@ -89,6 +89,24 @@ service cloud.firestore {
       allow read, update, delete: if false;
     }
 
+    // ── sanctuary_notes/{uid}/notes/{noteId} — private notes. ─
+    // The live site keeps synced notes in Netlify Database (/api/notes).
+    // This block only applies if a Firebase client ever writes notes:
+    // signed-in owner only, never anyone else.
+    match /sanctuary_notes/{uid}/notes/{noteId} {
+      allow read, delete: if isMe(uid);
+      allow create: if isMe(uid)
+        && incoming().ownerId == uid
+        && shortText(incoming().get('title', ''), 120)
+        && shortText(incoming().content, 10000)
+        && incoming().content.size() > 0;
+      allow update: if isMe(uid)
+        && unchanged('ownerId') && unchanged('createdAt')
+        && shortText(incoming().get('title', ''), 120)
+        && shortText(incoming().content, 10000)
+        && incoming().content.size() > 0;
+    }
+
     // ── everything else: closed. ────────────────────────────
     match /{document=**} {
       allow read, write: if false;

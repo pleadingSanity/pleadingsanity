@@ -66,7 +66,11 @@
     .merch-card img { max-width:90%; height:165px; object-fit:contain; border-radius:10px; background:#191925; box-shadow:0 0 10px #00fff03c; }
     .merch-card h3 { margin:11px 0 6px; color:#00fff0; font-size:1.07em; font-weight:800; }
     .merch-card p { font-size:1.02em; color:#fff; margin-bottom:7px;}
-    .merch-card .card-links a { background:#ff00ff; color:#fff; border-radius:7px; font-size:.98em; padding:4px 14px; margin:4px; font-weight:700; text-decoration:none; transition:.15s; display:inline-block;}
+    .merch-card .card-links a { background:#ff00ff; color:#000103; border-radius:999px; font-size:.98em; min-height:44px; box-sizing:border-box; padding:11px 20px; margin:6px 4px 0; font-weight:800; text-decoration:none; transition:.15s; display:inline-flex; align-items:center; justify-content:center;}
+    .merch-card .card-links a:focus-visible { outline:3px solid #00fff0; outline-offset:2px; }
+    .shop-hero { max-width:960px; margin:0 auto 22px; padding:0 14px; }
+    .shop-hero img { display:block; width:100%; height:auto; max-height:360px; object-fit:cover; border-radius:22px; border:1px solid rgba(0,255,240,.28); box-shadow:0 0 40px rgba(0,255,240,.18); }
+    .shop-hero p { margin:12px 0 0; color:#d6fbff; text-align:center; }
     .merch-card .card-links a:hover { background:#00fff0; color:#000;}
     footer { margin-top:32px;}
     .footer-links { margin: 17px 0 0 0; }
@@ -148,6 +152,10 @@
   <header>
     <h1>🛒 Pleading Sanity Shop</h1>
   </header>
+  <figure class="shop-hero">
+    <img src="/assets/images/brand/home-rise-sea.jpg" width="1176" height="784" alt="A cosmic brain over a night sea, tears turning into stars" />
+    <figcaption><p>Every piece carries the Crying Brain. The tears are the pain. The glow is what we turn it into.</p></figcaption>
+  </figure>
   <main>
     <section class="merch-intro">
       <h2>Official Pleading Sanity Merch</h2>
@@ -183,7 +191,7 @@
           <h3>Crying Brain Hoodie</h3>
           <p>Reflective logo. Blackout cosmic fit.<br>Survivor gear – limited.</p>
           <div class="card-links">
-            <a href="https://shop.pleadingsanity.co.uk/products/crying-brain-hoodie" target="_blank" rel="noopener noreferrer">Shop Now</a>
+            <a href="https://shop.pleadingsanity.co.uk/products/crying-brain-hoodie" target="_blank" rel="noopener noreferrer" aria-label="Shop the Crying Brain Hoodie (opens the shop in a new tab)">Shop Now</a>
           </div>
         </div>
         <div class="merch-card">
@@ -191,15 +199,15 @@
           <h3>P.S Tracksuit</h3>
           <p>Crying Brain on back, PS on front, “P.S” in hood. Built to outlast the pain.</p>
           <div class="card-links">
-            <a href="https://shop.pleadingsanity.co.uk/products/ps-tracksuit" target="_blank" rel="noopener noreferrer">Shop Now</a>
+            <a href="https://shop.pleadingsanity.co.uk/products/ps-tracksuit" target="_blank" rel="noopener noreferrer" aria-label="Shop the P.S Tracksuit (opens the shop in a new tab)">Shop Now</a>
           </div>
         </div>
         <div class="merch-card">
-          <img src="assets/images/ps-fivepanel-mockup.svg" width="240" height="200" loading="lazy" alt="P.S 5-Panel Cap" />
+          <img src="/assets/images/ps-fivepanel-mockup.svg" width="240" height="200" loading="lazy" alt="P.S 5-Panel Cap" />
           <h3>P.S 5-Panel Cap</h3>
           <p>First edition. Street status only. Cosmic blue underbrim.</p>
           <div class="card-links">
-            <a href="https://shop.pleadingsanity.co.uk/products/p-s-five-panel-cap-1st-edition" target="_blank" rel="noopener noreferrer">Shop Now</a>
+            <a href="https://shop.pleadingsanity.co.uk/products/p-s-five-panel-cap-1st-edition" target="_blank" rel="noopener noreferrer" aria-label="Shop the P.S 5-Panel Cap (opens the shop in a new tab)">Shop Now</a>
           </div>
         </div>
         <!-- Add more product cards as you grow -->

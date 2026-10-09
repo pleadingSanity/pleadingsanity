@@ -452,3 +452,22 @@ export const siteProposals = pgTable(
   },
   (t) => [index("site_proposals_status_idx").on(t.status, t.id)],
 );
+
+// Sanctuary Notes — a member's own quick notes. Only the owner can read them.
+// Signed-out visitors keep notes on their device only; signing in syncs them here.
+export const sanctuaryNotes = pgTable(
+  "sanctuary_notes",
+  {
+    id: serial().primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    title: text().notNull().default(""),
+    content: text().notNull(),
+    category: text().notNull().default("thought"),
+    pinned: boolean().notNull().default(false),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [index("sanctuary_notes_user_idx").on(t.userId, t.id)],
+);
