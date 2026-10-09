@@ -60,3 +60,14 @@ The intended deliverable is the complete AI Studio app, not only the pasted Sanc
 
 ## Current blocker
 The pasted Sanctuary Notes file is one component, not the complete source project. Implementation of the whole app requires the actual AI Studio export/ZIP (including all files and configuration). Until that is available, this branch contains preparation only and the live site remains unchanged.
+
+
+## 2026-10-09 audit update — AI Studio keys and current repository status
+
+- Three strings shared in chat begin with the `AQ.Ab` prefix. Google's current Gemini documentation identifies `AQ.Ab…` as the new authorization-key format used by AI Studio. Treat all three as exposed credentials: revoke/delete them in AI Studio or the associated Google Cloud credentials page, then create a replacement only when ready to configure it securely. Do not test, repeat, or commit the exposed values.
+- The official Gemini guidance says keys must be treated like passwords, kept out of source control and not hardcoded in browser code. Use a server-side secret/environment variable for Gemini API calls. Audit usage for unexpected activity.
+- AI Studio project URL was attempted through public page retrieval, but the source code was not accessible from that URL in this audit. The actual project export is still required.
+- GitHub check: `feature/gemini-upgrade` exists and is two commits ahead of `main`; the only file difference is this handoff document. No app source, React/Vite config, lockfile, or Gemini component files have been added. `main` remains unchanged by this integration work.
+- Firebase check: current `js/firebase.js` still contains `appId: "PASTE_APP_ID_HERE"`, so `firebaseReady` evaluates false and the module does not initialize Firebase. The existing project ID is `pleading-sanity-36bfa`. Do not guess an app ID; retrieve the Web App config from Firebase Console and confirm Authentication providers and authorized domains.
+- Firestore check: current rules cover users, profiles, follows, lives, posts, and creator applications, with all other collections denied by the catch-all. Sanctuary Notes Firestore sync is not yet authorized by these rules. Any addition must be based on the actual data model and tested before publishing.
+- Hosting check: repository `package.json` and `netlify.toml` still describe a static-site/no-build deployment. No Netlify deployment was run during this audit; the account's reported credit limit has not been independently checked.
