@@ -23,14 +23,13 @@ What is already in the repo:
 
 ## 1️⃣ The config file — `js/firebase.js`
 
-Already written. The only thing you change is two lines:
+Already written. The Firebase web API key you supplied is now filled in. The only required placeholder remaining is `appId`:
 
 ```js
-apiKey: "PASTE_API_KEY_HERE",
 appId: "PASTE_APP_ID_HERE",
 ```
 
-Everything else (`projectId`, `authDomain`, `storageBucket`) is filled in.
+The project ID, auth domain and storage bucket are filled in. `messagingSenderId` is not required for the current Email/Password + Google sign-in and Firestore setup; add it only if a feature such as Firebase Cloud Messaging needs it.
 
 How it behaves:
 - Loads Firebase straight from Google's CDN — no npm, no build.
@@ -157,7 +156,7 @@ What they enforce, in plain English:
 
 1. Go to https://console.firebase.google.com and open **pleading-sanity-36bfa**.
 2. Click the **⚙️ gear → Project settings**. Under **Your apps**, click the **`</>` (Web)** icon. Nickname: `pleadingsanity-web`. **Don't** tick "Firebase Hosting". Click **Register app**.
-3. Copy the `apiKey` and `appId` it shows you. Paste them into `js/firebase.js` in place of the two `PASTE_…` lines.
+3. Under **Your apps**, select the registered Web app. Copy `appId` from the `firebaseConfig` box and replace `PASTE_APP_ID_HERE` in `js/firebase.js`. The API key is already filled in. If no Web app exists, register one first and choose the `</>` Web icon. The same config box also shows `messagingSenderId` if a future feature needs it.
 4. Left menu → **Build → Authentication → Get started**.
 5. **Sign-in method** tab → **Email/Password** → Enable → Save.
 6. **Sign-in method** tab → **Google** → Enable → pick your support email → Save.
