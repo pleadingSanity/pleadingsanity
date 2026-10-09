@@ -14,6 +14,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Check JavaScript syntax
-        run: |
-          find js netlify/functions -type f \( -name '*.js' -o -name '*.cjs' \) -print0 2>/dev/null | xargs -0 -r -n1 node --check
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check pages, assets and external and inline JavaScript
+        run: python3 scripts/audit-site.py
