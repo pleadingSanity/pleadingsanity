@@ -12,14 +12,19 @@
 <style>
 body{background:#000103;color:#eef6ff;font-family:system-ui,sans-serif;margin:0;padding:1rem;text-align:center;line-height:1.5}
 .doors{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
-.door{background:#0d1b2a;border:2px solid #00fff0;border-radius:16px;padding:2rem 1.5rem;min-width:14rem;text-decoration:none;color:#eef6ff;font-size:1.2rem;font-weight:bold;display:inline-block}
+.door{background:#0d1b2a;border:2px solid #00fff0;border-radius:16px;padding:1.75rem 1.25rem;min-width:12rem;flex:1 1 14rem;max-width:20rem;text-decoration:none;color:#eef6ff;font-size:1.15rem;font-weight:bold;display:inline-block}
 .door:hover{background:#00fff0;color:#000}
-.secondary{margin:1.5rem 0}
-.secondary a{color:#00fff0;margin:0 .5rem;display:inline-block;padding:.25rem}
+.secondary{margin:1.5rem 0;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
+.secondary a{color:#00fff0;padding:.5rem .75rem;display:inline-block;text-decoration:none;border-radius:8px}
+.secondary a:hover{background:rgba(0,255,240,.1)}
 .crisis{background:#0d1b2a;border:1px solid #ff4d8d;border-radius:12px;padding:1rem;margin:2rem auto;max-width:36rem}
 footer{margin-top:2rem;padding:1rem;font-size:.9rem}
-footer a{color:#00fff0;margin:0 .4rem}
+footer a{color:#00fff0;margin:.25rem .4rem;display:inline-block}
 .legacy{margin-top:1rem;font-size:.85rem}
+@media (max-width:600px){
+  .door{flex:1 1 100%;max-width:none;padding:1.5rem}
+  .secondary a{padding:.6rem 1rem}
+}
 </style>
 </head>
 <body>
