@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<meta name="robots" content="noindex, nofollow">
+<title>My Digital Story | Pleading Sanity</title>
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/site.css">
+<style>
+body{background:#000103;color:#eef6ff;font-family:system-ui,sans-serif;padding:1rem;max-width:40rem;margin:auto}
+.card{background:#0d1b2a;border:1px solid #00fff0;border-radius:12px;padding:1rem;margin:1rem 0}
+h1,h2{color:#00fff0}
+label{display:block;margin:.5rem 0}
+input,textarea,select,button{width:100%;padding:.5rem;margin:.25rem 0;background:#000;color:#eef6ff;border:1px solid #00fff0;border-radius:6px}
+button{background:#00fff0;color:#000;font-weight:bold;cursor:pointer}
+.private{color:#ff4d8d;font-size:.9rem}
+#preview{white-space:pre-wrap;background:#000;padding:.5rem;border-radius:6px;min-height:3rem}
+</style>
+</head>
+<body>
+<a href="/profile.html">← Back to Profile</a>
+<h1>My Digital Story</h1>
+<p class="private">Everything here is private by default. Nothing is published or sent anywhere unless you later choose to. Originals stay with you.</p>
+
+<div class="card">
+<h2>1. Link your accounts (optional)</h2>
+<p>Add links to your public profiles. We store only the links you type. No login or scraping.</p>
+<label>Instagram <input id="ig" placeholder="https://instagram.com/yourname"></label>
+<label>TikTok <input id="tt" placeholder="https://tiktok.com/@yourname"></label>
+<label>YouTube <input id="yt" placeholder="https://youtube.com/@yourname"></label>
+<label>X / Twitter <input id="x" placeholder="https://x.com/yourname"></label>
+<button type="button" onclick="saveLinks()">Save links locally</button>
+<p id="links-saved"></p>
+</div>
+
+<div class="card">
+<h2>2. Upload your own export (manual)</h2>
+<p>Upload a file you already own (JSON, CSV, text, or image). Preview stays on this device only. We do not upload it to any server in this slice.</p>
+<label>Choose file <input type="file" id="file" accept=".json,.csv,.txt,.jpg,.png,.webp"></label>
+<button type="button" onclick="previewFile()">Preview (private)</button>
+<div id="preview">No file chosen yet.</div>
+<p class="private">This preview is local. Nothing is stored or shared until a later approved step.</p>
+</div>
+
+<script>
+function saveLinks(){
+  const links = {
+    instagram: document.getElementById('ig').value.trim(),
+    tiktok: document.getElementById('tt').value.trim(),
+    youtube: document.getElementById('yt').value.trim(),
+    x: document.getElementById('x').value.trim()
+  };
+  localStorage.setItem('ps-digital-story-links', JSON.stringify(links));
+  document.getElementById('links-saved').textContent = 'Links saved on this device only.';
+}
+function previewFile(){
+  const f = document.getElementById('file').files[0];
+  if(!f){document.getElementById('preview').textContent='Choose a file first.';return;}
+  const reader = new FileReader();
+  reader.onload = e => {
+    let text = e.target.result;
+    if(typeof text !== 'string') text = '[binary file — preview limited]';
+    document.getElementById('preview').textContent = text.slice(0, 2000) + (text.length>2000?'\n\u2026(truncated for preview)':'');
+  };
+  if(f.type.startsWith('image/')){
+    reader.readAsDataURL(f);
+  } else {
+    reader.readAsText(f);
+  }
+}
+// load any saved links
+try{
+  const saved = JSON.parse(localStorage.getItem('ps-digital-story-links')||'{}');
+  if(saved.instagram) document.getElementById('ig').value = saved.instagram;
+  if(saved.tiktok) document.getElementById('tt').value = saved.tiktok;
+  if(saved.youtube) document.getElementById('yt').value = saved.youtube;
+  if(saved.x) document.getElementById('x').value = saved.x;
+}catch(e){}
+</script>
+</body>
+</html>
