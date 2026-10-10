@@ -1,1 +1,56 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000103" />
+  <meta name="color-scheme" content="dark" />
+  <title>Pleading Sanity | Free talk, journal, games and Arron</title>
+  <meta name="description" content="Pleading Sanity: a free sanctuary. Talk to Arron, keep a private journal, play calming games and read the feed. Free forever." />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <link rel="stylesheet" href="/css/cosmic-scroll.css" />
+  <style>
+    .home{max-width:1000px;margin:0 auto;padding:2rem 1rem 4rem}
+    .home h1{font-size:clamp(2rem,6vw,3.2rem);margin:.5rem 0}
+    .home .lead{font-size:1.15rem;max-width:40rem;color:#eef6ff}
+    .home .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:2rem 0}
+    .home .card{display:block;padding:1.2rem;border-radius:14px;background:rgba(13,27,42,.88);border:1px solid rgba(0,255,240,.3);color:#eef6ff;text-decoration:none}
+    .home .card:hover,.home .card:focus-visible{border-color:#00fff0}
+    .home .card strong{display:block;color:#00fff0;margin-bottom:.3rem}
+    .home .feed{margin:2rem 0}
+    .home footer{margin-top:3rem;font-size:.95rem;opacity:.9}
+  </style>
+</head>
+<body class="ps-page">
+  <main class="home" id="main">
+    <h1>Pleading Sanity</h1>
+    <p class="lead">A free place to talk, write, play and breathe. No ads. No paywall. Evolution, Not Erasure.</p>
+    <nav class="grid" aria-label="Main">
+      <a class="card" href="/arron-app.html"><strong>Arron</strong>Talk it through, any hour. Free.</a>
+      <a class="card" href="/journal-vault.html"><strong>Journal</strong>Private, yours, free.</a>
+      <a class="card" href="/games.html"><strong>Games</strong>Calm play, Sanity Solitaire and more.</a>
+      <a class="card" href="/feed.html"><strong>Feed</strong>Stories and videos from the family.</a>
+      <a class="card" href="/sanctuary.html"><strong>Sanctuary</strong>Rest, breathe, be here.</a>
+      <a class="card" href="/crisis.html"><strong>Need help now?</strong>Emergency and crisis help.</a>
+      <a class="card" href="/get-the-app.html"><strong>Get the app</strong>Install it on your phone.</a>
+      <a class="card" href="/about.html"><strong>About</strong>Who we are.</a>
+    </nav>
+    <section class="feed" aria-label="Stories">
+      <div data-cosmic-scroll data-sources="posts,videos" data-label="Sanity Feed: swipe for the next story"></div>
+    </section>
+    <footer>
+      <p>In memory of Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.</p>
+      <p><a href="/privacy.html">Privacy</a> · <a href="/about.html">About</a> · <a href="/crisis.html">Crisis help</a></p>
+    </footer>
+  </main>
+  <script type="module" src="/js/cosmic-scroll.js"></script>
+  <script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/sw.js").catch(function(){})}</script>
+</body>
+</html>
