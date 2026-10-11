@@ -22,3 +22,6 @@ We build to heal, not to grow.
 
 ## The vision
 Not the biggest mental health platform. The kindest.
+
+## Historical review note
+A legacy transparency branch was reviewed. Its zero-cost claims and absolute privacy/uptime guarantees were not copied because they require verification. The original branch remains preserved pending a complete audit.
