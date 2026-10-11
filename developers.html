@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<meta name="color-scheme" content="dark">
+<meta name="author" content="Shane Cooper / Pleading Sanity">
+<title>Developers — Pleading Sanity</title>
+<meta name="description" content="Help build a free mental health sanctuary. Pure HTML, CSS and JavaScript. Open source. Evolution, Not Erasure.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/developers.html">
+<meta property="og:title" content="Developers — Help build the house">
+<meta property="og:description" content="The doors are open. Clone it, run it, and help people rise.">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:url" content="https://pleadingsanity.co.uk/developers.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/space.css">
+<style>
+body {
+  color: #eef6ff;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  background: radial-gradient(ellipse at top, rgba(0,255,240,0.06), transparent 55%), #000103;
+  line-height: 1.6;
+}
+.wrap {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.25rem 5rem;
+}
+.eyebrow {
+  color: #00fff0;
+  font-size: 0.8rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+h1 {
+  font-size: clamp(2.2rem, 7vw, 3.2rem);
+  margin: 0 0 0.5rem;
+  text-shadow: 0 0 28px rgba(0,255,240,0.35);
+}
+.lead {
+  color: #b9faff;
+  font-size: 1.15rem;
+  margin: 0 0 2.5rem;
+  max-width: 36rem;
+}
+.card {
+  background: rgba(13,27,42,0.68);
+  border: 1px solid rgba(0,255,240,0.28);
+  border-radius: 20px;
+  padding: 1.6rem 1.4rem;
+  margin-bottom: 1.25rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(238,246,255,0.05);
+  text-align: left;
+}
+.card h2 {
+  color: #00fff0;
+  font-size: 1.2rem;
+  margin: 0 0 0.75rem;
+}
+.card p, .card li { color: #c9e9ef; font-size: 0.98rem; margin: 0 0 0.6rem; }
+.card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+.card code {
+  background: rgba(0,0,0,0.4);
+  padding: 0.15rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.9em;
+  color: #00fff0;
+}
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0 2rem;
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(13,27,42,0.8);
+  border: 1px solid rgba(0,255,240,0.5);
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  color: #00fff0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.btn:hover {
+  background: rgba(0,255,240,0.15);
+  border-color: #00fff0;
+  transform: translateY(-1px);
+}
+.note {
+  color: #a9c7d1;
+  font-size: 0.85rem;
+  margin-top: 2.5rem;
+}
+.note a { color: #00fff0; }
+.back {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+.back a { color: #00fff0; text-decoration: none; }
+.back a:hover { color: #ff4d8d; }
+@media (max-width: 600px) {
+  .wrap { padding: 2.5rem 1rem 3.5rem; }
+  .card { padding: 1.3rem 1.1rem; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Open source · Free forever</p>
+  <h1>Build with us</h1>
+  <p class="lead">The house is open. Pure HTML, CSS and vanilla JavaScript. No complicated build. Clone it, run it, and help people rise from madness.</p>
+
+  <div class="card">
+    <h2>Start in five minutes</h2>
+    <p>The front end needs nothing more than a browser. For the Netlify functions you only need Node.</p>
+    <pre style="background:rgba(0,0,0,0.45);padding:1rem;border-radius:12px;overflow:auto;font-size:0.9rem;color:#eef6ff;"><code>git clone https://github.com/pleadingSanity/pleadingsanity.git
+cd pleadingsanity
+npm install
+npm run dev</code></pre>
+    <p style="margin-top:0.75rem;">Then open <code>http://localhost:3000</code>. Or just open <code>index.html</code> in any browser.</p>
+  </div>
+
+  <div class="card">
+    <h2>What we need right now</h2>
+    <ul>
+      <li>Accessibility and mobile polish</li>
+      <li>Clearer copy and better empty states</li>
+      <li>Help on Sane Finance, Arron, games and the journal</li>
+      <li>Documentation and tests for the functions</li>
+      <li>Anything that keeps sanctuary free, private and safe</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Rules that never move</h2>
+    <ul>
+      <li>Crisis numbers (Samaritans 116 123 and SHOUT 85258) stay visible and working</li>
+      <li>No private journals or user data in commits or logs</li>
+      <li>Forget Me must keep working</li>
+      <li>Sanctuary features stay free — no paywalls</li>
+      <li>Evolution, Not Erasure — build on what serves, do not erase it</li>
+    </ul>
+  </div>
+
+  <div class="btn-row">
+    <a class="btn" href="https://github.com/pleadingSanity/pleadingsanity" target="_blank" rel="noopener noreferrer">View the repo →</a>
+    <a class="btn" href="https://github.com/pleadingSanity/pleadingsanity/blob/main/docs/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing guide →</a>
+    <a class="btn" href="https://github.com/pleadingSanity/pleadingsanity/issues" target="_blank" rel="noopener noreferrer">Open issues →</a>
+  </div>
+
+  <p class="note">Questions? Open an issue or email <a href="mailto:pleadingsanity1@gmail.com">pleadingsanity1@gmail.com</a>. Your wellbeing comes first — take breaks if the work gets heavy.</p>
+
+  <p class="back"><a href="/">← Back to the house</a></p>
+</div>
+</body>
+</html>
