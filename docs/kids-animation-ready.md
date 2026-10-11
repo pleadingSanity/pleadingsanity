@@ -157,3 +157,7 @@ Guessing feelings can be wrong. Asking “How do you feel?” is clearer. Listen
 **Quality review:** No scary moments. No shame. Breathing optional. Subtitles always. Separate from adult features. No video claimed as finished or uploaded.
 
 **Next for production:** Voice recording, then animation passes. These materials are ready to hand to a video tool or studio.
+
+## Do not renumber (12 October 2026)
+
+Episode 2 stays *Zara’s Brilliant Mistake*. A later sensory story, *The Quiet Meteor*, is a separate draft in `docs/kids-sensory-meteor.md`. It does not replace this file. No episode here has been filmed or uploaded.
