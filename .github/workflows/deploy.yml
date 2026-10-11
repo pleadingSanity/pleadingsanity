@@ -1,5 +1,5 @@
 # ==============================================================
-# 🌌 PLEADING SANITY — UNIVERSAL DEPLOY PIPELINE v4.0
+# 🌌 PLEADING SANITY — UNIVERSAL DEPLOY PIPELINE v4.1
 # One File • One Flow • Netlify • Auto-Heal
 # Evolution Not Erasure • One Source • One Family
 # ==============================================================
@@ -81,20 +81,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1 — FRESH CHECKOUT
       - name: 🧱 Checkout Source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2 — NODE ENV
-      - name: ⚙️ Setup Node 20
+      - name: ⚙️ Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
-      # 3 — INSTALL & BUILD
       - name: 📦 Install Dependencies
         run: |
           if [ -f "package-lock.json" ]; then
@@ -111,7 +108,6 @@ jobs:
             echo "✅ Pure static site — no build needed"
           fi
 
-      # 4 — DEPLOY → NETLIFY
       - name: 🌍 Trigger Netlify
         env:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
@@ -120,12 +116,9 @@ jobs:
             echo "::error::NETLIFY_BUILD_HOOK is missing from GitHub Actions secrets."
             exit 1
           fi
-          # A successful hook response confirms the deploy was requested, not that
-          # the new site is already live. Netlify's deploy status is the source of truth.
           curl --fail --show-error --silent --max-time 30 -X POST -d '{}' "$NETLIFY_HOOK"
           echo "✅ Netlify accepted the deploy request."
 
-      # 5 — DONE
       - name: ✨ Complete
         run: |
           echo "═══════════════════════════════════════"
