@@ -210,6 +210,29 @@
       dockMenu.addEventListener('click', function () {
         if (nav.psSetMenuOpen) nav.psSetMenuOpen(!nav.classList.contains('is-open'));
       });
+    } else if (dockMenu) {
+      var homeExplore = document.getElementById('home-explore');
+      if (homeExplore) {
+        dockMenu.setAttribute('aria-controls', homeExplore.id);
+        function syncHomeMenu() {
+          dockMenu.setAttribute('aria-expanded', String(homeExplore.open));
+          dockMenu.textContent = homeExplore.open ? 'Close' : 'Menu';
+        }
+        homeExplore.addEventListener('toggle', syncHomeMenu);
+        dockMenu.addEventListener('click', function () {
+          homeExplore.open = !homeExplore.open;
+          syncHomeMenu();
+          if (homeExplore.open) homeExplore.querySelector('summary').focus();
+        });
+        homeExplore.addEventListener('keydown', function (event) {
+          if (event.key !== 'Escape') return;
+          homeExplore.open = false;
+          syncHomeMenu();
+          dockMenu.focus();
+        });
+      } else {
+        dockMenu.remove();
+      }
     }
   }
 

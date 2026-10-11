@@ -1,0 +1,18 @@
+/* Homepage-only clarity and accessible navigation; keep the shared cosmic theme. */
+.home-nav { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:.5rem 1.25rem; padding:1rem; background:rgba(13,27,42,.9); }
+.home-nav a, .home-explore a, .home-creator a { display:inline-flex; align-items:center; min-height:44px; color:#00fff0; }
+.home-live { background:#951e39; color:#fff!important; padding:.6rem 1rem; border:1px solid #ff8ca6; border-radius:12px; font-weight:700; text-decoration:none; }
+.home-skip { position:fixed; top:-100px; left:1rem; z-index:10000; background:#00fff0; color:#000103; padding:1rem; }
+.home-skip:focus { top:1rem; }
+a:focus-visible, button:focus-visible, summary:focus-visible { outline:3px solid #00fff0; outline-offset:4px; }
+.hero { min-height:auto; padding-top:2rem; }
+.door { box-sizing:border-box; min-width:0; padding:1.1rem; }
+.home-explore { width:min(100%,42rem); margin:.5rem auto; }
+.home-explore summary { cursor:pointer; padding:.75rem; min-height:44px; box-sizing:border-box; }
+.home-explore nav { display:flex; flex-wrap:wrap; gap:.5rem 1.5rem; justify-content:center; }
+.home-creator { max-width:48rem; text-align:left; }
+.home-creator p { color:#c9e9ef; }
+.ps-anti-algo a { color:#00fff0; text-decoration:underline; }
+.tool-card a, footer a { min-height:44px; box-sizing:border-box; }
+@media (max-width:360px) { .tool-grid { grid-template-columns:minmax(0,1fr); } }
+@media (prefers-reduced-motion:reduce) { .door, .share-btn, .tool-card { transition:none; transform:none!important; } }
