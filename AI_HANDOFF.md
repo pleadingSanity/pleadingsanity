@@ -96,7 +96,7 @@ Working · Partially working · Simulated · Broken · Not yet built · Unverifi
 | Kids cartoon episodes | Not yet built | Concepts only. There is no video rendering or YouTube publishing integration. |
 | PWA install and offline | Unverified | Manifests and service-worker scope unchanged this run |
 | Firebase (this site) | Not in use | API disabled on `pleading-sanity-36bfa` |
-| Google Analytics | Present on 70 pages | Added by the owner on 2026-10-09. Blocked by CSP on 15 pages (Arron, finance, account pages). **Not disclosed on `privacy.html`, no consent prompt.** Owner decision needed. |
+| Google Analytics | Partially remediated | On 2026-10-11, the privacy page received an explicit disclosure and its tracking script was removed. Tracking scripts were also removed from eight sensitive pages: Journal Vault, Journal Viewer, Notes, My Room, Finance, both Arron pages and Settings. Other pages may still load Analytics without opt-in; consent work remains open. |
 
 ## Open security items (from the 2026-10-11 function audit)
 
@@ -120,10 +120,19 @@ To check in config:
 ## Next actions (ordered)
 
 1. **Owner:** raise or fix the OpenAI quota or AI Gateway limit (GPT 429). Rotate or replace the xAI key (Grok 403).
-2. **Owner:** decide on Google Analytics: add a consent prompt and a privacy-page disclosure, or remove it from the journal and companion pages.
+2. **Privacy:** audit remaining Analytics installation and require consent before non-essential tracking. Sensitive journal, finance, Arron and settings pages have had their tag removed; do not reintroduce it.
 3. **Gemini:** in the secondary repo, merge `feature/production-hardening` after emulator tests, so nobody can redeploy the open `main` rules. Test signed-in cross-user access and Storage.
 4. **Claude/Copilot:** add a visibility check to `/api/images/*` and delete blobs on creation and account delete.
 5. **Claude:** recover `ai-status` from `agent-on-sane-finance-gbt-page-36c4` as an honest provider-status endpoint. It must use a new migration if it needs one.
 6. **GPT:** draft the creator revenue terms (eligibility, fees, refunds, tax, payouts) before any payment work.
 7. **Owner:** after agreement, tag the diverged branches listed in the inventory, then delete the 30 fully merged branches.
 8. **Grok:** kids series scripts for the three pilot concepts, marked as drafts. No published-episode claims.
+
+## Verified preservation review — 2026-10-11 (GPT)
+
+- Production Netlify deployed `05ffb410a3c1c44d8bf1bd377fec4d7117a4f167` with state `ready`; no deployment errors were reported. Deployment success is not proof of all user journeys.
+- The historic `agent-on-sane-finance-gbt-page-36c4` branch contains candidate `ai-status` and provenance-passport features, **not yet merged**. Its `ai-status.mts` imports `providerRegistry()` from `netlify/lib/ai-chain.js`, but the current `ai-chain.ts` does **not** export that function. Copying the endpoint unchanged would break deployment; implement compatibility and tests first. The passport feature needs a new, properly ordered migration and privacy review, not direct cherry-picking.
+- `audit/agent-safety-quality-20261011` carries updated contributor/instruction and CI content; compare with current CI before integration. `polish-ai-family-brand-core` and `codex/human-homepage-current` contain divergent edits and must not overwrite later production improvements.
+- No PR is open from the GPT maintenance work. Draft image-access PR #80 was closed unmerged at the owner's request; its branch is not production code. The underlying private-blob access issue still needs tested remediation.
+- Preserve the owner's final vision as planned scope, **not** verified implementation: 90% first-1,000 eligible creator offer, live cross-platform simulcast and clips, human/AI creative contests, kids' cartoon episodes, social import and AI-generated bios, and resilient multi-provider Arron. Do not advertise a feature as live until proven.
+- One source of truth: `pleadingSanity/pleadingsanity` main. Avoid creating disposable branches or mass-merging historical work. Historical repos and uniquely divergent branches remain a recovery archive until reconciled.
