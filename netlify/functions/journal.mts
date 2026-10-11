@@ -25,6 +25,7 @@ import {
   readBody,
   str,
   unauthorized,
+  logReason,
 } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
@@ -163,7 +164,7 @@ export default async (req: Request) => {
 
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Journal API error:", error);
+    console.error("Journal API error:", logReason(error));
     return json({ error: "Your journal couldn't open just then — please try again." }, 500);
   }
 };

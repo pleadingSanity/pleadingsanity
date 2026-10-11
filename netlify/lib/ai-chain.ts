@@ -23,6 +23,9 @@ const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 1 });
 const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
+// The whole walk (labs, then spares) stops starting new attempts after this, so a run of slow labs
+// cannot outlast the function limit or the 60s the app waits. Callers fall back to their quiet reply.
+const CHAIN_BUDGET_MS = 36_000;
 const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || "";
 const grok = grokKey
   ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
@@ -145,7 +148,7 @@ function spareClient() {
   return new OpenAI({ apiKey: key, baseURL: base, timeout: 8_000, maxRetries: 0 });
 }
 
-async function runSpares(system: string, turns: Turn[], maxTokens: number) {
+async function runSpares(system: string, turns: Turn[], maxTokens: number, stopAt = Infinity) {
   const client = spareClient();
   if (!client) return null;
   const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. If the person may be in danger or thinking of harming themselves, stay with them and give the real lines: 999 if in immediate danger, Samaritans free on 116 123, text SHOUT to 85258, NHS 111 option 2 for mental health support. Never promise to keep secrets.`;
@@ -156,6 +159,7 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number) {
   ].filter((spare) => spare.model.endsWith(":free") || paidOk);
   if (!paidOk && PAID_SPARES.length) console.warn("AI chain: paid spares sitting out until PS_IN_PROFIT is set");
   for (const spare of line) {
+    if (Date.now() > stopAt) { console.warn("AI chain: time budget spent, spares stop here"); break; }
     try {
       const res = await client.chat.completions.create({
         model: spare.model,
@@ -174,11 +178,13 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number) {
 
 // Walk the chain until someone replies. Only throws if every lab is down.
 // Each lab gets the same system prompt and turns, fresh — nothing from a failed attempt is passed on.
-export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700 } = {}) {
+export async function runChain(system: string, turns: Turn[], { creator = false, maxTokens = 700, budgetMs = CHAIN_BUDGET_MS } = {}) {
+  const stopAt = Date.now() + budgetMs;
   for (const link of CHAIN) {
     if (link.provider === "grok" && !grok) continue; // neither GROK_API_KEY nor xAI_KEY is set
     const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
     for (const model of models) {
+      if (Date.now() > stopAt) throw new Error("Every AI provider failed (time budget spent)");
       try {
         const text = await ask(link.provider, model, system, turns, maxTokens);
         if (text) return { text, provider: link.provider, model };
@@ -188,7 +194,7 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
       }
     }
   }
-  const spare = await runSpares(system, turns, maxTokens);
+  const spare = await runSpares(system, turns, maxTokens, stopAt);
   if (spare) return spare;
   throw new Error("Every AI provider failed");
 }
@@ -197,21 +203,24 @@ export async function runChain(system: string, turns: Turn[], { creator = false,
 // Falls back to the free spares if no lab can draft. Returns { text, provider, model }.
 export async function workAsOne(system: string, turns: Turn[], maxTokens = 900) {
   const live = CHAIN.filter((l) => l.provider !== "grok" || grok);
+  const stopAt = Date.now() + CHAIN_BUDGET_MS;
   let draft = "";
   let author = "";
   for (const link of live) {
+    if (Date.now() > stopAt) break;
     try {
       draft = await ask(link.provider, link.creatorModel, system, turns, maxTokens);
       if (draft) { author = link.provider; break; }
     } catch { /* next mind drafts */ }
   }
   if (!draft) {
-    const spare = await runSpares(system, turns, maxTokens);
+    const spare = await runSpares(system, turns, maxTokens, stopAt);
     if (spare) return spare;
     throw new Error("Every AI provider failed");
   }
   const reviewer = live.find((l) => l.provider !== author);
-  if (!reviewer) return { text: draft, provider: author, model: "one" };
+  // No time left for a second mind: the first draft stands.
+  if (!reviewer || Date.now() > stopAt - LAB_TIMEOUT_MS) return { text: draft, provider: author, model: "one" };
   try {
     const checked = await ask(reviewer.provider, reviewer.model, system + "\nYou are checking a sibling mind. Keep the voice. Fix only what is wrong or thin. Return the full answer, not a summary.", [...turns, { role: "assistant", content: draft }, { role: "user", content: "Improve this as one family. Keep every useful step." }], maxTokens);
     return { text: checked || draft, provider: `${author}+${reviewer.provider}`, model: "one-family" };

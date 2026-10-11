@@ -6,6 +6,10 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 }
 
+// Seat names are shown to the other player: letters, numbers, spaces and simple marks only.
+const cleanName = (v: unknown) => String(v ?? "").replace(/[^\p{L}\p{N} ._'-]/gu, "").trim().slice(0, 24);
+const cleanNames = (v: unknown) => (Array.isArray(v) ? v.map(cleanName).filter(Boolean) : []);
+
 export default async (req: Request) => {
   const store = getStore("poker-rooms");
   const url = new URL(req.url);
@@ -20,13 +24,15 @@ export default async (req: Request) => {
   if (!/^[a-z0-9]{4,8}$/.test(code)) return json({ error: "Room code is missing." }, 400);
   const room = (await store.get(code, { type: "json" })) as Record<string, unknown> | null;
   if (!room) return json({ error: "No room by that code." }, 404);
-  if (req.method === "GET") return json(room);
+  if (req.method === "GET") return json({ ...room, players: cleanNames(room.players), seats: cleanNames(room.seats) });
   if (req.method === "POST") {
     const body = await req.json().catch(() => ({}));
-    const name = String(body.name || "").slice(0, 24);
-    if (!Array.isArray(room.players)) room.players = [];
-    if (name && !room.players.includes(name) && room.players.length < 2) room.players.push(name);
-    room.seats = room.players.slice();
+    const name = cleanName(body.name);
+    // Rooms saved before names were cleaned may still hold markup; clean them on the next write.
+    const players = cleanNames(room.players);
+    if (name && !players.includes(name) && players.length < 2) players.push(name);
+    room.players = players;
+    room.seats = players.slice();
     if (Array.isArray(body.stacks) && body.stacks.length === 4) {
       room.stacks = body.stacks.map((n) => Math.max(0, Math.min(1000000, Math.floor(Number(n) || 0))));
     }

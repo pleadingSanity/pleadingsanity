@@ -1,14 +1,17 @@
 import type { Config, Context } from "@netlify/functions";
 import { runChain, ARRON_VOICE } from "../lib/ai-chain.js";
+import { allow, slowDown } from "../lib/rate-limit.js";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json; charset=utf-8", "cache-control": "no-store" } });
 
 const clean = (v: unknown, max: number) => String(v ?? "").trim().slice(0, max);
 
-export default async (req: Request, _context: Context) => {
+export default async (req: Request, context: Context) => {
   if (req.method !== "POST") return json({ error: "POST only" }, 405);
   try {
+    // Open to guests, so each visitor (hashed IP) gets the same gentle brake as the other AI helpers.
+    if (!(await allow("ai", context))) return slowDown("The rap room needs a breath. Try again in a minute.");
     const body = await req.json().catch(() => ({}));
     const mode = clean(body.mode, 20) || "create";
     const topic = clean(body.topic, 600);
@@ -28,7 +31,7 @@ export default async (req: Request, _context: Context) => {
     );
     return json({ reply: result.text, provider: result.provider, model: result.model, mode });
   } catch (error) {
-    console.error("Rap Studio error:", error);
+    console.error("Rap Studio error:", error instanceof Error ? error.name : "error");
     return json({ error: "The rap room went quiet. Try again in a moment." }, 503);
   }
 };
