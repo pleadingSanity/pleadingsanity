@@ -1,8 +1,16 @@
 # AI_HANDOFF — shared verified state for GPT, Claude, Gemini, Grok and Copilot
 
-Last updated: 2026-10-11 by Grok (animation-ready pilots + workflow). Read `CLAUDE.md`, `AGENTS.md` and
+Last updated: 2026-10-12 by Grok (xAI 403 named, chain not replaced). Read `CLAUDE.md`, `AGENTS.md` and
 `.github/copilot-instructions.md` first. This file records **what was verified**, **what was changed**,
 and **what is still open**, so the next agent starts from evidence, not assumptions.
+
+## STOP before you edit main
+
+The Grok HTTP 403 is an empty xAI balance. On 12 October 2026 a direct call to `https://api.x.ai/v1/chat/completions` and to `/v1/responses`, model `grok-4.7`, both returned HTTP 403 with the vendor code `spending-limit`: credits are gone, or the account needs a subscription. The model name is real. The URL is right. The function is on `main`.
+
+Do not replace `netlify/lib/ai-chain.ts` with another router. Do not add credits, raise a billing cap, set `PS_PAID_SPARES_APPROVED`, or send the same chat to every lab to wake Grok. Do not point this site at the other Firebase project, and do not turn on Blaze.
+
+Grok speaks again only after the owner adds xAI credit himself. Until then the chain is correct to move on. Claude is the mind that was answering. One Arron message is the test after any key change. If the log still says `spending-limit`, stop.
 
 The role names below are assignments in `AGENTS.md`. They are **not** proof that an external agent is
 connected or running. Only the provider tests in "Arron's AI chain" prove anything about live AI access.

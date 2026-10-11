@@ -121,7 +121,8 @@ function slot(deadline: number) {
 }
 const defaultDeadline = () => Date.now() + LAB_TIMEOUT_MS;
 
-// Grok — the fourth brain. Errors go back to runChain, which logs the reason only and moves on.
+// Grok — the fourth brain. A 403 from an empty xAI balance is the account, not the model.
+// Do not try the next model name, do not add credits from this file, and do not replace this chain to "fix" it.
 async function callGrok(model: string, system: string, turns: Turn[], maxTokens: number, deadline = defaultDeadline()) {
   if (!grok) throw new Error("No Grok key on this deploy");
   const names = model === "grok-3" ? [model] : [model, "grok-3"];
@@ -138,7 +139,12 @@ async function callGrok(model: string, system: string, turns: Turn[], maxTokens:
     } catch (error) {
       if (error instanceof OutOfTime) throw error;
       last = error;
-      console.warn(`AI chain: ${id} unavailable (${why(error)}), trying the next Grok name`);
+      const reason = why(error);
+      if (/spending-limit|rejected-key|billing/.test(reason)) {
+        console.warn(`AI chain: ${id} unavailable (${reason}). Same account, so the next Grok name is not called.`);
+        break;
+      }
+      console.warn(`AI chain: ${id} unavailable (${reason}), trying the next Grok name`);
     }
   }
   throw last instanceof Error ? last : new Error("Grok was quiet");
@@ -187,10 +193,19 @@ export async function ask(provider: Provider, model: string, system: string, tur
     .trim();
 }
 
-// Only the reason a lab failed is logged — never the prompt, the messages or the SDK's request.
+// Only the reason a lab failed is logged — never the prompt, the messages, the key, or the raw vendor body.
 const why = (error: unknown) => {
-  const e = error as { status?: unknown; name?: unknown };
-  return typeof e?.status === "number" ? `HTTP ${e.status}` : typeof e?.name === "string" ? e.name : "error";
+  const e = error as { status?: unknown; name?: unknown; code?: unknown; message?: unknown; error?: { code?: unknown; message?: unknown } };
+  const status = typeof e?.status === "number" ? `HTTP ${e.status}` : typeof e?.name === "string" ? e.name : "error";
+  const bits = [e.code, e.message, e.error?.code, e.error?.message].filter((v): v is string => typeof v === "string");
+  const text = bits.join(" ");
+  const tag =
+    /spending-limit|run out of credits|need a grok subscription/i.test(text) ? "spending-limit" :
+    e.status === 401 ? "rejected-key" :
+    e.status === 402 ? "billing" :
+    e.status === 429 ? "quota" :
+    "";
+  return tag ? `${status} ${tag}` : status;
 };
 
 function spareClient() {

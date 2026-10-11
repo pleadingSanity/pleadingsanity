@@ -17,7 +17,7 @@ Do not paste a key into chat, GitHub, or a doc.
 1. Open the Netlify site `pleadingsanity`. Deploys. Confirm the published commit matches `main`. A successful deploy is not proof that every page journey works.
 2. Leave these unset unless you have read the terms and chosen to spend: `PS_PAID_SPARES_APPROVED`, `PS_SPARES_PRIVACY_APPROVED`. `PS_IN_PROFIT` does not authorise a paid call. The chain already warns if someone sets it alone.
 3. GPT is returning HTTP 429 in production (gateway and the stored key). Claude is the mind that is answering. Do not buy a higher OpenAI cap unless you decide the £0–£5 month is worth it. If you do, set a hard monthly limit in the OpenAI billing page. An email alert is not a cap.
-4. Grok on the live site returns HTTP 403. A key is present. xAI is refusing it. In the xAI console, check that the key is active and allowed to call `grok-4.7` and the fallback `grok-3`. Then, in Netlify, replace `GROK_API_KEY` (or the older `xAI_KEY` / `XAI_API_KEY`). One name is enough. Trigger a new deploy. Do not add a second paid Grok path.
+4. Grok on the live site returns HTTP 403 because the xAI balance is empty. On 12 October 2026 both the chat endpoint and the responses endpoint, model `grok-4.7`, returned the vendor code `spending-limit`. Replacing the model name will not fix it. Add credit only if you choose to spend. In Netlify, do not add a second key. After you add credit yourself, redeploy once and send one Arron message. If the log still says `spending-limit`, stop.
 5. Do not add a separate `GEMINI_API_KEY` "just in case". Gemini already goes through the Netlify AI Gateway (`gemini-3.8-flash` in the chain). A second key is a second bill.
 6. Do not upgrade either Firebase project to Blaze. `pleading-sanity-36bfa` is the website backend and its Firestore API was still disabled when last probed. `pleading-sanity` is the separate AI Studio app. Do not paste one project's app id into the other.
 7. `MAX_TOKENS_ARRON` is set on the site and, as of the 11 October handoff, no code reads it. Do not treat that variable as a spending cap.
@@ -32,7 +32,7 @@ Verified from `netlify/lib/ai-chain.ts` on `main` and the 11 October handoff. No
 | 1 | GPT `gpt-5.6-sol` | Netlify AI Gateway, then `OPENAI_API_KEY` if the gateway fails for a reason other than 402 or 429 | Production HTTP 429. Chain moves on. |
 | 2 | Claude `claude-sonnet-5-5` (creator model `claude-opus-5-5`) | Netlify AI Gateway | Answered in production, 3 of 3, on 11 October. |
 | 3 | Gemini `gemini-3.8-flash` | Netlify AI Gateway | Answered in a build-environment test. |
-| 4 | Grok `grok-4.7`, then `grok-3` | xAI direct, `https://api.x.ai/v1` | HTTP 403. Key present, rejected. |
+| 4 | Grok `grok-4.7`, then `grok-3` only if the first failure is not the account | xAI direct, `https://api.x.ai/v1` | HTTP 403 `spending-limit`. Credits are empty. Not a wrong URL. |
 | 5 | OpenRouter names ending in `:free` | Only if `OPENROUTER_API_KEY` is set | Not exercised. Personal chats skip them unless `PS_SPARES_PRIVACY_APPROVED` is set. |
 | Last | Local crisis lines and the quiet-house reply | Already in the Arron function | £0 |
 
@@ -42,19 +42,13 @@ Do not replace `netlify/functions` Arron with a new router that keeps rate limit
 
 This Grok desk (the app in front of you) is a separate, smaller bot. It can open doors and point at an official register. It is not Arron, not a lender, and it does not write to the live database.
 
-## 3. xAI 403 — what it is, and what it is not
+## 3. xAI 403 — found
 
-It is not a missing function. `callGrok` runs when `GROK_API_KEY`, `xAI_KEY`, or `XAI_API_KEY` is set. If none is set, the log says he is sitting out. A 403 means the request arrived and xAI refused it.
+It is an empty balance. The vendor says: run out of credits, or a Grok subscription is required. Both `POST /v1/chat/completions` and `POST /v1/responses` returned that same 403 for `grok-4.7`. So this is not a missing function, not a bad URL, and not a retired model name.
 
-Likely causes, in the order to check:
+The code now logs `HTTP 403 spending-limit` and does not call the second Grok name after that. A second name would be the same account, and the same refusal. No credit was added. Default spend remains £0.
 
-1. The key was revoked, copied wrong, or belongs to another team.
-2. The account cannot call `grok-4.7` (entitlement or a model rename). The code then tries `grok-3`. If both come back 403, it is the key or the account, not one model name.
-3. Billing or a prepaid balance is closed. A 403 from a vendor is not something a code comment can pay.
-
-What not to do: do not loop the call, do not add `grok-beta` beside the live models, do not send the same chat to every lab to "see if Grok wakes up".
-
-After you replace the key and redeploy, one Arron message is the test. If the log still says `HTTP 403`, stop. Do not keep sending.
+Grok answers again only after you add credit in the xAI console yourself. I cannot do that from here, and I will not do it without you choosing the spend.
 
 ## 4. Money — verified, and not verified
 
