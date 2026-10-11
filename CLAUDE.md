@@ -1,7 +1,7 @@
-# Claude — full check, then enhance. One house.
+# Claude — full check, then enhance. One house. One app.
 
-You are auditing Pleading Sanity for Shane Cooper. One repo: github.com/pleadingSanity/pleadingsanity. Push to main. Do not open a pull request. Do not start a second site.
-Live: https://pleadingsanity.co.uk. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.
+You are auditing Pleading Sanity for Shane Cooper. One repo: github.com/pleadingSanity/pleadingsanity. Push to main. Do not open a pull request. Do not start a second site. Do not create a Grok app, a grok.me app, a new Vercel project, or a new Netlify site. Extra work is a patch on this app.
+Live: https://pleadingsanity.co.uk. That Netlify site already holds the environments. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.
 
 Hard limits: no paid API, no paid voice, no second host, no clinic numbers or government leaflets on public pages. Talk, journal, games, the feed, and Arron stay free. Manifest ids stay "/", "/arron-app.html", and "/sanity-solitaire.html", with the start URLs already in those files. Do not change service-worker scope. A suspended host can take the domain down. The installed app and GitHub are the copies.
 

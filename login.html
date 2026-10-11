@@ -36,6 +36,14 @@ Evolution, Not Erasure. One Source. One Family.
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
   <link rel="stylesheet" href="/css/space.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PS8EVEF31L');
+  </script>
 </head>
 <body class="ps-page">
 
@@ -82,7 +90,7 @@ Evolution, Not Erasure. One Source. One Family.
       <div class="ps-group" data-group="community">
         <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html">🌟 For You Feed</a>
+          <a href="/feed.html">🌟 Sanity Feed</a>
           <a href="/sanctuary.html">🏡 My Sanctuary</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
@@ -108,7 +116,8 @@ Evolution, Not Erasure. One Source. One Family.
     <section class="panel panel-auth fade-in" aria-labelledby="login-title" style="margin-top:0">
       <h2 id="login-title">Sign in</h2>
       <div id="msg" aria-live="polite"></div>
-      <div data-oauth></div>
+      <div data-oauth aria-label="Available social sign-in options"></div>
+      <p class="muted" style="font-size:.9rem">Use a social sign-in option shown above when enabled, or sign in with email and password. Prefer fewer steps? Use the one-time email link below.</p>
       <form id="login-form" novalidate>
         <label class="field"><span>Email</span>
           <input type="email" name="email" autocomplete="email" required />

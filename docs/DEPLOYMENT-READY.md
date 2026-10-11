@@ -77,7 +77,7 @@ For complete AI functionality, you need:
 
 1. **OpenAI API Key** (ChatGPT/Arron AI)
    - Get from: https://platform.openai.com/api-keys
-   - Set: `OPENAI_API_KEY` and `NEXT_PUBLIC_OPENAI_API_KEY`
+   - Set: `OPENAI_API_KEY` only (server-side)
 
 2. **YouTube API Key** (Video Feed)
    - Get from: https://console.cloud.google.com/apis/credentials

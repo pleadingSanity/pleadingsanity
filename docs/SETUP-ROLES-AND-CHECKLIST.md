@@ -13,7 +13,7 @@ which injects credentials into functions at runtime. Nothing is stored in the re
 | Variable | Needed? | What it does |
 |---|---|---|
 | *(none)* | — | Arron (Claude → GPT-4o → Gemini), AI Studio, moderation and AI Stories all run through Netlify AI Gateway automatically. |
-| `YOUTUBE_API_KEY` | Optional | Live survivor videos in the For You feed and `/videos.html` (`netlify/functions/ytFeed.mjs`). Without it, the curated fallback list is used. |
+| `YOUTUBE_API_KEY` | Optional | Live survivor videos in the Sanity feed and `/videos.html` (`netlify/functions/ytFeed.mjs`). Without it, the curated fallback list is used. |
 | `OPENAI_API_KEY` | **Leave unset** | Only set this if you want OpenAI billed to *your own* OpenAI account. Setting it switches OpenAI off the AI Gateway. |
 | `ANTHROPIC_API_KEY` | **Leave unset** | Same as above for Claude. |
 | `GEMINI_API_KEY` | **Leave unset** | Same as above for Gemini. |

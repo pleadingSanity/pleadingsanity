@@ -2,7 +2,7 @@
   "id": "/sanity-solitaire.html",
   "name": "Sanity Solitaire",
   "short_name": "Solitaire",
-  "description": "Three peaks. A full solitaire, its own icon, the same game after every update.",
+  "description": "Three peaks. A room in the Pleading Sanity app, not a second app.",
   "start_url": "/sanity-solitaire.html?source=pwa",
   "scope": "/sanity-solitaire.html",
   "display": "standalone",
@@ -32,6 +32,22 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "The house",
+      "short_name": "House",
+      "url": "/",
+      "icons": [{ "src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png" }]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [
+    {
+      "platform": "webapp",
+      "url": "https://pleadingsanity.co.uk/manifest.json",
+      "id": "pleadingsanity"
     }
   ]
 }

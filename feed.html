@@ -14,9 +14,10 @@
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/accessibility.css" />
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <link rel="stylesheet" href="/css/design-system.css" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/feed.html" />
-  <title>Sanity Feed – Pleading Sanity | No Algorithms. Only Sanity.</title>
+  <title>Sanity Feed – Pleading Sanity | Time order. Free forever. Better than social media.</title>
   <meta name="description" content="A free, positive mental health feed. Real survivors, newest first, no algorithm. Hearts only, never dislikes. Hope and healing without the doomscroll." />
   <meta name="author" content="Shane Cooper / Pleading Sanity" />
   <meta name="color-scheme" content="dark" />
@@ -132,8 +133,6 @@
     }
     .like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}
     .like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}
-    .like-btn.neg{background:rgba(255,59,92,.1);color:#ff7a9c;border:1px solid rgba(255,59,92,.25);}
-    .like-btn.neg:hover,.like-btn.neg.active{background:#ff3b5c;color:#fff;box-shadow:0 0 12px rgba(255,59,92,.3);}
     .video-desc{color:var(--text-soft);line-height:1.7;}
 
     #loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}
@@ -176,6 +175,14 @@
   <link rel="stylesheet" href="/css/social.css" />
   <link rel="stylesheet" href="/css/cosmic-scroll.css" />
   <link rel="stylesheet" href="/css/space.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PS8EVEF31L');
+  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
@@ -221,7 +228,7 @@
       <div class="ps-group has-current" data-group="community">
         <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html" aria-current="page">🌟 For You Feed</a>
+          <a href="/feed.html" aria-current="page">🌟 Sanity Feed</a>
           <a href="/sanctuary.html">🏡 My Sanctuary</a>
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
@@ -248,7 +255,7 @@
     </div>
     <a href="index.html" class="back-link">← Back to Home</a>
     <h1>🌌 Sanity Feed</h1>
-    <p class="tag" style="color:var(--magenta);font-weight:600;margin-bottom:12px;">No Algorithms. Only Sanity.</p>
+    <p class="tag" style="color:var(--magenta);font-weight:600;margin-bottom:12px;">Time order. Free forever. Better than social media.</p>
   </header>
 
   <p class="ps-first">This is the feed, in time order. No one is pushed up the page. Next tap: write, or read.</p>

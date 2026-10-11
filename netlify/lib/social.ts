@@ -162,9 +162,18 @@ export type Visibility = (typeof VISIBILITIES)[number];
 export const cleanVisibility = (value: unknown, fallback: Visibility = "public"): Visibility =>
   typeof value === "string" && (VISIBILITIES as readonly string[]).includes(value) ? (value as Visibility) : fallback;
 
-export const TRUTH_TAGS = ["evidence", "experience", "philosophy"] as const;
-export const cleanTruthTag = (value: unknown) =>
-  typeof value === "string" && (TRUTH_TAGS as readonly string[]).includes(value) ? value : "";
+export const TRUTH_TAGS = ["known", "experience", "thought", "belief", "unknown"] as const;
+/**
+ * Platform truth taxonomy. Legacy values are accepted and normalised so existing posts do not break.
+ * known = evidence-backed; experience = personally experienced; thought = idea/hypothesis;
+ * belief = personal/philosophical belief; unknown = genuinely unresolved.
+ */
+export const cleanTruthTag = (value: unknown) => {
+  if (typeof value !== "string") return "";
+  const legacy: Record<string, string> = { evidence: "known", philosophy: "belief" };
+  const normal = legacy[value] ?? value;
+  return (TRUTH_TAGS as readonly string[]).includes(normal) ? normal : "";
+};
 
 // ─── RELATIONSHIPS ───
 export async function isBlockedEitherWay(a: string, b: string) {

@@ -33,7 +33,7 @@ async function render() {
   const actions = isSelf
     ? '<a class="sbtn primary" href="/profile.html">✏️ My Sanity Profile</a><a class="sbtn ghost" href="/post.html">✍️ New post</a>'
     : signedIn
-      ? `${friendButtons(data.relationship)}<button type="button" class="sbtn small ghost" data-report-user>🚩 Report</button><button type="button" class="sbtn small ghost" data-block>🚫 Block</button>`
+      ? `${friendButtons(data.relationship)}<button type="button" class="sbtn small ghost" data-follow>＋ Follow</button><button type="button" class="sbtn small ghost" data-notify>🔔 Notify me</button><button type="button" class="sbtn small ghost" data-report-user>🚩 Report</button><button type="button" class="sbtn small ghost" data-block>🚫 Block</button>`
       : `<a class="sbtn primary" href="/signup.html?next=${encodeURIComponent(location.pathname)}">💙 Join free to connect</a><a class="sbtn ghost" href="/login.html?next=${encodeURIComponent(location.pathname)}">Sign in</a>`;
 
   const hero = `
@@ -109,11 +109,46 @@ async function render() {
 function wireActions(p) {
   const actions = root.querySelector('[data-actions]');
   if (!signedIn || !actions) return;
+
+  const followKey = 'ps-following-creators';
+  const notifyKey = 'ps-live-notify-creators';
+  const readSet = (key) => {
+    try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); } catch { return new Set(); }
+  };
+  const writeSet = (key, set) => localStorage.setItem(key, JSON.stringify([...set]));
+  const following = readSet(followKey);
+  const notifying = readSet(notifyKey);
+  const followButton = actions.querySelector('[data-follow]');
+  const notifyButton = actions.querySelector('[data-notify]');
+  const refreshFollowUI = () => {
+    if (followButton) {
+      followButton.textContent = following.has(p.username) ? '✓ Following' : '＋ Follow';
+      followButton.setAttribute('aria-pressed', String(following.has(p.username)));
+    }
+    if (notifyButton) {
+      notifyButton.textContent = notifying.has(p.username) ? '🔔 Live notifications on' : '🔔 Notify me';
+      notifyButton.setAttribute('aria-pressed', String(notifying.has(p.username)));
+      notifyButton.title = 'Notification delivery will activate when the live notification backend launches.';
+    }
+  };
+  refreshFollowUI();
   actions.addEventListener('click', async (e) => {
     const b = e.target.closest('button');
     if (!b) return;
     try {
-      if (b.dataset.friend) {
+      if (b.matches('[data-follow]')) {
+        following.has(p.username) ? following.delete(p.username) : following.add(p.username);
+        writeSet(followKey, following);
+        refreshFollowUI();
+        toast(following.has(p.username) ? `Following @${p.username} 💙` : `Unfollowed @${p.username}`);
+      } else if (b.matches('[data-notify]')) {
+        notifying.has(p.username) ? notifying.delete(p.username) : notifying.add(p.username);
+        writeSet(notifyKey, notifying);
+        refreshFollowUI();
+        toast(notifying.has(p.username)
+          ? 'Live alerts are saved for this creator. 🔜 Real-time delivery is coming with the notification backend.'
+          : 'Live alerts turned off for this creator.');
+      } else if (b.dataset.friend) {
         const state = await sendFriendAction(p.username, b.dataset.friend);
         if (state) render();
       } else if (b.matches('[data-report-user]')) {

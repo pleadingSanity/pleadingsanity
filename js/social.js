@@ -28,9 +28,7 @@ export const avatar = (who, size = '') => {
 };
 
 export const CRISIS_STRIP = `
-  <div class="crisis-strip" role="note">
-    You are not a file. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a>
-  </div>`;
+  <div class="crisis-strip" role="note">You are not a file. <a href="/support.html">Find support</a> · <a href="/crisis.html">Emergency help</a></div>`;
 
 export function timeAgo(iso) {
   const then = new Date(iso).getTime();
@@ -71,9 +69,14 @@ const friendly = (error) => (error.status === 401 ? UNSIGNED : error.message);
 
 // Truth tags — so readers know what kind of truth they're holding.
 export const TRUTH_TAGS = {
-  evidence: { icon: '🔬', label: 'Evidence', hint: 'Backed by research or verifiable fact' },
-  experience: { icon: '💙', label: 'Experience', hint: 'Lived experience — true for the person sharing it' },
-  philosophy: { icon: '🌌', label: 'Philosophy', hint: 'Belief, meaning or reflection' },
+  known: { icon: '🔬', label: 'Known', hint: 'Supported by evidence or independently verifiable information' },
+  experience: { icon: '💙', label: 'Experience', hint: 'Something personally experienced by the person sharing it' },
+  thought: { icon: '💭', label: 'Thought', hint: 'An idea, question or hypothesis — not established fact' },
+  belief: { icon: '🌌', label: 'Belief', hint: 'A personal, philosophical or spiritual belief' },
+  unknown: { icon: '❔', label: 'Unknown', hint: 'Something we genuinely do not know yet' },
+  // Legacy display support for existing posts created before the five-part taxonomy.
+  evidence: { icon: '🔬', label: 'Known', hint: 'Legacy tag: evidence-backed information' },
+  philosophy: { icon: '🌌', label: 'Belief', hint: 'Legacy tag: personal/philosophical belief' },
 };
 
 export const truthBadge = (tag) => {
