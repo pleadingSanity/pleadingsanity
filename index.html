@@ -105,29 +105,45 @@ h1 {
   transform: translateY(-3px);
 }
 .share-wrap {
-  margin: 0.5rem 0 1rem;
+  margin: 0.25rem 0 1.1rem;
 }
 .share-btn {
-  background: rgba(13, 27, 42, 0.7);
-  border: 1px solid rgba(0, 255, 240, 0.45);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(13, 27, 42, 0.75);
+  border: 1px solid rgba(0, 255, 240, 0.5);
   border-radius: 999px;
-  padding: 0.65rem 1.4rem;
+  padding: 0.7rem 1.5rem;
   color: #00fff0;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   cursor: pointer;
   font-family: inherit;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 255, 240, 0.12);
+  box-shadow: 0 4px 18px rgba(0, 255, 240, 0.15);
+  backdrop-filter: blur(4px);
 }
 .share-btn:hover {
-  background: rgba(0, 255, 240, 0.15);
+  background: rgba(0, 255, 240, 0.16);
   border-color: #00fff0;
   transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 255, 240, 0.25);
 }
+.share-btn:active { transform: translateY(0); }
 .share-btn.copied {
   border-color: #ff4d8d;
   color: #ff4d8d;
+  box-shadow: 0 4px 18px rgba(255, 77, 141, 0.2);
+}
+.share-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .crisis {
   background: rgba(13, 27, 42, 0.82);
@@ -238,7 +254,10 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 </div>
 
 <div class="share-wrap">
-<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">Share the house</button>
+<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+Share the house
+</button>
 </div>
 
 <div class="crisis">
@@ -317,24 +336,27 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
     text: 'Rise From Madness. Free sanctuary. Talk to Arron. Evolution, Not Erasure.',
     url: 'https://pleadingsanity.co.uk/'
   };
+  function setCopied() {
+    var original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Link copied';
+    setTimeout(function () {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2200);
+  }
   btn.addEventListener('click', function () {
     if (navigator.share) {
       navigator.share(shareData).catch(function () {});
-    } else if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(shareData.url).then(function () {
-        var original = btn.textContent;
-        btn.textContent = 'Link copied';
-        btn.classList.add('copied');
-        setTimeout(function () {
-          btn.textContent = original;
-          btn.classList.remove('copied');
-        }, 2000);
-      }).catch(function () {
+      return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareData.url).then(setCopied).catch(function () {
         window.prompt('Copy this link:', shareData.url);
       });
-    } else {
-      window.prompt('Copy this link:', shareData.url);
+      return;
     }
+    window.prompt('Copy this link:', shareData.url);
   });
 })();
 </script>
