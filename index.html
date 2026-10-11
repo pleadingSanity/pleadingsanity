@@ -12,28 +12,138 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
 <style>
-body{color:#eef6ff;font-family:system-ui,sans-serif;margin:0;padding:1rem;text-align:center;line-height:1.5}
-.doors{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin:2rem 0}
-.door{background:#0d1b2a;border:2px solid #00fff0;border-radius:16px;padding:1.75rem 1.25rem;min-width:12rem;flex:1 1 14rem;max-width:20rem;text-decoration:none;color:#eef6ff;font-size:1.15rem;font-weight:bold;display:inline-block}
-.door:hover{background:#00fff0;color:#000}
-.secondary{margin:1.5rem 0;display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center}
-.secondary a{color:#00fff0;background:rgba(13,27,42,.9);padding:.5rem .75rem;display:inline-block;text-decoration:none;border-radius:8px}
-.secondary a:hover{background:rgba(0,255,240,.2)}
-.crisis{background:#0d1b2a;border:1px solid #ff4d8d;border-radius:12px;padding:1rem;margin:2rem auto;max-width:36rem}
-.crisis a,footer a,.links a{color:#00fff0}
-footer{margin-top:2rem;padding:1rem;font-size:.9rem}
-footer a{margin:.25rem .4rem;display:inline-block}
-.legacy{margin-top:1rem;font-size:.85rem}
-@media (max-width:600px){
-  .door{flex:1 1 100%;max-width:none;padding:1.5rem}
-  .secondary a{padding:.6rem 1rem}
+body {
+  color: #eef6ff;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.hero {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1.25rem 3rem;
+  box-sizing: border-box;
+}
+.logo {
+  width: 110px;
+  height: 110px;
+  margin: 0 0 0.75rem;
+  filter: drop-shadow(0 0 18px rgba(0, 255, 240, 0.55));
+  border-radius: 50%;
+}
+h1 {
+  font-size: clamp(2.8rem, 9vw, 4.5rem);
+  margin: 0.25rem 0 0.5rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 30px rgba(0, 255, 240, 0.35), 0 0 60px rgba(255, 0, 255, 0.2);
+}
+.tagline {
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+  color: #b9faff;
+  max-width: 36rem;
+  margin: 0.5rem auto 2rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+.doors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  margin: 0.5rem 0 1.5rem;
+  width: 100%;
+  max-width: 42rem;
+}
+.door {
+  background: rgba(13, 27, 42, 0.72);
+  border: 2px solid #00fff0;
+  border-radius: 22px;
+  padding: 1.8rem 1.5rem;
+  min-width: 14rem;
+  flex: 1 1 16rem;
+  max-width: 20rem;
+  text-decoration: none;
+  color: #eef6ff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: 0 8px 32px rgba(0, 255, 240, 0.18), inset 0 1px 0 rgba(238, 246, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+.door:hover {
+  background: #00fff0;
+  color: #000103;
+  box-shadow: 0 12px 40px rgba(0, 255, 240, 0.45);
+  transform: translateY(-3px);
+}
+.secondary {
+  margin: 0.5rem 0 1.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+  max-width: 42rem;
+}
+.secondary a {
+  color: #00fff0;
+  background: rgba(13, 27, 42, 0.65);
+  padding: 0.55rem 1rem;
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+.secondary a:hover {
+  background: rgba(0, 255, 240, 0.18);
+  border-color: #00fff0;
+}
+.crisis {
+  background: rgba(13, 27, 42, 0.78);
+  border: 1px solid #ff4d8d;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  margin: 0.5rem auto 1.5rem;
+  max-width: 32rem;
+  box-shadow: 0 0 24px rgba(255, 77, 141, 0.18);
+  backdrop-filter: blur(6px);
+}
+.crisis p { margin: 0.35rem 0; }
+.crisis a, footer a, .links a { color: #00fff0; }
+.links {
+  margin: 0.5rem 0 1rem;
+  font-size: 1rem;
+}
+footer {
+  margin-top: 1rem;
+  padding: 1.5rem 1rem 2rem;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+footer a { margin: 0.25rem 0.4rem; display: inline-block; }
+.legacy { margin-top: 1rem; font-size: 0.85rem; }
+@media (max-width: 600px) {
+  .hero { min-height: calc(100vh - 80px); padding: 2rem 1rem 4rem; }
+  .door { flex: 1 1 100%; max-width: none; padding: 1.6rem 1rem; }
+  .secondary a { padding: 0.6rem 1rem; }
+  .logo { width: 96px; height: 96px; }
 }
 </style>
 </head>
 <body>
-<img src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="96" height="96">
+<div class="hero">
+<img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110">
 <h1>Pleading Sanity</h1>
-<p>Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
+<p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
 
 <div class="doors">
 <a class="door" href="/arron.html">Talk to Arron</a>
@@ -51,10 +161,11 @@ footer a{margin:.25rem .4rem;display:inline-block}
 
 <div class="crisis">
 <p><strong>Need help right now?</strong></p>
-<p><a href="/crisis.html">House truth &amp; crisis help</a></p>
+<p><a href="/crisis.html">House truth & crisis help</a></p>
 </div>
 
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a></p>
+</div>
 
 <footer>
 <p>Evolution, Not Erasure</p>
