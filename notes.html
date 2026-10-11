@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000103" />
+  <title>Sanctuary Notes — Pleading Sanity</title>
+  <meta name="description" content="Free private notes for thoughts, wins and gratitude. Kept on your device, and synced to your account when you sign in. Only you can read them." />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/notes.html" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/space.css" />
+  <link rel="stylesheet" href="/css/notes.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag("js", new Date());
+    gtag("config", "G-PS8EVEF31L");
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to main content</a>
+
+<nav class="ps-nav" aria-label="Main navigation">
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <div class="ps-links">
+      <a href="/" class="ps-home">Home</a>
+      <div class="ps-group has-current" data-group="heal">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Heal</button>
+        <div class="ps-group-menu" id="ps-g-heal">
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html" aria-current="page">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="play">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Play</button>
+        <div class="ps-group-menu" id="ps-g-play">
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="create">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create</button>
+        <div class="ps-group-menu" id="ps-g-create">
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="community">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+        <div class="ps-group-menu" id="ps-g-community">
+          <a href="/feed.html">🌟 For You Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/shop.html">👕 Shop</a>
+        </div>
+      </div>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
+    </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
+  </div>
+</nav>
+
+<main id="main" class="sn-wrap">
+  <header class="sn-hero">
+    <img class="sn-hero-pic" src="/assets/theme/icons/sanity-stories.jpg" alt="" width="96" height="96" />
+    <h1>Sanctuary Notes</h1>
+    <p class="sn-tag">Catch a thought before it slips away. Only you can read these.</p>
+    <p class="sn-sync" id="sn-sync" role="status" aria-live="polite">Checking where your notes are kept…</p>
+  </header>
+
+  <section class="sn-card" aria-labelledby="sn-form-title">
+    <h2 id="sn-form-title" class="sn-h2">New note</h2>
+    <form id="sn-form" novalidate>
+      <input type="hidden" id="sn-edit-id" value="" />
+      <label for="sn-title">Title <span class="sn-opt">(optional)</span></label>
+      <input id="sn-title" name="title" type="text" maxlength="120" autocomplete="off" />
+      <label for="sn-content">Your note</label>
+      <textarea id="sn-content" name="content" rows="5" maxlength="10000" required aria-describedby="sn-content-err"></textarea>
+      <p class="sn-err" id="sn-content-err" hidden>Write a few words first — the note is empty.</p>
+      <label for="sn-category">Kind of note</label>
+      <select id="sn-category" name="category">
+        <option value="thought">💭 Thought</option>
+        <option value="gratitude">🙏 Gratitude</option>
+        <option value="goal">🎯 Goal</option>
+        <option value="idea">💡 Idea</option>
+        <option value="reminder">⏰ Reminder</option>
+        <option value="win">🏆 Small win</option>
+      </select>
+      <div class="sn-actions">
+        <button type="submit" class="sn-btn sn-primary" id="sn-save">Save note</button>
+        <button type="button" class="sn-btn" id="sn-cancel" hidden>Cancel edit</button>
+      </div>
+    </form>
+  </section>
+
+  <section aria-labelledby="sn-list-title">
+    <div class="sn-list-head">
+      <h2 id="sn-list-title" class="sn-h2">My notes <span id="sn-count" class="sn-opt"></span></h2>
+      <label class="sr-only" for="sn-search">Search notes</label>
+      <input id="sn-search" type="search" placeholder="Search notes" autocomplete="off" />
+    </div>
+    <ul id="sn-list" class="sn-list" aria-live="polite"></ul>
+    <p id="sn-empty" class="sn-empty" hidden>No notes yet. One line is enough.</p>
+  </section>
+
+  <section class="sn-card sn-keep" aria-labelledby="sn-keep-title">
+    <h2 id="sn-keep-title" class="sn-h2">Sending a note to Google Keep</h2>
+    <p>Google doesn't let websites write into Keep for you. "Copy for Keep" puts the note on your clipboard and opens Keep in a new tab — tap <strong>Take a note</strong> there and paste. Nothing is sent to Google until you paste it yourself.</p>
+  </section>
+</main>
+
+    <footer class="ps-footer" role="contentinfo">
+  <div class="ps-footer-inner">
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p>One Source. One Consciousness. One Family.</p>
+    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
+    <div class="ps-footer-links">
+      <a href="/about.html">About</a>
+      <a href="/support.html">Support</a>
+      <a href="/crisis.html">Crisis</a>
+      <a href="/about.html#legacy">Legacy</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/feed.html">Feed</a>
+      <a href="/games.html">Games</a>
+      <a href="/creations.html">Creations</a>
+      <a href="/wisdom.html">Wisdom</a>
+      <a href="/community-dashboard.html">Community</a>
+      <a href="/ai-ecosystem.html">AI Family</a>
+      <a href="/ai-stories.html">AI Stories</a>
+      <a href="/quote-wall.html">Quote Wall</a>
+      <a href="/offline.html">Offline Support</a>
+      <a href="/shop.html">Shop</a>
+    </div>
+    <div class="ps-socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
+    </div>
+    <div class="ps-legacy">
+      <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
+      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
+      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
+      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
+    </div>
+  </div>
+</footer>
+  <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/sanctuary-notes.js"></script>
+</body>
+</html>

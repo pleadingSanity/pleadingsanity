@@ -975,3 +975,23 @@ html[data-theme="light"] .ps-doors a:first-child,
 html[data-theme="light"] .ps-sheet-doors a:first-child { background: #00fff0; color: #000103; }
 html[data-theme="light"] .ps-nav .ps-group-menu { background: #fff; }
 html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
+
+
+/* ─── CREATOR LIVE DOOR ─── */
+.ps-nav .ps-links a.ps-live-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 44px;
+  color: #fff;
+  background: #b80024;
+  border-color: #ff4767;
+  font-weight: 900;
+  letter-spacing: .045em;
+  box-shadow: 0 0 16px rgba(255, 30, 70, .25);
+}
+.ps-nav .ps-links a.ps-live-link span { color: #fff; font-size: .72em; }
+.ps-nav .ps-links a.ps-live-link:hover,
+.ps-nav .ps-links a.ps-live-link:focus-visible { background: #e20d38; color: #fff; border-color: #fff; }
+.ps-dock .ps-dock-live { color: #fff; background: #b80024; border-color: #ff4767; font-weight: 900; }
+.ps-dock .ps-dock-live::before { content: none; }

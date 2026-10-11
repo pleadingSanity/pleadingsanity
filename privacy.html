@@ -25,6 +25,14 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <link rel="stylesheet" href="/css/space.css" />
   <link rel="stylesheet" href="/css/my-room.css" />
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-PS8EVEF31L');
+  </script>
 </head>
 <body>
   <div class="wrap">
@@ -49,6 +57,12 @@
       <h2>Your data</h2>
       <p>Signed-in members can download everything our database holds for their account from Settings, and delete the account there. Deletion removes it from our live database. Reports other members made about an account are kept as a safety record. Our hosting provider may hold routine backups for a limited time that we can't erase on demand.</p>
       <p>Owner: Shane Cooper. Contact through the site. This page is the privacy URL for the app listing.</p>
+    </section>
+    <section class="card" id="arron-ai">
+      <h2>Arron and the AI providers</h2>
+      <p>When you message Arron, your words are sent to our server and may be passed to the AI provider that answers. The main order is GPT through OpenAI, Claude through Anthropic, Gemini through Google, then Grok through xAI when Grok is configured.</p>
+      <p>If those four providers cannot answer, Arron may try a free fallback model routed through OpenRouter. If that fallback is used, OpenRouter and the selected model provider also process the message. These providers are separate services; Pleading Sanity does not control their systems or their own data-handling terms.</p>
+      <p>We do not sell your words. However, this is not end-to-end encryption, and your message is not hidden from the AI service that processes it. Do not send passwords, payment-card details, or information you would not want processed by these providers. You can use the local tools without chatting to Arron.</p>
     </section>
     <section class="card" id="finance">
       <h2>The Sane Finance GBT</h2>

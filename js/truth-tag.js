@@ -1,6 +1,6 @@
 // ==============================================================
 // PLEADING SANITY — TRUTH TAG PRACTICE
-// Evidence · Experience · Philosophy. Gentle explanations, always.
+// Known · Experience · Thought · Belief · Unknown. Gentle explanations, always.
 // Accuracy is private and never compared with anyone.
 // ==============================================================
 
@@ -10,66 +10,97 @@ import { loadMe } from '/js/auth.js';
 const GAME = 'truth-tag';
 const ROUND = 10;
 const CATS = {
-  evidence: { icon: '🔬', name: 'Evidence' },
+  known: { icon: '🔬', name: 'Known' },
   experience: { icon: '💙', name: 'Experience' },
-  philosophy: { icon: '🌌', name: 'Philosophy' },
+  thought: { icon: '💭', name: 'Thought' },
+  belief: { icon: '🌌', name: 'Belief' },
+  unknown: { icon: '❔', name: 'Unknown' },
 };
 const DEFAULTS = {
   practised: 0, rounds: 0,
-  cats: { evidence: { seen: 0, right: 0 }, experience: { seen: 0, right: 0 }, philosophy: { seen: 0, right: 0 } },
+  cats: {
+    known: { seen: 0, right: 0 },
+    experience: { seen: 0, right: 0 },
+    thought: { seen: 0, right: 0 },
+    belief: { seen: 0, right: 0 },
+    unknown: { seen: 0, right: 0 },
+  },
   recent: [],
 };
 
 // [id, category, statement, why]
-const E = 'evidence', X = 'experience', P = 'philosophy';
+const K = 'known', X = 'experience', T = 'thought', B = 'belief', U = 'unknown';
+// [id, category, statement, why]
 const BANK = [
-  // ── EVIDENCE ──
-  ['e1', E, 'The London Gazette of 29 November 1945 records Mentions in Despatches.', 'This can be checked in a published public record. It is a fact about a document, not a personal story.'],
-  ['e2', E, 'At standard pressure, water freezes at 0 degrees Celsius.', 'A checkable physical fact. Anyone can look up the conditions and test the claim.'],
-  ['e3', E, 'A calendar week has seven days.', 'A simple published convention. You can check it on any calendar. It is not an opinion.'],
-  ['e4', E, 'Light in a vacuum travels at about 300,000 kilometres a second.', 'A measured figure from physics. The exact value can be looked up. It is evidence, not a feeling.'],
-  ['e5', E, 'The Earth takes about one year to orbit the Sun.', 'A checkable fact about the solar system, not one person\'s account of their year.'],
-  ['e6', E, 'Private A.L. Cooper served in the Royal Army Ordnance Corps and was Mentioned in Despatches.', 'It names a person, a corps, and a public honour. The honour is in the London Gazette. Nothing is added.'],
-  ['e7', E, 'Pleading Sanity keeps its source code in the public repository pleadingSanity/pleadingsanity.', 'You can open the repository and see the files. That is a checkable fact about where the copy lives.'],
-  ['e8', E, 'Under the Equality Act 2010, a mental health condition can count as a disability if it has a substantial and long-term effect on daily life.', 'This comes from UK law, which is written down and can be checked.'],
-  ['e9', E, 'Mind reports that around 1 in 4 people in England experience a mental health problem of some kind each year.', 'It\'s a statistic attributed to a named source — you can check where it comes from and how it was measured.'],
-  ['e10', E, 'Research has linked regular physical activity with a lower risk of depression.', 'This points to a body of studies that can be checked. Note it says "linked" — careful evidence often does.'],
-  ['e11', E, 'Alcohol is a depressant, and drinking heavily can make anxiety and low mood worse over time.', 'This reflects well-established medical research, not a personal view about drinking.'],
-  ['e12', E, 'Caffeine can stay in your body for several hours and may affect how well you sleep.', 'A checkable, research-based fact about how caffeine works in the body.'],
-  ['e13', E, 'Studies have linked long-term loneliness with poorer physical and mental health.', 'It describes research findings that can be looked up and examined.'],
-  ['e14', E, 'The crying-brain mark is the only logo this house uses.', 'You can check the pages. One mark, cyan on near-black. That is a fact about the site, not a belief.'],
-  ['e15', E, 'Research suggests that slow breathing with a longer out-breath can help the body shift towards a calmer state.', 'This refers to studies on breathing and the nervous system. "Suggests" is honest wording — the evidence is promising rather than final.'],
-  ['e16', E, 'A suspended host can take a website\'s domain offline. The files can still exist in a repository and in an installed app.', 'This is how hosting works. You can check it against any host\'s own suspension rules. It is not a promise that a site lasts forever.'],
+  // ── KNOWN ──
+  ['k1', K, 'A calendar week has seven days.', 'This is a checkable convention used by calendars. It is not a personal opinion.'],
+  ['k2', K, 'Water freezes at 0 degrees Celsius at standard atmospheric pressure.', 'This is a measurable physical fact under stated conditions.'],
+  ['k3', K, 'The Earth orbits the Sun.', 'This is supported by extensive observation and measurement and can be independently verified.'],
+  ['k4', K, 'Light travels through a vacuum at about 300,000 kilometres per second.', 'This is a measured physical constant, with the exact value defined in modern physics.'],
+  ['k5', K, 'The Moon orbits the Earth.', 'Its orbit is directly observable and has been measured extensively.'],
+  ['k6', K, 'The UK has a written Equality Act 2010.', 'The Act is a public piece of UK legislation that can be checked directly.'],
+  ['k7', K, 'Pleading Sanity publishes its website source code in the pleadingSanity/pleadingsanity repository.', 'The repository is publicly inspectable, so this claim can be checked.'],
+  ['k8', K, 'A triangle has three sides.', 'This is a definitional fact in ordinary Euclidean geometry.'],
+  ['k9', K, 'The human heart is a muscular organ that pumps blood around the body.', 'This is established anatomy and physiology, not a personal belief.'],
+  ['k10', K, 'Regular physical activity is associated with a range of health benefits.', 'This is supported by a substantial body of research, while the size of the benefit varies by activity and person.'],
+  ['k11', K, 'Caffeine can affect sleep, especially when consumed later in the day.', 'This is supported by research on caffeine and sleep; individual sensitivity varies.'],
+  ['k12', K, 'Private A.L. Cooper was Mentioned in Despatches in 1945.', 'This is a claim about a historical public record and should be checked against the relevant record.'],
+
   // ── EXPERIENCE ──
-  ['x1', X, 'Running clears my head more than anything.', 'It\'s true for this person, and that matters — but it\'s their lived experience, not something that applies to everyone.'],
-  ['x2', X, 'When I finally told my mum how I was feeling, I slept properly for the first time in weeks.', 'A personal story. Real and valid, and it may help others feel less alone — but it\'s one person\'s experience.'],
-  ['x3', X, 'Writing things down at night stops my thoughts going round in circles.', 'The word "my" is a clue: this is what works for them, from their own life.'],
-  ['x4', X, 'My dog is the reason I get out of bed on the hard days.', 'Deeply true for them. Lived experience doesn\'t need research to be worth sharing.'],
-  ['x5', X, 'The first time I told the whole story out loud, it felt awkward, but the person stayed until I finished.', 'It is about how it felt for them. That is lived experience, not a service you can look up.'],
-  ['x6', X, 'The first medication I tried didn\'t help me, but the second one did.', 'A personal account. It can be useful to hear, but it isn\'t a rule for anyone else\'s treatment.'],
-  ['x7', X, 'I feel far more anxious in crowded places than I used to.', 'This describes their own feelings over time — lived truth.'],
-  ['x8', X, 'Cold-water swimming makes me feel alive.', 'Their experience. Someone else might feel only cold — both are honest.'],
-  ['x9', X, 'Since I stopped scrolling before bed, I wake up less tired.', 'It sounds a bit like research, but it\'s one person noticing a change in their own life. That\'s experience.'],
-  ['x10', X, 'Grief came back to me in waves, years after my dad died.', 'A lived truth. Many people recognise it, but here it\'s told as personal experience.'],
-  ['x11', X, 'Talking to strangers in a support group was easier for me than talking to my friends.', 'Their own experience — and a perfectly valid one.'],
-  ['x12', X, 'When I have a panic attack, it feels like my chest is being squeezed.', 'A description of what it\'s like for them. Experience is how we learn what things feel like from the inside.'],
-  ['x13', X, 'Making my bed each morning gives me a small sense of control.', 'A personal habit and how it feels to them — experience.'],
-  ['x14', X, 'Losing my job knocked my confidence far more than I expected.', 'An honest account of their own life. No one can fact-check how it felt — and they don\'t need to.'],
-  // ── PHILOSOPHY / OPINION ──
-  ['p1', P, 'Everyone deserves a second chance.', 'A value or belief about how people should be treated. You can agree or disagree, but it can\'t be proven true or false.'],
-  ['p2', P, 'Kindness is never wasted.', 'A hopeful belief about the world. Many people hold it, but it\'s a philosophy rather than a checkable fact.'],
-  ['p3', P, 'Social media does more harm than good.', 'This is an overall judgement. Research on social media is mixed, so as a sweeping statement it\'s opinion.'],
-  ['p4', P, 'Mental health should be taught in every school.', '"Should" is a clue — it\'s a view about what ought to happen, which is philosophy or opinion.'],
-  ['p5', P, 'Your worth isn\'t measured by how productive you are.', 'A value about what makes a person worthwhile. Many of us need to hear it — it\'s still philosophy.'],
-  ['p6', P, 'Everything happens for a reason.', 'A belief about the meaning of events. It can bring comfort to some people and hurt others, and it can\'t be tested.'],
-  ['p7', P, 'Asking for help is braver than struggling alone.', 'An interpretation of what courage looks like — a value judgement, so philosophy.'],
-  ['p8', P, 'Real success means being at peace with yourself, not being rich.', 'A belief about what success means. People define it differently.'],
-  ['p9', P, 'We owe it to future generations to look after the planet.', 'A moral view about responsibility. Climate science is evidence; what we "owe" is philosophy.'],
-  ['p10', P, 'Forgiveness is more for you than for the other person.', 'An interpretation of what forgiveness is for. It may ring true, but it\'s a perspective rather than a fact.'],
-  ['p11', P, 'People are basically good.', 'A belief about human nature. Philosophers have argued about this for thousands of years.'],
-  ['p12', P, 'Healing isn\'t linear.', 'Many people\'s experience matches this, but as a general statement it\'s an interpretation of what recovery is like — philosophy.'],
-  ['p13', P, 'Work should fit around life, not the other way round.', 'Another "should" — a view about how things ought to be.'],
-  ['p14', P, 'A four-day working week would make the UK a happier country.', 'It\'s a prediction and an opinion. Trials can give evidence about parts of it, but the overall claim is a judgement.'],
+  ['x1', X, 'Running clears my head more than anything.', 'The word "my" makes this personal. It tells us what works for one person, not a universal rule.'],
+  ['x2', X, 'Writing things down at night helps me stop thoughts going round in circles.', 'This is a report of someone’s own experience of journalling.'],
+  ['x3', X, 'My dog gives me a reason to get outside on difficult days.', 'It describes what a relationship and routine mean to one person.'],
+  ['x4', X, 'Crowded places make me much more anxious than they used to.', 'That is a lived description of one person’s feelings.'],
+  ['x5', X, 'Cold-water swimming makes me feel alive.', 'Someone else may feel completely differently. That is exactly why this belongs to Experience.'],
+  ['x6', X, 'When I stopped scrolling before bed, I woke up feeling less tired.', 'It is a personal observation, even though similar questions can also be studied scientifically.'],
+  ['x7', X, 'Talking to strangers in a support group felt easier for me than talking to friends.', 'This describes one person’s experience of connection.'],
+  ['x8', X, 'Making my bed each morning gives me a small sense of control.', 'The important part is how the habit feels to the person describing it.'],
+  ['x9', X, 'Losing my job knocked my confidence far more than I expected.', 'No experiment is needed to establish that this is what the person experienced.'],
+  ['x10', X, 'The first time I told my whole story aloud, I felt exposed but relieved.', 'This is an account of an individual emotional experience.'],
+  ['x11', X, 'Music helps me settle when my mind is racing.', 'Useful lived experience, but it does not mean music will have the same effect on everyone.'],
+  ['x12', X, 'I feel more hopeful after a long walk.', 'It reports a personal change in feeling rather than making a universal claim.'],
+
+  // ── THOUGHT ──
+  ['t1', T, 'Could social media be designed around connection instead of attention?', 'This is a question and idea. It is not claiming that a particular answer has already been proved.'],
+  ['t2', T, 'Maybe people learn better when they can admit they do not know.', 'A hypothesis about learning and uncertainty. It could be investigated.'],
+  ['t3', T, 'Perhaps games can teach critical thinking without feeling like school.', 'An idea worth testing, rather than an established fact.'],
+  ['t4', T, 'What if an AI had to show where an answer came from before we trusted it?', 'A design thought experiment about AI transparency.'],
+  ['t5', T, 'I wonder whether slower feeds would help people notice more meaningful posts.', 'An open hypothesis. Evidence would be needed to know how much it helps.'],
+  ['t6', T, 'Maybe the best reputation system rewards contribution rather than popularity.', 'A product and community idea, not a proven universal rule.'],
+  ['t7', T, 'Could humans and AI compete creatively while still helping each other improve?', 'A question about how collaboration and competition might coexist.'],
+  ['t8', T, 'I think a platform should let people decide whether AI may learn from their posts.', 'This is a design position expressed as a thought, not a fact about what every platform already does.'],
+  ['t9', T, 'Perhaps admitting uncertainty could make online conversations less hostile.', 'A plausible hypothesis that could be tested, not a certainty.'],
+  ['t10', T, 'Could a private journal become more useful when you can see patterns without exposing the entries publicly?', 'A product idea involving privacy and reflection.'],
+  ['t11', T, 'Maybe the best online communities need fewer metrics, not more.', 'A proposition about community design.'],
+  ['t12', T, 'What would social media look like if wellbeing mattered more than time spent?', 'An open design question with no single established answer.'],
+
+  // ── BELIEF ──
+  ['b1', B, 'Everyone deserves a second chance.', 'This is a moral belief about how people should be treated.'],
+  ['b2', B, 'Kindness is never wasted.', 'A hopeful value or belief, not a claim that can be settled by one experiment.'],
+  ['b3', B, 'Your worth is not measured by how productive you are.', 'A belief about human value. It is central to dignity, but it is not a scientific measurement.'],
+  ['b4', B, 'Asking for help can be an act of courage.', 'A value judgement about what courage can look like.'],
+  ['b5', B, 'Real success means being at peace with yourself, not being rich.', 'A personal definition of success. People can reasonably define success differently.'],
+  ['b6', B, 'We owe future generations a healthier planet.', 'The evidence about environmental change is one thing; the moral claim about what we owe is a belief.'],
+  ['b7', B, 'People are basically good.', 'A long-standing philosophical position about human nature.'],
+  ['b8', B, 'Healing does not have to look the same for everyone.', 'A value and perspective about individual journeys, not a measurable law.'],
+  ['b9', B, 'No one person owns the whole truth.', 'A philosophical commitment to humility and dialogue.'],
+  ['b10', B, 'Love is more important than money.', 'A value statement about priorities.'],
+  ['b11', B, 'People should be judged by how they treat others, not by what they have survived.', 'A moral position about dignity and judgement.'],
+  ['b12', B, 'Evolution, Not Erasure is a better way to describe survival than pretending the past never happened.', 'A guiding philosophy of Pleading Sanity, not a scientific theory.'],
+
+  // ── UNKNOWN ──
+  ['u1', U, 'We do not currently know whether life exists elsewhere in the universe.', 'No confirmed discovery has established extraterrestrial life. The honest tag is Unknown.'],
+  ['u2', U, 'We do not have a complete explanation for why subjective consciousness exists.', 'Consciousness is heavily studied, but there is no universally accepted final explanation of subjective experience.'],
+  ['u3', U, 'We do not know exactly how the first life on Earth began.', 'There are scientific hypotheses and evidence about early life, but the complete origin story remains unresolved.'],
+  ['u4', U, 'We do not know whether the universe is finite or infinite.', 'Cosmology constrains possibilities, but the ultimate global geometry and extent of the universe remain unresolved.'],
+  ['u5', U, 'We do not know whether intelligent life elsewhere has ever detected Earth.', 'There is no confirmed evidence that extraterrestrial intelligence has detected us.'],
+  ['u6', U, 'We do not know exactly why one person dreams about a particular thing on a particular night.', 'Dreaming has been studied extensively, but the meaning and causes of individual dreams are not fully settled.'],
+  ['u7', U, 'We do not know whether there are other universes beyond the observable universe.', 'Some theories consider possibilities beyond our observable universe, but there is no confirmed evidence establishing other universes.'],
+  ['u8', U, 'We do not know the ultimate nature of dark matter.', 'Its gravitational effects are observed, but its underlying physical identity has not been conclusively established.'],
+  ['u9', U, 'We do not know whether a machine could ever have subjective consciousness.', 'This is an unresolved philosophical and scientific question, not a settled fact.'],
+  ['u10', U, 'We do not know exactly what the next major scientific breakthrough will be.', 'By definition, a future discovery is not currently known.'],
+  ['u11', U, 'We do not know every factor that will shape a particular person’s future.', 'Human lives are influenced by many interacting factors, making exact individual futures unknowable in advance.'],
+  ['u12', U, 'We do not know every reason a person chooses one dream or goal over another.', 'People can explain their motives, but there is no complete universal account of every individual decision.'],
 ];
 
 const $ = (id) => document.getElementById(id);
@@ -115,7 +146,7 @@ function newRound() {
   pos = 0;
   matchedThisRound = 0;
   restartBtn.hidden = true;
-  if (window.PSVoice) PSVoice.speak('Evidence, lived experience, or philosophy. Take your time.');
+  if (window.PSVoice) PSVoice.speak('Known, lived experience, thought, belief, or unknown. Take your time.');
   show();
 }
 

@@ -92,3 +92,6 @@
   body.finance-printing #pack-result{position:absolute;left:0;top:0;width:100%;background:#fff!important;color:#000!important;border:0;font-size:11pt}
   body.finance-printing::before,body.finance-printing::after{display:none!important}
 }
+
+/* Hero art — the city brain, so the page opens on a picture, not a form. */
+.finance-hero-art{max-width:860px;margin:26px auto 0;position:relative}.finance-hero-art img{display:block;width:100%;height:auto;max-height:340px;object-fit:cover;border-radius:24px;border:1px solid rgba(0,255,240,.25);box-shadow:0 24px 80px rgba(0,0,0,.45),0 0 46px rgba(0,255,240,.14)}.finance-hero-art figcaption{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);padding:8px 16px;border-radius:999px;background:rgba(2,5,13,.82);border:1px solid rgba(0,255,240,.3);color:#eafffd;font-weight:700;font-size:.95rem;white-space:nowrap}@media(max-width:560px){.finance-hero-art img{max-height:210px}.finance-hero-art figcaption{white-space:normal;width:max-content;max-width:88%;text-align:center;font-size:.85rem}}

@@ -1,8 +1,9 @@
-# Copilot — audit, then buff. One house.
+# Copilot — audit, then buff. One house. One app.
 
-You are finishing Pleading Sanity, not starting a second site.
+You are finishing Pleading Sanity, not starting a second site and not starting a second Grok app.
 Repo: github.com/pleadingSanity/pleadingsanity. Branch: main. Push to main. Do not open a pull request.
 Owner: Shane Cooper. Live: https://pleadingsanity.co.uk and https://pleadingsanity.uk.
+The Netlify site pleadingsanity is the app with the environments. A new feature is a commit on this repo. Do not create a grok.me app, a Vercel project, or a Netlify site.
 Voice: plain British English. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.
 
 No paid API. No paid voice. No second host. No clinic numbers, NHS lines, or government leaflets on public pages.

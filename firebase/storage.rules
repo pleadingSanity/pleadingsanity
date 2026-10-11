@@ -1,0 +1,40 @@
+rules_version = '2';
+
+// Pleading Sanity — Storage rules.
+// Paste into: Firebase Console → Storage → Rules → Publish.
+// Admins (you, in the Firebase Console) bypass these rules automatically.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isMe(uid) { return request.auth != null && request.auth.uid == uid; }
+    function isImageUnder(mb) {
+      return request.resource.size < mb * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Profile pictures — owner writes, everyone reads. Max 5 MB, images only.
+    match /profiles/{userId}/{file=**} {
+      allow read: if true;
+      allow write: if isMe(userId) && isImageUnder(5);
+      allow delete: if isMe(userId);
+    }
+
+    // Live session covers/thumbnails — creator writes, everyone reads. Max 10 MB.
+    match /lives/{creatorId}/{file=**} {
+      allow read: if true;
+      allow write: if isMe(creatorId) && isImageUnder(10);
+      allow delete: if isMe(creatorId);
+    }
+
+    // Site content — you upload through the Console only. Everyone reads.
+    match /content/{file=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Everything else: closed.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

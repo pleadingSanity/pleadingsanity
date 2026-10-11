@@ -62,13 +62,14 @@ const MAX_JOURNAL_TEXT = 2000;
 // real help lines are in the reply when someone may be in crisis, whoever answered.
 // Honest, warm, plain. No promises of secrecy. Never abandons the person.
 const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
-const SIGNPOST = "I'm here, and I'm staying with you. If you're in danger right now, call 999. To talk to someone, Samaritans are free, any time, on 116 123. You can text SHOUT to 85258, or call NHS 111 and choose option 2 for mental health support. I'm an AI companion, not a doctor, so they can do what I can't. https://pleadingsanity.co.uk/crisis.html";
+const SIGNPOST = "You're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html. I'm an AI companion, not a therapist or emergency service.";
+const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
 
 // Does this reply already carry the real numbers? (Needs both 116 123 and 999.)
 const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
 
 // If every mind is quiet, the fallback must still carry the lifelines.
-const QUIET_REPLY = hasLifelines(ALL_QUIET_REPLY) ? ALL_QUIET_REPLY : `${ALL_QUIET_REPLY}\n\n${SIGNPOST}`;
+const QUIET_REPLY = `${ALL_QUIET_REPLY}\n\nYou're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html`;
 
 // The client may send the conversation itself: { messages:[{role,content}], saveToCloud }.
 // Only plain user/assistant text is kept, newest 50, each capped like a single message.
@@ -438,14 +439,16 @@ async function chat(req: Request, context: Context, rid: string) {
 
   // Crisis is judged once, up front, so every path below (rate limit, quiet AIs, errors) can use it.
   const crisis = mood === "crisis" || CRISIS_WORDS.test(message);
+  const alreadySignposted = sent.some((turn) => turn.role === "assistant" && hasLifelines(turn.content));
+  const crisisReply = alreadySignposted ? "I'm still here with you. I won't repeat the numbers; the full options are on https://pleadingsanity.co.uk/crisis.html, and ongoing listening options are at https://pleadingsanity.co.uk/support.html. Are you in immediate danger right now?" : CRISIS_SIGNPOST;
 
   const who = await whoIsHere();
   const { user, profile } = who;
   // Shane's verified Owner account is not rate-limited. Everyone else gets the normal gentle brake.
   if (!user?.isOwner && !(await allow("chat", context, user?.id))) {
     // Never slow down someone who may be in crisis: give the real lines straight away.
-    if (crisis) return json({ reply: SIGNPOST, provider: "none", remembered: false, crisis: true, signpost: SIGNPOST, actions: [] });
-    return slowDown("I'm right here — let's slow down a little. Try again in a minute 💙");
+    if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
+    return slowDown("Give me a minute to catch my breath, then try again.");
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
@@ -547,7 +550,7 @@ async function chat(req: Request, context: Context, rid: string) {
   }
 
   // Whoever answered, a person in crisis always gets the real numbers.
-  let replyText = crisis && !hasLifelines(answer.text) ? `${answer.text}\n\n${SIGNPOST}` : answer.text;
+  let replyText = crisis && !alreadySignposted && !hasLifelines(answer.text) ? `${answer.text}\n\n${CRISIS_SIGNPOST}` : crisis && alreadySignposted && hasLifelines(answer.text) ? "I'm still here with you. I won't repeat the numbers. The full options are at https://pleadingsanity.co.uk/crisis.html, and ongoing support is at https://pleadingsanity.co.uk/support.html. Are you in immediate danger right now?" : answer.text;
   const actions = done.actions;
   if (done.liveKind === "proposal" && user?.isOwner && !localOnly) {
     try {
@@ -682,7 +685,7 @@ export default async (req: Request, context: Context) => {
     // A crash in chat must never leave someone with a bare error: always give the real lines.
     if (route === "chat") {
       return json({
-        reply: `I'm having trouble finding my words just now, but I'm still here. ${SIGNPOST}`,
+        reply: `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
         provider: "none",
         remembered: false,
         crisis: false,

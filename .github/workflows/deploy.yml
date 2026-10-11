@@ -1,6 +1,6 @@
 # ==============================================================
-# 🌌 PLEADING SANITY — UNIVERSAL DEPLOY PIPELINE v4.0
-# One File • One Flow • Netlify + Vercel • Auto-Heal
+# 🌌 PLEADING SANITY — UNIVERSAL DEPLOY PIPELINE v4.1
+# One File • One Flow • Netlify • Auto-Heal
 # Evolution Not Erasure • One Source • One Family
 # ==============================================================
 
@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   check:
@@ -33,10 +33,46 @@ jobs:
           assert sol.get("id") == "/sanity-solitaire.html", sol
           for name in ["index.html","tools.html","crisis.html","games.html","sanity-solitaire.html","arron-app.html","assets/theme/sky.jpg"]:
               assert pathlib.Path(name).exists(), name
-          for name in ["crisis.html", "safety.html", "arron.html", "arron-app.html"]:
-              text = pathlib.Path(name).read_text(encoding="utf-8", errors="ignore").lower()
-              assert "116 123" in text and "85258" in text, name
-              assert "not a clinic" in text or "not a therapist" in text, name
+          # Emergency contacts live on one dedicated page; other pages signpost discreetly.
+          crisis = pathlib.Path("crisis.html").read_text(encoding="utf-8", errors="ignore")
+          support = pathlib.Path("support.html").read_text(encoding="utf-8", errors="ignore")
+          safety = pathlib.Path("safety.html").read_text(encoding="utf-8", errors="ignore").lower()
+          arron = pathlib.Path("arron.html").read_text(encoding="utf-8", errors="ignore").lower()
+          arron_app = pathlib.Path("arron-app.html").read_text(encoding="utf-8", errors="ignore").lower()
+          contacts = {
+              "999": "tel:999",
+              "116 123": "tel:116123",
+              "85258": "sms:85258",
+              "111": "tel:111",
+              "0800 1111": "tel:08001111",
+              "0808 2000 247": "tel:08082000247",
+          }
+          for label, href in contacts.items():
+              assert label in crisis and href in crisis, f"crisis.html missing or untappable: {label}"
+          assert "id=\"anytime\"" in support and "id=\"ongoing\"" in support and "id=\"emergency\"" in support
+          assert "support.html" in arron and "support.html" in arron_app
+          assert "samaritans" not in arron and "tel:116123" not in arron, "Arron page should not display crisis-line banner"
+          assert "tel:116123" not in arron_app and "sms:85258" not in arron_app, "Arron app should not display crisis-line banner"
+          assert "crisis.html" in safety, "Legacy safety page must route to the crisis anchor"
+          # Creator stage, social sign-in choices and existing social foundation.
+          live = pathlib.Path("live.html").read_text(encoding="utf-8", errors="ignore")
+          oauth = pathlib.Path("js/oauth.js").read_text(encoding="utf-8", errors="ignore")
+          login = pathlib.Path("login.html").read_text(encoding="utf-8", errors="ignore")
+          signup = pathlib.Path("signup.html").read_text(encoding="utf-8", errors="ignore")
+          profile_api = pathlib.Path("netlify/functions/profile.mts").read_text(encoding="utf-8", errors="ignore")
+          community_api = pathlib.Path("netlify/functions/community.mts").read_text(encoding="utf-8", errors="ignore")
+          site_js = pathlib.Path("js/site.js").read_text(encoding="utf-8", errors="ignore")
+          assert "live-alert" in live and "FOUNDING CREATOR BONUS" in live
+          assert "first 1,000 eligible creators" in live and "90%" in live
+          assert "api('/api/posts'" in live and "player.twitch.tv" in live and "youtube-nocookie.com/embed" in live
+          assert "not currently verified as active" in live and "not active yet" in live, "Don't imply native streaming or AI clipping is already live"
+          for provider in ["google", "github", "gitlab", "bitbucket", "facebook"]:
+              assert "['" + provider + "'" in oauth, f"Missing OAuth provider UI mapping: {provider}"
+          assert "requestPasswordRecovery" in login and "login-form" in login, "Email and magic-link sign-in must remain available"
+          assert "signup" in signup and "data-oauth" in signup, "Email and configured social sign-up must remain available"
+          assert "/api/profiles/" in profile_api and "/api/friends" in community_api, "Profiles and friends API routes must remain present"
+          assert "ps-live-link" in site_js and "ps-dock-live" in site_js, "LIVE must remain visible in site and mobile navigation"
+          assert "https://pleadingsanity.co.uk/live.html" in pathlib.Path("sitemap.xml").read_text(encoding="utf-8")
           print("House check passed")
           PY
   deploy:
@@ -45,20 +81,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1 — FRESH CHECKOUT
       - name: 🧱 Checkout Source
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # 2 — NODE ENV
-      - name: ⚙️ Setup Node 20
+      - name: ⚙️ Setup Node 22
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
-      # 3 — INSTALL & BUILD
       - name: 📦 Install Dependencies
         run: |
           if [ -f "package-lock.json" ]; then
@@ -70,41 +103,28 @@ jobs:
       - name: 🏗️ Build Site
         run: |
           if [ -f "package.json" ]; then
-            npm run build || echo "⚠️ Build done with warnings"
+            npm run build
           else
             echo "✅ Pure static site — no build needed"
           fi
 
-      # 4 — DEPLOY → NETLIFY
       - name: 🌍 Trigger Netlify
         env:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
         run: |
-          if [ -n "$NETLIFY_HOOK" ]; then
-            curl -s -X POST -d '{}' "$NETLIFY_HOOK"
-            echo "✅ Netlify Deployed LIVE 🟢"
-          else
-            echo "⚠️ MISSING: NETLIFY_BUILD_HOOK in Secrets"
+          if [ -z "$NETLIFY_HOOK" ]; then
+            echo "::error::NETLIFY_BUILD_HOOK is missing from GitHub Actions secrets."
+            exit 1
           fi
+          curl --fail --show-error --silent --max-time 30 -X POST -d '{}' "$NETLIFY_HOOK"
+          echo "✅ Netlify accepted the deploy request."
 
-      # 5 — DEPLOY → VERCEL
-      - name: ⚡ Trigger Vercel
-        env:
-          VERCEL_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
-        run: |
-          if [ -n "$VERCEL_HOOK" ]; then
-            curl -s -X POST "$VERCEL_HOOK"
-            echo "✅ Vercel Deployed LIVE 🟢"
-          else
-            echo "ℹ️ Vercel hook not set — skipping"
-          fi
-
-      # 6 — DONE
       - name: ✨ Complete
         run: |
           echo "═══════════════════════════════════════"
-          echo "✨ PLEADING SANITY — DEPLOYED"
+          echo "✨ PLEADING SANITY — DEPLOY REQUEST ACCEPTED"
           echo "═══════════════════════════════════════"
           echo "🕐 $(date)"
           echo "🌐 https://pleadingsanity.co.uk"
           echo "💙 Rise From Madness • Evolution Not Erasure"
+          echo "ℹ️ Confirm the live deploy in Netlify before calling it shipped."

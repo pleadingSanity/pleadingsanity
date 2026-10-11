@@ -28,7 +28,7 @@ async function whoFor(context: Context | undefined, userId?: string | null) {
   return `ip:${await hash(context?.ip || "unknown")}`;
 }
 
-// True when the request may go ahead. A database hiccup never blocks anyone.
+// True when the request may go ahead. If the limiter cannot be checked, fail closed so an outage cannot become an abuse bypass.
 export async function allow(bucket: Bucket, context: Context | undefined, userId?: string | null) {
   try {
     const key = `${bucket}:${await whoFor(context, userId)}`;
@@ -47,9 +47,11 @@ export async function allow(bucket: Bucket, context: Context | undefined, userId
     return (row?.count ?? 0) <= LIMITS[bucket];
   } catch (error) {
     console.error("Rate limit check unavailable:", error instanceof Error ? error.name : "error");
-    return true;
+    // Safety boundary: if the database cannot verify the limit, do not allow
+    // an unbounded write/AI request through. This is deliberately fail-closed.
+    return false;
   }
 }
 
-export const slowDown = (message = "That's a lot at once — take a breath and try again in a minute 💙") =>
+export const slowDown = (message = "Give me a minute to catch my breath, then try again.") =>
   Response.json({ error: message }, { status: 429, headers: { "Cache-Control": "no-store", "Retry-After": String(WINDOW_SECONDS) } });

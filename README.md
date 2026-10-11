@@ -32,13 +32,42 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 ---
 
+## 🙋‍♂️ DEVELOPERS WELCOME
+
+The house is open. MIT licensed. Pure HTML / CSS / vanilla JS — clone it and you can start helping in minutes.
+
+- Read **[docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md)**
+- Open an issue or a pull request
+- Good first issues are labelled `good first issue`
+- Local: `npm run dev` (or just open the HTML files)
+
+We need help with accessibility, mobile polish, Sane Finance, Arron, games, docs and anything that keeps sanctuary free and safe.
+
+**Email:** pleadingsanity1@gmail.com  
+**GitHub:** https://github.com/pleadingSanity/pleadingsanity
+
+---
+
+## 👤 CONTINUITY
+
+This house is built to keep standing.
+
+- The durable source is this repository: `pleadingSanity/pleadingsanity`.
+- Netlify deploys the live site from it. The primary address is https://pleadingsanity.co.uk.
+- Talk, journal, games, feed and Arron stay free. No paywall on sanctuary features.
+- Safety lines (Samaritans 116 123 · SHOUT 85258) do not depend on this site.
+- Domains must be renewed at the registrar so the names keep pointing at Netlify DNS.
+- Full notes: [docs/OWNERSHIP-AND-TERMS.md](./docs/OWNERSHIP-AND-TERMS.md) and the live [/transparency.html](https://pleadingsanity.co.uk/transparency.html) page.
+
+---
+
 ## 🧠 ECOSYSTEM
 
 - **Sanity Hub** — uplifting feed, real stories, no doomscroll
 - **Journal Vault** — safe, private storytelling space
 - **Brain Games** — six ad-free games incl. Stardust Dash, shared XP / levels / streaks / badges / Daily Challenge
 - **Frequencies / Aura Hz** — healing sound medicine
-- **Arron AI** — compassionate companion. GPT picks up first, then Claude, Gemini and Grok. The next takes over if the current provider is unavailable. Forget Me any time
+- **Arron AI** — compassionate companion. GPT → Claude → Gemini → Grok is the configured provider order; actual availability depends on the deployed provider connections. Forget Me any time
 - **Arron App** — installable, offline-first PWA (`/arron-app.html`)
 - **AI Studio** — create with the AI family, Human vs AI daily battle, Unity Pod
 - **AI Stories** — the community's best moments with Arron (`/ai-stories.html`)
@@ -46,7 +75,9 @@ Pleading Sanity is the movement for people who have survived too much and still 
 - **Silence Challenge** — meditation timer & cosmic soundscape
 - **Keep Kids Sane** — safe, positive games for children
 - **Crisis Support** — UK helplines, always one tap away
-- **Community** — survivor-led governance
+- **Community** — member profiles, privacy-aware posts, feed, friend requests, blocks, reports and moderation
+- **Creator LIVE** — `/live.html` previews supported public YouTube Live/Twitch streams and shares links into the feed; native streaming, multistream relay, AI clip rendering and payouts still need infrastructure
+- **Founding Creator Bonus** — proposed 90% qualifying-income share for the first 1,000 eligible creators; payout programme is not active until full terms, attribution and payment systems are implemented
 - **Legacy** — built on the service of Private A.L. Cooper (RAOC, Mentioned in Despatches 1945)
 
 ---
@@ -55,7 +86,7 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 - Pure HTML5 / CSS3 / Vanilla JS — **zero build step**
 - Blazing fast — loads instantly
-- Privacy-first — no tracking
+- Privacy-first by design — no analytics/tracking product is intentionally enabled; some server endpoints still process minimal request metadata for abuse prevention.
 - PWA-ready — installable, offline-capable
 - WCAG 2.1 accessible — for ALL
 
@@ -79,7 +110,7 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 Deploy: Netlify publishes the repo root as-is. No build step for the pages.
 
-Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play · 🌌 Community · 🆘 Help**.
+Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play · 🌌 Community · 🚗 Help**.
 
 ---
 
@@ -94,7 +125,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 ## 🤝 PARTNERSHIPS
 
 - Brave Browser — privacy-first alignment discussions active
-- Netlify + Vercel — dual-platform hosting, unstoppable resilience
+- Netlify — canonical production hosting and deployment. Vercel is not a production dependency.
 
 ---
 
@@ -114,10 +145,11 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 - **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** — How to contribute
 - **[SECURITY.md](./docs/SECURITY.md)** — Security policy
 - **[SETUP-ROLES-AND-CHECKLIST.md](./docs/SETUP-ROLES-AND-CHECKLIST.md)** — Environment variables, granting creator/admin, post-deploy checklist
+- **[OWNERSHIP-AND-TERMS.md](./docs/OWNERSHIP-AND-TERMS.md)** — Ownership and continuity
 
 ---
 
 > *"This isn't just a website. It's a voice that refused to be silenced."*  
 > — Evolution, Not Erasure —
 
-**Rise From Madness. One Source. One Consciousness. One Family. 💙**  
+**Rise From Madness. One Source. One Consciousness. One Family. 💜**  

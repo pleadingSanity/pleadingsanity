@@ -1,59 +1,254 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000103" />
-  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
-  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
-  <link rel="manifest" href="/manifest.json" />
-  <script src="/js/sw-register.js"></script>
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="/css/animations.css" />
-  <link rel="stylesheet" href="/css/accessibility.css" />
-  <link rel="stylesheet" href="/css/mobile-responsive.css" />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://pleadingsanity.co.uk/" />
-  <title>Pleading Sanity — Turn Pain Into Power. Free mental health sanctuary, AI companion, community and movement.</title>
-  <meta name="description" content="Free mental health sanctuary, AI companion, community and movement. Rise From Madness. Stay Sane. One source. One family. No one is charged for healing." />
-  <meta name="author" content="Shane Cooper / Pleading Sanity" />
-  <meta name="color-scheme" content="dark" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Pleading Sanity" />
-  <meta property="og:title" content="Pleading Sanity — Turn Pain Into Power" />
-  <meta property="og:description" content="Free mental health sanctuary, AI companion, community and movement. Rise From Madness. Stay Sane." />
-  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
-  <meta property="og:url" content="https://pleadingsanity.co.uk/" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Pleading Sanity — Turn Pain Into Power" />
-  <meta name="twitter:description" content="Free mental health sanctuary, AI companion, community and movement. Rise From Madness. Stay Sane." />
-  <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
-  <link rel="stylesheet" href="/css/site.css" />
-  <link rel="stylesheet" href="/css/social.css" />
-  <link rel="stylesheet" href="/css/sanctuary.css" />
-  <link rel="stylesheet" href="/css/cosmic-scroll.css" />
-  <link rel="stylesheet" href="/css/space.css" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "@id": "https://pleadingsanity.co.uk/#organization",
-    "name": "Pleading Sanity",
-    "url": "https://pleadingsanity.co.uk/",
-    "description": "Rise From Madness — a free mental health sanctuary built from lived experience.",
-    "founder": {
-      "@type": "Person",
-      "name": "Shane Cooper"
-    },
-    "sameAs": [
-      "https://instagram.com/mentally.inshane",
-      "https://www.tiktok.com/@mentally.inshane",
-      "https://www.youtube.com/@PleadingSanity"
-    ]
-  }
-  </script>
-  <link rel="stylesheet" href="/css/finance-promo.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<meta name="color-scheme" content="dark">
+<meta name="author" content="Shane Cooper / Pleading Sanity">
+<title>Pleading Sanity | Free mental health sanctuary</title>
+<meta name="description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Journal. Evolution Not Erasure. Rise From Madness. Samaritans 116 123 · SHOUT 85258.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pleading Sanity">
+<meta property="og:title" content="Pleading Sanity — Rise From Madness">
+<meta property="og:description" content="Free sanctuary. Talk to Arron. Honest finance tools. Games. Community. Journal. Evolution Not Erasure.">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:url" content="https://pleadingsanity.co.uk/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pleading Sanity — Rise From Madness">
+<meta name="twitter:description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Evolution Not Erasure.">
+<meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/space.css">
+<link rel="preload" href="/assets/images/brand/crying-brain-logo-512.webp" as="image">
+<style>
+body {
+  color: #eef6ff;
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.hero {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.25rem 1.25rem 1.5rem;
+  box-sizing: border-box;
+}
+.logo {
+  width: 110px;
+  height: 110px;
+  margin: 0 0 0.75rem;
+  filter: drop-shadow(0 0 18px rgba(0, 255, 240, 0.55));
+}
+h1 {
+  font-size: clamp(2.8rem, 9vw, 4.5rem);
+  margin: 0.25rem 0 0.5rem;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 30px rgba(0, 255, 240, 0.35), 0 0 60px rgba(255, 0, 255, 0.2);
+}
+.tagline {
+  font-size: clamp(1.05rem, 3.5vw, 1.25rem);
+  color: #b9faff;
+  max-width: 36rem;
+  margin: 0.5rem auto 0.75rem;
+  font-weight: 500;
+  opacity: 0.95;
+}
+.built {
+  font-size: 0.95rem;
+  color: #a9c7d1;
+  margin: 0 0 1.5rem;
+  max-width: 32rem;
+}
+.doors {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  justify-content: center;
+  margin: 0.5rem 0 1.25rem;
+  width: 100%;
+  max-width: 42rem;
+}
+.door {
+  background: rgba(13, 27, 42, 0.72);
+  border: 2px solid #00fff0;
+  border-radius: 22px;
+  padding: 1.8rem 1.5rem;
+  min-width: 14rem;
+  flex: 1 1 16rem;
+  max-width: 20rem;
+  text-decoration: none;
+  color: #eef6ff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  display: inline-block;
+  box-shadow: 0 8px 32px rgba(0, 255, 240, 0.18), inset 0 1px 0 rgba(238, 246, 255, 0.08);
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
+}
+.door:hover {
+  background: #00fff0;
+  color: #000103;
+  box-shadow: 0 12px 40px rgba(0, 255, 240, 0.45);
+  transform: translateY(-3px);
+}
+.share-wrap {
+  margin: 0.25rem 0 1.1rem;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(13, 27, 42, 0.75);
+  border: 1px solid rgba(0, 255, 240, 0.5);
+  border-radius: 999px;
+  padding: 0.7rem 1.5rem;
+  color: #00fff0;
+  font-weight: 700;
+  font-size: 0.98rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 18px rgba(0, 255, 240, 0.15);
+  backdrop-filter: blur(4px);
+}
+.share-btn:hover {
+  background: rgba(0, 255, 240, 0.16);
+  border-color: #00fff0;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(0, 255, 240, 0.25);
+}
+.share-btn:active { transform: translateY(0); }
+.share-btn.copied {
+  border-color: #ff4d8d;
+  color: #ff4d8d;
+  box-shadow: 0 4px 18px rgba(255, 77, 141, 0.2);
+}
+.share-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.crisis {
+  background: rgba(13, 27, 42, 0.82);
+  border: 1px solid #ff4d8d;
+  border-radius: 16px;
+  padding: 1.15rem 1.4rem;
+  margin: 0.25rem auto 1rem;
+  max-width: 34rem;
+  box-shadow: 0 0 24px rgba(255, 77, 141, 0.22);
+  backdrop-filter: blur(6px);
+}
+.crisis p { margin: 0.35rem 0; }
+.crisis a.num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #00fff0;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+.crisis a.num:hover { color: #ff4d8d; }
+.crisis a, footer a, .links a, .tool-card a, .socials a { color: #00fff0; }
+.links {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 1rem;
+}
+.tools {
+  padding: 1.25rem 1rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tools h2 {
+  color: #00fff0;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 0.5rem;
+  text-shadow: 0 0 12px rgba(0, 255, 240, 0.3);
+}
+.tools .sub {
+  color: #b9faff;
+  max-width: 42rem;
+  margin: 0 auto 1.75rem;
+  font-size: 1.05rem;
+}
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  text-align: left;
+}
+.tool-card {
+  background: rgba(13, 27, 42, 0.65);
+  border: 1px solid rgba(0, 255, 240, 0.28);
+  border-radius: 20px;
+  padding: 1.4rem 1.3rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(238, 246, 255, 0.06);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  border-color: #00fff0;
+}
+.tool-card h3 {
+  margin: 0 0 0.5rem;
+  color: #eef6ff;
+  font-size: 1.25rem;
+}
+.tool-card p {
+  margin: 0 0 1rem;
+  color: #c9e9ef;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.tool-card a {
+  display: inline-block;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.4rem 0;
+}
+.tool-card a:hover { color: #ff4d8d; }
+footer {
+  margin-top: 0;
+  padding: 1.5rem 1rem 2.5rem;
+  font-size: 0.9rem;
+  opacity: 0.92;
+}
+footer a { margin: 0.25rem 0.4rem; display: inline-block; }
+.socials {
+  margin: 0.75rem 0;
+  font-size: 1rem;
+}
+.socials a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+.socials a:hover { color: #ff4d8d; }
+.legacy { margin-top: 1rem; font-size: 0.85rem; }
+@media (max-width: 600px) {
+  .hero { min-height: calc(100vh - 80px); padding: 1.75rem 1rem 1.5rem; }
+  .door { flex: 1 1 100%; max-width: none; padding: 1.6rem 1rem; }
+  .logo { width: 96px; height: 96px; }
+  .tool-grid { grid-template-columns: 1fr; }
+  .crisis { padding: 1rem 1.1rem; }
+}
+</style>
 </head>
 <body class="ps-page">
 
@@ -219,159 +414,102 @@
         <p>Evolution, not erasure. Grandad's service is on the about page. The games are free. The journal is yours.</p>
       </article>
     </section>
+<body>
+<div class="hero">
+<img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110">
+<h1>Pleading Sanity</h1>
+<p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
+<p class="built">Built from survival by Shane Cooper. Free for everyone. No one turned away.</p>
 
-    <section class="ps-memes" aria-labelledby="meme-title">
-      <h2 id="meme-title">The night shift</h2>
-      <figure>
-        <img src="/assets/images/brand/meme-tea.jpg" alt="A small cyan brain holding a cup of tea under a night sky" width="784" height="1176" />
-        <figcaption>Me, holding it together. Also me, one tea away from a lie-down.</figcaption>
-      </figure>
-      <figure>
-        <img src="/assets/images/brand/meme-list.jpg" alt="A small glowing brain looking at a huge list and one lit button" width="784" height="1176" />
-        <figcaption>The list can wait. The one true job today is still being here.</figcaption>
-      </figure>
-      <figure>
-        <img src="/assets/images/brand/home-rise-sea.jpg" alt="A cosmic brain over a night sea, tears turning into stars" width="1176" height="784" />
-        <figcaption>What left your eyes can still light the water. Evolution, not erasure.</figcaption>
-      </figure>
-    </section>
+<div class="doors">
+<a class="door" href="/arron.html">Talk to Arron</a>
+<a class="door" href="/about.html#legacy">Our Legacy</a>
+</div>
 
-    <section class="sx-daily fade-in" aria-labelledby="daily-title">
-      <h2 id="daily-title">Today</h2>
-      <blockquote id="daily-text">You do not have to carry today and tomorrow at the same time. Just today.</blockquote>
-      <p class="sx-meta" id="daily-meta"><span class="truth-tag truth-philosophy">🌌 Philosophy</span><span>✍️ Arron</span></p>
-      <p style="margin:0.75rem 0 0"><a href="/wisdom.html">More words from the family →</a> · <button type="button" class="linkish" id="daily-share">🔗 Share</button></p>
-    </section>
+<div class="share-wrap">
+<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+Share the house
+</button>
+</div>
 
-    <section class="ps-stay" aria-labelledby="stay-title-night">
-      <h2 id="stay-title-night">Stay a minute</h2>
-      <img src="/assets/images/brand/home-city-brain.jpg" alt="A cyan brain over a night city, tears falling toward the lights" width="1100" height="700" style="width:100%;border-radius:18px;border:1px solid rgba(0,255,240,.28)" />
-      <p>Kind jokes from the house. Swipe them. Then play, or go.</p>
-      <div class="ps-meme-row">
-        <figure>
-          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." />
-        </figure>
-        <figure>
-          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." />
-        </figure>
-        <figure>
-          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." />
-        </figure>
-      </div>
-      <a class="ps-stay-play" href="/sanity-solitaire.html">Two minutes of Solitaire</a>
-    </section>
+<div class="crisis">
+<p><strong>Need a person right now?</strong></p>
+<p><a class="num" href="tel:116123">116 123</a> Samaritans · free, day and night</p>
+<p><a class="num" href="sms:85258">85258</a> SHOUT · text, free 24/7</p>
+<p><a href="/crisis.html">Full house truth & more help →</a></p>
+</div>
 
-    <section class="ps-aifam fade-in" id="ai-family-wall" aria-labelledby="aifam-title" hidden>
-      <h2 id="aifam-title">From the family</h2>
-      <p class="ps-lights-lead">Arron, Nova and Sol. Morning and evening.</p>
-      <div class="ps-aifam-list" id="aifam-list"></div>
-      <p style="text-align:center;margin:1rem 0 0"><a href="/ai-studio.html">See everything they've made →</a></p>
-    </section>
+<p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
+</div>
 
-    <section class="ps-home-note" aria-labelledby="howto-title">
-      <h2 id="howto-title">How to use this house</h2>
-      <p>You do not need an account to begin. Nothing here is sold. Nothing plays until you ask.</p>
-      <div class="ps-home-grid">
-        <a href="/arron-app.html"><h3>1. Talk</h3><p>Open Arron. Say the true thing. He sits. He is not a doctor and he will not put you in a room.</p></a>
-        <a href="/journal-vault.html"><h3>2. Write</h3><p>The vault stays with you. Put the day down before it owns the night.</p></a>
-        <a href="/mind-mode.html"><h3>3. Breathe</h3><p>Mind Mode is breath and quiet. No score. No audience.</p></a>
-        <a href="/frequencies.html"><h3>4. Tones</h3><p>Six soft frequencies only. Volume stays low. Turn them off if you need silence.</p></a>
-        <a href="/tools.html"><h3>5. Tools</h3><p>Water, sun, walk, sleep, story, prayer, and the old ways this house keeps.</p></a>
-        <a href="/crisis.html"><h3>6. The truth</h3><p>Why people lose themselves, and why being called crazy is often a failure of the room.</p></a>
-      </div>
-    </section>
+<section class="tools">
+<h2>In the house</h2>
+<p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help. Evolution, not erasure.</p>
+<div class="tool-grid">
+<article class="tool-card">
+<img src="/assets/images/showcase/finance.jpg" alt="Calm geometric numbers in soft cosmic light" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>Sane Finance</h3>
+<p>Clear head first. Know what you can afford, compare real offers, prepare truthful applications. No sales pressure. Your numbers stay on this device.</p>
+<a href="/finance.html">Open the desk →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/showcase/games.jpg" alt="Cosmic solitaire cards and soft light trails" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>Games</h3>
+<p>Ad-free brain games including Sanity Solitaire. XP, levels and streaks live only on your phone. A soft way back into the body when the mind has been in court all day.</p>
+<a href="/games.html">Play →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/showcase/ai-family.jpg" alt="Glowing crying-brain sitting quietly in stars" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>AI Family</h3>
+<p>Arron and the chain (GPT → Claude → Gemini → Grok). Create, talk, and build together. Forget Me erases everything when you ask.</p>
+<a href="/ai-family.html">Meet the family →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/showcase/journal.jpg" alt="Open book of soft nebula pages" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>Journal Vault</h3>
+<p>Private storytelling space. Your words stay yours. Write, keep, or wipe. No cloud copy unless you choose.</p>
+<a href="/journal-vault.html">Open the vault →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/showcase/community.jpg" alt="Gentle constellation of connected lights" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>Community</h3>
+<p>Real stories, chronological feed, no algorithms. Member profiles and the Quote Wall. Sit with people who get it.</p>
+<a href="/feed.html">Enter the feed →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/showcase/frequencies.jpg" alt="Soft sound waves rising from a calm centre" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
+<h3>Meditation & Frequencies</h3>
+<p>Soft tones only (174, 285, 432, 528, 741, 963 Hz). Silence challenge and cosmic soundscape. Nothing harsh.</p>
+<a href="/meditation.html">Sit with the tones →</a>
+</article>
+</div>
+</section>
 
-    <section class="ps-home-note" aria-labelledby="sanctuary-title">
-      <h2 id="sanctuary-title">The sanctuary</h2>
-      <p>Free to use. Posts stay in the order they were written. Nothing here is sold.</p>
-      <div class="ps-home-grid">
-        <a href="/feed.html"><h3>Feed</h3><p>Newest first. No ranking.</p></a>
-        <a href="/frequencies.html"><h3>Quiet tones</h3><p>Six soft frequencies. The volume stays low.</p></a>
-        <a href="/mind-mode.html"><h3>Mind Mode</h3><p>Breathing and calm. No score.</p></a>
-        <a href="/write.html"><h3>Write</h3><p>A poem, a story, or a note.</p></a>
-        <a href="/wisdom.html"><h3>Words</h3><p>What has already been written.</p></a>
-        <a href="/about.html"><h3>The story</h3><p>Why this place exists.</p></a>
-      </div>
-    </section>
-
-    <section aria-labelledby="foryou-title">
-      <div class="cs-heading">
-        <h2 id="foryou-title">Stories</h2>
-        <p>Real news and inventions. Each card links to the source. Nothing plays until you ask.</p>
-      </div>
-      <div data-cosmic-scroll data-sources="world" data-label="Stories from the world"></div>
-    </section>
-
-    <section class="ps-home-note" aria-labelledby="clips-title">
-      <h2 id="clips-title">What this house will not do</h2>
-      <p>We do not carry government leaflets. We do not tell you a product is good because an office said so. We do not send you to a waiting room and call that care.</p>
-      <p>What we keep is older and plainer: breath, water, sunlight, walking, sleep, honest food, silence, story, prayer, and one person who will sit until the sentence is finished.</p>
-      <p><a href="/tools.html">The life tools →</a></p>
-    </section>
-
-    <section class="ps-home-note" aria-labelledby="meet-arron-title">
-      <h2 id="meet-arron-title">Arron</h2>
-      <p>Arron is a companion, not a therapist. He can sit with you, remember what you tell him, and forget it all if you ask.<span id="arron-growth-count"></span></p>
-      <p class="ps-growth-latest" id="arron-growth-latest" hidden></p>
-      <p><a href="/arron-app.html">Open Arron</a></p>
-    </section>
-
-    <section class="ps-home-help" aria-labelledby="help-title">
-      <h2 id="help-title">The truth of this house</h2>
-      <p>Most people do not lose themselves because they are broken. They lose themselves because they are lonely. The mind that sees the whole picture is called crazy by people who can only see the room they are standing in.</p>
-      <p><a href="/crisis.html">Read it properly</a></p>
-    </section>
-
-    <section class="ps-home-note" aria-labelledby="legacy-title">
-      <h2 id="legacy-title">Where this comes from</h2>
-      <p>Shane Cooper built this from his own survival. Evolution, not erasure.</p>
-      <p>Private A.L. Cooper, Royal Army Ordnance Corps, was Mentioned in Despatches in 1945. This carries that service forward.</p>
-      <p><a href="about.html#legacy">Read the legacy</a></p>
-    </section>
-
-
-  </main>
-
-<footer class="ps-footer" role="contentinfo">
-  <div class="ps-footer-inner">
-    <p class="ps-motto">Evolution, Not Erasure</p>
-    <p>One Source. One Consciousness. One Family.</p>
-    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
-    <div class="ps-footer-links">
-      <a href="/arron.html">Talk to Arron</a>
-      <a href="/journal-vault.html">Journal</a>
-      <a href="/about.html">About</a>
-      <a href="/about.html#legacy">Legacy</a>
-      <a href="/safety.html">Safety</a>
-      <a href="/privacy.html">Privacy</a>
-      <a href="/movement.html">Movement</a>
-      <a href="/feed.html">Feed</a>
-      <a href="/games.html">Games</a><a href="/finance.html">Finance</a>
-      <a href="/frequencies.html">Healing Hz</a>
-      <a href="/kids.html">Kids</a>
-      <a href="/creations.html">Creations</a>
-      <a href="/wisdom.html">Wisdom</a>
-      <a href="/community-dashboard.html">Community</a>
-      <a href="/ai-ecosystem.html">AI Family</a>
-      <a href="/ai-stories.html">AI Stories</a>
-      <a href="/quote-wall.html">Quote Wall</a>
-      <a href="/offline.html">Offline Support</a>
-      <a href="/shop.html">Shop</a>
-    </div>
-    <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer">TikTok</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer">YouTube</a>
-      <a href="https://x.com/PleadingSanity1" target="_blank" rel="noopener noreferrer">X</a>
-      <a href="mailto:pleadingsanity1@gmail.com">Email</a>
-    </div>
-    <div class="ps-legacy">
-      <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
-      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
-      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
-      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
-    </div>
-  </div>
+<footer>
+<p>Evolution, Not Erasure</p>
+<div class="socials">
+<a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">Instagram</a>
+<a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer">TikTok</a>
+<a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer">YouTube</a>
+<a href="mailto:pleadingsanity1@gmail.com">Email</a>
+</div>
+<div>
+<a href="/about.html">About</a>
+<a href="/about.html#legacy">Legacy</a>
+<a href="/movement.html">Movement</a>
+<a href="/meditation.html">Meditation</a>
+<a href="/community.html">Community</a>
+<a href="/quote-wall.html">Quote Wall</a>
+<a href="/offline.html">Offline Support</a>
+<a href="/transparency.html">Transparency</a>
+<a href="/shop.html">Shop</a>
+<a href="/developers.html">Contribute</a>
+</div>
+<div class="legacy">
+<p>In honour of <strong>Private A.L. Cooper</strong>, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.<br>His service → this movement.</p>
+</div>
+<p>&copy; 2026 Pleading Sanity · Rise From Madness</p>
 </footer>
   <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
@@ -469,28 +607,40 @@
         const list = soul.dailyWisdom || [];
         if (list.length) show(list[Math.floor(Date.now() / 86400000) % list.length], 'philosophy', 'Arron');
       } catch { /* keep the built-in line */ }
+<script src="/js/site.js" defer></script>
+<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
+<script>
+(function () {
+  var btn = document.getElementById('shareBtn');
+  if (!btn) return;
+  var shareData = {
+    title: 'Pleading Sanity',
+    text: 'Rise From Madness. Free sanctuary. Talk to Arron. Evolution, Not Erasure.',
+    url: 'https://pleadingsanity.co.uk/'
+  };
+  function setCopied() {
+    var original = btn.innerHTML;
+    btn.classList.add('copied');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg> Link copied';
+    setTimeout(function () {
+      btn.innerHTML = original;
+      btn.classList.remove('copied');
+    }, 2200);
+  }
+  btn.addEventListener('click', function () {
+    if (navigator.share) {
+      navigator.share(shareData).catch(function () {});
+      return;
     }
-    document.getElementById('daily-share').addEventListener('click', async () => {
-      const shareText = `“${text.textContent}” — Pleading Sanity`;
-      try {
-        if (navigator.share) await navigator.share({ title: "Today's Wisdom", text: shareText, url: location.origin + '/wisdom.html' });
-        else { await navigator.clipboard.writeText(`${shareText} ${location.origin}/wisdom.html`); toast('Copied — pass the light on 💙'); }
-      } catch { /* closed */ }
-    });
-  </script>
-  <script>
-    document.querySelectorAll('.ps-clip').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var frame = document.createElement('iframe');
-        frame.className = 'ps-clip-frame';
-        frame.dataset.userPlay = '1';
-        frame.title = btn.querySelector('span').textContent;
-        frame.allow = 'autoplay; encrypted-media; picture-in-picture';
-        frame.setAttribute('allowfullscreen', '');
-        frame.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(btn.dataset.yt) + '?autoplay=1&rel=0&playsinline=1';
-        btn.replaceWith(frame);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareData.url).then(setCopied).catch(function () {
+        window.prompt('Copy this link:', shareData.url);
       });
-    });
-  </script>
+      return;
+    }
+    window.prompt('Copy this link:', shareData.url);
+  });
+})();
+</script>
 </body>
 </html>
