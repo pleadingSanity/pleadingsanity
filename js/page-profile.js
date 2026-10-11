@@ -81,7 +81,7 @@ function savedHTML() {
   return `
     <section class="panel" aria-labelledby="saved-title">
       <h2 id="saved-title">⭐ Saved</h2>
-      ${rows ? `<ul class="pp-saved">${rows}</ul>` : '<p class="muted">Tap ☆ on any card in the For You feed to keep it here.</p><a class="sbtn ghost" href="/feed.html">🌟 Open the feed</a>'}
+      ${rows ? `<ul class="pp-saved">${rows}</ul>` : '<p class="muted">Tap ☆ on any card in the Sanity feed to keep it here.</p><a class="sbtn ghost" href="/feed.html">🌟 Open the feed</a>'}
     </section>`;
 }
 

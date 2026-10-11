@@ -116,3 +116,7 @@ config.local.js
 # ========================================
 # ✅ END — SECURED • CLEAN • READY
 # ========================================
+
+# local audit scratch
+*.b64
+showcase-meta.json
