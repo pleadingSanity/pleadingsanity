@@ -23,6 +23,7 @@
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/design-system.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
 <link rel="preload" href="/assets/images/brand/crying-brain-logo-512.webp" as="image">
@@ -186,6 +187,16 @@ h1 {
   margin: 0 auto 1.75rem;
   font-size: 1.05rem;
 }
+.tool-card {
+  background: linear-gradient(160deg, rgba(0,255,240,.07), rgba(124,58,237,.05));
+  border: 1px solid rgba(0,255,240,.2);
+  border-radius: 18px;
+  padding: 1rem 1rem 1.15rem;
+  text-align: left;
+}
+.tool-card h3 { color: #00fff0; margin: 0 0 0.4rem; }
+.tool-card p { color: #a9c7d1; margin: 0 0 0.9rem; font-size: 0.95rem; }
+.tool-card a.ps-btn { margin-top: 0.25rem; }
 .tool-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -245,7 +256,17 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
   .hero { min-height: calc(100vh - 80px); padding: 1.75rem 1rem 1.5rem; }
   .door { flex: 1 1 100%; max-width: none; padding: 1.6rem 1rem; }
   .logo { width: 96px; height: 96px; }
-  .tool-grid { grid-template-columns: 1fr; }
+  .tool-card {
+  background: linear-gradient(160deg, rgba(0,255,240,.07), rgba(124,58,237,.05));
+  border: 1px solid rgba(0,255,240,.2);
+  border-radius: 18px;
+  padding: 1rem 1rem 1.15rem;
+  text-align: left;
+}
+.tool-card h3 { color: #00fff0; margin: 0 0 0.4rem; }
+.tool-card p { color: #a9c7d1; margin: 0 0 0.9rem; font-size: 0.95rem; }
+.tool-card a.ps-btn { margin-top: 0.25rem; }
+.tool-grid { grid-template-columns: 1fr; }
   .crisis { padding: 1rem 1.1rem; }
 }
 </style>
@@ -279,6 +300,19 @@ Share the house
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
 </div>
 
+
+<section class="why-better" aria-labelledby="why-title" style="max-width:42rem;margin:0 auto 2rem;padding:0 1.25rem;text-align:left">
+<span class="ps-free-forever" style="margin-bottom:0.75rem">Free forever</span>
+<h2 id="why-title" style="color:#00fff0;font-size:1.35rem;margin:0.75rem 0 0.5rem">Better than social media — on purpose</h2>
+<div class="ps-anti-algo">
+<strong>No algorithm.</strong> Newest first. Nothing is pushed because it is loud, angry, or paid.<br>
+<strong>Hearts only.</strong> No dislikes. No public scoreboard. Your exact count stays with you.<br>
+<strong>No ads. No data selling. No paywall</strong> on Arron, journal, feed, games, or crisis help.<br>
+<strong>Forget Me</strong> wipes device and cloud when you ask. You own your story.
+</div>
+<p style="color:#a9c7d1;font-size:0.95rem;margin:0.75rem 0 0">This house is a sanctuary, not a product. Built from survival by Shane Cooper. One Source. One Family.</p>
+</section>
+
 <section class="tools">
 <h2>In the house</h2>
 <p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help. Evolution, not erasure.</p>
@@ -287,37 +321,37 @@ Share the house
 <img src="/assets/images/showcase/finance.jpg" alt="Calm geometric numbers in soft cosmic light" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Sane Finance</h3>
 <p>Clear head first. Know what you can afford, compare real offers, prepare truthful applications. No sales pressure. Your numbers stay on this device.</p>
-<a href="/finance.html">Open the desk →</a>
+<a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the desk →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/games.jpg" alt="Cosmic solitaire cards and soft light trails" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Games</h3>
 <p>Ad-free brain games including Sanity Solitaire. XP, levels and streaks live only on your phone. A soft way back into the body when the mind has been in court all day.</p>
-<a href="/games.html">Play →</a>
+<a href="/games.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Play →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/ai-family.jpg" alt="Glowing crying-brain sitting quietly in stars" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>AI Family</h3>
 <p>Arron and the chain (GPT → Claude → Gemini → Grok). Create, talk, and build together. Forget Me erases everything when you ask.</p>
-<a href="/ai-family.html">Meet the family →</a>
+<a href="/ai-family.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Meet the family →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/journal.jpg" alt="Open book of soft nebula pages" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Journal Vault</h3>
 <p>Private storytelling space. Your words stay yours. Write, keep, or wipe. No cloud copy unless you choose.</p>
-<a href="/journal-vault.html">Open the vault →</a>
+<a href="/journal-vault.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the vault →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/community.jpg" alt="Gentle constellation of connected lights" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Community</h3>
 <p>Real stories, chronological feed, no algorithms. Member profiles and the Quote Wall. Sit with people who get it.</p>
-<a href="/feed.html">Enter the feed →</a>
+<a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Enter the feed →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/frequencies.jpg" alt="Soft sound waves rising from a calm centre" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Meditation & Frequencies</h3>
 <p>Soft tones only (174, 285, 432, 528, 741, 963 Hz). Silence challenge and cosmic soundscape. Nothing harsh.</p>
-<a href="/meditation.html">Sit with the tones →</a>
+<a href="/meditation.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Sit with the tones →</a>
 </article>
 </div>
 </section>

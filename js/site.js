@@ -199,7 +199,7 @@
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');
-    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Support</a><button type="button" class="ps-dock-menu" aria-expanded="false">Menu</button>';
+    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/feed.html">Feed</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Support</a><button type="button" class="ps-dock-menu" aria-expanded="false">Menu</button>';
     document.body.appendChild(dock);
     var here = dock.querySelector('a[href="' + path + '"]');
     if (here) here.setAttribute('aria-current', 'page');

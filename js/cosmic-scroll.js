@@ -1,10 +1,10 @@
 // ==============================================================
-// 🌌 COSMIC SCROLL — full-screen, swipe-up "For You" stream
-// Any element with [data-cosmic-scroll] becomes a TikTok-style
+// 🌌 COSMIC SCROLL — full-screen, swipe-up "Sanity Feed" stream
+// Any element with [data-cosmic-scroll] becomes a full-screen time-order
 // snap feed: community posts, survivor videos, affirmations and
 // breathing moments, loading forever as you swipe.
 //   data-sources="posts,videos"   which live sources to mix in
-//   data-label="For You"          accessible name for the stream
+//   data-label="Sanity Feed"          accessible name for the stream
 // Kind by design: a breathing card every few swipes and a gentle
 // "breathe with me" pause card every ten. No tracking, ever.
 // ==============================================================
@@ -248,7 +248,7 @@ class CosmicScroll {
 
     root.classList.add('cs-root');
     root.innerHTML = `
-      <div class="cs-scroller" tabindex="0" role="feed" aria-label="${esc(root.dataset.label || 'For You')}" aria-busy="true"></div>
+      <div class="cs-scroller" tabindex="0" role="feed" aria-label="${esc(root.dataset.label || 'Sanity Feed')}" aria-busy="true"></div>
       <div class="cs-controls">
         <button type="button" class="cs-ctl" data-ctl="up" aria-label="Previous">▲</button>
         <button type="button" class="cs-ctl" data-ctl="down" aria-label="Next">▼</button>

@@ -71,7 +71,8 @@
 }
 .sbtn:hover { background: rgba(0, 255, 240, 0.2); color: #fff; text-decoration: none; }
 .sbtn:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }
-.sbtn.primary { background: linear-gradient(135deg, #00fff0, #ff00ff); color: #000103; border-color: transparent; box-shadow: 0 0 20px rgba(0, 255, 240, 0.25); }
+.sbtn.primary { background: #00fff0; color: #000103; border-color: transparent; box-shadow: 0 0 20px rgba(0, 255, 240, 0.28); }
+.sbtn.secondary { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; border-color: transparent; box-shadow: 0 0 18px rgba(124, 58, 237, 0.35); }
 .sbtn.primary:hover { color: #000103; box-shadow: 0 0 28px rgba(255, 0, 255, 0.35); }
 .sbtn.ghost { border-color: rgba(0, 255, 240, 0.35); background: transparent; }
 .sbtn.danger { border-color: #ff6b8b; color: #ffc2d0; background: rgba(255, 60, 100, 0.08); }
