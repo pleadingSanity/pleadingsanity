@@ -378,7 +378,7 @@ if (brief) { if (brief.question) $("a-question").value = String(brief.question);
 $("export-data").addEventListener("click", () => {
   const data = { exportedAt: new Date().toISOString(), profile, quotes, tracker, brief: store.get(KEYS.brief, null) };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "my-sane-finance-data.json"; document.body.append(a); a.click(); a.remove();
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "my-sane-finance-data.json"; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 });
 $("delete-data").addEventListener("click", () => {
   if (!confirm("Delete your finance profile, quotes, tracker and saved brief from this device? This can't be undone.")) return;
