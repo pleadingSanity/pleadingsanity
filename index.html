@@ -104,6 +104,31 @@ h1 {
   box-shadow: 0 12px 40px rgba(0, 255, 240, 0.45);
   transform: translateY(-3px);
 }
+.share-wrap {
+  margin: 0.5rem 0 1rem;
+}
+.share-btn {
+  background: rgba(13, 27, 42, 0.7);
+  border: 1px solid rgba(0, 255, 240, 0.45);
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
+  color: #00fff0;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 255, 240, 0.12);
+}
+.share-btn:hover {
+  background: rgba(0, 255, 240, 0.15);
+  border-color: #00fff0;
+  transform: translateY(-1px);
+}
+.share-btn.copied {
+  border-color: #ff4d8d;
+  color: #ff4d8d;
+}
 .crisis {
   background: rgba(13, 27, 42, 0.82);
   border: 1px solid #ff4d8d;
@@ -212,6 +237,10 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 <a class="door" href="/about.html#legacy">Our Legacy</a>
 </div>
 
+<div class="share-wrap">
+<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">Share the house</button>
+</div>
+
 <div class="crisis">
 <p><strong>Need a person right now?</strong></p>
 <p><a class="num" href="tel:116123">116 123</a> Samaritans · free, day and night</p>
@@ -279,5 +308,35 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 </footer>
 <script src="/js/site.js" defer></script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
+<script>
+(function () {
+  var btn = document.getElementById('shareBtn');
+  if (!btn) return;
+  var shareData = {
+    title: 'Pleading Sanity',
+    text: 'Rise From Madness. Free sanctuary. Talk to Arron. Evolution, Not Erasure.',
+    url: 'https://pleadingsanity.co.uk/'
+  };
+  btn.addEventListener('click', function () {
+    if (navigator.share) {
+      navigator.share(shareData).catch(function () {});
+    } else if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(shareData.url).then(function () {
+        var original = btn.textContent;
+        btn.textContent = 'Link copied';
+        btn.classList.add('copied');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function () {
+        window.prompt('Copy this link:', shareData.url);
+      });
+    } else {
+      window.prompt('Copy this link:', shareData.url);
+    }
+  });
+})();
+</script>
 </body>
 </html>
