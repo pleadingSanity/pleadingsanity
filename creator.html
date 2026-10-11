@@ -38,6 +38,38 @@
 </div></nav>
 <main id="main" class="creator-page">
 <section class="creator-hero"><span class="creator-badge">CREATOR HUB</span><h1>Your stage. Your people. Your share.</h1><p>One place to manage your lives, clips, creator status and earnings information without pretending unfinished infrastructure is already live.</p></section>
+
+<section class="creator-card" id="owner-stats" style="margin-bottom:1.5rem; display:none;">
+  <h2>House pulse</h2>
+  <div class="creator-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.75rem;">
+    <div class="creator-status"><div class="creator-number" id="stat-members">–</div><small>Members</small></div>
+    <div class="creator-status"><div class="creator-number" id="stat-new">–</div><small>New this week</small></div>
+    <div class="creator-status"><div class="creator-number" id="stat-posts">–</div><small>Posts today</small></div>
+    <div class="creator-status"><div class="creator-number" id="stat-pending">–</div><small>Waiting review</small></div>
+  </div>
+  <p style="margin-top:0.75rem; font-size:0.9rem; opacity:0.85;">These are the real numbers from the house right now. Logged-in / offline needs a heartbeat later.</p>
+</section>
+<script type="module">
+  import { currentUser } from '/js/auth.js';
+  (async () => {
+    const me = await currentUser();
+    if (!me?.isOwner) return;
+    const card = document.getElementById('owner-stats');
+    if (!card) return;
+    try {
+      const res = await fetch('/api/owner', { credentials: 'same-origin' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const c = data.counts || {};
+      document.getElementById('stat-members').textContent = c.members ?? 0;
+      document.getElementById('stat-new').textContent = c.newMembers ?? 0;
+      document.getElementById('stat-posts').textContent = c.postsToday ?? 0;
+      document.getElementById('stat-pending').textContent = c.pending ?? 0;
+      card.style.display = 'block';
+    } catch {}
+  })();
+</script>
+
 <section class="creator-grid">
 <article class="creator-card"><h2>🔴 Your streams</h2><div class="creator-status">Live hub: <strong>READY</strong><br>External YouTube/Twitch preview + feed sharing is available.</div><div class="creator-status">Native Pleading Sanity broadcast: <strong>🔜 COMING SOON</strong></div><a class="creator-btn" href="/live.html">Open LIVE hub</a></article>
 <article class="creator-card"><h2>✂️ Your clips</h2><div class="creator-status">AI Highlights: <strong>🔜 COMING SOON</strong></div><p>Replay ingestion, transcription, highlight detection, vertical rendering and export still need to be connected and tested.</p><a class="creator-btn secondary" href="/live.html#live-chat">Creator tools</a></article>
