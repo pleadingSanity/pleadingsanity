@@ -4,13 +4,28 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000103">
+<meta name="color-scheme" content="dark">
+<meta name="author" content="Shane Cooper / Pleading Sanity">
 <title>Pleading Sanity | Free mental health sanctuary</title>
-<meta name="description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Journal. Evolution Not Erasure. Rise From Madness.">
+<meta name="description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Journal. Evolution Not Erasure. Rise From Madness. Samaritans 116 123 · SHOUT 85258.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pleading Sanity">
+<meta property="og:title" content="Pleading Sanity — Rise From Madness">
+<meta property="og:description" content="Free sanctuary. Talk to Arron. Honest finance tools. Games. Community. Journal. Evolution Not Erasure.">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:url" content="https://pleadingsanity.co.uk/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Pleading Sanity — Rise From Madness">
+<meta name="twitter:description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Evolution Not Erasure.">
+<meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
+<link rel="preload" href="/assets/images/brand/crying-brain-logo-512.webp" as="image">
 <style>
 body {
   color: #eef6ff;
@@ -27,7 +42,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem 1.25rem 2rem;
+  padding: 2.25rem 1.25rem 1.5rem;
   box-sizing: border-box;
 }
 .logo {
@@ -47,9 +62,15 @@ h1 {
   font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   color: #b9faff;
   max-width: 36rem;
-  margin: 0.5rem auto 1.75rem;
+  margin: 0.5rem auto 0.75rem;
   font-weight: 500;
   opacity: 0.95;
+}
+.built {
+  font-size: 0.95rem;
+  color: #a9c7d1;
+  margin: 0 0 1.5rem;
+  max-width: 32rem;
 }
 .doors {
   display: flex;
@@ -84,23 +105,32 @@ h1 {
   transform: translateY(-3px);
 }
 .crisis {
-  background: rgba(13, 27, 42, 0.78);
+  background: rgba(13, 27, 42, 0.82);
   border: 1px solid #ff4d8d;
   border-radius: 16px;
-  padding: 1.1rem 1.4rem;
-  margin: 0.5rem auto 1rem;
-  max-width: 32rem;
-  box-shadow: 0 0 24px rgba(255, 77, 141, 0.18);
+  padding: 1.15rem 1.4rem;
+  margin: 0.25rem auto 1rem;
+  max-width: 34rem;
+  box-shadow: 0 0 24px rgba(255, 77, 141, 0.22);
   backdrop-filter: blur(6px);
 }
-.crisis p { margin: 0.3rem 0; }
+.crisis p { margin: 0.35rem 0; }
+.crisis a.num {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #00fff0;
+  text-decoration: none;
+  display: inline-block;
+  margin-right: 0.4rem;
+}
+.crisis a.num:hover { color: #ff4d8d; }
 .crisis a, footer a, .links a, .tool-card a { color: #00fff0; }
 .links {
   margin: 0.25rem 0 0.5rem;
   font-size: 1rem;
 }
 .tools {
-  padding: 1.5rem 1rem 3rem;
+  padding: 1.25rem 1rem 3rem;
   max-width: 1100px;
   margin: 0 auto;
 }
@@ -112,7 +142,7 @@ h1 {
 }
 .tools .sub {
   color: #b9faff;
-  max-width: 40rem;
+  max-width: 42rem;
   margin: 0 auto 1.75rem;
   font-size: 1.05rem;
 }
@@ -155,17 +185,18 @@ h1 {
 .tool-card a:hover { color: #ff4d8d; }
 footer {
   margin-top: 0;
-  padding: 1.5rem 1rem 2rem;
+  padding: 1.5rem 1rem 2.5rem;
   font-size: 0.9rem;
-  opacity: 0.9;
+  opacity: 0.92;
 }
 footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 .legacy { margin-top: 1rem; font-size: 0.85rem; }
 @media (max-width: 600px) {
-  .hero { min-height: calc(100vh - 80px); padding: 2rem 1rem 2rem; }
+  .hero { min-height: calc(100vh - 80px); padding: 1.75rem 1rem 1.5rem; }
   .door { flex: 1 1 100%; max-width: none; padding: 1.6rem 1rem; }
   .logo { width: 96px; height: 96px; }
   .tool-grid { grid-template-columns: 1fr; }
+  .crisis { padding: 1rem 1.1rem; }
 }
 </style>
 </head>
@@ -174,6 +205,7 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 <img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110">
 <h1>Pleading Sanity</h1>
 <p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
+<p class="built">Built from survival by Shane Cooper. Free for everyone. No one turned away.</p>
 
 <div class="doors">
 <a class="door" href="/arron.html">Talk to Arron</a>
@@ -181,16 +213,18 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 </div>
 
 <div class="crisis">
-<p><strong>Need help right now?</strong></p>
-<p><a href="/crisis.html">House truth & crisis help</a></p>
+<p><strong>Need a person right now?</strong></p>
+<p><a class="num" href="tel:116123">116 123</a> Samaritans · free, day and night</p>
+<p><a class="num" href="sms:85258">85258</a> SHOUT · text, free 24/7</p>
+<p><a href="/crisis.html">Full house truth & more help →</a></p>
 </div>
 
-<p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a></p>
+<p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
 </div>
 
 <section class="tools">
 <h2>In the house</h2>
-<p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help.</p>
+<p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help. Evolution, not erasure.</p>
 <div class="tool-grid">
 <article class="tool-card">
 <h3>Sane Finance</h3>
