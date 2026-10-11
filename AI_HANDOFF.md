@@ -1,6 +1,6 @@
 # AI_HANDOFF — shared verified state for GPT, Claude, Gemini, Grok and Copilot
 
-Last updated: 2026-10-11 by Grok (creative production drafts). Read `CLAUDE.md`, `AGENTS.md` and
+Last updated: 2026-10-11 by Grok (animation-ready pilots + workflow). Read `CLAUDE.md`, `AGENTS.md` and
 `.github/copilot-instructions.md` first. This file records **what was verified**, **what was changed**,
 and **what is still open**, so the next agent starts from evidence, not assumptions.
 
@@ -13,7 +13,7 @@ connected or running. Only the provider tests in "Arron's AI chain" prove anythi
 |---|---|---|
 | Production site | `pleadingsanity` (31c56935-…), https://pleadingsanity.co.uk | Netlify API |
 | Production commit before this run | `b6334e3` (PR #76), deploy `6acbeae06a59be0008560128`, published 2026-10-11 20:01 UTC | Netlify deploy list |
-| Latest main (this session) | `3d27e48c63846a480b69ef51891cc24d2f25e7c4` (kids full drafts) | GitHub |
+| Latest main (this session) | `cbdfb14b3e0484492c539bca5a50b0b246b02d41` (content workflow) | GitHub |
 | Staging site | `pleadingsanity-staging`. It is linked to a **different repo** (`pleading-sanity/pleadingsanity-staging`) and was last published 2026-09-27 | Netlify API. **It is stale. Do not treat it as a preview of main.** Use deploy previews instead. |
 | Build | Static publish of `.`, functions in `netlify/functions`, edge functions in `netlify/edge-functions`, Netlify Database (Drizzle) | `netlify.toml` |
 | Firebase in this site | `js/firebase.js` is inert (appId is a placeholder). Project `pleading-sanity-36bfa` has the Firestore API **disabled**. | Read-only REST probe |
@@ -63,10 +63,11 @@ Not built: streaming, per-provider cost tracking, a daily chat cap, a retention 
 
 | Area | Change | Evidence |
 |---|---|---|
-| Kids series | Full pilot production drafts: dialogue, storyboard beats, voice notes, YouTube concepts for all three episodes | `docs/kids-full-production-drafts.md` commit `3d27e48` |
-| Creative content | 8 labelled draft pieces (micro-stories, human×AI challenge, rap format rules) | `docs/creative-content-pack.md` commit `dfa1b91` |
-| Rap Studio | Inspected: create / buff / battle modes already live on `/rap.html`. No duplicate page created. | File read |
-| Showcase images | Cosmic images generated for finance, games, AI family, journal, community, frequencies. Ready to drop into existing slots. | Generated this session |
+| Kids series | Animation-ready timed screenplays, shot lists, captions, parent notes for all three pilots | `docs/kids-animation-ready.md` commit `6980373` |
+| Content system | Weekly editorial workflow + Rap Studio preservation note + consent-based bio design spec | `docs/content-workflow.md` commit `cbdfb14` |
+| Earlier | Full dialogue drafts and creative pack already in place | `docs/kids-full-production-drafts.md`, `docs/creative-content-pack.md` |
+| Rap Studio | Inspected: create / buff / battle already live. No duplicate page. | File read |
+| Showcase images | Cosmic images generated. Binary drop into `assets/images/showcase/` still required. | Generated previous session |
 | Security | No security, auth, or function files touched. | — |
 
 ## Feature status (observed 2026-10-11)
@@ -89,7 +90,7 @@ Working · Partially working · Simulated · Broken · Not yet built · Unverifi
 | Creator Hub / livestream links | Partially working | External links and schedule pages load. **Post-live clip creation: Not yet built** (no video processing). |
 | Creator revenue (90% founding offer) | Not yet built | A proposal only. Eligibility, fees, refunds, tax, payout and reconciliation terms are not written. |
 | Shop and cart | Unverified | A Stripe reference exists. Checkout was not exercised. |
-| Kids cartoon episodes | Draft | Full scripts + storyboard beats now in `docs/kids-full-production-drafts.md`. No video or YouTube upload claimed. |
+| Kids cartoon episodes | Animation-ready draft | Timed screenplays + shot lists in `docs/kids-animation-ready.md`. No video or YouTube upload claimed. |
 | PWA install and offline | Unverified | Manifests and service-worker scope unchanged this run |
 | Firebase (this site) | Not in use | API disabled on `pleading-sanity-36bfa` |
 | Google Analytics | Partially remediated | On 2026-10-11, the privacy page received an explicit disclosure and its tracking script was removed. Tracking scripts were also removed from eight sensitive pages: Journal Vault, Journal Viewer, Notes, My Room, Finance, both Arron pages and Settings. Other pages may still load Analytics without opt-in; consent work remains open. |
@@ -122,16 +123,16 @@ To check in config:
 5. **Claude:** recover `ai-status` from `agent-on-sane-finance-gbt-page-36c4` as an honest provider-status endpoint. It must use a new migration if it needs one.
 6. **GPT:** draft the creator revenue terms (eligibility, fees, refunds, tax, payouts) before any payment work.
 7. **Owner:** after agreement, tag the diverged branches listed in the inventory, then delete the 30 fully merged branches.
-8. **Grok (next):** storyboard frame descriptions or voice direction expansion if requested; drop generated showcase images into `assets/images/showcase/` when binary upload is available.
+8. **Grok / Owner:** drop the six generated showcase images into `assets/images/showcase/` (finance.jpg, games.jpg, ai-family.jpg, journal.jpg, community.jpg, frequencies.jpg) so the homepage cards light up.
 
-## Grok session note — 2026-10-11
+## Grok session note — 2026-10-11 (latest)
 
-- Full production drafts for the three Keep Kids Sane pilots are now in `docs/kids-full-production-drafts.md` (dialogue, storyboard beats, voice notes, YouTube concepts). Marked DRAFT. No episode is claimed as filmed or uploaded.
-- Creative content pack (8 pieces) is in `docs/creative-content-pack.md`. Labelled drafts. No fabricated testimonials.
-- Rap Studio (`/rap.html`) already supports create / buff / battle. No new page created.
-- xAI production 403 remains. Owner action required on the key / entitlement. No secrets printed.
-- Showcase cosmic images generated and ready for the existing homepage slots. Binary drop still needed.
-- No security, auth, or function files modified. Coordination preserved.
+- Animation-ready timed screenplays for all three Keep Kids Sane pilots are in `docs/kids-animation-ready.md`. Includes shot lists, voice direction, captions, parent notes, thumbnail and trailer concepts. Marked DRAFT. No episode is claimed as filmed or uploaded.
+- Weekly content workflow and consent-based social/bio design note are in `docs/content-workflow.md`.
+- Rap Studio remains create / buff / battle. No new competition launched.
+- xAI production 403 unchanged. Owner key / entitlement action still required. No secrets printed.
+- Showcase images generated earlier. Binary upload still needed for integration.
+- No security, auth, or function files modified.
 
 ## Verified preservation review — 2026-10-11 (GPT)
 
