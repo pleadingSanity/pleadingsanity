@@ -269,11 +269,22 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 .tool-grid { grid-template-columns: 1fr; }
   .crisis { padding: 1rem 1.1rem; }
 }
+
+.home-quick-links { display:flex;flex-wrap:wrap;justify-content:center;gap:.5rem;max-width:42rem;margin:1rem auto; }
+.home-quick-links a { display:inline-flex;align-items:center;min-height:44px;padding:.5rem .9rem;border:1px solid rgba(0,255,240,.3);border-radius:999px;background:rgba(13,27,42,.9);color:#eef6ff;text-decoration:none; }
+.home-quick-links .home-live { background:#b6002a;border-color:#ff6688; }
+.home-support-note { color:#c7dce7;font-size:.95rem; }
+.home-support-note a { color:#b9faff; }
+.home-tool-image { width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:.75rem; }
+.tool-grid { grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); }
+@media (prefers-reduced-motion: reduce) { .tool-card { transition:none; } .tool-card:hover { transform:none; } }
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<main id="main-content">
 <div class="hero">
-<img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110">
+<img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
 <p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
 <p class="built">Built from survival by Shane Cooper. Free for everyone. No one turned away.</p>
@@ -286,16 +297,18 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 <div class="share-wrap">
 <button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-Share the house
+Share Pleading Sanity
 </button>
 </div>
 
-<div class="crisis">
-<p><strong>Need a person right now?</strong></p>
-<p><a class="num" href="tel:116123">116 123</a> Samaritans · free, day and night</p>
-<p><a class="num" href="sms:85258">85258</a> SHOUT · text, free 24/7</p>
-<p><a href="/crisis.html">Full house truth & more help →</a></p>
-</div>
+<nav class="home-quick-links" aria-label="Explore Pleading Sanity">
+<a href="/live.html" class="home-live">● Live</a>
+<a href="/games.html">Games</a>
+<a href="/new-gen-bible.html">New Gen Bible</a>
+<a href="/support.html">Support</a>
+<a href="/login.html">Sign in</a>
+</nav>
+<p class="home-support-note">Need someone to talk to? <a href="/support.html">Find free support</a> · <a href="/crisis.html">Urgent help</a></p>
 
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
 </div>
@@ -303,12 +316,12 @@ Share the house
 
 <section class="why-better" aria-labelledby="why-title" style="max-width:42rem;margin:0 auto 2rem;padding:0 1.25rem;text-align:left">
 <span class="ps-free-forever" style="margin-bottom:0.75rem">Free forever</span>
-<h2 id="why-title" style="color:#00fff0;font-size:1.35rem;margin:0.75rem 0 0.5rem">Better than social media — on purpose</h2>
+<h2 id="why-title" style="color:#00fff0;font-size:1.35rem;margin:0.75rem 0 0.5rem">A calmer place to connect</h2>
 <div class="ps-anti-algo">
 <strong>No algorithm.</strong> Newest first. Nothing is pushed because it is loud, angry, or paid.<br>
 <strong>Hearts only.</strong> No dislikes. No public scoreboard. Your exact count stays with you.<br>
 <strong>No ads. No data selling. No paywall</strong> on Arron, journal, feed, games, or crisis help.<br>
-<strong>Forget Me</strong> wipes device and cloud when you ask. You own your story.
+<strong>Forget Me.</strong> Clear Arron’s memory on your device and request cloud deletion.
 </div>
 <p style="color:#a9c7d1;font-size:0.95rem;margin:0.75rem 0 0">This house is a sanctuary, not a product. Built from survival by Shane Cooper. One Source. One Family.</p>
 </section>
@@ -318,21 +331,33 @@ Share the house
 <p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help. Evolution, not erasure.</p>
 <div class="tool-grid">
 <article class="tool-card">
+<img src="/assets/images/editorial/creator-stage-1280.webp" srcset="/assets/images/editorial/creator-stage-640.webp 640w, /assets/images/editorial/creator-stage-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="A night-time creator studio, illustrated for Pleading Sanity" width="1280" height="536" loading="lazy" decoding="async" class="home-tool-image">
+<h3>Live &amp; Creators</h3>
+<p>Bring a supported YouTube or Twitch stream here. Plan upcoming lives and find the creator tools. Direct broadcasting and automatic clips are still being built.</p>
+<a href="/live.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open Live →</a>
+</article>
+<article class="tool-card">
+<img src="/assets/images/editorial/living-book-1280.webp" srcset="/assets/images/editorial/living-book-640.webp 640w, /assets/images/editorial/living-book-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="An illustrated open book beneath connected stars" width="1280" height="548" loading="lazy" decoding="async" class="home-tool-image">
+<h3>New Gen Bible</h3>
+<p>A living guide to truth, connection and healing. Explore what we know, think, believe and still question. You never have to lose yourself to belong.</p>
+<a href="/new-gen-bible.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore the guide →</a>
+</article>
+<article class="tool-card">
 <img src="/assets/images/showcase/finance.jpg" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Sane Finance</h3>
 <p>Clear head first. Know what you can afford, compare real offers, prepare truthful applications. No sales pressure. Your numbers stay on this device.</p>
-<a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the desk →</a>
+<a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore Sane Finance →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/games.jpg" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Games</h3>
-<p>Ad-free brain games including Sanity Solitaire. XP, levels and streaks live only on your phone. A soft way back into the body when the mind has been in court all day.</p>
+<p>Ad-free brain games including Sanity Solitaire. XP, levels and streaks live only on your phone. Take a break, find your focus and play at your own pace.</p>
 <a href="/games.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Play →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/ai-family.jpg" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>AI Family</h3>
-<p>Arron and the chain (GPT → Claude → Gemini → Grok). Create, talk, and build together. Forget Me erases everything when you ask.</p>
+<p>Arron and the chain (GPT → Claude → Gemini → Grok). Create, talk, and build together. Use Forget Me to clear your companion memory.</p>
 <a href="/ai-family.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Meet the family →</a>
 </article>
 <article class="tool-card">
@@ -345,17 +370,18 @@ Share the house
 <img src="/assets/images/showcase/community.jpg" alt="Gentle constellation of connected lights" loading="lazy" decoding="async" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Community</h3>
 <p>Real stories, chronological feed, no algorithms. Member profiles and the Quote Wall. Sit with people who get it.</p>
-<a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Enter the feed →</a>
+<a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore the feed →</a>
 </article>
 <article class="tool-card">
 <img src="/assets/images/showcase/frequencies.jpg" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async" style="width:100%;border-radius:12px;margin-bottom:0.75rem;object-fit:cover;height:160px;">
 <h3>Meditation & Frequencies</h3>
 <p>Soft tones only (174, 285, 432, 528, 741, 963 Hz). Silence challenge and cosmic soundscape. Nothing harsh.</p>
-<a href="/meditation.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Sit with the tones →</a>
+<a href="/meditation.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore meditation →</a>
 </article>
 </div>
 </section>
 
+</main>
 <footer>
 <p>Evolution, Not Erasure</p>
 <div class="socials">
