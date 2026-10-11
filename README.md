@@ -32,6 +32,19 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 ---
 
+## 👤 CONTINUITY
+
+This house is built to keep standing.
+
+- The durable source is this repository: `pleadingSanity/pleadingsanity`.
+- Netlify deploys the live site from it. The primary address is https://pleadingsanity.co.uk.
+- Talk, journal, games, feed and Arron stay free. No paywall on sanctuary features.
+- Safety lines (Samaritans 116 123 · SHOUT 85258) do not depend on this site.
+- Domains must be renewed at the registrar so the names keep pointing at Netlify DNS.
+- Full notes: [docs/OWNERSHIP-AND-TERMS.md](./docs/OWNERSHIP-AND-TERMS.md) and the live [/transparency.html](https://pleadingsanity.co.uk/transparency.html) page.
+
+---
+
 ## 🧠 ECOSYSTEM
 
 - **Sanity Hub** — uplifting feed, real stories, no doomscroll
@@ -116,6 +129,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 - **[CONTRIBUTING.md](./docs/CONTRIBUTING.md)** — How to contribute
 - **[SECURITY.md](./docs/SECURITY.md)** — Security policy
 - **[SETUP-ROLES-AND-CHECKLIST.md](./docs/SETUP-ROLES-AND-CHECKLIST.md)** — Environment variables, granting creator/admin, post-deploy checklist
+- **[OWNERSHIP-AND-TERMS.md](./docs/OWNERSHIP-AND-TERMS.md)** — Ownership and continuity
 
 ---
 
