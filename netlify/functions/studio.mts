@@ -143,6 +143,9 @@ async function create(req: Request, context: Context) {
   const parsed = parseJSON<{ title?: string; body?: string }>(raw);
   const card = familyCard(str(parsed?.title, 120), str(parsed?.body || raw, 3000));
   if (!card) throw new Error("Empty creation");
+  // AI output goes on the public wall and the home page, so it passes the same kindness check as a person's post.
+  const checked = await moderate(`${card.title}\n\n${card.body}`, "post");
+  if (!checked.allowed) return json({ error: "That one didn't come out kind enough to share. Try again with a different topic." }, 422);
 
   const [item] = await db
     .insert(studioItems)
@@ -192,7 +195,7 @@ async function battle(voter: string | null) {
           .limit(60);
       }
     } catch (error) {
-      console.error("AI battle entry unavailable:", error);
+      console.error("AI battle entry unavailable:", (error as Error)?.name || "error");
     }
   }
 
@@ -289,7 +292,7 @@ export default async (req: Request, context: Context) => {
     if (parts[0] === "podcast" && req.method === "POST") return await startPodcast(req);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Studio error:", error);
+    console.error("Studio error:", (error as Error)?.name || "error");
     return json({ error: "The studio lights flickered — please try again in a moment." }, 503);
   }
 };

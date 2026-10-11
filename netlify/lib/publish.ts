@@ -25,6 +25,7 @@ import {
   str,
   type Visibility,
 } from "./social.js";
+import { fromMember, guardTruthTag, type Provenance } from "./provenance.js";
 
 export const POST_KINDS = ["text", "story", "video", "image", "status", "journal", "writing"] as const;
 const YOUTUBE_ID = /^[A-Za-z0-9_-]{11}$/;
@@ -61,7 +62,9 @@ type Result =
   | { ok: true; post: Post; pending: boolean; crisis: boolean; support: typeof CRISIS_SUPPORT | null }
   | { ok: false; status: number; error: string; reason?: string; blocked?: boolean; onboarding?: boolean };
 
-export async function publishPost(author: Author, input: Record<string, unknown>): Promise<Result> {
+// `trusted` is provenance our own functions recorded (e.g. Arron wrote it). Without it,
+// the member's own declaration (human | ai | collaborative) is used.
+export async function publishPost(author: Author, input: Record<string, unknown>, trusted?: Provenance): Promise<Result> {
   const profile = await profileFor(author.id);
   if (!profile?.onboarded) return { ok: false, status: 409, error: "Finish setting up your profile first.", onboarding: true };
 
@@ -107,6 +110,7 @@ export async function publishPost(author: Author, input: Record<string, unknown>
   const fallback: Visibility = profile.isPrivate ? "friends" : cleanVisibility(profile.defaultVisibility);
   const visibility = cleanVisibility(input.visibility, fallback);
   const pending = visibility !== "private" && (await needsReview(author.roles));
+  const prov = trusted ?? fromMember(input);
   const [post] = await db
     .insert(posts)
     .values({
@@ -118,7 +122,12 @@ export async function publishPost(author: Author, input: Record<string, unknown>
       imageKey,
       tags: cleanTags(input.tags),
       mood: cleanMood(input.mood ?? profile.mood),
-      truthTag: cleanTruthTag(input.truthTag) || cleanTruthTag(profile.truthTagDefault),
+      truthTag: guardTruthTag(cleanTruthTag(input.truthTag) || cleanTruthTag(profile.truthTagDefault), prov),
+      origin: prov.origin,
+      aiProvider: prov.aiProvider,
+      aiModel: prov.aiModel,
+      humanReviewed: prov.humanReviewed,
+      aiMemoryAllowed: prov.aiMemoryAllowed,
       contentWarning: verdict.contentWarning || input.contentWarning === true,
       crisis: verdict.crisis,
       visibility,

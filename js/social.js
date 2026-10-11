@@ -67,18 +67,35 @@ const AUDIENCE_NOTE = { members: ' · 🌿 members', friends: ' · 🔒 friends'
 const UNSIGNED = 'Create your free Sanity Profile to heart, reply and save 💙';
 const friendly = (error) => (error.status === 401 ? UNSIGNED : error.message);
 
-// Truth tags — so readers know what kind of truth they're holding.
+// Truth Lab — five honest kinds of truth, so readers know what they're holding.
+// evidence and philosophy are the older tags: still shown, read as Known and Thought or belief.
 export const TRUTH_TAGS = {
-  known: { icon: '🔬', label: 'Known', hint: 'Supported by evidence or independently verifiable information' },
-  experience: { icon: '💙', label: 'Experience', hint: 'Something personally experienced by the person sharing it' },
-  thought: { icon: '💭', label: 'Thought', hint: 'An idea, question or hypothesis — not established fact' },
+  known: { icon: '🔬', label: 'Known', hint: 'Evidence-backed or independently checkable. A person stands behind it, not just an AI' },
+  experience: { icon: '💙', label: 'Experience', hint: 'Lived experience — true for the person sharing it' },
+  thought: { icon: '💭', label: 'Thought', hint: 'An idea, a hypothesis or a question' },
   belief: { icon: '🌌', label: 'Belief', hint: 'A personal, philosophical or spiritual belief' },
-  unknown: { icon: '❔', label: 'Unknown', hint: 'Something we genuinely do not know yet' },
-  // Legacy display support for existing posts created before the five-part taxonomy.
-  evidence: { icon: '🔬', label: 'Known', hint: 'Legacy tag: evidence-backed information' },
-  philosophy: { icon: '🌌', label: 'Belief', hint: 'Legacy tag: personal/philosophical belief' },
+  unknown: { icon: '❔', label: 'Unknown', hint: 'Something genuinely unresolved' },
+  evidence: { icon: '🔬', label: 'Known', hint: 'Evidence-backed or independently checkable (older “Evidence” tag)' },
+  philosophy: { icon: '🌌', label: 'Thought or belief', hint: 'Belief, meaning or reflection (older “Philosophy” tag)' },
+};
+// The five to offer when someone picks a tag. Older tags are only ever displayed.
+export const TRUTH_CHOICES = ['experience', 'known', 'thought', 'belief', 'unknown'];
+
+// Provenance — Human, AI or Together. Never blurred.
+export const ORIGINS = {
+  human: { icon: '🧑', label: 'Human', hint: 'Written or made by a person' },
+  collaborative: { icon: '🤝', label: 'Together', hint: 'A person and an AI made this together' },
+  ai: { icon: '🤖', label: 'AI', hint: 'Written or made by an AI' },
 };
 
+// Human posts carry no badge (that is the default); AI and Together always do.
+export const originBadge = (item) => {
+  const o = ORIGINS[item?.origin];
+  if (!o || item.origin === 'human') return '';
+  const who = item.aiProvider ? ` · ${item.aiProvider}${item.aiModel ? ' ' + item.aiModel : ''}` : '';
+  const reviewed = item.origin === 'ai' && item.humanReviewed === false ? ' · not reviewed by a person' : '';
+  return `<span class="tag origin-tag origin-${esc(item.origin)}" title="${esc(o.hint + who + reviewed)}"><span aria-hidden="true">${o.icon}</span> ${o.label}  ${reviewed ? ' · unreviewed' : ''}</span>`;
+  };
 export const truthBadge = (tag) => {
   const t = TRUTH_TAGS[tag];
   return t ? `<span class="truth-tag truth-${esc(tag)}" title="${esc(t.hint)}"><span aria-hidden="true">${t.icon}</span> ${t.label}</span>` : '';
@@ -195,6 +212,7 @@ export function postHTML(post, { full = false } = {}) {
       ${post.pinned ? '<span class="tag pinned-tag">📌 Pinned</span>' : ''}
       ${post.status === 'pending' ? '<span class="tag" title="Waiting for Shane to review — only you can see it for now">⏳ In review</span>' : post.status === 'held' ? '<span class="tag" title="Shane held this one back from the feed — only you can see it">⏸️ Held</span>' : ''}
       ${KIND_LABEL[post.kind] ? `<span class="tag">${KIND_LABEL[post.kind]}</span>` : ''}
+      ${originBadge(post)}
       ${truthBadge(post.truthTag)}
       ${moodBadge(post.mood)}
     </div>

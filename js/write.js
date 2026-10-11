@@ -7,7 +7,7 @@
 // ==============================================================
 
 import { api, esc, requireMember, toast } from '/js/auth.js';
-import { truthBadge } from '/js/social.js';
+import { originBadge, truthBadge } from '/js/social.js';
 
 export const KINDS = {
   wisdom: { icon: '🌅', label: 'Daily Wisdom' },
@@ -39,6 +39,7 @@ document.getElementById('credit-row').hidden = !creator;
 if (creator) form.credit.value = me.profile.displayName;
 
 // ─── DRAFT WITH ARRON ───
+let usedDraft = false;
 document.getElementById('draft-btn').addEventListener('click', async (e) => {
   const btn = e.currentTarget;
   btn.disabled = true;
@@ -53,6 +54,7 @@ document.getElementById('draft-btn').addEventListener('click', async (e) => {
     form.title.value = draft.title;
     form.body.value = draft.body;
     form.truthTag.value = draft.truthTag;
+    usedDraft = true; // Arron wrote this draft, so the piece is honestly Human + AI.
     msg.innerHTML = '<p class="notice ok">Here\'s a draft. Make it yours — change anything, then publish. 💙</p>';
     form.body.focus();
   } catch (error) {
@@ -78,6 +80,7 @@ form.addEventListener('submit', async (e) => {
         kind,
         title: form.title.value.trim(),
         body: form.body.value.trim(),
+        origin: usedDraft ? 'collaborative' : 'human',
         truthTag: form.truthTag.value,
         anonymous: form.anonymous.checked,
         credit: creator ? form.credit.value.trim() : undefined,
@@ -104,7 +107,7 @@ function pieceHTML(p, { review = false } = {}) {
     <article class="panel sx-piece" data-piece="${p.id}">
       <div class="sx-meta">
         <span class="sx-kind">${k.icon} ${k.label}</span>
-        ${truthBadge(p.truthTag)}
+        ${originBadge(p)}${truthBadge(p.truthTag)}
         <span class="sx-status-${esc(p.status)}">● ${esc(p.status)}</span>
         <span>✍️ ${esc(p.credit)}${p.anonymous ? ' (shown as anonymous)' : ''}</span>
       </div>

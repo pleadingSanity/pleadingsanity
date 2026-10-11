@@ -163,7 +163,7 @@ export default async (req: Request) => {
 
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Journal API error:", error);
+    console.error("Journal API error:", (error as Error)?.name || "error");
     return json({ error: "Your journal couldn't open just then — please try again." }, 500);
   }
 };

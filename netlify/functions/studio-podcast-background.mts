@@ -38,7 +38,7 @@ export default async (req: Request) => {
         `Episode topic: ${item.topic}\n\nTranscript so far:\n${transcript || "(the episode is just starting)"}\n\nYour turn: ${step.brief}`,
         320,
       ).catch((error) => {
-        console.error(`Unity Pod: ${step.voice} missed a turn`, error);
+        console.error(`Unity Pod: ${step.voice} missed a turn`, (error as Error)?.name || "error");
         return "";
       });
       if (text) turns.push({ voice: step.voice, name: VOICES[step.voice].name, lab: VOICES[step.voice].lab, text: text.replace(/^\w+:\s*/, "") });
@@ -64,7 +64,7 @@ export default async (req: Request) => {
       })
       .where(eq(studioItems.id, item.id));
   } catch (error) {
-    console.error("Unity Pod recording failed:", error);
+    console.error("Unity Pod recording failed:", (error as Error)?.name || "error");
     await db.update(studioItems).set({ hidden: true, title: "Recording failed", style: "failed" }).where(eq(studioItems.id, item.id));
   }
 };

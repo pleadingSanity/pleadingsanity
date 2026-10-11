@@ -37,7 +37,7 @@ export default async (req: Request) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Progress API error:", error);
+    console.error("Progress API error:", (error as Error)?.name || "error");
     return json({ error: "Progress couldn't sync right now — it's safe on this device." }, 500);
   }
 };

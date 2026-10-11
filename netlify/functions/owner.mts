@@ -63,7 +63,7 @@ export default async (req: Request) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Owner API error:", error);
+    console.error("Owner API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong in the Owner's Room." }, 500);
   }
 };

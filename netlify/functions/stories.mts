@@ -198,7 +198,7 @@ export default async (req: Request) => {
 
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Stories API error:", error);
+    console.error("Stories API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

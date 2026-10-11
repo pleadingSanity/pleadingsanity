@@ -193,7 +193,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Creations API error:", error);
+    console.error("Creations API error:", (error as Error)?.name || "error");
     return json({ error: "The canvas flickered — please try again in a moment." }, 500);
   }
 };

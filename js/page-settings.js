@@ -57,11 +57,32 @@ loadBlocks();
 
 document.getElementById('signout').addEventListener('click', signOut);
 
+document.getElementById('export-btn').addEventListener('click', async (e) => {
+  const btn = e.currentTarget;
+  btn.disabled = true;
+  btn.setAttribute('aria-busy', 'true');
+  try {
+    const data = await api('/api/me/export');
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: 'pleading-sanity-my-data.json' });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    toast('Your data is downloading.');
+  } catch (error) {
+    toast(error.message);
+  } finally {
+    btn.disabled = false;
+    btn.removeAttribute('aria-busy');
+  }
+});
+
 const delForm = document.getElementById('del-form');
 delForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   if (delForm.elements.confirm.value.trim().toUpperCase() !== 'DELETE') return toast('Type DELETE to confirm.');
-  if (!confirm('Last check — permanently delete your account and everything in it?')) return;
+  if (!confirm('Last check — delete your account and everything it holds on Pleading Sanity? This cannot be undone.')) return;
   const button = delForm.querySelector('button');
   button.disabled = true;
   button.setAttribute('aria-busy', 'true');

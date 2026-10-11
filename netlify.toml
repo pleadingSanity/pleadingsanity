@@ -123,6 +123,20 @@
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src https://www.youtube-nocookie.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 
 [[headers]]
+  for = "/passport.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store, no-cache, must-revalidate, private"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+
+[[headers]]
+  for = "/passport"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store, no-cache, must-revalidate, private"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
+
+[[headers]]
   for = "/settings.html"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"

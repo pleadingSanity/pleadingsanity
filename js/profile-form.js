@@ -82,7 +82,7 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
         </label>
         <label class="field" style="margin:0"><span>My usual Truth Tag</span>
           <select name="truthTagDefault">
-            ${[['', 'Choose each time'], ['experience', '💙 Experience'], ['evidence', '🔬 Evidence'], ['philosophy', '🌌 Philosophy']]
+            ${[['', 'Choose each time'], ['experience', '💙 Experience'], ['known', '🔬 Known'], ['thought', '💭 Thought'], ['belief', '🌌 Belief'], ['unknown', '❔ Unknown']]
               .map(([v, l]) => `<option value="${v}" ${(p.truthTagDefault || '') === v ? 'selected' : ''}>${l}</option>`).join('')}
           </select>
         </label>

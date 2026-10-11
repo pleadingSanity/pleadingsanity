@@ -83,7 +83,7 @@ ${notes ? `Creator notes: ${notes}` : ""}`;
       crisis: verdict.crisis,
     });
   } catch (error) {
-    console.error("Blueprint error:", error);
+    console.error("Blueprint error:", (error as Error)?.name || "error");
     return json({ error: "The studio lights flickered — please try again in a moment." }, 503);
   }
 };

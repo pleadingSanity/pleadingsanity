@@ -8,9 +8,30 @@
 import type { Config } from "@netlify/functions";
 import { admin } from "@netlify/identity";
 import { getStore } from "@netlify/blobs";
-import { and, desc, eq, inArray, ne, or } from "drizzle-orm";
+import { and, desc, eq, inArray, like, ne, or } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { friends, journalEntries, posts, profiles, users } from "../../db/schema.js";
+import {
+  activityLog,
+  aiStories,
+  aiStoryHearts,
+  arronMemories,
+  arronMessages,
+  comments,
+  creations,
+  friends,
+  gameProgress,
+  journalEntries,
+  passports,
+  posts,
+  profiles,
+  rateLimits,
+  saves,
+  siteContent,
+  studioItems,
+  studioUsage,
+  studioVotes,
+  users,
+} from "../../db/schema.js";
 import {
   areFriends,
   badgesFor,
@@ -199,25 +220,88 @@ async function saveStatus(req: Request, user: { id: string; roles: string[] }) {
 // Every row we hold cascades from `users` (profile, posts, comments, likes,
 // friends, blocks, journal, creations, Arron memory and messages), every
 // uploaded or created image is deleted, then the Identity account itself.
+// Also removed by hand because they don't cascade: Write-for-site pieces, the
+// activity log, votes and hearts, rate-limit counters and the profile banner.
+// Kept on purpose: reports other members made about this account (a safety record).
+// Not reachable from here: Netlify's own backups, and words already sent to AI providers.
 async function deleteMe(userId: string) {
   const store = getStore("post-images");
   try {
     const { blobs } = await store.list({ prefix: `${userId}/` });
-    await Promise.all(blobs.map((b) => store.delete(b.key).catch(() => {})));
+    await Promise.all([...blobs.map((b) => store.delete(b.key).catch(() => {})), store.delete(`banner/${userId}`).catch(() => {})]);
   } catch (error) {
-    console.error("Could not list images for erasure:", error);
+    console.error("Could not list images for erasure:", (error as Error)?.name || "error");
   }
 
+  const voter = `u:${userId}`;
+  await Promise.all([
+    db.delete(siteContent).where(eq(siteContent.authorId, userId)),
+    db.delete(activityLog).where(eq(activityLog.userId, userId)),
+    db.delete(studioVotes).where(eq(studioVotes.voter, voter)),
+    db.delete(aiStoryHearts).where(eq(aiStoryHearts.voter, voter)),
+    db.delete(studioUsage).where(like(studioUsage.key, `%${voter}%`)),
+    db.delete(rateLimits).where(like(rateLimits.key, `%:${voter}`)),
+  ]).catch((error) => console.error("Could not erase every side record:", (error as Error)?.name || "error"));
   await db.delete(users).where(eq(users.id, userId));
   await logActivity(null, "account.delete", "user", "erased");
 
   try {
     await admin.deleteUser(userId);
   } catch (error) {
-    console.error("Could not delete Identity account:", error);
+    console.error("Could not delete Identity account:", (error as Error)?.name || "error");
     return json({ ok: true, identityDeleted: false });
   }
   return json({ ok: true, identityDeleted: true });
+}
+
+// ─── GET /api/me/export — everything we hold for this account, as one JSON file ───
+// Images are listed by key, not inlined. Device-only data (local journal, finance,
+// game saves on the phone) is not on the server and is not in this file.
+async function exportMe(user: { id: string; email: string; roles: string[] }) {
+  const id = user.id;
+  const [profile, passport, myPosts, myComments, journal, made, writing, memory, progress, saved, circle, studio, stories] = await Promise.all([
+    db.select().from(profiles).where(eq(profiles.userId, id)),
+    db.select().from(passports).where(eq(passports.userId, id)),
+    db.select().from(posts).where(eq(posts.authorId, id)).orderBy(desc(posts.id)),
+    db.select().from(comments).where(eq(comments.authorId, id)),
+    db.select().from(journalEntries).where(eq(journalEntries.userId, id)).orderBy(desc(journalEntries.id)),
+    db.select().from(creations).where(eq(creations.authorId, id)),
+    db.select().from(siteContent).where(eq(siteContent.authorId, id)),
+    db.select().from(arronMemories).where(eq(arronMemories.userId, id)),
+    db.select().from(gameProgress).where(eq(gameProgress.userId, id)),
+    db.select().from(saves).where(eq(saves.userId, id)),
+    db.select().from(friends).where(or(eq(friends.requesterId, id), eq(friends.addresseeId, id))),
+    db.select().from(studioItems).where(eq(studioItems.authorId, id)),
+    db.select().from(aiStories).where(eq(aiStories.authorId, id)),
+  ]);
+  const memoryIds = memory.map((m) => m.id);
+  const messages = memoryIds.length ? await db.select().from(arronMessages).where(inArray(arronMessages.memoryId, memoryIds)) : [];
+  await logActivity(id, "account.export", "user", id);
+  const file = {
+    exportedAt: new Date().toISOString(),
+    about: "Everything Pleading Sanity's database holds for this account. Data kept only on your device is not included.",
+    account: { id, email: user.email, roles: user.roles },
+    profile: profile[0] ?? null,
+    passport: passport[0] ?? null,
+    posts: myPosts,
+    comments: myComments,
+    journal,
+    creations: made,
+    writingForSite: writing,
+    arron: { memories: memory, messages },
+    gameProgress: progress,
+    saves: saved,
+    friends: circle,
+    studio,
+    aiStories: stories,
+  };
+  return new Response(JSON.stringify(file, null, 2), {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Disposition": `attachment; filename="pleading-sanity-my-data.json"`,
+      "Cache-Control": "no-store",
+    },
+  });
 }
 
 // ─── GET /api/profiles/:username — the /@username page ───
@@ -309,16 +393,20 @@ export default async (req: Request) => {
       if (req.method === "PUT") return await saveStatus(req, user);
       return json({ error: "Method not allowed" }, 405);
     }
+    if (url.pathname === "/api/me/export") {
+      if (req.method === "GET") return await exportMe(user);
+      return json({ error: "Method not allowed" }, 405);
+    }
     if (req.method === "GET") return await getMe(user);
     if (req.method === "PUT") return await saveMe(req, user.id);
     if (req.method === "DELETE") return await deleteMe(user.id);
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Profile API error:", error);
+    console.error("Profile API error:", (error as Error)?.name || "error");
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };
 
 export const config: Config = {
-  path: ["/api/me", "/api/me/status", "/api/profiles/:username"],
+  path: ["/api/me", "/api/me/status", "/api/me/export", "/api/profiles/:username"],
 };

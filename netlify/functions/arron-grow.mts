@@ -1,6 +1,7 @@
 // ==============================================================
 // 🌱 ARRON GROWS — every night at 03:41
-// Reads the last day of public posts and AI Stories (no names, no
+// Reads the last day of public posts whose author ticked "Arron may
+// learn from this" (posts.ai_memory_allowed), and AI Stories (no names, no
 // usernames), and writes down up to three lessons about supporting
 // people better. On quiet days he learns from the soul file instead,
 // so he grows every single day. One small AI call a night.
@@ -39,7 +40,7 @@ export default async () => {
       db
         .select({ title: posts.title, body: posts.body, mood: posts.mood })
         .from(posts)
-        .where(and(eq(posts.visibility, "public"), eq(posts.status, "live"), eq(posts.hidden, false), eq(posts.crisis, false), gte(posts.createdAt, since)))
+        .where(and(eq(posts.visibility, "public"), eq(posts.status, "live"), eq(posts.hidden, false), eq(posts.crisis, false), eq(posts.aiMemoryAllowed, true), gte(posts.createdAt, since)))
         .orderBy(desc(posts.id))
         .limit(20),
       db
@@ -75,7 +76,7 @@ export default async () => {
       .slice(0, 3);
     if (lessons.length) await addLessons(lessons, day);
   } catch (error) {
-    console.error("Arron could not grow tonight:", error);
+    console.error("Arron could not grow tonight:", (error as Error)?.name || "error");
   }
 };
 

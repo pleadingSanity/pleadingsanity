@@ -140,7 +140,7 @@ async function act(fig, action) {
     try {
       const { post } = await api('/api/posts', {
         method: 'POST',
-        body: { kind: 'image', imageKey: c.imageKey, title: c.title, body: `🎨 Created with Arron: “${c.prompt}”`, mood: 'rising', truthTag: 'philosophy' },
+        body: { kind: 'image', imageKey: c.imageKey, title: c.title, body: `🎨 Created with Arron: “${c.prompt}”`, mood: 'rising', truthTag: 'thought', origin: 'collaborative' },
       });
       toast('Posted to the feed 💙');
       setTimeout(() => { location.href = `/feed.html?post=${post.id}#community`; }, 900);

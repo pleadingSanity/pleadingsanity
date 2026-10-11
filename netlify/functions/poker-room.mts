@@ -6,6 +6,9 @@ function json(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
 }
 
+const clean = (v: unknown, max: number) =>
+  String(v ?? "").replace(/[^\p{L}\p{N} .,!?'’_-]/gu, "").replace(/\s+/g, " ").trim().slice(0, max);
+
 export default async (req: Request) => {
   const store = getStore("poker-rooms");
   const url = new URL(req.url);
@@ -23,7 +26,8 @@ export default async (req: Request) => {
   if (req.method === "GET") return json(room);
   if (req.method === "POST") {
     const body = await req.json().catch(() => ({}));
-    const name = String(body.name || "").slice(0, 24);
+    // Names and notes are shown to other players: letters, numbers, spaces and simple marks only — never markup.
+    const name = clean(body.name, 24);
     if (!Array.isArray(room.players)) room.players = [];
     if (name && !room.players.includes(name) && room.players.length < 2) room.players.push(name);
     room.seats = room.players.slice();
@@ -47,7 +51,7 @@ export default async (req: Request) => {
       room.actions = [];
     }
     if (!room.seed) room.seed = Math.floor(Math.random() * 1e9);
-    room.note = String(body.note || room.note || "Play chips only.").slice(0, 140);
+    room.note = clean(body.note, 140) || clean(room.note, 140) || "Play chips only.";
     room.updated = Date.now();
     await store.setJSON(code, room);
     return json(room);
