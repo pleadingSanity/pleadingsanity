@@ -631,10 +631,26 @@ async function memory(req: Request, url: URL) {
   return json({ error: "Method not allowed" }, 405);
 }
 
+// Reads the spare body after a chat crash. Never throws: an unreadable body is treated as not crisis.
+async function crashLooksLikeCrisis(spare: Request | null) {
+  if (!spare) return false;
+  try {
+    const body = await spare.json();
+    const sent = Array.isArray(body?.messages) ? body.messages : [];
+    const last = sent.length && typeof sent[sent.length - 1]?.content === "string" ? sent[sent.length - 1].content : "";
+    const text = (typeof body?.message === "string" ? body.message : last).slice(0, MAX_MESSAGE);
+    return body?.mood === "crisis" || CRISIS_WORDS.test(text);
+  } catch {
+    return false;
+  }
+}
+
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const rid = newRequestId();
   const route = url.pathname.replace(/^\/api\/arron\/?/, "");
+  // A spare copy of the chat body, read only if chat crashes, so the crash reply can still see crisis words.
+  const spare = route === "chat" && req.method === "POST" ? req.clone() : null;
 
   try {
     if (route === "health") {
@@ -661,11 +677,12 @@ export default async (req: Request, context: Context) => {
     console.error(`Arron [${rid}] error:`, reason(error));
     // A crash in chat must never leave someone with a bare error: always give the real lines.
     if (route === "chat") {
+      const crisis = await crashLooksLikeCrisis(spare);
       return json({
-        reply: `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
+        reply: crisis ? CRISIS_SIGNPOST : `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
         provider: "none",
         remembered: false,
-        crisis: false,
+        crisis,
         signpost: SIGNPOST,
         actions: [],
       });

@@ -35,7 +35,15 @@
   const CHAT_API = '/api/arron/chat';
   // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
   const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
-  const answeredVia = (provider) => (MINDS[provider] ? `Answered via ${MINDS[provider]}` : '');
+  // Spares ("spare:name"), the owner's "a+b" pairs and the council get a plain label too, never a borrowed name.
+  const answeredVia = (provider) => {
+    const p = String(provider || '');
+    if (MINDS[p]) return `Answered via ${MINDS[p]}`;
+    if (p.indexOf('spare:') === 0) return 'Answered via a free backup model';
+    if (p === 'council') return 'Answered by the council';
+    const pair = p.split('+').map((x) => MINDS[x]).filter(Boolean);
+    return pair.length === 2 ? `Answered via ${pair[0]}, checked by ${pair[1]}` : '';
+  };
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const KEYS = {

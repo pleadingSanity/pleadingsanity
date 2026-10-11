@@ -9,7 +9,7 @@ import type { Config } from "@netlify/functions";
 import { desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { comments, creations, posts, profiles, reports } from "../../db/schema.js";
-import { currentUser, isGuardian, json, logActivity, readBody, unauthorized } from "../lib/social.js";
+import { currentUser, isGuardian, json, logActivity, readBody, unauthorized, logReason } from "../lib/social.js";
 
 const STATUSES = ["open", "reviewed", "actioned"];
 
@@ -72,7 +72,7 @@ export default async (req: Request) => {
 
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Admin API error:", error);
+    console.error("Admin API error:", logReason(error));
     return json({ error: "Something went wrong." }, 500);
   }
 };

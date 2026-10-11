@@ -13,7 +13,7 @@ import type { Config } from "@netlify/functions";
 import { and, desc, eq, gt, inArray, lt, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { aiStories, aiStoryHearts, profiles } from "../../db/schema.js";
-import { currentUser, json, logActivity, moderate, readBody, str, unauthorized } from "../lib/social.js";
+import { currentUser, json, logActivity, moderate, readBody, str, unauthorized, logReason } from "../lib/social.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 
 const KINDS = ["inspiring", "funny", "wisdom", "win"];
@@ -198,7 +198,7 @@ export default async (req: Request) => {
 
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Stories API error:", error);
+    console.error("Stories API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

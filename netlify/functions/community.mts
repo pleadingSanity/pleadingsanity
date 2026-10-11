@@ -24,6 +24,7 @@ import {
   readBody,
   str,
   unauthorized,
+  logReason,
 } from "../lib/social.js";
 
 const card = (p: typeof profiles.$inferSelect) => ({
@@ -286,7 +287,7 @@ export default async (req: Request) => {
     if (path === "/api/reports" && req.method === "POST") return await fileReport(req, user.id);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Community API error:", error);
+    console.error("Community API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

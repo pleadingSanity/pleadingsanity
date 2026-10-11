@@ -9,7 +9,7 @@ import type { Config } from "@netlify/functions";
 import { eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { gameProgress } from "../../db/schema.js";
-import { currentUser, json, readBody, unauthorized } from "../lib/social.js";
+import { currentUser, json, readBody, unauthorized, logReason } from "../lib/social.js";
 
 const GAME = /^[a-z0-9-]{2,40}$/;
 const MAX_BYTES = 20_000;
@@ -37,7 +37,7 @@ export default async (req: Request) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Progress API error:", error);
+    console.error("Progress API error:", logReason(error));
     return json({ error: "Progress couldn't sync right now — it's safe on this device." }, 500);
   }
 };

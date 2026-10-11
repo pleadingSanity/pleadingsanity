@@ -34,6 +34,7 @@ import {
   str,
   unauthorized,
   USERNAME,
+  logReason,
 } from "../lib/social.js";
 import { publishPost } from "../lib/publish.js";
 
@@ -314,7 +315,7 @@ export default async (req: Request) => {
     if (req.method === "DELETE") return await deleteMe(user.id);
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Profile API error:", error);
+    console.error("Profile API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

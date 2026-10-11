@@ -23,6 +23,15 @@ export const CRISIS_SUPPORT = {
   note: "Sit with the story. This house does not publish clinic numbers or NHS lines.",
 };
 
+// What a failure looks like in the logs: the error name and database code only. Query errors carry
+// their bound parameters (journal text, notes, posts), so the full error object is never logged.
+export const logReason = (error: unknown) => {
+  const e = error as { name?: unknown; code?: unknown; cause?: { code?: unknown } };
+  const name = typeof e?.name === "string" ? e.name : "error";
+  const code = typeof e?.code === "string" ? e.code : typeof e?.cause?.code === "string" ? e.cause.code : "";
+  return code ? `${name} (${code})` : name;
+};
+
 export const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
@@ -107,7 +116,7 @@ export async function optionalUser(): Promise<AuthedUser | null> {
   try {
     return await currentUser();
   } catch (error) {
-    console.error("Could not read the signed-in user:", error);
+    console.error("Could not read the signed-in user:", logReason(error));
     return null;
   }
 }
@@ -141,7 +150,7 @@ export async function getSettings(): Promise<SiteSettings> {
     const [row] = await db.select().from(siteSettings).where(eq(siteSettings.key, "owner"));
     return { ...SETTINGS_DEFAULTS, ...((row?.value as Partial<SiteSettings>) ?? {}) };
   } catch (error) {
-    console.error("Settings unavailable:", error);
+    console.error("Settings unavailable:", logReason(error));
     return SETTINGS_DEFAULTS;
   }
 }
@@ -252,7 +261,7 @@ export async function logActivity(
       detail: detail.slice(0, 500),
     });
   } catch (error) {
-    console.error("Could not write activity log:", error);
+    console.error("Could not write activity log:", logReason(error));
   }
 }
 
@@ -325,7 +334,7 @@ reason: one short, gentle sentence addressed to the writer explaining what to ch
     };
   } catch (error) {
     // If the AI check is unavailable we still publish — keyword safety nets stay on.
-    console.error("Moderation unavailable:", error);
+    console.error("Moderation unavailable:", logReason(error));
     return fallback;
   }
 }
