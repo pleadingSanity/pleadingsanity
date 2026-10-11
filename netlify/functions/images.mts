@@ -7,7 +7,10 @@
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { currentUser, json, logActivity, unauthorized } from "../lib/social.js";
+import { areFriends, currentUser, isBlockedEitherWay, json, logActivity, logReason, unauthorized } from "../lib/social.js";
+import { db } from "../../db/index.js";
+import { creations, posts, profiles } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 const MAX_IMAGE = 5 * 1024 * 1024;
 const MAX_VIDEO = 8 * 1024 * 1024;
@@ -19,7 +22,7 @@ export default async (req: Request) => {
   try {
     const store = getStore("post-images");
     const url = new URL(req.url);
-    const user = req.method === "GET" ? null : await currentUser();
+    const user = await currentUser();
     if (req.method !== "GET" && !user) return unauthorized();
 
     if (req.method === "POST" && url.pathname === "/api/images/banner") {
@@ -55,6 +58,41 @@ export default async (req: Request) => {
 
     if (req.method === "GET") {
       const key = decodeURIComponent(url.pathname.replace("/api/images/", ""));
+      // Every blob GET must respect the owning profile and referenced post/creation.
+      // Random UUID keys alone are NOT authorization; unknown/orphan keys are private.
+      const [ownerId] = key.split("/");
+      if (!ownerId || !/^[a-zA-Z0-9_-]+$/.test(ownerId)) return new Response("Not found", { status: 404 });
+      if (key.startsWith("banner/")) {
+        const bannerOwner = key.slice("banner/".length);
+        const [profile] = await db.select().from(profiles).where(eq(profiles.userId, bannerOwner));
+        const self = user?.id === bannerOwner;
+        const friend = !!user && await areFriends(user.id, bannerOwner);
+        if (!self && (!profile || (profile.isPrivate && !friend) || (profile.pageVisibility !== "public" && !user))) {
+          return new Response("Not found", { status: 404 });
+        }
+      } else {
+        const self = user?.id === ownerId;
+        const [postRows, creationRows] = await Promise.all([
+          db.select().from(posts).where(eq(posts.imageKey, key)).limit(10),
+          db.select().from(creations).where(eq(creations.imageKey, key)).limit(10),
+        ]);
+        const accessiblePost = async (post: typeof posts.$inferSelect) => {
+          if (post.authorId !== ownerId) return false;
+          if (self) return true;
+          if (post.hidden || post.status !== "live") return false;
+          if (user && await isBlockedEitherWay(user.id, ownerId)) return false;
+          if (post.visibility === "public") return true;
+          if (!user) return false;
+          if (post.visibility === "members") return true;
+          return post.visibility === "friends" && await areFriends(user.id, ownerId);
+        };
+        let accessible = false;
+        for (const post of postRows) {
+          if (await accessiblePost(post)) { accessible = true; break; }
+        }
+        if (!accessible) accessible = creationRows.some((c) => c.authorId === ownerId && (self || (c.shared && !c.hidden)));
+        if (!accessible) return new Response("Not found", { status: 404 });
+      }
       const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
       if (!entry) return new Response("Not found", { status: 404 });
       const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
@@ -69,7 +107,7 @@ export default async (req: Request) => {
 
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Images API error:", error);
+    console.error("Images API error:", logReason(error));
     return json({ error: "Upload failed. Please try again." }, 500);
   }
 };
