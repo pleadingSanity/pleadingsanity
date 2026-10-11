@@ -1,0 +1,28 @@
+/* Section artwork stays separate from page copy and working controls. */
+.ps-editorial-art {
+  display: block;
+  width: min(100%, 72rem);
+  margin: 1.5rem auto 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 240, .16);
+  border-radius: 1.25rem;
+  background: #0d1b2a;
+}
+.ps-editorial-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 22rem;
+  object-fit: cover;
+  object-position: center;
+}
+.ps-editorial-art figcaption {
+  padding: .5rem .85rem;
+  color: #c7dce7;
+  font: .75rem/1.5 system-ui, sans-serif;
+  text-align: left;
+}
+@media (max-width: 600px) {
+  .ps-editorial-art { margin: 1rem auto 1.5rem; border-radius: .85rem; }
+  .ps-editorial-art img { max-height: 13rem; }
+}
