@@ -812,7 +812,7 @@ img.logo, .logo-mark {
   .ps-nav-toggle { display: inline-flex; grid-area: toggle; justify-self: end; }
   .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
   .ps-nav .ps-account { grid-area: account; justify-self: end; }
-  .ps-nav .ps-links {
+  .ps-nav.ps-nav-ready .ps-links {
     display: none;
     position: absolute;
     left: 0;

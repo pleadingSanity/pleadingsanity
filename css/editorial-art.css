@@ -26,3 +26,10 @@
   .ps-editorial-art { margin: 1rem auto 1.5rem; border-radius: .85rem; }
   .ps-editorial-art img { max-height: 13rem; }
 }
+
+/* Utility pages lead with their controls; artwork is a small visual cue. */
+.ps-editorial-art-compact { max-width: 48rem; }
+.ps-editorial-art-compact img { height: 7rem; object-fit: cover; }
+@media (max-width: 600px) {
+  .ps-editorial-art-compact img { height: 5rem; }
+}

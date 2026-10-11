@@ -18,7 +18,10 @@ export async function mountOAuth(container, { beforeRedirect } = {}) {
   if (!container) return;
   let enabled = {};
   try {
-    enabled = (await getSettings()).providers || {};
+    const settings = await getSettings();
+    // Netlify Identity exposes configured providers as "external". Keep the
+    // older shape for deployments that still return "providers".
+    enabled = settings.providers || settings.external || {};
   } catch {
     return; // Identity not reachable — email sign-in still works
   }

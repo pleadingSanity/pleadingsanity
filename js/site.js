@@ -45,12 +45,28 @@
   var installPrompt = null;
   var installButtons = document.querySelectorAll('[data-pwa-install]');
   function showInstall(show) { installButtons.forEach(function (btn) { btn.hidden = !show; btn.classList.toggle('hidden', !show); }); }
+  function installHelp(btn, message) {
+    var note = btn.parentElement.querySelector('[data-install-status]');
+    if (!note) {
+      note = document.createElement('p');
+      note.dataset.installStatus = '';
+      note.setAttribute('role', 'status');
+      note.className = 'note';
+      btn.insertAdjacentElement('afterend', note);
+    }
+    note.textContent = message;
+  }
   window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); installPrompt = e; showInstall(true); });
   var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
   if (isIOS && !(navigator.standalone === true)) showInstall(true);
   installButtons.forEach(function (btn) {
     btn.addEventListener('click', function () {
-      if (!installPrompt) { if (isIOS) alert('In Safari, tap Share, then Add to Home Screen.'); return; }
+      if (!installPrompt) {
+        installHelp(btn, isIOS
+          ? 'In Safari, tap Share, then Add to Home Screen.'
+          : 'Open your browser menu and choose Install app or Add to Home Screen if available. If already installed, open Pleading Sanity from its icon.');
+        return;
+      }
       installPrompt.prompt();
       installPrompt.userChoice.finally(function () { installPrompt = null; showInstall(false); });
     });
@@ -119,7 +135,12 @@
   // The LIVE door is deliberately visible across the house.
   if (nav) {
     var navLinks = nav.querySelector('.ps-links');
-    if (navLinks && !navLinks.querySelector('a[href="/live.html"]')) {
+    var existingLive = navLinks && navLinks.querySelector('a[href="/live.html"], a[href="/live"], a[href="/live/"]');
+    if (existingLive) {
+      existingLive.classList.add('ps-live-link');
+      existingLive.setAttribute('aria-label', 'Live creator stage');
+    }
+    if (navLinks && !existingLive) {
       var liveLink = document.createElement('a');
       liveLink.href = '/live.html';
       liveLink.className = 'ps-live-link';
@@ -136,6 +157,7 @@
     btn.textContent = 'Menu';
     var inner = nav.querySelector('.ps-nav-inner') || nav;
     inner.appendChild(btn);
+    nav.classList.add('ps-nav-ready');
     var links = nav.querySelector('.ps-links');
     if (links) {
       if (!links.id) links.id = 'ps-main-links';
@@ -199,7 +221,7 @@
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');
-    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/feed.html">Feed</a><a href="/journal-vault.html">Journal</a><a href="/crisis.html">Support</a><button type="button" class="ps-dock-menu" aria-expanded="false">Menu</button>';
+    dock.innerHTML = '<a href="/live.html" class="ps-dock-live">● LIVE</a><a href="/arron.html">Talk</a><a href="/feed.html">Feed</a><a href="/journal-vault.html">Journal</a><a href="/support.html">Support</a>' + (nav ? '<button type="button" class="ps-dock-menu" aria-expanded="false">Menu</button>' : '<a href="/tools.html">Tools</a>');
     document.body.appendChild(dock);
     var here = dock.querySelector('a[href="' + path + '"]');
     if (here) here.setAttribute('aria-current', 'page');

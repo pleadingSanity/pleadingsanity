@@ -301,5 +301,5 @@ loadMe().then((me) => {
   $('st-record').hidden = !creator;
   $('st-battle-signin').hidden = Boolean(me);
 });
-const first = location.hash.slice(1);
+const first = location.hash.slice(1).replace(/^tab-/, '');
 showTab(tabs.some((t) => t.dataset.tab === first) ? first : 'create');
