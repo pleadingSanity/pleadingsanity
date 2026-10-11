@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000103">
 <title>Pleading Sanity | Free mental health sanctuary</title>
-<meta name="description" content="Free sanctuary. Talk to Arron. Our Legacy. Healing, games, community. Evolution Not Erasure. Rise From Madness.">
+<meta name="description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Journal. Evolution Not Erasure. Rise From Madness.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="manifest" href="/manifest.json">
 <link rel="stylesheet" href="/css/styles.css">
@@ -27,7 +27,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem 1.25rem 3rem;
+  padding: 2.5rem 1.25rem 2rem;
   box-sizing: border-box;
 }
 .logo {
@@ -47,7 +47,7 @@ h1 {
   font-size: clamp(1.05rem, 3.5vw, 1.25rem);
   color: #b9faff;
   max-width: 36rem;
-  margin: 0.5rem auto 2rem;
+  margin: 0.5rem auto 1.75rem;
   font-weight: 500;
   opacity: 0.95;
 }
@@ -56,7 +56,7 @@ h1 {
   flex-wrap: wrap;
   gap: 1.25rem;
   justify-content: center;
-  margin: 0.5rem 0 1.5rem;
+  margin: 0.5rem 0 1.25rem;
   width: 100%;
   max-width: 42rem;
 }
@@ -83,48 +83,78 @@ h1 {
   box-shadow: 0 12px 40px rgba(0, 255, 240, 0.45);
   transform: translateY(-3px);
 }
-.secondary {
-  margin: 0.5rem 0 1.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.65rem;
-  justify-content: center;
-  max-width: 42rem;
-}
-.secondary a {
-  color: #00fff0;
-  background: rgba(13, 27, 42, 0.65);
-  padding: 0.55rem 1rem;
-  display: inline-block;
-  text-decoration: none;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 255, 240, 0.35);
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: all 0.2s ease;
-}
-.secondary a:hover {
-  background: rgba(0, 255, 240, 0.18);
-  border-color: #00fff0;
-}
 .crisis {
   background: rgba(13, 27, 42, 0.78);
   border: 1px solid #ff4d8d;
   border-radius: 16px;
-  padding: 1.25rem 1.5rem;
-  margin: 0.5rem auto 1.5rem;
+  padding: 1.1rem 1.4rem;
+  margin: 0.5rem auto 1rem;
   max-width: 32rem;
   box-shadow: 0 0 24px rgba(255, 77, 141, 0.18);
   backdrop-filter: blur(6px);
 }
-.crisis p { margin: 0.35rem 0; }
-.crisis a, footer a, .links a { color: #00fff0; }
+.crisis p { margin: 0.3rem 0; }
+.crisis a, footer a, .links a, .tool-card a { color: #00fff0; }
 .links {
-  margin: 0.5rem 0 1rem;
+  margin: 0.25rem 0 0.5rem;
   font-size: 1rem;
 }
+.tools {
+  padding: 1.5rem 1rem 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.tools h2 {
+  color: #00fff0;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  margin: 0 0 0.5rem;
+  text-shadow: 0 0 12px rgba(0, 255, 240, 0.3);
+}
+.tools .sub {
+  color: #b9faff;
+  max-width: 40rem;
+  margin: 0 auto 1.75rem;
+  font-size: 1.05rem;
+}
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  text-align: left;
+}
+.tool-card {
+  background: rgba(13, 27, 42, 0.65);
+  border: 1px solid rgba(0, 255, 240, 0.28);
+  border-radius: 20px;
+  padding: 1.4rem 1.3rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(238, 246, 255, 0.06);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.tool-card:hover {
+  transform: translateY(-3px);
+  border-color: #00fff0;
+}
+.tool-card h3 {
+  margin: 0 0 0.5rem;
+  color: #eef6ff;
+  font-size: 1.25rem;
+}
+.tool-card p {
+  margin: 0 0 1rem;
+  color: #c9e9ef;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.tool-card a {
+  display: inline-block;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.4rem 0;
+}
+.tool-card a:hover { color: #ff4d8d; }
 footer {
-  margin-top: 1rem;
+  margin-top: 0;
   padding: 1.5rem 1rem 2rem;
   font-size: 0.9rem;
   opacity: 0.9;
@@ -132,10 +162,10 @@ footer {
 footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 .legacy { margin-top: 1rem; font-size: 0.85rem; }
 @media (max-width: 600px) {
-  .hero { min-height: calc(100vh - 80px); padding: 2rem 1rem 4rem; }
+  .hero { min-height: calc(100vh - 80px); padding: 2rem 1rem 2rem; }
   .door { flex: 1 1 100%; max-width: none; padding: 1.6rem 1rem; }
-  .secondary a { padding: 0.6rem 1rem; }
   .logo { width: 96px; height: 96px; }
+  .tool-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -150,15 +180,6 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 <a class="door" href="/about.html#legacy">Our Legacy</a>
 </div>
 
-<div class="secondary">
-<a href="/finance.html">Sane Finance</a>
-<a href="/games.html">Games</a>
-<a href="/ai-family.html">AI Family</a>
-<a href="/tools.html">How to use</a>
-<a href="/crisis.html">Urgent support</a>
-<a href="/transparency.html">Transparency</a>
-</div>
-
 <div class="crisis">
 <p><strong>Need help right now?</strong></p>
 <p><a href="/crisis.html">House truth & crisis help</a></p>
@@ -166,6 +187,43 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a></p>
 </div>
+
+<section class="tools">
+<h2>In the house</h2>
+<p class="sub">Free tools we're building together with the AI family. No paywalls. No data selling. Just real help.</p>
+<div class="tool-grid">
+<article class="tool-card">
+<h3>Sane Finance</h3>
+<p>Clear head first. Know what you can afford, compare real offers, prepare truthful applications. No sales pressure. Your numbers stay on this device.</p>
+<a href="/finance.html">Open the desk →</a>
+</article>
+<article class="tool-card">
+<h3>Games</h3>
+<p>Ad-free brain games including Sanity Solitaire. XP, levels and streaks live only on your phone. A soft way back into the body when the mind has been in court all day.</p>
+<a href="/games.html">Play →</a>
+</article>
+<article class="tool-card">
+<h3>AI Family</h3>
+<p>Arron and the chain (GPT → Claude → Gemini → Grok). Create, talk, and build together. Forget Me erases everything when you ask.</p>
+<a href="/ai-family.html">Meet the family →</a>
+</article>
+<article class="tool-card">
+<h3>Journal Vault</h3>
+<p>Private storytelling space. Your words stay yours. Write, keep, or wipe. No cloud copy unless you choose.</p>
+<a href="/journal-vault.html">Open the vault →</a>
+</article>
+<article class="tool-card">
+<h3>Community</h3>
+<p>Real stories, chronological feed, no algorithms. Member profiles and the Quote Wall. Sit with people who get it.</p>
+<a href="/feed.html">Enter the feed →</a>
+</article>
+<article class="tool-card">
+<h3>Meditation & Frequencies</h3>
+<p>Soft tones only (174, 285, 432, 528, 741, 963 Hz). Silence challenge and cosmic soundscape. Nothing harsh.</p>
+<a href="/meditation.html">Sit with the tones →</a>
+</article>
+</div>
+</section>
 
 <footer>
 <p>Evolution, Not Erasure</p>
