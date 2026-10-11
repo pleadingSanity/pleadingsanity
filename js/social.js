@@ -94,17 +94,8 @@ export const originBadge = (item) => {
   if (!o || item.origin === 'human') return '';
   const who = item.aiProvider ? ` · ${item.aiProvider}${item.aiModel ? ' ' + item.aiModel : ''}` : '';
   const reviewed = item.origin === 'ai' && item.humanReviewed === false ? ' · not reviewed by a person' : '';
-  return `<span class="tag origin-tag origin-${esc(item.origin)}" title="${esc(o.hint + who + reviewed)}"><span aria-hidden="true">${o.icon}</span> ${o.label}${reviewed ? ' · unreviewed' : ''}</span>`;
-  known: { icon: '🔬', label: 'Known', hint: 'Supported by evidence or independently verifiable information' },
-  experience: { icon: '💙', label: 'Experience', hint: 'Something personally experienced by the person sharing it' },
-  thought: { icon: '💭', label: 'Thought', hint: 'An idea, question or hypothesis — not established fact' },
-  belief: { icon: '🌌', label: 'Belief', hint: 'A personal, philosophical or spiritual belief' },
-  unknown: { icon: '❔', label: 'Unknown', hint: 'Something we genuinely do not know yet' },
-  // Legacy display support for existing posts created before the five-part taxonomy.
-  evidence: { icon: '🔬', label: 'Known', hint: 'Legacy tag: evidence-backed information' },
-  philosophy: { icon: '🌌', label: 'Belief', hint: 'Legacy tag: personal/philosophical belief' },
-};
-
+  return `<span class="tag origin-tag origin-${esc(item.origin)}" title="${esc(o.hint + who + reviewed)}"><span aria-hidden="true">${o.icon}</span> ${o.label}  ${reviewed ? ' · unreviewed' : ''}</span>`;
+  };
 export const truthBadge = (tag) => {
   const t = TRUTH_TAGS[tag];
   return t ? `<span class="truth-tag truth-${esc(tag)}" title="${esc(t.hint)}"><span aria-hidden="true">${t.icon}</span> ${t.label}</span>` : '';
