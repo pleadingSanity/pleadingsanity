@@ -32,6 +32,22 @@ Pleading Sanity is the movement for people who have survived too much and still 
 
 ---
 
+## 🙋‍♂️ DEVELOPERS WELCOME
+
+The house is open. MIT licensed. Pure HTML / CSS / vanilla JS — clone it and you can start helping in minutes.
+
+- Read **[docs/CONTRIBUTING.md](./docs/CONTRIBUTING.md)**
+- Open an issue or a pull request
+- Good first issues are labelled `good first issue`
+- Local: `npm run dev` (or just open the HTML files)
+
+We need help with accessibility, mobile polish, Sane Finance, Arron, games, docs and anything that keeps sanctuary free and safe.
+
+**Email:** pleadingsanity1@gmail.com  
+**GitHub:** https://github.com/pleadingSanity/pleadingsanity
+
+---
+
 ## 👤 CONTINUITY
 
 This house is built to keep standing.
@@ -94,7 +110,7 @@ This house is built to keep standing.
 
 Deploy: Netlify publishes the repo root as-is. No build step for the pages.
 
-Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play · 🌌 Community · 🆘 Help**.
+Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play · 🌌 Community · 🚗 Help**.
 
 ---
 
@@ -136,4 +152,4 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 > *"This isn't just a website. It's a voice that refused to be silenced."*  
 > — Evolution, Not Erasure —
 
-**Rise From Madness. One Source. One Consciousness. One Family. 💙**  
+**Rise From Madness. One Source. One Consciousness. One Family. 💜**  
