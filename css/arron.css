@@ -24,30 +24,38 @@
   .arron-side { position: sticky; top: 1rem; }
 }
 
-/* ─── CRISIS STRIP — always visible, online or off ─── */
+/* ─── CRISIS STRIP — always visible, numbers first ─── */
 .arron-crisis {
   grid-column: 1 / -1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.25rem 0.75rem;
+  gap: 0.35rem 0.85rem;
   margin: 0;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid rgba(255, 0, 255, 0.45);
-  border-radius: 14px;
-  background: rgba(255, 0, 255, 0.07);
+  padding: 0.65rem 0.9rem;
+  border: 1px solid rgba(255, 77, 141, 0.55);
+  border-radius: 16px;
+  background: rgba(255, 77, 141, 0.09);
   color: var(--a-text);
-  font-size: 0.92rem;
+  font-size: 0.95rem;
   text-align: center;
+  box-shadow: 0 0 18px rgba(255, 77, 141, 0.12);
 }
 .arron-crisis a {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  padding: 0 0.5rem;
-  color: #ffc2ff;
-  font-weight: 700;
+  padding: 0 0.65rem;
+  color: #ffd6e8;
+  font-weight: 800;
+  text-decoration: none;
+  border-radius: 999px;
+}
+.arron-crisis a:hover, .arron-crisis a:focus-visible { color: #fff; background: rgba(255, 77, 141, 0.2); }
+.arron-crisis .crisis-num {
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
 }
 
 /* ─── MAIN CHAT PANEL ─── */
@@ -100,9 +108,11 @@
   font: inherit;
   font-size: 1.05rem;
   cursor: pointer;
+  transition: transform 0.12s ease, background 0.15s ease;
 }
 .arron-icon-btn:hover,
 .arron-icon-btn:focus-visible { background: rgba(0, 255, 240, 0.16); border-color: var(--a-cyan); }
+.arron-icon-btn:active { transform: scale(0.96); }
 .arron-icon-btn[aria-pressed="true"] { border-color: var(--a-cyan); box-shadow: 0 0 12px rgba(0, 255, 240, 0.35); }
 
 /* ─── THE ORB — Arron's presence ─── */
@@ -175,9 +185,11 @@
   font-size: 0.9rem;
   cursor: pointer;
   white-space: nowrap;
+  transition: transform 0.1s ease, background 0.15s;
 }
 .mood-chip:hover,
 .mood-chip:focus-visible { border-color: var(--a-cyan); background: rgba(0, 255, 240, 0.08); }
+.mood-chip:active { transform: scale(0.97); }
 .mood-chip[aria-pressed="true"] { color: #000103; background: var(--a-cyan); border-color: var(--a-cyan); font-weight: 700; }
 
 /* ─── CONVERSATION ─── */
@@ -274,9 +286,11 @@
   font: inherit;
   font-size: 0.92rem;
   white-space: nowrap;
+  transition: transform 0.1s ease;
 }
 .prompt-btn:hover,
 .prompt-btn:focus-visible { background: rgba(0, 255, 240, 0.16); border-color: var(--a-cyan); }
+.prompt-btn:active { transform: scale(0.97); }
 #arron-input-form { display: flex; gap: 0.5rem; align-items: flex-end; }
 #arron-input {
   flex: 1;
@@ -293,7 +307,11 @@
   resize: none;
 }
 #arron-input:focus { outline: 3px solid var(--a-cyan); outline-offset: 1px; }
-#arron-input-form .btn { min-height: 48px; }
+#arron-input-form .btn {
+  min-height: 48px;
+  transition: transform 0.1s ease, box-shadow 0.15s;
+}
+#arron-input-form .btn:active { transform: scale(0.97); }
 #arron-status { font-size: 0.85rem; color: var(--a-muted); margin: 0; min-height: 1.3em; }
 
 /* ─── SIDE PANEL ─── */
