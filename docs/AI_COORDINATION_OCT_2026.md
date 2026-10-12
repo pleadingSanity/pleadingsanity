@@ -121,7 +121,8 @@ Claude
 
 - Do not drop in a second Arron router. Harden the one in `netlify/lib/ai-chain.ts` only if a test shows a hole.
 - The image route still serves a blob to anyone who has the link. That fix is the open one. It needs a test, then a deploy preview. Not a rewrite.
-- Analytics stays off the journal, Arron, finance, and settings pages. Do not put the tag back.
+- Analytics is off on every page. Google Analytics was removed from all remaining public pages on 12 October 2026, and `privacy.html` says so. Do not put the tag back. Any future analytics needs a default-denied consent step and must never load on the crisis, support, sanctuary, journal, Arron, finance, or account pages.
+- The Survivor Journal (`journal-vault.html`) stores entries under the localStorage key `journalVault`. `ps_journal` / `ps_journal_entries` belongs only to archived code in `archive/legacy-js/sanctuary-bridge.js`. Briefings must use `journalVault`.
 - Drizzle and Netlify Database stay inside the free allowance. No new table for chat logs "just to be safe". `arron_messages` still has no retention limit. A retention job is a design, not a cron you switch on tonight.
 
 GPT
