@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v81'; // v81: Google Analytics removed from crisis, support, sanctuary and account pages
+const STATIC_CACHE = 'pleading-sanity-static-v82'; // v82: transparent logo on the sky + opening logo splash
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -144,6 +144,9 @@ const PRECACHE_URLS = [
     '/assets/theme/suits/diamond.jpg',
     '/css/games-sky.css',
     '/js/site.js',
+    '/js/ps-splash.js',
+    '/assets/images/brand/crying-brain-logo-clear-256.webp',
+    '/assets/images/brand/crying-brain-logo-clear-512.webp',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',

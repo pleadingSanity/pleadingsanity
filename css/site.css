@@ -66,20 +66,17 @@
   width: 36px;
   height: 36px;
   display: block;
-  border-radius: 50%;
-  object-fit: cover;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.45), transparent 46%),
-    #000103;
-  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.65), 0 0 12px rgba(0, 255, 240, 0.28);
+  object-fit: contain;
+  background: none;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 240, 0.45));
 }
+/* The logo is a transparent cut-out, so it sits straight on the sky with no disc or ring. */
 img.logo, .logo-mark {
-  border-radius: 50%;
-  object-fit: cover;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.4), transparent 48%),
-    #000103;
-  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.55);
+  object-fit: contain;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 .ps-nav .ps-links {
   display: flex;

@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="/css/design-system.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
-<link rel="preload" href="/assets/images/brand/crying-brain-logo-512.webp" as="image">
+<link rel="preload" href="/assets/images/brand/crying-brain-logo-clear-256.webp" as="image" imagesrcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" imagesizes="110px">
 <style>
 body {
   color: #eef6ff;
@@ -50,7 +50,7 @@ body {
   width: 110px;
   height: 110px;
   margin: 0 0 0.75rem;
-  filter: drop-shadow(0 0 18px rgba(0, 255, 240, 0.55));
+  filter: drop-shadow(0 0 14px rgba(0, 255, 240, 0.45)) drop-shadow(0 0 28px rgba(255, 0, 255, 0.18));
 }
 h1 {
   font-size: clamp(2.8rem, 9vw, 4.5rem);
@@ -281,10 +281,11 @@ footer a { margin: 0.25rem 0.4rem; display: inline-block; }
 </style>
 </head>
 <body>
+<script src="/js/ps-splash.js"></script>
 <a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content">
 <div class="hero">
-<img class="logo" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying brain logo" width="110" height="110" loading="eager" fetchpriority="high" decoding="async">
+<img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 96px, 110px" alt="Pleading Sanity crying brain logo" width="110" height="110" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
 <p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
 <p class="built">Built from survival by Shane Cooper. Free for everyone. No one turned away.</p>
