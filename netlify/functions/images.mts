@@ -7,7 +7,7 @@
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { currentUser, json, logActivity, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
+import { currentUser, optionalUser, json, logActivity, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
 import { db } from "../../db/index.js";
 import { posts } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
@@ -22,7 +22,7 @@ export default async (req: Request) => {
   try {
     const store = getStore("post-images");
     const url = new URL(req.url);
-    const user = await currentUser();
+    const user = req.method === "GET" ? await optionalUser() : await currentUser();
     if (req.method !== "GET" && !user) return unauthorized();
 
     if (req.method === "POST" && url.pathname === "/api/images/banner") {
@@ -57,7 +57,12 @@ export default async (req: Request) => {
     }
 
     if (req.method === "GET") {
-      const key = decodeURIComponent(url.pathname.replace("/api/images/", ""));
+      if (!url.pathname.startsWith("/api/images/")) return new Response("Not found", { status: 404 });
+      const key = url.pathname.slice("/api/images/".length);
+      // Reject malformed and nested paths before looking up a blob.
+      if (!key || key.includes("%") || key.includes("..") || key.includes("\\") || key.split("/").length !== 2 || key.split("/").some((part) => !part)) {
+        return new Response("Not found", { status: 404 });
+      }
       // Deny access by default. A blob URL is not proof that a viewer may read it.
       if (key.startsWith("banner/")) {
         if (!user) return unauthorized();
