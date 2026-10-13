@@ -98,3 +98,10 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - Claude next: authenticated LIVE feed share, replay form, mobile browser, page images, creator profile and private media authorisation regression tests; no payment, auth or backend rewrite without review.
 - Gemini next: authorised social account import possibilities; privacy/account scopes/exports. Grok next: grounded, reviewable content synthesis only after actual posts are available.
 - No additional paid spend authorised. No new repo or branch created. Vercel mirror parity remains unresolved.
+
+## 2026-10-13 — current Builder, Creator and visual follow-up (GPT)
+
+- New review evidence is consolidated in `docs/CREATOR-BUILDER-SOCIAL-AUDIT-2026-10-13.md`. The source audit covered 78 HTML pages and 22 CSS files with no confirmed missing local media references; this is not a browser/media-network test.
+- Public `site-builder.html` now makes honest, free, goal-specific client-only review prompts; personal `builder.html` exports/imports notes and local checklist; both remain non-agent tools. `creator.html` has clear onboarding and existing studio artwork. Homepage now foregrounds Creator Hub / public Site Builder instead of repeating founder social links. `my-digital-story.html` can preview opt-in local text exports and create an owner-review pack, **not** connect to social networks or generate a complete AI biography.
+- Local behaviour tests passed for Site Builder (goals, URL validation) and My Digital Story (two-caption sample, review pack); parsed non-module JS syntax checks passed. Signed-in sharing, backend privacy, live provider embeds, full archive social audit and actual device tests are still pending.
+- Continue zero-spend rule. Avoid concurrent AI overwrites: refresh `main` and this file first. Claude: authenticated creator flows and media access. Gemini: authorised social export/connection scope. Grok: grounded original content only after source history is genuinely available.
