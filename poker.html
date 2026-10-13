@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <title>Night Table | Pleading Sanity</title>
-  <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money." />
+  <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money. Soft focus under the stars." />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -23,7 +23,11 @@
   <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/css/styles.css" />
   <style>
-    body { margin: 0; background: #000103; color: #eef6ff; font-family: Georgia, serif; }
+    body { margin: 0; background: #000103; color: #eef6ff; font-family: system-ui, -apple-system, sans-serif; }
+    .levels { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:10px 0 14px; }
+    .lvl { padding:6px 12px; border-radius:999px; border:1px solid rgba(0,255,240,.4); background:rgba(13,27,42,.8); font-size:.85rem; }
+    .lvl.done { background:#00fff0; color:#000103; font-weight:800; }
+    .lvl.now { outline:2px solid #00fff0; }
     .wrap { width: min(720px, calc(100% - 16px)); margin: 0 auto; padding: 12px 0 32px; }
     .brand { color: #eef6ff; text-decoration: none; font-weight: 800; }
     h1 { color: #00fff0; font-size: 1.5rem; }
@@ -70,6 +74,8 @@ body { overflow-x: hidden; }
   <div class="wrap" role="main" id="main-content">
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
+    <p class="note">A calm Texas Hold’em table under the stars. Play chips only. Soft focus when the mind is loud.</p>
+    <div class="levels" id="levels"></div>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. <a href="/support.html">Support</a> · <a href="/crisis.html">Crisis</a>.</p>
     <div class="top"><img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220" /><p class="note" id="bank">Bank 1000 play chips</p></div>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
@@ -119,8 +125,7 @@ body { overflow-x: hidden; }
     function face(c) { return RANKS[c.r] + SUIT[c.s]; }
     const ART = ["/assets/theme/suits/spade.jpg", "/assets/theme/suits/heart.jpg", "/assets/theme/suits/diamond.jpg", "/assets/theme/suits/club.jpg"];
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
-    // Seat names come from other players through the room, so they are always escaped before innerHTML.
-    function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]); }
+    function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" })[ch]); }
     function cardHtml(c) {
       return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
     }
@@ -316,79 +321,55 @@ body { overflow-x: hidden; }
     async function sit(code) {
       await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only." }) });
     }
-    $("share").onclick = async () => {
-      const url = location.href;
-      const code = new URLSearchParams(location.search).get("room");
-      if (code) await sit(code);
-      try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
-      log("Share this. Play chips only. One pot. " + url);
-    };
-    let deferred;
-    addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
-    $("install").onclick = async () => { if (deferred) { deferred.prompt(); deferred = null; return; } log("iPhone: Share, then Add to Home Screen."); };
-    function replay(n, actions) {
-      replaying = true;
-      hands = n;
-      deck = freshDeck();
-      const names = [roomPlayers[0] || "You", roomPlayers.length > 1 ? roomPlayers[1] : "Friend", "Tight", "Loose"];
-      const start = roomStacks && roomStacks.length === 4 ? roomStacks : [1000, 1000, 1000, 1000];
-      button = ((hands - 1) % 4 + 4) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4;
-      seats = names.map((name, i) => ({ name, stack: start[i], hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
-      const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
-      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
-      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
-      for (const a of actions) {
-        if (handOver || turn !== Number(a.seat)) break;
-        applyPlay(Number(a.seat), a.kind, a.amount);
-      }
-      roomActions = actions.slice();
-      replaying = false;
-      paint();
-      if (handOver && mySeat === 0) {
-        fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), stacks: seats.map((s) => s.stack), hand: hands, note: "Play chips only." }) }).catch(() => {});
-      } else if (!handOver) nudge();
-    }
+    let room = new URLSearchParams(location.search).get("room");
+    if (room) sit(room);
+    deal();
+    setInterval(() => { if (room && !acting) fetch("/api/poker-room/" + room).then(r => r.json()).then(applyRoom).catch(() => {}); }, 4000);
     function applyRoom(data) {
-      if (!data) return;
-      if (Array.isArray(data.players) && data.players.length) roomPlayers = data.players;
-      else if (Array.isArray(data.seats)) roomPlayers = data.seats;
-      const who = seatName();
-      const found = roomPlayers.indexOf(who);
-      mySeat = found >= 0 ? found : 0;
-      if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
-      if (data.seed) roomSeed = Number(data.seed) || roomSeed;
-      if (Array.isArray(data.stacks) && data.stacks.length === 4) roomStacks = data.stacks.map(Number);
-      const actions = Array.isArray(data.actions) ? data.actions : [];
-      const n = Number(data.hand) || 1;
-      const key = roomPlayers.join("|");
-      if (!hands || n !== hands || actions.length !== roomActions.length || key !== lastPlayers) {
-        lastPlayers = key;
-        replay(n, actions);
-      }
+      if (!data || !data.players) return;
+      roomPlayers = data.players;
+      roomSeed = data.seed || 0;
+      roomStacks = data.stacks || null;
+      if (data.hand && data.hand !== hands) deal(data.hand);
     }
     async function pushPlay(seat, kind, amount) {
-      if (!room || acting) return;
       acting = true;
-      try {
-        const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only.", play: { seat, kind, amount, hand: hands, expect: roomActions.length } }) });
-        applyRoom(await res.json().catch(() => ({})));
-      } finally { acting = false; }
+      await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), action: kind, amount, note: "Play chips only." }) });
+      acting = false;
     }
-    function nudge() {
-      if (!room || handOver || acting || replaying) return;
-      if (humanSeat(turn)) return;
-      if (mySeat !== 0) return;
-      const c = choose(seats[turn]);
-      pushPlay(turn, c.kind, c.amount);
-    }
-    const room = new URLSearchParams(location.search).get("room");
-    if (room) {
-      $("room-name").textContent = "Room " + room;
-      sit(room).then(() => fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}));
-      setInterval(() => { fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}); }, 2500);
-    } else deal();
-    setInterval(() => { if (room || !(handOver || !seats)) return; const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[mySeat] && handOver) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
+    $("share").onclick = () => { if (room) navigator.clipboard?.writeText(location.href); log(room ? "Room link copied." : "Open a room first."); };
+    $("install").onclick = () => { if (window.deferredPrompt) window.deferredPrompt.prompt(); else log("Add to home screen from your browser menu."); };
+    window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.deferredPrompt = e; });
+    setInterval(() => { const n = loadBank(); if (n !== bank && !handOver) { bank = n; if (seats && seats[mySeat] && handOver) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
   </script>
+<script>
+(function(){
+  const KEY = "ps-poker-levels";
+  let unlocked = Number(localStorage.getItem(KEY) || 5);
+  if (!Number.isFinite(unlocked) || unlocked < 5) unlocked = 5;
+  function paintLevels(){
+    const el = document.getElementById("levels");
+    if (!el) return;
+    let html = "";
+    for (let i = 1; i <= unlocked; i++){
+      html += '<span class="lvl' + (i === unlocked ? ' now' : ' done') + '">Level ' + i + '</span>';
+    }
+    html += '<span class="lvl">Next opens when you finish ' + unlocked + '</span>';
+    el.innerHTML = html;
+  }
+  paintLevels();
+  const logEl = document.getElementById("log");
+  if (logEl){
+    const obs = new MutationObserver(() => {
+      if (/take the pots/.test(logEl.textContent || "")){
+        unlocked += 1;
+        localStorage.setItem(KEY, String(unlocked));
+        paintLevels();
+      }
+    });
+    obs.observe(logEl, { childList: true, characterData: true, subtree: true });
+  }
+})();
+</script>
 </body>
 </html>
