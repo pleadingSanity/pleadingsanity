@@ -54,6 +54,13 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
 </div>
 
 <div class="panel">
+<h2>Reviewed social-post findings</h2>
+<label for="social"><span class="note">After reviewing posts or exported archives, record genuine themes, source links, dates and material you want the AI Family to consider. Nothing is posted automatically.</span></label>
+<textarea id="social" maxlength="6000" rows="5" placeholder="Example: Instagram post URL/date; topic; what I actually said; useful idea for Pleading Sanity; approved to reuse?"></textarea>
+<p class="note">This page does not access social networks or analyse their histories. Import data only through an authorised account connection or an export you choose. Keep third-party names and private posts out of the shared handoff without permission.</p>
+</div>
+
+<div class="panel">
 <h2>House check</h2>
 <div class="checklist" id="checks">
 <label><input type="checkbox" data-page="/"> Homepage — purpose lines, crisis, space background, apps showcase</label>
@@ -67,6 +74,8 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
 <label><input type="checkbox" data-page="/meditation.html"> Meditation — soft tones, silence allowed</label>
 <label><input type="checkbox" data-page="/crisis.html"> Crisis — 116 123 · 85258 visible</label>
 <label><input type="checkbox" data-page="/site-builder.html"> Public Site Builder — free, personalised prompt, no site scan</label>
+<label><input type="checkbox" data-page="/creator.html"> Creator Hub — accurate status and clear start steps</label>
+<label><input type="checkbox" data-page="/live.html"> LIVE — audience, embed, local controls, moderated feed share</label>
 </div>
 <div class="btn-row">
 <button type="button" id="openAll">Open next unchecked page</button>
@@ -102,8 +111,8 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
 
 <script>
 (function(){
-  const WORK='ps-builder-work',CHECKS='ps-builder-checks';
-  const work=document.getElementById('work');
+  const WORK='ps-builder-work',SOCIAL='ps-builder-social',CHECKS='ps-builder-checks';
+  const work=document.getElementById('work'),social=document.getElementById('social');
   const checks=[...document.querySelectorAll('#checks input[data-page]')];
   const output=document.getElementById('output');
   const note=document.getElementById('storage-status');
@@ -112,15 +121,16 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
   const write=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(e){show('Could not save locally. Export your notes instead.');return false}};
   function snapshot(){
     const marked={};checks.forEach(c=>marked[c.dataset.page]=c.checked);
-    return {version:1,work:work.value,checks:marked};
+    return {version:1,work:work.value,social:social.value,checks:marked};
   }
   function load(){
-    work.value=read(WORK)||'';
+    work.value=read(WORK)||'';social.value=read(SOCIAL)||'';
     let saved={};try{saved=JSON.parse(read(CHECKS)||'{}')}catch(e){show('Saved checklist was unreadable. It has been reset.')}
     checks.forEach(c=>c.checked=!!saved[c.dataset.page]);
   }
   function saveChecks(){write(CHECKS,JSON.stringify(snapshot().checks))}
   work.addEventListener('input',()=>write(WORK,work.value));
+  social.addEventListener('input',()=>write(SOCIAL,social.value));
   checks.forEach(c=>c.addEventListener('change',saveChecks));
   load();
   document.getElementById('openAll').addEventListener('click',()=>{
@@ -149,11 +159,11 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
     try{
       if(file.size>50000)throw new Error('Handoff file is too large.');
       const data=JSON.parse(await file.text());
-      if(data.version!==1||typeof data.work!=='string'||data.work.length>12000||!data.checks||typeof data.checks!=='object'||Array.isArray(data.checks))throw new Error('Not a supported Sane Builder handoff.');
+      if(data.version!==1||typeof data.work!=='string'||data.work.length>12000||typeof (data.social??'')!=='string'||(data.social||'').length>6000||!data.checks||typeof data.checks!=='object'||Array.isArray(data.checks))throw new Error('Not a supported Sane Builder handoff.');
       if(!window.confirm('Import will replace this browser’s current builder notes and checks. Continue?'))return;
-      work.value=data.work;
+      work.value=data.work;social.value=data.social||'';
       checks.forEach(c=>c.checked=data.checks[c.dataset.page]===true);
-      write(WORK,work.value);saveChecks();show('Handoff imported into this browser.');
+      write(WORK,work.value);write(SOCIAL,social.value);saveChecks();show('Handoff imported into this browser.');
     }catch(e){show(e.message||'Could not read this handoff file.')}
     finally{this.value=''}
   });
@@ -168,6 +178,9 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
       'CURRENT WORK (local notes, not shared across devices):',
       work.value||'(none saved)',
       '',
+      'REVIEWED SOCIAL POSTS AND THEMES (owner supplied; AI must verify sources before reuse):',
+      social.value||'(none reviewed yet)',
+      '',
       'PAGES NOT YET REVIEWED:',
       open.length?open.join('\n'):'All marked reviewed on this browser.',
       '',
@@ -177,6 +190,7 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
       '- Keep Samaritans 116 123, SHOUT 85258 and the Arron not-a-therapist disclaimer.',
       '- Do not add paid services, duplicate repositories or untested features.',
       '- This browser-side builder does not connect the AIs automatically.',
+      '- Only share social-post findings with the founder approving content and privacy.',
       '- Provide changed files, tests, outstanding blockers and deploy evidence.',
       '',
       'Start with the highest-priority verified issue. Preserve working features.'
