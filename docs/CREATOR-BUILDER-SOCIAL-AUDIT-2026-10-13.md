@@ -33,3 +33,11 @@ Verified source review: 2026-10-13. Baseline main at start of audit: `c8369d2396
 - `builder.html` commit `4063062`: noindex meta only. A concurrent agent independently improved browser-local checklist, import/export, honesty and public Site Builder. Its code should receive a separate regression test before claiming full production readiness.
 
 **Status:** Source audit and targeted fixes complete; authenticated end-to-end tests, all-post social content audit and cross-domain mirror parity unverified. No new paid service activated.
+
+## 13 October — additional visual and functional validation
+
+- On source snapshot `ef53d6b`, checked 78 tracked HTML pages and 22 CSS files against GitHub's recursive file tree: no confirmed missing local image/media asset references. Some apparent missing strings were variables inside scripts, not files. This is a source audit, not a CDN/network or real browser image-loading test.
+- Home showcase images have explicit dimensions after commit `ef53d6b`; Creator Hub and the builder tools reuse existing verified brand/aurora/studio assets. No logos were replaced or third-party services purchased.
+- Small interactive simulations: public Site Builder correctly generated a goal-specific review prompt and rejected an unsafe URL; My Digital Story extracted two captions from a controlled sample JSON export and generated an owner-review-only pack. Non-module inline scripts compiled. Account login, live streaming, payment, cross-domain and mobile tests remain outstanding.
+- Source changes: `7b14b94` Site Builder honesty and free personalised prompts; `6f0711c`/`800b737` Builder local import/export and checklist; `65ad9f7` Creator steps and image; `c9ed938` focused home cards and fewer social links; `cab7e36` optional export-derived story review pack; `ef53d6b` homepage image dimensions.
+- A full audit of every real social post remains blocked until owner-authorised account connections/archives are available. Never invent historical posts. Default extra spending is £0.
