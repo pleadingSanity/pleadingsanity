@@ -205,6 +205,8 @@ async function deleteMe(userId: string) {
   try {
     const { blobs } = await store.list({ prefix: `${userId}/` });
     await Promise.all(blobs.map((b) => store.delete(b.key).catch(() => {})));
+    // Profile banners are stored under banner/<userId>, outside the userId/ prefix.
+    await store.delete(`banner/${userId}`);
   } catch (error) {
     console.error("Could not list images for erasure:", error);
   }
