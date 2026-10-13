@@ -87,3 +87,14 @@ One source. Evolution, Not Erasure. Rise From Madness.
 
 - Commit `0993ba9a6e6547f86b94a524bac7d8e153a32959` on `main` changes 45 HTML/README files, each replacing only `https://www.tiktok.com/@mentally.inshane` with the exact founder-supplied `https://www.tiktok.com/@mentallyinshane`. GitHub comparison verified 45 files, each with one line added and one removed. Existing Grok-updated homepage, About, Community and Movement were not overwritten.
 - Netlify/GitHub deployment parity for this commit requires the next deploy confirmation. The custom Vercel mirror domains must still be compared to main and synced separately; do not represent the backup as fully current without evidence.
+
+## 2026-10-13 — Sane Builder, LIVE Creator and social audit
+
+- Verified source in `builder.html`, `site-builder.html`, `creator.html`, `live.html`, `ai-studio.html`; details in `docs/CREATOR-BUILDER-SOCIAL-AUDIT-2026-10-13.md`.
+- Sane Builder is a **publicly accessible URL** with device-local notes/checklists; not an authenticated or automatically collaborating AI agent. A concurrent Grok/other-agent update added import/export and accurate local limitations. GPT added `noindex` in commit `4063062`.
+- Public Sane Site Builder generates a client-side handoff brief, **does not crawl/fix/deploy third-party sites**; current copy accurately states this.
+- Creator LIVE page GPT fix `5e6cec9`: HTTPS URL validation, safer local text rendering, correct Twitch parent on each host, accurate local-only chat label, truthful non-broadcast banner. Signed-in feed share code preserved; production end-to-end user tests still needed.
+- A Metricool connection was approved and confirmed, but Metricool reported **no social networks connected to its brand**; account-connection step is `https://app.metricool.com/brands/connections?blogId=7408654`. No complete historical Instagram/TikTok/YouTube/Facebook/LinkedIn post audit has occurred; authorised platform connections/exports required. Do not scatter links across the site as a replacement for content research.
+- Claude next: authenticated LIVE feed share, replay form, mobile browser, page images, creator profile and private media authorisation regression tests; no payment, auth or backend rewrite without review.
+- Gemini next: authorised social account import possibilities; privacy/account scopes/exports. Grok next: grounded, reviewable content synthesis only after actual posts are available.
+- No additional paid spend authorised. No new repo or branch created. Vercel mirror parity remains unresolved.
