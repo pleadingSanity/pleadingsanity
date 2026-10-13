@@ -135,7 +135,7 @@
     </div>
   </div>
 </nav>
-<div class="live-alert" role="status"><span class="live-dot" aria-hidden="true"></span> Pleading Sanity LIVE <span>· Your people. Your moment. Your story.</span></div>
+<div class="live-alert" role="status"><span class="live-dot" aria-hidden="true"></span> Pleading Sanity LIVE HUB <span>· External streams only; no native broadcast running here.</span></div>
 <main id="main-content" class="live-page">
   <section class="live-hero">
     <span class="live-tag">CREATOR STAGE</span>
@@ -213,7 +213,7 @@
   </section>
 
   <section class="live-card" id="creator-tools">
-    <h2>Creator controls</h2>
+    <h2>Creator planning controls (local only)</h2>
     <div class="live-grid">
       <div>
         <p class="live-note">Use these controls to prepare or manage the stream link currently on this device.</p>
@@ -235,12 +235,12 @@
   </section>
 
   <section class="live-card" id="live-chat">
-    <h2>Community chat</h2>
-    <p class="live-note">Chat foundation is available in this browser now. 🔜 Real-time shared chat across viewers will be connected with the live backend.</p>
+    <h2>Personal chat notes (this device only)</h2>
+    <p class="live-note">Messages written here stay in this browser and are NOT delivered to the streamer or other viewers. Real-time shared chat is not connected yet.</p>
     <div id="chat-log" class="chat-log" aria-live="polite"></div>
     <form id="chat-form" class="live-chat-form">
       <input id="chat-message" maxlength="280" placeholder="Say something kind…" aria-label="Chat message" required>
-      <button class="live-btn" type="submit">Send</button>
+      <button class="live-btn" type="submit">Save note</button>
     </form>
   </section>
 
@@ -289,7 +289,7 @@ function embedFor(raw){
   if(host==='twitch.tv'){
     const channel=u.pathname.split('/').filter(Boolean)[0];
     if(!channel||['videos','directory','downloads','settings'].includes(channel.toLowerCase())) return null;
-    return 'https://player.twitch.tv/?channel='+encodeURIComponent(channel)+'&parent=pleadingsanity.co.uk&parent=www.pleadingsanity.co.uk';
+    return 'https://player.twitch.tv/?channel='+encodeURIComponent(channel)+'&parent='+encodeURIComponent(location.hostname);
   }
   return null;
 }
@@ -311,6 +311,7 @@ form.addEventListener('submit',async(e)=>{
   e.preventDefault();
   const title=titleInput.value.trim(),url=urlInput.value.trim(),body=messageInput.value.trim();
   if(!title||!url){status.textContent='Add a title and a public stream URL first.';return}
+   try{const link=new URL(url);if(link.protocol!=='https:')throw new Error('HTTPS required')}catch{status.textContent='Use a valid public HTTPS stream URL.';return}
   try{await requireMember()}catch{return}
   const button=document.getElementById('share-live');button.disabled=true;button.textContent='Sharing…';status.textContent='';
   try{
@@ -340,8 +341,8 @@ form.addEventListener('submit',async(e)=>{
     if(!items.length){root.innerHTML='<p class="live-note">'+empty+'</p>';return}
     items.forEach((item,i)=>{
       const el=document.createElement('article');
-      el.innerHTML='<strong>'+String(item.title||'Untitled').replace(/[<>&"]/g,'')+'</strong><br><span class="live-note">'+String(item.when||'')+'</span>';
-      if(item.url){const a=document.createElement('a');a.href=item.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=item.replay?' Watch replay →':' Open stream →';el.append(a)}
+      const title=document.createElement('strong');title.textContent=String(item.title||'Untitled');const br=document.createElement('br');const when=document.createElement('span');when.className='live-note';when.textContent=String(item.when||'');el.append(title,br,when);
+      if(item.url){try{const link=new URL(item.url);if(link.protocol==='https:'){const a=document.createElement('a');a.href=link.href;a.target='_blank';a.rel='noopener noreferrer';a.textContent=item.replay?' Watch replay →':' Open stream →';el.append(a)}}catch{}}
       root.append(el);
     });
   };
@@ -362,7 +363,7 @@ form.addEventListener('submit',async(e)=>{
     e.preventDefault();
     const title=document.getElementById('past-title').value.trim();
     const url=document.getElementById('past-url').value.trim();
-    try{new URL(url)}catch{document.getElementById('past-status').textContent='Enter a valid replay URL.';return}
+    try{const link=new URL(url);if(link.protocol!=='https:')throw new Error('HTTPS required')}catch{document.getElementById('past-status').textContent='Enter a valid HTTPS replay URL.';return}
     state.past.push({title,url,replay:true});state.past=state.past.slice(-20);write(state);
     renderList('past-list',state.past,'No replay links have been saved on this device yet.');
     e.target.reset();document.getElementById('past-status').textContent='Replay saved on this device.';
@@ -387,7 +388,7 @@ form.addEventListener('submit',async(e)=>{
   });
 
   const chatLog=document.getElementById('chat-log');
-  const renderChat=()=>{chatLog.innerHTML=state.chat.map(m=>'<article><strong>You</strong> <span class="live-note">'+new Date(m.t).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+'</span><br>'+String(m.text).replace(/[<>&"]/g,'')+'</article>').join('')||'<p class="live-note">No messages yet.</p>';chatLog.scrollTop=chatLog.scrollHeight};
+  const renderChat=()=>{chatLog.replaceChildren();if(!state.chat.length){const p=document.createElement('p');p.className='live-note';p.textContent='No personal notes yet.';chatLog.append(p)}else{state.chat.forEach(m=>{const article=document.createElement('article');const who=document.createElement('strong');who.textContent='You (saved locally)';const time=document.createElement('span');time.className='live-note';const d=new Date(m.t);time.textContent=Number.isNaN(d.getTime())?'':' '+d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'});const br=document.createElement('br');const body=document.createElement('span');body.textContent=String(m.text||'');article.append(who,time,br,body);chatLog.append(article)})}chatLog.scrollTop=chatLog.scrollHeight};
   renderChat();
   document.getElementById('chat-form')?.addEventListener('submit',e=>{
     e.preventDefault();const input=document.getElementById('chat-message');const text=input.value.trim();if(!text)return;
