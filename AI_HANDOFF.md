@@ -68,3 +68,10 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - `games.html` and `finance.html` have purpose lines and calm empty states. No logic changes.
 - xAI spending-limit and GPT 429 remain owner actions. Chain untouched.
 - Other agent branches exist. Do not mass-merge. One source stays `main`.
+
+## 2026-10-13 — three calm visuals + breathing room (Grok)
+
+- Added three new showcase images: `brain-calm.jpg`, `cards-calm.jpg`, `journal-calm.jpg` under `assets/images/showcase/`.
+- Small breathing-room rules appended to `css/design-system.css` (purpose line spacing, card margins, mobile padding).
+- No logic, auth, payment, or chain changes.
+- Deploy and quality audit were green on the previous restore commit. These are visual only.

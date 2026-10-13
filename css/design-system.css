@@ -118,3 +118,10 @@
 @media (prefers-reduced-motion: reduce) {
   .ps-btn:active, .ps-card:hover { transform: none; }
 }
+
+/* Breathing room — calm spacing for tool cards and purpose lines */
+.purpose { margin-block: 0.4rem 0.7rem; line-height: 1.5; }
+.tool-card, .ps-card { margin-bottom: 1.25rem; }
+@media (max-width: 700px) {
+  main { padding-bottom: 2.5rem; }
+}
