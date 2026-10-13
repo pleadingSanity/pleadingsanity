@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000103">
 <title>Sane Builder | Pleading Sanity</title>
-<meta name="description" content="Private Sane Builder for Shane and the AI family. Test the house, keep shared memory, generate next prompts. Free for the sanctuary. Fully working.">
+<meta name="description" content="Sane Builder founder workspace: on-device notes, site checklist, exportable handoffs and prompts for the Pleading Sanity AI family.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
@@ -32,19 +32,24 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 .ai-grid a{text-align:center;justify-content:center}
 #output{white-space:pre-wrap;background:#000103;border-radius:12px;padding:12px;min-height:100px;font-size:0.92rem}
 .note{color:#a9c7d1;font-size:0.9rem}
+.builder-banner{padding:1.2rem;border:1px solid rgba(0,255,240,.3);border-radius:20px;background:linear-gradient(90deg,rgba(0,1,3,.94),rgba(0,1,3,.60)),url('/assets/images/space/aurora-streaks.jpg') center/cover}
+button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
 @media (max-width:600px){.wrap{padding:1rem 0.75rem 2.5rem}}
 </style>
 </head>
 <body>
 <div class="wrap">
 <a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36">Pleading Sanity</a>
-<h1>Sane Builder</h1>
-<p class="sub">Private testing and coordination app for Shane and the AI family. One place to check the house, keep what we are working on, and generate the next prompt. Free for this sanctuary. Fully working. Updates automatically with the PWA.</p>
+<header class="builder-banner"><h1>Sane Builder</h1>
+<p class="sub">An on-device planning workspace for Pleading Sanity: record tasks, check pages, and prepare a clear handoff for the next AI. This page does not automatically contact AI services or change the live site.</p></header>
 
 <div class="panel">
 <h2>What we are working on</h2>
-<textarea id="work" placeholder="Current focus, open tasks, what must not be forgotten..."></textarea>
-<p class="note">Saved on this device. Survives refresh. Never needs reinstall — the site PWA updates itself.</p>
+<label for="work">Working notes</label>
+<textarea id="work" maxlength="12000" rows="5" placeholder="Current focus, open tasks, what must not be forgotten..."></textarea>
+<p class="note">Saved on this browser only, not synced between AIs or devices. This URL is publicly accessible; do not enter API keys, passwords, journals or confidential member details. Export a handoff when changing devices.</p>
+<div class="btn-row"><button type="button" id="export">Export my handoff</button><label class="btn" for="import" style="cursor:pointer">Import saved handoff</label><input id="import" type="file" accept="application/json,.json" hidden></div>
+<p id="storage-status" class="note" role="status" aria-live="polite"></p>
 </div>
 
 <div class="panel">
@@ -63,7 +68,7 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <label><input type="checkbox" data-page="/site-builder.html"> Public Site Builder — client-side only, £2.99 note</label>
 </div>
 <div class="btn-row">
-<button type="button" id="openAll">Open all pages</button>
+<button type="button" id="openAll">Open next unchecked page</button>
 <button type="button" id="clearChecks">Clear checks</button>
 </div>
 </div>
@@ -87,80 +92,106 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <button type="button" class="do" id="gen">Generate next prompt</button>
 <button type="button" id="copy">Copy</button>
 </div>
-<pre id="output">Press generate. The prompt will include current work, unchecked pages, and the handoff rules.</pre>
+<pre id="output" role="status" aria-live="polite">Press generate. The prompt will include current work, unchecked pages and the handoff rules.</pre>
 </div>
 
-<p class="note">This builder is for Shane Cooper and the Pleading Sanity AI family only. It lives inside the existing sanctuary PWA so it updates automatically. No separate install. No delete-and-reinstall. Crisis numbers stay visible. Sanctuary tools stay free. Private notes never leave this device.</p>
-<p><a href="/">← Back to the house</a> · <a href="/AI_HANDOFF.md">AI_HANDOFF.md</a> · <a href="/site-builder.html">Public Site Builder</a></p>
+<p class="note">This is a free local planning tool, not a secure owner dashboard or an automatic GitHub/AI connection. Its page is public and the notes are only as private as access to this browser. Keep sensitive material out; export/import your own handoff deliberately. The main sanctuary remains free.</p>
+<p><a href="/">← Back to the house</a> · <a href="https://github.com/pleadingSanity/pleadingsanity/blob/main/AI_HANDOFF.md" target="_blank" rel="noopener noreferrer">Shared GitHub handoff</a> · <a href="/site-builder.html">Public Site Builder</a></p>
 </div>
 
 <script>
 (function(){
-  const WORK = "ps-builder-work";
-  const CHECKS = "ps-builder-checks";
-  const work = document.getElementById("work");
-  const checks = document.querySelectorAll("#checks input");
-  const output = document.getElementById("output");
-
+  const WORK='ps-builder-work',CHECKS='ps-builder-checks';
+  const work=document.getElementById('work');
+  const checks=[...document.querySelectorAll('#checks input[data-page]')];
+  const output=document.getElementById('output');
+  const note=document.getElementById('storage-status');
+  const show=(s)=>{note.textContent=s};
+  const read=(key)=>{try{return localStorage.getItem(key)}catch(e){show('Browser storage is unavailable. Export your notes to keep them.');return null}};
+  const write=(key,value)=>{try{localStorage.setItem(key,value);return true}catch(e){show('Could not save locally. Export your notes instead.');return false}};
+  function snapshot(){
+    const marked={};checks.forEach(c=>marked[c.dataset.page]=c.checked);
+    return {version:1,work:work.value,checks:marked};
+  }
   function load(){
-    work.value = localStorage.getItem(WORK) || "";
-    const saved = JSON.parse(localStorage.getItem(CHECKS) || "{}");
-    checks.forEach(c => { c.checked = !!saved[c.dataset.page]; });
+    work.value=read(WORK)||'';
+    let saved={};try{saved=JSON.parse(read(CHECKS)||'{}')}catch(e){show('Saved checklist was unreadable. It has been reset.')}
+    checks.forEach(c=>c.checked=!!saved[c.dataset.page]);
   }
-  function saveWork(){ localStorage.setItem(WORK, work.value); }
-  function saveChecks(){
-    const o = {};
-    checks.forEach(c => { o[c.dataset.page] = c.checked; });
-    localStorage.setItem(CHECKS, JSON.stringify(o));
-  }
-  work.addEventListener("input", saveWork);
-  checks.forEach(c => c.addEventListener("change", saveChecks));
+  function saveChecks(){write(CHECKS,JSON.stringify(snapshot().checks))}
+  work.addEventListener('input',()=>write(WORK,work.value));
+  checks.forEach(c=>c.addEventListener('change',saveChecks));
   load();
-
-  document.getElementById("openAll").onclick = () => {
-    checks.forEach(c => window.open(c.dataset.page, "_blank"));
-  };
-  document.getElementById("clearChecks").onclick = () => {
-    checks.forEach(c => { c.checked = false; });
-    saveChecks();
-  };
-
-  document.getElementById("gen").onclick = () => {
-    const open = [];
-    checks.forEach(c => { if (!c.checked) open.push(c.dataset.page + " — " + c.parentNode.textContent.trim()); });
-    const prompt = `PLEADING SANITY — SANE BUILDER HANDOFF
-
-Founder: Shane Cooper
-Site: https://pleadingsanity.co.uk
-Repo: pleadingSanity/pleadingsanity (main)
-Principle: Evolution, Not Erasure. One Source. One Family.
-
-CURRENT WORK (from builder):
-${work.value || "(none saved)"}
-
-UNCHECKED PAGES (need eyes or polish):
-${open.length ? open.join("\n") : "All checked."}
-
-RULES:
-- Read AI_HANDOFF.md, CLAUDE.md, AGENTS.md first.
-- Do not break free tools, crisis numbers (116 123 · 85258), or Arron “not a therapist” disclaimer.
-- No new projects. Buff the live house.
-- Report what you verified, what you changed, and what is still open.
-- Keep .uk in sync via the same main branch.
-- Private builder notes stay local. Public site-builder is client-side only.
-
-What should we build or polish next? Give concrete next steps and any ready-to-paste copy or code.`;
-    output.textContent = prompt;
-  };
-
-  document.getElementById("copy").onclick = () => {
-    navigator.clipboard.writeText(output.textContent).then(() => {
-      const btn = document.getElementById("copy");
-      const t = btn.textContent;
-      btn.textContent = "Copied";
-      setTimeout(() => btn.textContent = t, 1600);
-    });
-  };
+  document.getElementById('openAll').addEventListener('click',()=>{
+    const next=checks.find(c=>!c.checked);
+    if(!next){show('All checklist items are marked reviewed. Clear checks to start again.');return}
+    const opened=window.open(next.dataset.page,'_blank','noopener');
+    if(!opened)show('Your browser blocked the new tab. Open '+next.dataset.page+' manually.');
+    else show('Review '+next.dataset.page+', then tick its checkbox yourself.');
+  });
+  document.getElementById('clearChecks').addEventListener('click',()=>{
+    if(!window.confirm('Clear the page checks on this device? Your notes will remain.'))return;
+    checks.forEach(c=>c.checked=false);saveChecks();show('Checklist reset. Working notes were kept.');
+  });
+  document.getElementById('export').addEventListener('click',()=>{
+    const payload=JSON.stringify(snapshot(),null,2);
+    const blob=new Blob([payload],{type:'application/json'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download='pleading-sanity-builder-handoff.json';
+    document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1500);
+    show('Export prepared. Keep the file safe: it contains the notes you entered.');
+  });
+  document.getElementById('import').addEventListener('change',async function(){
+    const file=this.files&&this.files[0];if(!file)return;
+    try{
+      if(file.size>50000)throw new Error('Handoff file is too large.');
+      const data=JSON.parse(await file.text());
+      if(data.version!==1||typeof data.work!=='string'||data.work.length>12000||!data.checks||typeof data.checks!=='object'||Array.isArray(data.checks))throw new Error('Not a supported Sane Builder handoff.');
+      if(!window.confirm('Import will replace this browser’s current builder notes and checks. Continue?'))return;
+      work.value=data.work;
+      checks.forEach(c=>c.checked=data.checks[c.dataset.page]===true);
+      write(WORK,work.value);saveChecks();show('Handoff imported into this browser.');
+    }catch(e){show(e.message||'Could not read this handoff file.')}
+    finally{this.value=''}
+  });
+  document.getElementById('gen').addEventListener('click',()=>{
+    const open=checks.filter(c=>!c.checked).map(c=>c.dataset.page+' — '+c.parentNode.textContent.trim());
+    output.textContent=[
+      'PLEADING SANITY — SANE BUILDER HANDOFF',
+      'Site: https://pleadingsanity.co.uk',
+      'Repo: pleadingSanity/pleadingsanity (always refresh main)',
+      'Founder: Shane Cooper · Evolution, Not Erasure · One Source, One Family',
+      '',
+      'CURRENT WORK (local notes, not shared across devices):',
+      work.value||'(none saved)',
+      '',
+      'PAGES NOT YET REVIEWED:',
+      open.length?open.join('\n'):'All marked reviewed on this browser.',
+      '',
+      'RULES:',
+      '- Read AI_HANDOFF.md, CLAUDE.md and AGENTS.md first.',
+      '- Check GitHub and the real deployment before editing.',
+      '- Keep Samaritans 116 123, SHOUT 85258 and the Arron not-a-therapist disclaimer.',
+      '- Do not add paid services, duplicate repositories or untested features.',
+      '- This browser-side builder does not connect the AIs automatically.',
+      '- Provide changed files, tests, outstanding blockers and deploy evidence.',
+      '',
+      'Start with the highest-priority verified issue. Preserve working features.'
+    ].join('\n');
+    show('Handoff prompt ready to copy.');
+  });
+  document.getElementById('copy').addEventListener('click',async function(){
+    if(!output.textContent.startsWith('PLEADING SANITY — SANE BUILDER')){show('Generate a handoff prompt first.');return}
+    try{
+      if(!navigator.clipboard||!navigator.clipboard.writeText)throw new Error('clipboard unavailable');
+      await navigator.clipboard.writeText(output.textContent);show('Prompt copied.');
+    }catch(e){
+      const range=document.createRange();range.selectNodeContents(output);
+      const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);
+      show('Select the highlighted prompt and copy it manually.');
+    }
+  });
 })();
 </script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
