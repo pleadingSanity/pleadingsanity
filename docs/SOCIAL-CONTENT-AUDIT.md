@@ -31,16 +31,33 @@ These URLs were supplied by the founder. Public unauthenticated browsing of thei
 - **Copilot:** Static link, accessibility and regression checks.
 These are responsibilities recorded in GitHub, **not proof the providers are directly communicating or running autonomously**.
 
-## Present status
-| Item | Status |
-|---|---|
-| Founder-provided account references | Recorded |
-| Public exhaustive post history | Not accessible with present tools |
-| Metricool connection option | Suggested; founder action needed |
-| Raw historical archives | Not supplied |
-| Genuine post-by-post analysis | **Not started**; blocked on authorised sources |
-| Local Sane Builder notes | Available; handoff export/import exists |
-| Auto-import into member profiles | Not implemented; consent/spec only |
-| Post-publication approval | Required for every public founder-story revision |
+## Present status — Metricool connected, personal identity requires matching
 
-Next step once the founder connects an authorised source or supplies exports: record source coverage, inspect posts and media, prepare an evidence-backed cross-platform theme summary, then request approval for site copy and asset changes.
+**Founder identity confirmed directly:** **Shane Cooper · @mentally.inshane**. Do not substitute another handle because it appears in an analytics connection.
+
+Metricool brand `7408654` has now connected Facebook, Instagram, LinkedIn, TikTok and YouTube. However, the brand is labelled **A.M.C mobile diagnostics**, its connected Instagram is **@pleadinngsanity**, and its connected TikTok is **@thecreatormma6**. These are not the same as Shane's confirmed `@mentally.inshane` identity; do not infer ownership, merge them into a personal biography or assume the connection includes all his past content.
+
+A full-range published-post query returned **one** Instagram Reel (29 May 2025) from the connected brand account and **no rows** in Instagram feed posts, TikTok videos, Facebook posts/reels, LinkedIn posts, or YouTube all-videos. Zero returned rows do *not* prove those profiles have no posts; some platforms limit lookback, permissions and analytics data.
+
+### Verified connected-account sample (separate from Shane's personal history)
+- Platform: Instagram Reel
+- Date: 29 May 2025
+- URL: https://www.instagram.com/reel/DKN-4gQIJH4/
+- Caption: Pleading Sanity clothing as a story stitched into fabric, choosing resilience and turning pain into purpose. This is **brand-account content**, not yet confirmed as a personal `@mentally.inshane` post. Attribution must remain explicitly separate.
+- Material considered for `about.html` and `shop.html`: project-purpose framing only, **not** evidence for medical, family or other biographical claims.
+- Founder text on those pages was corrected to make the separate brand source explicit after Shane reaffirmed his name and handle.
+
+### Coverage and next actions
+
+| Source | Connection | Actual published text captured |
+|---|---|---|
+| Founder `@mentally.inshane` | **Not visible as a matching connected Metricool handle** | 0 confirmed |
+| Connected Instagram `@pleadinngsanity` | Connected via Metricool | One 2025 Reel caption |
+| Connected TikTok `@thecreatormma6` | Connected via Metricool | None returned |
+| Connected Facebook | Connected via Metricool | None returned |
+| Connected LinkedIn | Connected via Metricool | None returned |
+| Connected YouTube | Connected via Metricool | None returned |
+
+**Owner confirmation needed:** Are the connected brand accounts also yours? To audit `@mentally.inshane`, link that exact account in Metricool when supported or provide an official Instagram data export. Do not require the founder to retype his entire story.
+
+All public use of source content remains subject to founder approval and privacy review. Never upload full raw account exports or API credentials to this public GitHub repository. The extra-spend ceiling remains £0 without explicit approval.
