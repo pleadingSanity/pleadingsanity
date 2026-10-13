@@ -9,7 +9,7 @@ import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { currentUser, optionalUser, json, logActivity, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
 import { db } from "../../db/index.js";
-import { posts } from "../../db/schema.js";
+import { posts, profiles } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
 
 const MAX_IMAGE = 5 * 1024 * 1024;
@@ -75,6 +75,15 @@ export default async (req: Request) => {
           const rows = await db.select({
             authorId: posts.authorId, visibility: posts.visibility, status: posts.status, hidden: posts.hidden,
           }).from(posts).where(eq(posts.imageKey, key)).limit(10);
+          const [ownerProfile] = await db.select({
+            isPrivate: profiles.isPrivate, pageVisibility: profiles.pageVisibility,
+          }).from(profiles).where(eq(profiles.userId, ownerId)).limit(1);
+          if (ownerProfile?.isPrivate && (!user || !(await areFriends(user.id, ownerId)))) {
+            return new Response("Not found", { status: 404 });
+          }
+          if (ownerProfile?.pageVisibility === "members" && !user) {
+            return new Response("Not found", { status: 404 });
+          }
           let allowed = false;
           for (const post of rows) {
             if (post.authorId !== ownerId || post.status !== "live" || post.hidden) continue;
