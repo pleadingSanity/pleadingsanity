@@ -65,7 +65,7 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
 <label><input type="checkbox" data-page="/finance.html"> Sane Finance — not a lender, numbers stay local</label>
 <label><input type="checkbox" data-page="/meditation.html"> Meditation — soft tones, silence allowed</label>
 <label><input type="checkbox" data-page="/crisis.html"> Crisis — 116 123 · 85258 visible</label>
-<label><input type="checkbox" data-page="/site-builder.html"> Public Site Builder — client-side only, £2.99 note</label>
+<label><input type="checkbox" data-page="/site-builder.html"> Public Site Builder — free, personalised prompt, no site scan</label>
 </div>
 <div class="btn-row">
 <button type="button" id="openAll">Open next unchecked page</button>
@@ -125,7 +125,8 @@ button:focus-visible,.btn:focus-visible,textarea:focus-visible{outline:3px solid
   document.getElementById('openAll').addEventListener('click',()=>{
     const next=checks.find(c=>!c.checked);
     if(!next){show('All checklist items are marked reviewed. Clear checks to start again.');return}
-    const opened=window.open(next.dataset.page,'_blank','noopener');
+    const opened=window.open(next.dataset.page,'_blank');
+    if(opened)opened.opener=null;
     if(!opened)show('Your browser blocked the new tab. Open '+next.dataset.page+' manually.');
     else show('Review '+next.dataset.page+', then tick its checkbox yourself.');
   });
