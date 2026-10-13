@@ -125,7 +125,7 @@ body { overflow-x: hidden; }
     function face(c) { return RANKS[c.r] + SUIT[c.s]; }
     const ART = ["/assets/theme/suits/spade.jpg", "/assets/theme/suits/heart.jpg", "/assets/theme/suits/diamond.jpg", "/assets/theme/suits/club.jpg"];
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
-    function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "&#39;" })[ch]); }
+    function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&", "<": "<", ">": ">", '"': "&quot;", "'": "&#39;" })[ch]); }
     function cardHtml(c) {
       return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
     }
