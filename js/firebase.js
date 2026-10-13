@@ -16,7 +16,7 @@ const CDN = "https://www.gstatic.com/firebasejs/" + FIREBASE_VERSION;
 // The web apiKey and appId are public identifiers, not secrets. They are safe
 // in GitHub. Security comes from the Firestore and Storage rules.
 export const firebaseConfig = {
-  apiKey: "AIzaSyCXJEEpk2RFmtNiI1dD4j0TzjT26nEnJho",
+  apiKey: "PASTE_FIREBASE_WEB_API_KEY_HERE",
   authDomain: "pleading-sanity-36bfa.firebaseapp.com",
   projectId: "pleading-sanity-36bfa",
   storageBucket: "pleading-sanity-36bfa.firebasestorage.app",
