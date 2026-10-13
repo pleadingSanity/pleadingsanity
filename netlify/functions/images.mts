@@ -59,23 +59,24 @@ export default async (req: Request) => {
     if (req.method === "GET") {
       const key = decodeURIComponent(url.pathname.replace("/api/images/", ""));
       // Deny access by default. A blob URL is not proof that a viewer may read it.
-      if (!user) return unauthorized();
       if (key.startsWith("banner/")) {
+        if (!user) return unauthorized();
         const ownerId = key.slice("banner/".length);
         if (!ownerId || ownerId !== user.id) return new Response("Not found", { status: 404 });
       } else {
         const ownerId = key.split("/")[0];
         if (!ownerId || !key.startsWith(ownerId + "/")) return new Response("Not found", { status: 404 });
-        if (ownerId !== user.id) {
+        if (!user || ownerId !== user.id) {
           const rows = await db.select({
             authorId: posts.authorId, visibility: posts.visibility, status: posts.status, hidden: posts.hidden,
           }).from(posts).where(eq(posts.imageKey, key)).limit(10);
           let allowed = false;
           for (const post of rows) {
             if (post.authorId !== ownerId || post.status !== "live" || post.hidden) continue;
-            if (await isBlockedEitherWay(user.id, ownerId)) continue;
-            if (post.visibility === "public" || post.visibility === "members") allowed = true;
-            if (post.visibility === "friends" && await areFriends(user.id, ownerId)) allowed = true;
+            if (user && await isBlockedEitherWay(user.id, ownerId)) continue;
+            if (post.visibility === "public") allowed = true;
+            if (post.visibility === "members" && user) allowed = true;
+            if (post.visibility === "friends" && user && await areFriends(user.id, ownerId)) allowed = true;
           }
           if (!allowed) return new Response("Not found", { status: 404 });
         }
@@ -86,7 +87,7 @@ export default async (req: Request) => {
       return new Response(entry.data, {
         headers: {
           "Content-Type": type,
-          "Cache-Control": "private, max-age=86400",
+          "Cache-Control": "private, no-store",
           "X-Content-Type-Options": "nosniff",
         },
       });
