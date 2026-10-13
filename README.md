@@ -134,7 +134,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 **Email:** pleadingsanity1@gmail.com  
 **GitHub:** @pleadingSanity  
 **Instagram:** [@mentally.inshane](https://instagram.com/mentally.inshane)  
-**TikTok:** [@mentally.inshane](https://www.tiktok.com/@mentally.inshane)
+**TikTok:** [@mentally.inshane](https://www.tiktok.com/@mentallyinshane)
 
 ---
 
