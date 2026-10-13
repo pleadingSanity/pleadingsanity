@@ -195,6 +195,12 @@
       <label class="live-field"><span>Stream title</span><input id="live-title" maxlength="120" required placeholder="What are you bringing to the live?"></label>
       <label class="live-field"><span>Your public YouTube Live or Twitch URL</span><input id="live-url" type="url" required inputmode="url" placeholder="https://www.youtube.com/live/… or https://www.twitch.tv/…"></label>
       <label class="live-field"><span>Message to the community (optional)</span><textarea id="live-message" maxlength="1000" placeholder="Tell people what you're doing and when to join…"></textarea></label>
+      <label class="live-field"><span>Who can see this feed post?</span><select id="share-visibility" required>
+        <option value="" selected disabled>Choose your audience before sharing</option>
+        <option value="friends">Friends only</option><option value="members">Signed-in members</option>
+        <option value="public">Public — anyone</option><option value="private">Only me</option>
+      </select></label>
+      <p class="live-note">This controls your Pleading Sanity feed post only. Check your YouTube or Twitch privacy separately. The planning controls below do not change post visibility.</p>
       <div class="live-grid">
         <button class="live-btn secondary" id="preview-live" type="button">Preview stream</button>
         <button class="live-btn" id="share-live" type="submit">Share live to the feed</button>
@@ -218,7 +224,7 @@
       <div>
         <p class="live-note">Use these controls to prepare or manage the stream link currently on this device.</p>
         <label class="live-field"><span>Stream state</span><select id="creator-state"><option value="draft">Ready / not live</option><option value="live">🔴 Live</option><option value="ended">Ended / replay available</option></select></label>
-        <label class="live-field"><span>Visibility</span><select id="creator-visibility"><option value="public">Public</option><option value="friends">Friends only</option></select></label>
+        <label class="live-field"><span>Local planning visibility (not a feed setting)</span><select id="creator-visibility"><option value="public">Public</option><option value="friends">Friends only</option></select></label>
         <label class="live-field"><span>Chat</span><select id="creator-chat-toggle"><option value="on">Chat on</option><option value="off">Chat off</option></select></label>
         <div class="live-grid">
           <button class="live-btn" type="button" id="creator-save">Save controls</button>
@@ -311,6 +317,8 @@ form.addEventListener('submit',async(e)=>{
   e.preventDefault();
   const title=titleInput.value.trim(),url=urlInput.value.trim(),body=messageInput.value.trim();
   if(!title||!url){status.textContent='Add a title and a public stream URL first.';return}
+  const visibility=document.getElementById('share-visibility').value;
+  if(!['public','members','friends','private'].includes(visibility)){status.textContent='Choose who may see your feed post first.';return}
    try{const link=new URL(url);if(link.protocol!=='https:')throw new Error('HTTPS required')}catch{status.textContent='Use a valid public HTTPS stream URL.';return}
   try{await requireMember()}catch{return}
   const button=document.getElementById('share-live');button.disabled=true;button.textContent='Sharing…';status.textContent='';
@@ -318,7 +326,7 @@ form.addEventListener('submit',async(e)=>{
     const host=new URL(url).hostname.toLowerCase().replace(/^www\./,'');
     const isYouTube=['youtube.com','m.youtube.com','youtu.be','youtube-nocookie.com'].includes(host);
     const postBody=body ? body+'\n\nWatch my live: '+url : 'Join my live stream: '+url;
-    const result=await api('/api/posts',{method:'POST',body:{kind:isYouTube?'video':'text',title,body:postBody,videoUrl:isYouTube?url:'',mood:'rising',visibility:'public',truthTag:'experience',contentWarning:false,tags:['live','creator']}});
+    const result=await api('/api/posts',{method:'POST',body:{kind:isYouTube?'video':'text',title,body:postBody,videoUrl:isYouTube?url:'',mood:'rising',visibility,truthTag:'experience',contentWarning:false,tags:['live','creator']}});
     status.textContent=result.pending?'Your live post is saved and will appear after review.':'Your live link has been shared to the community feed.';
     if(result.post?.id) {const a=document.createElement('a');a.href='/feed.html?post='+encodeURIComponent(result.post.id)+'#community';a.textContent=' View your post';status.append(a)}
   }catch(error){status.textContent=error.message||'Could not share right now. Please try again.'}
