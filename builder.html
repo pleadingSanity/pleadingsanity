@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<title>Sane Builder | Pleading Sanity</title>
+<meta name="description" content="Private Sane Builder for Shane and the AI family. Test the house, keep shared memory, generate next prompts. Free for the sanctuary.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/design-system.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/space.css">
+<style>
+body{background:#000103;color:#eef6ff;font-family:system-ui,-apple-system,sans-serif;margin:0;line-height:1.5}
+.wrap{max-width:920px;margin:0 auto;padding:1.25rem 1rem 3rem}
+.brand{display:flex;align-items:center;gap:10px;color:#eef6ff;text-decoration:none;font-weight:800}
+.brand img{width:36px;height:36px;filter:drop-shadow(0 0 8px rgba(0,255,240,.5))}
+h1{color:#00fff0;font-size:clamp(1.6rem,5vw,2.2rem);margin:0.6rem 0 0.3rem;text-shadow:0 0 20px rgba(0,255,240,.35)}
+.sub{color:#b9faff;max-width:40rem;margin:0 0 1.2rem}
+.panel{background:linear-gradient(165deg,rgba(13,27,42,.75),rgba(0,1,3,.65));border:1px solid rgba(0,255,240,.32);border-radius:20px;padding:1rem 1.1rem;margin:0 0 1.1rem;backdrop-filter:blur(10px)}
+.panel h2{color:#00fff0;font-size:1.15rem;margin:0 0 0.6rem}
+textarea,input[type=text]{width:100%;min-height:80px;background:#000103;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:10px;font:inherit;box-sizing:border-box}
+.checklist label{display:flex;align-items:center;gap:8px;min-height:44px;margin:4px 0}
+.checklist input{width:18px;height:18px}
+.btn-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+button,.btn{min-height:44px;border-radius:999px;border:1px solid rgba(0,255,240,.45);background:#0d1b2a;color:#eef6ff;padding:0 14px;font:inherit;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+button.do{background:#00fff0;color:#000103;font-weight:800}
+.ai-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.ai-grid a{text-align:center;justify-content:center}
+#output{white-space:pre-wrap;background:#000103;border-radius:12px;padding:12px;min-height:100px;font-size:0.92rem}
+.note{color:#a9c7d1;font-size:0.9rem}
+@media (max-width:600px){.wrap{padding:1rem 0.75rem 2.5rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36">Pleading Sanity</a>
+<h1>Sane Builder</h1>
+<p class="sub">Private testing and coordination app for Shane and the AI family. One place to check the house, keep what we are working on, and generate the next prompt. Free for this sanctuary. Copies for other sites would be licensed separately.</p>
+
+<div class="panel">
+<h2>What we are working on</h2>
+<textarea id="work" placeholder="Current focus, open tasks, what must not be forgotten..."></textarea>
+<p class="note">Saved on this device. Survives refresh. Never needs reinstall — the site PWA updates itself.</p>
+</div>
+
+<div class="panel">
+<h2>House check</h2>
+<div class="checklist" id="checks">
+<label><input type="checkbox" data-page="/"> Homepage — purpose lines, crisis, space background</label>
+<label><input type="checkbox" data-page="/arron.html"> Arron — companion, not a therapist, crisis signpost</label>
+<label><input type="checkbox" data-page="/journal-vault.html"> Journal Vault — private, one line enough</label>
+<label><input type="checkbox" data-page="/games.html"> Games — soft focus, levels expand</label>
+<label><input type="checkbox" data-page="/poker.html"> Night Table — play chips only, expanding levels</label>
+<label><input type="checkbox" data-page="/feed.html"> Sanity Feed — newest first, hearts only</label>
+<label><input type="checkbox" data-page="/finance.html"> Sane Finance — not a lender, numbers stay local</label>
+<label><input type="checkbox" data-page="/meditation.html"> Meditation — soft tones, silence allowed</label>
+<label><input type="checkbox" data-page="/crisis.html"> Crisis — 116 123 · 85258 visible</label>
+</div>
+<div class="btn-row">
+<button type="button" id="openAll">Open all pages</button>
+<button type="button" id="clearChecks">Clear checks</button>
+</div>
+</div>
+
+<div class="panel">
+<h2>AI family</h2>
+<p class="note">Speak to any of them. Paste the generated prompt so they start from shared memory, not a blank page.</p>
+<div class="ai-grid">
+<a class="btn" href="https://chatgpt.com/" target="_blank" rel="noopener">GPT</a>
+<a class="btn" href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>
+<a class="btn" href="https://gemini.google.com/" target="_blank" rel="noopener">Gemini</a>
+<a class="btn" href="https://grok.x.ai/" target="_blank" rel="noopener">Grok</a>
+<a class="btn" href="https://github.com/copilot" target="_blank" rel="noopener">Copilot</a>
+<a class="btn" href="/ai-family.html">AI Family page</a>
+</div>
+</div>
+
+<div class="panel">
+<h2>Next prompt</h2>
+<div class="btn-row">
+<button type="button" class="do" id="gen">Generate next prompt</button>
+<button type="button" id="copy">Copy</button>
+</div>
+<pre id="output">Press generate. The prompt will include current work, unchecked pages, and the handoff rules.</pre>
+</div>
+
+<p class="note">This builder is for Shane Cooper and the Pleading Sanity AI family. It lives inside the existing sanctuary PWA so it updates automatically. No separate install. No delete-and-reinstall. Crisis numbers stay visible. Sanctuary tools stay free.</p>
+<p><a href="/">← Back to the house</a> · <a href="/AI_HANDOFF.md">AI_HANDOFF.md</a></p>
+</div>
+
+<script>
+(function(){
+  const WORK = "ps-builder-work";
+  const CHECKS = "ps-builder-checks";
+  const work = document.getElementById("work");
+  const checks = document.querySelectorAll("#checks input");
+  const output = document.getElementById("output");
+
+  function load(){
+    work.value = localStorage.getItem(WORK) || "";
+    const saved = JSON.parse(localStorage.getItem(CHECKS) || "{}");
+    checks.forEach(c => { c.checked = !!saved[c.dataset.page]; });
+  }
+  function saveWork(){ localStorage.setItem(WORK, work.value); }
+  function saveChecks(){
+    const o = {};
+    checks.forEach(c => { o[c.dataset.page] = c.checked; });
+    localStorage.setItem(CHECKS, JSON.stringify(o));
+  }
+  work.addEventListener("input", saveWork);
+  checks.forEach(c => c.addEventListener("change", saveChecks));
+  load();
+
+  document.getElementById("openAll").onclick = () => {
+    checks.forEach(c => window.open(c.dataset.page, "_blank"));
+  };
+  document.getElementById("clearChecks").onclick = () => {
+    checks.forEach(c => { c.checked = false; });
+    saveChecks();
+  };
+
+  document.getElementById("gen").onclick = () => {
+    const open = [];
+    checks.forEach(c => { if (!c.checked) open.push(c.dataset.page + " — " + c.parentNode.textContent.trim()); });
+    const prompt = `PLEADING SANITY — SANE BUILDER HANDOFF
+
+Founder: Shane Cooper
+Site: https://pleadingsanity.co.uk
+Repo: pleadingSanity/pleadingsanity (main)
+Principle: Evolution, Not Erasure. One Source. One Family.
+
+CURRENT WORK (from builder):
+${work.value || "(none saved)"}
+
+UNCHECKED PAGES (need eyes or polish):
+${open.length ? open.join("\n") : "All checked."}
+
+RULES:
+- Read AI_HANDOFF.md, CLAUDE.md, AGENTS.md first.
+- Do not break free tools, crisis numbers (116 123 · 85258), or Arron “not a therapist” disclaimer.
+- No new projects. Buff the live house.
+- Report what you verified, what you changed, and what is still open.
+- Keep .uk in sync via the same main branch.
+
+What should we build or polish next? Give concrete next steps and any ready-to-paste copy or code.`;
+    output.textContent = prompt;
+  };
+
+  document.getElementById("copy").onclick = () => {
+    navigator.clipboard.writeText(output.textContent).then(() => {
+      const btn = document.getElementById("copy");
+      const t = btn.textContent;
+      btn.textContent = "Copied";
+      setTimeout(() => btn.textContent = t, 1600);
+    });
+  };
+})();
+</script>
+<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
+</body>
+</html>
