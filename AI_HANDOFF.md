@@ -59,3 +59,12 @@ Context is capped. Thin replies are provider fallback, not missing memory.
 - Creator 90% offer remains planned scope, not live.
 
 One source. Evolution, Not Erasure. Rise From Madness.
+
+## 2026-10-13 — journal restore + Arron script + empty states (Grok)
+
+- Commit `341c7a2` on main. Deploy and Continuous quality audit both **success**.
+- `journal-vault.html` restored to the full page (917 lines) after two truncated pushes. Purpose line added. Empty state now invites one line.
+- `arron.html` loads `/js/arron-companion.js` (the missing `/js/arron.js` reference is gone). Crisis numbers stay on the dedicated crisis page; Arron signposts to support and crisis so the house check passes.
+- `games.html` and `finance.html` have purpose lines and calm empty states. No logic changes.
+- xAI spending-limit and GPT 429 remain owner actions. Chain untouched.
+- Other agent branches exist. Do not mass-merge. One source stays `main`.
