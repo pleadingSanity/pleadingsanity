@@ -6,8 +6,8 @@
 <meta name="theme-color" content="#000103">
 <meta name="color-scheme" content="dark">
 <meta name="author" content="Shane Cooper / Pleading Sanity">
-<title>Pleading Sanity | Free mental health sanctuary</title>
-<meta name="description" content="Free sanctuary. Talk to Arron. Sane Finance. Games. Community. Journal. Evolution Not Erasure. Rise From Madness. Samaritans 116 123 · SHOUT 85258.">
+<title>Pleading Sanity | Free Mental Health Sanctuary · Arron · Journal · Games · Sane Finance</title>
+<meta name="description" content="Free mental health sanctuary. Talk to Arron, private journal, calm games, honest Sane Finance, and community. Built from lived experience. Evolution Not Erasure. Rise From Madness. Samaritans 116 123 · SHOUT 85258.">
 <link rel="canonical" href="https://pleadingsanity.co.uk/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pleading Sanity">
@@ -228,6 +228,17 @@ h1 {
 .home-quick-links .home-live { background:#b6002a; border-color:#ff6688; }
 .home-support-note { color:#c7dce7; font-size:0.98rem; margin:0.6rem 0; }
 .home-support-note a { color:#b9faff; font-weight:600; }
+
+/* Space movement background — electric blue aurora, shooting stars, distant planets */
+body {
+  background-image: linear-gradient(180deg, rgba(0,1,3,0.55) 0%, rgba(0,1,3,0.75) 40%, rgba(0,1,3,0.9) 100%), url('/assets/images/space/aurora-drive.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+@media (prefers-reduced-motion: reduce) {
+  body { background-attachment: scroll; }
+}
 </style>
 </head>
 <body>
@@ -362,7 +373,8 @@ Share this sanctuary
 <div class="legacy">
 <p>In honour of <strong>Private A.L. Cooper</strong>, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.<br>His service → this movement.</p>
 </div>
-<p>&copy; 2026 Pleading Sanity · Rise From Madness</p>
+<p>&copy; 2026 Shane Cooper / Pleading Sanity. All rights reserved. Rise From Madness.</p>
+<p style="font-size:0.85rem;color:#b9faff;max-width:40rem;margin:0.5rem auto;">Content, brand, and images are protected by copyright. If you would like to use any of this on your own site, contact us for a low-cost licence. Unauthorised copying may breach UK copyright law.</p>
 </footer>
 <script src="/js/site.js" defer></script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>

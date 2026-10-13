@@ -75,3 +75,11 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - Small breathing-room rules appended to `css/design-system.css` (purpose line spacing, card margins, mobile padding).
 - No logic, auth, payment, or chain changes.
 - Deploy and quality audit were green on the previous restore commit. These are visual only.
+
+## 2026-10-13 — space movement visuals + copyright notice (Grok)
+
+- Three new space images under `assets/images/space/`: `aurora-drive.jpg`, `aurora-planets.jpg`, `aurora-streaks.jpg`. Electric blue Northern lights, shooting stars, distant planets, sense of forward motion.
+- Homepage background now uses `aurora-drive.jpg` with a dark overlay. Reduced-motion safe.
+- Title and meta description strengthened for search. Honest copyright line added in the footer with a low-cost licence note. No invented penalties.
+- `.uk` currently 308-redirects to `.co.uk` via Vercel. Primary remains Netlify `pleadingsanity.co.uk`. One source of code is this repo. DNS alias for a true independent backup is an owner action if desired.
+- No logic, auth, payment, or chain changes.
