@@ -22,6 +22,8 @@ NOT TESTED in staging. Do not merge yet.
 5. Check whether all media references use posts.imageKey; verify multi-image attachments.
 6. Run TypeScript/Netlify function build, logs and mobile/browser smoke tests.
 7. Review whether profile banners should be public under a separate privacy policy.
-8. Approve, merge, verify Netlify production and independent backup; record rollback.
+8. Delete a disposable test account after uploading a banner and post image; verify both blob keys are gone and no account data is returned. Check deletion errors and Netlify logs.
+9. Confirm staging uses an isolated test database, identity configuration and blob store before running account deletion.
+10. Approve, merge, verify Netlify production and independent backup; record rollback.
 
-No test passes or deployment claimed. Rollback: revert the PR's changes to netlify/functions/images.mts. No migration or deletion.
+No test passes or deployment claimed. Rollback: revert the PR's changes to netlify/functions/images.mts and netlify/functions/profile.mts. No migration or deletion of existing data performed by this PR itself.
