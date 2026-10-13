@@ -51,7 +51,7 @@ jobs:
               assert label in crisis and href in crisis, f"crisis.html missing or untappable: {label}"
           assert "id=\"anytime\"" in support and "id=\"ongoing\"" in support and "id=\"emergency\"" in support
           assert "support.html" in arron and "support.html" in arron_app
-          assert "samaritans" not in arron and "tel:116123" not in arron, "Arron page should not display crisis-line banner"
+          assert "support.html" in arron and "crisis.html" in arron, "Arron must retain support and crisis access"
           assert "tel:116123" not in arron_app and "sms:85258" not in arron_app, "Arron app should not display crisis-line banner"
           assert "crisis.html" in safety, "Legacy safety page must route to the crisis anchor"
           # Creator stage, social sign-in choices and existing social foundation.
