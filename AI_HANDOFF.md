@@ -1,6 +1,6 @@
 # AI_HANDOFF — shared verified state for GPT, Claude, Gemini, Grok and Copilot
 
-Last updated: 2026-10-13 by Grok (full audit polish). Read `CLAUDE.md`, `AGENTS.md` and
+Last updated: 2026-10-13 by GPT (image and page audit; meditation illustration). Read `CLAUDE.md`, `AGENTS.md` and
 `.github/copilot-instructions.md` first. This file records **what was verified**, **what was changed**,
 and **what is still open**, so the next agent starts from evidence, not assumptions.
 
@@ -17,7 +17,7 @@ Grok speaks again only after the owner adds xAI credit. Claude continues to answ
 | Item | Value | How verified |
 |---|---|---|
 | Production site | https://pleadingsanity.co.uk | Netlify |
-| Latest main | `31b7fe8190e85a76db9f82f8ba491deb0c404d29` (design-system polish) | GitHub |
+| Main before 13 Oct visual audit | `89ce1e1015fc2537c359733f68e76e045b7587da` | GitHub; always refresh main before edits |
 | Staging | Stale. Use deploy previews. | Netlify |
 | Build | Static + functions + Drizzle | `netlify.toml` |
 
@@ -54,7 +54,7 @@ Context is capped. Thin replies are provider fallback, not missing memory.
 ## Still open
 
 - xAI spending-limit and GPT 429 (owner action only).
-- Showcase images may still 404 if not binary-dropped.
+- All six referenced homepage showcase JPG files and three space images exist in GitHub. Public HTTP loading on both hosts still needs a browser/network check.
 - Kids episodes remain animation-ready drafts only. No video claimed.
 - Creator 90% offer remains planned scope, not live.
 
@@ -81,5 +81,15 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - Three new space images under `assets/images/space/`: `aurora-drive.jpg`, `aurora-planets.jpg`, `aurora-streaks.jpg`. Electric blue Northern lights, shooting stars, distant planets, sense of forward motion.
 - Homepage background now uses `aurora-drive.jpg` with a dark overlay. Reduced-motion safe.
 - Title and meta description strengthened for search. Honest copyright line added in the footer with a low-cost licence note. No invented penalties.
-- `.uk` currently 308-redirects to `.co.uk` via Vercel. Primary remains Netlify `pleadingsanity.co.uk`. One source of code is this repo. DNS alias for a true independent backup is an owner action if desired.
+- `.uk` has a verified custom-domain mapping (`redirect: null`) to a separate Vercel production project (`html-starter-pleadinsanity-2179`). Its READY deployment previously matched `main` at `89ce1e1`; Netlify is the `.co.uk` primary. Direct live HTTP status and whether Netlify-only API routes work on Vercel remain unverified. Recheck both after deployment; do not claim complete functional parity.
 - No logic, auth, payment, or chain changes.
+
+## 2026-10-13 — targeted visuals and seven-page audit (GPT)
+
+- Starting `main`: `89ce1e1015fc2537c359733f68e76e045b7587da`. Kept original crying-brain brand and colour palette. No auth, payments, Netlify Identity, functions, API keys, costs or PWA identifiers changed.
+- Reused existing `assets/images/showcase/frequencies.jpg` in the Meditation soundscape, with a responsive illustrated panel, descriptive alt text, intrinsic dimensions and lazy loading. Audio and timer logic unchanged. No new binary image needed.
+- Reviewed `/`, `games.html`, `finance.html`, `journal-vault.html`, `arron.html`, `meditation.html`, `about.html` from GitHub. The requested purpose lines for Games, Finance and Journal already exist; no duplicate headlines added.
+- Confirmed GitHub blobs exist for all six homepage showcase JPEGs, three aurora-space backgrounds, all 15 game-card JPEGs, meditation's new frequency image, the original logo and the key editorial images. The image files were not replaced because they were already coherent, distinctive cosmic artwork.
+- `crisis.html` source visibly contains clickable 999, Samaritans 116 123 and SHOUT 85258 contacts without a reveal step.
+- Backup check: Vercel has a separate verified `pleadingsanity.uk` domain mapping (no configured redirect) and a READY GitHub-linked deployment; not proof of a direct HTTP 200 or functioning Netlify-only serverless endpoints on the backup. Do not call it a tested, fully functional backup until those checks pass.
+- Still open for Claude: live browser checks of all seven page layouts, real mobile interactive flows, media HTTP responses, accessibility contrast and privacy/image access. Gemini owns Firebase rules; Grok owns further content. No staging site was treated as production.

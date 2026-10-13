@@ -43,6 +43,12 @@
     .running .orb { animation: orb 8s ease-in-out infinite; }
     @keyframes orb { 0%, 100% { transform: scale(.75); } 50% { transform: scale(1); } }
     @media (prefers-reduced-motion: reduce) { .running .orb { animation: none; } }
+    .soundscape-art {
+      display: block; width: 100%; max-width: 720px; height: auto;
+      margin: 1rem auto .5rem; border-radius: 14px;
+      border: 1px solid rgba(0,255,240,.2);
+      box-shadow: 0 10px 32px rgba(0,0,0,.32);
+    }
     audio { width: 100%; margin-top: .75rem; }
   </style>
   <link rel="stylesheet" href="/css/site.css" />
@@ -151,6 +157,7 @@
     <section class="cosmic-card" aria-labelledby="sound-title">
       <h2 id="sound-title">Cosmic Healing Soundscape</h2>
       <p>Prefer a gentle backdrop? Play this while you sit, or explore more tones in <a href="frequencies.html">Healing Hz</a>.</p>
+      <img class="soundscape-art" src="/assets/images/showcase/frequencies.jpg" width="512" height="288" loading="lazy" decoding="async" alt="Soft cyan and violet sound waves ripple outward from a glowing centre under stars.">
       <audio controls loop preload="none" src="assets/audio/cosmic-healing.wav">
         Your browser doesn't support audio playback.
       </audio>
