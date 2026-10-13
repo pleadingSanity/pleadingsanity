@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000103">
 <title>Sane Builder | Pleading Sanity</title>
-<meta name="description" content="Private Sane Builder for Shane and the AI family. Test the house, keep shared memory, generate next prompts. Free for the sanctuary.">
+<meta name="description" content="Private Sane Builder for Shane and the AI family. Test the house, keep shared memory, generate next prompts. Free for the sanctuary. Fully working.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
@@ -39,7 +39,7 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <div class="wrap">
 <a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36">Pleading Sanity</a>
 <h1>Sane Builder</h1>
-<p class="sub">Private testing and coordination app for Shane and the AI family. One place to check the house, keep what we are working on, and generate the next prompt. Free for this sanctuary. Copies for other sites would be licensed separately.</p>
+<p class="sub">Private testing and coordination app for Shane and the AI family. One place to check the house, keep what we are working on, and generate the next prompt. Free for this sanctuary. Fully working. Updates automatically with the PWA.</p>
 
 <div class="panel">
 <h2>What we are working on</h2>
@@ -50,15 +50,17 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <div class="panel">
 <h2>House check</h2>
 <div class="checklist" id="checks">
-<label><input type="checkbox" data-page="/"> Homepage — purpose lines, crisis, space background</label>
+<label><input type="checkbox" data-page="/"> Homepage — purpose lines, crisis, space background, apps showcase</label>
 <label><input type="checkbox" data-page="/arron.html"> Arron — companion, not a therapist, crisis signpost</label>
 <label><input type="checkbox" data-page="/journal-vault.html"> Journal Vault — private, one line enough</label>
 <label><input type="checkbox" data-page="/games.html"> Games — soft focus, levels expand</label>
 <label><input type="checkbox" data-page="/poker.html"> Night Table — play chips only, expanding levels</label>
+<label><input type="checkbox" data-page="/sanity-solitaire.html"> Sanity Solitaire — soft focus, progress local</label>
 <label><input type="checkbox" data-page="/feed.html"> Sanity Feed — newest first, hearts only</label>
 <label><input type="checkbox" data-page="/finance.html"> Sane Finance — not a lender, numbers stay local</label>
 <label><input type="checkbox" data-page="/meditation.html"> Meditation — soft tones, silence allowed</label>
 <label><input type="checkbox" data-page="/crisis.html"> Crisis — 116 123 · 85258 visible</label>
+<label><input type="checkbox" data-page="/site-builder.html"> Public Site Builder — client-side only, £2.99 note</label>
 </div>
 <div class="btn-row">
 <button type="button" id="openAll">Open all pages</button>
@@ -88,8 +90,8 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <pre id="output">Press generate. The prompt will include current work, unchecked pages, and the handoff rules.</pre>
 </div>
 
-<p class="note">This builder is for Shane Cooper and the Pleading Sanity AI family. It lives inside the existing sanctuary PWA so it updates automatically. No separate install. No delete-and-reinstall. Crisis numbers stay visible. Sanctuary tools stay free.</p>
-<p><a href="/">← Back to the house</a> · <a href="/AI_HANDOFF.md">AI_HANDOFF.md</a></p>
+<p class="note">This builder is for Shane Cooper and the Pleading Sanity AI family only. It lives inside the existing sanctuary PWA so it updates automatically. No separate install. No delete-and-reinstall. Crisis numbers stay visible. Sanctuary tools stay free. Private notes never leave this device.</p>
+<p><a href="/">← Back to the house</a> · <a href="/AI_HANDOFF.md">AI_HANDOFF.md</a> · <a href="/site-builder.html">Public Site Builder</a></p>
 </div>
 
 <script>
@@ -145,6 +147,7 @@ RULES:
 - No new projects. Buff the live house.
 - Report what you verified, what you changed, and what is still open.
 - Keep .uk in sync via the same main branch.
+- Private builder notes stay local. Public site-builder is client-side only.
 
 What should we build or polish next? Give concrete next steps and any ready-to-paste copy or code.`;
     output.textContent = prompt;
