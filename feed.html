@@ -1,1 +1,415 @@
-PLACEHOLDER - will be replaced with full content after extraction
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <link rel="stylesheet" href="/css/design-system.css" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/feed.html" />
+  <title>Sanity Feed – Pleading Sanity | Time order. Free forever. Better than social media.</title>
+  <meta name="description" content="A free, positive mental health feed. Real survivors, newest first, no algorithm. Hearts only, never dislikes. Hope and healing without the doomscroll." />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  <meta name="color-scheme" content="dark" />
+
+  <meta property="og:title" content="Sanity Feed – Pleading Sanity" />
+  <meta property="og:description" content="Positive-first stories. Real survivors. Rising together. No doomscroll." />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/feed.html" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Sanity Feed – Pleading Sanity" />
+  <meta name="twitter:description" content="Your daily dose of hope. No algorithms. Just heart." />
+  <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+
+  <style>
+    :root{
+      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
+      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
+      --gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;
+      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;
+      display:flex;flex-direction:column;
+    }
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}
+    .skip-link:focus{top:12px;}
+    a{color:var(--cyan);transition:var(--t);text-decoration:none;}
+    a:hover{color:var(--magenta);text-decoration:underline;}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+    .logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}
+    .logo-text{text-align:left;}
+    .logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
+    .logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}
+    .back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}
+    .back-link:hover{color:var(--cyan);}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}
+    nav a{
+      color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;
+      min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;
+      background:rgba(0,255,240,0.04);
+    }
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.12);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;
+    }
+    nav a:hover{
+      border-color:var(--magenta);background:rgba(255,0,255,.08);
+      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
+    }
+    main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+    .intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}
+    .intro strong{color:var(--cyan);}
+
+    .search-wrap{margin-bottom:30px;}
+    #feed-search{
+      width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);
+      background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;
+      outline:none;transition:var(--t);font-family:inherit;
+    }
+    #feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}
+    .search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}
+    .search-term{color:var(--cyan);font-weight:700;}
+    .btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:36px;}
+    .btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}
+
+    .feed-item{
+      background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(255,0,255,.04));
+      border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;
+      transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;
+    }
+    @keyframes cardFade{to{opacity:1;transform:none;}}
+    .feed-item:nth-child(1){animation-delay:.1s;}
+    .feed-item:nth-child(2){animation-delay:.2s;}
+    .feed-item:nth-child(3){animation-delay:.3s;}
+    .feed-item:nth-child(4){animation-delay:.4s;}
+    .feed-item:nth-child(5){animation-delay:.5s;}
+    .feed-item:hover{
+      transform:translateY(-4px);border-color:var(--magenta);
+      box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(255,0,255,.1);
+    }
+    .feed-item iframe{
+      width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;
+      box-shadow:0 0 15px rgba(0,255,240,.15);
+    }
+    .item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}
+    .item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}
+    .like-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+    .like-btn{
+      padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);
+      font-size:0.9rem;min-height:42px;font-family:inherit;flex:1;
+    }
+    .like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}
+    .like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}
+    .video-desc{color:var(--text-soft);line-height:1.7;}
+
+    #loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}
+    .end-msg{
+      text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;
+      border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;
+    }
+    .end-msg a{color:var(--cyan);font-weight:700;}
+    .end-msg a:hover{color:var(--magenta);}
+
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
+    }
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);
+    }
+    .socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}
+    .quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}
+    .quick-links a{margin:0 6px;}
+    .legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+
+    @media (max-width:768px){
+      main{padding:25px 15px 50px;}
+      .like-buttons{width:100%;}
+      nav{gap:6px 6px;}
+      nav a{padding:6px 11px;font-size:0.85rem;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}
+    }
+  </style>
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/social.css" />
+  <link rel="stylesheet" href="/css/cosmic-scroll.css" />
+  <link rel="stylesheet" href="/css/space.css" />
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to feed</a>
+
+<nav class="ps-nav" aria-label="Main navigation">
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <div class="ps-links">
+      <a href="/" class="ps-home">Home</a>
+      <div class="ps-group" data-group="heal">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron & Healing</button>
+        <div class="ps-group-menu" id="ps-g-heal">
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence & Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
+        </div>
+      </div>
+      <div class="ps-group has-current" data-group="community">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+        <div class="ps-group-menu" id="ps-g-community">
+          <a href="/feed.html" aria-current="page">🌟 Sanity Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="create">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create & Live</button>
+        <div class="ps-group-menu" id="ps-g-create">
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="play">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games & Kids</button>
+        <div class="ps-group-menu" id="ps-g-play">
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="story">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+        <div class="ps-group-menu" id="ps-g-story">
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
+        </div>
+      </div>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
+    </div>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
+  </div>
+</nav>
+
+  <header role="banner">
+    <div class="logo-container">
+      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="eager" />
+      <div class="logo-text">
+        <div class="logo-main">PLEADING SANITY</div>
+        <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
+      </div>
+    </div>
+    <a href="index.html" class="back-link">← Back to Home</a>
+    <h1>🌌 Sanity Feed</h1>
+    <p class="tag" style="color:var(--magenta);font-weight:600;margin-bottom:12px;">Time order. Free forever. Better than social media.</p>
+  </header>
+
+  <p class="ps-first">This is the feed, in time order. No one is pushed up the page. Next tap: write, or read.</p>
+<main id="main" role="main">
+    <p class="intro">
+      Real stories, cosmic drops, and uplifting content.<br>
+      <strong>No algorithms. No doomscroll. Only sanity.</strong>
+    </p>
+    <p class="intro"><a href="/post.html">Share words</a> · <a href="/post.html?kind=image">a photo</a> · <a href="/post.html?kind=meme">a meme</a> · <a href="/post.html?kind=video">a video</a>. Your profile photo, background and bio live on <a href="/profile.html">your page</a>.</p>
+
+    <section class="panel" id="feed-promise" aria-labelledby="feed-promise-title">
+      <h2 id="feed-promise-title">What this feed is</h2>
+      <p>This is a feed of real people. Survivors, carers, friends, people having a hard week and people having a good one. Everything here was shared by someone who chose to be honest.</p>
+      <ul style="margin:0.75rem 0 0 1.4rem;">
+        <li><strong>Newest first. No algorithm.</strong> Nothing is pushed up because it is loud or angry. You see posts in the order they were shared.</li>
+        <li><strong>Hearts only. Never downvotes, never dislikes.</strong> We don&rsquo;t feed darkness. If a post moves you, give it a heart. If it doesn&rsquo;t, simply scroll on.</li>
+        <li><strong>&ldquo;X have walked this path.&rdquo;</strong> Each post shows how many people have read it. So even when nobody replies, you know you were heard.</li>
+        <li><strong>Arron marks the milestones.</strong> When a post reaches 10, 50, 100, 500 or 1,000 hearts, Arron speaks a few words to the person who wrote it. Others see a gentle glow on the post, but only the author sees their exact heart count. No one is ranked. No one is compared.</li>
+      </ul>
+      <p style="margin-top:0.75rem;">If you are carrying something heavy right now, you do not have to scroll through it alone. <a href="/crisis.html">Read the house truth</a> or <a href="/tools.html">see how to use this house</a>.</p>
+    </section>
+
+    <section class="panel" id="daily-light" aria-labelledby="daily-light-title">
+      <h2 id="daily-light-title">Daily light</h2>
+      <p>A few words from Arron to carry with you today.</p>
+      <ul style="margin:0.75rem 0 0 1.4rem;">
+        <li>You do not have to carry today and tomorrow at the same time. Just today. Just this hour, if that is all you can manage.</li>
+        <li>Small steps still move you. One glass of water. One walk. One line in the journal. That counts.</li>
+        <li>The 3am brain lies. You do not have to believe every thought. You’re not alone.</li>
+      </ul>
+    </section>
+
+    <section class="panel" id="house" aria-labelledby="house-title">
+      <h2 id="house-title">From the house</h2>
+      <p>Three kind jokes. Newest house notes stay in this order. People&rsquo;s posts stay underneath, newest first.</p>
+      <div class="ps-meme-row">
+        <figure>
+          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." />
+        </figure>
+        <figure>
+          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." />
+        </figure>
+        <figure>
+          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." />
+        </figure>
+      </div>
+      <a class="ps-stay-play" href="/sanity-solitaire.html">Two minutes of Solitaire</a>
+      <div class="house-posts" style="margin-top:1.5rem;display:grid;gap:1rem;">
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">Got out of bed today. That is the win. If you did too, you already did something real. Rise From Madness.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">The 3am brain lies. The 9am brain is usually kinder. You do not have to believe every thought. You’re not alone.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">Private words. Yours alone. If the feed feels loud, the Journal Vault is still there. Write one line. It stays on your phone.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">This feed is newest first. No algorithm. Hearts only. Sit with people who get it. One Source. One Family.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="cs-view-toggle" role="group" aria-label="Feed view">
+      <button type="button" data-view="immersive" aria-pressed="true">📱 Immersive</button>
+      <button type="button" data-view="list" aria-pressed="false">📜 List</button>
+    </div>
+    <section id="immersive" aria-label="Immersive feed">
+      <div data-cosmic-scroll></div>
+    </section>
+
+    <section id="community" aria-labelledby="community-heading">
+      <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
+      <p style="margin:0 0 1rem">Real people, real updates — newest first, no algorithm. Hearts only, never dislikes: we don’t feed darkness. Join in by <a href="/post.html">sharing words</a>, or open <a href="/profile.html">your page</a>.</p>
+      <p id="community-tag" class="notice info" hidden></p>
+      <div id="community-feed"></div>
+      <div id="community-load" style="text-align:center;margin:1rem 0;">
+        <button type="button" id="community-more" class="btn btn-secondary" style="display:none;">Load more</button>
+      </div>
+    </section>
+
+    <section id="explore" aria-labelledby="explore-heading">
+      <h2 id="explore-heading" style="text-align:center;">🧭 Explore by Topic</h2>
+      <p class="intro">Hand-picked themes from the movement — each one opens a YouTube search.</p>
+      <div class="topic-grid">
+        <a class="topic" href="https://www.youtube.com/results?search_query=mental+health+recovery+stories" target="_blank" rel="noopener noreferrer">Recovery stories</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=bipolar+lived+experience" target="_blank" rel="noopener noreferrer">Bipolar, real talk</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=getting+out+of+bed+mental+health" target="_blank" rel="noopener noreferrer">Getting out of bed</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=calm+breathing+exercise" target="_blank" rel="noopener noreferrer">Calm breathing</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p>One Source. One Consciousness. One Family.</p>
+    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story.</p>
+    <p>Built by <a href="/about.html">Shane Cooper</a>.</p>
+    <p>In honour of Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.</p>
+    <p>Ivan Kurcharskyi, POW · Arthur Lesley Cooper · Shane Cooper — built on their shoulders.</p>
+    <p class="ps-copy">&copy; 2026 Shane Cooper / Pleading Sanity. Rise From Madness.</p>
+  </footer>
+
+  <script src="/js/site.js" defer></script>
+  <script src="/js/social.js" defer></script>
+  <script>
+    (function () {
+      var feed = document.getElementById('community-feed');
+      var more = document.getElementById('community-more');
+      var tag = document.getElementById('community-tag');
+      var offset = 0;
+      var limit = 12;
+      function showTag(msg) {
+        if (!tag) return;
+        if (msg) { tag.hidden = false; tag.textContent = msg; } else { tag.hidden = true; }
+      }
+      function load() {
+        fetch('/.netlify/functions/community-feed?limit=' + limit + '&offset=' + offset)
+          .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+          .then(function (data) {
+            showTag();
+            (data.posts || []).forEach(function (p) {
+              var art = document.createElement('article');
+              art.className = 'feed-item';
+              art.style.opacity = '1';
+              art.style.transform = 'none';
+              art.innerHTML = '<h3>' + (p.name || 'Someone') + '</h3><p class="video-desc">' + (p.text || '') + '</p>';
+              feed.appendChild(art);
+            });
+            offset += limit;
+            if (more) more.style.display = (data.posts || []).length === limit ? 'inline-flex' : 'none';
+          })
+          .catch(function () {
+            showTag('The feed is quiet right now. Write something, or sit with the house notes above.');
+            if (more) more.style.display = 'none';
+          });
+      }
+      if (more) more.addEventListener('click', load);
+      if (location.hash === '#community') document.getElementById('community').scrollIntoView();
+      load();
+    })();
+  </script>
+</body>
+</html>
