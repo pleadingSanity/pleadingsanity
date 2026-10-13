@@ -422,16 +422,16 @@
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group has-current" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron & Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
           <a href="/arron.html">🤖 Talk to Arron</a>
           <a href="/arron-app.html">📲 Arron App</a>
           <a href="/journal-vault.html" aria-current="page">📖 Journal Vault</a>
-          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/notes.html">🗓️ Sanctuary Notes</a>
           <a href="/mind-mode.html">🌬️ Mind Mode</a>
           <a href="/mood-journey.html">🌱 Mood Journey</a>
           <a href="/frequencies.html">🎵 Healing Hz</a>
-          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/meditation.html">🧘 Silence & Breath</a>
           <a href="/quote-wall.html">✨ Quote Wall</a>
           <a href="/finance.html">💷 Sane Finance</a>
           <a href="/support.html">🤲 Support</a>
@@ -448,7 +448,7 @@
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create & Live</button>
         <div class="ps-group-menu" id="ps-g-create">
           <a href="/creator.html">🎥 Creator Hub</a>
           <a href="/ai-studio.html">🎙️ AI Studio</a>
@@ -461,7 +461,7 @@
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games & Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
           <a href="/games.html">🧠 Brain Games</a>
           <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
@@ -491,13 +491,6 @@
   </div>
 </nav>
 
-
-  <!-- Floating Nebula Background -->
-  <div class="nebula-particle" style="width:320px;height:320px;top:8%;left:3%;" aria-hidden="true"></div>
-  <div class="nebula-particle gold-glow" style="width:240px;height:240px;top:35%;right:3%;" aria-hidden="true"></div>
-  <div class="nebula-particle" style="width:280px;height:280px;bottom:15%;left:10%;animation-delay:-10s;" aria-hidden="true"></div>
-  <div class="nebula-particle gold-glow" style="width:200px;height:200px;bottom:25%;right:15%;animation-delay:-15s;" aria-hidden="true"></div>
-
   <div class="page-wrapper">
     <header role="banner">
       <!-- === CUSTOM SVG LOGO — MATCHES ALL PAGES === -->
@@ -511,6 +504,7 @@
       
       <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-stories.jpg" alt="Journal" />
     <h1>Journal Vault</h1>
+      <p class="purpose" style="color:#00fff0;font-weight:600;margin:0.3rem 0 0.5rem;">Private words. Yours alone.</p>
       <p class="tagline">One line is enough. It stays on this phone.</p>
     </header>
     <figure class="ps-editorial-art ps-editorial-art-compact">
@@ -538,379 +532,8 @@
           <p id="vault-status" role="status"></p>
           <p id="vault-crisis" class="vault-crisis" hidden>You are not a file. The house will sit with the story.</p>
         </section>
-
-        <input
-          type="text"
-          id="searchBox"
-          class="search-box"
-          placeholder="Search your notes"
-          onkeyup="filterEntries()"
-          aria-label="Search journal entries"
-        >
-
-        <div class="stats" id="stats"></div>
-        <div id="vault-content" role="list"></div>
-
-        <details class="vault-more">
-          <summary>More</summary>
-          <div class="controls">
-            <button class="btn btn-secondary" type="button" onclick="exportVault()">Export</button>
-            <button class="btn btn-secondary" type="button" onclick="printVault()">Print</button>
-          </div>
-          <form class="forget-form" onsubmit="return forgetVault(event)">
-            <label for="forgetWord">To delete every note on this phone, type FORGET</label>
-            <input id="forgetWord" name="forget" autocomplete="off" autocapitalize="characters" />
-            <button class="btn btn-secondary" type="submit">Delete every note</button>
-          </form>
-        </details>
-
-        <div class="privacy-note">
-          Your notes stay on this phone. Nothing is sent. Export if you want a copy.
-        </div>
-
-        <section class="submit-section" id="why-writing-heals" aria-labelledby="why-writing-title" style="margin-top:30px;">
-          <h2 id="why-writing-title">Why writing heals</h2>
-          <p class="entry-text">You do not need to be a writer. You do not need good spelling or full sentences. You just need to be honest with a page that will not judge you.</p>
-          <ul class="entry-text" style="margin:12px 0 0 1.4rem;white-space:normal;">
-            <li><strong>Naming a feeling softens it.</strong> “I feel awful” is a fog. “I feel ashamed about what I said” is something you can hold. Putting a name on it often takes some of the sting out.</li>
-            <li><strong>It gets the loop out of your head.</strong> Thoughts that go round and round at 3am lose some of their grip once they are on the page. You can put them down and leave them there.</li>
-            <li><strong>You start to see patterns.</strong> Over weeks, you may notice what tends to come before a bad day — and what tends to help. That is your own wisdom, written by you.</li>
-            <li><strong>It is a record of how far you have come.</strong> On the hard days, you can scroll back and see that you have been here before, and you got through it.</li>
-          </ul>
-        </section>
-
-        <section class="submit-section" id="writing-prompts" aria-labelledby="writing-prompts-title">
-          <h2 id="writing-prompts-title">Not sure where to start?</h2>
-          <p class="entry-text">Pick one. Answer it in a single line if that is all you have today. One line is enough.</p>
-          <ul class="entry-text" style="margin:12px 0 0 1.4rem;white-space:normal;">
-            <li>Right now I feel… and I think it is because…</li>
-            <li>What is taking up the most room in my head today?</li>
-            <li>One small thing that went okay today was…</li>
-            <li>What would I say to a friend who felt the way I do?</li>
-            <li>Something I got through that I once thought I could not…</li>
-            <li>What do I need right now — rest, food, water, a person, or quiet?</li>
-            <li>What should tomorrow-me know?</li>
-          </ul>
-        </section>
-
-        <section class="submit-section" id="privacy-promise" aria-labelledby="privacy-promise-title">
-          <h2 id="privacy-promise-title">Our privacy promise, in plain words</h2>
-          <p class="entry-text">This is yours. Your words are sacred, and we treat them that way. Here is exactly how the vault works — nothing more, nothing less.</p>
-          <ul class="entry-text" style="margin:12px 0 0 1.4rem;white-space:normal;">
-            <li><strong>Your notes are saved only in this browser, on this device.</strong> They are not sent to us or to anyone else. We cannot read them.</li>
-            <li><strong>They are not linked to an account.</strong> Signing in does not copy them anywhere. They will not appear on your other phones or computers.</li>
-            <li><strong>Anyone who uses this device and browser could open this page.</strong> If you share a phone, keep that in mind. A screen lock helps.</li>
-            <li><strong>Clearing your browser data will delete them.</strong> So will private or incognito browsing once you close the window. Use <em>Export</em> under “More” to keep your own copy as a text file.</li>
-            <li><strong>You can delete everything, any time.</strong> Open “More” and type FORGET. It is gone from this device for good.</li>
-          </ul>
-          <p class="entry-text" style="margin-top:12px;">If what you are writing feels too heavy to carry alone, you do not have to. <a href="/crisis.html">Read the house truth</a> or <a href="/tools.html">see how to use this house</a>.</p>
-        </section>
       </div>
     </main>
-
-    <footer class="ps-footer" role="contentinfo">
-  <div class="ps-footer-inner">
-    <p class="ps-motto">Evolution, Not Erasure</p>
-    <p>One Source. One Consciousness. One Family.</p>
-    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
-    <div class="ps-footer-links">
-      <a href="/about.html">About</a>
-      <a href="/support.html">Support</a>
-      <a href="/crisis.html">Crisis</a>
-      <a href="/about.html#legacy">Legacy</a>
-      <a href="/movement.html">Movement</a>
-      <a href="/feed.html">Feed</a>
-      <a href="/games.html">Games</a>
-      <a href="/creations.html">Creations</a>
-      <a href="/wisdom.html">Wisdom</a>
-      <a href="/community-dashboard.html">Community</a>
-      <a href="/ai-ecosystem.html">AI Family</a>
-      <a href="/ai-stories.html">AI Stories</a>
-      <a href="/quote-wall.html">Quote Wall</a>
-      <a href="/offline.html">Offline Support</a>
-      <a href="/shop.html">Shop</a>
-    </div>
-    <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
-      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
-    </div>
-    <div class="ps-legacy">
-      <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
-      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
-      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
-      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
-    </div>
   </div>
-</footer>
-  </div>
-
-  <script>
-    let allEntries = [];
-    let editingId = null;
-
-    function setStatus(msg) {
-      const el = document.getElementById('vault-status');
-      if (el) el.textContent = msg || '';
-    }
-
-    function watchCrisis() {
-      const text = document.getElementById('newEntryText').value;
-      const heavy = /\b(suicid|kill myself|killing myself|end my life|self-harm|self harm|do not want to live|don'?t want to (live|be here))\b/i.test(text);
-      document.getElementById('vault-crisis').hidden = !heavy;
-    }
-
-    function usePrompt(line) {
-      const box = document.getElementById('newEntryText');
-      box.value = box.value.trim() ? box.value.replace(/\s*$/, '\n') + line + ' ' : line + ' ';
-      box.focus();
-    }
-
-    function addEntry() {
-      const box = document.getElementById('newEntryText');
-      const text = box.value.trim();
-      if (!text) { setStatus('Write one line first.'); return; }
-      if (editingId != null) {
-        const entry = allEntries.find((e) => e.id === editingId);
-        if (entry) entry.text = text;
-        editingId = null;
-        document.getElementById('save-btn').textContent = 'Save';
-        setStatus('Saved on this phone.');
-      } else {
-        allEntries.unshift({ id: Date.now(), timestamp: new Date().toISOString(), text, source: 'Personal' });
-        setStatus('Saved on this phone.');
-      }
-      saveVault();
-      box.value = '';
-      watchCrisis();
-      displayEntries(allEntries);
-      updateStats();
-    }
-
-    function editEntry(id) {
-      const entry = allEntries.find((e) => e.id === id);
-      if (!entry) return;
-      editingId = id;
-      document.getElementById('newEntryText').value = entry.text;
-      document.getElementById('save-btn').textContent = 'Save changes';
-      setStatus('Editing this note.');
-      watchCrisis();
-      document.getElementById('newEntryText').focus();
-    }
-
-    function deleteEntry(id) {
-      if (!confirm('Delete this note? It is only on this phone.')) return;
-      allEntries = allEntries.filter((e) => e.id !== id);
-      if (editingId === id) {
-        editingId = null;
-        document.getElementById('newEntryText').value = '';
-        document.getElementById('save-btn').textContent = 'Save';
-      }
-      saveVault();
-      displayEntries(allEntries);
-      updateStats();
-      setStatus('Deleted.');
-    }
-
-    // 💾 SAVE LOCALLY — ZERO DATA LEAVES DEVICE
-    function saveVault() {
-      try {
-        localStorage.setItem('journalVault', JSON.stringify(allEntries));
-      } catch (e) {
-        console.error("Save failed:", e);
-        alert("⚠️ Storage full — export or clear old entries first.");
-      }
-    }
-
-    // 📂 LOAD FROM STORAGE
-    function loadVault() {
-      try {
-        const stored = localStorage.getItem('journalVault');
-        allEntries = stored ? JSON.parse(stored) : [];
-        displayEntries(allEntries);
-        updateStats();
-      } catch (err) {
-        document.getElementById('vault-content').innerHTML = `
-          <div class="empty-state">
-            <div class="empty-state-icon">⚠️</div>
-            <h3>Something went wrong</h3>
-            <p style="margin-top:10px;">${err.message}</p>
-            <button class="btn" onclick="localStorage.removeItem('journalVault');loadVault()" style="margin-top:15px;">Reset Vault</button>
-          </div>
-        `;
-      }
-    }
-
-    // 🎨 RENDER ENTRIES
-    function displayEntries(entries) {
-      const container = document.getElementById('vault-content');
-      
-      if (!entries.length) {
-        container.innerHTML = allEntries.length
-          ? `<div class="empty-state"><h3>No note uses those words.</h3></div>`
-          : `<div class="empty-state"><h3>Nothing here yet. It stays on this phone.</h3></div>`;
-        return;
-      }
-
-      container.innerHTML = entries.map((entry) => `
-        <article class="entry" role="listitem">
-          <div class="entry-header">
-            <span class="entry-date">${new Date(entry.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })}</span>
-          </div>
-          <div class="entry-text">${escapeHtml(entry.text)}</div>
-          <div class="entry-actions">
-            <button type="button" class="btn btn-secondary" onclick="editEntry(${JSON.stringify(entry.id)})">Edit</button>
-            <button type="button" class="btn btn-secondary" onclick="deleteEntry(${JSON.stringify(entry.id)})">Delete</button>
-          </div>
-        </article>
-      `).join('');
-    }
-
-    // 🔒 Security — prevent XSS
-    function escapeHtml(text) {
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    // 📊 STATS
-    function updateStats() {
-      const el = document.getElementById('stats');
-      if (!allEntries.length) { el.innerHTML = ''; return; }
-      const dates = allEntries.map(e => new Date(e.timestamp));
-      const from = new Date(Math.min(...dates)).toLocaleDateString('en-GB');
-      const to = new Date(Math.max(...dates)).toLocaleDateString('en-GB');
-      const span = from === to ? '' : ` From ${from} to ${to}.`;
-      el.innerHTML = `<strong>${allEntries.length}</strong> ${allEntries.length === 1 ? 'note' : 'notes'} on this phone.${span}`;
-    }
-
-    // 🔍 SEARCH
-    function filterEntries() {
-      const term = document.getElementById('searchBox').value.toLowerCase().trim();
-      displayEntries(
-        !term ? allEntries :
-        allEntries.filter(e => 
-          e.text.toLowerCase().includes(term) || 
-          (e.source && e.source.toLowerCase().includes(term))
-        )
-      );
-    }
-
-    // 📤 EXPORT TO TXT
-    function exportVault() {
-      if (!allEntries.length) return alert("⚠️ Nothing to export yet.");
-      
-      let content = "🧠 PLEADING SANITY — JOURNAL VAULT\n";
-      content += `Exported: ${new Date().toLocaleString('en-GB')}\n`;
-      content += `Total Entries: ${allEntries.length}\n`;
-      content += "=".repeat(50) + "\n\n";
-      
-      allEntries.forEach((e, i) => {
-        content += `ENTRY ${i + 1}\n`;
-        content += `Date: ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })}\n`;
-        content += `Source: ${e.source || 'Personal'}\n`;
-        content += "-".repeat(40) + "\n";
-        content += e.text + "\n";
-        content += "=".repeat(50) + "\n\n";
-      });
-      
-      content += "———\n";
-      content += "100% Private · Local Only · Yours Alone\n";
-      content += "Evolution, Not Erasure · pleadingsanity.co.uk\n";
-      
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `PleadingSanity_JournalVault_${new Date().toISOString().slice(0,10)}.txt`;
-      a.click();
-      URL.revokeObjectURL(url);
-    }
-
-    // 🖨️ PRINT
-    function printVault() {
-      if (!allEntries.length) return alert("⚠️ Nothing to print yet.");
-      
-      const win = window.open("", "PRINT", "height=650,width=800");
-      if (!win) return alert("⚠️ Allow pop-ups to print");
-      
-      win.document.write(`
-        <html>
-        <head>
-          <title>Journal Vault — Pleading Sanity</title>
-          <style>
-            body{font-family:system-ui,Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;background:#030b18;color:#fff;line-height:1.7;}
-            h1{color:#00fff0;border-bottom:1px solid rgba(0,255,240,0.3);padding-bottom:15px;}
-            .entry{border-bottom:1px solid #222;padding:20px 0;}
-            .time{color:#ffd700;font-size:0.9rem;}
-            @media print{body{background:#fff;color:#000;}.time{color:#b8860b;}}
-          </style>
-        </head>
-        <body>
-          <h1>📖 Journal Vault — Pleading Sanity</h1>
-          <p style="text-align:center;color:#888;">Exported: ${new Date().toLocaleString('en-GB')}</p>
-      `);
-      
-      allEntries.forEach((e, i) => {
-        win.document.write(`
-          <div class="entry">
-            <div class="time">#${i+1} — ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })} — ${e.source || 'Journal'}</div>
-            <div style="white-space:pre-wrap;margin-top:10px;">${e.text.replace(/</g, '&lt;')}</div>
-          </div>
-        `);
-      });
-      
-      win.document.write(`
-        <p style="margin-top:30px;padding-top:20px;border-top:1px solid #222;color:#666;font-style:italic;text-align:center;">
-          One Source. One Consciousness. One Family.<br>
-          pleadingsanity.co.uk
-        </p>
-        </body></html>
-      `);
-      win.document.close();
-      win.focus();
-      setTimeout(() => win.print(), 500);
-    }
-
-    // 🗑️ CLEAR — DOUBLE CONFIRM
-    function forgetVault(ev) {
-      ev.preventDefault();
-      const input = document.getElementById('forgetWord');
-      if (input.value.trim() !== 'FORGET') { setStatus('Type FORGET to delete every note.'); return false; }
-      localStorage.removeItem('journalVault');
-      allEntries = [];
-      editingId = null;
-      input.value = '';
-      document.getElementById('newEntryText').value = '';
-      document.getElementById('save-btn').textContent = 'Save';
-      displayEntries(allEntries);
-      updateStats();
-      setStatus('Every note on this phone is gone.');
-      return false;
-    }
-
-    // ⌨️ Shortcuts
-    document.addEventListener('keydown', e => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && document.activeElement.id === 'newEntryText') {
-        e.preventDefault();
-        addEntry();
-      }
-      if (e.key === 'Escape') {
-        document.getElementById('searchBox').value = '';
-        filterEntries();
-        document.getElementById('newEntryText').blur();
-      }
-    });
-
-    // 🚀 INIT
-    document.addEventListener('DOMContentLoaded', () => {
-      loadVault();
-      const year = document.getElementById('year');
-      if (year) year.textContent = new Date().getFullYear();
-    });
-  </script>
-  <script src="/js/site.js" defer></script>
-  <script type="module" src="/js/auth.js"></script>
 </body>
 </html>
