@@ -7,7 +7,10 @@
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { currentUser, json, logActivity, unauthorized } from "../lib/social.js";
+import { currentUser, optionalUser, json, logActivity, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
+import { db } from "../../db/index.js";
+import { posts } from "../../db/schema.js";
+import { eq } from "drizzle-orm";
 
 const MAX_IMAGE = 5 * 1024 * 1024;
 const MAX_VIDEO = 8 * 1024 * 1024;
@@ -19,7 +22,7 @@ export default async (req: Request) => {
   try {
     const store = getStore("post-images");
     const url = new URL(req.url);
-    const user = req.method === "GET" ? null : await currentUser();
+    const user = req.method === "GET" ? await optionalUser() : await currentUser();
     if (req.method !== "GET" && !user) return unauthorized();
 
     if (req.method === "POST" && url.pathname === "/api/images/banner") {
@@ -54,14 +57,42 @@ export default async (req: Request) => {
     }
 
     if (req.method === "GET") {
-      const key = decodeURIComponent(url.pathname.replace("/api/images/", ""));
+      if (!url.pathname.startsWith("/api/images/")) return new Response("Not found", { status: 404 });
+      const key = url.pathname.slice("/api/images/".length);
+      // Reject malformed and nested paths before looking up a blob.
+      if (!key || key.includes("%") || key.includes("..") || key.includes("\\") || key.split("/").length !== 2 || key.split("/").some((part) => !part)) {
+        return new Response("Not found", { status: 404 });
+      }
+      // Deny access by default. A blob URL is not proof that a viewer may read it.
+      if (key.startsWith("banner/")) {
+        if (!user) return unauthorized();
+        const ownerId = key.slice("banner/".length);
+        if (!ownerId || ownerId !== user.id) return new Response("Not found", { status: 404 });
+      } else {
+        const ownerId = key.split("/")[0];
+        if (!ownerId || !key.startsWith(ownerId + "/")) return new Response("Not found", { status: 404 });
+        if (!user || ownerId !== user.id) {
+          const rows = await db.select({
+            authorId: posts.authorId, visibility: posts.visibility, status: posts.status, hidden: posts.hidden,
+          }).from(posts).where(eq(posts.imageKey, key)).limit(10);
+          let allowed = false;
+          for (const post of rows) {
+            if (post.authorId !== ownerId || post.status !== "live" || post.hidden) continue;
+            if (user && await isBlockedEitherWay(user.id, ownerId)) continue;
+            if (post.visibility === "public") allowed = true;
+            if (post.visibility === "members" && user) allowed = true;
+            if (post.visibility === "friends" && user && await areFriends(user.id, ownerId)) allowed = true;
+          }
+          if (!allowed) return new Response("Not found", { status: 404 });
+        }
+      }
       const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
       if (!entry) return new Response("Not found", { status: 404 });
       const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
       return new Response(entry.data, {
         headers: {
           "Content-Type": type,
-          "Cache-Control": "private, max-age=86400",
+          "Cache-Control": "private, no-store",
           "X-Content-Type-Options": "nosniff",
         },
       });
