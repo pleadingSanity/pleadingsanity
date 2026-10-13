@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#000103">
 <title>Sane Site Builder | Pleading Sanity</title>
-<meta name="description" content="Paste your website. Get calm, new-gen polish ideas and a ready prompt for your own AI. Free for 24 hours. Nothing is sent to our servers. Your site stays yours.">
+<meta name="description" content="Free Sane Site Builder: enter your website, choose your goals and make a practical improvement brief you can give to an AI or developer. Generated on your device.">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <link rel="manifest" href="/manifest.json">
@@ -32,69 +32,88 @@ button.do{background:#00fff0;color:#000103;font-weight:800}
 <div class="wrap">
 <a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36">Pleading Sanity</a>
 <h1>Sane Site Builder</h1>
-<span class="price">Free for 24 hours</span>
-<p>Paste your website address. Get calm, new-gen polish ideas and a ready prompt you can give your own AI. Nothing is sent to our servers. Your site stays yours. This tool cannot touch or change Pleading Sanity. Fully working client-side. Free to try for the next 24 hours so you can send it to someone and see it work.</p>
+<span class="price">Free · No sign-up</span>
+<p>Describe your website and pick what needs improving. This creates a tailored brief for your AI or developer, right here in your browser. It does <strong>not</strong> visit, crawl, analyse or change the website automatically. Your site stays yours, and no paid API is called.</p>
 
 <div class="panel">
 <label for="url">Your website</label>
-<input id="url" type="url" placeholder="https://yoursite.com">
+<input id="url" type="url" inputmode="url" autocomplete="url" required placeholder="https://yoursite.com">
+<label for="niche">What kind of website?</label>
+<select id="niche" style="display:block;width:100%;background:#000103;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:12px;font:inherit;margin:8px 0 12px"><option value="community">Community or mental wellbeing</option><option value="creator">Creator, videos or live streams</option><option value="shop">Shop or small business</option><option value="education">Education or children</option><option value="general">Other website</option></select>
+<label for="goals">What should be improved?</label>
+<textarea id="goals" maxlength="2000" rows="3" placeholder="Example: The home page is confusing on phones and people cannot find the livestream."></textarea>
 <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
-<button type="button" class="do" id="go">Suggest polish</button>
+<button type="button" class="do" id="go">Create my improvement plan</button>
 <button type="button" id="copy">Copy prompt</button>
 </div>
 </div>
 
 <div class="panel">
 <h2 style="color:#00fff0;font-size:1.15rem;margin:0 0 0.7rem">Ideas</h2>
-<pre id="out">Enter a URL and press Suggest polish.</pre>
+<pre id="out" role="status" aria-live="polite">Enter a website, choose a category and describe what you want to improve.</pre>
 </div>
 
-<p class="note">Free for 24 hours. After that the full tool is £2.99. It adds niche-specific content prompts, mobile-first checks, and a stronger update prompt you can run on your own site. Payment handling is coming; contact us to unlock early. Prompts and code generated here never include Pleading Sanity private handoff, keys, or internal paths. Nothing leaves your browser.</p>
-<p><a href="/">← Back to the house</a> · <a href="/builder.html">Private Sane Builder (house only)</a></p>
+<p class="note">This browser-based planning tool is free. It makes a brief based only on what you enter; it cannot verify broken links, security or performance until someone runs real checks. No payment or account is required. Do not paste passwords, private journals or secrets into a prompt.</p>
+<p><a href="/">← Back to the house</a> · <a href="/about.html">About Pleading Sanity</a></p>
 </div>
 
 <script>
 (function(){
-  const urlEl = document.getElementById("url");
-  const out = document.getElementById("out");
-  document.getElementById("go").onclick = function(){
-    const u = (urlEl.value || "").trim();
-    if (!u) { out.textContent = "Add a website address first."; return; }
-    const ideas = [
-      "Clear purpose line under the hero so people know what the page does in one sentence.",
-      "Mobile-first buttons (min 44px height) and a calm colour palette that does not shout.",
-      "Newest-first or chronological content if you have a feed. No algorithm that rewards anger.",
-      "Private notes or journal option that stays on the device unless the user chooses otherwise.",
-      "Honest pricing or free-forever note. No hidden sales pressure.",
-      "If the niche is mental health or support, keep crisis numbers visible and clear “not a therapist” language.",
-      "Breathing room between sections. No empty placeholder states."
-    ];
-    const prompt = `Polish and update this site in a calm, new-gen style.
-
-Site: ${u}
-
-Ideas to consider:
-${ideas.map((i,n) => (n+1) + ". " + i).join("\n")}
-
-Rules:
-- Keep the existing brand voice. Do not invent facts about the owner.
-- Make buttons and text large enough for phones.
-- Do not add dark patterns, hidden fees, or aggressive pop-ups.
-- If this is a support or mental-health site, keep crisis numbers visible and add a clear “not a therapist” line.
-- Suggest one concrete next improvement and give the ready-to-paste HTML or CSS for it.
-- This prompt was generated client-side. It contains no private data from any other site.
-
-This prompt was generated by the public Sane Site Builder. Free for 24 hours.`;
-    out.textContent = prompt;
+  const urlEl = document.getElementById('url');
+  const nicheEl = document.getElementById('niche');
+  const goalsEl = document.getElementById('goals');
+  const out = document.getElementById('out');
+  const improve = {
+    community: ['Make support and crisis links easy to find without opening menus.', 'Give people control of profile privacy, reports and blocks.', 'Explain what is free and what an AI companion cannot do.'],
+    creator: ['Make LIVE easy to find and distinguish preview, sharing and broadcasting.', 'Give creators clear public/private audience controls.', 'Label any earnings offer as proposed until real terms and payments are ready.'],
+    shop: ['Put delivery, returns and contact information where customers expect them.', 'Check checkout and product availability rather than showing dead purchase buttons.', 'Make prices, fees and any optional donations transparent.'],
+    education: ['Use clear age ranges and explain how adults can supervise.', 'Keep children away from unrestricted chat or public profiles.', 'Make buttons readable, keyboard-accessible and touch-friendly.'],
+    general: ['Explain the main purpose in one sentence under the heading.', 'Check all navigation and forms on phones and with a keyboard.', 'Show helpful empty states instead of fake content.']
   };
-  document.getElementById("copy").onclick = function(){
-    navigator.clipboard.writeText(out.textContent).then(() => {
-      const b = document.getElementById("copy");
-      const t = b.textContent;
-      b.textContent = "Copied";
-      setTimeout(() => b.textContent = t, 1500);
-    });
-  };
+  const basics = ['Preserve working pages, established branding and routes.', 'Check mobile layout, contrast, labels and buttons.', 'Test links, media loading, forms, performance and error states.', 'Do not claim results until real tests confirm them.'];
+  document.getElementById('go').addEventListener('click', function(){
+    const raw=urlEl.value.trim();
+    if(!raw){out.textContent='Enter your website address first.';urlEl.focus();return}
+    let site;
+    try {
+      const parsed=new URL(raw.match(/^https?:\/\//i) ? raw : 'https://'+raw);
+      if(!['https:','http:'].includes(parsed.protocol)||!parsed.hostname.includes('.'))throw new Error('bad URL');
+      site=parsed.origin+parsed.pathname;
+    } catch(e){out.textContent='Enter a valid http:// or https:// website address.';urlEl.focus();return}
+    const goals=goalsEl.value.trim();
+    const niche=nicheEl.value;
+    const recommendations=basics.concat(improve[niche]||improve.general);
+    out.textContent=[
+      'SANE SITE BUILDER — REVIEW BRIEF',
+      '',
+      'Website: '+site,
+      'Type: '+nicheEl.options[nicheEl.selectedIndex].text,
+      'My priorities: '+(goals||'Review navigation, clarity and accessibility.'),
+      '',
+      'CHECKLIST:',
+      ...recommendations.map((a,i)=>(i+1)+'. '+a),
+      '',
+      'INSTRUCTIONS FOR MY AI OR DEVELOPER:',
+      'Inspect the live site and existing source before editing. This builder has NOT scanned it.',
+      'Separate confirmed problems from suggestions. Preserve my voice, logo and working code.',
+      'Fix only verified problems, keep privacy and accessibility intact and test on mobile.',
+      'Do not invent facts or activate paid services without permission.',
+      'Show changed file names, tests, any limitations and an honest deployment status.',
+      '',
+      'Generated locally on this device. No website crawl or paid AI call was performed.'
+    ].join('\n');
+  });
+  document.getElementById('copy').addEventListener('click',async function(){
+    if(!out.textContent.startsWith('SANE SITE BUILDER')){out.textContent='Create an improvement plan first, then copy it.';return}
+    try{
+      if(!navigator.clipboard || !navigator.clipboard.writeText)throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(out.textContent);
+      this.textContent='Copied';
+    }catch(e){
+      out.focus();const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(out);selection.removeAllRanges();selection.addRange(range);
+      this.textContent='Select and copy the highlighted text';
+    }
+  });
 })();
 </script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
