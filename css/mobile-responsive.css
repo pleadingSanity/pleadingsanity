@@ -1,12 +1,11 @@
 /* =====================================================
-   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.2-FINAL
+   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.3
    Cosmic-Aligned • Touch-Optimized • Accessible • Fast
    Matches styles.css EXACTLY • Evolution, Not Erasure
 ===================================================== */
 
 /* ─── ALIGN WITH CORE — NO DUPLICATE VARS ─── */
 :root {
-  /* Re-export from styles.css — same names, same values */
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
   --magenta: #ff00ff;
@@ -132,6 +131,8 @@ nav a:focus-visible,
 
   main {
     padding: 20px 15px;
+    position: relative;
+    z-index: 2;
   }
 
   h1 { font-size: 2rem; }
@@ -144,7 +145,6 @@ nav a:focus-visible,
     line-height: 1.7;
   }
 
-  /* Newsletter Form — Stacked Full-Width */
   .newsletter-form {
     flex-direction: column;
     gap: 12px;
@@ -155,7 +155,7 @@ nav a:focus-visible,
   .newsletter-form input {
     width: 100%;
     padding: 15px;
-    font-size: 16px; /* ✅ Stops iOS zoom on focus */
+    font-size: 16px;
     border-radius: 12px;
   }
 
@@ -165,7 +165,6 @@ nav a:focus-visible,
     font-size: 1.1rem;
   }
 
-  /* Social Icons */
   .socials a {
     font-size: 1.8rem;
     padding: 10px;
@@ -173,7 +172,6 @@ nav a:focus-visible,
     min-width: 48px;
   }
 
-  /* Cards & Containers */
   .card,
   .cosmic-card,
   .manifesto,
@@ -181,22 +179,32 @@ nav a:focus-visible,
     padding: 20px 16px;
     margin: 15px 0;
     border-radius: 16px;
+    position: relative;
+    z-index: 2;
   }
 
   .game-card {
     border-radius: 16px;
   }
 
-  /* Utility Visibility */
   .mobile-only { display: block !important; }
   .desktop-only { display: none !important; }
 
-  /* Grid Adjustments */
   .games-grid,
   .videos-grid,
   .hub-grid {
     grid-template-columns: 1fr !important;
     gap: 16px;
+  }
+
+  /* Keep art small and behind the words */
+  img.soundscape-art,
+  .ps-editorial-art img,
+  img.ps-theme-pic {
+    max-height: 11rem !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
   }
 }
 
@@ -268,11 +276,11 @@ img {
   height: auto;
   max-width: 100%;
   object-fit: cover;
-  content-visibility: auto; /* Lazy-render offscreen */
+  content-visibility: auto;
 }
 
 img[width][height] {
-  aspect-ratio: attr(width) / attr(height); /* Prevent CLS */
+  aspect-ratio: attr(width) / attr(height);
 }
 
 /* ==============================================
@@ -294,7 +302,6 @@ img[width][height] {
 .mobile-full-width { width: 100% !important; margin: 0 !important; }
 .mobile-spacing { margin: 20px 0 !important; }
 .mobile-hide { display: none !important; }
-
 
 /* Phones: gradient headings vanish on some Android browsers. Solid frost text always shows. */
 @media (max-width: 960px) {
