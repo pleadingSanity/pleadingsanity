@@ -26,14 +26,14 @@
 }
 @media (max-width: 600px) {
   .ps-editorial-art { margin: 1rem auto 1.5rem; border-radius: .85rem; }
-  .ps-editorial-art img { max-height: 10rem; }
+  .ps-editorial-art img { max-height: 8rem; }
 }
 
 /* Utility pages lead with their controls; artwork is a small visual cue. */
 .ps-editorial-art-compact { max-width: 48rem; }
 .ps-editorial-art-compact img { height: 7rem; object-fit: cover; }
 @media (max-width: 600px) {
-  .ps-editorial-art-compact img { height: 4.5rem; max-height: 4.5rem; }
+  .ps-editorial-art-compact img { height: 3.5rem; max-height: 3.5rem; }
 }
 
 /* Phone: never let any image cover the words or buttons */
@@ -41,12 +41,21 @@
   img, .soundscape-art, .ps-editorial-art img, .ps-theme-pic {
     max-width: 100% !important;
     height: auto !important;
+    max-height: 9rem !important;
     object-fit: cover;
     position: relative;
     z-index: 1;
   }
+  .ps-theme-pic, .ps-game-icon {
+    max-width: 120px !important;
+    max-height: 120px !important;
+    margin: 0 auto 0.5rem;
+    display: block;
+  }
   .ps-editorial-art, .soundscape-art {
     margin-bottom: 1rem;
+    max-height: 9rem;
+    overflow: hidden;
   }
   main, .container, .cosmic-card {
     position: relative;
