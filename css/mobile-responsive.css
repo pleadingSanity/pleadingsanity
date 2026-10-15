@@ -1,5 +1,5 @@
 /* =====================================================
-   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.3
+   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.4
    Cosmic-Aligned • Touch-Optimized • Accessible • Fast
    Matches styles.css EXACTLY • Evolution, Not Erasure
 ===================================================== */
@@ -201,10 +201,16 @@ nav a:focus-visible,
   img.soundscape-art,
   .ps-editorial-art img,
   img.ps-theme-pic {
-    max-height: 11rem !important;
+    max-height: 8rem !important;
     width: 100% !important;
     height: auto !important;
     object-fit: cover;
+  }
+  .ps-theme-pic.ps-game-icon {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    margin: 0.5rem auto;
+    display: block;
   }
 }
 
