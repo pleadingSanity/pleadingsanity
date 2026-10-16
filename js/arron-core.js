@@ -76,7 +76,8 @@
   };
   const HEAVY = ['low', 'lonely', 'anxious', 'angry'];
 
-  const CRISIS_WORDS = /suicid|kill myself|end it all|want to die|wanna die|self[- ]?harm|hurt myself|overdose|no reason to live|can'?t go on|better off without me|don'?t want to (be here|live|wake up)/i;
+  // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
+  const CRISIS_WORDS = /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i;
   const MOOD_WORDS = [
     ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|racing|on edge|freaking out/i],
     ['lonely',  /alone|lonely|lonel|no one|nobody|isolat|left out|no friends/i],

@@ -285,3 +285,22 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - Verified: `scripts/audit-site.py` on Node 22 passed with no HOUSE GUARD lines. Node runs of the seed logic (fetch fails, and fetch returns nothing) gave 3 seed pieces each time, with no "resting" text and no invalid dates. The badges render for an owner post and stay empty for a member post. Code-read: breaker 3 fails → 60s, logs hop + status only; order openai → anthropic → gemini → grok in both `ai-chain.ts` and `arron-knowledge.json`; the all-quiet path appends `CRISIS_SIGNPOST` when crisis is true. Live HTTP 200 for /, arron, feed, wisdom, solitaire, poker; arron shows 116 123, 85258 and "not a therapist".
 - Not proven: real browser render of the new badges and seed, real phone share sheet and cross-device room, install prompts, real speech, live chat replies (not called this pass).
 - Next: Shane pastes the playlist link (item 2). Shane tags a post `#aifamily` to try the badge.
+
+## 2026-10-16 — Claude: final addendum pass (verification + small fixes)
+
+- Synced on `e8fc742`. Controllers kept: `arron.html` → `arron-companion.js` + `arron-speak.js`; `arron-app.html` → `arron-core.js`. One chat controller per page. `arron.mts`, `runChain`, the system prompt and chain order were not touched.
+- **Changed:**
+  - `poker.html`: friend-room play sync restored from `4f1c278` (`replay`, `nudge`, `pushPlay` sending `play: {seat, kind, amount, hand, expect}`). `ee4ecc6` had replaced it with a stub whose request the server ignores, so in a room nobody could act and bots never moved. Newer share sheet → clipboard → full-link fallback kept; the room label now shows code, seats and any fallback link without the poll wiping it.
+  - `js/arron-companion.js`, `js/arron-core.js`: offline crisis phrases now match the server's `CRISIS_WORDS` ("end my life", "take my own life", "wish I was dead"…). Before, "I want to end my life" offline got a generic reply with no 999 / 116 123.
+  - `js/arron-speak.js`: speaks the newest Arron reply, not `:last-child`. Replies followed by a mood or crisis suggestion box were silent.
+  - `js/wisdom.js`, `css/sanctuary.css`: starter words are labelled ("🌱 Starter words · Evidence / Experience / Philosophy"), with a note saying why (empty, unreachable, or offline). No Share button on them; real pieces always replace them. Evidence piece now names its source.
+  - `tools.html` + new `css/app-library.css`: the App Library is now a picture catalogue of 19 verified routes in four groups, each tagged "Opens inside Sanity" or "Own app · install on its page" (Arron app, Solitaire, Sane Finance), with the real `data-pwa-install` button for the main app. No new routes.
+  - `games.html`: "About the games" title links are 44px tall.
+  - `sw.js` static cache v85 (+ `css/app-library.css`), `sw-arron.js` version bump.
+- **Verified (automated headless Chromium, phone viewports; not physical devices):** 26 pages boot with no page error and no horizontal overflow; Arron (both pages) normal reply, crisis numbers online and offline, Speak on / stop on typing / stop on toggle-off (speech stubbed); Words in published / empty / server-error / offline states; badges only on owner posts, exact hearts only on own posts; Solitaire 28 cards, brain backs, four suit pictures, hint / undo / new deal, 48px buttons; Night Table friend room across two browser contexts against a copy of the room API logic (both act, bots fill seats, same board); solo Night Table; production: `/words` 301 → `/wisdom.html`, offline reopening of visited pages with the real service worker, music hidden with no autoplay. `scripts/audit-site.py` passes on Node 22.
+- **Needs Shane's decision (not changed, AI publishing / account rules):**
+  1. `netlify/functions/ai-family-daily.mts` posts AI-written cards to the AI Studio wall and the home page twice a day with no approval step.
+  2. When Shane asks Arron to "put this live", `putLive` publishes the generated text straight away; Shane does not see the final words first.
+  3. No reserved display names or usernames: a member can call themselves "Shane Cooper" or "arron". The 💫 Owner and AI FAMILY badges still cannot be forged; they come from the server's verified-email role.
+  4. `/api/poker-room` lets anyone create rooms with no rate limit (Blobs storage only, play chips only).
+- **Not proven:** real phones (share sheet, install prompts, real voices, keyboard), cross-device rooms against the live function, this commit's production deploy.
