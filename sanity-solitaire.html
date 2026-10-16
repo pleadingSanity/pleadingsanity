@@ -172,6 +172,16 @@ body { overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .card, .card.playable, .card.flip { animation: none; transition: none; }
 }
+/* Phone polish: 48px touch targets, soft glows that stay still when motion is reduced. */
+@media (max-width: 640px) {
+  button, .btn, select, .row button, .row select, .k-board button.k-slot { min-height: 48px; }
+}
+#today.daily-new { border-color:#00fff0; box-shadow:0 0 14px rgba(0,255,240,.45); animation: ps-daily 2.8s ease-in-out infinite; }
+@keyframes ps-daily { 50% { box-shadow:0 0 22px rgba(0,255,240,.65); } }
+@media (prefers-reduced-motion: reduce) {
+  #today.daily-new { animation: none; }
+  .card.playable { box-shadow: 0 0 0 2px #00fff0, 0 8px 14px rgba(0,0,0,.4); }
+}
 </style><style>.flash{min-height:1.4rem;color:#00fff0;font-weight:800}.flash.show{animation:ps-flash .8s ease}@keyframes ps-flash{from{opacity:0;transform:translateY(6px)}to{opacity:1}}</style><style>.seat-on{outline:2px solid #00fff0}.turn{color:#00fff0;font-weight:800}</style><style>.suit-band{width:100%;max-height:140px;object-fit:cover;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
 </head>
 <body class="night">
@@ -293,6 +303,8 @@ window.PSTable = (function () {
 })();
 </script>
 <script src="/js/house-voice.js"></script>
+  <script src="/js/guest-progress.js"></script>
+<script src="/js/offline-note.js" defer></script>
   <script src="/js/games.js"></script>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
@@ -363,7 +375,7 @@ window.PSTable = (function () {
     }
     function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); const note=combo>1?combo+" in a row.":""; $("status").textContent = window.PSFriend ? PSFriend.pass(note) : note; if (window.PSTable) PSTable.play(); paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); if (window.PSFriend) $("status").textContent = PSFriend.pass("Drew."); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSGuest) PSGuest.record("solitaire", level()); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. Your go, then your friend." : "Solo table."; };
@@ -374,7 +386,10 @@ window.PSTable = (function () {
       if (window.PSTable) PSTable.win();
       if (window.PSVoice) PSVoice.speak("You rose.");
       if (window.PSGames) { PSGames.record("solitaire", { score: score || 1, level: 1, maxCombo: 1 }); if (PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); }
-    }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
+    }; // Daily challenge glow: local only, no leaderboard. Glows until today's deal is opened.
+    const dayKey=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
+    try { if (localStorage.getItem("ps-sol-daily-seen")!==dayKey()) $("today").classList.add("daily-new"); } catch(e) {}
+    $("today").onclick=()=>{ try { localStorage.setItem("ps-sol-daily-seen",dayKey()); } catch(e) {} $("today").classList.remove("daily-new"); fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };

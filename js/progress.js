@@ -18,6 +18,8 @@ export const SYNCED = {
   'truth-tag': 'ps-progress-truth-tag',
   'mood-journey': 'ps-progress-mood-journey',
   'mind-mode': 'ps-progress-mind-mode',
+  // Solitaire + Night Table levels and play chips kept by /js/guest-progress.js — adopted on sign-in.
+  'guest-progress': 'ps-guest-progress',
 };
 
 const STAMPS = 'ps-progress-stamps'; // { game: { json, at } } — what the server last had

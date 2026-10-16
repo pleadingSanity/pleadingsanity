@@ -1,5 +1,7 @@
 # Pleading Sanity — shared agent operating contract
 
+**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish.
+
 Owner: Shane Cooper. Canonical production: https://pleadingsanity.co.uk
 Canonical repository: pleadingSanity/pleadingsanity.
 Principles: Evolution, Not Erasure. Love Over Money. One Family.
