@@ -229,6 +229,7 @@
 .role-owner { color: #ffe9a8; border-color: rgba(255, 215, 0, 0.6); background: linear-gradient(135deg, rgba(255, 215, 0, 0.14), rgba(255, 0, 255, 0.1)); box-shadow: 0 0 12px rgba(255, 215, 0, 0.18); }
 .role-guardian { color: #8ffff7; border-color: rgba(0, 255, 240, 0.55); background: rgba(0, 255, 240, 0.08); }
 .role-creator { color: #ffb3ff; border-color: rgba(255, 0, 255, 0.55); background: rgba(255, 0, 255, 0.1); }
+.family-badge { color: #eef6ff; border-color: rgba(0, 255, 240, 0.55); background: rgba(0, 255, 240, 0.08); box-shadow: 0 0 10px rgba(0, 255, 240, 0.18); }
 .ps-owner-star { filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.6)); }
 
 .oauth-row { display: grid; gap: 10px; margin-bottom: 0.5rem; }

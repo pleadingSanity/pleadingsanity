@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v83'; // v83: Arron + Night Table pages restored, Speak, guest progress, offline note
+const STATIC_CACHE = 'pleading-sanity-static-v84'; // v84: Words offline seed, AI Family badges on Shane's feed posts
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
