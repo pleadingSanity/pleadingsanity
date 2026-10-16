@@ -303,6 +303,7 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
     }
     const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
     let hopSucceeded = false;
+    let hopFailure = "empty-or-failed";
     for (const model of models) {
       try {
         const text = await ask(link.provider, model, system, context, maxTokens, deadline);
@@ -314,11 +315,12 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
         console.warn(`AI chain: empty reply from ${model}, trying the next`);
       } catch (error) {
         if (error instanceof OutOfTime) throw new Error("Every AI provider failed (time budget spent)");
-        recordHop(link.provider, false, why(error));
+        hopFailure = why(error);
         console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
       }
     }
-    if (!hopSucceeded) recordHop(link.provider, false, "empty-or-failed");
+    // One hop counts once, however many of its models were tried.
+    if (!hopSucceeded) recordHop(link.provider, false, hopFailure);
   }
   const spare = spares ? await runSpares(system, context, maxTokens, deadline) : null;
   if (spare) return spare;

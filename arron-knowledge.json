@@ -737,8 +737,8 @@
     "creator": "Shane can brief game changes in Creator Mode. Arron records the brief. The live files change only when the house repo is updated and deployed. Arron does not write the site from a public chat."
   },
   "aiChain": [
-    "Claude",
     "GPT",
+    "Claude",
     "Gemini",
     "Grok"
   ],

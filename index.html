@@ -239,6 +239,7 @@ body {
   body { background-attachment: scroll; }
 }
 </style>
+<link rel="stylesheet" href="/css/card-polish.css">
 </head>
 <body>
 <script src="/js/ps-splash.js"></script>
@@ -288,6 +289,9 @@ Share this sanctuary
 <p style="color:#c9e9ef;font-size:0.95rem;margin:0.6rem 0 0">A place to sit with people who get it. Real stories. No performance. You’re not alone.</p>
 <p style="color:#b9faff;font-size:0.95rem;margin:0.5rem 0 0">Small steps still move you. One glass of water. One walk. One line in the journal. That counts.</p>
 </section>
+
+<!-- Soft music: paste the house playlist link into data-playlist (Spotify) and/or data-link (Amazon Music). Hidden until set. -->
+<div data-ps-music data-playlist="" data-link="" hidden style="max-width:1120px;margin:0 auto 2rem;padding:0 1.2rem"></div>
 
 <section class="apps-showcase" style="max-width:1120px;margin:0 auto 3rem;padding:0 1.2rem">
 <h2 style="color:#00fff0;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 0.6rem">Apps you can try</h2>
@@ -411,6 +415,8 @@ Share this sanctuary
 <p style="font-size:0.85rem;color:#b9faff;max-width:40rem;margin:0.5rem auto;">Content, brand, and images are protected by copyright. If you would like to use any of this on your own site, contact us for a low-cost licence. Unauthorised copying may breach UK copyright law.</p>
 </footer>
 <script src="/js/site.js" defer></script>
+<script src="/js/ps-music.js" defer></script>
+<script src="/js/offline-note.js" defer></script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
 <script>
 (function () {

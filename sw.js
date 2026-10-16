@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v82'; // v82: transparent logo on the sky + opening logo splash
+const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
+const STATIC_CACHE = 'pleading-sanity-static-v83'; // v83: Arron + Night Table pages restored, Speak, guest progress, offline note
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -171,6 +171,12 @@ const PRECACHE_URLS = [
     '/js/cosmic-scroll.js',
     '/js/ai-stories.js',
     '/js/oauth.js',
+    '/js/arron-speak.js',
+    '/js/guest-progress.js',
+    '/js/holdem-eval.js',
+    '/js/offline-note.js',
+    '/js/ps-music.js',
+    '/css/card-polish.css',
     '/content/content_feed.json',
     '/arron-knowledge.json',
     '/assets/logo.svg',
