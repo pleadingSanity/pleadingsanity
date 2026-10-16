@@ -1,0 +1,171 @@
+/* Deep space immersion — nebulas, shooting stars, northern lights, planet clusters.
+   Respects reduced motion. Evolution Not Erasure. */
+
+body {
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: rgba(0, 255, 240, 0.25);
+}
+
+/* Stronger living aurora / northern lights */
+body::before {
+  background:
+    radial-gradient(ellipse 40% 25% at 15% 15%, rgba(0, 255, 240, 0.45), transparent 55%),
+    radial-gradient(ellipse 35% 20% at 85% 20%, rgba(120, 80, 255, 0.4), transparent 50%),
+    radial-gradient(ellipse 50% 30% at 50% 80%, rgba(0, 180, 255, 0.35), transparent 60%),
+    radial-gradient(ellipse 25% 18% at 30% 60%, rgba(255, 0, 255, 0.25), transparent 55%),
+    linear-gradient(180deg, rgba(0,1,3,0.15), rgba(0,1,3,0.45)),
+    url("/assets/theme/sky.jpg") center/cover no-repeat !important;
+  animation: ps-aurora-shift 22s ease-in-out infinite alternate !important;
+}
+
+/* Planet clusters — soft glowing orbs */
+body::after {
+  background-image:
+    radial-gradient(circle 48px at 12% 28%, rgba(0, 255, 240, 0.18), transparent 70%),
+    radial-gradient(circle 36px at 78% 18%, rgba(255, 120, 200, 0.15), transparent 70%),
+    radial-gradient(circle 62px at 65% 75%, rgba(80, 180, 255, 0.14), transparent 70%),
+    radial-gradient(circle 28px at 28% 82%, rgba(255, 200, 80, 0.12), transparent 70%),
+    radial-gradient(1.5px 1.5px at 8% 12%, #fff, transparent),
+    radial-gradient(1px 1px at 22% 35%, rgba(0,255,240,0.9), transparent),
+    radial-gradient(2px 2px at 45% 8%, #eef6ff, transparent),
+    radial-gradient(1.2px 1.2px at 68% 42%, rgba(180,220,255,0.8), transparent),
+    radial-gradient(1.6px 1.6px at 88% 28%, #fff, transparent),
+    radial-gradient(1px 1px at 15% 65%, rgba(0,255,240,0.7), transparent),
+    radial-gradient(1.4px 1.4px at 52% 88%, #fff, transparent) !important;
+  animation: ps-star-drift 55s linear infinite !important;
+}
+
+/* Shooting stars — multiple via pseudo on a dedicated layer if needed, or extra elements */
+.shooting-stars {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.shooting-stars span {
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, #00fff0, transparent);
+  border-radius: 2px;
+  filter: blur(0.4px);
+  animation: shoot 5.5s ease-in-out infinite;
+  opacity: 0;
+}
+.shooting-stars span:nth-child(1) { top: 12%; left: -10%; animation-delay: 0s; }
+.shooting-stars span:nth-child(2) { top: 28%; left: -15%; animation-delay: 1.8s; animation-duration: 6.2s; }
+.shooting-stars span:nth-child(3) { top: 45%; left: -8%; animation-delay: 3.4s; }
+.shooting-stars span:nth-child(4) { top: 62%; left: -12%; animation-delay: 0.9s; animation-duration: 4.8s; }
+@keyframes shoot {
+  0% { transform: translateX(0) translateY(0) rotate(-25deg); opacity: 0; }
+  10% { opacity: 1; }
+  80% { opacity: 0.6; }
+  100% { transform: translateX(120vw) translateY(80px) rotate(-25deg); opacity: 0; }
+}
+
+/* Tool / app cards: image behind text, fully clickable feel */
+.tool-card,
+.app-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.tool-card img,
+.tool-card .home-tool-image,
+.app-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.32;
+  z-index: 0;
+  border-radius: inherit;
+  transition: opacity 0.25s ease, transform 0.4s ease;
+}
+.tool-card h3,
+.tool-card .purpose,
+.tool-card p,
+.tool-card a,
+.app-card strong,
+.app-card p {
+  position: relative;
+  z-index: 1;
+}
+.tool-card::before,
+.app-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,1,3,0.35) 0%, rgba(0,1,3,0.72) 70%);
+  z-index: 0;
+  border-radius: inherit;
+}
+.tool-card:hover img,
+.app-card:hover img {
+  opacity: 0.45;
+  transform: scale(1.04);
+}
+
+/* Beautiful touch feedback */
+.door,
+.tool-card,
+.app-card,
+.ps-btn,
+.btn,
+button,
+a.ps-btn,
+.share-btn,
+.home-quick-links a {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.door:active,
+.tool-card:active,
+.app-card:active,
+.ps-btn:active,
+.btn:active,
+button:active,
+.share-btn:active,
+.home-quick-links a:active {
+  transform: scale(0.97) translateY(1px);
+  box-shadow: 0 4px 18px rgba(0, 255, 240, 0.35), inset 0 0 12px rgba(0, 255, 240, 0.15);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+/* Mobile: no zoom needed, cleaner, larger targets */
+@media (max-width: 700px) {
+  html { font-size: 16px; }
+  body { overflow-x: hidden; }
+  .hero { padding: 1.4rem 1rem 1.2rem; }
+  .doors { gap: 0.75rem; }
+  .door {
+    min-height: 88px;
+    padding: 1.1rem 1rem;
+    font-size: 1.2rem;
+  }
+  .tool-card,
+  .app-card {
+    min-height: 160px;
+    padding: 1.1rem;
+  }
+  .tool-card img,
+  .app-card img {
+    opacity: 0.28;
+  }
+  .home-quick-links a {
+    min-height: 48px;
+    padding: 0.6rem 1.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shooting-stars span,
+  body::before,
+  body::after {
+    animation: none !important;
+  }
+  .tool-card:hover img { transform: none; }
+}
