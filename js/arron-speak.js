@@ -41,9 +41,11 @@
   const log = document.getElementById("arron-conversation");
   if (log) {
     // Replies already on screen from last time are not read out again on load.
-    lastSpoken = log.querySelector(".arron-message:not(.typing):last-child");
+    // The newest reply, even when a suggestion or crisis box is added after it.
+    const latest = () => { const all = log.querySelectorAll(".arron-message:not(.typing)"); return all[all.length - 1] || null; };
+    lastSpoken = latest();
     const obs = new MutationObserver(() => {
-      const msg = log.querySelector(".arron-message:not(.typing):last-child");
+      const msg = latest();
       const p = msg && msg.querySelector("p");
       if (!p || msg === lastSpoken) return;
       lastSpoken = msg;

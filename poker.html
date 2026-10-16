@@ -333,30 +333,79 @@ body { overflow-x: hidden; }
     async function sit(code) {
       await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only." }) });
     }
-    let room = new URLSearchParams(location.search).get("room");
-    if (room) sit(room);
-    deal();
-    setInterval(() => { if (room && !acting) fetch("/api/poker-room/" + room).then(r => r.json()).then(applyRoom).catch(() => {}); }, 4000);
+    // Friend rooms: every phone replays the same shared list of plays on the same seeded deck,
+    // so both friends see one hand. Seat 0 plays the bots. (Restored from 4f1c278.)
+    function replay(n, actions) {
+      replaying = true;
+      hands = n;
+      deck = freshDeck();
+      const names = [roomPlayers[0] || "You", roomPlayers.length > 1 ? roomPlayers[1] : "Friend", "Tight", "Loose"];
+      const start = roomStacks && roomStacks.length === 4 ? roomStacks : [1000, 1000, 1000, 1000];
+      button = ((hands - 1) % 4 + 4) % 4; sbSeat = (button + 1) % 4; bbSeat = (button + 2) % 4;
+      seats = names.map((name, i) => ({ name, stack: start[i], hole: [deck.pop(), deck.pop()], bet: 0, put: 0, folded: false, allin: false }));
+      const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
+      seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
+      seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      for (const a of actions) {
+        if (handOver || turn !== Number(a.seat)) break;
+        applyPlay(Number(a.seat), a.kind, a.amount);
+      }
+      roomActions = actions.slice();
+      replaying = false;
+      paint();
+      if (handOver && mySeat === 0) {
+        fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), stacks: seats.map((s) => s.stack), hand: hands, note: "Play chips only." }) }).catch(() => {});
+      } else if (!handOver) nudge();
+    }
     function applyRoom(data) {
-      if (!data || !data.players) return;
-      roomPlayers = data.players;
-      roomSeed = data.seed || 0;
-      roomStacks = data.stacks || null;
-      if (data.hand && data.hand !== hands) deal(data.hand);
+      if (!data) return;
+      if (Array.isArray(data.players) && data.players.length) roomPlayers = data.players;
+      else if (Array.isArray(data.seats)) roomPlayers = data.seats;
+      const who = seatName();
+      const found = roomPlayers.indexOf(who);
+      mySeat = found >= 0 ? found : 0;
+      if (data.seats) showRoom();
+      if (data.seed) roomSeed = Number(data.seed) || roomSeed;
+      if (Array.isArray(data.stacks) && data.stacks.length === 4) roomStacks = data.stacks.map(Number);
+      const actions = Array.isArray(data.actions) ? data.actions : [];
+      const n = Number(data.hand) || 1;
+      const key = roomPlayers.join("|");
+      if (!hands || n !== hands || actions.length !== roomActions.length || key !== lastPlayers) {
+        lastPlayers = key;
+        replay(n, actions);
+      }
     }
     async function pushPlay(seat, kind, amount) {
+      if (!room || acting) return;
       acting = true;
-      await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), action: kind, amount, note: "Play chips only." }) });
-      acting = false;
+      try {
+        const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only.", play: { seat, kind, amount, hand: hands, expect: roomActions.length } }) });
+        applyRoom(await res.json().catch(() => ({})));
+      } finally { acting = false; }
     }
+    function nudge() {
+      if (!room || handOver || acting || replaying) return;
+      if (humanSeat(turn)) return;
+      if (mySeat !== 0) return;
+      const c = choose(seats[turn]);
+      pushPlay(turn, c.kind, c.amount);
+    }
+    let room = new URLSearchParams(location.search).get("room");
+    let sharedLink = "";
+    if (room) {
+      showRoom();
+      sit(room).then(() => fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}));
+      setInterval(() => { if (!acting) fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}); }, 2500);
+    } else deal();
     // Share: the phone's own share sheet first, then the clipboard, then the full link on screen.
     const roomLink = () => location.origin + "/poker.html?room=" + encodeURIComponent(room);
     function showRoom(extra) {
       const el = $("room-name");
       if (!el || !room) return;
-      el.textContent = "Room " + room + (extra ? " · " + extra : "");
+      if (extra) sharedLink = extra;
+      el.textContent = "Room " + room + (roomPlayers.length ? " · " + roomPlayers.join(", ") : "") + (sharedLink ? " · " + sharedLink : "");
     }
-    if (room) showRoom();
     $("share").onclick = async () => {
       if (!room) { log("Open a room first."); return; }
       const link = roomLink();
