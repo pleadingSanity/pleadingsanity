@@ -1,0 +1,79 @@
+/* Optional game themes. Nothing is deleted. People can switch.
+   Evolution Not Erasure. */
+
+body.theme-cosmic .felt,
+body.theme-cosmic .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(0,1,3,.25), rgba(0,1,3,.55)),
+    url("/assets/images/space/aurora-drive.jpg") center/cover !important;
+}
+
+body.theme-gold .felt,
+body.theme-gold .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(36,26,6,.3), rgba(0,1,3,.6)),
+    url("/assets/images/brand/table-felt-night.jpg") center/cover !important;
+}
+
+body.theme-night .felt,
+body.theme-night .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(0,1,3,.28), rgba(0,1,3,.5)),
+    url("/assets/theme/sky.jpg") center/cover !important;
+}
+
+/* Card back options — applied via class on body */
+body.cards-constellation .card.back,
+body.cards-constellation .stock,
+body.cards-constellation .k-card.back {
+  background: #000103 url("/assets/images/brand/card-back-night.jpg") center/cover !important;
+}
+
+body.cards-classic .card.back,
+body.cards-classic .stock,
+body.cards-classic .k-card.back {
+  background: linear-gradient(180deg, #12304a, #000103) !important;
+}
+
+/* Chip polish */
+.chips, .chip-stack {
+  filter: drop-shadow(0 0 12px rgba(0,255,240,.45));
+  border-radius: 16px;
+}
+
+/* Level character glow */
+.lvl.done {
+  box-shadow: 0 0 12px rgba(0,255,240,.6);
+}
+.lvl.now {
+  animation: levelPulse 2s ease-in-out infinite;
+}
+@keyframes levelPulse {
+  50% { box-shadow: 0 0 16px rgba(0,255,240,.8); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lvl.now { animation: none; }
+}
+
+/* Theme switcher bar */
+.theme-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 8px 0;
+}
+.theme-bar button {
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,255,240,.4);
+  background: rgba(13,27,42,.8);
+  color: #eef6ff;
+  font-size: .85rem;
+}
+.theme-bar button.on {
+  background: #00fff0;
+  color: #000103;
+  font-weight: 800;
+}
