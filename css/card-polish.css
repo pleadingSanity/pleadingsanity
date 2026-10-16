@@ -1,0 +1,83 @@
+/* Homepage tool and app cards — cosmic images behind text, always readable, fully clickable feel.
+   Evolution Not Erasure. */
+
+.tool-card,
+.app-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 180px;
+  background: rgba(0, 1, 3, 0.55);
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  border-radius: 20px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.tool-card::before,
+.app-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,1,3,0.25) 0%, rgba(0,1,3,0.78) 65%);
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.tool-card img,
+.tool-card .home-tool-image,
+.app-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+  z-index: 0;
+  border-radius: inherit;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+.tool-card h3,
+.tool-card .purpose,
+.tool-card p,
+.tool-card a,
+.app-card strong,
+.app-card p {
+  position: relative;
+  z-index: 2;
+}
+
+.tool-card:hover img,
+.app-card:hover img {
+  opacity: 0.5;
+  transform: scale(1.03);
+}
+
+.tool-card:active,
+.app-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 6px 24px rgba(0, 255, 240, 0.4), inset 0 0 16px rgba(0, 255, 240, 0.12);
+}
+
+@media (max-width: 700px) {
+  .tool-card,
+  .app-card {
+    min-height: 160px;
+  }
+  .tool-card img,
+  .app-card img {
+    opacity: 0.3;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .app-card,
+  .tool-card img {
+    transition: none;
+  }
+  .tool-card:hover img { transform: none; }
+}
