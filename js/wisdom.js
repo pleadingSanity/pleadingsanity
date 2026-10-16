@@ -16,6 +16,19 @@ const KINDS = {
   update: { icon: '✊', label: 'Movement Update' },
 };
 
+// A small local seed so the library is never empty or "resting" when
+// offline. Evidence / Experience / Philosophy. Real published pieces
+// always take its place as soon as the server answers.
+const SEED = [
+  { id: 'seed-evidence', kind: 'educational', truthTag: 'evidence', credit: 'The Family', title: 'Naming a feeling helps',
+    body: 'Putting a feeling into words — even just "I feel anxious" — is linked in research to a calmer stress response. You do not have to fix it yet. Naming it is a real first step.' },
+  { id: 'seed-experience', kind: 'story', truthTag: 'experience', credit: 'Arron', title: 'Your story belongs here',
+    body: 'Some days the bravest thing is getting through the day. If you have lived something hard and found a way through, even a small one, your words could be the light someone else needs. Write it with Arron when you are ready.' },
+  { id: 'seed-philosophy', kind: 'wisdom', truthTag: 'philosophy', credit: 'The Family', title: 'Rise from madness',
+    body: 'You are not your worst day. Healing is not a straight line, and rest is not giving up. Evolution, not erasure: every version of you is part of the one still rising.' },
+];
+const seedHTML = () => SEED.filter((p) => !kind || p.kind === kind).map(pieceHTML).join('');
+
 const list = document.getElementById('pieces');
 const more = document.getElementById('more');
 const tabs = document.getElementById('kind-tabs');
@@ -31,7 +44,7 @@ function pieceHTML(p) {
         <span class="sx-kind">${k.icon} ${k.label}</span>
         ${truthBadge(p.truthTag)}
         <span>✍️ ${esc(p.credit)}</span>
-        <time datetime="${esc(when)}">${new Date(when).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+        ${when ? `<time datetime="${esc(when)}">${new Date(when).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>` : ''}
       </div>
       ${p.title ? `<h3>${esc(p.title)}</h3>` : ''}
       <div class="sx-body">${esc(p.body)}</div>
@@ -53,12 +66,13 @@ async function load(append = false) {
     if (!res.ok) throw new Error(data.error);
     const html = data.pieces.map(pieceHTML).join('');
     if (append) list.insertAdjacentHTML('beforeend', html);
-    else list.innerHTML = html || '<p class="empty">No pieces here yet. <a href="/write.html">Write the first one with Arron →</a></p>';
+    else list.innerHTML = html || seedHTML() || '<p class="empty">No pieces here yet. <a href="/write.html">Write the first one with Arron →</a></p>';
     nextBefore = data.nextBefore;
     more.hidden = !nextBefore;
     if (!append && location.hash.startsWith('#piece-')) document.querySelector(location.hash)?.scrollIntoView();
   } catch {
-    list.innerHTML = '<p class="notice info">The library is resting right now — please try again in a moment.</p>';
+    if (append) return;
+    list.innerHTML = seedHTML() || '<p class="empty">No pieces here yet. <a href="/write.html">Write the first one with Arron →</a></p>';
   }
 }
 

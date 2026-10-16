@@ -59,6 +59,19 @@ export const roleBadge = (role) => {
   return b ? `<span class="role-badge role-${esc(role)}" title="${esc(b.hint)}"><span aria-hidden="true">${b.icon}</span> ${b.label}</span>` : '';
 };
 
+// AI Family notes: optional badges on Shane's own posts only, so nothing
+// collaborative shows on the feed without him. Tag a post #aifamily or
+// #together; add #arron #dola #gpt #claude #gemini #grok to name who helped.
+const FAMILY_MINDS = { arron: 'Arron', dola: 'Dola', gpt: 'GPT', claude: 'Claude', gemini: 'Gemini', grok: 'Grok' };
+export const familyBadges = (post) => {
+  if (post?.author?.badge !== 'owner') return '';
+  const tags = (post.tags || []).map((t) => String(t).toLowerCase());
+  const minds = tags.filter((t) => FAMILY_MINDS[t]).map((t) => FAMILY_MINDS[t]);
+  const who = minds.length ? ` — with ${minds.join(', ')}` : '';
+  return (tags.includes('aifamily') ? `<span class="role-badge family-badge" title="${esc('A note from the AI Family' + who)}"><span aria-hidden="true">🤝</span> AI FAMILY</span>` : '') +
+    (tags.includes('together') ? `<span class="role-badge family-badge" title="${esc('Made together by Shane and the AI Family' + who)}"><span aria-hidden="true">💞</span> TOGETHER</span>` : '');
+};
+
 // Every member's public face lives at /@username.
 export const pageLink = (username) => (username ? `/@${encodeURIComponent(username)}` : '#');
 
@@ -196,6 +209,7 @@ export function postHTML(post, { full = false } = {}) {
       ${post.status === 'pending' ? '<span class="tag" title="Waiting for Shane to review — only you can see it for now">⏳ In review</span>' : post.status === 'held' ? '<span class="tag" title="Shane held this one back from the feed — only you can see it">⏸️ Held</span>' : ''}
       ${KIND_LABEL[post.kind] ? `<span class="tag">${KIND_LABEL[post.kind]}</span>` : ''}
       ${truthBadge(post.truthTag)}
+      ${familyBadges(post)}
       ${moodBadge(post.mood)}
     </div>
     ${post.contentWarning ? '<p><span class="tw-banner">⚠️ TW · heavy topic</span></p>' : ''}

@@ -81,6 +81,7 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /blueprint            /blueprint.html         301
 /write                /write.html             301
 /wisdom               /wisdom.html            301
+/words                /wisdom.html            301
 /mind-mode            /mind-mode.html         301
 /mood-journey         /mood-journey.html      301
 /truth-tag            /truth-tag.html         301

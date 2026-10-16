@@ -277,3 +277,11 @@ One source. Evolution, Not Erasure. Rise From Madness.
 - **Next:** see the Start Here table, items 2–7.
 
 One source. Evolution, Not Erasure. Rise From Madness.
+
+## 2026-10-16 — Claude: Words offline seed, AI Family badges, /words link (second pass)
+
+- Changed: `js/wisdom.js` (local Evidence / Experience / Philosophy seed shown when the library is empty or offline; never "resting"), `js/social.js` + `css/social.css` (optional AI FAMILY / TOGETHER badges, owner posts only, via tags `#aifamily` `#together`, minds named with `#arron #dola #gpt #claude #gemini #grok`), `_redirects` (`/words` → `/wisdom.html`, was 404), `sw.js` (static cache v84). Commit SHA set by the platform.
+- Not changed, on purpose: `arron.html` still loads `js/arron-companion.js` + `js/arron-speak.js`. The brief asked for `arron-core.js`; that engine needs `aa-*` elements that only `arron-app.html` has, so it would break the page (see section 6). `arron.mts`, `runChain`, the system prompt and the chain order were not touched.
+- Verified: `scripts/audit-site.py` on Node 22 passed with no HOUSE GUARD lines. Node runs of the seed logic (fetch fails, and fetch returns nothing) gave 3 seed pieces each time, with no "resting" text and no invalid dates. The badges render for an owner post and stay empty for a member post. Code-read: breaker 3 fails → 60s, logs hop + status only; order openai → anthropic → gemini → grok in both `ai-chain.ts` and `arron-knowledge.json`; the all-quiet path appends `CRISIS_SIGNPOST` when crisis is true. Live HTTP 200 for /, arron, feed, wisdom, solitaire, poker; arron shows 116 123, 85258 and "not a therapist".
+- Not proven: real browser render of the new badges and seed, real phone share sheet and cross-device room, install prompts, real speech, live chat replies (not called this pass).
+- Next: Shane pastes the playlist link (item 2). Shane tags a post `#aifamily` to try the badge.
