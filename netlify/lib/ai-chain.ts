@@ -298,27 +298,26 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
   for (const link of CHAIN) {
     if (link.provider === "grok" && !grok) continue; // neither GROK_API_KEY nor xAI_KEY is set
     if (isCircuitOpen(link.provider)) {
-      console.warn(`[AI-HOP-SKIP] hop=${link.provider} circuit open`);
+      console.warn(`[AI-HOP-SKIP] hop=${link.provider} status=open`);
       continue;
     }
     const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
-    let hopSucceeded = false;
+    let hopFailed = false;
     for (const model of models) {
       try {
         const text = await ask(link.provider, model, system, context, maxTokens, deadline);
         if (text) {
           recordHop(link.provider, true);
-          hopSucceeded = true;
           return { text, provider: link.provider, model };
         }
-        console.warn(`AI chain: empty reply from ${model}, trying the next`);
+        hopFailed = true;
       } catch (error) {
         if (error instanceof OutOfTime) throw new Error("Every AI provider failed (time budget spent)");
-        recordHop(link.provider, false, why(error));
-        console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
+        hopFailed = true;
+        // Count only once per provider hop; do not log individual model attempts.
       }
     }
-    if (!hopSucceeded) recordHop(link.provider, false, "empty-or-failed");
+    if (hopFailed) recordHop(link.provider, false, "exhausted");
   }
   const spare = spares ? await runSpares(system, context, maxTokens, deadline) : null;
   if (spare) return spare;
