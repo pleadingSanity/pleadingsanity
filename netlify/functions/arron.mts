@@ -1,1 +1,1 @@
-$(python3 -c 'print(open("/tmp/arron.mts").read())')
+$(cat /tmp/arron.mts)
