@@ -1026,3 +1026,17 @@ html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
   .ps-nav .ps-links a,
   .ps-nav .ps-group-btn { padding: 0 9px; font-size: 0.88rem; }
 }
+
+
+/* Accessible press-and-hold feedback: native controls retain their usual click behaviour.
+   These styles never suppress context menus, text selection or touch scrolling. */
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):active,
+  [role="button"]:not([aria-disabled="true"]):active,
+  .btn:not([aria-disabled="true"]):active {
+    transform: scale(0.985);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  button, [role="button"], .btn { transition-duration: 0.01ms !important; }
+}
