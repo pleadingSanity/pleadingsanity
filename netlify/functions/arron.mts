@@ -542,7 +542,7 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   const budget: Budget = { deadline: started + AI_DEADLINE_MS, crisis, spares: personalSparesAllowed() };
   // The Owner's single-mind chats have their own daily allowance, so the site cap filling up can never lock Shane out.
   const ownerAdmitted = owner && (await allowToday("owner", { userId: user?.id }));
-  const wantsCouncil = owner && !crisis && /^\/council\b/i.test(message);
+  const wantsCouncil = owner && !crisis && /^(?:\/council\b|council\s*[:,-]?\s+\S)/i.test(message);
   const wantsFamily = owner && !crisis && !wantsCouncil && /^\/family\b/i.test(message);
   const council = wantsCouncil && (await allowToday("council", { userId: user?.id }));
   const family = wantsFamily && (await allowToday("family", { userId: user?.id }));
