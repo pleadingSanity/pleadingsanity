@@ -37,6 +37,7 @@ async function render() {
       <h2 id="ov-title">🌌 Everything, right now</h2>
       <div class="owner-stats">
         <div><strong>${c.members}</strong><span>members</span></div>
+        <div><strong>${c.activeMembers ?? 0}</strong><span>members active in last 5 min (estimate)</span></div>
         <div><strong>${c.newMembers}</strong><span>joined this week</span></div>
         <div><strong>${c.postsToday}</strong><span>posts in 24h</span></div>
         <div><strong>${c.pending}</strong><span>waiting for you</span></div>
