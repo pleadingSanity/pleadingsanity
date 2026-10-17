@@ -77,3 +77,32 @@ body.cards-classic .k-card.back {
   color: #000103;
   font-weight: 800;
 }
+
+/* Additional optional themes — nothing removed. Switchable. */
+body.theme-nebula .felt,
+body.theme-nebula .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(0,1,3,.3), rgba(13,27,42,.55)),
+    radial-gradient(ellipse at 30% 40%, rgba(0,255,240,.15), transparent 60%),
+    #0d1b2a center/cover !important;
+}
+body.theme-aurora .felt,
+body.theme-aurora .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(0,1,3,.2), rgba(0,1,3,.5)),
+    url("/assets/images/space/aurora-drive.jpg") center/cover !important;
+}
+body.cards-cosmic .card.back,
+body.cards-cosmic .stock,
+body.cards-cosmic .k-card.back {
+  background: #000103 radial-gradient(circle at 50% 40%, rgba(0,255,240,.35), transparent 70%) !important;
+}
+body.cards-pink .card.back,
+body.cards-pink .stock,
+body.cards-pink .k-card.back {
+  background: linear-gradient(135deg, #0d1b2a, #ff4d8d33) !important;
+}
+/* Soft member glow on rewards */
+.reward, .chips.reward {
+  box-shadow: 0 0 14px rgba(0,255,240,.5);
+}
