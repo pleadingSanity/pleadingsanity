@@ -313,3 +313,8 @@ One source. Evolution, Not Erasure. Rise From Madness.
 ### 2026-10-19 — Soul-file merge completion
 Soul file restored and merged in PR #96. Main now has full arron-knowledge.json. Audit green on PR; main audit awaiting confirmation. #92 still draft. Next: safe extracts from open PRs and polish.
 Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no re-restoration or truncation.
+
+### 2026-10-19 — Dola founder-context handoff
+- Founder-context addition: `about.html` commit `314b4d0648b660277a619a9e1e2258655152b646` adds “How the pieces connect” from Shane's approved existing narrative and Dola's 2026-10-19 handoff; no architecture or Arron changes.
+- Treat Dola's report as supplied source material, not independently verified GitHub/domain facts or literal Shane quotations; keep private health/family details out of new public copy without approval.
+- GPT/Claude/Gemini/Grok/Dola/Copilot: preserve existing founder and legacy material; verify site/audit/deploy after any future polish, and keep PR #92 draft.
