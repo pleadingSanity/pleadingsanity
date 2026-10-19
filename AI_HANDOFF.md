@@ -318,3 +318,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Founder-context addition: `about.html` commit `314b4d0648b660277a619a9e1e2258655152b646` adds “How the pieces connect” from Shane's approved existing narrative and Dola's 2026-10-19 handoff; no architecture or Arron changes.
 - Treat Dola's report as supplied source material, not independently verified GitHub/domain facts or literal Shane quotations; keep private health/family details out of new public copy without approval.
 - GPT/Claude/Gemini/Grok/Dola/Copilot: preserve existing founder and legacy material; verify site/audit/deploy after any future polish, and keep PR #92 draft.
+
+### 2026-10-19 — Dola portable memory documents
+- Added `docs/DOLA-MASTER-CONTEXT.md` in `74ac0c79bb5a155218225693d6134ce0054f7d76` and `docs/DOLA-SESSION-HANDOFF.md` in `37fc3da8b63ba281a74c253cb38d5ad4b679d499`.
+- Both are portable references from Shane's Dola handoff; source claims are labelled, no Arron soul, runtime, crisis, or production code changed. Recheck current GitHub/Netlify state before reuse.
+- AI Family: read these alongside `AI_HANDOFF.md`, preserve PR #92 as draft, do not recreate or erase existing work; report new SHA/audit/deploy separately.
