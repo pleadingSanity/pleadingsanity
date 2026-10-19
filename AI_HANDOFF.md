@@ -338,3 +338,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Updated `frequencies.html` in `48d8f964755e7839c59f0246d7eb31f6f15212b1`: roving tabindex, Arrow keys and Home/End on role=radio tones; preserves click, audio, layout, logo and crisis links. No dependencies or cost.
 - Updated `docs/GEMINI-SESSION-HANDOFF.md` in `15098f7aed51e064e01bc6b88278ce519ba2b541` to separate verified code findings from unverified live 403/banner assertions. Existing finance links target `/finance.html`; `kids.html` exists.
 - Root `arron-knowledge.json` untouched; PR #92 stays draft. Check quality audit and published Netlify SHA after this handoff commit.
+
+### 2026-10-20 — Restore friendly Finance and Kids routes
+- Main baseline `f64b1b97592ee559337139360c48f389ae640570` had successful quality/deploy workflows; open PRs #92 (draft), #78, #69, #48, #46.
+- Commit `f211b66076ceb20854b223ab3ed87d6e09dc7846` changed **only** `_redirects`: added `/finance → /finance.html` and `/kids → /kids.html` as 301 aliases. Existing canonical HTML links and pages are unchanged. This closes an independently verified missing-route configuration; Gemini's claimed HTTP 403 was not independently reproduced.
+- Root `arron-knowledge.json`, provider chain, crisis support, brand, privacy and PR #92 untouched. Check continuous quality audit and Netlify production SHA after this handoff commit; test both aliases on live deployment.
