@@ -323,3 +323,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Added `docs/DOLA-MASTER-CONTEXT.md` in `74ac0c79bb5a155218225693d6134ce0054f7d76` and `docs/DOLA-SESSION-HANDOFF.md` in `37fc3da8b63ba281a74c253cb38d5ad4b679d499`.
 - Both are portable references from Shane's Dola handoff; source claims are labelled, no Arron soul, runtime, crisis, or production code changed. Recheck current GitHub/Netlify state before reuse.
 - AI Family: read these alongside `AI_HANDOFF.md`, preserve PR #92 as draft, do not recreate or erase existing work; report new SHA/audit/deploy separately.
+
+### 2026-10-19 — Gemini alignment handoff
+- Added `docs/GEMINI-MASTER-CONTEXT.md` (`9f4747b8012a17384eddf78fea85afcb3c353a6c`) and `docs/GEMINI-SESSION-HANDOFF.md` (`8bad63fd9656fc8e2fd9644128b3f23492dfcbc8`). No runtime or Arron soul changes.
+- Gemini's supplied manifest is not an independent audit. Unverified specific family heritage details and apparent extra post-Grok fallback in screenshot were NOT published or adopted; request original evidence/full text.
+- Keep #92 draft; verify CI, production SHA and user-facing safety after documentation commits. Ask Gemini for missing original AI Studio/Firebase/creator/kids history and exact files.
