@@ -1,1 +1,5 @@
-PLACEHOLDER
+{
+  "$comment": "ARRON — THE SOUL FILE. Update this once and the Arron app grows everywhere: the app reads it on every visit, the offline cache keeps a copy, and Arron's AI voice reads the principles and the AI chain on every deploy. Plain JSON, no build step. Evolution, Not Erasure.",
+  "version": "3.8 · Daily Guardian refresh, AI landscape noted",
+  "updated": "2026-10-19"
+}
