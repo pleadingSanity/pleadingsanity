@@ -333,3 +333,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Added `docs/UNIVERSAL_AI_MASTER_SYNC_CHECKMATE_OCT_2026.md` at commit `e1301d2c2b644bed9119fee895b292dacbaf476e`. Original claimed file was absent from main before this commit; generated an evidence-labelled concise index from Shane's pasted Gemini handoff.
 - Checked presence of `netlify/lib/ai-chain.ts`, `netlify/functions/arron.mts`, `docs/REVENUE_TERMS.md`, `docs/kids-animation-ready.md`; `docs/SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md` was absent. No code/soul changes. Gemini's detailed runtime claims remain unverified until code and deploy audit.
 - PR #92 stays draft. Preserve provider order and static fallback, crisis numbers, privacy, free core and £0 additional spending. Refresh latest audit/Netlify deploy before claiming live.
+
+### 2026-10-20 — Gemini audit: surgical Healing Hz keyboard fix
+- Updated `frequencies.html` in `48d8f964755e7839c59f0246d7eb31f6f15212b1`: roving tabindex, Arrow keys and Home/End on role=radio tones; preserves click, audio, layout, logo and crisis links. No dependencies or cost.
+- Updated `docs/GEMINI-SESSION-HANDOFF.md` in `15098f7aed51e064e01bc6b88278ce519ba2b541` to separate verified code findings from unverified live 403/banner assertions. Existing finance links target `/finance.html`; `kids.html` exists.
+- Root `arron-knowledge.json` untouched; PR #92 stays draft. Check quality audit and published Netlify SHA after this handoff commit.
