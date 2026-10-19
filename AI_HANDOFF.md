@@ -343,3 +343,9 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Main baseline `f64b1b97592ee559337139360c48f389ae640570` had successful quality/deploy workflows; open PRs #92 (draft), #78, #69, #48, #46.
 - Commit `f211b66076ceb20854b223ab3ed87d6e09dc7846` changed **only** `_redirects`: added `/finance → /finance.html` and `/kids → /kids.html` as 301 aliases. Existing canonical HTML links and pages are unchanged. This closes an independently verified missing-route configuration; Gemini's claimed HTTP 403 was not independently reproduced.
 - Root `arron-knowledge.json`, provider chain, crisis support, brand, privacy and PR #92 untouched. Check continuous quality audit and Netlify production SHA after this handoff commit; test both aliases on live deployment.
+
+### 2026-10-20 — Search discovery, no-cost site evolution
+- Verified production baseline `15b8cc6a8fdb824e9b30d680ded48ca45c1aabbb` published on Netlify and quality workflow successful; PRs open #92 draft, #78, #69, #48, #46.
+- `3819274641d93d1d3d08c9236abeaa18bddc75f6` — `site-builder.html`: add canonical and index/follow metadata; no runtime logic changes.
+- `31080f620bf2b4d3aea1934766c8a8d69583fd15` — `sitemap.xml`: add existing `/site-builder.html` and `/kids-series.html` URLs, which were previously missing. No new pages, tracking, monetization or paid services.
+- Check latest CI, production SHA, live page response and sitemap parsing after this handoff. Avoid claiming guaranteed search ranking or revenue. Arron soul/provider order, crisis information, PR #92, branding untouched.
