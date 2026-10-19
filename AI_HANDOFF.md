@@ -304,3 +304,8 @@ One source. Evolution, Not Erasure. Rise From Madness.
   3. No reserved display names or usernames: a member can call themselves "Shane Cooper" or "arron". The 💫 Owner and AI FAMILY badges still cannot be forged; they come from the server's verified-email role.
   4. `/api/poker-room` lets anyone create rooms with no rate limit (Blobs storage only, play chips only).
 - **Not proven:** real phones (share sheet, install prompts, real voices, keyboard), cross-device rooms against the live function, this commit's production deploy.
+
+### 2026-10-19 — Arron full soul-file restoration (GPT)
+- Restore commit: `f526a3a23e6902c44be46aaef3140acf642467b1` on `restore/arron-soul-file-20261019`; exact full `arron-knowledge.json` from `052e1aa6a72159ae7d9c3bdb4d81dd48062570a1`, changing only `version` and `updated`.
+- Preserve this 44,448-character restored file; never overwrite with a short Daily Guardian stub. Provider order remains openai → anthropic → gemini → grok; do not merge partial `bd41096` or PR #92 without tests.
+- Review the restore PR and continuous quality audit before merging; GPT/Claude/Gemini/Grok/Dola/Copilot should not redo or erase this work.
