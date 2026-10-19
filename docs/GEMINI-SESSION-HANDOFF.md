@@ -19,3 +19,10 @@ Gemini supplied a “Sanctuary Status & Alignment Manifest”, shared by Shane. 
 
 ## Safety and continuity
 No paid services, domain/DNS changes, personal-data publication, Arron soul modifications or untested merges. After every change update `AI_HANDOFF.md` with SHA/files/audit/deploy. These documents are durable reference files, not a guarantee Gemini remembers other chats.
+
+## 2026-10-20 — Gemini site-audit reconciliation
+Gemini supplied a five-item audit, but the claims were **not all confirmed** by GitHub source inspection. In `index.html`, `arron.html` and `frequencies.html`, Finance links already target `/finance.html`. `kids.html` exists in main. The reported HTTP 403 responses require independent live HTTP verification; do not add rewrites or change file permissions blindly. The reported Arron reconnect banner was not present in the checked `arron.html` markup; inspect runtime JS before acting. Logo-link accessibility must be tested in context because visible link text may already provide an accessible name.
+
+**Confirmed improvement:** `frequencies.html` radio items all had `tabindex=0` and only Enter/Space support. Commit `48d8f964755e7839c59f0246d7eb31f6f15212b1` adds a roving tab stop and Arrow/Home/End selection without changing audio engine or assets. CI and browser keyboard testing should be confirmed after deployment.
+
+No new images needed based on Gemini's review; preserve logo and existing frequency illustrations. PR #92 remains draft; root soul untouched.
