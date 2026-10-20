@@ -138,6 +138,15 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
 <style>
 .ps-expansion{margin:20px 0;color:#eef6ff}.ps-expansion h2{font-size:clamp(1.1rem,4vw,1.45rem);color:#00fff0;margin:0 0 12px}.ps-expansion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:12px}.ps-expansion-card{background:rgba(13,27,42,.92);border:1px solid #00fff066;border-radius:14px;padding:14px;min-width:0}.ps-expansion-card p{font-size:.9rem;line-height:1.5;margin:6px 0}.ps-expansion-card img{width:62px;height:68px;object-fit:contain;float:right}.ps-expansion-card strong{color:#eef6ff}.ps-expansion .ps-status{font-size:.8rem;color:#00fff0}.ps-expansion .ps-soon{color:#eef6ff}.ps-expansion-hero{display:block;width:100%;max-width:700px;max-height:220px;object-fit:cover;border:2px solid #ff4d8d;border-radius:14px;margin:12px auto 18px}.ps-expansion summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-expansion details{border:1px solid #00fff066;border-radius:14px;padding:0 12px}.ps-expansion a{color:#00fff0;min-height:48px;display:inline-flex;align-items:center}@media(prefers-reduced-motion:reduce){.ps-expansion *{animation:none!important;transition:none!important}}
 </style>
+<style>
+/* 2026-10-20 mobile visual polish: contain tavern art behind readable surfaces. */
+body{background:#000103!important;background-image:radial-gradient(ellipse at 50% 0%,#0d1b2a 0%,#000103 72%)!important;background-attachment:scroll!important}
+.felt{background:linear-gradient(180deg,rgba(2,10,21,.87),rgba(2,10,21,.93)),url('/assets/games/ps-night-tavern.svg') center/cover!important;border-color:#00fff077!important;border-radius:24px!important}
+.ps-expansion-hero{max-height:160px;object-position:center 58%}
+.wrap>.note,.wrap>.safe,.wrap>.top{background:rgba(13,27,42,.95)!important}
+@media(max-width:600px){.wrap{width:calc(100% - 16px)!important}.wrap>h1{font-size:clamp(1.85rem,8vw,2.4rem)!important}.ps-expansion-hero{max-height:120px;margin:8px auto 10px}.felt{padding:12px 8px!important;border-radius:20px!important}.felt .seats{gap:6px}.felt .seat{min-width:0}.wrap>.levels{gap:5px;padding:7px}.wrap>.note,.wrap>.safe{margin:8px 0}}
+@media(prefers-reduced-motion:reduce){body{background-attachment:scroll!important}}
+</style>
 </head>
 <body>
 <!-- PS games navigation: owner-editable label -->
