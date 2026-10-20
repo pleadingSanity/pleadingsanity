@@ -236,6 +236,18 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 <style>
 .ps-worlds{margin:18px 0;color:#eef6ff}.ps-worlds summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-worlds details{border:1px solid #00fff077;border-radius:14px;padding:0 12px}.ps-worlds h2{font-size:clamp(1.1rem,4vw,1.4rem);color:#00fff0;margin:14px 0}.ps-world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}.ps-world-card{background:rgba(13,27,42,.94);border:1px solid #00fff055;border-radius:12px;padding:14px;min-width:0}.ps-world-card p{font-size:.9rem;line-height:1.5}.ps-world-card small{color:#eef6ff}.ps-world-hero{display:block;width:100%;max-width:700px;max-height:180px;object-fit:cover;border-radius:14px;border:2px solid #00fff0;margin:12px auto 18px}@media(prefers-reduced-motion:reduce){.ps-worlds *{animation:none!important;transition:none!important}}
 </style>
+<style>
+/* Asset Bible phase 1: accessible cozy-cosmic surfaces; preserve card engines. */
+.wrap>h1{text-wrap:balance;letter-spacing:.012em}
+.ps-worlds,.ps-companions{isolation:isolate}
+.ps-world-card,.ps-companion{background-color:rgba(13,27,42,.94)}
+.wrap button,.wrap .btn{min-height:48px;touch-action:manipulation}
+.wrap button:focus-visible,.wrap a:focus-visible,.wrap select:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.wrap .note{line-height:1.55}
+.felt{background:linear-gradient(180deg,rgba(0,1,3,.56),rgba(0,1,3,.78)),url('/assets/theme/sky.jpg') center/cover no-repeat}
+@media(max-width:600px){.wrap{width:calc(100% - 16px)}.ps-world-hero{max-height:130px;object-fit:cover}.wrap>.row{gap:6px}.wrap .btn{padding:10px 12px}}
+@media(prefers-reduced-motion:reduce){.wrap button{transition:none!important}}
+</style>
 </head>
 <body class="night">
 <!-- PS games navigation: owner-editable label -->
