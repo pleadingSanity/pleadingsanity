@@ -49,3 +49,10 @@ Navigation label, border colour and spacing are in the new labelled HTML navigat
 - `poker.html`: added character portrait art to all four existing seats; `3925e5f`. Seat labels remain the original bot names; portraits are decorative and not a claim of new AI opponents.
 - `sanity-solitaire.html`: added Ollie and Zara companion tips; `fc66348`. No gameplay engine changes.
 - **Pending:** real Android screenshots of deployed changes, avatar legibility, narrow-screen overlap, automated playthroughs, and production deploy verification. Full reference-art fidelity requires further original illustration work; do not label as finished.
+
+## 2026-10-20 — shared original card-back asset integration
+- `assets/games/ps-cosmic-card-back.svg` — original lightweight starfield card-back illustration (240×336 vector); commit `15848213c10a3b02e3254e6d103b86d20a506aa9`.
+- `sanity-solitaire.html` — changed **only** the `.k-card.back` background URL to the shared local SVG; commit `89e3b67467387beff67089b0f2c578767164996a`.
+- `poker.html` — changed **only** `.card.back` background URL to the same SVG; commit `9ffe58133a15e334fcc1b93fb51c37bc1a54f48f`.
+- No card engine, scoring, user data, betting, routes or Arron code changed. The reference promotional concept image is **not** a production game screenshot and has not been used as an in-game bitmap.
+- **Verification needed:** CI, Netlify deploy SHA, image load, card legibility on 360px mobile, full interactive gameplay and offline caching. These changes are not certified playthroughs. Remaining art: consistent character expression sets, original world backgrounds, accessible HUD and game-hub artwork route by route.
