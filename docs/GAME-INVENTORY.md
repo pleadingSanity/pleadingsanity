@@ -43,3 +43,9 @@ Navigation label, border colour and spacing are in the new labelled HTML navigat
 - `assets/games/ps-night-tavern.svg` — original firelit tavern and poker table illustration (`2db5c15`). `poker.html` — premium tavern skin and differentiated betting actions (`7e3b616`).
 - Preserve the source gameplay engines, 4 Solitaire modes, play chips, local storage, accessibility and support links. These are **visual updates**, not certified game-engine upgrades.
 - **Review required:** open both pages on Android and desktop; inspect cards, overlap, contrast, mobile viewport, tutorial, undo, all-in, winning and losing; verify Netlify publish and PWA offline assets. The generated reference composition is not a literal in-game screenshot. Further design passes needed for avatars, rewards and full app-shell UI.
+
+## 2026-10-20 — original character assets and game integration
+- Added six new original vector character illustrations under `assets/games/characters/`: Ollie the Owl, Zara the Squirrel, Bruno the Bulldog, Blinky the Robot, Max and Mia. All six are source-controlled SVGs; concept raster image was not committed.
+- `poker.html`: added character portrait art to all four existing seats; `3925e5f`. Seat labels remain the original bot names; portraits are decorative and not a claim of new AI opponents.
+- `sanity-solitaire.html`: added Ollie and Zara companion tips; `fc66348`. No gameplay engine changes.
+- **Pending:** real Android screenshots of deployed changes, avatar legibility, narrow-screen overlap, automated playthroughs, and production deploy verification. Full reference-art fidelity requires further original illustration work; do not label as finished.
