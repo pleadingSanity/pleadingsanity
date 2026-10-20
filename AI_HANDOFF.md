@@ -362,3 +362,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Baseline `1960d2ce81cec2e9c3c859c92b101da87e1ccefb`: continuous quality audit passed and Netlify production ready at same SHA; PR #92 draft, #78/#69/#48/#46 open.
 - `d28a735a2b74eab7d00f69546d4be6feb2334e93` updated **only** `AGENTS.md` to require one production repo, existing-code reuse, no new per-AI handoff documents, independently evidenced reviews, zero new costs, owner approval for sensitive work, and human-governed long-term continuity. Existing files retained, not deleted.
 - No application runtime changes; root soul, crisis lines, brand and failover order untouched. Check CI and Netlify SHA after this log update.
+
+### 2026-10-20 — Source-level page discovery audit
+- Baseline `5f4a3680f0056a85465f18629915503cbc64b7f9`: CI and Netlify production both successful. Open PRs #92 draft, #78, #69, #48, #46.
+- Checked metadata presence across 15 existing HTML entry pages (home, Arron, crisis, games, journal, Healing Hz, kids, kids series, New Gen Bible, finance, site builder, creator, live, profile, privacy). Only Kids Series lacked a canonical URL. Commit `d054b5acf158f310e333f51ecb4cd7027aaf1328` added a single canonical tag to `kids-series.html` (no UI/runtime change).
+- Existing page files, manifest and service worker confirmed present; NOT an end-to-end browser, mobile, backend, auth or safety audit. No independent AI consensus claimed. Next: check CI/Netlify SHA and verify runtime paths and Arron fallback without paid API calls. No new repos/docs/services.
