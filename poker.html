@@ -147,6 +147,19 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
 @media(max-width:600px){.wrap{width:calc(100% - 16px)!important}.wrap>h1{font-size:clamp(1.85rem,8vw,2.4rem)!important}.ps-expansion-hero{max-height:120px;margin:8px auto 10px}.felt{padding:12px 8px!important;border-radius:20px!important}.felt .seats{gap:6px}.felt .seat{min-width:0}.wrap>.levels{gap:5px;padding:7px}.wrap>.note,.wrap>.safe{margin:8px 0}}
 @media(prefers-reduced-motion:reduce){body{background-attachment:scroll!important}}
 </style>
+<style>
+/* Asset Bible phase 1: calm, legible, mobile-first table UI; gameplay untouched. */
+.wrap>h1{letter-spacing:.015em;text-wrap:balance}
+.ps-expansion-hero{object-fit:cover;object-position:center 52%;box-shadow:0 12px 32px #0009,0 0 0 1px #00fff044}
+.ps-expansion details{background:rgba(13,27,42,.94);margin:8px 0}
+.ps-expansion summary{border-radius:12px}
+.ps-expansion summary:focus-visible,.wrap button:focus-visible,.wrap a:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.wrap button,.wrap .btn{min-height:48px;touch-action:manipulation}
+.wrap>.note,.wrap>.safe{line-height:1.55}
+.felt{background:linear-gradient(180deg,rgba(0,1,3,.86),rgba(13,27,42,.94)),url('/assets/games/ps-night-tavern.svg') center/cover!important}
+@media(max-width:600px){.ps-expansion-hero{height:116px;max-height:116px}.ps-expansion-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,138px),1fr))}.wrap>.levels{margin:8px 0}.felt .board{min-height:86px}.wrap .row{gap:6px}}
+@media(prefers-reduced-motion:reduce){.wrap button{transition:none!important}}
+</style>
 </head>
 <body>
 <!-- PS games navigation: owner-editable label -->
