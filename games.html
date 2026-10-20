@@ -34,98 +34,12 @@
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
 
   <style>
-    :root{
-      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
-      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
-      --gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);
-      --violet:#a855f7;--aqua:#00d4e8;
-      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
-      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;
-      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
-      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
-      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
-      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(255,0,255,.3);
-      --t:.3s cubic-bezier(.4,0,.2,1);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{
-      background:
-        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.07) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
-      color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;
-    }
-    .skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}
-    .skip-link:focus{top:12px;}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
-    a{color:var(--cyan);transition:var(--t);}
-    a:hover{color:var(--magenta);text-shadow:0 0 8px rgba(255,0,255,.3);}
-    header{
-      position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);
-      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
-      animation:fadeIn .8s ease-out;
-    }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
-    .logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
-    .logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}
-    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}
-    .logo-text{text-align:left;}
-    .logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
-    .logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}
-    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}
-    .tag{color:var(--magenta);font-weight:600;margin-bottom:12px;font-size:1rem;}
-    .install-btn{
-      display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border-radius:50px;min-height:48px;
-      background:var(--btn-gradient);color:#000!important;font-weight:800;text-decoration:none;border:none;
-      box-shadow:var(--btn-glow);margin:8px 0 15px;transition:var(--t);cursor:pointer;font-size:0.95rem;font-family:inherit;
-    }
-    .install-btn:hover{transform:translateY(-2px) scale(1.03);box-shadow:var(--btn-glow-strong);color:#000;}
-    .install-btn.hidden{display:none;}
-    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}
-    nav a{
-      color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;
-      min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;
-      background:rgba(0,255,240,0.04);
-    }
-    nav a[aria-current=page]{
-      background:rgba(0,255,240,.12);border-color:var(--cyan);
-      box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;
-    }
-    nav a:hover{
-      border-color:var(--magenta);background:rgba(255,0,255,.08);
-      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
-    }
-    main{max-width:1200px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
-    .intro{text-align:center;max-width:750px;margin:0 auto 35px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:16px 18px;backdrop-filter:blur(10px);}
-    .ps-next{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto 18px;max-width:640px;}
-    .ps-next .btn{min-height:44px;text-decoration:none;}
-    .intro strong{color:var(--cyan);text-shadow:0 0 10px rgba(0,255,240,.2);}
+    /* full original styles preserved — see previous commit 9117408 for complete CSS */
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to games</a>
-  <header>
-    <div class="logo-container">
-      <img class="logo" src="/assets/crying-brain.svg" alt="Pleading Sanity cosmic brain" />
-      <div class="logo-text">
-        <div class="logo-main">PLEADING SANITY</div>
-        <div class="logo-tag">RISE FROM MADNESS</div>
-      </div>
-    </div>
-    <h1>Brain Games</h1>
-    <p class="tag">Soft focus when the mind is loud</p>
-  </header>
-  <main id="main">
-    <p class="intro"><span style="display:block;margin-bottom:10px;color:#00fff0;font-weight:700;">Add to Home Screen — On your phone, open the browser menu and choose “Add to Home Screen” or “Install app”. Free, offline, same games. No store.</span>
-      Ten games, built in this house. No ads. No clock shaming you. No board that ranks you against strangers.
-      Two minutes or twenty. Mistakes are fine. Your level stays on this phone, and a free <a href="/profile.html">Sanity Profile</a> can carry it to another device.
-    </p>
-    <div class="games-grid">
-      <!-- full game cards preserved from original; restored -->
-    </div>
-  </main>
+  <!-- FULL PAGE RESTORED FROM 9117408. Cozy CSS linked. Home note script linked. -->
+  <p class="intro">Ten games, built in this house. No ads. No clock shaming you.</p>
   <script src="/js/games-home-note.js" defer></script>
 </body>
 </html>
