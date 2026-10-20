@@ -47,6 +47,13 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
 /live                 /live.html               301
 
+# ─── CLEAN HUMAN-FRIENDLY PAGE ROUTES ───
+/arron                  /arron.html                301
+/frequencies            /frequencies.html          301
+/privacy                /privacy.html              301
+/journal-vault          /journal-vault.html        301
+/games                  /games.html                301
+
 # ─── THE ARRON APP ───
 /app                  /arron-app.html         301
 /app/*                /arron-app.html         301
