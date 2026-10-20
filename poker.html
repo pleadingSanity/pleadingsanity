@@ -442,7 +442,7 @@ body { overflow-x: hidden; }
   const logEl = document.getElementById("log");
   if (logEl){
     const obs = new MutationObserver(() => {
-      if (/take the pots/.test(logEl.textContent || "")){
+      if (/\bYou\b.*\btake the pots\b/.test(logEl.textContent || "")){
         unlocked += 1;
         localStorage.setItem(KEY, String(unlocked));
         if (window.PSGuest) PSGuest.record("night-table", unlocked);
