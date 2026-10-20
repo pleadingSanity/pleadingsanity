@@ -22,6 +22,27 @@ body.theme-night .stage .felt {
     url("/assets/theme/sky.jpg") center/cover !important;
 }
 
+/* New optional cozy tavern theme — warm, calm, playful. Matches character art. */
+body.theme-cozy .felt,
+body.theme-cozy .stage .felt {
+  background:
+    linear-gradient(180deg, rgba(232,169,106,.15), rgba(20,27,61,.55)),
+    radial-gradient(ellipse at 40% 60%, rgba(232,169,106,.2), transparent 50%),
+    #141B3D center/cover !important;
+}
+body.theme-cozy {
+  --warm-fire: #E8A96A;
+  --cosmic-indigo: #141B3D;
+  --misty-teal: #8F868;
+  --soft-gold: #FFD766;
+}
+body.theme-cozy .btn, body.theme-cozy button {
+  border-color: var(--warm-fire);
+}
+body.theme-cozy .card.playable {
+  outline-color: var(--soft-gold);
+}
+
 /* Card back options — applied via class on body */
 body.cards-constellation .card.back,
 body.cards-constellation .stock,
@@ -64,8 +85,8 @@ body.cards-classic .k-card.back {
   margin: 8px 0;
 }
 .theme-bar button {
-  min-height: 40px;
-  padding: 0 12px;
+  min-height: 48px;
+  padding: 0 14px;
   border-radius: 999px;
   border: 1px solid rgba(0,255,240,.4);
   background: rgba(13,27,42,.8);
