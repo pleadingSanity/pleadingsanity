@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v86'; // v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const STATIC_CACHE = 'pleading-sanity-static-v87'; // v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -43,6 +43,26 @@ function isPrivatePath(pathname) {
 // 📦 PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
+    '/css/ps-game-art.css',
+    '/assets/games/characters/blinky-128.webp',
+    '/assets/games/characters/blinky-v2.webp',
+    '/assets/games/characters/bruno-128.webp',
+    '/assets/games/characters/bruno-v2.webp',
+    '/assets/games/characters/max-128.webp',
+    '/assets/games/characters/max-v2.webp',
+    '/assets/games/characters/mia-128.webp',
+    '/assets/games/characters/mia-v2.webp',
+    '/assets/games/characters/nova-128.webp',
+    '/assets/games/characters/nova-v2.webp',
+    '/assets/games/characters/ollie-128.webp',
+    '/assets/games/characters/ollie-v2.webp',
+    '/assets/games/characters/pip-128.webp',
+    '/assets/games/characters/pip-v2.webp',
+    '/assets/games/characters/zara-128.webp',
+    '/assets/games/characters/zara-v2.webp',
+    '/assets/games/worlds/aurora-lakes-v2.webp',
+    '/assets/games/worlds/forest-tavern-v2.webp',
+
     '/',
     '/about.html',
     '/ai-ecosystem.html',

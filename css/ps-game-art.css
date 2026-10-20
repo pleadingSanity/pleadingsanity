@@ -1,0 +1,34 @@
+/* Original PS artwork. Scenery stays separate from cards and controls. */
+.ps-art .ps-expansion-hero,.ps-art .ps-world-hero {
+  width:100%;max-width:980px;height:clamp(140px,24vw,260px);max-height:none;
+  object-fit:cover;object-position:center 44%;border-radius:22px;
+  border:1px solid #f7c87966;box-shadow:0 12px 32px #0008;
+}
+body.ps-art-poker {background:#000103!important}
+body.ps-art-solitaire {background:#000103!important}
+.ps-art .ps-seat-avatar {width:58px;height:58px;aspect-ratio:1;object-fit:cover;border-radius:50%;border:2px solid #00fff077}
+.ps-art .ps-expansion-card img {width:80px;height:80px;object-fit:cover;border-radius:16px;margin:0 0 10px 10px}
+.ps-art .ps-companion img {width:72px;height:72px;object-fit:cover;border-radius:50%}
+.ps-art .ps-expansion-card {overflow:hidden}
+.ps-art .ps-world-hero {object-position:center 38%}
+.ps-art .felt {background:linear-gradient(160deg,#103942,#061822)!important}
+.ps-art .card .c,.ps-art .waste .c,.ps-art .card .c b,.ps-art .waste .c b {color:inherit!important;text-shadow:none!important;opacity:1}
+.ps-art .card .c b,.ps-art .waste .c b {font-size:1.1rem}
+.ps-art .card .suit,.ps-art .waste .suit {mix-blend-mode:multiply;filter:invert(1) grayscale(1) contrast(1.4)}
+.ps-art .ps-worlds,.ps-art .ps-expansion {background:#0d1b2af2;border:1px solid #00fff033;border-radius:18px;padding:8px 12px}
+.ps-art .ps-companions {gap:12px;flex-wrap:wrap}
+.ps-cast {margin:22px auto;padding:16px;border:1px solid #00fff033;border-radius:22px;background:#0d1b2a;max-width:950px}
+.ps-cast summary {cursor:pointer;min-height:48px;display:flex;align-items:center;gap:8px;font-weight:700;color:#eef6ff}
+.ps-cast summary:focus-visible {outline:3px solid #00fff0;outline-offset:3px}
+.ps-cast p {color:#c4d8e4;line-height:1.6}
+.ps-cast-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:12px;margin:12px 0 0;list-style:none;padding:0}
+.ps-cast-grid li {display:flex;flex-direction:column;align-items:center;gap:8px;color:#eef6ff;text-align:center}
+.ps-cast-grid img {display:block;width:88px;height:88px;max-width:100%;border-radius:20px;object-fit:cover;border:1px solid #00fff044}
+.ps-series-portrait {display:block;width:100%;max-width:220px;aspect-ratio:1;object-fit:cover;border-radius:18px;margin:0 auto 16px}
+@media(max-width:600px){
+  .ps-art .ps-expansion-hero,.ps-art .ps-world-hero {height:160px;max-height:160px}
+  .ps-art .ps-seat-avatar {width:48px;height:48px}
+  .ps-art .ps-expansion-card img {float:none;width:100%;height:auto;aspect-ratio:1;margin:0 0 12px}
+  .ps-cast {padding:12px}.ps-cast-grid {grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 8px}
+}
+@media(prefers-reduced-motion:reduce){.ps-art *{scroll-behavior:auto!important}}
