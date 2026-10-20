@@ -375,3 +375,7 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 ### 2026-10-20 — Poker and Solitaire character/world panels
 - Based on founder's full implementation brief, appended **optional, labelled preview panels** without touching game engines: `poker.html` `94ffd7e06e1434f2eb02aa13d608a4d208accd61`, `sanity-solitaire.html` `4d92bda64f9ad82cce5e9eaff6fbab53f7e8f1a9`; inventory `e442b4bf7f3f07c2bd8c824c32bc77b78463933d`.
 - Reused existing SVG hero art and character portraits, no missing JPG references. Future levels, Spider, leaderboards, tournaments, chat and skins honestly labelled preview/coming soon. No new runtime progression engine or fake chip payouts; no Arron/crisis changes; PR #92 untouched. CI, real browser tests and Netlify deployment verification pending.
+
+### 2026-10-20 — PR #92 audit and Poker screenshot polish
+- Draft PR #92 changes only `netlify/lib/ai-chain.ts` and overlaps with existing single-hop failure counting on main; GitHub reports mergeable=false. **No PR branch changes and no merge.** Full findings: `docs/PR92-AUDIT-REPORT.md` at `1287f6701d84aa629891cb9ea98d99351da3a24f`.
+- Founder Android screenshot showed overbearing tavern wallpaper. `poker.html` commit `733e4ac685d68e1e21eaae5d06cbd697bc986fc6` adds CSS-only mobile/contrast polish; no game-engine changes. Need real device tests and CI/deploy SHA confirmation.
