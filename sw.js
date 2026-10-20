@@ -6,7 +6,7 @@
 
 const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
 const STATIC_CACHE = 'pleading-sanity-static-v81'; // v81: include homepage clarity stylesheet for offline navigation
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v19'; // v19: discard pages cached before the homepage navigation update
 const OFFLINE_URL = '/offline.html';
 
 // Profile, member, journal and account pages hold personal data.
