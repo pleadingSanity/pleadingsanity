@@ -401,3 +401,11 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Not proven: real-device touch/install/speech, exhaustive win/chip-accounting cases, authenticated or real cross-device rooms. No game-rule change in this batch.
 - Deployment blocker observed independently: latest deploy workflow build succeeds, but Netlify hook returns 404. Newly added Mayhem/Defender workflows also fail before this artwork batch; no scan protections or secrets changed here. Check production published SHA separately; do not equate a GitHub push with publication.
 - Final visual regression: Solitaire `paintMeta` previously replaced every body class; now removes only the known table-look classes, preserving the artwork/theme classes. Card corner text inherits suit colour without glow; existing suit pictures use an inverted multiply treatment on light faces. Four focused phone/desktop Poker/Solitaire checks and the static audit passed after this fix.
+
+
+## 2026-10-21 — GPT: Phase 0 master-order audit only
+- Changed: GAP_REPORT.md plus this append-only documentation entry, on polish/gpt-master-phase0-2026-10-21 from main 97f20e4. No application code or hosting settings changed. The latest owner order supersedes older direct-main and canonical-redirect instructions: branch only, Shane holds merge, preserve the working bare .uk mirror.
+- Why: establish evidence before incident recovery, visual polish, store readiness or the proposed Game Forge.
+- Verified: full non-shallow source tree; audit-site.py passes 78 root HTML / 202 JS/TS blocks with zero HOUSE GUARD lines; HTTP GET sweep of all 79 HTML paths and declarative assets; .co.uk and www .uk return usage_exceeded, bare .uk serves HTML; root soul matches main byte-for-byte. Source image-audience and Poker escaping fixes already exist. Separate prototype repository still has permissive recursive Firestore rules. Four manifest IDs and both service-worker scopes preserved.
+- Not proven: authenticated/live chat and provider calls, effective Vercel config, deployed Firebase rules, full dynamic asset coverage, browser/mobile/install/offline runtime, app-store eligibility, future Game Forge. No deploy, merge or main push claimed.
+- Next: Shane reviews GAP_REPORT.md and confirms Phase 1 scope. Stop here; no Phase 1–6 implementation before confirmation.
