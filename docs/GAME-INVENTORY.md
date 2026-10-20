@@ -36,3 +36,10 @@ Navigation label, border colour and spacing are in the new labelled HTML navigat
 - `sanity-solitaire.html`: first-visit, four-step interactive onboarding; persistent How to Play replay button; accessible dialog and Escape; commit `6b6e26f`.
 - `poker.html`: first-visit, four-step Hold'em onboarding; persistent How to Play replay button; accessible dialog and Escape; commit `de1207f`.
 - Status: ⚠️ NEEDS REVIEW. No browser-device validation completed yet. Further work: full-screen app-shell design, card/table art direction, richer non-flashing rewards, gameplay engine regression tests, mobile tap-target tests, install and offline verification.
+
+## 2026-10-20 — approved art direction / original PS game skins
+- Approved two-game reference artwork retained in conversation; **not** uploaded to production as a bitmap. The website uses original, lightweight, editable SVG environment art instead.
+- `assets/games/ps-starlake.svg` — original mountain, lake, night sky illustration (`fca8e68`). `sanity-solitaire.html` — premium PS skin, readable light face-up cards, larger visual contrast (`c1c103f`).
+- `assets/games/ps-night-tavern.svg` — original firelit tavern and poker table illustration (`2db5c15`). `poker.html` — premium tavern skin and differentiated betting actions (`7e3b616`).
+- Preserve the source gameplay engines, 4 Solitaire modes, play chips, local storage, accessibility and support links. These are **visual updates**, not certified game-engine upgrades.
+- **Review required:** open both pages on Android and desktop; inspect cards, overlap, contrast, mobile viewport, tutorial, undo, all-in, winning and losing; verify Netlify publish and PWA offline assets. The generated reference composition is not a literal in-game screenshot. Further design passes needed for avatars, rewards and full app-shell UI.
