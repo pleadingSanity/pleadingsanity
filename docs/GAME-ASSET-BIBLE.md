@@ -52,3 +52,34 @@ Ollie and Zara companion visuals; daily challenge; achievements; free card skins
 - Any new asset: optimised source-controlled WebP/SVG, accessible alt text, correctly sized, no watermarks, approved brand mark.
 
 **Reserved future slots:** Bruno and Blinky portraits; level 6; Solitaire world 6; seasonal table art; galaxy/vintage/character decks; accessibility colour modes; gentle stretch reminders; device-only journal note; friend waves; optional weekly calm summary. None should be marked live until implemented and tested.
+
+## Additional founder reference sheets — 2026-10-20
+Five further uploaded sheets: **Polish Checklist — Fix These First**, **card backs/faces and seasonal skins**, **side-by-side Night Table/Solitaire page mockups**, **Master Asset Bible montage**, **cozy palette and tavern scene**. These supersede any assumption that a CSS-only pass completes the artwork. Images were supplied in conversation and are not individually deployable sprites.
+
+### Priority 1 — fix now (visual acceptance)
+- Match locked site brand colours for controls; use tavern wood/gold as scenery only.
+- Make buttons consistent with 48px touch targets and readable labels; never substitute an image for clickable HTML.
+- Preserve readable red/black suits and card values on white cards; add restrained glow to selected/active cards without obscuring suits.
+- Align Poker and Solitaire game headers, controls and play area for narrow mobile viewports; no horizontal overflow.
+- Add accessible labels to any truly unlabeled controls; verify focus visibility and text contrast.
+
+### Priority 2 — exact asset placement map
+| Asset from reference | Destination | Implementation rule |
+| --- | --- | --- |
+| Cozy fireplace and wooden poker table | `poker.html` intro/table scenery | Optimised image *behind* interactive cards and controls, never full composite UI screenshot |
+| Aurora lakes, waterfall, mountain night sky | `sanity-solitaire.html` world selection and non-obscuring scene | Use separate landscape image with contrast overlay; avoid busy backdrop behind card ranks |
+| Ollie, Zara, Max, Mia, The Host | Existing character cards/avatars in both games where appropriate | Export individual clean portraits; no fabricated live seats |
+| Bruno, Blinky | Reserved character cards | Clearly COMING SOON until corresponding gameplay exists |
+| Cosmic brain card back | Face-down cards in both games | Reuse original `assets/games/ps-cosmic-card-back.svg` where engine supports; preserve card semantics |
+| Classic card faces | Actual game cards | Real high-contrast DOM suit/value labels, not artwork with AI-distorted ranks |
+| Gold active-hand glow | Active or selected cards only | Subtle CSS outline/shadow, reduced-motion safe |
+| Winter, Spring, Galaxy skins | Optional free skin previews | Label CONCEPT until real selectable skins and persistence exist |
+| Wooden button art | Button backgrounds only | Keep text and click handlers in real controls; avoid images of buttons |
+| Chips, lantern, mug, collectibles | Scenery/collectibles UI | Decorative only unless real feature implemented; accessible alt treatment |
+| Polish Checklist sheet | Internal docs only | Not a public game asset |
+
+### Asset preparation requirement
+The provided montages have embedded text and a Dola watermark; do **not** publish the montages as game UI or crop away attribution in order to disguise origin. Create or obtain clean, original standalone assets that follow the reference, with no third-party watermark. Optimise WebP/SVG, check mobile performance, preserve existing files and logos. **The reference PNGs are not yet in the GitHub asset directory.**
+
+### Later, not part of current UI fix
+Seasonal themes, sound toggle, accessibility modes, weekly summary, local journal, custom backgrounds. Any new feature must remain honest and free, without duplicating existing journal or privacy features.
