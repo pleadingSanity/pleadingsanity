@@ -43,3 +43,11 @@ P3: imagery, performance budgets, visual polish and optional enhancements.
 ## Audit reporting
 Report observed vs assumed, exact reproduction steps, changed files, tests run,
 production verification and blockers. Never fabricate tool access or test results.
+
+## Single-house coordination and anti-duplication rule (2026-10-20)
+- The **only** live source is `pleadingSanity/pleadingsanity` main. Other repositories and prototype projects are not production; do not create new repositories, deployments, domains or paid dependencies without founder approval.
+- **Before adding any feature or document:** inspect existing pages, scripts, docs, branches and open PRs; reuse and improve the best verified implementation. No duplicate pages, tools, AI instruction files or near-identical handoffs.
+- `AGENTS.md` is the durable shared operating contract; `AI_HANDOFF.md` is the single append-only cross-agent status log. Use existing feature docs or a PR discussion for details. Avoid creating more per-agent sync documents.
+- An AI may not claim consensus or contact with another AI unless an actual review, comment or commit exists. Independent reviews can be recorded on the same PR; conflicting views must remain visible until resolved. A prompt alone grants no account access.
+- Proposed features require a user benefit, safety/privacy check, zero-extra-cost plan, mobile/accessibility impact, test/rollback plan, and explicit approval for spending, public user-data changes, payment, or high-risk deployments.
+- Build for long-term stewardship: human-controlled ownership and recovery, tested backups, documented credentials recovery without storing secrets, and safe maintenance. Never claim an AI will autonomously run the service forever.
