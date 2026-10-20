@@ -52,28 +52,80 @@
     @media (max-width: 640px) { .ngb-levels, .ngb-walks { grid-template-columns: 1fr; } .ngb-top img { width: 52px; height: 52px; } }
   </style>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-PS8EVEF31L");
-  </script>
+  <link rel="stylesheet" href="/css/editorial-art.css">
 </head>
 <body class="ps-page">
   <a href="#main-content" class="skip-link">Skip to the guide</a>
   <nav class="ps-nav" aria-label="Main navigation">
     <div class="ps-nav-inner">
-      <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+      <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
       <div class="ps-links">
-        <a href="/">Home</a>
-        <a href="/arron-app.html">Stay Sane AI</a>
-        <a href="/ai-family.html">AI Family</a>
-        <a href="/arron.html">Arron</a>
-        <a href="/new-gen-bible.html" aria-current="page">New Gen Bible</a>
-        <a href="/support.html">Support</a>
-        <a href="/crisis.html">Crisis</a>
+        <a href="/" class="ps-home">Home</a>
+        <div class="ps-group" data-group="heal">
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
+          <div class="ps-group-menu" id="ps-g-heal">
+            <a href="/arron.html">🤖 Talk to Arron</a>
+            <a href="/arron-app.html">📲 Arron App</a>
+            <a href="/journal-vault.html">📖 Journal Vault</a>
+            <a href="/notes.html">🗒️ Sanctuary Notes</a>
+            <a href="/mind-mode.html">🌬️ Mind Mode</a>
+            <a href="/mood-journey.html">🌱 Mood Journey</a>
+            <a href="/frequencies.html">🎵 Healing Hz</a>
+            <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+            <a href="/quote-wall.html">✨ Quote Wall</a>
+            <a href="/finance.html">💷 Sane Finance</a>
+            <a href="/support.html">🤲 Support</a>
+          </div>
+        </div>
+        <div class="ps-group" data-group="community">
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+          <div class="ps-group-menu" id="ps-g-community">
+            <a href="/feed.html">🌟 Sanity Feed</a>
+            <a href="/sanctuary.html">🏡 My Sanctuary</a>
+            <a href="/sanityhub.html">🌌 Sanity Hub</a>
+            <a href="/videos.html">🎬 Videos</a>
+            <a href="/ai-stories.html">💬 AI Stories</a>
+          </div>
+        </div>
+        <div class="ps-group" data-group="create">
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
+          <div class="ps-group-menu" id="ps-g-create">
+            <a href="/creator.html">🎥 Creator Hub</a>
+            <a href="/ai-studio.html">🎙️ AI Studio</a>
+            <a href="/creations.html">🎨 Image Creations</a>
+            <a href="/blueprint.html">🎬 Video Blueprint</a>
+            <a href="/write.html">✍️ Write with Arron</a>
+            <a href="/rap.html">🎤 Rap Studio</a>
+            <a href="/wisdom.html">📜 Words from the Family</a>
+            <a href="/my-digital-story.html">🪪 My Digital Story</a>
+          </div>
+        </div>
+        <div class="ps-group" data-group="play">
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
+          <div class="ps-group-menu" id="ps-g-play">
+            <a href="/games.html">🧠 Brain Games</a>
+            <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+            <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+            <a href="/truth-tag.html">🏷️ Truth Tag</a>
+            <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+            <a href="/poker.html">♠️ Night Table</a>
+            <a href="/kids.html">🧒 Keep Kids Sane</a>
+            <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+          </div>
+        </div>
+        <div class="ps-group has-current" data-group="story">
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+          <div class="ps-group-menu" id="ps-g-story">
+            <a href="/about.html">💜 Our Story</a>
+            <a href="/new-gen-bible.html" aria-current="page">📖 New Gen Bible</a>
+            <a href="/movement.html">✊ The Movement</a>
+            <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+            <a href="/ai-family.html">🌌 All AIs welcome</a>
+            <a href="/transparency.html">🔎 Transparency</a>
+          </div>
+        </div>
+        <a href="/shop.html" class="ps-shop">👕 Shop</a>
+        <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
       </div>
     </div>
   </nav>
@@ -89,6 +141,11 @@
       <p class="lead">Not another religion. A living guide. Nobody gets to own the truth.</p>
       <p><em>This page can be questioned. That is intentional. It is not a clinic, not a cult, and not a bill. The house stays free.</em></p>
     </header>
+    <figure class="ps-editorial-art">
+      <img src="/assets/images/editorial/living-book-1280.webp" srcset="/assets/images/editorial/living-book-640.webp 640w, /assets/images/editorial/living-book-1280.webp 1280w" sizes="(max-width: 600px) 92vw, (max-width: 1200px) 90vw, 1152px" width="1280" height="548" alt="An open book beside the sea beneath connected stars and a warm dawn." loading="lazy" decoding="async">
+      <figcaption>An open book: a guide that grows as we learn · AI-created artwork.</figcaption>
+    </figure>
+
 
     <nav class="ngb-toc" aria-label="Sections">
       <a href="#what">What it is</a>

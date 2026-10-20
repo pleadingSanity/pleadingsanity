@@ -1,0 +1,125 @@
+/* Homepage tool and app cards — cosmic images behind text, always readable, fully clickable feel.
+   Evolution Not Erasure. */
+
+.tool-card,
+.app-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 180px;
+  background: rgba(0, 1, 3, 0.55);
+  border: 1px solid rgba(0, 255, 240, 0.35);
+  border-radius: 20px;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.tool-card::before,
+.app-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,1,3,0.55) 0%, rgba(0,1,3,0.82) 55%, rgba(0,1,3,0.9) 100%);
+  z-index: 1;
+  border-radius: inherit;
+}
+
+.tool-card img,
+.tool-card .home-tool-image,
+.app-card img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.38;
+  z-index: 0;
+  border-radius: inherit;
+  transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+.tool-card h3,
+.tool-card .purpose,
+.tool-card p,
+.tool-card a,
+.app-card strong,
+.app-card p {
+  position: relative;
+  z-index: 2;
+}
+
+.tool-card:hover img,
+.app-card:hover img {
+  opacity: 0.5;
+  transform: scale(1.03);
+}
+
+.tool-card:active,
+.app-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 6px 24px rgba(0, 255, 240, 0.4), inset 0 0 16px rgba(0, 255, 240, 0.12);
+}
+
+@media (max-width: 700px) {
+  .tool-card,
+  .app-card {
+    min-height: 160px;
+  }
+  .tool-card img,
+  .app-card img {
+    opacity: 0.3;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool-card,
+  .app-card,
+  .tool-card img {
+    transition: none;
+  }
+  .tool-card:hover img { transform: none; }
+}
+
+/* Whole card is the link: the card's one button stretches over the card. */
+.tool-card a.ps-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: inherit;
+}
+.tool-card a.ps-btn { position: static; } /* so the stretch measures the card, not the button */
+.tool-card:focus-within,
+.app-card:focus-visible {
+  border-color: #00fff0;
+  box-shadow: 0 0 0 2px #00fff0, 0 8px 28px rgba(0, 255, 240, 0.35);
+}
+.tool-card:active {
+  border-color: #00fff0;
+}
+/* Text keeps a soft shadow so the picture never fights the words. */
+.tool-card h3,
+.tool-card p {
+  text-shadow: 0 1px 3px rgba(0, 1, 3, 0.9);
+}
+@media (max-width: 700px) {
+  .tool-card img,
+  .tool-card .home-tool-image { opacity: 0.26; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool-card:active,
+  .app-card:active { transform: none; }
+}
+
+/* Soft music player (js/ps-music.js) — in the page flow, never over text. */
+.ps-music { padding: 1rem 1.1rem; border-radius: 18px; border: 1px solid rgba(0, 255, 240, 0.35); background: rgba(0, 1, 3, 0.72); color: #eef6ff; }
+.ps-music-title { margin: 0 0 0.6rem; font-weight: 800; color: #00fff0; }
+.ps-music-title span { font-weight: 400; color: #c9e9ef; font-size: 0.9rem; }
+.ps-music-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.ps-music-btn { min-height: 48px; display: inline-flex; align-items: center; padding: 0 1rem; border-radius: 999px; border: 1px solid #00fff0; background: #0d1b2a; color: #eef6ff; font: inherit; font-size: 16px; text-decoration: none; cursor: pointer; }
+.ps-music-btn:focus-visible { outline: 2px solid #00fff0; outline-offset: 2px; }
+.ps-music-frame { margin-top: 0.8rem; }
+.ps-music-frame iframe { display: block; width: 100%; max-width: 100%; height: 352px; border: 0; border-radius: 12px; }
+@media (max-width: 600px) { .ps-music-frame iframe { height: 152px; } }

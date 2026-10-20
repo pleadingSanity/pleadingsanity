@@ -14,7 +14,15 @@
   const CHAT_API = '/api/arron/chat';
   // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
   const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
-  const answeredVia = (provider) => (MINDS[provider] ? `Answered via ${MINDS[provider]}` : '');
+  // Spares ("spare:name"), the owner's "a+b" pairs and the council get a plain label too, never a borrowed name.
+  const answeredVia = (provider) => {
+    const p = String(provider || '');
+    if (MINDS[p]) return `Answered via ${MINDS[p]}`;
+    if (p.indexOf('spare:') === 0) return 'Answered via a free backup model';
+    if (p === 'council') return 'Answered by the council';
+    const pair = p.split('+').map((x) => MINDS[x]).filter(Boolean);
+    return pair.length === 2 ? `Answered via ${pair[0]}, checked by ${pair[1]}` : '';
+  };
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const APP_URL = '/arron-app.html';
@@ -68,7 +76,8 @@
   };
   const HEAVY = ['low', 'lonely', 'anxious', 'angry'];
 
-  const CRISIS_WORDS = /suicid|kill myself|end it all|want to die|wanna die|self[- ]?harm|hurt myself|overdose|no reason to live|can'?t go on|better off without me|don'?t want to (be here|live|wake up)/i;
+  // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
+  const CRISIS_WORDS = /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i;
   const MOOD_WORDS = [
     ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|racing|on edge|freaking out/i],
     ['lonely',  /alone|lonely|lonel|no one|nobody|isolat|left out|no friends/i],

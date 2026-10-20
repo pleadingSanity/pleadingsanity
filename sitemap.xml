@@ -286,4 +286,22 @@
   <url><loc>https://pleadingsanity.co.uk/support.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://pleadingsanity.co.uk/live.html</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://pleadingsanity.co.uk/transparency.html</loc></url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/site-builder.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/kids-series.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/solar.html</loc>
+    <lastmod>2026-10-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
 </urlset>

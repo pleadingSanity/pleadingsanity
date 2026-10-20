@@ -13,7 +13,7 @@ import type { Config } from "@netlify/functions";
 import { and, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { sanctuaryNotes } from "../../db/schema.js";
-import { currentUser, json, readBody, str, unauthorized } from "../lib/social.js";
+import { currentUser, json, readBody, str, unauthorized, logReason } from "../lib/social.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 
 const MAX_NOTES = 500;
@@ -120,7 +120,7 @@ export default async (req: Request) => {
 
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Notes API error:", error);
+    console.error("Notes API error:", logReason(error));
     return json({ error: "Your notes couldn't open just then — please try again." }, 500);
   }
 };

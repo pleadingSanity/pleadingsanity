@@ -1,6 +1,8 @@
 # Claude — full check, then enhance. One house. One app.
 
-You are auditing Pleading Sanity for Shane Cooper. One repo: github.com/pleadingSanity/pleadingsanity. Push to main. Do not open a pull request. Do not start a second site. Do not create a Grok app, a grok.me app, a new Vercel project, or a new Netlify site. Extra work is a patch on this app.
+**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry. It is the shared memory for every AI on this house.
+
+You are auditing Pleading Sanity for Shane Cooper. One repo: github.com/pleadingSanity/pleadingsanity. Use a dedicated branch and reviewed pull request for changes. Never push unreviewed AI-generated changes directly to main; follow AGENTS.md and obtain owner approval for security, authentication, payments, or data changes. Do not start a second site. Do not create a Grok app, a grok.me app, a new Vercel project, or a new Netlify site. Extra work is a patch on this app.
 Live: https://pleadingsanity.co.uk. That Netlify site already holds the environments. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.
 
 Hard limits: no paid API, no paid voice, no second host, no clinic numbers or government leaflets on public pages. Talk, journal, games, the feed, and Arron stay free. Manifest ids stay "/", "/arron-app.html", and "/sanity-solitaire.html", with the start URLs already in those files. Do not change service-worker scope. A suspended host can take the domain down. The installed app and GitHub are the copies.
@@ -14,7 +16,7 @@ Open the home page. Confirm /assets/theme/sky.jpg is visible behind the words, n
 Open /sanity-solitaire.html. Deal must show 28 cards. Backs are the brain card. Suits are the four pictures in /assets/theme/suits/. New deal, undo, and hint must work. The page itself must scroll on a phone. The felt must not be a cropped portrait card.
 
 ## 3. Games, scroll, engines
-Open /games.html and scroll from the first card to the last. Every card needs its own picture from /assets/theme/icons/. Then open each game and confirm the engine boots with no page error:
+Open /games.html and scroll from the first card to the last. Every card needs its own picture from /assets/theme/cards/ (not the older icons directory). Then open each game and confirm the engine boots with no page error:
 - cosmic-focus.html, number-nebula.html, pattern-galaxy.html, memory-ocean.html, rhythm-resonance.html
 - stardust-dash.html and /js/stardust-dash.js
 - cosmic-connect.html and /js/cosmic-connect.js

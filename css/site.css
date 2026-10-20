@@ -66,20 +66,17 @@
   width: 36px;
   height: 36px;
   display: block;
-  border-radius: 50%;
-  object-fit: cover;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.45), transparent 46%),
-    #000103;
-  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.65), 0 0 12px rgba(0, 255, 240, 0.28);
+  object-fit: contain;
+  background: none;
+  filter: drop-shadow(0 0 6px rgba(0, 255, 240, 0.45));
 }
+/* The logo is a transparent cut-out, so it sits straight on the sky with no disc or ring. */
 img.logo, .logo-mark {
-  border-radius: 50%;
-  object-fit: cover;
-  background:
-    radial-gradient(circle at 35% 30%, rgba(0, 255, 240, 0.4), transparent 48%),
-    #000103;
-  box-shadow: 0 0 0 1px rgba(0, 255, 240, 0.55);
+  object-fit: contain;
+  background: none;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
 }
 .ps-nav .ps-links {
   display: flex;
@@ -812,7 +809,7 @@ img.logo, .logo-mark {
   .ps-nav-toggle { display: inline-flex; grid-area: toggle; justify-self: end; }
   .ps-nav .ps-nav-inner { grid-template-columns: 1fr auto auto; grid-template-areas: "brand account toggle"; }
   .ps-nav .ps-account { grid-area: account; justify-self: end; }
-  .ps-nav .ps-links {
+  .ps-nav.ps-nav-ready .ps-links {
     display: none;
     position: absolute;
     left: 0;
@@ -996,3 +993,50 @@ html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
 .ps-nav .ps-links a.ps-live-link:focus-visible { background: #e20d38; color: #fff; border-color: #fff; }
 .ps-dock .ps-dock-live { color: #fff; background: #b80024; border-color: #ff4767; font-weight: 900; }
 .ps-dock .ps-dock-live::before { content: none; }
+
+/* Phone header: every control gets its own cell, so the name, Sign in, Light and Menu never overlap.
+   On the narrowest phones the name is kept for screen readers and the logo stands alone. */
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  .ps-nav .ps-nav-inner {
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    grid-template-areas: "brand account theme toggle" "install install install install";
+  }
+  .ps-nav .ps-brand { min-width: 0; overflow: hidden; }
+  .ps-nav .ps-brand span { overflow: hidden; text-overflow: ellipsis; }
+  .ps-nav .ps-theme { grid-area: theme; padding: 0 12px; }
+  .ps-nav .ps-install { grid-area: install; justify-self: center; }
+  /* In the open sheet each group is as tall as its button, not stretched to fill the screen. */
+  .ps-nav.ps-nav-ready .ps-links { justify-content: flex-start; }
+  /* The last doors scroll clear of the bottom dock. */
+  .ps-nav.ps-nav-ready .ps-links { padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px)); }
+  .ps-nav.ps-nav-ready .ps-links > .ps-group,
+  .ps-nav.ps-nav-ready .ps-links > a { flex: none; }
+}
+@media (max-width: 440px) {
+  .ps-nav .ps-brand span {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+}
+
+/* Wide screens with a mouse: seven destinations, LIVE and Truth sit in one bar; if the screen is
+   too narrow for one row, the pills wrap to a second row instead of running off the edge. */
+@media (min-width: 961px) and (hover: hover) {
+  .ps-nav .ps-links { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; row-gap: 2px; }
+  .ps-nav .ps-links a,
+  .ps-nav .ps-group-btn { padding: 0 9px; font-size: 0.88rem; }
+}
+
+
+/* Accessible press-and-hold feedback: native controls retain their usual click behaviour.
+   These styles never suppress context menus, text selection or touch scrolling. */
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):active,
+  [role="button"]:not([aria-disabled="true"]):active,
+  .btn:not([aria-disabled="true"]):active {
+    transform: scale(0.985);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  button, [role="button"], .btn { transition-duration: 0.01ms !important; }
+}

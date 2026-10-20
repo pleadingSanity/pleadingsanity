@@ -34,6 +34,7 @@ import {
   str,
   unauthorized,
   USERNAME,
+  logReason,
 } from "../lib/social.js";
 import { publishPost } from "../lib/publish.js";
 
@@ -204,6 +205,8 @@ async function deleteMe(userId: string) {
   try {
     const { blobs } = await store.list({ prefix: `${userId}/` });
     await Promise.all(blobs.map((b) => store.delete(b.key).catch(() => {})));
+    // Profile banners are stored under banner/<userId>, outside the userId/ prefix.
+    await store.delete(`banner/${userId}`);
   } catch (error) {
     console.error("Could not list images for erasure:", error);
   }
@@ -314,7 +317,7 @@ export default async (req: Request) => {
     if (req.method === "DELETE") return await deleteMe(user.id);
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Profile API error:", error);
+    console.error("Profile API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

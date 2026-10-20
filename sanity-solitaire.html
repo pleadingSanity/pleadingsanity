@@ -100,6 +100,7 @@
       box-shadow:0 0 0 1px #6a4e16, 0 0 16px rgba(240,195,106,.75), 0 8px 14px rgba(0,0,0,.32);
       z-index:3;
     }
+    .dock[hidden] { display:none; }
     .dock { display:flex; gap:14px; align-items:flex-end; margin-top:8px; flex-wrap:wrap; }
     @media (max-width:420px) {
       h1 { font-size:1.35rem; }
@@ -123,6 +124,56 @@ button, .btn { min-height: 44px; font-size: 16px; }
 .card, .peak .card { min-width: 44px; min-height: 62px; }
 body { overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+/* PS GAME EXPERIENCE — owner controls: --ps-panel, --ps-accent, --ps-spacing */
+:root { --ps-panel:rgba(2,14,24,.88); --ps-accent:#00fff0; --ps-spacing:14px; }
+.wrap { width:min(1000px,calc(100% - 20px)); }
+.wrap > .ps-theme-pic, .wrap > .suit-band { display:none; }
+.wrap > h1 { font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.015em; margin:14px 0 6px; }
+.wrap > .row:first-of-type { background:var(--ps-panel); padding:12px; border:1px solid rgba(0,255,240,.25); border-radius:18px; margin:10px 0; }
+.wrap > .note { max-width:70ch; }
+#mode, #table { min-height:48px; }
+#seat, #sound, #music { border-radius:12px; padding:10px 14px; background:var(--ps-panel); color:#eef6ff; border:1px solid rgba(0,255,240,.35); min-height:48px; }
+#flash:not(:empty), #status:not(:empty) { padding:10px 14px; border-left:3px solid var(--ps-accent); background:var(--ps-panel); border-radius:8px; }
+.stage { border-radius:22px; border:1px solid rgba(0,255,240,.3); background:rgba(0,1,3,.5); }
+.card.playable { animation:ps-ready-glow 2.8s ease-in-out infinite; }
+@keyframes ps-ready-glow { 50% { filter:brightness(1.2); } }
+button:focus-visible, a:focus-visible, select:focus-visible { outline:3px solid #f0c36a; outline-offset:3px; }
+@media(max-width:600px) { .wrap { width:calc(100% - 16px); } .wrap > .row:first-of-type { gap:6px; } .wrap > .row:first-of-type .btn { flex:1 1 auto; text-align:center; } .stage { margin-top:12px; } }
+@media(prefers-reduced-motion:reduce) { .card.playable { animation:none; } }
+
+/* PS GAME ONBOARDING: adjust colours, sizing and wording below without touching engines */
+.ps-help-trigger{min-height:48px;padding:9px 18px;margin:8px 0;border-radius:14px;border:1px solid #00fff0;background:#103247;color:#eef6ff;font:700 1rem system-ui;cursor:pointer}
+.ps-help-overlay[hidden]{display:none!important}.ps-help-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,1,3,.88);display:grid;place-items:center;padding:16px;overflow:auto;backdrop-filter:blur(12px)}
+.ps-help-card{width:min(520px,100%);max-height:min(90dvh,760px);overflow:auto;border-radius:26px;border:1px solid rgba(0,255,240,.65);background:linear-gradient(155deg,#14384c,#08101f 75%);box-shadow:0 20px 75px #000;padding:clamp(20px,5vw,32px);color:#eef6ff;font:1rem/1.6 system-ui}
+.ps-help-card h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 12px;color:#00fff0}.ps-help-card h3{font-size:1.16rem;margin:12px 0;color:#f0c36a}.ps-help-card p{font-size:1rem}.ps-help-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.ps-help-actions button{flex:1 1 125px;min-height:52px;border-radius:14px;border:1px solid #00fff0;background:#00fff0;color:#000103;font:750 1rem system-ui;cursor:pointer}.ps-help-actions button:first-child{background:transparent;color:#eef6ff}.ps-help-progress{font-weight:750;color:#99f9f1;letter-spacing:.05em}.ps-help-card button:focus-visible,.ps-help-trigger:focus-visible{outline:3px solid #f0c36a;outline-offset:3px}
+
+/* PS STARLAKE GAME SKIN v1: original artwork. TUNABLE: --ps-gold, --ps-cyan, --ps-panel */
+:root{--ps-gold:#f9c86b;--ps-cyan:#00fff0;--ps-panel:rgba(3,13,32,.87)}
+body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps-starlake.svg') center top/cover fixed no-repeat;color:#f3faff;font-family:system-ui,-apple-system,sans-serif}
+.wrap{width:min(960px,calc(100% - 20px));padding-top:10px}
+.wrap>.brand{font-family:Georgia,serif;font-size:1.15rem;text-shadow:0 0 18px #00fff0}
+.wrap>h1{font-family:Georgia,serif;font-size:clamp(2rem,6vw,3.3rem);text-align:center;color:#fff4d8;text-shadow:0 0 22px #03b4d5,0 3px 8px #000;margin:14px 0 5px}
+.wrap>.note{background:rgba(0,4,20,.65);border-radius:12px;padding:10px 14px;max-width:none;text-align:center}
+.wrap>.row:first-of-type{background:rgba(2,9,27,.92);border:1px solid rgba(0,255,240,.55);box-shadow:0 0 25px rgba(0,255,240,.13);border-radius:18px;justify-content:center}
+.wrap>.row:first-of-type strong{color:#f9c86b}
+.btn,#seat,#sound,#music{border:1px solid rgba(0,255,240,.65)!important;background:linear-gradient(180deg,#143553,#06172e)!important;color:#eefaff!important;box-shadow:0 5px 14px #0008;border-radius:14px!important;font-family:system-ui;font-weight:700}
+#new,#hint{background:linear-gradient(180deg,#0c9da6,#07536c)!important}
+.stage{background:rgba(0,8,23,.58);border:2px solid rgba(0,255,240,.45);box-shadow:0 12px 32px #000a,0 0 24px #00fff022;border-radius:22px}
+.felt{background:linear-gradient(180deg,rgba(4,16,42,.62),rgba(1,10,30,.85)),url('/assets/games/ps-starlake.svg') center/cover!important}
+.card,.waste{background:linear-gradient(150deg,#fefefe,#dce9fb)!important;color:#13213a!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #ffffff!important}
+.card.hearts,.waste.hearts{color:#b3184b!important}.card.diamonds,.waste.diamonds{color:#802cc5!important}.card.clubs,.waste.clubs{color:#137948!important}.card.spades,.waste.spades{color:#17469b!important}
+.card.back,.stock{background:#030a25 url('/assets/theme/solitaire-board.jpg') center/cover!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #00fff0aa!important}
+.card.playable{outline:3px solid #ffc95d!important;outline-offset:1px;box-shadow:0 0 22px #ffcf69,0 5px 12px #0009!important}
+#book{background:rgba(2,10,28,.7);border-radius:16px}
+.dock{padding:10px;border-radius:16px;background:rgba(2,9,28,.72)}
+@media(max-width:600px){body.night,body.sea,body.rose,body.gold{background-attachment:scroll;background-size:auto 1500px}.wrap>.row:first-of-type{padding:8px 5px;gap:5px}.wrap>.row:first-of-type .btn{font-size:.85rem;padding:8px 9px}.wrap>h1{margin:12px 0 4px}.wrap>.note{font-size:.86rem}.ps-help-trigger{display:block;width:100%}}
+
+/* PS game companions: change names, art and tips in the markup above */
+.ps-companions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px auto;padding:10px;border:1px solid #00fff066;border-radius:18px;background:rgba(2,9,27,.85);max-width:650px}
+.ps-companion{display:flex;align-items:center;gap:10px;flex:1 1 210px;font:650 .95rem/1.3 system-ui;color:#f5f8ff}
+.ps-companion img{width:62px;height:68px;border-radius:13px;object-fit:cover}
+@media(max-width:500px){.ps-companions{gap:6px}.ps-companion{flex:1 1 130px;font-size:.8rem}.ps-companion img{width:45px;height:50px}}
 </style>
 <style>
 .k-board button.k-slot { min-height:44px; min-width:52px; margin:2px; border-radius:10px; background:#0d1b2a; color:#eef6ff; border:1px solid rgba(0,255,240,.35); }
@@ -145,7 +196,7 @@ body { overflow-x: hidden; }
 .k-card.spades { color:#5ee9ff; }
 .k-card.clubs { color:#5dff9a; }
 .k-card.diamonds { color:#c084fc; }
-.k-card.back { background:#000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color:transparent; }
+.k-card.back { background:#000103 url("/assets/games/ps-cosmic-card-back.svg") center/cover; color:transparent; }
 .k-card .count { position:relative; z-index:1; color:#eef6ff; font-size:.85rem; }
 @media (max-width: 420px) {
   .k-card { width:46px; height:68px; min-width:46px; min-height:68px; }
@@ -172,20 +223,41 @@ body { overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) {
   .card, .card.playable, .card.flip { animation: none; transition: none; }
 }
+/* Phone polish: 48px touch targets, soft glows that stay still when motion is reduced. */
+@media (max-width: 640px) {
+  button, .btn, select, .row button, .row select, .k-board button.k-slot { min-height: 48px; }
+}
+#today.daily-new { border-color:#00fff0; box-shadow:0 0 14px rgba(0,255,240,.45); animation: ps-daily 2.8s ease-in-out infinite; }
+@keyframes ps-daily { 50% { box-shadow:0 0 22px rgba(0,255,240,.65); } }
+@media (prefers-reduced-motion: reduce) {
+  #today.daily-new { animation: none; }
+  .card.playable { box-shadow: 0 0 0 2px #00fff0, 0 8px 14px rgba(0,0,0,.4); }
+}
 </style><style>.flash{min-height:1.4rem;color:#00fff0;font-weight:800}.flash.show{animation:ps-flash .8s ease}@keyframes ps-flash{from{opacity:0;transform:translateY(6px)}to{opacity:1}}</style><style>.seat-on{outline:2px solid #00fff0}.turn{color:#00fff0;font-weight:800}</style><style>.suit-band{width:100%;max-height:140px;object-fit:cover;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-PS8EVEF31L");
-  </script>
+<style>
+.ps-worlds{margin:18px 0;color:#eef6ff}.ps-worlds summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-worlds details{border:1px solid #00fff077;border-radius:14px;padding:0 12px}.ps-worlds h2{font-size:clamp(1.1rem,4vw,1.4rem);color:#00fff0;margin:14px 0}.ps-world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}.ps-world-card{background:rgba(13,27,42,.94);border:1px solid #00fff055;border-radius:12px;padding:14px;min-width:0}.ps-world-card p{font-size:.9rem;line-height:1.5}.ps-world-card small{color:#eef6ff}.ps-world-hero{display:block;width:100%;max-width:700px;max-height:180px;object-fit:cover;border-radius:14px;border:2px solid #00fff0;margin:12px auto 18px}@media(prefers-reduced-motion:reduce){.ps-worlds *{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* Asset Bible phase 1: accessible cozy-cosmic surfaces; preserve card engines. */
+.wrap>h1{text-wrap:balance;letter-spacing:.012em}
+.ps-worlds,.ps-companions{isolation:isolate}
+.ps-world-card,.ps-companion{background-color:rgba(13,27,42,.94)}
+.wrap button,.wrap .btn{min-height:48px;touch-action:manipulation}
+.wrap button:focus-visible,.wrap a:focus-visible,.wrap select:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.wrap .note{line-height:1.55}
+.felt{background:linear-gradient(180deg,rgba(0,1,3,.56),rgba(0,1,3,.78)),url('/assets/theme/sky.jpg') center/cover no-repeat}
+@media(max-width:600px){.wrap{width:calc(100% - 16px)}.ps-world-hero{max-height:130px;object-fit:cover}.wrap>.row{gap:6px}.wrap .btn{padding:10px 12px}}
+@media(prefers-reduced-motion:reduce){.wrap button{transition:none!important}}
+</style>
+<link rel="stylesheet" href="/css/ps-game-art.css">
 </head>
-<body class="night">
-  <div class="wrap">
+<body class="night ps-art ps-art-solitaire">
+<!-- PS games navigation: owner-editable label -->
+<nav aria-label="Game navigation" style="padding:12px 16px;text-align:center;background:#0d1b2a"><a href="/games.html" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">← Back to Brain Games</a></nav>
+<script src="/js/ps-splash.js"></script>
+  <div class="wrap" role="main" id="main-content">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
-    <a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" />Pleading Sanity</a>
+    <a class="brand" href="/" aria-label="Pleading Sanity Home — Rise From Madness"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" />Pleading Sanity</a>
     <div class="row">
       <a class="btn" href="/games.html">Games</a>
       <strong id="level">Level 1</strong>
@@ -195,6 +267,8 @@ body { overflow-x: hidden; }
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.jpg" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
+<img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Purple skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>💜 COMING SOON — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>💜 COMING SOON — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>💜 COMING SOON — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>💜 COMING SOON — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
+    <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
     <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
@@ -300,6 +374,8 @@ window.PSTable = (function () {
 })();
 </script>
 <script src="/js/house-voice.js"></script>
+  <script src="/js/guest-progress.js"></script>
+<script src="/js/offline-note.js" defer></script>
   <script src="/js/games.js"></script>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
@@ -317,7 +393,8 @@ window.PSTable = (function () {
     function paintMeta(){
       $("level").textContent="Level "+level();
       $("score").textContent="Calm "+calm+" \u00b7 combo "+combo;
-      document.body.className=look;
+      document.body.classList.remove(...looks.map(item => item.id));
+      document.body.classList.add(look);
       $("table").innerHTML=looks.map((item)=>`<option value="${item.id}" ${level()<item.need?"disabled":""}>${item.name}${level()<item.need?" \u00b7 level "+item.need:""}</option>`).join("");
       $("table").value=look;
     }
@@ -334,8 +411,10 @@ window.PSTable = (function () {
       deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; history=[]; snap(); paint();
       if (window.PSVoice) PSVoice.speak("Three peaks. One rank up or down.");
     }
-    function covered(i){ if(i>=18) return false; const below=i<3?[3+i*2,4+i*2]:i<9?[9+(i-3),10+(i-3)]:[18+(i-9)]; return below.some((n)=>board[n]&&!board[n].gone); }
-    function pos(i){ if(i<3) return {x:[90,270,450][i],y:8}; if(i<9) return {x:48+(i-3)*86,y:62}; if(i<18) return {x:8+(i-9)*58,y:124}; return {x:(i-18)*52,y:196}; }
+    // Each card is held down by the two cards that overlap it in the row below, exactly as drawn.
+    // Rows: 3 peaks (0-2), 6 (3-8), 9 (9-17), 10 face up (18-27). Three separate peaks until row 3.
+    function covered(i){ if(i>=18) return false; const k=i-3, o=k+(k>>1); const below=i<3?[3+i*2,4+i*2]:i<9?[9+o,10+o]:[18+(i-9),19+(i-9)]; return below.some((n)=>board[n]&&!board[n].gone); }
+    function pos(i){ if(i<3) return {x:78+156*i,y:8}; if(i<9){ const k=i-3; return {x:52+(k+(k>>1))*52,y:62}; } if(i<18) return {x:26+(i-9)*52,y:124}; return {x:(i-18)*52,y:196}; }
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
     function faceHTML(card) {
       const art = suitArt[card.s];
@@ -367,10 +446,12 @@ window.PSTable = (function () {
       w.className = "waste " + suitName(waste.s);
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
+      else if (!cleared && !deck.length && !board.some(canPlay)) $("status").textContent = "No plays and no draws left. Undo, or New peaks when you are ready.";
     }
-    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); const note=combo>1?combo+" in a row.":""; $("status").textContent = window.PSFriend ? PSFriend.pass(note) : note; if (window.PSTable) PSTable.play(); paint(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); const note=combo>1?combo+" in a row.":""; $("status").textContent = window.PSFriend ? PSFriend.pass(note) : note; if (window.PSTable) PSTable.play(); paint(); keepFocus(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
+    function keepFocus(){ const next = $("peaks").querySelector(".playable") || $("draw"); if (next && document.activeElement === document.body) next.focus({ preventScroll: true }); }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); if (window.PSFriend) $("status").textContent = PSFriend.pass("Drew."); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSBook) PSBook.win("peaks", calm); if (window.PSTable) PSTable.win(); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSGuest) PSGuest.record("solitaire", level()); if (window.PSBook) PSBook.win("peaks", calm); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. Your go, then your friend." : "Solo table."; };
@@ -381,11 +462,14 @@ window.PSTable = (function () {
       if (window.PSTable) PSTable.win();
       if (window.PSVoice) PSVoice.speak("You rose.");
       if (window.PSGames) { PSGames.record("solitaire", { score: score || 1, level: 1, maxCombo: 1 }); if (PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); }
-    }; $("today").onclick=()=>{ fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
-    $("undo").onclick=()=>{ if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
+    }; // Daily challenge glow: local only, no leaderboard. Glows until today's deal is opened.
+    const dayKey=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
+    try { if (localStorage.getItem("ps-sol-daily-seen")!==dayKey()) $("today").classList.add("daily-new"); } catch(e) {}
+    $("today").onclick=()=>{ try { localStorage.setItem("ps-sol-daily-seen",dayKey()); } catch(e) {} $("today").classList.remove("daily-new"); fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
+    $("undo").onclick=()=>{ if(cleared){ $("status").textContent="This deal is won. New peaks when you are ready."; return; } if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
-    $("new").onclick=fresh; $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
+    $("new").onclick=()=>fresh(); $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
     if (window.visualViewport) visualViewport.addEventListener("resize", fit);
     load(); fresh(); requestAnimationFrame(fit);
@@ -518,6 +602,8 @@ window.PSTable = (function () {
     const v = mode.value;
     Object.entries(panels).forEach(([k, el]) => { if (el) el.hidden = k !== v; });
     if (peaks) peaks.hidden = v !== "peaks";
+    const dock = document.querySelector(".dock");
+    if (dock) dock.hidden = v !== "peaks";
   }
   mode.addEventListener("change", () => { show(); if (window.PSBook) PSBook.paint(); });
 
@@ -620,12 +706,34 @@ window.PSTable = (function () {
     picked = null; ppaint("Those do not make 13.");
   }
   document.getElementById("p-deal").onclick = pdeal;
-  document.getElementById("p-draw").onclick = () => { psnap(); if (!pstock.length) { pstock = pwaste.reverse(); pwaste = []; } const c = pstock.pop(); if (c) pwaste.push(c); ppaint("Drew."); };
+  document.getElementById("p-draw").onclick = () => { picked = null; psnap(); if (!pstock.length) { pstock = pwaste.reverse(); pwaste = []; } const c = pstock.pop(); if (c) pwaste.push(c); ppaint("Drew."); };
   document.getElementById("p-undo").onclick = () => { const s = phist.pop(); if (!s) return; const o = JSON.parse(s); prow = o.prow; pstock = o.pstock; pwaste = o.pwaste; picked = null; ppaint("Undone."); };
   mode.addEventListener("change", () => { if (mode.value === "freecell" && !cols.length) fdeal(); if (mode.value === "pyramid" && !prow.length) pdeal(); });
   show();
 })();
 </script>
 
+
+<!-- PS APP-STYLE GUIDE: first-play onboarding; owner-editable steps and labels -->
+<script>
+(function(){
+  const STEPS=[["1 · Find the glowing cards","Only uncovered cards can be played. The gold outline shows your choices."],["2 · Match the open card","Tap a card one number higher or lower than the card by WASTE. For example, play 7 on 6, or 5 on 6. Ace connects to King."],["3 · Keep the run going","Clear all three peaks. Tap STOCK when no cards match. Undo and Hint are here to help; there is no rush."],["4 · Make it yours","Try Three Peaks first. Other modes are in the Game menu. Sound and music are optional."]];
+  const KEY="ps-guide-sanity-solitaire-v1";
+  const root=document.getElementById("main-content");if(!root)return;
+  const launch=document.createElement("button");launch.type="button";launch.className="ps-help-trigger";launch.textContent="▶ How to play · 60-second guide";
+  const title=root.querySelector("h1");if(title)title.insertAdjacentElement("afterend",launch);else root.prepend(launch);
+  const overlay=document.createElement("div");overlay.className="ps-help-overlay";overlay.hidden=true;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","How to play");
+  overlay.innerHTML='<div class="ps-help-card"><div class="ps-help-progress" id="ps-guide-count"></div><h2>Welcome to Sanity Solitaire</h2><h3 id="ps-guide-title"></h3><p id="ps-guide-text"></p><div class="ps-help-actions"><button type="button" id="ps-guide-back">Previous</button><button type="button" id="ps-guide-next">Next</button></div></div>';
+  document.body.append(overlay);let index=0,previousFocus=null;
+  const back=overlay.querySelector("#ps-guide-back"),next=overlay.querySelector("#ps-guide-next");
+  function render(){overlay.querySelector("#ps-guide-count").textContent=(index+1)+" / "+STEPS.length;overlay.querySelector("#ps-guide-title").textContent=STEPS[index][0];overlay.querySelector("#ps-guide-text").textContent=STEPS[index][1];back.disabled=index===0;next.textContent=index===STEPS.length-1?"Start playing":"Next →";}
+  function close(){overlay.hidden=true;document.body.style.removeProperty("overflow");try{localStorage.setItem(KEY,"seen")}catch(e){}(previousFocus||launch).focus();}
+  function open(){previousFocus=document.activeElement;index=0;render();overlay.hidden=false;document.body.style.overflow="hidden";next.focus();}
+  launch.addEventListener("click",open);back.addEventListener("click",()=>{index=Math.max(0,index-1);render();});next.addEventListener("click",()=>{if(index===STEPS.length-1)close();else{index++;render();}});
+  overlay.addEventListener("keydown",e=>{if(e.key==="Escape"){close();return;}if(e.key==="Tab"){const target=e.shiftKey?back:next;if((e.shiftKey&&document.activeElement===back)||(!e.shiftKey&&document.activeElement===next)){e.preventDefault();target===back?next.focus():back.focus();}}});
+  overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
+  try{if(!localStorage.getItem(KEY))open();}catch(e){open();}
+})();
+</script>
 </body>
 </html>

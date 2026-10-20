@@ -2,7 +2,9 @@
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from html.parser import HTMLParser
+import json
 from pathlib import Path
+import re
 import subprocess
 import sys
 from urllib.parse import unquote, urlsplit
@@ -95,6 +97,56 @@ for path in files:
                     'typescript' if is_typescript else 'file'))
 with ThreadPoolExecutor(max_workers=4) as pool:
     errors.extend(filter(None, pool.map(check_script, scripts)))
+
+# ─── HOUSE GUARDS — the promises in AI_HANDOFF.md, checked on every push ───
+# Added 2026-10-16 after arron.html and poker.html were committed as one line
+# of shell text ("$(cat /tmp/...)") and still passed the checks above.
+def text(rel):
+    p = ROOT / rel
+    return p.read_text(encoding='utf-8') if p.exists() else ''
+
+def guard(ok, message):
+    if not ok:
+        errors.append('HOUSE GUARD: ' + message)
+
+for path in pages:
+    body = path.read_text(encoding='utf-8')
+    guard(not body.lstrip().startswith('$('),
+          f'{path.name} is a shell placeholder, not a page. Restore it from git history.')
+    guard('<html' in body.lower() and '</html>' in body.lower(),
+          f'{path.name} is not a whole HTML page (missing <html> or </html>).')
+
+arron = text('arron.html')
+for needle in ('116 123', '85258', 'not a therapist'):
+    guard(needle in arron, f'arron.html lost "{needle}".')
+for script in ('/js/arron-companion.js', '/js/arron-speak.js'):
+    guard(f'src="{script}"' in arron, f'arron.html no longer loads {script}.')
+
+signpost = re.search(r'const CRISIS_SIGNPOST = "([^"]*)"', text('netlify/functions/arron.mts'))
+guard(bool(signpost), 'CRISIS_SIGNPOST is missing from netlify/functions/arron.mts.')
+if signpost:
+    for needle in ('999', '116 123', '85258', '111'):
+        guard(needle in signpost.group(1), f'CRISIS_SIGNPOST lost "{needle}".')
+
+order = '["openai", "anthropic", "gemini", "grok"]'
+guard(f'const PROVIDERS: Provider[] = {order};' in text('netlify/lib/ai-chain.ts'),
+      'ai-chain.ts provider order changed. It must stay GPT → Claude → Gemini → Grok.')
+try:
+    chain = [c['provider'] for c in json.loads(text('arron-knowledge.json'))['covenant']['chain']]
+    guard(chain[:4] == ['openai', 'anthropic', 'gemini', 'grok'],
+          'arron-knowledge.json covenant.chain must start GPT → Claude → Gemini → Grok.')
+except (ValueError, KeyError, TypeError):
+    errors.append('HOUSE GUARD: arron-knowledge.json is not valid JSON with covenant.chain.')
+
+for name, ident, start in (('manifest.json', '/', '/'),
+                           ('manifest-arron.json', '/arron-app.html', '/arron-app.html?source=pwa'),
+                           ('manifest-solitaire.json', '/sanity-solitaire.html', '/sanity-solitaire.html?source=pwa')):
+    try:
+        m = json.loads(text(name))
+        guard(m.get('id') == ident and m.get('start_url') == start,
+              f'{name} install id/start_url changed. Installed phones would lose the app.')
+    except ValueError:
+        errors.append(f'HOUSE GUARD: {name} is not valid JSON.')
 
 print(f'Checked {len(pages)} HTML pages, static href/src targets, duplicate IDs, '
       f'and {len(scripts)} external/inline JavaScript and TypeScript blocks.')

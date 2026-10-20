@@ -27,6 +27,7 @@ import {
   readBody,
   str,
   unauthorized,
+  logReason,
 } from "../lib/social.js";
 import { today, visitorKey, withinDailyLimit } from "../lib/studio.js";
 import { ARRON_VOICE, parseJSON, runChain } from "../lib/ai-chain.js";
@@ -202,7 +203,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Write API error:", error);
+    console.error("Write API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

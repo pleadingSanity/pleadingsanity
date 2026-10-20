@@ -17,7 +17,7 @@ import { GoogleGenAI } from "@google/genai";
 import { and, desc, eq, inArray, lt } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { creations, profiles } from "../../db/schema.js";
-import { currentUser, isCreator, isGuardian, json, logActivity, moderate, readBody, str, unauthorized } from "../lib/social.js";
+import { areFriends, currentUser, isCreator, isGuardian, json, logActivity, moderate, readBody, str, unauthorized, logReason } from "../lib/social.js";
 import { visitorKey, withinDailyLimit } from "../lib/studio.js";
 
 const IMAGE_MODEL = "gemini-3.1-flash-image";
@@ -114,8 +114,10 @@ async function list(url: URL, viewerId: string | null) {
   const authorName = url.searchParams.get("author");
   let authorId: string | undefined;
   if (authorName && scope === "gallery") {
-    const [a] = await db.select({ id: profiles.userId }).from(profiles).where(eq(profiles.username, authorName.toLowerCase()));
+    const [a] = await db.select({ id: profiles.userId, isPrivate: profiles.isPrivate }).from(profiles).where(eq(profiles.username, authorName.toLowerCase()));
     if (!a) return json({ creations: [], nextBefore: null });
+    // A private profile's gallery stays locked to friends, the same as /api/profiles/:username.
+    if (a.isPrivate && !(viewerId && (await areFriends(viewerId, a.id)))) return json({ creations: [], nextBefore: null });
     authorId = a.id;
   }
   const rows = await db
@@ -193,7 +195,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Creations API error:", error);
+    console.error("Creations API error:", logReason(error));
     return json({ error: "The canvas flickered — please try again in a moment." }, 500);
   }
 };

@@ -9,7 +9,7 @@
   --ps-deep: #0d1b2a;
   --ps-cyan: #00fff0;
   --ps-frost: #eef6ff;
-  --ps-magenta: #7c3aed; /* secondary from UI kit purple */
+  --ps-magenta: #7c3aed;
   --ps-text: #eef6ff;
   --ps-muted: #a9c7d1;
   --ps-radius: 14px;
@@ -20,15 +20,16 @@
   --ps-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
-/* Primary / secondary buttons (UI kit) */
+/* Primary / secondary buttons */
 .ps-btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   min-height: 48px; padding: 0 22px; border-radius: var(--ps-radius-pill);
   font: inherit; font-weight: 700; font-size: 1rem; cursor: pointer;
   text-decoration: none; border: 1.5px solid transparent;
-  transition: background 0.2s, box-shadow 0.2s, color 0.2s, border-color 0.2s;
+  transition: background 0.18s, box-shadow 0.18s, color 0.18s, border-color 0.18s, transform 0.12s ease;
 }
 .ps-btn:focus-visible { outline: 3px solid var(--ps-cyan); outline-offset: 2px; }
+.ps-btn:active { transform: scale(0.97); }
 .ps-btn-primary {
   background: var(--ps-cyan); color: var(--ps-black);
   box-shadow: var(--ps-glow);
@@ -37,7 +38,7 @@
 .ps-btn-primary-outline {
   background: transparent; color: var(--ps-cyan); border-color: var(--ps-cyan);
 }
-.ps-btn-primary-outline:hover { background: rgba(0, 255, 240, 0.12); color: #fff; text-decoration: none; }
+.ps-btn-primary-outline:hover { background: rgba(0, 255, 240, 0.14); color: #fff; text-decoration: none; }
 .ps-btn-secondary {
   background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
   box-shadow: 0 0 18px rgba(124, 58, 237, 0.35);
@@ -52,16 +53,22 @@
 
 /* Cards */
 .ps-card {
-  background: linear-gradient(160deg, rgba(0, 255, 240, 0.07), rgba(124, 58, 237, 0.05));
+  background: linear-gradient(160deg, rgba(0, 255, 240, 0.08), rgba(124, 58, 237, 0.06));
   border: 1px solid var(--ps-border);
   border-radius: 18px;
   padding: 1.15rem 1.2rem;
   color: var(--ps-text);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.ps-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 240, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 255, 240, 0.12);
 }
 .ps-card h3 { margin: 0 0 0.4rem; color: var(--ps-cyan); font-size: 1.15rem; }
 .ps-card p { margin: 0; color: var(--ps-muted); line-height: 1.55; }
 
-/* Toggle (UI kit) */
+/* Toggle */
 .ps-toggle {
   appearance: none; width: 48px; height: 28px; border-radius: 999px;
   background: #334155; border: 0; position: relative; cursor: pointer;
@@ -106,4 +113,15 @@
   background: rgba(0, 255, 240, 0.08);
   color: var(--ps-cyan); font-weight: 700; font-size: 0.85rem;
   letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ps-btn:active, .ps-card:hover { transform: none; }
+}
+
+/* Breathing room — calm spacing for tool cards and purpose lines */
+.purpose { margin-block: 0.4rem 0.7rem; line-height: 1.5; }
+.tool-card, .ps-card { margin-bottom: 1.25rem; }
+@media (max-width: 700px) {
+  main { padding-bottom: 2.5rem; }
 }

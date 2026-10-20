@@ -25,6 +25,7 @@ import {
   readBody,
   str,
   unauthorized,
+  logReason,
 } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
@@ -152,6 +153,13 @@ export default async (req: Request) => {
         })
         .where(eq(journalEntries.id, entry.id))
         .returning();
+      // The feed contains a separate published copy. Do not silently claim that
+      // changing this journal entry to private has withdrawn that copy.
+      if (visibility === "private" && entry.postId) {
+        await db.update(posts)
+          .set({ hidden: true, visibility: "private" })
+          .where(and(eq(posts.id, entry.postId), eq(posts.authorId, user.id)));
+      }
       return json({ entry: shape(saved) });
     }
 
@@ -163,7 +171,7 @@ export default async (req: Request) => {
 
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Journal API error:", error);
+    console.error("Journal API error:", logReason(error));
     return json({ error: "Your journal couldn't open just then — please try again." }, 500);
   }
 };

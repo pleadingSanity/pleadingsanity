@@ -170,59 +170,37 @@
       *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
       .feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}
     }
+    .topic-grid { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin:1.2rem 0 0; }
+    .topic-grid .topic { display:inline-flex; align-items:center; min-height:44px; padding:.55rem 1.05rem; border-radius:999px; border:1px solid rgba(0,255,240,.5); background:rgba(13,27,42,.75); color:#eef6ff; text-decoration:none; font-weight:600; }
+    .topic-grid .topic:hover, .topic-grid .topic:focus-visible { border-color:#ff00ff; color:#00fff0; outline:none; box-shadow:0 0 0 3px rgba(255,0,255,.35); }
   </style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
   <link rel="stylesheet" href="/css/cosmic-scroll.css" />
   <link rel="stylesheet" href="/css/space.css" />
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-PS8EVEF31L');
-  </script>
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Heal</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
           <a href="/arron.html">🤖 Talk to Arron</a>
           <a href="/arron-app.html">📲 Arron App</a>
           <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
           <a href="/mind-mode.html">🌬️ Mind Mode</a>
           <a href="/mood-journey.html">🌱 Mood Journey</a>
           <a href="/frequencies.html">🎵 Healing Hz</a>
           <a href="/meditation.html">🧘 Silence &amp; Breath</a>
           <a href="/quote-wall.html">✨ Quote Wall</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Play</button>
-        <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html">🧠 Brain Games</a>
-          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
-          <a href="/truth-tag.html">🏷️ Truth Tag</a>
-          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
-          <a href="/kids.html">🧒 Keep Kids Sane</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create</button>
-        <div class="ps-group-menu" id="ps-g-create">
-          <a href="/ai-studio.html">🎙️ AI Studio</a>
-          <a href="/creations.html">🎨 Image Creations</a>
-          <a href="/blueprint.html">🎬 Video Blueprint</a>
-          <a href="/write.html">✍️ Write with Arron</a>
-          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
         </div>
       </div>
       <div class="ps-group has-current" data-group="community">
@@ -233,12 +211,46 @@
           <a href="/sanityhub.html">🌌 Sanity Hub</a>
           <a href="/videos.html">🎬 Videos</a>
           <a href="/ai-stories.html">💬 AI Stories</a>
-          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
-          <a href="/movement.html">✊ The Movement</a>
-          <a href="/about.html">💜 Our Story</a>
-          <a href="/shop.html">👕 Shop</a>
         </div>
       </div>
+      <div class="ps-group" data-group="create">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
+        <div class="ps-group-menu" id="ps-g-create">
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="play">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
+        <div class="ps-group-menu" id="ps-g-play">
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="story">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+        <div class="ps-group-menu" id="ps-g-story">
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
+        </div>
+      </div>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
       <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
     <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
@@ -247,7 +259,7 @@
 
   <header role="banner">
     <div class="logo-container">
-      <img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" class="logo" width="56" height="56" loading="eager" />
+      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="eager" />
       <div class="logo-text">
         <div class="logo-main">PLEADING SANITY</div>
         <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
@@ -287,6 +299,7 @@
         <li>Healing is not a straight line. Bad days are part of the path, not proof you have left it.</li>
         <li>Storms are loud, but they always pass. You have outlasted every one so far.</li>
         <li>Pain told honestly is the start of power. Evolution, not erasure.</li>
+        <li>The 3am brain lies. You do not have to believe every thought. You&rsquo;re not alone.</li>
       </ul>
     </section>
 
@@ -305,6 +318,24 @@
         </figure>
       </div>
       <a class="ps-stay-play" href="/sanity-solitaire.html">Two minutes of Solitaire</a>
+      <div class="house-posts" style="margin-top:1.5rem;display:grid;gap:1rem;">
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">Got out of bed today. That is the win. If you did too, you already did something real. Rise From Madness.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">The 3am brain lies. The 9am brain is usually kinder. You do not have to believe every thought. You’re not alone.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">Private words. Yours alone. If the feed feels loud, the Journal Vault is still there. Write one line. It stays on your phone.</p>
+        </article>
+        <article class="feed-item" style="opacity:1;transform:none;">
+          <h3>Shane · House note</h3>
+          <p class="video-desc">This feed is newest first. No algorithm. Hearts only. Sit with people who get it. One Source. One Family.</p>
+        </article>
+      </div>
     </section>
 
     <div class="cs-view-toggle" role="group" aria-label="Feed view">
@@ -367,6 +398,12 @@
       <h2 id="explore-heading" style="text-align:center;">🧭 Explore by Topic</h2>
       <p class="intro">Hand-picked themes from the movement — each one opens a YouTube search.</p>
       <div data-scroll-feed data-src="/content/content_feed.json"></div>
+      <div class="topic-grid">
+        <a class="topic" href="https://www.youtube.com/results?search_query=mental+health+recovery+stories" target="_blank" rel="noopener noreferrer">Recovery stories</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=bipolar+lived+experience" target="_blank" rel="noopener noreferrer">Bipolar, real talk</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=getting+out+of+bed+mental+health" target="_blank" rel="noopener noreferrer">Getting out of bed</a>
+        <a class="topic" href="https://www.youtube.com/results?search_query=calm+breathing+exercise" target="_blank" rel="noopener noreferrer">Calm breathing</a>
+      </div>
     </section>
     </div>
   </main>
@@ -399,7 +436,7 @@
     </div>
     <div class="ps-legacy">
       <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
-      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
+      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.<br />His service → this movement.</p>
       <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
       <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
     </div>
@@ -587,6 +624,7 @@
   <script src="/js/scrollFeed.js" defer></script>
   <script type="module" src="/js/cosmic-scroll.js"></script>
   <script src="/js/site.js" defer></script>
+<script src="/js/offline-note.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
   <script type="module">
     import { api, esc, loadMe } from '/js/auth.js';

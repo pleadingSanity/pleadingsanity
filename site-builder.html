@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<title>Sane Site Builder | Pleading Sanity</title>
+<meta name="description" content="Free Sane Site Builder: enter your website, choose your goals and make a practical improvement brief you can give to an AI or developer. Generated on your device.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/site-builder.html">
+<meta name="robots" content="index, follow">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/design-system.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/space.css">
+<style>
+body{background:#000103;color:#eef6ff;font-family:system-ui,-apple-system,sans-serif;margin:0;line-height:1.6}
+.wrap{max-width:760px;margin:0 auto;padding:1.5rem 1.1rem 3.5rem}
+.brand{display:flex;align-items:center;gap:10px;color:#eef6ff;text-decoration:none;font-weight:800;margin-bottom:0.5rem}
+.brand img{width:36px;height:36px}
+h1{color:#00fff0;font-size:clamp(1.6rem,5vw,2.2rem);margin:0.8rem 0 0.4rem}
+.price{display:inline-block;background:#00fff0;color:#000103;font-weight:800;border-radius:999px;padding:6px 14px;font-size:0.9rem;margin:0.4rem 0 1rem}
+.panel{background:linear-gradient(165deg,rgba(13,27,42,.75),rgba(0,1,3,.65));border:1px solid rgba(0,255,240,.32);border-radius:20px;padding:1.25rem 1.3rem;margin:0 0 1.4rem;backdrop-filter:blur(8px)}
+input,textarea{width:100%;background:#000103;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:12px;font:inherit;box-sizing:border-box;margin:8px 0 12px}
+button{min-height:44px;border-radius:999px;border:1px solid rgba(0,255,240,.45);background:#0d1b2a;color:#eef6ff;padding:0 18px;font:inherit;cursor:pointer}
+button.do{background:#00fff0;color:#000103;font-weight:800}
+#out{white-space:pre-wrap;background:#000103;border-radius:12px;padding:14px;min-height:140px;font-size:0.92rem;line-height:1.5}
+.note{color:#a9c7d1;font-size:0.92rem;margin:0.8rem 0;line-height:1.55}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36">Pleading Sanity</a>
+<h1>Sane Site Builder</h1>
+<span class="price">Free · No sign-up</span>
+<p>Describe your website and pick what needs improving. This creates a tailored brief for your AI or developer, right here in your browser. It does <strong>not</strong> visit, crawl, analyse or change the website automatically. Your site stays yours, and no paid API is called.</p>
+
+<div class="panel">
+<label for="url">Your website</label>
+<input id="url" type="url" inputmode="url" autocomplete="url" required placeholder="https://yoursite.com">
+<label for="niche">What kind of website?</label>
+<select id="niche" style="display:block;width:100%;background:#000103;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:12px;font:inherit;margin:8px 0 12px"><option value="community">Community or mental wellbeing</option><option value="creator">Creator, videos or live streams</option><option value="shop">Shop or small business</option><option value="education">Education or children</option><option value="general">Other website</option></select>
+<label for="goals">What should be improved?</label>
+<textarea id="goals" maxlength="2000" rows="3" placeholder="Example: The home page is confusing on phones and people cannot find the livestream."></textarea>
+<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:4px">
+<button type="button" class="do" id="go">Create my improvement plan</button>
+<button type="button" id="copy">Copy prompt</button>
+</div>
+</div>
+
+<div class="panel">
+<h2 style="color:#00fff0;font-size:1.15rem;margin:0 0 0.7rem">Ideas</h2>
+<pre id="out" role="status" aria-live="polite">Enter a website, choose a category and describe what you want to improve.</pre>
+</div>
+
+<p class="note">This browser-based planning tool is free. It makes a brief based only on what you enter; it cannot verify broken links, security or performance until someone runs real checks. No payment or account is required. Do not paste passwords, private journals or secrets into a prompt.</p>
+<p><a href="/">← Back to the house</a> · <a href="/about.html">About Pleading Sanity</a></p>
+</div>
+
+<script>
+(function(){
+  const urlEl = document.getElementById('url');
+  const nicheEl = document.getElementById('niche');
+  const goalsEl = document.getElementById('goals');
+  const out = document.getElementById('out');
+  const improve = {
+    community: ['Make support and crisis links easy to find without opening menus.', 'Give people control of profile privacy, reports and blocks.', 'Explain what is free and what an AI companion cannot do.'],
+    creator: ['Make LIVE easy to find and distinguish preview, sharing and broadcasting.', 'Give creators clear public/private audience controls.', 'Label any earnings offer as proposed until real terms and payments are ready.'],
+    shop: ['Put delivery, returns and contact information where customers expect them.', 'Check checkout and product availability rather than showing dead purchase buttons.', 'Make prices, fees and any optional donations transparent.'],
+    education: ['Use clear age ranges and explain how adults can supervise.', 'Keep children away from unrestricted chat or public profiles.', 'Make buttons readable, keyboard-accessible and touch-friendly.'],
+    general: ['Explain the main purpose in one sentence under the heading.', 'Check all navigation and forms on phones and with a keyboard.', 'Show helpful empty states instead of fake content.']
+  };
+  const basics = ['Preserve working pages, established branding and routes.', 'Check mobile layout, contrast, labels and buttons.', 'Test links, media loading, forms, performance and error states.', 'Do not claim results until real tests confirm them.'];
+  document.getElementById('go').addEventListener('click', function(){
+    const raw=urlEl.value.trim();
+    if(!raw){out.textContent='Enter your website address first.';urlEl.focus();return}
+    let site;
+    try {
+      const parsed=new URL(raw.match(/^https?:\/\//i) ? raw : 'https://'+raw);
+      if(!['https:','http:'].includes(parsed.protocol)||!parsed.hostname.includes('.'))throw new Error('bad URL');
+      site=parsed.origin+parsed.pathname;
+    } catch(e){out.textContent='Enter a valid http:// or https:// website address.';urlEl.focus();return}
+    const goals=goalsEl.value.trim();
+    const niche=nicheEl.value;
+    const recommendations=basics.concat(improve[niche]||improve.general);
+    out.textContent=[
+      'SANE SITE BUILDER — REVIEW BRIEF',
+      '',
+      'Website: '+site,
+      'Type: '+nicheEl.options[nicheEl.selectedIndex].text,
+      'My priorities: '+(goals||'Review navigation, clarity and accessibility.'),
+      '',
+      'CHECKLIST:',
+      ...recommendations.map((a,i)=>(i+1)+'. '+a),
+      '',
+      'INSTRUCTIONS FOR MY AI OR DEVELOPER:',
+      'Inspect the live site and existing source before editing. This builder has NOT scanned it.',
+      'Separate confirmed problems from suggestions. Preserve my voice, logo and working code.',
+      'Fix only verified problems, keep privacy and accessibility intact and test on mobile.',
+      'Do not invent facts or activate paid services without permission.',
+      'Show changed file names, tests, any limitations and an honest deployment status.',
+      '',
+      'Generated locally on this device. No website crawl or paid AI call was performed.'
+    ].join('\n');
+  });
+  document.getElementById('copy').addEventListener('click',async function(){
+    if(!out.textContent.startsWith('SANE SITE BUILDER')){out.textContent='Create an improvement plan first, then copy it.';return}
+    try{
+      if(!navigator.clipboard || !navigator.clipboard.writeText)throw new Error('Clipboard unavailable');
+      await navigator.clipboard.writeText(out.textContent);
+      this.textContent='Copied';
+    }catch(e){
+      out.focus();const selection=window.getSelection();const range=document.createRange();range.selectNodeContents(out);selection.removeAllRanges();selection.addRange(range);
+      this.textContent='Select and copy the highlighted text';
+    }
+  });
+})();
+</script>
+<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
+</body>
+</html>

@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v80'; // v80: image-optimised asset set and Sane Finance GBT shell
+const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
+const STATIC_CACHE = 'pleading-sanity-static-v87'; // v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -43,6 +43,26 @@ function isPrivatePath(pathname) {
 // 📦 PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
+    '/css/ps-game-art.css',
+    '/assets/games/characters/blinky-128.webp',
+    '/assets/games/characters/blinky-v2.webp',
+    '/assets/games/characters/bruno-128.webp',
+    '/assets/games/characters/bruno-v2.webp',
+    '/assets/games/characters/max-128.webp',
+    '/assets/games/characters/max-v2.webp',
+    '/assets/games/characters/mia-128.webp',
+    '/assets/games/characters/mia-v2.webp',
+    '/assets/games/characters/nova-128.webp',
+    '/assets/games/characters/nova-v2.webp',
+    '/assets/games/characters/ollie-128.webp',
+    '/assets/games/characters/ollie-v2.webp',
+    '/assets/games/characters/pip-128.webp',
+    '/assets/games/characters/pip-v2.webp',
+    '/assets/games/characters/zara-128.webp',
+    '/assets/games/characters/zara-v2.webp',
+    '/assets/games/worlds/aurora-lakes-v2.webp',
+    '/assets/games/worlds/forest-tavern-v2.webp',
+
     '/',
     '/about.html',
     '/ai-ecosystem.html',
@@ -106,6 +126,9 @@ const PRECACHE_URLS = [
     '/css/cosmic-scroll.css',
     '/css/ai-family.css',
     '/css/sanctuary.css',
+    '/css/app-library.css',
+    '/css/app-hub.css',
+    '/js/app-hub.js',
     '/css/games-sanctuary.css',
     '/css/space.css',
     '/assets/theme/game-icons.jpg',
@@ -144,6 +167,9 @@ const PRECACHE_URLS = [
     '/assets/theme/suits/diamond.jpg',
     '/css/games-sky.css',
     '/js/site.js',
+    '/js/ps-splash.js',
+    '/assets/images/brand/crying-brain-logo-clear-256.webp',
+    '/assets/images/brand/crying-brain-logo-clear-512.webp',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',
@@ -168,6 +194,12 @@ const PRECACHE_URLS = [
     '/js/cosmic-scroll.js',
     '/js/ai-stories.js',
     '/js/oauth.js',
+    '/js/arron-speak.js',
+    '/js/guest-progress.js',
+    '/js/holdem-eval.js',
+    '/js/offline-note.js',
+    '/js/ps-music.js',
+    '/css/card-polish.css',
     '/content/content_feed.json',
     '/arron-knowledge.json',
     '/assets/logo.svg',

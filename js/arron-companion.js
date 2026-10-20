@@ -35,7 +35,15 @@
   const CHAT_API = '/api/arron/chat';
   // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
   const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
-  const answeredVia = (provider) => (MINDS[provider] ? `Answered via ${MINDS[provider]}` : '');
+  // Spares ("spare:name"), the owner's "a+b" pairs and the council get a plain label too, never a borrowed name.
+  const answeredVia = (provider) => {
+    const p = String(provider || '');
+    if (MINDS[p]) return `Answered via ${MINDS[p]}`;
+    if (p.indexOf('spare:') === 0) return 'Answered via a free backup model';
+    if (p === 'council') return 'Answered by the council';
+    const pair = p.split('+').map((x) => MINDS[x]).filter(Boolean);
+    return pair.length === 2 ? `Answered via ${pair[0]}, checked by ${pair[1]}` : '';
+  };
   const MEMORY_API = '/api/arron/memory';
   const HEALTH_API = '/api/arron/health';
   const KEYS = {
@@ -96,7 +104,8 @@
   };
 
   const MOOD_WORDS = [
-    ['crisis',  /suicid|kill myself|end it all|want to die|wanna die|self[- ]?harm|hurt myself|overdose|no reason to live|can'?t go on|better off without me/i],
+    // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
+    ['crisis',  /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i],
     ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|can'?t breathe|racing|on edge|freaking out/i],
     ['lonely',  /alone|lonely|lonel|no one|nobody|isolat|left out|no friends|miss (him|her|them)/i],
     ['angry',   /angry|anger|furious|rage|pissed|hate|mad at|fed up|frustrat|annoyed/i],
@@ -112,7 +121,7 @@
   }
 
   // ─── OFFLINE REPLIES — Arron still answers without a connection ───
-  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙";
+  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙\n\nIf you are in danger right now, call 999. Samaritans: 116 123. Text SHOUT to 85258. NHS 111, option 2. I'm an AI companion, not a therapist.";
   const OFFLINE = {
     anxious: [
       "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",

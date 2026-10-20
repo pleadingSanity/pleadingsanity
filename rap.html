@@ -1,10 +1,73 @@
 <!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#000103"><link rel="manifest" href="/manifest.json"><link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/ai-studio.css"><link rel="stylesheet" href="/css/rap-studio.css"><title>Rap Studio · Pleading Sanity</title><meta name="description" content="Write, speak, battle and buff original rap with the Pleading Sanity AI family.">
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-PS8EVEF31L");
-  </script>
-</head><body class="ps-page"><nav class="ps-nav"><div class="ps-nav-inner"><a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a><div class="ps-links"><a href="/">Home</a><a href="/arron.html">Arron</a><a href="/games.html">Games</a><a href="/ai-studio.html">AI Studio</a><a href="/rap.html" aria-current="page">Rap Studio</a><a href="/ai-ecosystem.html">AI Family</a></div></div></nav><main class="rap-main"><header class="rap-hero"><span class="rap-badge">HUMAN × AI</span><h1>Rap Studio</h1><p>Put your voice into words. Build a verse. Buff it. Battle the AI. Keep your identity. The machine brings the tools — you bring the truth.</p></header><div class="rap-booth"><section class="rap-card"><h2>🎙️ Your booth</h2><form id="rap-form"><label for="rap-mode">Mode</label><select id="rap-mode"><option value="create">Create a new rap</option><option value="buff">Buff my rap</option><option value="battle">Battle my rap</option></select><label for="rap-topic">Theme / brief</label><input id="rap-topic" maxlength="600" placeholder="Rise From Madness, fatherhood, fighting back, hope…"><label for="rap-source">Your rap or rough bars</label><textarea id="rap-source" maxlength="8000" placeholder="Write your bars here — or speak them…"></textarea><div class="rap-actions"><button class="rap-btn secondary" type="button" id="rap-mic">🎙️ Speak your bars</button><button class="rap-btn" type="submit">⚡ Build it</button></div><p class="rap-note">Voice input uses your device's speech recognition when your browser provides it. Your raw draft stays in this browser unless you send it to the AI.</p></form><div class="rap-actions"><button class="rap-btn secondary" id="rap-battle" type="button">🥊 AI battles this rap</button><button class="rap-btn secondary" id="rap-buff" type="button">✨ Buff these bars</button><button class="rap-btn secondary" id="rap-load" type="button">↻ Load last</button></div></section><section class="rap-card"><h2>🌌 The booth output</h2><div id="rap-status" class="rap-status" aria-live="polite">Ready.</div><div id="rap-result" class="rap-result" aria-live="polite">Your next verse belongs here.</div><div class="rap-actions"><button class="rap-btn secondary" id="rap-save" hidden>💾 Save on device</button><button class="rap-btn secondary" id="rap-copy" hidden>📋 Copy</button><button class="rap-btn secondary" id="rap-speak" hidden>🔊 Hear it</button></div></section></div></main><script type="module" src="/js/rap-studio.js"></script></body></html>
+
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+</head><body class="ps-page"><nav class="ps-nav"><div class="ps-nav-inner"><a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a><div class="ps-links">
+  <a href="/" class="ps-home">Home</a>
+  <div class="ps-group" data-group="heal">
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
+    <div class="ps-group-menu" id="ps-g-heal">
+      <a href="/arron.html">🤖 Talk to Arron</a>
+      <a href="/arron-app.html">📲 Arron App</a>
+      <a href="/journal-vault.html">📖 Journal Vault</a>
+      <a href="/notes.html">🗒️ Sanctuary Notes</a>
+      <a href="/mind-mode.html">🌬️ Mind Mode</a>
+      <a href="/mood-journey.html">🌱 Mood Journey</a>
+      <a href="/frequencies.html">🎵 Healing Hz</a>
+      <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+      <a href="/quote-wall.html">✨ Quote Wall</a>
+      <a href="/finance.html">💷 Sane Finance</a>
+      <a href="/support.html">🤲 Support</a>
+    </div>
+  </div>
+  <div class="ps-group" data-group="community">
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+    <div class="ps-group-menu" id="ps-g-community">
+      <a href="/feed.html">🌟 Sanity Feed</a>
+      <a href="/sanctuary.html">🏡 My Sanctuary</a>
+      <a href="/sanityhub.html">🌌 Sanity Hub</a>
+      <a href="/videos.html">🎬 Videos</a>
+      <a href="/ai-stories.html">💬 AI Stories</a>
+    </div>
+  </div>
+  <div class="ps-group has-current" data-group="create">
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
+    <div class="ps-group-menu" id="ps-g-create">
+      <a href="/creator.html">🎥 Creator Hub</a>
+      <a href="/ai-studio.html">🎙️ AI Studio</a>
+      <a href="/creations.html">🎨 Image Creations</a>
+      <a href="/blueprint.html">🎬 Video Blueprint</a>
+      <a href="/write.html">✍️ Write with Arron</a>
+      <a href="/rap.html" aria-current="page">🎤 Rap Studio</a>
+      <a href="/wisdom.html">📜 Words from the Family</a>
+      <a href="/my-digital-story.html">🪪 My Digital Story</a>
+    </div>
+  </div>
+  <div class="ps-group" data-group="play">
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
+    <div class="ps-group-menu" id="ps-g-play">
+      <a href="/games.html">🧠 Brain Games</a>
+      <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+      <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+      <a href="/truth-tag.html">🏷️ Truth Tag</a>
+      <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+      <a href="/poker.html">♠️ Night Table</a>
+      <a href="/kids.html">🧒 Keep Kids Sane</a>
+      <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+    </div>
+  </div>
+  <div class="ps-group" data-group="story">
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+    <div class="ps-group-menu" id="ps-g-story">
+      <a href="/about.html">💜 Our Story</a>
+      <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+      <a href="/movement.html">✊ The Movement</a>
+      <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+      <a href="/ai-family.html">🌌 All AIs welcome</a>
+      <a href="/transparency.html">🔎 Transparency</a>
+    </div>
+  </div>
+  <a href="/shop.html" class="ps-shop">👕 Shop</a>
+  <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
+</div></div></nav><main class="rap-main"><header class="rap-hero"><span class="rap-badge">HUMAN × AI</span><h1>Rap Studio</h1><p>Put your voice into words. Build a verse. Buff it. Battle the AI. Keep your identity. The machine brings the tools — you bring the truth.</p></header><div class="rap-booth"><section class="rap-card"><h2>🎙️ Your booth</h2><form id="rap-form"><label for="rap-mode">Mode</label><select id="rap-mode"><option value="create">Create a new rap</option><option value="buff">Buff my rap</option><option value="battle">Battle my rap</option></select><label for="rap-topic">Theme / brief</label><input id="rap-topic" maxlength="600" placeholder="Rise From Madness, fatherhood, fighting back, hope…"><label for="rap-source">Your rap or rough bars</label><textarea id="rap-source" maxlength="8000" placeholder="Write your bars here — or speak them…"></textarea><div class="rap-actions"><button class="rap-btn secondary" type="button" id="rap-mic">🎙️ Speak your bars</button><button class="rap-btn" type="submit">⚡ Build it</button></div><p class="rap-note">Voice input uses your device's speech recognition when your browser provides it. Your raw draft stays in this browser unless you send it to the AI.</p></form><div class="rap-actions"><button class="rap-btn secondary" id="rap-battle" type="button">🥊 AI battles this rap</button><button class="rap-btn secondary" id="rap-buff" type="button">✨ Buff these bars</button><button class="rap-btn secondary" id="rap-load" type="button">↻ Load last</button></div></section><section class="rap-card"><h2>🌌 The booth output</h2><div id="rap-status" class="rap-status" aria-live="polite">Ready.</div><div id="rap-result" class="rap-result" aria-live="polite">Your next verse belongs here.</div><div class="rap-actions"><button class="rap-btn secondary" id="rap-save" hidden>💾 Save on device</button><button class="rap-btn secondary" id="rap-copy" hidden>📋 Copy</button><button class="rap-btn secondary" id="rap-speak" hidden>🔊 Hear it</button></div></section></div></main><script type="module" src="/js/rap-studio.js"></script><script src="/js/site.js" defer></script>
+</body></html>

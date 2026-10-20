@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <title>Night Table | Pleading Sanity</title>
-  <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money." />
+  <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money. Soft focus under the stars." />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -23,7 +23,11 @@
   <link rel="manifest" href="/manifest.json" />
   <link rel="stylesheet" href="/css/styles.css" />
   <style>
-    body { margin: 0; background: #000103; color: #eef6ff; font-family: Georgia, serif; }
+    body { margin: 0; background: #000103; color: #eef6ff; font-family: system-ui, -apple-system, sans-serif; }
+    .levels { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:10px 0 14px; }
+    .lvl { padding:6px 12px; border-radius:999px; border:1px solid rgba(0,255,240,.4); background:rgba(13,27,42,.8); font-size:.85rem; }
+    .lvl.done { background:#00fff0; color:#000103; font-weight:800; }
+    .lvl.now { outline:2px solid #00fff0; }
     .wrap { width: min(720px, calc(100% - 16px)); margin: 0 auto; padding: 12px 0 32px; }
     .brand { color: #eef6ff; text-decoration: none; font-weight: 800; }
     h1 { color: #00fff0; font-size: 1.5rem; }
@@ -52,7 +56,7 @@
     .card.diamonds { color:#c084fc; }
     .card.spades { color:#5ee9ff; }
     .card.clubs { color:#5dff9a; }
-    .card.back { background:#000103 url("/assets/images/brand/card-back-night.jpg") center/cover; color:transparent; }
+    .card.back { background:#000103 url("/assets/games/ps-cosmic-card-back.svg") center/cover; color:transparent; }
     button, select, .btn { min-height: 44px; border-radius: 999px; border: 1px solid rgba(0,255,240,.4); background: #0d1b2a; color: #eef6ff; padding: 0 14px; font: inherit; text-decoration: none; display: inline-flex; align-items: center; }
     button.do { background: #00fff0; color: #000103; font-weight: 800; }
     .seat { min-width: 140px; padding: 8px; border-radius: 16px; border: 1px solid rgba(0,255,240,.28); background: rgba(0,1,3,.72); }
@@ -63,25 +67,115 @@
   
 button, .btn { min-height: 48px; font-size: 16px; }
 body { overflow-x: hidden; }
+.room-name:not(:empty) { display:inline-block; max-width:100%; padding:8px 14px; border-radius:999px; border:1px solid #00fff0; background:rgba(0,1,3,.8); color:#00fff0; font-weight:800; overflow-wrap:anywhere; box-shadow:0 0 12px rgba(0,255,240,.3); }
+.felt .row button:not(:disabled) { box-shadow:0 0 10px rgba(0,255,240,.18); }
+.felt .row button.do:not(:disabled) { box-shadow:0 0 16px rgba(0,255,240,.45); }
+.lvl.now { box-shadow:0 0 12px rgba(0,255,240,.4); animation:ps-lvl-glow 2.6s ease-in-out infinite; }
+@keyframes ps-lvl-glow { 50% { box-shadow:0 0 20px rgba(0,255,240,.6); } }
+#raise-size { min-height:48px !important; font-size:16px; }
+.seat { max-width:100%; }
+@media (max-width: 480px) { .seat { min-width: 0; flex: 1 1 calc(50% - 8px); } .card { width:48px; min-width:48px; height:70px; min-height:70px; } }
+@media (prefers-reduced-motion: reduce) { .lvl.now { animation:none; } }
+
+/* PS NIGHT TABLE EXPERIENCE — owner controls: --ps-accent, --ps-felt, --ps-radius */
+:root { --ps-accent:#00fff0; --ps-felt:#071d23; --ps-radius:24px; }
+.wrap { width:min(1000px,calc(100% - 20px)); }
+.wrap h1 { font-size:clamp(2rem,5vw,3rem); margin:4px 0; letter-spacing:.02em; }
+.wrap > .top { margin:8px 0 12px; padding:12px 16px; border-radius:var(--ps-radius); border:1px solid rgba(0,255,240,.3); background:rgba(13,27,42,.65); }
+.wrap > .top .chips { width:62px; height:72px; object-fit:cover; }
+.wrap > .top #bank { font-size:1.12rem; font-weight:800; }
+.wrap > .note { max-width:68ch; line-height:1.5; }
+.felt { margin-top:14px; border-radius:var(--ps-radius); padding:24px 18px; background-color:var(--ps-felt); box-shadow:inset 0 0 0 5px rgba(0,1,3,.4),0 18px 45px rgba(0,0,0,.4),0 0 25px rgba(0,255,240,.1); }
+.felt #street { font-size:1.2rem; letter-spacing:.08em; }
+.felt #pot { font-size:1.2rem; padding:10px 18px; }
+.felt .seats { gap:12px; margin:14px auto 20px; }
+.felt .seat { padding:14px; border-radius:18px; min-height:132px; flex:1 1 165px; transition:border-color .25s ease,box-shadow .25s ease; }
+.felt .seat.on { border-color:var(--ps-accent); }
+.felt .row { padding:12px 0; gap:10px; }
+.felt .row button { flex:1 1 100px; justify-content:center; font-weight:750; }
+#log { background:rgba(0,1,3,.65); border:1px solid rgba(0,255,240,.3); border-radius:14px; padding:12px; margin:10px auto 0; }
+button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #f0c36a; outline-offset:3px; }
+@media(max-width:600px) { .wrap { width:calc(100% - 16px); } .felt { padding:14px 10px; } .felt .seat { flex:1 1 calc(50% - 8px); min-width:0; min-height:118px; padding:8px; } .felt .row button { flex:1 1 calc(33% - 8px); } .felt .board { gap:5px; } .felt .board .card { width:clamp(46px,15vw,66px); min-width:0; height:clamp(68px,21vw,90px); } }
+@media(prefers-reduced-motion:reduce) { .felt .seat { transition:none; } }
+
+/* PS GAME ONBOARDING: adjust colours, sizing and wording below without touching engines */
+.ps-help-trigger{min-height:48px;padding:9px 18px;margin:8px 0;border-radius:14px;border:1px solid #00fff0;background:#103247;color:#eef6ff;font:700 1rem system-ui;cursor:pointer}
+.ps-help-overlay[hidden]{display:none!important}.ps-help-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,1,3,.88);display:grid;place-items:center;padding:16px;overflow:auto;backdrop-filter:blur(12px)}
+.ps-help-card{width:min(520px,100%);max-height:min(90dvh,760px);overflow:auto;border-radius:26px;border:1px solid rgba(0,255,240,.65);background:linear-gradient(155deg,#14384c,#08101f 75%);box-shadow:0 20px 75px #000;padding:clamp(20px,5vw,32px);color:#eef6ff;font:1rem/1.6 system-ui}
+.ps-help-card h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 12px;color:#00fff0}.ps-help-card h3{font-size:1.16rem;margin:12px 0;color:#f0c36a}.ps-help-card p{font-size:1rem}.ps-help-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.ps-help-actions button{flex:1 1 125px;min-height:52px;border-radius:14px;border:1px solid #00fff0;background:#00fff0;color:#000103;font:750 1rem system-ui;cursor:pointer}.ps-help-actions button:first-child{background:transparent;color:#eef6ff}.ps-help-progress{font-weight:750;color:#99f9f1;letter-spacing:.05em}.ps-help-card button:focus-visible,.ps-help-trigger:focus-visible{outline:3px solid #f0c36a;outline-offset:3px}
+
+/* PS NIGHT TAVERN SKIN v1 — TUNABLE: --ps-gold, --ps-cyan, --ps-table */
+:root{--ps-gold:#f7c879;--ps-cyan:#00fff0;--ps-table:#082a38}
+body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cover fixed no-repeat!important;color:#f5f8ff}
+.wrap{width:min(980px,calc(100% - 20px));padding:12px 0 42px}
+.wrap>.brand{font:700 1.12rem Georgia,serif;text-shadow:0 0 14px #00fff0}
+.wrap>h1{text-align:center;color:var(--ps-gold);font:700 clamp(2.1rem,6vw,3.4rem) Georgia,serif;text-shadow:0 3px 12px #000,0 0 18px #c27e46;margin:14px 0 8px}
+.wrap>.note,.wrap>.safe{background:rgba(2,9,22,.82);padding:10px 14px;border-radius:12px;line-height:1.5}
+.wrap>.levels{background:rgba(2,9,22,.75);border-radius:18px;padding:10px}
+.wrap>.top{background:rgba(3,11,27,.88);border:1px solid #f7c87966}
+.wrap>.row{background:rgba(3,11,27,.84);border-radius:16px;padding:10px 8px}
+.wrap button,.wrap .btn{background:linear-gradient(180deg,#173951,#07192f);border-color:#00fff077;box-shadow:0 5px 12px #0008;font-weight:700}
+.felt{background:linear-gradient(180deg,rgba(2,10,21,.18),rgba(2,10,21,.48)),url('/assets/games/ps-night-tavern.svg') center 62%/cover!important;border:3px solid #ad7a45!important;border-radius:38px!important;box-shadow:inset 0 0 0 5px #031423,0 16px 45px #000c,0 0 25px #00fff029!important}
+.felt .board{min-height:110px;gap:7px}
+.felt .card:not(.back){background:linear-gradient(145deg,#fff,#dce7f3)!important;color:#13213a;box-shadow:0 6px 12px #000a,inset 0 0 0 2px #fff}
+.felt .card.hearts{color:#b51c48}.felt .card.diamonds{color:#8739aa}.felt .card.spades{color:#18438a}.felt .card.clubs{color:#0c7750}
+.felt .seat{background:rgba(2,10,25,.93);border:1px solid #00fff06b;box-shadow:0 6px 16px #0008}
+.felt .seat.on{border:2px solid #f7c879;box-shadow:0 0 20px #f7c8796b}
+.felt #pot{background:linear-gradient(180deg,#12434b,#061826);color:#f7c879;border:1px solid #f7c87988;font-size:1.35rem}
+.felt .row{background:rgba(2,10,25,.94);border-radius:18px;padding:14px 10px}
+.felt .row #fold{background:linear-gradient(#7a1836,#420e24);border-color:#ff7394}
+.felt .row #call{background:linear-gradient(#04bfae,#087a7d);color:#001c22}
+.felt .row #raise{background:linear-gradient(#d59b3f,#885014);border-color:#ffce6a;color:#160d04}
+#log{background:rgba(2,10,25,.9);color:#f7c879}
+@media(max-width:600px){body{background-attachment:scroll!important;background-size:auto 1450px!important}.felt{padding:12px 7px!important}.felt .seats{gap:6px}.felt .seat{padding:7px;min-height:116px}.felt .row{gap:7px}.felt .row button{padding:8px 10px;font-size:.9rem}.wrap>.top .chips{width:56px;height:65px}.ps-help-trigger{display:block;width:100%}}
+
+/* PS character seats — owner-tunable avatar size */
+.ps-seat-avatar{display:block;float:right;width:clamp(46px,7vw,76px);height:auto;aspect-ratio:10/11;border-radius:14px;border:1px solid #00fff066;filter:drop-shadow(0 0 8px #00fff044);margin:2px 0 5px 6px}
+.felt .seat{min-height:160px}
+@media(max-width:600px){.ps-seat-avatar{width:48px}.felt .seat{min-height:146px}}
 </style>
 <style>.chips{width:120px;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-PS8EVEF31L");
-  </script>
+<style>
+.ps-expansion{margin:20px 0;color:#eef6ff}.ps-expansion h2{font-size:clamp(1.1rem,4vw,1.45rem);color:#00fff0;margin:0 0 12px}.ps-expansion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:12px}.ps-expansion-card{background:rgba(13,27,42,.92);border:1px solid #00fff066;border-radius:14px;padding:14px;min-width:0}.ps-expansion-card p{font-size:.9rem;line-height:1.5;margin:6px 0}.ps-expansion-card img{width:62px;height:68px;object-fit:contain;float:right}.ps-expansion-card strong{color:#eef6ff}.ps-expansion .ps-status{font-size:.8rem;color:#00fff0}.ps-expansion .ps-soon{color:#eef6ff}.ps-expansion-hero{display:block;width:100%;max-width:700px;max-height:220px;object-fit:cover;border:2px solid #ff4d8d;border-radius:14px;margin:12px auto 18px}.ps-expansion summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-expansion details{border:1px solid #00fff066;border-radius:14px;padding:0 12px}.ps-expansion a{color:#00fff0;min-height:48px;display:inline-flex;align-items:center}@media(prefers-reduced-motion:reduce){.ps-expansion *{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* 2026-10-20 mobile visual polish: contain tavern art behind readable surfaces. */
+body{background:#000103!important;background-image:radial-gradient(ellipse at 50% 0%,#0d1b2a 0%,#000103 72%)!important;background-attachment:scroll!important}
+.felt{background:linear-gradient(180deg,rgba(2,10,21,.87),rgba(2,10,21,.93)),url('/assets/games/ps-night-tavern.svg') center/cover!important;border-color:#00fff077!important;border-radius:24px!important}
+.ps-expansion-hero{max-height:160px;object-position:center 58%}
+.wrap>.note,.wrap>.safe,.wrap>.top{background:rgba(13,27,42,.95)!important}
+@media(max-width:600px){.wrap{width:calc(100% - 16px)!important}.wrap>h1{font-size:clamp(1.85rem,8vw,2.4rem)!important}.ps-expansion-hero{max-height:120px;margin:8px auto 10px}.felt{padding:12px 8px!important;border-radius:20px!important}.felt .seats{gap:6px}.felt .seat{min-width:0}.wrap>.levels{gap:5px;padding:7px}.wrap>.note,.wrap>.safe{margin:8px 0}}
+@media(prefers-reduced-motion:reduce){body{background-attachment:scroll!important}}
+</style>
+<style>
+/* Asset Bible phase 1: calm, legible, mobile-first table UI; gameplay untouched. */
+.wrap>h1{letter-spacing:.015em;text-wrap:balance}
+.ps-expansion-hero{object-fit:cover;object-position:center 52%;box-shadow:0 12px 32px #0009,0 0 0 1px #00fff044}
+.ps-expansion details{background:rgba(13,27,42,.94);margin:8px 0}
+.ps-expansion summary{border-radius:12px}
+.ps-expansion summary:focus-visible,.wrap button:focus-visible,.wrap a:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.wrap button,.wrap .btn{min-height:48px;touch-action:manipulation}
+.wrap>.note,.wrap>.safe{line-height:1.55}
+.felt{background:linear-gradient(180deg,rgba(0,1,3,.86),rgba(13,27,42,.94)),url('/assets/games/ps-night-tavern.svg') center/cover!important}
+@media(max-width:600px){.ps-expansion-hero{height:116px;max-height:116px}.ps-expansion-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,138px),1fr))}.wrap>.levels{margin:8px 0}.felt .board{min-height:86px}.wrap .row{gap:6px}}
+@media(prefers-reduced-motion:reduce){.wrap button{transition:none!important}}
+</style>
+<link rel="stylesheet" href="/css/ps-game-art.css">
 </head>
-<body>
-  <div class="wrap">
+<body class="ps-art ps-art-poker">
+<!-- PS games navigation: owner-editable label -->
+<nav aria-label="Game navigation" style="padding:12px 16px;text-align:center;background:#0d1b2a"><a href="/games.html" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">← Back to Brain Games</a></nav>
+  <div class="wrap" role="main" id="main-content">
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
+<img class="ps-expansion-hero" src="/assets/games/worlds/forest-tavern-v2.webp" width="1280" height="853" decoding="async" alt="Original illustration of the cosy Night Table tavern" loading="lazy">
+<details class="ps-expansion"><summary>Explore characters, table worlds and extras</summary><section aria-label="Meet your table"><h2>Meet Your Table — character concepts</h2><p>Meet the wider Pleading Sanity cast. These are story portraits, not additional playable seats or AI opponents.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><img src="/assets/games/characters/ollie-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Ollie</strong><p>Gentle and observant</p><p><em>“Take your time. No rush here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/zara-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Zara</strong><p>Warm and playful</p><p><em>“Good game, everyone!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/bruno-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Bruno</strong><p>Relaxed and steady</p><p><em>“Play calm, play kind, have fun.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/blinky-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Blinky</strong><p>Cheerful and honest</p><p><em>“Still breathing. Still trying!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/max-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Max</strong><p>Respectful learner</p><p><em>“I'm still learning — but having fun!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/mia-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Mia</strong><p>Quiet and sharp</p><p><em>“It's not just the cards — it's who's here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/nova-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Nova</strong><p>A playful explorer who always looks for the bright side.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/pip-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Pip</strong><p>A cheeky red panda with a kind heart and a very big grin.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><strong>The Host</strong><p>Calm and fair guide</p><p><em>“Good people. Good games. Brighter minds.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div></div></section><section aria-label="Table worlds"><h2>Your Journey — Table Worlds</h2><p>Forest Table is the current experience. Future worlds are previews, not active unlocks; existing in-game level behaviour is unchanged.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>1. Forest Table</strong><p>Warm lanterns and woodland</p><small class="ps-status">Current play table</small></div><div class="ps-expansion-card"><strong>2. Ocean Dome</strong><p>Glass observatory beneath the waves</p><small class="ps-soon">💜 COMING SOON — Proposed unlock: 3 player wins</small></div><div class="ps-expansion-card"><strong>3. Moon Base</strong><p>A cosy lunar lounge</p><small class="ps-soon">💜 COMING SOON — Proposed unlock: 5 wins at Ocean Dome</small></div><div class="ps-expansion-card"><strong>4. Asteroid Lounge</strong><p>A stellar jazz lounge</p><small class="ps-soon">💜 COMING SOON — Proposed unlock: 7 wins at Moon Base</small></div><div class="ps-expansion-card"><strong>5. Solar Empire</strong><p>A golden celestial observatory</p><small class="ps-soon">💜 COMING SOON — Proposed unlock: 10 wins at Asteroid Lounge</small></div></div><p>Play chips only; never real money. No promised hourly rewards or timed pressure.</p></section><section aria-label="Other game features"><h2>More Ways to Play</h2><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>How to Play</strong><p>Use the existing How to Play button above the table.</p></div><div class="ps-expansion-card"><strong>Hand Rankings</strong><p>Use the existing hand-ranking guide on this page.</p></div><div class="ps-expansion-card"><strong>Friend Room</strong><p>Use the existing friend-room controls; confirm connection before inviting.</p></div><div class="ps-expansion-card"><strong>Leaderboards</strong><p>💜 COMING SOON — no live rankings yet.</p></div><div class="ps-expansion-card"><strong>Tournaments</strong><p>💜 COMING SOON — no tournaments running.</p></div><div class="ps-expansion-card"><strong>Chat</strong><p>💜 COMING SOON — no public chat service.</p></div></div></section></details>
+    <p class="note">A calm Texas Hold’em table under the stars. Play chips only. Soft focus when the mind is loud.</p>
+    <div class="levels" id="levels"></div>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. <a href="/support.html">Support</a> · <a href="/crisis.html">Crisis</a>.</p>
     <div class="top"><img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220" /><p class="note" id="bank">Bank 1000 play chips</p></div>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
-    <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name"></span></div>
+    <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name" class="room-name" aria-live="polite"></span></div>
     <div class="felt">
       <p id="street">Pre-flop</p><p id="meta" class="note"></p>
       <div class="board" id="board"></div>
@@ -97,13 +191,15 @@ body { overflow-x: hidden; }
       <p id="log" role="status"></p>
     </div>
   </div>
+  <script src="/js/guest-progress.js"></script>
+<script src="/js/offline-note.js" defer></script>
   <script src="/js/games.js"></script>
   <script type="module">
     import { RANKS, judge, better, label } from "/js/holdem-eval.js";
     const SUIT = ["♠", "♥", "♦", "♣"];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
-    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
+    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, shown = false, minRaise = 20, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
     let mySeat = 0, roomPlayers = [], roomActions = [], roomStacks = null, replaying = false, acting = false, lastPlayers = "";
     function card(r, s) { return { r, s }; }
     function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
@@ -127,8 +223,9 @@ body { overflow-x: hidden; }
     function face(c) { return RANKS[c.r] + SUIT[c.s]; }
     const ART = ["/assets/theme/suits/spade.jpg", "/assets/theme/suits/heart.jpg", "/assets/theme/suits/diamond.jpg", "/assets/theme/suits/club.jpg"];
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
+    function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]); }
     function cardHtml(c) {
-      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
+      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="sr-only"> of ${KIND[c.s]}</span><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
     }
     function paint() {
       const streets = ["Pre-flop", "Flop", "Turn", "River", "Show"];
@@ -136,11 +233,13 @@ body { overflow-x: hidden; }
       $("board").innerHTML = board.map(cardHtml).join("") || "<span class=\"card back\"></span>".repeat(5);
       $("pot").textContent = "Pot " + pot;
       $("seats").innerHTML = seats.map((s, i) => {
-        const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
-        const holes = (i === mySeat || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
-        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${s.name}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
+        const mark = i === button ? '<span class="dealer" title="Dealer" aria-label="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : i === (bbSeat + 1) % 4 ? '<span class="blind">UTG</span>' : '';
+        const psAvatars = ["max","bruno","zara","ollie"];
+        const psAvatar = '<img class="ps-seat-avatar" src="/assets/games/characters/' + psAvatars[i % psAvatars.length] + '-128.webp" alt="" loading="lazy" width="58" height="58">';
+        const holes = (i === mySeat || (handOver && shown && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
+        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}${psAvatar}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
-      const me = seats[mySeat] || seats[0];
+      const me = (mySeat >= 0 ? seats[mySeat] : null) || seats[0];
       const need = Math.max(0, currentBet - me.bet);
       $("call").textContent = need ? "Call " + need : "Check";
       $("fold").disabled = handOver || turn !== mySeat;
@@ -168,6 +267,7 @@ body { overflow-x: hidden; }
       localStorage.setItem(BANK, String(n));
       if (n < 200) { if (!localStorage.getItem(LOW)) localStorage.setItem(LOW, String(Date.now())); }
       else localStorage.removeItem(LOW);
+      if (window.PSGuest) PSGuest.setChips(n);
       $("bank").textContent = "Bank " + n + " play chips. Under 200, 100 return each hour.";
     }
     let bank = loadBank();
@@ -185,7 +285,7 @@ body { overflow-x: hidden; }
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
       seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
       if (sbSeat === mySeat || bbSeat === mySeat) bank = seats[mySeat].stack;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; minRaise = 20; turn = (bbSeat + 1) % 4; toAct = seats.filter((p) => !p.allin).length; handOver = false; shown = false;
       if (!friend) saveBank(bank);
       log((friend ? "One pot in this room. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
@@ -225,11 +325,14 @@ body { overflow-x: hidden; }
       const who = seat === mySeat ? "You" : s.name;
       if (kind === "fold") { s.folded = true; log(who + " folded."); toAct -= 1; }
       else if (kind === "raise") {
-        const add = Math.min(s.stack, owe(s) + Math.max(20, Number(amount) || 40));
+        const add = Math.min(s.stack, owe(s) + Math.max(minRaise, Number(amount) || 40));
         s.stack -= add; s.bet += add; s.put += add; pot += add;
-        if (s.bet > currentBet) currentBet = s.bet;
-        toAct = live().filter((p) => p !== s && !p.allin).length;
         if (!s.stack) s.allin = true;
+        const raisedBy = s.bet - currentBet;
+        if (raisedBy > 0) currentBet = s.bet;
+        // A full raise reopens the betting. A short all-in only asks the others to call the extra.
+        if (raisedBy >= minRaise) { minRaise = raisedBy; toAct = live().filter((p) => p !== s && !p.allin).length; }
+        else toAct -= 1;
         log(who + " raised to " + s.bet + ".");
       } else {
         const need = owe(s);
@@ -238,20 +341,21 @@ body { overflow-x: hidden; }
         log(need ? who + " called." : who + " checked.");
         toAct -= 1;
       }
+      if (!room && seat === mySeat) { bank = s.stack; saveBank(bank); }
       if (live().length === 1) return show();
       if (betsEven() && toAct <= 0) return streetNext();
       nextTurn();
     }
     function act(kind) {
       if (handOver || turn !== mySeat) return;
-      const amount = kind === "raise" ? Math.max(20, Number($("raise-size").value) || 40) : 0;
+      const amount = kind === "raise" ? Math.max(minRaise, Number($("raise-size").value) || 40) : 0;
       if (room) return pushPlay(mySeat, kind, amount);
       applyPlay(mySeat, kind, amount);
     }
     function bot() { const c = choose(seats[turn]); applyPlay(turn, c.kind, c.amount); }
     function streetNext() {
       seats.forEach((s) => { s.bet = 0; s.raised = false; });
-      currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = button;
+      currentBet = 0; minRaise = 20; toAct = live().filter((s) => !s.allin).length; turn = button;
       if (street === 0) board.push(deck.pop(), deck.pop(), deck.pop());
       else if (street < 3) board.push(deck.pop());
       street += 1;
@@ -263,21 +367,28 @@ body { overflow-x: hidden; }
     function show() {
       if (handOver) return;
       handOver = true;
+      shown = live().length > 1;
       const levels = [...new Set(seats.map((s) => s.put))].filter((n) => n > 0).sort((a, b) => a - b);
       let prev = 0;
       const names = [];
-      let lastWinners = [];
+      let mainWinners = [];
       let youWon = false;
       const mine = seats[mySeat];
       levels.forEach((level) => {
         const inPot = seats.filter((s) => s.put >= level);
         const slice = (level - prev) * inPot.length;
         prev = level;
+        if (!slice) return;
+        // Only one player reached this level: it is their own uncalled bet coming back, not a win.
+        if (inPot.length === 1) { inPot[0].stack += slice; return; }
+        // If everyone who reached this level folded, the chips still go to the best hand left, never vanish.
         const eligible = inPot.filter((s) => !s.folded);
-        if (!eligible.length || !slice) return;
-        eligible.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
-        const winners = eligible.filter((s) => better(s.hole.concat(board), eligible[0].hole.concat(board)) === 0);
-        lastWinners = winners;
+        const pool = eligible.length ? eligible : live();
+        pool.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
+        const winners = pool.filter((s) => better(s.hole.concat(board), pool[0].hole.concat(board)) === 0);
+        if (!mainWinners.length) mainWinners = winners;
+        // Odd chip goes to the first winner left of the button.
+        winners.sort((a, b) => ((seats.indexOf(a) - button + 3) % 4) - ((seats.indexOf(b) - button + 3) % 4));
         const share = Math.floor(slice / winners.length);
         const odd = slice - share * winners.length;
         winners.forEach((s, i) => {
@@ -286,9 +397,8 @@ body { overflow-x: hidden; }
           if (s === mine) youWon = true;
         });
       });
-      const called = lastWinners.length && board.length >= 5 ? label(lastWinners[0].hole.concat(board)) : "";
-      bank = seats[mySeat] ? seats[mySeat].stack : bank;
-      saveBank(bank);
+      const called = shown && mainWinners.length && board.length >= 5 ? label(mainWinners[0].hole.concat(board)) : "";
+      if (!room) { bank = seats[mySeat] ? seats[mySeat].stack : bank; saveBank(bank); }
       log(names.length ? [...new Set(names)].join(" and ") + " take the pots" + (called ? " with " + called : "") + "." : "No pot.");
       pot = 0; paint();
       const mark = (room || "solo") + ":" + hands;
@@ -302,7 +412,7 @@ body { overflow-x: hidden; }
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
     $("next").onclick = async () => {
-      if (!room) return deal();
+      if (!room) { if (seats && !handOver) { log("Finish this hand first: fold, call or raise."); return; } return deal(); }
       const stacks = seats ? seats.map((s) => s.stack) : roomStacks;
       const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), hand: hands + 1, stacks, note: "Play chips only." }) });
       const data = await res.json().catch(() => ({}));
@@ -322,16 +432,8 @@ body { overflow-x: hidden; }
     async function sit(code) {
       await fetch("/api/poker-room/" + code, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), note: "Play chips only." }) });
     }
-    $("share").onclick = async () => {
-      const url = location.href;
-      const code = new URLSearchParams(location.search).get("room");
-      if (code) await sit(code);
-      try { await navigator.share({ title: "Night Table", url }); } catch (e) { try { await navigator.clipboard.writeText(url); } catch (err) {} }
-      log("Share this. Play chips only. One pot. " + url);
-    };
-    let deferred;
-    addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); deferred = e; });
-    $("install").onclick = async () => { if (deferred) { deferred.prompt(); deferred = null; return; } log("iPhone: Share, then Add to Home Screen."); };
+    // Friend rooms: every phone replays the same shared list of plays on the same seeded deck,
+    // so both friends see one hand. Seat 0 plays the bots. (Restored from 4f1c278.)
     function replay(n, actions) {
       replaying = true;
       hands = n;
@@ -343,7 +445,7 @@ body { overflow-x: hidden; }
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
       seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; minRaise = 20; turn = (bbSeat + 1) % 4; toAct = seats.filter((p) => !p.allin).length; handOver = false; shown = false;
       for (const a of actions) {
         if (handOver || turn !== Number(a.seat)) break;
         applyPlay(Number(a.seat), a.kind, a.amount);
@@ -361,8 +463,8 @@ body { overflow-x: hidden; }
       else if (Array.isArray(data.seats)) roomPlayers = data.seats;
       const who = seatName();
       const found = roomPlayers.indexOf(who);
-      mySeat = found >= 0 ? found : 0;
-      if (data.seats) $("room-name").textContent = "Room " + room + " · " + data.seats.join(", ");
+      mySeat = found >= 0 ? found : -1; // a third visitor watches, never plays the host's seat
+      if (data.seats) showRoom();
       if (data.seed) roomSeed = Number(data.seed) || roomSeed;
       if (Array.isArray(data.stacks) && data.stacks.length === 4) roomStacks = data.stacks.map(Number);
       const actions = Array.isArray(data.actions) ? data.actions : [];
@@ -388,13 +490,88 @@ body { overflow-x: hidden; }
       const c = choose(seats[turn]);
       pushPlay(turn, c.kind, c.amount);
     }
-    const room = new URLSearchParams(location.search).get("room");
+    let room = new URLSearchParams(location.search).get("room");
+    let sharedLink = "";
     if (room) {
-      $("room-name").textContent = "Room " + room;
+      showRoom();
       sit(room).then(() => fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}));
-      setInterval(() => { fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}); }, 2500);
+      setInterval(() => { if (!acting) fetch("/api/poker-room/" + room).then((r) => r.json()).then(applyRoom).catch(() => {}); }, 2500);
     } else deal();
-    setInterval(() => { if (room || !(handOver || !seats)) return; const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[mySeat] && handOver) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
+    // Share: the phone's own share sheet first, then the clipboard, then the full link on screen.
+    const roomLink = () => location.origin + "/poker.html?room=" + encodeURIComponent(room);
+    function showRoom(extra) {
+      const el = $("room-name");
+      if (!el || !room) return;
+      if (extra) sharedLink = extra;
+      el.textContent = "Room " + room + (roomPlayers.length ? " · " + roomPlayers.join(", ") : "") + (sharedLink ? " · " + sharedLink : "");
+    }
+    $("share").onclick = async () => {
+      if (!room) { log("Open a room first."); return; }
+      const link = roomLink();
+      if (navigator.share) {
+        try { await navigator.share({ title: "Night Table", text: "Sit with me at Night Table. Play chips only, no account needed.", url: link }); log("Room link shared."); return; }
+        catch (e) { if (e && e.name === "AbortError") return; }
+      }
+      try { await navigator.clipboard.writeText(link); log("Room link copied."); showRoom(link); return; } catch (e) {}
+      showRoom(link);
+      log("Copy this link: " + link);
+    };
+    $("install").onclick = () => { if (window.deferredPrompt) window.deferredPrompt.prompt(); else log("Add to home screen from your browser menu."); };
+    window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.deferredPrompt = e; });
+    // Hourly refill is checked only between solo hands, so it never fights the chips on the table.
+    setInterval(() => { if (room || (seats && !handOver)) return; const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[mySeat]) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
   </script>
+<script>
+(function(){
+  const KEY = "ps-poker-levels";
+  let unlocked = Number(localStorage.getItem(KEY) || 5);
+  if (!Number.isFinite(unlocked) || unlocked < 5) unlocked = 5;
+  function paintLevels(){
+    const el = document.getElementById("levels");
+    if (!el) return;
+    let html = "";
+    for (let i = 1; i <= unlocked; i++){
+      html += '<span class="lvl' + (i === unlocked ? ' now' : ' done') + '">Level ' + i + '</span>';
+    }
+    html += '<span class="lvl">Next opens when you finish ' + unlocked + '</span>';
+    el.innerHTML = html;
+  }
+  paintLevels();
+  const logEl = document.getElementById("log");
+  if (logEl){
+    const obs = new MutationObserver(() => {
+      if (/\bYou\b.*\btake the pots\b/.test(logEl.textContent || "")){
+        unlocked += 1;
+        localStorage.setItem(KEY, String(unlocked));
+        if (window.PSGuest) PSGuest.record("night-table", unlocked);
+        paintLevels();
+      }
+    });
+    obs.observe(logEl, { childList: true, characterData: true, subtree: true });
+  }
+})();
+</script>
+
+<!-- PS APP-STYLE GUIDE: first-play onboarding; owner-editable steps and labels -->
+<script>
+(function(){
+  const STEPS=[["1 · Your two cards","You sit in the highlighted seat marked You. Everyone starts with two cards; five shared cards arrive in stages."],["2 · Your choice","CALL matches the current play-chip bet. CHECK passes without adding chips when no bet is owed. FOLD leaves this hand."],["3 · Make a hand","Combine your two cards with the five shared cards to make your best five-card poker hand. The strongest hand wins the play-chip pot."],["4 · Play at your pace","RAISE adds play chips. NEW HAND deals again. Opponents are computer players in solo mode. No real money, purchases or prizes."]];
+  const KEY="ps-guide-poker-v1";
+  const root=document.getElementById("main-content");if(!root)return;
+  const launch=document.createElement("button");launch.type="button";launch.className="ps-help-trigger";launch.textContent="▶ How to play · 60-second guide";
+  const title=root.querySelector("h1");if(title)title.insertAdjacentElement("afterend",launch);else root.prepend(launch);
+  const overlay=document.createElement("div");overlay.className="ps-help-overlay";overlay.hidden=true;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","How to play");
+  overlay.innerHTML='<div class="ps-help-card"><div class="ps-help-progress" id="ps-guide-count"></div><h2>Welcome to Night Table</h2><h3 id="ps-guide-title"></h3><p id="ps-guide-text"></p><div class="ps-help-actions"><button type="button" id="ps-guide-back">Previous</button><button type="button" id="ps-guide-next">Next</button></div></div>';
+  document.body.append(overlay);let index=0,previousFocus=null;
+  const back=overlay.querySelector("#ps-guide-back"),next=overlay.querySelector("#ps-guide-next");
+  function render(){overlay.querySelector("#ps-guide-count").textContent=(index+1)+" / "+STEPS.length;overlay.querySelector("#ps-guide-title").textContent=STEPS[index][0];overlay.querySelector("#ps-guide-text").textContent=STEPS[index][1];back.disabled=index===0;next.textContent=index===STEPS.length-1?"Start playing":"Next →";}
+  function close(){overlay.hidden=true;document.body.style.removeProperty("overflow");try{localStorage.setItem(KEY,"seen")}catch(e){}(previousFocus||launch).focus();}
+  function open(){previousFocus=document.activeElement;index=0;render();overlay.hidden=false;document.body.style.overflow="hidden";next.focus();}
+  launch.addEventListener("click",open);back.addEventListener("click",()=>{index=Math.max(0,index-1);render();});next.addEventListener("click",()=>{if(index===STEPS.length-1)close();else{index++;render();}});
+  overlay.addEventListener("keydown",e=>{if(e.key==="Escape"){close();return;}if(e.key==="Tab"){const target=e.shiftKey?back:next;if((e.shiftKey&&document.activeElement===back)||(!e.shiftKey&&document.activeElement===next)){e.preventDefault();target===back?next.focus():back.focus();}}});
+  overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
+  try{if(!localStorage.getItem(KEY))open();}catch(e){open();}
+})();
+</script>
 </body>
 </html>

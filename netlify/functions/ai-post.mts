@@ -6,7 +6,8 @@
 // Uses the same Netlify AI Gateway setup as Arron.
 // ==============================================================
 
-import type { Config } from "@netlify/functions";
+import type { Config, Context } from "@netlify/functions";
+import { allow, slowDown } from "../lib/rate-limit.js";
 import {
   anthropic,
   cleanMood,
@@ -40,11 +41,12 @@ Then reply with ONLY a JSON object, no prose, no code fences:
  "crisis": boolean (true if the writer may be at risk right now),
  "note": string (one short, warm sentence to the writer about what you changed or noticed)}`;
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
   try {
     const user = await currentUser();
     if (!user) return unauthorized();
+    if (!(await allow("ai", context, user.id))) return slowDown("The writing helper needs a breath. Your words are safe — try again in a minute.");
 
     const body = await readBody(req);
     const draft = str(body.draft, 8000);
@@ -74,7 +76,7 @@ export default async (req: Request) => {
       note: str(parsed.note, 300),
     });
   } catch (error) {
-    console.error("AI post assistant error:", error);
+    console.error("AI post assistant error:", error instanceof Error ? error.name : "error");
     return json({ error: "The writing helper is resting right now. Your words are still yours — you can post them as they are." }, 503);
   }
 };

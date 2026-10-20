@@ -15,9 +15,11 @@ const DAY = 86400000;
 export async function overview() {
   const since = new Date(Date.now() - 7 * DAY);
   const today = new Date(Date.now() - DAY);
-  const [[members], [newMembers], [postsToday], [pending], [openReports], recent, queue, team, settings] = await Promise.all([
+  const activeSince = new Date(Date.now() - 5 * 60_000);
+  const [[members], [newMembers], [activeMembers], [postsToday], [pending], [openReports], recent, queue, team, settings] = await Promise.all([
     db.select({ n: countSql }).from(profiles).where(eq(profiles.onboarded, true)),
     db.select({ n: countSql }).from(profiles).where(and(eq(profiles.onboarded, true), gte(profiles.createdAt, since))),
+    db.select({ n: countSql }).from(users).where(gte(users.lastSeenAt, activeSince)),
     db.select({ n: countSql }).from(posts).where(gte(posts.createdAt, today)),
     db.select({ n: countSql }).from(posts).where(eq(posts.status, "pending")),
     db.select({ n: countSql }).from(reports).where(eq(reports.status, "open")),
@@ -39,6 +41,7 @@ export async function overview() {
     counts: {
       members: members?.n ?? 0,
       newMembers: newMembers?.n ?? 0,
+      activeMembers: activeMembers?.n ?? 0,
       postsToday: postsToday?.n ?? 0,
       pending: pending?.n ?? 0,
       openReports: openReports?.n ?? 0,

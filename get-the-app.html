@@ -6,8 +6,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
-  <title>Get the App | Pleading Sanity</title>
-  <meta name="description" content="One app. Arron, Finance, Solitaire and the games live inside it. Install once. Updates land in the same icon." />
+  <title>Sanity App Hub · Get the App | Pleading Sanity</title>
+  <meta name="description" content="The Sanity App Hub: every free game, calm tool, AI companion and creative room in one catalogue. Install once. Updates land in the same icon." />
   <meta property="og:title" content="Get the App | Pleading Sanity" />
   <meta property="og:description" content="One app. Arron, Finance, Solitaire and the games live inside it. Install once." />
   <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
@@ -25,18 +25,11 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <link rel="stylesheet" href="/css/space.css" />
   <link rel="stylesheet" href="/css/my-room.css" />
+  <link rel="stylesheet" href="/css/app-hub.css" />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PS8EVEF31L"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-PS8EVEF31L");
-  </script>
 </head>
 <body>
-  <div class="wrap">
+  <div class="wrap" role="main" id="main-content">
     <p class="note">Arron is a companion, not a therapist. The house sits with the story.</p>
     <div class="top">
       <a href="/" aria-label="Pleading Sanity home"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying cosmic brain logo" width="42" height="42" /></a>
@@ -45,6 +38,7 @@
     <h1>One app</h1>
     <p>This is the house. Arron, Finance, Solitaire and the games are rooms inside it. A new build adds to this icon. It does not make a second app.</p>
     <p class="lede">Install once. It opens full screen. No browser bar. The sanctuary stays free.</p>
+    <p><a class="btn" href="#app-hub">Browse the Sanity App Hub</a></p>
     <section class="card">
       <button class="btn solid" id="install" type="button" data-pwa-install>Install Pleading Sanity</button>
       <p class="note" id="hint">Android: press Install. iPhone: Share, then Add to Home Screen.</p>
@@ -54,7 +48,31 @@
       <p><a href="/arron-app.html">Arron</a> · <a href="/finance.html">Finance</a> · <a href="/sanity-solitaire.html">Solitaire</a> · <a href="/games.html">Games</a> · <a href="/feed.html">Feed</a></p>
     </section>
     <p class="note">This is the real installable app. A Google Play listing still needs your Play Console account. It is not in the store yet.</p>
+
+    <section id="app-hub" class="hub" aria-labelledby="hub-title">
+      <h2 id="hub-title">Sanity App Hub</h2>
+      <p class="hub-lede">Every room in this house, in one catalogue. All free. No account needed to look around. This is our own shelf, not the Apple App Store or Google Play.</p>
+      <h3 class="hub-h">Featured</h3>
+      <ul class="hub-row" id="hub-featured" aria-label="Featured apps"></ul>
+      <div id="hub-recent-wrap" hidden>
+        <h3 class="hub-h">Recently opened on this device</h3>
+        <ul class="hub-row" id="hub-recent" aria-label="Recently opened apps"></ul>
+      </div>
+      <h3 class="hub-h">Recently updated</h3>
+      <ul class="hub-row" id="hub-fresh" aria-label="Recently updated apps"></ul>
+      <h3 class="hub-h" id="hub-browse">Browse everything</h3>
+      <div class="hub-tools">
+        <label class="hub-search-label" for="hub-search">Search the hub</label>
+        <input id="hub-search" class="hub-search" type="search" placeholder="Try breathing, cards or kids" autocomplete="off" />
+        <div class="hub-cats" id="hub-cats" role="group" aria-label="Filter by category"></div>
+        <p class="hub-count" id="hub-count" role="status" aria-live="polite"></p>
+      </div>
+      <ul class="hub-grid" id="hub-grid" aria-labelledby="hub-browse"></ul>
+      <p class="note">Favourites and recently opened stay on this phone only. Suitability labels are house guidance, not an official age rating. Own app means it has its own icon: open it and use its install button.</p>
+      <noscript><p>The catalogue needs JavaScript. Every room is also listed on <a href="/tools.html">How to use this house</a>.</p></noscript>
+    </section>
   </div>
   <script src="/js/site.js" defer></script>
+  <script src="/js/app-hub.js" defer></script>
 </body>
 </html>

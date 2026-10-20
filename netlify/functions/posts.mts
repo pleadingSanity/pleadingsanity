@@ -41,6 +41,7 @@ import {
   readBody,
   str,
   unauthorized,
+  logReason,
 } from "../lib/social.js";
 import { publishPost, type Post } from "../lib/publish.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
@@ -159,8 +160,10 @@ async function feed(viewer: Viewer, url: URL) {
 
   let authorId: string | undefined;
   if (authorName) {
-    const [a] = await db.select({ id: profiles.userId }).from(profiles).where(eq(profiles.username, authorName.toLowerCase()));
+    const [a] = await db.select({ id: profiles.userId, isPrivate: profiles.isPrivate }).from(profiles).where(eq(profiles.username, authorName.toLowerCase()));
     if (!a) return json({ posts: [], nextBefore: null });
+    // A private profile's page list stays locked to friends, the same as /api/profiles/:username.
+    if (a.isPrivate && a.id !== viewer.id && !friendList.includes(a.id)) return json({ posts: [], nextBefore: null });
     authorId = a.id;
   }
 
@@ -472,7 +475,7 @@ export default async (req: Request, context: Context) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Posts API error:", error);
+    console.error("Posts API error:", logReason(error));
     return json({ error: "Something went wrong. Please try again." }, 500);
   }
 };

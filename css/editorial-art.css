@@ -1,0 +1,64 @@
+/* Section artwork stays separate from page copy and working controls. */
+.ps-editorial-art {
+  display: block;
+  width: min(100%, 72rem);
+  margin: 1.5rem auto 2rem;
+  overflow: hidden;
+  border: 1px solid rgba(0, 255, 240, .16);
+  border-radius: 1.25rem;
+  background: #0d1b2a;
+  position: relative;
+  z-index: 1;
+}
+.ps-editorial-art img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 22rem;
+  object-fit: cover;
+  object-position: center;
+}
+.ps-editorial-art figcaption {
+  padding: .5rem .85rem;
+  color: #c7dce7;
+  font: .75rem/1.5 system-ui, sans-serif;
+  text-align: left;
+}
+@media (max-width: 600px) {
+  .ps-editorial-art { margin: 1rem auto 1.5rem; border-radius: .85rem; }
+  .ps-editorial-art img { max-height: 8rem; }
+}
+
+/* Utility pages lead with their controls; artwork is a small visual cue. */
+.ps-editorial-art-compact { max-width: 48rem; }
+.ps-editorial-art-compact img { height: 7rem; object-fit: cover; }
+@media (max-width: 600px) {
+  .ps-editorial-art-compact img { height: 3.5rem; max-height: 3.5rem; }
+}
+
+/* Phone: never let any image cover the words or buttons */
+@media (max-width: 480px) {
+  img, .soundscape-art, .ps-editorial-art img, .ps-theme-pic {
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 9rem !important;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+  }
+  .ps-theme-pic, .ps-game-icon {
+    max-width: 120px !important;
+    max-height: 120px !important;
+    margin: 0 auto 0.5rem;
+    display: block;
+  }
+  .ps-editorial-art, .soundscape-art {
+    margin-bottom: 1rem;
+    max-height: 9rem;
+    overflow: hidden;
+  }
+  main, .container, .cosmic-card {
+    position: relative;
+    z-index: 2;
+  }
+}

@@ -1,5 +1,5 @@
 import type { Config, Context } from "@netlify/functions";
-import { runChain, ask, CHAIN } from "../lib/ai-chain.js";
+import { runChain, ask, CHAIN, personalSparesAllowed } from "../lib/ai-chain.js";
 import { allow, slowDown } from "../lib/rate-limit.js";
 
 // The Sane Finance GBT adviser. The AI family explains; it never supplies provider data,
@@ -81,8 +81,9 @@ export default async (req: Request, context: Context) => {
     const turns = [{ role: "user" as const, content: prompt }];
 
     const started = Date.now();
+    // The deadline aborts the provider calls themselves; the race stays as a last guard. Weight 2: draft and check.
     const draft = await Promise.race([
-      runChain(SYSTEM, turns, { maxTokens: 900 }),
+      runChain(SYSTEM, turns, { maxTokens: 900, deadline: started + 23_000, weight: 2, spares: personalSparesAllowed() }),
       new Promise<never>((_, reject) => setTimeout(() => reject(new Error("timeout")), 24_000)),
     ]);
     let result: { text: string; provider: string; model: string } = draft;
@@ -91,7 +92,7 @@ export default async (req: Request, context: Context) => {
     if (reviewer && left > 6_000) {
       try {
         const checked = await Promise.race([
-          ask(reviewer.provider, reviewer.model, SYSTEM + "\nYou are now the CHECKER. A sibling mind wrote <draft_answer> for the request in <original_request>. Remove anything invented (lender names, rates, criteria, approval odds, decline causes) and anything that breaks the rules. Keep the format. Reply with ONLY the corrected answer, written directly to the person, with no comment about checking.", [{ role: "user" as const, content: `<original_request>\n${prompt}\n</original_request>\n\n<draft_answer>\n${draft.text}\n</draft_answer>` }], 900),
+          ask(reviewer.provider, reviewer.model, SYSTEM + "\nYou are now the CHECKER. A sibling mind wrote <draft_answer> for the request in <original_request>. Remove anything invented (lender names, rates, criteria, approval odds, decline causes) and anything that breaks the rules. Keep the format. Reply with ONLY the corrected answer, written directly to the person, with no comment about checking.", [{ role: "user" as const, content: `<original_request>\n${prompt}\n</original_request>\n\n<draft_answer>\n${draft.text}\n</draft_answer>` }], 900, started + 21_000),
           new Promise<string>((resolve) => setTimeout(() => resolve(""), left - 1_000)),
         ]);
         if (checked) result = { text: checked, provider: `${draft.provider}+${reviewer.provider}`, model: "draft-and-check" };

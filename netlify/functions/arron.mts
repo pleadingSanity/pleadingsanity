@@ -21,8 +21,8 @@ import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
 import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
-import { allow, slowDown } from "../lib/rate-limit.js";
+import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
+import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
@@ -39,9 +39,30 @@ type Action = { type: string; label: string; href?: string; ok: boolean };
 // Raps, scripts and plans need room to breathe; everyday replies stay short.
 const CREATIVE_ASK = /\b(rap|raps|verse|verses|lyrics?|hook|spoken word|song|script|storyboard|voice-?over|caption|image prompt|edit guide|plan)\b/i;
 
-async function reply(system: string, turns: Turn[], creator: boolean, creative = false, signedIn = false) {
-  const maxTokens = creator ? (creative ? 3500 : 2800) : signedIn ? 2200 : creative ? 1800 : 1400;
-  return runChain(system, turns, { creator, maxTokens });
+// Output budgets (max tokens per reply). Lower than before to keep cost down, still room for a full,
+// caring answer. Each can be changed on Netlify without a code change. A crisis reply never gets less than CRISIS.
+const tokenEnv = (name: string, fallback: number) => {
+  const n = Number.parseInt(process.env[name] ?? "", 10);
+  return Number.isFinite(n) && n >= 200 ? n : fallback;
+};
+const TOKENS = {
+  guest: tokenEnv("ARRON_TOKENS_GUEST", 1000),
+  guestCreative: tokenEnv("ARRON_TOKENS_GUEST_CREATIVE", 1400),
+  member: tokenEnv("ARRON_TOKENS_MEMBER", 1400),
+  creator: tokenEnv("ARRON_TOKENS_CREATOR", 2000),
+  creatorCreative: tokenEnv("ARRON_TOKENS_CREATOR_CREATIVE", 3000),
+  crisis: tokenEnv("ARRON_TOKENS_CRISIS", 1400),
+};
+// Arron's AI work must finish this long after the request arrived, so memory can still be saved
+// well inside the function limit and the 60s the app waits.
+const AI_DEADLINE_MS = 40_000;
+const COUNCIL_ROUND_MS = 20_000;
+
+type Budget = { deadline: number; crisis: boolean; spares: boolean };
+async function reply(system: string, turns: Turn[], creator: boolean, creative = false, signedIn = false, budget?: Budget, admitted = false) {
+  const base = creator ? (creative ? TOKENS.creatorCreative : TOKENS.creator) : signedIn ? TOKENS.member : creative ? TOKENS.guestCreative : TOKENS.guest;
+  const maxTokens = budget?.crisis ? Math.max(base, TOKENS.crisis) : base;
+  return runChain(system, turns, { creator, maxTokens, deadline: budget?.deadline, crisis: budget?.crisis, spares: budget?.spares ?? false, admitted });
 }
 
 const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
@@ -398,7 +419,7 @@ async function putLive(kind: Exclude<LiveKind, "proposal">, raw: string, user: {
 }
 
 // ─── CHAT ───
-async function chat(req: Request, context: Context, rid: string) {
+async function chat(req: Request, context: Context, rid: string, started = Date.now()) {
   const body = await readBody(req);
   // Two shapes, one Arron: { message, memoryId } (the site and app today) or { messages, saveToCloud }.
   const sent = clientMessages(body.messages);
@@ -433,6 +454,11 @@ async function chat(req: Request, context: Context, rid: string) {
     // Never slow down someone who may be in crisis: give the real lines straight away.
     if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
     return slowDown("Give me a minute to catch my breath, then try again.");
+  }
+  // A daily brake per person on top of the per-minute one. Crisis words still get the real lines, never a refusal.
+  if (!user?.isOwner && !(await allowToday("person", { context, userId: user?.id, crisis }))) {
+    if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
+    return slowDown("We've talked a lot today. I need to rest until tomorrow. The tools, journal and games still work: https://pleadingsanity.co.uk/tools.html");
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
@@ -511,19 +537,34 @@ async function chat(req: Request, context: Context, rid: string) {
   }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message));
 
   let answer: Awaited<ReturnType<typeof reply>>;
-  const council = owner && !crisis && /^\/?council\b/i.test(message);
+  // Multi-mind replies cost several paid calls, so the Owner asks for them by name and each has its own daily allowance:
+  // "/council" (every mind, then one woven answer) and "/family" (one drafts, another checks). Otherwise one mind answers.
+  const budget: Budget = { deadline: started + AI_DEADLINE_MS, crisis, spares: personalSparesAllowed() };
+  // The Owner's single-mind chats have their own daily allowance, so the site cap filling up can never lock Shane out.
+  const ownerAdmitted = owner && (await allowToday("owner", { userId: user?.id }));
+  const wantsCouncil = owner && !crisis && /^(?:\/council\b|council\s*[:,-]?\s+\S)/i.test(message);
+  const wantsFamily = owner && !crisis && !wantsCouncil && /^\/family\b/i.test(message);
+  const council = wantsCouncil && (await allowToday("council", { userId: user?.id }));
+  const family = wantsFamily && (await allowToday("family", { userId: user?.id }));
+  const capNote = (wantsCouncil && !council) || (wantsFamily && !family)
+    ? "\n\nTODAY'S LIMIT — the Owner's daily allowance for that multi-mind reply is used up. Say so in one line, then answer with one mind."
+    : "";
   try {
     if (council) {
-      const notes = await askCouncil(system, turns);
-      answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true);
+      const notes = await askCouncil(system, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
+      // The council round already counted the whole call against today's site budget.
+      answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true, false, budget, true);
       answer = { ...answer, provider: "council", model: "claude-gpt-gemini-grok" };
+    } else if (family) {
+      answer = await workAsOne(system, turns, creative ? TOKENS.creatorCreative : TOKENS.creator, budget);
     } else {
-      answer = owner ? await workAsOne(system, turns, creative ? 2200 : 1600) : await reply(system, turns, creator, creative, Boolean(user));
+      answer = await reply(system + capNote, turns, creator, creative, Boolean(user), budget, ownerAdmitted);
     }
   } catch {
     // Every mind is quiet: a gentle reply with the real help lines — no error, no stack trace, nothing saved.
     console.error(`Arron [${rid}] every AI provider failed`);
-    return json({ reply: QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
+    const quiet = crisis ? `${QUIET_REPLY}\n\n${CRISIS_SIGNPOST}` : QUIET_REPLY;
+    return json({ reply: quiet, provider: "none", remembered: false, crisis, signpost: crisis ? CRISIS_SIGNPOST : SIGNPOST, actions: [] });
   }
 
   // Whoever answered, a person in crisis always gets the real numbers.
@@ -631,10 +672,27 @@ async function memory(req: Request, url: URL) {
   return json({ error: "Method not allowed" }, 405);
 }
 
+// Reads the spare body after a chat crash. Never throws: an unreadable body is treated as not crisis.
+async function crashLooksLikeCrisis(spare: Request | null) {
+  if (!spare) return false;
+  try {
+    const body = await spare.json();
+    const sent = Array.isArray(body?.messages) ? body.messages : [];
+    const last = sent.length && typeof sent[sent.length - 1]?.content === "string" ? sent[sent.length - 1].content : "";
+    const text = (typeof body?.message === "string" ? body.message : last).slice(0, MAX_MESSAGE);
+    return body?.mood === "crisis" || CRISIS_WORDS.test(text);
+  } catch {
+    return false;
+  }
+}
+
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const rid = newRequestId();
+  const started = Date.now();
   const route = url.pathname.replace(/^\/api\/arron\/?/, "");
+  // A spare copy of the chat body, read only if chat crashes, so the crash reply can still see crisis words.
+  const spare = route === "chat" && req.method === "POST" ? req.clone() : null;
 
   try {
     if (route === "health") {
@@ -648,7 +706,7 @@ export default async (req: Request, context: Context) => {
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
       });
     }
-    if (route === "chat" && req.method === "POST") return await chat(req, context, rid);
+    if (route === "chat" && req.method === "POST") return await chat(req, context, rid, started);
     // Owner only: ask Grok directly, bypassing the chain. Returns provider, model and a short reply or the error reason.
     if (route === "grok-test") {
       const user = await optionalUser();
@@ -661,11 +719,12 @@ export default async (req: Request, context: Context) => {
     console.error(`Arron [${rid}] error:`, reason(error));
     // A crash in chat must never leave someone with a bare error: always give the real lines.
     if (route === "chat") {
+      const crisis = await crashLooksLikeCrisis(spare);
       return json({
-        reply: `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
+        reply: crisis ? CRISIS_SIGNPOST : `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
         provider: "none",
         remembered: false,
-        crisis: false,
+        crisis,
         signpost: SIGNPOST,
         actions: [],
       });
