@@ -7,4 +7,4 @@
 - [ ] No private data exposed
 - [ ] Tested on mobile and keyboard
 
-## Screenshots (if visual)
+## Screenshots (if visual) 
