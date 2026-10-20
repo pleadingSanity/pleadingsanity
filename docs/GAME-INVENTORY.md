@@ -30,3 +30,9 @@ Navigation label, border colour and spacing are in the new labelled HTML navigat
 - Compare deployed versions against main and confirm Netlify publication.
 
 **No real-money gambling, ads, tracking or paid services added. PR #92 untouched.**
+
+## 2026-10-20 — usability rebuild, phase 1
+- Competitive reference review: TriPeaks titles emphasize one-tap rank matching, visible streaks and map progress; mobile poker titles emphasize a clearly explained Fold / Check / Call / Raise flow and readable seat layout. Use original PS art and code; do not copy proprietary assets or source.
+- `sanity-solitaire.html`: first-visit, four-step interactive onboarding; persistent How to Play replay button; accessible dialog and Escape; commit `6b6e26f`.
+- `poker.html`: first-visit, four-step Hold'em onboarding; persistent How to Play replay button; accessible dialog and Escape; commit `de1207f`.
+- Status: ⚠️ NEEDS REVIEW. No browser-device validation completed yet. Further work: full-screen app-shell design, card/table art direction, richer non-flashing rewards, gameplay engine regression tests, mobile tap-target tests, install and offline verification.
