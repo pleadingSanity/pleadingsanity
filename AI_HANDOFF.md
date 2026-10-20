@@ -371,3 +371,7 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 ### 2026-10-20 — original game card art batch
 - Read `docs/GAME-ART-MASTER-BRIEF.md`, `docs/GAME-INVENTORY.md` before changes. Baseline `31dae4b84facd857c9ee0342af5ac2467b1a953e` was CI green and Netlify ready; PR #92 remains draft.
 - New original vector card-back `assets/games/ps-cosmic-card-back.svg` at `15848213c10a3b02e3254e6d103b86d20a506aa9`; integrated by CSS URL only in `sanity-solitaire.html` (`89e3b67467387beff67089b0f2c578767164996a`) and `poker.html` (`9ffe58133a15e334fcc1b93fb51c37bc1a54f48f`); inventory updated (`aa329d8332a6544e73245f19eb8d52787c33c3d5`). No engine or crisis changes. Browser/gameplay tests and deployment verification outstanding; do not claim full visual rebuild.
+
+### 2026-10-20 — Poker and Solitaire character/world panels
+- Based on founder's full implementation brief, appended **optional, labelled preview panels** without touching game engines: `poker.html` `94ffd7e06e1434f2eb02aa13d608a4d208accd61`, `sanity-solitaire.html` `4d92bda64f9ad82cce5e9eaff6fbab53f7e8f1a9`; inventory `e442b4bf7f3f07c2bd8c824c32bc77b78463933d`.
+- Reused existing SVG hero art and character portraits, no missing JPG references. Future levels, Spider, leaderboards, tournaments, chat and skins honestly labelled preview/coming soon. No new runtime progression engine or fake chip payouts; no Arron/crisis changes; PR #92 untouched. CI, real browser tests and Netlify deployment verification pending.
