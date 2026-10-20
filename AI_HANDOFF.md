@@ -387,3 +387,7 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 
 ### 2026-10-20 — five additional Dola asset sheets
 - `docs/GAME-ASSET-BIBLE.md` SHA `a64d4c5a64ea816b6b6e6034c3d9b359a2a37a4a` adds exact image-to-game placement matrix, polish-first priority, and guardrails for clean individual assets. **No reference PNGs uploaded to GitHub and no new live art claimed**. Keep original logos and game engines, avoid watermark and illegible composite UI. £0 spent. Next: source original clean separate portraits/landscapes/cards, integrate incrementally with mobile browser tests; preserve PR #92 draft.
+
+### 2026-10-20 — Gemini reconciliation of uploaded game art and navigation
+- Main changes: `_redirects` `b0b40589d2d74c103fe93a28037ab434243e5c52`; `frequencies.html` `713d55260b87664b78a85853fcd991e54cbbc067`; `arron.html` `a6d146155008d610087f062922204d7a55ee57db`; `sanity-solitaire.html` `7ddc44e76fa6f3927210fc4d1960da7f71e89088`; `docs/GEMINI-SESSION-HANDOFF.md` `bffe138a30817f29cec7f6f5cc01036eb7673830`.
+- Added five absent clean aliases; preserved existing `/finance`, `/kids`, `/support` and all engines. Explicit home logo accessible names on three pages. Reference binary art **not yet in repo**; do not point production CSS to nonexistent assets. No reconnect markup confirmed, so no speculative banner insertion. £0 spend; no tracking; PR #92 draft. Check latest quality audit, production deploy, routes and game visuals.
