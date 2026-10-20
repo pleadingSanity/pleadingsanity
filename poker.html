@@ -128,6 +128,11 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
 .felt .row #raise{background:linear-gradient(#d59b3f,#885014);border-color:#ffce6a;color:#160d04}
 #log{background:rgba(2,10,25,.9);color:#f7c879}
 @media(max-width:600px){body{background-attachment:scroll!important;background-size:auto 1450px!important}.felt{padding:12px 7px!important}.felt .seats{gap:6px}.felt .seat{padding:7px;min-height:116px}.felt .row{gap:7px}.felt .row button{padding:8px 10px;font-size:.9rem}.wrap>.top .chips{width:56px;height:65px}.ps-help-trigger{display:block;width:100%}}
+
+/* PS character seats — owner-tunable avatar size */
+.ps-seat-avatar{display:block;float:right;width:clamp(46px,7vw,76px);height:auto;aspect-ratio:10/11;border-radius:14px;border:1px solid #00fff066;filter:drop-shadow(0 0 8px #00fff044);margin:2px 0 5px 6px}
+.felt .seat{min-height:160px}
+@media(max-width:600px){.ps-seat-avatar{width:48px}.felt .seat{min-height:146px}}
 </style>
 <style>.chips{width:120px;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
 </head>
@@ -201,8 +206,10 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
       $("pot").textContent = "Pot " + pot;
       $("seats").innerHTML = seats.map((s, i) => {
         const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
+        const psAvatars = ["max","bruno","zara","ollie"];
+        const psAvatar = '<img class="ps-seat-avatar" src="/assets/games/characters/' + psAvatars[i % psAvatars.length] + '.svg" alt="" loading="lazy" width="58" height="64">';
         const holes = (i === mySeat || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
-        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
+        return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}${psAvatar}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
       const me = seats[mySeat] || seats[0];
       const need = Math.max(0, currentBet - me.bet);
