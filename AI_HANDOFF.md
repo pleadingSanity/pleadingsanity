@@ -384,3 +384,6 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - CSS-only Poker `4a59fb616d6e577c6757f0099e2ac6f676b49706` and Solitaire `dfeff4034dc41e26ca824c25a3f2416b9a0d6c5f`; no JS/game-engine changes.
 - New `docs/GAME-ASSET-BIBLE.md` `a92ad2e1235adeac3f59d7da753c22dc54978cdc` documents ten uploaded concept images, art rules, roster, modes, levels and truthful concept statuses. **Reference images not committed or used as production bitmaps** due watermark/garbled text. Existing original assets preserved.
 - Updated `docs/GAME-INVENTORY.md` `3cb4c8699fcd277d68295c765a180354f29cc80f`. Need CI/Netlify confirmation, real 360px device tests, game engine regression tests. £0 spent; no PR merges; PR #92 draft untouched.
+
+### 2026-10-20 — five additional Dola asset sheets
+- `docs/GAME-ASSET-BIBLE.md` SHA `a64d4c5a64ea816b6b6e6034c3d9b359a2a37a4a` adds exact image-to-game placement matrix, polish-first priority, and guardrails for clean individual assets. **No reference PNGs uploaded to GitHub and no new live art claimed**. Keep original logos and game engines, avoid watermark and illegible composite UI. £0 spent. Next: source original clean separate portraits/landscapes/cards, integrate incrementally with mobile browser tests; preserve PR #92 draft.
