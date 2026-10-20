@@ -103,6 +103,31 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #
 .ps-help-overlay[hidden]{display:none!important}.ps-help-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,1,3,.88);display:grid;place-items:center;padding:16px;overflow:auto;backdrop-filter:blur(12px)}
 .ps-help-card{width:min(520px,100%);max-height:min(90dvh,760px);overflow:auto;border-radius:26px;border:1px solid rgba(0,255,240,.65);background:linear-gradient(155deg,#14384c,#08101f 75%);box-shadow:0 20px 75px #000;padding:clamp(20px,5vw,32px);color:#eef6ff;font:1rem/1.6 system-ui}
 .ps-help-card h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 12px;color:#00fff0}.ps-help-card h3{font-size:1.16rem;margin:12px 0;color:#f0c36a}.ps-help-card p{font-size:1rem}.ps-help-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.ps-help-actions button{flex:1 1 125px;min-height:52px;border-radius:14px;border:1px solid #00fff0;background:#00fff0;color:#000103;font:750 1rem system-ui;cursor:pointer}.ps-help-actions button:first-child{background:transparent;color:#eef6ff}.ps-help-progress{font-weight:750;color:#99f9f1;letter-spacing:.05em}.ps-help-card button:focus-visible,.ps-help-trigger:focus-visible{outline:3px solid #f0c36a;outline-offset:3px}
+
+/* PS NIGHT TAVERN SKIN v1 — TUNABLE: --ps-gold, --ps-cyan, --ps-table */
+:root{--ps-gold:#f7c879;--ps-cyan:#00fff0;--ps-table:#082a38}
+body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cover fixed no-repeat!important;color:#f5f8ff}
+.wrap{width:min(980px,calc(100% - 20px));padding:12px 0 42px}
+.wrap>.brand{font:700 1.12rem Georgia,serif;text-shadow:0 0 14px #00fff0}
+.wrap>h1{text-align:center;color:var(--ps-gold);font:700 clamp(2.1rem,6vw,3.4rem) Georgia,serif;text-shadow:0 3px 12px #000,0 0 18px #c27e46;margin:14px 0 8px}
+.wrap>.note,.wrap>.safe{background:rgba(2,9,22,.82);padding:10px 14px;border-radius:12px;line-height:1.5}
+.wrap>.levels{background:rgba(2,9,22,.75);border-radius:18px;padding:10px}
+.wrap>.top{background:rgba(3,11,27,.88);border:1px solid #f7c87966}
+.wrap>.row{background:rgba(3,11,27,.84);border-radius:16px;padding:10px 8px}
+.wrap button,.wrap .btn{background:linear-gradient(180deg,#173951,#07192f);border-color:#00fff077;box-shadow:0 5px 12px #0008;font-weight:700}
+.felt{background:linear-gradient(180deg,rgba(2,10,21,.18),rgba(2,10,21,.48)),url('/assets/games/ps-night-tavern.svg') center 62%/cover!important;border:3px solid #ad7a45!important;border-radius:38px!important;box-shadow:inset 0 0 0 5px #031423,0 16px 45px #000c,0 0 25px #00fff029!important}
+.felt .board{min-height:110px;gap:7px}
+.felt .card:not(.back){background:linear-gradient(145deg,#fff,#dce7f3)!important;color:#13213a;box-shadow:0 6px 12px #000a,inset 0 0 0 2px #fff}
+.felt .card.hearts{color:#b51c48}.felt .card.diamonds{color:#8739aa}.felt .card.spades{color:#18438a}.felt .card.clubs{color:#0c7750}
+.felt .seat{background:rgba(2,10,25,.93);border:1px solid #00fff06b;box-shadow:0 6px 16px #0008}
+.felt .seat.on{border:2px solid #f7c879;box-shadow:0 0 20px #f7c8796b}
+.felt #pot{background:linear-gradient(180deg,#12434b,#061826);color:#f7c879;border:1px solid #f7c87988;font-size:1.35rem}
+.felt .row{background:rgba(2,10,25,.94);border-radius:18px;padding:14px 10px}
+.felt .row #fold{background:linear-gradient(#7a1836,#420e24);border-color:#ff7394}
+.felt .row #call{background:linear-gradient(#04bfae,#087a7d);color:#001c22}
+.felt .row #raise{background:linear-gradient(#d59b3f,#885014);border-color:#ffce6a;color:#160d04}
+#log{background:rgba(2,10,25,.9);color:#f7c879}
+@media(max-width:600px){body{background-attachment:scroll!important;background-size:auto 1450px!important}.felt{padding:12px 7px!important}.felt .seats{gap:6px}.felt .seat{padding:7px;min-height:116px}.felt .row{gap:7px}.felt .row button{padding:8px 10px;font-size:.9rem}.wrap>.top .chips{width:56px;height:65px}.ps-help-trigger{display:block;width:100%}}
 </style>
 <style>.chips{width:120px;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
 </head>
