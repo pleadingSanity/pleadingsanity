@@ -473,14 +473,11 @@
         // Wrong
         if(pad)pad.classList.add('wrong');
         {const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:true};
-        setStatus(`❌ Pattern broken. ${PS.quip('gameover')} +${r.xp} XP`+(r.newBest?' \ud83c\udfc6 New best!':'')+' New round coming\u2026','fail');PS.sfx('miss');}
+        setStatus(`❌ Pattern broken. ${PS.quip('gameover')} +${r.xp} XP`+(r.newBest?' \ud83c\udfc6 New best!':'')+' Press Start for another go.','fail');PS.sfx('miss');}
+        // A miss ends the run, so the player can rest or start again when ready (it used to replay by itself, with Start stuck off).
         streak=0;save();updateUI();
-        canInput=false;
+        canInput=false;isPlaying=false;startBtn.disabled=false;
         padsArea.querySelectorAll('.pad').forEach(p=>p.disabled=true);
-        setTimeout(()=>{
-          seqDisplay.innerHTML='';
-          showSequence();
-        },1500);
         return;
       }
 

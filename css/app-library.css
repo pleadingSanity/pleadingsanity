@@ -28,3 +28,4 @@
 .lib-card:focus-visible { outline: 3px solid #00fff0; outline-offset: 3px; }
 .lib-card:active { transform: scale(0.98); }
 @media (prefers-reduced-motion: reduce) { .lib-card { transition: none; } .lib-card:active { transform: none; } }
+.lib-hub-link { display: inline-flex; align-items: center; text-decoration: none; margin-right: 0.5rem; }

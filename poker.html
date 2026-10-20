@@ -198,7 +198,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     const SUIT = ["♠", "♥", "♦", "♣"];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
-    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
+    let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, shown = false, minRaise = 20, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;
     let mySeat = 0, roomPlayers = [], roomActions = [], roomStacks = null, replaying = false, acting = false, lastPlayers = "";
     function card(r, s) { return { r, s }; }
     function shuffle(list) { for (let i = list.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [list[i], list[j]] = [list[j], list[i]]; } return list; }
@@ -224,7 +224,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
     function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]); }
     function cardHtml(c) {
-      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
+      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="sr-only"> of ${KIND[c.s]}</span><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
     }
     function paint() {
       const streets = ["Pre-flop", "Flop", "Turn", "River", "Show"];
@@ -232,13 +232,13 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       $("board").innerHTML = board.map(cardHtml).join("") || "<span class=\"card back\"></span>".repeat(5);
       $("pot").textContent = "Pot " + pot;
       $("seats").innerHTML = seats.map((s, i) => {
-        const mark = i === button ? '<span class="dealer" title="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : '<span class="blind">UTG</span>';
+        const mark = i === button ? '<span class="dealer" title="Dealer" aria-label="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : i === (bbSeat + 1) % 4 ? '<span class="blind">UTG</span>' : '';
         const psAvatars = ["max","bruno","zara","ollie"];
         const psAvatar = '<img class="ps-seat-avatar" src="/assets/games/characters/' + psAvatars[i % psAvatars.length] + '.svg" alt="" loading="lazy" width="58" height="64">';
-        const holes = (i === mySeat || (handOver && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
+        const holes = (i === mySeat || (handOver && shown && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
         return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}${psAvatar}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
-      const me = seats[mySeat] || seats[0];
+      const me = (mySeat >= 0 ? seats[mySeat] : null) || seats[0];
       const need = Math.max(0, currentBet - me.bet);
       $("call").textContent = need ? "Call " + need : "Check";
       $("fold").disabled = handOver || turn !== mySeat;
@@ -284,7 +284,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
       seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
       if (sbSeat === mySeat || bbSeat === mySeat) bank = seats[mySeat].stack;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; minRaise = 20; turn = (bbSeat + 1) % 4; toAct = seats.filter((p) => !p.allin).length; handOver = false; shown = false;
       if (!friend) saveBank(bank);
       log((friend ? "One pot in this room. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
@@ -324,11 +324,14 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       const who = seat === mySeat ? "You" : s.name;
       if (kind === "fold") { s.folded = true; log(who + " folded."); toAct -= 1; }
       else if (kind === "raise") {
-        const add = Math.min(s.stack, owe(s) + Math.max(20, Number(amount) || 40));
+        const add = Math.min(s.stack, owe(s) + Math.max(minRaise, Number(amount) || 40));
         s.stack -= add; s.bet += add; s.put += add; pot += add;
-        if (s.bet > currentBet) currentBet = s.bet;
-        toAct = live().filter((p) => p !== s && !p.allin).length;
         if (!s.stack) s.allin = true;
+        const raisedBy = s.bet - currentBet;
+        if (raisedBy > 0) currentBet = s.bet;
+        // A full raise reopens the betting. A short all-in only asks the others to call the extra.
+        if (raisedBy >= minRaise) { minRaise = raisedBy; toAct = live().filter((p) => p !== s && !p.allin).length; }
+        else toAct -= 1;
         log(who + " raised to " + s.bet + ".");
       } else {
         const need = owe(s);
@@ -337,20 +340,21 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
         log(need ? who + " called." : who + " checked.");
         toAct -= 1;
       }
+      if (!room && seat === mySeat) { bank = s.stack; saveBank(bank); }
       if (live().length === 1) return show();
       if (betsEven() && toAct <= 0) return streetNext();
       nextTurn();
     }
     function act(kind) {
       if (handOver || turn !== mySeat) return;
-      const amount = kind === "raise" ? Math.max(20, Number($("raise-size").value) || 40) : 0;
+      const amount = kind === "raise" ? Math.max(minRaise, Number($("raise-size").value) || 40) : 0;
       if (room) return pushPlay(mySeat, kind, amount);
       applyPlay(mySeat, kind, amount);
     }
     function bot() { const c = choose(seats[turn]); applyPlay(turn, c.kind, c.amount); }
     function streetNext() {
       seats.forEach((s) => { s.bet = 0; s.raised = false; });
-      currentBet = 0; toAct = live().filter((s) => !s.allin).length; turn = button;
+      currentBet = 0; minRaise = 20; toAct = live().filter((s) => !s.allin).length; turn = button;
       if (street === 0) board.push(deck.pop(), deck.pop(), deck.pop());
       else if (street < 3) board.push(deck.pop());
       street += 1;
@@ -362,21 +366,28 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     function show() {
       if (handOver) return;
       handOver = true;
+      shown = live().length > 1;
       const levels = [...new Set(seats.map((s) => s.put))].filter((n) => n > 0).sort((a, b) => a - b);
       let prev = 0;
       const names = [];
-      let lastWinners = [];
+      let mainWinners = [];
       let youWon = false;
       const mine = seats[mySeat];
       levels.forEach((level) => {
         const inPot = seats.filter((s) => s.put >= level);
         const slice = (level - prev) * inPot.length;
         prev = level;
+        if (!slice) return;
+        // Only one player reached this level: it is their own uncalled bet coming back, not a win.
+        if (inPot.length === 1) { inPot[0].stack += slice; return; }
+        // If everyone who reached this level folded, the chips still go to the best hand left, never vanish.
         const eligible = inPot.filter((s) => !s.folded);
-        if (!eligible.length || !slice) return;
-        eligible.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
-        const winners = eligible.filter((s) => better(s.hole.concat(board), eligible[0].hole.concat(board)) === 0);
-        lastWinners = winners;
+        const pool = eligible.length ? eligible : live();
+        pool.sort((a, b) => better(b.hole.concat(board), a.hole.concat(board)));
+        const winners = pool.filter((s) => better(s.hole.concat(board), pool[0].hole.concat(board)) === 0);
+        if (!mainWinners.length) mainWinners = winners;
+        // Odd chip goes to the first winner left of the button.
+        winners.sort((a, b) => ((seats.indexOf(a) - button + 3) % 4) - ((seats.indexOf(b) - button + 3) % 4));
         const share = Math.floor(slice / winners.length);
         const odd = slice - share * winners.length;
         winners.forEach((s, i) => {
@@ -385,9 +396,8 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
           if (s === mine) youWon = true;
         });
       });
-      const called = lastWinners.length && board.length >= 5 ? label(lastWinners[0].hole.concat(board)) : "";
-      bank = seats[mySeat] ? seats[mySeat].stack : bank;
-      saveBank(bank);
+      const called = shown && mainWinners.length && board.length >= 5 ? label(mainWinners[0].hole.concat(board)) : "";
+      if (!room) { bank = seats[mySeat] ? seats[mySeat].stack : bank; saveBank(bank); }
       log(names.length ? [...new Set(names)].join(" and ") + " take the pots" + (called ? " with " + called : "") + "." : "No pot.");
       pot = 0; paint();
       const mark = (room || "solo") + ":" + hands;
@@ -401,7 +411,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     $("call").onclick = () => act("call");
     $("raise").onclick = () => act("raise");
     $("next").onclick = async () => {
-      if (!room) return deal();
+      if (!room) { if (seats && !handOver) { log("Finish this hand first: fold, call or raise."); return; } return deal(); }
       const stacks = seats ? seats.map((s) => s.stack) : roomStacks;
       const res = await fetch("/api/poker-room/" + room, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: seatName(), hand: hands + 1, stacks, note: "Play chips only." }) });
       const data = await res.json().catch(() => ({}));
@@ -434,7 +444,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       const sb = Math.min(10, seats[sbSeat].stack); const bb = Math.min(20, seats[bbSeat].stack);
       seats[sbSeat].bet = sb; seats[sbSeat].stack -= sb; seats[sbSeat].put = sb; if (!seats[sbSeat].stack) seats[sbSeat].allin = true;
       seats[bbSeat].bet = bb; seats[bbSeat].stack -= bb; seats[bbSeat].put = bb; if (!seats[bbSeat].stack) seats[bbSeat].allin = true;
-      board = []; pot = sb + bb; street = 0; currentBet = bb; turn = (bbSeat + 1) % 4; toAct = 4; handOver = false;
+      board = []; pot = sb + bb; street = 0; currentBet = bb; minRaise = 20; turn = (bbSeat + 1) % 4; toAct = seats.filter((p) => !p.allin).length; handOver = false; shown = false;
       for (const a of actions) {
         if (handOver || turn !== Number(a.seat)) break;
         applyPlay(Number(a.seat), a.kind, a.amount);
@@ -452,7 +462,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       else if (Array.isArray(data.seats)) roomPlayers = data.seats;
       const who = seatName();
       const found = roomPlayers.indexOf(who);
-      mySeat = found >= 0 ? found : 0;
+      mySeat = found >= 0 ? found : -1; // a third visitor watches, never plays the host's seat
       if (data.seats) showRoom();
       if (data.seed) roomSeed = Number(data.seed) || roomSeed;
       if (Array.isArray(data.stacks) && data.stacks.length === 4) roomStacks = data.stacks.map(Number);
@@ -507,7 +517,8 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     };
     $("install").onclick = () => { if (window.deferredPrompt) window.deferredPrompt.prompt(); else log("Add to home screen from your browser menu."); };
     window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); window.deferredPrompt = e; });
-    setInterval(() => { const n = loadBank(); if (n !== bank && !handOver) { bank = n; if (seats && seats[mySeat] && handOver) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
+    // Hourly refill is checked only between solo hands, so it never fights the chips on the table.
+    setInterval(() => { if (room || (seats && !handOver)) return; const n = loadBank(); if (n !== bank) { bank = n; if (seats && seats[mySeat]) seats[mySeat].stack = n; saveBank(bank); } }, 60000);
   </script>
 <script>
 (function(){

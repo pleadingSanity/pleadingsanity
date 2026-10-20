@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v85'; // v85: Night Table room sync restored, offline crisis words, Speak fix, App Library, labelled Words seed
+const STATIC_CACHE = 'pleading-sanity-static-v86'; // v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -107,6 +107,8 @@ const PRECACHE_URLS = [
     '/css/ai-family.css',
     '/css/sanctuary.css',
     '/css/app-library.css',
+    '/css/app-hub.css',
+    '/js/app-hub.js',
     '/css/games-sanctuary.css',
     '/css/space.css',
     '/assets/theme/game-icons.jpg',
