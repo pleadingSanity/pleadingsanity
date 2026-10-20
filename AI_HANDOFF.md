@@ -357,3 +357,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 
 ### 2026-10-20 — Grok co-pilot handoff
 - Baseline `555cd2d36adbfe86354279485e4b91937db227a7`: CI passed, Netlify ready. Created `docs/GROK-CO-PILOT-HANDOFF-2026-10-20.md` in `046751be968643880094713707ff04d1dd309307` for independent Grok review. This does not mean Grok was contacted or granted access. No runtime files changed. PR #92 remains draft; root soul untouched. Check CI and deploy after this commit.
+
+### 2026-10-20 — One-house coordination lock
+- Baseline `1960d2ce81cec2e9c3c859c92b101da87e1ccefb`: continuous quality audit passed and Netlify production ready at same SHA; PR #92 draft, #78/#69/#48/#46 open.
+- `d28a735a2b74eab7d00f69546d4be6feb2334e93` updated **only** `AGENTS.md` to require one production repo, existing-code reuse, no new per-AI handoff documents, independently evidenced reviews, zero new costs, owner approval for sensitive work, and human-governed long-term continuity. Existing files retained, not deleted.
+- No application runtime changes; root soul, crisis lines, brand and failover order untouched. Check CI and Netlify SHA after this log update.
