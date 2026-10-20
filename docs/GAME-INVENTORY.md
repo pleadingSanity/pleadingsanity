@@ -17,6 +17,7 @@ Updated: 2026-10-20. Source-inspection status, **not** production/browser certif
 ## Changes committed
 - `sanity-solitaire.html` — accessible, visible 48px Brain Games return link; commit `1841944`.
 - `poker.html` — matching return link; commit `2baa4ba`.
+- `poker.html` — restrict level progression to log messages identifying You as a pot winner; commit `4bc9729`. Source fix, runtime testing pending.
 - This file records verification boundaries; it does not claim games are complete.
 
 ## Owner-editable controls
