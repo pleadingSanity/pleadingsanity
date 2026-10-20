@@ -379,3 +379,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 ### 2026-10-20 — PR #92 audit and Poker screenshot polish
 - Draft PR #92 changes only `netlify/lib/ai-chain.ts` and overlaps with existing single-hop failure counting on main; GitHub reports mergeable=false. **No PR branch changes and no merge.** Full findings: `docs/PR92-AUDIT-REPORT.md` at `1287f6701d84aa629891cb9ea98d99351da3a24f`.
 - Founder Android screenshot showed overbearing tavern wallpaper. `poker.html` commit `733e4ac685d68e1e21eaae5d06cbd697bc986fc6` adds CSS-only mobile/contrast polish; no game-engine changes. Need real device tests and CI/deploy SHA confirmation.
+
+### 2026-10-20 — founder Dola visual reference / Master Asset Bible phase 1
+- CSS-only Poker `4a59fb616d6e577c6757f0099e2ac6f676b49706` and Solitaire `dfeff4034dc41e26ca824c25a3f2416b9a0d6c5f`; no JS/game-engine changes.
+- New `docs/GAME-ASSET-BIBLE.md` `a92ad2e1235adeac3f59d7da753c22dc54978cdc` documents ten uploaded concept images, art rules, roster, modes, levels and truthful concept statuses. **Reference images not committed or used as production bitmaps** due watermark/garbled text. Existing original assets preserved.
+- Updated `docs/GAME-INVENTORY.md` `3cb4c8699fcd277d68295c765a180354f29cc80f`. Need CI/Netlify confirmation, real 360px device tests, game engine regression tests. £0 spent; no PR merges; PR #92 draft untouched.
