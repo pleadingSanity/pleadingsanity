@@ -227,6 +227,7 @@
 }
 #arron-conversation .message.is-fallback { border-style: dashed; }
 #arron-conversation .message .meta { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: var(--a-muted); }
+#arron-conversation .message .meta a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 0.25rem; color: var(--a-cyan); font-weight: 600; }
 #arron-conversation .arron-share {
   display: inline-flex; align-items: center; min-height: 44px; margin-top: 0.35rem; padding: 0 12px;
   border: 1px solid rgba(0, 255, 240, 0.3); border-radius: 999px; background: transparent;

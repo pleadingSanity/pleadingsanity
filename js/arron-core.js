@@ -93,7 +93,7 @@
   };
 
   // ─── OFFLINE — Arron still answers underground ───
-  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙";
+  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙\n\nIf you're in danger right now, call 999. Samaritans: 116 123. Text SHOUT to 85258. NHS 111, option 2. I'm an AI companion, not a therapist.";
   const OFFLINE = {
     tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
     low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],
@@ -567,6 +567,17 @@
       el.appendChild(p);
     });
     if (m.ephemeral) return el;
+    if (m.role === 'assistant' && m.local) {
+      // Offline replies are simpler, so the help line travels with every one of them
+      const note = document.createElement('p');
+      note.className = 'aa-offline-note';
+      note.append('Offline reply · Arron is an AI companion, not a therapist. ');
+      const help = document.createElement('a');
+      help.href = '/support.html';
+      help.textContent = 'Support';
+      note.append(help, ' · In danger now, call 999.');
+      el.appendChild(note);
+    }
     const tools = document.createElement('div');
     tools.className = 'aa-msg-tools';
     const pin = document.createElement('button');
@@ -829,6 +840,7 @@
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
+      if (!data || typeof data.reply !== 'string' || !data.reply.trim()) throw new Error('Empty reply');
       reply = data.reply;
       via = answeredVia(data.provider);
       if (data.creator) showCreator();

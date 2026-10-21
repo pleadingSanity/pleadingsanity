@@ -4,10 +4,15 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.52'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v87'; // v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const VERSION = '5.12.53'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
+const STATIC_CACHE = 'pleading-sanity-static-v88'; // v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
+
+// 502/503/504 from the host (an outage or a paused account) is treated like a
+// dropped signal: show the saved copy instead of the host's error page.
+// The error itself is never cached.
+const hostDown = response => response.status >= 500;
 
 // Profile, member, journal and account pages hold personal data.
 // Always from the network. Never written into either cache.
@@ -74,6 +79,7 @@ const PRECACHE_URLS = [
     '/community-dashboard.html',
     '/cosmic-focus.html',
     '/crisis.html',
+    '/support.html',
     '/tools.html',
     '/feed.html',
     '/frequencies.html',
@@ -241,8 +247,8 @@ self.addEventListener('activate', event => {
 
 // ========================================
 // 🌐 FETCH
-// Pages → network first, cached copy or offline page when offline
-// Member pages → network only, offline page when offline
+// Pages → network first, cached copy or offline page when offline or the host errors (5xx)
+// Member pages → network only, offline page when offline or the host errors (5xx)
 // Scripts, styles & JSON → network first, cached copy when offline
 // Images & audio → cache first, refreshed in the background
 // APIs & third parties → straight to network
@@ -263,7 +269,12 @@ self.addEventListener('fetch', event => {
     // Offline, the sanctuary page is /offline.html — not a cached copy of someone's private page.
     if (isPrivatePath(url.pathname)) {
         if (request.mode === 'navigate') {
-            event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
+            // Never a cached copy of a private page: the offline page, with its support lines, instead
+            event.respondWith(
+                fetch(request)
+                    .then(async response => (hostDown(response) && (await caches.match(OFFLINE_URL))) || response)
+                    .catch(() => caches.match(OFFLINE_URL))
+            );
         }
         return;
     }
@@ -271,7 +282,11 @@ self.addEventListener('fetch', event => {
     if (request.mode === 'navigate') {
         event.respondWith(
             fetch(request)
-                .then(response => {
+                .then(async response => {
+                    if (hostDown(response)) {
+                        return (await caches.match(request, { ignoreSearch: true })) ||
+                            (await caches.match(OFFLINE_URL)) || response;
+                    }
                     if (!response.ok) return response;
                     const type = response.headers.get('content-type') || '';
                     if (!type.includes('text/html')) return response;
@@ -297,12 +312,12 @@ self.addEventListener('fetch', event => {
     if (/\.(?:js|css|json)$/.test(url.pathname)) {
         event.respondWith(
             fetch(request)
-                .then(response => {
+                .then(async response => {
                     if (response.ok) {
                         const copy = response.clone();
                         caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
                     }
-                    return response;
+                    return (hostDown(response) && (await caches.match(request))) || response;
                 })
                 .catch(async () => (await caches.match(request)) || Response.error())
         );

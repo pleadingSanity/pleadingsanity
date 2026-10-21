@@ -203,7 +203,12 @@
     if (opts.fallback) {
       const meta = document.createElement('span');
       meta.className = 'meta';
-      meta.textContent = 'Offline reply';
+      // Offline replies are simpler, so the help line travels with every one of them
+      meta.append('Offline reply · Arron is an AI companion, not a therapist. ');
+      const help = document.createElement('a');
+      help.href = '/support.html';
+      help.textContent = 'Support';
+      meta.append(help, ' · In danger now, call 999.');
       wrapper.appendChild(meta);
     } else if (role === 'assistant' && opts.shareable) {
       const share = document.createElement('button');
@@ -265,8 +270,10 @@
     const headers = { 'Content-Type': 'application/json' };
     if (token) headers.Authorization = `Bearer ${decodeURIComponent(token)}`;
     const res = await fetch(path, { method, headers, credentials: 'same-origin', body: JSON.stringify(body) });
-    const data = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(data.reason || data.error || 'That didn\'t work — please try again.');
+    const data = await res.json().catch(() => null);
+    if (!res.ok) throw new Error(data?.reason || data?.error || 'That didn\'t work — please try again.');
+    // A host error page can arrive as 200 HTML. Never show "Saved" for a reply we can't read.
+    if (!data) throw new Error('Couldn\'t confirm that saved — please try again.');
     return data;
   }
 
