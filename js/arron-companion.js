@@ -192,6 +192,22 @@
     ? `Hey ${userName}, it's Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?`
     : "Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?";
 
+  // Offline replies are simpler, so every one carries the help lines. Kept outside the
+  // reply text: speech, copy and share use Arron's own words only.
+  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111, option 2']];
+  function helpFooter(tag, className) {
+    const note = document.createElement(tag);
+    note.className = className;
+    note.append('Offline reply · Arron is an AI companion, not a therapist. ');
+    HELP_LINES.concat([['/support.html', 'Support']]).forEach(([href, label], i) => {
+      const a = document.createElement('a');
+      a.href = href;
+      a.textContent = label;
+      note.append(i ? ' · ' : '', a);
+    });
+    return note;
+  }
+
   // ─── RENDERING ───
   function bubble(text, role, opts = {}) {
     const wrapper = document.createElement('div');
@@ -201,15 +217,7 @@
     p.textContent = text;
     wrapper.appendChild(p);
     if (opts.fallback) {
-      const meta = document.createElement('span');
-      meta.className = 'meta';
-      // Offline replies are simpler, so the help line travels with every one of them
-      meta.append('Offline reply · Arron is an AI companion, not a therapist. ');
-      const help = document.createElement('a');
-      help.href = '/support.html';
-      help.textContent = 'Support';
-      meta.append(help, ' · In danger now, call 999.');
-      wrapper.appendChild(meta);
+      wrapper.appendChild(helpFooter('span', 'meta'));
     } else if (role === 'assistant' && opts.shareable) {
       const share = document.createElement('button');
       share.type = 'button';
@@ -487,7 +495,9 @@
       clearTimeout(retryTimer);
       retryDelay = 2000;
       if (wasDown) {
-        setStatus('Reconnected. Arron is back and remembers. 💙');
+        // A health check proves the server answers, not that chat works or memory saved.
+        // The next reply's own status line says whether it was saved.
+        setStatus("Arron's server is reachable again. Your next message will show whether it's saved.");
         retryPendingForgets().catch(() => {});
         pushLocalStory();
       }

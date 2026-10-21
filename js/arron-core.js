@@ -106,6 +106,22 @@
   };
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
+  // Offline replies are simpler, so every one carries the help lines. Kept outside the
+  // reply text: speech, copy and share use Arron's own words only.
+  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111, option 2']];
+  function helpFooter(tag, className) {
+    const note = document.createElement(tag);
+    note.className = className;
+    note.append('Offline reply · Arron is an AI companion, not a therapist. ');
+    HELP_LINES.concat([['/support.html', 'Support']]).forEach(([href, label], i) => {
+      const a = document.createElement('a');
+      a.href = href;
+      a.textContent = label;
+      note.append(i ? ' · ' : '', a);
+    });
+    return note;
+  }
+
   // ─── THE SOUL FILE — wisdom, greetings and principles that grow over time ───
   // Everything here has a built-in fallback, so Arron still speaks if it never loads.
   let soul = { wisdom: {}, greetings: {}, presence: {} };
@@ -567,17 +583,7 @@
       el.appendChild(p);
     });
     if (m.ephemeral) return el;
-    if (m.role === 'assistant' && m.local) {
-      // Offline replies are simpler, so the help line travels with every one of them
-      const note = document.createElement('p');
-      note.className = 'aa-offline-note';
-      note.append('Offline reply · Arron is an AI companion, not a therapist. ');
-      const help = document.createElement('a');
-      help.href = '/support.html';
-      help.textContent = 'Support';
-      note.append(help, ' · In danger now, call 999.');
-      el.appendChild(note);
-    }
+    if (m.role === 'assistant' && m.local) el.appendChild(helpFooter('p', 'aa-offline-note'));
     const tools = document.createElement('div');
     tools.className = 'aa-msg-tools';
     const pin = document.createElement('button');
