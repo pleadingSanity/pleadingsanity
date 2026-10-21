@@ -320,6 +320,8 @@ html.aa-root, .aa-body {
   border: 1px solid rgba(255, 0, 255, 0.35);
   border-bottom-right-radius: 6px;
 }
+.aa-msg .aa-offline-note { margin-top: 0.55em; font-size: 0.8rem; opacity: 0.9; }
+.aa-msg .aa-offline-note a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 0.25rem; color: var(--aa-cyan, #00fff0); font-weight: 600; }
 .aa-msg.pinned { box-shadow: 0 0 0 2px var(--aa-magenta), 0 0 16px rgba(255, 0, 255, 0.35); }
 .aa-msg-tools { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
 .aa-msg-tools button {
