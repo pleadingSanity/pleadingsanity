@@ -51,7 +51,7 @@ function playerHTML() {
   }).join('');
   return `
     <section class="panel" aria-labelledby="player-title">
-      <h2 id="player-title">🌟 Cosmic Player</h2>
+      <h2 id="player-title">🌟 Cosmic Player</h2><p data-progress-status role="status">Checking saved progress…</p>
       <div class="pp-stats">
         <div><strong>Lv ${li.level}</strong><span>${esc(li.title)}</span></div>
         <div><strong>${pr.xp}</strong><span>total XP</span></div>
@@ -63,8 +63,8 @@ function playerHTML() {
       ${badges ? `<ul class="pp-badges">${badges}</ul>` : '<p class="muted">No badges yet — your first game unlocks ✨ First Light.</p>'}
       <h3 style="margin:1rem 0 .4rem;font-size:1rem">Game levels</h3>
       <ul class="pp-levels">${levels}</ul>
-      <div class="btn-row"><a class="sbtn primary" href="/games.html">🎮 Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub">🏅 All badges</a></div>
-      <p class="muted" style="font-size:.85rem">Level numbers live on this device. They show on your profile, not on someone else's page.</p>
+      <div class="btn-row"><a class="sbtn primary" href="/games.html">🎮 Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub">🏅 All badges</a><a class="sbtn ghost" href="/games.html#scoreboards">Friendly scoreboards</a></div>
+      <p class="muted" style="font-size:.85rem">XP, badges and best levels sync to your account when connected. Scores are shared only when you choose.</p>
     </section>`;
 }
 
@@ -366,3 +366,8 @@ async function loadPosts(list, more, before) {
 
 wirePosts(root);
 render();
+
+window.addEventListener('psgames:update', () => {
+  const panel = root.querySelector('[aria-labelledby="player-title"]');
+  if (panel) panel.outerHTML = playerHTML();
+});

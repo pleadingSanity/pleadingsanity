@@ -176,8 +176,9 @@
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/games-sky.css" />
 
+  <link rel="stylesheet" href="/css/games-phone.css">
 </head>
-<body>
+<body class="ps-game-page">
   <a href="#main" class="skip-link">Skip to game</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
@@ -261,7 +262,7 @@
     <p class="tag">Dive. Remember. Rise.</p>
   </header>
 
-  <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/memory-ocean.jpg" alt="" />
+  <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/memory-ocean.webp" alt="" />
 <main id="main">
     <div class="game-card">
       <div id="psBar" class="psg-bar-wrap"></div>
@@ -403,8 +404,10 @@
     
     function startGame(){if(isPlaying)return;isPlaying=true;beginRun();startBtn.disabled=true;initLevel();setStatus('🌊 Cards shuffled — breathe and begin…','playing');}
     document.getElementById('yr').textContent=new Date().getFullYear();loadSave();
+    window.addEventListener('ps-progress-sync', e => { if (e.detail.includes('legacy-ocean') && !isPlaying) loadSave(); });
   </script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/progress.js"></script>
 </body>
 </html>

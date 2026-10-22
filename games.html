@@ -138,19 +138,19 @@
     .game-thumb[data-mark] .badge{font-size:.8rem;color:#000;}
     .game-thumb[data-mark="sanity-solitaire"]{background-image:url("/assets/games/worlds/aurora-lakes-v2.webp")}
     .game-thumb[data-mark="night-table"]{background-image:url("/assets/games/worlds/forest-tavern-v2.webp")}
-    .game-thumb[data-mark="cosmic-focus"]{background-image:url("/assets/theme/cards/cosmic-focus.jpg")}
-    .game-thumb[data-mark="number-nebula"]{background-image:url("/assets/theme/cards/number-nebula.jpg")}
-    .game-thumb[data-mark="pattern-galaxy"]{background-image:url("/assets/theme/cards/pattern-galaxy.jpg")}
-    .game-thumb[data-mark="memory-ocean"]{background-image:url("/assets/theme/cards/memory-ocean.jpg")}
-    .game-thumb[data-mark="rhythm-resonance"]{background-image:url("/assets/theme/cards/rhythm-resonance.jpg")}
-    .game-thumb[data-mark="stardust-dash"]{background-image:url("/assets/theme/cards/stardust-dash.jpg")}
-    .game-thumb[data-mark="healing-hz"]{background-image:url("/assets/theme/cards/healing-hz.jpg")}
-    .game-thumb[data-mark="sanity-stories"]{background-image:url("/assets/theme/cards/sanity-stories.jpg")}
-    .game-thumb[data-mark="mind-mode"]{background-image:url("/assets/theme/cards/mind-mode.jpg")}
-    .game-thumb[data-mark="cosmic-connect"]{background-image:url("/assets/theme/cards/cosmic-connect.jpg")}
-    .game-thumb[data-mark="truth-tag"]{background-image:url("/assets/theme/cards/truth-tag.jpg")}
-    .game-thumb[data-mark="mood-journey"]{background-image:url("/assets/theme/cards/mood-journey.jpg")}
-    .game-thumb[data-mark="kids"]{background-image:url("/assets/theme/cards/kids.jpg")}
+    .game-thumb[data-mark="cosmic-focus"]{background-image:url("/assets/theme/cards/cosmic-focus.webp")}
+    .game-thumb[data-mark="number-nebula"]{background-image:url("/assets/theme/cards/number-nebula.webp")}
+    .game-thumb[data-mark="pattern-galaxy"]{background-image:url("/assets/theme/cards/pattern-galaxy.webp")}
+    .game-thumb[data-mark="memory-ocean"]{background-image:url("/assets/theme/cards/memory-ocean.webp")}
+    .game-thumb[data-mark="rhythm-resonance"]{background-image:url("/assets/theme/cards/rhythm-resonance.webp")}
+    .game-thumb[data-mark="stardust-dash"]{background-image:url("/assets/theme/cards/stardust-dash.webp")}
+    .game-thumb[data-mark="healing-hz"]{background-image:url("/assets/theme/cards/healing-hz.webp")}
+    .game-thumb[data-mark="sanity-stories"]{background-image:url("/assets/theme/cards/sanity-stories.webp")}
+    .game-thumb[data-mark="mind-mode"]{background-image:url("/assets/theme/cards/mind-mode.webp")}
+    .game-thumb[data-mark="cosmic-connect"]{background-image:url("/assets/theme/cards/cosmic-connect.webp")}
+    .game-thumb[data-mark="truth-tag"]{background-image:url("/assets/theme/cards/truth-tag.webp")}
+    .game-thumb[data-mark="mood-journey"]{background-image:url("/assets/theme/cards/mood-journey.webp")}
+    .game-thumb[data-mark="kids"]{background-image:url("/assets/theme/cards/kids.webp")}
     .game-thumb{
       height:160px;background:linear-gradient(135deg,rgba(0,255,240,.12),rgba(255,0,255,.08));
       display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;
@@ -292,13 +292,14 @@
   <link rel="stylesheet" href="/css/games-sky.css" />
 
 <link rel="stylesheet" href="/css/ps-game-art.css">
+  <link rel="stylesheet" href="/css/games-phone.css">
 </head>
-<body>
+<body class="ps-game-page">
   <a href="#main" class="skip-link">Skip to games</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img loading="lazy" decoding="async" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -385,8 +386,8 @@
     <button type="button" class="install-btn hidden" id="installPWA" data-pwa-install hidden>📲 Install as App</button>
   </header>
 
-  <img class="ps-theme-pic" src="/assets/theme/sky.jpg" alt="The night sky of this house. Cyan and magenta stars." />
-<figure class="ps-share"><img class="ps-theme-pic" src="/assets/share/door.jpg" alt="A lit door in a night sky." /><figcaption>Games are a rest, not a test. Next tap: Solitaire, or the daily challenge.</figcaption></figure>
+  <img loading="lazy" decoding="async" class="ps-theme-pic" src="/assets/theme/sky.jpg" alt="The night sky of this house. Cyan and magenta stars." />
+<figure class="ps-share"><img loading="lazy" decoding="async" class="ps-theme-pic" src="/assets/share/door.jpg" alt="A lit door in a night sky." /><figcaption>Games are a rest, not a test. Next tap: Solitaire, or the daily challenge.</figcaption></figure>
 <p class="ps-next"><a class="btn primary" href="/sanity-solitaire.html">Sanity Solitaire</a> <a class="btn" href="#psg-hub">Daily challenge</a></p>
 <main id="main" role="main">
     <p class="intro">
@@ -395,6 +396,7 @@
       <br><a href="#about-games">What each game is for →</a>
     </p>
 
+    <p data-progress-status role="status"></p>
     <section id="psg-hub" class="hub" aria-label="Your player profile">
       <div class="hub-top">
         <div class="hub-level">
@@ -756,6 +758,7 @@
       <p class="quote">"It's not about being the best. It's about being better than you were yesterday." ✨</p>
       <a href="mailto:pleadingsanity1@gmail.com?subject=Game%20Idea%20%7C%20Pleading%20Sanity" class="idea-link">Got a game idea? Suggest it → we build it 💙</a>
     </div>
+  <details id="scoreboards" class="scoreboard-panel"><summary>🏆 Friendly scoreboards</summary><section class="scoreboard" data-scoreboard aria-labelledby="scoreboard-title"></section></details>
   <details class="ps-cast"><summary>Meet your game companions</summary><p>A little company for the journey. These are our story characters, not live players or extra game modes.</p><ul class="ps-cast-grid"><li><img src="/assets/games/characters/ollie-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Ollie</span></li><li><img src="/assets/games/characters/zara-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Zara</span></li><li><img src="/assets/games/characters/bruno-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Bruno</span></li><li><img src="/assets/games/characters/blinky-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Blinky</span></li><li><img src="/assets/games/characters/max-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Max</span></li><li><img src="/assets/games/characters/mia-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Mia</span></li><li><img src="/assets/games/characters/nova-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Nova</span></li><li><img src="/assets/games/characters/pip-128.webp" alt="" width="128" height="128" loading="lazy" decoding="async"><span>Pip</span></li></ul></details>
 </main>
 
@@ -805,16 +808,7 @@
   <script src="/js/site.js" defer></script>
 <script src="/js/offline-note.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-  <script type="module">
-    // Brain Games progress follows signed-in members to any device.
-    import { onProgressSync } from '/js/progress.js';
-    onProgressSync((games) => {
-      if (games.includes('brain-games') && !sessionStorage.getItem('ps-games-synced')) {
-        sessionStorage.setItem('ps-games-synced', '1');
-        location.reload();
-      }
-    });
-  </script>
+  <script type="module" src="/js/progress.js"></script>
 <script>
   (function () {
     var b = document.getElementById('ps-voice');
@@ -825,5 +819,6 @@
   })();
 </script>
   <script src="/js/games-home-note.js" defer></script>
+  <script type="module" src="/js/game-scores.js"></script>
 </body>
 </html>

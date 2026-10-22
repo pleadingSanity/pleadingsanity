@@ -9,7 +9,7 @@
     catch { return { levels: {}, chips: 1000, name: "" }; }
   }
   function save(data) {
-    try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) { /* private mode: play still works */ }
+    try { localStorage.setItem(KEY, JSON.stringify(data)); window.dispatchEvent(new CustomEvent('psguest:update')); } catch (e) { /* private mode: play still works */ }
   }
   function name() {
     const d = load();

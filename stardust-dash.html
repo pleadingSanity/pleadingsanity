@@ -221,8 +221,9 @@
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/games-sky.css" />
 
+  <link rel="stylesheet" href="/css/games-phone.css">
 </head>
-<body>
+<body class="ps-game-page">
   <a href="#main" class="skip-link">Skip to game</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
@@ -306,10 +307,12 @@
     <p class="tag">Catch stars. Dodge worries. Giggle.</p>
   </header>
 
-  <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/stardust-dash.jpg" alt="" />
+  <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/stardust-dash.webp" alt="" />
 <main id="main">
     <div class="game-card">
       <div id="psBar" class="psg-bar-wrap"></div>
+      <label>Choose a level <select id="dash-level" aria-label="Stardust Dash level"></select></label>
+      <p id="dash-target" role="status">Level 1 · 0 / 8 stars</p>
       <div class="stats">
         <div class="stat"><div class="stat-label">Score</div><div class="stat-val" id="score">0</div></div>
         <div class="stat"><div class="stat-label">Lives</div><div class="stat-val level" id="lives" aria-label="3 lives">♥♥♥</div></div>
@@ -379,5 +382,6 @@
   <script src="/js/stardust-dash.js"></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/progress.js"></script>
 </body>
 </html>
