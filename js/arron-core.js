@@ -93,7 +93,7 @@
   };
 
   // ─── OFFLINE — Arron still answers underground ───
-  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙";
+  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙\n\nIf you're in danger right now, call 999. Samaritans: 116 123. Text SHOUT to 85258. NHS 111, option 2. I'm an AI companion, not a therapist.";
   const OFFLINE = {
     tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
     low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],
@@ -105,6 +105,22 @@
     default: ["I'm offline right now, but I'm still here and I'm keeping every word safe. When the signal's back, I'll catch up properly.", "I hear you. Your words are saved on this phone. Keep going, I'm listening."]
   };
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
+
+  // Offline replies are simpler, so every one carries the help lines. Kept outside the
+  // reply text: speech, copy and share use Arron's own words only.
+  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111, option 2']];
+  function helpFooter(tag, className) {
+    const note = document.createElement(tag);
+    note.className = className;
+    note.append('Offline reply · Arron is an AI companion, not a therapist. ');
+    HELP_LINES.concat([['/support.html', 'Support']]).forEach(([href, label], i) => {
+      const a = document.createElement('a');
+      a.href = href;
+      a.textContent = label;
+      note.append(i ? ' · ' : '', a);
+    });
+    return note;
+  }
 
   // ─── THE SOUL FILE — wisdom, greetings and principles that grow over time ───
   // Everything here has a built-in fallback, so Arron still speaks if it never loads.
@@ -567,6 +583,7 @@
       el.appendChild(p);
     });
     if (m.ephemeral) return el;
+    if (m.role === 'assistant' && m.local) el.appendChild(helpFooter('p', 'aa-offline-note'));
     const tools = document.createElement('div');
     tools.className = 'aa-msg-tools';
     const pin = document.createElement('button');
@@ -829,6 +846,7 @@
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
+      if (!data || typeof data.reply !== 'string' || !data.reply.trim()) throw new Error('Empty reply');
       reply = data.reply;
       via = answeredVia(data.provider);
       if (data.creator) showCreator();

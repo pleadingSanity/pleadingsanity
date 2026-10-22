@@ -4,11 +4,12 @@
 // Interface, orb, wisdom and the soul file cached for offline.
 // Pages & knowledge → network first · images → cache first ·
 // /api/ → always live (the app answers gently when offline).
+// Host errors (5xx) on pages, code and knowledge → the saved copy.
 // New versions install silently and clear the old cache.
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.9-offline-crisis-words';
+const VERSION = '3.10-host-error-fallback';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -57,16 +58,19 @@ self.addEventListener('activate', event => {
     );
 });
 
+// A 5xx from the host (outage or paused account) is treated like no signal.
+// The error itself is never cached.
 function networkFirst(request, fallback) {
+    const saved = async () => (await caches.match(request, { ignoreSearch: true })) || (fallback && await fallback());
     return fetch(request)
-        .then(response => {
+        .then(async response => {
             if (response.ok) {
                 const copy = response.clone();
                 caches.open(CACHE).then(cache => cache.put(request, copy));
             }
-            return response;
+            return (response.status >= 500 && await saved()) || response;
         })
-        .catch(async () => (await caches.match(request, { ignoreSearch: true })) || (fallback && await fallback()) || Response.error());
+        .catch(async () => (await saved()) || Response.error());
 }
 
 function withoutHud(response) {

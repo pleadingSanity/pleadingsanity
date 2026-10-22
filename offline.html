@@ -159,6 +159,13 @@
         .crisis-quick li { padding: 6px 0; border-bottom: 1px solid rgba(255,68,68,.1); }
         .crisis-quick li:last-child { border-bottom: none; }
         .crisis-quick strong { color: #fff; }
+        .support-lines { margin: 25px 0; padding: 22px; border-radius: 16px; border: 1px solid rgba(0,255,240,.3); background: rgba(13,27,42,.85); text-align: left; }
+        .support-lines h2 { color: #00fff0; margin-bottom: 12px; font-size: 1.05rem; text-align: center; }
+        .support-lines ul { list-style: none; display: grid; gap: 8px; }
+        .support-lines li a { display: flex; align-items: center; min-height: 48px; padding: 8px 14px; border-radius: 12px; background: rgba(0,1,3,.6); color: #eef6ff; font-weight: 600; text-decoration: none; border: 1px solid rgba(0,255,240,.2); }
+        .support-lines li a:focus-visible, .support-lines li a:hover { border-color: #00fff0; }
+        .support-lines .note { margin-top: 12px; font-size: .9rem; color: #c9d6ea; }
+        .support-lines .note a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; color: #00fff0; font-weight: 600; }
 
         .actions {
             display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 10px;
@@ -322,7 +329,7 @@
     for (let i = 0; i < starCount; i++) {
       const star = document.createElement('div');
       star.className = 'star';
-      star.style.left = `${Math.random()*100}%`;
+      star.style.left = `${Math.random()*98}%`; // 98%: a 2px star at the very edge scrolled the page sideways
       star.style.top = `${Math.random()*100}%`;
       star.style.animationDelay = `${Math.random()*3}s`;
       star.style.opacity = Math.random()*.5 + .2;
@@ -334,7 +341,7 @@
     <div class="brain-icon">🧠</div>
     <h1>You're Offline — But Not Alone <span class="heart-line">💙</span></h1>
     <p class="subtitle">
-      The connection dropped, but your support hasn't gone anywhere.<br>
+      The connection dropped, or the site can't be reached just now. Your support hasn't gone anywhere.<br>
       Pleading Sanity stands by you — even when the internet can't.
     </p>
 
@@ -344,12 +351,12 @@
         <p>Emergency contacts, breathing tools, and grounding techniques — ready instantly.</p>
       </div>
       <div class="feature">
-        <h3>📱 Cached for You</h3>
-        <p>Your journal, saved pages, and healing frequencies stay right here — no signal needed.</p>
+        <h3>📱 Saved for You</h3>
+        <p>Public pages you have opened before can still open from this app's saved copy. Private pages (profile, Journal Vault, sign-in) are left out of that saved copy, so they need a connection to open. Anything you saved on this device yourself, like Journal Vault entries or game progress, stays where you saved it.</p>
       </div>
       <div class="feature">
-        <h3>🔄 Auto-Reconnects</h3>
-        <p>Everything syncs safely the moment you're back online. Nothing lost. Nothing forgotten.</p>
+        <h3>🔄 When You're Back</h3>
+        <p>Game progress kept on this device stays here. Anything that didn't reach us before the drop isn't saved on the server yet, so try it again once you're back.</p>
       </div>
       <div class="feature">
         <h3>🧘 Calm in the Now</h3>
@@ -372,6 +379,17 @@
         <li><strong>Breathing:</strong> Inhale 4s → Hold 7s → Exhale 8s → Repeat. Your body follows your breath.</li>
       </ul>
     </div>
+
+    <section class="support-lines" aria-labelledby="support-lines-title">
+      <h2 id="support-lines-title">People you can reach now — free</h2>
+      <ul>
+        <li><a href="tel:999">In immediate danger: call 999</a></li>
+        <li><a href="tel:116123">Samaritans, any time: 116 123</a></li>
+        <li><a href="sms:85258">Text SHOUT to 85258</a></li>
+        <li><a href="tel:111">NHS 111, option 2 (urgent mental health, England)</a></li>
+      </ul>
+      <p class="note">Arron is an AI companion, not a therapist or emergency service. More options: <a href="/support.html">Support</a> · <a href="/crisis.html">Crisis &amp; Emergency</a></p>
+    </section>
 
     <div class="actions">
       <button onclick="goHome()" class="btn btn-primary">🏠 Cached Home</button>
@@ -443,28 +461,48 @@
     const statusText = document.getElementById('status-text');
     const connDot = document.getElementById('conn-dot');
 
-    function updateStatus() {
-      if (navigator.onLine) {
-        connDot.classList.add('online');
-        connDot.style.background = '#00ff88';
-        statusText.textContent = '✅ Connected! Taking you home…';
-        setTimeout(() => window.location.href = '/', 1200);
-      } else {
+    // This page also shows when the signal is fine but the site itself is down
+    // (the service worker serves it for host errors). So "online" is not enough:
+    // one small static file must really answer before we leave. No loop while it's down.
+    let leaving = false;
+    async function siteAnswers() {
+      try {
+        // HEAD skips the service worker (it handles GET only), so this asks the real host and caches nothing
+        const res = await fetch('/robots.txt', { method: 'HEAD', cache: 'no-store' });
+        return res.ok;
+      } catch (e) { return false; }
+    }
+
+    async function updateStatus() {
+      if (leaving) return;
+      if (!navigator.onLine) {
         connDot.classList.remove('online');
         connDot.style.background = '#ff4444';
-        statusText.textContent = '📡 Offline — retrying every 5s…';
+        statusText.textContent = '📡 Offline — checking again soon…';
+        return;
+      }
+      if (await siteAnswers()) {
+        leaving = true;
+        connDot.classList.add('online');
+        connDot.style.background = '#00ff88';
+        statusText.textContent = '✅ Connected! Taking you back…';
+        setTimeout(() => {
+          if (location.pathname === '/offline.html') location.href = '/';
+          else location.reload();
+        }, 1200);
+      } else {
+        connDot.classList.remove('online');
+        connDot.style.background = '#ffb347';
+        statusText.textContent = "📡 Signal's fine, but the site isn't answering yet — checking again soon…";
       }
     }
 
-    function checkConnection() {
-      updateStatus();
-      if (!navigator.onLine) setTimeout(checkConnection, 5000);
-    }
+    function checkConnection() { updateStatus(); }
 
     // Auto-check listeners
     window.addEventListener('online', updateStatus);
     window.addEventListener('offline', updateStatus);
-    setInterval(() => { if (navigator.onLine) updateStatus(); }, 8000);
+    setInterval(updateStatus, 20000);
     updateStatus();
 
     function goHome() {
