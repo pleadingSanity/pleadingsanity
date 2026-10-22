@@ -441,3 +441,9 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Still unverified: actual phone touch, all win/chip-accounting branches, installed PWA, signed-in cross-device/Postgres writes and score publishing/removal. Do not equate successful preview GETs with those tests. No live model generation, payment or donation was executed.
 - Daily same-chat maintenance automation `pleading-sanity-maintenance` is ACTIVE at 09:00 UTC. It checks meaningful changes and keeps unverified work out of production, makes no spending commitments and respects the credential/donation input gates. It is not a promise of permanent uninterrupted operation.
 - Required user inputs remain: existing-site credential reuse versus secure new OpenAI key, and verified donation destination. No plaintext credentials requested or exposed. Donation-linked prize scheme is not opened.
+
+
+## 2026-10-22 — Codex: homepage and App Hub visual polish
+- User selected the canonical website after the separate Sites prototype source was inaccessible. Reused existing local WebP artwork for six previously text-only homepage app doors and an illustrated App Hub introduction. No new host, generated personas, API calls or payment changes. Existing links and catalogue behavior retained.
+- Static audit passes: 78 pages, 205 script blocks; whitespace check clean. Browser preview checks pending at preparation time. Service-worker static cache bumped to v90 for updated styles; identity and scope unchanged.
+- Continue on draft PR #102, preserve its pending authenticated-save and scoreboard checks. Production is not changed by preparing this patch.
