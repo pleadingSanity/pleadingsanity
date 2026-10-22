@@ -157,6 +157,11 @@
     a.dataset.app = app.id;
     var img = el('img');
     img.src = app.img; img.alt = ''; img.loading = 'lazy'; img.decoding = 'async'; img.width = 640; img.height = 400;
+    img.addEventListener('error', function fallback() {
+      img.removeEventListener('error', fallback);
+      img.src = '/assets/images/brand/crying-brain-logo-clear-256.webp';
+      img.classList.add('hub-image-fallback');
+    });
     a.appendChild(img);
     var t = el('span', 'hub-text');
     t.appendChild(el('strong', null, app.name));

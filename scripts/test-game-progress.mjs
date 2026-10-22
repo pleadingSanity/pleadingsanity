@@ -175,3 +175,16 @@ test('score API rejects anonymous writes, rejects private games, and exposes onl
   user = { id: 'fixture' };
   assert.equal((await ctx.handler(new Request('https://fixture/api/scores/cosmic-focus', { method: 'PUT', body: '{}' }), {})).status, 400);
 });
+
+test('every app catalogue card points to a real page and a non-empty local image', () => {
+  const window = {};
+  const ctx = vm.createContext({ window, document: { readyState: 'loading', addEventListener() {} } });
+  vm.runInContext(source('js/app-hub.js'), ctx);
+  const apps = window.PSAppHub.apps;
+  assert.ok(apps.length >= 30);
+  for (const app of apps) {
+    const pathname = new URL(app.href, 'https://fixture').pathname;
+    assert.ok(readFileSync(new URL('..' + pathname, import.meta.url)).byteLength, app.href);
+    assert.ok(readFileSync(new URL('..' + app.img, import.meta.url)).byteLength, app.img);
+  }
+});
