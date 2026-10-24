@@ -27,3 +27,6 @@ jobs:
 
       - name: Check game saves, scoreboards and App Hub destinations
         run: node --experimental-vm-modules --test scripts/test-game-progress.mjs
+
+      - name: Check AI family introduction boundaries
+        run: node --test scripts/test-ai-family-intro.mjs

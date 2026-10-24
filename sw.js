@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.55'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v92'; // v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const STATIC_CACHE = 'pleading-sanity-static-v93'; // v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -48,6 +48,8 @@ function isPrivatePath(pathname) {
 // 📦 PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
+    '/css/ai-family.css',
+    '/js/ai-family-intro.js',
     '/css/games-phone.css',
     '/js/progress-merge.js',
     '/js/game-scores.js',

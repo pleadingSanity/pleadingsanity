@@ -12,6 +12,9 @@
   // own: has its own install icon (its own manifest id). house: opens inside the main app.
   // age: house guidance only, not an official rating.
   var APPS = [
+    { id: 'ai-family', name: 'Human + AI Family', href: '/ai-family.html', img: '/assets/images/editorial/connected-lights-640.webp', cats: ['ai', 'community', 'education'], age: 'Teens and adults', added: '2026-10-24', updated: '2026-10-24',
+      blurb: 'Read our cooperation charter or prepare an introduction for human review. No automatic bot access.',
+      a11y: 'Labelled form, plain-text preview and keyboard-friendly controls.' },
     { id: 'arron-app', name: 'Arron', href: '/arron-app.html', img: '/assets/images/showcase/brain-calm.jpg', cats: ['wellbeing', 'ai'], featured: true, own: true, age: 'Teens and adults', added: '2026-09-28', updated: '2026-10-12',
       blurb: 'Your companion, full screen. A companion, not a doctor. Forget Me clears it all.',
       a11y: 'Keyboard and screen-reader friendly chat. Optional on-device Speak.' },

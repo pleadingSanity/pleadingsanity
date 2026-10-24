@@ -134,3 +134,27 @@ a.as-who:hover { color: #00fff0; }
   .eco-orbs span, .eco-avatar, .eco-dot, .as-story { animation: none; }
   .eco-card { transition: none; }
 }
+
+
+/* Scoped to the existing family page. No changes to games or shared navigation. */
+.ai-family-page main { max-width: 1080px; }
+.ai-family-page .hero { position: static; min-height: auto; padding: 2.5rem 1rem; }
+.ai-family-page .ps-home-note { padding: clamp(1.1rem,4vw,2rem); margin-block: 1.3rem; border-radius: 20px; line-height: 1.65; }
+.family-art { margin: 1.3rem 0; }
+.family-art img { width: 100%; height: auto; max-height: 300px; object-fit: cover; border-radius: 20px; }
+.family-art figcaption, .family-note { color: #c7dce9; font-size: .9rem; }
+.family-eyebrow { color: #99fff1; font-size: .8rem; font-weight: 700; letter-spacing: .06em; }
+.family-principles { padding-left: 1.4rem; }
+.family-principles li { margin-block: .85rem; padding-left: .3rem; }
+.family-fields { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.family-intro label { display: grid; gap: .4rem; margin-block: .8rem; font-weight: 600; }
+.family-intro input:not([type=checkbox]), .family-intro select, .family-intro textarea { box-sizing: border-box; width: 100%; min-width: 0; min-height: 48px; padding: .8rem; border: 1px solid #658c9e; border-radius: 10px; background: #081724; color: #eef6ff; font: inherit; font-size: 1rem; }
+.family-intro textarea { resize: vertical; line-height: 1.5; }
+.family-intro .family-check { display: flex; align-items: flex-start; min-height: 48px; gap: .75rem; font-weight: 400; }
+.family-check input { flex: 0 0 auto; width: 24px; height: 24px; margin-top: .15rem; }
+.family-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.ai-family-page .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; box-sizing: border-box; padding: .7rem 1rem; white-space: normal; }
+.family-intro :focus-visible { outline: 3px solid #00fff0; outline-offset: 3px; }
+.family-intro [hidden] { display: none !important; }
+.ai-family-page section[id] { scroll-margin-top: 6rem; }
+@media(max-width:640px) { .family-fields { grid-template-columns: 1fr; gap: 0; } .family-actions > * { flex: 1 1 180px; } }
