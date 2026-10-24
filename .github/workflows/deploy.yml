@@ -113,11 +113,18 @@ jobs:
           NETLIFY_HOOK: ${{ secrets.NETLIFY_BUILD_HOOK }}
         run: |
           if [ -z "$NETLIFY_HOOK" ]; then
-            echo "::error::NETLIFY_BUILD_HOOK is missing from GitHub Actions secrets."
-            exit 1
+            echo "::warning::NETLIFY_BUILD_HOOK is not set. Netlify's Git connection still publishes main. No second deploy was requested."
+            exit 0
           fi
-          curl --fail --show-error --silent --max-time 30 -X POST -d '{}' "$NETLIFY_HOOK"
-          echo "✅ Netlify accepted the deploy request."
+          http_code=$(curl --silent --show-error --output /tmp/netlify-hook-body.txt --write-out "%{http_code}" --max-time 30 -X POST -d '{}' "$NETLIFY_HOOK" || true)
+          case "$http_code" in
+            200|201|202|204)
+              echo "Netlify accepted the extra deploy request."
+              ;;
+            *)
+              echo "::warning::Build hook returned HTTP ${http_code}. A dead hook must not mark the house red. Netlify's Git connection is the publisher. A working hook starts a second production build, so refresh or remove the secret if you do not want that."
+              ;;
+          esac
 
       - name: ✨ Complete
         run: |

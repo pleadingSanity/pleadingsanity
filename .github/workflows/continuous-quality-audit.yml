@@ -19,3 +19,8 @@ jobs:
           node-version: '22'
       - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
+
+      - name: Check private chart-request behaviour
+        run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
+      - name: Check local journal persistence failures
+        run: node --test scripts/test-journal-vault.mjs

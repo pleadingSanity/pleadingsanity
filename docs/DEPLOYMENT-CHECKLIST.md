@@ -1,188 +1,63 @@
-# 🚀 Production Deployment Checklist
+# Production Deployment Checklist
 
-## Pre-Deployment Checks
+This repository is a static HTML/CSS/vanilla-JavaScript site with Netlify Functions. Netlify is the primary production host for https://pleadingsanity.co.uk; Vercel hosting for https://pleadingsanity.uk is the backup. Do not follow older Next.js instructions unless the architecture is intentionally changed.
 
-### ✅ File Structure
-- [x] All HTML files use lowercase naming (shop.html, videos.html, about.html)
-- [x] package.json and next.config.js are lowercase
-- [x] All navigation links point to correct files
-- [x] Missing files created (sanity-hub.html, journal-vault.html)
+## Before every release
+- [ ] Work on a branch and open a pull request; do not experiment directly on main.
+- [ ] Run npm ci and npm run build.
+- [ ] Run python3 scripts/audit-site.py.
+- [ ] Check the diff for secrets, personal data, debug output and unrelated changes.
+- [ ] Confirm image assets exist, have useful alt text and preserve layout on mobile.
+- [ ] Verify private pages are not indexed or cached and sensitive content is not included in service-worker caches.
+- [ ] Confirm no browser-facing variable contains a private AI/API key.
+- [ ] Check redirects, canonical URLs, sitemap, manifest, service worker and security headers.
+- [ ] Review the actual Netlify deploy preview before merging.
 
-### 🔐 API Authentication Configuration
+## Netlify production configuration
+In the Netlify dashboard, confirm the correct site and branch:
+- Publish directory: repository root (.).
+- Functions directory: netlify/functions.
+- Build command: the command in netlify.toml; the static site currently requires no bundling step.
+- Domain: pleadingsanity.co.uk, with the intended canonical redirect from www.pleadingsanity.co.uk.
+- Environment variables: configure only variables used by current code, server-side. Keep API keys private. Never create NEXT_PUBLIC_OPENAI_API_KEY or expose provider secrets in browser code.
+- Database: verify Netlify Database availability, migrations and backup/recovery process where deployed functions require it.
+- Deploy trigger: inspect the actual Netlify Git connection and build-hook configuration. The GitHub workflow expects the Actions secret NETLIFY_BUILD_HOOK. If Netlify's native Git integration already deploys every push, avoid a duplicate hook-triggered deployment. Never paste the hook URL into logs or commit it to Git.
 
-#### Required for Full AI Functionality
-- [ ] **OPENAI_API_KEY** - Set in environment variables
-  - Get from: https://platform.openai.com/api-keys
-  - Used for: ChatGPT widget, Arron AI companion
-  - Status: REQUIRED for AI features
-  
-- [ ] **NEXT_PUBLIC_OPENAI_API_KEY** - Public API key for client-side
-  - Same source as above
-  - Status: REQUIRED for ChatGPT widget
+## GitHub Actions deploy workflow
+The workflow at ../.github/workflows/deploy.yml posts to the configured Netlify build hook after checks. A successful HTTP response means the hook accepted a request; it does not prove the site finished deploying or that the live domain serves the new commit.
 
-- [ ] **ARRON_API_KEY** - Custom FileFixer API key
-  - Set in .env.production or hosting platform
-  - Used for: Website updates, deployment automation
-  - Default: PLEADINGSANITY_API_KEY_1234 (change in production)
+After a deploy:
+- [ ] Confirm the Netlify deploy is published and identify the exact commit SHA.
+- [ ] Confirm https://pleadingsanity.co.uk/ loads and redirects are canonical.
+- [ ] Check important page routes and static assets.
+- [ ] Check key API/function routes and Netlify function logs.
+- [ ] Keep the last known-good deploy available for rollback.
 
-#### Required for Video Feed
-- [ ] **YOUTUBE_API_KEY** - YouTube Data API v3
-  - Get from: https://console.cloud.google.com/apis/credentials
-  - Used for: Video feed, latest videos component
-  - Status: REQUIRED for video features
+## Required end-to-end smoke tests
+Use test accounts and non-sensitive sample data:
+- [ ] Sign-up, email confirmation, login, logout and password recovery.
+- [ ] Arron chat, provider-unavailable fallback and Forget Me/delete behaviour.
+- [ ] Journal create, save, reload, export and delete; verify actual storage location.
+- [ ] Community post/profile visibility, block, report and moderation permissions.
+- [ ] Netlify Functions and database migrations used by these flows.
+- [ ] Video/feed fallback when the YouTube API key is absent or rate-limited.
+- [ ] Shop/forms, creator LIVE external embeds, mobile navigation and PWA install/offline behaviour.
+- [ ] Crisis links are tappable on mobile and do not depend on an AI provider.
+- [ ] Keyboard navigation, focus visibility, reduced motion, contrast, alt text and narrow-screen layout.
 
-#### Recommended for Full Functionality
-- [ ] **NEXT_PUBLIC_GA_ID** - Google Analytics tracking
-- [ ] **MAILCHIMP_API_KEY** - Newsletter signups
-- [ ] **SHOPIFY_ACCESS_TOKEN** - E-commerce integration
-- [ ] **NETLIFY_ACCESS_TOKEN** or **VERCEL_TOKEN** - Deployment automation
+Do not mark a feature tested if it was only checked by a syntax scanner. Do not use real member journal entries or production personal data for tests.
 
-### 🔒 Security Configuration
-- [x] CSRF protection enabled
-- [x] Security headers configured in next.config.js
-- [x] Environment variables not hardcoded
-- [x] .env files in .gitignore
-- [ ] Production JWT_SECRET generated
-- [ ] Production SESSION_SECRET generated
+## Secrets and configuration
+- Keep secrets in Netlify environment variables or GitHub Actions secrets only where required.
+- Do not use public-prefix variables for private keys.
+- Remove example/default credentials from production configuration; rotate any real secret that has ever been committed.
+- Never add API keys, deploy-hook URLs, database URLs or auth tokens to screenshots, issue comments, test fixtures or logs.
+- Review environment-variable examples against current code before declaring a variable required.
 
-### 📦 Build Configuration
-- [x] package.json scripts configured
-- [x] next.config.js properly set up
-- [x] netlify.toml configured
-- [x] vercel.json configured
-- [ ] Dependencies installed (run: npm ci)
-- [ ] Build succeeds (run: npm run build)
+## Security workflow status
+The Mayhem workflow is a template until it starts the real API and points to a valid OpenAPI specification. A successful placeholder step is not a completed security scan. Do not claim a clean API security assessment until the real scan and SARIF upload both succeed.
 
-### 🌐 Deployment Platform Setup
+## DNS and backup
+Before changing DNS, record the current Namecheap registrar state, nameservers, DNS records, Netlify domain status, HTTPS status and Vercel backup status. Make one change at a time, preserve working records and verify recovery. Do not infer DNS configuration from the registrar name alone.
 
-#### Option 1: Netlify (Recommended)
-1. [ ] Create account at https://netlify.com
-2. [ ] Connect GitHub repository
-3. [ ] Configure build settings:
-   - Build command: `npm run build`
-   - Publish directory: `.next` or `/`
-4. [ ] Add environment variables in Netlify dashboard:
-   - Go to Site settings → Environment variables
-   - Add all required API keys from .env.production.example
-5. [ ] Enable automatic deploys from main branch
-6. [ ] Set up custom domain (optional)
-
-#### Option 2: Vercel
-1. [ ] Create account at https://vercel.com
-2. [ ] Import GitHub repository
-3. [ ] Vercel auto-detects Next.js settings
-4. [ ] Add environment variables in Vercel dashboard
-5. [ ] Deploy
-
-#### Option 3: GitHub Pages
-1. [ ] Enable GitHub Pages in repository settings
-2. [ ] Select branch: main
-3. [ ] Note: Static hosting only, limited API functionality
-
-### 🧪 Testing Before Go-Live
-- [ ] Run health check: `npm run health-check`
-- [ ] Run deployment check: open every page from `sitemap.xml` and confirm it loads
-- [ ] Test all navigation links
-- [ ] Test video feed loads
-- [ ] Test ChatGPT widget (if API key configured)
-- [ ] Test newsletter signup (if configured)
-- [ ] Test shop integration links
-- [ ] Mobile responsive check
-- [ ] Cross-browser testing (Chrome, Firefox, Safari)
-
-### 📊 Post-Deployment Verification
-- [ ] Site loads at production URL
-- [ ] SSL certificate active (https)
-- [ ] All pages accessible
-- [ ] AI features working (if keys configured)
-- [ ] Video feed loading
-- [ ] Forms submitting
-- [ ] Analytics tracking (if configured)
-- [ ] Performance check (Lighthouse score)
-- [ ] SEO verification (meta tags, sitemap)
-
-### 🔄 Ongoing Maintenance
-- [ ] Set up monitoring (uptime, errors)
-- [ ] Configure backup strategy
-- [ ] Plan for content updates
-- [ ] Monitor API usage/quotas
-- [ ] Review security logs
-- [ ] Update dependencies regularly
-
-## Quick Setup Commands
-
-```bash
-# 1. Setup production environment
-./scripts/setup-production.sh
-
-# 2. Install dependencies
-npm ci
-
-# 3. Run health check
-npm run health-check
-
-# 4. Test build locally
-npm run build
-npm run start
-
-# 5. Deploy to Netlify
-npm run deploy:netlify
-
-# 6. Deploy to Vercel
-npm run deploy:vercel
-```
-
-## Environment Variables Reference
-
-### Required for AI Features
-```bash
-OPENAI_API_KEY=sk-...
-NEXT_PUBLIC_OPENAI_API_KEY=sk-...
-ARRON_API_KEY=your-key-here
-```
-
-### Required for Videos
-```bash
-YOUTUBE_API_KEY=AIza...
-YOUTUBE_CHANNEL_ID=UC0iP4yT2PpQqhFQ0oEc7ZVw
-```
-
-### Recommended
-```bash
-NEXT_PUBLIC_GA_ID=G-...
-MAILCHIMP_API_KEY=...
-SHOPIFY_ACCESS_TOKEN=...
-```
-
-## Common Issues & Solutions
-
-### Issue: "API key missing" errors
-**Solution:** Set API keys in hosting platform environment variables
-
-### Issue: Build fails
-**Solution:** 
-1. Check Node.js version (requires 18.17+)
-2. Clear cache: `rm -rf .next node_modules && npm ci`
-3. Check for syntax errors
-
-### Issue: Videos not loading
-**Solution:** Verify YOUTUBE_API_KEY is set and valid
-
-### Issue: ChatGPT widget not working
-**Solution:** Verify NEXT_PUBLIC_OPENAI_API_KEY is set
-
-### Issue: 404 errors on deployment
-**Solution:** Ensure trailing slash config in next.config.js
-
-## Support & Documentation
-
-- **Full Deployment Guide:** See DEPLOYMENT-GUIDE.md
-- **Environment Variables:** See .env.production.example
-- **Security:** See SECURITY.md
-- **Contributing:** See CONTRIBUTING.md
-
----
-
-🧠 **Pleading Sanity - Rise From Madness** 🌌
-
-Last updated: October 2024
+_Last reviewed: 24 October 2026. Re-verify dashboard settings before each release._

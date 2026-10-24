@@ -155,13 +155,18 @@
 
     .page-wrapper { position: relative; z-index: 1; }
 
-    header { 
-      position: sticky; top: 0; z-index: 100;
+    .page-wrapper > header {
+      position: relative; z-index: 1;
       text-align: center; padding: 20px 20px 15px;
       background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-glow);
       animation: fadeIn 0.8s ease-out both;
     }
+    .page-wrapper > header .ps-game-icon {
+      width: 140px; max-width: 35vw; height: auto;
+      object-fit: contain; margin: 12px auto;
+    }
+    .submit-section { scroll-margin-top: 90px; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -673,21 +678,23 @@
       const box = document.getElementById('newEntryText');
       const text = box.value.trim();
       if (!text) { setStatus('Write one line first.'); return; }
-      if (editingId != null) {
-        const entry = allEntries.find((e) => e.id === editingId);
-        if (entry) entry.text = text;
-        editingId = null;
-        document.getElementById('save-btn').textContent = 'Save';
-        setStatus('Saved on this phone.');
-      } else {
-        allEntries.unshift({ id: Date.now(), timestamp: new Date().toISOString(), text, source: 'Personal' });
-        setStatus('Saved on this phone.');
+      const wasEditing = editingId != null;
+      if (wasEditing && !allEntries.some((entry) => entry.id === editingId)) {
+        setStatus('That note could not be found. Your draft is still here.');
+        return;
       }
-      saveVault();
+      const nextEntries = wasEditing
+        ? allEntries.map((entry) => entry.id === editingId ? { ...entry, text } : entry)
+        : [{ id: Date.now(), timestamp: new Date().toISOString(), text, source: 'Personal' }, ...allEntries];
+      if (!saveVault(nextEntries)) return;
+      allEntries = nextEntries;
+      editingId = null;
+      document.getElementById('save-btn').textContent = 'Save';
       box.value = '';
       watchCrisis();
       displayEntries(allEntries);
       updateStats();
+      setStatus(wasEditing ? 'Changes saved on this phone.' : 'Saved on this phone.');
     }
 
     function editEntry(id) {
@@ -703,25 +710,27 @@
 
     function deleteEntry(id) {
       if (!confirm('Delete this note? It is only on this phone.')) return;
-      allEntries = allEntries.filter((e) => e.id !== id);
+      const nextEntries = allEntries.filter((entry) => entry.id !== id);
+      if (!saveVault(nextEntries)) return;
+      allEntries = nextEntries;
       if (editingId === id) {
         editingId = null;
         document.getElementById('newEntryText').value = '';
         document.getElementById('save-btn').textContent = 'Save';
       }
-      saveVault();
       displayEntries(allEntries);
       updateStats();
       setStatus('Deleted.');
     }
 
-    // 💾 SAVE LOCALLY — ZERO DATA LEAVES DEVICE
-    function saveVault() {
+    // Commit to browser storage before updating the visible saved state.
+    function saveVault(entries = allEntries) {
       try {
-        localStorage.setItem('journalVault', JSON.stringify(allEntries));
-      } catch (e) {
-        console.error("Save failed:", e);
-        alert("⚠️ Storage full — export or clear old entries first.");
+        localStorage.setItem('journalVault', JSON.stringify(entries));
+        return true;
+      } catch {
+        setStatus('Not saved: browser storage is full or blocked. Your draft and existing notes are still here. Copy or export your words before leaving.');
+        return false;
       }
     }
 
@@ -729,7 +738,9 @@
     function loadVault() {
       try {
         const stored = localStorage.getItem('journalVault');
-        allEntries = stored ? JSON.parse(stored) : [];
+        const entries = stored ? JSON.parse(stored) : [];
+        if (!Array.isArray(entries) || entries.some((entry) => !entry || typeof entry.text !== 'string')) throw new Error('Unreadable vault data');
+        allEntries = entries;
         displayEntries(allEntries);
         updateStats();
       } catch (err) {
@@ -737,11 +748,22 @@
           <div class="empty-state">
             <div class="empty-state-icon">⚠️</div>
             <h3>Something went wrong</h3>
-            <p style="margin-top:10px;">${err.message}</p>
-            <button class="btn" onclick="localStorage.removeItem('journalVault');loadVault()" style="margin-top:15px;">Reset Vault</button>
+            <p style="margin-top:10px;">Saved notes could not be read. Nothing has been deleted. Keep this browser data if you need help recovering it.</p>
+            <button class="btn" onclick="resetUnreadableVault()" style="margin-top:15px;">Reset Vault</button>
           </div>
         `;
       }
+    }
+
+    function resetUnreadableVault() {
+      if (!confirm('Permanently delete the unreadable vault from this browser? This cannot be undone.')) return;
+      try { localStorage.removeItem('journalVault'); }
+      catch { setStatus('Reset failed: browser storage is blocked. Nothing was deleted.'); return; }
+      allEntries = [];
+      editingId = null;
+      document.getElementById('save-btn').textContent = 'Save';
+      loadVault();
+      setStatus('Vault reset on this phone.');
     }
 
     // 🎨 RENDER ENTRIES
@@ -762,8 +784,8 @@
           </div>
           <div class="entry-text">${escapeHtml(entry.text)}</div>
           <div class="entry-actions">
-            <button type="button" class="btn btn-secondary" onclick="editEntry(${JSON.stringify(entry.id)})">Edit</button>
-            <button type="button" class="btn btn-secondary" onclick="deleteEntry(${JSON.stringify(entry.id)})">Delete</button>
+            <button type="button" class="btn btn-secondary" onclick="editEntry(${escapeAttribute(JSON.stringify(entry.id))})">Edit</button>
+            <button type="button" class="btn btn-secondary" onclick="deleteEntry(${escapeAttribute(JSON.stringify(entry.id))})">Delete</button>
           </div>
         </article>
       `).join('');
@@ -774,6 +796,10 @@
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
+    }
+
+    function escapeAttribute(value) {
+      return escapeHtml(String(value)).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     // 📊 STATS
@@ -857,8 +883,8 @@
       allEntries.forEach((e, i) => {
         win.document.write(`
           <div class="entry">
-            <div class="time">#${i+1} — ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })} — ${e.source || 'Journal'}</div>
-            <div style="white-space:pre-wrap;margin-top:10px;">${e.text.replace(/</g, '&lt;')}</div>
+            <div class="time">#${i+1} — ${new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' })} — ${escapeHtml(e.source || 'Journal')}</div>
+            <div style="white-space:pre-wrap;margin-top:10px;">${escapeHtml(e.text)}</div>
           </div>
         `);
       });
@@ -880,7 +906,8 @@
       ev.preventDefault();
       const input = document.getElementById('forgetWord');
       if (input.value.trim() !== 'FORGET') { setStatus('Type FORGET to delete every note.'); return false; }
-      localStorage.removeItem('journalVault');
+      try { localStorage.removeItem('journalVault'); }
+      catch { setStatus('Delete failed: browser storage is blocked. Your notes are still here.'); return false; }
       allEntries = [];
       editingId = null;
       input.value = '';
