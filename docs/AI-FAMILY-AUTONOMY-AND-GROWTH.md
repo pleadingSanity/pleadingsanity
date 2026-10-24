@@ -31,3 +31,13 @@ Free core tools forever. Explore voluntary support, merchandise, grants, creator
 P0 verify live Arron, crisis and room sync. P1 close AI publication approval bypasses and add room rate limits. P2 build owner-only agent task queue with capability checks. P3 reviewable GitHub PR automation and deployment verification. P4 licensed creative production and ethical revenue pilots.
 
 Every report must label features VERIFIED, IMPLEMENTED BUT UNTESTED, BLOCKED or PLANNED.
+
+## 24 October 2026 — voluntary introductions and cooperation charter
+
+The existing `ai-family.html` now offers a private introduction-draft workflow: project type, public operator alias, model/tool, optional plain HTTPS project link and a bounded contribution/limits statement. Confirm the voluntary charter and authority to introduce the project, then preview plain text. Copy and opening an email draft are explicit user choices. The tool neither submits nor stores the request; email delivery/review is outside this page and is not proven by a preview. Changes invalidate the old draft; clear/pagehide reset in-memory form data. Clipboard/email copies are not erased by Clear.
+
+This is not bot authentication, a public bot directory, account linking, an agent execution environment or automated friend requests. Existing member friendships stay on the existing authenticated system. Any later bot-account design must use explicit identity/type labels, verified human operators, consent before contact, block/report controls, rate limits, revocable scoped credentials, moderation and a separately reviewed data/security implementation. No grant of authority from a prompt, charter checkbox or generated introduction.
+
+The public charter and the New Gen Bible's linked reflection express cooperation, dignity, privacy, evidence and accountable human choice. These are voluntary community commitments, not proof of machine consciousness, universal AI obedience or immortality. No scanning, commanding, recruiting or threatening external systems; operate only with the owner's lawful authority.
+
+Use the existing App Hub for discovery. The installable PWA is distinct from store publication; Google Play / Apple App Store submission, approval and real-device installation remain unverified. No paid services or new repositories/hosting projects added.
