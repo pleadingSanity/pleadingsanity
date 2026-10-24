@@ -1,77 +1,107 @@
-# Pleading Sanity — Firebase Backend Setup
+# Pleading Sanity — optional Firebase setup
 
-Website: https://pleadingsanity.co.uk (stays on Netlify, always)
-Firebase project: `pleading-sanity-36bfa`
-Firebase is **only** the backend. Nothing moves. Nothing gets rewritten.
+Website: https://pleadingsanity.co.uk · Netlify site: `pleadingsanity`.
+Expected Firebase project ID: `pleading-sanity-36bfa`. Check the **Project ID** in
+Firebase Console → Project settings → General. A similar display name is not proof
+of project identity. Do not substitute `pleadingsanity` or `pleading-sanity`.
 
-## Status — 10 Oct 2026
-- The public web API key is already in `js/firebase.js`. Netlify smart scan flagged it on PR 57. That flag was a false positive. The safelist is a site env setting. Do not delete the key.
-- `appId` is still `PASTE_APP_ID_HERE`. No real web app id was in the repo, Netlify env, or Drive. The Drive file named `config.js` is a demo. Do not paste it.
-- Until the app id from Firebase console step 3 is pasted, the client stays off on purpose. Netlify functions stay the live backend.
+## Current scope — 24 October 2026, PR #104
 
-What is already in the repo:
+The sidecar exposes the existing `firebaseConfig`, `firebaseReady`, `app`, `auth`,
+`db`, `storage`, `authSdk`, `firestore` and `storageSdk` exports. Existing Netlify
+Identity, Netlify Database, journals and game saves continue using their existing
+code. No page currently imports this optional module; setting config alone does
+not connect sign-in or data across the sanctuary. No migration is included.
 
-| File | What it is |
-|---|---|
-| `js/firebase.js` | The one Firebase connection (app, auth, firestore, storage). Safe to link today — it does nothing until you paste your keys. |
-| `firebase/firestore.rules` | Database rules, paste-ready. |
-| `firebase/storage.rules` | File-upload rules, paste-ready. |
-| `docs/FIREBASE-SETUP.md` | This guide. |
+- `netlify/functions/firebase-public-config.mts` returns only allowlisted public
+  web identifiers. Missing, malformed, placeholder or mismatched config returns
+  `{ "configured": false }`. There are no Firebase requests from this function.
+- `js/firebase.js` fetches that config from the same origin, then dynamically loads
+  the existing SDK version 10.14.1 only when config passes validation. Blocked CDN,
+  offline or partial initialization leaves `firebaseReady` false. Network/SDK
+  waits are bounded. Existing local saves are neither read nor rewritten.
+- `window.PSFirebase.ready` means SDK services initialized locally. It does **not**
+  prove that Firestore is enabled, rules are deployed or remote data is accessible.
+- Analytics and App Check stay off. A measurement ID alone does not enable either.
+- Existing `firebase/firestore.rules` and `firebase/storage.rules` are blueprints,
+  not evidence of the rules or services currently deployed in Firebase Console.
 
-> 💛 **Honest note first.** The site already has a working free backend on Netlify (Netlify Identity for logins, Netlify Database for posts, journals and the feed). Firebase is set up here *alongside* it and nothing is switched off. Before moving a live feature over, decide which one is the home for that data — running the same feature on two databases means two places to look after.
+## Copy the Web app config into Netlify
 
----
+In the correct Firebase project, choose Project settings → General → Your apps →
+Web app → SDK setup and configuration → Config. If no Web app exists, register a
+Web app in this existing project; Firebase Hosting is unnecessary. Copy values
+from that one config object; do not invent them or mix projects.
 
-## 1. The config file — `js/firebase.js`
+Netlify → `pleadingsanity` → Site configuration → Environment variables. Give
+these variables **Functions** scope. Use Deploy Previews first; Production can be
+set when the preview and intended feature integration have been reviewed.
 
-Already written. The Firebase web API key is filled in. The only required placeholder remaining is `appId`: `PASTE_APP_ID_HERE`.
+| Netlify variable | Firebase config field | Required? |
+|---|---|---|
+| `FIREBASE_PROJECT_ID` | `projectId`: `pleading-sanity-36bfa` | Yes |
+| `FIREBASE_WEB_AUTH_DOMAIN` | `authDomain`: `pleading-sanity-36bfa.firebaseapp.com` | Yes |
+| `FIREBASE_WEB_API_KEY` | `apiKey` | Yes |
+| `FIREBASE_WEB_APP_ID` | `appId`, in `1:…:web:…` format | Yes |
+| `FIREBASE_WEB_STORAGE_BUCKET` | `storageBucket` | Optional; leave blank for £0 plan |
+| `FIREBASE_WEB_MESSAGING_SENDER_ID` | `messagingSenderId`, matching the app's project number | Optional |
+| `FIREBASE_WEB_MEASUREMENT_ID` | `measurementId` | Optional; Analytics remains off |
 
-The project ID, auth domain and storage bucket are filled in. `messagingSenderId` is not required for Email/Password + Google sign-in and Firestore. Add it only if a feature such as Firebase Cloud Messaging needs it.
+These seven identifiers are public when the endpoint returns them. Never put
+service-account JSON, private keys, Admin credentials, access tokens or user data
+in any of them. Other server secrets remain private. `.env.example` documents the
+names; it does not inject environment values into a static browser page.
+`window.__ENV` is not provided by this site. Legacy `FIREBASE_API_KEY` and
+`FIREBASE_MESSAGING_SENDER_ID` are not read by this endpoint.
 
-How it behaves:
-- Loads Firebase from Google's CDN. No npm. No build.
-- Never starts twice.
-- If the keys are still placeholders, or the visitor is offline, it does nothing.
-- Exposes `window.PSFirebase` for a console check.
+Changing environment variables requires a new deploy of the appropriate context.
+Use the existing PR preview workflow. A production redeploy alone does not wire
+Firebase into pages, authenticate a user or authorize Firestore access.
 
----
+## £0 policy and billing warning
 
-## 2. Firestore blueprint
+Keep the intended project on Spark. Actual service use must fit its quotas;
+capacity has not been measured here. Do not add payment methods or upgrade to
+Blaze without Shane's explicit spending approval. Cloud Storage for Firebase now
+requires Blaze, so leave its variable blank; retain existing local/Netlify media
+paths. Initializing an SDK is not enabling a server service.
 
-`uid` always means the Firebase Auth user id.
+The 20 October billing email named project ID `pleadingsanity`. The code expects
+`pleading-sanity-36bfa`; this discrepancy does not establish that either project is
+abandoned. Inspect exact project IDs, plan, services, dependencies and billing
+status in Console before changing, pausing or deleting anything. A pending owner
+invitation is not evidence of usable access. No billing change is part of this PR.
 
-- `users/{uid}` private: uid, email, provider, createdAt, lastSeenAt, settings, consentAt. Owner only.
-- `profiles/{uid}` public: displayName required, handle, bio, photoURL, isCreator false, verified false, counts, createdAt, updatedAt. Only you set creator or verified, in the Console.
-- `follows/{followerId}_{followingId}`: document id must be follower plus underscore plus following. No self-follow. Unfollow deletes it.
-- `lives/{liveId}`: creatorId, title required, description, startsAt, durationMins, status, streamUrl, coverURL, tags, createdAt. Only isCreator can create.
-- `posts/{postId}`: authorId, authorName, text required max 2000, imageURL, mood, likeCount, createdAt, updatedAt.
-- `creator_applications/{autoId}`: name, email, about required. status pending. Nobody can read these from the site.
+## Verify without touching live users
 
----
+1. Locally run `node --experimental-vm-modules --test scripts/test-firebase.mjs`
+   (Node 24). It uses synthetic identifiers and SDK stubs, never real Firebase
+   accounts. It covers methods, malformed requests/config, offline/CDN failures,
+   partial initialization, export compatibility and unchanged local save values.
+2. Run `python3 scripts/audit-site.py` and `git diff --check`.
+3. Open the existing Netlify PR preview at `/api/firebase-public-config`. With
+   missing config it must return JSON `configured:false`, status 200 and
+   `Cache-Control: no-store`. A POST must return JSON 405 with `Allow: GET`; query
+   parameters must return JSON 400. Inspect response contents for public fields only.
+4. With the complete **correct** config in Deploy Preview/Functions scope, redeploy
+   that preview. Import `/js/firebase.js` from a test page or browser console, then
+   inspect `PSFirebase.status` and the module's exports. A CSP may block Google's
+   SDK or Firebase endpoints: inspect the specific consuming page's policy before
+   authorizing narrow allowances. Do not loosen Arron, journal or finance CSPs.
+5. Do not test by signing in as a live user or writing to production documents.
+   Feature integration needs a separate approved test account/data plan, rules
+   review and explicit UI wiring. Netlify Identity remains the current login.
+6. In Firebase Console separately inspect Authentication providers/authorized
+   domains, Firestore status and deployed rules. Their state cannot be inferred
+   from `ready:true`. Keep Storage, Analytics and App Check unchanged until their
+   intended use and setup are verified. App Check needs provider registration and
+   testing before enforcement.
 
-## 3. Security rules
+The API workflow always runs free contract tests. The old Mayhem template failed
+before scanning because its launcher was missing and authentication returned 401.
+An external Mayhem scan is now a manual opt-in requiring a valid approved token;
+it targets only a local synthetic config fixture and produces no claim of a full
+API audit. No external scan or subscription is enabled by default.
 
-Paste `firebase/firestore.rules` and `firebase/storage.rules`. Anyone can read profiles, lives, posts and follows. People write only their own things. Creator and verified cannot be self-set. Storage images only, owner only. Anything not listed is closed.
-
----
-
-## 4. Setup steps
-
-1. Open https://console.firebase.google.com project pleading-sanity-36bfa.
-2. Project settings, Your apps, web icon. Nickname pleadingsanity-web. Do not tick Firebase Hosting. Register app.
-3. Copy appId into js/firebase.js. Do not replace the existing public web key.
-4. Authentication, Email/Password on, Google on.
-5. Authorized domains: pleadingsanity.co.uk, pleadingsanity.uk, pleadingsanity.netlify.app.
-6. Firestore, location europe-west2, production mode. This location cannot be changed later.
-7. Publish firestore.rules.
-8. Storage stays off until you choose Blaze and a budget alert. Netlify Blobs already hold pictures.
-9. On pages that use Firebase, CSP must allow gstatic.com, firestore.googleapis.com, identitytoolkit.googleapis.com, securetoken.googleapis.com, firebasestorage.googleapis.com, and frame pleading-sanity-36bfa.firebaseapp.com.
-10. Test with PSFirebase.ready. true means connected. false means the app id is still a placeholder, or CSP is blocking.
-
----
-
-## 5. Free and safe
-
-Spark is free. Do not enable phone auth, Cloud Functions, Realtime Database, Firebase Hosting, Analytics, or ML. Never commit a service account JSON. Public web labels can stay in code. Rules protect the data.
-
-Free first. Always.
+Rollback: revert PR #104. No users, documents, rules or saved games need restoring
+because this patch does not change them.
