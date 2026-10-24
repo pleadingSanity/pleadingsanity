@@ -4,8 +4,8 @@ name: Firebase API validation
 on:
   push:
     branches: [main]
+  # Include stacked drafts that target a maintenance branch.
   pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
       run_mayhem:
