@@ -140,7 +140,7 @@
   ];
 
   function read(key) { try { var v = JSON.parse(localStorage.getItem(key) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
-  function write(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); } catch (e) { /* private mode: hub still works */ } }
+  function write(key, v) { try { localStorage.setItem(key, JSON.stringify(v)); return true; } catch (e) { return false; } }
   function byId(id) { for (var i = 0; i < APPS.length; i++) if (APPS[i].id === id) return APPS[i]; return null; }
 
   function el(tag, cls, text) {
@@ -203,6 +203,10 @@
     var recentWrap = document.getElementById('hub-recent-wrap');
     var recent = document.getElementById('hub-recent');
     var state = { cat: 'all', q: '' };
+    var notice = el('p', 'hub-count');
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+    chips.after(notice);
 
     CATS.forEach(function (c) {
       var b = el('button', 'hub-chip', c.label);
@@ -254,11 +258,26 @@
         var favs = read(FAV_KEY);
         var i = favs.indexOf(f.dataset.fav);
         if (i === -1) favs.push(f.dataset.fav); else favs.splice(i, 1);
-        write(FAV_KEY, favs);
+        if (!write(FAV_KEY, favs)) {
+          notice.textContent = 'Favourites could not be saved. Check that this browser allows device storage, then try again.';
+          return;
+        }
         var id = f.dataset.fav;
+        var list = f.closest('ul');
+        var listId = list ? list.id : 'hub-grid';
+        var position = list ? Array.prototype.indexOf.call(list.querySelectorAll('[data-fav]'), f) : 0;
+        var scrollLeft = list ? list.scrollLeft : 0;
         render();
-        var again = root.querySelector('#hub-grid [data-fav="' + id + '"]') || root.querySelector('[data-fav="' + id + '"]');
-        if (again) again.focus();
+        notice.textContent = byId(id).name + (i === -1 ? ' added to favourites.' : ' removed from favourites.');
+        // Keep the reader in the same shelf, including after a filtered card disappears.
+        var shelf = document.getElementById(listId);
+        var again = shelf && shelf.querySelector('[data-fav="' + id + '"]');
+        if (!again && shelf) {
+          var remaining = shelf.querySelectorAll('[data-fav]');
+          again = remaining[Math.min(position, remaining.length - 1)];
+        }
+        if (list) list.scrollLeft = scrollLeft;
+        (again || search).focus({ preventScroll: true });
         return;
       }
       var card = e.target.closest('[data-app]');
