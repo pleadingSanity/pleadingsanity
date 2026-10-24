@@ -114,6 +114,8 @@ def guard(ok, message):
 
 for path in pages:
     body = path.read_text(encoding='utf-8')
+    guard('/js/site.js' not in body or '/css/site.css' in body,
+          f'{path.name} loads shared navigation without its stylesheet.')
     guard(not body.lstrip().startswith('$('),
           f'{path.name} is a shell placeholder, not a page. Restore it from git history.')
     guard('<html' in body.lower() and '</html>' in body.lower(),

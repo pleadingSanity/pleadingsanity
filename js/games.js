@@ -626,7 +626,7 @@
     var g = GAMES[key.length % GAMES.length];
     if (!profile.weekly) profile.weekly = { key: '', done: false };
     if (profile.weekly.key !== key) { profile.weekly = { key: key, done: false }; save(); }
-    return { key: key, game: g, done: profile.weekly.done, reward: 'Week cleared · 40 XP and the Steady Light badge' };
+    return { key: key, game: g, done: profile.weekly.done, reward: 'Complete this week’s challenge for 40 XP and the Steady Light badge' };
   }
   function markWeekly(id) {
     var w = weeklyChallenge();

@@ -1040,3 +1040,20 @@ html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
 @media (prefers-reduced-motion: reduce) {
   button, [role="button"], .btn { transition-duration: 0.01ms !important; }
 }
+
+/* Shared control polish: visible focus, comfortable targets and safe-area room. */
+.ps-nav :is(.ps-brand, .ps-group-btn, .ps-signin, .ps-avatar-btn, .ps-theme, .ps-nav-toggle, .ps-install),
+.ps-nav .ps-links a { min-height: 48px; }
+.ps-footer a { min-height: 48px; display: inline-flex; align-items: center; }
+html { scroll-padding-top: 6rem; }
+.ps-nav .ps-group-menu { max-height: min(70vh, 36rem); overflow-y: auto; overscroll-behavior: contain; }
+@media(max-width:960px), (hover:none) and (pointer:coarse) {
+  body:not(.ps-no-dock) { padding-bottom: calc(136px + env(safe-area-inset-bottom, 0px)); }
+  .ps-dock { bottom: calc(10px + env(safe-area-inset-bottom, 0px)); grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .ps-dock :is(a,button) { display: flex; align-items: center; justify-content: center; min-width: 0; }
+}
+html[data-theme="light"] .ps-nav :is(.ps-signin,.ps-avatar-btn),
+html[data-theme="light"] .ps-menu { background: #fff; color: #173247; border-color: #658799; }
+html[data-theme="light"] .ps-menu :is(a,button) { color: #173247; }
+html[data-theme="light"] .ps-nav .ps-links a.ps-live-link { background: #a90024; color: #fff; }
+html[data-theme="light"] .ps-nav .ps-group-btn:focus-visible { outline-color: #005f69; }
