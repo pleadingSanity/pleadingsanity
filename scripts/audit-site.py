@@ -3,6 +3,9 @@ from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 from html.parser import HTMLParser
 import json
+import fnmatch
+import tomllib
+import xml.etree.ElementTree as ET
 from pathlib import Path
 import re
 import subprocess
@@ -147,6 +150,76 @@ for name, ident, start in (('manifest.json', '/', '/'),
               f'{name} install id/start_url changed. Installed phones would lose the app.')
     except ValueError:
         errors.append(f'HOUSE GUARD: {name} is not valid JSON.')
+
+# Search metadata must remain readable without JavaScript. Respect existing private
+# routes and HTTP noindex policies; this check never changes access or indexability.
+class SearchHead(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.in_head = False
+        self.titles = 0
+        self.metas = {}
+        self.canonicals = []
+        self.redirect = False
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if tag == 'head':
+            self.in_head = True
+        if not self.in_head:
+            return
+        if tag == 'title':
+            self.titles += 1
+        if tag == 'meta':
+            key = attrs.get('name', attrs.get('property', '')).lower()
+            self.metas.setdefault(key, []).append(attrs.get('content', ''))
+            self.redirect |= attrs.get('http-equiv', '').lower() == 'refresh'
+        if tag == 'link' and attrs.get('rel', '').lower() == 'canonical':
+            self.canonicals.append(attrs.get('href', ''))
+
+    def handle_endtag(self, tag):
+        if tag == 'head':
+            self.in_head = False
+
+headers = tomllib.loads(text('netlify.toml')).get('headers', [])
+search_heads = {}
+def http_noindex(path):
+    return any(fnmatch.fnmatchcase(path, h.get('for', '')) and
+               'noindex' in h.get('values', {}).get('X-Robots-Tag', '').lower()
+               for h in headers)
+
+for path in pages:
+    head = SearchHead()
+    head.feed(path.read_text(encoding='utf-8'))
+    search_heads[path.name] = head
+    for key in ('description', 'og:title', 'og:description', 'twitter:title', 'twitter:description'):
+        if len(head.metas.get(key, [])) > 1:
+            errors.append(f'{path.name}: duplicate search/social metadata {key}')
+    indexable = not (head.redirect or http_noindex('/' + path.name) or
+                    any('noindex' in v.lower() for v in head.metas.get('robots', [])))
+    if indexable:
+        if head.titles != 1 or not any(v.strip() for v in head.metas.get('description', [])):
+            errors.append(f'{path.name}: public page needs one title and a description')
+        if len(head.canonicals) != 1 or not head.canonicals[0].startswith('https://pleadingsanity.co.uk/'):
+            errors.append(f'{path.name}: public page needs one canonical house URL')
+
+try:
+    sitemap = ET.fromstring(text('sitemap.xml'))
+    locations = [node.text or '' for node in sitemap.findall('{*}url/{*}loc')]
+    if len(locations) != len(set(locations)):
+        errors.append('sitemap.xml: duplicate URLs')
+    for location in locations:
+        url = urlsplit(location)
+        name = url.path.lstrip('/') or 'index.html'
+        head = search_heads.get(name)
+        if url.scheme != 'https' or url.netloc != 'pleadingsanity.co.uk' or not head:
+            errors.append(f'sitemap.xml: unexpected or missing page {location}')
+        elif (http_noindex(url.path) or head.redirect or
+              any('noindex' in v.lower() for v in head.metas.get('robots', [])) or
+              head.canonicals != [location]):
+            errors.append(f'sitemap.xml: noncanonical, redirected or noindexed URL {location}')
+except ET.ParseError as exc:
+    errors.append(f'sitemap.xml: invalid XML ({exc})')
 
 print(f'Checked {len(pages)} HTML pages, static href/src targets, duplicate IDs, '
       f'and {len(scripts)} external/inline JavaScript and TypeScript blocks.')
