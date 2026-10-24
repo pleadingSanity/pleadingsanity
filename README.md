@@ -9,15 +9,12 @@
 
 | Domain | Platform | Status |
 |---|---|---|
-| **pleadingsanity.co.uk** | Netlify (hosting + Netlify DNS) | Primary domain. Registration must be renewed and moved off Fasthosts (see below) |
+| **pleadingsanity.co.uk** | Netlify | Primary production domain; registrar is Namecheap according to the current owner setup |
 | **www.pleadingsanity.co.uk** | Netlify | 301 → https://pleadingsanity.co.uk |
-| **pleadingsanity.uk** (+ www) | Netlify | Domain alias. 301 → https://pleadingsanity.co.uk once its name servers point at Netlify DNS |
-| **pleadingsanity.netlify.app** | Netlify | Always-on Netlify address |
+| **pleadingsanity.uk** (+ www) | Vercel | Backup domain/host; not the primary canonical site |
+| **pleadingsanity.netlify.app** | Netlify | Provider fallback address, subject to current site configuration |
 
-**Domain rules:** Netlify is the only host and DNS provider. Name servers for both domains
-must be the Netlify DNS (`dns1–4.p03.nsone.net`) servers shown in Netlify → Domains.
-Netlify can't accept registrar transfers, so the domain *registrations* sit with a separate
-.uk registrar. Its only job is to renew the domains and point them at those name servers.
+**Domain rules:** Netlify is the primary host; Vercel is the backup host. Namecheap is the registrar according to the current owner setup. DNS may be managed separately from registration. Verify the authoritative nameservers and records in the dashboards before changing DNS; do not assume both domains should use Netlify nameservers.
 
 ---
 
@@ -56,7 +53,7 @@ This house is built to keep standing.
 - Netlify deploys the live site from it. The primary address is https://pleadingsanity.co.uk.
 - Talk, journal, games, feed and Arron stay free. No paywall on sanctuary features.
 - Safety lines (Samaritans 116 123 · SHOUT 85258) do not depend on this site.
-- Domains must be renewed at the registrar so the names keep pointing at Netlify DNS.
+- Domains must be renewed at the registrar; verify the actual DNS provider and preserve mail records before any nameserver change.
 - Full notes: [docs/OWNERSHIP-AND-TERMS.md](./docs/OWNERSHIP-AND-TERMS.md) and the live [/transparency.html](https://pleadingsanity.co.uk/transparency.html) page.
 
 ---
@@ -125,7 +122,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 ## 🤝 PARTNERSHIPS
 
 - Brave Browser — privacy-first alignment discussions active
-- Netlify — canonical production hosting and deployment. Vercel is not a production dependency.
+- Netlify — canonical production hosting and deployment. Vercel hosts the recovery backup at pleadingsanity.uk.
 
 ---
 
