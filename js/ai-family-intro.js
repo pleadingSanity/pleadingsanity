@@ -43,7 +43,6 @@ if (typeof document !== 'undefined') {
       status.textContent = '';
     }
     form.addEventListener('input', invalidate);
-    form.addEventListener('change', invalidate);
     form.addEventListener('submit', event => {
       event.preventDefault();
       if (!form.reportValidity()) return;
