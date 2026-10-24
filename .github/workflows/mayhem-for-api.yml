@@ -1,44 +1,72 @@
-# Mayhem for API was added from the vendor template and never scanned this house.
-# There is no run_your_api.sh, and MAYHEM_TOKEN is not configured, so every run
-# failed on a missing file, then a 401, then a missing SARIF upload.
-# This site is static HTML plus Netlify functions. Do not start a local API,
-# and do not call the paid scanner, until Shane adds a token on purpose.
-# The check name stays "Mayhem for API" so older branch protection still matches.
-
-name: "Mayhem for API"
-
+# Mandatory free contract tests; external Mayhem is an explicit manual opt-in.
+# The previous template never scanned: missing run_your_api.sh + Mayhem 401.
+name: Firebase API validation
 on:
   push:
-    branches: [ "main" ]
+    branches: [main]
+  # Include stacked drafts that target a maintenance branch.
   pull_request:
-    branches: [ "main" ]
   workflow_dispatch:
-
+    inputs:
+      run_mayhem:
+        description: 'Run external Mayhem against synthetic Firebase config (requires an approved account/token)'
+        type: boolean
+        default: false
 permissions:
   contents: read
-
 jobs:
-  mayhem-for-api:
-    name: Mayhem for API
+  firebase-contract:
+    name: Firebase API and optional client contract
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node --experimental-vm-modules --test scripts/test-firebase.mjs
+      - name: Record scanner scope
+        run: echo 'Contract tests cover the Firebase config endpoint and optional client. External Mayhem runs only on explicit workflow dispatch; this is not a full API security audit.' >> "$GITHUB_STEP_SUMMARY"
+  mayhem-for-api:
+    name: Optional Mayhem scan (synthetic Firebase config only)
+    if: github.event_name == 'workflow_dispatch' && inputs.run_mayhem
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
     permissions:
       contents: read
       security-events: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Skip until a real scanner is configured
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Require explicit scanner setup
         env:
           MAYHEM_TOKEN: ${{ secrets.MAYHEM_TOKEN }}
         run: |
-          if [ ! -f ./run_your_api.sh ] || [ -z "$MAYHEM_TOKEN" ]; then
-            echo "Mayhem scan skipped. This house has no local API starter and no Mayhem token."
-            echo "Nothing was sent to ForAllSecure. Netlify still publishes the site."
-            echo "To turn a real scan on later: add MAYHEM_TOKEN and point it at a synthetic spec only. Never scan production with visitor data."
-            exit 0
+          if [ -z "$MAYHEM_TOKEN" ]; then
+            echo 'Mayhem token is missing; no external scan was run.' >&2
+            exit 1
           fi
-          echo "A token and starter script are both present."
-          echo "The external scan stays off in this file so a half-configured action cannot fail the house."
-          echo "Wire a reviewed synthetic target before calling ForAllSecure/mapi-action."
-          exit 0
+      - name: Start synthetic API and verify readiness
+        run: |
+          node scripts/serve-firebase-config.mjs > /tmp/ps-firebase-fixture.log 2>&1 &
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://localhost:8080/openapi.json > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          echo 'Synthetic API did not start.' >&2
+          exit 1
+      - name: Mayhem for API
+        uses: ForAllSecure/mapi-action@v1
+        with:
+          mayhem-token: ${{ secrets.MAYHEM_TOKEN }}
+          api-url: http://localhost:8080
+          api-spec: http://localhost:8080/openapi.json
+          duration: 60
+          sarif-report: mapi.sarif
+      - name: Upload generated report
+        if: always() && hashFiles('mapi.sarif') != ''
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: mapi.sarif
