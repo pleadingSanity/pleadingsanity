@@ -169,7 +169,9 @@
       doors.innerHTML = '<a href="/arron.html">Talk to Arron</a><a href="/about.html#legacy">Our Legacy</a>';
       links.insertBefore(doors, links.firstChild);
     }
-    function setMenuOpen(open) {
+    var menuOpener = btn;
+    function setMenuOpen(open, opener) {
+      if (opener) menuOpener = opener;
       nav.classList.toggle('is-open', open);
       nav.querySelectorAll('.ps-group.open').forEach(function (group) {
         if (open) return;
@@ -183,36 +185,56 @@
       });
     }
     function shut() { setMenuOpen(false); }
+    function toggleGroup(groupButton, forceOpen) {
+      var group = groupButton.closest('.ps-group');
+      var open = forceOpen === true || !group.classList.contains('open');
+      links.querySelectorAll('.ps-group.open').forEach(function (item) {
+        item.classList.remove('open');
+        var button = item.querySelector('.ps-group-btn');
+        if (button) button.setAttribute('aria-expanded', 'false');
+      });
+      if (open) { group.classList.add('open'); groupButton.setAttribute('aria-expanded', 'true'); }
+    }
     nav.psSetMenuOpen = setMenuOpen;
     btn.addEventListener('click', function () {
-      setMenuOpen(!nav.classList.contains('is-open'));
+      var open = !nav.classList.contains('is-open');
+      setMenuOpen(open, btn);
+      if (open && links) { var first = links.querySelector('a'); if (first) first.focus(); }
     });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         var wasOpen = nav.classList.contains('is-open') || !!nav.querySelector('.ps-group.open');
+        var openGroup = nav.querySelector('.ps-group.open');
+        var restore = nav.classList.contains('is-open') ? menuOpener : openGroup && openGroup.querySelector('.ps-group-btn');
         shut();
-        if (wasOpen) btn.focus();
+        if (wasOpen && restore) { e.preventDefault(); restore.focus(); }
       }
     });
     if (links) links.addEventListener('click', function (e) {
       var gbtn = e.target.closest('.ps-group-btn');
       if (gbtn) {
         e.preventDefault();
-        var group = gbtn.closest('.ps-group');
-        var willOpen = !group.classList.contains('open');
-        links.querySelectorAll('.ps-group.open').forEach(function (g) {
-          g.classList.remove('open');
-          var b = g.querySelector('.ps-group-btn');
-          if (b) b.setAttribute('aria-expanded', 'false');
-        });
-        if (willOpen) {
-          group.classList.add('open');
-          gbtn.setAttribute('aria-expanded', 'true');
-        }
+        toggleGroup(gbtn);
         return;
       }
       if (e.target.closest('a')) shut();
     });
+    if (links) links.addEventListener('keydown', function (e) {
+      var groupButton = e.target.closest('.ps-group-btn');
+      if (groupButton && e.key === 'ArrowDown') {
+        e.preventDefault(); toggleGroup(groupButton, true);
+        var first = groupButton.closest('.ps-group').querySelector('.ps-group-menu a');
+        if (first) first.focus();
+      }
+    });
+    document.addEventListener('pointerdown', function (e) {
+      if (!nav.contains(e.target) && !e.target.closest('.ps-dock-menu')) shut();
+    });
+    document.addEventListener('focusin', function (e) {
+      if (!nav.contains(e.target) && !e.target.closest('.ps-dock-menu')) shut();
+    });
+    // Disable focus-within's no-JS fallback only after disclosure handlers exist.
+    nav.classList.add('ps-js');
   }
   var path = location.pathname;
   var onArron = /arron/.test(path);
@@ -230,7 +252,11 @@
       var menuLinks = nav.querySelector('.ps-links');
       if (menuLinks && menuLinks.id) dockMenu.setAttribute('aria-controls', menuLinks.id);
       dockMenu.addEventListener('click', function () {
-        if (nav.psSetMenuOpen) nav.psSetMenuOpen(!nav.classList.contains('is-open'));
+        if (nav.psSetMenuOpen) {
+          var open = !nav.classList.contains('is-open');
+          nav.psSetMenuOpen(open, dockMenu);
+          if (open && menuLinks) { var first = menuLinks.querySelector('a'); if (first) first.focus(); }
+        }
       });
     }
   }

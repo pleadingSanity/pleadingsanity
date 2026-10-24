@@ -44,12 +44,12 @@
     <div class="hub-welcome">
       <div class="hub-welcome-copy"><p class="hub-eyebrow">YOUR POCKET SANCTUARY</p><h1>Your Sanity App Hub</h1>
       <p>Room to play. Space to breathe. A place to create.</p>
-      <a class="btn" href="#app-hub">Find your next room ↓</a></div>
+      <a class="btn" href="#hub-browse">Find your next room ↓</a></div>
       <img src="/assets/games/worlds/aurora-lakes-v2.webp" alt="Illustrated aurora glowing above a peaceful mountain lake" width="1280" height="720" decoding="async" fetchpriority="high">
     </div>
     <p>This is the house. Arron, Finance, Solitaire and the games are rooms inside it. A new build adds to this icon. It does not make a second app.</p>
     <p class="lede">One install, all the rooms. On supported devices, it opens as an app from your home screen. The sanctuary stays free.</p>
-    <p><a class="btn" href="#app-hub">Browse the Sanity App Hub</a></p>
+    <p><a class="btn" href="#hub-browse">Browse the Sanity App Hub</a></p>
     <section class="card">
       <button class="btn solid" id="install" type="button" data-pwa-install>Install Pleading Sanity</button>
       <p class="note" id="hint">Android: press Install. iPhone: Share, then Add to Home Screen.</p>
@@ -65,12 +65,14 @@
       <p class="hub-lede">Every room in this house, in one catalogue. All free. No account needed to look around. This is our own shelf, not the Apple App Store or Google Play.</p>
       <h3 class="hub-h">Featured</h3>
       <ul class="hub-row" id="hub-featured" aria-label="Featured apps"></ul>
+      <details class="hub-extra"><summary>Recently opened &amp; updated</summary>
       <div id="hub-recent-wrap" hidden>
         <h3 class="hub-h">Recently opened on this device</h3>
         <ul class="hub-row" id="hub-recent" aria-label="Recently opened apps"></ul>
       </div>
       <h3 class="hub-h">Recently updated</h3>
       <ul class="hub-row" id="hub-fresh" aria-label="Recently updated apps"></ul>
+      </details>
       <h3 class="hub-h" id="hub-browse">Browse everything</h3>
       <div class="hub-tools">
         <label class="hub-search-label" for="hub-search">Search the hub</label>

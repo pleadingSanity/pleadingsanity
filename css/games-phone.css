@@ -22,3 +22,12 @@
 }
 
 .scoreboard-panel > summary { min-height: 48px; padding: 1rem; cursor: pointer; font-weight: 700; }
+
+/* Keep both original welcome images, with less scrolling before the games. */
+.games-hub-page > header { position: relative; top: auto; z-index: auto; }
+.games-hub-page .games-welcome-art { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; width: min(1100px,calc(100% - 2rem)); margin: 1rem auto; align-items: start; }
+.games-hub-page .games-welcome-art :is(.ps-theme-pic,figure) { width: 100%; margin: 0; }
+.games-hub-page .games-welcome-art img { height: 160px; max-height: none; object-fit: cover; }
+.games-hub-page .games-welcome-art figcaption { font-size: .9rem; line-height: 1.5; margin-top: .5rem; }
+.games-hub-page .ps-next { padding-inline: 1rem; }
+@media(max-width:640px) { .games-hub-page .games-welcome-art { gap: .65rem; } .games-hub-page .games-welcome-art img { height: 105px; border-radius: 14px; } }

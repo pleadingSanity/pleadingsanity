@@ -158,3 +158,12 @@ a.as-who:hover { color: #00fff0; }
 .family-intro [hidden] { display: none !important; }
 .ai-family-page section[id] { scroll-margin-top: 6rem; }
 @media(max-width:640px) { .family-fields { grid-template-columns: 1fr; gap: 0; } .family-actions > * { flex: 1 1 180px; } }
+
+/* The optional light theme needs real surfaces, not pale text on pale artwork. */
+html[data-theme="light"] :is(.eco-hero,.eco-card,.eco-panel,.eco-promises > div) { background: #fff; border-color: #94afbd; }
+html[data-theme="light"] :is(.eco-hero h1,.eco-h2,.eco-card h3,.eco-promises h3,.as-hero h1) { color: #12475b; text-shadow: none; -webkit-text-fill-color: currentColor; }
+html[data-theme="light"] :is(.eco-hero p,.eco-card p,.eco-promises p,.eco-note) { color: #294b5c; }
+html[data-theme="light"] .eco-chain li { background: #eaf3f7; border-color: #94afbd; color: #173247; }
+html[data-theme="light"] .eco-chain small { color: #294b5c; }
+html[data-theme="light"] .eco-card .eco-role { color: #294b5c !important; }
+html[data-theme="light"] .as-chip { color: #173247; border-color: #658799; }
