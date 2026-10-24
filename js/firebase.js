@@ -1,9 +1,8 @@
-// Pleading Sanity Firebase sidecar. Existing Netlify Identity remains authoritative.
-// Public web identifiers are served by /api/firebase-public-config (Netlify env).
-// Never put service-account credentials or private tokens in this module.
-// Import: import { db, auth, firestore, firebaseReady } from "/js/firebase.js";
+// Optional Firebase sidecar. Existing Netlify Identity and local saves stay in charge.
+import { validateFirebaseConfig } from "./firebase-config.js";
 const VERSION = "10.14.1";
 const CDN = "https://www.gstatic.com/firebasejs/" + VERSION;
+const TIMEOUT_MS = 5000;
 export let firebaseConfig = null;
 export let firebaseReady = false;
 export let app = null, auth = null, db = null, storage = null;
@@ -12,44 +11,56 @@ export let analytics = null, appCheck = null;
 export const firebaseStatus = { state: "not-configured", error: null };
 function publishStatus() {
   if (typeof window !== "undefined") {
-    window.PSFirebase = { ready: Boolean(app), app, auth, db, storage, authSdk, firestore, storageSdk, analytics, appCheck, status: firebaseStatus.state };
+    window.PSFirebase = { ready: firebaseReady, app, auth, db, storage, authSdk, firestore, storageSdk, analytics, appCheck, status: firebaseStatus.state };
   }
 }
 publishStatus();
+let timer;
 try {
-  // No credentials set? Return harmlessly; the rest of the website works as before.
-  const response = await fetch("/api/firebase-public-config", { cache: "no-store", credentials: "omit" });
-  if (response.ok) {
-    const payload = await response.json();
-    const config = payload?.config;
-    if (payload.configured && config?.apiKey && config?.appId && config?.projectId === "pleading-sanity-36bfa") {
-      firebaseConfig = config;
-      const [core, a, f, s] = await Promise.all([
-        import(CDN + "/firebase-app.js"),
-        import(CDN + "/firebase-auth.js"),
-        import(CDN + "/firebase-firestore.js"),
-        import(CDN + "/firebase-storage.js")
+  const controller = new AbortController();
+  timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+  const response = await fetch("/api/firebase-public-config", {
+    cache: "no-store", credentials: "omit", signal: controller.signal,
+  });
+  if (!response.ok) throw new Error("Config unavailable");
+  const payload = await response.json();
+  clearTimeout(timer);
+  if (payload?.configured === true) {
+    firebaseConfig = validateFirebaseConfig(payload.config);
+    if (!firebaseConfig) {
+      firebaseStatus.state = "invalid-config";
+    } else {
+      const [core, a, f, s] = await Promise.race([
+        Promise.all([
+          import(CDN + "/firebase-app.js"),
+          import(CDN + "/firebase-auth.js"),
+          import(CDN + "/firebase-firestore.js"),
+          import(CDN + "/firebase-storage.js"),
+        ]),
+        new Promise((_, reject) => { timer = setTimeout(() => reject(new Error("SDK unavailable")), TIMEOUT_MS); }),
       ]);
       const existing = core.getApps().find((candidate) => candidate.name === "[DEFAULT]");
-      if (existing && (existing.options.projectId !== config.projectId || existing.options.appId !== config.appId)) {
-        throw new Error("Existing Firebase default app has different configuration; refusing to replace it.");
+      if (existing && (existing.options.projectId !== firebaseConfig.projectId || existing.options.appId !== firebaseConfig.appId)) {
+        throw new Error("Different Firebase app already exists");
       }
-      app = existing || core.initializeApp(config);
-      auth = a.getAuth(app);
-      db = f.getFirestore(app);
-      storage = config.storageBucket ? s.getStorage(app) : null;
-      authSdk = a;
-      firestore = f;
-      storageSdk = s;
+      const nextApp = existing || core.initializeApp(firebaseConfig);
+      const nextAuth = a.getAuth(nextApp);
+      const nextDb = f.getFirestore(nextApp);
+      const nextStorage = firebaseConfig.storageBucket ? s.getStorage(nextApp) : null;
+      // Publish only after every requested service initializes successfully.
+      app = nextApp; auth = nextAuth; db = nextDb; storage = nextStorage;
+      authSdk = a; firestore = f; storageSdk = s;
       firebaseReady = true;
       firebaseStatus.state = "ready";
     }
   }
-} catch (error) {
+} catch {
   firebaseStatus.state = "unavailable";
-  firebaseStatus.error = error instanceof Error ? error.message : String(error);
-  console.warn("[PS Firebase] Optional integration unavailable:", firebaseStatus.error);
+  firebaseStatus.error = "Optional Firebase setup unavailable";
+} finally {
+  clearTimeout(timer);
+  publishStatus();
 }
-publishStatus();
-// Analytics and App Check remain off until explicit consent, provider registration,
-// and production rules are independently verified. Do not enable them by default.
+if (!firebaseReady) console.info("[PS Firebase] Optional sync is off; existing local features remain available.");
+// No sign-in, database reads/writes, local-storage access, Analytics or App Check here.
+// SDK initialization is not proof of network connectivity or valid server-side rules.
