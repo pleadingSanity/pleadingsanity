@@ -418,6 +418,35 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - **Build-trigger evidence:** in Netlify's production deploy list, pushes made while the hook was working produced two production builds: a Git-integration build plus "Deploy triggered by hook: Github push" (e.g. 59fcb42, 811efdc, 4ac1dc2, e947fef). The Git build was usually marked skipped once the hook build superseded it. Pushes without a hook entry got a single Git-integration build that went live (e.g. 41bf1d3, d260811, b0b4058). Recommendation, proposal only: keep the Netlify Git integration and remove the "Trigger Netlify" step from `.github/workflows/deploy.yml`.
 - **Next:** Shane reviews #101 and marks it draft. To publish, either merge it or run one manual deploy, never both. Netlify's Git integration should build the merge, but that is not proven for pushes since 20:26 UTC, so check the deploy list for exactly one new production build of the merge commit before running anything manually. Phase 2 waits for his approval.
 
+## 2026-10-21 — Codex: games progress and mobile polish prepared for review
+- Branch `codex/games-progress-mobile-leaderboards`, baseline `4621978`. Detailed scope and release checklist appended to `docs/GAME-INVENTORY.md`.
+- Changed: existing shared save/profile paths; new pure progress merge and regression tests; voluntary, self-reported scoreboards; twelve playable Stardust levels; Solitaire level cap and Poker win-award fixes; 28 lightweight WebP game assets and scoped mobile styles. All original assets, engines, PWA identities, Arron voice and crisis paths retained.
+- Verified: 9 regression scenarios, including every Stardust level; static audit 78 pages/205 blocks with zero HOUSE GUARD lines; clean whitespace check. Identity/Postgres/canvas mocked. Browser preview unavailable in this sandbox, not certified.
+- Not proven: real phone/browser, installed PWA, authenticated live/Postgres save or scoreboard. Netlify connection needs authentication. No paid service, billing change, main push, production deploy or PR merge performed by this work.
+- Automatic approval review rejected the separate deployment-workflow proposal (duplicate hook/runtime change); it was not applied. Existing deployment problem remains visible, not bypassed.
+- Founder also requested connected AI social profiles/posts/stories with spending/privacy controls. Credential-choice gate is pending; no AI API code or schedules changed as part of the games patch. Reuse the existing Studio/family features for that follow-up; do not create a duplicate site.
+
+
+## 2026-10-21 — Codex addendum: hosting verified; App Hub and optional funding copy
+- A second, connected Netlify app works: production deploy `6ad809fc47fb486c16edc0c1` is ready at `4621978`, published 00:40 UTC, triggered by the existing hook. The previous authentication message applies only to the other Netlify tool. Historical hook 404 must not be treated as today's live failure. Deployment workflows remain unchanged.
+- User expanded scope to income through clothing, voluntary donations, audience partnerships and personal supporter thanks; core services stay free. Added honest optional-funding copy to the existing shop/transparency pages, kept the existing partnership form, and linked App Hub/install visibly from home. No payment destination, income, prize scheme, charity status or public phone number invented.
+- App Hub now falls back to the existing logo if a card image fails; every catalogue destination and image is verified locally by the tenth regression scenario. API/social expansion still waits on the credential-choice question; donations wait on the verified destination.
+- Verified: ten regression scenarios pass; static audit and whitespace check pass. Actual browser/local preview is still blocked by environment limitations; no production game/save/checkout success claimed. User gave continuing authorization for improvements/pushes, not a claim of zero possible regressions or infinite unattended work.
+
+
+## 2026-10-21 — Codex: PR #102 and connected-browser evidence
+- Draft PR #102 created and attached to this chat. Source trees were verified byte-for-byte against local Git trees before creating the remote branch. Main was not changed.
+- Netlify preview #102 is reachable. Connected in-app browser checked 16 pages at 360x900 and 1440x900: no sideways document overflow, broken loaded local images or captured browser errors. Stardust Start/Pause/Resume, Solitaire guide/28-card deal/Hint/Draw/Undo/four mode selectors, App Hub search/favourites/Games filter and the preview scoreboard read were exercised.
+- Still unverified: actual phone touch, all win/chip-accounting branches, installed PWA, signed-in cross-device/Postgres writes and score publishing/removal. Do not equate successful preview GETs with those tests. No live model generation, payment or donation was executed.
+- Daily same-chat maintenance automation `pleading-sanity-maintenance` is ACTIVE at 09:00 UTC. It checks meaningful changes and keeps unverified work out of production, makes no spending commitments and respects the credential/donation input gates. It is not a promise of permanent uninterrupted operation.
+- Required user inputs remain: existing-site credential reuse versus secure new OpenAI key, and verified donation destination. No plaintext credentials requested or exposed. Donation-linked prize scheme is not opened.
+
+
+## 2026-10-22 — Codex: homepage and App Hub visual polish
+- User selected the canonical website after the separate Sites prototype source was inaccessible. Reused existing local WebP artwork for six previously text-only homepage app doors and an illustrated App Hub introduction. No new host, generated personas, API calls or payment changes. Existing links and catalogue behavior retained.
+- Static audit passes: 78 pages, 205 script blocks; whitespace check clean. Browser preview checks pending at preparation time. Service-worker static cache bumped to v90 for updated styles; identity and scope unchanged.
+- Continue on draft PR #102, preserve its pending authenticated-save and scoreboard checks. Production is not changed by preparing this patch.
+
 ## 2026-10-24 — Grok: stop the false red checks, leave the live house alone
 - Changed: `.github/workflows/mayhem-for-api.yml`, `.github/workflows/defender-for-devops.yml`, `.github/workflows/deploy.yml`, this entry. No HTML, CSS, JS, functions, service worker, manifests, auth, payments or Arron chain.
 - Why: On main `4621978`, "Mayhem for API" fails every time because `./run_your_api.sh` does not exist and the Mayhem token returns 401, then the SARIF upload fails on a file that was never written. "Cosmic Deploy" fails because `NETLIFY_BUILD_HOOK` answers HTTP 404. Defender's scan finished, then "Upload results to Security tab" failed with "Resource not accessible by integration" because the workflow never asked for `security-events: write`.

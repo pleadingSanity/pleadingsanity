@@ -159,9 +159,19 @@ function sessionExpired() {
 export async function signOut({ redirect = true } = {}) {
   try {
     if (!window.psProgressFlush) await import('/js/progress.js');
-    await window.psProgressFlush?.();
+    if (!await window.psProgressFlush?.()) {
+      const discard = window.confirm?.('Some progress has not synced. Sign out anyway and erase unsaved progress on this device? Cancel keeps you signed in so you can reconnect and save.');
+      if (!discard) {
+        toast('Your progress is kept. You are still signed in; reconnect and try again, or resolve save conflicts on the Games page.', 7000);
+        return false;
+      }
+    }
   } catch {
-    // Progress that couldn't sync stays on the device rather than being lost.
+    const discard = window.confirm?.('Progress could not be saved. Sign out anyway and erase unsaved progress on this device?');
+    if (!discard) {
+      toast('Your progress is kept. You are still signed in; please try again.', 7000);
+      return false;
+    }
   }
   try {
     await logout();

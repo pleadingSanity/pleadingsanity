@@ -19,6 +19,33 @@
   var HIT_QUIPS = ['Worry dodged… nearly.', 'Oof. Brains do that.', 'Just a silly thought. It floats away.', 'Shake it off, stardust.'];
 
   var dpr = 1, k = 1, running = false, paused = false, over = false, last = 0, raf = 0;
+  var campaign = { completed: 0 };
+  try { campaign = JSON.parse(localStorage.getItem('ps-progress-stardust-campaign')) || campaign; } catch (e) {}
+  campaign = { completed: Math.max(0, Math.min(12, Math.floor(Number(campaign.completed) || 0))) };
+  var levelSelect = document.getElementById('dash-level');
+  var stageLevel = 1, TARGET_LEVELS = 12;
+  function paintLevels() {
+    var chosen = Number(levelSelect.value) || Math.min(TARGET_LEVELS, campaign.completed + 1);
+    levelSelect.innerHTML = '';
+    for (var n = 1; n <= TARGET_LEVELS; n++) {
+      var option = document.createElement('option'); option.value = n;
+      option.textContent = 'Level ' + n + ' · ' + (6 + n * 2) + ' stars' + (n <= campaign.completed ? ' ✓' : '');
+      option.disabled = n > campaign.completed + 1; levelSelect.appendChild(option);
+    }
+    levelSelect.value = Math.min(chosen, campaign.completed + 1, TARGET_LEVELS);
+  }
+  function saveCampaign() {
+    try { localStorage.setItem('ps-progress-stardust-campaign', JSON.stringify(campaign)); }
+    catch (e) { say('Device storage is unavailable. Keep this page open to keep playing.'); }
+    window.dispatchEvent(new CustomEvent('psgames:update'));
+  }
+  window.addEventListener('ps-progress-sync', function (e) {
+    if (!e.detail.includes('stardust-campaign')) return;
+    try { campaign = JSON.parse(localStorage.getItem('ps-progress-stardust-campaign')) || campaign; } catch (err) {}
+    campaign = { completed: Math.max(0, Math.min(12, Math.floor(Number(campaign.completed) || 0))) };
+    if (!running) paintLevels();
+  });
+  paintLevels();
   var st, keys = { l: false, r: false }, pointerX = null;
   var stars = []; // background
   for (var i = 0; i < 40; i++) stars.push({ x: Math.random() * W, y: Math.random() * H, s: Math.random() * 1.6 + .4, v: 8 + Math.random() * 20 });
@@ -42,6 +69,7 @@
   function say(msg) { elStatus.textContent = msg; }
   function hud() {
     elScore.textContent = st.score;
+    document.getElementById('dash-target').textContent = 'Level ' + stageLevel + ' · ' + st.caught + ' / ' + (6 + stageLevel * 2) + ' stars';
     var h = ''; for (var i = 0; i < 3; i++) h += i < st.lives ? '♥' : '♡';
     elLives.textContent = h; elLives.setAttribute('aria-label', st.lives + ' lives');
     elCombo.textContent = '×' + PS.multiplier(st.combo) + (st.combo > 1 ? ' (' + st.combo + ')' : '');
@@ -49,7 +77,7 @@
 
   function speedNow() {
     var cap = reduced ? 230 : 340;
-    return Math.min(cap, 105 + st.t * 4);
+    return Math.min(cap, 95 + stageLevel * 9 + st.t * 2);
   }
   function addItem() {
     var r = Math.random(), it = { y: -30, rot: Math.random() * 6 };
@@ -100,6 +128,7 @@
           PS.pop('+' + gain + (m > 1 ? ' ×' + m : ''), p, m > 1 ? 'combo' : '');
           PS.burst(p.x, p.y, { count: m > 1 ? 22 : 10 });
           PS.sfx('good', Math.min(7, st.combo));
+          if (st.caught >= 6 + stageLevel * 2) { completeLevel(); return; }
           if (st.combo === 5 || st.combo === 10 || st.combo === 20) say(st.combo + ' in a row! ' + PS.quip('combo'));
         }
       } else if (it.y > H + 40) {
@@ -155,12 +184,24 @@
   }
 
   function frame(ts) {
-    raf = requestAnimationFrame(frame);
-    var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
+    raf = 0;
     if (!running || paused) return;
+    var dt = Math.min(0.05, (ts - last) / 1000 || 0); last = ts;
     if (!reduced) stars.forEach(function (s) { s.y += s.v * dt; if (s.y > H) { s.y = 0; s.x = Math.random() * W; } });
-    update(dt);
-    if (running) draw();
+    update(dt); draw();
+    if (running && !paused) raf = requestAnimationFrame(frame);
+  }
+  function completeLevel() {
+    running = false; pauseBtn.disabled = true; levelSelect.disabled = false;
+    campaign.completed = Math.max(campaign.completed, stageLevel);
+    saveCampaign();
+    var reward = PS.award(GID, st.score, { level: stageLevel, maxCombo: st.max });
+    paintLevels();
+    levelSelect.value = Math.min(TARGET_LEVELS, stageLevel + 1);
+    say('Level ' + stageLevel + ' complete. +' + reward.xp + ' XP. Progress saved on this device.');
+    showOverlay(stageLevel === TARGET_LEVELS ? 'All 12 levels complete!' : 'Level ' + stageLevel + ' complete!',
+      st.score + ' points · +' + reward.xp + ' XP. Take a break or keep exploring.', stageLevel === TARGET_LEVELS ? 'Play again' : 'Next level');
+    PS.confetti();
   }
 
   function showOverlay(title, text, btn) {
@@ -168,14 +209,17 @@
     overlay.hidden = false; startBtn.focus({ preventScroll: true });
   }
   function start() {
+    stageLevel = Math.max(1, Math.min(TARGET_LEVELS, Number(levelSelect.value), campaign.completed + 1));
+    levelSelect.disabled = true;
     st = fresh(); over = false; running = true; paused = false; pointerX = null;
     PS.startSession(GID);
     overlay.hidden = true; pauseBtn.disabled = false; pauseBtn.textContent = '⏸ Pause';
     hud(); say(PS.quip('start')); cv.focus && cv.blur(); last = performance.now();
+    if (!raf) raf = requestAnimationFrame(frame);
   }
   function endGame() {
-    running = false; over = true; pauseBtn.disabled = true;
-    var r = PS.award(GID, st.score, { level: Math.floor(st.t / 16) + 1, maxCombo: st.max });
+    running = false; over = true; levelSelect.disabled = false; pauseBtn.disabled = true;
+    var r = PS.award(GID, st.score, { level: stageLevel, maxCombo: st.max });
     draw();
     var extra = (r.newBest ? ' New personal best!' : '') + (r.newBadges.length ? ' Badge: ' + r.newBadges.join(', ') + '.' : '');
     say('Round over. Score ' + st.score + ', best combo ' + st.max + '. +' + r.xp + ' XP. Another round is waiting.' + extra);
@@ -187,8 +231,8 @@
   function setPause(p) {
     if (!running || over) return;
     paused = p; pauseBtn.textContent = p ? '▶ Resume' : '⏸ Pause';
-    if (p) { say('Paused. Take a breath. 💙'); showOverlay('Paused', 'Breathe in… and out. Resume whenever you are ready.', '▶ Resume'); }
-    else { overlay.hidden = true; last = performance.now(); say('Back in the dash!'); }
+    if (p) { cancelAnimationFrame(raf); raf = 0; keys.l = keys.r = false; pointerX = null; say('Paused. Take a breath. 💙'); showOverlay('Paused', 'Breathe in… and out. Resume whenever you are ready.', '▶ Resume'); }
+    else { overlay.hidden = true; last = performance.now(); if (!raf) raf = requestAnimationFrame(frame); say('Back in the dash!'); }
   }
 
   startBtn.addEventListener('click', function () { if (paused) setPause(false); else start(); });
@@ -196,7 +240,7 @@
   document.addEventListener('visibilitychange', function () { if (document.hidden && running && !paused) setPause(true); });
 
   document.addEventListener('keydown', function (e) {
-    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.ctrlKey || e.metaKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
     var key = e.key;
     if (key === 'ArrowLeft' || key === 'a' || key === 'A') { keys.l = true; if (running) e.preventDefault(); }
     else if (key === 'ArrowRight' || key === 'd' || key === 'D') { keys.r = true; if (running) e.preventDefault(); }
@@ -228,5 +272,4 @@
   });
 
   resize(); hud();
-  raf = requestAnimationFrame(frame);
 })();

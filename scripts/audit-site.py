@@ -62,7 +62,7 @@ def check_script(item):
              "import {stripTypeScriptTypes} from 'node:module';"
              "import {readFileSync} from 'node:fs';"
              "process.stdout.write(stripTypeScriptTypes(readFileSync(0, 'utf8')));"],
-            input=source, text=True, capture_output=True)
+            input=source, text=True, encoding='utf-8', capture_output=True)
         if stripped.returncode:
             return f'{name}\n{stripped.stderr}'
         source = stripped.stdout
@@ -70,7 +70,7 @@ def check_script(item):
     command = (['node', '--check', str(ROOT / name)] if kind == 'file'
                else ['node', '--check', '--input-type=' + kind])
     result = subprocess.run(command,
-                            input=source, text=True, capture_output=True)
+                            input=source, text=True, encoding='utf-8', capture_output=True)
     return f'{name}\n{result.stderr}' if result.returncode else None
 
 
