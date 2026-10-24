@@ -67,3 +67,10 @@
 .hub-extra > summary:focus-visible { outline: 3px solid #00fff0; outline-offset: 3px; }
 #hub-browse { scroll-margin-top: 2rem; }
 .hub-card { overflow-wrap: anywhere; }
+
+html[data-theme="light"] { --room-bg:#f4f8fb; --room-card:#fff; --room-ink:#173247; --room-accent:#005f69; }
+html[data-theme="light"] :is(.hub h2,.hub-h,.hub-search-label,.hub-extra > summary) { color:#173247; }
+html[data-theme="light"] :is(.hub-lede,.hub-count,.wrap > .lede,.note) { color:#36505d; }
+html[data-theme="light"] .wrap .card { background:#fff; }
+html[data-theme="light"] .wrap .btn.solid { color:#fff; }
+html[data-theme="light"] .hub-welcome .btn { color:#eef6ff; }
