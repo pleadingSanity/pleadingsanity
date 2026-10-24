@@ -8,7 +8,8 @@ brand art; offers Western tropical, Vedic sidereal or both; explains their basis
 prepares a copyable chart request; and offers grounded reflection prompts.
 It calculates no planets, houses, dashas or predictions and labels this clearly.
 It collects only optional name, birth date, known/unknown time and birth town/country.
-Details remain in memory/form fields for the tab, with explicit copy and clear.
+Details remain in memory/form fields for the tab, with explicit copy and clear. Editing a field invalidates the old brief; Enter submits
+the form without navigation. Clipboard completion cannot overwrite a later clear.
 No local storage, query-string export, telemetry or network request carries them.
 
 ## Current provider boundary
@@ -45,7 +46,9 @@ create an unofficial proxy to the ChatGPT connector. Default budget stays £0.
 
 ## Acceptance and rollout
 
-Test phone/desktop layout, keyboard labels, copy failure fallback, clear/reset,
+Run `node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs`
+for validation and DOM-event tests. Test phone/desktop layout, keyboard labels,
+copy failure fallback, clear/reset,
 unknown time, future-date rejection, literal rendering of malicious text and zero
 network/storage writes from birth input. Add page-specific CSP and service-worker
 privacy treatment before any real remote integration; do not weaken existing

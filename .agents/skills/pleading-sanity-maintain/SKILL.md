@@ -39,6 +39,8 @@ older full-page snapshot or copy unverified permission/ownership claims.
 7. Run `python3 scripts/audit-site.py`, `git diff --check` and tests relevant to the
    actual risk. If present and Firebase changed, run
    `node --experimental-vm-modules --test scripts/test-firebase.mjs` on Node 24.
+   For local Journal Vault persistence changes, run
+   `node --test scripts/test-journal-vault.mjs` when present.
    Exercise changed UI at phone/desktop widths, keyboard and reduced motion when
    browser tooling is available; state a missing browser test explicitly.
 8. Append concise evidence to `AI_HANDOFF.md`. Push the tested branch and confirm
