@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
 
@@ -24,3 +24,6 @@ jobs:
         run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
       - name: Check local journal persistence failures
         run: node --test scripts/test-journal-vault.mjs
+
+      - name: Check game saves, scoreboards and App Hub destinations
+        run: node --experimental-vm-modules --test scripts/test-game-progress.mjs
