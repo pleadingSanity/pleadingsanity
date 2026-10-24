@@ -106,8 +106,12 @@
     } catch (e) { /* storage blocked or corrupt — start fresh */ }
     return blank();
   })();
+  var xpSource;
+  try { xpSource = crypto.randomUUID(); } catch (e) { xpSource = 'session-' + Date.now() + '-' + Math.random().toString(36).slice(2); }
   function save() {
-    try { localStorage.setItem(KEY, JSON.stringify(profile)); } catch (e) { /* private mode */ }
+    try { localStorage.setItem(KEY, JSON.stringify(profile)); } catch (e) {
+      window.dispatchEvent(new CustomEvent('ps-progress-storage-error'));
+    }
     try { window.dispatchEvent(new CustomEvent('psgames:update')); } catch (e) { /* old browser */ }
   }
   function gameStats(id) {
@@ -187,7 +191,9 @@
     n = Math.max(0, Math.round(n || 0));
     if (!n) return levelInfo(profile.xp);
     var before = levelInfo(profile.xp).level;
-    profile.xp += n;
+    if (!profile.xpLedger) profile.xpLedger = { base: profile.xp, sources: {} };
+    profile.xpLedger.sources[xpSource] = (profile.xpLedger.sources[xpSource] || 0) + n;
+    profile.xp = profile.xpLedger.base + Object.values(profile.xpLedger.sources).reduce(function (sum, n) { return sum + n; }, 0);
     var after = levelInfo(profile.xp);
     save();
     if (after.level > before) {
@@ -601,6 +607,11 @@
   window.addEventListener('storage', function (e) {
     if (e.key !== KEY || !e.newValue) return;
     try { profile = JSON.parse(e.newValue); window.dispatchEvent(new CustomEvent('psgames:update')); } catch (err) { /* ignore */ }
+  });
+
+  window.addEventListener('ps-progress-sync', function (e) {
+    if (!e.detail.includes('brain-games')) return;
+    try { profile = JSON.parse(localStorage.getItem(KEY)) || blank(); window.dispatchEvent(new CustomEvent('psgames:update')); } catch (err) {}
   });
 
   // ─── PUBLIC API ───

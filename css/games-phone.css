@@ -1,43 +1,24 @@
-/* Next-gen phone polish. Nothing removed. Cleaner cards, stronger touch, no glitches. */
-
-@media (max-width: 720px) {
-  .card, .k-card, .waste, .stock {
-    border-radius: 14px;
-    box-shadow: 0 6px 16px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,255,240,.5);
-  }
-  .felt, .stage .felt {
-    border-radius: 32px;
-    box-shadow: inset 0 0 0 2px rgba(0,255,240,.3), 0 12px 32px rgba(0,0,0,.4);
-  }
-  .seat {
-    min-width: 120px;
-    border-radius: 18px;
-    backdrop-filter: blur(8px);
-  }
-  button, .btn {
-    min-height: 48px;
-    font-size: 16px;
-    border-radius: 999px;
-  }
-  .chips {
-    width: 100px;
-    filter: drop-shadow(0 0 14px rgba(0,255,240,.55));
-  }
-  .levels { gap: 6px; }
-  .lvl { padding: 8px 14px; font-size: .9rem; }
+/* Shared app shell and accessible scoreboards. Never clip a game board to hide overflow. */
+.ps-game-page { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom)); }
+.ps-game-page main { min-width: 0; }
+.ps-game-page :is(button, .btn, .sbtn, select) { min-height: 48px; }
+.ps-game-page :is(input:not([type="checkbox"]), select) { max-width: 100%; font: inherit; font-size: 16px; color: #eef6ff; background: #0d1b2a; border: 1px solid #578583; border-radius: 12px; padding: .7rem; }
+.ps-game-page :is(button, a, input, select):focus-visible { outline: 3px solid #00fff0; outline-offset: 3px; }
+.ps-game-page [data-progress-status] { font-size: .9rem; color: #c3d8e4; }
+.ps-game-page .scoreboard { margin: 1.5rem auto; padding: clamp(1rem, 4vw, 2rem); background: #0d1b2a; color: #eef6ff; border: 1px solid #578583; border-radius: 24px; }
+.scoreboard label { display: grid; gap: .5rem; margin: .9rem 0; }
+.scoreboard .score-consent { display: flex; align-items: flex-start; gap: .75rem; }
+.scoreboard input[type="checkbox"] { width: 24px; height: 24px; flex: 0 0 24px; margin: 0; }
+.scoreboard .score-list { list-style: none; padding: 0; }
+.score-list li { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: .9rem .5rem; border-bottom: 1px solid #36505d; overflow-wrap: anywhere; }
+.score-list small { font-weight: normal; }
+.scoreboard .btn-row { display: flex; gap: .7rem; flex-wrap: wrap; }
+.ps-game-page .psg-bar-wrap { overflow-wrap: anywhere; }
+@media (max-width: 540px) {
+ .ps-game-page .game-card { padding: 1rem; border-radius: 24px; }
+ .ps-game-page .stats { flex-wrap: wrap; gap: .5rem; }
+ .ps-game-page .stat { min-width: 0; flex: 1 1 25%; }
+ .ps-game-page .scoreboard button { width: 100%; }
 }
 
-/* Prevent any overflow glitches */
-html, body, .wrap, .stage, .felt, .board {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Soft next-gen glow on active */
-.card.playable, .seat.on, button.do:active {
-  box-shadow: 0 0 0 2px #00fff0, 0 0 18px rgba(0,255,240,.5);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .card.playable { animation: none; }
-}
+.scoreboard-panel > summary { min-height: 48px; padding: 1rem; cursor: pointer; font-weight: 700; }

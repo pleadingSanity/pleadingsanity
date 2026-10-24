@@ -161,8 +161,9 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
 @media(prefers-reduced-motion:reduce){.wrap button{transition:none!important}}
 </style>
 <link rel="stylesheet" href="/css/ps-game-art.css">
+  <link rel="stylesheet" href="/css/games-phone.css">
 </head>
-<body class="ps-art ps-art-poker">
+<body class="ps-art ps-art-poker ps-game-page">
 <!-- PS games navigation: owner-editable label -->
 <nav aria-label="Game navigation" style="padding:12px 16px;text-align:center;background:#0d1b2a"><a href="/games.html" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">← Back to Brain Games</a></nav>
   <div class="wrap" role="main" id="main-content">
@@ -247,10 +248,11 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       $("raise").disabled = handOver || turn !== mySeat || me.stack <= need;
     }
     const BANK = "ps-poker-bank";
+    const scoreSession = Date.now().toString(36) + Math.random().toString(36).slice(2);
     const LOW = "ps-poker-low";
     function loadBank() {
       const has = localStorage.getItem(BANK);
-      let n = has === null ? 1000 : Number(has);
+      let n = has === null && window.PSGuest ? PSGuest.chips() : has === null ? 1000 : Number(has);
       if (!Number.isFinite(n)) n = 1000;
       const now = Date.now();
       if (n < 200) {
@@ -372,7 +374,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       let prev = 0;
       const names = [];
       let mainWinners = [];
-      let youWon = false;
+      let youWon = false, wonChips = 0;
       const mine = seats[mySeat];
       levels.forEach((level) => {
         const inPot = seats.filter((s) => s.put >= level);
@@ -394,17 +396,21 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
         winners.forEach((s, i) => {
           s.stack += share + (i === 0 ? odd : 0);
           names.push(s.name);
-          if (s === mine) youWon = true;
+          if (s === mine) { youWon = true; wonChips += share + (i === 0 ? odd : 0); }
         });
       });
       const called = shown && mainWinners.length && board.length >= 5 ? label(mainWinners[0].hole.concat(board)) : "";
       if (!room) { bank = seats[mySeat] ? seats[mySeat].stack : bank; saveBank(bank); }
       log(names.length ? [...new Set(names)].join(" and ") + " take the pots" + (called ? " with " + called : "") + "." : "No pot.");
       pot = 0; paint();
-      const mark = (room || "solo") + ":" + hands;
+      const mark = scoreSession + ":" + (room || "solo") + ":" + hands;
       if (youWon && window.PSGames && sessionStorage.getItem("ps-poker-won") !== mark) {
         sessionStorage.setItem("ps-poker-won", mark);
-        PSGames.record("night-table", { score: 40, level: 1, maxCombo: 1 });
+        const nextLevel = Math.max(5, Number(localStorage.getItem('ps-poker-levels')) || 5,
+          window.PSGuest ? PSGuest.load().levels['night-table'] || 5 : 5) + 1;
+        localStorage.setItem('ps-poker-levels', String(nextLevel));
+        if (window.PSGuest) PSGuest.record('night-table', nextLevel);
+        PSGames.record("night-table", { score: wonChips, level: nextLevel, maxCombo: 1 });
         if (PSGames.confetti) PSGames.confetti();
       }
     }
@@ -537,18 +543,13 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     el.innerHTML = html;
   }
   paintLevels();
-  const logEl = document.getElementById("log");
-  if (logEl){
-    const obs = new MutationObserver(() => {
-      if (/\bYou\b.*\btake the pots\b/.test(logEl.textContent || "")){
-        unlocked += 1;
-        localStorage.setItem(KEY, String(unlocked));
-        if (window.PSGuest) PSGuest.record("night-table", unlocked);
-        paintLevels();
-      }
-    });
-    obs.observe(logEl, { childList: true, characterData: true, subtree: true });
+  function refreshLevels() {
+    unlocked = Math.max(unlocked, Number(localStorage.getItem(KEY)) || 5,
+      window.PSGuest ? PSGuest.load().levels['night-table'] || 5 : 5);
+    paintLevels();
   }
+  window.addEventListener('psgames:update', refreshLevels);
+  window.addEventListener('ps-progress-sync', refreshLevels);
 })();
 </script>
 
@@ -573,5 +574,6 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
   try{if(!localStorage.getItem(KEY))open();}catch(e){open();}
 })();
 </script>
+  <script type="module" src="/js/progress.js"></script>
 </body>
 </html>

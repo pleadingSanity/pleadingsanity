@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pleading Sanity Maintainer"
+  short_description: "Audit and improve the existing Pleading Sanity site"
+  default_prompt: "Use $pleading-sanity-maintain to audit the current site, fix one confirmed issue, and report the tested commit and preview."

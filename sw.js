@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.53'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v88'; // v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const VERSION = '5.12.55'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
+const STATIC_CACHE = 'pleading-sanity-static-v90'; // v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -48,6 +48,9 @@ function isPrivatePath(pathname) {
 // 📦 PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
+    '/css/games-phone.css',
+    '/js/progress-merge.js',
+    '/js/game-scores.js',
     '/css/ps-game-art.css',
     '/assets/games/characters/blinky-128.webp',
     '/assets/games/characters/blinky-v2.webp',
@@ -144,14 +147,14 @@ const PRECACHE_URLS = [
     '/assets/images/brand/meme-list.jpg',
     '/assets/images/brand/home-rise-sea.jpg',
     '/assets/images/brand/home-city-brain.jpg',
-    '/assets/theme/icons/sanity-solitaire.jpg',
-    '/assets/theme/icons/cosmic-focus.jpg',
-    '/assets/theme/icons/number-nebula.jpg',
-    '/assets/theme/icons/pattern-galaxy.jpg',
-    '/assets/theme/icons/memory-ocean.jpg',
-    '/assets/theme/icons/rhythm-resonance.jpg',
-    '/assets/theme/icons/stardust-dash.jpg',
-    '/assets/theme/icons/healing-hz.jpg',
+    '/assets/theme/icons/sanity-solitaire.webp',
+    '/assets/theme/icons/cosmic-focus.webp',
+    '/assets/theme/icons/number-nebula.webp',
+    '/assets/theme/icons/pattern-galaxy.webp',
+    '/assets/theme/icons/memory-ocean.webp',
+    '/assets/theme/icons/rhythm-resonance.webp',
+    '/assets/theme/icons/stardust-dash.webp',
+    '/assets/theme/icons/healing-hz.webp',
     '/assets/theme/hz/174.jpg',
     '/assets/theme/hz/285.jpg',
     '/assets/theme/hz/396.jpg',
@@ -162,11 +165,11 @@ const PRECACHE_URLS = [
     '/assets/theme/hz/741.jpg',
     '/assets/theme/hz/852.jpg',
     '/assets/theme/hz/963.jpg',
-    '/assets/theme/icons/sanity-stories.jpg',
-    '/assets/theme/icons/mind-mode.jpg',
-    '/assets/theme/icons/cosmic-connect.jpg',
-    '/assets/theme/icons/truth-tag.jpg',
-    '/assets/theme/icons/mood-journey.jpg',
+    '/assets/theme/icons/sanity-stories.webp',
+    '/assets/theme/icons/mind-mode.webp',
+    '/assets/theme/icons/cosmic-connect.webp',
+    '/assets/theme/icons/truth-tag.webp',
+    '/assets/theme/icons/mood-journey.webp',
     '/assets/theme/suits/heart.jpg',
     '/assets/theme/suits/spade.jpg',
     '/assets/theme/suits/club.jpg',

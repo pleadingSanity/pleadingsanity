@@ -21,10 +21,15 @@ name: "Microsoft Defender For Devops"
 on:
   push:
     branches: [ "main" ]
+  # Scan stacked maintenance drafts as well as PRs targeting main.
   pull_request:
-    branches: [ "main" ]
   schedule:
     - cron: '21 22 * * 1'
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
 
 jobs:
   MSDO:
