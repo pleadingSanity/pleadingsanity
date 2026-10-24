@@ -402,6 +402,14 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Deployment blocker observed independently: latest deploy workflow build succeeds, but Netlify hook returns 404. Newly added Mayhem/Defender workflows also fail before this artwork batch; no scan protections or secrets changed here. Check production published SHA separately; do not equate a GitHub push with publication.
 - Final visual regression: Solitaire `paintMeta` previously replaced every body class; now removes only the known table-look classes, preserving the artwork/theme classes. Card corner text inherits suit colour without glow; existing suit pictures use an inverted multiply treatment on light faces. Four focused phone/desktop Poker/Solitaire checks and the static audit passed after this fix.
 
+
+## 2026-10-21 — GPT: Phase 0 master-order audit only
+- Changed: GAP_REPORT.md plus this append-only documentation entry, on polish/gpt-master-phase0-2026-10-21 from main 97f20e4. No application code or hosting settings changed. The latest owner order supersedes older direct-main and canonical-redirect instructions: branch only, Shane holds merge, preserve the working bare .uk mirror.
+- Why: establish evidence before incident recovery, visual polish, store readiness or the proposed Game Forge.
+- Verified: full non-shallow source tree; audit-site.py passes 78 root HTML / 202 JS/TS blocks with zero HOUSE GUARD lines; HTTP GET sweep of all 79 HTML paths and declarative assets; .co.uk and www .uk return usage_exceeded, bare .uk serves HTML; root soul matches main byte-for-byte. Source image-audience and Poker escaping fixes already exist. Separate prototype repository still has permissive recursive Firestore rules. Four manifest IDs and both service-worker scopes preserved.
+- Not proven: authenticated/live chat and provider calls, effective Vercel config, deployed Firebase rules, full dynamic asset coverage, browser/mobile/install/offline runtime, app-store eligibility, future Game Forge. No deploy, merge or main push claimed.
+- Next: Shane reviews GAP_REPORT.md and confirms Phase 1 scope. Stop here; no Phase 1–6 implementation before confirmation.
+
 ## 2026-10-21 — Claude (Netlify agent run): Phase 1 recovery check and failure-path fixes
 - Baseline: `97f20e4e03d4f21512eb0381e6af66aa7ac179b7` (main, matches GitHub). Read PR #100 `GAP_REPORT.md` (draft, unmerged). PR #92 untouched. Branch and head SHA are assigned by the Netlify agent runner, which also opens the PR. I could not name the branch `polish/netlify-phase1-2026-10-21`. Nothing merged, nothing pushed to main.
 - **Recovery, observed 2026-10-20 ~23:50 UTC:** `.co.uk` answers 200 again (Phase 0 saw 503 `usage_exceeded`), and `/api/arron/health` returns JSON 200. It still publishes **59fcb42**, the commit whose `games.html` is a 2.4 KB stub. Netlify recorded no deploy at all for the main pushes from 20:26 UTC onwards (#99, #98, #97, artwork, #46). `.uk` (Vercel) serves an older tree: `games.html` from `57a39f1`, `sw.js` from 59fcb42, no `/api/*` (404), and none of the 18 WebP portraits or worlds, `css/ps-game-art.css`, `css/app-hub.css` or `js/app-hub.js` (all 404 on both domains). The three "error" deploys at 19:41–19:42 are skipped/superseded builds, not source failures.
@@ -481,3 +489,7 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Follow-up CI coverage: API contract tests now run on stacked PR targets as well as main; external Mayhem remains explicitly manual. No runtime change from this workflow adjustment.
 - Defender scanning now also covers stacked PR targets; its tools, permissions, scheduled/main triggers and result uploads are unchanged. This closes the same branch-filter gap for new journal code.
 - Browser follow-up found a pre-existing journal layout bug: the entire sticky hero covered the Save button after scroll; Control+Enter saved the synthetic fixture while pointer click hit the hero. Scoped the journal hero to normal flow and reduced its decorative icon to 140px, preserving shared navigation. Updated-preview pointer/edit/reload checks remain required.
+
+## 2026-10-24 — Grok: Phase 0 gap report sorted onto main
+- Kept `GAP_REPORT.md` from PR #100. The newer handoff on main was kept in full. No pages, games, Arron or sign-in were changed by this sort.
+- The report describes the house as it was on 21 Oct, including a domain outage that has since recovered. It is a record, not the live status.
