@@ -155,13 +155,18 @@
 
     .page-wrapper { position: relative; z-index: 1; }
 
-    header { 
-      position: sticky; top: 0; z-index: 100;
+    .page-wrapper > header { 
+      position: relative; z-index: 1;
       text-align: center; padding: 20px 20px 15px;
       background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-glow);
       animation: fadeIn 0.8s ease-out both;
     }
+    .page-wrapper > header .ps-game-icon {
+      width: 140px; max-width: 35vw; height: auto;
+      object-fit: contain; margin: 12px auto;
+    }
+    .submit-section { scroll-margin-top: 90px; }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
