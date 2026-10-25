@@ -83,3 +83,4 @@ html[data-theme="light"] .hub-welcome .btn { color:#eef6ff; }
 .hub-install [data-install-status]:focus { outline: 3px solid #00fff0; outline-offset: 3px; }
 .hub-install .btn[hidden] { display: none; }
 .hub-install .btn:disabled { opacity: .7; cursor: wait; }
+.card.hub-extra { padding: 1rem; }
