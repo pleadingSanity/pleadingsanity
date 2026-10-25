@@ -50,7 +50,7 @@ This is a bounded maintenance framework, not an autonomous service promised fore
 
 | Frequency | Existing/next mechanism | Evidence and action |
 |---|---|---|
-| Every PR/main push and daily 05:17 UTC | Existing continuous-quality workflow | Static links/assets, syntax, navigation, journal, games, introduction regressions; failures stay visible |
+| Every PR/main push and daily 05:17 UTC | Existing continuous-quality workflow | Static links/assets, syntax, navigation, journal, games, introduction regressions; daily/manual read-only public-health job; failures stay visible |
 | Weekly Monday 22:21 UTC | Existing Defender workflow | Inspect actual scanner results; do not confuse skipped/manual Mayhem with a security pass |
 | Weekly | Existing Dependabot security PRs plus proposed weekly version-update configuration | Propose npm and Actions dependency PRs, maximum three each; never auto-merge |
 | Monthly | Named human with AI assistance | External links, crisis resources, content dates, mobile/browser checks, accessibility, dependency advisories and spending/quotas |
@@ -103,3 +103,7 @@ Maintenance references checked 25 October 2026:
 - https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
 - https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows
 - https://help.uptimerobot.com/en/articles/11604710-who-should-use-uptimerobot-s-free-plan
+
+### Implemented public availability job
+
+`scripts/check-public-health.py` runs only for scheduled/manual audits, not PRs or main pushes. It issues bounded GETs to canonical home, Games, Arron health and optional Firebase config; it does not call chat/generation, authenticate, read member records or print response contents. Firebase configured:false is supported. Cross-origin redirects and unknown targets are rejected. Five synthetic contract tests run in ordinary CI. Live failures appear as a failed Actions job; delivery to an owner still depends on verified GitHub notification settings. This is daily availability checking, not continuous uptime, performance monitoring or full feature certification. No automatic fix, rollback, customer message or extra provider bill.
