@@ -102,3 +102,21 @@ Navigation label, border colour and spacing are in the new labelled HTML navigat
 - Checked sixteen pages at both 360x900 and 1440x900: games, cosmic-focus, number-nebula, pattern-galaxy, memory-ocean, rhythm-resonance, stardust-dash, cosmic-connect, truth-tag, mind-mode, mood-journey, frequencies, sanity-solitaire, poker, get-the-app and shop. No document horizontal overflow, broken loaded local images or captured browser errors in these 32 checks.
 - Interactions verified in the browser: Stardust Start/Pause/Resume and twelve level options; Solitaire onboarding, 28 dealt Three Peaks cards, Hint/Draw/Undo and all four mode selectors; App Hub 37 cards, search returning one Stardust card, favourite toggle and Games filter returning eleven entries. Live preview scoreboard GET returns an empty-board message rather than an error. No synthetic score or donation was submitted to a live account.
 - Screenshot saved to the task's user-facing outputs as `app-hub-mobile.jpg`. Physical touch, exhaustive card outcomes, logged-in cross-device save/score writes and installed-PWA update remain unverified. The preview is not the primary production site.
+
+
+## Gentle game buffs — build specification, 25 October 2026
+
+Design proposals only, not newly playable releases. Inspect the actual games catalogue before implementing each item and extend the nearest working route. Preserve current mechanics, saved keys, scores, art and navigation. No competitive mental-health score, medical efficacy claim, forced streak, account requirement or paid dependency. All controls ≥48px; keyboard, visible focus, 360px layout, reduced-motion and optional sound.
+
+| Experience | First useful version | Acceptance checks |
+|---|---|---|
+| Breathing circle | Optional comfortable pace, Start/Pause/Stop, still-text alternative; no breath holds required | Stop immediately halts animation; reduced-motion text; no timer pressure or treatment claim |
+| 5-4-3-2-1 grounding | Five optional prompts for senses, Back/Skip/Finish; alternative for inaccessible senses | No required disclosure, no storage/network, keyboard can finish/exit |
+| Kindness missions | Pick one small feasible act, edit/skip; never ask to contact strangers or give money | No guilt, proof upload, leaderboard or forced daily reset |
+| Memory calm | Extend existing memory game with untimed mode, restart and clear instructions | Matched pairs correct, no duplicate input/race errors, keyboard/screen-reader status |
+| Colour relax | Simple original shapes/palette; undo/reset, optional user-triggered image export | Colours have names, no drag-only action; blocked save/export feedback |
+| Sound soothe | Explicit Play/Pause/Mute/volume for local licensed/original audio, default off | No autoplay, pause on exit, no audio capture or “healing frequency” claim |
+| Gratitude jar | Optional small note with skip/delete; start in memory only | No accidental persistence, textContent rendering, clear limitations before future local-save opt-in |
+| Daily check-in | Optional “How is today?” and one support action; no streak counter | No diagnosis or public mood ranking; skip/leave always available; explicit storage choice if added |
+
+For each: browser walkthrough (start, input, pause, finish/restart, exit), real phone and keyboard, offline/blocked storage, long text, reduced motion, console/network, save/reload failure if applicable. Use synthetic input. A new completion/reward must use the existing tested progress contract and never claim success before persistence. First implementation should be one scoped PR, not eight rewrites at once.

@@ -105,3 +105,12 @@ API audit. No external scan or subscription is enabled by default.
 
 Rollback: revert PR #104. No users, documents, rules or saved games need restoring
 because this patch does not change them.
+
+
+## Reconciled immediate request — 25 October 2026
+
+PR #103 was already merged (merge commit `c4b8c88653a2dfa0107d52d6009ebc71f4dc66a9`). The subsequent safe sidecar implementation is already present on main. Do not restore the older PASTE_APP_ID_HERE snapshot. The full backwards-compatible source is `../js/firebase.js`, with validation in `../js/firebase-config.js` and the same-origin function described above.
+
+Opening the requested Firestore Console page reached Google sign-in in the available browser; no authenticated project view was available in this session. Real required Web app values, Firestore enablement, deployed rules, authorised domains and billing plan still require authorised Console inspection; they cannot be derived from the project ID. Do not invent values or activate services to satisfy a checklist. No environment value, rule, authentication flow, Analytics or App Check setting was changed here. Cloud Storage requires Blaze under current official Firebase requirements, so the £0/Spark policy keeps optional Storage off.
+
+Official reference: https://firebase.google.com/docs/storage/faqs-storage-changes-announced-sept-2024

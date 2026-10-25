@@ -1,3 +1,5 @@
+> Current status, 25 October 2026: PWA is the £0 route; no native-store publication is verified. Earlier fee/update/account assurances are historical. See the current £0 install specification below before following old instructions.
+
 # 📲 Pleading Sanity & Arron — Google Play (Android) & App Store
 
 Both apps are Progressive Web Apps, so they already install straight from the browser
@@ -48,3 +50,20 @@ There are two apps you can publish:
 Store apps load the live site, so every deploy reaches them instantly. Arron also grows on his own:
 every night at 03:41 he writes down what the family's public posts taught him (see
 `netlify/functions/arron-grow.mts`). Edit `/arron-knowledge.json` to add wisdom, greetings or principles.
+
+
+## £0 install boost — current specification, 25 October 2026
+
+This section supersedes automatic-update/never-touch-accounts assurances and fixed store-fee claims above. Store terms and fees must be checked at submission; native publishing is outside the £0 release. No verified Google Play or Apple App Store listing exists in this audit. PWA installation is the free option. New cached code is not guaranteed to reach every phone immediately, and a service worker alone cannot prove account/data safety.
+
+Extend the existing get-the-app page and install handlers after inspecting them; preserve all manifest IDs, start URLs and scopes. One calm optional banner after deliberate interaction, no timed nag or blocking overlay. Use beforeinstallprompt only where supported; do not fake it. Hide when standalone is detected or after the person dismisses it; if persistence is unavailable, omit rather than repeatedly nag. Never place it over crisis actions.
+
+| Platform | Instructions to verify on a real device |
+|---|---|
+| iPhone/iPad | Open the site in Safari → Share → Add to Home Screen → confirm name → Add. If the browser offers “Open as Web App”, explain the observed option. In-app browsers may need Open in Safari first. |
+| Android | Open in a supported browser such as Chrome → Install app/Add to Home screen when offered; fallback to browser menu. Prompts vary by device/browser. |
+| Desktop | Browser install control where supported, otherwise normal bookmark. No promise of background support. |
+
+First launch: a skippable short panel explaining Arron is AI, support links, where the current page saves data, and optional install. No forced login or permission request. Offline messaging must say what is actually available: cached public pages/games may work; chat, sign-in, community and sync need a connection. Never queue or claim a journal/account save without a tested implementation. A new version prompt must let users finish/retain drafts; do not force reload during editing or gameplay.
+
+Acceptance: fresh install, existing install update, dismissal, standalone detection, offline launch, reconnect, stale-cache recovery, private-route exclusions, keyboard/reduced motion, safe areas and 360px layout. Test iOS Safari and Android Chrome physically before certification. Do not clear site storage as an update mechanism; explain that clearing browser data can remove local journals/saves. This is a specification, not proof those devices were tested.

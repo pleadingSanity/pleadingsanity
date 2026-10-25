@@ -61,3 +61,17 @@ The Mayhem workflow is a template until it starts the real API and points to a v
 Before changing DNS, record the current Namecheap registrar state, nameservers, DNS records, Netlify domain status, HTTPS status and Vercel backup status. Make one change at a time, preserve working records and verify recovery. Do not infer DNS configuration from the registrar name alone.
 
 _Last reviewed: 24 October 2026. Re-verify dashboard settings before each release._
+
+
+## Exact release and rollback sequence — 25 October 2026
+
+1. Fetch current main, inspect open PRs and current instructions; record base SHA and last known-good published Netlify deploy. Use a branch; avoid editing a stale snapshot.
+2. Inspect the scoped diff. Run `node --experimental-vm-modules --test scripts/test-*.mjs`, `python3 scripts/audit-site.py`, `git diff --check`. `npm run build` is only an informational static-site echo; dependency installation/build alone is not verification. Use `npm ci` when dependency/lockfile work actually requires it, not a substitute for tests.
+3. Push a PR. Require checks for its exact head, not an earlier commit. Record optional/skipped checks and any unavailable independent reviewer honestly. Preview must show the same SHA and ready status.
+4. Exercise changed public routes and synthetic fixtures on the preview. Inspect console/network, keyboard, accessibility and device limits. Use no real journal/account content, purchases, emails or posts. For Firebase, follow FIREBASE-SETUP.md; actual configuration and service/rule verification remain separate.
+5. Obtain explicit authorised human approval for auth, data, safety, payments, infrastructure or public personal stories. Merge scoped low-risk changes only after passing checks. Preserve current deployment mechanisms; do not add a duplicate trigger.
+6. Wait for Netlify publication and compare production commit SHA with the merge SHA. Check the canonical domain plus changed routes/assets/API and browser interactions. Record the deploy ID and evidence; “build succeeded” is not full working certification.
+7. On regression, an authorised operator chooses the recorded known-good deployment in Netlify → Deploys → Publish deploy. Confirm the intended site/deploy before acting, then verify live. Revert source via a normal PR so the next deploy cannot reintroduce the fault. Do not force-push or delete history.
+8. Rollback does not undo a database migration, repair data loss, restore a private archive or immediately clear every installed cache. No destructive data rollback or global cache/storage wipe. Test compatibility before any data/schema change; document a separate restore plan.
+
+Mayhem is currently a manual opt-in fixture scan; skipped is not a pass or evidence of complete security. App Check/firewall enforcement needs separately tested integration; never turn it on blindly or loosen rules for a green build.

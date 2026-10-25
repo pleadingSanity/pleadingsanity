@@ -71,3 +71,10 @@ Primary references:
 - https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls
 - https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl
 - https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+
+
+## Complete page metadata review sheet — 25 October 2026
+
+See [the generated page inventory](seo-page-inventory.md) for all current root HTML titles/descriptions, canonical and indexing status. This records the actual current source rather than replacing already improved tags with generic repeated SEO text. Keep private/noindex pages out of search; do not “optimise” them into public visibility. Home/About should clearly establish the Leicester/UK founder and free sanctuary only where grounded in approved copy. No legal-service identity, clinic claim or keyword-stuffed alt text.
+
+Every future proposed public copy change includes: **What I changed; why it helps the visitor; Shane voice check** (plain words, humour when appropriate, no invented memories/medical authority, no corporate filler); source/consent; accessibility; actual validation. Founder-sensitive copy needs per-excerpt approval. Preserve original drafts privately; edit spelling/structure without replacing the person with a heroic AI-written persona.

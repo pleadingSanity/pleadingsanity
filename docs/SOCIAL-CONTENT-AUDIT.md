@@ -61,3 +61,39 @@ A full-range published-post query returned **one** Instagram Reel (29 May 2025) 
 **Owner confirmation needed:** Are the connected brand accounts also yours? To audit `@mentally.inshane`, link that exact account in Metricool when supported or provide an official Instagram data export. Do not require the founder to retype his entire story.
 
 All public use of source content remains subject to founder approval and privacy review. Never upload full raw account exports or API credentials to this public GitHub repository. The extra-spend ceiling remains £0 without explicit approval.
+
+
+## New connection check — 25 October 2026 (supersedes October 13 connection table)
+
+Read-only Metricool inspection now reports brand `7408654`, label `P. S`, and Instagram `@mentally.inshane`. Older mismatching handle/label observations above are historical. The Facebook connection exists, but a connection ID alone does not prove it covers the founder’s personal-profile history.
+
+A query from 1 January 2000 through the start of 25 October 2026 returned **12 Facebook feed posts**, dated 9 August–23 October 2026. Instagram feed and Reel queries returned **zero rows**. Zero rows do not prove absence of posts or working historical coverage. Comment metrics are counts, not comment/reply text; the available connector tools do not expose a complete personal comment archive. No raw captions, sensitive findings, medical claims or private narrative drafts are committed here. No post/reply/message/scheduling action was taken. Metricool's ChatGPT permission was set to **ask before writes** at the owner's request; this is an assistant permission boundary, not proof Meta OAuth is read-only.
+
+### Safe connection / reconnection guide
+
+A matching connection is already visible; do not disconnect working accounts merely to repeat onboarding. In Metricool open the existing brand's Connections dashboard and verify exact Page/profile labels. If an account is missing, select Connect Page/Instagram, authenticate only on the official provider flow, select only the owned Page/professional Instagram account intended, inspect requested permissions and finish authorisation. Facebook personal/creator profiles cannot be connected as Pages. Instagram professional accounts are required for supported Metricool integrations; do not silently convert a personal account or alter its privacy. Full functionality may require a linked Facebook Page and correct admin access.
+
+Metricool's documented connection may request publishing permissions; do not promise a read-only OAuth scope that it does not offer. If that exceeds the owner's intended access, use the official export route instead. Keep ChatGPT permission at ask-before-writes. Never paste passwords, session cookies, recovery codes or access tokens into chat/repo. No other people's accounts or advertising account analysis is authorised by this request. No new third-party integration, paid history backfill or account conversion was performed.
+
+### Personal-history export — the appropriate route to wider coverage
+
+1. Open Facebook or Instagram settings, then **Accounts Centre → Your information and permissions → Export your information** (some versions say Download your information).
+2. Choose **Create export** or **Download or transfer information**, select the owned Facebook/Instagram profile(s), and choose **Export to device / Download to device**. Repeat per profile if the interface requires it.
+3. Select the available content categories: posts, comments/replies, photos/videos, Reels, Stories and relevant group activity. For the whole personal archive choose the available-all-information option, but keep the master private; direct messages, security logs and contacts are unnecessary for this editorial review.
+4. Choose **All time**, **JSON**, desired media quality and notification address, then **Start export / Create files**. Complete any password/2FA confirmation only inside Meta. Labels and available categories vary; follow Meta's current Help Centre if different.
+5. Download every archive part when notified. Keep originals privately. Share only a selected/redacted posts-and-comments subset for this audit; exclude credentials, messages, private third-party information and children's details. Do not upload it to GitHub, the website or a public issue.
+6. For a missing thread, use your own Facebook **Activity log → Comments** and date filter around the remembered period, then save your own comment/permalink/context privately. Export coverage can omit deleted/unavailable content and other people’s full threads; never promise recovery of every historical item.
+7. Keep a separate private ledger of source file, timestamp/timezone, permalink/ID, authorship, original audience, excerpt, consent, evidence status and intended public use. Reconcile all archive parts, duplicates and missing media before calling coverage complete.
+
+No personal archive has been supplied in this session. Historical engagement requires dated platform analytics with metric definition and scope: reach, impressions, profile visits and website visits are different. A number in a caption is not an analytics record. Do not publish a medical prediction as proven by an old comment; distinguish the founder's recollection from timestamped evidence and independent confirmation, without identifying someone else's health condition unnecessarily.
+
+### Turning verified history into trust
+
+Reuse About/Our Story and existing Wisdom/Stories, rather than new social mirrors or repeated links. Keep a short founder introduction, a few approved dated moments, what was difficult, what was learned and a useful link (journal, grounding, support). Preserve original writing privately, with an edited public version labelled as founder-reviewed/AI-assisted where applicable. No fabricated testimony, heroic medical authority or glorification of sleepless/manic sessions. Grief can be named without publishing a friend's identity, method of death or relatives' private details. Give the founder a preview of each sensitive excerpt before public use. Consent to analysis is not consent to automatic publication.
+
+Official references checked 25 October 2026:
+- https://help.metricool.com/how-to-connect-facebook-to-metricool-5ark1
+- https://help.metricool.com/how-to-connect-instagram-to-metricool-sermi
+- https://help.metricool.com/access-to-instagram-from-metricool-connection-types-and-differences-kcsrb
+- https://www.facebook.com/help/212802592074644
+- https://about.fb.com/news/2023/10/manage-your-information-across-apps/
