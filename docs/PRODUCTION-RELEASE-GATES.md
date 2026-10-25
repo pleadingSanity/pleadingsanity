@@ -45,3 +45,18 @@ Use this checklist for every meaningful release. It is intentionally conservativ
 | Backup | open backup domain and test dependencies | verified commit and HTTPS |
 
 Do not claim a feature is fixed based only on static checks. Record any untested gate as outstanding.
+
+
+## Meta handoff review branch — 25 October 2026
+
+- [x] Current main and named remote branches inspected; supplied Meta patch branches/archives not available to apply.
+- [x] Read-only primary/backup checks: both homepages 200; primary Arron health 200/ok, backup health 404; root soul identical on both. No model call or raw user-content request.
+- [x] Soul read-only fingerprint: Git blob `7055cb714f70342ef6e1c0ecfc43bd6cde3e8825`, 44,561 bytes before changes.
+- [x] Existing client fallback reused; add server-parity crisis detection with legacy phrases retained, and a nonblank string reply guard.
+- [x] Five synthetic offline/HTTP failure/response-contract regressions pass via `node --test scripts/test-arron-offline.mjs`.
+- [x] Complete local run: 64 JavaScript tests + 5 Python monitoring tests pass; audit passes 79 HTML/209 script blocks; diff clean; root soul Git blob unchanged.
+- [ ] Exact-head CI and preview verification — required before approval; not inferred from local tests.
+- [ ] Shane's review/merge approval — required for this branch; no production merge by this agent.
+- [ ] Actual Meta archives/patches, complete personal comments, native-phone/PWA and live provider-chain tests — still missing.
+
+Do not test the chat endpoint with GET and label its method error an outage. Do not make paid provider calls merely to fill a test checkbox. Browser observations, if performed, are recorded separately; local fixtures do not prove deployed behaviour.

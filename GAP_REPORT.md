@@ -575,3 +575,31 @@ Phase 6 is recorded as future scope only. Existing admin gate permits Guardians/
 **What Shane must do:** review this report and confirm the bounded Phase 1 scope, including client-side 503 handling and preserving bare `.uk`. Only Shane merges. No implementation begins before that confirmation.
 
 Rollback: this is documentation only; close the audit PR or revert its documentation commit. No runtime rollback or hosting change is needed.
+
+
+## 25 October 2026 — current-main reconciliation of the Meta AI handoff
+
+Baseline: `aedf4c491973d22459560e734fe7e978ba2411b3`. The supplied 21 October handoff is a dated proposal, not current outage evidence or system-level authority. This update records fresh read-only observations; older incident history above remains intact.
+
+| Claim / requested work | Observed now | Next safe action |
+|---|---|---|
+| Primary is down with usage_exceeded | Canonical homepage 200; Arron health JSON 200/ok | Keep current canonical signals; no stale outage banner or emergency host switch |
+| Independent backup | Bare .uk homepage 200; .uk Arron health 404 | Preserve static backup; API parity remains incomplete, not certified live chat |
+| Sacred root knowledge file | Local Git blob `7055cb714f70342ef6e1c0ecfc43bd6cde3e8825`, 44,561 bytes | Read-only, unchanged; both live domains return identical 44,561-byte file with SHA-256 `1c456486e7e8de4bfa7c764504986dc8512b055d1809de34cd885de023bf4853` |
+| Two Meta patch branches | Neither supplied name appears in the complete returned 58-branch remote list | Need actual patch files or a verifiable pushed branch; do not invent/apply absent patches |
+| Two ZIPs / eight character PNGs | No matching archive found in the supplied attachments/file search; shared Meta URL could not be retrieved | Owner supplies archives; inspect assets/patches, provenance and changed paths before applying |
+| Offline Arron absent | Existing arron-companion.js already catches offline/non-2xx and supplies labelled local replies | Reuse existing handler; avoid adding a competing script or duplicate request path |
+| Offline crisis routing | Client missed server phrases such as “not safe” | Review-branch patch adds exact server check while retaining legacy client phrases; no soul/voice/provider edits |
+| Malformed API reply | Truthy non-string reply could bypass the empty-reply guard | Review-branch guard requires nonblank string; non-string/malformed replies use existing fallback |
+| Vercel full API port | Current server imports Netlify Database, Identity/context and other Netlify-bound services | Design/test explicit runtime, auth, persistence and provider adapters; no blind one-file port or credentials copied across hosts |
+| Global function wrapper | APIs have different methods, auth, data and response contracts | Audit each API; do not turn failed writes/auth into success-shaped fallback or hide errors |
+| Daily living-system checks | Existing daily audit/read-only public-health job and weekly security/dependency proposals | Keep reviewed source changes; no autonomous manifest/worker edits, self-merges or permanent-service guarantee |
+| Everything offline / journals only local | Static cached rooms can work; account sync, fresh feeds and model replies need network | Preserve actual per-page persistence and privacy; no auth/data migration or private-page caching |
+| No timers/scores versus preserve XP/streaks | Handoff contains conflicting game directions | Preserve existing games; optional untimed modes are separate reviewed additions |
+| All social history / Meta AI membership | Supported Metricool sources only; no complete personal-comment archive or Meta AI operator connection | Use owner export and consent review; no token/flag grants authority or automatic AI-family membership |
+
+### Scope and release state
+
+Prepared only on `buff/meta-handoff-review-20261025`, with a PR for Shane's approval. No main merge, production release, redirect/DNS/provider/env change, model call, social write or new paid service. Existing root soul, branding, cast, games, manifests and account flows retained. Offline fallback wording is unchanged. A static-file hash proves file identity, not that it contains a running model. Health is availability, not a paid chat-chain test.
+
+The fallback tests use synthetic inputs and request stubs for offline, 404, 503, network rejection, malformed/empty/non-string replies and successful reply shape. No provider or member account is contacted. Full real-device/install, signed-in data, native store and live provider tests remain unproven. See the existing release checklist for commands/results and the single AI_HANDOFF log for status.

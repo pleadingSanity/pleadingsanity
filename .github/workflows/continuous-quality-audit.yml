@@ -37,6 +37,9 @@ jobs:
       - name: Check install lifecycle and gentle Mind Mode controls
         run: node --test scripts/test-pwa-install.mjs scripts/test-mind-mode.mjs
 
+      - name: Check Arron offline and failed-response routing
+        run: node --test scripts/test-arron-offline.mjs
+
       - name: Check public-health monitor contracts (synthetic only)
         run: python3 scripts/test-public-health.py
 
