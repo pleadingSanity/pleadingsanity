@@ -104,7 +104,7 @@
   };
 
   const MOOD_WORDS = [
-    // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
+    // Keep legacy client phrases too; the server-parity check below runs first.
     ['crisis',  /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i],
     ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|can'?t breathe|racing|on edge|freaking out/i],
     ['lonely',  /alone|lonely|lonel|no one|nobody|isolat|left out|no friends|miss (him|her|them)/i],
@@ -115,7 +115,11 @@
     ['calm',    /calm|peace|relaxed|chill|content|okay today|fine today/i]
   ];
 
+  // Match server crisis routing without removing legacy client wording.
+  const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+
   function detectMood(text) {
+    if (CRISIS_WORDS.test(text)) return 'crisis';
     for (const [mood, pattern] of MOOD_WORDS) if (pattern.test(text)) return mood;
     return null;
   }
@@ -597,7 +601,7 @@
       });
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
-      if (!data.reply) throw new Error('Empty reply');
+      if (typeof data?.reply !== 'string' || !data.reply.trim()) throw new Error('Empty reply');
       reply = data.reply;
       creatorMode = Boolean(data.creator);
       ownerMode = Boolean(data.owner);
