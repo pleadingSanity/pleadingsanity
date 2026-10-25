@@ -74,3 +74,12 @@ html[data-theme="light"] :is(.hub-lede,.hub-count,.wrap > .lede,.note) { color:#
 html[data-theme="light"] .wrap .card { background:#fff; }
 html[data-theme="light"] .wrap .btn.solid { color:#fff; }
 html[data-theme="light"] .hub-welcome .btn { color:#eef6ff; }
+
+/* Install guidance stays in page flow; no blocking banner or new tracking. */
+.hub-install h2 { color: inherit; font-size: 1.35rem; }
+.hub-install h3 { color: inherit; font-size: 1.05rem; }
+.hub-install li { margin-block: .6rem; line-height: 1.6; }
+.hub-install [data-install-status]:empty { display: none; }
+.hub-install [data-install-status]:focus { outline: 3px solid #00fff0; outline-offset: 3px; }
+.hub-install .btn[hidden] { display: none; }
+.hub-install .btn:disabled { opacity: .7; cursor: wait; }
