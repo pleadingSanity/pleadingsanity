@@ -120,3 +120,5 @@ Design proposals only, not newly playable releases. Inspect the actual games cat
 | Daily check-in | Optional “How is today?” and one support action; no streak counter | No diagnosis or public mood ranking; skip/leave always available; explicit storage choice if added |
 
 For each: browser walkthrough (start, input, pause, finish/restart, exit), real phone and keyboard, offline/blocked storage, long text, reduced motion, console/network, save/reload failure if applicable. Use synthetic input. A new completion/reward must use the existing tested progress contract and never claim success before persistence. First implementation should be one scoped PR, not eight rewrites at once.
+
+Implemented 25 October 2026 in existing Mind Mode: no-hold default for new visitors (saved valid choice retained), optional sense skip/finish, background timer stop and safe counter rendering. Six fixture tests cover these paths; phone/complete-game certification remains separate. Other proposed gratitude/kindness/colour features above remain specifications.

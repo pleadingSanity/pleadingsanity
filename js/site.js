@@ -42,33 +42,82 @@
   var navInner = document.querySelector(".ps-nav-inner");
   if (navInner) navInner.appendChild(themeBtn);
 
+  // Install controls are optional. A prompt is single-use and browser-owned.
   var installPrompt = null;
+  var installBusy = false;
   var installButtons = document.querySelectorAll('[data-pwa-install]');
-  function showInstall(show) { installButtons.forEach(function (btn) { btn.hidden = !show; btn.classList.toggle('hidden', !show); }); }
-  function installHelp(btn, message) {
+  var installDisplay = window.matchMedia('(display-mode: standalone)');
+  var installed = navigator.standalone === true || installDisplay.matches;
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  function installHelp(btn, message, focus) {
     var note = btn.parentElement.querySelector('[data-install-status]');
     if (!note) {
       note = document.createElement('p');
       note.dataset.installStatus = '';
       note.setAttribute('role', 'status');
+      note.setAttribute('tabindex', '-1');
       note.className = 'note';
       btn.insertAdjacentElement('afterend', note);
     }
     note.textContent = message;
+    if (focus) note.focus();
   }
-  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); installPrompt = e; showInstall(true); });
-  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  if (isIOS && !(navigator.standalone === true)) showInstall(true);
+  function showInstall() {
+    installButtons.forEach(function (btn) {
+      var show = !installed && (isIOS || !!installPrompt);
+      btn.hidden = !show;
+      btn.disabled = installBusy;
+      btn.classList.toggle('hidden', !show);
+    });
+  }
+  function installedNow() {
+    installed = true;
+    installPrompt = null;
+    installBusy = false;
+    installButtons.forEach(function (btn) {
+      if (document.activeElement === btn || btn.parentElement.querySelector('[data-install-status]')) {
+        installHelp(btn, 'Installed. Open the sanctuary from its app icon.', document.activeElement === btn);
+      }
+    });
+    showInstall();
+  }
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    if (!installed && !installBusy) installPrompt = e;
+    showInstall();
+  });
+  window.addEventListener('appinstalled', installedNow);
+  if (installDisplay.addEventListener) installDisplay.addEventListener('change', function (e) {
+    if (e.matches) installedNow();
+  });
+  showInstall();
   installButtons.forEach(function (btn) {
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', async function () {
+      if (installed || installBusy) return;
       if (!installPrompt) {
         installHelp(btn, isIOS
-          ? 'In Safari, tap Share, then Add to Home Screen.'
-          : 'Open your browser menu and choose Install app or Add to Home Screen if available. If already installed, open Pleading Sanity from its icon.');
+          ? 'In Safari, tap Share, then Add to Home Screen. If you opened this inside another app, open it in Safari first.'
+          : 'Open your browser menu and choose Install app or Add to Home Screen if available.');
         return;
       }
-      installPrompt.prompt();
-      installPrompt.userChoice.finally(function () { installPrompt = null; showInstall(false); });
+      var prompt = installPrompt;
+      installPrompt = null;
+      installBusy = true;
+      installButtons.forEach(function (button) { button.disabled = true; });
+      try {
+        // Call immediately from the click: browsers require user activation.
+        var result = await prompt.prompt();
+        var choice = result && result.outcome ? result : await prompt.userChoice;
+        if (!installed) installHelp(btn, choice && choice.outcome === 'accepted'
+          ? 'Install accepted. Your browser will finish adding the app.'
+          : 'No problem. Keep using the sanctuary in your browser.', document.activeElement === btn);
+      } catch (e) {
+        if (!installed) installHelp(btn, 'The install prompt could not open. Use the browser menu, or follow the instructions on the App Hub.', document.activeElement === btn);
+      } finally {
+        installBusy = false;
+        showInstall();
+      }
     });
   });
   // ─── INSTALL ONCE, GROW FOREVER ───

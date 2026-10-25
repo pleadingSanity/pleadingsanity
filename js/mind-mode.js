@@ -8,12 +8,12 @@ import { loadProgress, saveProgress, onProgressSync } from '/js/progress.js';
 import { loadMe } from '/js/auth.js';
 
 const GAME = 'mind-mode';
-const DEFAULTS = { sessions: 0, breaths: 0, seconds: 0, groundings: 0, patterns: {}, recent: [], sound: false, pattern: 'box', rounds: 5 };
+const DEFAULTS = { sessions: 0, breaths: 0, seconds: 0, groundings: 0, patterns: {}, recent: [], sound: false, pattern: 'coherent', rounds: 5 };
 
 const PATTERNS = {
   box: { name: 'Box', sub: '4-4-4-4', desc: 'Breathe in, hold, out, hold — four counts each. Steady and grounding.', phases: [['in', 4], ['hold', 4], ['out', 4], ['rest', 4]] },
   '478': { name: '4-7-8', sub: 'relaxing', desc: 'In for 4, hold for 7, out slowly for 8. If the hold feels too long, that\'s okay — breathe whenever you need to.', phases: [['in', 4], ['hold', 7], ['out', 8]] },
-  coherent: { name: 'Coherent', sub: '5-5', desc: 'In for 5, out for 5. An even, gentle rhythm.', phases: [['in', 5], ['out', 5]] },
+  coherent: { name: 'Even breathing', sub: '5-5 · no hold', desc: 'In for 5, out for 5. An even, gentle rhythm.', phases: [['in', 5], ['out', 5]] },
   calm: { name: 'Calm exhale', sub: '4-6', desc: 'In for 4, out for 6. A longer out-breath can help the body settle.', phases: [['in', 4], ['out', 6]] },
 };
 const CUES = { in: 'Breathe in', hold: 'Hold', out: 'Breathe out', rest: 'Rest' };
@@ -52,9 +52,13 @@ const today = () => { const d = new Date(); return `${d.getFullYear()}-${String(
 let state = load();
 function load() {
   const s = { ...structuredClone(DEFAULTS), ...loadProgress(GAME, DEFAULTS) };
-  if (!PATTERNS[s.pattern]) s.pattern = 'box';
+  if (!Object.hasOwn(PATTERNS, s.pattern)) s.pattern = DEFAULTS.pattern;
+  for (const key of ['sessions', 'breaths', 'seconds', 'groundings']) {
+    if (!Number.isSafeInteger(s[key]) || s[key] < 0) s[key] = 0;
+  }
+  if (![0, 3, 5, 10].includes(s.rounds)) s.rounds = DEFAULTS.rounds;
   if (!Array.isArray(s.recent)) s.recent = [];
-  if (!s.patterns || typeof s.patterns !== 'object') s.patterns = {};
+  if (!s.patterns || typeof s.patterns !== 'object' || Array.isArray(s.patterns)) s.patterns = {};
   return s;
 }
 function save() {
@@ -76,7 +80,7 @@ tabs.forEach((btn) => btn.addEventListener('click', () => setMode(btn.dataset.mo
 function setMode(mode) {
   tabs.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
   document.querySelectorAll('[data-panel]').forEach((p) => { p.hidden = p.dataset.panel !== mode; });
-  if (mode !== 'breathe' && running) stopBreathing();
+  if (mode !== 'breathe' && running) stopBreathing(false);
   if (mode === 'calm') startRotation(); else stopRotation();
 }
 
@@ -192,7 +196,7 @@ function step() {
   enterPhase();
 }
 
-function finishBreathing(complete) {
+function finishBreathing(complete, restoreFocus = true) {
   clearInterval(tick);
   running = false;
   const s = session;
@@ -222,23 +226,39 @@ function finishBreathing(complete) {
   live.textContent = msg;
   count.textContent = msg;
   startBtn.textContent = 'Breathe again';
-  startBtn.focus();
+  if (restoreFocus) startBtn.focus();
 }
-function stopBreathing() { if (running) finishBreathing(false); }
+function stopBreathing(restoreFocus = true) { if (running) finishBreathing(false, restoreFocus); }
 
 startBtn.addEventListener('click', () => { if (!running) startBreathing(); });
-stopBtn.addEventListener('click', stopBreathing);
+stopBtn.addEventListener('click', () => stopBreathing());
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && running) stopBreathing(); });
+// Never keep a paced session or affirmation timer running in the background.
+function pauseHidden() {
+  stopBreathing(false);
+  stopRotation();
+  if (ctx && ctx.state === 'running') ctx.suspend().catch(() => {});
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) pauseHidden();
+  else if (document.querySelector('[data-panel="calm"]').hidden === false) startRotation();
+});
+window.addEventListener('pagehide', pauseHidden);
 
 // ─── FOCUS: 5-4-3-2-1 GROUNDING ───
 let gStep = -1;
+let gSkipped = false;
 const gBox = $('mm-ground');
 const gNext = $('mm-ground-next');
 const gBack = $('mm-ground-back');
+const gSkip = $('mm-ground-skip');
+const gFinish = $('mm-ground-finish');
 const gDots = $('mm-ground-dots');
 gDots.innerHTML = GROUND.map(() => '<li></li>').join('');
 function renderGround() {
   gBack.hidden = gStep <= 0 || gStep >= GROUND.length;
+  gSkip.hidden = gStep < 0 || gStep >= GROUND.length;
+  gFinish.hidden = gStep < 0 || gStep >= GROUND.length;
   gDots.querySelectorAll('li').forEach((li, i) => li.classList.toggle('on', i <= gStep && gStep < GROUND.length));
   if (gStep < 0) {
     gBox.innerHTML = '<p class="sg-big">Find a comfortable position. There\'s no need to rush.</p>';
@@ -248,22 +268,33 @@ function renderGround() {
     gBox.innerHTML = `<div class="mm-ground-num" aria-hidden="true">${g.n}</div><p class="sg-big"><span class="sr-only">Step ${gStep + 1} of 5. ${g.n} things you can ${g.sense}. </span>${g.text}</p>`;
     gNext.textContent = gStep === GROUND.length - 1 ? 'Finish' : 'Next';
   } else {
-    gBox.innerHTML = '<p class="sg-big">You\'re here, in this moment. Take one more slow breath before you carry on.</p>';
+    gBox.innerHTML = '<p class="sg-big">That\'s the end of the prompts. Take a moment, or carry on whenever you like.</p>';
     gNext.textContent = 'Start again';
   }
 }
-gNext.addEventListener('click', () => {
+function advanceGround(skip = false) {
   if (gStep >= GROUND.length) gStep = -1;
+  if (gStep < 0) gSkipped = false;
+  if (skip) gSkipped = true;
   gStep += 1;
-  if (gStep === GROUND.length) {
+  if (gStep === GROUND.length && !gSkipped) {
     state.groundings += 1;
     state.sessions += 1;
     state.recent.push({ d: today(), t: 'ground' });
     save();
   }
   renderGround();
+  if (skip && gSkip.hidden) gNext.focus();
+}
+gNext.addEventListener('click', () => advanceGround());
+gSkip.addEventListener('click', () => advanceGround(true));
+gFinish.addEventListener('click', () => {
+  gStep = -1;
+  gSkipped = false;
+  renderGround();
+  gNext.focus();
 });
-gBack.addEventListener('click', () => { if (gStep > 0) { gStep -= 1; renderGround(); } });
+gBack.addEventListener('click', () => { if (gStep > 0) { gStep -= 1; renderGround(); if (gBack.hidden) gNext.focus(); } });
 
 // ─── CALM: ROTATING AFFIRMATIONS ───
 const aBox = $('mm-affirm');
@@ -304,8 +335,16 @@ function renderStats() {
     [state.groundings, state.groundings === 1 ? 'grounding walk' : 'grounding walks'],
     [fav ? PATTERNS[fav[0]]?.name || '—' : '—', 'favourite pattern'],
   ];
-  $('mm-stats').innerHTML = items.map(([b, l]) => `<li><b>${b}</b>${l}</li>`).join('');
-  const days = [...new Set(state.recent.map((r) => r.d))];
+  const stats = $('mm-stats');
+  stats.replaceChildren();
+  for (const [value, label] of items) {
+    const row = document.createElement('li');
+    const number = document.createElement('b');
+    number.textContent = String(value);
+    row.append(number, document.createTextNode(label));
+    stats.appendChild(row);
+  }
+  const days = [...new Set(state.recent.filter((r) => r && typeof r.d === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(r.d)).map((r) => r.d))];
   const recent = $('mm-recent');
   if (!days.length) {
     recent.textContent = 'Nothing yet — and that\'s fine. Your first breath here is waiting whenever you are.';
