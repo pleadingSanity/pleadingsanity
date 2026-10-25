@@ -1,6 +1,43 @@
 # Pleading Sanity — Human + AI Platform Architecture
 
-Status: foundation specification, 8 October 2026.
+Status: architecture specification plus Site Brain operating index, updated 25 October 2026. Older feature classifications below are source inventories, not current end-to-end certification.
+
+## Site Brain — start here
+
+This is the existing central operating map, not a second handoff. Read `../AGENTS.md` and the newest `../AI_HANDOFF.md` entry first. The public repository must never contain passwords, recovery codes, private exports, government IDs or user records.
+
+| System | Source of truth | Recovery / verification |
+|---|---|---|
+| Source | `pleadingSanity/pleadingsanity`, main | Branch + reviewed PR; exact commit and deployment SHA, never force push |
+| Production | Netlify `pleadingsanity`, site `31c56935-32d5-4932-8a63-2db881842090` | Root publish directory; `../netlify.toml`, `../_redirects`; [release checklist](DEPLOYMENT-CHECKLIST.md) |
+| Domains | `.co.uk` canonical; `.uk` independent backup | Registrar/DNS ownership and renewal details in private vault; inspect live records before changes |
+| Login | `../js/auth.js`, Netlify Identity | Preserve existing identity IDs and sessions; synthetic test users only |
+| Data | `../db/schema.ts`, `../netlify/database/migrations`, Netlify Blobs | Provider backups and restore exercise required; source rollback does not restore data |
+| Firebase sidecar | `../js/firebase.js`, `../js/firebase-config.js`, `../netlify/functions/firebase-public-config.mts` | [config checklist](FIREBASE-SETUP.md); optional, no auth migration; console service status unverified |
+| Arron | `../netlify/functions/arron.mts`, `../netlify/lib/ai-chain.ts`, `../arron-knowledge.json` | Keep configured GPT → Claude → Gemini → Grok order; crisis fallback independent of provider |
+| Journals / games | `../journal-vault.html` inline code, `../js/progress.js`, `../js/guest-progress.js` | Inspect each route for actual local/server persistence; never call all journals local or encrypted |
+| PWA | `../sw.js`, root manifests, `../get-the-app.html` | Preserve IDs/start URLs/scope, private-route exclusions; [install spec](ARRON-APP-STORES.md) |
+| Checks | `../scripts/audit-site.py`, `../scripts/test-*.mjs`, `../.github/workflows/` | [maintenance protocol](AI-COUNCIL-OPERATIONS.md), [backups](BACKUP-STRATEGY.md) |
+| Founder history | [social audit](SOCIAL-CONTENT-AUDIT.md) | Private evidence ledger and approved excerpts; raw archives stay outside repo |
+| Stewardship / money | [family plan](FAMILY-LEGACY-PLAN.md), [UK governance draft](LEGAL-GOVERNANCE-FRAMEWORK.md) | Proposals only; solicitor/accountant and named human custodians required |
+| Images / games | [asset preservation](ASSET-PRESERVATION.md), [game inventory](GAME-INVENTORY.md), [art brief](GAME-ART-MASTER-BRIEF.md) | Reuse existing assets/routes before adding anything |
+
+### Private vault register — locations, never credentials
+
+Shane must choose a password manager with emergency access and record its name/location privately with his executor. This has not been provisioned. Create separate vault entries for GitHub owner/2FA recovery, Netlify owner/Identity/database backups, registrar/DNS/domain renewals, Firebase/Google project ownership, provider API keys, social OAuth access, banking, and any future signing keys. Each entry needs owner, second authorised human, recovery method, renewal date, access scope, last recovery test and revocation procedure. Do not use a single shared login or paste secrets into an AI prompt.
+
+The public register lists service and responsible role only. The private executor pack contains actual contact details, legal names, vault locator and authorised recovery instructions. Current named owner: Shane Cooper. Executor, deputy, accountant, solicitor, successor and independent reviewers: **not appointed or verified here**. Public project contact: `pleadingsanity1@gmail.com`; delivery/monitoring not verified in this audit. Do not assume older security/emergency aliases are staffed.
+
+### Taking over without breaking the house
+
+1. Establish lawful account authority through the executor/provider processes; do not impersonate Shane or reuse a deceased person’s login.
+2. Read current handoff; inventory domains, deploys, billing/quotas, data locations, providers and open incidents. Preserve an independent source/asset backup and separately protected data backups.
+3. Freeze optional features if resources are low; keep static support and existing local tools available. Never paywall core help to cover an unexpected bill.
+4. Run checks and restore a backup into an isolated approved environment before claiming recoverability. Use the existing host; no duplicate public site.
+5. Publish only aggregate operational facts. Resume scoped PRs with human review and an exact-SHA production check.
+
+No framework guarantees perpetual hosting, free API availability or legal ownership transfer. A useful static archive and recoverable human stewardship are the fallback.
+
 
 ## Non-negotiables
 - Evolution, Not Erasure.

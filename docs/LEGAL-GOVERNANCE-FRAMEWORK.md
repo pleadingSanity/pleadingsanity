@@ -1,3 +1,69 @@
+# UK stewardship and finance draft — 25 October 2026
+
+**Planning only. To be finalised with a solicitor and accountant in England and Wales. No entity, trust, succession deed, account, transfer or legal mission lock has been created by this document.**
+
+This section supersedes the historical US 501(c)(3)/LLC proposals below. Those are preserved as history, not instructions or claims about the current organisation. Pleading Sanity must not claim registered charity status without registration.
+
+## Structure choices to take to advisers
+
+| Option | Why consider it | Constraint to resolve |
+|---|---|---|
+| CIO | Charitable purpose, public benefit, incorporated body | Trustees administer charity assets; no inheritable family ownership or automatic family allowance |
+| Charitable company limited by guarantee | Incorporated charitable operation | Companies House plus Charity Commission obligations; trustee duties and benefit restrictions |
+| CIC limited by guarantee | Trading social enterprise with statutory asset lock | Community benefit test and reporting; no ordinary family distribution of locked assets |
+| Non-charitable company limited by guarantee | Membership/control rules can be drafted | No automatic charity tax treatment or CIC asset lock; mission protection needs properly drafted provisions |
+
+A charitable trust and a CIO are different structures. Ask which fits the intended fallback and whether an existing suitable charity could accept the mission/assets. Do not create two entities just because an old diagram says so. A solicitor must reconcile founder control, family preferences, trustee independence and a meaningful mission lock; they cannot all be absolute at once.
+
+## Financial framework — no account opened, no transfer authorised
+
+Default additional spending remains £0. Prefer an eligible separate GBP account in the correct legal owner’s name, with no monthly fee only if verified in its current terms. Keep operating, tax/refund liabilities and reserve balances separately identifiable in the ledger. Do not mix donor funds with the founder’s personal spending. Select a bank only after entity eligibility, protections, fees and mandate are checked.
+
+Crypto is optional and currently **off**: it adds custody, fraud, volatility, transaction fees, tax and recovery work. It is not needed to run a free sanctuary. If later approved, use an organisation-controlled wallet with independently held recovery arrangements and a written multi-person approval policy. Seed phrases and private keys belong only in protected custody; publish no credentials or donor identities. Never give an AI spending or signing authority.
+
+Calculate allocations from **unrestricted available surplus** after taxes, refunds, processor fees, direct fulfilment costs, liabilities and restricted donations. Existing creator/merch proposals in REVENUE_TERMS.md are separate and must not be silently replaced or counted twice. No percentages have been activated.
+
+| Proposed envelope | Share | Rule |
+|---|---:|---|
+| Essential operation | 50% | Domains, hosting and approved costs; no paid upgrade until revenue and explicit budget approval |
+| Improvements | 25% | Only after current support and reserve needs; no ads |
+| Reserve | 15% | Target 24 months of measured essential costs, reviewed quarterly |
+| Conditional founder/family provision | 10% | **Held in reserve unless lawful, documented and independently approved**; never an automatic charity payout based on ancestry |
+
+If the conditional provision is incompatible with the selected structure, allocate it to mission reserves rather than promising it. Real work may be paid only on lawful, reasonable, conflict-managed terms; ancestry is not sufficient authority to spend charity assets. Essential costs take priority over the illustrative split. When revenue is zero, allocations are zero. Core crisis help, Arron companion, journal and community access remain free; paid optional extras must not remove existing core access. No advertising spend or data selling.
+
+Publish a monthly aggregate ledger on the existing transparency page once actual reconciled data exists: opening balance, gross income by source, restrictions, fees/tax provision, spending by category, reserve balance, commitments, closing balance and approver. Publish redacted receipts, not donor names, bank details, invoices containing personal addresses, API invoices with keys, or government IDs. Two authorised humans approve payments/changes to bank mandate when practicable; flag sole-custodian periods openly. No invented zero-balance statement or impact total.
+
+## Draft Founder's Letter and Succession Instructions
+
+**Unsigned drafting brief; not a will, deed or executed transfer. To be finalised with a solicitor.**
+
+> I am Shane Cooper. I built Pleading Sanity from lived experience because people need somewhere they can turn up as they are. Keep the humour. Keep the truth. Don’t turn pain into a sales funnel. Core help stays free. No selling people’s data. No using my name to pretend I approved something I never saw.
+>
+> While I am alive and legally able to decide, I want control of the project, subject to the law and any duties of the entity we choose. On my death, I want eligible, willing blood family to be considered first for the rights I can lawfully pass on. Friends, partners and online contacts are not the intended beneficiaries of those personal project rights. If no eligible family member accepts, I want the mission and transferable assets entrusted to a properly constituted charitable body that can keep serving people.
+>
+> AI can help people maintain this place. It cannot inherit my accounts, pretend to be me, or take custody of people’s money. Keep people accountable for decisions. Preserve the original work and let the next generation improve it without erasing where it came from.
+
+### Clauses for the solicitor to resolve and execute
+
+1. **Assets and authority:** schedule ownership/licences of domain, code, branding, artwork, contractual rights, account permissions and personal estate assets. User records and third-party content are not family property; lawful data-controller and licence duties continue. Provider contracts may limit transfer.
+2. **Trigger:** legally evidenced death and executor authority. Incapacity needs a separate lawful arrangement; do not treat a missed login, AI inference or silence as death.
+3. **Family eligibility:** closest proven blood relatives in the founder’s chosen order. The solicitor must specify degree, ties, minors, capacity, acceptance deadline, exclusions and a dispute process; do not let software guess kinship. Record testamentary/family-law limitations rather than guaranteeing all exclusions are enforceable.
+4. **Verification:** an authorised solicitor/executor privately checks identity and relationship using appropriate official records. Passport alone proves no relationship. Use minimum necessary copies, lawful processing, access restrictions, retention/deletion policy and an appeals process. No public ID uploads or automatic ancestry verification.
+5. **Transfer:** execute appropriate will, IP assignments, entity articles/constitution, membership/control rules, appointments and provider recovery instructions. Do not distribute already charitable/asset-locked property to relatives. Family stewardship appointment and personal inheritance are separate questions.
+6. **Fallback:** identify an eligible willing charitable recipient and alternatives, with acceptance and mission safeguards. No claim that an unnamed CIO already exists or is obliged to take over.
+7. **Mission protections:** draft enforceable charitable objects/asset lock/reserved matters where appropriate: free core help, privacy, no exploitation/data selling, no ads budget, peaceful inclusive service, no sale for private enrichment. A document cannot promise that no lawful future amendment will ever be possible.
+8. **AI advisory council:** GPT, Claude, Gemini and Grok are proposed tools/advisers, not legal persons, trustees, perpetual services or verified autonomous guardians. Human officeholders must own decisions. A mission check can block a PR pending human review; a model output is not a legally enforceable veto. No claim of provider consent.
+9. **Continuity:** nominate executor and deputy privately, require annual recovery/restore rehearsal, publish conflicts and aggregate accounts, keep optional services within resources. Maintain a static archive fallback without promising immortality or permanent operation.
+10. **Execution:** solicitor supplies the legally appropriate instrument(s), witnesses/signatures and independent advice; no signing blocks here invite accidental execution. Founder reviews final wording, especially ownership, family priority and benefit restrictions.
+
+Official references checked 25 October 2026:
+- https://www.gov.uk/setting-up-charity/structures
+- https://www.gov.uk/government/publications/community-interest-companies-how-to-form-a-cic/community-interest-companies-guidance-chapters
+- https://www.gov.uk/government/publications/charities-paying-a-trustee-or-a-connected-person-understand-the-rules-cc11
+
+## Historical draft below — not current UK advice or verified status
+
 # Pleading Sanity - Legal & Governance Framework
 ## Building Forever: Legal Foundation for Global Mental Health Movement
 

@@ -34,3 +34,21 @@ Produce each as: transparent bust portrait 512x512 WebP, full-body 768x1024 WebP
 
 ## Deliverables
 A route-by-route image inventory, generated assets saved in `assets/games/`, tested implementation commits with before/after screenshots, and a short honest status report listing completed, blocked and pending items. Preserve all source material and avoid placeholder buttons.
+
+
+## Sanctuary image concepts — 25 October 2026
+
+Art direction only; missing image blocks must be reproduced route-by-route before adding assets. Existing image decoding/alt-attribute checks are not a semantic/visual audit of every block. Keep all originals, use compact local WebP variants, fixed dimensions and lazy loading below the fold. No new image API subscription.
+
+| Placement | Original concept | Accessibility / integration |
+|---|---|---|
+| Sanctuary welcome | Small warm doorway in a deep-blue night garden | Decorative empty alt beside equivalent welcome text |
+| Journal | Open unmarked notebook beside a warm lamp; no legible invented handwriting | “Open notebook beside a warm lamp” if informative, otherwise empty alt |
+| Community | Diverse abstract figures sitting in an open circle; no real member likeness | Do not imply a photographed real support group |
+| Breathing | Soft still moonlight ring and an optional gently expanding version | Static reduced-motion alternative; no flash |
+| Arron | Existing Arron character in a calm listening pose | Preserve character/logo; no real-person impersonation |
+| Install | Original small phone displaying an accurate current sanctuary screen | Instructions remain HTML text; do not invent store badges |
+| Empty state | A small unlit constellation with room for a first star | “Nothing saved yet” as text, not hidden in image |
+| Offline/error | Sheltered lantern with a readable text retry/help action beside it | Never imply a draft is saved or a message sent |
+
+Validate contrast/text overlap at 360px and desktop, actual file loading, descriptive context, download size, dimensions and fallback. Never put mental-health keywords into every alt attribute. No new artwork has been generated or installed by this planning change.
