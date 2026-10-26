@@ -15,8 +15,8 @@
   },
   "mask_construction": {
     "lower_panel": "permanently sewn chin-to-ear inside front hood opening",
-    "stow": "hidden fabric tunnel; both panels clear of the face when stowed; bulk and usability to be verified on sample",
-    "upper_mesh": "detachable soft neodymium magnetic snaps",
+    "stow": "secure hidden channel inside hood brim; both panels clear the entire face; low-bulk target to verify on sample",
+    "upper_mesh": "four covered low-profile neodymium magnetic snaps; two lower panel, two hood lining",
     "graphic": "dripping diamond silver grillz + tiny P.S. on side, no Crying Brain on mask"
   },
   "brand_rules": [
@@ -45,5 +45,38 @@
     "full_zip": "PS-Z01 hooded full zip: P.S. left chest, front hem wordmark, blank back; PS-J02 joggers one left-thigh P.S.",
     "graphic_capsule": "PS-T01 silver half-brain and PS-T02 supplied cyan electric-brain artwork, separate from minimal core range",
     "quarter_zip": "PS-Q01 funnel-neck quarter zip: left-chest P.S., front hem wordmark, blank back; paired J02 single left-thigh P.S.; sample approval required"
-  }
+  },
+  "document_version": "v1.0 FINAL",
+  "factory_pack_pages": 12,
+  "monogram_widths_mm": {
+    "hoodie_left_chest": [
+      40,
+      50
+    ],
+    "zip_left_chest": [
+      40,
+      50
+    ],
+    "jogger_left_thigh_only": [
+      50,
+      65
+    ],
+    "leggings_left_hip": [
+      60,
+      70
+    ],
+    "mask_side": [
+      25,
+      35
+    ],
+    "bra_left_chest": [
+      30,
+      40
+    ],
+    "beneath_hoodie_back_brain": [
+      40,
+      50
+    ]
+  },
+  "sizing_priority": "Latest owner widths supersede earlier P.S. heights; preserve artwork ratio; no simultaneous conflicting constraints."
 }

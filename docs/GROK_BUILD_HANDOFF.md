@@ -9,6 +9,8 @@ Also load: `data/merch-locked-state.json` · `docs/MASTER_GPT_PROMPT.md` · `doc
 
 ---
 
+Current sizing authority: `docs/ACTIVEWEAR_DESIGN_PACK.md`, v1.0 FINAL section and the current downloadable PDF. Use its widths; preserve proportions.
+
 ## What we have (LOCKED)
 
 ### Main black tracksuit (Shane as model)
@@ -22,7 +24,7 @@ Also load: `data/merch-locked-state.json` · `docs/MASTER_GPT_PROMPT.md` · `doc
 |------|------------|----------|
 | **Full Face** | Mesh eyes + dripping diamond silver grillz, sewn into hood | `26905c21-4394-4e40-b4f3-2b2c1469ca89` |
 | **Nose & Mouth Only** | Lower panel only, eyes open, mask continuous with hood | `4391e23c-a530-4f56-8b4c-2f4f1dd4a833` |
-| **Stowed** | Clean open face, mask tucked in hood tunnel, zero bulk | `c1b02125-2c93-4904-b2b5-74e21953e7a6` |
+| **Stowed** | Clean open face, mask tucked in hood tunnel, low-bulk design target (verify on sample) | `c1b02125-2c93-4904-b2b5-74e21953e7a6` |
 | Grillz detail | Extreme close-up diamond drip + snaps + tiny P.S. | `e0e9317a-9221-4715-88e8-2449c41aef8f` |
 | Construction diagram | Factory sew map (chin-to-ear + magnets + stow tunnel) | `386f7a44-23e2-44bd-8029-0c6cb1458591` |
 
@@ -38,7 +40,7 @@ Also load: `data/merch-locked-state.json` · `docs/MASTER_GPT_PROMPT.md` · `doc
 
 ## How the mask attaches (must stay buildable)
 1. Lower panel **permanently sewn** chin-to-ear inside front hood opening  
-2. Hidden fabric tunnel inside hood → roll/stow = zero bulk  
+2. Hidden fabric tunnel inside hood → roll/stow = low-bulk design target (verify on sample)
 3. Upper mesh detaches with soft magnetic snaps  
 4. Dripping diamond grillz + tiny side **P.S.** — no Crying Brain on the mask  
 

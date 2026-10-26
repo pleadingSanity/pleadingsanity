@@ -1,4 +1,46 @@
 # Pleading Sanity — Activewear Design Pack (FINAL)
+
+## v1.0 FINAL - current presentation and monogram scale
+
+The current [12-page factory pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
+contains the final design presentation. Fabric weights, FOB targets, MOQ guidance,
+garment-size worksheet and attachment/stow sequence are preserved. The latest
+owner-specified monogram widths take precedence over earlier P.S. height targets.
+Do not distort the approved mark to meet width and a superseded height at once.
+
+| Placement | P.S. width (mm) |
+| --- | --- |
+| Hoodie left chest | 40-50 |
+| Full-/quarter-zip left chest | 40-50 |
+| Jogger LEFT upper thigh only | 50-65 |
+| Leggings LEFT hip/upper thigh | 60-70 |
+| Mask side edge | 25-35 |
+| Bra left chest | 30-40 |
+| Beneath signature hoodie-back brain | 40-50 |
+
+Rear leggings wordmark: 120-150 mm wide; existing 6 mm text-height target retained.
+Brain: hoodie-back width 220-240 mm, bra-back height 18 mm. Existing zip-jacket
+front-hem wordmark remains a style-specific exception to “waistbands only”;
+PS-Z01 text height 8 mm is unchanged. No new PS-Q01 hem dimension is inferred.
+Women’s front waistband and bra underbust remain clean. Graphic tee artwork is
+a separate existing capsule exception, not a core tracksuit graphic instruction.
+
+Mask: lower panel remains sewn chin-to-ear inside hood; upper vision mesh has
+four covered neodymium magnetic snap points (two lower-panel, two hood lining).
+Both panels stow securely within the hidden internal hood-brim tunnel, leaving
+all of the face clear. Flexible grillz print plus tiny side P.S.; no brain or actual
+metal/gem/drip attachments. Final material note includes brushed moisture-wicking
+jersey hood lining. Zero visible bulk, secure retention, easy one-handed use,
+opacity, quick drying and true-to-size comfort are design targets for sample
+verification, not established performance claims.
+
+Artwork masters, exact final size within each range, placement offsets, factory
+POM values/size grading, material/print tests and written sample approval still
+remain to be supplied before bulk. The factory POM offset is 25 mm (exactly the
+previous 2.5 cm). This final presentation is not a purchase order or bulk release.
+
+---
+
 **Locked 2026-10-26 · Shane as model**
 
 Read with: `docs/MASTER_GPT_PROMPT.md` + `docs/SHANE_CREATOR_IDENTITY.md`
