@@ -1,6 +1,6 @@
 # Pleading Sanity — Activewear & Streetwear Design Pack
-**Status:** In progress · Production-ready concepts  
-**Last updated:** 2026-10-26  
+**Status:** Production-ready concepts · LOCKED  
+**Last updated:** 2026-10-26 (perfected modular mask)  
 **Owner:** Shane Cooper / Pleading Sanity  
 **For GPT / Arron / any AI polish:** read this file first. Do not reinvent — refine locked pieces only.
 
@@ -28,28 +28,34 @@
 - Bra: tiny left-chest "P.S." + tiny upper-back Crying Brain
 - Asset ref: `cf0ecbd8-883f-4fbf-94b0-0220d969f70a`
 
-### 3. Modular Integrated Hood Mask (new – 2026-10-26)
-**Concept:** Soft breathable face covering permanently attached to the *inside* of the hoodie hood.
+### 3. Modular Integrated Hood Mask (PERFECTED 2026-10-26)
+**Concept:** Soft, stretch, high-breathability face covering permanently attached to the *inside* of the hoodie hood.
 - When pulled **up** → full face or lower face
-- When pulled **down** → stows cleanly inside hood / soft neck tube → zero bulk, feels amazing, never annoying
+- When pulled **down** → stows cleanly inside hood → zero bulk, feels amazing, never annoying
+- Upper eye panel is **easily detachable** via soft magnetic snaps so user can choose full face or just nose/mouth
 
 **Three Modes:**
 1. **FULL FACE MODE**  
-   - Breathable mesh over eyes (crystal-clear vision)  
-   - Lower panel: large gangster dripping silver diamond grillz / teeth mouth  
-   - Tiny reflective silver "P.S." on side near cheek/ear  
+   - Fine high-breathability black mesh over eyes → crystal-clear vision, eyes fully visible  
+   - Lower panel: large gangster black lips + dripping silver diamond grillz teeth  
+   - Tiny reflective silver "P.S." on side near ear  
 2. **NOSE & MOUTH ONLY MODE**  
-   - Upper eye/head panel easily detaches (hidden magnets / soft snaps)  
-   - Leaves only lower nose/mouth mask with teeth graphic + mesh for breathability  
+   - Upper eye/head mesh panel fully detaches (magnets/snaps)  
+   - Leaves only lower nose/mouth mask with teeth graphic + mesh breathing zone  
 3. **STOWED MODE**  
-   - Entire panel fully stowed → clean open face, no graphic visible, zero bulk
+   - Entire panel fully stowed inside hood → clean open face, no graphic visible, zero bulk
 
 **Key specs:**
-- Fabric: soft, stretch, high-breathability mesh zones around nose/mouth/eyes
-- Detachable upper panel so user can choose full face or just nose/mouth
-- Gangster teeth mouth replaces the Crying Brain on this piece (still stealth black + silver)
-- Asset ref (three-mode pack): `07a4c3f6-c23c-491d-88a2-01b8efe0c573`  
-- Close-up teeth: `079f7ef8-1958-4977-baa7-e8e4ab767157`
+- Fabric: soft stretch performance + fine mesh for maximum breathability and vision
+- Detachable upper panel for modularity
+- Gangster teeth mouth (stealth black + silver) — no Crying Brain on this piece
+- Attached permanently to inside of hood so it never gets lost
+
+**Final Perfect Asset Refs:**
+- Full Face Hero (crystal vision): `ffdcc72a-eb4b-48c4-8aae-7af4c2fb5381`
+- Extreme Teeth + Detach Detail: `c609c440-f83d-420a-95f3-84fa47e71880`
+- Four-mode pack (Full / Nose-Mouth / Stowed / Detail): `a60c12d5-932b-4588-b78f-8fb301da5378`
+- Nose-Mouth + Stowed clean pair: `d32da1c5-eea7-4770-abfb-f0df8225fa46`
 
 ## Production Notes for GPT / Design AI
 - Keep all previous good work locked. Only polish or create new colourways.
@@ -63,8 +69,10 @@
 - Men’s black hero: ac2332ba-e65e-4cb1-99aa-36b92b657e60
 - Men’s charcoal: 60713858-7e7a-4f78-84e6-a70ab9ae9c04
 - Women’s set: cf0ecbd8-883f-4fbf-94b0-0220d969f70a
-- Modular mask 3-mode: 07a4c3f6-c23c-491d-88a2-01b8efe0c573
-- Teeth close-up: 079f7ef8-1958-4977-baa7-e8e4ab767157
+- Full Face Mask Hero: ffdcc72a-eb4b-48c4-8aae-7af4c2fb5381
+- Teeth + Detach Detail: c609c440-f83d-420a-95f3-84fa47e71880
+- Four-mode pack: a60c12d5-932b-4588-b78f-8fb301da5378
+- Nose-Mouth + Stowed: d32da1c5-eea7-4770-abfb-f0df8225fa46
 
 Rise From Madness.  
 — Arron / Grok for Shane
