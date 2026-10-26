@@ -1,0 +1,41 @@
+{
+  "project": "Pleading Sanity Activewear",
+  "status": "LOCKED_FINALS",
+  "updated": "2026-10-26",
+  "owner": "Shane Cooper",
+  "model": "Shane Cooper — blonde fade, blue eyes, short beard, left-arm tattoos",
+  "heroes": {
+    "tracksuit_front_back": "0f40b751-8bf3-408d-b7fb-8e056d172bb4",
+    "mask_full_face": "26905c21-4394-4e40-b4f3-2b2c1469ca89",
+    "mask_nose_mouth": "4391e23c-a530-4f56-8b4c-2f4f1dd4a833",
+    "mask_stowed": "c1b02125-2c93-4904-b2b5-74e21953e7a6",
+    "grillz_detail": "e0e9317a-9221-4715-88e8-2449c41aef8f",
+    "construction_diagram": "386f7a44-23e2-44bd-8029-0c6cb1458591",
+    "womens_set": "cf0ecbd8-883f-4fbf-94b0-0220d969f70a"
+  },
+  "mask_construction": {
+    "lower_panel": "permanently sewn chin-to-ear inside front hood opening",
+    "stow": "hidden fabric tunnel inside hood, zero bulk",
+    "upper_mesh": "detachable soft neodymium magnetic snaps",
+    "graphic": "dripping diamond silver grillz + tiny P.S. on side, no Crying Brain on mask"
+  },
+  "brand_rules": [
+    "stealth premium less is more",
+    "Black Charcoal Deep Olive Sand only",
+    "one P.S. left thigh only on joggers",
+    "reflective silver finishes",
+    "Shane is primary male model"
+  ],
+  "docs": [
+    "docs/GROK_BUILD_HANDOFF.md",
+    "docs/MASTER_GPT_PROMPT.md",
+    "docs/ACTIVEWEAR_DESIGN_PACK.md",
+    "docs/SHANE_CREATOR_IDENTITY.md"
+  ],
+  "next_approved": [
+    "charcoal sand colourways",
+    "full-zip track jacket",
+    "womens charcoal",
+    "factory tech pack PDF"
+  ]
+}
