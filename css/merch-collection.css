@@ -1,0 +1,18 @@
+/* Scoped to the existing shop; preserve the shared sanctuary navigation. */
+.collection-kicker{letter-spacing:.14em;text-transform:uppercase;font-size:.78rem;color:#bfc3c8}
+.current-collection{max-width:1100px;margin:3rem auto;padding:0 20px;color:#eef0f2;text-align:left}
+.current-collection h2,.manufacturer h2{color:#f2f3f4;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.2}
+.collection-note{max-width:760px;color:#c7cbd0;line-height:1.65}
+.collection-actions{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 26px}
+.collection-actions a,.collection-card-copy a,.manufacturer>a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 18px;border:1px solid #959ba3;border-radius:8px;box-sizing:border-box;color:#f1f3f5;background:#15181d;text-decoration:none}
+.collection-actions a:hover,.collection-card-copy a:hover,.manufacturer>a:hover{background:#30343a}
+.current-collection a:focus-visible,.manufacturer a:focus-visible,.featured-merch summary:focus-visible{outline:3px solid #e5e7eb;outline-offset:4px}
+.collection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.collection-card{min-width:0;overflow:hidden;border:1px solid #3b4048;border-radius:12px;background:#101216}
+.collection-image-link{display:block;background:#08090b}
+.collection-card img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain}
+.collection-card-copy{padding:20px}.collection-card h3{margin:8px 0;color:#f5f5f5;font-size:1.3rem}.collection-card p{line-height:1.6;color:#d0d3d7}
+.manufacturer{box-sizing:border-box;max-width:1060px;margin:40px auto;padding:26px;background:#101216;border:1px solid #50565f;color:#e7eaee;line-height:1.7}.manufacturer li{margin:12px 0}
+.featured-merch{padding:0 20px}.featured-merch summary{cursor:pointer;min-height:48px;padding:14px;color:#e3e6ea}.featured-merch details>p{color:#c8ccd1}
+.shop-hero img{max-height:none;object-fit:contain;border-color:#454a52;box-shadow:none}.shop-hero p{color:#d7d9dd}
+@media(max-width:700px){.collection-grid{grid-template-columns:1fr}.current-collection{padding:0 14px}.manufacturer{margin:30px 14px;padding:20px}.collection-actions a{width:100%}.collection-card img{aspect-ratio:auto}.brand-downloads a{max-width:100%;overflow-wrap:anywhere}}
