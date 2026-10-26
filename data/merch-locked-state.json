@@ -1,6 +1,6 @@
 {
   "project": "Pleading Sanity Activewear",
-  "status": "LOCKED_FINALS",
+  "status": "DESIGN_LOCKED_SAMPLES_NOT_APPROVED",
   "updated": "2026-10-26",
   "owner": "Shane Cooper",
   "model": "Shane Cooper — blonde fade, blue eyes, short beard, left-arm tattoos",
@@ -15,7 +15,7 @@
   },
   "mask_construction": {
     "lower_panel": "permanently sewn chin-to-ear inside front hood opening",
-    "stow": "hidden fabric tunnel inside hood, zero bulk",
+    "stow": "hidden fabric tunnel; both panels clear of the face when stowed; bulk and usability to be verified on sample",
     "upper_mesh": "detachable soft neodymium magnetic snaps",
     "graphic": "dripping diamond silver grillz + tiny P.S. on side, no Crying Brain on mask"
   },
@@ -37,5 +37,13 @@
     "full-zip track jacket",
     "womens charcoal",
     "factory tech pack PDF"
-  ]
+  ],
+  "published_image_directory": "/assets/images/merch-2026/",
+  "factory_sampling_pack": "/assets/downloads/pleading-sanity-factory-sampling-pack.pdf",
+  "production_status": "Sampling brief only; final artwork, measurements, grading, testing and signed sample approval required before bulk.",
+  "options": {
+    "full_zip": "PS-Z01 hooded full zip: P.S. left chest, front hem wordmark, blank back; PS-J02 joggers one left-thigh P.S.",
+    "graphic_capsule": "PS-T01 silver half-brain and PS-T02 supplied cyan electric-brain artwork, separate from minimal core range",
+    "quarter_zip": "PS-Q01 funnel-neck quarter zip: left-chest P.S., front hem wordmark, blank back; paired J02 single left-thigh P.S.; sample approval required"
+  }
 }

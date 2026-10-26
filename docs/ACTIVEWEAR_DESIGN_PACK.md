@@ -21,3 +21,68 @@ Lower panel permanently sewn chin-to-ear inside hood · magnetic upper mesh · s
 One P.S. left thigh only · Shane is the model · stealth black · reflective silver · no clutter
 
 Rise From Madness.
+
+## Factory sampling handoff - 26 October 2026, revision 1
+
+Design lock does not mean a manufactured sample is approved. The downloadable
+[factory sampling pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
+is the current plain-language build brief. It contains eight pages: style IDs,
+fabric choices/BOM, placement map, mask assembly, activewear, option separation,
+measurement worksheet and quotation/sample sign-off sequence.
+
+### Current physical image files
+
+Campaign renders now have real, downloadable site files in
+`assets/images/merch-2026/` rather than only external asset UUIDs:
+`hero.webp`, `catalogue.webp`, `mask-detail.webp`, `mask-modes.webp`,
+`womens-black.webp`, `womens-charcoal.webp`, `colourways.webp`, `full-zip.webp`,
+`quarter-zip.webp`, `graphic-tees.webp`, `brand-share.webp`.
+Each has a 640px responsive companion. The original UUID references above remain
+historical provenance, not a fetchable public URL or a print master.
+
+### Style precedence and reference corrections
+
+- PS-H01 / PS-J01: signature hoodie left-chest P.S.; Crying Brain + P.S. back;
+  exactly one left-thigh P.S. on joggers. No calf/right-leg mark or side stripes.
+- PS-M01: lower stretch panel permanently sewn inside hood chin-to-ear; removable
+  upper eye mesh with proposed four soft covered magnetic snap points; hidden
+  stow channel. Both panels fully clear eyes/nose/mouth/chin when stowed.
+  Silver grillz/drips are flat flexible print, never actual metal, gems or teeth.
+  Tiny side P.S.; no Crying Brain on mask. Stow bulk, mesh visibility, breathing,
+  hardware retention and washing need physical prototype assessment; do not
+  promise zero bulk or crystal vision from a render.
+- PS-L01 / PS-B01: black or charcoal leggings/bra. No front waistband wordmark and
+  no bra underbust wordmark. Left hip P.S., rear waistband wordmark; left-chest
+  P.S. and upper-back Crying Brain on racerback.
+- PS-Z01 / PS-J02: supplied hooded full-zip alternative, raglan sleeve,
+  left-chest P.S., front hem wordmark, plain back; one left-thigh jogger P.S.
+  Earlier funnel-neck/chest-brain/calf-print draft is not this option.
+- PS-Q01 / PS-J02: supplied quarter-zip funnel-neck alternative with the same
+  restrained chest/hem branding and blank back; keep separate from full zip.
+- PS-T01 / PS-T02: original silver half-brain and cyan electric-brain tee backs.
+  These supplied options are a separate graphic capsule exception to the muted
+  minimalist core; do not apply those graphics to the core tracksuit. Front
+  artwork is not supplied: quote blank pending owner approval.
+- The old clean-front core hoodie is a separate historical variant PS-H02;
+  never silently remove the H01 chest P.S. or mix style instructions.
+
+### Factory actions before bulk production
+
+1. Quote French terry 420-450gsm and stretch double-knit 320-360gsm separately;
+   women 260-280gsm nylon/elastane; tees proposed 280gsm cotton jersey. Confirm
+   composition, fabric/ink suppliers, actual branded trim and colour lab dips.
+2. Supply a finished-garment measurement chart, POM diagrams, tolerances and size
+   grading. Proposed M base size and dimensional logo targets in the PDF need
+   owner approval. No finished garment size chart is invented from model images.
+3. Obtain exact approved vector/print masters from Shane. Do not trace generated
+   campaign logos or substitute serif/sans fonts from a mockup. Factory must
+   return a 1:1 print proof and physical silver/stretch/wash strike-off.
+4. Make fit prototype, revised sample, size set and pre-production sample;
+   document opacity, stretch recovery, wash and print adhesion. No sports-bra
+   impact rating, protective visibility or squat-proof guarantee is established.
+5. Receive Shane Cooper's written sample sign-off and a separate purchase order.
+   This PDF is a quotation/sampling brief, not a purchase order or bulk release.
+
+FOB targets remain founder targets only: hoodie GBP 8-12, joggers GBP 7-10,
+leggings GBP 5-7. Mask, printing, MOQ, taxes and freight must be quoted separately;
+no supplier has agreed to these prices. No orders or factory messages sent.
