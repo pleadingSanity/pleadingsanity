@@ -565,3 +565,11 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - New width limits in PDF, editable brief, machine state and shop: hoodie/zip chest 40-50 mm, jogger left thigh 50-65, leggings left hip 60-70, mask side 25-35, bra chest 30-40, small P.S. below signature back brain 40-50. Rear leggings wordmark 120-150 mm wide, existing 6 mm text-height target; original brain sizes and PS-Z01 hem text height retained. Existing zip hem and graphic tee capsule are explicit exceptions to shorthand brand rules, not erased designs.
 - Three refined built-in-imagegen visuals: smaller chest/leg signature catalogue, Shane three-mode mask, women’s black set. Same site filenames (plus hero using the refined mask image), responsive WebP sizes and cache v97. Renders are design references, never 1:1 print masters; written widths govern. Mask assembly order preserved: permanently attached lower, removable upper with four covered neodymium snap points, secure shared internal stow clear of face, printed grillz only. Current brief adds brushed moisture-wicking hood jersey as design direction. Zero-bulk/opacity/quick-dry/retention/fit benefits remain physical-sample targets, not proven claims.
 - Verified locally: all 12 PDF pages rendered and visually inspected; 27 content checks plus headers, footers, numbering and text-boundary checks pass. Static audit 79 HTML/209 script blocks, 48 Node regressions, dimensions and text diff checks pass. PDF downloads are explicitly marked binary in .gitattributes to prevent line-ending/diff corruption. Exact-head preview/CI and production verification follow in session/PR. No claim of true-to-size, squat-proof, protective visibility, safe machinery/sport use or completed size grading from images. Bulk remains gated by approved masters, factory measurements, tests and signed sample.
+
+
+## 2026-10-27 · Grok additive games polish
+- Optional theme switcher (`js/games-theme-switcher.js`) linked on games shelf. Cozy, Cosmic, Gold, Night, Nebula, Aurora all selectable. Nothing removed.
+- Cozy theme CSS already present in `css/games-themes.css`.
+- Home-screen note already wired via `js/games-home-note.js`.
+- solar.html live. Netlify production on latest main.
+- PR #92 remains draft. Soul file, Arron voice, and crisis lines untouched.
