@@ -20,6 +20,9 @@ jobs:
       - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
 
+      - name: Check Arron offline companion boundaries
+        run: node tests/test-arron-offline-boundary.test.js
+
       - name: Check private chart-request behaviour
         run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
       - name: Check local journal persistence failures

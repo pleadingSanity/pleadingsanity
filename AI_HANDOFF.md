@@ -583,3 +583,12 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Content batch drafted only (Facebook, Instagram, X, LinkedIn + three outreach notes). No sending or scheduling.
 - £0 growth experiment proposed: weekly “one small thing” public prompt with a simple reply count as measure.
 - Crisis lines, free forever, Arron disclaimer, provider order, soul file and privacy boundaries untouched. PR #92 remains draft. No production release claimed.
+
+
+## 2026-10-27 — GPT: Arron offline companion boundaries (requested branch 20261028)
+- Based on main `ac8f9e0784f045625674f55b4754cd5c81946788`; dedicated branch `fix/arron-offline-boundaries-20261028`. Date reflects the session date rather than future-dating the entry.
+- Both `js/arron-companion.js` and `js/arron-core.js` had unsupported safety/clinical assurances. Replaced built-in crisis wording with compassionate acknowledgement, an explicit AI/non-clinical boundary, immediate danger question, human support and existing UK crisis routes. Both offline footers retain tappable numbers and add the international directory. NHS wording uses England/mental health option.
+- Core crisis selection now always uses the reviewed built-in CRISIS_REPLY; cached knowledge cannot replace it. The protected root knowledge file is unchanged. Non-crisis knowledge topics and server/provider responses are outside this focused review and are not certified by these tests.
+- Added nine regression tests covering prohibited client phrases, actual crisis strings, rendered footer links, web crisis priority/ordinary fallback and app cached-crisis override rejection. Added npm test entrypoint for all existing Node fixtures plus this suite, and a focused CI step.
+- Verification: dedicated suite 9/9; npm test 68/68; Python health fixture suite 5/5; static audit passes 79 HTML pages and 210 script blocks; whitespace check clean. Official NHS, Samaritans/Shout and Find A Helpline sources checked for the retained support routes. No real chat or user-data action submitted.
+- Not verified: new-head deployment preview, browser/phone interactions, complete online/provider behaviour or whole-site clinical safety. No production release claimed. PR #125/#126, activewear and root arron-knowledge.json untouched. Rollback: revert isolated patch; no data migration. Shane reviews before publication.
