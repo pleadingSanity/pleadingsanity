@@ -1,0 +1,286 @@
+PLEADING SANITY — WHOLE-SITE STATIC AUDIT
+Source commit: ac8f9e0784f045625674f55b4754cd5c81946788
+Read-only static repository audit; not live HTTP, runtime, legal or clinical certification
+COUNTS {"htmlPages":80,"rootHtmlPages":79,"trackedScriptFiles":131,"productionScriptFiles":119,"inlineScriptBlocks":100,"anchorElements":3955,"scriptSrcReferences":194,"imageElements":215,"redirectRules":67}
+FAIL | Navigation and links | 7 failures | 0 warnings
+FAIL | Crisis and companion boundaries | 6 failures | 119 warnings
+WARN | Trackers and privacy | 0 failures | 13 warnings
+PASS | Listening claims | 0 failures | 0 warnings
+FAIL | Activewear claims | 3 failures | 2 warnings
+PASS | Mobile and accessibility | 0 failures | 0 warnings
+
+FINDINGS
+FAIL SHARED_MENU_SCRIPT_MISSING arron.html:1 — Shared-menu markup exists without site.js; verify any alternate controller
+FAIL LINK_MISSING docs/deployment-status.html:10 — link href: https://pleadingsanity.co.uk/deployment-status.html (missing) | /deployment-status.html
+FAIL LINK_MISSING docs/deployment-status.html:18 — link href: assets/favicon.svg (missing) | /docs/assets/favicon.svg
+FAIL LINK_MISSING docs/deployment-status.html:19 — link href: manifest.json (missing) | /docs/manifest.json
+FAIL LINK_MISSING docs/deployment-status.html:22 — link href: css/styles.css (missing) | /docs/css/styles.css
+FAIL LINK_MISSING docs/deployment-status.html:23 — link href: css/mobile-responsive.css (missing) | /docs/css/mobile-responsive.css
+FAIL LINK_MISSING docs/deployment-status.html:282 — a href: index.html (missing) | /docs/index.html
+WARN COMPANION_LABEL_MISSING 404.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING 404.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING about.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING admin.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING admin.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING ai-ecosystem.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING ai-family.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING ai-stories.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING ai-stories.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING ai-studio.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING ai-studio.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING ai-welcome.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING arron-app.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING arron-intro.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING arron.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+WARN COMPANION_LABEL_MISSING blueprint.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING blueprint.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING builder.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING circle.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING community-dashboard.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING community-dashboard.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING community.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING community.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING cosmic-connect.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING cosmic-connect.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING cosmic-focus.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING cosmic-focus.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING creations.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING creations.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING creator.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING creator.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING crisis.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN COMPANION_LABEL_MISSING developers.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING developers.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING docs/deployment-status.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING feed.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING feed.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING finance.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING finance.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING frequencies.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING frequencies.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING games.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING games.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING get-the-app.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING index.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+WARN COMPANION_LABEL_MISSING journal-vault-viewer.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING journal-vault-viewer.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING journal-vault.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING journal-vault.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-companion.js:124 — Unsupported safety/clinical assurance in Arron client | whole picture
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-companion.js:124 — Unsupported safety/clinical assurance in Arron client | put you in a room
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-companion.js:155 — Unsupported safety/clinical assurance in Arron client | You're safe
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-companion.js:159 — Unsupported safety/clinical assurance in Arron client | it's safe here
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-core.js:96 — Unsupported safety/clinical assurance in Arron client | send you to a waiting room
+FAIL ARRON_UNSUPPORTED_ASSURANCE js/arron-core.js:100 — Unsupported safety/clinical assurance in Arron client | You're safe
+WARN COMPANION_LABEL_MISSING kids.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING kids.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING live.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING live.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING login.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING login.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING meditation.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING meditation.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING member.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING member.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING memory-ocean.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING memory-ocean.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING mind-mode.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING mind-mode.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING mood-journey.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING mood-journey.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING movement.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING movement.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING my-room.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING new-gen-bible.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING notes.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING notes.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING number-nebula.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING number-nebula.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING offer.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING onboarding.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING onboarding.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING owner.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING owner.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING pattern-galaxy.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING pattern-galaxy.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING platform.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING play-listing.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING poker.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING post.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING post.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING privacy.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING profile.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING profile.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING quote-wall.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING quote-wall.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING rap.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING rap.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING reset-password.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING reset-password.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING rhythm-resonance.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING rhythm-resonance.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING safety.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING sanctuary.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING sanctuary.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING sanityhub.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING settings.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING settings.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING shop.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING shop.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING signup.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING signup.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING sources.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING stardust-dash.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING stardust-dash.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING tools.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN SUPPORT_NUMBERS_MISSING transparency.html:1 — Rule requires visible support numbers; missing: NHS, emergency
+WARN COMPANION_LABEL_MISSING truth-tag.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING truth-tag.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING videos.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING videos.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING wisdom.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING wisdom.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN COMPANION_LABEL_MISSING write.html:1 — Arron mentioned without a static companion label (may be navigation-only)
+WARN SUPPORT_NUMBERS_MISSING write.html:1 — Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency
+WARN PRIVACY_SCOPE_REVIEW arron-app.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | Everything lives on this device first
+WARN PRIVACY_SCOPE_REVIEW community-dashboard.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | local-only
+WARN PRIVACY_SCOPE_REVIEW community-dashboard.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | All data anonymized — your privacy is protected
+WARN PRIVACY_SCOPE_REVIEW frequencies.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | everything runs locally in your browser
+WARN PRIVACY_SCOPE_REVIEW journal-vault-viewer.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | Everything stays on your device
+WARN PRIVACY_SCOPE_REVIEW journal-vault-viewer.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | Everything is stored locally on your device only — nothing is sent to any server
+WARN COOKIE_SOURCE_REVIEW js/arron-companion.js:277 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN COOKIE_SOURCE_REVIEW js/auth.js:45 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN COOKIE_SOURCE_REVIEW js/auth.js:148 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN COOKIE_SOURCE_REVIEW js/auth.js:152 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN COOKIE_SOURCE_REVIEW js/auth.js:184 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN COOKIE_SOURCE_REVIEW js/vendor/netlify-identity.js:5 — Cookie-related source; static code cannot determine third-party cookie behaviour | document.cookie
+WARN PRIVACY_SCOPE_REVIEW live.html:1 — Absolute/local-only language on a page with backend/auth indicators; verify feature scope | local only) Use these controls to prepare or manage the stream link currently on this device
+FAIL V11_SPEC_CONFLICT docs/ACTIVEWEAR_DESIGN_PACK.md:19 — Editable design pack conflicts with owner-approved v1.1 | | Beneath signature hoodie-back brain | 40-50 |
+FAIL V11_SPEC_CONFLICT docs/ACTIVEWEAR_DESIGN_PACK.md:60 — Editable design pack conflicts with owner-approved v1.1 | Lower panel permanently sewn chin-to-ear inside hood · magnetic upper mesh · stow tunnel zero bulk · dripping diamond grillz + tiny P.S.
+FAIL V11_SPEC_CONFLICT docs/ACTIVEWEAR_DESIGN_PACK.md:87 — Editable design pack conflicts with owner-approved v1.1 | - PS-H01 / PS-J01: signature hoodie left-chest P.S.; Crying Brain + P.S. back;
+WARN SHOP_V11_DETAIL_GAPS shop.html:1 — Shop lacks explicit v1.1 details (not proof of a contradictory claim): hoodie 420-450gsm; upper-back brain 220-240 mm; tonal-black rear-hem wordmark; four covered magnetic points
+WARN OLDER_PUBLIC_FACTORY_PDF shop.html:197 — Shop still labels the factory download v1.0; do not relabel bytes as v1.1
+
+EXTERNAL ORIGINS (not fetched)
+https://chatgpt.com
+https://claude.ai
+https://energywin.co.uk
+https://gemini.google.com
+https://github.com
+https://grok.x.ai
+https://instagram.com
+https://musiclab.chromeexperiments.com
+https://payhip.com
+https://quickdraw.withgoogle.com
+https://register.fca.org.uk
+https://shop.pleadingsanity.co.uk
+https://sudoku.com
+https://vt.tiktok.com
+https://www.crazygames.com
+https://www.facebook.com
+https://www.gamblingcommission.gov.uk
+https://www.linkedin.com
+https://www.memozor.com
+https://www.mind.org.uk
+https://www.moneyhelper.org.uk
+https://www.nhs.uk
+https://www.spelliegame.com
+https://www.thecolor.com
+https://www.tiktok.com
+https://www.youtube.com
+https://x.com
+https://xhalr.com
+
+DYNAMIC ROUTES (not exercised)
+
+
+LIMITATIONS
+- No live HTTP requests: missing/blocked source targets are not measured production HTTP 404s.
+- External links, script-generated URLs, dynamic imports, conditional/auth redirects and platform routing need runtime verification.
+- Cookie headers, third-party cookies, consent, trackers injected by external scripts and complete network behaviour are unverified.
+- Shared-menu presence, viewport, title and alt checks do not establish mobile usability or accessibility compliance.
+- Support-number/companion checks use static HTML text only; runtime-injected footers may supply missing copy. Keyword heuristics cannot certify clinical safety.
+- Product wording is checked against provided v1.1 rules; no PDF byte replacement, original-artwork or physical-performance verification.
+- Inline claims have page-level line 1 where stripped visible text cannot be mapped reliably; evidence excerpts identify the text.
+
+PAGE INVENTORY
+404.html
+about.html
+admin.html
+ai-ecosystem.html
+ai-family.html
+ai-stories.html
+ai-studio.html
+ai-welcome.html
+arron-app.html
+arron-intro.html
+arron.html
+blueprint.html
+builder.html
+circle.html
+community-dashboard.html
+community.html
+cosmic-connect.html
+cosmic-focus.html
+cosmic-reflections.html
+creations.html
+creator.html
+crisis.html
+developers.html
+docs/deployment-status.html
+feed.html
+finance.html
+frequencies.html
+games.html
+get-the-app.html
+index.html
+journal-vault-viewer.html
+journal-vault.html
+kids-series.html
+kids.html
+live.html
+login.html
+meditation.html
+member.html
+memory-ocean.html
+mind-mode.html
+mood-journey.html
+movement.html
+my-digital-story.html
+my-room.html
+new-gen-bible.html
+notes.html
+number-nebula.html
+offer.html
+offline.html
+onboarding.html
+owner.html
+pattern-galaxy.html
+platform.html
+play-listing.html
+poker.html
+post.html
+privacy.html
+profile.html
+quote-wall.html
+rap.html
+reset-password.html
+rhythm-resonance.html
+safety.html
+sanctuary.html
+sanity-solitaire.html
+sanityhub.html
+settings.html
+shop.html
+signup.html
+site-builder.html
+solar.html
+sources.html
+stardust-dash.html
+support.html
+tools.html
+transparency.html
+truth-tag.html
+videos.html
+wisdom.html
+write.html

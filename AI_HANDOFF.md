@@ -583,3 +583,11 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Content batch drafted only (Facebook, Instagram, X, LinkedIn + three outreach notes). No sending or scheduling.
 - £0 growth experiment proposed: weekly “one small thing” public prompt with a simple reply count as measure.
 - Crisis lines, free forever, Arron disclaimer, provider order, soul file and privacy boundaries untouched. PR #92 remains draft. No production release claimed.
+
+
+## 2026-10-27 — GPT: Read-only whole-site integrity audit
+- Branch `audit/whole-site-integrity-20261027` from main `ac8f9e0784f045625674f55b4754cd5c81946788`. No production HTML, runtime JS, protected knowledge, shop/PDF or existing PR changed. Added a dependency-free Node source audit, three fixture tests and exact text/JSON plus summary under `docs/audits/`.
+- Coverage: 80 tracked HTML files (79 root + docs/deployment-status.html); 131 tracked script files including the two new tooling files, 119 production scripts and 100 inline JS blocks inspected; 3,955 anchors, 194 script-src refs, 215 images, 67 redirects.
+- Findings: navigation 7 fail; crisis/client boundaries 6 fail +119 context warnings; privacy 13 warnings; listening keyword checks pass; activewear 3 fail +2 warnings; configured viewport/title/alt checks pass. Total 16 failure records, 134 warnings. Six missing targets are in docs/deployment-status.html; root Arron menu lacks shared script. Existing PR #126/#127/#128 propose several known fixes and were not duplicated.
+- Three fixture tests pass, zero failures; whitespace clean. Exact output includes the entire page inventory and every finding. No network, real chat or user-data action. This is not production HTTP, zero-cookie/tracker proof, complete v1.1 manufacturing validation, mobile accessibility certification, clinical or legal compliance. Missing static support copy may be injected at runtime; context warnings require review.
+- Next: review exact-head existing PR previews; resolve deployment-status URL/base paths in a later patch; verify rendered support footers and runtime privacy behaviour. Owner review before merge/publication. Rollback: remove audit tooling/reports; no data migration.
