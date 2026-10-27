@@ -1,6 +1,80 @@
 # Pleading Sanity - Strategic Partnership Ecosystem
 ## Building Forever: Alliance Architecture for Global Mental Health Impact
 
+## Current delivery brief — 27 October 2026
+
+**Status: proposals and research, not confirmed partnerships.** The historical
+long-range strategy below is retained for reference. Its named organisations,
+clinical integrations, health-outcome claims, revenue forecasts and numerical
+targets are not evidence of agreements or operating capabilities. Current
+AGENTS.md, AI_HANDOFF.md and the free-sanctuary commitment govern implementation.
+
+### Useful income without charging for support
+
+1. **Clothing:** obtain comparable sample quotes, validate fit and construction,
+   calculate landed cost and returns allowance, then set sustainable retail
+   pricing. Do not accept orders for unapproved design renders.
+2. **Stockists and collaborations:** begin with one written pilot proposal,
+   deliverables, costs, cancellation conditions and approval responsibilities.
+3. **Sponsorship:** sell an agreed, clearly labelled placement or project outside
+   support journeys. No access to member data, editorial control over support,
+   tracking on sensitive pages or guaranteed audience/income claims.
+4. **Existing solar referrals:** use only the existing approved offer and page;
+   verify its current eligibility, payment trigger and disclosure before promotion.
+5. **Future commercial tools:** consider optional business services only after
+   the existing product works and costs/support obligations are understood.
+   Core sanctuary features stay free. No subscription is activated here.
+
+For each proposed product, calculate contribution as selling price minus actual
+manufacture, packaging, delivery subsidy, payment fees, applicable taxes,
+agreed commissions and an allowance for returns. Break-even quantity is fixed
+launch cost divided by positive contribution per sale, rounded up. Use verified
+quotes; this is a planning method, not an earnings prediction.
+
+### Plugin fit and implementation boundaries
+
+| Capability | Useful contribution | What connection alone does not do |
+| --- | --- | --- |
+| GitHub / Netlify | Source review, tests, PRs and deployment evidence | Prove every signed-in journey works |
+| Gmail / Google Drive | Private supplier correspondence and approved working files | Authorise public disclosure of mail or private documents |
+| Shop | Research purchasable products and compare offers | Install a merchant catalogue, checkout or affiliate programme on this site |
+| Product Design | Review and improve existing experiences | Prove garment performance from a render |
+| Prompt Optimizer | Prepare clearer requests when requested | Run the work or connect another AI |
+| Auth0 | Evaluate a specific authentication need | Justify replacing the working Netlify Identity/Firebase setup |
+| Astrology | Optional entertainment if separately scoped | Predict income, diagnose users or select business partners |
+| Grok Bot Control | Coordinate through an actually available, verified target | Supply a Grok session, manufacturer access or company endorsement |
+
+Default extra spending stays GBP 0. Preserve existing authentication, provider
+order, PWA IDs, public routes and private-data boundaries. ChatGPT plugins are
+not browser libraries: a website integration requires supported APIs, permissions,
+cost assessment and end-to-end verification before it is described as connected.
+
+### Public manufacturer research — checked 27 October 2026
+
+These are capability leads from supplier websites, not endorsements, quotations
+or confirmed partners. Ask each to assess the actual pack; none has confirmed
+the integrated mask or target FOB. A UK contact address does not establish UK
+production for every style.
+
+- [Custom Junkies](https://www.customjunkies.com/): Leicester-based jersey
+  manufacturing; lists hoodies/joggers and 100-unit CMT minimum. Confirm fabric
+  sourcing, quantities by colour and the custom hood assembly.
+- [CWT Blanks](https://cwtblanks.com/services/hoodie-manufacturer/): bespoke
+  hoodie development through Leicester and Turkey production; lists 100 units
+  per style/colour. Confirm actual production site and required fabric weight.
+- [7Active](https://www.7active.co.uk/bespoke-sportswear/): bespoke sportswear
+  development and sampling, including leggings/crop examples. Confirm production
+  country, full custom specification, MOQ and women’s fit-development costs.
+
+Ask for itemised development/revision costs, fabrics/prints/hardware, per-style
+and per-colour MOQ, unit prices, lead times, delivery/tax exclusions, defects and
+remedies. Discuss sample sponsorship or staged development as optional proposals;
+do not imply endorsement, promise reach or grant exclusivity/equity. Written
+approval is required for specification substitutions and production release.
+
+No supplier has been contacted by this update. Keep private correspondence and
+team contact details outside the public repository.
+
 ---
 
 ## 🤝 Partnership Philosophy

@@ -15,4 +15,8 @@
 .manufacturer{box-sizing:border-box;max-width:1060px;margin:40px auto;padding:26px;background:#101216;border:1px solid #50565f;color:#e7eaee;line-height:1.7}.manufacturer li{margin:12px 0}
 .featured-merch{padding:0 20px}.featured-merch summary{cursor:pointer;min-height:48px;padding:14px;color:#e3e6ea}.featured-merch details>p{color:#c8ccd1}
 .shop-hero img{max-height:none;object-fit:contain;border-color:#454a52;box-shadow:none}.shop-hero p{color:#d7d9dd}
+.collection-questions details{border-top:1px solid #737b87;padding:8px 0;text-align:left}
+.collection-questions summary{display:list-item;cursor:pointer;min-height:48px;padding:12px 8px;box-sizing:border-box;line-height:1.5;font-weight:700}
+.collection-questions summary:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.collection-questions p{line-height:1.7;overflow-wrap:anywhere}
 @media(max-width:700px){.collection-grid{grid-template-columns:1fr}.current-collection{padding:0 14px}.manufacturer{margin:30px 14px;padding:20px}.collection-actions a{width:100%}.collection-card img{aspect-ratio:auto}.brand-downloads a{max-width:100%;overflow-wrap:anywhere}}
