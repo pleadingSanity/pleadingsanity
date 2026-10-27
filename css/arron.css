@@ -383,6 +383,7 @@
 
 /* ─── WELCOME / ONBOARDING ─── */
 .arron-welcome {
+  margin: auto;
   width: min(92vw, 520px);
   max-height: 92vh;
   padding: 0;

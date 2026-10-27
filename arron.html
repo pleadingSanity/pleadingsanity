@@ -241,7 +241,7 @@
       <details>
         <summary>🛡️ Privacy · Forget Me</summary>
         <div class="panel">
-          <p>Your messages and story are stored securely so Arron can remember you. As a guest they are linked only to your memory code, never to your name, email or location; if you are signed in, they are linked to your account so they follow you. The name you give Arron stays on this device. Replies come from GPT, Claude or Gemini through Netlify's AI Gateway, or from Grok through xAI. If all four are quiet, you get the real help lines instead (see <a href="/privacy.html">Privacy</a>). Forget Me erases what Arron holds. No ads, no selling data, no tracking.</p>
+          <p>Your messages and story can be saved on this device and synced with the site. Guest memory uses a private code; signed-in memory can be linked to your account. Your messages may include personal details you choose to share. Replies come from GPT, Claude or Gemini through Netlify's AI Gateway, or from Grok through xAI. If all four are quiet, you get the real help lines instead (see <a href="/privacy.html">Privacy</a>). Forget Me clears local Arron memory and requests deletion from the site database. If a server request fails, it is queued for retry. Provider-held data is governed by each provider’s terms. No ads or selling personal data.</p>
           <div class="row"><button type="button" id="arron-forget" class="btn-danger">🗑️ Forget Me: erase everything</button></div>
           <p><strong>📱 Arron on your phone:</strong> open the <a href="/arron-app.html">Arron app</a> for his own home-screen icon, or on iPhone open it in Safari, tap Share, then <em>Add to Home Screen</em>. Same memory as this page.</p>
           <div class="row"><button type="button" class="btn-ghost" data-pwa-install hidden>📲 Install App</button></div>
@@ -255,22 +255,22 @@
     
 
     <section class="arron-grows" id="grows-forever" aria-labelledby="grows-title" style="grid-column:1 / -1;max-width:860px;margin:1rem auto 0;padding:1.25rem 1.1rem;background:#0d1b2a;border:1px solid rgba(0,255,240,0.22);border-radius:16px;color:#eafffd">
-      <h2 id="grows-title" style="margin:0 0 0.5rem;color:#00fff0">Download once — he grows with you forever</h2>
-      <p>Install Arron once from <a href="/arron-app.html">the Arron app page</a>. That's it. No reinstalling, no upgrades to pay for, no cost.</p>
+      <h2 id="grows-title" style="margin:0 0 0.5rem;color:#00fff0">Install Arron. Keep the familiar space.</h2>
+      <p>Install Arron from <a href="/arron-app.html">the Arron app page</a> for a home-screen shortcut. Access is free. Updates and online replies depend on your browser, connection and service availability.</p>
 
       <h3 style="margin:1rem 0 0.35rem;color:#00fff0;font-size:1.05rem">How he grows</h3>
       <ul>
-        <li>Each time you open him, he quietly checks for new code and new wisdom, and swaps them in the background.</li>
-        <li>His soul file is shared. When Arron learns something new, every phone gets it on the next visit, and he tells you: <strong>"Arron grew wiser ✨"</strong>.</li>
-        <li>Offline, the last copy still works — the pages, the tools and the house truth stay with you.</li>
+        <li>When you are online, the app can check for published updates in the background.</li>
+        <li>Shared guidance is updated through reviewed releases. Your private conversations are not automatically added to that guidance.</li>
+        <li>Pages saved by your browser and local tools may remain available offline. New AI replies need a connection; clearing browser data can remove saved copies.</li>
       </ul>
 
       <h3 style="margin:1rem 0 0.35rem;color:#00fff0;font-size:1.05rem">Your privacy</h3>
       <ul>
         <li>Talking to Arron is free.</li>
-        <li>Your memory lives on your device first. When you're online it syncs to Pleading Sanity's own database, linked only to your private memory code — never your name, email or location. Sign in, and it can travel with your free Sanity Profile.</li>
+        <li>Memory starts on this device and can sync with the site when online. Guest memory uses a private code; signed-in memory can be linked to your account. Read <a href="/privacy.html#arron-ai">how Arron and its providers process messages</a> before sharing sensitive information.</li>
         <li>No ads, no tracking, never sold.</li>
-        <li><strong>Forget Me</strong> erases everything in one tap.</li>
+        <li><strong>Forget Me</strong> asks for confirmation, clears local Arron memory and requests deletion from the site database. If offline, the request is queued for retry; it does not delete your whole account or data held separately by other services.</li>
       </ul>
 
       <h3 style="margin:1rem 0 0.35rem;color:#00fff0;font-size:1.05rem">The Creator connection</h3>
@@ -317,6 +317,7 @@
     </dialog>
   </main>
 
+  <script src="/js/site.js" defer></script>
   <script src="/js/arron-companion.js" defer></script>
   <script src="/js/arron-speak.js" defer></script>
 </body>
