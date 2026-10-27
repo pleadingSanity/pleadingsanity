@@ -573,3 +573,13 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Home-screen note already wired via `js/games-home-note.js`.
 - solar.html live. Netlify production on latest main.
 - PR #92 remains draft. Soul file, Arron voice, and crisis lines untouched.
+
+## 2026-10-27 — Grok: PR review, shop gap, content drafts
+- Refreshed main `3e13c843a101f26e8d81d354e76e8091d09a3ec1`. GitHub read/write access confirmed. AGENTS.md and AI_HANDOFF.md read. Open PRs inspected including #125, #126 and draft #92 (untouched).
+- PR #126 (head `67aff67b58af1f931f421ef5c46714be064557d7`): reconciled with main; preserves the three additive voice lines and theme switcher. Arron site.js wiring, centred welcome, more accurate memory/deletion/offline wording, Creator Hub clarity, contact email and selected tagline fixes. Dola role and shared session handoff added to AGENTS.md. Mergeable state blocked; prior browser evidence attached to earlier head `8a5dc50`, not automatically to this head. No merge recommended until Shane reviews the new preview.
+- PR #125 (head `dbc63207e9d46b9508fcfd5c209812f059d5f710`): shop SEO/FAQ, clearer partnership wording, inactive-proposal labels on revenue docs, public manufacturer capability leads. Base is older (`23a60094`); shared log/cache/sitemap edits need reconciliation with #126 and current main. Do not duplicate. Mergeable state blocked.
+- Shop v1.1 gap: public site still links only `assets/downloads/pleading-sanity-factory-sampling-pack.pdf` (v1.0). Approved v1.1 pack and mask addendum were read privately by Codex but are not in the public repo. Design pack still lists a P.S. beneath the signature back brain; owner rule is no P.S. beneath PS-H01 back brain and tonal-black lowest rear-hem wordmark. Missing public source files: v1.1 PDF and mask addendum.
+- Clothing rules held: no new Deep Olive launch date, style-specific colours, no zero-bulk/organic/squat-proof promises, PS-M01 integrated construction preserved, full-head mask remains separate prototype.
+- Content batch drafted only (Facebook, Instagram, X, LinkedIn + three outreach notes). No sending or scheduling.
+- £0 growth experiment proposed: weekly “one small thing” public prompt with a simple reply count as measure.
+- Crisis lines, free forever, Arron disclaimer, provider order, soul file and privacy boundaries untouched. PR #92 remains draft. No production release claimed.
