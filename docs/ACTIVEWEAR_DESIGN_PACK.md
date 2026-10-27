@@ -1,10 +1,15 @@
 # Pleading Sanity — Activewear Design Pack (FINAL)
 
-## v1.0 FINAL - current presentation and monogram scale
+## v1.1 owner alignment - 27 October 2026
 
-The current [12-page factory pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
-contains the final design presentation. Fabric weights, FOB targets, MOQ guidance,
-garment-size worksheet and attachment/stow sequence are preserved. The latest
+The public [v1.0 factory pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
+remains an older reference; the approved v1.1 owner-revision PDF and mask addendum
+are pending public upload. The existing download is not relabelled as v1.1.
+This editable brief aligns the written instructions with the approved v1.1
+owner revision. Where the older PDF conflicts, the v1.1 owner instructions below
+control; resolve any remaining contradiction before cutting. Fabric weights,
+FOB targets, MOQ guidance, garment-size worksheet and attachment/stow sequence
+are preserved. The latest
 owner-specified monogram widths take precedence over earlier P.S. height targets.
 Do not distort the approved mark to meet width and a superseded height at once.
 
@@ -16,10 +21,14 @@ Do not distort the approved mark to meet width and a superseded height at once.
 | Leggings LEFT hip/upper thigh | 60-70 |
 | Mask side edge | 25-35 |
 | Bra left chest | 30-40 |
-| Beneath signature hoodie-back brain | 40-50 |
 
 Rear leggings wordmark: 120-150 mm wide; existing 6 mm text-height target retained.
-Brain: hoodie-back width 220-240 mm, bra-back height 18 mm. Existing zip-jacket
+Brain: PS-H01 upper-back width 220-240 mm, bra-back height 18 mm. No standalone
+P.S. or additional wordmark beneath the PS-H01 Crying Brain. Place the full
+PLEADING SANITY wordmark in tonal matte black at the lowest rear ribbed hem,
+visible mainly at close range. Final width, letter height and seam offset require
+an owner-approved 1:1 placement proof; no new dimensions are assigned here.
+Existing zip-jacket
 front-hem wordmark remains a style-specific exception to “waistbands only”;
 PS-Z01 text height 8 mm is unchanged. No new PS-Q01 hem dimension is inferred.
 Women’s front waistband and bra underbust remain clean. Graphic tee artwork is
@@ -32,7 +41,14 @@ all of the face clear. Flexible grillz print plus tiny side P.S.; no brain or ac
 metal/gem/drip attachments. Final material note includes brushed moisture-wicking
 jersey hood lining. Zero visible bulk, secure retention, easy one-handed use,
 opacity, quick drying and true-to-size comfort are design targets for sample
-verification, not established performance claims.
+verification, not established performance claims. Low-bulk hood-brim storage is
+a prototype requirement, not a guaranteed zero-bulk result. No medical, PPE,
+protective-visibility or sport/driving/machinery suitability claim is established.
+
+PS-H01 sampling route A: 420-450gsm soft cotton French terry. Organic provenance
+is unconfirmed; do not claim organic without supporting documentation. The
+existing 320-360gsm four-way stretch double-knit route is quoted separately and
+must not replace route A without owner approval.
 
 Artwork masters, exact final size within each range, placement offsets, factory
 POM values/size grading, material/print tests and written sample approval still
@@ -57,20 +73,21 @@ Read with: `docs/MASTER_GPT_PROMPT.md` + `docs/SHANE_CREATOR_IDENTITY.md`
 | Women’s set | `cf0ecbd8-883f-4fbf-94b0-0220d969f70a` |
 
 ## Mask attachment (must stay)
-Lower panel permanently sewn chin-to-ear inside hood · magnetic upper mesh · stow tunnel zero bulk · dripping diamond grillz + tiny P.S.
+Lower panel permanently sewn chin-to-ear inside hood · detachable upper eye mesh via four fabric-covered neodymium magnetic points (two lower-panel, two hood lining) · low-bulk hood-brim stow tunnel subject to prototype testing, not guaranteed zero bulk · dripping diamond grillz + tiny P.S.
 
 ## Rules
 One P.S. left thigh only · Shane is the model · stealth black · reflective silver · no clutter
 
 Rise From Madness.
 
-## Factory sampling handoff - 26 October 2026, revision 1
+## Factory sampling handoff - v1.1 alignment, 27 October 2026
 
 Design lock does not mean a manufactured sample is approved. The downloadable
-[factory sampling pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
-is the current plain-language build brief. It contains eight pages: style IDs,
-fabric choices/BOM, placement map, mask assembly, activewear, option separation,
-measurement worksheet and quotation/sample sign-off sequence.
+[v1.0 factory sampling pack](../assets/downloads/pleading-sanity-factory-sampling-pack.pdf)
+is retained as an older reference, not the approved v1.1 owner revision. The
+approved v1.1 pack and mask addendum still need public upload; do not rename or
+relabel the older PDF. Use the aligned written instructions here for the revised
+placements, then confirm the approved source files before factory release.
 
 ### Current physical image files
 
@@ -84,18 +101,29 @@ historical provenance, not a fetchable public URL or a print master.
 
 ### Style precedence and reference corrections
 
-- PS-H01 / PS-J01: signature hoodie left-chest P.S.; Crying Brain + P.S. back;
-  exactly one left-thigh P.S. on joggers. No calf/right-leg mark or side stripes.
+- PS-H01: signature hoodie left-chest P.S. 40-50 mm wide; Crying Brain centred
+  on the upper back, 220-240 mm wide. No standalone P.S. beneath the brain.
+  Tonal-black PLEADING SANITY at the lowest rear ribbed hem, subject to an
+  owner-approved 1:1 placement proof. Sampling route A is 420-450gsm French
+  terry; organic provenance unconfirmed, with no organic claim without evidence.
+- PS-J01: exactly one P.S. 50-65 mm wide on the wearer's LEFT upper thigh only.
+  Right thigh, calves and rear remain clean. No side stripes.
 - PS-M01: lower stretch panel permanently sewn inside hood chin-to-ear; removable
-  upper eye mesh with proposed four soft covered magnetic snap points; hidden
-  stow channel. Both panels fully clear eyes/nose/mouth/chin when stowed.
+  upper eye mesh via four soft fabric-covered neodymium magnetic snap points
+  (two lower-panel, two hood lining); concealed internal hood-brim stow channel.
+  Both panels must fully clear eyes/nose/mouth/chin when stowed on the prototype.
   Silver grillz/drips are flat flexible print, never actual metal, gems or teeth.
   Tiny side P.S.; no Crying Brain on mask. Stow bulk, mesh visibility, breathing,
   hardware retention and washing need physical prototype assessment; do not
-  promise zero bulk or crystal vision from a render.
+  promise zero bulk or crystal vision from a render. No medical, protective,
+  PPE or sport/driving/machinery suitability claim is established. The full-head
+  concept remains a separate experimental prototype, not a PS-M01 replacement.
 - PS-L01 / PS-B01: black or charcoal leggings/bra. No front waistband wordmark and
-  no bra underbust wordmark. Left hip P.S., rear waistband wordmark; left-chest
-  P.S. and upper-back Crying Brain on racerback.
+  no bra underbust wordmark. PS-L01 front waistband remains completely clean;
+  one left hip P.S. 60-70 mm wide and rear waistband wordmark 120-150 mm wide
+  (existing 6 mm text-height target). PS-B01 left-chest P.S. 30-40 mm wide and
+  upper-back Crying Brain 18 mm high on racerback. Squat-proof opacity and bra
+  support are targets subject to physical sample testing, not proven ratings.
 - PS-Z01 / PS-J02: supplied hooded full-zip alternative, raglan sleeve,
   left-chest P.S., front hem wordmark, plain back; one left-thigh jogger P.S.
   Earlier funnel-neck/chest-brain/calf-print draft is not this option.
