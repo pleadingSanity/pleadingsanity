@@ -583,3 +583,12 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Content batch drafted only (Facebook, Instagram, X, LinkedIn + three outreach notes). No sending or scheduling.
 - £0 growth experiment proposed: weekly “one small thing” public prompt with a simple reply count as measure.
 - Crisis lines, free forever, Arron disclaimer, provider order, soul file and privacy boundaries untouched. PR #92 remains draft. No production release claimed.
+
+
+## 2026-10-27 — GPT: Activewear design pack v1.1 alignment
+- Dedicated branch `fix/activewear-spec-v1-1-alignment` from main `ac8f9e0784f045625674f55b4754cd5c81946788`. Only this log and `docs/ACTIVEWEAR_DESIGN_PACK.md` changed; PR #125/#126/#127 were not edited or merged.
+- Cross-checked the approved 16-page Factory Sampling Pack v1.1 owner revision. Removed the active beneath-brain P.S. placement; specified PS-H01 upper-back brain 220-240 mm, left-chest P.S. 40-50 mm and tonal-black lowest rear ribbed-hem wordmark with owner-approved proof, no invented dimensions. Preserved 420-450gsm French terry route A and approval-only alternate cloth; organic provenance unconfirmed.
+- Confirmed PS-J01 single wearer-left upper-thigh P.S. 50-65 mm; right thigh, calves and rear clean. Clarified PS-M01 sewn lower panel, four covered neodymium attachment points and prototype-tested low-bulk storage; no medical/PPE/protective/driving claims. Kept separate full-head prototype boundary. Confirmed PS-L01 clean front waistband and rear-only waistband wordmark, PS-B01 mark sizes and sample-tested opacity/support.
+- Relabelled document references accurately: public PDF remains v1.0; approved v1.1 PDF and mask addendum await public upload. Existing shop markup and PDF bytes/links unchanged. Historical imagery references, other style options, FOB/MOQ guidance and build sequence preserved.
+- Requested `npm test` exits 1 because this main baseline has no test script; the entrypoint is proposed separately in unmerged PR #127. No duplicate package change added. Ran the existing equivalent directly: `node --experimental-vm-modules --test scripts/test-*.mjs` passes 59/59, zero failures. `git diff --check` passes. No new implementation-mirroring tests for this documentation-only change.
+- Release: review branch only; no main merge, deployment, factory message, spending or production authorisation. Approved artwork masters, factory measurements/grading, tested samples and owner proofs remain required. Rollback: revert these two documentation changes.
