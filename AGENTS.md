@@ -53,6 +53,12 @@ production verification and blockers. Never fabricate tool access or test result
 - Proposed features require a user benefit, safety/privacy check, zero-extra-cost plan, mobile/accessibility impact, test/rollback plan, and explicit approval for spending, public user-data changes, payment, or high-risk deployments.
 - Build for long-term stewardship: human-controlled ownership and recovery, tested backups, documented credentials recovery without storing secrets, and safe maintenance. Never claim an AI will autonomously run the service forever.
 
+## One house only (2026-10-28)
+- The one app is Netlify site `pleadingsanity` at https://pleadingsanity.co.uk (www redirects there) from GitHub `pleadingSanity/pleadingsanity`. Do not create another Grok app, Netlify site, Vercel project, or repository for this site unless Shane says so in that chat.
+- Spare door, not a second house: Vercel `html-starter-pleadinsanity-2179` serves pleadingsanity.uk. Vercel `html-starter-pleadinsanity` only redirects www.pleadingsanity.uk to the house. Do not delete those two unless Shane says the spare domain can go.
+- Netlify `pleadingsanitystaging` is the test door of this same house, not a new site.
+- Archived and not the house: `sanctuary`, `main`, `pleadingSanity-pleadingsanity`. `pssi` is a separate optimizer, not this website. Do not revive them as the public site.
+
 
 ## Shared session handoff — Dola, Grok and every contributor
 - Start each session by refreshing main, AGENTS.md, AI_HANDOFF.md and the relevant open PRs. State the source commit and actual tools/access. Public read access does not grant write, account or deployment access.
