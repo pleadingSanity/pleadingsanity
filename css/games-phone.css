@@ -55,7 +55,7 @@
 /* Browse first; the existing progress and challenge tools remain a tap away. */
 .games-hub-page main { animation: none; }
 .games-hub-page .games-discovery { padding: clamp(1rem, 3vw, 1.8rem); margin: 0 0 1rem; border: 1px solid #3d6979; border-radius: 24px; background: #081320f2; color: #eef6ff; }
-.games-discovery[hidden], .games-hub-page .game-card[hidden], .games-hub-page .sg-hub[hidden] { display: none !important; }
+.games-discovery[hidden], .games-discovery [hidden], .games-hub-page .game-card[hidden], .games-hub-page .sg-hub[hidden] { display: none !important; }
 .games-hub-page .games-eyebrow { color: #94fff3; font-size: .75rem; font-weight: 800; letter-spacing: .12em; margin: 0 0 .6rem; }
 .games-discovery h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); margin: 0 0 .6rem; color: #eef6ff; }
 .games-discovery > p { color: #c3d8e4; line-height: 1.6; }
