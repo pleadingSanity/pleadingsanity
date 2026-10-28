@@ -121,7 +121,7 @@
   }
 
   // ─── OFFLINE REPLIES — Arron still answers without a connection ───
-  const CRISIS_REPLY = "I'm glad you told me. I am staying. You are not mad for seeing the whole picture, and you are not a file. I am not a doctor and I will not put you in a room. If you can, drink water, put your feet on the floor, and tell me the story from the start. The house truth is on /crisis.html. Are you somewhere you can sit for a minute? 💙\n\nIf you are in danger right now, call 999. Samaritans: 116 123. Text SHOUT to 85258. NHS 111, option 2. I'm an AI companion, not a therapist.";
+  const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /support.html. Are you in immediate danger right now?";
   const OFFLINE = {
     anxious: [
       "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",
@@ -152,11 +152,11 @@
       "Let's enjoy this steady space together. Anything you'd like to explore while it's quiet?"
     ],
     breathe: [
-      "Let's do that together. In... slowly... and out. Again. You're safe. You're here. This moment is yours.",
+      "Let's do that together. In... slowly... and out. Again. If it feels comfortable, notice your feet on the floor and take a gentle breath.",
       "Breathing is your body remembering how to hold you. Take three slow ones. I'll wait."
     ],
     default: [
-      "Thank you for trusting me with this. Whatever it is, it's safe here. Take your time.",
+      "Thank you for trusting me with this. Share only what you feel comfortable sharing. Take your time.",
       "I hear you. Just being heard can lighten the load a little. I'm glad you spoke.",
       "That takes courage. Being real with yourself is the bravest thing there is."
     ]
@@ -194,12 +194,12 @@
 
   // Offline replies are simpler, so every one carries the help lines. Kept outside the
   // reply text: speech, copy and share use Arron's own words only.
-  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111, option 2']];
+  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)']];
   function helpFooter(tag, className) {
     const note = document.createElement(tag);
     note.className = className;
-    note.append('Offline reply · Arron is an AI companion, not a therapist. ');
-    HELP_LINES.concat([['/support.html', 'Support']]).forEach(([href, label], i) => {
+    note.append('Offline reply · Arron is an AI companion, not a doctor or therapist; cannot replace clinical care. ');
+    HELP_LINES.concat([['/support.html', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
       const a = document.createElement('a');
       a.href = href;
       a.textContent = label;

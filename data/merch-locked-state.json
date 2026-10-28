@@ -1,9 +1,9 @@
 {
   "project": "Pleading Sanity Activewear",
   "status": "DESIGN_LOCKED_SAMPLES_NOT_APPROVED",
-  "updated": "2026-10-26",
+  "updated": "2026-10-28",
   "owner": "Shane Cooper",
-  "model": "Shane Cooper — blonde fade, blue eyes, short beard, left-arm tattoos",
+  "model": "Shane Cooper \u2014 blonde fade, blue eyes, short beard, left-arm tattoos",
   "heroes": {
     "tracksuit_front_back": "0f40b751-8bf3-408d-b7fb-8e056d172bb4",
     "mask_full_face": "26905c21-4394-4e40-b4f3-2b2c1469ca89",
@@ -21,8 +21,9 @@
   },
   "brand_rules": [
     "stealth premium less is more",
-    "Black Charcoal Deep Olive Sand only",
+    "Current sampling colours: Black, Charcoal, Sand. Deep Olive is not in the 27 Oct sampling set unless Shane asks.",
     "one P.S. left thigh only on joggers",
+    "hoodie left-chest P.S. 40-50 mm; no P.S. beneath the upper-back brain",
     "reflective silver finishes",
     "Shane is primary male model"
   ],
@@ -39,15 +40,15 @@
     "factory tech pack PDF"
   ],
   "published_image_directory": "/assets/images/merch-2026/",
-  "factory_sampling_pack": "/assets/downloads/pleading-sanity-factory-sampling-pack.pdf",
-  "production_status": "Sampling brief only; final artwork, measurements, grading, testing and signed sample approval required before bulk.",
+  "factory_sampling_pack": "/assets/downloads/pleading-sanity-factory-sampling-pack-v1.1-owner-revision.pdf",
+  "production_status": "Sampling brief only. Artwork masters, measurements, grading, tests and Shane\u2019s signed sample are still required. No bulk authorisation.",
   "options": {
     "full_zip": "PS-Z01 hooded full zip: P.S. left chest, front hem wordmark, blank back; PS-J02 joggers one left-thigh P.S.",
     "graphic_capsule": "PS-T01 silver half-brain and PS-T02 supplied cyan electric-brain artwork, separate from minimal core range",
     "quarter_zip": "PS-Q01 funnel-neck quarter zip: left-chest P.S., front hem wordmark, blank back; paired J02 single left-thigh P.S.; sample approval required"
   },
-  "document_version": "v1.0 FINAL",
-  "factory_pack_pages": 12,
+  "document_version": "v1.1 owner revision",
+  "factory_pack_pages": 16,
   "monogram_widths_mm": {
     "hoodie_left_chest": [
       40,
@@ -72,11 +73,28 @@
     "bra_left_chest": [
       30,
       40
-    ],
-    "beneath_hoodie_back_brain": [
-      40,
-      50
     ]
   },
-  "sizing_priority": "Latest owner widths supersede earlier P.S. heights; preserve artwork ratio; no simultaneous conflicting constraints."
+  "sizing_priority": "v1.1 owner revision controls. Latest widths supersede earlier P.S. heights. Do not put a P.S. under the PS-H01 brain. Rear-hem wordmark size is unassigned until a 1:1 proof.",
+  "factory_sampling_pack_sha256": "c9d99d1d5243463359910ef28122030e45c943051c0999131dfc39368f5429b5",
+  "mask_addendum": "/assets/downloads/pleading-sanity-mask-manufacturer-breakdown.pdf",
+  "mask_addendum_sha256": "49bfeeef03fdf0ead23ff8dd1746939533f6bb869d823a87c56f1e4e8337864b",
+  "older_factory_pack": "/assets/downloads/pleading-sanity-factory-sampling-pack.pdf",
+  "older_factory_pack_sha256": "2b9c83b511cd4cb14bcad25f9df38ddc24ee09855175f8db263a09f89cc33bab",
+  "older_factory_pack_note": "12-page v1.0 reference. Do not relabel these bytes as v1.1.",
+  "ps_h01": {
+    "brain_upper_back_mm": [
+      220,
+      240
+    ],
+    "no_mark_beneath_brain": true,
+    "left_chest_ps_mm": [
+      40,
+      50
+    ],
+    "rear_hem_wordmark": "tonal matte-black PLEADING SANITY at the lowest rear rib; size subject to approved 1:1 proof",
+    "cloth_route_a": "420-450 gsm French terry; organic unconfirmed",
+    "cloth_route_b": "320-360 gsm four-way stretch double-knit, quoted separately, not a substitute"
+  },
+  "full_head_mask": "Separate experimental concept. Not PS-M01. No released style code."
 }

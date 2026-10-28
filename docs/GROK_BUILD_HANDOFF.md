@@ -9,13 +9,13 @@ Also load: `data/merch-locked-state.json` · `docs/MASTER_GPT_PROMPT.md` · `doc
 
 ---
 
-Current sizing authority: `docs/ACTIVEWEAR_DESIGN_PACK.md`, v1.0 FINAL section and the current downloadable PDF. Use its widths; preserve proportions.
+Current sizing authority: `docs/ACTIVEWEAR_DESIGN_PACK.md` and the v1.1 owner-revision PDF. No P.S. beneath the PS-H01 brain. The tonal rear-hem wordmark still needs a 1:1 proof. Preserve proportions.
 
 ## What we have (LOCKED)
 
 ### Main black tracksuit (Shane as model)
 - Front: clean oversized hoodie, small reflective **P.S.** left chest, kangaroo pocket
-- Back: large dripping **Crying Brain** + **P.S.** below
+- Back: large dripping **Crying Brain**, 220–240 mm, with **no P.S. beneath it**. Tonal matte-black **PLEADING SANITY** at the lowest rear rib, size only after a 1:1 proof.
 - Joggers: tapered, **ONE P.S. only on LEFT thigh** (never right, never two)
 - Hero asset: `0f40b751-8bf3-408d-b7fb-8e056d172bb4`
 
@@ -47,8 +47,8 @@ Current sizing authority: `docs/ACTIVEWEAR_DESIGN_PACK.md`, v1.0 FINAL section a
 ---
 
 ## Materials (premium, not robbery)
-- Tracksuit: 420–450gsm French terry or 320–360gsm 4-way stretch brushed inner  
-- Women’s: 260–280gsm squat-proof  
+- Tracksuit route A: 420–450gsm French terry. Route B: 320–360gsm 4-way stretch brushed inner, quoted separately. Organic unconfirmed.
+- Women’s: 260–280gsm nylon/spandex. Opacity is a sample target, not a squat-proof rating.
 - Mask: soft 4-way stretch + fine vision mesh, soft-coated magnets  
 - Hardware: YKK-level  
 - FOB target: hoodie £8–12, joggers £7–10, leggings £5–7  

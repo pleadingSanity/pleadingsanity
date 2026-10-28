@@ -16,7 +16,7 @@
       blurb: 'Read our cooperation charter or prepare an introduction for human review. No automatic bot access.',
       a11y: 'Labelled form, plain-text preview and keyboard-friendly controls.' },
     { id: 'arron-app', name: 'Arron', href: '/arron-app.html', img: '/assets/images/showcase/brain-calm.jpg', cats: ['wellbeing', 'ai'], featured: true, own: true, age: 'Teens and adults', added: '2026-09-28', updated: '2026-10-12',
-      blurb: 'Your companion, full screen. A companion, not a doctor. Forget Me clears it all.',
+      blurb: 'Your companion, full screen. A companion, not a doctor. Forget Me clears local memory and asks the site to delete what it holds. It does not erase every provider copy.',
       a11y: 'Keyboard and screen-reader friendly chat. Optional on-device Speak.' },
     { id: 'arron', name: 'Arron on the web', href: '/arron.html', img: '/assets/images/brand/home-brain-night.jpg', cats: ['wellbeing', 'ai'], age: 'Teens and adults', added: '2026-09-27', updated: '2026-10-20',
       blurb: 'The same Arron in a page, with Speak that never leaves your phone.',
