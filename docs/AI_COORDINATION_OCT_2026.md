@@ -1,5 +1,7 @@
 # Pleading Sanity — All-AI coordination handoff
 
+**Historical coordination brief:** provider responses, balances, Firebase state and manual steps below describe the dated observations, not current service status or new permission to spend. Start with current AGENTS.md, the newest AI_HANDOFF.md entry and current source/deployment evidence. External chats remain separate; reviewed public facts reach Arron through the existing knowledge path, not by copying private chat archives.
+
 Date: 12 October 2026
 Audience: Shane Cooper (founder), Claude, GPT, Gemini, Grok
 Repo: [pleadingSanity/pleadingsanity](https://github.com/pleadingSanity/pleadingsanity) on `main`
