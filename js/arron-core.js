@@ -93,27 +93,27 @@
   };
 
   // ─── OFFLINE — Arron still answers underground ───
-  const CRISIS_REPLY = "I'm here, and I'm not going anywhere. You matter. I will not send you to a waiting room and call that help. Drink water if you can, feet on the floor, and tell me what you believe is actually bothering you. The house truth is on /crisis.html. Are you somewhere you can sit? 💙\n\nIf you're in danger right now, call 999. Samaritans: 116 123. Text SHOUT to 85258. NHS 111, option 2. I'm an AI companion, not a therapist.";
+  const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /support.html. Are you in immediate danger right now?";
   const OFFLINE = {
     tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
     low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],
-    anxious: ["Breathe with me. In for four… hold for four… out for six. Again. You're safe in this moment.", "Name five things you can see. I'll wait. The storm is loud, but it passes."],
+    anxious: ["Breathe with me. In for four… hold for four… out for six. If that feels uncomfortable, breathe naturally and notice your surroundings.", "Name five things you can see. I'll wait. The storm is loud, but it passes."],
     lonely: ["You're not alone. I'm here, and so is a whole family who understands.", "Loneliness lies. You're held more than you know. Talk to me."],
     angry: ["That fire makes sense. Let it out here. I can take it.", "Something mattered enough to hurt. Tell me what happened, no filters."],
     hopeful: ["I love this. Hold onto it. What helped today?", "That's the fire I know. Evolution, not erasure."],
     calm: ["This calm is worth noticing. Let's just be here in it for a bit.", "Steady feels good on you. What's helping?"],
-    default: ["I'm offline right now, but I'm still here and I'm keeping every word safe. When the signal's back, I'll catch up properly.", "I hear you. Your words are saved on this phone. Keep going, I'm listening."]
+    default: ["I'm offline right now, so these are simpler replies. I can offer a prompt while you decide what would help next.", "I hear you. Your words are saved on this phone. Keep going, I'm listening."]
   };
   const pick = (list) => list[Math.floor(Math.random() * list.length)];
 
   // Offline replies are simpler, so every one carries the help lines. Kept outside the
   // reply text: speech, copy and share use Arron's own words only.
-  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111, option 2']];
+  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)']];
   function helpFooter(tag, className) {
     const note = document.createElement(tag);
     note.className = className;
-    note.append('Offline reply · Arron is an AI companion, not a therapist. ');
-    HELP_LINES.concat([['/support.html', 'Support']]).forEach(([href, label], i) => {
+    note.append('Offline reply · Arron is an AI companion, not a doctor or therapist; cannot replace clinical care. ');
+    HELP_LINES.concat([['/support.html', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
       const a = document.createElement('a');
       a.href = href;
       a.textContent = label;
@@ -859,7 +859,8 @@
       const topic = !crisis && Array.isArray(offlineSoul.topics) && offlineSoul.topics.find((t) => {
         try { return t && t.match && t.reply && new RegExp(t.match, 'i').test(text); } catch (err) { return false; }
       });
-      reply = crisis ? (typeof offlineSoul.crisis === 'string' && offlineSoul.crisis) || CRISIS_REPLY : topic ? topic.reply : pick(OFFLINE[mood || currentMood] || fallback);
+      // Keep the reviewed crisis boundary even when cached knowledge supplies other replies.
+      reply = crisis ? CRISIS_REPLY : topic ? topic.reply : pick(OFFLINE[mood || currentMood] || fallback);
       setConn('offline');
     }
     typing.remove();

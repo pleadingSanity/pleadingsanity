@@ -20,6 +20,9 @@ jobs:
       - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
 
+      - name: Check Arron offline companion boundaries
+        run: node tests/test-arron-offline-boundary.test.js
+
       - name: Check private chart-request behaviour
         run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
       - name: Check local journal persistence failures
@@ -27,6 +30,8 @@ jobs:
 
       - name: Check game saves, scoreboards and App Hub destinations
         run: node --experimental-vm-modules --test scripts/test-game-progress.mjs
+      - name: Check game catalogue filtering and recovery
+        run: node --test scripts/test-games-discovery.mjs
 
       - name: Check AI family introduction boundaries
         run: node --test scripts/test-ai-family-intro.mjs

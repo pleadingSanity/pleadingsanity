@@ -1,8 +1,28 @@
 # PLEADING SANITY — CREATOR & STREETWEAR REVENUE TERMS
 
-**Effective Date:** October 12, 2026
-**Status:** Canonical Draft (Pre-Launch Lock)
+**Draft date:** October 12, 2026
+**Status:** Historical proposal — not active commercial terms (clarified October 27, 2026)
 **Motto:** LOVE OVER MONEY · EVOLUTION, NOT ERASURE · ONE SOURCE, ONE FAMILY
+
+---
+
+## Current operating position — 27 October 2026
+
+The 50/50 and 90/10 figures below are preserved proposals, not implemented
+allocations, supplier agreements or active payout promises. The historical
+phrase “binding moral constitution” does not establish an executed agreement.
+Do not advertise these figures as a live offer. Current public funding copy is
+on [the shop](../shop.html#support-the-house) and
+[the transparency page](../transparency.html#funding).
+
+Before a commercial launch, confirm the product or service, actual costs,
+applicable taxes and fees, returns/refunds, responsibilities, and any approved
+allocation or payout terms. Net proceeds are what remains after costs, not total
+sales. Visits, downloads and sign-ups do not themselves generate revenue.
+No payment integration or revenue split is activated by this document.
+
+The sanctuary, Arron, journals, games, feed and crisis support remain free.
+Private journal content and personal information must never become a product.
 
 ---
 
