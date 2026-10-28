@@ -31,3 +31,66 @@
 .games-hub-page .games-welcome-art figcaption { font-size: .9rem; line-height: 1.5; margin-top: .5rem; }
 .games-hub-page .ps-next { padding-inline: 1rem; }
 @media(max-width:640px) { .games-hub-page .games-welcome-art { gap: .65rem; } .games-hub-page .games-welcome-art img { height: 105px; border-radius: 14px; } }
+
+/* One clear control language across existing games; never resize playing cards. */
+.ps-game-page :is(.btn, .sbtn, .psg-sound, .hub-sound, .sg-back, .ps-game-back, summary, select) {
+ min-height: 48px; box-sizing: border-box; touch-action: manipulation;
+}
+.ps-game-page :is(.btn, .sbtn, .psg-sound, .hub-sound, .ps-game-back) {
+ border: 1px solid #65b9bd; font-weight: 700; text-decoration: none;
+}
+.ps-game-page :is(button, .btn, .sbtn):not(:disabled) { cursor: pointer; }
+.ps-game-page :is(button, .btn, .sbtn):disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+.ps-game-page :is(.btn, .sbtn, .psg-sound, .hub-sound):active:not(:disabled) { filter: brightness(.9); }
+.ps-game-back { display: inline-flex; align-items: center; gap: .5rem; padding: .65rem 1rem; border-radius: 999px; background: #081727; color: #eef6ff; }
+.ps-game-page main { scroll-margin-top: 1rem; }
+.ps-game-page:not(.ps-art-solitaire) img.ps-game-icon {
+ display: block; width: min(780px, calc(100% - 2rem)); max-width: 780px;
+ height: clamp(120px, 20vw, 190px); max-height: none; aspect-ratio: auto;
+ object-fit: cover; object-position: center 42%; border-radius: 22px;
+ border: 1px solid #3d6979; box-shadow: 0 12px 32px #0005;
+}
+.ps-game-page:not(.ps-art-solitaire):not(.ps-art-poker) > header { position: relative; top: auto; z-index: auto; }
+
+/* Browse first; the existing progress and challenge tools remain a tap away. */
+.games-hub-page main { animation: none; }
+.games-hub-page .games-discovery { padding: clamp(1rem, 3vw, 1.8rem); margin: 0 0 1rem; border: 1px solid #3d6979; border-radius: 24px; background: #081320f2; color: #eef6ff; }
+.games-discovery[hidden], .games-hub-page .game-card[hidden], .games-hub-page .sg-hub[hidden] { display: none !important; }
+.games-hub-page .games-eyebrow { color: #94fff3; font-size: .75rem; font-weight: 800; letter-spacing: .12em; margin: 0 0 .6rem; }
+.games-discovery h2 { font-size: clamp(1.5rem, 4vw, 2.25rem); margin: 0 0 .6rem; color: #eef6ff; }
+.games-discovery > p { color: #c3d8e4; line-height: 1.6; }
+.games-discovery label { display: block; margin: 1.2rem 0 .5rem; font-weight: 700; }
+.games-hub-page #games-search { width: 100%; min-height: 52px; background: #000b17; border: 1px solid #65b9bd; padding: .8rem 1rem; border-radius: 14px; }
+.games-filters { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+.games-filters button, #games-reset { min-height: 48px; padding: .6rem 1rem; border-radius: 999px; border: 1px solid #65b9bd; background: #10263a; color: #eef6ff; font: inherit; font-weight: 600; }
+.games-filters button[aria-pressed="true"] { background: #00fff0; color: #000103; border-color: #00fff0; }
+.games-filter-status { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: .5rem; margin-top: .8rem; }
+#games-count { font-size: .9rem; color: #c3d8e4; margin: 0; }
+#games-empty { border-top: 1px solid #3d6979; padding-top: 1rem; }
+.games-progress { margin: 1rem 0 1.5rem; border: 1px solid #3d6979; border-radius: 18px; background: #081320ed; }
+.games-progress > summary { display: list-item; min-height: 48px; padding: 1rem; color: #eef6ff; font-weight: 700; cursor: pointer; }
+.games-progress > .hub { margin: 0; padding: 0 1rem 1rem; }
+.games-hub-page .game-card { display: flex; flex-direction: column; opacity: 1; transform: none; animation: none; background: #081320ed; border: 1px solid #3d6979; box-shadow: 0 8px 24px #0004; padding: 0; overflow: hidden; }
+.games-hub-page .game-thumb { border-radius: 0; height: 190px; flex-shrink: 0; }
+.games-hub-page .game-content { display: flex; flex-direction: column; flex: 1; padding: 1.25rem; }
+.games-hub-page .game-content h3 { text-align: left; color: #eef6ff; font-size: 1.25rem; }
+.games-hub-page .game-desc { text-align: left; color: #c3d8e4; font-size: .95rem; flex: 1; }
+.games-hub-page .game-stats { justify-content: flex-start; color: #c3d8e4; gap: .5rem .8rem; }
+.games-hub-page .btn-wrap { margin-top: auto; }
+.games-hub-page .btn-wrap .btn { min-height: 50px; padding: .65rem .9rem; font-size: .9rem; }
+.games-hub-page .game-card::before { content: none; }
+.games-hub-page .game-card:hover, .games-hub-page .game-card:focus-within { transform: none; border-color: #00fff0; box-shadow: 0 0 0 1px #00fff044, 0 12px 32px #0005; }
+.games-hub-page .game-card .badge { box-shadow: none; }
+.games-hub-page .intro { margin-bottom: 1rem; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+ .games-hub-page .game-card:hover .game-thumb { background-position: center 45%; }
+}
+@media (max-width: 540px) {
+ .games-filters { display: grid; grid-template-columns: 1fr 1fr; }
+ .games-filters button:first-child { grid-column: 1 / -1; }
+ .games-hub-page .game-thumb { height: 180px; }
+ .games-hub-page .game-content { padding: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+ .ps-game-page :is(.btn, .sbtn, button, .game-card, .game-thumb) { transition: none !important; }
+}

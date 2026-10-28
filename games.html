@@ -401,7 +401,25 @@
       <br><a href="#about-games">What each game is for →</a>
     </p>
 
+    <section id="games-discovery" class="games-discovery" aria-labelledby="games-find-title" hidden>
+      <p class="games-eyebrow">YOUR NEXT LITTLE ESCAPE</p>
+      <h2 id="games-find-title">What feels good today?</h2>
+      <p>Pick a puzzle, a hand of cards or a quieter moment. Everything stays open.</p>
+      <label for="games-search">Find a game or quiet tool</label>
+      <input id="games-search" type="search" placeholder="Try memory, cards or breathing" autocomplete="off" aria-controls="games-catalogue games-calm-catalogue">
+      <div class="games-filters" role="group" aria-label="Game categories">
+        <button type="button" data-game-filter="all" aria-pressed="true">Everything</button>
+        <button type="button" data-game-filter="cards" aria-pressed="false">Cards &amp; table</button>
+        <button type="button" data-game-filter="puzzles" aria-pressed="false">Memory &amp; puzzles</button>
+        <button type="button" data-game-filter="rhythm" aria-pressed="false">Rhythm &amp; reflex</button>
+        <button type="button" data-game-filter="calm" aria-pressed="false">Quiet moments</button>
+      </div>
+      <div class="games-filter-status"><p id="games-count" role="status" aria-live="polite" aria-atomic="true"></p><button type="button" id="games-reset" hidden>Clear filters</button></div>
+      <p id="games-empty" hidden>No matches this time. Clear the filters or try another word.</p>
+    </section>
     <p data-progress-status role="status"></p>
+    <details class="games-progress" id="games-progress">
+      <summary>Your progress, badges &amp; daily challenges</summary>
     <section id="psg-hub" class="hub" aria-label="Your player profile">
       <div class="hub-top">
         <div class="hub-level">
@@ -435,7 +453,8 @@
       </details>
     </section>
 
-    <div class="games-grid">
+    </details>
+    <div class="games-grid" id="games-catalogue">
       <article class="game-card" data-game="sanity-solitaire">
         <div class="game-thumb" data-mark="sanity-solitaire">
           <span class="badge official">OFFICIAL</span>
@@ -648,7 +667,7 @@
     <section class="sg-hub" aria-labelledby="sg-hub-h">
       <h2 id="sg-hub-h">🌱 Healing Games — no scores, no timers, just you</h2>
       <p>Gentle tools for breathing, noticing and reflecting. Your progress is private — sign in and it follows you to any device.</p>
-      <div class="games-grid">
+      <div class="games-grid" id="games-calm-catalogue">
       <article class="game-card" data-sanctuary-game="mind-mode">
         <div class="game-thumb" data-mark="mind-mode">
           <span class="badge calm">CALM</span>
@@ -826,5 +845,6 @@
   <script src="/js/games-home-note.js" defer></script>
   <script type="module" src="/js/game-scores.js"></script>
   <script src="/js/games-theme-switcher.js" defer></script>
+  <script type="module" src="/js/games-discovery.js"></script>
 </body>
 </html>
