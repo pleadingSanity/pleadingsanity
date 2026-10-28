@@ -287,6 +287,12 @@ body {
   body { background-attachment: scroll; }
 }
 
+/* This homepage already has visible entry links; keep its phone shortcuts in flow. */
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  body { padding-bottom: 0; }
+  body > .ps-dock { position: static; margin: 1rem .75rem; }
+}
+
 /* Calm entry points: solid surfaces give predictable contrast over the sky. */
 .home-urgent { max-width: 1100px; box-sizing: border-box; margin: 1rem auto; padding: 1rem; background: #081320; color: #eef6ff; border: 1px solid #3d6979; border-radius: 18px; }
 .home-urgent p { margin: 0 0 .6rem; }
