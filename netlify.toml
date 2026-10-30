@@ -6,7 +6,7 @@
 
 [build]
   publish = "."
-  command = "echo 'Static site — no build step'"
+  command = "node scripts/validate-build.js && echo 'Static site — no build step'"
   functions = "netlify/functions"
 
 # ─── SECURITY HEADERS ───
