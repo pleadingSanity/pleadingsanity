@@ -961,7 +961,13 @@
       </div>
 
       <div class="lg:col-span-3 reveal">
-        <form id="quoteForm" class="card-dark p-6 sm:p-8" novalidate>
+        <!-- Hidden form so Netlify detects + captures solar enquiries -->
+<form name="solar-enquiry" netlify netlify-honeypot="bot-field" hidden aria-hidden="true">
+  <input type="hidden" name="form-name" value="solar-enquiry" />
+  <input name="name" /><input name="postcode" /><input name="phone" /><input name="email" />
+  <input name="roof" /><input name="systemSize" /><input name="battery" /><input name="evCharger" /><textarea name="message"></textarea>
+</form>
+<form id="quoteForm" class="card-dark p-6 sm:p-8" novalidate>
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
               <label class="field-label" for="fName">Name *</label>
@@ -1427,6 +1433,21 @@ const CATEGORIES = [
 
     var waUrl = "https://wa.me/" + CONFIG.whatsapp + "?text=" + encoded;
     var mailtoUrl = "mailto:" + CONFIG.email + "?subject=" + encodeURIComponent("Quote request — " + name + " (" + postcode + ")") + "&body=" + encoded;
+    // Capture enquiry in Netlify Forms (triggers email notification)
+    try {
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          "form-name": "solar-enquiry",
+          "name": name, "postcode": postcode, "phone": phone, "email": email,
+          "roof": roof, "systemSize": document.getElementById("fSystemSize").value,
+          "battery": document.getElementById("fBattery").value,
+          "evCharger": document.getElementById("fEV").value,
+          "message": document.getElementById("fMessage").value
+        })
+      }).catch(function(){ /* non-blocking — WhatsApp still opens */ });
+    } catch(e) {}
 
     // Open WhatsApp in new tab
     window.open(waUrl, "_blank", "noopener");
