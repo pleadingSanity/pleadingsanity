@@ -967,6 +967,37 @@
   <input name="name" /><input name="postcode" /><input name="phone" /><input name="email" />
   <input name="roof" /><input name="systemSize" /><input name="battery" /><input name="evCharger" /><textarea name="message"></textarea>
 </form>
+<!-- PayPal Checkout — £50 refundable survey deposit -->
+<div id="paypal-deposit" class="card-dark p-6 sm:p-8 reveal" style="margin-top:2rem;">
+  <span class="brand-badge mb-3" style="background:rgba(245,158,11,.12);color:#f59e0b;border-color:rgba(245,158,11,.35);">Secure your slot</span>
+  <h3 class="text-xl font-extrabold mb-2" style="color:var(--amber2);">Lock in your survey — £50 fully refundable deposit</h3>
+  <p class="text-sm mb-4" style="color:var(--muted-light);line-height:1.65;">Deducted from your final installation cost. Refunded in full if your roof is unsuitable at survey. Subject to survey. Consumer Contracts Regulations — 14-day cancellation right. Formal certification issued only by MCS/NAPIT registered installers; AI prepares paperwork only.</p>
+  <div id="paypal-button-container" style="max-width:340px;"></div>
+  <p id="paypal-msg" class="text-sm mt-3 font-bold" style="color:var(--green2);display:none;">Deposit received — thank you. A real surveyor will call you within 24 hours. Still WhatsApp us anytime on the number above.</p>
+  <p class="text-xs mt-3" style="color:var(--muted-dark);">Pay with PayPal, debit or credit card. No account needed.</p>
+</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
+<script>
+(function(){
+  if (window.paypal && paypal.Buttons) {
+    paypal.Buttons({
+      style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
+      createOrder: function(data, actions) {
+        return actions.order.create({ purchase_units: [{ amount: { value: '50.00', currency_code: 'GBP' }, description: 'Insane Solar — refundable survey deposit' }] });
+      },
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          var m = document.getElementById('paypal-msg');
+          if (m) m.style.display = 'block';
+          var b = document.getElementById('paypal-button-container');
+          if (b) b.style.display = 'none';
+        });
+      }
+    }).render('#paypal-button-container');
+  }
+})();
+</script>
+
 <form id="quoteForm" class="card-dark p-6 sm:p-8" novalidate>
           <div class="grid sm:grid-cols-2 gap-5">
             <div>
