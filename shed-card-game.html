@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shed — the classic card game (aka Shithead)</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#04060f; --bg2:#0a1226; --panel:rgba(12,20,42,.72);
+    --teal:#00fff0; --amber:#f59e0b; --silver:#c7cedb; --muted:#7a8499;
+    --red:#d1202f; --ink:#14181f; --cardbg:#f6f7fb;
+    --border:rgba(0,255,240,.18); --border-soft:rgba(199,206,219,.14);
+  }
+  *{ -webkit-tap-highlight-color: transparent; }
+  html,body{ background:var(--bg); color:var(--silver); font-family:'Public Sans',system-ui,sans-serif; }
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(1.4px 1.4px at 12% 18%, rgba(199,206,219,.55), transparent 60%),
+      radial-gradient(1px 1px at 32% 62%, rgba(0,255,240,.45), transparent 60%),
+      radial-gradient(1.6px 1.6px at 55% 12%, rgba(245,158,11,.5), transparent 60%),
+      radial-gradient(1px 1px at 72% 38%, rgba(199,206,219,.5), transparent 60%),
+      radial-gradient(1.3px 1.3px at 88% 70%, rgba(0,255,240,.4), transparent 60%),
+      radial-gradient(1px 1px at 45% 85%, rgba(199,206,219,.45), transparent 60%),
+      radial-gradient(1.5px 1.5px at 8% 88%, rgba(245,158,11,.4), transparent 60%),
+      radial-gradient(1px 1px at 95% 22%, rgba(199,206,219,.5), transparent 60%),
+      radial-gradient(ellipse 90% 60% at 50% -10%, #10204a 0%, rgba(16,32,74,0) 55%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, #0a1a30 0%, rgba(10,26,48,0) 60%),
+      var(--bg);
+    background-attachment: fixed;
+  }
+  .font-display{ font-family:'Chakra Petch','Public Sans',sans-serif; letter-spacing:.02em; }
+  .text-teal{ color:var(--teal); } .text-amber{ color:var(--amber); } .text-silver{ color:var(--silver); } .text-muted{ color:var(--muted); }
+  .bg-teal{ background:var(--teal); } .bg-amber{ background:var(--amber); }
+  .border-teal{ border-color:var(--teal); } .border-amber{ border-color:var(--amber); }
+  .panel{ background:var(--panel); border:1px solid var(--border-soft); backdrop-filter: blur(6px); }
+  .glow-teal{ box-shadow:0 0 18px rgba(0,255,240,.35), 0 0 4px rgba(0,255,240,.6); }
+  .glow-amber{ box-shadow:0 0 18px rgba(245,158,11,.35); }
+
+  /* ---------- cards ---------- */
+  .card{
+    position:relative; flex-shrink:0;
+    width:56px; height:82px; border-radius:8px;
+    background:var(--cardbg); color:var(--ink);
+    box-shadow:0 2px 6px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.08);
+    user-select:none; cursor:pointer;
+    transition:transform .15s ease, box-shadow .15s ease;
+    font-family:'Chakra Petch',sans-serif;
+  }
+  @media(min-width:640px){ .card{ width:70px; height:102px; border-radius:9px; } }
+  .card.red{ color:var(--red); }
+  .card .corner{ position:absolute; left:5px; top:3px; line-height:1; text-align:center; font-weight:700; }
+  .card .corner .r{ font-size:15px; } .card .corner .s{ font-size:13px; display:block; margin-top:-1px; }
+  @media(min-width:640px){ .card .corner .r{ font-size:18px; } .card .corner .s{ font-size:16px; } }
+  .card .big-suit{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:30px; opacity:.92; }
+  @media(min-width:640px){ .card .big-suit{ font-size:38px; } }
+  .card.back{
+    background:linear-gradient(135deg,#0d1c38 0%,#0a1428 50%,#0d1c38 100%);
+    border:2px solid var(--teal);
+    box-shadow:0 2px 6px rgba(0,0,0,.55), inset 0 0 0 2px rgba(0,255,240,.12);
+    cursor:default;
+  }
+  .card.back::after{
+    content:""; position:absolute; inset:5px; border-radius:4px;
+    background:
+      repeating-linear-gradient(45deg, rgba(0,255,240,.14) 0 3px, transparent 3px 8px),
+      repeating-linear-gradient(-45deg, rgba(0,255,240,.10) 0 3px, transparent 3px 8px);
+    border:1px solid rgba(0,255,240,.35);
+  }
+  .card.back .mono{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:'Chakra Petch',sans-serif; font-weight:700; color:var(--teal); font-size:20px; z-index:2;
+    text-shadow:0 0 8px rgba(0,255,240,.6);
+  }
+  .card.sel{ transform:translateY(-14px); box-shadow:0 0 0 2px var(--teal), 0 8px 22px rgba(0,255,240,.45); }
+  .card.tappable{ cursor:pointer; }
+  .card.tappable:active{ transform:scale(.96); }
+  .card.sel.tappable:active{ transform:translateY(-14px) scale(.96); }
+  .mini-card{ width:30px; height:44px; border-radius:5px; flex-shrink:0; }
+  .mini-card .mono{ font-size:11px; }
+  .mini-card.back{ border-width:1.5px; }
+  .mini-card.back::after{ inset:3px; }
+  .empty-slot{
+    width:56px; height:82px; border-radius:8px; flex-shrink:0;
+    border:1.5px dashed rgba(199,206,219,.22); background:rgba(199,206,219,.04);
+  }
+  @media(min-width:640px){ .empty-slot{ width:70px; height:102px; } }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:'Chakra Petch',sans-serif; font-weight:600; letter-spacing:.04em;
+    border-radius:10px; padding:10px 18px; font-size:15px; transition:all .15s ease;
+    border:1px solid transparent; cursor:pointer;
+  }
+  .btn:active{ transform:translateY(1px) scale(.98); }
+  .btn:disabled{ opacity:.35; cursor:not-allowed; transform:none; }
+  .btn-primary{ background:var(--teal); color:#03121a; box-shadow:0 0 16px rgba(0,255,240,.35); }
+  .btn-primary:not(:disabled):hover{ box-shadow:0 0 24px rgba(0,255,240,.55); }
+  .btn-amber{ background:transparent; color:var(--amber); border:1.5px solid var(--amber); }
+  .btn-amber:not(:disabled):hover{ background:rgba(245,158,11,.12); }
+  .btn-ghost{ background:transparent; color:var(--silver); border:1px solid var(--border-soft); }
+  .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
+
+  .ai-active{ border-color:var(--teal) !important; box-shadow:0 0 16px rgba(0,255,240,.3); }
+  .thinking-dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--teal); margin-left:6px; animation:pulse 1s infinite; }
+  @keyframes pulse{ 0%,100%{opacity:.3; transform:scale(.8);} 50%{opacity:1; transform:scale(1.2);} }
+  .out-badge{ background:var(--amber); color:#1a1002; font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; letter-spacing:.08em; }
+
+  .log-scroll{ max-height:130px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--teal) transparent; }
+  .log-scroll::-webkit-scrollbar{ width:6px; }
+  .log-scroll::-webkit-scrollbar-thumb{ background:rgba(0,255,240,.3); border-radius:3px; }
+
+  .crisis-strip{
+    background:linear-gradient(90deg, rgba(245,158,11,.14), rgba(245,158,11,.05));
+    border-top:1.5px solid var(--amber); border-bottom:1.5px solid var(--amber);
+    color:#fcd34d;
+  }
+  .crisis-strip a{ color:#fff; font-weight:700; }
+  .footer-link{ color:var(--teal); text-decoration:underline; text-underline-offset:3px; }
+  .footer-link:hover{ color:#fff; }
+
+  .overlay{ position:fixed; inset:0; background:rgba(3,5,12,.88); backdrop-filter:blur(8px); z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .hidden{ display:none !important; }
+  .rules-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
+  .rules-body.open{ max-height:600px; }
+
+  .badge-count{
+    position:absolute; bottom:-6px; right:-6px; background:var(--bg2); color:var(--teal);
+    border:1px solid var(--teal); border-radius:999px; font-size:11px; font-weight:700;
+    min-width:20px; height:20px; display:flex; align-items:center; justify-content:center; padding:0 5px;
+    font-family:'Chakra Petch',sans-serif;
+  }
+  .deal-in{ animation:dealIn .35s ease both; }
+  @keyframes dealIn{ from{ opacity:0; transform:translateY(-8px) scale(.9);} to{opacity:1; transform:none;} }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<!-- ================= HEADER ================= -->
+<header class="w-full max-w-5xl mx-auto px-3 sm:px-4 pt-4 pb-2 flex items-center justify-between gap-2 flex-wrap">
+  <div class="min-w-0">
+    <h1 class="font-display font-700 text-lg sm:text-2xl font-bold tracking-wide">
+      <span class="text-teal">SHED</span>
+      <span class="text-silver text-sm sm:text-base font-medium"> — the classic card game</span>
+      <span class="text-muted text-xs sm:text-sm font-normal"> (aka Shithead)</span>
+    </h1>
+    <p id="turnIndicator" class="text-xs sm:text-sm text-amber font-display mt-1 tracking-wide">Press Deal to begin.</p>
+  </div>
+  <div class="flex items-center gap-2">
+    <button id="rulesBtn" class="btn btn-ghost text-xs sm:text-sm !py-2 !px-3">Rules</button>
+    <button id="newGameBtn" class="btn btn-amber text-xs sm:text-sm !py-2 !px-3">New Game</button>
+  </div>
+</header>
+
+<!-- ================= RULES PANEL ================= -->
+<div class="w-full max-w-5xl mx-auto px-3 sm:px-4">
+  <div id="rulesBody" class="rules-body">
+    <div class="panel rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-silver mb-2 leading-relaxed">
+      <p class="font-display text-teal font-semibold mb-1 tracking-wide">HOW TO PLAY</p>
+      <ul class="list-disc pl-5 space-y-1 text-muted">
+        <li>Beat the top discard: played cards must be equal or higher rank (2 low, Ace high). <span class="text-silver">Same rank is allowed — play doubles / triples.</span></li>
+        <li><span class="text-teal">2</span> is wild — play it on anything and the pile resets (next player can play anything).</li>
+        <li><span class="text-teal">10</span> burns the whole pile (playable on anything). Playing <span class="text-teal">four of the same rank</span> in one turn also burns the pile.</li>
+        <li>Can't (or won't) play? Tap <span class="text-amber">Pick up pile</span> — the whole discard pile goes into your hand.</li>
+        <li>After playing, draw back up to 3 hand cards until the deck runs out.</li>
+        <li>No hand left? Play your 3 face-up table cards. Then flip your face-down blind cards one at a time — if a blind card can't be played, you pick up the pile.</li>
+        <li>First to shed every card wins. Last player holding cards is the Shed (aka Shithead).</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MAIN BOARD ================= -->
+<main class="w-full max-w-5xl mx-auto px-3 sm:px-4 flex-1 flex flex-col gap-3 pb-2">
+
+  <!-- AI opponents -->
+  <section id="aiRow" class="grid grid-cols-3 gap-2"></section>
+
+  <!-- Center: deck + discard + log -->
+  <section class="panel rounded-2xl p-3 sm:p-4">
+    <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
+      <!-- deck -->
+      <div class="flex flex-col items-center gap-1">
+        <div class="relative">
+          <div id="deckCard" class="card back"><span class="mono">S</span></div>
+          <span id="deckCount" class="badge-count">16</span>
+        </div>
+        <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">DECK</span>
+      </div>
+      <!-- discard -->
+      <div class="flex flex-col items-center gap-1">
+        <div class="relative">
+          <div id="pileCard" class="card back"><span class="mono">?</span></div>
+          <span id="pileCount" class="badge-count">0</span>
+        </div>
+        <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">DISCARD</span>
+      </div>
+      <!-- turn / status -->
+      <div class="text-center max-w-[180px]">
+        <div id="phaseHint" class="text-xs sm:text-sm text-silver font-display">Your hand — tap cards to select.</div>
+      </div>
+    </div>
+    <!-- log -->
+    <div class="mt-3 border-t border-[var(--border-soft)] pt-2">
+      <div class="flex items-center justify-between mb-1">
+        <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">GAME LOG</span>
+        <button id="clearLogBtn" class="text-[10px] text-muted hover:text-teal font-display">clear</button>
+      </div>
+      <div id="log" class="log-scroll text-[11px] sm:text-xs text-muted font-mono leading-relaxed"></div>
+    </div>
+  </section>
+
+  <!-- Human table: face-up on top of face-down (3 columns) -->
+  <section class="panel rounded-2xl p-3 sm:p-4">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">YOUR TABLE — FACE-UP / BLIND</span>
+      <span id="tableCount" class="text-[10px] sm:text-xs text-muted font-display"></span>
+    </div>
+    <div id="humanTable" class="flex items-end justify-center gap-3 sm:gap-5"></div>
+  </section>
+
+  <!-- Human hand -->
+  <section class="panel rounded-2xl p-3 sm:p-4">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">YOUR HAND</span>
+      <span id="handCount" class="text-[10px] sm:text-xs text-muted font-display"></span>
+    </div>
+    <div id="hand" class="flex flex-wrap items-end justify-center gap-2 min-h-[86px] sm:min-h-[106px]"></div>
+  </section>
+
+  <!-- Actions -->
+  <section class="flex items-center justify-center gap-3 pb-1">
+    <button id="playBtn" class="btn btn-primary" disabled>PLAY SELECTED</button>
+    <button id="pickupBtn" class="btn btn-amber" disabled>PICK UP PILE</button>
+  </section>
+</main>
+
+<!-- ================= CRISIS STRIP ================= -->
+<div class="crisis-strip w-full text-center text-xs sm:text-sm py-2 px-3 font-display tracking-wide">
+  In crisis? Samaritans free 24/7: <a href="tel:116123">116 123</a> &nbsp;·&nbsp; Text SHOUT to <a href="sms:85258">85258</a> &nbsp;·&nbsp; You are not alone.
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="w-full text-center text-[11px] sm:text-xs text-muted py-3 px-3 font-display tracking-wide">
+  <a class="footer-link" href="https://pleadingsanity.co.uk" target="_blank" rel="noopener">pleadingsanity.co.uk</a>
+  <span class="mx-2">·</span>
+  <a class="footer-link" href="games.html">more games</a>
+  <span class="mx-2">·</span>
+  Pleading Sanity
+</footer>
+
+<!-- ================= START OVERLAY ================= -->
+<div id="startOverlay" class="overlay">
+  <div class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center border-teal glow-teal">
+    <div class="font-display text-5xl sm:text-6xl font-bold text-teal tracking-widest mb-2">SHED</div>
+    <div class="text-sm sm:text-base text-silver font-display tracking-wide mb-1">the classic card game</div>
+    <div class="text-xs text-muted mb-6">(aka Shithead)</div>
+    <p class="text-xs sm:text-sm text-muted leading-relaxed mb-6">
+      You vs three cosmic opponents. Shed every card first to win — get caught last and you're the Shed.
+      2s reset, 10s burn, four-of-a-kind clears the table.
+    </p>
+    <button id="startBtn" class="btn btn-primary text-base !px-8 !py-3">DEAL &amp; PLAY</button>
+    <div class="mt-5 text-[10px] text-muted font-display tracking-wide">Pleading Sanity · play responsibly · it's only cards</div>
+  </div>
+</div>
+
+<!-- ================= END OVERLAY ================= -->
+<div id="endOverlay" class="overlay hidden">
+  <div id="endCard" class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center">
+    <div id="endTitle" class="font-display text-4xl sm:text-5xl font-bold tracking-widest mb-3"></div>
+    <div id="endMsg" class="text-sm sm:text-base text-silver mb-2"></div>
+    <div id="endDetail" class="text-xs text-muted mb-6"></div>
+    <button id="againBtn" class="btn btn-primary text-base !px-8 !py-3">PLAY AGAIN</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   SHED (aka Shithead) — single-player vs 3 AI
+   ============================================================ */
+
+const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
+const SUITS = ['\u2660','\u2665','\u2666','\u2663']; // spade heart diamond club (text glyphs, not emoji)
+const rankVal = r => RANKS.indexOf(r) + 2;          // 2..14
+const isRed = s => (s === '\u2665' || s === '\u2666');
+const NAMES = ['You','Vega','Orion','Lyra'];
+
+let state = 'start';        // start | playing | ended
+let deck = [], pile = [];
+let players = [];           // {hand:[], faceUp:[c|null], faceDown:[c|null], out:bool}
+let current = 0;
+let selected = new Set();   // card ids selected by human
+let logLines = [];
+let aiRunning = false;
+
+const $ = id => document.getElementById(id);
+const els = {
+  aiRow:$('aiRow'), deckCount:$('deckCount'), pileCard:$('pileCard'), pileCount:$('pileCount'),
+  phaseHint:$('phaseHint'), log:$('log'), humanTable:$('humanTable'), hand:$('hand'),
+  playBtn:$('playBtn'), pickupBtn:$('pickupBtn'), turn:$('turnIndicator'),
+  handCount:$('handCount'), tableCount:$('tableCount'),
+  startOverlay:$('startOverlay'), endOverlay:$('endOverlay'),
+  endTitle:$('endTitle'), endMsg:$('endMsg'), endDetail:$('endDetail'), endCard:$('endCard'),
+  deckCard:$('deckCard'),
+  startBtn:$('startBtn'), newGameBtn:$('newGameBtn'), againBtn:$('againBtn')
+};
+
+/* ---------- deck / deal ---------- */
+function makeDeck(){
+  const d = [];
+  for(const r of RANKS) for(const s of SUITS) d.push({ r, s, id: r+s });
+  // Fisher-Yates
+  for(let i=d.length-1; i>0; i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [d[i],d[j]] = [d[j],d[i]];
+  }
+  return d;
+}
+function initGame(){
+  deck = makeDeck();
+  pile = [];
+  players = [];
+  for(let i=0;i<4;i++){
+    const faceDown = [deck.pop(), deck.pop(), deck.pop()];
+    const faceUp   = [deck.pop(), deck.pop(), deck.pop()];
+    const hand     = [deck.pop(), deck.pop(), deck.pop()];
+    hand.sort((a,b)=> rankVal(a.r)-rankVal(b.r) || a.s.localeCompare(b.s));
+    players.push({ hand, faceUp, faceDown, out:false });
+  }
+  current = 0;
+  selected.clear();
+  logLines = ['Deck dealt. You go first — tap cards in your hand to select.'];
+}
+
+/* ---------- rules ---------- */
+function topCard(){ return pile.length ? pile[pile.length-1] : null; }
+function isLegal(rank, top){
+  if(!top) return true;            // empty pile: anything plays
+  if(top.r === '2') return true;   // 2 resets — anything >=2 (everything)
+  if(rank === '2') return true;    // 2 wild on anything
+  if(rank === '10') return true;   // 10 burn card, playable on anything
+  return rankVal(rank) >= rankVal(top.r);
+}
+function countNonNull(arr){ return arr.filter(Boolean).length; }
+function totalCards(p){ return p.hand.length + countNonNull(p.faceUp) + countNonNull(p.faceDown); }
+
+/* ---------- helpers ---------- */
+function log(msg){ logLines.push(msg); if(logLines.length>80) logLines.shift(); }
+function sortHand(p){ p.hand.sort((a,b)=> rankVal(a.r)-rankVal(b.r) || a.s.localeCompare(b.s)); }
+function drawUp(idx){
+  const p = players[idx];
+  while(deck.length && p.hand.length < 3) p.hand.push(deck.pop());
+  sortHand(p);
+}
+function humanSource(){
+  const p = players[0];
+  if(p.hand.length) return 'hand';
+  if(countNonNull(p.faceUp)) return 'faceUp';
+  return 'blind';
+}
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+/* ---------- apply a play (mutates pile / hand) ---------- */
+function applyPlay(idx, cards, src){
+  const p = players[idx];
+  const rank = cards[0].r;
+  const name = NAMES[idx];
+  log(name + ' plays ' + cards.length + 'x ' + rank + (cards.length>1 ? 's' : '') + '.');
+  if(rank === '10' || cards.length === 4){
+    pile = [];
+    log('>> ' + name + ' BURNS the pile — discard cleared.');
+  } else {
+    pile.push(...cards);
+  }
+  if(src === 'hand') drawUp(idx);
+}
+
+function pickupPile(idx){
+  const p = players[idx];
+  if(!pile.length){ log(NAMES[idx] + ' — pile empty, nothing to pick up.'); return false; }
+  p.hand.push(...pile);
+  const n = pile.length;
+  pile = [];
+  sortHand(p);
+  log(NAMES[idx] + ' picks up the pile (' + n + ' cards).');
+  return true;
+}
+
+function checkOut(idx){
+  const p = players[idx];
+  if(!p.out && totalCards(p) === 0){
+    p.out = true;
+    log('>> ' + NAMES[idx] + ' sheds ALL cards and is OUT.');
+  }
+}
+function onlyOneLeft(){
+  return players.filter(p=>!p.out).length <= 1;
+}
+function endGame(){
+  state = 'ended';
+  const human = players[0];
+  let win, title, msg, detail;
+  if(human.out){
+    win = true;
+    title = 'YOU WIN';
+    msg = 'You shed every card first.';
+    detail = 'The cosmic opponents are left holding the bag. Well played.';
+  } else {
+    win = false;
+    title = 'YOU\'RE THE SHED';
+    msg = 'Last one holding cards — aka the Shithead.';
+    detail = 'Everyone else shed out before you. Redeem yourself: play again.';
+  }
+  els.endTitle.textContent = title;
+  els.endTitle.style.color = win ? 'var(--teal)' : 'var(--amber)';
+  els.endMsg.textContent = msg;
+  els.endDetail.textContent = detail;
+  els.endCard.style.borderColor = win ? 'var(--teal)' : 'var(--amber)';
+  els.endCard.style.boxShadow = win ? '0 0 30px rgba(0,255,240,.35)' : '0 0 30px rgba(245,158,11,.35)';
+  els.endOverlay.classList.remove('hidden');
+  render();
+}
+
+function advanceTurn(){
+  do { current = (current+1) % 4; } while(players[current].out);
+}
+
+/* ---------- AI ---------- */
+function aiChoosePlay(idx){
+  // returns {cards:[], src:'hand'|'faceUp'} or null if must pick up
+  const p = players[idx];
+  const src = p.hand.length ? 'hand' : 'faceUp';
+  const pool = (src === 'hand') ? p.hand : p.faceUp.filter(Boolean);
+  const top = topCard();
+  // distinct legal ranks
+  const legalRanks = [];
+  const seen = {};
+  for(const c of pool){
+    if(seen[c.r]) continue;
+    seen[c.r] = true;
+    if(isLegal(c.r, top)) legalRanks.push(c.r);
+  }
+  if(!legalRanks.length) return null;
+  legalRanks.sort((a,b)=> rankVal(a)-rankVal(b));
+  const chosen = legalRanks[0]; // lowest legal rank
+  const cards = pool.filter(c=> c.r === chosen);
+  return { cards, src, rank: chosen };
+}
+
+function doAITurn(idx){
+  const p = players[idx];
+  const name = NAMES[idx];
+  if(p.hand.length || countNonNull(p.faceUp)){
+    const choice = aiChoosePlay(idx);
+    if(!choice){
+      pickupPile(idx);
+    } else {
+      // remove from source
+      if(choice.src === 'hand'){
+        p.hand = p.hand.filter(c=> c.r !== choice.rank);
+      } else {
+        for(let i=0;i<p.faceUp.length;i++){
+          if(p.faceUp[i] && p.faceUp[i].r === choice.rank) p.faceUp[i] = null;
+        }
+      }
+      applyPlay(idx, choice.cards, choice.src);
+    }
+  } else {
+    // blind phase — pick random non-null faceDown
+    const idxs = [];
+    p.faceDown.forEach((c,i)=>{ if(c) idxs.push(i); });
+    if(!idxs.length){ checkOut(idx); return; }
+    const i = idxs[Math.floor(Math.random()*idxs.length)];
+    const card = p.faceDown[i];
+    p.faceDown[i] = null;
+    const top = topCard();
+    if(isLegal(card.r, top)){
+      log(name + ' flips a blind ' + card.r + card.s + ' — plays it.');
+      applyPlay(idx, [card], 'blind');
+    } else {
+      p.hand.push(card, ...pile);
+      const n = pile.length;
+      pile = [];
+      sortHand(p);
+      log(name + ' flips a blind ' + card.r + card.s + " — can't play on " + (top?top.r:'empty') + ', picks up the pile (' + (n+1) + ' cards).');
+    }
+  }
+  checkOut(idx);
+  if(onlyOneLeft()){ endGame(); return; }
+  advanceTurn();
+}
+
+async function runAITurns(){
+  if(aiRunning) return;
+  aiRunning = true;
+  try {
+    while(state === 'playing' && current !== 0){
+      render();
+      await sleep(850);
+      if(state !== 'playing') return;
+      doAITurn(current);
+      render();
+      if(state === 'ended') return;
+    }
+  } finally {
+    aiRunning = false;
+    render();
+  }
+}
+
+/* ---------- human actions ---------- */
+function toggleSelect(id){
+  if(state !== 'playing' || current !== 0) return;
+  const src = humanSource();
+  if(src === 'blind') return;
+  const pool = (src === 'hand') ? players[0].hand : players[0].faceUp.filter(Boolean);
+  const card = pool.find(c=> c.id === id);
+  if(!card) return;
+  if(selected.has(id)){ selected.delete(id); }
+  else {
+    if(selected.size){
+      const firstId = [...selected][0];
+      const first = pool.find(c=> c.id === firstId);
+      if(first && first.r !== card.r) selected = new Set([id]);
+      else selected.add(id);
+    } else selected.add(id);
+  }
+  render();
+}
+
+function humanPlay(){
+  if(state !== 'playing' || current !== 0) return;
+  const src = humanSource();
+  if(src === 'blind') return;
+  if(!selected.size){ log('Select one or more cards of the same rank first.'); render(); return; }
+  const pool = (src === 'hand') ? players[0].hand : players[0].faceUp.filter(Boolean);
+  const cards = [...selected].map(id=> pool.find(c=> c.id===id)).filter(Boolean);
+  if(!cards.length){ selected.clear(); render(); return; }
+  const rank = cards[0].r;
+  const top = topCard();
+  if(!isLegal(rank, top)){
+    log("Can't play " + rank + " on " + (top ? top.r+top.s : 'empty') + '. Pick up the pile or choose another.');
+    selected.clear();
+    render();
+    return;
+  }
+  // remove from source
+  if(src === 'hand'){
+    players[0].hand = players[0].hand.filter(c=> !selected.has(c.id));
+  } else {
+    for(let i=0;i<players[0].faceUp.length;i++){
+      if(players[0].faceUp[i] && selected.has(players[0].faceUp[i].id)) players[0].faceUp[i] = null;
+    }
+  }
+  selected.clear();
+  applyPlay(0, cards, src);
+  finishHumanTurn();
+}
+
+function humanPickup(){
+  if(state !== 'playing' || current !== 0) return;
+  if(!pile.length){ log('Pile is empty — nothing to pick up.'); render(); return; }
+  selected.clear();
+  pickupPile(0);
+  finishHumanTurn();
+}
+
+function humanBlind(colIndex){
+  if(state !== 'playing' || current !== 0) return;
+  if(humanSource() !== 'blind') return;
+  const p = players[0];
+  const card = p.faceDown[colIndex];
+  if(!card) return;
+  p.faceDown[colIndex] = null;
+  const top = topCard();
+  if(isLegal(card.r, top)){
+    log('You flip a blind ' + card.r + card.s + ' — plays it.');
+    applyPlay(0, [card], 'blind');
+  } else {
+    p.hand.push(card, ...pile);
+    const n = pile.length;
+    pile = [];
+    sortHand(p);
+    log('Blind ' + card.r + card.s + " can't play on " + (top?top.r+top.s:'empty') + ' — you pick up the pile (' + (n+1) + ' cards).');
+  }
+  finishHumanTurn();
+}
+
+function finishHumanTurn(){
+  checkOut(0);
+  if(onlyOneLeft()){ endGame(); return; }
+  advanceTurn();
+  render();
+  if(current !== 0 && state === 'playing') runAITurns();
+}
+
+/* ---------- rendering ---------- */
+function cardHTML(c, extraClass, extraAttr){
+  const red = isRed(c.s) ? ' red' : '';
+  return '<div class="card' + red + (extraClass?' '+extraClass:'') + '" ' + (extraAttr||'') + '>' +
+    '<div class="corner"><span class="r">' + c.r + '</span><span class="s">' + c.s + '</span></div>' +
+    '<div class="big-suit">' + c.s + '</div></div>';
+}
+function backHTML(extraClass, mono){
+  return '<div class="card back' + (extraClass?' '+extraClass:'') + '"><span class="mono">' + (mono||'S') + '</span></div>';
+}
+
+function renderAI(){
+  let html = '';
+  for(let i=1;i<4;i++){
+    const p = players[i];
+    const active = (current === i && state === 'playing');
+    const h = p.hand.length, u = countNonNull(p.faceUp), d = countNonNull(p.faceDown);
+    html += '<div class="panel rounded-xl p-2 sm:p-3 flex flex-col items-center gap-1 ' + (active?'ai-active':'') + '">';
+    html += '<div class="flex items-center gap-1 font-display text-xs sm:text-sm font-semibold ' + (active?'text-teal':'text-silver') + '">' + NAMES[i];
+    if(active) html += '<span class="thinking-dot"></span>';
+    if(p.out) html += ' <span class="out-badge">OUT</span>';
+    html += '</div>';
+    // three mini stacks: hand / faceUp / faceDown with counts
+    html += '<div class="flex items-end justify-center gap-2 mt-1">';
+    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">H</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + h + '</span></div>';
+    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">U</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + u + '</span></div>';
+    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">D</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + d + '</span></div>';
+    html += '</div>';
+    html += '<div class="text-[9px] text-muted font-display tracking-wider">hand · up · blind</div>';
+    html += '</div>';
+  }
+  els.aiRow.innerHTML = html;
+}
+
+function renderCenter(){
+  els.deckCount.textContent = deck.length;
+  els.deckCard.style.opacity = deck.length ? '1' : '.3';
+  els.pileCount.textContent = pile.length;
+  const top = topCard();
+  // re-fetch each render: the node may have been replaced via outerHTML last pass
+  const pileNode = document.getElementById('pileCard');
+  if(top){
+    pileNode.outerHTML = cardHTML(top, '', 'id="pileCard" style="cursor:default"');
+  } else {
+    pileNode.outerHTML = '<div id="pileCard" class="empty-slot flex items-center justify-center text-[9px] text-muted font-display text-center leading-tight" style="cursor:default">EMPTY<br>ANY<br>CARD</div>';
+  }
+  // turn indicator
+  if(state === 'playing'){
+    if(current === 0){
+      els.turn.textContent = 'Your turn.';
+      els.turn.className = 'text-xs sm:text-sm text-teal font-display mt-1 tracking-wide font-semibold';
+    } else {
+      els.turn.textContent = NAMES[current] + ' is thinking…';
+      els.turn.className = 'text-xs sm:text-sm text-amber font-display mt-1 tracking-wide';
+    }
+  } else if(state === 'ended'){
+    els.turn.textContent = 'Game over.';
+    els.turn.className = 'text-xs sm:text-sm text-muted font-display mt-1 tracking-wide';
+  }
+  // phase hint
+  if(state === 'playing' && current === 0){
+    const src = humanSource();
+    if(src === 'hand') els.phaseHint.textContent = 'Hand phase — tap same-rank cards, then PLAY.';
+    else if(src === 'faceUp') els.phaseHint.textContent = 'No hand left — play your FACE-UP table cards.';
+    else els.phaseHint.textContent = 'Blind phase — tap a face-down card to flip it.';
+  } else if(state === 'playing'){
+    els.phaseHint.textContent = 'Waiting for ' + NAMES[current] + '…';
+  } else {
+    els.phaseHint.textContent = '—';
+  }
+}
+
+function renderHumanTable(){
+  const p = players[0];
+  const src = humanSource();
+  const canTap = (state === 'playing' && current === 0);
+  let html = '';
+  const upCount = countNonNull(p.faceUp), downCount = countNonNull(p.faceDown);
+  for(let i=0;i<3;i++){
+    const fu = p.faceUp[i], fd = p.faceDown[i];
+    if(fu){
+      const sel = selected.has(fu.id) ? ' sel' : '';
+      const tap = (canTap && src === 'faceUp') ? ' tappable data-faceup="' + fu.id + '"' : '';
+      html += cardHTML(fu, 'deal-in' + sel + tap, '');
+    } else if(fd){
+      const tap = (canTap && src === 'blind') ? ' tappable data-blind="' + i + '"' : '';
+      html += '<div class="card back deal-in' + tap + '" style="cursor:' + (tap?'pointer':'default') + '"><span class="mono">?</span></div>';
+    } else {
+      html += '<div class="empty-slot"></div>';
+    }
+  }
+  els.humanTable.innerHTML = html;
+  els.tableCount.textContent = 'face-up ' + upCount + ' · blind ' + downCount;
+}
+
+function renderHand(){
+  const p = players[0];
+  els.handCount.textContent = p.hand.length + ' card' + (p.hand.length===1?'':'s');
+  if(!p.hand.length){
+    els.hand.innerHTML = '<div class="text-xs text-muted font-display self-center py-6">— hand empty —</div>';
+    return;
+  }
+  const canTap = (state === 'playing' && current === 0 && humanSource() === 'hand');
+  let html = '';
+  for(const c of p.hand){
+    const sel = selected.has(c.id) ? ' sel' : '';
+    const tap = canTap ? ' tappable data-hand="' + c.id + '"' : '';
+    html += cardHTML(c, 'deal-in' + sel + tap, '');
+  }
+  els.hand.innerHTML = html;
+}
+
+function renderButtons(){
+  const canAct = (state === 'playing' && current === 0);
+  const src = humanSource();
+  els.playBtn.disabled = !(canAct && selected.size > 0 && src !== 'blind');
+  els.pickupBtn.disabled = !(canAct && pile.length > 0);
+}
+
+function renderLog(){
+  els.log.innerHTML = logLines.map(l=> '<div>' + escapeHtml(l) + '</div>').join('');
+  els.log.scrollTop = els.log.scrollHeight;
+}
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function render(){
+  if(!players.length) return;
+  renderAI();
+  renderCenter();
+  renderHumanTable();
+  renderHand();
+  renderButtons();
+  renderLog();
+}
+
+/* ---------- events ---------- */
+els.hand.addEventListener('click', e=>{
+  const t = e.target.closest('[data-hand]');
+  if(t) toggleSelect(t.getAttribute('data-hand'));
+});
+els.humanTable.addEventListener('click', e=>{
+  const fu = e.target.closest('[data-faceup]');
+  if(fu){ toggleSelect(fu.getAttribute('data-faceup')); return; }
+  const bl = e.target.closest('[data-blind]');
+  if(bl){ humanBlind(parseInt(bl.getAttribute('data-blind'),10)); }
+});
+els.playBtn.addEventListener('click', humanPlay);
+els.pickupBtn.addEventListener('click', humanPickup);
+els.newGameBtn.addEventListener('click', ()=>{ newGame(); });
+els.againBtn.addEventListener('click', ()=>{ els.endOverlay.classList.add('hidden'); newGame(); });
+els.startBtn.addEventListener('click', ()=>{
+  els.startOverlay.classList.add('hidden');
+  newGame();
+});
+$('rulesBtn').addEventListener('click', ()=>{
+  $('rulesBody').classList.toggle('open');
+});
+$('clearLogBtn').addEventListener('click', ()=>{ logLines = ['Log cleared.']; renderLog(); });
+
+function newGame(){
+  initGame();
+  state = 'playing';
+  els.endOverlay.classList.add('hidden');
+  render();
+}
+
+// initial render of AI placeholders (before deal) so layout is warm
+players = [];
+for(let i=0;i<4;i++) players.push({ hand:[], faceUp:[null,null,null], faceDown:[null,null,null], out:false });
+render();
+
+})();
+</script>
+</body>
+</html>
