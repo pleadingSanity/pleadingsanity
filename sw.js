@@ -5,7 +5,7 @@
 // ==============================================================
 
 const VERSION = '5.12.55'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v103'; // v103: YouTube links point at @shanecooper1872; game pages embed retrieved channel videos. v102: crisis strip on more pages, nav labels without emoji, amber not violet, SEO tags. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const STATIC_CACHE = 'pleading-sanity-static-v104'; // v104: UFC channel embeds removed; YouTube links stay on @shanecooper1872. v103: YouTube links point at @shanecooper1872. v102: crisis strip on more pages, nav labels without emoji, amber not violet, SEO tags. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -130,7 +130,6 @@ const PRECACHE_URLS = [
     '/css/accessibility.css',
     '/css/mobile-responsive.css',
     '/css/site.css',
-    '/css/channel-video.css',
     '/css/arron.css',
     '/css/arron-styles.css',
     '/css/social.css',
