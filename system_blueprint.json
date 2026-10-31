@@ -1,9 +1,41 @@
 {
   "version": "4.0.0",
-  "lastUpdated": "2026-10-31T02:00:00Z",
+  "lastUpdated": "2026-10-31T03:10:00Z",
   "site": "https://pleadingsanity.co.uk",
   "repo": "pleadingSanity/pleadingsanity",
   "host": "netlify",
+  "domains": {
+    "master": "https://pleadingsanity.co.uk",
+    "masterHost": "netlify",
+    "checked": "2026-10-31T03:09:00Z",
+    "www": "301 to apex, server Netlify. Do not replace this.",
+    "ukAlias": "https://pleadingsanity.uk",
+    "ukHostSeen": "Vercel, title is the same sanctuary. It is not a second product.",
+    "oneHouse": "All Grok apps, chats and prompts point at pleadingsanity.co.uk. Do not give www to another host."
+  },
+  "dnsDoNotApply": {
+    "why": "A custom-domain screen asked for these on www.pleadingsanity.co.uk. Adding them would take the live Netlify house off the domain.",
+    "records": [
+      {"type": "CNAME", "name": "www", "valueStarts": "b0df8eb50e634f05.vercel-dns-016.com", "apply": false},
+      {"type": "TXT", "name": "_vercel", "valueStarts": "vc-domain-verify=www.pleadingsanity.co.uk", "apply": false}
+    ]
+  },
+  "names": {
+    "shane": "founder, final approval",
+    "arron": "companion on the site, not a therapist",
+    "grok": "this lane: assets, copy, outreach drafts, compliance watch. No deploy.",
+    "dola": "design and deploy lane",
+    "gpt": "audit and tests",
+    "claude": "code review and regression tests",
+    "gemini": "mobile, access, wording",
+    "copilot": "repo edits"
+  },
+  "privacyContract": {
+    "forgetMe": "DELETE /api/arron/memory body {memoryId}. Success is {ok:true, cleared:true}. Do not invent a new header or verifiedClean.",
+    "race": "A chat that is already running can still save after a wipe. Do not claim the cloud is clear unless the response says cleared.",
+    "finance": "Sums stay on the device. The adviser still receives the typed question and quote. The profile summary is sent only if consent is checked.",
+    "prs": {"#139": "draft privacy tests, review before merge", "#92": "do not touch"}
+  },
   "livePages": ["index", "insane-solar", "solar-ai-office", "ai-social", "shed-card-game", "arron", "games", "finance", "community", "creator", "crisis", "shop", "about"],
   "aiNodes": {
     "grok": {"status": "active", "role": "images, social, recruitment, outreach, SEO, compliance watch", "skill": "ps-ecosystem-powerup"},
