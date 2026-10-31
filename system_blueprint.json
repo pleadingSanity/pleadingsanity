@@ -1,24 +1,114 @@
 {
   "version": "4.0.0",
-  "lastUpdated": "2026-10-31T02:00:00Z",
+  "lastUpdated": "2026-10-31",
   "site": "https://pleadingsanity.co.uk",
   "repo": "pleadingSanity/pleadingsanity",
   "host": "netlify",
-  "livePages": ["index", "insane-solar", "solar-ai-office", "ai-social", "shed-card-game", "arron", "games", "finance", "community", "creator", "crisis", "shop", "about"],
+  "livePages": [
+    "index",
+    "insane-solar",
+    "solar-ai-office",
+    "ai-social",
+    "shed-card-game",
+    "arron",
+    "games",
+    "finance",
+    "community",
+    "creator",
+    "crisis",
+    "shop",
+    "about"
+  ],
   "aiNodes": {
-    "grok": {"status": "active", "role": "images, social, recruitment, outreach, SEO, compliance watch", "skill": "ps-ecosystem-powerup"},
-    "gpt": {"status": "active", "role": "accuracy, audit, verification, tests, exact commits"},
-    "gemini": {"status": "active", "role": "mobile UX, accessibility, human-tone polish, image prompts"},
-    "claude": {"status": "queued", "role": "deep code review, security, regression tests"},
-    "copilot": {"status": "active", "role": "code edits in repo"},
-    "dola": {"status": "active", "role": "design, structure, deploys, final verification"}
+    "grok": {
+      "status": "not_independently_verified",
+      "role": "images, social, recruitment, outreach, SEO, compliance watch",
+      "skill": "ps-ecosystem-powerup",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    },
+    "gpt": {
+      "status": "not_independently_verified",
+      "role": "accuracy, audit, verification, tests, exact commits",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    },
+    "gemini": {
+      "status": "not_independently_verified",
+      "role": "mobile UX, accessibility, human-tone polish, image prompts",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    },
+    "claude": {
+      "status": "not_independently_verified",
+      "role": "deep code review, security, regression tests",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    },
+    "copilot": {
+      "status": "not_independently_verified",
+      "role": "code edits in repo",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    },
+    "dola": {
+      "status": "not_independently_verified",
+      "role": "design, structure, deploys, final verification",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
+    }
   },
-  "contact": {"phone": "07711147663", "whatsapp": "447711147663", "email": "pleadingsanity1@gmail.com"},
-  "payments": {"provider": "paypal", "deposit": 50, "currency": "GBP", "serverVerify": "netlify/functions/verify-paypal.mts", "envVarsNeeded": ["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET"]},
-  "compliance": {"aiNeverCertifies": true, "vatZeroUntil": "2027-03-31", "epcForSeg": false, "crisisNumbersAlwaysVisible": true},
+  "contact": {
+    "phone": "07711147663",
+    "whatsapp": "447711147663",
+    "email": "pleadingsanity1@gmail.com"
+  },
+  "payments": {
+    "provider": "paypal",
+    "deposit": 50,
+    "currency": "GBP",
+    "serverVerify": "netlify/functions/verify-paypal.mts",
+    "envVarsNeeded": [
+      "PAYPAL_CLIENT_ID",
+      "PAYPAL_CLIENT_SECRET"
+    ]
+  },
+  "compliance": {
+    "aiNeverCertifies": true,
+    "vatZeroUntil": "2027-03-31",
+    "epcForSeg": false,
+    "crisisNumbersAlwaysVisible": true
+  },
   "buildGuard": "scripts/validate-build.cjs",
-  "arron": {"health": "/api/arron/health", "functions": 28, "providerChain": "GPT->Claude->Gemini->Grok->local", "memoryDeleteEndpoint": "/api/arron/memory"},
-  "openPRs": {"#137": "draft-CI-guard", "#139": "draft-privacy-tests", "#138": "draft-visual-audit", "#140": "draft-AI-config", "#92": "DO-NOT-TOUCH"},
-  "queuedPhase2": ["PWA + service worker", "canvas game engine", "Arron orchestrator (one-prompt master brain)", "investor/funder outbound engine", "Supabase long-term memory"],
-  "dailyCron": "Pleading Sanity Daily Power-Up — 9:07am Europe/London"
+  "arron": {
+    "health": "/api/arron/health",
+    "functions": 28,
+    "providerChain": "GPT->Claude->Gemini->Grok->local",
+    "memoryDeleteEndpoint": "/api/arron/memory"
+  },
+  "openPRs": {
+    "#137": "draft-CI-guard",
+    "#139": "draft-privacy-tests",
+    "#138": "draft-visual-audit",
+    "#140": "merged-2026-10-31",
+    "#92": "DO-NOT-TOUCH",
+    "#142": "draft-canonical-fix-awaiting-CI"
+  },
+  "queuedPhase2": [
+    "canvas game engine",
+    "investor/funder outbound engine"
+  ],
+  "dailyCron": "Pleading Sanity Daily Power-Up — 9:07am Europe/London",
+  "existingInfrastructure": [
+    "PWA and service worker (sw.js)",
+    "Arron AI and existing provider chain",
+    "Existing database and owner workbench"
+  ],
+  "changePolicy": {
+    "sourceOfTruth": "GitHub main and verified deployment; this file is a snapshot, not an immutable database or inter-agent transport",
+    "verification": "An AI is active only when connector access and completed work are independently confirmed",
+    "releases": "PR review, CI, preview verification, owner approval for high-risk changes",
+    "noNewServicesWithoutApproval": true,
+    "privacy": "Do not store user chat transcripts, secrets, or personal data in this public blueprint"
+  },
+  "knownReleaseBlocks": [
+    "Vercel build-rate-limit statuses on recent commits",
+    "PR #139 privacy tests still draft; runtime deletion unverified",
+    "PR #142 canonical fixes awaiting review and checks",
+    "Live AI provider success not verified"
+  ]
 }
