@@ -189,10 +189,18 @@
       existingLive.classList.add('ps-live-link');
       existingLive.setAttribute('aria-label', 'Live creator stage');
     }
-    if (navLinks && !navLinks.querySelector('a[href="/sanity-songs.html"]') && window.self === window.top) {
+    var kidsPage = /\/kids(?:-series)?\.html$/.test(location.pathname);
+    if (!kidsPage && navLinks && !navLinks.querySelector('a[href="/get-the-app.html"]')) {
+      var hub = document.createElement('a');
+      hub.href = '/get-the-app.html';
+      hub.textContent = 'App Hub';
+      hub.setAttribute('aria-label', 'App Hub and install');
+      navLinks.appendChild(hub);
+    }
+    if (!kidsPage && navLinks && !navLinks.querySelector('a[href="/sanity-songs.html"]') && window.self === window.top) {
       var songs = document.createElement('a');
       songs.href = '/sanity-songs.html?page=' + encodeURIComponent(location.pathname + location.search);
-      songs.textContent = "Songs";
+      songs.textContent = 'Songs';
       songs.setAttribute('aria-label', "Sanity's Songs");
       navLinks.appendChild(songs);
     }

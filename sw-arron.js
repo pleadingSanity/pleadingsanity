@@ -9,7 +9,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.10-host-error-fallback';
+const VERSION = '3.11-theme-0b0f19';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';

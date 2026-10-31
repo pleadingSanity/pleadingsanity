@@ -1271,7 +1271,9 @@
     banner.hidden = false;
   }
   if (isIOS && !standalone) {
-    $('aa-install-text').innerHTML = '📲 <strong>Make Arron part of your world:</strong> tap Share <span aria-hidden="true">⎋</span> in Safari, then <em>Add to Home Screen</em>.';
+    $('aa-install-text').textContent = 'Install Arron: in Safari, tap Share, then Add to Home Screen.';
+    installGo.hidden = false;
+    installMore.hidden = false;
     showBanner();
   }
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -1282,7 +1284,12 @@
     showBanner();
   });
   async function install() {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      $('aa-install-text').textContent = isIOS
+        ? 'In Safari, tap Share, then Add to Home Screen.'
+        : 'Open the browser menu and choose Install app, if it is offered.';
+      return;
+    }
     installPrompt.prompt();
     try { await installPrompt.userChoice; } catch (e) {}
     installPrompt = null;

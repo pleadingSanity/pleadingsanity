@@ -19,10 +19,11 @@ test("Sanity's Songs is labelled as playlist picks and does not hide the player"
 });
 
 test("included tracks are other artists, embed ids only, official ones first", () => {
-  assert.equal(songs.tracks.length, 21);
-  assert.equal(songs.tracks.filter((track) => track.official).length, 13);
-  const firstUnofficial = songs.tracks.findIndex((track) => !track.official);
-  assert.ok(songs.tracks.slice(0, firstUnofficial).every((track) => track.official));
+  assert.equal(songs.tracks.length, 13);
+  assert.ok(songs.tracks.every((track) => track.official));
+  for (const banned of ["qNcILWszZlQ", "vlvtAdxmC_E", "FQR91Flg4VE", "oXfMoXIWfcI", "4pMsOLcdfdE"]) {
+    assert.ok(!songs.tracks.some((track) => track.id === banned));
+  }
   for (const track of songs.tracks) {
     assert.match(track.id, /^[A-Za-z0-9_-]{11}$/);
     assert.equal(track.youtube, `https://www.youtube.com/watch?v=${track.id}`);

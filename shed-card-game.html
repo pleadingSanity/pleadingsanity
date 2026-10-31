@@ -350,6 +350,7 @@
       You vs three cosmic opponents. Shed every card first to win — get caught last and you're the Shed.
       2s reset, 10s burn, four-of-a-kind clears the table.
     </p>
+    <label class="text-sm text-muted">Difficulty <select id="aiLevel" class="btn"><option value="easy">Easy</option><option value="fair" selected>Fair</option><option value="sharp">Sharp</option></select></label>
     <button id="startBtn" class="btn btn-primary text-base !px-8 !py-3">DEAL &amp; PLAY</button>
     <div class="mt-5 text-[10px] text-muted font-display tracking-wide">Pleading Sanity · play responsibly · it's only cards</div>
   </div>
@@ -363,6 +364,7 @@
     <button id="againBtn" class="btn btn-primary text-base !px-8 !py-3">PLAY AGAIN</button>
   </div>
 </div>
+<script src="/js/game-brains.js"></script>
 <script>
 (function(){
 "use strict";
@@ -521,6 +523,12 @@ function aiChoosePlay(idx){
     if(isLegal(c.r, top)) legalRanks.push(c.r);
   }
   if(!legalRanks.length) return null;
+  if (window.PSBrains) {
+    const level = (document.getElementById("aiLevel") || {}).value || "fair";
+    const choice = PSBrains.shedChoose(pool, top && top.r, level);
+    if (!choice) return null;
+    return { cards: choice.cards, src, rank: choice.rank };
+  }
   legalRanks.sort((a,b)=> rankVal(a)-rankVal(b));
   const chosen = legalRanks[0]; // lowest legal rank
   const cards = pool.filter(c=> c.r === chosen);
