@@ -788,5 +788,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test"],
+  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test", "/api/arron/owner-ai-status"],
 };
