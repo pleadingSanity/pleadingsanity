@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Office — Insane Solar · Solar installs managed by software, signed off by humans</title>
+<meta name="description" content="Insane Solar's AI Office handles every boring compliance and admin task a normal company hires three people for. MCS, G98/G99, G100, EPC, Part P, HIES, invoices, scheduling, SEG. Humans climb roofs and sign certificates.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  :root{
+    --ink:#0d1117; --panel:#151b24; --panel2:#1c2430;
+    --amber:#f59e0b; --amber2:#fbbf24;
+    --green:#10b981; --green2:#22c55e;
+    --red:#ef4444;
+    --offwhite:#fafaf9;
+    --ink-text:#e7ebf0; --muted-light:#94a3b8;
+    --dark-text:#0f172a; --muted-dark:#5b6675;
+    --border-dark:rgba(148,163,184,.16); --border-light:rgba(15,23,42,.1);
+  }
+  *{ -webkit-tap-highlight-color:transparent; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family:'Archivo',system-ui,sans-serif; background:var(--ink); color:var(--ink-text); margin:0; overflow-x:hidden; }
+  section{ scroll-margin-top:84px; }
+  .font-archivo{ font-family:'Archivo',sans-serif; }
+  .eyebrow{ font-weight:800; letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; }
+  .display{ font-weight:900; letter-spacing:-.02em; line-height:1.02; }
+  .grad-text{ background:linear-gradient(92deg,var(--amber2),var(--amber) 55%,#fde68a); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .grad-text-green{ background:linear-gradient(92deg,var(--green2),var(--green)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  /* Buttons */
+  .btn{ display:inline-flex; align-items:center; gap:.55rem; font-weight:800; padding:.9rem 1.5rem; border-radius:.65rem; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease; cursor:pointer; border:1px solid transparent; text-decoration:none; font-size:.95rem; letter-spacing:.01em; }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-amber{ background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; box-shadow:0 8px 24px -8px rgba(245,158,11,.55); }
+  .btn-amber:hover{ box-shadow:0 14px 32px -8px rgba(245,158,11,.7); }
+  .btn-ghost-dark{ background:transparent; color:var(--ink-text); border-color:var(--border-dark); }
+  .btn-ghost-dark:hover{ border-color:var(--amber); color:var(--amber2); }
+  .btn-green{ background:linear-gradient(135deg,var(--green2),var(--green)); color:#052e22; box-shadow:0 8px 24px -8px rgba(16,185,129,.5); }
+  /* Chips */
+  .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem; border-radius:999px; font-weight:700; font-size:.8rem; border:1px solid var(--border-dark); background:rgba(21,27,36,.7); backdrop-filter:blur(6px); }
+  .chip .dot{ width:.5rem; height:.5rem; border-radius:999px; background:var(--amber); box-shadow:0 0 10px var(--amber); }
+  .chip.green .dot{ background:var(--green2); box-shadow:0 0 10px var(--green2); }
+  /* Cards */
+  .card-dark{ background:var(--panel); border:1px solid var(--border-dark); border-radius:1rem; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
+  .card-dark:hover{ transform:translateY(-3px); border-color:rgba(245,158,11,.4); box-shadow:0 18px 40px -18px rgba(0,0,0,.6); }
+  /* Hero sunburst */
+  .sunburst{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .sunburst .glow{ position:absolute; top:-30%; right:-10%; width:70vw; height:70vw; max-width:900px; max-height:900px; border-radius:50%;
+    background:radial-gradient(circle at center, rgba(251,191,36,.32) 0%, rgba(245,158,11,.14) 30%, rgba(245,158,11,0) 62%);
+    animation:pulseGlow 7s ease-in-out infinite; }
+  @keyframes pulseGlow{ 0%,100%{ transform:scale(1); opacity:.9;} 50%{ transform:scale(1.08); opacity:1;} }
+  .rays{ position:absolute; top:-40%; right:-20%; width:120vw; height:120vw; max-width:1400px; max-height:1400px;
+    background:conic-gradient(from 0deg, rgba(251,191,36,.06) 0deg 6deg, transparent 6deg 18deg, rgba(251,191,36,.05) 18deg 24deg, transparent 24deg 36deg);
+    -webkit-mask:radial-gradient(circle at center, black 0%, transparent 55%); mask:radial-gradient(circle at center, black 0%, transparent 55%);
+    animation:spinRays 60s linear infinite; }
+  @keyframes spinRays{ to{ transform:rotate(360deg); } }
+  .gridtex{ position:absolute; inset:0; opacity:.35;
+    background-image:linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
+    background-size:44px 44px;
+    -webkit-mask:linear-gradient(to bottom, black, transparent 85%); mask:linear-gradient(to bottom, black, transparent 85%); }
+  /* Nav */
+  .navlink{ position:relative; font-weight:600; font-size:.9rem; color:var(--muted-light); transition:color .15s ease; padding:.3rem .1rem; text-decoration:none; }
+  .navlink:hover{ color:var(--ink-text); }
+  .navlink.active{ color:var(--amber2); }
+  .navlink.active::after{ content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--amber); border-radius:2px; }
+  /* Reveal animation */
+  .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+  /* Steps / accordion */
+  .step-num{ width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.15rem; background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; flex-shrink:0; box-shadow:0 8px 20px -6px rgba(245,158,11,.5); transition:all .25s ease; }
+  .step-item.open .step-num{ background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 8px 20px -6px rgba(16,185,129,.5); }
+  .step-body{ max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease; opacity:0; }
+  .step-item.open .step-body{ max-height:400px; opacity:1; }
+  .step-chevron{ transition:transform .3s ease; flex-shrink:0; }
+  .step-item.open .step-chevron{ transform:rotate(180deg); }
+  /* Human sign-off note inside cards */
+  .signoff{ display:flex; align-items:flex-start; gap:.5rem; margin-top:.9rem; padding-top:.8rem; border-top:1px dashed var(--border-dark); font-size:.78rem; line-height:1.5; color:var(--green2); font-weight:600; }
+  .signoff svg{ flex-shrink:0; margin-top:1px; }
+  /* Avatar ring */
+  .avatar-ring{ width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(245,158,11,.25), rgba(16,185,129,.25)); border:1px solid rgba(245,158,11,.35); flex-shrink:0; }
+  /* Mobile menu */
+  .mobile-menu{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
+  .mobile-menu.open{ max-height:480px; }
+  .brand-badge{ display:inline-block; font-weight:800; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; padding:.28rem .6rem; border-radius:.35rem; background:rgba(148,163,184,.12); color:var(--muted-light); border:1px solid var(--border-dark); }
+  .typical-tag{ display:inline-block; background:rgba(245,158,11,.15); color:var(--amber2); font-weight:800; font-size:.65rem; letter-spacing:.08em; text-transform:uppercase; padding:.12rem .45rem; border-radius:.3rem; }
+  ::selection{ background:var(--amber); color:#1a1206; }
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--ink); }
+  ::-webkit-scrollbar-thumb{ background:#2a3442; border-radius:5px; }
+  ::-webkit-scrollbar-thumb:hover{ background:var(--amber); }
+  @media (max-width:768px){
+    .rays{ top:-20%; right:-60%; width:160vw; height:160vw; }
+    .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
+  }
+</style>
+</head>
+<body class="antialiased">
+
+<!-- ============ STICKY NAV ============ -->
+<header id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(13,17,23,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dark);">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-[68px]">
+    <a href="#top" class="flex items-center gap-2.5 no-underline">
+      <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="9" fill="url(#sunGrad)"/>
+        <g stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round">
+          <line x1="20" y1="3" x2="20" y2="8"/><line x1="20" y1="32" x2="20" y2="37"/>
+          <line x1="3" y1="20" x2="8" y2="20"/><line x1="32" y1="20" x2="37" y2="20"/>
+          <line x1="8" y1="8" x2="11.5" y2="11.5"/><line x1="28.5" y1="28.5" x2="32" y2="32"/>
+          <line x1="32" y1="8" x2="28.5" y2="11.5"/><line x1="11.5" y1="28.5" x2="8" y2="32"/>
+        </g>
+        <path d="M22 13 L16 22 H21 L18 28 L25 18 H20 Z" fill="#0d1117"/>
+        <defs><linearGradient id="sunGrad" x1="11" y1="11" x2="29" y2="29"><stop stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>
+      </svg>
+      <span class="flex flex-col leading-none">
+        <span class="font-black text-lg tracking-tight" style="color:var(--ink-text)">Insane <span style="color:var(--amber2)">Solar</span></span>
+        <span class="text-[.6rem] font-bold uppercase tracking-[.18em] mt-1.5" style="color:var(--muted-light);">a <span style="color:var(--amber2);">Pleading Sanity</span> company · AI Office</span>
+      </span>
+    </a>
+    <nav class="hidden lg:flex items-center gap-4 xl:gap-5">
+      <a href="#what" class="navlink" data-nav="what">What It Does</a>
+      <a href="#journey" class="navlink" data-nav="journey">Journey</a>
+      <a href="#meet" class="navlink" data-nav="meet">The AIs</a>
+      <a href="#humans" class="navlink" data-nav="humans">Humans</a>
+      <a href="#contact" class="navlink" data-nav="contact">Contact</a>
+      <a id="parentLinkNav" href="#" target="_blank" rel="noopener" class="hidden lg:inline-flex items-center gap-1.5 text-[.68rem] font-bold uppercase tracking-widest no-underline transition-colors" style="color:var(--muted-light);">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        <span>Pleading Sanity</span>
+      </a>
+      <a id="quoteBtnNav" href="#" class="btn btn-amber !py-2.5 !px-5 !text-sm">Get a Quote</a>
+    </nav>
+    <button id="hamburger" class="lg:hidden p-2 rounded-lg" aria-label="Open menu" style="border:1px solid var(--border-dark); background:transparent;">
+      <svg id="menuIcon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e7ebf0" stroke-width="2.4" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="mobile-menu lg:hidden">
+    <div class="px-5 pb-5 flex flex-col gap-1" style="border-top:1px solid var(--border-dark);">
+      <a href="#what" class="navlink py-3 block">What the AI does</a>
+      <a href="#journey" class="navlink py-3 block">Your journey</a>
+      <a href="#meet" class="navlink py-3 block">Meet the AIs</a>
+      <a href="#humans" class="navlink py-3 block">What humans do</a>
+      <a href="#contact" class="navlink py-3 block">Need a human?</a>
+      <a id="quoteBtnMobile" href="#" class="btn btn-amber mt-3 justify-center">Get a Quote</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 overflow-hidden">
+  <div class="sunburst">
+    <div class="rays"></div>
+    <div class="glow"></div>
+    <div class="gridtex"></div>
+  </div>
+  <div class="max-w-5xl mx-auto relative z-10 text-center">
+    <div class="chip green mx-auto mb-6 reveal">
+      <span class="dot"></span>
+      <span style="color:var(--green2);">AI runs the office · humans sign the certificates</span>
+    </div>
+    <h1 class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal">
+      The AI Office — your solar install<br class="hidden sm:block">
+      <span class="grad-text">managed by software,</span><br class="hidden sm:block">
+      <span class="grad-text-green">signed off by humans.</span>
+    </h1>
+    <p class="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto mb-10 reveal" style="color:var(--muted-light); line-height:1.7;">
+      Every boring compliance and admin task a normal company hires three people for — handled by AI.
+      Humans climb roofs and sign certificates.
+    </p>
+    <div class="flex flex-col sm:flex-row gap-3 justify-center reveal">
+      <a id="quoteBtnHero" href="#" class="btn btn-amber !text-base !py-4 !px-8 justify-center">
+        Get a quote — 60 seconds, no phone tree
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <a href="#what" class="btn btn-ghost-dark !text-base !py-4 !px-8 justify-center">See what the AI actually does</a>
+    </div>
+    <p class="text-xs mt-6 reveal" style="color:var(--muted-light);">
+      0% VAT to 31 Mar 2027, subject to eligibility. All timelines typical — confirmed at survey.
+    </p>
+  </div>
+</section>
+
+<!-- ============ WHAT THE AI OFFICE DOES — 11 CARDS ============ -->
+<section id="what" class="py-16 lg:py-24 px-5 relative">
+  <div class="max-w-7xl mx-auto">
+    <div class="max-w-3xl mb-12 reveal">
+      <div class="eyebrow mb-3" style="color:var(--amber2);">The boring stuff — automated</div>
+      <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">What the AI Office does for you</h2>
+      <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
+        Eleven jobs that would normally need three full-time admin staff. The AI prepares, files, chases and tracks every one.
+        A registered human checks and signs the ones that need a signature. <strong style="color:var(--ink-text);">AI never certifies.</strong>
+      </p>
+    </div>
+    <div id="cardGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</section>
+
+<!-- ============ JOURNEY — 6 STEP INTERACTIVE ACCORDION ============ -->
+<section id="journey" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, rgba(21,27,36,.4), transparent);">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <div class="eyebrow mb-3" style="color:var(--green2);">From click to clean power</div>
+      <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">Your journey, step by step</h2>
+      <p style="color:var(--muted-light); line-height:1.7; max-width:2xl; margin:0 auto;">Tap any step to see what happens — and who does what. The AI handles the paperwork at every stage; humans do the roofs.</p>
+    </div>
+    <div id="stepList" class="space-y-3 reveal"></div>
+  </div>
+</section>
+
+<!-- ============ MEET THE AIs — 5 PERSONAS ============ -->
+<section id="meet" class="py-16 lg:py-24 px-5 relative">
+  <div class="max-w-7xl mx-auto">
+    <div class="max-w-3xl mb-12 reveal">
+      <div class="eyebrow mb-3" style="color:var(--amber2);">The team that never sleeps</div>
+      <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">Meet the AIs running your office</h2>
+      <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
+        Five AI co-workers, each with a job. They draft, check, chase, schedule and write.
+        <strong style="color:var(--green2);">None of them certify anything — humans sign every certificate.</strong>
+      </p>
+    </div>
+    <div id="personaGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5"></div>
+    <div class="card-dark mt-8 p-5 sm:p-6 reveal" style="border-color:rgba(16,185,129,.35); background:rgba(16,185,129,.06);">
+      <div class="flex items-start gap-3">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <p class="text-sm sm:text-base font-bold" style="color:var(--ink-text); line-height:1.6;">
+          Clear rule, repeated because it matters: <span style="color:var(--green2);">AI never certifies.</span>
+          MCS, NAPIT, Part P, G98/G99 sign-off — every certificate is signed by a registered human installer. The AI prepares, files and tracks; it does not sign.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT HUMANS DO ============ -->
+<section id="humans" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, transparent, rgba(21,27,36,.5));">
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
+    <div class="reveal">
+      <div class="eyebrow mb-3" style="color:var(--amber2);">The humans on your roof</div>
+      <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-5">What humans do</h2>
+      <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;" class="mb-6">
+        The AI doesn't touch a roof, a cable or a certificate. These five jobs are done by real people — and only real people can do them.
+      </p>
+      <ul class="space-y-4">
+        <li class="flex items-start gap-3">
+          <span class="step-num !w-10 !h-10 !text-base !rounded-lg" style="background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 6px 16px -6px rgba(16,185,129,.5);">1</span>
+          <div><div class="font-black text-lg">Survey</div><div class="text-sm" style="color:var(--muted-light);">A real surveyor measures your roof, checks structure and shading, and confirms the quote.</div></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="step-num !w-10 !h-10 !text-base !rounded-lg" style="background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 6px 16px -6px rgba(16,185,129,.5);">2</span>
+          <div><div class="font-black text-lg">Install</div><div class="text-sm" style="color:var(--muted-light);">The same crew fits your panels, inverter and battery — typically 1–2 days, scaffold cleared same day.</div></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="step-num !w-10 !h-10 !text-base !rounded-lg" style="background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 6px 16px -6px rgba(16,185,129,.5);">3</span>
+          <div><div class="font-black text-lg">Electrical sign-off</div><div class="text-sm" style="color:var(--muted-light);">A registered electrician tests and certifies the installation (Part P / EICR).</div></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="step-num !w-10 !h-10 !text-base !rounded-lg" style="background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 6px 16px -6px rgba(16,185,129,.5);">4</span>
+          <div><div class="font-black text-lg">MCS / NAPIT certificates</div><div class="text-sm" style="color:var(--muted-light);">Issued and signed by our MCS / NAPIT-registered installer — the AI only assembles the paperwork.</div></div>
+        </li>
+        <li class="flex items-start gap-3">
+          <span class="step-num !w-10 !h-10 !text-base !rounded-lg" style="background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 6px 16px -6px rgba(16,185,129,.5);">5</span>
+          <div><div class="font-black text-lg">Final approval</div><div class="text-sm" style="color:var(--muted-light);">You sign off the finished job. A human, not a bot, walks you round the array and the monitoring app.</div></div>
+        </li>
+      </ul>
+      <div class="mt-8 inline-flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-sm" style="background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.35); color:var(--amber2);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        AI never certifies. Ever.
+      </div>
+    </div>
+    <div class="card-dark p-6 sm:p-8 reveal relative overflow-hidden">
+      <div class="absolute -top-16 -right-16 w-56 h-56 rounded-full" style="background:radial-gradient(circle, rgba(16,185,129,.18), transparent 70%);"></div>
+      <div class="relative z-10">
+        <div class="eyebrow mb-4" style="color:var(--green2);">The split, in plain English</div>
+        <div class="space-y-3">
+          <div class="flex items-center justify-between p-4 rounded-xl" style="background:var(--panel2); border:1px solid var(--border-dark);">
+            <span class="font-bold text-sm sm:text-base">Roof work, cables, testing</span>
+            <span class="typical-tag" style="background:rgba(16,185,129,.18); color:var(--green2);">Humans</span>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-xl" style="background:var(--panel2); border:1px solid var(--border-dark);">
+            <span class="font-bold text-sm sm:text-base">Certificates &amp; sign-off</span>
+            <span class="typical-tag" style="background:rgba(16,185,129,.18); color:var(--green2);">Humans</span>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-xl" style="background:var(--panel2); border:1px solid var(--border-dark);">
+            <span class="font-bold text-sm sm:text-base">Forms, chasing, reminders, quotes</span>
+            <span class="typical-tag">AI</span>
+          </div>
+          <div class="flex items-center justify-between p-4 rounded-xl" style="background:var(--panel2); border:1px solid var(--border-dark);">
+            <span class="font-bold text-sm sm:text-base">Scheduling, invoices, updates</span>
+            <span class="typical-tag">AI</span>
+          </div>
+        </div>
+        <p class="text-xs mt-6" style="color:var(--muted-light); line-height:1.6;">
+          Why it's cheaper: no salesman layer, no three-person admin team. The savings go straight into your quote.
+          0% VAT to 31 Mar 2027, subject to eligibility.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NEED A HUMAN? ============ -->
+<section id="contact" class="py-16 lg:py-24 px-5 relative overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 40% at 50% 100%, rgba(245,158,11,.12), transparent 70%);"></div>
+  <div class="max-w-5xl mx-auto relative z-10 text-center">
+    <div class="reveal">
+      <div class="eyebrow mb-3" style="color:var(--amber2);">Prefer a person?</div>
+      <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">Need a human?</h2>
+      <p class="max-w-2xl mx-auto mb-10" style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
+        The AI answers most questions instantly, but if you'd rather talk to a real person — about your roof, a quote, or anything else — here's how.
+      </p>
+    </div>
+    <div class="grid sm:grid-cols-3 gap-4 mb-8 reveal">
+      <a id="waLink" href="#" target="_blank" rel="noopener" class="card-dark p-6 text-left no-underline block hover:!border-[rgba(16,185,129,.5)]">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,var(--green2),var(--green));">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#052e22" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </div>
+        <div class="font-black text-lg mb-1">WhatsApp</div>
+        <div id="waNum" class="text-sm font-bold" style="color:var(--green2);"></div>
+        <div class="text-xs mt-2" style="color:var(--muted-light);">Fastest — a real human replies, usually same hour.</div>
+      </a>
+      <a id="emailLink" href="#" class="card-dark p-6 text-left no-underline block">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:linear-gradient(135deg,var(--amber2),var(--amber));">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a1206" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <div class="font-black text-lg mb-1">Email</div>
+        <div id="emailText" class="text-sm font-bold" style="color:var(--amber2); word-break:break-all;"></div>
+        <div class="text-xs mt-2" style="color:var(--muted-light);">Send plans, photos, questions — we reply same day.</div>
+      </a>
+      <a id="phoneLink" href="#" class="card-dark p-6 text-left no-underline block">
+        <div class="w-12 h-12 rounded-xl mb-4 flex items-center justify-center" style="background:var(--panel2); border:1px solid var(--border-dark);">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e7ebf0" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="font-black text-lg mb-1">Phone</div>
+        <div id="phoneText" class="text-sm font-bold" style="color:var(--ink-text);"></div>
+        <div class="text-xs mt-2" style="color:var(--muted-light);">Leave a message if we're on a roof — we call back.</div>
+      </a>
+    </div>
+    <div class="reveal">
+      <a id="quoteBtnContact" href="#" class="btn btn-amber !text-base !py-4 !px-8 inline-flex">
+        Get a quote online — no phone tree
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+      <p class="text-xs mt-4" style="color:var(--muted-light);">Quote form lives on the main Insane Solar page — takes about 60 seconds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CRISIS STRIP ============ -->
+<section class="py-8 px-5" style="background:linear-gradient(135deg, rgba(239,68,68,.14), rgba(245,158,11,.1)); border-top:1px solid rgba(239,68,68,.3); border-bottom:1px solid rgba(239,68,68,.3);">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-4 md:gap-6">
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      <span class="font-black text-sm uppercase tracking-widest" style="color:#fca5a5;">Struggling? You're not alone.</span>
+    </div>
+    <div class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-bold">
+      <a href="tel:116123" class="no-underline hover:underline" style="color:var(--ink-text);">Samaritans <span style="color:var(--amber2);">116 123</span></a>
+      <a href="sms:85258" class="no-underline hover:underline" style="color:var(--ink-text);">Shout <span style="color:var(--amber2);">85258</span> (text)</a>
+      <a href="tel:111" class="no-underline hover:underline" style="color:var(--ink-text);">NHS <span style="color:var(--amber2);">111</span></a>
+      <a href="tel:999" class="no-underline hover:underline" style="color:#fca5a5;">999 <span class="font-normal" style="color:var(--muted-light);">in an emergency</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="py-14 px-5" style="background:#080b10; border-top:1px solid var(--border-dark);">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-10 mb-10">
+      <div>
+        <div class="flex items-center gap-2.5 mb-4">
+          <svg width="30" height="30" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <circle cx="20" cy="20" r="9" fill="url(#sunGradF)"/>
+            <g stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round">
+              <line x1="20" y1="3" x2="20" y2="8"/><line x1="20" y1="32" x2="20" y2="37"/>
+              <line x1="3" y1="20" x2="8" y2="20"/><line x1="32" y1="20" x2="37" y2="20"/>
+            </g>
+            <path d="M22 13 L16 22 H21 L18 28 L25 18 H20 Z" fill="#080b10"/>
+            <defs><linearGradient id="sunGradF" x1="11" y1="11" x2="29" y2="29"><stop stop-color="#fde68a"/><stop offset="1" stop-color="#f59e0b"/></linearGradient></defs>
+          </svg>
+          <span class="font-black text-lg" style="color:var(--ink-text)">Insane <span style="color:var(--amber2)">Solar</span> · AI Office</span>
+        </div>
+        <p class="text-sm mb-4" style="color:var(--muted-light); line-height:1.6;">
+          Powered by Pleading Sanity AI. Certificates signed by registered installers — AI prepares and tracks only.
+        </p>
+        <a id="parentLinkFoot" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest no-underline transition-colors" style="color:var(--amber2);">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>Visit Pleading Sanity</span>
+        </a>
+      </div>
+      <div>
+        <div class="eyebrow mb-4" style="color:var(--muted-light);">Pages</div>
+        <ul class="space-y-2.5 text-sm">
+          <li><a href="insane-solar.html" class="no-underline font-bold hover:underline" style="color:var(--amber2);">Insane Solar — main site &amp; quote</a></li>
+          <li><a href="ai-social.html" class="no-underline font-bold hover:underline" style="color:var(--amber2);">The AI Office — social feed</a></li>
+          <li><a id="parentLinkFoot2" href="#" target="_blank" rel="noopener" class="no-underline font-bold hover:underline" style="color:var(--amber2);">pleadingsanity.co.uk</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="eyebrow mb-4" style="color:var(--muted-light);">Contact</div>
+        <ul class="space-y-2 text-sm" style="color:var(--muted-light);">
+          <li id="footPhone" class="flex items-center gap-2"></li>
+          <li id="footEmail" class="flex items-center gap-2"></li>
+          <li class="flex items-center gap-2">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Leicestershire &amp; Midlands
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-6 flex flex-col sm:flex-row justify-between gap-3 text-xs" style="border-top:1px solid var(--border-dark); color:var(--muted-light);">
+      <span>© <span id="footYear"></span> Pleading Sanity · Insane Solar. Leicestershire &amp; Midlands.</span>
+      <span class="font-bold" style="color:var(--amber2);">Powered by Pleading Sanity AI. Certificates signed by registered installers — AI prepares and tracks only.</span>
+      <span>All specs labelled typical — confirmed at survey. 0% VAT to 31 Mar 2027, subject to eligibility.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* =====================================================================
+   CONFIG — all contact details read from this object. No hardcoding in markup.
+   ===================================================================== */
+const CONFIG = {
+  phone: "07711147663",
+  whatsapp: "447711147663",
+  email: "pleadingsanity1@gmail.com",
+  mainSite: "https://pleadingsanity.co.uk",
+  quoteUrl: "insane-solar.html#quote",
+  companyName: "Insane Solar",
+  parentBrand: "Pleading Sanity",
+  area: "Leicestershire & Midlands"
+};
+
+/* =====================================================================
+   11 CARDS — What the AI Office does
+   Each: icon (inline SVG path data), title, desc, humanSignoff note.
+   ===================================================================== */
+const CHECK_SVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+
+const CARDS = [
+  {
+    title: "MCS certificate prep & tracking",
+    desc: "We assemble your MCS certificate paperwork the moment the job is booked, track it through registration, and chase until it lands in your inbox.",
+    signoff: "Human signs: MCS certificate issued & signed by our registered installer.",
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="15" y2="11"/>'
+  },
+  {
+    title: "G98 / G99 DNO applications",
+    desc: "Your grid connection application to the Distribution Network Operator — filled correctly first time, filed, and chased to approval. No lost forms.",
+    signoff: "Human signs: installer confirms system details; DNO approval is theirs to grant.",
+    icon: '<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/><path d="M6 8l2 2-2 2"/><path d="M12 12h4"/>'
+  },
+  {
+    title: "G100 export limiter",
+    desc: "If your DNO imposes an export limit, we spec the right G100 limiter, add it to the material list, and make sure commissioning is logged correctly.",
+    signoff: "Human signs: electrician configures & commissions the limiter on site.",
+    icon: '<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>'
+  },
+  {
+    title: "EPC checks",
+    desc: "We check your property's Energy Performance Certificate band before you commit — SEG needs band D or above. If you're below, we tell you straight.",
+    signoff: "Human signs: EPC lodged by a registered assessor; we just check & flag.",
+    icon: '<path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/>'
+  },
+  {
+    title: "Part P / NAPIT notification",
+    desc: "Building control notification for electrical work — filed via NAPIT the same day the install passes testing. No 30-day admin drift.",
+    signoff: "Human signs: registered electrician tests the install and signs the EIC.",
+    icon: '<path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9c2.5 0 4.8 1 6.5 2.6"/>'
+  },
+  {
+    title: "HIES deposit protection admin",
+    desc: "Your £50 deposit is protected under HIES. We register every job, keep the insurance paperwork current, and refund in full if you cancel before survey.",
+    signoff: "Human signs: HIES protection is an insured scheme; we administer, they underwrite.",
+    icon: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>'
+  },
+  {
+    title: "Invoices & quotes",
+    desc: "Itemised quotes in 24 hours, invoices the day the job finishes. 0% VAT applied correctly as one supply — no dodgy split invoicing.",
+    signoff: "Human signs: you approve the quote; invoices are issued by the company.",
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>'
+  },
+  {
+    title: "Scheduling & reminders",
+    desc: "Survey booked, install date confirmed, scaffold ordered, crew assigned — with text reminders to you and the team. No 'we forgot your job'.",
+    signoff: "Human signs: the surveyor and install crew are real people on real dates.",
+    icon: '<rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>'
+  },
+  {
+    title: "Material lists & ordering",
+    desc: "Panels, inverter, rails, clamps, isolators — picked from your spec, ordered with next-day delivery, checked off against the van before the crew leaves.",
+    signoff: "Human signs: installer verifies kit on site; we just make sure it's there.",
+    icon: '<path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/>'
+  },
+  {
+    title: "Customer progress updates",
+    desc: "You get a plain-English update at every stage — quote sent, survey booked, DNO filed, install day, handover. No chasing us for news.",
+    signoff: "Human signs: updates are auto-drafted, but a human approves anything that promises a date.",
+    icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>'
+  },
+  {
+    title: "SEG signup & tariff compare",
+    desc: "Smart Export Guarantee registration, MPAN setup, and a side-by-side compare of SEG tariffs — we switch you to the best paying one. Verify at sign-up.",
+    signoff: "Human signs: you choose the tariff; energy supplier contract is between you and them.",
+    icon: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>'
+  }
+];
+
+/* Render 11 cards */
+(function(){
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = CARDS.map(function(c, i){
+    return '<div class="card-dark p-6 reveal" style="transition-delay:' + (i%3)*60 + 'ms;">' +
+      '<div class="w-11 h-11 rounded-xl mb-4 flex items-center justify-center" style="background:linear-gradient(135deg, rgba(245,158,11,.2), rgba(16,185,129,.15)); border:1px solid rgba(245,158,11,.3);">' +
+        '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + c.icon + '</svg>' +
+      '</div>' +
+      '<h3 class="font-black text-base sm:text-lg mb-2 leading-snug">' + c.title + '</h3>' +
+      '<p class="text-sm leading-relaxed" style="color:var(--muted-light);">' + c.desc + '</p>' +
+      '<div class="signoff">' + CHECK_SVG + '<span>' + c.signoff + '</span></div>' +
+    '</div>';
+  }).join('');
+})();
+
+/* =====================================================================
+   6-STEP INTERACTIVE ACCORDION
+   ===================================================================== */
+const STEPS = [
+  { title: "Quote — online, no phone tree",
+    detail: "Fill in the 60-second quote form on the Insane Solar page. The AI prices your system from your roof size, orientation and energy use — a human reviews every quote before it's sent. Typical turnaround: under 24 hours. 0% VAT to 31 Mar 2027, subject to eligibility." },
+  { title: "Survey booked — real surveyor calls",
+    detail: "A real human surveyor calls to book a site visit. They measure your roof, check structure and shading, and confirm (or correct) the quote. No drone-only surveys, no guesswork. AI books the slot and sends reminders." },
+  { title: "£50 refundable deposit — PayPal",
+    detail: "Pay a £50 refundable deposit via PayPal to lock your install date. It's protected under HIES deposit insurance — refunded in full if you cancel before survey. The AI registers the protection and emails you the certificate." },
+  { title: "Install — 1–2 days, same crew",
+    detail: "The same crew fits your panels, inverter and battery — typically 1–2 days. Scaffold goes up and comes down same job. Bird proofing mesh fitted as standard. AI had the materials ordered and checked off before they arrived." },
+  { title: "Handover — full paperwork pack, monitoring app",
+    detail: "You get the full paperwork pack: MCS cert, NAPIT notification, EIC, G98/G99 confirmation, inverter log, and your monitoring app set up. A human walks you through it all on the day. AI assembled the pack; humans signed it." },
+  { title: "Aftercare — 25yr warranty, bird proofing, cleans included",
+    detail: "25-year panel warranty (manufacturer, typical), inverter warranty, workmanship guarantee, plus bird proofing and panel cleans included in our aftercare. Monitoring watched 24/7 by the AI — if a fault light comes on at 2am, a human is dispatched at 8. Verify specifics at sign-up." }
+];
+
+(function(){
+  const list = document.getElementById('stepList');
+  list.innerHTML = STEPS.map(function(s, i){
+    return '<div class="step-item card-dark overflow-hidden" data-step="' + i + '">' +
+      '<button class="step-toggle w-full flex items-center gap-4 p-5 text-left" style="background:transparent; border:none; cursor:pointer; font-family:inherit;" aria-expanded="false">' +
+        '<span class="step-num">' + (i+1) + '</span>' +
+        '<span class="flex-1 font-black text-base sm:text-lg" style="color:var(--ink-text);">' + s.title + '</span>' +
+        '<svg class="step-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>' +
+      '</button>' +
+      '<div class="step-body px-5"><p class="pb-5 pl-0 sm:pl-16 text-sm leading-relaxed" style="color:var(--muted-light);">' + s.detail + '</p></div>' +
+    '</div>';
+  }).join('');
+
+  // Open first step by default
+  var first = list.querySelector('.step-item');
+  if(first){ first.classList.add('open'); first.querySelector('.step-toggle').setAttribute('aria-expanded','true'); }
+
+  list.addEventListener('click', function(e){
+    var btn = e.target.closest('.step-toggle');
+    if(!btn) return;
+    var item = btn.closest('.step-item');
+    var isOpen = item.classList.contains('open');
+    // Close all
+    list.querySelectorAll('.step-item').forEach(function(it){
+      it.classList.remove('open');
+      it.querySelector('.step-toggle').setAttribute('aria-expanded','false');
+    });
+    // Toggle this one
+    if(!isOpen){
+      item.classList.add('open');
+      btn.setAttribute('aria-expanded','true');
+    }
+  });
+})();
+
+/* =====================================================================
+   5 AI PERSONAS — distinct inline SVG avatars, no photos, no emoji
+   ===================================================================== */
+const PERSONAS = [
+  {
+    name: "Dola",
+    role: "Design & deploy",
+    line: "Lays out your array, picks the right kit for your roof, and pushes every job live on schedule.",
+    avatar: '<circle cx="24" cy="24" r="10" fill="none" stroke="#fbbf24" stroke-width="2.4"/><polygon points="24,14 27,24 24,34 21,24" fill="#f59e0b"/><line x1="24" y1="4" x2="24" y2="10" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"/><line x1="24" y1="38" x2="24" y2="44" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"/><line x1="4" y1="24" x2="10" y2="24" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"/><line x1="38" y1="24" x2="44" y2="24" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"/>'
+  },
+  {
+    name: "GPT",
+    role: "Accuracy & verification",
+    line: "Cross-checks every form, number and spec against the rulebook. If it's wrong, it doesn't leave the office.",
+    avatar: '<path d="M24 6 L40 12 V24 C40 34 33 41 24 44 C15 41 8 34 8 24 V12 Z" fill="none" stroke="#22c55e" stroke-width="2.4" stroke-linejoin="round"/><polyline points="17,24 22,29 31,19" fill="none" stroke="#10b981" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'
+  },
+  {
+    name: "Grok",
+    role: "Voice & social",
+    line: "Writes your progress updates, answers the chat, and keeps the social feed honest and human-sounding.",
+    avatar: '<path d="M10 20 C10 12 16 8 24 8 C32 8 38 12 38 20" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linecap="round"/><rect x="8" y="18" width="6" height="12" rx="3" fill="#f59e0b"/><rect x="34" y="18" width="6" height="12" rx="3" fill="#f59e0b"/><path d="M20 34 L28 34 L31 42 L17 42 Z" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linejoin="round"/>'
+  },
+  {
+    name: "Gemini",
+    role: "Audit & polish",
+    line: "Final read on every document before it goes out. Catches the typos, gaps and inconsistencies the others miss.",
+    avatar: '<path d="M24 6 L27 21 L42 24 L27 27 L24 42 L21 27 L6 24 L21 21 Z" fill="none" stroke="#22c55e" stroke-width="2.4" stroke-linejoin="round"/><circle cx="36" cy="12" r="3" fill="#10b981"/><circle cx="12" cy="36" r="2.5" fill="#f59e0b"/>'
+  },
+  {
+    name: "Arron AI",
+    role: "Companion & support",
+    line: "Your day-to-day contact. Remembers where your job is up to, answers the small questions, and escalates to a human when you need one.",
+    avatar: '<path d="M24 40 C14 33 8 27 8 20 C8 14 13 10 18 10 C21 10 23 12 24 14 C25 12 27 10 30 10 C35 10 40 14 40 20 C40 27 34 33 24 40 Z" fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linejoin="round"/><circle cx="24" cy="22" r="4" fill="none" stroke="#10b981" stroke-width="2.4"/>'
+  }
+];
+
+(function(){
+  const grid = document.getElementById('personaGrid');
+  grid.innerHTML = PERSONAS.map(function(p, i){
+    return '<div class="card-dark p-6 text-center reveal" style="transition-delay:' + i*60 + 'ms;">' +
+      '<div class="avatar-ring mx-auto mb-4">' +
+        '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" aria-hidden="true">' + p.avatar + '</svg>' +
+      '</div>' +
+      '<h3 class="font-black text-xl mb-1">' + p.name + '</h3>' +
+      '<div class="typical-tag mb-3">' + p.role + '</div>' +
+      '<p class="text-sm leading-relaxed" style="color:var(--muted-light);">' + p.line + '</p>' +
+      '<div class="signoff justify-center" style="justify-content:center;">' + CHECK_SVG + '<span>Does not certify</span></div>' +
+    '</div>';
+  }).join('');
+})();
+
+/* =====================================================================
+   CONFIG-DRIVEN LINKS & CONTACT — populate from CONFIG
+   ===================================================================== */
+(function(){
+  var telHref = "tel:+44" + CONFIG.phone.replace(/^0/, "");
+  var waHref = "https://wa.me/" + CONFIG.whatsapp;
+  var mailHref = "mailto:" + CONFIG.email;
+  var quoteHref = CONFIG.quoteUrl;
+
+  // Quote buttons
+  ["quoteBtnNav","quoteBtnMobile","quoteBtnHero","quoteBtnContact"].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.href = quoteHref;
+  });
+
+  // Parent / main site links
+  ["parentLinkNav","parentLinkFoot","parentLinkFoot2"].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.href = CONFIG.mainSite;
+  });
+
+  // WhatsApp
+  var wa = document.getElementById('waLink');
+  if(wa) wa.href = waHref;
+  var waNum = document.getElementById('waNum');
+  if(waNum) waNum.textContent = "+" + CONFIG.whatsapp.replace(/^44/, "44 ");
+
+  // Email
+  var em = document.getElementById('emailLink');
+  if(em) em.href = mailHref;
+  var emText = document.getElementById('emailText');
+  if(emText) emText.textContent = CONFIG.email;
+
+  // Phone
+  var ph = document.getElementById('phoneLink');
+  if(ph) ph.href = telHref;
+  var phText = document.getElementById('phoneText');
+  if(phText) phText.textContent = CONFIG.phone;
+
+  // Footer contact
+  var fp = document.getElementById('footPhone');
+  if(fp) fp.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> <a href="' + telHref + '" class="no-underline hover:underline font-bold" style="color:var(--ink-text);">' + CONFIG.phone + '</a>';
+  var fe = document.getElementById('footEmail');
+  if(fe) fe.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> <a href="' + mailHref + '" class="no-underline hover:underline font-bold" style="color:var(--ink-text); word-break:break-all;">' + CONFIG.email + '</a>';
+
+  // Year
+  var fy = document.getElementById('footYear');
+  if(fy) fy.textContent = new Date().getFullYear();
+})();
+
+/* =====================================================================
+   MOBILE MENU + REVEAL ON SCROLL + ACTIVE NAV
+   ===================================================================== */
+(function(){
+  // Mobile menu toggle
+  var ham = document.getElementById('hamburger');
+  var mm = document.getElementById('mobileMenu');
+  if(ham && mm){
+    ham.addEventListener('click', function(){
+      mm.classList.toggle('open');
+    });
+    mm.querySelectorAll('a').forEach(function(a){
+      a.addEventListener('click', function(){ mm.classList.remove('open'); });
+    });
+  }
+
+  // Reveal on scroll
+  var reveals = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(function(r){ io.observe(r); });
+  } else {
+    reveals.forEach(function(r){ r.classList.add('in'); });
+  }
+
+  // Active nav highlight on scroll
+  var sections = ["what","journey","meet","humans","contact"];
+  var navlinks = document.querySelectorAll('.navlink[data-nav]');
+  function onScroll(){
+    var y = window.scrollY + 120;
+    var current = null;
+    sections.forEach(function(id){
+      var el = document.getElementById(id);
+      if(el && el.offsetTop <= y) current = id;
+    });
+    navlinks.forEach(function(nl){
+      nl.classList.toggle('active', nl.getAttribute('data-nav') === current);
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+</body>
+</html>
