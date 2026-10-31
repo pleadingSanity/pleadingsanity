@@ -677,3 +677,4 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Purple/violet CSS swapped to amber in games, pattern-galaxy, rhythm-resonance, poker, sanity-solitaire. Emoji removed from shared nav labels (56 pages). JS data icons still contain emoji — not yet touched.
 - SEO: OG/description/canonical gaps filled on 18 pages; 4 public pages added to sitemap.xml. sw.js static cache bumped to v102.
 - Missing files referenced above (`docs/SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md`, `CLAUDE.local.md`) still do not exist.
+- Applied with `git am` onto main `788493eca06d16859b2df64dbf95e59aa52cdd9f` (clean, no rebase). `node scripts/validate-build.cjs` passed. `npm test`: 77 pass, 0 fail. Not merged. Owner still needs Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and to run the migration SQL in Supabase. Browser visual check of the crisis strips and colour swap was not run in this apply.
