@@ -10,13 +10,14 @@
 //   POST   /api/arron/memory/supabase  { memoryId, messages:[{role,content}] }
 //   DELETE /api/arron/memory/supabase  { memoryId }
 //
-// This endpoint is a management/debug door. The chat path in
+// This endpoint is an OWNER-ONLY management/debug door. The chat path in
 // arron.mts writes to Supabase directly via the same lib. "Forget
 // Me" is still DELETE /api/arron/memory (arron.mts), which also
 // calls clearMemory here.
 // ==============================================================
 
 import type { Config, Context } from "@netlify/functions";
+import { currentUser } from "../lib/social.js";
 import { appendMessages, clearMemory, readHistory, supabaseEnabled, type MemoryRole } from "../lib/supabase-memory.js";
 
 const json = (body: unknown, status = 200) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -24,6 +25,11 @@ const MEMORY_ID = /^[a-f0-9-]{32,64}$/i;
 const validId = (id: unknown): id is string => typeof id === "string" && MEMORY_ID.test(id);
 
 export default async (req: Request, _context: Context) => {
+  // Owner-only: this is a debug/management door with no frontend caller.
+  // Without this check anyone holding a memory id could read or wipe it.
+  const user = await currentUser().catch(() => null);
+  if (!user) return json({ error: "Sign in required" }, 401);
+  if (!user.isOwner) return json({ error: "Owner only" }, 403);
   if (!supabaseEnabled()) {
     return json({ ok: false, supabaseEnabled: false, note: "Set SUPABASE_URL and SUPABASE_ANON_KEY to enable cloud memory. Local Netlify DB memory is unaffected." }, 503);
   }

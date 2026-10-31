@@ -667,3 +667,13 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
   ```
 - PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
 - NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
+
+## 2026-10-31 — Grok Bot site audit fixes (branch grokbot/site-fixes-2026-10-31)
+- NEW `netlify/functions/verify-paypal.mts`: server checks PayPal order is COMPLETED for 50.00 GBP. Needs Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` (optional `PAYPAL_ENV=sandbox`). Returns 503 until set. No PII logged.
+- `arron-memory.mts` (/api/arron/memory/supabase) is now OWNER-ONLY (was open to anyone holding a memory id).
+- NEW `supabase/migrations/20261031000000_arron_chat_memory.sql`: table + index, RLS forced, no anon/authenticated grants. `supabase-memory.ts` now prefers `SUPABASE_SERVICE_KEY` over `SUPABASE_ANON_KEY`. Supersedes the "anon insert only" sketch above.
+- Crisis strip (Samaritans 116 123, Shout 85258, NHS 111, 999) added at the top of cosmic-reflections, kids-series, sanity-solitaire, solar, insane-solar.
+- Copy: "typically saves", 0% VAT to 31 Mar 2027 + eligibility, deposit insurance registered by a person not "the AI".
+- Purple/violet CSS swapped to amber in games, pattern-galaxy, rhythm-resonance, poker, sanity-solitaire. Emoji removed from shared nav labels (56 pages). JS data icons still contain emoji — not yet touched.
+- SEO: OG/description/canonical gaps filled on 18 pages; 4 public pages added to sitemap.xml. sw.js static cache bumped to v102.
+- Missing files referenced above (`docs/SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md`, `CLAUDE.local.md`) still do not exist.

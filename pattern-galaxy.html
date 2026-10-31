@@ -27,12 +27,12 @@
       --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.5);
       --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
       --gold:#ffd700;--gold-glow:rgba(255,215,0,.4);
-      --violet:#a855f7;--violet-deep:#7c3aed;
+      --violet:#f59e0b;--violet-deep:#d97706;
       --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
       --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
       --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 100%);
-      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(168,85,247,.15);
-      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(168,85,247,.3);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(245,158,11,.15);
+      --btn-glow-strong:0 0 30px rgba(0,255,240,.5),0 0 60px rgba(245,158,11,.3);
       --success:#00ff88;--error:#ff3366;
       --t:.3s cubic-bezier(.4,0,.2,1);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -53,7 +53,7 @@
     }
     @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
     .logo{width:60px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3s infinite;}
-    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4));}50%{filter:drop-shadow(0 0 35px rgba(168,85,247,.35));}}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4));}50%{filter:drop-shadow(0 0 35px rgba(245,158,11,.35));}}
     h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin-bottom:5px;letter-spacing:.05em;}
     .tag{color:var(--violet);font-weight:600;margin-bottom:12px;}
     nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;margin-top:12px;}
@@ -67,16 +67,16 @@
       box-shadow:0 0 15px rgba(0,255,240,.2);
     }
     nav a:hover{
-      border-color:var(--violet);background:rgba(168,85,247,.08);
-      color:#fff;box-shadow:0 0 20px rgba(168,85,247,.25);
+      border-color:var(--violet);background:rgba(245,158,11,.08);
+      color:#fff;box-shadow:0 0 20px rgba(245,158,11,.25);
     }
     main{max-width:620px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
     @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
 
     .game-card{
-      background:linear-gradient(135deg,rgba(0,255,240,.08),rgba(168,85,247,.05));
+      background:linear-gradient(135deg,rgba(0,255,240,.08),rgba(245,158,11,.05));
       border-radius:24px;padding:30px;border:1px solid rgba(0,255,240,.2);
-      box-shadow:0 0 30px rgba(0,255,240,.1),inset 0 0 60px rgba(168,85,247,.03);
+      box-shadow:0 0 30px rgba(0,255,240,.1),inset 0 0 60px rgba(245,158,11,.03);
       backdrop-filter:blur(16px);position:relative;overflow:hidden;
     }
     .game-card::before{
@@ -96,7 +96,7 @@
     .stat-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
     .stat-val{font-size:1.4rem;font-weight:800;color:var(--cyan);}
     .stat-val.level{color:var(--gold);text-shadow:0 0 10px var(--gold-glow);}
-    .stat-val.streak{color:var(--violet);text-shadow:0 0 10px rgba(168,85,247,.4);}
+    .stat-val.streak{color:var(--violet);text-shadow:0 0 10px rgba(245,158,11,.4);}
     
     .progress-bar{height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;margin:15px 0 20px;}
     .progress-fill{height:100%;background:var(--btn-gradient);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px var(--cyan-glow);}
@@ -208,70 +208,70 @@
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html">🤖 Talk to Arron</a>
-          <a href="/arron-app.html">📲 Arron App</a>
-          <a href="/journal-vault.html">📖 Journal Vault</a>
-          <a href="/notes.html">🗒️ Sanctuary Notes</a>
-          <a href="/mind-mode.html">🌬️ Mind Mode</a>
-          <a href="/mood-journey.html">🌱 Mood Journey</a>
-          <a href="/frequencies.html">🎵 Healing Hz</a>
-          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
-          <a href="/quote-wall.html">✨ Quote Wall</a>
-          <a href="/finance.html">💷 Sane Finance</a>
-          <a href="/support.html">🤲 Support</a>
+          <a href="/arron.html">Talk to Arron</a>
+          <a href="/arron-app.html">Arron App</a>
+          <a href="/journal-vault.html">Journal Vault</a>
+          <a href="/notes.html">Sanctuary Notes</a>
+          <a href="/mind-mode.html">Mind Mode</a>
+          <a href="/mood-journey.html">Mood Journey</a>
+          <a href="/frequencies.html">Healing Hz</a>
+          <a href="/meditation.html">Silence &amp; Breath</a>
+          <a href="/quote-wall.html">Quote Wall</a>
+          <a href="/finance.html">Sane Finance</a>
+          <a href="/support.html">Support</a>
         </div>
       </div>
       <div class="ps-group" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html">🌟 Sanity Feed</a>
-          <a href="/sanctuary.html">🏡 My Sanctuary</a>
-          <a href="/sanityhub.html">🌌 Sanity Hub</a>
-          <a href="/videos.html">🎬 Videos</a>
-          <a href="/ai-stories.html">💬 AI Stories</a>
+          <a href="/feed.html">Sanity Feed</a>
+          <a href="/sanctuary.html">My Sanctuary</a>
+          <a href="/sanityhub.html">Sanity Hub</a>
+          <a href="/videos.html">Videos</a>
+          <a href="/ai-stories.html">AI Stories</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">Create &amp; Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html">🎥 Creator Hub</a>
-          <a href="/ai-studio.html">🎙️ AI Studio</a>
-          <a href="/creations.html">🎨 Image Creations</a>
-          <a href="/blueprint.html">🎬 Video Blueprint</a>
-          <a href="/write.html">✍️ Write with Arron</a>
-          <a href="/rap.html">🎤 Rap Studio</a>
-          <a href="/wisdom.html">📜 Words from the Family</a>
-          <a href="/my-digital-story.html">🪪 My Digital Story</a>
+          <a href="/creator.html">Creator Hub</a>
+          <a href="/ai-studio.html">AI Studio</a>
+          <a href="/creations.html">Image Creations</a>
+          <a href="/blueprint.html">Video Blueprint</a>
+          <a href="/write.html">Write with Arron</a>
+          <a href="/rap.html">Rap Studio</a>
+          <a href="/wisdom.html">Words from the Family</a>
+          <a href="/my-digital-story.html">My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">Games &amp; Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html">🧠 Brain Games</a>
-          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
-          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
-          <a href="/truth-tag.html">🏷️ Truth Tag</a>
-          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
-          <a href="/poker.html">♠️ Night Table</a>
-          <a href="/kids.html">🧒 Keep Kids Sane</a>
-          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+          <a href="/games.html">Brain Games</a>
+          <a href="/sanity-solitaire.html">Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">Cosmic Connect</a>
+          <a href="/truth-tag.html">Truth Tag</a>
+          <a href="/stardust-dash.html">Stardust Dash</a>
+          <a href="/poker.html">Night Table</a>
+          <a href="/kids.html">Keep Kids Sane</a>
+          <a href="/kids-series.html">Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html">💜 Our Story</a>
-          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
-          <a href="/movement.html">✊ The Movement</a>
-          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
-          <a href="/ai-family.html">🌌 All AIs welcome</a>
-          <a href="/transparency.html">🔎 Transparency</a>
+          <a href="/about.html">Our Story</a>
+          <a href="/new-gen-bible.html">New Gen Bible</a>
+          <a href="/movement.html">The Movement</a>
+          <a href="/ai-ecosystem.html">Our AI Family</a>
+          <a href="/ai-family.html">All AIs welcome</a>
+          <a href="/transparency.html">Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop">👕 Shop</a>
-      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
+      <a href="/shop.html" class="ps-shop">Shop</a>
+      <a href="/crisis.html" class="ps-crisis">Truth</a>
     </div>
     <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>

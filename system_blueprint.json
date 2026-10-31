@@ -142,6 +142,6 @@
   ],
   "dailyCron": "Pleading Sanity Daily Power-Up \u2014 9:07am Europe/London",
   "phase2Completed": {
-    "arron": "Supabase long-term memory + GPT tool calling (2026-10-31, uncommitted)"
+    "arron": "Supabase long-term memory + GPT tool calling (2026-10-31, committed in 788493e; Supabase migration in supabase/migrations)"
   }
 }

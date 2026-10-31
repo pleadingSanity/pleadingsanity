@@ -16,7 +16,8 @@
 // that; this layer is dumb storage. "Forget Me" (clearMemory)
 // removes every row for that memoryId.
 //
-// Shane — run this once in the Supabase SQL editor:
+// Shane — run supabase/migrations/20261031000000_arron_chat_memory.sql once
+// in the Supabase SQL editor (RLS on, server key only). Original sketch:
 //
 //   create table if not exists public.arron_chat_memory (
 //     id         bigint generated always as identity primary key,
@@ -46,7 +47,8 @@ const MAX_CONTENT = 4000; // match Arron's per-message cap
 const FETCH_TIMEOUT_MS = 8_000;
 
 const supabaseUrl = () => (process.env.SUPABASE_URL || "").trim().replace(/\/+$/, "");
-const supabaseKey = () => (process.env.SUPABASE_ANON_KEY || "").trim();
+// Server-only: prefer the service-role key (bypasses RLS, never sent to browsers); anon key is a fallback.
+const supabaseKey = () => (process.env.SUPABASE_SERVICE_KEY || process.env.SUPABASE_ANON_KEY || "").trim();
 
 /** True iff both env vars are present. When false, every op is a no-op. */
 export function supabaseEnabled(): boolean {

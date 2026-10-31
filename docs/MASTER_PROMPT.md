@@ -93,7 +93,7 @@ App Hub is `get-the-app.html`. It is this house's shelf. It is not Google Play a
 
 ## The whole house — functions that exist
 
-`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `write` `ytFeed.mjs`
+`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `arron-memory` (owner-only) `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `verify-paypal` `write` `ytFeed.mjs`
 
 Arron health is `/api/arron/health`. Memory delete is `/api/arron/memory`. Shared code is `netlify/lib/`. Database is the existing Postgres via Drizzle. Never edit an applied migration. Add a new one. Blobs are for files. Sign-in is `js/auth.js` and Netlify Identity.
 
