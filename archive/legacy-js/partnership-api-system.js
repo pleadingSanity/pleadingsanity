@@ -24,14 +24,14 @@ class PartnershipAPI {
     this.startMonitoring();
     
     this.initialized = true;
-    console.log('🤝 Pleading Sanity Partnership System — ACTIVE');
+    console.log(' Pleading Sanity Partnership System — ACTIVE');
   }
 
   // ==============================================
   // ENDPOINTS — NO DEAD LINKS
   // ==============================================
   setupEndpoints() {
-    // 🏥 Healthcare — NHS & Global Partners
+    //  Healthcare — NHS & Global Partners
     this.apiEndpoints.set('healthcare', {
       nhsConnect: '/api/nhs/patient-data',
       fhirBase: '/api/fhir/r4',
@@ -39,7 +39,7 @@ class PartnershipAPI {
       wellness: '/api/partners/wellness'
     });
 
-    // 💼 Corporate Wellness
+    //  Corporate Wellness
     this.apiEndpoints.set('corporate', {
       microsoftViva: '/api/microsoft/wellness',
       googleWorkspace: '/api/google/wellbeing',
@@ -47,7 +47,7 @@ class PartnershipAPI {
       zoom: '/api/zoom/meeting-wellness'
     });
 
-    // 🎓 Research & Academic
+    //  Research & Academic
     this.apiEndpoints.set('research', {
       oxfordMentalHealth: '/api/oxford/clinical',
       kingsCollege: '/api/kings/psychiatry',
@@ -55,7 +55,7 @@ class PartnershipAPI {
       populationStudy: '/api/research/population'
     });
 
-    // 🤖 AI & Tech — Graceful Fallbacks
+    //  AI & Tech — Graceful Fallbacks
     this.apiEndpoints.set('technology', {
       openai: {
         base: 'https://api.openai.com/v1',
@@ -78,7 +78,7 @@ class PartnershipAPI {
       arronLocal: '/api/arron/chat' // Your custom core — NO external key needed
     });
 
-    // 🆘 Crisis & Support
+    //  Crisis & Support
     this.apiEndpoints.set('crisis', {
       samaritans: '/api/samaritans/connect',
       nhsHelp: 'tel:111',
@@ -249,7 +249,7 @@ class PartnershipAPI {
       total_partnerships: Object.values(counts).reduce((a, b) => a + b, 0),
       categories: counts,
       ai_status: {
-        arron: '✅ Active — Local Core',
+        arron: ' Active — Local Core',
         openai: '⏳ Key pending',
         anthropic: '⏳ Key pending',
         huggingface: '⏳ Key pending'
@@ -276,4 +276,4 @@ class PartnershipAPI {
 
 // GLOBAL INIT
 window.partnershipAPI = new PartnershipAPI();
-console.log('🤝 Pleading Sanity Partnership Layer — Online & Ready');
+console.log(' Pleading Sanity Partnership Layer — Online & Ready');

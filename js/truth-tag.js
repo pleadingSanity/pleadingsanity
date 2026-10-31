@@ -10,11 +10,11 @@ import { loadMe } from '/js/auth.js';
 const GAME = 'truth-tag';
 const ROUND = 10;
 const CATS = {
-  known: { icon: '🔬', name: 'Known' },
-  experience: { icon: '💙', name: 'Experience' },
-  thought: { icon: '💭', name: 'Thought' },
-  belief: { icon: '🌌', name: 'Belief' },
-  unknown: { icon: '❔', name: 'Unknown' },
+  known: { icon: '', name: 'Known' },
+  experience: { icon: '', name: 'Experience' },
+  thought: { icon: '', name: 'Thought' },
+  belief: { icon: '', name: 'Belief' },
+  unknown: { icon: '', name: 'Unknown' },
 };
 const DEFAULTS = {
   practised: 0, rounds: 0,
@@ -198,7 +198,7 @@ function endRound() {
   const line = others === 0
     ? 'Your tags matched ours every time. Lovely clear thinking.'
     : `Your tags matched ours on ${matchedThisRound} of ${ROUND}. The other ${others} are where the interesting nuance lives — that's where the learning happens.`;
-  feedback.innerHTML = `<div class="tt-feedback"><h3>Thank you for practising 💙</h3><p></p></div>`;
+  feedback.innerHTML = `<div class="tt-feedback"><h3>Thank you for practising </h3><p></p></div>`;
   feedback.querySelector('p').textContent = `${line} This stays private to you. Another round is waiting.`;
   nextBtn.hidden = true;
   restartBtn.hidden = false;

@@ -16,8 +16,8 @@ class PlatformMaintenanceSystem {
   }
 
   initialize() {
-    console.log('🔧 Pleading Sanity — Maintenance System ACTIVE');
-    console.log('💫 Version:', this.systemVersion);
+    console.log(' Pleading Sanity — Maintenance System ACTIVE');
+    console.log(' Version:', this.systemVersion);
     this.setupMaintenanceTasks();
     this.setupPerformanceMonitoring();
     this.setupQualityAssurance();
@@ -129,7 +129,7 @@ class PlatformMaintenanceSystem {
   }
 
   async runInitialChecks() {
-    console.log('🔍 Running initial platform checks...');
+    console.log(' Running initial platform checks...');
     await this.checkNavigationConsistency();
     await this.verifySystemHealth();
     await this.performSecurityAudit();
@@ -142,11 +142,11 @@ class PlatformMaintenanceSystem {
     for (const [taskId, task] of this.maintenanceTasks) {
       if (this.shouldRunTask(task, now)) {
         try {
-          console.log(`🔧 Running: ${task.name}`);
+          console.log(` Running: ${task.name}`);
           await task.handler();
           this.logMaintenanceActivity(taskId, 'success');
         } catch (error) {
-          console.error(`❌ Failed: ${task.name}`, error);
+          console.error(` Failed: ${task.name}`, error);
           this.logMaintenanceActivity(taskId, 'error', error);
         }
       }
@@ -172,7 +172,7 @@ class PlatformMaintenanceSystem {
       'ai-sanctuary.html', 'manifesto.html', 'clothing.html',
       'movement.html', 'games.html', 'community-dashboard.html'
     ];
-    console.log('✅ Navigation pattern verified — cosmic nav active');
+    console.log(' Navigation pattern verified — cosmic nav active');
     this.recordMaintenanceResult('navigation_consistency', true);
     return true;
   }
@@ -182,22 +182,22 @@ class PlatformMaintenanceSystem {
     const hasMagenta = getComputedStyle(document.documentElement).getPropertyValue('--secondary-magenta').trim();
     
     if (!hasCyan || !hasMagenta) {
-      console.warn('⚠️ Cosmic theme variables missing — applying defaults');
+      console.warn(' Cosmic theme variables missing — applying defaults');
       document.documentElement.style.setProperty('--primary-cyan', '#00fff0');
       document.documentElement.style.setProperty('--secondary-magenta', '#f59e0b');
     } else {
-      console.log('✨ Cosmic Theme Verified — Nebula Active');
+      console.log(' Cosmic Theme Verified — Nebula Active');
     }
     this.recordMaintenanceResult('theme_consistency', true);
     return true;
   }
 
   async optimizePerformance() {
-    console.log('⚡ Optimizing...');
+    console.log(' Optimizing...');
     this.optimizeLocalStorage();
     this.clearUnusedCache();
     this.optimizeDOM();
-    console.log('✅ Performance optimized');
+    console.log(' Performance optimized');
     this.recordMaintenanceResult('performance_optimization', true);
   }
 
@@ -213,7 +213,7 @@ class PlatformMaintenanceSystem {
         }
       } catch (e) {}
     });
-    if (cleaned > 0) console.log(`🧹 Cleaned ${cleaned} entries`);
+    if (cleaned > 0) console.log(` Cleaned ${cleaned} entries`);
   }
 
   clearUnusedCache() {
@@ -229,7 +229,7 @@ class PlatformMaintenanceSystem {
   }
 
   async cleanupDataStorage() {
-    console.log('🧹 Cleaning storage...');
+    console.log(' Cleaning storage...');
     const expirationRules = {
       'crisis_events': 30, 'performance_history': 7,
       'community_notifications': 7, 'research_assessments': 90
@@ -243,28 +243,28 @@ class PlatformMaintenanceSystem {
       });
       if (filtered.length !== data.length) {
         localStorage.setItem(key, JSON.stringify(filtered));
-        console.log(`🗑️ Cleaned ${data.length - filtered.length} from ${key}`);
+        console.log(` Cleaned ${data.length - filtered.length} from ${key}`);
       }
     });
     this.recordMaintenanceResult('data_cleanup', true);
   }
 
   async performSecurityAudit() {
-    console.log('🔒 Security Audit...');
+    console.log(' Security Audit...');
     const sensitivePatterns = [/email/i, /phone/i, /address/i, /password/i];
     let riskFound = false;
     for (const key of Object.keys(localStorage)) {
       const data = localStorage.getItem(key);
       if (sensitivePatterns.some(p => p.test(data))) riskFound = true;
     }
-    if (!riskFound) console.log('✅ Security Clean');
+    if (!riskFound) console.log(' Security Clean');
     this.recordMaintenanceResult('security_audit', !riskFound);
     return !riskFound;
   }
 
   async verifySystemHealth() {
     const healthScore = this.getSystemHealthScore();
-    console.log(`❤️ System Health: ${Math.round(healthScore)}%`);
+    console.log(` System Health: ${Math.round(healthScore)}%`);
     localStorage.setItem('system_health_status', JSON.stringify({
       score: healthScore,
       timestamp: new Date().toISOString()
@@ -354,10 +354,10 @@ class PlatformMaintenanceSystem {
   }
 
   async runFullMaintenance() {
-    console.log('🔧 FULL MAINTENANCE — ENGAGED');
+    console.log(' FULL MAINTENANCE — ENGAGED');
     for (const [_, task] of this.maintenanceTasks) {
       try { await task.handler(); }
-      catch (e) { console.error(`❌ ${task.name}:`, e); }
+      catch (e) { console.error(` ${task.name}:`, e); }
     }
     await this.runQualityChecks();
     this.updateMaintenanceStatus();
@@ -376,13 +376,13 @@ class PlatformMaintenanceSystem {
       transition: all 0.3s ease;
     `;
     const health = Math.round(this.getSystemHealthScore());
-    indicator.innerHTML = `${health >= 80 ? '🟢' : health >= 60 ? '🟡' : '🔴'} System ${health}%`;
+    indicator.innerHTML = `${health >= 80 ? '' : health >= 60 ? '' : ''} System ${health}%`;
     indicator.title = 'Pleading Sanity Maintenance System — Click for details';
     document.body.appendChild(indicator);
   }
 }
 
-// 🚀 ACTIVATE — RUNS ON EVERY PAGE AUTOMATICALLY
+//  ACTIVATE — RUNS ON EVERY PAGE AUTOMATICALLY
 document.addEventListener('DOMContentLoaded', () => {
   setTimeout(() => {
     window.maintenanceSystem = new PlatformMaintenanceSystem();
@@ -390,5 +390,5 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1500);
 });
 
-console.log('🔧 Platform Maintenance System — LOCKED & LOADED');
-console.log('💫 Watching over Pleading Sanity — Forever Optimizing');
+console.log(' Platform Maintenance System — LOCKED & LOADED');
+console.log(' Watching over Pleading Sanity — Forever Optimizing');

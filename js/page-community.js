@@ -45,16 +45,16 @@ function mountCreatorHubTools() {
   box.style.marginTop = '.8rem';
   box.innerHTML = `
     <div class="row" style="justify-content:space-between;gap:.6rem;flex-wrap:wrap">
-      <strong>📡 Creator discovery</strong>
-      <button type="button" class="sbtn small ghost" data-local-notifications>🔔 Notifications</button>
+      <strong> Creator discovery</strong>
+      <button type="button" class="sbtn small ghost" data-local-notifications> Notifications</button>
     </div>
     <div class="btn-row" style="margin-top:.7rem">
-      <a class="sbtn small ghost" href="/live.html#now">🔴 Live Now</a>
-      <a class="sbtn small ghost" href="/live.html#scheduled">📅 Upcoming</a>
-      <button type="button" class="sbtn small ghost" data-creators-filter>👥 Creators</button>
+      <a class="sbtn small ghost" href="/live.html#now"> Live Now</a>
+      <a class="sbtn small ghost" href="/live.html#scheduled"> Upcoming</a>
+      <button type="button" class="sbtn small ghost" data-creators-filter> Creators</button>
     </div>
     <p class="muted" style="margin:.7rem 0 0;font-size:.88rem">
-      Live filters open the dedicated LIVE hub. Cross-platform live status and real-time notifications are 🔜 COMING SOON with the live backend.
+      Live filters open the dedicated LIVE hub. Cross-platform live status and real-time notifications are  COMING SOON with the live backend.
     </p>
     <div id="local-notification-panel" hidden style="margin-top:.8rem"></div>
   `;
@@ -75,7 +75,7 @@ function mountCreatorHubTools() {
     try { followed = JSON.parse(localStorage.getItem('ps-following-creators') || '[]'); } catch {}
     try { notifying = JSON.parse(localStorage.getItem('ps-live-notify-creators') || '[]'); } catch {}
     panel.innerHTML = followed.length
-      ? `<strong>Following</strong><ul style="margin:.5rem 0 0;padding-left:1.2rem">${followed.map((u) => `<li><a href="/@${encodeURIComponent(u)}">@${esc(u)}</a> ${notifying.includes(u) ? '🔔' : ''}</li>`).join('')}</ul><p class="muted" style="margin:.5rem 0 0">🔜 Real-time alerts will arrive when the notification service is connected.</p>`
+      ? `<strong>Following</strong><ul style="margin:.5rem 0 0;padding-left:1.2rem">${followed.map((u) => `<li><a href="/@${encodeURIComponent(u)}">@${esc(u)}</a> ${notifying.includes(u) ? '' : ''}</li>`).join('')}</ul><p class="muted" style="margin:.5rem 0 0"> Real-time alerts will arrive when the notification service is connected.</p>`
       : '<p class="muted" style="margin:0">You are not following any creators on this device yet. Open a creator profile and tap Follow.</p>';
   });
 }
@@ -89,7 +89,7 @@ form.addEventListener('submit', async (e) => {
   results.innerHTML = '<div class="skeleton"></div>';
   try {
     const { results: people } = await api(`/api/community/search?${q}`);
-    results.innerHTML = `<h2 style="margin:0 0 1rem">Results</h2>` + grid(people, 'none', 'No one found yet — try another word, or check back as the family grows. 💙');
+    results.innerHTML = `<h2 style="margin:0 0 1rem">Results</h2>` + grid(people, 'none', 'No one found yet — try another word, or check back as the family grows. ');
   } catch (error) {
     results.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
   }
@@ -101,10 +101,10 @@ async function loadNear() {
     near.innerHTML = '<p class="muted">Add your country (optional) in <a href="/profile.html">your profile</a> to see survivors in the same country. We never use exact locations.</p>';
     return;
   }
-  document.getElementById('near-title').textContent = `📍 Survivors in ${myCountry}`;
+  document.getElementById('near-title').textContent = ` Survivors in ${myCountry}`;
   try {
     const { results: people } = await api(`/api/community/search?${new URLSearchParams({ country: myCountry })}`);
-    near.innerHTML = grid(people.slice(0, 9), 'none', `No one else in ${esc(myCountry)} yet — you're a pioneer. 🌅`);
+    near.innerHTML = grid(people.slice(0, 9), 'none', `No one else in ${esc(myCountry)} yet — you're a pioneer. `);
   } catch (error) {
     near.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
   }
@@ -127,7 +127,7 @@ async function loadFriends() {
     document.getElementById('req-count').textContent = data.incoming.length ? `(${data.incoming.length})` : '';
     document.getElementById('incoming').innerHTML = grid(data.incoming, 'incoming', 'No new requests.');
     document.getElementById('outgoing').innerHTML = grid(data.outgoing, 'outgoing', 'No pending requests.');
-    document.getElementById('friends').innerHTML = grid(data.friends, 'friends', 'No friends yet — find your people in Discover. 💙');
+    document.getElementById('friends').innerHTML = grid(data.friends, 'friends', 'No friends yet — find your people in Discover. ');
   } catch (error) {
     document.getElementById('friends').innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
   }

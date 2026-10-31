@@ -207,7 +207,7 @@ async function finishEmailLink() {
       sessionStorage.removeItem('ps-next');
       await afterSignIn(kept.startsWith('/') && !kept.startsWith('//') ? kept : '/feed.html');
     } else if (result.type === 'email_change') {
-      toast('Email address updated 💙');
+      toast('Email address updated ');
     } else if (result.type === 'invite') {
       location.replace('/signup.html?invite=' + encodeURIComponent(result.token));
     }
@@ -249,12 +249,12 @@ function renderNav(me) {
   // Members get their own corner at the top of the Community group.
   const communityMenu = inner.querySelector('#ps-g-community');
   if (communityMenu) {
-    communityMenu.prepend(navLink('/community.html', '🤝 My Community'), navLink('/post.html', '✍️ New Post'));
+    communityMenu.prepend(navLink('/community.html', ' My Community'), navLink('/post.html', ' New Post'));
   } else {
     const links = inner.querySelector('.ps-links');
     const crisis = links?.querySelector('.ps-crisis');
     links?.insertBefore(navLink('/community.html', 'Community'), crisis);
-    links?.insertBefore(navLink('/post.html', '✍️ Post'), crisis);
+    links?.insertBefore(navLink('/post.html', ' Post'), crisis);
   }
 
   const profile = me.profile;
@@ -265,26 +265,26 @@ function renderNav(me) {
     <button type="button" class="ps-avatar-btn" aria-haspopup="true" aria-expanded="false" aria-controls="ps-account-menu">
       <span class="ps-avatar" aria-hidden="true">${esc(avatarText(profile?.avatar, name))}</span>
       <span>${esc(profile ? profile.displayName : 'Account')}</span>
-      ${me.user.isOwner ? '<span class="ps-owner-star" title="Owner">💫</span>' : ''}
+      ${me.user.isOwner ? '<span class="ps-owner-star" title="Owner"></span>' : ''}
       ${pending + review ? `<span class="ps-badge" aria-label="${pending ? `${pending} friend requests` : ''}${pending && review ? ', ' : ''}${review ? `${review} posts to review` : ''}">${pending + review}</span>` : ''}
     </button>
     <div class="ps-menu" id="ps-account-menu" role="menu" hidden>
-      <p class="ps-menu-role">${{ owner: '💫 Owner · Founder — welcome home', admin: '🛡️ Admin', creator: '✨ Creator · full power', guardian: '🛡️ Guardian' }[me.user.role] || '🌿 Member · free forever'}</p>
-      ${me.user.isOwner ? `<a role="menuitem" href="/owner.html">💫 Owner's Room${review ? ` (${review} to review)` : ''}</a>` : ''}
+      <p class="ps-menu-role">${{ owner: ' Owner · Founder — welcome home', admin: ' Admin', creator: ' Creator · full power', guardian: ' Guardian' }[me.user.role] || ' Member · free forever'}</p>
+      ${me.user.isOwner ? `<a role="menuitem" href="/owner.html"> Owner's Room${review ? ` (${review} to review)` : ''}</a>` : ''}
       ${profile?.onboarded
-        ? `<a role="menuitem" href="/profile.html">👤 My Sanity Profile</a>
-           <a role="menuitem" href="/@${esc(profile.username)}">🌿 My page</a>
-           <a role="menuitem" href="/profile.html#journal">📓 My Journal</a>
-           <a role="menuitem" href="/sanctuary.html">🌟 My Sanctuary</a>
-           <a role="menuitem" href="/feed.html#community">🌌 Community feed</a>
-           <a role="menuitem" href="/creations.html#mine">🎨 My Creations</a>
-           <a role="menuitem" href="/community.html#requests">🤝 Friends${pending ? ` (${pending} new)` : ''}</a>`
-        : `<a role="menuitem" href="/onboarding.html">✨ Finish your profile</a>`}
-      <a role="menuitem" href="/settings.html">⚙️ Settings</a>
-      ${me.user.isGuardian || me.user.isAdmin ? '<a role="menuitem" href="/admin.html">🛡️ Moderation queue</a>' : ''}
-      ${me.user.role === 'creator' || me.user.isAdmin ? '<a role="menuitem" href="/write.html#review">✍️ Review site writing</a>' : ''}
+        ? `<a role="menuitem" href="/profile.html"> My Sanity Profile</a>
+           <a role="menuitem" href="/@${esc(profile.username)}"> My page</a>
+           <a role="menuitem" href="/profile.html#journal"> My Journal</a>
+           <a role="menuitem" href="/sanctuary.html"> My Sanctuary</a>
+           <a role="menuitem" href="/feed.html#community"> Community feed</a>
+           <a role="menuitem" href="/creations.html#mine"> My Creations</a>
+           <a role="menuitem" href="/community.html#requests"> Friends${pending ? ` (${pending} new)` : ''}</a>`
+        : `<a role="menuitem" href="/onboarding.html"> Finish your profile</a>`}
+      <a role="menuitem" href="/settings.html"> Settings</a>
+      ${me.user.isGuardian || me.user.isAdmin ? '<a role="menuitem" href="/admin.html"> Moderation queue</a>' : ''}
+      ${me.user.role === 'creator' || me.user.isAdmin ? '<a role="menuitem" href="/write.html#review"> Review site writing</a>' : ''}
       <hr />
-      <button type="button" role="menuitem" data-signout>🚪 Sign out</button>
+      <button type="button" role="menuitem" data-signout> Sign out</button>
     </div>`;
   inner.appendChild(account);
 
@@ -320,7 +320,7 @@ function renderNav(me) {
   // Shane knows instantly he's home.
   if (me?.user?.isOwner && !sessionStorage.getItem('ps-owner-welcomed')) {
     sessionStorage.setItem('ps-owner-welcomed', '1');
-    toast(`💫 Welcome home, ${me.user.ownerName || 'Shane'}. Full power, full respect.${me.counts?.awaitingReview ? ` ${me.counts.awaitingReview} post${me.counts.awaitingReview === 1 ? '' : 's'} waiting for you.` : ''}`, 5000);
+    toast(` Welcome home, ${me.user.ownerName || 'Shane'}. Full power, full respect.${me.counts?.awaitingReview ? ` ${me.counts.awaitingReview} post${me.counts.awaitingReview === 1 ? '' : 's'} waiting for you.` : ''}`, 5000);
   }
   onAuthChange((event) => {
     if (event === 'login' || event === 'logout') {

@@ -1,5 +1,5 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — COSMIC AUDIO SYSTEM v2.1-FINAL
+//  PLEADING SANITY — COSMIC AUDIO SYSTEM v2.1-FINAL
 // Immersive Healing Soundscape • Binaural Beats • Visualizer
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // Built for Shane Cooper — Pleading Sanity Universal Alliance
@@ -25,7 +25,7 @@ class CosmicAudio {
         this.volume = parseFloat(localStorage.getItem('cosmicAudioVolume')) || 0.08;
 
         // ========================================
-        // 🎵 HEALING FREQUENCY PRESETS — FULL LIBRARY
+        //  HEALING FREQUENCY PRESETS — FULL LIBRARY
         // ========================================
         this.FREQ = {
             DEEP_BASE: 43.0,      // Earth resonance foundation
@@ -48,7 +48,7 @@ class CosmicAudio {
         // Preset configurations
         this.PRESETS = {
             balanced: {
-                name: '🌌 Balance & Harmony',
+                name: ' Balance & Harmony',
                 layers: [
                     { freq: 'DEEP_BASE', type: 'sine', gain: 0.25, mod: 3 },
                     { freq: 'SOLFEGGIO_432', type: 'sine', gain: 0.04, mod: 1 },
@@ -58,7 +58,7 @@ class CosmicAudio {
                 description: 'Grounding + transformation + universal peace'
             },
             deepHeal: {
-                name: '💜 Deep Healing',
+                name: ' Deep Healing',
                 layers: [
                     { freq: 'SCHUMANN', type: 'sine', gain: 0.3, mod: 2 },
                     { freq: 'SOLFEGGIO_174', type: 'sine', gain: 0.08, mod: 0.5 },
@@ -68,7 +68,7 @@ class CosmicAudio {
                 description: 'Pain relief • cellular repair • deep rest'
             },
             heartConnect: {
-                name: '💚 Heart Connection',
+                name: ' Heart Connection',
                 layers: [
                     { freq: 'DEEP_BASE', type: 'sine', gain: 0.2, mod: 2 },
                     { freq: 'SOLFEGGIO_639', type: 'sine', gain: 0.08, mod: 1.2 },
@@ -78,7 +78,7 @@ class CosmicAudio {
                 description: 'Open heart • release old patterns • connect'
             },
             awaken: {
-                name: '✨ Awaken & Rise',
+                name: ' Awaken & Rise',
                 layers: [
                     { freq: 'SOLFEGGIO_852', type: 'sine', gain: 0.06, mod: 0.6 },
                     { freq: 'SOLFEGGIO_963', type: 'sine', gain: 0.04, mod: 0.4 },
@@ -88,7 +88,7 @@ class CosmicAudio {
                 description: 'Intuition • crown • unity consciousness'
             },
             schumann: {
-                name: '🌍 Earth Resonance',
+                name: ' Earth Resonance',
                 layers: [
                     { freq: 'SCHUMANN', type: 'sine', gain: 0.35, mod: 1.5 },
                     { freq: 'DEEP_BASE', type: 'sine', gain: 0.15, mod: 2 },
@@ -105,14 +105,14 @@ class CosmicAudio {
         try {
             this.createUI();
             if (this.isEnabled) await this.activateAudio();
-            console.log(`🌌 Cosmic Audio System v${this.VERSION} — Ready`);
+            console.log(` Cosmic Audio System v${this.VERSION} — Ready`);
         } catch (err) {
             console.log('Cosmic Audio init soft fail:', err.message);
         }
     }
 
     // ==============================================
-    // 🎛️ FULL UI — TOGGLE + PRESETS + VOLUME + TIMER
+    //  FULL UI — TOGGLE + PRESETS + VOLUME + TIMER
     // ==============================================
     createUI() {
         // Remove existing
@@ -126,8 +126,8 @@ class CosmicAudio {
         btn.id = 'audioToggle';
         btn.className = 'btn cosmic-audio-toggle';
         btn.innerHTML = this.isEnabled 
-            ? '🌌 Soundscape Active' 
-            : '🌌 Enable Cosmic Sound';
+            ? ' Soundscape Active' 
+            : ' Enable Cosmic Sound';
         btn.style.cssText = this.getButtonStyle();
         btn.addEventListener('click', () => this.toggleAudio());
         btn.addEventListener('contextmenu', e => {
@@ -174,7 +174,7 @@ class CosmicAudio {
 
         panel.innerHTML = `
             <h4 style="margin:0 0 14px; font-size:1rem; color:#00fff0; display:flex; justify-content:space-between; align-items:center;">
-                🌌 Cosmic Soundscape
+                 Cosmic Soundscape
                 <button id="closeAudioPanel" style="background:none; border:none; color:#888; cursor:pointer; font-size:1rem;">×</button>
             </h4>
             
@@ -200,7 +200,7 @@ class CosmicAudio {
             </div>
             
             <p style="font-size:0.7rem; opacity:0.5; margin:10px 0 0;">
-                💡 Right-click the main button to open this panel
+                 Right-click the main button to open this panel
             </p>
         `;
 
@@ -255,7 +255,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // 🎵 AUDIO ENGINE — LAYERED + BINAURAL
+    //  AUDIO ENGINE — LAYERED + BINAURAL
     // ==============================================
     async activateAudio() {
         try {
@@ -339,7 +339,7 @@ class CosmicAudio {
             // Show visualizer
             if (this.visualCanvas) this.visualCanvas.style.display = 'block';
 
-            console.log(`🌌 ${preset.name} — Active`);
+            console.log(` ${preset.name} — Active`);
         } catch (err) {
             console.log('Audio activation failed:', err.message);
             this.isEnabled = false;
@@ -353,7 +353,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // 📡 MODULATION — LIVING SOUNDSCAPE
+    //  MODULATION — LIVING SOUNDSCAPE
     // ==============================================
     animateModulation() {
         if (!this.isPlaying || !this.audioContext) return;
@@ -382,7 +382,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // 📊 VISUALIZER — CANVAS BARS
+    //  VISUALIZER — CANVAS BARS
     // ==============================================
     drawVisualizer() {
         if (!this.isPlaying || !this.visualCanvas) return;
@@ -425,7 +425,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // ⏱️ SESSION TIMER
+    // ⏱ SESSION TIMER
     // ==============================================
     startTimer() {
         this.sessionSeconds = 0;
@@ -447,7 +447,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // 🔘 TOGGLE CONTROLS
+    //  TOGGLE CONTROLS
     // ==============================================
     async toggleAudio() {
         try {
@@ -506,12 +506,12 @@ class CosmicAudio {
     }
 
     updateButtonState(active) {
-        this.button.innerHTML = active ? '🌌 Soundscape Active' : '🌌 Enable Cosmic Sound';
+        this.button.innerHTML = active ? ' Soundscape Active' : ' Enable Cosmic Sound';
         this.button.style.cssText = this.getButtonStyle();
     }
 
     // ==============================================
-    // ✨ VISUAL EFFECTS — AUDIO-RESPONSIVE
+    //  VISUAL EFFECTS — AUDIO-RESPONSIVE
     // ==============================================
     attachVisualEffects() {
         if (this.visualStyle) return;
@@ -549,7 +549,7 @@ class CosmicAudio {
     }
 
     // ==============================================
-    // 📊 DATA FOR OTHER COMPONENTS
+    //  DATA FOR OTHER COMPONENTS
     // ==============================================
     getFrequencyData() {
         if (!this.analyser || !this.frequencyData) return new Uint8Array(16).fill(0);
@@ -564,11 +564,11 @@ class CosmicAudio {
 }
 
 // ==============================================
-// 🚀 AUTO-INITIALIZE — EVERY PAGE
+//  AUTO-INITIALIZE — EVERY PAGE
 // ==============================================
 document.addEventListener('DOMContentLoaded', () => {
     window.cosmicAudio = new CosmicAudio();
-    console.log('🌌 Pleading Sanity — Cosmic Audio v2.1 Ready');
+    console.log(' Pleading Sanity — Cosmic Audio v2.1 Ready');
 });
 
 if (typeof module !== 'undefined' && module.exports) {

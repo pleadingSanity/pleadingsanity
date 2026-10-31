@@ -52,7 +52,7 @@
     .card .tl { top:4px; left:5px; }
     .card .br { right:5px; bottom:4px; transform:rotate(180deg); }
     .card .suit { position:absolute; left:50%; top:58%; width:26px; height:26px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
-    .card.hearts { color:#ff4d8d; }
+    .card.hearts { color:#f59e0b; }
     .card.diamonds { color:#fbbf24; }
     .card.spades { color:#5ee9ff; }
     .card.clubs { color:#5dff9a; }
@@ -136,7 +136,7 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
 </style>
 <style>.chips{width:120px;border-radius:16px;border:1px solid rgba(0,255,240,.35)}</style>
 <style>
-.ps-expansion{margin:20px 0;color:#eef6ff}.ps-expansion h2{font-size:clamp(1.1rem,4vw,1.45rem);color:#00fff0;margin:0 0 12px}.ps-expansion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:12px}.ps-expansion-card{background:rgba(13,27,42,.92);border:1px solid #00fff066;border-radius:14px;padding:14px;min-width:0}.ps-expansion-card p{font-size:.9rem;line-height:1.5;margin:6px 0}.ps-expansion-card img{width:62px;height:68px;object-fit:contain;float:right}.ps-expansion-card strong{color:#eef6ff}.ps-expansion .ps-status{font-size:.8rem;color:#00fff0}.ps-expansion .ps-soon{color:#eef6ff}.ps-expansion-hero{display:block;width:100%;max-width:700px;max-height:220px;object-fit:cover;border:2px solid #ff4d8d;border-radius:14px;margin:12px auto 18px}.ps-expansion summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-expansion details{border:1px solid #00fff066;border-radius:14px;padding:0 12px}.ps-expansion a{color:#00fff0;min-height:48px;display:inline-flex;align-items:center}@media(prefers-reduced-motion:reduce){.ps-expansion *{animation:none!important;transition:none!important}}
+.ps-expansion{margin:20px 0;color:#eef6ff}.ps-expansion h2{font-size:clamp(1.1rem,4vw,1.45rem);color:#00fff0;margin:0 0 12px}.ps-expansion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:12px}.ps-expansion-card{background:rgba(13,27,42,.92);border:1px solid #00fff066;border-radius:14px;padding:14px;min-width:0}.ps-expansion-card p{font-size:.9rem;line-height:1.5;margin:6px 0}.ps-expansion-card img{width:62px;height:68px;object-fit:contain;float:right}.ps-expansion-card strong{color:#eef6ff}.ps-expansion .ps-status{font-size:.8rem;color:#00fff0}.ps-expansion .ps-soon{color:#eef6ff}.ps-expansion-hero{display:block;width:100%;max-width:700px;max-height:220px;object-fit:cover;border:2px solid #f59e0b;border-radius:14px;margin:12px auto 18px}.ps-expansion summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-expansion details{border:1px solid #00fff066;border-radius:14px;padding:0 12px}.ps-expansion a{color:#00fff0;min-height:48px;display:inline-flex;align-items:center}@media(prefers-reduced-motion:reduce){.ps-expansion *{animation:none!important;transition:none!important}}
 </style>
 <style>
 /* 2026-10-20 mobile visual polish: contain tavern art behind readable surfaces. */
@@ -201,7 +201,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
   <script src="/js/game-brains.js"></script>
   <script type="module">
     import { RANKS, judge, better, label } from "/js/holdem-eval.js";
-    const SUIT = ["♠", "♥", "♦", "♣"];
+    const SUIT = ["", "", "", ""];
     const $ = (id) => document.getElementById(id);
     const log = (t) => { $("log").textContent = t; };
     let deck, seats, board, pot, street, turn, toAct, currentBet, handOver, shown = false, minRaise = 20, button = 0, sbSeat = 0, bbSeat = 1, hands = 0, roomSeed = 0;

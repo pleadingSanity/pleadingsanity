@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON — SERVICE WORKER v2.2-FULL
+//  ARRON — SERVICE WORKER v2.2-FULL
 // Controls only /arron-app.html, separate from the main site's /sw.js.
 // Interface, orb, wisdom and the soul file cached for offline.
 // Pages & knowledge → network first · images → cache first ·

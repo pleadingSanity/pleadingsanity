@@ -72,7 +72,7 @@
   background: radial-gradient(circle at 30% 25%, rgba(255, 0, 255, 0.2), rgba(13, 27, 42, 0.95) 70%);
   display: grid; place-items: center; transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
 }
-.cc-card::before { content: "✦"; font-size: 0.6em; color: rgba(0, 255, 240, 0.55); }
+.cc-card::before { content: ""; font-size: 0.6em; color: rgba(0, 255, 240, 0.55); }
 .cc-card.is-up::before, .cc-card.is-matched::before { content: none; }
 .cc-card:hover { border-color: var(--sg-magenta); }
 .cc-card:focus-visible { outline: 3px solid var(--sg-cyan); outline-offset: 3px; }
@@ -94,7 +94,7 @@
 .cc-star:focus-visible .ring { stroke: #fff; stroke-width: 3; }
 .cc-reveal { text-align: center; font-size: 1.15rem; color: var(--sg-text); min-height: 1.6em; margin: 1rem auto; max-width: 48ch; }
 .cc-picker { justify-content: center; margin-bottom: 1rem; }
-.cc-picker .chip[data-found="true"]::after { content: " ✓"; color: var(--sg-cyan); }
+.cc-picker .chip[data-found="true"]::after { content: " "; color: var(--sg-cyan); }
 
 /* ─── TRUTH TAG ─── */
 .tt-legend { display: flex; flex-wrap: wrap; gap: 8px; margin: 0.75rem 0 0; padding: 0; list-style: none; }

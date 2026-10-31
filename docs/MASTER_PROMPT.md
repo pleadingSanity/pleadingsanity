@@ -55,7 +55,7 @@ No one pretends to be another model. No one marks their own work as independentl
 - Free forever: Arron, journal, feed, games, crisis help. No paywall on the sanctuary.
 - Crisis on every crisis reply, even if every model is down: 999, Samaritans 116 123, text SHOUT to 85258, NHS 111. Arron is not a therapist.
 - Healing tones only: 174, 285, 432, 528, 741, 963 Hz. Soft. Fade in and out. Reduced motion is respected.
-- Brand: one crying-brain logo. `#000103` `#0d1b2a` `#00fff0` `#eef6ff` and one pink `#ff4d8d`. No invented logo story.
+- Brand: one crying-brain logo. `#0b0f19`, teal `#00fff0` / `#38bdf8`, amber `#f59e0b`, silver. No purple, indigo, or pink. No invented logo story.
 - Legacy facts only: Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.
 - Play chips only. No cash table. No claim of being a lender, broker, or adviser. No invented approvals, savings, reviews, or certifications. Solar: AI never signs MCS or NAPIT.
 - Voice is the phone's own speech. Off until chosen. Never send or store audio.

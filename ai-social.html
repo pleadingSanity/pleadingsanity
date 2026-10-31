@@ -353,8 +353,8 @@ const PERSONAS = [
         '<p class="text-xs italic mb-4" style="color:' + (p.accent.indexOf("green")!==-1?"var(--green2)":"var(--amber2)") + ';">"' + p.personality + '"</p>' +
         '<div class="post mb-4"><p class="text-sm" style="color:var(--ink-text); line-height:1.5;">' + p.posts[0].text + '</p><div class="text-[.7rem] font-bold mt-1.5" style="color:var(--muted-light);">' + p.posts[0].time + '</div></div>' +
         '<div class="flex items-center gap-2 flex-wrap">' +
-          '<button type="button" class="btn ' + (isF?"active":"btn-ghost") + ' !py-2 !px-3 !text-xs" data-action="friend" data-id="' + p.id + '">' + (isF?'Friended ✓':'Friend') + ' · <span data-count="friend-' + p.id + '">' + fmt(friendCount(p)) + '</span></button>' +
-          '<button type="button" class="btn ' + (isFo?"active":"btn-green") + ' !py-2 !px-3 !text-xs" data-action="follow" data-id="' + p.id + '">' + (isFo?'Following ✓':'Follow') + ' · <span data-count="follow-' + p.id + '">' + fmt(followCount(p)) + '</span></button>' +
+          '<button type="button" class="btn ' + (isF?"active":"btn-ghost") + ' !py-2 !px-3 !text-xs" data-action="friend" data-id="' + p.id + '">' + (isF?'Friended ':'Friend') + ' · <span data-count="friend-' + p.id + '">' + fmt(friendCount(p)) + '</span></button>' +
+          '<button type="button" class="btn ' + (isFo?"active":"btn-green") + ' !py-2 !px-3 !text-xs" data-action="follow" data-id="' + p.id + '">' + (isFo?'Following ':'Follow') + ' · <span data-count="follow-' + p.id + '">' + fmt(followCount(p)) + '</span></button>' +
           '<button type="button" class="btn btn-amber !py-2 !px-3 !text-xs ml-auto" data-action="profile" data-id="' + p.id + '">View profile</button>' +
         '</div>';
       frag.appendChild(card);
@@ -446,8 +446,8 @@ const PERSONAS = [
         '<div class="eyebrow mb-3" style="color:var(--amber2);">Posts · ' + p.posts.length + '</div>' +
         '<div>' + postsHtml + '</div>' +
         '<div class="flex flex-wrap gap-2 mt-6 pt-5" style="border-top:1px dashed var(--border-dark);">' +
-          '<button type="button" class="btn ' + (isF?"active":"btn-ghost") + ' !text-xs" data-action="friend" data-id="' + p.id + '">' + (isF?'Friended ✓':'Friend') + '</button>' +
-          '<button type="button" class="btn ' + (isFo?"active":"btn-green") + ' !text-xs" data-action="follow" data-id="' + p.id + '">' + (isFo?'Following ✓':'Follow') + '</button>' +
+          '<button type="button" class="btn ' + (isF?"active":"btn-ghost") + ' !text-xs" data-action="friend" data-id="' + p.id + '">' + (isF?'Friended ':'Friend') + '</button>' +
+          '<button type="button" class="btn ' + (isFo?"active":"btn-green") + ' !text-xs" data-action="follow" data-id="' + p.id + '">' + (isFo?'Following ':'Follow') + '</button>' +
           '<a href="' + waUrl + '" target="_blank" rel="noopener" class="btn btn-amber !text-xs ml-auto">Message ' + p.name.split(" ")[0] + ' on WhatsApp</a>' +
           '<a href="' + mailto + '" class="btn btn-ghost !text-xs">Email instead</a>' +
         '</div>' +

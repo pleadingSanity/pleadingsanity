@@ -27,7 +27,7 @@ class SecurityHardening {
         this.monitorSecurity();
         
         this.initialized = true;
-        console.log('🔒 Pleading Sanity Security — Maximum Protection Active');
+        console.log(' Pleading Sanity Security — Maximum Protection Active');
     }
 
     // ==============================================
@@ -74,7 +74,7 @@ class SecurityHardening {
                     false,
                     ['encrypt', 'decrypt']
                 );
-                console.log('🔐 AES-256-GCM Encryption — Active');
+                console.log(' AES-256-GCM Encryption — Active');
             } else {
                 this.setupFallbackEncryption();
             }
@@ -241,7 +241,7 @@ class SecurityHardening {
         banner.innerHTML = `
             <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between;">
                 <div style="flex: 1; min-width: 280px;">
-                    <h4 style="color: #00fff0; margin: 0 0 8px;">🍪 Privacy & Cookies</h4>
+                    <h4 style="color: #00fff0; margin: 0 0 8px;"> Privacy & Cookies</h4>
                     <p style="margin: 0; font-size: 0.9rem;">Essential cookies keep us running. You choose what we use — your data, your rules.</p>
                 </div>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -268,7 +268,7 @@ class SecurityHardening {
         } else {
             localStorage.removeItem('analytics_enabled');
         }
-        console.log(`🍪 Consent: ${level}`);
+        console.log(` Consent: ${level}`);
     }
 
     showSettingsModal() {
@@ -280,15 +280,15 @@ class SecurityHardening {
         `;
         modal.innerHTML = `
             <div style="background: linear-gradient(135deg, #060713, #0d1b2a); border-radius: 20px; padding: 30px; max-width: 520px; width: 100%; border: 2px solid #00fff0; max-height: 85vh; overflow-y: auto; font-family: system-ui;">
-                <h2 style="color: #00fff0; text-align: center; margin: 0 0 24px;">🔒 Your Privacy Controls</h2>
+                <h2 style="color: #00fff0; text-align: center; margin: 0 0 24px;"> Your Privacy Controls</h2>
                 
                 <div style="margin-bottom: 20px;">
-                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;">🔒 Essential (Always On)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;"> Essential (Always On)</h3>
                     <p style="font-size: 0.9rem; color: #b9faff; margin: 0;">Session security, crisis features — can't run without these.</p>
                 </div>
                 
                 <div style="margin-bottom: 24px;">
-                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;">📊 Analytics (Optional)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;"> Analytics (Optional)</h3>
                     <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                         <input type="checkbox" id="an-toggle" style="accent-color: #00fff0; width: 18px; height: 18px;">
                         <span style="color: #E9ECFF;">Help improve the site — fully anonymized data</span>
@@ -296,7 +296,7 @@ class SecurityHardening {
                 </div>
                 
                 <div style="margin-bottom: 24px; padding: 14px; background: rgba(0,255,240,0.05); border-radius: 10px;">
-                    <h3 style="color: #f59e0b; margin: 0 0 10px; font-size: 1rem;">📋 Your Rights (GDPR)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 10px; font-size: 1rem;"> Your Rights (GDPR)</h3>
                     <ul style="margin: 0; padding-left: 20px; font-size: 0.85rem; color: #b9faff; line-height: 1.7;">
                         <li>Access your data anytime</li>
                         <li>Download your personal file</li>
@@ -411,7 +411,7 @@ class SecurityHardening {
                     const key = localStorage.key(i);
                     if (key && !keep.includes(key)) localStorage.removeItem(key);
                 }
-                alert('✅ Data deleted.');
+                alert(' Data deleted.');
                 location.reload();
             }
         };
@@ -430,7 +430,7 @@ class SecurityHardening {
         document.addEventListener('submit', () => {
             formCount++;
             setTimeout(() => formCount--, 60000);
-            if (formCount > 12) console.warn('🚨 Rapid submissions detected');
+            if (formCount > 12) console.warn(' Rapid submissions detected');
         });
     }
 

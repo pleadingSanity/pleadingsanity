@@ -969,8 +969,9 @@ img.logo, .logo-mark {
 }
 
 @media (max-width: 960px), (hover: none) and (pointer: coarse) {
-  body { padding-bottom: 76px; }
+  body:not(.ps-no-dock) { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
   body.ps-no-dock { padding-bottom: 0; }
+  body.ps-no-dock .ps-dock { display: none; }
   .ps-dock {
     position: fixed;
     left: 10px;
@@ -1119,10 +1120,25 @@ html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
 
 /* Wide screens with a mouse: seven destinations, LIVE and Truth sit in one bar; if the screen is
    too narrow for one row, the pills wrap to a second row instead of running off the edge. */
-@media (min-width: 961px) and (hover: hover) {
-  .ps-nav .ps-links { flex: 1 1 auto; min-width: 0; flex-wrap: wrap; row-gap: 2px; }
+@media (max-width: 1023px) {
+  .ps-nav .ps-more { display: none; }
+}
+@media (min-width: 1024px) {
+  .ps-nav .ps-nav-inner { flex-wrap: nowrap; align-items: center; }
+  .ps-nav .ps-brand { flex: 0 0 auto; min-width: max-content; overflow: visible; }
+  .ps-nav .ps-links { flex: 1 1 auto; min-width: 0; flex-wrap: nowrap; overflow: hidden; }
+  .ps-nav .ps-links > a.ps-more-item { display: none; }
   .ps-nav .ps-links a,
-  .ps-nav .ps-group-btn { padding: 0 9px; font-size: 0.88rem; }
+  .ps-nav .ps-group-btn { padding: 0 7px; font-size: 0.8rem; }
+  .ps-nav .ps-theme { padding: 0 10px; flex: none; }
+  .ps-nav a.ps-crisis,
+  .ps-nav .ps-account { flex: none; }
+}
+@media (min-width: 1024px) and (max-width: 1399px) {
+  .ps-nav .ps-brand span {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
 }
 
 
@@ -1144,9 +1160,10 @@ html[data-theme="light"] .ps-nav.is-open .ps-links { background: #f7fbff; }
 .ps-nav .ps-links a { min-height: 48px; }
 .ps-footer a { min-height: 48px; display: inline-flex; align-items: center; }
 html { scroll-padding-top: 6rem; }
+main p a:not(.btn) { text-decoration: underline; text-underline-offset: 0.15em; }
 .ps-nav .ps-group-menu { max-height: min(70vh, 36rem); overflow-y: auto; overscroll-behavior: contain; }
 @media(max-width:960px), (hover:none) and (pointer:coarse) {
-  body:not(.ps-no-dock) { padding-bottom: calc(136px + env(safe-area-inset-bottom, 0px)); }
+  body:not(.ps-no-dock) { padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px)); }
   .ps-dock { bottom: calc(10px + env(safe-area-inset-bottom, 0px)); grid-template-columns: repeat(3,minmax(0,1fr)); }
   .ps-dock :is(a,button) { display: flex; align-items: center; justify-content: center; min-width: 0; }
 }

@@ -19,7 +19,7 @@ if (me.profile.truthTagDefault) {
   if (tag) tag.checked = true;
 }
 if (me.community?.reviewMode && !me.user.isGuardian && me.user.role !== 'creator') {
-  msg.innerHTML = '<p class="notice info">🌿 Shane is reviewing new posts right now — yours will appear on the feed once he\'s had a look. You\'ll see it on your page straight away.</p>';
+  msg.innerHTML = '<p class="notice info"> Shane is reviewing new posts right now — yours will appear on the feed once he\'s had a look. You\'ll see it on your page straight away.</p>';
 }
 
 // ─── KIND ───
@@ -92,7 +92,7 @@ fileInput.addEventListener('change', async () => {
   msg.innerHTML = '<p class="notice info">Uploading image…</p>';
   try {
     ({ key: imageKey } = await api('/api/images', { method: 'POST', form: data }));
-    msg.innerHTML = '<p class="notice ok">Image ready ✓</p>';
+    msg.innerHTML = '<p class="notice ok">Image ready </p>';
   } catch (error) {
     msg.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
     fileInput.value = '';
@@ -107,7 +107,7 @@ aiBtn.addEventListener('click', async () => {
   const draft = bodyEl.value.trim();
   if (draft.length < 5) { aiOut.innerHTML = '<p class="notice info" style="margin-top:1rem">Write a few words first — even messy ones are fine.</p>'; bodyEl.focus(); return; }
   aiBtn.disabled = true;
-  aiBtn.textContent = '✨ Thinking…';
+  aiBtn.textContent = ' Thinking…';
   aiOut.innerHTML = '';
   try {
     const s = await api('/api/ai-post', { method: 'POST', body: { draft, kind, mood: getMood()[0] } });
@@ -135,7 +135,7 @@ aiBtn.addEventListener('click', async () => {
     aiOut.innerHTML = `<p class="notice info" style="margin-top:1rem">${esc(error.message)}</p>`;
   } finally {
     aiBtn.disabled = false;
-    aiBtn.textContent = '✨ Help me write';
+    aiBtn.textContent = ' Help me write';
   }
 });
 
@@ -150,7 +150,7 @@ if (videoFile) videoFile.addEventListener('change', async () => {
   msg.innerHTML = '<p class="notice info">Uploading video…</p>';
   try {
     ({ key: videoKey } = await api('/api/images', { method: 'POST', form: data }));
-    msg.innerHTML = '<p class="notice ok">Video ready ✓</p>';
+    msg.innerHTML = '<p class="notice ok">Video ready </p>';
   } catch (error) {
     msg.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
     videoFile.value = '';
@@ -189,13 +189,13 @@ form.addEventListener('submit', async (e) => {
     });
     const target = `/feed.html?post=${result.post.id}#community`;
     if (result.pending && !result.crisis) {
-      toast('Shared 💙 It will appear on the feed once Shane has reviewed it.', 6000);
+      toast('Shared  It will appear on the feed once Shane has reviewed it.', 6000);
       location.href = `/@${me.profile.username}`;
       return;
     }
     if (result.crisis) {
       form.innerHTML = `
-        <h2>Your post is shared 💙</h2>
+        <h2>Your post is shared </h2>
         <p>It sounds like things are really heavy right now. You matter, and support is here any time — day or night.</p>
         ${CRISIS_STRIP}
         <div class="btn-row" style="margin-top:1rem"><a class="sbtn primary" href="${target}">See your post</a><a class="sbtn ghost" href="/crisis.html">House truth</a></div>`;
@@ -211,6 +211,6 @@ form.addEventListener('submit', async (e) => {
       : `<p class="notice err">${esc(error.message)}</p>`;
     msg.scrollIntoView({ block: 'center' });
   } finally {
-    if (submit.isConnected) { submit.disabled = false; submit.textContent = 'Share 💙'; }
+    if (submit.isConnected) { submit.disabled = false; submit.textContent = 'Share '; }
   }
 });

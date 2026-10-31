@@ -142,7 +142,7 @@
 .arron-orb.lg::after { display: none; }
 [data-conn="online"] .arron-orb::after { background: #3dff9e; }
 [data-conn="reconnecting"] .arron-orb::after { background: #ffd23d; animation: arronBlink 1s steps(2) infinite; }
-[data-conn="offline"] .arron-orb::after { background: #ff4d8d; }
+[data-conn="offline"] .arron-orb::after { background: #f59e0b; }
 .arron-main.is-thinking .arron-orb { animation-duration: 1.4s; }
 @keyframes arronBreathe {
   0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(0, 255, 240, 0.5), 0 0 40px rgba(255, 0, 255, 0.18); }
@@ -356,7 +356,7 @@
 .btn-danger {
   min-height: 44px;
   padding: 0 1.25rem;
-  border: 1px solid #ff4d8d;
+  border: 1px solid #f59e0b;
   border-radius: 999px;
   background: transparent;
   color: #ffd6e5;

@@ -176,7 +176,7 @@ h1 {
 }
 .share-btn:hover { background: rgba(0, 255, 240, 0.18); transform: translateY(-1px); }
 .share-btn:active { transform: scale(0.98); }
-.share-btn.copied { border-color: #ff4d8d; color: #ff4d8d; }
+.share-btn.copied { border-color: #f59e0b; color: #f59e0b; }
 .share-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .tools {
   padding: 1.5rem 1rem 3.5rem;
@@ -273,6 +273,7 @@ body {
 }
 </style>
 <link rel="stylesheet" href="/css/card-polish.css">
+<link rel="preload" as="image" href="/assets/images/brand/crying-brain-logo-clear-512.webp" imagesrcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" imagesizes="(max-width: 600px) 100px, 120px" fetchpriority="high">
 <link rel="stylesheet" href="/css/support-strip.css">
 </head>
 <body>
@@ -289,13 +290,13 @@ body {
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
 
-<script src="/js/ps-splash.js"></script>
+<script src="/js/ps-splash.js" defer></script>
 <a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content">
 <header class="hero">
 <img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 100px, 120px" alt="Pleading Sanity crying brain logo" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
-<img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" loading="lazy" style="width:100%;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
+<img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" fetchpriority="high" decoding="async" style="width:100%;max-width:800px;height:auto;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
 <p class="tagline">Free mental health sanctuary. Rise From Madness. Evolution, Not Erasure.</p>
 <p class="built">Built from survival by Shane Cooper. Midlands. Lived it. Still building. Free for everyone. No one turned away.</p>
 
@@ -305,7 +306,7 @@ body {
 </div>
 
 <div class="share-wrap">
-<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">
+<button type="button" class="share-btn" id="shareBtn" aria-label="Share this sanctuary">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
 Share this sanctuary
 </button>

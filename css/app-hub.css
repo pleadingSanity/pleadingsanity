@@ -1,6 +1,6 @@
 /* Sanity App Hub on /get-the-app.html — same card language as css/app-library.css.
    Picture behind readable text, whole card one link, favourite star beside it.
-   House palette: #000103 #0d1b2a #00fff0 #eef6ff, one pink accent #ff4d8d. */
+   House palette: #0b0f19 #0d1b2a #00fff0 #38bdf8 #f59e0b silver. */
 .hub { margin-top: 2rem; }
 .hub h2 { font-size: 1.5rem; margin: 0 0 0.4rem; color: #eef6ff; }
 .hub-lede { color: #dff; line-height: 1.6; margin: 0 0 1rem; }
@@ -25,7 +25,7 @@
 .hub-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
 .hub-tag, .hub-age { padding: 2px 10px; border-radius: 999px; font-size: 0.78rem; font-weight: 700; }
 .hub-tag { color: #000103; background: #00fff0; text-shadow: none; }
-.hub-tag.hub-own { color: #eef6ff; background: transparent; border: 1px solid #ff4d8d; }
+.hub-tag.hub-own { color: #eef6ff; background: transparent; border: 1px solid #f59e0b; }
 .hub-age { color: #eef6ff; border: 1px solid rgba(238, 246, 255, 0.45); background: rgba(0, 1, 3, 0.55); }
 .hub-a11y { color: #cfe; font-size: 0.82rem; line-height: 1.4; }
 .hub-card:hover, .hub-card:focus-visible { border-color: #00fff0; box-shadow: 0 0 22px rgba(0, 255, 240, 0.35); }

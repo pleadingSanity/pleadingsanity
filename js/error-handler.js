@@ -20,7 +20,7 @@ class PleadingSanityErrorHandler {
     const userMessage = this.getUserMessage(errorInfo, context);
 
     // Log for debugging
-    console.error(`⚠️ PS Error [${context.component || 'Unknown'}]:`, error);
+    console.error(` PS Error [${context.component || 'Unknown'}]:`, error);
 
     // Announce to screen readers
     this.announceError(userMessage.screenReader);
@@ -102,42 +102,42 @@ class PleadingSanityErrorHandler {
   }
 
   // ==============================================
-  // USER-FRIENDLY MESSAGES — cosmic tone ✨
+  // USER-FRIENDLY MESSAGES — cosmic tone 
   // ==============================================
   getUserMessage(errorInfo, context) {
     const messages = {
       network: {
-        title: '🌐 Connection Drifted',
+        title: ' Connection Drifted',
         description: 'Your connection to the stars got interrupted. Check your internet and try again.',
         screenReader: 'Network connection lost. Please check your internet connection.',
         action: 'Reconnect'
       },
       rateLimit: {
-        title: '⏱️ Cosmic Energy Peak',
+        title: '⏱ Cosmic Energy Peak',
         description: 'We\'re getting so much love right now! Take a breath and try again in a moment.',
         screenReader: 'Too many requests. Please wait before trying again.',
         action: 'Wait & Retry'
       },
       server: {
-        title: '🛠️ Nebula Maintenance',
+        title: ' Nebula Maintenance',
         description: 'Our cosmic servers are having a moment. Everything will be back stronger soon.',
         screenReader: 'Server error. Please try again in a few minutes.',
         action: 'Try Again'
       },
       authorization: {
-        title: '🔐 Daily Quota Reached',
+        title: ' Daily Quota Reached',
         description: 'We\'ve reached our view limit for today. Fresh content returns tomorrow — or browse our curated stories now.',
         screenReader: 'API quota exceeded. Curated content available immediately.',
         action: 'View Featured'
       },
       notFound: {
-        title: '✨ Content Drifted Away',
+        title: ' Content Drifted Away',
         description: 'This piece of the cosmos couldn\'t be found. It may have moved or been updated.',
         screenReader: 'Content not found.',
         action: 'Return Home'
       },
       unknown: {
-        title: '🌌 Something Shifted',
+        title: ' Something Shifted',
         description: 'An unexpected shift happened. Don\'t worry — we\'re watching the stars.',
         screenReader: 'An error occurred. Please try again.',
         action: 'Try Again'
@@ -183,7 +183,7 @@ class PleadingSanityErrorHandler {
     const attempts = this.retryAttempts.get(component) || 0;
 
     if (attempts >= this.maxRetries) {
-      return `<button class="btn btn-secondary" disabled>⏱️ Max attempts reached</button>`;
+      return `<button class="btn btn-secondary" disabled>⏱ Max attempts reached</button>`;
     }
 
     const delay = this.baseRetryDelay * (2 ** attempts);
@@ -192,7 +192,7 @@ class PleadingSanityErrorHandler {
     return `
       <button class="btn btn-primary" 
               onclick="plsErrorHandler.retry('${component}', ${delay}${context.callback ? `, '${context.callback}'` : ''})">
-        🔄 ${label}
+         ${label}
       </button>
     `;
   }
@@ -204,14 +204,14 @@ class PleadingSanityErrorHandler {
     const links = [];
 
     if (context.fallbackUrl) {
-      links.push(`<a href="${context.fallbackUrl}" class="btn btn-secondary">📺 Featured Stories</a>`);
+      links.push(`<a href="${context.fallbackUrl}" class="btn btn-secondary"> Featured Stories</a>`);
     }
     if (errorInfo.type === 'authorization' || errorInfo.type === 'notFound') {
-      links.push(`<a href="/" class="btn btn-secondary">🏠 Return Home</a>`);
+      links.push(`<a href="/" class="btn btn-secondary"> Return Home</a>`);
     }
-    links.push(`<button class="btn btn-outline" onclick="location.reload()">🔄 Refresh</button>`);
+    links.push(`<button class="btn btn-outline" onclick="location.reload()"> Refresh</button>`);
     if (context.contactEmail) {
-      links.push(`<a href="mailto:${context.contactEmail}?subject=Pleading%20Sanity%20Error" class="btn btn-outline">📧 Report</a>`);
+      links.push(`<a href="mailto:${context.contactEmail}?subject=Pleading%20Sanity%20Error" class="btn btn-outline"> Report</a>`);
     }
 
     return links.join('');
@@ -273,13 +273,13 @@ class PleadingSanityErrorHandler {
   setupGlobalHandlers() {
     // Unhandled fetch/promise errors
     window.addEventListener('unhandledrejection', (event) => {
-      console.error('⚠️ Unhandled Rejection:', event.reason);
+      console.error(' Unhandled Rejection:', event.reason);
       this.announceError('Something shifted. Please refresh or try again.');
     });
 
     // Runtime JS errors
     window.addEventListener('error', (event) => {
-      console.error('⚠️ Script Error:', event.error);
+      console.error(' Script Error:', event.error);
       this.announceError('A feature had trouble loading.');
     });
   }

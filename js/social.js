@@ -7,10 +7,10 @@
 import { api, avatarText, esc, toast } from '/js/auth.js';
 
 export const MOODS = {
-  low: { label: 'Low', icon: '🌧️' },
-  anxious: { label: 'Anxious', icon: '🌪️' },
-  rising: { label: 'Rising', icon: '🌅' },
-  fierce: { label: 'Fierce', icon: '🔥' },
+  low: { label: 'Low', icon: '' },
+  anxious: { label: 'Anxious', icon: '' },
+  rising: { label: 'Rising', icon: '' },
+  fierce: { label: 'Fierce', icon: '' },
 };
 
 export const moodBadge = (mood) => {
@@ -46,13 +46,13 @@ export function timeAgo(iso) {
   return new Date(iso).toLocaleDateString('en-GB');
 }
 
-const KIND_LABEL = { story: '📖 My Story', video: '🎬 Video', image: '🖼️ Image', text: '', status: '🌿 Status', journal: '📓 Journal', writing: '✍️ Writing' };
+const KIND_LABEL = { story: ' My Story', video: ' Video', image: ' Image', text: '', status: ' Status', journal: ' Journal', writing: ' Writing' };
 
 // Role badges, shown next to a name everywhere it appears.
 export const ROLE_BADGES = {
-  owner: { icon: '💫', label: 'Owner', hint: 'Shane — founder of Pleading Sanity' },
-  guardian: { icon: '🛡️', label: 'Guardian', hint: 'Trusted helper chosen by Shane' },
-  creator: { icon: '✨', label: 'Creator', hint: 'Creator — chosen by Shane' },
+  owner: { icon: '', label: 'Owner', hint: 'Shane — founder of Pleading Sanity' },
+  guardian: { icon: '', label: 'Guardian', hint: 'Trusted helper chosen by Shane' },
+  creator: { icon: '', label: 'Creator', hint: 'Creator — chosen by Shane' },
 };
 export const roleBadge = (role) => {
   const b = ROLE_BADGES[role];
@@ -68,28 +68,28 @@ export const familyBadges = (post) => {
   const tags = (post.tags || []).map((t) => String(t).toLowerCase());
   const minds = tags.filter((t) => FAMILY_MINDS[t]).map((t) => FAMILY_MINDS[t]);
   const who = minds.length ? ` — with ${minds.join(', ')}` : '';
-  return (tags.includes('aifamily') ? `<span class="role-badge family-badge" title="${esc('A note from the AI Family' + who)}"><span aria-hidden="true">🤝</span> AI FAMILY</span>` : '') +
-    (tags.includes('together') ? `<span class="role-badge family-badge" title="${esc('Made together by Shane and the AI Family' + who)}"><span aria-hidden="true">💞</span> TOGETHER</span>` : '');
+  return (tags.includes('aifamily') ? `<span class="role-badge family-badge" title="${esc('A note from the AI Family' + who)}"><span aria-hidden="true"></span> AI FAMILY</span>` : '') +
+    (tags.includes('together') ? `<span class="role-badge family-badge" title="${esc('Made together by Shane and the AI Family' + who)}"><span aria-hidden="true"></span> TOGETHER</span>` : '');
 };
 
 // Every member's public face lives at /@username.
 export const pageLink = (username) => (username ? `/@${encodeURIComponent(username)}` : '#');
 
-const AUDIENCE_NOTE = { members: ' · 🌿 members', friends: ' · 🔒 friends', private: ' · 🔒 only you' };
+const AUDIENCE_NOTE = { members: ' ·  members', friends: ' ·  friends', private: ' ·  only you' };
 
-const UNSIGNED = 'Create your free Sanity Profile to heart, reply and save 💙';
+const UNSIGNED = 'Create your free Sanity Profile to heart, reply and save ';
 const friendly = (error) => (error.status === 401 ? UNSIGNED : error.message);
 
 // Truth tags — so readers know what kind of truth they're holding.
 export const TRUTH_TAGS = {
-  known: { icon: '🔬', label: 'Known', hint: 'Supported by evidence or independently verifiable information' },
-  experience: { icon: '💙', label: 'Experience', hint: 'Something personally experienced by the person sharing it' },
-  thought: { icon: '💭', label: 'Thought', hint: 'An idea, question or hypothesis — not established fact' },
-  belief: { icon: '🌌', label: 'Belief', hint: 'A personal, philosophical or spiritual belief' },
-  unknown: { icon: '❔', label: 'Unknown', hint: 'Something we genuinely do not know yet' },
+  known: { icon: '', label: 'Known', hint: 'Supported by evidence or independently verifiable information' },
+  experience: { icon: '', label: 'Experience', hint: 'Something personally experienced by the person sharing it' },
+  thought: { icon: '', label: 'Thought', hint: 'An idea, question or hypothesis — not established fact' },
+  belief: { icon: '', label: 'Belief', hint: 'A personal, philosophical or spiritual belief' },
+  unknown: { icon: '', label: 'Unknown', hint: 'Something we genuinely do not know yet' },
   // Legacy display support for existing posts created before the five-part taxonomy.
-  evidence: { icon: '🔬', label: 'Known', hint: 'Legacy tag: evidence-backed information' },
-  philosophy: { icon: '🌌', label: 'Belief', hint: 'Legacy tag: personal/philosophical belief' },
+  evidence: { icon: '', label: 'Known', hint: 'Legacy tag: evidence-backed information' },
+  philosophy: { icon: '', label: 'Belief', hint: 'Legacy tag: personal/philosophical belief' },
 };
 
 export const truthBadge = (tag) => {
@@ -102,11 +102,11 @@ export const truthBadge = (tag) => {
 // only the author sees their exact count and Arron's words for them.
 // Shane can reword these once in /arron-knowledge.json → feedMilestones.
 export const MILESTONE_WORDS = {
-  10: { icon: '✨', label: 'Reaching people', words: 'Your light is reaching people. Thank you for being brave enough to share.' },
-  50: { icon: '🌟', label: 'Shining', words: 'You are beautiful. Your story matters more than you know. Keep shining.' },
-  100: { icon: '💫', label: 'A beacon', words: "You've touched so many hearts. You are a beacon. This is what hope looks like." },
-  500: { icon: '🌍', label: 'Circling the world', words: 'Your voice has circled the world. You are changing it.' },
-  1000: { icon: '🌌', label: 'Never alone', words: 'From your struggle, millions find strength. You are never alone.' },
+  10: { icon: '', label: 'Reaching people', words: 'Your light is reaching people. Thank you for being brave enough to share.' },
+  50: { icon: '', label: 'Shining', words: 'You are beautiful. Your story matters more than you know. Keep shining.' },
+  100: { icon: '', label: 'A beacon', words: "You've touched so many hearts. You are a beacon. This is what hope looks like." },
+  500: { icon: '', label: 'Circling the world', words: 'Your voice has circled the world. You are changing it.' },
+  1000: { icon: '', label: 'Never alone', words: 'From your struggle, millions find strength. You are never alone.' },
 };
 fetch('/arron-knowledge.json')
   .then((r) => (r.ok ? r.json() : null))
@@ -121,10 +121,10 @@ const walked = (n) => (n === 1 ? '1 has walked this path' : `${n.toLocaleString(
 
 function glowHTML(post) {
   const m = MILESTONE_WORDS[post.milestone];
-  const views = post.views > 0 ? `<span class="post-walked"><span aria-hidden="true">👣</span> ${walked(post.views)}</span>` : '';
+  const views = post.views > 0 ? `<span class="post-walked"><span aria-hidden="true"></span> ${walked(post.views)}</span>` : '';
   const badge = m ? `<span class="post-milestone" title="${esc(m.label)}"><span aria-hidden="true">${m.icon}</span> ${esc(m.label)}</span>` : '';
   const mineLine = post.mine && post.hearts > 0
-    ? `<span class="post-hearts-mine"><span aria-hidden="true">💗</span> ${post.hearts.toLocaleString('en-GB')} ${post.hearts === 1 ? 'heart' : 'hearts'} from others · only you can see this</span>`
+    ? `<span class="post-hearts-mine"><span aria-hidden="true"></span> ${post.hearts.toLocaleString('en-GB')} ${post.hearts === 1 ? 'heart' : 'hearts'} from others · only you can see this</span>`
     : '';
   const arron = post.mine && m ? `<p class="post-arron-words"><strong>Arron:</strong> ${esc(m.words)}</p>` : '';
   if (!views && !badge && !mineLine) return '';
@@ -205,14 +205,14 @@ export function postHTML(post, { full = false } = {}) {
         <div class="post-time">${author.username ? '@' + esc(author.username) + ' · ' : ''}<time datetime="${esc(post.createdAt)}">${timeAgo(post.createdAt)}</time>${AUDIENCE_NOTE[post.visibility] || ''}</div>
       </div>
       <span class="spacer"></span>
-      ${post.pinned ? '<span class="tag pinned-tag">📌 Pinned</span>' : ''}
-      ${post.status === 'pending' ? '<span class="tag" title="Waiting for Shane to review — only you can see it for now">⏳ In review</span>' : post.status === 'held' ? '<span class="tag" title="Shane held this one back from the feed — only you can see it">⏸️ Held</span>' : ''}
+      ${post.pinned ? '<span class="tag pinned-tag"> Pinned</span>' : ''}
+      ${post.status === 'pending' ? '<span class="tag" title="Waiting for Shane to review — only you can see it for now">⏳ In review</span>' : post.status === 'held' ? '<span class="tag" title="Shane held this one back from the feed — only you can see it">⏸ Held</span>' : ''}
       ${KIND_LABEL[post.kind] ? `<span class="tag">${KIND_LABEL[post.kind]}</span>` : ''}
       ${truthBadge(post.truthTag)}
       ${familyBadges(post)}
       ${moodBadge(post.mood)}
     </div>
-    ${post.contentWarning ? '<p><span class="tw-banner">⚠️ TW · heavy topic</span></p>' : ''}
+    ${post.contentWarning ? '<p><span class="tw-banner"> TW · heavy topic</span></p>' : ''}
     ${post.contentWarning
       ? `<div class="cw-wrap veiled">
            <div class="cw-cover">
@@ -227,17 +227,17 @@ export function postHTML(post, { full = false } = {}) {
     ${glowHTML(post)}
     <div class="post-actions">
       <button type="button" data-like aria-pressed="${post.liked}" class="${post.liked ? 'liked' : ''}">
-        <span aria-hidden="true">${post.liked ? '💗' : '🤍'}</span> <span>Heart</span>
+        <span aria-hidden="true">${post.liked ? '' : ''}</span> <span>Heart</span>
       </button>
-      <button type="button" data-comments aria-expanded="false">💬 <span>Reply</span><span class="sr-only"> (<span data-comment-count>${post.comments}</span> replies)</span></button>
+      <button type="button" data-comments aria-expanded="false"> <span>Reply</span><span class="sr-only"> (<span data-comment-count>${post.comments}</span> replies)</span></button>
       <button type="button" data-save aria-pressed="${!!post.saved}" title="Save to My Sanctuary">
-        <span aria-hidden="true">${post.saved ? '🌟' : '☆'}</span> <span data-save-label>${post.saved ? 'Saved' : 'Save'}</span>
+        <span aria-hidden="true">${post.saved ? '' : ''}</span> <span data-save-label>${post.saved ? 'Saved' : 'Save'}</span>
       </button>
-      <button type="button" data-share>🔗 Share</button>
-      ${viewerCanPin && post.visibility === 'public' && post.status === 'live' ? `<button type="button" data-pin aria-pressed="${!!post.pinned}">📌 ${post.pinned ? 'Unpin' : 'Pin'}</button>` : ''}
+      <button type="button" data-share> Share</button>
+      ${viewerCanPin && post.visibility === 'public' && post.status === 'live' ? `<button type="button" data-pin aria-pressed="${!!post.pinned}"> ${post.pinned ? 'Unpin' : 'Pin'}</button>` : ''}
       ${post.mine
-        ? '<button type="button" class="report" data-delete>🗑️ Delete</button>'
-        : '<button type="button" class="report" data-report>🚩 Report</button>'}
+        ? '<button type="button" class="report" data-delete> Delete</button>'
+        : '<button type="button" class="report" data-report> Report</button>'}
     </div>
     <div class="comments" hidden></div>
   </article>`;
@@ -280,7 +280,7 @@ async function openComments(article, postId) {
         <textarea id="c-${postId}" name="body" maxlength="1000" rows="1" placeholder="Say something kind…" required></textarea>
         <button class="sbtn small primary" type="submit">Send</button>
       </form>
-      <p class="post-time">Comments are checked for kindness before they appear. 💙</p>`;
+      <p class="post-time">Comments are checked for kindness before they appear. </p>`;
     box.querySelector('form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.currentTarget;
@@ -315,7 +315,7 @@ export function openReport(targetType, targetId) {
     dialog.setAttribute('aria-labelledby', 'report-title');
     dialog.innerHTML = `
       <form method="dialog">
-        <h2 id="report-title">🚩 Report to moderators</h2>
+        <h2 id="report-title"> Report to moderators</h2>
         <p class="muted">Reports are private. The person won't know it was you.</p>
         <label class="field"><span>What's wrong?</span>
           <select name="reason" required>
@@ -348,7 +348,7 @@ export function openReport(targetType, targetId) {
         method: 'POST',
         body: { targetType, targetId, reason: form.reason.value, details: form.details.value },
       });
-      toast('Thank you. Our moderators will look at this. 💙');
+      toast('Thank you. Our moderators will look at this. ');
     } catch (error) {
       toast(error.message);
     }
@@ -394,22 +394,22 @@ export function wirePosts(container, { onDelete } = {}) {
         const { liked } = await api(`/api/posts/${id}/like`, { method: 'POST' });
         target.classList.toggle('liked', liked);
         target.setAttribute('aria-pressed', String(liked));
-        target.querySelector('[aria-hidden]').textContent = liked ? '💗' : '🤍';
+        target.querySelector('[aria-hidden]').textContent = liked ? '' : '';
       } catch (error) { toast(friendly(error)); }
     } else if (target.matches('[data-save]')) {
       try {
         const { saved } = await api(`/api/posts/${id}/save`, { method: 'POST' });
         target.setAttribute('aria-pressed', String(saved));
-        target.querySelector('[aria-hidden]').textContent = saved ? '🌟' : '☆';
+        target.querySelector('[aria-hidden]').textContent = saved ? '' : '';
         target.querySelector('[data-save-label]').textContent = saved ? 'Saved' : 'Save';
-        toast(saved ? 'Saved to My Sanctuary 🌟' : 'Removed from My Sanctuary');
+        toast(saved ? 'Saved to My Sanctuary ' : 'Removed from My Sanctuary');
       } catch (error) { toast(friendly(error)); }
     } else if (target.matches('[data-pin]')) {
       try {
         const { pinned } = await api(`/api/posts/${id}/pin`, { method: 'POST' });
         target.setAttribute('aria-pressed', String(pinned));
-        target.textContent = pinned ? '📌 Unpin' : '📌 Pin';
-        toast(pinned ? 'Pinned to the top of the feed 📌' : 'Unpinned.');
+        target.textContent = pinned ? ' Unpin' : ' Pin';
+        toast(pinned ? 'Pinned to the top of the feed ' : 'Unpinned.');
       } catch (error) { toast(error.message); }
     } else if (target.matches('[data-comments]')) {
       openComments(article, id);
@@ -417,7 +417,7 @@ export function wirePosts(container, { onDelete } = {}) {
       const url = `${location.origin}/feed.html?post=${id}#community`;
       try {
         if (navigator.share) await navigator.share({ title: 'Pleading Sanity', url });
-        else { await navigator.clipboard.writeText(url); toast('Link copied 💙'); }
+        else { await navigator.clipboard.writeText(url); toast('Link copied '); }
       } catch { /* share sheet closed */ }
     } else if (target.matches('[data-report]')) {
       openReport('post', id);
@@ -441,8 +441,8 @@ export function personHTML(p, actions = '') {
       <a href="${link}" tabindex="-1">${avatar(p)}</a>
       <div class="person-body">
         <a class="person-name" href="${link}">${esc(p.displayName)}</a>
-        <div class="person-meta">@${esc(p.username)}${p.country ? ' · 📍 ' + esc(p.country) : ''}${p.isPrivate ? ' · 🔒' : ''}</div>
-        <div class="row" style="margin:4px 0">${moodBadge(p.mood)}${p.shared ? `<span class="post-time">✨ ${p.shared} in common</span>` : ''}</div>
+        <div class="person-meta">@${esc(p.username)}${p.country ? ' ·  ' + esc(p.country) : ''}${p.isPrivate ? ' · ' : ''}</div>
+        <div class="row" style="margin:4px 0">${moodBadge(p.mood)}${p.shared ? `<span class="post-time"> ${p.shared} in common</span>` : ''}</div>
         ${p.bio ? `<p class="person-bio">${esc(p.bio)}</p>` : ''}
         ${p.interests?.length ? `<div class="tagline">${p.interests.slice(0, 5).map((t) => `<span>#${esc(t)}</span>`).join('')}</div>` : ''}
         <div class="btn-row">${actions}</div>
@@ -454,15 +454,15 @@ export function personHTML(p, actions = '') {
 export function friendButtons(state) {
   switch (state) {
     case 'friends':
-      return '<button type="button" class="sbtn small ghost" data-friend="remove">✓ Friends · Remove</button>';
+      return '<button type="button" class="sbtn small ghost" data-friend="remove"> Friends · Remove</button>';
     case 'outgoing':
       return '<button type="button" class="sbtn small ghost" data-friend="cancel">⏳ Requested · Cancel</button>';
     case 'incoming':
-      return '<button type="button" class="sbtn small primary" data-friend="accept">✓ Accept</button><button type="button" class="sbtn small ghost" data-friend="decline">Decline</button>';
+      return '<button type="button" class="sbtn small primary" data-friend="accept"> Accept</button><button type="button" class="sbtn small ghost" data-friend="decline">Decline</button>';
     case 'self':
       return '';
     default:
-      return '<button type="button" class="sbtn small primary" data-friend="request">➕ Add friend</button>';
+      return '<button type="button" class="sbtn small primary" data-friend="request"> Add friend</button>';
   }
 }
 
@@ -471,13 +471,13 @@ const STATE_AFTER = { friends: 'friends', outgoing: 'outgoing', none: 'none' };
 export async function sendFriendAction(username, action) {
   if ((action === 'remove') && !confirm('Remove this friend?')) return null;
   const { status } = await api('/api/friends', { method: 'POST', body: { username, action } });
-  const messages = { request: 'Friend request sent 💙', accept: "You're now friends 💙", decline: 'Request declined.', cancel: 'Request cancelled.', remove: 'Friend removed.' };
-  toast(status === 'friends' && action === 'request' ? "You're now friends 💙" : messages[action]);
+  const messages = { request: 'Friend request sent ', accept: "You're now friends ", decline: 'Request declined.', cancel: 'Request cancelled.', remove: 'Friend removed.' };
+  toast(status === 'friends' && action === 'request' ? "You're now friends " : messages[action]);
   return STATE_AFTER[status] ?? 'none';
 }
 
 // ─── PROFILE OPTIONS ───
-export const AVATARS = ['🌌', '🌅', '🔥', '🌊', '🌙', '⭐', '🦋', '🌻', '🐺', '🦁', '🐉', '🌈', '💙', '🧠', '🎧', '🌿', '🕊️', '⚡'];
+export const AVATARS = ['', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''];
 
 export const INTERESTS = [
   'Anxiety', 'Depression', 'Bipolar', 'PTSD', 'ADHD', 'Autism', 'OCD', 'Grief', 'Addiction', 'Recovery',

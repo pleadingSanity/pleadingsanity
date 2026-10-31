@@ -6,7 +6,7 @@
    ========================================== */
 
 :root {
-  /* 🌟 COLOUR PALETTE — LOCKED IN • CONTRAST-VERIFIED */
+  /*  COLOUR PALETTE — LOCKED IN • CONTRAST-VERIFIED */
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
   --cyan-glow: rgba(0, 255, 240, 0.6);
@@ -25,7 +25,7 @@
   --warning: #ffb020;
   --warning-bg: rgba(255, 176, 32, 0.1);
 
-  /* 🌌 COSMIC BACKDROP */
+  /*  COSMIC BACKDROP */
   --deepest: #01030a;
   --deep: #070b20;
   --mid: #0f1638;
@@ -37,7 +37,7 @@
   --text-dim: #606890;
   --bg-dark: #000000;
 
-  /* ✨ GRADIENTS — SMOOTH • BANDWIDTH-FRIENDLY */
+  /*  GRADIENTS — SMOOTH • BANDWIDTH-FRIENDLY */
   --nebula-gradient: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.12));
   --cosmic-glow: radial-gradient(ellipse at top, rgba(0,255,240,0.15), transparent 60%),
                  radial-gradient(ellipse at bottom, rgba(255,0,255,0.12), transparent 60%);
@@ -45,7 +45,7 @@
   --hero-gradient: linear-gradient(180deg, var(--deepest), var(--deep) 40%, var(--mid));
   --card-gradient: linear-gradient(135deg, rgba(15,22,56,0.8), rgba(36,48,112,0.6));
 
-  /* 📐 SIZING & SPACING — CONSISTENT */
+  /*  SIZING & SPACING — CONSISTENT */
   --nav-height: 70px;
   --section-gap: 4rem;
   --card-radius: 20px;
@@ -55,7 +55,7 @@
   --border-thin: 1px solid rgba(255,255,255,0.1);
   --border-focus: 2px solid var(--cyan);
 
-  /* ⚡ MOTION — RESPECTS USER PREFERENCES */
+  /*  MOTION — RESPECTS USER PREFERENCES */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.6s ease;
@@ -424,7 +424,7 @@ input[aria-invalid="false"] {
 }
 
 .error-message::before {
-  content: "⚠️";
+  content: "";
   flex-shrink: 0;
 }
 
@@ -441,7 +441,7 @@ input[aria-invalid="false"] {
 }
 
 .success-message::before {
-  content: "✅";
+  content: "";
   flex-shrink: 0;
 }
 

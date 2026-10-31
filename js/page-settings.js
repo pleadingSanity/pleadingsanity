@@ -13,7 +13,7 @@ toggle.addEventListener('change', async () => {
   try {
     await api('/api/me', { method: 'PUT', body: { isPrivate: toggle.checked } });
     clearMe();
-    toast(toggle.checked ? 'Your profile is now friends-only 🔒' : 'Your profile is now public 🌌');
+    toast(toggle.checked ? 'Your profile is now friends-only ' : 'Your profile is now public ');
   } catch (error) {
     toggle.checked = !toggle.checked;
     toast(error.message);
@@ -28,7 +28,7 @@ pwForm.addEventListener('submit', async (e) => {
   try {
     await updateUser({ password: pw });
     pwForm.reset();
-    toast('Password changed 💙');
+    toast('Password changed ');
   } catch (error) { toast(error.message); }
 });
 

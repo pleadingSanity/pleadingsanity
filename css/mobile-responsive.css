@@ -18,7 +18,7 @@
 }
 
 /* ==============================================
-   TOUCH TARGET STANDARDS — WCAG 2.1 ✅
+   TOUCH TARGET STANDARDS — WCAG 2.1 
    ============================================== */
 .touch-target,
 .touch-friendly {
@@ -54,7 +54,7 @@ button:active {
 }
 
 /* ==============================================
-   FOCUS RINGS — KEYBOARD + TOUCH ✅
+   FOCUS RINGS — KEYBOARD + TOUCH 
    ============================================== */
 .btn:focus-visible,
 input:focus-visible,
@@ -69,7 +69,7 @@ nav a:focus-visible,
 }
 
 /* ==============================================
-   REDUCED MOTION — FULL RESPECT ✅
+   REDUCED MOTION — FULL RESPECT 
    ============================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -264,7 +264,7 @@ nav a:focus-visible,
 }
 
 /* ==============================================
-   PWA STANDALONE — SAFE AREA NOTCH SUPPORT ✅
+   PWA STANDALONE — SAFE AREA NOTCH SUPPORT 
    ============================================== */
 @media (display-mode: standalone) {
   body {
@@ -276,7 +276,7 @@ nav a:focus-visible,
 }
 
 /* ==============================================
-   IMAGE PERFORMANCE — NO LAYOUT SHIFT ✅
+   IMAGE PERFORMANCE — NO LAYOUT SHIFT 
    ============================================== */
 img {
   height: auto;

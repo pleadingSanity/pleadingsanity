@@ -29,7 +29,7 @@
     levelSelect.innerHTML = '';
     for (var n = 1; n <= TARGET_LEVELS; n++) {
       var option = document.createElement('option'); option.value = n;
-      option.textContent = 'Level ' + n + ' · ' + (6 + n * 2) + ' stars' + (n <= campaign.completed ? ' ✓' : '');
+      option.textContent = 'Level ' + n + ' · ' + (6 + n * 2) + ' stars' + (n <= campaign.completed ? ' ' : '');
       option.disabled = n > campaign.completed + 1; levelSelect.appendChild(option);
     }
     levelSelect.value = Math.min(chosen, campaign.completed + 1, TARGET_LEVELS);
@@ -70,7 +70,7 @@
   function hud() {
     elScore.textContent = st.score;
     document.getElementById('dash-target').textContent = 'Level ' + stageLevel + ' · ' + st.caught + ' / ' + (6 + stageLevel * 2) + ' stars';
-    var h = ''; for (var i = 0; i < 3; i++) h += i < st.lives ? '♥' : '♡';
+    var h = ''; for (var i = 0; i < 3; i++) h += i < st.lives ? '' : '';
     elLives.textContent = h; elLives.setAttribute('aria-label', st.lives + ' lives');
     elCombo.textContent = '×' + PS.multiplier(st.combo) + (st.combo > 1 ? ' (' + st.combo + ')' : '');
   }
@@ -119,7 +119,7 @@
             else { return endGame(); }
           }
         } else if (it.type === 'heart') {
-          st.lives = Math.min(3, st.lives + 1); hud(); say('A kind thought! +1 life 💙'); PS.pop('+1 ♥', pt(it.x, it.y), 'gold'); PS.sfx('level');
+          st.lives = Math.min(3, st.lives + 1); hud(); say('A kind thought! +1 life '); PS.pop('+1 ', pt(it.x, it.y), 'gold'); PS.sfx('level');
         } else {
           st.combo++; st.max = Math.max(st.max, st.combo); st.caught++;
           var m = PS.multiplier(st.combo), gain = 10 * m;
@@ -162,7 +162,7 @@
         starPath(it.x, it.y, 14, reduced ? 0 : it.rot * 0.5); ctx.fill(); ctx.restore();
       } else if (it.type === 'heart') {
         ctx.save(); ctx.shadowColor = '#00fff0'; ctx.shadowBlur = 12; ctx.fillStyle = '#00fff0'; ctx.font = '26px system-ui,sans-serif';
-        ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('♥', it.x, it.y); ctx.restore();
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('', it.x, it.y); ctx.restore();
       } else {
         ctx.save(); ctx.shadowColor = '#f59e0b'; ctx.shadowBlur = 10;
         rrect(it.x - it.w / 2, it.y - 13, it.w, 26, 13);
@@ -226,12 +226,12 @@
     PS.confetti();
     PS.sfx('good', st.max);
     if (window.PSVoice) PSVoice.speak('Round done. You stayed with it.');
-    showOverlay(r.newBest ? '🏆 New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. Another round is waiting.', '🔁 Dash again');
+    showOverlay(r.newBest ? ' New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. Another round is waiting.', ' Dash again');
   }
   function setPause(p) {
     if (!running || over) return;
     paused = p; pauseBtn.textContent = p ? '▶ Resume' : '⏸ Pause';
-    if (p) { cancelAnimationFrame(raf); raf = 0; keys.l = keys.r = false; pointerX = null; say('Paused. Take a breath. 💙'); showOverlay('Paused', 'Breathe in… and out. Resume whenever you are ready.', '▶ Resume'); }
+    if (p) { cancelAnimationFrame(raf); raf = 0; keys.l = keys.r = false; pointerX = null; say('Paused. Take a breath. '); showOverlay('Paused', 'Breathe in… and out. Resume whenever you are ready.', '▶ Resume'); }
     else { overlay.hidden = true; last = performance.now(); if (!raf) raf = requestAnimationFrame(frame); say('Back in the dash!'); }
   }
 

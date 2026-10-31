@@ -7,7 +7,7 @@
 .finance-hero-mark{width:84px;height:84px;margin:0 auto 10px;display:block;filter:drop-shadow(0 0 26px rgba(0,255,240,.35))}
 .finance-lede{font-size:1.35rem!important;font-weight:800;color:#eef6ff!important;margin-top:.4rem!important}
 .finance-promise{list-style:none;padding:0;margin:14px auto 0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;color:#c5edf0}
-.finance-promise li::before{content:"✓ ";color:#00fff0}
+.finance-promise li::before{content:" ";color:#00fff0}
 .finance-quick a,.finance-install{min-height:44px;display:inline-flex;align-items:center}
 .finance-install{border:1px solid #fbbf24;background:rgba(255,102,255,.12);color:#fff;border-radius:999px;padding:11px 15px;font:inherit;font-weight:800;cursor:pointer}
 .finance-ios{color:#c5edf0;margin-top:10px!important;font-size:.95rem!important}
@@ -52,7 +52,7 @@
 .finance-table tr.strong th,.finance-table tr.strong td{font-weight:800;color:#fff}
 .finance-table tr.bad td{color:#ff9db4}
 .finance-stress{list-style:none;padding:0!important}
-.finance-stress li::before{content:"✓ ";color:#5dffb5}.finance-stress li.bad::before{content:"✗ ";color:#ff7a9a}
+.finance-stress li::before{content:" ";color:#5dffb5}.finance-stress li.bad::before{content:" ";color:#ff7a9a}
 .finance-safety{border-color:rgba(255,209,102,.55)!important;background:linear-gradient(145deg,rgba(255,209,102,.1),rgba(255,0,255,.04)),rgba(3,7,18,.94)!important}
 .finance-safety h2{color:#ffe4a3}
 .finance-help a,.finance-result a{color:#7ffcf4}

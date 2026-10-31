@@ -62,27 +62,27 @@ export function mountProfileForm(root, { profile = null, withStory = false, subm
         <small>Used only for "Survivors near you". We never ask for or store your exact location.</small>
       </label>
       ${withStory ? `
-      <label class="field"><span>📖 My Story <small style="display:inline">(optional — never required)</small></span>
+      <label class="field"><span> My Story <small style="display:inline">(optional — never required)</small></span>
         <textarea name="story" maxlength="10000" rows="8" placeholder="Share your journey, in your own words, when and if you're ready.">${esc(p.story || '')}</textarea>
       </label>` : ''}
       <fieldset class="field">
-        <legend>🔐 Privacy — who sees what</legend>
+        <legend> Privacy — who sees what</legend>
         <label class="field" style="margin-bottom:.75rem"><span>My page (/@${esc(p.username || 'you')})</span>
           <select name="pageVisibility">
-            <option value="public" ${p.pageVisibility !== 'members' ? 'selected' : ''}>🌍 Public — anyone can visit</option>
-            <option value="members" ${p.pageVisibility === 'members' ? 'selected' : ''}>🌿 Members only — signed-in people</option>
+            <option value="public" ${p.pageVisibility !== 'members' ? 'selected' : ''}> Public — anyone can visit</option>
+            <option value="members" ${p.pageVisibility === 'members' ? 'selected' : ''}> Members only — signed-in people</option>
           </select>
         </label>
         <label class="field" style="margin-bottom:.75rem"><span>New posts are seen by</span>
           <select name="defaultVisibility">
-            ${[['public', '🌍 Public'], ['members', '🌿 Members only'], ['friends', '💙 Friends only'], ['private', '🔒 Only me']]
+            ${[['public', ' Public'], ['members', ' Members only'], ['friends', ' Friends only'], ['private', ' Only me']]
               .map(([v, l]) => `<option value="${v}" ${(p.defaultVisibility || 'public') === v ? 'selected' : ''}>${l}</option>`).join('')}
           </select>
           <small>You can still change it on each post. Your journal is always private until you choose to share.</small>
         </label>
         <label class="field" style="margin:0"><span>My usual Truth Tag</span>
           <select name="truthTagDefault">
-            ${[['', 'Choose each time'], ['experience', '💙 Experience'], ['evidence', '🔬 Evidence'], ['philosophy', '🌌 Philosophy']]
+            ${[['', 'Choose each time'], ['experience', ' Experience'], ['evidence', ' Evidence'], ['philosophy', ' Philosophy']]
               .map(([v, l]) => `<option value="${v}" ${(p.truthTagDefault || '') === v ? 'selected' : ''}>${l}</option>`).join('')}
           </select>
         </label>

@@ -72,7 +72,7 @@ environment variables are fine; their values are never written down.
 - **Crisis lines are forced** in every crisis reply, even when every model is down: 999, Samaritans 116 123, Text SHOUT to 85258, NHS 111 option 2. The "not a therapist" line never goes.
 - **Free forever:** Arron, journal, feed, games, crisis help. No paywalls. No paid API, no paid voice. Default extra spend £0.
 - **Voice** is the browser's own Web Speech API only. Optional, off until chosen. Never send or store audio.
-- **Brand:** one crying-brain logo. #000103, #0d1b2a, #00fff0, #eef6ff, one pink accent #ff4d8d. System fonts only.
+- **Brand:** one crying-brain logo. #0b0f19, teal #00fff0 / #38bdf8, amber #f59e0b, silver. No purple, indigo, or pink. System fonts only.
 - **Legacy page is facts only:** Private A.L. Cooper, RAOC, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented.
 - **Mobile first:** no forced zoom, touch targets ≥ 48px, images never cover text, no sideways scroll, reduced motion respected.
 - **Games:** play chips only, no cash, no gambling. Healing tones 174/285/432/528/741/963 Hz only, soft.
@@ -727,7 +727,7 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
 ## 2026-10-31 — Grok Bot: hero batch and a visitor pass
 - 47 heroes from the owner pack are in `images/heroes/`, one per page in `docs/IMAGES_NEEDED.md`, which is now marked done. Alt text is the manifest text. Size 1024×576. Top-of-page heroes use `fetchpriority="high"`. Crisis and safety use `fetchpriority="low"` and sit behind the numbers, which stay first. The heroes are not in the service-worker precache. Cache name is `pleading-sanity-static-v104`.
 - Shared nav still loads from `site.js`. The music app does not register the house service worker, so `/music/sw.js` keeps its own scope.
-- Violet UI hexes in the live CSS and JS were moved to amber, teal, or the house pink `#ff4d8d`. Emoji in visible text are stripped when `site.js` runs. The source files still contain some emoji characters.
+- Violet UI hexes in the live CSS and JS were moved to amber, teal, or silver. Emoji in visible text are stripped when `site.js` runs.
 - Privacy page already says the house does not sell journals or sign-in data. A scan of live HTML, `js/`, and Netlify functions found no Google Analytics, Tag Manager, Meta pixel, Hotjar, Clarity, or DoubleClick. `archive/legacy-js/research-analytics-framework.js` is archived and not loaded.
 - Headless Chrome on 14 key pages produced the DOM and no console error lines. It does not exit by itself here, so each run was stopped by a timeout after the DOM was written. A static check of 85 HTML files found no missing local images or links.
 - Not merged. Not on main.

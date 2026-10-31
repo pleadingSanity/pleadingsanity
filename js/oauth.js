@@ -8,9 +8,9 @@ import { getSettings, oauthLogin } from '/js/vendor/netlify-identity.js';
 
 const PROVIDERS = [
   ['google', 'Continue with Google', 'G'],
-  ['github', 'Continue with GitHub', '🐙'],
-  ['gitlab', 'Continue with GitLab', '🦊'],
-  ['bitbucket', 'Continue with Bitbucket', '🪣'],
+  ['github', 'Continue with GitHub', ''],
+  ['gitlab', 'Continue with GitLab', ''],
+  ['bitbucket', 'Continue with Bitbucket', ''],
   ['facebook', 'Continue with Facebook', 'f'],
 ];
 

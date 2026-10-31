@@ -47,7 +47,7 @@ function renderProgress() {
   box.innerHTML = Object.entries(GAMES).map(([id, [icon, name, href]]) => {
     const data = id in SYNCED ? loadProgress(id, {}) : {};
     const started = data && Object.keys(data).length > 0;
-    return `<a class="sx-card" href="${href}"><span class="sx-icon" aria-hidden="true">${icon}</span><h3>${name}</h3><p>${started ? '✓ Your progress is saved and syncing' : 'Not started — whenever you’re ready'}</p></a>`;
+    return `<a class="sx-card" href="${href}"><span class="sx-icon" aria-hidden="true">${icon}</span><h3>${name}</h3><p>${started ? ' Your progress is saved and syncing' : 'Not started — whenever you’re ready'}</p></a>`;
   }).join('');
 }
 renderProgress();
@@ -59,7 +59,7 @@ wirePosts(saved);
 api('/api/posts?filter=saved')
   .then(({ posts }) => {
     saved.innerHTML = posts.map((x) => postHTML(x)).join('') ||
-      '<p class="empty">Nothing saved yet. Tap <strong>☆ Save</strong> on any post in the <a href="/feed.html#community">feed</a> and it lands here.</p>';
+      '<p class="empty">Nothing saved yet. Tap <strong> Save</strong> on any post in the <a href="/feed.html#community">feed</a> and it lands here.</p>';
   })
   .catch((error) => { saved.innerHTML = `<p class="notice err">${esc(error.message)}</p>`; });
 
@@ -81,6 +81,6 @@ api('/api/write/mine')
   .then(({ pieces }) => {
     writing.innerHTML = pieces.length
       ? `<ul>${pieces.slice(0, 5).map((w) => `<li><strong>${esc(w.title || w.kind)}</strong> — <span class="sx-status-${esc(w.status)}">${esc(w.status)}</span></li>`).join('')}</ul><p><a href="/write.html">All your writing →</a></p>`
-      : '<p class="empty">Your words matter here. <a href="/write.html">Write something with Arron ✍️</a></p>';
+      : '<p class="empty">Your words matter here. <a href="/write.html">Write something with Arron </a></p>';
   })
   .catch(() => { writing.innerHTML = '<p><a href="/write.html">Open Write with Arron →</a></p>'; });

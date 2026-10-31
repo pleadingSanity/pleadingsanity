@@ -76,14 +76,14 @@ function card(c) {
     <span class="sx-watermark" aria-hidden="true">${WATERMARK}</span>
     <figcaption>
       <strong>${esc(c.title || c.prompt)}</strong>
-      <span class="post-time">🎨 ${by} &amp; Arron · <time datetime="${esc(c.createdAt)}">${new Date(c.createdAt).toLocaleDateString('en-GB')}</time>${c.mine ? (c.shared ? ' · 🌍 in gallery' : ' · 🔒 private') : ''}</span>
+      <span class="post-time"> ${by} &amp; Arron · <time datetime="${esc(c.createdAt)}">${new Date(c.createdAt).toLocaleDateString('en-GB')}</time>${c.mine ? (c.shared ? ' ·  in gallery' : ' ·  private') : ''}</span>
       <div class="btn-row">
-        <button type="button" class="sbtn small ghost" data-act="download">⬇️ Download</button>
+        <button type="button" class="sbtn small ghost" data-act="download"> Download</button>
         ${c.mine
-          ? `<button type="button" class="sbtn small ghost" data-act="${c.shared ? 'unshare' : 'share'}">${c.shared ? '🔒 Make private' : '🌍 Share to gallery'}</button>
-             <button type="button" class="sbtn small ghost" data-act="post">✍️ Post to feed</button>
-             <button type="button" class="sbtn small ghost" data-act="delete" aria-label="Delete this creation">🗑️</button>`
-          : `<button type="button" class="sbtn small ghost" data-act="report">🚩 Report</button>`}
+          ? `<button type="button" class="sbtn small ghost" data-act="${c.shared ? 'unshare' : 'share'}">${c.shared ? ' Make private' : ' Share to gallery'}</button>
+             <button type="button" class="sbtn small ghost" data-act="post"> Post to feed</button>
+             <button type="button" class="sbtn small ghost" data-act="delete" aria-label="Delete this creation"></button>`
+          : `<button type="button" class="sbtn small ghost" data-act="report"> Report</button>`}
       </div>
     </figcaption>
   </figure>`;
@@ -102,7 +102,7 @@ async function load(append = false) {
     data.creations.forEach((c) => byId.set(String(c.id), c));
     const html = data.creations.map(card).join('');
     if (append) grid.insertAdjacentHTML('beforeend', html);
-    else grid.innerHTML = html || `<p class="empty">${scope === 'mine' ? 'Nothing yet — your first creation is one idea away. ✨' : 'The gallery is waiting for its first piece. Create something and share it 💙'}</p>`;
+    else grid.innerHTML = html || `<p class="empty">${scope === 'mine' ? 'Nothing yet — your first creation is one idea away. ' : 'The gallery is waiting for its first piece. Create something and share it '}</p>`;
     nextBefore = data.nextBefore;
     more.hidden = !nextBefore;
   } catch (error) {
@@ -134,15 +134,15 @@ async function act(fig, action) {
       const { shared } = await api(`/api/creations/${id}`, { method: 'POST', body: { action } });
       if (c) c.shared = shared;
       fig.outerHTML = card({ ...c, shared });
-      toast(shared ? 'Shared to the community gallery 🌍' : 'Back to private 🔒');
+      toast(shared ? 'Shared to the community gallery ' : 'Back to private ');
     } catch (error) { toast(error.message); }
   } else if (action === 'post') {
     try {
       const { post } = await api('/api/posts', {
         method: 'POST',
-        body: { kind: 'image', imageKey: c.imageKey, title: c.title, body: `🎨 Created with Arron: “${c.prompt}”`, mood: 'rising', truthTag: 'philosophy' },
+        body: { kind: 'image', imageKey: c.imageKey, title: c.title, body: ` Created with Arron: “${c.prompt}”`, mood: 'rising', truthTag: 'philosophy' },
       });
-      toast('Posted to the feed 💙');
+      toast('Posted to the feed ');
       setTimeout(() => { location.href = `/feed.html?post=${post.id}#community`; }, 900);
     } catch (error) {
       toast(error.data?.onboarding ? 'Finish your profile first, then you can post.' : error.message, 6000);
@@ -180,7 +180,7 @@ if (!me) {
     <form id="create-form" novalidate>
       <label class="field"><span>What would you like Arron to create?</span>
         <textarea name="prompt" id="prompt" maxlength="500" rows="3" required placeholder="e.g. A lighthouse made of starlight guiding a small boat home"></textarea>
-        <small>Every idea passes the Truth Filter first. Kind, hopeful, healing. ${me.user?.role === 'owner' || me.user?.role === 'creator' ? 'Unlimited for you 💫' : 'Up to 6 creations a day, free.'}</small>
+        <small>Every idea passes the Truth Filter first. Kind, hopeful, healing. ${me.user?.role === 'owner' || me.user?.role === 'creator' ? 'Unlimited for you ' : 'Up to 6 creations a day, free.'}</small>
       </label>
       <p class="muted" id="ideas-label" style="margin:0 0 6px">Need a spark?</p>
       <div class="sx-ideas" role="group" aria-labelledby="ideas-label">
@@ -189,7 +189,7 @@ if (!me) {
       <label class="field"><span>Title (optional)</span>
         <input type="text" name="title" maxlength="80" placeholder="Give it a name" />
       </label>
-      <button class="sbtn primary block" type="submit" id="create-btn">🎨 Create image</button>
+      <button class="sbtn primary block" type="submit" id="create-btn"> Create image</button>
     </form>
     <div id="create-out" aria-live="polite"></div>`;
   const form = document.getElementById('create-form');

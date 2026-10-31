@@ -6,13 +6,13 @@
    WCAG 2.1 AA • Reduced Motion • Fully Responsive
 ============================================ */
 
-/* ✅ FONT — NO EXTERNAL DEPENDENCIES, LOADS INSTANTLY */
+/*  FONT — NO EXTERNAL DEPENDENCIES, LOADS INSTANTLY */
 :root {
   /* System font stack only — nothing external to load */
   --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
                Roboto, 'Helvetica Neue', Arial, sans-serif;
   
-  /* 🌟 COSMIC PALETTE — FINAL LOCKED • CONTRAST-VERIFIED */
+  /*  COSMIC PALETTE — FINAL LOCKED • CONTRAST-VERIFIED */
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
   --cyan-glow: rgba(0, 255, 240, 0.6);
@@ -28,26 +28,26 @@
   --p2: #06b6d4;
   --p3: #22d3ee;
   
-  /* 🌌 DEPTH LAYERS */
+  /*  DEPTH LAYERS */
   --deepest: #01030a;
   --deep: #060713;
   --mid: #0f1638;
   --mid-light: #1a2456;
   --surface: rgba(255,255,255,.06);
   
-  /* ✨ TEXT */
+  /*  TEXT */
   --text-bright: #ffffff;
   --text-soft: #e0e4ff;
   --text-muted: #9098c0;
   --text-dim: #606890;
   
-  /* ⚡ MOTION */
+  /*  MOTION */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.6s ease;
   --ease-cosmic: cubic-bezier(0.1, 0.8, 0.2, 1);
   
-  /* 📐 SIZING */
+  /*  SIZING */
   --nav-height: 70px;
   --section-gap: 4rem;
   --card-radius: 20px;
@@ -56,7 +56,7 @@
   --glow-strong: 0 0 50px;
   --border-thin: 1px solid rgba(255,255,255,0.1);
 
-  /* 🧬 CARRIED FORWARD FROM v2.3 — still used by games, forms & error pages */
+  /*  CARRIED FORWARD FROM v2.3 — still used by games, forms & error pages */
   --gold-yellow: var(--gold);
   --success: #00ff90;
   --success-bg: rgba(0, 255, 144, 0.1);
@@ -99,7 +99,7 @@ body {
 }
 
 /* ==========================================
-   SKIP LINK — KEYBOARD USERS FIRST ✅
+   SKIP LINK — KEYBOARD USERS FIRST 
 ========================================== */
 .skip-link {
   position: absolute;
@@ -144,7 +144,7 @@ body {
 
 
 /* ==========================================
-   COSMIC BACKGROUND — STARS + NEBULA ✨
+   COSMIC BACKGROUND — STARS + NEBULA 
 ========================================== */
 .cosmic-bg {
   position: fixed;
@@ -220,7 +220,7 @@ body {
 }
 
 /* ==========================================
-   NAVIGATION — GLASS EFFECT ✨
+   NAVIGATION — GLASS EFFECT 
 ========================================== */
 .nav {
   position: sticky;
@@ -325,7 +325,7 @@ a:focus-visible {
 }
 
 /* ==========================================
-   FOCUS MANAGEMENT — KEYBOARD vs MOUSE ✅
+   FOCUS MANAGEMENT — KEYBOARD vs MOUSE 
 ========================================== */
 .focus-ring:focus,
 button:focus-visible,
@@ -339,7 +339,7 @@ textarea:focus-visible {
 }
 
 /* ==========================================
-   BUTTONS — COSMIC GLOW 🔥
+   BUTTONS — COSMIC GLOW 
 ========================================== */
 .btn {
   display: inline-flex;
@@ -400,7 +400,7 @@ textarea:focus-visible {
 }
 
 /* ==========================================
-   FORM ELEMENTS — ACCESSIBLE ✅
+   FORM ELEMENTS — ACCESSIBLE 
 ========================================== */
 label {
   display: block;
@@ -441,7 +441,7 @@ input[aria-invalid="false"] {
 }
 
 /* ==========================================
-   CARDS — GLASS EFFECT ✨
+   CARDS — GLASS EFFECT 
 ========================================== */
 .cosmic-card {
   background: rgba(15,22,56,.6);
@@ -502,7 +502,7 @@ footer:not(.ps-footer) {
 }
 
 /* ==========================================
-   ERROR HANDLER — FULLY INTEGRATED ✅
+   ERROR HANDLER — FULLY INTEGRATED 
 ========================================== */
 .error-container {
   padding: 2.5rem 2rem;
@@ -621,7 +621,7 @@ footer:not(.ps-footer) {
 .fade-in.d3, .animate-delay-3 { animation-delay: 0.3s; }
 
 /* ==========================================
-   HIGH CONTRAST MODE — SYSTEM RESPECT ✅
+   HIGH CONTRAST MODE — SYSTEM RESPECT 
 ========================================== */
 @media (prefers-contrast: high) {
   :root {
@@ -636,7 +636,7 @@ footer:not(.ps-footer) {
 }
 
 /* ==========================================
-   REDUCED MOTION — RESPECT ✅
+   REDUCED MOTION — RESPECT 
 ========================================== */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -650,7 +650,7 @@ footer:not(.ps-footer) {
 }
 
 /* ==========================================
-   MOBILE RESPONSIVE ✅
+   MOBILE RESPONSIVE 
 ========================================== */
 @media (max-width: 768px) {
   :root { --section-gap: 2.5rem; }

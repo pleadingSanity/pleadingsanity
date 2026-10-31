@@ -1,5 +1,5 @@
 // ==============================================================
-// 🌉 SANCTUARY BRIDGE — HUMAN ↔ AI CONNECTION LAYER
+//  SANCTUARY BRIDGE — HUMAN  AI CONNECTION LAYER
 // Local-First · Privacy-First · Transparent
 // All data stays on YOUR device. Zero external calls.
 // ==============================================================
@@ -7,7 +7,7 @@
 (function() {
   'use strict';
 
-  console.log('%c🌉 Sanctuary Bridge Active', 'color: #00fff0; font-weight: bold;');
+  console.log('%c Sanctuary Bridge Active', 'color: #00fff0; font-weight: bold;');
   console.log('%cPrivacy: All interactions stay local — nothing sent to external servers', 'color: #f59e0b;');
 
   // ─── STATE — LOCAL ONLY ───
@@ -60,9 +60,9 @@
     },
 
     clearAllData: function() {
-      if (window.confirm('🔒 Clear all local data? This cannot be undone.')) {
+      if (window.confirm(' Clear all local data? This cannot be undone.')) {
         localStorage.clear();
-        console.log('%c🔒 All local data cleared — yours fully erased', 'color: #f59e0b;');
+        console.log('%c All local data cleared — yours fully erased', 'color: #f59e0b;');
         return true;
       }
       return false;
@@ -98,11 +98,11 @@
   };
 
   // ─── ANNOUNCE ON LOAD ───
-  console.log(`%c💜 ${getGrowthMessage()}`, 'color: #ffd700; font-style: italic;');
+  console.log(`%c ${getGrowthMessage()}`, 'color: #ffd700; font-style: italic;');
   
   // ─── SAFETY CHECK ───
   if (!localStorage.getItem('ps_privacy_acknowledged')) {
-    console.log('%c🔒 Privacy Mode: All your data stays on your device', 'color: #00fff0; font-weight: bold;');
+    console.log('%c Privacy Mode: All your data stays on your device', 'color: #00fff0; font-weight: bold;');
     localStorage.setItem('ps_privacy_acknowledged', 'true');
   }
 })();

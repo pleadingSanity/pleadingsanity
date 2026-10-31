@@ -139,7 +139,7 @@
     });
   }
 
-  // "Arron grew wiser ✨" — when the soul file (/arron-knowledge.json) changes,
+  // "Arron grew wiser " — when the soul file (/arron-knowledge.json) changes,
   // a gentle note says so, once per new version. Never on someone's first visit.
   var SOUL_SEEN = 'ps-soul-version';
   function gentleNote(text) {
@@ -162,7 +162,7 @@
         try { seen = localStorage.getItem(SOUL_SEEN); localStorage.setItem(SOUL_SEEN, key); } catch (e) { return; }
         if (!seen || seen === key) return;
         var latest = Array.isArray(soul.changelog) && soul.changelog[0] && soul.changelog[0].tag;
-        gentleNote('Arron grew wiser ✨' + (latest ? ' — ' + latest : ''));
+        gentleNote('Arron grew wiser ' + (latest ? ' — ' + latest : ''));
       })
       .catch(function () {});
   }
@@ -276,6 +276,38 @@
       liveLink.setAttribute('aria-label', 'Live creator stage');
       navLinks.insertBefore(liveLink, navLinks.firstChild);
     }
+    if (navLinks && !navLinks.querySelector('.ps-more')) {
+      var more = document.createElement('div');
+      more.className = 'ps-group ps-more';
+      var moreBtn = document.createElement('button');
+      moreBtn.type = 'button';
+      moreBtn.className = 'ps-group-btn';
+      moreBtn.setAttribute('aria-expanded', 'false');
+      moreBtn.setAttribute('aria-controls', 'ps-g-more');
+      moreBtn.textContent = 'More';
+      var moreMenu = document.createElement('div');
+      moreMenu.className = 'ps-group-menu';
+      moreMenu.id = 'ps-g-more';
+      function moreLink(href, label) {
+        var item = document.createElement('a');
+        item.href = href;
+        item.textContent = label;
+        moreMenu.appendChild(item);
+      }
+      moreLink('/get-the-app.html', 'App Hub');
+      if (!kidsPage) moreLink('/sanity-songs.html?page=' + encodeURIComponent(location.pathname + location.search), "Sanity's Songs");
+      moreLink('/about.html', 'About');
+      more.appendChild(moreBtn);
+      more.appendChild(moreMenu);
+      navLinks.appendChild(more);
+      Array.prototype.forEach.call(navLinks.children, function (child) {
+        if (!child || child.tagName !== 'A') return;
+        var href = child.getAttribute('href') || '';
+        if (href === '/get-the-app.html' || href === '/about.html' || href.indexOf('/sanity-songs.html') === 0) {
+          child.classList.add('ps-more-item');
+        }
+      });
+    }
   }
   if (nav && !nav.querySelector('.ps-nav-toggle')) {
     var btn = document.createElement('button');
@@ -377,8 +409,9 @@
   }
   var path = location.pathname;
   var onArron = /arron/.test(path);
-  if (onArron) document.body.classList.add('ps-no-dock');
-  if (!onArron && !document.querySelector('.ps-dock')) {
+  var calmPage = /\/(?:crisis|safety)(?:\.html)?$/.test(path);
+  if (onArron || calmPage) document.body.classList.add('ps-no-dock');
+  if (!onArron && !calmPage && !document.querySelector('.ps-dock')) {
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');

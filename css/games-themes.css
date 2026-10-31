@@ -121,7 +121,7 @@ body.cards-cosmic .k-card.back {
 body.cards-pink .card.back,
 body.cards-pink .stock,
 body.cards-pink .k-card.back {
-  background: linear-gradient(135deg, #0d1b2a, #ff4d8d33) !important;
+  background: linear-gradient(135deg, #0d1b2a, #f59e0b33) !important;
 }
 /* Soft member glow on rewards */
 .reward, .chips.reward {
