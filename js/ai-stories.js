@@ -1,5 +1,5 @@
 // ==============================================================
-// 💬 AI STORIES — the community wall of Arron's best moments
+//  AI STORIES — the community wall of Arron's best moments
 // Everyone can read and heart. Members share a moment: what they
 // said, what Arron said, and why it mattered. Every story passes
 // the same kindness check as community posts.
@@ -12,10 +12,10 @@ import { api, esc, avatarText, loadMe, toast } from '/js/auth.js';
 const DEVICE = 'ps-studio-device'; // shared with AI Studio hearts
 const DRAFT = 'ps-story-draft';
 const KINDS = {
-  inspiring: ['🌟', 'Inspiring'],
-  funny: ['😂', 'Funny'],
-  wisdom: ['🦉', 'Wisdom'],
-  win: ['🏆', 'Win'],
+  inspiring: ['', 'Inspiring'],
+  funny: ['', 'Funny'],
+  wisdom: ['', 'Wisdom'],
+  win: ['', 'Win'],
 };
 
 const wall = document.querySelector('[data-wall]');
@@ -43,12 +43,12 @@ function storyHTML(s) {
   const [icon, label] = KINDS[s.kind] || KINDS.inspiring;
   const who = s.author
     ? `<a class="as-who" href="/@${encodeURIComponent(s.author.username)}"><span class="ps-avatar sm" aria-hidden="true">${esc(avatarText(s.author.avatar, s.author.displayName))}</span>${esc(s.author.displayName)}</a>`
-    : '<span class="as-who"><span class="ps-avatar sm" aria-hidden="true">🌌</span>A member of the family</span>';
+    : '<span class="as-who"><span class="ps-avatar sm" aria-hidden="true"></span>A member of the family</span>';
   const body = `
     ${s.title ? `<h3>${esc(s.title)}</h3>` : ''}
     ${s.userLine ? `<div class="as-bubble you"><span class="as-label">They said</span><p>${lines(s.userLine)}</p></div>` : ''}
-    <div class="as-bubble arron"><span class="as-label">🤖 Arron said</span><p>${lines(s.arronLine)}</p></div>
-    ${s.reflection ? `<p class="as-reflect">💭 ${lines(s.reflection)}</p>` : ''}`;
+    <div class="as-bubble arron"><span class="as-label"> Arron said</span><p>${lines(s.arronLine)}</p></div>
+    ${s.reflection ? `<p class="as-reflect"> ${lines(s.reflection)}</p>` : ''}`;
   return `
     <article class="panel as-story" id="story-${s.id}" data-id="${s.id}">
       <header class="as-head">
@@ -60,9 +60,9 @@ function storyHTML(s) {
         ? `<div class="cw-wrap veiled"><div class="cw-cover"><strong>A heavier moment</strong><p>This story touches on something difficult.</p><button type="button" class="sbtn small" data-reveal>Read it</button></div><div class="cw-content" aria-hidden="true">${body}</div></div>`
         : body}
       <div class="btn-row as-actions">
-        <button type="button" class="sbtn small ghost" data-heart aria-pressed="${s.hearted}" aria-label="Heart this story (${s.hearts})"><span aria-hidden="true">${s.hearted ? '💗' : '🤍'}</span> <span data-count>${s.hearts || ''}</span></button>
-        <button type="button" class="sbtn small ghost" data-share-story>🔗 Share</button>
-        ${s.canDelete ? '<button type="button" class="sbtn small ghost" data-delete>🗑️ Remove</button>' : ''}
+        <button type="button" class="sbtn small ghost" data-heart aria-pressed="${s.hearted}" aria-label="Heart this story (${s.hearts})"><span aria-hidden="true">${s.hearted ? '' : ''}</span> <span data-count>${s.hearts || ''}</span></button>
+        <button type="button" class="sbtn small ghost" data-share-story> Share</button>
+        ${s.canDelete ? '<button type="button" class="sbtn small ghost" data-delete> Remove</button>' : ''}
       </div>
     </article>`;
 }
@@ -75,7 +75,7 @@ async function load(before) {
     const { stories, nextBefore } = await api('/api/stories?' + q);
     if (!before) wall.innerHTML = '';
     if (!before && !stories.length) {
-      wall.innerHTML = `<div class="panel empty"><p>No ${state.kind === 'all' ? '' : esc(KINDS[state.kind][1].toLowerCase()) + ' '}stories yet. Be the first to share a moment ✨</p><a class="sbtn primary" href="/arron.html">Talk to Arron</a></div>`;
+      wall.innerHTML = `<div class="panel empty"><p>No ${state.kind === 'all' ? '' : esc(KINDS[state.kind][1].toLowerCase()) + ' '}stories yet. Be the first to share a moment </p><a class="sbtn primary" href="/arron.html">Talk to Arron</a></div>`;
     }
     wall.insertAdjacentHTML('beforeend', stories.map(storyHTML).join(''));
     more.innerHTML = nextBefore ? '<button type="button" class="sbtn ghost">Load more stories</button>' : '';
@@ -116,12 +116,12 @@ wall.addEventListener('click', async (e) => {
       const { hearted, hearts } = await api(`/api/stories/${id}/heart`, { method: 'POST', body: { deviceKey: deviceKey() } });
       btn.setAttribute('aria-pressed', String(hearted));
       btn.setAttribute('aria-label', `Heart this story (${hearts})`);
-      btn.querySelector('[aria-hidden]').textContent = hearted ? '💗' : '🤍';
+      btn.querySelector('[aria-hidden]').textContent = hearted ? '' : '';
       btn.querySelector('[data-count]').textContent = hearts || '';
     } else if (btn.matches('[data-share-story]')) {
       const url = `${location.origin}/ai-stories.html#story-${id}`;
-      if (navigator.share) await navigator.share({ title: 'A moment with Arron 💙', url }).catch(() => {});
-      else { await navigator.clipboard.writeText(url); toast('Link copied 💙'); }
+      if (navigator.share) await navigator.share({ title: 'A moment with Arron ', url }).catch(() => {});
+      else { await navigator.clipboard.writeText(url); toast('Link copied '); }
     } else if (btn.matches('[data-delete]')) {
       if (!confirm('Remove this story from the wall?')) return;
       await api(`/api/stories/${id}`, { method: 'DELETE' });
@@ -164,7 +164,7 @@ function renderShare(me) {
       <label class="field"><span>Why it mattered <small>(optional)</small></span><textarea name="reflection" maxlength="600" rows="2"></textarea></label>
       <label class="as-check"><input type="checkbox" name="anonymous" /> Share without my name</label>
       <div data-msg></div>
-      <div class="btn-row"><button type="submit" class="sbtn primary">✨ Share to the wall</button></div>
+      <div class="btn-row"><button type="submit" class="sbtn primary"> Share to the wall</button></div>
     </form>`;
   const form = shareBox.querySelector('form');
   if (d.arronLine) {
@@ -195,8 +195,8 @@ function renderShare(me) {
         },
       });
       form.reset();
-      msg.innerHTML = '<p class="notice ok">Shared. Thank you for lifting someone else today 💙</p>';
-      if (crisis) toast('Thank you for sharing. If this is heavy, the house truth is on the truth page, and Arron will sit. 💙', 8000);
+      msg.innerHTML = '<p class="notice ok">Shared. Thank you for lifting someone else today </p>';
+      if (crisis) toast('Thank you for sharing. If this is heavy, the house truth is on the truth page, and Arron will sit. ', 8000);
       wall.querySelector('.empty')?.remove();
       if (state.sort === 'new' && (state.kind === 'all' || state.kind === story.kind)) wall.insertAdjacentHTML('afterbegin', storyHTML(story));
     } catch (error) {

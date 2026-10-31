@@ -10,7 +10,7 @@ class PlatformOrchestrator {
   }
 
   initialize() {
-    console.log('🎯 Platform Orchestrator Initializing - Coordinating All Systems');
+    console.log(' Platform Orchestrator Initializing - Coordinating All Systems');
     
     // Wait for all systems to load
     this.waitForSystems().then(() => {
@@ -35,13 +35,13 @@ class PlatformOrchestrator {
     
     while (Date.now() - startTime < maxWait) {
       if (systemChecks.every(check => check())) {
-        console.log('✅ All systems loaded successfully');
+        console.log(' All systems loaded successfully');
         return;
       }
       await new Promise(resolve => setTimeout(resolve, 100));
     }
     
-    console.warn('⚠️ Some systems may not have loaded completely');
+    console.warn(' Some systems may not have loaded completely');
   }
 
   registerSystems() {
@@ -78,7 +78,7 @@ class PlatformOrchestrator {
       health_check: () => window.contentMediaSystem?.contentTypes?.size > 0
     });
 
-    console.log(`🎯 Registered ${this.systems.size} platform systems`);
+    console.log(` Registered ${this.systems.size} platform systems`);
   }
 
   establishCoordination() {
@@ -133,7 +133,7 @@ class PlatformOrchestrator {
   }
 
   handleSystemEvent(eventType, eventData) {
-    console.log(`🔄 Coordinating system event: ${eventType}`, eventData);
+    console.log(` Coordinating system event: ${eventType}`, eventData);
     
     // Find relevant coordination rules
     for (const [coordinationId, coordination] of this.coordination) {
@@ -141,7 +141,7 @@ class PlatformOrchestrator {
         try {
           coordination.handler(eventData);
         } catch (error) {
-          console.error(`❌ Coordination error for ${coordinationId}:`, error);
+          console.error(` Coordination error for ${coordinationId}:`, error);
         }
       }
     }
@@ -154,7 +154,7 @@ class PlatformOrchestrator {
       
       healthcarePartners.forEach(partner => {
         if (partner.crisis_integration && partner.status === 'active') {
-          console.log(`🏥 Notifying healthcare partner: ${partner.name}`);
+          console.log(` Notifying healthcare partner: ${partner.name}`);
           // In production: Send secure notification to partner
         }
       });
@@ -173,7 +173,7 @@ class PlatformOrchestrator {
         timestamp: new Date().toISOString()
       };
       
-      console.log('📊 Recording crisis research data');
+      console.log(' Recording crisis research data');
       // Store anonymized research data
       this.storeResearchData(researchData);
     }
@@ -182,7 +182,7 @@ class PlatformOrchestrator {
   handleContentCommunityNotification(eventData) {
     // Notify community when relevant content is published
     if (eventData.content_type === 'crisis_support' || eventData.content_type === 'educational') {
-      console.log('📢 Notifying community of new supportive content');
+      console.log(' Notifying community of new supportive content');
       
       // In production: Send push notifications, update feeds
       this.notifyCommunity({
@@ -197,7 +197,7 @@ class PlatformOrchestrator {
   handlePartnershipResearchUpdate(eventData) {
     // Update research metrics based on partnership outcomes
     if (window.researchFramework && eventData.outcome_data) {
-      console.log('🤝 Updating research metrics with partnership outcomes');
+      console.log(' Updating research metrics with partnership outcomes');
       
       const partnershipResearchData = {
         partner_id: eventData.partner_id,
@@ -300,7 +300,7 @@ class PlatformOrchestrator {
     `;
     
     notificationElement.innerHTML = `
-      <div style="font-weight: 600; margin-bottom: 4px;">🎯 Platform Update</div>
+      <div style="font-weight: 600; margin-bottom: 4px;"> Platform Update</div>
       <div style="font-size: 0.9rem;">${notification.title || 'New community content available'}</div>
       <button onclick="this.parentElement.remove()" style="
         position: absolute;
@@ -325,7 +325,7 @@ class PlatformOrchestrator {
   }
 
   startHealthMonitoring() {
-    console.log('❤️ Starting system health monitoring');
+    console.log(' Starting system health monitoring');
     
     // Monitor all systems every 30 seconds
     setInterval(() => {
@@ -379,7 +379,7 @@ class PlatformOrchestrator {
     localStorage.setItem('platform_health', JSON.stringify(healthReport));
     
     if (healthReport.overall_status === 'critical') {
-      console.error('🚨 Critical system health issues detected');
+      console.error(' Critical system health issues detected');
       this.handleCriticalHealthIssues(healthReport);
     }
   }
@@ -390,7 +390,7 @@ class PlatformOrchestrator {
       .filter(([_, system]) => system.priority === 'critical' && system.status !== 'healthy');
     
     criticalIssues.forEach(([systemId, systemHealth]) => {
-      console.error(`🚨 Critical system failure: ${systemId}`, systemHealth);
+      console.error(` Critical system failure: ${systemId}`, systemHealth);
       
       if (systemId === 'crisis_response') {
         // Crisis response failure is most critical
@@ -400,7 +400,7 @@ class PlatformOrchestrator {
   }
 
   activateEmergencyFallback() {
-    console.error('🚨 Activating emergency fallback for crisis response');
+    console.error(' Activating emergency fallback for crisis response');
     
     // Show emergency resources directly
     const emergencyModal = document.createElement('div');
@@ -426,7 +426,7 @@ class PlatformOrchestrator {
           max-width: 500px;
           border: 2px solid #ff4444;
         ">
-          <h2 style="color: #ff4444; margin-bottom: 20px;">🚨 Emergency Crisis Resources</h2>
+          <h2 style="color: #ff4444; margin-bottom: 20px;"> Emergency Crisis Resources</h2>
           <p style="margin-bottom: 30px;">
             If you're in crisis, please reach out for immediate help:
           </p>
@@ -464,7 +464,7 @@ class PlatformOrchestrator {
     // Monitor journal entries for crisis indicators
     const journalTextarea = document.querySelector('#journal-text, textarea[placeholder*="journal"]');
     if (journalTextarea && window.crisisResponse) {
-      console.log('📝 Integrated journal crisis monitoring');
+      console.log(' Integrated journal crisis monitoring');
       
       // The crisis response system will handle this automatically
       // Just log that integration is active
@@ -474,7 +474,7 @@ class PlatformOrchestrator {
   setupPartnershipResearchIntegration() {
     // Integrate partnership outcomes with research data
     if (window.partnershipAPI && window.researchFramework) {
-      console.log('🤝 Integrated partnership-research data sharing');
+      console.log(' Integrated partnership-research data sharing');
       
       // Listen for partnership events
       document.addEventListener('partnership_outcome', (e) => {
@@ -486,7 +486,7 @@ class PlatformOrchestrator {
   setupContentAnalyticsIntegration() {
     // Integrate content performance with research metrics
     if (window.contentMediaSystem && window.researchFramework) {
-      console.log('📊 Integrated content-research analytics');
+      console.log(' Integrated content-research analytics');
       
       // Track content effectiveness for research
       document.addEventListener('content_engagement', (e) => {
@@ -527,7 +527,7 @@ class PlatformOrchestrator {
       transition: all 0.3s ease;
     `;
     
-    statusIndicator.innerHTML = '🟢 All systems operational';
+    statusIndicator.innerHTML = ' All systems operational';
     statusIndicator.title = 'Click to view system health details';
     
     statusIndicator.addEventListener('click', () => {
@@ -547,9 +547,9 @@ class PlatformOrchestrator {
     if (!health) return;
     
     const statusMap = {
-      healthy: { icon: '🟢', text: 'All systems operational', color: '#4ade80' },
-      warning: { icon: '🟡', text: 'Some systems need attention', color: '#fbbf24' },
-      critical: { icon: '🔴', text: 'Critical issues detected', color: '#ef4444' }
+      healthy: { icon: '', text: 'All systems operational', color: '#4ade80' },
+      warning: { icon: '', text: 'Some systems need attention', color: '#fbbf24' },
+      critical: { icon: '', text: 'Critical issues detected', color: '#ef4444' }
     };
     
     const status = statusMap[health.overall_status] || statusMap.healthy;
@@ -563,8 +563,8 @@ class PlatformOrchestrator {
     
     const systemsList = Object.entries(health.systems)
       .map(([systemId, systemHealth]) => {
-        const statusIcon = systemHealth.status === 'healthy' ? '✅' : 
-                          systemHealth.status === 'warning' ? '⚠️' : '❌';
+        const statusIcon = systemHealth.status === 'healthy' ? '' : 
+                          systemHealth.status === 'warning' ? '' : '';
         return `
           <div style="
             display: flex;
@@ -601,7 +601,7 @@ class PlatformOrchestrator {
           max-width: 400px;
           border: 2px solid var(--primary-cyan, #00fff0);
         ">
-          <h3 style="margin-bottom: 20px; text-align: center;">🎯 System Health Status</h3>
+          <h3 style="margin-bottom: 20px; text-align: center;"> System Health Status</h3>
           <div style="margin-bottom: 20px;">
             ${systemsList}
           </div>
@@ -775,4 +775,4 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1000); // Give other systems time to load
 });
 
-console.log('🎯 Platform Orchestrator Loading - Coordinating Mental Health Revolution');
+console.log(' Platform Orchestrator Loading - Coordinating Mental Health Revolution');

@@ -1,5 +1,5 @@
 // ==============================================================
-// 📺 PLEADING SANITY — AUTO-STREAM VIDEO ENGINE v3.0
+//  PLEADING SANITY — AUTO-STREAM VIDEO ENGINE v3.0
 // Sanity Feed · Videos · Hub · Home hero
 //
 // Any element with [data-ps-video] becomes an inline player.
@@ -230,7 +230,7 @@
   };
 
   Player.prototype.updateSoundButton = function () {
-    this.sound.textContent = soundOn ? '🔊' : '🔇';
+    this.sound.textContent = soundOn ? '' : '';
     this.sound.setAttribute('aria-pressed', String(soundOn));
     this.sound.setAttribute('aria-label', soundOn ? 'Mute videos' : 'Turn sound on');
     this.sound.title = soundOn ? 'Mute' : 'Sound on';

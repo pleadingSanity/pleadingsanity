@@ -93,6 +93,12 @@
     { id: 'creator', name: 'Creator Hub', href: '/creator.html', img: '/assets/images/editorial/creator-stage-640.webp', cats: ['creativity', 'community'], age: 'Teens and adults', added: '2026-10-08', updated: '2026-10-13',
       blurb: 'Set up your creator page and plan your next live.',
       a11y: 'Step-by-step form.' },
+    { id: 'sanity-songs', name: "Sanity's Songs", href: '/sanity-songs.html', img: '/assets/images/editorial/creator-stage-640.webp', cats: ['creativity'], age: 'Teens and adults', added: '2026-10-31', updated: '2026-10-31',
+      blurb: "Picks from Shane's public playlists. Other artists, YouTube player only. It stays on screen and stops when the phone locks.",
+      a11y: 'Play button and a list of song titles.' },
+    { id: 'ps-music', name: 'Pleading Sanity Music', href: '/music/index.html', img: '/assets/images/editorial/creator-stage-640.webp', cats: ['creativity'], own: true, age: 'Teens and adults', added: '2026-10-31', updated: '2026-10-31',
+      blurb: 'Your own audio files, once Shane adds them. Lock-screen controls. No songs are in the library yet.',
+      a11y: 'Play, pause, next, previous and a position slider.' },
     { id: 'live', name: 'LIVE', href: '/live.html', img: '/assets/images/editorial/creator-stage-1280.webp', cats: ['creativity', 'community'], age: 'Teens and adults', added: '2026-10-08', updated: '2026-10-20',
       blurb: 'Share a stream link from YouTube or Twitch. This page does not broadcast by itself.',
       a11y: 'Embedded players keep their own controls.' },
@@ -130,7 +136,7 @@
 
   var CATS = [
     { id: 'all', label: 'All' },
-    { id: 'favs', label: '★ Favourites' },
+    { id: 'favs', label: 'Favourites' },
     { id: 'games', label: 'Games' },
     { id: 'wellbeing', label: 'Wellbeing' },
     { id: 'ai', label: 'AI companions' },
@@ -174,7 +180,10 @@
     meta.appendChild(el('span', 'hub-age', app.age));
     if (app.offline) meta.appendChild(el('span', 'hub-age', 'Works offline once opened'));
     t.appendChild(meta);
-    t.appendChild(el('span', 'hub-a11y', '♿ ' + app.a11y));
+    var access = el('span', 'hub-a11y');
+    access.innerHTML = '<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="5" r="2"/><path d="M4 9h16M12 7v4m0 0-4 8m4-8 4 8"/></svg> ';
+    access.appendChild(document.createTextNode(app.a11y));
+    t.appendChild(access);
     a.appendChild(t);
     li.appendChild(a);
 
@@ -183,7 +192,9 @@
     var on = favs.indexOf(app.id) !== -1;
     fav.setAttribute('aria-pressed', on ? 'true' : 'false');
     fav.setAttribute('aria-label', (on ? 'Remove ' : 'Add ') + app.name + (on ? ' from favourites' : ' to favourites'));
-    fav.textContent = on ? '★' : '☆';
+    fav.innerHTML = on
+      ? '<svg viewBox="0 0 24 24" width="1.2em" height="1.2em" fill="currentColor" aria-hidden="true"><path d="m12 3 2.5 6.5L21 10l-5 4.5L17.5 21 12 17.5 6.5 21 8 14.5 3 10l6.5-.5z"/></svg>'
+      : '<svg viewBox="0 0 24 24" width="1.2em" height="1.2em" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m12 3 2.5 6.5L21 10l-5 4.5L17.5 21 12 17.5 6.5 21 8 14.5 3 10l6.5-.5z"/></svg>';
     fav.dataset.fav = app.id;
     li.appendChild(fav);
     return li;
@@ -231,7 +242,7 @@
       fill(grid, shown, favs);
       if (!shown.length) {
         var empty = el('li', 'hub-empty', state.cat === 'favs' && !q
-          ? 'No favourites yet. Tap ☆ on any app to keep it here.'
+          ? 'No favourites yet. Tap the star on any app to keep it here.'
           : 'Nothing matches that yet. Try another word, or choose All.');
         grid.appendChild(empty);
       }

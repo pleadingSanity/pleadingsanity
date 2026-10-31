@@ -4,12 +4,23 @@
    Colours locked. Buttons, toggles, cards.
    Evolution Not Erasure.
 ============================================ */
+@font-face {
+  font-family: "PS System";
+  src: local("system-ui"), local("Segoe UI"), local("Roboto");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 :root {
   --ps-black: #000103;
+  --ps-bg: #0b0f19;
   --ps-deep: #0d1b2a;
   --ps-cyan: #00fff0;
+  --ps-sky: #38bdf8;
+  --ps-amber: #f59e0b;
+  --ps-silver: #cbd5e1;
   --ps-frost: #eef6ff;
-  --ps-magenta: #7c3aed;
+  --ps-magenta: var(--ps-amber);
   --ps-text: #eef6ff;
   --ps-muted: #a9c7d1;
   --ps-radius: 14px;
@@ -17,7 +28,7 @@
   --ps-glow: 0 0 20px rgba(0, 255, 240, 0.28);
   --ps-border: rgba(0, 255, 240, 0.22);
   --ps-glass: rgba(13, 27, 42, 0.72);
-  --ps-font: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ps-font: "PS System", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 /* Primary / secondary buttons */
@@ -40,12 +51,12 @@
 }
 .ps-btn-primary-outline:hover { background: rgba(0, 255, 240, 0.14); color: #fff; text-decoration: none; }
 .ps-btn-secondary {
-  background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+  background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff;
   box-shadow: 0 0 18px rgba(124, 58, 237, 0.35);
 }
 .ps-btn-secondary:hover { filter: brightness(1.08); color: #fff; text-decoration: none; }
 .ps-btn-secondary-outline {
-  background: transparent; color: #d8b4fe; border-color: #a855f7;
+  background: transparent; color: #fde68a; border-color: #f59e0b;
 }
 .ps-btn-secondary-outline:hover { background: rgba(168, 85, 247, 0.15); color: #fff; text-decoration: none; }
 .ps-btn-block { width: 100%; }
@@ -89,7 +100,7 @@
 }
 .ps-progress > span {
   display: block; height: 100%; border-radius: inherit;
-  background: linear-gradient(90deg, var(--ps-cyan), #a855f7);
+  background: linear-gradient(90deg, var(--ps-cyan), #f59e0b);
 }
 
 /* Anti-algorithm callout */

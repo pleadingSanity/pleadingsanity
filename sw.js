@@ -1,11 +1,11 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v4.0
+//  PLEADING SANITY — PWA SERVICE WORKER v4.0
 // Offline crisis support • All pages & games cached • Smart updates
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.55'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v104'; // v104: UFC channel embeds removed; YouTube links stay on @shanecooper1872. v103: YouTube links point at @shanecooper1872. v102: crisis strip on more pages, nav labels without emoji, amber not violet, SEO tags. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const VERSION = '5.12.59'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
+const STATIC_CACHE = 'pleading-sanity-static-v105'; // v105: one-row header, dock clearance. Heroes stay out of this list. v104: header polish. v103: shared header and solar assistant. v102: Songs link and App Hub entries. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -45,7 +45,7 @@ function isPrivatePath(pathname) {
 }
 
 // ========================================
-// 📦 PRECACHE — every page, style & script the site needs offline
+//  PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
     '/css/ai-family.css',
@@ -226,7 +226,7 @@ const PRECACHE_URLS = [
 ];
 
 // ========================================
-// 🚀 INSTALL — cache each file individually so one miss never breaks install
+//  INSTALL — cache each file individually so one miss never breaks install
 // ========================================
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -239,7 +239,7 @@ self.addEventListener('install', event => {
 });
 
 // ========================================
-// ♻️ ACTIVATE — clear old caches (only our own; Arron's sw-arron.js keeps its cache)
+//  ACTIVATE — clear old caches (only our own; Arron's sw-arron.js keeps its cache)
 // ========================================
 self.addEventListener('activate', event => {
     event.waitUntil(
@@ -252,7 +252,7 @@ self.addEventListener('activate', event => {
 });
 
 // ========================================
-// 🌐 FETCH
+//  FETCH
 // Pages → network first, cached copy or offline page when offline or the host errors (5xx)
 // Member pages → network only, offline page when offline or the host errors (5xx)
 // Scripts, styles & JSON → network first, cached copy when offline
@@ -348,7 +348,7 @@ self.addEventListener('fetch', event => {
 });
 
 // ========================================
-// 🔄 BACKGROUND SYNC — Journal Backup
+//  BACKGROUND SYNC — Journal Backup
 // ========================================
 self.addEventListener('sync', event => {
     if (event.tag === 'journal-backup') {
@@ -366,21 +366,21 @@ async function backupJournalVault() {
                 status: 'syncing'
             });
         });
-        console.log('📝 SW: Journal backup synced');
+        console.log(' SW: Journal backup synced');
     } catch (error) {
-        console.error('❌ SW: Journal backup failed:', error);
+        console.error(' SW: Journal backup failed:', error);
     }
 }
 
 // ========================================
-// 🔔 PUSH NOTIFICATIONS — Cosmic Alerts
+//  PUSH NOTIFICATIONS — Cosmic Alerts
 // ========================================
 self.addEventListener('push', event => {
     if (!event.data) return;
     
     const data = event.data.json();
     const options = {
-        body: data.body || 'New cosmic inspiration awaits you ✨',
+        body: data.body || 'New cosmic inspiration awaits you ',
         icon: '/assets/icons/icon-192x192.png',
         badge: '/assets/icons/icon-96x96.png',
         vibrate: [100, 50, 100, 50, 100],
@@ -390,8 +390,8 @@ self.addEventListener('push', event => {
             url: data.url || '/'
         },
         actions: [
-            { action: 'explore', title: '🌌 Open' },
-            { action: 'dismiss', title: '✧ Later' }
+            { action: 'explore', title: ' Open' },
+            { action: 'dismiss', title: ' Later' }
         ],
         requireInteraction: true
     };
@@ -412,7 +412,7 @@ self.addEventListener('notificationclick', event => {
 });
 
 // ========================================
-// 📬 MESSAGING — Client ↔ SW Communication
+//  MESSAGING — Client  SW Communication
 // ========================================
 self.addEventListener('message', event => {
     const { data } = event;

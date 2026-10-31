@@ -72,7 +72,7 @@ environment variables are fine; their values are never written down.
 - **Crisis lines are forced** in every crisis reply, even when every model is down: 999, Samaritans 116 123, Text SHOUT to 85258, NHS 111 option 2. The "not a therapist" line never goes.
 - **Free forever:** Arron, journal, feed, games, crisis help. No paywalls. No paid API, no paid voice. Default extra spend £0.
 - **Voice** is the browser's own Web Speech API only. Optional, off until chosen. Never send or store audio.
-- **Brand:** one crying-brain logo. #000103, #0d1b2a, #00fff0, #eef6ff, one pink accent #ff4d8d. System fonts only.
+- **Brand:** one crying-brain logo. #0b0f19, teal #00fff0 / #38bdf8, amber #f59e0b, silver. No purple, indigo, or pink. System fonts only.
 - **Legacy page is facts only:** Private A.L. Cooper, RAOC, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented.
 - **Mobile first:** no forced zoom, touch targets ≥ 48px, images never cover text, no sideways scroll, reduced motion respected.
 - **Games:** play chips only, no cash, no gambling. Healing tones 174/285/432/528/741/963 Hz only, soft.
@@ -668,19 +668,73 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
 - NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
 
-## 2026-10-31 — Grok Bot site audit fixes (branch grokbot/site-fixes-2026-10-31)
-- NEW `netlify/functions/verify-paypal.mts`: server checks PayPal order is COMPLETED for 50.00 GBP. Needs Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` (optional `PAYPAL_ENV=sandbox`). Returns 503 until set. No PII logged.
-- `arron-memory.mts` (/api/arron/memory/supabase) is now OWNER-ONLY (was open to anyone holding a memory id).
-- NEW `supabase/migrations/20261031000000_arron_chat_memory.sql`: table + index, RLS forced, no anon/authenticated grants. `supabase-memory.ts` now prefers `SUPABASE_SERVICE_KEY` over `SUPABASE_ANON_KEY`. Supersedes the "anon insert only" sketch above.
-- Crisis strip (Samaritans 116 123, Shout 85258, NHS 111, 999) added at the top of cosmic-reflections, kids-series, sanity-solitaire, solar, insane-solar.
-- Copy: "typically saves", 0% VAT to 31 Mar 2027 + eligibility, deposit insurance registered by a person not "the AI".
-- Purple/violet CSS swapped to amber in games, pattern-galaxy, rhythm-resonance, poker, sanity-solitaire. Emoji removed from shared nav labels (56 pages). JS data icons still contain emoji — not yet touched.
-- SEO: OG/description/canonical gaps filled on 18 pages; 4 public pages added to sitemap.xml. sw.js static cache bumped to v102.
-- Missing files referenced above (`docs/SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md`, `CLAUDE.local.md`) still do not exist.
-- Applied with `git am` onto main `788493eca06d16859b2df64dbf95e59aa52cdd9f` (clean, no rebase). `node scripts/validate-build.cjs` passed. `npm test`: 77 pass, 0 fail. Not merged. Owner still needs Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and to run the migration SQL in Supabase. Browser visual check of the crisis strips and colour swap was not run in this apply.
+## 2026-10-31 — Grok Bot: polish branch, Test Lab, Sanity's Songs
+- Branch: `grokbot/polish-ai-upgrades` (this work). Also open: PR #151 `grokbot/site-fixes-2026-10-31`. Do not merge either from an AI chat. Other AIs (Arron, Dola, GPT, Gemini, Copilot, Grok Bot) should rebase on these branches and not overwrite them.
+- Read with this file: `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `docs/MASTER_PROMPT.md`, `system_blueprint.json`.
+- Pending owner action for PR #151, not done here: Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and the Supabase migration. This branch also needs `GEMINI_API_KEY` only if Shane wants the direct `gemini-2.5-flash` fallback. No keys are in the repo.
+- Changed here: kit and hero images on Insane Solar and the creator hero; owner Test Lab at the top of the signed-in Creators hub (`/api/test-lab`, migration `20261031193000_add_test_lab`); Pleading Sanity Music for audio Shane owns (`/music/index.html`, owner upload, Media Session); Sanity's Songs for other artists via the YouTube player only.
 
-## 2026-10-31 — YouTube @shanecooper1872 links and retrieved uploads
-- Replaced every `youtube.com/@PleadingSanity` link (HTTP 404) with `https://www.youtube.com/@shanecooper1872`.
-- Channel id taken from the channel page canonical URL: `UC3q3UpppLMXrq45czZT4_HQ`. Public RSS `https://www.youtube.com/feeds/videos.xml?channel_id=UC3q3UpppLMXrq45czZT4_HQ` listed 7 videos. Each id was confirmed with YouTube oEmbed as author Shane Cooper / `@shanecooper1872`. The old `.env` channel id `UC0iP4yT2PpQqhFQ0oEc7ZVw` and playlist `PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA` both returned 404.
-- Owner decision: no UFC embeds on any page, including `games.html` and `poker.html`. `css/channel-video.css` removed. Channel links stay on `https://www.youtube.com/@shanecooper1872`. `sw.js` static cache bumped to v104. `AH8HLrwIQec` (jalapeño) was not placed on kids pages. `HUifzhezhJw` (bike) and `eHP_ki2dOUc` (JRN) had no matching page.
-- `sw.js` static cache bumped to v103.
+### TEST LAB
+Owner only. Guests get 401. Signed-in people who are not Shane get 403. The check is `accessDecision` in `netlify/lib/test-lab-core.js`, before any database write.
+- GET `/api/test-lab` and GET `/api/test-lab/export` (export adds `format: pleading-sanity-test-lab/1`).
+- POST `/api/test-lab` JSON:
+  - Result: `{ "action": "result", "item": "sanitys-songs", "status": "works"|"broken"|"changes", "notes": "", "page": "/sanity-songs.html" }`
+  - Note: `{ "action": "feedback", "notes": "what happened", "page": "/creator.html" }`
+  - New card: `{ "action": "add", "id": "kebab-id", "title": "", "what": "", "href": "/page.html", "area": "" }`
+  - Close: `{ "action": "resolve", "item": "kebab-id" }`
+- When you ship something, add a card with `action: add`. Read open feedback from the export. Mark it resolved only after Shane's note says it is fixed. An AI cannot call this without Shane's signed-in session.
+
+### Sanity's Songs
+Label on the page: "Sanity's Songs - picks from Shane's playlists".
+These are other artists' videos from Shane's public @shanecooper1872 playlists (`UC3q3UpppLMXrq45czZT4_HQ`). Playback is the official YouTube IFrame player on youtube-nocookie. Each row shows artist, title, and a link to the YouTube watch page. Nothing is downloaded. The player is not hidden. Lock-screen, background and car playback are not attempted for these. That needs files Shane owns, on `/music/index.html`.
+Included playlist: `PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C` (title Music, oEmbed author Shane Cooper).
+Included videos, official artist or label first, all oEmbed 200 on 31 Oct 2026: hg90Okk0fhw, lNx19-cyhuU, RR8-b6pftEA, a7uhNjgqzlE, DbrXNrXEho8, WKvBmgawmT8, uDwraXBUHgs, XWJrPzAUzAs, CITU4KH93aU, 5zCMIS5UmUI, O6SeD1xE7NA, CxnaPa8ohmM, yvHYWD29ZNY, then non-official embeddable music videos 2VuyQuRAsHI, oXfMoXIWfcI, FQR91Flg4VE, 4pMsOLcdfdE, qNcILWszZlQ, Wgh05DYN63o, vlvtAdxmC_E, fBTypN7ELY0.
+Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQykuG8; Meditation, Photography, Joe Rogan, Intelligence docs, cooking, Postman Pat, channel uploads (bike, gameplay, food); liked-videos playlist LL3q3UpppLMXrq45czZT4_HQ (not public). Full titles are in `music/songs.json`.
+- Not proven: a phone lock-screen test, PayPal sandbox payment, or that the new database migration has been applied on Netlify.
+- 31 Oct later pass: Sanity's Songs now keeps only the 13 official artist or label uploads. Removed Tory Lanez Super Freaky, Lady Saw Heels On, Vybz Kartel Virginity, Rompin' Shop, the Ice Cube/Biggie remix, and the other non-official uploads. The Songs link is not injected on kids.html. Test Lab auth, finance field names, game difficulty (`js/game-brains.js`), Arron safety-first prompt, Arron install button, and App Hub nav link were added in the same branch. A full rewrite of every page's body copy was not done. Internal link check of root HTML found no missing local targets.
+
+## 2026-10-31 — Grok Bot: About page fight films and bipolar section
+- Changed: `about.html`, `js/about-films.js`. Not Scared sits after the crisis strip on About only. Street fight `r_FpTRi0fEM` is behind an 18+ notice on that page. It is not on home, games, or kids.
+- Bipolar section cites NHS, NIMH, Mind and Bipolar UK. NHS, NIMH and Bipolar UK returned HTTP 200 from this environment. Mind returned HTTP 403 to the checker (bot wall). The owner-supplied Mind URL is still the link.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: shop text only, v1.1 sampling status
+- File: `shop.html` only. Pictures, layout, CSS and mockups were left as they were. The uploaded factory PDFs were read and not committed.
+- Added a "Why Pleading Sanity" section: the name means asking for help is strength, from Shane's lived experience with bipolar; Rise From Madness; the sanctuary stays free and clothing would fund it; Leicestershire founder. Styles named from the v1.1 pack: PS-H01 + PS-J01, PS-M01, PS-L01 + PS-B01, PS-Z01 + PS-J02, PS-Q01 + PS-J02, PS-T01 / PS-T02. The full-head mask is called a development concept, not a product. No safety or visibility certification. Samples pending. Not on sale. No public price.
+- Dead `shop.pleadingsanity.co.uk` product and Main Store links now go to `mailto:pleadingsanity1@gmail.com` as Register interest. Payhip, TikTok Shop and Instagram links were left.
+- Public page does not list supplier names, FOB targets, gsm, magnet specs or millimetre placements. The attached Rise From Madness HTML was a different purple layout with invented prices; that design and those prices were not copied. One line was used: "The pain didn't kill me. It made me art."
+- `movement.html` is the movement page. It still links to `/shop.html`. Its layout was not changed.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: Gemini direct fallback on the existing chain
+- Live Arron is `netlify/functions/arron.mts` plus `netlify/lib/ai-chain.ts`. There is no `netlify/functions/arron-chat.js`. Order stays GPT → Claude → Gemini → Grok.
+- Gateway Gemini still uses the chain model (`gemini-3.8-flash` in the soul file). If that hop times out, returns empty, or errors, and `GEMINI_API_KEY` is set, one retry calls `gemini-2.5-flash` through `@google/genai`. Each lab attempt is capped at 4.5s. The key is read from the environment and is not in the repo.
+- Needs owner, still unset in this chat: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GEMINI_API_KEY`. A real Gemini key bills Google and turns off Netlify's Gemini gateway injection. Leave it unset to stay on the gateway. Netlify may inject a placeholder of the same name; the owner-status flag does not print the value.
+- Crisis is still classified in `arron.mts` before any provider call. Rate-limit crisis returns the signpost without a model. A crisis that is allowed through still gets 999, Samaritans 116 123, SHOUT 85258 and NHS 111 on the reply. `SAFETY_FIRST` stays at the front of the system prompt.
+- Skipped, on purpose:
+  - The attached Keep/notes script. It imports Firebase auth, renders note text with innerHTML, and puts the note in a Google Keep URL. The house already has `js/sanctuary-notes.js` (textContent, Netlify account notes, Keep opened without the note in the URL). Production auth stays Netlify Identity. Firebase stays the optional sidecar in `js/firebase.js`.
+  - Adding a gtag consent snippet. Journal, sanctuary, Arron and crisis pages have no Google Analytics tag. The site audit treats `gtag(` as a tracker failure.
+  - `docs/GEMINI_SYSTEMS_INTEGRATION_REPORT.md` is not in this repo, so it was not marked ready for deployment.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: shared header and the solar desk
+- The shared nav in `css/site.css` and `js/site.js` is sticky, on `#0b0f19`, with the Crying Brain, App Hub, Sanity's Songs, Solar, Shop, About, Sign in, and an amber Crisis help button that stays on the bar. On a phone the rest of the menu slides in. Escape closes it. Tab stays inside it while it is open. Reduced motion turns the slide off. Pages that had no `site.js` now load it. `docs/IMAGES_NEEDED.md` lists pages whose main content has no picture of their own.
+- Solar questions from Insane Solar, the AI Office page, and `solar.html` go to `POST /api/solar`. That calls `runChain` in `netlify/lib/ai-chain.ts`. Knowledge is `netlify/lib/solar-knowledge.ts`. Distress is answered before the rate limit and before any model, with 999, 116 123, 85258 and 111. A normal answer is limited, timed out at 20 seconds, and ends with the DIY boundary: height, Part P, G98/G99, no MCS, no SEG, no 0% VAT installer route, and the AI does not certify. Unsure answers point at 07999 899304 or WhatsApp 447711147663. Costs stay "typically". An EPC is not described as required for SEG.
+- Sources checked HTTP 200 on 31 Oct 2026: HMRC VAT Notice 708/6, GOV.UK VAT rates, GOV.UK renewable energy, Approved Document P, Planning Portal solar panels, Ofgem SEG, MCS standards, MCS installers, ENA engineering documents. ENA's own marketing site returned 403 to this checker, so the citation is the document library that returned 200.
+- Test Lab cards: `solar-ai-ask`, `solar-ai-diy`, `solar-ai-crisis`.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: hero batch and a visitor pass
+- 47 heroes from the owner pack are in `images/heroes/`, one per page in `docs/IMAGES_NEEDED.md`, which is now marked done. Alt text is the manifest text. Size 1024×576. Top-of-page heroes use `fetchpriority="high"`. Crisis and safety use `fetchpriority="low"` and sit behind the numbers, which stay first. The heroes are not in the service-worker precache. Cache name is `pleading-sanity-static-v104`.
+- Shared nav still loads from `site.js`. The music app does not register the house service worker, so `/music/sw.js` keeps its own scope.
+- Violet UI hexes in the live CSS and JS were moved to amber, teal, or silver. Emoji in visible text are stripped when `site.js` runs.
+- Privacy page already says the house does not sell journals or sign-in data. A scan of live HTML, `js/`, and Netlify functions found no Google Analytics, Tag Manager, Meta pixel, Hotjar, Clarity, or DoubleClick. `archive/legacy-js/research-analytics-framework.js` is archived and not loaded.
+- Headless Chrome on 14 key pages produced the DOM and no console error lines. It does not exit by itself here, so each run was stopped by a timeout after the DOM was written. A static check of 85 HTML files found no missing local images or links.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: one-row header, source emoji, dock, Lighthouse
+- From 1024px the bar is one row. App Hub, Sanity's Songs and About sit under More. Crisis help and Sign in stay visible. The wordmark hides between 1024 and 1399 so the logo and the links do not collide. The full name returns at 1440.
+- Emoji characters were removed from HTML and JS source. Empty icon links now show their accessible name. Pink `#ff4d8d` was replaced with amber in the live CSS, HTML and JS.
+- The phone dock is not created on crisis.html or safety.html. Other pages keep bottom padding of the dock height plus a gap and the safe area.
+- Mobile Lighthouse, simulated, local server: home performance 75, accessibility 100, LCP 6.2s. Crisis 97 / 100 / 2.1s. Insane Solar 81 / 97 / 2.4s. About 69 / 100 / 5.9s. Home LCP is the logo under throttling and render-blocking CSS. About LCP is a YouTube thumbnail. `npm test` 101 passed. Audit and validate-build passed.
+- Not merged. Not on main.

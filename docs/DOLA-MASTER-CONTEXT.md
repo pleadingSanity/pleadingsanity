@@ -13,7 +13,7 @@ _Last consolidated: 2026-10-19. Source: Dola's handoff supplied by Shane Cooper;
 - Preserve architecture and existing pages: additive surgical changes only. **Evolution Not Erasure.**
 - Arron: one free AI companion, **not a therapist**; failover **GPT → Claude → Gemini → Grok** (`openai, anthropic, gemini, grok`). Root `/arron-knowledge.json` is authoritative, restored from commit `052e1aa6a72159ae7d9c3bdb4d81dd48062570a1` through merged PR #96. **Never replace it with a stub or reconstruct it from memory.** `content/arron-knowledge.json` is an older knowledge pack, not a substitute.
 - Keep crisis information visible and available: **999**, **Samaritans 116 123**, **SHOUT text 85258**, **NHS 111 option 2**. Preserve disclaimer, privacy and local guest progress.
-- Cosmic palette: `#000103`, `#0d1b2a`, `#00fff0`, `#eef6ff`, `#ff4d8d`; existing crying-brain logo; mobile-first, minimum 48px touch targets, no horizontal overflow.
+- Cosmic palette: `#0b0f19`, `#0d1b2a`, `#00fff0`, `#38bdf8`, `#f59e0b`, silver; existing crying-brain logo; mobile-first, minimum 48px touch targets, no horizontal overflow.
 - All core sanctuary tools free forever. Games use play chips only. No new paid services, domains or infrastructure without explicit approval.
 
 ## Project inventory — verify status in code and deployment

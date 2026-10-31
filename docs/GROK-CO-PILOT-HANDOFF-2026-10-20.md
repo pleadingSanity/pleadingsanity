@@ -9,7 +9,7 @@ Grok must verify its own GitHub connector and write permissions. A prompt cannot
 - Root `arron-knowledge.json` is authoritative; do not reconstruct, truncate or replace it.
 - Arron canonical providers: GPT → Claude → Gemini → Grok; then approved static/local fallback. Never introduce a fifth canonical provider without explicit founder approval. Inspect existing optional spare-model implementation separately before changing it; do not confuse optional spares with the canonical order.
 - Crisis support always accessible: 999, Samaritans 116 123, SHOUT text 85258, NHS 111 option 2. Arron is not a therapist.
-- Keep sanctuary core free, no ads, tracking, surveillance, paywalls or new spending. Preserve original crying-brain logo and cosmic palette #000103 / #0d1b2a / #00fff0 / #ff4d8d. Mobile-first and reduced motion.
+- Keep sanctuary core free, no ads, tracking, surveillance, paywalls or new spending. Preserve original crying-brain logo and cosmic palette #0b0f19 / #0d1b2a / #00fff0 / #38bdf8 / #f59e0b. Mobile-first and reduced motion.
 - PR #92 stays **draft** until fully tested and approved; do not merge or touch it.
 
 ## Grok independent work queue

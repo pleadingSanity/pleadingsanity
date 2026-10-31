@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0f19">
+<title>Pleading Sanity Music</title>
+<meta name="description" content="Shane's own audio files. Lock-screen controls work here. YouTube songs do not.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/music/index.html">
+<link rel="manifest" href="/music/manifest.json">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/site.css">
+<style>
+  body { margin: 0; background: #0b0f19; color: #e8eef7; font: 16px/1.45 system-ui, sans-serif; }
+  main { max-width: 40rem; margin: 0 auto; padding: 1rem; }
+  a { color: #7dd3fc; }
+  button, input[type="range"] { min-height: 48px; }
+  button { border-radius: 12px; border: 1px solid rgba(0,255,240,.45); background: #111827; color: #e8eef7; font: inherit; font-weight: 700; padding: .6rem .9rem; }
+  #play { background: #00fff0; color: #0b0f19; }
+  .row { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0; }
+  #playlist { list-style: none; padding: 0; }
+  #playlist button { width: 100%; text-align: left; }
+  .note { color: #cbd5e1; }
+  button:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+  .bar { position: sticky; bottom: 0; background: #070b14; border-top: 1px solid rgba(56,189,248,.3); padding: .8rem 0 1rem; }
+</style>
+<meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/music-hero.webp">
+<meta property="og:image:width" content="1024">
+<meta property="og:image:height" content="576">
+<meta property="og:image:alt" content="Silver headphones on the night desk by a teal ring light">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/music-hero.webp">
+</head>
+<body>
+
+<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a>. <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+<figure class="ps-hero-visual"><img src="/images/heroes/music-hero.webp" alt="Silver headphones on the night desk by a teal ring light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
+
+<main>
+  <h1>Pleading Sanity Music</h1>
+  <p class="note">This player is only for audio files Shane owns and uploads himself. It can keep playing when the phone locks, and it shows on the lock screen, because the file is ours. Other artists' songs stay on Sanity's Songs, inside YouTube, and are not copied here. A car stereo can use these phone controls for Shane's own files. This is not a native Android Auto or CarPlay app, and it is not on the App Store.</p>
+  <p class="note">Leaving this page for another house page stops the song. The player stays while you are in this app.</p>
+  <p id="empty-note" class="note"></p>
+  <ul id="playlist"></ul>
+  <div class="bar">
+    <p id="now-title">Nothing playing</p>
+    <p id="now-artist">Shane Cooper</p>
+    <label>Position <input id="seek" type="range" min="0" max="1000" value="0"></label>
+    <div class="row">
+      <button type="button" id="prev"><span>Previous</span></button>
+      <button type="button" id="play" aria-pressed="false"><span>Play</span></button>
+      <button type="button" id="next"><span>Next</span></button>
+      <button type="button" id="shuffle" aria-pressed="false">Shuffle</button>
+      <button type="button" id="repeat" aria-pressed="false"><span>Repeat</span></button>
+      <button type="button" id="queue-add">Queue</button>
+      <button type="button" id="install-music" hidden>Install</button>
+    </div>
+    <p id="player-status" role="status"></p>
+    <audio id="track" preload="none"></audio>
+  </div>
+  <p><a href="/sanity-songs.html">Sanity's Songs (YouTube)</a> · <a href="/creator.html">Add a song (owner)</a></p>
+</main>
+<script type="module" src="/js/music-player.js"></script>
+<script src="/js/site.js" defer></script>
+</body>
+</html>

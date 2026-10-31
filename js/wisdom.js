@@ -9,11 +9,11 @@ import { esc, toast } from '/js/auth.js';
 import { truthBadge } from '/js/social.js';
 
 const KINDS = {
-  wisdom: { icon: '🌅', label: 'Daily Wisdom' },
-  story: { icon: '📖', label: 'Community Story' },
-  educational: { icon: '🧠', label: 'Educational' },
-  poetry: { icon: '🎤', label: 'Rap / Poetry' },
-  update: { icon: '✊', label: 'Movement Update' },
+  wisdom: { icon: '', label: 'Daily Wisdom' },
+  story: { icon: '', label: 'Community Story' },
+  educational: { icon: '', label: 'Educational' },
+  poetry: { icon: '', label: 'Rap / Poetry' },
+  update: { icon: '', label: 'Movement Update' },
 };
 
 // A small local seed so the library is never empty or "resting" when
@@ -53,14 +53,14 @@ function pieceHTML(p) {
       <div class="sx-meta">
         <span class="sx-kind">${k.icon} ${k.label}</span>
         ${truthBadge(p.truthTag)}
-        <span>✍️ ${esc(p.credit)}</span>
-        ${p.seed ? `<span class="sx-seed-tag">🌱 Starter words · ${esc(p.strand)}</span>` : ''}
+        <span> ${esc(p.credit)}</span>
+        ${p.seed ? `<span class="sx-seed-tag"> Starter words · ${esc(p.strand)}</span>` : ''}
         ${when ? `<time datetime="${esc(when)}">${new Date(when).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</time>` : ''}
       </div>
       ${p.title ? `<h3>${esc(p.title)}</h3>` : ''}
       <div class="sx-body">${esc(p.body)}</div>
       ${p.seed ? '' : `<div class="btn-row" style="margin-top:12px">
-        <button type="button" class="sbtn small ghost" data-share="${p.id}" data-title="${esc(p.title || k.label)}">🔗 Share</button>
+        <button type="button" class="sbtn small ghost" data-share="${p.id}" data-title="${esc(p.title || k.label)}"> Share</button>
       </div>`}
     </article>`;
 }
@@ -87,7 +87,7 @@ async function load(append = false) {
   }
 }
 
-tabs.innerHTML = `<button type="button" data-kind="" aria-pressed="true">✨ All</button>` +
+tabs.innerHTML = `<button type="button" data-kind="" aria-pressed="true"> All</button>` +
   Object.entries(KINDS).map(([k, v]) => `<button type="button" data-kind="${k}" aria-pressed="false">${v.icon} ${v.label}</button>`).join('');
 tabs.addEventListener('click', (e) => {
   const b = e.target.closest('[data-kind]');
@@ -104,7 +104,7 @@ list.addEventListener('click', async (e) => {
   const url = `${location.origin}/wisdom.html#piece-${b.dataset.share}`;
   try {
     if (navigator.share) await navigator.share({ title: b.dataset.title + ' — Pleading Sanity', url });
-    else { await navigator.clipboard.writeText(url); toast('Link copied — share the light 💙'); }
+    else { await navigator.clipboard.writeText(url); toast('Link copied — share the light '); }
   } catch { /* share sheet closed */ }
 });
 

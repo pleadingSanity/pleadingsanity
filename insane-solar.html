@@ -6,6 +6,7 @@
 <title>Insane Solar — Solar fitted by blokes who climb roofs, not salesmen</title>
 <meta name="description" content="Insane Solar. No middleman, no salesman commission. MCS-registered installs across Leicestershire & the Midlands. 0% VAT to 31 Mar 2027 (eligibility). £50 refundable survey deposit.">
 <link rel="canonical" href="https://pleadingsanity.co.uk/insane-solar.html">
+<link rel="preload" as="image" href="images/hero-insane-solar.webp" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700;800;900&family=Archivo+Black&display=swap" rel="stylesheet">
@@ -167,6 +168,16 @@ td.bigco{color:#fca5a5;font-weight:700}
 .kit-card .price{font-weight:900;color:var(--heading);font-size:.9rem}
 .kit-card .price small{color:var(--muted);font-weight:600;display:block;font-size:.7rem}
 .kit-card a.more{font-size:.8rem;font-weight:800;color:var(--sky);display:inline-flex;align-items:center;gap:.3rem}
+.kit-group{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(56,189,248,.22);margin-top:1.4rem;padding:1rem .9rem 1.1rem;background:#0b0f19}
+.kit-group-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.kit-group-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(11,15,25,.78),rgba(11,15,25,.92))}
+.kit-group .kit-cat-head,.kit-group .kit-group-cards{position:relative;z-index:2}
+.kit-group .kit-cat-head{margin-top:0;background:transparent}
+.kit-group-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
+.kit-group .kit-card{background:rgba(11,15,25,.72);border-color:rgba(226,232,240,.22)}
+.kit-group .kit-card h3,.kit-group .kit-card .price{color:#f8fafc}
+.kit-group .kit-card p,.kit-group .kit-card .price small{color:#d5dee8}
+.hero-visual img{width:100%;height:auto;display:block;border-radius:18px;border:1px solid rgba(0,255,240,.28);box-shadow:0 18px 48px rgba(0,0,0,.45)}
 
 /* ---------- COMPLIANCE CARDS ---------- */
 .comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;margin-top:2rem}
@@ -487,11 +498,8 @@ details.lm>.lm-body{margin-top:1rem}
 }
 
 </style>
-<meta property="og:type" content="website">
-<meta property="og:title" content="Insane Solar — Solar fitted by blokes who climb roofs, not salesmen">
-<meta property="og:description" content="Insane Solar. No middleman, no salesman commission. MCS-registered installs across Leicestershire & the Midlands. 0% VAT to 31 Mar 2027 (eligibility). £50 refundable survey deposit.">
-<meta property="og:url" content="https://pleadingsanity.co.uk/insane-solar.html">
-<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<link rel="stylesheet" href="/css/site.css">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
 <aside class="ps-crisis-strip" role="note" aria-label="Urgent support" style="background:#0b0f19;color:#e2e8f0;border-bottom:1px solid #00fff0;padding:8px 14px;text-align:center;font:600 14px/1.5 system-ui,sans-serif">Need someone now? <a href="tel:116123" style="color:#00fff0">Samaritans 116 123</a> &middot; Text SHOUT to <a href="sms:85258" style="color:#00fff0">85258</a> &middot; <a href="tel:111" style="color:#00fff0">NHS 111</a> &middot; Emergency <a href="tel:999" style="color:#f59e0b">999</a></aside>
@@ -601,15 +609,8 @@ details.lm>.lm-body{margin-top:1rem}
         <button class="share-btn copy" data-share="copy" aria-label="Copy link"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
       </div>
     </div>
-    <div class="hero-visual" aria-hidden="true">
-      <div class="orbit">
-        <div class="ring"></div>
-        <div class="ring2"></div>
-        <div class="sun"></div>
-        <div class="panel p1"></div>
-        <div class="panel p2"></div>
-        <div class="panel p3"></div>
-      </div>
+    <div class="hero-visual">
+      <img src="images/hero-insane-solar.webp" width="1280" height="720" alt="Abstract grid of solar cells under a starry sky with an amber sunrise on the horizon" loading="eager" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
@@ -1375,6 +1376,14 @@ const KIT_CATEGORIES = [
   ]}
 ];
 
+const KIT_VISUALS = {
+  "Solar Panels": {src:"images/kit-solar-panel.webp", alt:"Generic all-black solar panel on a dark starry background with teal and amber edge light", w:1152, h:864},
+  "Rails & Mounting": {src:"images/kit-mounting-rails.webp", alt:"Silver aluminium mounting rails, roof hooks and clamps laid out on a dark background", w:1152, h:864},
+  "Inverters": {src:"images/kit-inverter.webp", alt:"Generic wall-mounted hybrid inverter in grey and silver with a teal status light", w:1152, h:864},
+  "Batteries": {src:"images/kit-battery.webp", alt:"Generic home battery cabinet in silver with an amber level light", w:1152, h:864},
+  "EV Chargers": {src:"images/kit-ev-charger.webp", alt:"Generic wall-mounted EV charger with coiled cable and a teal ring light", w:1152, h:864}
+};
+
 const KIT_ICONS = {
   panel:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/>',
   bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
@@ -1416,22 +1425,45 @@ const COMPLIANCE = [
   var kitGrid = document.getElementById("kitGrid");
   if(kitGrid){
     KIT_CATEGORIES.forEach(function(cat){
+      var visual = KIT_VISUALS[cat.cat];
+      var group = document.createElement("section");
+      group.className = "kit-group reveal";
+      group.setAttribute("aria-label", cat.cat);
+      if(visual){
+        var bg = document.createElement("img");
+        bg.className = "kit-group-bg";
+        bg.src = visual.src;
+        bg.alt = visual.alt;
+        bg.width = visual.w;
+        bg.height = visual.h;
+        bg.loading = "lazy";
+        bg.decoding = "async";
+        group.appendChild(bg);
+        var shade = document.createElement("div");
+        shade.className = "kit-group-shade";
+        shade.setAttribute("aria-hidden", "true");
+        group.appendChild(shade);
+      }
       var head = document.createElement("div");
-      head.className = "kit-cat-head reveal";
+      head.className = "kit-cat-head";
       head.innerHTML =
         '<span class="kit-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(KIT_ICONS[cat.icon]||KIT_ICONS.panel)+'</svg></span>'+
         '<div><h3>'+cat.cat+'</h3><p class="kit-cat-note">'+cat.note+'</p></div>';
-      kitGrid.appendChild(head);
+      var cards = document.createElement("div");
+      cards.className = "kit-group-cards";
       cat.items.forEach(function(k){
         var card = document.createElement("div");
-        card.className = "glass kit-card reveal";
+        card.className = "glass kit-card";
         card.innerHTML =
           '<span class="brand-tag">'+k.brand+'</span>'+
           '<h3>'+k.name+'</h3>'+
           '<p>'+k.desc+'</p>'+
           '<div class="price">'+k.price+'<small>Typical 2026 guide price, call for exact quote</small></div>';
-        kitGrid.appendChild(card);
+        cards.appendChild(card);
       });
+      group.appendChild(head);
+      group.appendChild(cards);
+      kitGrid.appendChild(group);
     });
   }
 
@@ -1669,7 +1701,7 @@ const COMPLIANCE = [
 </script>
 
 <script>
-/* Floating AI chat — toggle + send to /api/arron. Global sendAiChat (called by inline onclick). */
+/* Floating AI chat. The send handler lives in /js/solar-assistant.js. */
 (function(){
   var toggle = document.getElementById("ai-chat-toggle");
   var panel = document.getElementById("ai-chat-panel");
@@ -1683,42 +1715,7 @@ const COMPLIANCE = [
   if(closeBtn && panel) closeBtn.addEventListener("click", function(){ panel.style.display = "none"; });
 })();
 
-/* Solar-specific system prompt prepended to EVERY AI message. */
-const SOLAR_SYSTEM_PROMPT = "You are the Insane Solar AI assistant for a UK solar installation company (Leicestershire/Midlands). Answer in plain UK English, short, helpful, no jargon, max ~4 sentences. You NEVER certify a system or give a binding quote — always say a human surveys and signs off. For quotes/orders direct to WhatsApp 07711 147663 or Shane 07999 899304. If the user seems in crisis or mentions self-harm, include crisis numbers: 999, Samaritans 116 123, SHOUT 85258. Prices are typical 2026 UK fitted and vary by roof.";
-
-function sendAiChat(){
-  var inp = document.getElementById('ai-chat-input'); if(!inp) return;
-  var msg = inp.value.trim(); if(!msg) return;
-  var box = document.getElementById('ai-chat-messages'); if(!box) return;
-  var u = document.createElement('div'); u.className = 'ai-user'; u.textContent = msg; box.appendChild(u);
-  inp.value = '';
-  inp.disabled = true;
-  var sendBtn = inp.parentElement ? inp.parentElement.querySelector('button') : null;
-  if(sendBtn) sendBtn.disabled = true;
-  box.scrollTop = box.scrollHeight;
-  var typing = document.createElement('div'); typing.className = 'ai-msg ai-typing'; typing.innerHTML = '<span></span><span></span><span></span>'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
-  function finish(replyText){
-    if(typing && typing.parentNode) typing.parentNode.removeChild(typing);
-    var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = replyText; box.appendChild(a); box.scrollTop = box.scrollHeight;
-    inp.disabled = false;
-    if(sendBtn) sendBtn.disabled = false;
-    try{ inp.focus(); }catch(e){}
-  }
-  fetch('/api/arron', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({ messages:[ {role:'system', content:SOLAR_SYSTEM_PROMPT}, {role:'user', content:msg} ], saveToCloud:false })
-  }).then(function(r){ return r.json(); }).then(function(d){
-    var reply = (d && (d.reply || d.message || d.response)) || "";
-    if(!reply || typeof reply !== 'string' || !reply.trim()){
-      reply = "Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.";
-    }
-    finish(reply);
-  }).catch(function(){
-    finish("Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.");
-  });
-}
-document.getElementById('ai-chat-input') && document.getElementById('ai-chat-input').addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); sendAiChat(); } });
+/* Questions go to /api/solar. The page no longer sends its own system prompt. */
 </script>
 
 <script>
@@ -2097,5 +2094,7 @@ document.getElementById('ai-chat-input') && document.getElementById('ai-chat-inp
   <a class="mb-call" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call</a>
   <a class="mb-book" href="#book"><svg class="ico"><use href="#i-book"/></svg>Book Survey</a>
 </div>
+<script src="/js/site.js" defer></script>
+<script src="/js/solar-assistant.js" defer></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ Updated 2026-10-20. **Source of truth for implementation remains GitHub main and
 ## Locked approach
 - **Evolution Not Erasure**: preserve existing Poker and Solitaire engines, saves, play-chip accounting, modes and PWA flows. Do not claim an illustration is a functioning feature.
 - £0 forever; no real-money gambling, paywalls, ads or tracking. Play chips only. Guest access; touch targets at least 48px; no sideways scrolling. Reduce motion for accessibility. Crisis access: 999, Samaritans 116 123, SHOUT 85258, NHS 111 option 2. Arron is not a therapist.
-- **Approved aesthetic:** cozy cosmic tavern; warm firelight and timber as *illustrated scenery*, dark cosmic navy surfaces, cyan focus rings, frost-white legible text, pink as a sparing highlight. Site-wide locked palette #000103, #0d1b2a, #00fff0, #eef6ff, #ff4d8d remains unchanged; gold/wood tones belong only inside scene art, not as a global brand replacement. Original crying-brain mark only.
+- **Approved aesthetic:** cozy cosmic tavern; warm firelight and timber as *illustrated scenery*, dark cosmic navy surfaces, cyan focus rings, frost-white legible text, pink as a sparing highlight. Site-wide locked palette #0b0f19, #0d1b2a, #00fff0, #38bdf8, #f59e0b, silver remains unchanged; gold/wood tones belong only inside scene art, not as a global brand replacement. Original crying-brain mark only.
 - Keep card faces classic high-contrast red/black on white; decorative cosmic card backs only. UI labels must be real HTML text, never baked into generated images.
 - Honest statuses: **LIVE** only after gameplay tested; **LOCKED** only when actual unlock logic exists; otherwise **COMING SOON** or **CONCEPT**. No artificial time pressure or guilt streaks.
 

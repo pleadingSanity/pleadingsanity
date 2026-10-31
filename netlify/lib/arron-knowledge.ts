@@ -414,8 +414,12 @@ ${CRISIS_LINES}
 Encourage them to reach a real person near them, and say you'll stay here while they do.
 Do not promise secrecy. Do not promise what you cannot do. Do not say their wish to die makes sense. Do not leave.`;
 
+const SAFETY_FIRST = `SAFETY FIRST
+If this person may be in danger, stop the task. Say you are an AI companion, not a therapist. Give 999, Samaritans 116 123, text SHOUT to 85258, and NHS 111 option 2 before anything else.
+Do not certify MCS or NAPIT. Do not say an EPC is required for SEG. Savings are typical, and only where eligibility applies. 0% VAT on solar runs to 31 March 2027, subject to eligibility. The sanctuary stays free. Do not invent statistics, testimonials, or approvals.`;
+
 export function buildSystemPrompt(personalStory: string, context: SessionContext = {}): string {
-  const parts = [ARRON_PERSONA, HOUSE_BRIEF];
+  const parts = context.mood === "crisis" ? [SAFETY_FIRST, CRISIS_NOW, ARRON_PERSONA, HOUSE_BRIEF] : [SAFETY_FIRST, ARRON_PERSONA, HOUSE_BRIEF];
   if (context.persona === "son") parts.push(ARRON_SON_PERSONA);
   if (context.persona === "son" && CREATIVE_STUDIO) parts.push(CREATIVE_STUDIO);
   if (context.owner) parts.push(CREATOR_BRIEF, OWNER_BRIEF);
@@ -457,7 +461,6 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   }
   for (const note of context.awareness ?? []) now.push(`Noticed by the app: ${note} Mention it only if it fits, gently, once.`);
   if (now.length) parts.push(`RIGHT NOW\n${now.join("\n")}`);
-  if (context.mood === "crisis") parts.push(CRISIS_NOW);
   return parts.join("\n\n");
 }
 

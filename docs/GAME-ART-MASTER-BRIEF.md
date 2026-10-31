@@ -13,7 +13,7 @@ Turn existing games into coherent, beautiful, comprehensible, genuinely fun, mob
 - Clearly label demo-only elements. Never claim live friends, tournaments, achievements or AI opponents without real tested functionality.
 
 ## Design language
-Original PS crying-brain logo; deep cosmic navy #000103/#0d1b2a; electric cyan #00fff0; moon gold #f7c879; occasional magenta #ff4d8d; warm firelit highlights. World-class polished mobile game feeling: a striking scene, prominent gameplay surface, expressive character portraits, big labelled actions, gentle feedback, compact menus. Art inspiration: magical mountains, forests, waterfalls, celestial gardens, lunar observatories, planets, auroras, cozy taverns. Do not replicate any specific commercial game's assets.
+Original PS crying-brain logo; deep cosmic navy #000103/#0d1b2a; electric cyan #00fff0; moon gold #f7c879; occasional amber #f59e0b; warm firelit highlights. World-class polished mobile game feeling: a striking scene, prominent gameplay surface, expressive character portraits, big labelled actions, gentle feedback, compact menus. Art inspiration: magical mountains, forests, waterfalls, celestial gardens, lunar observatories, planets, auroras, cozy taverns. Do not replicate any specific commercial game's assets.
 
 ## Character art batch (original consistent series)
 Ollie the Owl (wise, funny, bright-eyed), Zara the Squirrel (curious, energetic), Bruno the Bulldog (kind, cheeky, streetwear cap), Blinky the Robot (warm, curious), Max and Mia (adventurous children), plus Fox the Trickster (friendly), Luna the Snow Leopard (gentle), Nova the Space Cat (playful), Atlas the Tortoise (patient), Pip the Red Panda (mischievous), and Sage the Wolf (protective, never threatening).

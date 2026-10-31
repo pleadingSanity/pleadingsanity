@@ -18,32 +18,73 @@
   var STARLIGHT_PER_BADGE = 2;
   var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
   function reducedMotion() { return !!(reduceMQ && reduceMQ.matches); }
+  function svgIcon(path) {
+    return '<svg class="psg-ico" viewBox="0 0 24 24" width="1.1em" height="1.1em" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + path + '</svg>';
+  }
+  var ICONS = {
+    brain: svgIcon('<circle cx="12" cy="12" r="8"/><path d="M9 10h.01M15 10h.01M8 15c1.2 1 2.5 1.5 4 1.5s2.8-.5 4-1.5"/>'),
+    hash: svgIcon('<path d="M5 9h14M5 15h14M9 4l-2 16M17 4l-2 16"/>'),
+    pattern: svgIcon('<path d="M4 16c2-4 4-4 6 0s4 4 6 0 4-4 4 0"/>'),
+    wave: svgIcon('<path d="M3 14c2 0 2-4 4-4s2 4 4 4 2-4 4-4 2 4 4 4"/>'),
+    music: svgIcon('<path d="M9 18V6l10-2v12"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="16" r="2"/>'),
+    comet: svgIcon('<path d="M15 9a6 6 0 1 1-6 6M15 9 20 4M15 9l5 2"/>'),
+    cards: svgIcon('<rect x="6" y="3" width="12" height="16" rx="2"/><path d="M8 7h8"/>'),
+    spade: svgIcon('<path d="M12 3c3 4 6 6 6 9a3 3 0 0 1-5 2 3 3 0 0 1-5-2c0-3 3-5 6-9zM12 14v7"/>'),
+    spark: svgIcon('<path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>'),
+    tag: svgIcon('<path d="M20 13l-7 7-9-9V4h7z"/><circle cx="7.5" cy="7.5" r="1"/>'),
+    wind: svgIcon('<path d="M4 8h11a3 3 0 1 0-3-3M4 12h15a3 3 0 1 1-3 3M4 16h8"/>'),
+    seed: svgIcon('<path d="M12 21V10M12 10c2-4 6-5 8-5-1 4-3 7-8 5zM12 13c-2-3-6-4-8-4 1 4 3 6 8 4z"/>'),
+    trophy: svgIcon('<path d="M8 4h8v5a4 4 0 0 1-8 0zM6 6H4v2a3 3 0 0 0 3 3M18 6h2v2a3 3 0 0 1-3 3M9 20h6M12 13v7"/>'),
+    flame: svgIcon('<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 2 3 3 2-1-3 0-7 0-7z"/>'),
+    swirl: svgIcon('<path d="M12 3a9 9 0 1 0 9 9M12 8a4 4 0 1 0 4 4"/>'),
+    galaxy: svgIcon('<circle cx="12" cy="12" r="2"/><path d="M12 4c4 2 6 5 6 8s-2 6-6 8c-4-2-6-5-6-8s2-6 6-8z"/>'),
+    calendar: svgIcon('<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/>'),
+    moon: svgIcon('<path d="M20 14A8 8 0 1 1 10 4a6 6 0 0 0 10 10z"/>'),
+    planet: svgIcon('<circle cx="12" cy="12" r="4"/><path d="M5 8c4 2 10 2 14 0M5 16c4-2 10-2 14 0"/>'),
+    compass: svgIcon('<circle cx="12" cy="12" r="9"/><path d="m14 10-4 2 2 4 4-2z"/>'),
+    target: svgIcon('<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'),
+    star: svgIcon('<path d="m12 3 2 6h6l-5 4 2 6-5-3-5 3 2-6-5-4h6z"/>'),
+    owl: svgIcon('<circle cx="9" cy="11" r="1"/><circle cx="15" cy="11" r="1"/><path d="M6 12a6 6 0 0 1 12 0v3H6zM9 18h6"/>'),
+    bird: svgIcon('<path d="M4 14c4-1 6-5 8-8 2 3 4 5 8 6-4 1-6 4-8 7-1-3-3-5-8-5z"/>'),
+    candle: svgIcon('<path d="M12 3c1 2 2 3 2 4a2 2 0 1 1-4 0c0-1 1-2 2-4zM9 11h6v9H9z"/>'),
+    lock: svgIcon('<rect x="6" y="11" width="12" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>'),
+    soundOn: svgIcon('<path d="M4 10h4l5-4v12l-5-4H4zM16 9a4 4 0 0 1 0 6"/>'),
+    soundOff: svgIcon('<path d="M4 10h4l5-4v12l-5-4H4zM17 10l4 4M21 10l-4 4"/>'),
+    play: svgIcon('<path d="m8 6 10 6-10 6z"/>')
+  };
+  function iconEl(name) {
+    var span = document.createElement('span');
+    span.className = 'psg-ico';
+    span.setAttribute('aria-hidden', 'true');
+    span.innerHTML = ICONS[name] || ICONS.spark;
+    return span;
+  }
 
   // ─── GAME REGISTRY ───
   var GAMES = [
-    { id: 'cosmic-focus', title: 'Cosmic Focus', icon: '🧠', url: '/cosmic-focus.html', skill: 'Memory',
+    { id: 'cosmic-focus', title: 'Cosmic Focus', icon: 'brain', url: '/cosmic-focus.html', skill: 'Memory',
       desc: 'Watch the stars light up, then repeat the sequence. Combos build, calm wins.' },
-    { id: 'number-nebula', title: 'Number Nebula', icon: '🔢', url: '/number-nebula.html', skill: 'Logic',
+    { id: 'number-nebula', title: 'Number Nebula', icon: 'hash', url: '/number-nebula.html', skill: 'Logic',
       desc: 'Quick-fire sums and sequences that ramp up gently. Your brain, but sparklier.' },
-    { id: 'pattern-galaxy', title: 'Pattern Galaxy', icon: '🌈', url: '/pattern-galaxy.html', skill: 'Perception',
+    { id: 'pattern-galaxy', title: 'Pattern Galaxy', icon: 'pattern', url: '/pattern-galaxy.html', skill: 'Perception',
       desc: 'Spot what comes next in the cosmic flow. Trains focus and intuition.' },
-    { id: 'memory-ocean', title: 'Memory Ocean', icon: '🌊', url: '/memory-ocean.html', skill: 'Calm',
+    { id: 'memory-ocean', title: 'Memory Ocean', icon: 'wave', url: '/memory-ocean.html', skill: 'Calm',
       desc: 'Flip and match in a peaceful sea of cards. No timers, just flow.' },
-    { id: 'rhythm-resonance', title: 'Rhythm Resonance', icon: '🎵', url: '/rhythm-resonance.html', skill: 'Listening',
+    { id: 'rhythm-resonance', title: 'Rhythm Resonance', icon: 'music', url: '/rhythm-resonance.html', skill: 'Listening',
       desc: 'Listen, feel, repeat. Soothing tones that settle a busy mind.' },
-    { id: 'stardust-dash', title: 'Stardust Dash', icon: '🌠', url: '/stardust-dash.html', skill: 'Reflex',
+    { id: 'stardust-dash', title: 'Stardust Dash', icon: 'comet', url: '/stardust-dash.html', skill: 'Reflex',
       desc: 'Catch stars, dodge silly worries like "Did I leave the oven on?"' },
-    { id: 'solitaire', title: 'Sanity Solitaire', icon: '🃏', url: '/sanity-solitaire.html', skill: 'Patience',
+    { id: 'solitaire', title: 'Sanity Solitaire', icon: 'cards', url: '/sanity-solitaire.html', skill: 'Patience',
       desc: 'Four solitaire games. Night cards. Your own app.' },
-    { id: 'night-table', title: 'Night Table', icon: '♠️', url: '/poker.html', skill: 'Patience',
+    { id: 'night-table', title: 'Night Table', icon: 'spade', url: '/poker.html', skill: 'Patience',
       desc: 'Hold\'em with play chips. One table. No cash.' },
-    { id: 'cosmic-connect', title: 'Cosmic Connect', icon: '✨', url: '/cosmic-connect.html', skill: 'Memory',
+    { id: 'cosmic-connect', title: 'Cosmic Connect', icon: 'spark', url: '/cosmic-connect.html', skill: 'Memory',
       desc: 'Turn two cards. No timer. Match the sky.' },
-    { id: 'truth-tag', title: 'Truth Tag', icon: '🏷️', url: '/truth-tag.html', skill: 'Discernment',
+    { id: 'truth-tag', title: 'Truth Tag', icon: 'tag', url: '/truth-tag.html', skill: 'Discernment',
       desc: 'Evidence, lived experience, or philosophy. Learn the difference.' }
-    ,{ id: 'healing-hz', title: 'Healing Hz', icon: '🎵', url: '/frequencies.html', skill: 'Regulation', desc: 'Choose a gentle frequency and settle into a calmer pace.' }
-    ,{ id: 'mind-mode', title: 'Mind Mode', icon: '🌬️', url: '/mind-mode.html', skill: 'Calm', desc: 'A guided reset for breathing, focus and quiet.' }
-    ,{ id: 'mood-journey', title: 'Mood Journey', icon: '🌱', url: '/mood-journey.html', skill: 'Reflection', desc: 'Check in, notice patterns and build a kinder picture of your days.' }
+    ,{ id: 'healing-hz', title: 'Healing Hz', icon: 'music', url: '/frequencies.html', skill: 'Regulation', desc: 'Choose a gentle frequency and settle into a calmer pace.' }
+    ,{ id: 'mind-mode', title: 'Mind Mode', icon: 'wind', url: '/mind-mode.html', skill: 'Calm', desc: 'A guided reset for breathing, focus and quiet.' }
+    ,{ id: 'mood-journey', title: 'Mood Journey', icon: 'seed', url: '/mood-journey.html', skill: 'Reflection', desc: 'Check in, notice patterns and build a kinder picture of your days.' }
   ];
   function game(id) {
     for (var i = 0; i < GAMES.length; i++) if (GAMES[i].id === id) return GAMES[i];
@@ -52,21 +93,21 @@
 
   // ─── BADGES ───
   var BADGES = {
-    'first-light':  { icon: '✨', name: 'First Light', desc: 'Played your very first game' },
-    'personal-best':{ icon: '🏆', name: 'Beat Yesterday', desc: 'Set a new personal best' },
-    'combo-5':      { icon: '🔥', name: 'On a Roll', desc: 'Hit a 5× combo' },
-    'combo-10':     { icon: '🌀', name: 'Flow State', desc: 'Hit a 10× combo' },
-    'combo-20':     { icon: '🌌', name: 'Cosmic Flow', desc: 'Hit a 20× combo' },
-    'streak-3':     { icon: '📅', name: 'Hat-Trick', desc: 'Played 3 days in a row' },
-    'streak-7':     { icon: '🌙', name: 'Moon Cycle', desc: 'Played 7 days in a row' },
-    'streak-30':    { icon: '🪐', name: 'Orbit Complete', desc: 'Played 30 days in a row' },
-    'explorer':     { icon: '🧭', name: 'Star Explorer', desc: 'Played every game at least once' },
-    'daily':        { icon: '🎯', name: 'Daily Devotee', desc: 'Completed a Daily Challenge' },
-    'level-5':      { icon: '💫', name: 'Rising Star', desc: 'Reached player level 5' },
-    'level-10':     { icon: '🌟', name: 'Supernova', desc: 'Reached player level 10' },
-    'night-owl':    { icon: '🦉', name: 'Night Owl', desc: 'Played after 11pm (rest counts too 💙)' },
-    'early-bird':   { icon: '🐦', name: 'Early Bird', desc: 'Played before 7am' },
-    'steady-light': { icon: '🕯️', name: 'Steady Light', desc: 'Cleared the weekly challenge on this device' }
+    'first-light':  { icon: 'spark', name: 'First Light', desc: 'Played your very first game' },
+    'personal-best':{ icon: 'trophy', name: 'Beat Yesterday', desc: 'Set a new personal best' },
+    'combo-5':      { icon: 'flame', name: 'On a Roll', desc: 'Hit a 5× combo' },
+    'combo-10':     { icon: 'swirl', name: 'Flow State', desc: 'Hit a 10× combo' },
+    'combo-20':     { icon: 'galaxy', name: 'Cosmic Flow', desc: 'Hit a 20× combo' },
+    'streak-3':     { icon: 'calendar', name: 'Hat-Trick', desc: 'Played 3 days in a row' },
+    'streak-7':     { icon: 'moon', name: 'Moon Cycle', desc: 'Played 7 days in a row' },
+    'streak-30':    { icon: 'planet', name: 'Orbit Complete', desc: 'Played 30 days in a row' },
+    'explorer':     { icon: 'compass', name: 'Star Explorer', desc: 'Played every game at least once' },
+    'daily':        { icon: 'target', name: 'Daily Devotee', desc: 'Completed a Daily Challenge' },
+    'level-5':      { icon: 'star', name: 'Rising Star', desc: 'Reached player level 5' },
+    'level-10':     { icon: 'star', name: 'Supernova', desc: 'Reached player level 10' },
+    'night-owl':    { icon: 'owl', name: 'Night Owl', desc: 'Played after 11pm. Rest counts too.' },
+    'early-bird':   { icon: 'bird', name: 'Early Bird', desc: 'Played before 7am' },
+    'steady-light': { icon: 'candle', name: 'Steady Light', desc: 'Cleared the weekly challenge on this device' }
   };
   // Per-game mastery badge — reach level 5 in that game
   GAMES.forEach(function (g) {
@@ -142,7 +183,7 @@
     profile.starlight = (profile.starlight || 0) + STARLIGHT_PER_BADGE;
     save();
     var b = BADGES[id];
-    toast(b.icon + ' Badge unlocked: ' + b.name, { kind: 'badge', sub: b.desc });
+    toast('Badge unlocked: ' + b.name, { kind: 'badge', sub: b.desc });
     if (window.PSVoice) PSVoice.speak(b.name + '. ' + b.desc);
     sfx('badge');
     return true;
@@ -174,7 +215,7 @@
       s.count = s.last === yesterdayKey() ? s.count + 1 : 1;
       s.last = today;
       save();
-      if (s.count > 1) toast('🔥 ' + s.count + ' days in a row! Your brain is showing up for you.', { kind: 'streak' });
+      if (s.count > 1) toast(s.count + ' days in a row. Your brain is showing up for you.', { kind: 'streak' });
     }
     if (s.count >= 3) unlock('streak-3');
     if (s.count >= 7) unlock('streak-7');
@@ -198,7 +239,7 @@
     save();
     if (after.level > before) {
       profile.starlight = (profile.starlight || 0) + ((after.level - before) * STARLIGHT_PER_LEVEL);
-      toast('⭐ Player level ' + after.level + ' — ' + after.title + '! +' + ((after.level - before) * STARLIGHT_PER_LEVEL) + ' Starlight', { kind: 'level' });
+      toast('Player level ' + after.level + ' — ' + after.title + '. +' + ((after.level - before) * STARLIGHT_PER_LEVEL) + ' Starlight', { kind: 'level' });
       confetti();
       sfx('level');
     }
@@ -224,7 +265,7 @@
     unlock('first-light');
     if (isBest && prevBest > 0) {
       unlock('personal-best');
-      toast('🏆 New personal best: ' + score + '!', { kind: 'best', sub: 'Previous: ' + prevBest });
+      toast('New personal best: ' + score + '.', { kind: 'best', sub: 'Previous: ' + prevBest });
       confetti();
     }
     var combo = stats.maxCombo || 0;
@@ -244,7 +285,7 @@
       daily = true;
       profile.daily = { date: dc.date, done: true };
       save();
-      toast('🎯 Daily Challenge complete — double XP!', { kind: 'daily' });
+      toast('Daily Challenge complete. Double XP.', { kind: 'daily' });
       unlock('daily');
     }
     addXP(xp);
@@ -271,28 +312,28 @@
   // ─── KIND, FUNNY ONE-LINERS — rotate without repeating back-to-back ───
   var QUIPS = {
     start: [
-      'Deep breath in… and let’s play. 🌬️',
+      'Deep breath in, and let’s play.',
       'Phones down, stars up. You’ve got this.',
       'No pressure. The universe is 13.8 billion years old — it can wait.',
       'Warming up the neurons. They said “5 more minutes” but we insisted.',
-      'Let’s gently make your brain feel fancy. ✨',
+      'Let’s gently make your brain feel fancy.',
       'Reminder: you showed up. That’s already a win.'
     ],
     correct: [
-      'Nailed it! 🌟', 'Brain: 1, Chaos: 0.', 'Look at you go!', 'Stellar work.',
-      'Your neurons just high-fived.', 'Smooth as a comet.', 'Chef’s kiss. 🤌',
+      'Nailed it.', 'Brain: 1, Chaos: 0.', 'Look at you go.', 'Stellar work.',
+      'Your neurons just high-fived.', 'Smooth as a comet.', 'That was tidy.',
       'That was so good a star blushed.', 'Galaxy brain activated.', 'Yes! Keep that flow.'
     ],
     combo: [
       'Combo climbing! You’re basically a constellation now.',
-      'On fire (the safe, cosy kind). 🔥',
+      'On a roll, the safe and cosy kind.',
       'Somebody call NASA — we have lift-off!',
       'Flow state unlocked. Don’t think, just glow.',
       'Your focus is louder than your inner critic right now.',
       'Unstoppable. Well, stoppable, but gorgeous.'
     ],
     miss: [
-      'Oops — even stars wobble. Go again? 💙',
+      'Even stars wobble. Go again?',
       'Close! Your brain was just buffering.',
       'Mistakes are how brains grow. Yours is growing beautifully.',
       'No biggie. The moon has phases too.',
@@ -301,21 +342,21 @@
       'Gentle reminder: you’re doing better than you think.'
     ],
     levelup: [
-      'Level up! Your mind just got a new room. 🏡✨',
+      'Level up. Your mind just got a new room.',
       'New level unlocked — the stars are taking notes.',
-      'Levelling up like a houseplant finally getting sunlight. 🌱',
+      'Levelling up like a houseplant finally getting sunlight.',
       'Brain upgrade installed. No restart needed.',
       'Up you go! Evolution, not erasure.'
     ],
     gameover: [
-      'Lovely session. Hydrate, stretch, glow. 💧',
+      'Lovely session. Hydrate, stretch, glow.',
       'Every round counts. Proud of you for playing.',
       'That’s a wrap! Your brain says thanks.',
       'Rest is part of training. Come back whenever.',
       'Not a loss — a warm-up for your next personal best.'
     ],
     best: [
-      'NEW PERSONAL BEST! Past you would be amazed. 🏆',
+      'New personal best. Past you would be amazed.',
       'You just out-did yesterday’s you. Legend.',
       'Record smashed (gently, respectfully).'
     ]
@@ -392,12 +433,12 @@
       '.psg-toast{pointer-events:auto;width:100%;padding:12px 18px;border-radius:16px;background:rgba(6,16,28,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(0,255,240,.55);color:#eafffd;font:600 .95rem/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 22px rgba(0,255,240,.18);animation:psgIn .35s cubic-bezier(.2,.9,.3,1.3) both;}',
       '.psg-toast small{display:block;font-weight:500;color:#b9faff;font-size:.82rem;}',
       '.psg-toast.badge,.psg-toast.best{border-color:#ffd700;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(255,215,0,.3);}',
-      '.psg-toast.level,.psg-toast.daily{border-color:#ff00ff;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(255,0,255,.3);}',
+      '.psg-toast.level,.psg-toast.daily{border-color:#f59e0b;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(245,158,11,.3);}',
       '.psg-toast.out{animation:psgOut .3s ease forwards;}',
       '@keyframes psgIn{from{opacity:0;transform:translateY(16px) scale(.95);}to{opacity:1;transform:none;}}',
       '@keyframes psgOut{to{opacity:0;transform:translateY(10px);}}',
       '.psg-pop{position:fixed;z-index:3900;pointer-events:none;font:900 1.25rem/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#00fff0;text-shadow:0 0 12px rgba(0,255,240,.7),0 2px 4px #000;transform:translate(-50%,-50%);animation:psgPop 1s ease-out forwards;white-space:nowrap;}',
-      '.psg-pop.combo{color:#ff7cff;text-shadow:0 0 14px rgba(255,0,255,.8),0 2px 4px #000;font-size:1.45rem;}',
+      '.psg-pop.combo{color:#fbbf24;text-shadow:0 0 14px rgba(255,0,255,.8),0 2px 4px #000;font-size:1.45rem;}',
       '.psg-pop.gold{color:#ffd700;text-shadow:0 0 14px rgba(255,215,0,.8),0 2px 4px #000;font-size:1.5rem;}',
       '.psg-pop.miss{color:#ffb3c6;text-shadow:0 0 10px rgba(255,80,120,.6),0 2px 4px #000;}',
       '@keyframes psgPop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6);}15%{opacity:1;transform:translate(-50%,-60%) scale(1.15);}100%{opacity:0;transform:translate(-50%,-180%) scale(1);}}',
@@ -413,10 +454,10 @@
       '.psg-chip b{color:#00fff0;}',
       '.psg-chip small{color:#b9faff;font-weight:500;}',
       '.psg-xp{flex:1 1 90px;min-width:90px;height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;}',
-      '.psg-xp span{display:block;height:100%;background:linear-gradient(90deg,#00fff0,#ff00ff);box-shadow:0 0 10px rgba(0,255,240,.6);transition:width .6s ease;}',
+      '.psg-xp span{display:block;height:100%;background:linear-gradient(90deg,#00fff0,#38bdf8);box-shadow:0 0 10px rgba(0,255,240,.6);transition:width .6s ease;}',
       '.psg-sound{min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(0,255,240,.45);background:rgba(0,1,3,.6);color:#eafffd;font:inherit;cursor:pointer;margin-left:auto;}',
       '.psg-sound[aria-pressed="true"]{background:rgba(0,255,240,.16);border-color:#00fff0;}',
-      '.psg-sound:hover{border-color:#ff00ff;}',
+      '.psg-sound:hover{border-color:#38bdf8;}',
       '.psg-sound:focus-visible{outline:3px solid #00fff0;outline-offset:2px;}',
       '@media (prefers-reduced-motion:reduce){.psg-toast,.psg-toast.out,.psg-pop,.psg-pulse-good,.psg-pulse-bad,.psg-pulse-gold{animation:none!important;}.psg-pop{display:none;}.psg-xp span{transition:none;}}'
     ].join('\n');
@@ -535,7 +576,7 @@
     }
     fx.raf = requestAnimationFrame(frame);
   }
-  var COLORS = ['#00fff0', '#ff00ff', '#ffd700', '#a855f7', '#eafffd'];
+  var COLORS = ['#00fff0', '#38bdf8', '#f59e0b', '#e2e8f0', '#eafffd'];
   // Radial sparkle burst at an element or {x, y} viewport point
   function burst(at, opts) {
     if (typeof at === 'number' && typeof opts === 'number') { at = { x: at, y: opts }; opts = arguments[2]; }
@@ -579,25 +620,25 @@
       '<span class="psg-chip" data-psg="lvl"></span>' +
       '<span class="psg-xp" role="progressbar" aria-label="XP to next player level" aria-valuemin="0" aria-valuemax="100"><span></span></span>' +
       '<span class="psg-chip" data-psg="streak"></span>' +
-      '<span class="psg-chip" data-psg="starlight">✨ <b>0</b></span>' +
+      '<span class="psg-chip" data-psg="starlight"><b>0</b></span>' +
       (id ? '<span class="psg-chip" data-psg="best"></span>' : '') +
       '<button type="button" class="psg-sound" aria-pressed="false"></button>';
     var btn = el.querySelector('.psg-sound');
     btn.addEventListener('click', function () { setSound(!profile.sound); });
     function paint() {
       var li = levelInfo(profile.xp);
-      el.querySelector('[data-psg="lvl"]').innerHTML = '⭐ Lv <b>' + li.level + '</b> <small>' + li.title + '</small>';
+      el.querySelector('[data-psg="lvl"]').innerHTML = 'Lv <b>' + li.level + '</b> <small>' + li.title + '</small>';
       var bar = el.querySelector('.psg-xp');
       bar.setAttribute('aria-valuenow', String(li.pct));
       bar.setAttribute('aria-valuetext', li.into + ' of ' + li.need + ' XP');
       bar.firstChild.style.width = li.pct + '%';
       var s = profile.streak;
       var live = s.last === dayKey() || s.last === yesterdayKey();
-      el.querySelector('[data-psg="streak"]').innerHTML = '🔥 <b>' + (live ? s.count : 0) + '</b> day streak';
-      el.querySelector('[data-psg="starlight"]').innerHTML = '✨ <b>' + (profile.starlight || 0) + '</b> Starlight';
-      if (id) el.querySelector('[data-psg="best"]').innerHTML = '🏆 Best <b>' + (gameStats(id).best || 0) + '</b>';
+      el.querySelector('[data-psg="streak"]').innerHTML = '<b>' + (live ? s.count : 0) + '</b> day streak';
+      el.querySelector('[data-psg="starlight"]').innerHTML = '<b>' + (profile.starlight || 0) + '</b> Starlight';
+      if (id) el.querySelector('[data-psg="best"]').innerHTML = 'Best <b>' + (gameStats(id).best || 0) + '</b>';
       btn.setAttribute('aria-pressed', profile.sound ? 'true' : 'false');
-      btn.textContent = profile.sound ? '🔊 Sound on' : '🔇 Sound off';
+      btn.textContent = profile.sound ? 'Sound on' : 'Sound off';
     }
     paint();
     window.addEventListener('psgames:update', paint);
@@ -684,14 +725,16 @@
       var card = document.createElement('article');
       card.className = 'cosmic-card game-card';
       var title = document.createElement('h3');
-      title.textContent = g.icon + ' ' + g.title;
+      title.textContent = '';
+      title.appendChild(iconEl(g.icon));
+      title.appendChild(document.createTextNode(' ' + g.title));
       var desc = document.createElement('p');
       desc.textContent = g.desc;
       card.append(title, desc);
       var best = window.PSGames.best(g.id);
       if (best) {
         var pb = document.createElement('p');
-        pb.textContent = '🏆 Your best: ' + best;
+        pb.textContent = 'Your best: ' + best;
         card.appendChild(pb);
       }
       var link = document.createElement('a');
@@ -735,18 +778,18 @@
 
       // Daily challenge
       var dc = dailyChallenge();
-      set('[data-hub="daily-title"]', dc.game.icon + ' ' + dc.game.title);
+      set('[data-hub="daily-title"]', dc.game.title);
       set('[data-hub="daily-desc"]', dc.done
-        ? 'Done for today — beautiful. A new pick lands at midnight. 🌙'
+        ? 'Done for today. A new pick lands at midnight.'
         : 'Play one round today for double XP. ' + dc.game.desc);
-      set('[data-hub="weekly-title"]', 'This week · ' + (weeklyChallenge().game.icon) + ' ' + weeklyChallenge().game.title);
+      set('[data-hub="weekly-title"]', 'This week · ' + weeklyChallenge().game.title);
       set('[data-hub="weekly-desc"]', weeklyChallenge().done ? 'Week cleared. The light stays.' : weeklyChallenge().reward);
       var wl = hub.querySelector('[data-hub="weekly-link"]');
       if (wl) { wl.href = weeklyChallenge().game.url; wl.textContent = weeklyChallenge().done ? 'Week done' : 'Take the week'; }
       var dl = hub.querySelector('[data-hub="daily-link"]');
       if (dl) {
         dl.href = dc.game.url;
-        dl.textContent = dc.done ? '▶ Play again' : '🎯 Take the challenge';
+        dl.textContent = dc.done ? 'Play again' : 'Take the challenge';
       }
 
       // Personal bests on each card
@@ -773,7 +816,7 @@
           var li2 = document.createElement('li');
           li2.className = 'psg-badge' + (got ? ' got' : '');
           li2.innerHTML = '<span class="psg-badge-icon" aria-hidden="true"></span><span class="psg-badge-name"></span><span class="psg-badge-desc"></span>';
-          li2.children[0].textContent = got ? b.icon : '🔒';
+          li2.children[0].innerHTML = ICONS[got ? b.icon : 'lock'] || ICONS.lock;
           li2.children[1].textContent = b.name + (got ? '' : ' (locked)');
           li2.children[2].textContent = b.desc;
           grid.appendChild(li2);
@@ -782,7 +825,7 @@
       var st = hub.querySelector('[data-hub="sound"]');
       if (st) {
         st.setAttribute('aria-pressed', profile.sound ? 'true' : 'false');
-        st.textContent = profile.sound ? '🔊 Game sounds on' : '🔇 Game sounds off';
+        st.textContent = profile.sound ? 'Game sounds on' : 'Game sounds off';
       }
     }
     var sb = hub.querySelector('[data-hub="sound"]');

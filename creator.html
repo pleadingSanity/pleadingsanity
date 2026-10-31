@@ -25,6 +25,13 @@
 .creator-step strong{color:#00fff0}.creator-step p{margin:.35rem 0 0;color:#c6d6e2}
 .creator-btn:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
 @media(max-width:480px){.creator-btn{width:100%}}
+.test-lab,.song-upload{margin:0 0 1.2rem;padding:1rem;border:1px solid rgba(0,255,240,.35);border-radius:18px;background:#0b0f19}
+.lab-card{margin:.8rem 0;padding:.8rem;border:1px solid rgba(148,163,184,.35);border-radius:14px}
+.lab-row,.song-upload .row{display:flex;flex-wrap:wrap;gap:.45rem}
+.lab-card button,.lab-open,.song-upload button,.song-upload input{min-height:48px;font:inherit}
+.lab-open{display:inline-flex;align-items:center;padding:.5rem .8rem;border-radius:12px;background:#00fff0;color:#0b0f19;font-weight:800;text-decoration:none}
+.lab-card textarea,.song-upload input[type="text"]{width:100%;margin:.4rem 0}
+button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
 </style>
 
 
@@ -43,76 +50,88 @@
 <div class="ps-links">
   <a href="/" class="ps-home">Home</a>
   <div class="ps-group" data-group="heal">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">Arron &amp; Healing</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
     <div class="ps-group-menu" id="ps-g-heal">
-      <a href="/arron.html">Talk to Arron</a>
-      <a href="/arron-app.html">Arron App</a>
-      <a href="/journal-vault.html">Journal Vault</a>
-      <a href="/notes.html">Sanctuary Notes</a>
-      <a href="/mind-mode.html">Mind Mode</a>
-      <a href="/mood-journey.html">Mood Journey</a>
-      <a href="/frequencies.html">Healing Hz</a>
-      <a href="/meditation.html">Silence &amp; Breath</a>
-      <a href="/quote-wall.html">Quote Wall</a>
-      <a href="/finance.html">Sane Finance</a>
-      <a href="/support.html">Support</a>
+      <a href="/arron.html"> Talk to Arron</a>
+      <a href="/arron-app.html"> Arron App</a>
+      <a href="/journal-vault.html"> Journal Vault</a>
+      <a href="/notes.html"> Sanctuary Notes</a>
+      <a href="/mind-mode.html"> Mind Mode</a>
+      <a href="/mood-journey.html"> Mood Journey</a>
+      <a href="/frequencies.html"> Healing Hz</a>
+      <a href="/meditation.html"> Silence &amp; Breath</a>
+      <a href="/quote-wall.html"> Quote Wall</a>
+      <a href="/finance.html"> Sane Finance</a>
+      <a href="/support.html"> Support</a>
     </div>
   </div>
   <div class="ps-group" data-group="community">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">Community</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
     <div class="ps-group-menu" id="ps-g-community">
-      <a href="/feed.html">Sanity Feed</a>
-      <a href="/sanctuary.html">My Sanctuary</a>
-      <a href="/sanityhub.html">Sanity Hub</a>
-      <a href="/videos.html">Videos</a>
-      <a href="/ai-stories.html">AI Stories</a>
+      <a href="/feed.html"> Sanity Feed</a>
+      <a href="/sanctuary.html"> My Sanctuary</a>
+      <a href="/sanityhub.html"> Sanity Hub</a>
+      <a href="/videos.html"> Videos</a>
+      <a href="/ai-stories.html"> AI Stories</a>
       <a href="/profile.html">Profile</a>
     </div>
   </div>
   <div class="ps-group has-current" data-group="create">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">Create &amp; Live</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
     <div class="ps-group-menu" id="ps-g-create">
-      <a href="/creator.html" aria-current="page">Creator Hub</a>
-      <a href="/ai-studio.html">AI Studio</a>
-      <a href="/creations.html">Image Creations</a>
-      <a href="/blueprint.html">Video Blueprint</a>
-      <a href="/write.html">Write with Arron</a>
-      <a href="/rap.html">Rap Studio</a>
-      <a href="/wisdom.html">Words from the Family</a>
-      <a href="/my-digital-story.html">My Digital Story</a>
+      <a href="/creator.html" aria-current="page"> Creator Hub</a>
+      <a href="/ai-studio.html"> AI Studio</a>
+      <a href="/creations.html"> Image Creations</a>
+      <a href="/blueprint.html"> Video Blueprint</a>
+      <a href="/write.html"> Write with Arron</a>
+      <a href="/rap.html"> Rap Studio</a>
+      <a href="/wisdom.html"> Words from the Family</a>
+      <a href="/my-digital-story.html"> My Digital Story</a>
     </div>
   </div>
   <div class="ps-group" data-group="play">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">Games &amp; Kids</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
     <div class="ps-group-menu" id="ps-g-play">
-      <a href="/games.html">Brain Games</a>
-      <a href="/sanity-solitaire.html">Sanity Solitaire</a>
-      <a href="/cosmic-connect.html">Cosmic Connect</a>
-      <a href="/truth-tag.html">Truth Tag</a>
-      <a href="/stardust-dash.html">Stardust Dash</a>
-      <a href="/poker.html">Night Table</a>
-      <a href="/kids.html">Keep Kids Sane</a>
-      <a href="/kids-series.html">Kids Cartoon Series</a>
+      <a href="/games.html"> Brain Games</a>
+      <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
+      <a href="/cosmic-connect.html"> Cosmic Connect</a>
+      <a href="/truth-tag.html"> Truth Tag</a>
+      <a href="/stardust-dash.html"> Stardust Dash</a>
+      <a href="/poker.html"> Night Table</a>
+      <a href="/kids.html"> Keep Kids Sane</a>
+      <a href="/kids-series.html"> Kids Cartoon Series</a>
     </div>
   </div>
   <div class="ps-group" data-group="story">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">Our Story</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
     <div class="ps-group-menu" id="ps-g-story">
-      <a href="/about.html">Our Story</a>
-      <a href="/new-gen-bible.html">New Gen Bible</a>
-      <a href="/movement.html">The Movement</a>
-      <a href="/ai-ecosystem.html">Our AI Family</a>
-      <a href="/ai-family.html">All AIs welcome</a>
-      <a href="/transparency.html">Transparency</a>
+      <a href="/about.html"> Our Story</a>
+      <a href="/new-gen-bible.html"> New Gen Bible</a>
+      <a href="/movement.html"> The Movement</a>
+      <a href="/ai-ecosystem.html"> Our AI Family</a>
+      <a href="/ai-family.html"> All AIs welcome</a>
+      <a href="/transparency.html"> Transparency</a>
     </div>
   </div>
-  <a href="/shop.html" class="ps-shop">Shop</a>
-  <a href="/crisis.html" class="ps-crisis">Truth</a>
+  <a href="/shop.html" class="ps-shop"> Shop</a>
+  <a href="/crisis.html" class="ps-crisis"> Truth</a>
 </div>
 </div></nav>
 <main id="main" class="creator-page">
+<section id="test-lab" class="test-lab" hidden aria-label="Test Lab"></section>
+<section id="song-upload" class="song-upload" hidden aria-labelledby="song-upload-title">
+  <h2 id="song-upload-title">Add one of your own songs</h2>
+  <p>MP3, WAV, M4A or WebM, under 4.5 MB. These are the files that can keep playing on a locked phone. YouTube songs cannot.</p>
+  <form>
+    <label>Title <input name="title" type="text" required maxlength="80"></label>
+    <label>Artist <input name="artist" type="text" value="Shane Cooper" maxlength="80"></label>
+    <label>File <input name="file" type="file" accept="audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/webm,audio/aac" required></label>
+    <button type="submit">Save song</button>
+  </form>
+  <p data-upload-status role="status"></p>
+</section>
 <section class="creator-hero"><span class="creator-badge">CREATOR HUB</span><h1>Your stage. Your people. Your share.</h1>
-<img src="images/cosmic-cards-games.jpg" alt="Creator tools — build, broadcast, connect" loading="lazy" style="width:100%;max-width:640px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"><p>Bring a public YouTube or Twitch stream, preview it and share the link with your community. Plan your next live here. Direct broadcasting, automatic clips and payouts are still in development.</p></section>
+<img src="images/hero-creator-studio.webp" alt="Empty creator desk at night with microphone, camera, headphones and a teal ring light" width="1280" height="720" loading="eager" fetchpriority="high" decoding="async" style="width:100%;max-width:960px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"><p>Bring a public YouTube or Twitch stream, preview it and share the link with your community. Plan your next live here. Direct broadcasting, automatic clips and payouts are still in development.</p></section>
 <figure class="creator-hero-art"><img src="/assets/images/editorial/creator-stage-1280.webp" srcset="/assets/images/editorial/creator-stage-640.webp 640w, /assets/images/editorial/creator-stage-1280.webp 1280w" sizes="(max-width:600px) 92vw, 1000px" width="1280" height="536" alt="A cosy night-time creator studio with camera, microphone and turquoise lighting" loading="lazy" decoding="async"></figure>
 <section aria-label="Start as a creator" class="creator-steps">
   <div class="creator-step"><strong>1 · Create your profile</strong><p>Sign in and choose how you want to show up.</p><a href="/profile.html">Your profile →</a></div>
@@ -163,15 +182,15 @@
 <p class="creator-status">Tool availability varies. AI-generated video, automated publishing and paid creator payouts are not implied by these links. Always review content and permissions before sharing.</p>
 </section>
 <section class="creator-grid">
-<article class="creator-card"><h2>🔴 Your streams</h2><div class="creator-status">Stream preview and sharing: <strong>AVAILABLE</strong><br>Use a public stream URL. Sharing to the community feed requires sign-in; playback depends on the original platform and stream settings.</div><div class="creator-status">Native Pleading Sanity broadcast: <strong>🔜 COMING SOON</strong></div><a class="creator-btn" href="/live.html">Open LIVE hub</a></article>
-<article class="creator-card"><h2>✂️ Your clips</h2><div class="creator-status">AI Highlights: <strong>🔜 COMING SOON</strong></div><p>Automatic highlights and downloadable clips are not available yet.</p><a class="creator-btn secondary" href="/live.html#creator-tools">Open creator controls</a></article>
-<article class="creator-card"><h2>💰 Your earnings</h2><div class="creator-number">90%</div><p><strong>Founding Creator offer</strong> — proposed share of qualifying creator income for the first 1,000 eligible creators.</p><div class="creator-status">Actual payouts: <strong>🔜 LAUNCHING SOON</strong><br>Estimated earnings are not a payment promise.</div><a class="creator-btn secondary" href="/live.html#founding-creators">Read the offer</a></article>
+<article class="creator-card"><h2> Your streams</h2><div class="creator-status">Stream preview and sharing: <strong>AVAILABLE</strong><br>Use a public stream URL. Sharing to the community feed requires sign-in; playback depends on the original platform and stream settings.</div><div class="creator-status">Native Pleading Sanity broadcast: <strong> COMING SOON</strong></div><a class="creator-btn" href="/live.html">Open LIVE hub</a></article>
+<article class="creator-card"><h2> Your clips</h2><div class="creator-status">AI Highlights: <strong> COMING SOON</strong></div><p>Automatic highlights and downloadable clips are not available yet.</p><a class="creator-btn secondary" href="/live.html#creator-tools">Open creator controls</a></article>
+<article class="creator-card"><h2> Your earnings</h2><div class="creator-number">90%</div><p><strong>Founding Creator offer</strong> — proposed share of qualifying creator income for the first 1,000 eligible creators.</p><div class="creator-status">Actual payouts: <strong> LAUNCHING SOON</strong><br>Estimated earnings are not a payment promise.</div><a class="creator-btn secondary" href="/live.html#founding-creators">Read the offer</a></article>
 </section>
-<section class="creator-card" style="margin-top:1rem"><h2>🌟 Founding Creator</h2><p>The first 1,000 eligible creators are intended to receive 90% of qualifying creator income generated through the platform. No income generated means no payout. Complete terms, attribution, fraud controls, payment eligibility and payout infrastructure must be live before the programme becomes active.</p><a class="creator-btn" href="mailto:pleadingsanity1@gmail.com?subject=Founding%20Creator%20Application">Apply as Creator</a><p class="creator-status">Applications are currently reviewed manually. Email us with your creator name, what you create and the platforms where you already stream. Approval is not automatic.</p></section>
-<section class="creator-card" style="margin-top:1rem"><h2>📋 Platform status</h2><div class="creator-status">✅ Live page + external-stream preview UI</div><div class="creator-status">🟡 Feed sharing is implemented; needs signed-in end-to-end verification</div><div class="creator-status">🟡 Creator UI + local planning controls</div><div class="creator-status">🔜 Real-time shared chat</div><div class="creator-status">🔜 Native broadcasting + multistreaming</div><div class="creator-status">🔜 AI highlight clips</div><div class="creator-status">🔜 Verified earnings + payouts</div><p><a href="/docs/CREATOR-PLATFORM-STATUS.md">Technical status is maintained in the repository.</a></p></section>
+<section class="creator-card" style="margin-top:1rem"><h2> Founding Creator</h2><p>The first 1,000 eligible creators are intended to receive 90% of qualifying creator income generated through the platform. No income generated means no payout. Complete terms, attribution, fraud controls, payment eligibility and payout infrastructure must be live before the programme becomes active.</p><a class="creator-btn" href="mailto:pleadingsanity1@gmail.com?subject=Founding%20Creator%20Application">Apply as Creator</a><p class="creator-status">Applications are currently reviewed manually. Email us with your creator name, what you create and the platforms where you already stream. Approval is not automatic.</p></section>
+<section class="creator-card" style="margin-top:1rem"><h2> Platform status</h2><div class="creator-status"> Live page + external-stream preview UI</div><div class="creator-status"> Feed sharing is implemented; needs signed-in end-to-end verification</div><div class="creator-status"> Creator UI + local planning controls</div><div class="creator-status"> Real-time shared chat</div><div class="creator-status"> Native broadcasting + multistreaming</div><div class="creator-status"> AI highlight clips</div><div class="creator-status"> Verified earnings + payouts</div><p><a href="/docs/CREATOR-PLATFORM-STATUS.md">Technical status is maintained in the repository.</a></p></section>
 <p class="ps-motto">PLEADING SANITY · Rise From Madness.</p>
 </main>
 <footer class="ps-footer" role="contentinfo"><div class="ps-footer-inner"><p class="ps-motto">Evolution, Not Erasure</p><div class="ps-footer-links"><a href="/">Home</a><a href="/live.html">LIVE</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></div></div></footer>
-<script src="/js/site.js" defer></script><script type="module" src="/js/auth.js"></script>
+<script src="/js/site.js" defer></script><script type="module" src="/js/auth.js"></script><script type="module" src="/js/owner-hub.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 </body></html>

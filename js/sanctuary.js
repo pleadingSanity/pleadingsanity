@@ -9,18 +9,19 @@ import { api, esc, requireMember } from '/js/auth.js';
 import { moodBadge, postHTML, setViewer, wirePosts } from '/js/social.js';
 import { loadProgress, onProgressSync, SYNCED } from '/js/progress.js';
 
+const svg = (path) => `<svg viewBox="0 0 24 24" width="1.4em" height="1.4em" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="${path}"/></svg>`;
 const ROLE = {
-  creator: '💫 Creator',
-  admin: '🛡️ Admin',
-  guardian: '✨ Guardian',
-  member: '🌿 Member',
+  creator: svg('M12 3l2 6h6l-5 4 2 6-5-3-5 3 2-6-5-4h6z') + ' Creator',
+  admin: svg('M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z') + ' Admin',
+  guardian: svg('M12 3l2 6h6l-5 4 2 6-5-3-5 3 2-6-5-4h6z') + ' Guardian',
+  member: svg('M12 21V10M12 10c2-4 6-5 8-5-1 4-3 7-8 5z') + ' Member',
 };
 const GAMES = {
-  'mind-mode': ['🌬️', 'Mind Mode', '/mind-mode.html'],
-  'mood-journey': ['🌱', 'Mood Journey', '/mood-journey.html'],
-  'cosmic-connect': ['🃏', 'Cosmic Connect', '/cosmic-connect.html'],
-  'truth-tag': ['🏷️', 'Truth Tag', '/truth-tag.html'],
-  'brain-games': ['🧠', 'Brain Games', '/games.html'],
+  'mind-mode': [svg('M4 8h11a3 3 0 1 0-3-3'), 'Mind Mode', '/mind-mode.html'],
+  'mood-journey': [svg('M12 21V10'), 'Mood Journey', '/mood-journey.html'],
+  'cosmic-connect': [svg('M6 3h12v16H6z'), 'Cosmic Connect', '/cosmic-connect.html'],
+  'truth-tag': [svg('M20 13l-7 7-9-9V4h7z'), 'Truth Tag', '/truth-tag.html'],
+  'brain-games': [svg('M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16z'), 'Brain Games', '/games.html'],
 };
 
 const me = await requireMember();
@@ -46,7 +47,7 @@ function renderProgress() {
   box.innerHTML = Object.entries(GAMES).map(([id, [icon, name, href]]) => {
     const data = id in SYNCED ? loadProgress(id, {}) : {};
     const started = data && Object.keys(data).length > 0;
-    return `<a class="sx-card" href="${href}"><span class="sx-icon" aria-hidden="true">${icon}</span><h3>${name}</h3><p>${started ? '✓ Your progress is saved and syncing' : 'Not started — whenever you’re ready'}</p></a>`;
+    return `<a class="sx-card" href="${href}"><span class="sx-icon" aria-hidden="true">${icon}</span><h3>${name}</h3><p>${started ? ' Your progress is saved and syncing' : 'Not started — whenever you’re ready'}</p></a>`;
   }).join('');
 }
 renderProgress();
@@ -58,7 +59,7 @@ wirePosts(saved);
 api('/api/posts?filter=saved')
   .then(({ posts }) => {
     saved.innerHTML = posts.map((x) => postHTML(x)).join('') ||
-      '<p class="empty">Nothing saved yet. Tap <strong>☆ Save</strong> on any post in the <a href="/feed.html#community">feed</a> and it lands here.</p>';
+      '<p class="empty">Nothing saved yet. Tap <strong> Save</strong> on any post in the <a href="/feed.html#community">feed</a> and it lands here.</p>';
   })
   .catch((error) => { saved.innerHTML = `<p class="notice err">${esc(error.message)}</p>`; });
 
@@ -70,7 +71,7 @@ api('/api/creations?scope=mine')
       <figure class="sx-art"><a href="/creations.html#mine"><img src="${esc(c.imageUrl)}" alt="${esc(c.title || c.prompt)}" loading="lazy" width="256" height="256" /></a>
       <span class="sx-watermark" aria-hidden="true">Pleading Sanity</span>
       <figcaption><strong>${esc(c.title || c.prompt)}</strong></figcaption></figure>`).join('') ||
-      '<p class="empty">No creations yet. <a href="/creations.html#create">Make your first with Arron 🎨</a></p>';
+      '<p class="empty">No creations yet. <a href="/creations.html#create">Make your first with Arron</a></p>';
   })
   .catch(() => { art.innerHTML = '<p class="empty"><a href="/creations.html">Open Creations →</a></p>'; });
 
@@ -80,6 +81,6 @@ api('/api/write/mine')
   .then(({ pieces }) => {
     writing.innerHTML = pieces.length
       ? `<ul>${pieces.slice(0, 5).map((w) => `<li><strong>${esc(w.title || w.kind)}</strong> — <span class="sx-status-${esc(w.status)}">${esc(w.status)}</span></li>`).join('')}</ul><p><a href="/write.html">All your writing →</a></p>`
-      : '<p class="empty">Your words matter here. <a href="/write.html">Write something with Arron ✍️</a></p>';
+      : '<p class="empty">Your words matter here. <a href="/write.html">Write something with Arron </a></p>';
   })
   .catch(() => { writing.innerHTML = '<p><a href="/write.html">Open Write with Arron →</a></p>'; });

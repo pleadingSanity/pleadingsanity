@@ -35,7 +35,7 @@ class ContentMediaSystem {
   // CORE INIT
   // ==============================================
   init() {
-    console.log(`🎙️ Pleading Sanity Media System v${this.VERSION} — ONLINE`);
+    console.log(` Pleading Sanity Media System v${this.VERSION} — ONLINE`);
     
     this.setupContentInfrastructure();
     this.initPodcastNetwork();
@@ -49,7 +49,7 @@ class ContentMediaSystem {
   }
 
   // ==============================================
-  // STORAGE LAYER — Encapsulated + Migratable ✅
+  // STORAGE LAYER — Encapsulated + Migratable 
   // ==============================================
   loadDB() {
     return {
@@ -65,7 +65,7 @@ class ContentMediaSystem {
       const data = localStorage.getItem(key);
       return data ? JSON.parse(data) : fallback;
     } catch (err) {
-      console.warn(`⚠️ Storage parse failed: ${key} — resetting`, err);
+      console.warn(` Storage parse failed: ${key} — resetting`, err);
       return fallback;
     }
   }
@@ -78,7 +78,7 @@ class ContentMediaSystem {
       localStorage.setItem(this.STORAGE_KEYS.reports, JSON.stringify(this.db.reports));
       return true;
     } catch (err) {
-      console.error('❌ Storage save failed:', err);
+      console.error(' Storage save failed:', err);
       return false;
     }
   }
@@ -131,7 +131,7 @@ class ContentMediaSystem {
   // ==============================================
   initPodcastNetwork() {
     this.podcastNetwork.set('flagship', {
-      name: '🎙️ Rise From Madness',
+      name: ' Rise From Madness',
       tagline: 'Real talk. Real recovery. Building lives worth living.',
       hosts: ['Shane Cooper', 'Rotating Community Co-Hosts'],
       schedule: 'Every Wednesday 12:00 PM GMT',
@@ -142,11 +142,11 @@ class ContentMediaSystem {
     });
 
     const networkShows = [
-      { id: 'peer_support', name: '🤝 Peer Support Conversations', focus: 'Lived-experience guidance', freq: 'Bi-weekly' },
-      { id: 'crisis_stories', name: '🛡️ Crisis Response Stories', focus: 'Surviving & helping others', freq: 'Monthly' },
-      { id: 'research_roundup', name: '📊 Research Roundtable', focus: 'Science meets real life', freq: 'Monthly' },
-      { id: 'global_voices', name: '🌍 Global Voices', focus: 'Healing across borders', freq: 'Bi-weekly' },
-      { id: 'creative_recovery', name: '🎨 Creative Recovery', focus: 'Art, music, writing as medicine', freq: 'Weekly' }
+      { id: 'peer_support', name: ' Peer Support Conversations', focus: 'Lived-experience guidance', freq: 'Bi-weekly' },
+      { id: 'crisis_stories', name: ' Crisis Response Stories', focus: 'Surviving & helping others', freq: 'Monthly' },
+      { id: 'research_roundup', name: ' Research Roundtable', focus: 'Science meets real life', freq: 'Monthly' },
+      { id: 'global_voices', name: ' Global Voices', focus: 'Healing across borders', freq: 'Bi-weekly' },
+      { id: 'creative_recovery', name: ' Creative Recovery', focus: 'Art, music, writing as medicine', freq: 'Weekly' }
     ];
 
     networkShows.forEach(show => this.podcastNetwork.set(show.id, show));
@@ -206,10 +206,10 @@ class ContentMediaSystem {
     ];
 
     const pathways = [
-      { id: 'personal', name: '🌱 Personal Recovery', leads: ['literacy_101'] },
-      { id: 'career', name: '💼 Peer Professional', leads: ['literacy_101', 'peer_support', 'crisis_response'] },
-      { id: 'family', name: '❤️ Family & Friends', leads: ['family_support'] },
-      { id: 'pro', name: '🏥 Professional Dev', leads: ['literacy_101', 'crisis_response'] }
+      { id: 'personal', name: ' Personal Recovery', leads: ['literacy_101'] },
+      { id: 'career', name: ' Peer Professional', leads: ['literacy_101', 'peer_support', 'crisis_response'] },
+      { id: 'family', name: ' Family & Friends', leads: ['family_support'] },
+      { id: 'pro', name: ' Professional Dev', leads: ['literacy_101', 'crisis_response'] }
     ];
 
     this.educationalContent.set('courses', courses);
@@ -321,7 +321,7 @@ class ContentMediaSystem {
   // ==============================================
   submitContent(type, creatorId, data = {}) {
     if (!type || !creatorId) {
-      console.warn('⚠️ Missing required fields: type or creatorId');
+      console.warn(' Missing required fields: type or creatorId');
       return null;
     }
 
@@ -341,7 +341,7 @@ class ContentMediaSystem {
 
     this.db.content.push(entry);
     this.saveDB();
-    console.log(`📥 Content submitted: ${entry.id}`);
+    console.log(` Content submitted: ${entry.id}`);
     
     // Auto-approve demo mode — replace with real review workflow
     setTimeout(() => this.reviewContent(entry.id, 'approved'), 3000);
@@ -351,17 +351,17 @@ class ContentMediaSystem {
   reviewContent(id, decision = 'approved') {
     const idx = this.db.content.findIndex(c => c.id === id);
     if (idx === -1) {
-      console.warn(`⚠️ Content not found: ${id}`);
+      console.warn(` Content not found: ${id}`);
       return false;
     }
 
     this.db.content[idx].status = decision === 'approved' ? 'published' : 'rejected';
     this.db.content[idx].published = decision === 'approved' ? new Date().toISOString() : null;
     this.db.content[idx].reviewedAt = new Date().toISOString();
-    this.db.content[idx].reviewNotes = decision === 'approved' ? 'Welcome to the movement 💙' : 'Thank you — we’ll connect soon';
+    this.db.content[idx].reviewNotes = decision === 'approved' ? 'Welcome to the movement ' : 'Thank you — we’ll connect soon';
     
     this.saveDB();
-    console.log(`✅ Content ${decision}: ${id}`);
+    console.log(` Content ${decision}: ${id}`);
     return true;
   }
 
@@ -459,7 +459,7 @@ class ContentMediaSystem {
 if (typeof document !== 'undefined') {
   document.addEventListener('DOMContentLoaded', () => {
     window.PS_Media = new ContentMediaSystem();
-    console.log('🌍 Pleading Sanity Media — AMPLIFYING SURVIVOR VOICES');
+    console.log(' Pleading Sanity Media — AMPLIFYING SURVIVOR VOICES');
   });
 }
 

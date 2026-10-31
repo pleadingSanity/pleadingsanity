@@ -58,10 +58,10 @@
       box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(0,255,240,.4);
       font-weight:700;
     }
-    .card.hearts, .waste.hearts { color:#ff6b9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,107,154,.7), 0 0 16px rgba(255,107,154,.28); }
+    .card.hearts, .waste.hearts { color:#f59e0b; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(245,158,11,.7), 0 0 16px rgba(245,158,11,.28); }
     .card.spades, .waste.spades { color:#5ee9ff; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(94,233,255,.7), 0 0 16px rgba(94,233,255,.25); }
     .card.clubs, .waste.clubs { color:#5dff9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(93,255,154,.65), 0 0 16px rgba(93,255,154,.22); }
-    .card.diamonds, .waste.diamonds { color:#f59e0b; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(192,132,252,.7), 0 0 16px rgba(192,132,252,.25); }
+    .card.diamonds, .waste.diamonds { color:#fbbf24; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(192,132,252,.7), 0 0 16px rgba(192,132,252,.25); }
     .card {
       position:absolute; border:0; padding:0; text-align:left; touch-action:manipulation;
     }
@@ -162,7 +162,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .stage{background:rgba(0,8,23,.58);border:2px solid rgba(0,255,240,.45);box-shadow:0 12px 32px #000a,0 0 24px #00fff022;border-radius:22px}
 .felt{background:linear-gradient(180deg,rgba(4,16,42,.62),rgba(1,10,30,.85)),url('/assets/games/ps-starlake.svg') center/cover!important}
 .card,.waste{background:linear-gradient(150deg,#fefefe,#dce9fb)!important;color:#13213a!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #ffffff!important}
-.card.hearts,.waste.hearts{color:#b3184b!important}.card.diamonds,.waste.diamonds{color:#802cc5!important}.card.clubs,.waste.clubs{color:#137948!important}.card.spades,.waste.spades{color:#17469b!important}
+.card.hearts,.waste.hearts{color:#b3184b!important}.card.diamonds,.waste.diamonds{color:#b45309!important}.card.clubs,.waste.clubs{color:#137948!important}.card.spades,.waste.spades{color:#17469b!important}
 .card.back,.stock{background:#030a25 url('/assets/theme/solitaire-board.jpg') center/cover!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #00fff0aa!important}
 .card.playable{outline:3px solid #ffc95d!important;outline-offset:1px;box-shadow:0 0 22px #ffcf69,0 5px 12px #0009!important}
 #book{background:rgba(2,10,28,.7);border-radius:16px}
@@ -192,10 +192,10 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .k-card .tl { top:4px; left:4px; }
 .k-card .br { right:4px; bottom:4px; transform:rotate(180deg); }
 .k-card .suit { position:absolute; left:50%; top:58%; width:24px; height:24px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
-.k-card.hearts { color:#ff6b9a; }
+.k-card.hearts { color:#f59e0b; }
 .k-card.spades { color:#5ee9ff; }
 .k-card.clubs { color:#5dff9a; }
-.k-card.diamonds { color:#f59e0b; }
+.k-card.diamonds { color:#fbbf24; }
 .k-card.back { background:#000103 url("/assets/games/ps-cosmic-card-back.svg") center/cover; color:transparent; }
 .k-card .count { position:relative; z-index:1; color:#eef6ff; font-size:.85rem; }
 @media (max-width: 420px) {
@@ -251,6 +251,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 </style>
 <link rel="stylesheet" href="/css/ps-game-art.css">
   <link rel="stylesheet" href="/css/games-phone.css">
+<link rel="stylesheet" href="/css/site.css">
 </head>
 <body class="night ps-art ps-art-solitaire ps-game-page">
 <aside class="ps-crisis-strip" role="note" aria-label="Urgent support" style="background:#0b0f19;color:#e2e8f0;border-bottom:1px solid #00fff0;padding:8px 14px;text-align:center;font:600 14px/1.5 system-ui,sans-serif">Need someone now? <a href="tel:116123" style="color:#00fff0">Samaritans 116 123</a> &middot; Text SHOUT to <a href="sms:85258" style="color:#00fff0">85258</a> &middot; <a href="tel:111" style="color:#00fff0">NHS 111</a> &middot; Emergency <a href="tel:999" style="color:#f59e0b">999</a></aside>
@@ -270,7 +271,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
-<img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Purple skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>💜 COMING SOON — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>💜 COMING SOON — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>💜 COMING SOON — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>💜 COMING SOON — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
+<img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Teal night skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>Coming soon — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>Coming soon — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>Coming soon — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>Coming soon — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
     <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
     <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
@@ -380,6 +381,7 @@ window.PSTable = (function () {
   <script src="/js/guest-progress.js"></script>
 <script src="/js/offline-note.js" defer></script>
   <script src="/js/games.js"></script>
+  <script src="/js/game-brains.js"></script>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
     const suits=["\u2660","\u2665","\u2666","\u2663"];
@@ -470,7 +472,15 @@ window.PSTable = (function () {
     try { if (localStorage.getItem("ps-sol-daily-seen")!==dayKey()) $("today").classList.add("daily-new"); } catch(e) {}
     $("today").onclick=()=>{ try { localStorage.setItem("ps-sol-daily-seen",dayKey()); } catch(e) {} $("today").classList.remove("daily-new"); fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
     $("undo").onclick=()=>{ if(cleared){ $("status").textContent="This deal is won. New peaks when you are ready."; return; } if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
-    $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
+    $("hint").onclick=()=>{
+      if (window.PSBrains) {
+        const view = board.map((card) => ({ r: card.r, s: card.s, up: card.up, gone: card.gone, covered: covered(card.i) }));
+        const hint = PSBrains.peaksHint(view, waste.r);
+        $("status").textContent = hint.card ? hint.text : (deck.length ? "No play. Draw." : "No plays and no draws left.");
+        return;
+      }
+      const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left.");
+    };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
     $("new").onclick=()=>fresh(); $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
@@ -744,5 +754,6 @@ window.PSTable = (function () {
 })();
 </script>
   <script type="module" src="/js/progress.js"></script>
+<script src="/js/site.js" defer></script>
 </body>
 </html>

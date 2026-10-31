@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON — COMPANION APP  (/arron.html)
+//  ARRON — COMPANION APP  (/arron.html)
 // Chat · Your Story memory · Mood check-ins · Forget Me
 // Auto-reconnect · Offline replies · Reply chime · Onboarding
 // Server: netlify/functions/arron.mts (memory in Netlify Database)
@@ -76,21 +76,21 @@
 
   // ─── MOODS ───
   const MOODS = {
-    calm:    { emoji: '😌', label: 'calm',
+    calm:    { emoji: '', label: 'calm',
                prompts: ['Help me keep this calm', 'Give me a journaling prompt', 'Tell me something about Pleading Sanity'] },
-    hopeful: { emoji: '✨', label: 'hopeful',
+    hopeful: { emoji: '', label: 'hopeful',
                prompts: ['I want to build on this', 'Help me set one small goal', 'I want to hope'] },
-    tired:   { emoji: '🥱', label: 'tired',
+    tired:   { emoji: '', label: 'tired',
                prompts: ['I feel drained', 'Help me wind down for sleep', 'I need to breathe'] },
-    low:     { emoji: '🌧️', label: 'low',
+    low:     { emoji: '', label: 'low',
                prompts: ['I feel low today', 'Remind me why I matter', 'I want to hope'] },
-    anxious: { emoji: '😮‍💨', label: 'anxious',
+    anxious: { emoji: '', label: 'anxious',
                prompts: ['I feel overwhelmed', 'I need to breathe', 'Ground me right now'] },
-    lonely:  { emoji: '🫂', label: 'lonely',
+    lonely:  { emoji: '', label: 'lonely',
                prompts: ['I feel alone', 'Can you just talk with me?', 'How do I reach out to someone?'] },
-    angry:   { emoji: '🔥', label: 'angry',
+    angry:   { emoji: '', label: 'angry',
                prompts: ['I need to vent', 'Help me cool down', 'I feel overwhelmed'] },
-    crisis:  { emoji: '🆘', label: 'in need of support', prompts: [] }
+    crisis:  { emoji: '', label: 'in need of support', prompts: [] }
   };
 
   // Gentle next steps from around the site, matched to mood
@@ -128,7 +128,7 @@
       "Overwhelm is loud, but it passes. Name five things you can see right now. I'm right here while you do."
     ],
     low: [
-      "I hear you. Low days are real, and you don't have to fix this one. Just getting through it counts. 💙",
+      "I hear you. Low days are real, and you don't have to fix this one. Just getting through it counts. ",
       "Hope doesn't have to be loud. It can be quiet and stubborn, like a star that keeps shining in a dark sky. That's you."
     ],
     lonely: [
@@ -189,8 +189,8 @@
   let soundOn = store.get(KEYS.sound) === 'on';
 
   const greeting = () => userName
-    ? `Hey ${userName}, it's Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?`
-    : "Hey, I'm Arron. 💙 However you're feeling right now, it's welcome here. What's on your mind?";
+    ? `Hey ${userName}, it's Arron.  However you're feeling right now, it's welcome here. What's on your mind?`
+    : "Hey, I'm Arron.  However you're feeling right now, it's welcome here. What's on your mind?";
 
   // Offline replies are simpler, so every one carries the help lines. Kept outside the
   // reply text: speech, copy and share use Arron's own words only.
@@ -223,7 +223,7 @@
       share.type = 'button';
       share.className = 'arron-share';
       share.dataset.shareStory = '';
-      share.textContent = '✨ Share to AI Stories';
+      share.textContent = ' Share to AI Stories';
       wrapper.appendChild(share);
     }
     return wrapper;
@@ -297,30 +297,30 @@
     if (member) {
       const save = document.createElement('button');
       save.type = 'button';
-      save.textContent = '📓 Save to my journal';
+      save.textContent = ' Save to my journal';
       save.addEventListener('click', async () => {
         save.disabled = true;
         try {
           await memberApi('/api/journal', { body: replyText, source: 'arron', title: userText.slice(0, 80) });
-          save.textContent = '📓 Saved — only you can see it';
+          save.textContent = ' Saved — only you can see it';
         } catch (e) { save.disabled = false; setStatus(e.message); }
       });
       const share = document.createElement('button');
       share.type = 'button';
-      share.textContent = '🌿 Share as my status';
+      share.textContent = ' Share as my status';
       share.addEventListener('click', async () => {
         if (!confirm('Share Arron\'s words as your status, on your page and the community feed?')) return;
         share.disabled = true;
         try {
           const data = await memberApi('/api/me/status', { text: replyText.slice(0, 280), share: true }, 'PUT');
-          share.textContent = data.shared?.pending ? '🌿 Shared — waiting for review' : '🌿 Shared to the feed';
+          share.textContent = data.shared?.pending ? ' Shared — waiting for review' : ' Shared to the feed';
         } catch (e) { share.disabled = false; setStatus(e.message); }
       });
       box.append(save, share);
     } else if (++guestTurns === 3) {
       const join = document.createElement('a');
       join.href = '/signup.html?next=%2Farron.html';
-      join.textContent = 'Create your free Sanity Profile to keep what we build and share your voice 💙';
+      join.textContent = 'Create your free Sanity Profile to keep what we build and share your voice ';
       box.appendChild(join);
     }
     if (!box.children.length) return;
@@ -336,7 +336,7 @@
     } else if (SUGGESTIONS[mood]) {
       const [text, href, label] = SUGGESTIONS[mood];
       box.className = 'arron-suggest';
-      box.append(`💡 ${text}: `);
+      box.append(` ${text}: `);
       const a = document.createElement('a');
       a.href = href;
       a.textContent = `${label} →`;
@@ -428,7 +428,7 @@
 
   function renderSound() {
     soundBtn.setAttribute('aria-pressed', String(soundOn));
-    soundBtn.textContent = soundOn ? '🔔' : '🔕';
+    soundBtn.textContent = soundOn ? '' : '';
     soundBtn.title = soundOn ? 'Reply chime on' : 'Reply chime off';
   }
 
@@ -475,9 +475,9 @@
 
   function updatePresence() {
     presenceEl.textContent = {
-      online: ownerMode ? 'Owner · Shane · full power 💫'
-        : creatorMode ? 'Creator mode · full power ✨'
-        : member ? `With you, ${member.displayName} · remembers you everywhere 💙`
+      online: ownerMode ? 'Owner · Shane · full power '
+        : creatorMode ? 'Creator mode · full power '
+        : member ? `With you, ${member.displayName} · remembers you everywhere `
         : 'Your companion · here with you',
       reconnecting: 'Reconnecting…',
       offline: 'Offline · still here with simpler replies'
@@ -505,8 +505,8 @@
       bannerEl.hidden = false;
       bannerEl.className = `arron-banner ${state}`;
       bannerEl.textContent = state === 'offline'
-        ? "📴 You're offline. Arron still answers with simpler replies, and the house truth is saved on this device."
-        : '🔄 Arron lost connection. Reconnecting automatically…';
+        ? " You're offline. Arron still answers with simpler replies, and the house truth is saved on this device."
+        : ' Arron lost connection. Reconnecting automatically…';
       if (state === 'reconnecting') scheduleReconnect();
     }
   }
@@ -609,7 +609,7 @@
         ? "Arron's minds are resting for a moment, so this reply isn't saved."
         : (data.remembered === false
           ? "Arron replied, but couldn't save this to your memory just now."
-          : 'Saved to your memory. 💙') + (via ? ` · ${via}` : ''));
+          : 'Saved to your memory. ') + (via ? ` · ${via}` : ''));
     } catch (e) {
       // Crisis words always get Arron staying, plus the house truth and life tools, online or not
       reply = offlineResponse(text);
@@ -660,7 +660,7 @@
     chip.addEventListener('click', () => {
       const mood = chip.dataset.mood === currentMood ? null : chip.dataset.mood;
       setMood(mood, 'check-in');
-      if (mood) setStatus(`Thanks for checking in. Arron will keep in mind you're feeling ${MOODS[mood].label}. 💙`);
+      if (mood) setStatus(`Thanks for checking in. Arron will keep in mind you're feeling ${MOODS[mood].label}. `);
     });
   });
 
@@ -674,7 +674,7 @@
     memoryRequest('PUT', { story: storyField.value })
       .then(() => {
         store.remove('arron_story_unsynced');
-        note.textContent = 'Saved ✓ Arron will remember this on every visit. 💙';
+        note.textContent = 'Saved  Arron will remember this on every visit. ';
       })
       .catch(() => { note.textContent = "Saved on this device. It'll sync to Arron's memory when he reconnects."; });
   });
@@ -684,7 +684,7 @@
   copyCodeBtn.addEventListener('click', async () => {
     try {
       await navigator.clipboard.writeText(memoryId);
-      copyCodeBtn.textContent = 'Copied ✓';
+      copyCodeBtn.textContent = 'Copied ';
     } catch (e) {
       copyCodeBtn.textContent = 'Select the code above';
     }
@@ -711,7 +711,7 @@
     restoreField.value = '';
     setStatus('Restoring your memory…');
     syncFromServer()
-      .then(() => setStatus('Memory restored. Welcome back. 💙'))
+      .then(() => setStatus('Memory restored. Welcome back. '))
       .catch(() => setStatus("Code saved. Arron will load your memory once he's back online."));
   });
 
@@ -768,7 +768,7 @@
     render();
     memoryCodeEl.textContent = memoryId;
     setStatus(erased
-      ? "Erased ✓ Arron's server memory is cleared. Fresh start, and he's still here. 💙"
+      ? "Erased  Arron's server memory is cleared. Fresh start, and he's still here. "
       : "Erased on this device. The server couldn't be reached, so it'll be wiped automatically next time you're online.");
   });
 
@@ -830,11 +830,11 @@
   syncFromServer()
     .then(() => {
       setConn('online');
-      setStatus(messages.length ? 'Welcome back. Arron remembers your conversation. 💙' : 'Ready. Say hello. 💙');
+      setStatus(messages.length ? 'Welcome back. Arron remembers your conversation. ' : 'Ready. Say hello. ');
     })
     .catch(() => {
       setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
-      setStatus(messages.length ? 'Showing your saved conversation from this device.' : 'Ready. Say hello. 💙');
+      setStatus(messages.length ? 'Showing your saved conversation from this device.' : 'Ready. Say hello. ');
     });
 
   // Show creator mode straight away for signed-in creators and admins.
@@ -846,8 +846,8 @@
       member = data.member || null;
       if (member && !userName) userName = member.displayName;
       updatePresence();
-      if (ownerMode) setStatus('Welcome home, Shane. 💫 Try "show me everything" or "review posts".');
-      else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. 💙`);
+      if (ownerMode) setStatus('Welcome home, Shane.  Try "show me everything" or "review posts".');
+      else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. `);
     })
     .catch(() => {});
 

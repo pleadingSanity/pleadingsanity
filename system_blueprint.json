@@ -1,6 +1,6 @@
 {
   "version": "4.0.0",
-  "lastUpdated": "2026-10-31T12:00:00Z",
+  "lastUpdated": "2026-10-31T19:30:00Z",
   "site": "https://pleadingsanity.co.uk",
   "repo": "pleadingSanity/pleadingsanity",
   "host": "netlify",
@@ -115,8 +115,10 @@
   "buildGuard": "scripts/validate-build.cjs",
   "arron": {
     "health": "/api/arron/health",
-    "functions": 29,
-    "providerChain": "GPT->Claude->Gemini->Grok->local (unchained; tool-calling round precedes it when OPENAI_API_KEY set)",
+    "functions": 31,
+    "providerChain": "GPT->Claude->Gemini->Grok->local (order unchanged; gateway Gemini first, then gemini-2.5-flash when GEMINI_API_KEY is set; tool-calling round precedes it when OPENAI_API_KEY set)",
+    "geminiDirectModel": "gemini-2.5-flash",
+    "needsOwnerEnv": ["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_KEY", "GEMINI_API_KEY"],
     "memoryDeleteEndpoint": "/api/arron/memory",
     "memory": "dual: local Netlify DB (source of truth) + Supabase arron_chat_memory (best-effort second copy, env-gated)",
     "supabaseMemoryEndpoint": "/api/arron/memory/supabase",

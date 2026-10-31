@@ -1,0 +1,284 @@
+{
+  "404.html": {
+    "image": "/images/heroes/404-hero.webp",
+    "alt": "Quiet night sky with a small glowing Crying Brain above an amber horizon",
+    "width": 1024,
+    "height": 576
+  },
+  "admin.html": {
+    "image": "/images/heroes/admin-hero.webp",
+    "alt": "A quiet moderator's desk at night with a lamp, notebook and closed laptop",
+    "width": 1024,
+    "height": 576
+  },
+  "ai-ecosystem.html": {
+    "image": "/images/heroes/ai-ecosystem-hero.webp",
+    "alt": "Four glowing orbs in teal, amber and silver, linked by threads of light",
+    "width": 1024,
+    "height": 576
+  },
+  "ai-stories.html": {
+    "image": "/images/heroes/ai-stories-hero.webp",
+    "alt": "Silhouettes sitting in a circle round a lantern under a teal aurora",
+    "width": 1024,
+    "height": 576
+  },
+  "ai-studio.html": {
+    "image": "/images/heroes/ai-studio-hero.webp",
+    "alt": "A night studio desk with a microphone, teal ring light and headphones",
+    "width": 1024,
+    "height": 576
+  },
+  "ai-welcome.html": {
+    "image": "/images/heroes/ai-welcome-hero.webp",
+    "alt": "An open door spilling amber light, the Crying Brain glowing above it",
+    "width": 1024,
+    "height": 576
+  },
+  "owner.html": {
+    "image": "/images/heroes/owner-hero.webp",
+    "alt": "The creator's night desk with microphone, teal ring light and starry window",
+    "width": 1024,
+    "height": 576
+  },
+  "arron.html": {
+    "image": "/images/heroes/arron-hero.webp",
+    "alt": "Arron, an AI companion drawn as a calm figure of teal light among stars",
+    "width": 1024,
+    "height": 576
+  },
+  "blueprint.html": {
+    "image": "/images/heroes/blueprint-hero.webp",
+    "alt": "Three storyboard frames with teal sketch marks and an amber pencil",
+    "width": 1024,
+    "height": 576
+  },
+  "circle.html": {
+    "image": "/images/heroes/circle-hero.webp",
+    "alt": "A ring of empty chairs seen from above around a pool of warm light",
+    "width": 1024,
+    "height": 576
+  },
+  "community-dashboard.html": {
+    "image": "/images/heroes/community-dashboard-hero.webp",
+    "alt": "An empty round table under a teal halo of light",
+    "width": 1024,
+    "height": 576
+  },
+  "creations.html": {
+    "image": "/images/heroes/creations-hero.webp",
+    "alt": "A gallery wall of house artwork with the Crying Brain at the centre",
+    "width": 1024,
+    "height": 576
+  },
+  "crisis.html": {
+    "image": "/images/heroes/crisis-hero.webp",
+    "alt": "A calm, steady horizon at first light",
+    "width": 1024,
+    "height": 576
+  },
+  "arron-intro.html": {
+    "image": "/images/heroes/arron-intro-hero.webp",
+    "alt": "Arron, half length, a calm figure of teal light on the night sky",
+    "width": 1024,
+    "height": 576
+  },
+  "arron-app.html": {
+    "image": "/images/heroes/arron-app-hero.webp",
+    "alt": "Arron's portrait in teal light beside open night sky",
+    "width": 1024,
+    "height": 576
+  },
+  "developers.html": {
+    "image": "/images/heroes/developers-hero.webp",
+    "alt": "A workbench at night with an open notebook, tools and a closed laptop",
+    "width": 1024,
+    "height": 576
+  },
+  "journal-vault-viewer.html": {
+    "image": "/images/heroes/journal-vault-viewer-hero.webp",
+    "alt": "A closed leather journal with a silver clasp on a dark table",
+    "width": 1024,
+    "height": 576
+  },
+  "login.html": {
+    "image": "/images/heroes/login-hero.webp",
+    "alt": "The Crying Brain glowing over a night sky and warm horizon",
+    "width": 1024,
+    "height": 576
+  },
+  "reset-password.html": {
+    "image": "/images/heroes/reset-password-hero.webp",
+    "alt": "The Crying Brain glowing over a night sky and warm horizon",
+    "width": 1024,
+    "height": 576
+  },
+  "member.html": {
+    "image": "/images/heroes/member-hero.webp",
+    "alt": "An empty silver frame waiting for your own picture",
+    "width": 1024,
+    "height": 576
+  },
+  "my-room.html": {
+    "image": "/images/heroes/my-room-hero.webp",
+    "alt": "A small room at night with one lamp, an armchair and a starry window",
+    "width": 1024,
+    "height": 576
+  },
+  "offer.html": {
+    "image": "/images/heroes/offer-hero.webp",
+    "alt": "A blank silver-edged card on a dark table",
+    "width": 1024,
+    "height": 576
+  },
+  "offline.html": {
+    "image": "/images/heroes/offline-hero.webp",
+    "alt": "Night sky over hills with one small lit window still on",
+    "width": 1024,
+    "height": 576
+  },
+  "onboarding.html": {
+    "image": "/images/heroes/onboarding-hero.webp",
+    "alt": "A path of teal and amber lights leading to a lit doorway",
+    "width": 1024,
+    "height": 576
+  },
+  "signup.html": {
+    "image": "/images/heroes/signup-hero.webp",
+    "alt": "A path of teal and amber lights leading to a lit doorway",
+    "width": 1024,
+    "height": 576
+  },
+  "platform.html": {
+    "image": "/images/heroes/platform-hero.webp",
+    "alt": "A person seen from behind in front of a softly glowing screen",
+    "width": 1024,
+    "height": 576
+  },
+  "play-listing.html": {
+    "image": "/images/heroes/play-listing-hero.webp",
+    "alt": "Card decks and a solitaire layout with Crying Brain card backs",
+    "width": 1024,
+    "height": 576
+  },
+  "post.html": {
+    "image": "/images/heroes/post-hero.webp",
+    "alt": "A blank card and a silver pen waiting for your words",
+    "width": 1024,
+    "height": 576
+  },
+  "privacy.html": {
+    "image": "/images/heroes/privacy-hero.webp",
+    "alt": "A closed padlock drawn in silver light on a dark sky",
+    "width": 1024,
+    "height": 576
+  },
+  "profile.html": {
+    "image": "/images/heroes/profile-hero.webp",
+    "alt": "Profile banner with a Crying Brain placeholder in a glowing ring",
+    "width": 1024,
+    "height": 576
+  },
+  "quote-wall.html": {
+    "image": "/images/heroes/quote-wall-hero.webp",
+    "alt": "A wall of pinned blank notes lit in teal and amber",
+    "width": 1024,
+    "height": 576
+  },
+  "rap.html": {
+    "image": "/images/heroes/rap-hero.webp",
+    "alt": "A studio microphone and headphones on the night desk",
+    "width": 1024,
+    "height": 576
+  },
+  "safety.html": {
+    "image": "/images/heroes/safety-hero.webp",
+    "alt": "Still water under a quiet night sky with a faint horizon",
+    "width": 1024,
+    "height": 576
+  },
+  "sanctuary.html": {
+    "image": "/images/heroes/sanctuary-hero.webp",
+    "alt": "A private corner with one chair, a low lamp and a starry window",
+    "width": 1024,
+    "height": 576
+  },
+  "sanity-songs.html": {
+    "image": "/images/heroes/sanity-songs-hero.webp",
+    "alt": "Silver headphones among stars with teal sound waves",
+    "width": 1024,
+    "height": 576
+  },
+  "sanityhub.html": {
+    "image": "/images/heroes/sanityhub-hero.webp",
+    "alt": "A ring of four glowing doorways around the Crying Brain",
+    "width": 1024,
+    "height": 576
+  },
+  "settings.html": {
+    "image": "/images/heroes/settings-hero.webp",
+    "alt": "A control panel of switches and dials lit in teal and amber",
+    "width": 1024,
+    "height": 576
+  },
+  "shed-card-game.html": {
+    "image": "/images/heroes/shed-card-game-hero.webp",
+    "alt": "A felt card table with Crying Brain card backs under a lamp",
+    "width": 1024,
+    "height": 576
+  },
+  "site-builder.html": {
+    "image": "/images/heroes/site-builder-hero.webp",
+    "alt": "A page outline drawn in teal light with the Crying Brain in the corner",
+    "width": 1024,
+    "height": 576
+  },
+  "solar.html": {
+    "image": "/images/heroes/solar-hero.webp",
+    "alt": "Illustration of a terraced-house roof with solar panels at dusk",
+    "width": 1024,
+    "height": 576
+  },
+  "sources.html": {
+    "image": "/images/heroes/sources-hero.webp",
+    "alt": "A short shelf of plain papers and folders",
+    "width": 1024,
+    "height": 576
+  },
+  "support.html": {
+    "image": "/images/heroes/support-hero.webp",
+    "alt": "Two people seen from behind on a bench, one comforting the other, under stars",
+    "width": 1024,
+    "height": 576
+  },
+  "transparency.html": {
+    "image": "/images/heroes/transparency-hero.webp",
+    "alt": "An open, empty ledger with a silver pen under lamplight",
+    "width": 1024,
+    "height": 576
+  },
+  "videos.html": {
+    "image": "/images/heroes/videos-hero.webp",
+    "alt": "A small dark cinema with a softly glowing blank screen",
+    "width": 1024,
+    "height": 576
+  },
+  "wisdom.html": {
+    "image": "/images/heroes/wisdom-hero.webp",
+    "alt": "Decorative ink flourishes on cream paper with a silver pen",
+    "width": 1024,
+    "height": 576
+  },
+  "write.html": {
+    "image": "/images/heroes/write-hero.webp",
+    "alt": "Arron in teal light reaching toward a blank glowing page",
+    "width": 1024,
+    "height": 576
+  },
+  "music/index.html": {
+    "image": "/images/heroes/music-hero.webp",
+    "alt": "Silver headphones on the night desk by a teal ring light",
+    "width": 1024,
+    "height": 576
+  }
+}

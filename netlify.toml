@@ -274,6 +274,13 @@
     Cache-Control = "public, max-age=3600"
 
 # ─── STATIC ASSETS ───
+# Security headers for every path are in the first [[headers]] block above.
+# These cache rules sit beside them. They do not change redirects.
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
 [[headers]]
   for = "/assets/*"
   [headers.values]

@@ -16,17 +16,17 @@ const root = document.getElementById('root');
 setViewer(me);
 
 const ROLES = {
-  owner: ['💫', 'Owner · Founder', 'Full power: instant publishing, the review queue, roles, Arron\'s voice — and no limits.'],
-  member: ['🌿', 'Member · free forever', 'Journal, post, create images with Arron and share — all free, always.'],
-  guardian: ['🛡️', 'Guardian', 'Trusted helper: reviews flags and can pin posts to the feed.'],
-  creator: ['✨', 'Creator', 'Creator mode: Arron and the AI Studio run at full power for you.'],
-  admin: ['🛡️', 'Admin', 'Full power plus the moderation queue.'],
+  owner: ['', 'Owner · Founder', 'Full power: instant publishing, the review queue, roles, Arron\'s voice — and no limits.'],
+  member: ['', 'Member · free forever', 'Journal, post, create images with Arron and share — all free, always.'],
+  guardian: ['', 'Guardian', 'Trusted helper: reviews flags and can pin posts to the feed.'],
+  creator: ['', 'Creator', 'Creator mode: Arron and the AI Studio run at full power for you.'],
+  admin: ['', 'Admin', 'Full power plus the moderation queue.'],
 };
 function myRole(role = 'member') {
   const [icon, name, desc] = ROLES[role] || ROLES.member;
   return `<span class="role-badge role-${role === 'owner' ? 'owner' : role === 'member' ? 'guardian' : 'creator'}" title="${esc(desc)}"><span aria-hidden="true">${icon}</span> ${esc(name)}</span>`;
 }
-const AUDIENCE = { private: '🔒 Only me', members: '🌿 Members', public: '🌍 Public' };
+const AUDIENCE = { private: ' Only me', members: ' Members', public: ' Public' };
 
 function playerHTML() {
   const G = window.PSGames;
@@ -51,19 +51,19 @@ function playerHTML() {
   }).join('');
   return `
     <section class="panel" aria-labelledby="player-title">
-      <h2 id="player-title">🌟 Cosmic Player</h2><p data-progress-status role="status">Checking saved progress…</p>
+      <h2 id="player-title"> Cosmic Player</h2><p data-progress-status role="status">Checking saved progress…</p>
       <div class="pp-stats">
         <div><strong>Lv ${li.level}</strong><span>${esc(li.title)}</span></div>
         <div><strong>${pr.xp}</strong><span>total XP</span></div>
-        <div><strong>🔥 ${streak}</strong><span>day streak</span></div>
+        <div><strong> ${streak}</strong><span>day streak</span></div>
         <div><strong>${earned.length}/${total}</strong><span>badges</span></div>
       </div>
       <div class="pp-bar" role="progressbar" aria-label="XP to next level" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${li.pct}"><span style="width:${li.pct}%"></span></div>
       <p class="muted">${li.into} / ${li.need} XP to level ${li.level + 1}</p>
-      ${badges ? `<ul class="pp-badges">${badges}</ul>` : '<p class="muted">No badges yet — your first game unlocks ✨ First Light.</p>'}
+      ${badges ? `<ul class="pp-badges">${badges}</ul>` : '<p class="muted">No badges yet — your first game unlocks  First Light.</p>'}
       <h3 style="margin:1rem 0 .4rem;font-size:1rem">Game levels</h3>
       <ul class="pp-levels">${levels}</ul>
-      <div class="btn-row"><a class="sbtn primary" href="/games.html">🎮 Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub">🏅 All badges</a><a class="sbtn ghost" href="/games.html#scoreboards">Friendly scoreboards</a></div>
+      <div class="btn-row"><a class="sbtn primary" href="/games.html"> Play today's challenge</a><a class="sbtn ghost" href="/games.html#psg-hub"> All badges</a><a class="sbtn ghost" href="/games.html#scoreboards">Friendly scoreboards</a></div>
       <p class="muted" style="font-size:.85rem">XP, badges and best levels sync to your account when connected. Scores are shared only when you choose.</p>
     </section>`;
 }
@@ -72,16 +72,16 @@ function savedHTML() {
   let items = {};
   try { items = JSON.parse(localStorage.getItem('ps-saved-items')) || {}; } catch {}
   const list = Object.values(items).sort((a, b) => b.at - a.at).slice(0, 20);
-  const icon = { post: '🌟', video: '🎬', quote: '✨', tip: '💡' };
+  const icon = { post: '', video: '', quote: '', tip: '' };
   const rows = list.map((it) => {
-    const text = `<span aria-hidden="true">${icon[it.type] || '⭐'}</span> <span>${esc(it.title)}${it.sub ? ` <small class="muted">— ${esc(it.sub)}</small>` : ''}</span>`;
+    const text = `<span aria-hidden="true">${icon[it.type] || ''}</span> <span>${esc(it.title)}${it.sub ? ` <small class="muted">— ${esc(it.sub)}</small>` : ''}</span>`;
     const ext = it.href?.startsWith('http');
     return `<li>${it.href ? `<a href="${esc(it.href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${text}</a>` : text}</li>`;
   }).join('');
   return `
     <section class="panel" aria-labelledby="saved-title">
-      <h2 id="saved-title">⭐ Saved</h2>
-      ${rows ? `<ul class="pp-saved">${rows}</ul>` : '<p class="muted">Tap ☆ on any card in the Sanity feed to keep it here.</p><a class="sbtn ghost" href="/feed.html">🌟 Open the feed</a>'}
+      <h2 id="saved-title"> Saved</h2>
+      ${rows ? `<ul class="pp-saved">${rows}</ul>` : '<p class="muted">Tap  on any card in the Sanity feed to keep it here.</p><a class="sbtn ghost" href="/feed.html"> Open the feed</a>'}
     </section>`;
 }
 
@@ -91,7 +91,7 @@ function statusHTML(p) {
   const moods = Object.entries(MOODS).map(([v, m]) => `<label class="chip-radio"><input type="radio" name="mood" value="${v}" ${(st?.mood || p.mood) === v ? 'checked' : ''} /> <span>${m.icon} ${m.label}</span></label>`).join('');
   return `
     <section class="panel status-card" aria-labelledby="status-title">
-      <h2 id="status-title">🌿 My Status</h2>
+      <h2 id="status-title"> My Status</h2>
       ${st ? `<p class="status-now">“${esc(st.text)}”</p><p class="muted" style="margin-top:0">${st.mood ? moodBadge(st.mood) + ' · ' : ''}${timeAgo(st.at)}</p>` : '<p class="muted">How are you really doing today? A few honest words is enough.</p>'}
       <form class="status-form" data-status novalidate>
         <label class="field"><span>How are you really doing today?</span>
@@ -102,7 +102,7 @@ function statusHTML(p) {
           <input type="checkbox" name="share" />
           <span>Also share it to my page and the community feed</span>
         </label>
-        <div class="btn-row"><button class="sbtn primary" type="submit">Check in 💙</button>${st ? '<button type="button" class="sbtn ghost" data-clear-status>Clear status</button>' : ''}</div>
+        <div class="btn-row"><button class="sbtn primary" type="submit">Check in </button>${st ? '<button type="button" class="sbtn ghost" data-clear-status>Clear status</button>' : ''}</div>
       </form>
     </section>`;
 }
@@ -114,7 +114,7 @@ function entryHTML(e) {
     <article class="journal-entry" data-entry="${e.id}">
       <div class="journal-meta">
         <time datetime="${esc(e.createdAt)}">${timeAgo(e.createdAt)}</time>
-        ${e.source === 'arron' ? '<span class="tag">💙 With Arron</span>' : ''}
+        ${e.source === 'arron' ? '<span class="tag"> With Arron</span>' : ''}
         ${e.mood ? moodBadge(e.mood) : ''}${truthBadge(e.truthTag)}
         <span class="tag">${AUDIENCE[e.visibility] || AUDIENCE.private}</span>
         ${e.postId ? `<a href="/feed.html?post=${e.postId}#community">On the feed →</a>` : ''}
@@ -126,8 +126,8 @@ function entryHTML(e) {
         <select id="vis-${e.id}" data-visibility>
           ${Object.entries(AUDIENCE).map(([v, l]) => `<option value="${v}" ${e.visibility === v ? 'selected' : ''}>${l}${v === 'private' ? '' : ' — on my page'}</option>`).join('')}
         </select>
-        ${e.postId ? '' : '<button type="button" class="sbtn small ghost" data-share-entry>🌌 Share to the feed</button>'}
-        <button type="button" class="sbtn small ghost" data-delete-entry>🗑️ Delete</button>
+        ${e.postId ? '' : '<button type="button" class="sbtn small ghost" data-share-entry> Share to the feed</button>'}
+        <button type="button" class="sbtn small ghost" data-delete-entry> Delete</button>
       </div>
     </article>`;
 }
@@ -135,7 +135,7 @@ function entryHTML(e) {
 function journalHTML() {
   return `
     <section class="panel" id="journal" aria-labelledby="journal-title" tabindex="-1">
-      <h2 id="journal-title">📓 My Journal</h2>
+      <h2 id="journal-title"> My Journal</h2>
       <p class="muted" style="margin-top:0">Private until you choose otherwise. Not even Guardians can read private entries. Tell Arron <em>"write this in my journal"</em> and it lands here too.</p>
       <form data-journal novalidate>
         <label class="field"><span>Title <small style="display:inline">(optional)</small></span>
@@ -144,7 +144,7 @@ function journalHTML() {
         <label class="field"><span>What's on your heart?</span>
           <textarea name="body" maxlength="20000" rows="5" required placeholder="Write it however it comes out…"></textarea>
         </label>
-        <div class="btn-row"><button class="sbtn primary" type="submit">Save privately 🔒</button><a class="sbtn ghost" href="/arron.html">💙 Write with Arron</a></div>
+        <div class="btn-row"><button class="sbtn primary" type="submit">Save privately </button><a class="sbtn ghost" href="/arron.html"> Write with Arron</a></div>
       </form>
       <div class="journal-list" data-entries><div class="skeleton"></div></div>
       <div class="center" data-entries-more></div>
@@ -154,9 +154,9 @@ function journalHTML() {
 function creationsHTML() {
   return `
     <section class="panel" aria-labelledby="creations-title">
-      <h2 id="creations-title">🎨 My Creations</h2>
+      <h2 id="creations-title"> My Creations</h2>
       <div class="creation-strip" data-creations><div class="skeleton"></div></div>
-      <div class="btn-row" style="margin-top:1rem"><a class="sbtn primary" href="/creations.html#create">🎨 Create with Arron</a><a class="sbtn ghost" href="/creations.html#mine">All my creations</a></div>
+      <div class="btn-row" style="margin-top:1rem"><a class="sbtn primary" href="/creations.html#create"> Create with Arron</a><a class="sbtn ghost" href="/creations.html#mine">All my creations</a></div>
     </section>`;
 }
 
@@ -172,9 +172,9 @@ async function render() {
   root.innerHTML = `
     ${user.isOwner ? `
     <section class="panel fade-in" style="margin-top:1.5rem;border-color:rgba(255,215,0,.45)" aria-labelledby="owner-title">
-      <h2 id="owner-title">💫 Welcome home, ${esc(user.ownerName || 'Shane')}</h2>
+      <h2 id="owner-title"> Welcome home, ${esc(user.ownerName || 'Shane')}</h2>
       <p style="margin-top:0">You hold the only Owner key. Your posts go live instantly; Arron knows it's you.</p>
-      <div class="btn-row"><a class="sbtn primary" href="/owner.html">💫 Owner's Room${counts.awaitingReview ? ` · ${counts.awaitingReview} to review` : ''}</a><a class="sbtn ghost" href="/post.html">✍️ Publish now</a><a class="sbtn ghost" href="/arron.html">💙 Talk to Arron</a></div>
+      <div class="btn-row"><a class="sbtn primary" href="/owner.html"> Owner's Room${counts.awaitingReview ? ` · ${counts.awaitingReview} to review` : ''}</a><a class="sbtn ghost" href="/sanity-songs.html">Sanity's Songs</a><a class="sbtn ghost" href="/post.html"> Publish now</a><a class="sbtn ghost" href="/arron.html"> Talk to Arron</a></div>
     </section>` : ''}
     <section class="panel fade-in" aria-labelledby="p-name" style="${user.isOwner ? '' : 'margin-top:1.5rem'}">
       <img class="profile-banner" src="/api/images/banner/${esc(user.id)}" alt="" onerror="this.hidden=true" />
@@ -182,7 +182,7 @@ async function render() {
         ${avatar(p, 'lg')}
         <div style="flex:1;min-width:200px">
           <h1 id="p-name">${esc(p.displayName)}</h1>
-          <div class="person-meta">@${esc(p.username)}${p.pronouns ? ' · ' + esc(p.pronouns) : ''}${p.country ? ' · 📍 ' + esc(p.country) : ''} · Joined ${joined}${p.isPrivate ? ' · 🔒 Friends-only' : ''}</div>
+          <div class="person-meta">@${esc(p.username)}${p.pronouns ? ' · ' + esc(p.pronouns) : ''}${p.country ? ' ·  ' + esc(p.country) : ''} · Joined ${joined}${p.isPrivate ? ' ·  Friends-only' : ''}</div>
           <div class="row" style="margin-top:6px">${moodBadge(p.mood)}${myRole(user.role)}</div>
           <div class="profile-stats"><span><strong>${counts.posts ?? 0}</strong> posts</span><span><strong>${counts.journal ?? 0}</strong> journal entries</span><span><strong>${counts.friends ?? 0}</strong> friends</span></div>
         </div>
@@ -190,12 +190,12 @@ async function render() {
       ${p.bio ? `<p class="person-bio" style="font-size:1rem;margin-top:1rem">${esc(p.bio)}</p>` : ''}
       ${p.interests?.length ? `<div class="tagline">${p.interests.map((t) => `<span>#${esc(t)}</span>`).join('')}</div>` : ''}
       <div class="btn-row" style="margin-top:1rem">
-        <a class="sbtn primary" href="/@${esc(p.username)}">🌿 My public page</a>
-        <button type="button" class="sbtn ghost" data-edit>✏️ Edit profile &amp; privacy</button>
-        <a class="sbtn ghost" href="/post.html">✍️ New post</a>
-        <a class="sbtn ghost" href="/settings.html">⚙️ Settings</a>
+        <a class="sbtn primary" href="/@${esc(p.username)}"> My public page</a>
+        <button type="button" class="sbtn ghost" data-edit> Edit profile &amp; privacy</button>
+        <a class="sbtn ghost" href="/post.html"> New post</a>
+        <a class="sbtn ghost" href="/settings.html"> Settings</a>
       </div>
-      <p class="muted" style="font-size:.85rem;margin-bottom:0">Page: ${p.pageVisibility === 'members' ? '🌿 members only' : '🌍 public'} · New posts: ${esc({ public: '🌍 public', members: '🌿 members', friends: '💙 friends', private: '🔒 only me' }[p.defaultVisibility] || '🌍 public')}${p.truthTagDefault ? ` · Usual Truth Tag: ${TRUTH_TAGS[p.truthTagDefault]?.icon || ''} ${esc(TRUTH_TAGS[p.truthTagDefault]?.label || '')}` : ''}</p>
+      <p class="muted" style="font-size:.85rem;margin-bottom:0">Page: ${p.pageVisibility === 'members' ? ' members only' : ' public'} · New posts: ${esc({ public: ' public', members: ' members', friends: ' friends', private: ' only me' }[p.defaultVisibility] || ' public')}${p.truthTagDefault ? ` · Usual Truth Tag: ${TRUTH_TAGS[p.truthTagDefault]?.icon || ''} ${esc(TRUTH_TAGS[p.truthTagDefault]?.label || '')}` : ''}</p>
     </section>
     <section class="panel" id="edit" hidden aria-labelledby="edit-title">
       <h2 id="edit-title">Edit your profile</h2>
@@ -209,10 +209,10 @@ async function render() {
     ${savedHTML()}
     ${p.story ? `
       <section class="panel" aria-labelledby="story-title">
-        <h2 id="story-title">📖 My Story</h2>
+        <h2 id="story-title"> My Story</h2>
         <div class="story-text">${esc(p.story)}</div>
       </section>` : `
-      <section class="panel"><h2>📖 My Story</h2><p class="muted">Your story section is empty — and that's okay. Share it only if and when you're ready, from "Edit profile".</p></section>`}
+      <section class="panel"><h2> My Story</h2><p class="muted">Your story section is empty — and that's okay. Share it only if and when you're ready, from "Edit profile".</p></section>`}
     <section aria-labelledby="posts-title">
       <h2 id="posts-title" style="margin:1.5rem 0 1rem">My posts</h2>
       <p class="muted" style="margin-top:-.5rem">Everything you've shared — including posts only you can see, and any waiting for review.</p>
@@ -237,8 +237,8 @@ function wireEdit(p) {
       profile: p,
       withStory: true,
       onSaved: async (result) => {
-        toast('Profile saved 💙');
-        if (result.storyNeedsSupport) toast('Thank you for sharing your story. The house will sit with it. 💙', 8000);
+        toast('Profile saved ');
+        if (result.storyNeedsSupport) toast('Thank you for sharing your story. The house will sit with it. ', 8000);
         render();
       },
     });
@@ -254,13 +254,13 @@ function wireStatus() {
   const send = async (text, share, mood) => {
     const result = await api('/api/me/status', { method: 'PUT', body: { text, share, mood } });
     if (result.needsSupport) out.innerHTML = CRISIS_STRIP;
-    toast(result.shared ? (result.shared.pending ? 'Checked in 💙 Your update will appear on the feed once Shane has reviewed it.' : 'Checked in and shared 💙') : text ? 'Checked in 💙' : 'Status cleared.');
+    toast(result.shared ? (result.shared.pending ? 'Checked in  Your update will appear on the feed once Shane has reviewed it.' : 'Checked in and shared ') : text ? 'Checked in ' : 'Status cleared.');
     render();
   };
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const text = form.text.value.trim();
-    if (!text) return toast('A few words is enough — even "rough day" counts. 💙');
+    if (!text) return toast('A few words is enough — even "rough day" counts. ');
     const button = form.querySelector('[type="submit"]');
     button.disabled = true;
     try { await send(text, form.share.checked, form.mood.value); }
@@ -297,8 +297,8 @@ function wireJournal() {
       form.reset();
       list.querySelector('.muted')?.remove();
       list.insertAdjacentHTML('afterbegin', entryHTML(entry));
-      toast('Saved to your private journal 🔒');
-      if (needsSupport) toast('That sounds heavy. You do not have to carry it alone. The house will sit. 💙', 8000);
+      toast('Saved to your private journal ');
+      if (needsSupport) toast('That sounds heavy. You do not have to carry it alone. The house will sit. ', 8000);
     } catch (error) { toast(error.message); }
     finally { button.disabled = false; }
   });
@@ -310,7 +310,7 @@ function wireJournal() {
     try {
       const { entry } = await api(`/api/journal/${article.dataset.entry}`, { method: 'PUT', body: { visibility: select.value } });
       article.outerHTML = entryHTML(entry);
-      toast(entry.visibility === 'private' ? 'Back to private 🔒' : `Now on your page for ${entry.visibility === 'public' ? 'everyone' : 'members'} 🌿`);
+      toast(entry.visibility === 'private' ? 'Back to private ' : `Now on your page for ${entry.visibility === 'public' ? 'everyone' : 'members'} `);
     } catch (error) {
       toast(error.data?.reason ? `${error.message} ${error.data.reason}` : error.message, 6000);
       load();
@@ -331,7 +331,7 @@ function wireJournal() {
       try {
         const result = await api(`/api/journal/${id}/share`, { method: 'POST', body: { visibility: audience } });
         article.outerHTML = entryHTML(result.entry);
-        toast(result.pending ? 'Shared 💙 It will appear once Shane has reviewed it.' : 'Shared to the feed 💙');
+        toast(result.pending ? 'Shared  It will appear once Shane has reviewed it.' : 'Shared to the feed ');
       } catch (error) { toast(error.data?.reason ? `${error.message} ${error.data.reason}` : error.message, 6000); }
     }
   });

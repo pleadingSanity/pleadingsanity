@@ -50,12 +50,12 @@ No one pretends to be another model. No one marks their own work as independentl
 - Do not point `www.pleadingsanity.co.uk` at Vercel. On 31 Oct 2026 that name answered from Netlify and redirected to the apex. A screen that asks for CNAME `www` → `b0df8eb50e634f05.vercel-dns-016.com` and TXT `_vercel` = `vc-domain-verify=www.pleadingsanity.co.uk…` must not be applied. It would take the live house off Netlify.
 - `pleadingsanity.uk` is a spare door on Vercel project `html-starter-pleadinsanity-2179`. `www.pleadingsanity.uk` redirects. Netlify `pleadingsanitystaging` is the test door of this same house. Do not delete them unless Shane says the spare can go.
 - Do not touch draft PR #92.
-- Do not replace the AI chain. Order stays GPT → Claude → Gemini → Grok, then the local fallback already in `netlify/lib/ai-chain.ts`. Model name in source is `grok-4.7`. Env names: `GROK_API_KEY`, then `xAI_KEY`, then `XAI_API_KEY`. Never print values. Never make a paid call unless Shane approves that spend in that chat.
+- Do not replace the AI chain. Order stays GPT → Claude → Gemini → Grok, then the local fallback already in `netlify/lib/ai-chain.ts`. Model name in source is `grok-4.7`. Env names: `GROK_API_KEY`, then `xAI_KEY`, then `XAI_API_KEY`. Gemini's gateway hop stays the chain model. If that hop fails, one retry uses `gemini-2.5-flash` and reads `GEMINI_API_KEY` from the environment. Never print values. Never write a key into the repo. Never make a paid call unless Shane approves that spend in that chat. Needs owner, still unset here: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GEMINI_API_KEY`.
 - Do not add Redis, Supabase, a new framework, a Flask app, or a canvas engine that replaces the games.
 - Free forever: Arron, journal, feed, games, crisis help. No paywall on the sanctuary.
 - Crisis on every crisis reply, even if every model is down: 999, Samaritans 116 123, text SHOUT to 85258, NHS 111. Arron is not a therapist.
 - Healing tones only: 174, 285, 432, 528, 741, 963 Hz. Soft. Fade in and out. Reduced motion is respected.
-- Brand: one crying-brain logo. `#000103` `#0d1b2a` `#00fff0` `#eef6ff` and one pink `#ff4d8d`. No invented logo story.
+- Brand: one crying-brain logo. `#0b0f19`, teal `#00fff0` / `#38bdf8`, amber `#f59e0b`, silver. No purple, indigo, or pink. No invented logo story.
 - Legacy facts only: Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.
 - Play chips only. No cash table. No claim of being a lender, broker, or adviser. No invented approvals, savings, reviews, or certifications. Solar: AI never signs MCS or NAPIT.
 - Voice is the phone's own speech. Off until chosen. Never send or store audio.
@@ -79,7 +79,7 @@ Write and remember: `journal-vault.html` `journal-vault-viewer.html` `notes.html
 
 Calm: `mind-mode.html` `frequencies.html` `meditation.html` `mood-journey.html` `sanctuary.html` `my-room.html` `support.html` `crisis.html` `safety.html`
 
-Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `kids-series.html`
+Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `kids-series.html` `sanity-songs.html` `music/index.html`
 
 People: `feed.html` `post.html` `community.html` `community-dashboard.html` `circle.html` `member.html` `profile.html` `login.html` `signup.html` `reset-password.html` `settings.html` `creator.html` `live.html` `videos.html` `creations.html`
 
@@ -93,7 +93,7 @@ App Hub is `get-the-app.html`. It is this house's shelf. It is not Google Play a
 
 ## The whole house — functions that exist
 
-`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `arron-memory` (owner-only) `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `verify-paypal` `write` `ytFeed.mjs`
+`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `music` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `test-lab` `write` `ytFeed.mjs`
 
 Arron health is `/api/arron/health`. Memory delete is `/api/arron/memory`. Shared code is `netlify/lib/`. Database is the existing Postgres via Drizzle. Never edit an applied migration. Add a new one. Blobs are for files. Sign-in is `js/auth.js` and Netlify Identity.
 
