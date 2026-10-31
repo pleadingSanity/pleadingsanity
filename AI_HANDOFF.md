@@ -692,3 +692,8 @@ Included videos, official artist or label first, all oEmbed 200 on 31 Oct 2026: 
 Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQykuG8; Meditation, Photography, Joe Rogan, Intelligence docs, cooking, Postman Pat, channel uploads (bike, gameplay, food); liked-videos playlist LL3q3UpppLMXrq45czZT4_HQ (not public). Full titles are in `music/songs.json`.
 - Not proven: a phone lock-screen test, PayPal sandbox payment, or that the new database migration has been applied on Netlify.
 - 31 Oct later pass: Sanity's Songs now keeps only the 13 official artist or label uploads. Removed Tory Lanez Super Freaky, Lady Saw Heels On, Vybz Kartel Virginity, Rompin' Shop, the Ice Cube/Biggie remix, and the other non-official uploads. The Songs link is not injected on kids.html. Test Lab auth, finance field names, game difficulty (`js/game-brains.js`), Arron safety-first prompt, Arron install button, and App Hub nav link were added in the same branch. A full rewrite of every page's body copy was not done. Internal link check of root HTML found no missing local targets.
+
+## 2026-10-31 — Grok Bot: About page fight films and bipolar section
+- Changed: `about.html`, `js/about-films.js`. Not Scared sits after the crisis strip on About only. Street fight `r_FpTRi0fEM` is behind an 18+ notice on that page. It is not on home, games, or kids.
+- Bipolar section cites NHS, NIMH, Mind and Bipolar UK. NHS, NIMH and Bipolar UK returned HTTP 200 from this environment. Mind returned HTTP 403 to the checker (bot wall). The owner-supplied Mind URL is still the link.
+- Not merged. Not on main.
