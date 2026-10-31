@@ -697,3 +697,11 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
 - Changed: `about.html`, `js/about-films.js`. Not Scared sits after the crisis strip on About only. Street fight `r_FpTRi0fEM` is behind an 18+ notice on that page. It is not on home, games, or kids.
 - Bipolar section cites NHS, NIMH, Mind and Bipolar UK. NHS, NIMH and Bipolar UK returned HTTP 200 from this environment. Mind returned HTTP 403 to the checker (bot wall). The owner-supplied Mind URL is still the link.
 - Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: shop text only, v1.1 sampling status
+- File: `shop.html` only. Pictures, layout, CSS and mockups were left as they were. The uploaded factory PDFs were read and not committed.
+- Added a "Why Pleading Sanity" section: the name means asking for help is strength, from Shane's lived experience with bipolar; Rise From Madness; the sanctuary stays free and clothing would fund it; Leicestershire founder. Styles named from the v1.1 pack: PS-H01 + PS-J01, PS-M01, PS-L01 + PS-B01, PS-Z01 + PS-J02, PS-Q01 + PS-J02, PS-T01 / PS-T02. The full-head mask is called a development concept, not a product. No safety or visibility certification. Samples pending. Not on sale. No public price.
+- Dead `shop.pleadingsanity.co.uk` product and Main Store links now go to `mailto:pleadingsanity1@gmail.com` as Register interest. Payhip, TikTok Shop and Instagram links were left.
+- Public page does not list supplier names, FOB targets, gsm, magnet specs or millimetre placements. The attached Rise From Madness HTML was a different purple layout with invented prices; that design and those prices were not copied. One line was used: "The pain didn't kill me. It made me art."
+- `movement.html` is the movement page. It still links to `/shop.html`. Its layout was not changed.
+- Not merged. Not on main.
