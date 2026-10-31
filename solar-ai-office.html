@@ -12,39 +12,43 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   :root{
-    --ink:#0d1117; --panel:#151b24; --panel2:#1c2430;
+    --ink:#0b0f19; --panel:rgba(30,41,59,.4); --panel2:#1e293b;
+    --teal:#00fff0; --teal2:#38bdf8; --teal3:#7dd3fc;
     --amber:#f59e0b; --amber2:#fbbf24;
     --green:#10b981; --green2:#22c55e;
     --red:#ef4444;
     --offwhite:#fafaf9;
-    --ink-text:#e7ebf0; --muted-light:#94a3b8;
-    --dark-text:#0f172a; --muted-dark:#5b6675;
-    --border-dark:rgba(148,163,184,.16); --border-light:rgba(15,23,42,.1);
+    --ink-text:#e2e8f0; --muted-light:#94a3b8;
+    --dark-text:#0b0f19; --muted-dark:#5b6675;
+    --border-dark:rgba(56,189,248,.15); --border-light:rgba(56,189,248,.1);
   }
   *{ -webkit-tap-highlight-color:transparent; }
   html{ scroll-behavior:smooth; }
   body{ font-family:'Archivo',system-ui,sans-serif; background:var(--ink); color:var(--ink-text); margin:0; overflow-x:hidden; }
-  section{ scroll-margin-top:84px; }
+  section{ scroll-margin-top:110px; }
   .font-archivo{ font-family:'Archivo',sans-serif; }
   .eyebrow{ font-weight:800; letter-spacing:.18em; text-transform:uppercase; font-size:.72rem; }
   .display{ font-weight:900; letter-spacing:-.02em; line-height:1.02; }
   .grad-text{ background:linear-gradient(92deg,var(--amber2),var(--amber) 55%,#fde68a); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .grad-text-green{ background:linear-gradient(92deg,var(--green2),var(--green)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .grad-text-teal{ background:linear-gradient(92deg,var(--teal),var(--teal2) 60%,var(--teal3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
   /* Buttons */
   .btn{ display:inline-flex; align-items:center; gap:.55rem; font-weight:800; padding:.9rem 1.5rem; border-radius:.65rem; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease; cursor:pointer; border:1px solid transparent; text-decoration:none; font-size:.95rem; letter-spacing:.01em; }
   .btn:hover{ transform:translateY(-2px); }
   .btn-amber{ background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; box-shadow:0 8px 24px -8px rgba(245,158,11,.55); }
   .btn-amber:hover{ box-shadow:0 14px 32px -8px rgba(245,158,11,.7); }
-  .btn-ghost-dark{ background:transparent; color:var(--ink-text); border-color:var(--border-dark); }
-  .btn-ghost-dark:hover{ border-color:var(--amber); color:var(--amber2); }
+  .btn-teal{ background:linear-gradient(135deg,var(--teal),var(--teal2)); color:#0b0f19; box-shadow:0 8px 24px -8px rgba(56,189,248,.55); }
+  .btn-teal:hover{ box-shadow:0 14px 32px -8px rgba(56,189,248,.7); }
+  .btn-ghost-dark{ background:transparent; color:var(--ink-text); border-color:rgba(56,189,248,.35); }
+  .btn-ghost-dark:hover{ border-color:var(--teal2); color:var(--teal3); }
   .btn-green{ background:linear-gradient(135deg,var(--green2),var(--green)); color:#052e22; box-shadow:0 8px 24px -8px rgba(16,185,129,.5); }
   /* Chips */
-  .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem; border-radius:999px; font-weight:700; font-size:.8rem; border:1px solid var(--border-dark); background:rgba(21,27,36,.7); backdrop-filter:blur(6px); }
+  .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem; border-radius:999px; font-weight:700; font-size:.8rem; border:1px solid var(--border-dark); background:rgba(30,41,59,.7); backdrop-filter:blur(6px); }
   .chip .dot{ width:.5rem; height:.5rem; border-radius:999px; background:var(--amber); box-shadow:0 0 10px var(--amber); }
   .chip.green .dot{ background:var(--green2); box-shadow:0 0 10px var(--green2); }
   /* Cards */
   .card-dark{ background:var(--panel); border:1px solid var(--border-dark); border-radius:1rem; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
-  .card-dark:hover{ transform:translateY(-3px); border-color:rgba(245,158,11,.4); box-shadow:0 18px 40px -18px rgba(0,0,0,.6); }
+  .card-dark:hover{ transform:translateY(-3px); border-color:rgba(56,189,248,.45); box-shadow:0 18px 40px -18px rgba(0,0,0,.6); }
   /* Hero sunburst */
   .sunburst{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .sunburst .glow{ position:absolute; top:-30%; right:-10%; width:70vw; height:70vw; max-width:900px; max-height:900px; border-radius:50%;
@@ -63,8 +67,8 @@
   /* Nav */
   .navlink{ position:relative; font-weight:600; font-size:.9rem; color:var(--muted-light); transition:color .15s ease; padding:.3rem .1rem; text-decoration:none; }
   .navlink:hover{ color:var(--ink-text); }
-  .navlink.active{ color:var(--amber2); }
-  .navlink.active::after{ content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--amber); border-radius:2px; }
+  .navlink.active{ color:var(--teal3); }
+  .navlink.active::after{ content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--teal2); border-radius:2px; }
   /* Reveal animation */
   .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in{ opacity:1; transform:none; }
@@ -104,15 +108,15 @@
   <a href="community.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Community</a>
   <a href="games.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Games</a>
   <a href="finance.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sane Finance</a>
-  <a href="insane-solar.html" style="color:#fbbf24;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Insane Solar</a>
-  <a href="solar-ai-office.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Office</a>
+  <a href="insane-solar.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Insane Solar</a>
+  <a href="solar-ai-office.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">AI Office</a>
   <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
 
 
 <!-- ============ STICKY NAV ============ -->
-<header id="nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(13,17,23,.85); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dark);">
+<header id="nav" class="fixed left-0 right-0 z-40 transition-all duration-300" style="top:34px; background:rgba(11,15,25,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--border-dark);">
   <div class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-[68px]">
     <a href="#top" class="flex items-center gap-2.5 no-underline">
       <svg width="36" height="36" viewBox="0 0 40 40" fill="none" aria-hidden="true">
@@ -172,24 +176,25 @@
       <span style="color:var(--green2);">AI runs the office · humans sign the certificates</span>
     </div>
     <h1 class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal">
-      The AI Office — your solar install<br class="hidden sm:block">
-      <span class="grad-text">managed by software,</span><br class="hidden sm:block">
-      <span class="grad-text-green">signed off by humans.</span>
+      The <span class="grad-text-teal">Solar AI Office</span> —<br class="hidden sm:block">
+      paperwork handled,<br class="hidden sm:block">
+      <span class="grad-text">humans fit panels.</span>
     </h1>
-<img src="images/crying-brain-cosmic.jpg" alt="The AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
+<img src="images/crying-brain-cosmic.jpg" alt="The Solar AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
     <p class="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto mb-10 reveal" style="color:var(--muted-light); line-height:1.7;">
-      Every boring compliance and admin task a normal company hires three people for — handled by AI.
-      Humans climb roofs and sign certificates.
+      The office tool for solar companies &amp; customers: AI prepares your MCS, G98/G99, Part P and SEG paperwork.
+      Registered human installers sign every certificate — <strong style="color:var(--green2);">AI never certifies.</strong>
+      Humans climb roofs; software runs the admin.
     </p>
     <div class="flex flex-col sm:flex-row gap-3 justify-center reveal">
       <a id="quoteBtnHero" href="#" class="btn btn-amber !text-base !py-4 !px-8 justify-center">
-        Get a quote — 60 seconds, no phone tree
+        Get a solar quote — Insane Solar
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <a href="#what" class="btn btn-ghost-dark !text-base !py-4 !px-8 justify-center">See what the AI actually does</a>
     </div>
     <p class="text-xs mt-6 reveal" style="color:var(--muted-light);">
-      0% VAT to 31 Mar 2027, subject to eligibility. All timelines typical — confirmed at survey.
+      Quote form on the Insane Solar page — about 60 seconds, no phone tree. 0% VAT to 31 Mar 2027, subject to eligibility. All timelines typical — confirmed at survey.
     </p>
   </div>
 </section>
@@ -198,7 +203,7 @@
 <section id="what" class="py-16 lg:py-24 px-5 relative">
   <div class="max-w-7xl mx-auto">
     <div class="max-w-3xl mb-12 reveal">
-      <div class="eyebrow mb-3" style="color:var(--amber2);">The boring stuff — automated</div>
+      <div class="eyebrow mb-3" style="color:var(--teal3);">The boring stuff — automated</div>
       <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">What the AI Office does for you</h2>
       <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
         Eleven jobs that would normally need three full-time admin staff. The AI prepares, files, chases and tracks every one.
@@ -210,7 +215,7 @@
 </section>
 
 <!-- ============ JOURNEY — 6 STEP INTERACTIVE ACCORDION ============ -->
-<section id="journey" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, rgba(21,27,36,.4), transparent);">
+<section id="journey" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, rgba(30,41,59,.4), transparent);">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12 reveal">
       <div class="eyebrow mb-3" style="color:var(--green2);">From click to clean power</div>
@@ -225,7 +230,7 @@
 <section id="meet" class="py-16 lg:py-24 px-5 relative">
   <div class="max-w-7xl mx-auto">
     <div class="max-w-3xl mb-12 reveal">
-      <div class="eyebrow mb-3" style="color:var(--amber2);">The team that never sleeps</div>
+      <div class="eyebrow mb-3" style="color:var(--teal3);">The team that never sleeps</div>
       <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">Meet the AIs running your office</h2>
       <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
         Five AI co-workers, each with a job. They draft, check, chase, schedule and write.
@@ -246,10 +251,10 @@
 </section>
 
 <!-- ============ WHAT HUMANS DO ============ -->
-<section id="humans" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, transparent, rgba(21,27,36,.5));">
+<section id="humans" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, transparent, rgba(30,41,59,.5));">
   <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-center">
     <div class="reveal">
-      <div class="eyebrow mb-3" style="color:var(--amber2);">The humans on your roof</div>
+      <div class="eyebrow mb-3" style="color:var(--teal3);">The humans on your roof</div>
       <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-5">What humans do</h2>
       <p style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;" class="mb-6">
         The AI doesn't touch a roof, a cable or a certificate. These five jobs are done by real people — and only real people can do them.
@@ -317,7 +322,7 @@
   <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 40% at 50% 100%, rgba(245,158,11,.12), transparent 70%);"></div>
   <div class="max-w-5xl mx-auto relative z-10 text-center">
     <div class="reveal">
-      <div class="eyebrow mb-3" style="color:var(--amber2);">Prefer a person?</div>
+      <div class="eyebrow mb-3" style="color:var(--teal3);">Prefer a person?</div>
       <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-4">Need a human?</h2>
       <p class="max-w-2xl mx-auto mb-10" style="color:var(--muted-light); line-height:1.7; font-size:1.05rem;">
         The AI answers most questions instantly, but if you'd rather talk to a real person — about your roof, a quote, or anything else — here's how.
@@ -351,7 +356,7 @@
     </div>
     <div class="reveal">
       <a id="quoteBtnContact" href="#" class="btn btn-amber !text-base !py-4 !px-8 inline-flex">
-        Get a quote online — no phone tree
+        Get a solar quote — Insane Solar
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
       </a>
       <p class="text-xs mt-4" style="color:var(--muted-light);">Quote form lives on the main Insane Solar page — takes about 60 seconds.</p>
@@ -395,7 +400,7 @@
         <p class="text-sm mb-4" style="color:var(--muted-light); line-height:1.6;">
           Powered by Pleading Sanity AI. Certificates signed by registered installers — AI prepares and tracks only.
         </p>
-        <a id="parentLinkFoot" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest no-underline transition-colors" style="color:var(--amber2);">
+        <a id="parentLinkFoot" href="#" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest no-underline transition-colors" style="color:var(--teal3);">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
           <span>Visit Pleading Sanity</span>
         </a>
@@ -403,9 +408,10 @@
       <div>
         <div class="eyebrow mb-4" style="color:var(--muted-light);">Pages</div>
         <ul class="space-y-2.5 text-sm">
-          <li><a href="insane-solar.html" class="no-underline font-bold hover:underline" style="color:var(--amber2);">Insane Solar — main site &amp; quote</a></li>
-          <li><a href="ai-social.html" class="no-underline font-bold hover:underline" style="color:var(--amber2);">The AI Office — social feed</a></li>
-          <li><a id="parentLinkFoot2" href="#" target="_blank" rel="noopener" class="no-underline font-bold hover:underline" style="color:var(--amber2);">pleadingsanity.co.uk</a></li>
+          <li><a href="index.html" class="no-underline font-bold hover:underline" style="color:var(--teal3);">Sanctuary — Pleading Sanity home</a></li>
+          <li><a href="insane-solar.html" class="no-underline font-bold hover:underline" style="color:var(--teal3);">Insane Solar — main site &amp; quote</a></li>
+          <li><a href="ai-social.html" class="no-underline font-bold hover:underline" style="color:var(--teal3);">AI Social — the feed</a></li>
+          <li><a id="parentLinkFoot2" href="#" target="_blank" rel="noopener" class="no-underline font-bold hover:underline" style="color:var(--teal3);">pleadingsanity.co.uk</a></li>
         </ul>
       </div>
       <div>
@@ -420,9 +426,16 @@
         </ul>
       </div>
     </div>
+    <div class="mb-8 py-4 px-5 rounded-xl flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm font-bold" style="background:rgba(239,68,68,.08); border:1px solid rgba(239,68,68,.3);">
+      <span class="uppercase tracking-widest text-xs" style="color:#fca5a5;">Struggling? You're not alone — call:</span>
+      <a href="tel:116123" class="no-underline hover:underline" style="color:var(--ink-text);">Samaritans <span style="color:var(--teal3);">116 123</span></a>
+      <a href="sms:85258" class="no-underline hover:underline" style="color:var(--ink-text);">Shout <span style="color:var(--teal3);">85258</span> (text)</a>
+      <a href="tel:111" class="no-underline hover:underline" style="color:var(--ink-text);">NHS <span style="color:var(--teal3);">111</span></a>
+      <a href="tel:999" class="no-underline hover:underline" style="color:#fca5a5;">999 <span class="font-normal" style="color:var(--muted-light);">in an emergency</span></a>
+    </div>
     <div class="pt-6 flex flex-col sm:flex-row justify-between gap-3 text-xs" style="border-top:1px solid var(--border-dark); color:var(--muted-light);">
       <span>© <span id="footYear"></span> Pleading Sanity · Insane Solar. Leicestershire &amp; Midlands.</span>
-      <span class="font-bold" style="color:var(--amber2);">Powered by Pleading Sanity AI. Certificates signed by registered installers — AI prepares and tracks only.</span>
+      <span class="font-bold" style="color:var(--teal3);">Powered by Pleading Sanity AI. Certificates signed by registered installers — AI prepares and tracks only.</span>
       <span>All specs labelled typical — confirmed at survey. 0% VAT to 31 Mar 2027, subject to eligibility.</span>
     </div>
   </div>
