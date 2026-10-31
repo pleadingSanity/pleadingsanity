@@ -7,7 +7,7 @@ Repo: github.com/pleadingSanity/pleadingsanity. Branch: main.
 
 Arron, Finance, Solitaire, games, journal and the feed are rooms in that app. They keep their pages and their install ids. They are not new apps.
 
-When a build adds something, patch this repo and push to main. Do not create a Grok app, a grok.me site, a new Vercel project, or a new Netlify site.
+When a build adds something, patch this repo on a branch and open a reviewed pull request. Shane merges. Do not push or merge to main without his approval. Do not create a Grok app, a grok.me site, a new Vercel project, or a new Netlify site.
 
 Stray copies already found, left in place, pointed home:
 - pleading-sanity.vercel.app — older Finance Sanctuary deploy of this same repo

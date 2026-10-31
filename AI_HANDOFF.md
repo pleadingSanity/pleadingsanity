@@ -85,7 +85,7 @@ environment variables are fine; their values are never written down.
 | Conflict | Ruling until Shane says otherwise |
 |---|---|
 | `copilot-instructions.md` says "no NHS lines on public pages"; Shane's 16 Oct brief forces 999 / 116 123 / SHOUT / NHS 111 in Arron's crisis replies | **Arron's crisis replies keep all four.** Ask Shane before touching either rule |
-| `CLAUDE.md`/`AGENTS.md` say branch + reviewed PR; `copilot-instructions.md` and the 16 Oct brief say push to main | Small, reversible fixes may go to main. Anything large, or touching security, sign-in, payments or data, gets a PR and Shane's OK |
+| `CLAUDE.md`/`AGENTS.md` say branch + reviewed PR; an older copilot brief said push to main | Every change, including a small one, goes on a branch and through a reviewed pull request. An AI does not push or merge to main without Shane's approval. Security, sign-in, payments and data still need that approval before merge. |
 
 ### 6. Mistakes that already happened (do not repeat)
 
