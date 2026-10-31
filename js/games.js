@@ -438,7 +438,7 @@
       '@keyframes psgIn{from{opacity:0;transform:translateY(16px) scale(.95);}to{opacity:1;transform:none;}}',
       '@keyframes psgOut{to{opacity:0;transform:translateY(10px);}}',
       '.psg-pop{position:fixed;z-index:3900;pointer-events:none;font:900 1.25rem/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#00fff0;text-shadow:0 0 12px rgba(0,255,240,.7),0 2px 4px #000;transform:translate(-50%,-50%);animation:psgPop 1s ease-out forwards;white-space:nowrap;}',
-      '.psg-pop.combo{color:#ff7cff;text-shadow:0 0 14px rgba(255,0,255,.8),0 2px 4px #000;font-size:1.45rem;}',
+      '.psg-pop.combo{color:#fbbf24;text-shadow:0 0 14px rgba(255,0,255,.8),0 2px 4px #000;font-size:1.45rem;}',
       '.psg-pop.gold{color:#ffd700;text-shadow:0 0 14px rgba(255,215,0,.8),0 2px 4px #000;font-size:1.5rem;}',
       '.psg-pop.miss{color:#ffb3c6;text-shadow:0 0 10px rgba(255,80,120,.6),0 2px 4px #000;}',
       '@keyframes psgPop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6);}15%{opacity:1;transform:translate(-50%,-60%) scale(1.15);}100%{opacity:0;transform:translate(-50%,-180%) scale(1);}}',

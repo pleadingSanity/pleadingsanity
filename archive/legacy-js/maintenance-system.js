@@ -184,7 +184,7 @@ class PlatformMaintenanceSystem {
     if (!hasCyan || !hasMagenta) {
       console.warn('⚠️ Cosmic theme variables missing — applying defaults');
       document.documentElement.style.setProperty('--primary-cyan', '#00fff0');
-      document.documentElement.style.setProperty('--secondary-magenta', '#ff00ff');
+      document.documentElement.style.setProperty('--secondary-magenta', '#f59e0b');
     } else {
       console.log('✨ Cosmic Theme Verified — Nebula Active');
     }

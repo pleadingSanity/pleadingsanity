@@ -247,7 +247,7 @@ class SecurityHardening {
                 <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                     <button id="c-essential" style="background: transparent; border: 2px solid #A5B0DA; color: #A5B0DA; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 600;">Essential Only</button>
                     <button id="c-all" style="background: linear-gradient(135deg, #00fff0, #06b6d4); border: none; color: #000; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 700;">Accept All</button>
-                    <button id="c-settings" style="background: transparent; border: 2px solid #ff00ff; color: #ff00ff; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 600;">Customize</button>
+                    <button id="c-settings" style="background: transparent; border: 2px solid #f59e0b; color: #f59e0b; padding: 10px 18px; border-radius: 25px; cursor: pointer; font-weight: 600;">Customize</button>
                 </div>
             </div>
         `;
@@ -283,12 +283,12 @@ class SecurityHardening {
                 <h2 style="color: #00fff0; text-align: center; margin: 0 0 24px;">🔒 Your Privacy Controls</h2>
                 
                 <div style="margin-bottom: 20px;">
-                    <h3 style="color: #ff00ff; margin: 0 0 8px; font-size: 1rem;">🔒 Essential (Always On)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;">🔒 Essential (Always On)</h3>
                     <p style="font-size: 0.9rem; color: #b9faff; margin: 0;">Session security, crisis features — can't run without these.</p>
                 </div>
                 
                 <div style="margin-bottom: 24px;">
-                    <h3 style="color: #ff00ff; margin: 0 0 8px; font-size: 1rem;">📊 Analytics (Optional)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 8px; font-size: 1rem;">📊 Analytics (Optional)</h3>
                     <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
                         <input type="checkbox" id="an-toggle" style="accent-color: #00fff0; width: 18px; height: 18px;">
                         <span style="color: #E9ECFF;">Help improve the site — fully anonymized data</span>
@@ -296,7 +296,7 @@ class SecurityHardening {
                 </div>
                 
                 <div style="margin-bottom: 24px; padding: 14px; background: rgba(0,255,240,0.05); border-radius: 10px;">
-                    <h3 style="color: #ff00ff; margin: 0 0 10px; font-size: 1rem;">📋 Your Rights (GDPR)</h3>
+                    <h3 style="color: #f59e0b; margin: 0 0 10px; font-size: 1rem;">📋 Your Rights (GDPR)</h3>
                     <ul style="margin: 0; padding-left: 20px; font-size: 0.85rem; color: #b9faff; line-height: 1.7;">
                         <li>Access your data anytime</li>
                         <li>Download your personal file</li>

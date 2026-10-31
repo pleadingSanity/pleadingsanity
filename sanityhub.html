@@ -25,7 +25,7 @@
 
   <meta property="og:title" content="Sanity Hub — Community &amp; Calm Tools | Pleading Sanity">
   <meta property="og:description" content="Find community, survivor stories, Arron and calm tools in the Pleading Sanity sanctuary. Explore the feed, journal, games and creative spaces for free.">
-  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/sanityhub-hero.webp" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/sanityhub.html" />
 
@@ -44,8 +44,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #ff00ff;
-      --magenta-deep: #c800c8;
+      --magenta: #f59e0b;
+      --magenta-deep: #d97706;
       --gold: #ffd700;
       --gold-bright: #ffd000;
       --orange-gold: #ff9500;
@@ -485,6 +485,8 @@
     <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
+<figure class="ps-hero-visual"><img src="/images/heroes/sanityhub-hero.webp" alt="A ring of four glowing doorways around the Crying Brain" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
+
 
   <canvas class="stars" aria-hidden="true"></canvas>
   <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -627,7 +629,7 @@
           ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(0, 255, 240, ${s.o * twinkle})`;
           ctx.shadowBlur = 6;
-          ctx.shadowColor = Math.random() > 0.5 ? '#00fff0' : '#ff00ff';
+          ctx.shadowColor = Math.random() > 0.5 ? '#00fff0' : '#f59e0b';
           ctx.fill();
           s.x += s.dx; s.y += s.dy;
           if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;

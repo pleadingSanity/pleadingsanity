@@ -8,7 +8,7 @@
   'use strict';
 
   console.log('%c🌉 Sanctuary Bridge Active', 'color: #00fff0; font-weight: bold;');
-  console.log('%cPrivacy: All interactions stay local — nothing sent to external servers', 'color: #ff00ff;');
+  console.log('%cPrivacy: All interactions stay local — nothing sent to external servers', 'color: #f59e0b;');
 
   // ─── STATE — LOCAL ONLY ───
   const userState = {
@@ -62,7 +62,7 @@
     clearAllData: function() {
       if (window.confirm('🔒 Clear all local data? This cannot be undone.')) {
         localStorage.clear();
-        console.log('%c🔒 All local data cleared — yours fully erased', 'color: #ff00ff;');
+        console.log('%c🔒 All local data cleared — yours fully erased', 'color: #f59e0b;');
         return true;
       }
       return false;

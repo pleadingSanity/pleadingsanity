@@ -723,3 +723,11 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
 - Sources checked HTTP 200 on 31 Oct 2026: HMRC VAT Notice 708/6, GOV.UK VAT rates, GOV.UK renewable energy, Approved Document P, Planning Portal solar panels, Ofgem SEG, MCS standards, MCS installers, ENA engineering documents. ENA's own marketing site returned 403 to this checker, so the citation is the document library that returned 200.
 - Test Lab cards: `solar-ai-ask`, `solar-ai-diy`, `solar-ai-crisis`.
 - Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: hero batch and a visitor pass
+- 47 heroes from the owner pack are in `images/heroes/`, one per page in `docs/IMAGES_NEEDED.md`, which is now marked done. Alt text is the manifest text. Size 1024×576. Top-of-page heroes use `fetchpriority="high"`. Crisis and safety use `fetchpriority="low"` and sit behind the numbers, which stay first. The heroes are not in the service-worker precache. Cache name is `pleading-sanity-static-v104`.
+- Shared nav still loads from `site.js`. The music app does not register the house service worker, so `/music/sw.js` keeps its own scope.
+- Violet UI hexes in the live CSS and JS were moved to amber, teal, or the house pink `#ff4d8d`. Emoji in visible text are stripped when `site.js` runs. The source files still contain some emoji characters.
+- Privacy page already says the house does not sell journals or sign-in data. A scan of live HTML, `js/`, and Netlify functions found no Google Analytics, Tag Manager, Meta pixel, Hotjar, Clarity, or DoubleClick. `archive/legacy-js/research-analytics-framework.js` is archived and not loaded.
+- Headless Chrome on 14 key pages produced the DOM and no console error lines. It does not exit by itself here, so each run was stopped by a timeout after the DOM was written. A static check of 85 HTML files found no missing local images or links.
+- Not merged. Not on main.

@@ -68,11 +68,11 @@
   const MOODS = {
     calm:    { emoji: '😌', label: 'Calm',    lift: 4,   a: '#00fff0', b: '#5b8cff', speed: 7 },
     hopeful: { emoji: '✨', label: 'Hopeful', lift: 5,   a: '#00fff0', b: '#ffd36b', speed: 5.5 },
-    tired:   { emoji: '🥱', label: 'Tired',   lift: 2.5, a: '#6fa8ff', b: '#9b6bff', speed: 9 },
-    low:     { emoji: '🌧️', label: 'Low',     lift: 1,   a: '#4f7bff', b: '#8a5cff', speed: 9 },
-    anxious: { emoji: '😮‍💨', label: 'Anxious', lift: 2,   a: '#00fff0', b: '#ff00ff', speed: 8 },
-    lonely:  { emoji: '🫂', label: 'Lonely',  lift: 1.5, a: '#7fd8ff', b: '#ff7aff', speed: 8 },
-    angry:   { emoji: '🔥', label: 'Angry',   lift: 2,   a: '#ff7a59', b: '#ff00ff', speed: 6.5 }
+    tired:   { emoji: '🥱', label: 'Tired',   lift: 2.5, a: '#6fa8ff', b: '#f59e0b', speed: 9 },
+    low:     { emoji: '🌧️', label: 'Low',     lift: 1,   a: '#4f7bff', b: '#38bdf8', speed: 9 },
+    anxious: { emoji: '😮‍💨', label: 'Anxious', lift: 2,   a: '#00fff0', b: '#f59e0b', speed: 8 },
+    lonely:  { emoji: '🫂', label: 'Lonely',  lift: 1.5, a: '#7fd8ff', b: '#fbbf24', speed: 8 },
+    angry:   { emoji: '🔥', label: 'Angry',   lift: 2,   a: '#ff7a59', b: '#f59e0b', speed: 6.5 }
   };
   const HEAVY = ['low', 'lonely', 'anxious', 'angry'];
 
@@ -133,9 +133,9 @@
   // ─── TIME OF DAY — dawn → day → dusk → night, the orb and words follow ───
   const PHASES = {
     dawn:  { a: '#00fff0', b: '#ffb86b', slow: 1,    presence: 'Morning light · here with you' },
-    day:   { a: '#00fff0', b: '#ff00ff', slow: 1,    presence: 'Here with you' },
-    dusk:  { a: '#ff7aff', b: '#6f7bff', slow: 1.15, presence: 'Evening · slowing down with you' },
-    night: { a: '#4f7bff', b: '#9b6bff', slow: 1.35, presence: 'Night watch · quiet presence' }
+    day:   { a: '#00fff0', b: '#f59e0b', slow: 1,    presence: 'Here with you' },
+    dusk:  { a: '#fbbf24', b: '#6f7bff', slow: 1.15, presence: 'Evening · slowing down with you' },
+    night: { a: '#4f7bff', b: '#f59e0b', slow: 1.35, presence: 'Night watch · quiet presence' }
   };
   function phaseNow() {
     const h = new Date().getHours();

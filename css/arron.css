@@ -7,7 +7,7 @@
 .arron-app {
   padding-bottom: max(2rem, env(safe-area-inset-bottom, 0px));
   --a-cyan: #00fff0;
-  --a-magenta: #ff00ff;
+  --a-magenta: #f59e0b;
   --a-text: #eafffd;
   --a-muted: #b8d8d6;
   --a-line: rgba(0, 255, 240, 0.22);
@@ -142,7 +142,7 @@
 .arron-orb.lg::after { display: none; }
 [data-conn="online"] .arron-orb::after { background: #3dff9e; }
 [data-conn="reconnecting"] .arron-orb::after { background: #ffd23d; animation: arronBlink 1s steps(2) infinite; }
-[data-conn="offline"] .arron-orb::after { background: #ff6b9d; }
+[data-conn="offline"] .arron-orb::after { background: #ff4d8d; }
 .arron-main.is-thinking .arron-orb { animation-duration: 1.4s; }
 @keyframes arronBreathe {
   0%, 100% { transform: scale(1); box-shadow: 0 0 18px rgba(0, 255, 240, 0.5), 0 0 40px rgba(255, 0, 255, 0.18); }
@@ -356,7 +356,7 @@
 .btn-danger {
   min-height: 44px;
   padding: 0 1.25rem;
-  border: 1px solid #ff6b9d;
+  border: 1px solid #ff4d8d;
   border-radius: 999px;
   background: transparent;
   color: #ffd6e5;
@@ -452,5 +452,5 @@
   background: rgba(0, 255, 240, 0.08); color: #eafffd; font: inherit; font-size: 0.85rem; cursor: pointer; text-decoration: none;
   display: inline-flex; align-items: center;
 }
-.arron-actions a:hover, .arron-actions button:hover { border-color: #ff00ff; }
+.arron-actions a:hover, .arron-actions button:hover { border-color: #f59e0b; }
 .arron-actions a:focus-visible, .arron-actions button:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }

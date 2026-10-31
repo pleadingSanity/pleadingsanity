@@ -164,9 +164,9 @@
         ctx.save(); ctx.shadowColor = '#00fff0'; ctx.shadowBlur = 12; ctx.fillStyle = '#00fff0'; ctx.font = '26px system-ui,sans-serif';
         ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('♥', it.x, it.y); ctx.restore();
       } else {
-        ctx.save(); ctx.shadowColor = '#ff00ff'; ctx.shadowBlur = 10;
+        ctx.save(); ctx.shadowColor = '#f59e0b'; ctx.shadowBlur = 10;
         rrect(it.x - it.w / 2, it.y - 13, it.w, 26, 13);
-        ctx.fillStyle = 'rgba(30,8,48,.92)'; ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#ff00ff'; ctx.stroke(); ctx.shadowBlur = 0;
+        ctx.fillStyle = 'rgba(30,8,48,.92)'; ctx.fill(); ctx.lineWidth = 1.5; ctx.strokeStyle = '#f59e0b'; ctx.stroke(); ctx.shadowBlur = 0;
         ctx.fillStyle = '#ffd9ff'; ctx.font = '600 12px system-ui,sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText(it.text, it.x, it.y + 1, it.w - 12); ctx.restore();
       }
@@ -176,7 +176,7 @@
     if (!blink) {
       ctx.save(); ctx.shadowColor = '#00fff0'; ctx.shadowBlur = 20;
       var g = ctx.createRadialGradient(st.x - 5, st.y - 5, 2, st.x, st.y, 18);
-      g.addColorStop(0, '#ffffff'); g.addColorStop(.5, '#00fff0'); g.addColorStop(1, '#ff00ff');
+      g.addColorStop(0, '#ffffff'); g.addColorStop(.5, '#00fff0'); g.addColorStop(1, '#f59e0b');
       ctx.fillStyle = g; ctx.beginPath(); ctx.arc(st.x, st.y, 16, 0, Math.PI * 2); ctx.fill(); ctx.restore();
       ctx.fillStyle = '#000103'; ctx.fillRect(st.x - 6, st.y - 4, 3, 5); ctx.fillRect(st.x + 3, st.y - 4, 3, 5);
       ctx.fillRect(st.x - 5, st.y + 5, 10, 2);

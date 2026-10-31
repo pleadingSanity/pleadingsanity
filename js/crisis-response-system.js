@@ -276,7 +276,7 @@ class CrisisResponseSystem {
     const buttonStyles = document.createElement('style');
     buttonStyles.textContent = `
       .crisis-btn, .support-btn {
-        background: linear-gradient(135deg, var(--primary-cyan, #00fff0), var(--secondary-magenta, #ff00ff));
+        background: linear-gradient(135deg, var(--primary-cyan, #00fff0), var(--secondary-magenta, #f59e0b));
         color: var(--bg-dark, #0d1b2a);
         border: none;
         padding: 12px 20px;

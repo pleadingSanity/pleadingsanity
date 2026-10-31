@@ -151,7 +151,7 @@ class CosmicAudio {
             font-size: 0.9rem; padding: 11px 20px; border-radius: 30px;
             background: ${active 
                 ? 'linear-gradient(135deg, #00fff0, #00ff90)' 
-                : 'linear-gradient(135deg, #7c3aed, #06b6d4)'};
+                : 'linear-gradient(135deg, #d97706, #06b6d4)'};
             border: 2px solid rgba(0, 255, 240, 0.4);
             color: #000; font-weight: 700; cursor: pointer;
             transition: all 0.3s ease; backdrop-filter: blur(12px);

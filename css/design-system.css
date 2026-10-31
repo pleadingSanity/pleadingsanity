@@ -51,12 +51,12 @@
 }
 .ps-btn-primary-outline:hover { background: rgba(0, 255, 240, 0.14); color: #fff; text-decoration: none; }
 .ps-btn-secondary {
-  background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff;
+  background: linear-gradient(135deg, #d97706, #f59e0b); color: #fff;
   box-shadow: 0 0 18px rgba(124, 58, 237, 0.35);
 }
 .ps-btn-secondary:hover { filter: brightness(1.08); color: #fff; text-decoration: none; }
 .ps-btn-secondary-outline {
-  background: transparent; color: #d8b4fe; border-color: #a855f7;
+  background: transparent; color: #fde68a; border-color: #f59e0b;
 }
 .ps-btn-secondary-outline:hover { background: rgba(168, 85, 247, 0.15); color: #fff; text-decoration: none; }
 .ps-btn-block { width: 100%; }
@@ -100,7 +100,7 @@
 }
 .ps-progress > span {
   display: block; height: 100%; border-radius: inherit;
-  background: linear-gradient(90deg, var(--ps-cyan), #a855f7);
+  background: linear-gradient(90deg, var(--ps-cyan), #f59e0b);
 }
 
 /* Anti-algorithm callout */

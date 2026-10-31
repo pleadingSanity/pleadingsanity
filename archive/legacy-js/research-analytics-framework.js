@@ -263,11 +263,11 @@ class ResearchAnalyticsFramework {
           <label class="ps-consent-option" style="
             display: flex; align-items: flex-start; gap: 14px; cursor: pointer;
             background: rgba(255,0,255,0.06); padding: 18px; border-radius: 14px;
-            border-left: 4px solid #ff00ff;
+            border-left: 4px solid #f59e0b;
           ">
-            <input type="checkbox" id="consent-research" style="margin-top: 4px; transform: scale(1.3); accent-color: #ff00ff;">
+            <input type="checkbox" id="consent-research" style="margin-top: 4px; transform: scale(1.3); accent-color: #f59e0b;">
             <div>
-              <strong style="color: #ff00ff; font-size: 1.05rem;">🔬 Join the Research Movement</strong>
+              <strong style="color: #f59e0b; font-size: 1.05rem;">🔬 Join the Research Movement</strong>
               <p style="margin: 6px 0 0; font-size: 0.9rem; color: #cc88dd; line-height: 1.5;">
                 Quick anonymous check-ins → your voice becomes proof that changes how 
                 mental health is understood and supported. 
@@ -308,7 +308,7 @@ class ResearchAnalyticsFramework {
 
         <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
           <button onclick="researchFramework.saveAllConsent()" style="
-            background: linear-gradient(135deg, #00fff0, #ff00ff); color: #000;
+            background: linear-gradient(135deg, #00fff0, #f59e0b); color: #000;
             border: none; padding: 14px 32px; border-radius: 12px; font-weight: 700;
             cursor: pointer; font-size: 1.05rem; box-shadow: 0 0 20px rgba(0,255,240,0.3);
           ">Save My Choices</button>

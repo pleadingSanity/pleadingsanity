@@ -11,8 +11,8 @@
   --cyan-deep: #00c8c0;
   --cyan-glow: rgba(0, 255, 240, 0.6);
   --cyan-bg: rgba(0, 255, 240, 0.08);
-  --magenta: #ff00ff;
-  --magenta-deep: #c800c8;
+  --magenta: #f59e0b;
+  --magenta-deep: #d97706;
   --magenta-glow: rgba(255, 0, 255, 0.6);
   --magenta-bg: rgba(255, 0, 255, 0.08);
   --gold-yellow: #ffd700;
@@ -696,7 +696,7 @@ iframe[src*="youtu.be"]:focus {
 @media (prefers-contrast: high) {
   :root {
     --cyan: #00ffff;
-    --magenta: #ff00ff;
+    --magenta: #f59e0b;
     --text-bright: #ffffff;
     --bg-dark: #000000;
   }

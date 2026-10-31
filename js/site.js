@@ -125,7 +125,7 @@
   // clears old caches). A long-open app checks for a new version when it
   // comes back to the screen, at most once an hour. Nothing is reloaded
   // under anyone's fingers: fresh pages simply arrive on the next tap.
-  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && location.pathname.indexOf('/music/') !== 0) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('/sw.js').then(function (reg) {
         var lastCheck = Date.now();
@@ -399,5 +399,21 @@
       });
     }
   }
+
+  // Brand lock: visitors should not see emoji. Leave form fields and code alone.
+  try {
+    var emoji = /\p{Extended_Pictographic}/gu;
+    var skip = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, NOSCRIPT: 1 };
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var textNode;
+    while ((textNode = walker.nextNode())) {
+      var parent = textNode.parentElement;
+      if (!parent || skip[parent.tagName]) continue;
+      if (!emoji.test(textNode.nodeValue || "")) { emoji.lastIndex = 0; continue; }
+      emoji.lastIndex = 0;
+      var cleaned = textNode.nodeValue.replace(emoji, "").replace(/[ \t]{2,}/g, " ");
+      if (cleaned !== textNode.nodeValue) textNode.nodeValue = cleaned;
+    }
+  } catch (err) {}
 
 })();

@@ -8,8 +8,8 @@
 :root {
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
-  --magenta: #ff00ff;
-  --magenta-deep: #c800c8;
+  --magenta: #f59e0b;
+  --magenta-deep: #d97706;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.6s ease;
