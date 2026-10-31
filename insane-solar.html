@@ -140,6 +140,13 @@
     .rays{ top:-20%; right:-60%; width:160vw; height:160vw; }
     .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
   }
+
+/* Dola mobile/accessibility fixes */
+html, body { max-width: 100vw; overflow-x: hidden; }
+button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
+*:focus-visible { outline: 2px solid #f59e0b; outline-offset: 3px; }
+@media (max-width: 480px) { .card-dark, .card-light { padding: 1.25rem !important; } }
+
 </style>
 </head>
 <body class="antialiased">
@@ -991,6 +998,7 @@
           if (m) m.style.display = 'block';
           var b = document.getElementById('paypal-button-container');
           if (b) b.style.display = 'none';
+          try { fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, customerName: document.getElementById('fName').value }) }).catch(function(){}); } catch(e) {}
         });
       }
     }).render('#paypal-button-container');
