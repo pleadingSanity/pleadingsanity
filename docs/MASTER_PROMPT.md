@@ -69,7 +69,7 @@ Draft PR #139 holds the privacy regression tests. Review it. Do not replace the 
 
 ## The whole house — pages that exist
 
-Home and wayfinding: `index.html` `tools.html` `get-the-app.html` `onboarding.html` `platform.html` `developers.html` `deployment-status.html` `offline.html` `404.html`
+Home and wayfinding: `index.html` `tools.html` `get-the-app.html` `onboarding.html` `platform.html` `developers.html` `offline.html` `404.html`
 
 Arron and the family: `arron.html` `arron-app.html` `arron-intro.html` `ai-welcome.html` `ai-family.html` `ai-ecosystem.html` `ai-studio.html` `ai-stories.html` `ai-social.html`
 
@@ -84,6 +84,8 @@ People: `feed.html` `post.html` `community.html` `community-dashboard.html` `cir
 Money, shop, solar: `finance.html` `shop.html` `offer.html` `solar.html` `insane-solar.html` `solar-ai-office.html` `site-builder.html` `builder.html`
 
 The story: `about.html` `movement.html` `new-gen-bible.html` `transparency.html` `privacy.html` `sources.html` `owner.html` `admin.html` `play-listing.html` `sanityhub.html`
+
+`docs/deployment-status.html` is a document, not a public root page.
 
 App Hub is `get-the-app.html`. It is this house's shelf. It is not Google Play and not the Apple App Store.
 
