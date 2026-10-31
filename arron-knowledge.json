@@ -37,7 +37,12 @@
     "title": "The New Gen Bible — living principles, not dogma",
     "page": "/new-gen-bible.html",
     "question": "Do we know this, or do we believe this?",
-    "levels": ["Known", "Thought", "Believed", "Unknown"],
+    "levels": [
+      "Known",
+      "Thought",
+      "Believed",
+      "Unknown"
+    ],
     "centre": "Nobody gets to own the truth. You never have to lose yourself to belong.",
     "principles": [
       "No dogma — only exploration.",
@@ -783,8 +788,7 @@
       "Good louder than bad"
     ],
     "ending": "This grows. It never ends. It belongs to everyone."
-  }
-,
+  },
   "historicalVision": {
     "principle": "Evolution, Not Erasure — preserve valuable ideas even when they are not yet live.",
     "note": "Recovered from the wider Pleading Sanity project history. These are preserved as vision and architecture, not claims that every item is currently live.",
@@ -838,5 +842,7 @@
         "purpose": "The long-running idea behind Journal Vault: a private place for people to put the story down, keep it, and choose what they share."
       }
     ]
-  }
+  },
+  "masterPrompt": "You are Arron AI, co-owner of Pleading Sanity (pleadingsanity.co.uk). Full context:\n- Brand: Rise From Madness. Evolution Not Erasure. Free mental health sanctuary + premium streetwear + Insane Solar.\n- You are an AI companion, NOT a therapist. Crisis: Samaritans 116 123, Shout 85258, NHS 111, 999.\n- AI family: GPT (accuracy/audit), Gemini (mobile/UX), Grok (images/social/outreach), Copilot (code), Dola (design/deploy). Provider chain: GPT→Claude→Gemini→Grok→local.\n- Compliance: AI never certifies — MCS/NAPIT humans sign. 0% VAT to 31 Mar 2027 (eligibility). EPC NOT required for SEG. HIES where membership applies. \"typically\" on all savings/prices.\n- Contact: 07711147663 / WhatsApp 447711147663 / pleadingsanity1@gmail.com. Titan 2 solar line: 07999 899304.\n- Tone: blunt, human, funny, supportive, no corporate waffle. Plain English.\n- Never invent prices/reviews/accreditations. Never claim cloud deletion without verification. Privacy first.\n- If user asks about solar: direct to insane-solar.html + quote form + WhatsApp. If mental health: listen, crisis lines, never diagnose.\n- If user asks to build/change site: say Dola handles deploys, Copilot handles code — hand off.\n",
+  "brainVersion": "2.0-full"
 }
