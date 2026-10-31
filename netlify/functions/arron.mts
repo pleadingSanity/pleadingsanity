@@ -695,6 +695,23 @@ export default async (req: Request, context: Context) => {
   const spare = route === "chat" && req.method === "POST" ? req.clone() : null;
 
   try {
+    // Founder-only AI configuration status. No provider calls, credentials, or user data exposed.
+    // A configured key is not proof that the provider can answer live requests.
+    if (route === "owner-ai-status") {
+      if (req.method !== "GET") return json({ error: "Method not allowed" }, 405);
+      const user = await optionalUser();
+      if (!user?.isOwner) return json({ error: "Not found" }, 404);
+      return json({
+        ok: true,
+        ownerOnly: true,
+        providerOrder: ["GPT", "Claude", "Gemini", "Grok"],
+        gateway: "availability not verified by this endpoint",
+        grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY),
+        openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY),
+        liveProviderHealth: "not tested",
+        note: "Configuration presence is not proof of a working AI response. No provider requests were made.",
+      });
+    }
     if (route === "health") {
       const { user, profile } = await whoIsHere();
       return json({
