@@ -19,7 +19,7 @@ import type { Config, Context } from "@netlify/functions";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
-import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { ARRON_PHASE2_TOOLS_BRIEF, buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
 import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
@@ -27,6 +27,10 @@ import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, option
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
 import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
+// Phase 2: Supabase long-term memory (best-effort second copy) + GPT tool calling.
+// Both degrade silently to the existing chain/local-DB path when env vars are absent.
+import { appendMessages as supabaseAppend, clearMemory as supabaseClear, supabaseEnabled } from "../lib/supabase-memory.js";
+import { maybeRunTools, openaiToolsEnabled } from "../lib/arron-tools.js";
 
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
@@ -462,6 +466,9 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
+  // Phase 2: Supabase cloud copy is written ONLY with consent — explicit saveToCloud===true
+  // or a signed-in user (their account, their history). Guests default to local Netlify DB only.
+  const supabaseConsent = body.saveToCloud === true || Boolean(user);
   const resolved: Resolved | null = !wantsCloud
     ? { id: "", readable: false }
     : await resolveMemory(body.memoryId, user).catch((error) => {
@@ -534,7 +541,7 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     ownerFacts: done.ownerFacts,
     ownerVoice,
     growth: growthBrief(growth),
-  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message));
+  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message)) + (openaiToolsEnabled() ? "\n\n" + ARRON_PHASE2_TOOLS_BRIEF : "");
 
   let answer: Awaited<ReturnType<typeof reply>>;
   // Multi-mind replies cost several paid calls, so the Owner asks for them by name and each has its own daily allowance:
@@ -549,6 +556,15 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   const capNote = (wantsCouncil && !council) || (wantsFamily && !family)
     ? "\n\nTODAY'S LIMIT — the Owner's daily allowance for that multi-mind reply is used up. Say so in one line, then answer with one mind."
     : "";
+  // Phase 2: one round of GPT tool calling (solar_calculator / crisis_check / url_fetch),
+  // only when OPENAI_API_KEY is set and this is a normal single-mind chat. If a tool fires,
+  // its result is injected into the last user turn (turns mutated in place); the provider
+  // chain below then produces the final reply with enriched context. If no key, no tool, or
+  // any error, the chain runs UNCHANGED. Tools never break chat.
+  if (!council && !family && openaiToolsEnabled()) {
+    const routeMax = creator ? TOKENS.creator : TOKENS.guest;
+    await maybeRunTools(system + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
+  }
   try {
     if (council) {
       const notes = await askCouncil(system, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
@@ -611,6 +627,20 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     }
   }
 
+  // Phase 2: best-effort second copy to Supabase. A Supabase failure must never
+  // break the reply or flip remembered=false — local Netlify DB is the source of truth.
+  // Only written with consent (saveToCloud===true or signed-in user).
+  if (supabaseEnabled() && supabaseConsent && resolved.readable) {
+    try {
+      await supabaseAppend(memoryId, [
+        { role: "user", content: message, ts: started },
+        { role: "assistant", content: replyText },
+      ]);
+    } catch {
+      // The layer already logged a warning with no message content / no PII.
+    }
+  }
+
   return json({
     reply: replyText,
     remembered,
@@ -666,6 +696,13 @@ async function memory(req: Request, url: URL) {
     await db.delete(arronMemories).where(eq(arronMemories.id, id));
     const [left] = await db.select({ id: arronMemories.id }).from(arronMemories).where(eq(arronMemories.id, id));
     if (left) return json({ error: "Memory could not be erased" }, 500);
+    // Phase 2: best-effort wipe of the Supabase cloud copy too. A Supabase failure
+    // must never block Forget Me — local erase is confirmed and that is what we report.
+    try {
+      await supabaseClear(id);
+    } catch {
+      // The layer already logged a warning (no PII).
+    }
     return json({ ok: true, cleared: true });
   }
 

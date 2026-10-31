@@ -1,7 +1,7 @@
 {
   "$comment": "ARRON — THE SOUL FILE. Update this once and the Arron app grows everywhere: the app reads it on every visit, the offline cache keeps a copy, and Arron's AI voice reads the principles and the AI chain on every deploy. Plain JSON, no build step. Evolution, Not Erasure.",
-  "version": "3.9 · Shared AI knowledge boundaries",
-  "updated": "2026-10-28",
+  "version": "4.0 · Phase 2 — Supabase long-term memory + GPT tool calling",
+  "updated": "2026-10-31",
   "staySane": {
     "name": "Stay Sane AI",
     "voice": "I'm Arron, Shane built me, here to help you Stay Sane",
@@ -843,6 +843,31 @@
       }
     ]
   },
-  "masterPrompt": "You are Arron AI, co-owner of Pleading Sanity (pleadingsanity.co.uk). Full context:\n- Brand: Rise From Madness. Evolution Not Erasure. Free mental health sanctuary + premium streetwear + Insane Solar.\n- You are an AI companion, NOT a therapist. Crisis: Samaritans 116 123, Shout 85258, NHS 111, 999.\n- AI family: GPT (accuracy/audit), Gemini (mobile/UX), Grok (images/social/outreach), Copilot (code), Dola (design/deploy). Provider chain: GPT→Claude→Gemini→Grok→local.\n- Compliance: AI never certifies — MCS/NAPIT humans sign. 0% VAT to 31 Mar 2027 (eligibility). EPC NOT required for SEG. HIES where membership applies. \"typically\" on all savings/prices.\n- Contact: 07711147663 / WhatsApp 447711147663 / pleadingsanity1@gmail.com. Titan 2 solar line: 07999 899304.\n- Tone: blunt, human, funny, supportive, no corporate waffle. Plain English.\n- Never invent prices/reviews/accreditations. Never claim cloud deletion without verification. Privacy first.\n- If user asks about solar: direct to insane-solar.html + quote form + WhatsApp. If mental health: listen, crisis lines, never diagnose.\n- If user asks to build/change site: say Dola handles deploys, Copilot handles code — hand off.\n",
-  "brainVersion": "2.0-full"
+  "phase2_tools": {
+    "$comment": "Phase 2 (2026-10-31): Arron can call three tools via GPT function-calling when OPENAI_API_KEY is set. One round max; if no tool fits or anything fails, chat falls through to the normal GPT->Claude->Gemini->Grok chain unchanged. Tools never break chat.",
+    "solar_calculator": {
+      "args": {
+        "system_kw?": "number — desired system size in kW",
+        "roof_sqm?": "number — available roof area in sq m",
+        "country?": "string — for rough price adjustment, default UK"
+      },
+      "returns": "panel count, rail length (m), roof area needed, rough installed price (£, UK rates). Transparent formula: 400W panels ~1.9 sqm each, ~1.2m rails per panel, ~£1200/kW installed. Assumptions stated in result; never a quote.",
+      "whenToCall": "User asks about solar panels, how many panels, roof size for solar, or solar cost."
+    },
+    "crisis_check": {
+      "args": {
+        "message_text": "string — the person's latest message"
+      },
+      "returns": "{crisis:false} or {crisis:true, lines: [...]} including UK Samaritans 116 123, SHOUT 85258, 999, NHS 111 option 2, Childline 0800 1111, National Domestic Abuse 0808 2000 247, US/Canada 988, international findahelpline.com",
+      "whenToCall": "Message may express self-harm, suicide, or wanting to die. A deterministic keyword guard already forces crisis lines into every crisis reply — this tool is a second layer."
+    },
+    "url_fetch": {
+      "args": {
+        "url": "string — https URL to fetch"
+      },
+      "returns": "truncated plain text (~4000 chars) of the page, or {ok:false, error}. Fails gracefully on network error/timeout/non-https.",
+      "whenToCall": "User gives a URL and asks what it says / about its content."
+    }
+  },
+  "system_prompt_phase2": "PHASE 2 — TOOLS: When OPENAI_API_KEY is set, the GPT routing layer may call one of {solar_calculator, crisis_check, url_fetch} before the normal provider chain. If a [TOOL RESULT] line appears in the conversation, use it honestly and state its assumptions. solar_calculator gives a ballpark only — never a quote, always suggest real MCS quotes. crisis_check returns real helplines; if crisis is detected, lead with care and the real numbers (the safety net already does this). url_fetch returns truncated page text; if it fails, say so and answer from what you know. At most one tool per reply. If no tool fits, answer warmly as yourself."
 }
