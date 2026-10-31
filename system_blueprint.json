@@ -1,0 +1,24 @@
+{
+  "version": "4.0.0",
+  "lastUpdated": "2026-10-31T02:00:00Z",
+  "site": "https://pleadingsanity.co.uk",
+  "repo": "pleadingSanity/pleadingsanity",
+  "host": "netlify",
+  "livePages": ["index", "insane-solar", "solar-ai-office", "ai-social", "shed-card-game", "arron", "games", "finance", "community", "creator", "crisis", "shop", "about"],
+  "aiNodes": {
+    "grok": {"status": "active", "role": "images, social, recruitment, outreach, SEO, compliance watch", "skill": "ps-ecosystem-powerup"},
+    "gpt": {"status": "active", "role": "accuracy, audit, verification, tests, exact commits"},
+    "gemini": {"status": "active", "role": "mobile UX, accessibility, human-tone polish, image prompts"},
+    "claude": {"status": "queued", "role": "deep code review, security, regression tests"},
+    "copilot": {"status": "active", "role": "code edits in repo"},
+    "dola": {"status": "active", "role": "design, structure, deploys, final verification"}
+  },
+  "contact": {"phone": "07711147663", "whatsapp": "447711147663", "email": "pleadingsanity1@gmail.com"},
+  "payments": {"provider": "paypal", "deposit": 50, "currency": "GBP", "serverVerify": "netlify/functions/verify-paypal.mts", "envVarsNeeded": ["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET"]},
+  "compliance": {"aiNeverCertifies": true, "vatZeroUntil": "2027-03-31", "epcForSeg": false, "crisisNumbersAlwaysVisible": true},
+  "buildGuard": "scripts/validate-build.cjs",
+  "arron": {"health": "/api/arron/health", "functions": 28, "providerChain": "GPT->Claude->Gemini->Grok->local", "memoryDeleteEndpoint": "/api/arron/memory"},
+  "openPRs": {"#137": "draft-CI-guard", "#139": "draft-privacy-tests", "#138": "draft-visual-audit", "#140": "draft-AI-config", "#92": "DO-NOT-TOUCH"},
+  "queuedPhase2": ["PWA + service worker", "canvas game engine", "Arron orchestrator (one-prompt master brain)", "investor/funder outbound engine", "Supabase long-term memory"],
+  "dailyCron": "Pleading Sanity Daily Power-Up — 9:07am Europe/London"
+}
