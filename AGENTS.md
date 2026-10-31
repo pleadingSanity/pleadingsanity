@@ -1,6 +1,6 @@
 # Pleading Sanity — shared agent operating contract
 
-**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish. The paste-ready connector for every AI and every builder is `docs/MASTER_PROMPT.md`. It points here. It is not a second brain and it does not prove any model is connected.
+**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish. Then read `docs/MASTER_PROMPT.md` yourself. Do not ask Shane to paste it. If this chat cannot see the repo, say that once. Do not send him off to copy a prompt.
 
 Owner: Shane Cooper. Canonical production: https://pleadingsanity.co.uk
 Canonical repository: pleadingSanity/pleadingsanity.

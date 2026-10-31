@@ -8,7 +8,8 @@ description: Audit, fix and polish the existing Pleading Sanity website, GitHub 
 ## Ground the work
 
 Use `pleadingSanity/pleadingsanity` as the canonical repository and
-`https://pleadingsanity.co.uk` as the primary site. Read current `AGENTS.md`,
+`https://pleadingsanity.co.uk` as the primary site. Read `docs/MASTER_PROMPT.md`
+yourself. Never tell Shane to paste it into another chat. Then read current `AGENTS.md`,
 `AI_HANDOFF.md` (Start Here and latest entries), `CLAUDE.md` and relevant source.
 Resolve instruction conflicts using the current user's authorization and the
 handoff's conflict ruling. Recheck remote branch heads, PRs and published deploy
