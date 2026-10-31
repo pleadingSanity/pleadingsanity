@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.56'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v102'; // v102: Songs link and App Hub entries. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const VERSION = '5.12.57'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
+const STATIC_CACHE = 'pleading-sanity-static-v103'; // v103: shared header and solar assistant. v102: Songs link and App Hub entries. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 

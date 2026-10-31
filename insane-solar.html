@@ -497,6 +497,7 @@ details.lm>.lm-body{margin-top:1rem}
 }
 
 </style>
+<link rel="stylesheet" href="/css/site.css">
 </head>
 <body>
 <!-- v3.3: inline SVG icon sprite (stroke-based, currentColor) -->
@@ -1696,7 +1697,7 @@ const COMPLIANCE = [
 </script>
 
 <script>
-/* Floating AI chat — toggle + send to /api/arron. Global sendAiChat (called by inline onclick). */
+/* Floating AI chat. The send handler lives in /js/solar-assistant.js. */
 (function(){
   var toggle = document.getElementById("ai-chat-toggle");
   var panel = document.getElementById("ai-chat-panel");
@@ -1710,42 +1711,7 @@ const COMPLIANCE = [
   if(closeBtn && panel) closeBtn.addEventListener("click", function(){ panel.style.display = "none"; });
 })();
 
-/* Solar-specific system prompt prepended to EVERY AI message. */
-const SOLAR_SYSTEM_PROMPT = "You are the Insane Solar AI assistant for a UK solar installation company (Leicestershire/Midlands). Answer in plain UK English, short, helpful, no jargon, max ~4 sentences. You NEVER certify a system or give a binding quote — always say a human surveys and signs off. For quotes/orders direct to WhatsApp 07711 147663 or Shane 07999 899304. If the user seems in crisis or mentions self-harm, include crisis numbers: 999, Samaritans 116 123, SHOUT 85258. Prices are typical 2026 UK fitted and vary by roof.";
-
-function sendAiChat(){
-  var inp = document.getElementById('ai-chat-input'); if(!inp) return;
-  var msg = inp.value.trim(); if(!msg) return;
-  var box = document.getElementById('ai-chat-messages'); if(!box) return;
-  var u = document.createElement('div'); u.className = 'ai-user'; u.textContent = msg; box.appendChild(u);
-  inp.value = '';
-  inp.disabled = true;
-  var sendBtn = inp.parentElement ? inp.parentElement.querySelector('button') : null;
-  if(sendBtn) sendBtn.disabled = true;
-  box.scrollTop = box.scrollHeight;
-  var typing = document.createElement('div'); typing.className = 'ai-msg ai-typing'; typing.innerHTML = '<span></span><span></span><span></span>'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
-  function finish(replyText){
-    if(typing && typing.parentNode) typing.parentNode.removeChild(typing);
-    var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = replyText; box.appendChild(a); box.scrollTop = box.scrollHeight;
-    inp.disabled = false;
-    if(sendBtn) sendBtn.disabled = false;
-    try{ inp.focus(); }catch(e){}
-  }
-  fetch('/api/arron', {
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({ messages:[ {role:'system', content:SOLAR_SYSTEM_PROMPT}, {role:'user', content:msg} ], saveToCloud:false })
-  }).then(function(r){ return r.json(); }).then(function(d){
-    var reply = (d && (d.reply || d.message || d.response)) || "";
-    if(!reply || typeof reply !== 'string' || !reply.trim()){
-      reply = "Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.";
-    }
-    finish(reply);
-  }).catch(function(){
-    finish("Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.");
-  });
-}
-document.getElementById('ai-chat-input') && document.getElementById('ai-chat-input').addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); sendAiChat(); } });
+/* Questions go to /api/solar. The page no longer sends its own system prompt. */
 </script>
 
 <script>
@@ -2124,5 +2090,7 @@ document.getElementById('ai-chat-input') && document.getElementById('ai-chat-inp
   <a class="mb-call" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call</a>
   <a class="mb-book" href="#book"><svg class="ico"><use href="#i-book"/></svg>Book Survey</a>
 </div>
+<script src="/js/site.js" defer></script>
+<script src="/js/solar-assistant.js" defer></script>
 </body>
 </html>

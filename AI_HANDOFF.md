@@ -716,3 +716,10 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
   - Adding a gtag consent snippet. Journal, sanctuary, Arron and crisis pages have no Google Analytics tag. The site audit treats `gtag(` as a tracker failure.
   - `docs/GEMINI_SYSTEMS_INTEGRATION_REPORT.md` is not in this repo, so it was not marked ready for deployment.
 - Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: shared header and the solar desk
+- The shared nav in `css/site.css` and `js/site.js` is sticky, on `#0b0f19`, with the Crying Brain, App Hub, Sanity's Songs, Solar, Shop, About, Sign in, and an amber Crisis help button that stays on the bar. On a phone the rest of the menu slides in. Escape closes it. Tab stays inside it while it is open. Reduced motion turns the slide off. Pages that had no `site.js` now load it. `docs/IMAGES_NEEDED.md` lists pages whose main content has no picture of their own.
+- Solar questions from Insane Solar, the AI Office page, and `solar.html` go to `POST /api/solar`. That calls `runChain` in `netlify/lib/ai-chain.ts`. Knowledge is `netlify/lib/solar-knowledge.ts`. Distress is answered before the rate limit and before any model, with 999, 116 123, 85258 and 111. A normal answer is limited, timed out at 20 seconds, and ends with the DIY boundary: height, Part P, G98/G99, no MCS, no SEG, no 0% VAT installer route, and the AI does not certify. Unsure answers point at 07999 899304 or WhatsApp 447711147663. Costs stay "typically". An EPC is not described as required for SEG.
+- Sources checked HTTP 200 on 31 Oct 2026: HMRC VAT Notice 708/6, GOV.UK VAT rates, GOV.UK renewable energy, Approved Document P, Planning Portal solar panels, Ofgem SEG, MCS standards, MCS installers, ENA engineering documents. ENA's own marketing site returned 403 to this checker, so the citation is the document library that returned 200.
+- Test Lab cards: `solar-ai-ask`, `solar-ai-diy`, `solar-ai-crisis`.
+- Not merged. Not on main.

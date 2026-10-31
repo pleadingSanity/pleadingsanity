@@ -99,6 +99,7 @@
     .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
   }
 </style>
+<link rel="stylesheet" href="/css/site.css">
 </head>
 <body class="antialiased">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -748,5 +749,17 @@ const PERSONAS = [
   onScroll();
 })();
 </script>
+<section id="ask-solar" style="padding:2rem 1rem 4rem;background:#0b0f19">
+  <form data-solar-ask style="max-width:40rem;margin:0 auto">
+    <h2 style="color:#00fff0">Ask the solar desk</h2>
+    <p style="color:#cbd5e1">General UK information. It does not certify a system. If you are unsure, call Titan 2 on 07999 899304.</p>
+    <div id="solar-ask-log" style="min-height:4rem;margin:1rem 0;color:#e2e8f0"></div>
+    <label for="solar-ask-input" style="display:block;margin-bottom:.4rem">Your question</label>
+    <input id="solar-ask-input" type="text" style="width:100%;min-height:48px;padding:.6rem .8rem;border-radius:12px;border:1px solid rgba(56,189,248,.4);background:#0b0f19;color:#e2e8f0">
+    <button type="submit" data-solar-send style="margin-top:.8rem;min-height:48px;padding:0 1rem;border:0;border-radius:999px;background:#f59e0b;color:#0b0f19;font-weight:800">Ask</button>
+  </form>
+</section>
+<script src="/js/site.js" defer></script>
+<script src="/js/solar-assistant.js" defer></script>
 </body>
 </html>
