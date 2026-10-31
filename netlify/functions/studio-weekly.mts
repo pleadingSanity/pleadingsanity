@@ -13,7 +13,7 @@ export default async () => {
   try {
     await queuePodcast(POD_TOPICS[week % POD_TOPICS.length], origin);
   } catch (error) {
-    console.error("Weekly Unity Pod could not be queued:", error);
+    console.error("Weekly Unity Pod could not be queued:", error instanceof Error ? error.name : "error");
   }
 };
 

@@ -50,7 +50,9 @@ const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.X
 const grok = grokKey
   ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
   : null;
-const openaiDirect = process.env.OPENAI_API_KEY
+// A stored OpenAI key is only "direct" when Netlify did not inject it for the AI Gateway.
+// If OPENAI_BASE_URL is set, OPENAI_API_KEY is the Gateway credential and must never be sent to api.openai.com.
+const openaiDirect = process.env.OPENAI_API_KEY && !process.env.OPENAI_BASE_URL
   ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.

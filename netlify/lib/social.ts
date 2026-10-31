@@ -72,7 +72,7 @@ async function ownerVerified(user: { id: string; email?: string; provider?: stri
       const full = await admin.getUser(user.id);
       ok = Boolean(full.confirmedAt) && isOwnerEmail(full.email);
     } catch (error) {
-      console.error("Could not verify the owner account:", error);
+      console.error("Could not verify the owner account:", logReason(error));
       return false; // don't cache — try again next request
     }
   }

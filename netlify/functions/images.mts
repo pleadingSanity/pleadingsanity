@@ -7,7 +7,7 @@
 
 import type { Config } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
-import { currentUser, optionalUser, json, logActivity, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
+import { currentUser, optionalUser, json, logActivity, logReason, unauthorized, areFriends, isBlockedEitherWay } from "../lib/social.js";
 import { db } from "../../db/index.js";
 import { posts, profiles } from "../../db/schema.js";
 import { eq } from "drizzle-orm";
@@ -109,7 +109,7 @@ export default async (req: Request) => {
 
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
-    console.error("Images API error:", error);
+    console.error("Images API error:", logReason(error));
     return json({ error: "Upload failed. Please try again." }, 500);
   }
 };

@@ -10,7 +10,7 @@ import type { Config } from "@netlify/functions";
 import { db } from "../../db/index.js";
 import { studioItems } from "../../db/schema.js";
 import { familyCard, parseJSON, speak, STYLES, VOICES, type VoiceId } from "../lib/studio.js";
-import { str } from "../lib/social.js";
+import { logReason, str } from "../lib/social.js";
 
 const ROTA: VoiceId[] = ["arron", "nova", "sol"];
 const STYLE_ROTA = ["inspire", "funny", "affirm", "story", "challenge"];
@@ -57,7 +57,7 @@ export default async () => {
       body: card.body,
     });
   } catch (error) {
-    console.error(`AI family post (${voice}) failed:`, error);
+    console.error(`AI family post (${voice}) failed:`, logReason(error));
   }
 };
 
