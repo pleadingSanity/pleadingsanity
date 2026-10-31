@@ -1,6 +1,6 @@
 # Copilot — audit, then buff. One house. One app.
 
-**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish.
+**Do not ask Shane for a prompt.** Read `docs/MASTER_PROMPT.md` in this repo yourself, then `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish.
 
 You are finishing Pleading Sanity, not starting a second site and not starting a second Grok app.
 Repo: github.com/pleadingSanity/pleadingsanity. Branch: main. Push to main. Do not open a pull request.

@@ -626,3 +626,8 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Added `docs/MASTER_PROMPT.md`: the prompt Shane can paste into every builder. It lists the pages and Netlify functions that exist on this commit, the real Forget Me contract, and the order GPT → Claude → Gemini → Grok. `AGENTS.md` now points at it. It does not replace this log, and it is not a live link between models.
 - Checked the same hour: `www.pleadingsanity.co.uk` answered `server: Netlify` and redirected to the apex. `pleadingsanity.uk` answered `server: Vercel` with the sanctuary title. The custom-domain CNAME and `_vercel` TXT for `www` are refused. Draft PR #145 records that lock. Draft PR #139 remains the privacy-test review.
 - Not proven: that every listed page still returns 200 after the Insane Solar commit, phone layout, or that any provider key is set.
+
+## 2026-10-31 — Grok: stop telling Shane to paste
+- He should not have to carry the prompt between chats. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, `AGENTS.md` and `.agents/skills/pleading-sanity-maintain/SKILL.md` now say: read `docs/MASTER_PROMPT.md` yourself. Do not ask him for it.
+- This only works for a builder that opens the repo. A fresh chat on Claude's site, ChatGPT's site or Gemini's site still cannot see the files until that product is pointed at the repo. I cannot open those accounts and point them.
+- No code, DNS, payments or PR #92 touched.

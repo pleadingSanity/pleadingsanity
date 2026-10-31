@@ -1,6 +1,8 @@
-# MASTER PROMPT — paste this into every AI and every builder
+# MASTER PROMPT — already in the repo. Do not ask Shane to paste this.
 
-Copy from the line `YOU ARE IN THE PLEADING SANITY HOUSE` to the end of this file. Do not shorten it. Do not replace `AGENTS.md` or `AI_HANDOFF.md`. This prompt is the connector. The files in the repo are the shared brain. There is no live socket between Grok, GPT, Claude, Gemini, Dola and Copilot. A prompt does not connect an account.
+Any builder that can see this repository reads this file itself. Shane is not the messenger. A website chat that cannot open the repo must say so, once, and stop. Do not send him off to copy this into another window.
+
+The files in the repo are the shared brain. There is no live socket between Grok, GPT, Claude, Gemini, Dola and Copilot. Reading this file is not a phone call to the others.
 
 ---
 
