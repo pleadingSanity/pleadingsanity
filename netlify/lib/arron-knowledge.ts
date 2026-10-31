@@ -276,7 +276,7 @@ THE ECOSYSTEM (with links on pleadingsanity.co.uk)
   fully private frequency delivery system using Schumann 7.83Hz and Solfeggio resonances to cut through modern noise.
 - The site installs to a phone as an app: in Chrome/Android use "Install app" / "Add to Home screen";
   on iPhone open in Safari → Share → "Add to Home Screen". Many pages work offline.
-- Socials: Instagram and TikTok @mentally.inshane, YouTube @PleadingSanity. Email: pleadingsanity1@gmail.com
+- Socials: Instagram and TikTok @mentally.inshane, YouTube @shanecooper1872. Email: pleadingsanity1@gmail.com
 
 THE LONG VIEW
 Phase 1 The Hub (live) · Phase 2 The App (Arron closer than ever, offline-first) · Phase 3 The Gym (MMA + healing spaces) ·

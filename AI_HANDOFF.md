@@ -678,3 +678,9 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - SEO: OG/description/canonical gaps filled on 18 pages; 4 public pages added to sitemap.xml. sw.js static cache bumped to v102.
 - Missing files referenced above (`docs/SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md`, `CLAUDE.local.md`) still do not exist.
 - Applied with `git am` onto main `788493eca06d16859b2df64dbf95e59aa52cdd9f` (clean, no rebase). `node scripts/validate-build.cjs` passed. `npm test`: 77 pass, 0 fail. Not merged. Owner still needs Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and to run the migration SQL in Supabase. Browser visual check of the crisis strips and colour swap was not run in this apply.
+
+## 2026-10-31 — YouTube @shanecooper1872 links and retrieved uploads
+- Replaced every `youtube.com/@PleadingSanity` link (HTTP 404) with `https://www.youtube.com/@shanecooper1872`.
+- Channel id taken from the channel page canonical URL: `UC3q3UpppLMXrq45czZT4_HQ`. Public RSS `https://www.youtube.com/feeds/videos.xml?channel_id=UC3q3UpppLMXrq45czZT4_HQ` listed 7 videos. Each id was confirmed with YouTube oEmbed as author Shane Cooper / `@shanecooper1872`. The old `.env` channel id `UC0iP4yT2PpQqhFQ0oEc7ZVw` and playlist `PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA` both returned 404.
+- Embeds use `youtube-nocookie.com`, a title, and lazy loading, and sit after the crisis numbers. Only titles that match the page were embedded: UFC gameplay on game pages. No reflective, music, solar, or kid-appropriate upload was in that public list, so those pages were left without an embed. `AH8HLrwIQec` (jalapeño) was not placed on kids pages. `HUifzhezhJw` (bike) and `eHP_ki2dOUc` (JRN) had no matching page.
+- `sw.js` static cache bumped to v103.
