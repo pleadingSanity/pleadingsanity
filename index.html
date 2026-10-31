@@ -27,7 +27,7 @@
     ]
   },
   "sameAs": [
-    "https://www.youtube.com/@shanecooper1872"
+    "https://www.youtube.com/@PleadingSanity"
   ]
 }
 </script>
@@ -176,7 +176,7 @@ h1 {
 }
 .share-btn:hover { background: rgba(0, 255, 240, 0.18); transform: translateY(-1px); }
 .share-btn:active { transform: scale(0.98); }
-.share-btn.copied { border-color: #f59e0b; color: #f59e0b; }
+.share-btn.copied { border-color: #ff4d8d; color: #ff4d8d; }
 .share-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .tools {
   padding: 1.5rem 1rem 3.5rem;
@@ -273,12 +273,10 @@ body {
 }
 </style>
 <link rel="stylesheet" href="/css/card-polish.css">
-<link rel="preload" as="image" href="/assets/images/brand/crying-brain-logo-clear-512.webp" imagesrcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" imagesizes="(max-width: 600px) 100px, 120px" fetchpriority="high">
-<link rel="stylesheet" href="/css/support-strip.css">
 </head>
 <body>
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
-<nav class="eco-nav" aria-label="Site" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
+<nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
   <a href="index.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanctuary</a>
   <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
   <a href="community.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Community</a>
@@ -290,13 +288,13 @@ body {
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
 
-<script src="/js/ps-splash.js" defer></script>
+<script src="/js/ps-splash.js"></script>
 <a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content">
-<header class="hero">
+<div class="hero">
 <img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 100px, 120px" alt="Pleading Sanity crying brain logo" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
-<img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" fetchpriority="high" decoding="async" style="width:100%;max-width:800px;height:auto;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
+<img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" loading="lazy" style="width:100%;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
 <p class="tagline">Free mental health sanctuary. Rise From Madness. Evolution, Not Erasure.</p>
 <p class="built">Built from survival by Shane Cooper. Midlands. Lived it. Still building. Free for everyone. No one turned away.</p>
 
@@ -306,7 +304,7 @@ body {
 </div>
 
 <div class="share-wrap">
-<button type="button" class="share-btn" id="shareBtn" aria-label="Share this sanctuary">
+<button type="button" class="share-btn" id="shareBtn" aria-label="Share Pleading Sanity">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
 Share this sanctuary
 </button>
@@ -314,7 +312,7 @@ Share this sanctuary
 
 <nav class="home-quick-links" aria-label="Explore Pleading Sanity">
 <a href="/live.html" class="home-live">● Live</a>
-<a href="/get-the-app.html">App Hub &amp; install</a>
+<a href="/app.html">App Hub &amp; install</a>
 <a href="/games.html">Games</a>
 <a href="/new-gen-bible.html">New Gen Bible</a>
 <a href="/support.html">Support</a>
@@ -324,7 +322,7 @@ Share this sanctuary
 <p class="home-support-note">Need someone real right now? <a href="/support.html">Free support</a> · <a href="/crisis.html">Urgent help (116 123 · 85258)</a></p>
 
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
-</header>
+</div>
 
 <section class="why-better" aria-labelledby="why-title" style="max-width:42rem;margin:0 auto 2.2rem;padding:0 1.25rem;text-align:left">
 <span class="ps-free-forever" style="margin-bottom:0.75rem">Free forever</span>
@@ -345,35 +343,35 @@ Share this sanctuary
 
 <section class="apps-showcase" style="max-width:1120px;margin:0 auto 3rem;padding:0 1.2rem">
 <h2 style="color:#00fff0;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 0.6rem">Apps you can try</h2>
-<p><a href="/get-the-app.html">Browse every app and game · install Pleading Sanity</a></p>
+<p><a href="/app.html">Browse every app and game · install Pleading Sanity</a></p>
 <p style="color:#b9faff;max-width:42rem;margin:0 auto 1.8rem;line-height:1.55">Play, create and plan at your own pace. These tools are free, and the Site Builder makes a draft plan without accessing your website or charging for an AI call.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:1.2rem;text-align:left">
-<a href="/finance.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block;position:relative" title="Honest numbers. No sales pressure. Your figures stay on this device. Not a lender.">
+<a href="/finance.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/theme/cards/number-nebula.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block;position:relative" title="Honest numbers. No sales pressure. Your figures stay on this device. Not a lender.">
 <img src="/assets/theme/cards/number-nebula.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Sane Finance</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Honest numbers. Free.</p>
 </a>
-<a href="/creator.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Creator Hub: bring a supported external livestream, plan your broadcasts and see what is still being built.">
+<a href="/creator.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/editorial/creator-stage-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Creator Hub: bring a supported external livestream, plan your broadcasts and see what is still being built.">
 <img src="/assets/images/editorial/creator-stage-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Creator Hub</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Bring your live. Plan what’s next.</p>
 </a>
-<a href="/site-builder.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Choose your website type and goals to generate a free improvement prompt. Does not scan or change your website.">
+<a href="/site-builder.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/editorial/connected-lights-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Choose your website type and goals to generate a free improvement prompt. Does not scan or change your website.">
 <img src="/assets/images/editorial/connected-lights-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Site Builder</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Free plan. No website scan.</p>
 </a>
-<a href="/poker.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Texas Hold’em with play chips only. No cash. Expanding levels. Soft focus under the stars.">
+<a href="/poker.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/theme/cards/night-table.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Texas Hold’em with play chips only. No cash. Expanding levels. Soft focus under the stars.">
 <img src="/assets/theme/cards/night-table.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Night Table</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Play chips. Free.</p>
 </a>
-<a href="/sanity-solitaire.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Calm solitaire. Soft focus when the mind is loud. Progress stays on your phone. New levels open when you finish.">
+<a href="/sanity-solitaire.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/theme/cards/sanity-solitaire.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Calm solitaire. Soft focus when the mind is loud. Progress stays on your phone. New levels open when you finish.">
 <img src="/assets/theme/cards/sanity-solitaire.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Sanity Solitaire</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Soft focus. Free.</p>
 </a>
-<a href="/ai-family.html" class="app-card app-door" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Grok Imagine helps create calm cosmic visuals for the house. Brand-aligned images, no invented stories. Used by the AI family.">
+<a href="/ai-family.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/editorial/rise-from-madness-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Grok Imagine helps create calm cosmic visuals for the house. Brand-aligned images, no invented stories. Used by the AI family.">
 <img src="/assets/images/editorial/rise-from-madness-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Grok Imagine</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Calm visuals. Free.</p>
@@ -385,56 +383,56 @@ Share this sanctuary
 <h2>In the house</h2>
 <p class="sub">Each tool does one clear thing. Free. No pressure. Built with the AI family, including Grok Imagine for calm visuals. Evolution, not erasure.</p>
 <div class="tool-grid">
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/editorial/creator-stage-1280.webp') center/cover no-repeat;">
 <img src="/assets/images/editorial/creator-stage-1280.webp" srcset="/assets/images/editorial/creator-stage-640.webp 640w, /assets/images/editorial/creator-stage-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="A night-time creator studio" width="1280" height="536" loading="lazy" decoding="async" class="home-tool-image">
 <h3>Live & Creators</h3>
 <p class="purpose">Bring a stream or plan a live. Tools for makers.</p>
 <p>Share a supported YouTube or Twitch stream. See upcoming lives. Direct broadcasting and automatic clips are still being built.</p>
 <a href="/live.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open Live →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/editorial/living-book-1280.webp') center/cover no-repeat;">
 <img src="/assets/images/editorial/living-book-1280.webp" srcset="/assets/images/editorial/living-book-640.webp 640w, /assets/images/editorial/living-book-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="An illustrated open book beneath connected stars" width="1280" height="548" loading="lazy" decoding="async" class="home-tool-image">
 <h3>New Gen Bible</h3>
 <p class="purpose">A living guide. Truth, connection, questions.</p>
 <p>Explore what we know, think, believe and still question. You never have to lose yourself to belong.</p>
 <a href="/new-gen-bible.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore the guide →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/finance.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/finance.jpg" width="512" height="288" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async">
 <h3>Sane Finance</h3>
 <p class="purpose">Honest numbers. No sales pressure.</p>
 <p>See what you can afford, compare real offers, prepare truthful applications. Your numbers stay on this device.</p>
 <a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the desk →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/games.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/games.jpg" width="512" height="288" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async">
 <h3>Games</h3>
 <p class="purpose">Soft focus when the mind is loud.</p>
 <p>Ad-free brain games including Sanity Solitaire and Night Table. Progress stays on your phone. Play at your own pace. New levels open when you finish the ones you have.</p>
 <a href="/games.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Play →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/ai-family.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/ai-family.jpg" width="512" height="288" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async">
 <h3>AI Family</h3>
 <p class="purpose">Arron and the chain. One voice, many minds.</p>
 <p>Talk, create, and build with GPT, Claude, Gemini and Grok. Memory controls let you clear local Arron memory and request cloud deletion. Not a therapist.</p>
 <a href="/ai-family.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Meet the family →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/journal.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/journal.jpg" width="512" height="288" alt="Open book of soft nebula pages" loading="lazy" decoding="async">
 <h3>Journal Vault</h3>
 <p class="purpose">Private words. Yours alone.</p>
 <p>Write, keep, or wipe. No cloud copy unless you choose. Your story stays yours. One line is enough.</p>
 <a href="/journal-vault.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the vault →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/community.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/community.jpg" width="512" height="288" alt="Gentle constellation of connected lights" loading="lazy" decoding="async">
 <h3>Community</h3>
 <p class="purpose">Real stories. Newest first. No algorithm.</p>
 <p>Chronological feed, profiles, and the Quote Wall. Sit with people who get it. A place to belong. Hearts only.</p>
 <a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Enter the feed →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(0,1,3,.15) 0%, rgba(0,1,3,.55) 50%, rgba(0,1,3,.92) 100%), url('/assets/images/showcase/frequencies.jpg') center/cover no-repeat;">
 <img src="/assets/images/showcase/frequencies.jpg" width="512" height="288" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async">
 <h3>Meditation & Frequencies</h3>
 <p class="purpose">Soft tones only. Silence is allowed.</p>
@@ -445,12 +443,12 @@ Share this sanctuary
 <p style="color:#a9c7d1;font-size:0.95rem;margin:1.5rem auto 0;max-width:40rem;">Every app here is free. No paywall on Arron, journal, feed, games, or crisis help. Rise From Madness.</p>
 </section>
 </main>
-<footer role="contentinfo">
+<footer>
 <p>Evolution, Not Erasure</p>
 <div class="socials">
 <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">Instagram</a>
 <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer">TikTok</a>
-<a href="https://www.youtube.com/@shanecooper1872" target="_blank" rel="noopener noreferrer">YouTube</a>
+<a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer">YouTube</a>
 <a href="/insane-solar.html">Insane Solar</a>
 <a href="/ai-social.html">AI Social</a>
 <a href="mailto:pleadingsanity1@gmail.com">Email</a>
@@ -511,6 +509,6 @@ Share this sanctuary
 })();
 </script>
   <script src="/js/member-feedback.js" defer></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+  <script type="module" src="/js/auth.js"></script>
 </body>
 </html>

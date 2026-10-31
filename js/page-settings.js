@@ -13,7 +13,7 @@ toggle.addEventListener('change', async () => {
   try {
     await api('/api/me', { method: 'PUT', body: { isPrivate: toggle.checked } });
     clearMe();
-    toast(toggle.checked ? 'Your profile is now friends-only ' : 'Your profile is now public ');
+    toast(toggle.checked ? 'Your profile is now friends-only 🔒' : 'Your profile is now public 🌌');
   } catch (error) {
     toggle.checked = !toggle.checked;
     toast(error.message);
@@ -28,7 +28,7 @@ pwForm.addEventListener('submit', async (e) => {
   try {
     await updateUser({ password: pw });
     pwForm.reset();
-    toast('Password changed ');
+    toast('Password changed 💙');
   } catch (error) { toast(error.message); }
 });
 
@@ -70,6 +70,9 @@ delForm.addEventListener('submit', async (e) => {
     try { await logout(); } catch { /* account is already gone */ }
     clearMe();
     try { localStorage.clear(); sessionStorage.clear(); } catch { /* storage blocked */ }
+    // Drop the gotrue session cookies too, so a failed server logout can't rehydrate the deleted account.
+    document.cookie = 'nf_jwt=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = 'nf_refresh=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     location.replace('/login.html?deleted=1');
   } catch (error) {
     toast(error.message);

@@ -8,9 +8,9 @@ import { getSettings, oauthLogin } from '/js/vendor/netlify-identity.js';
 
 const PROVIDERS = [
   ['google', 'Continue with Google', 'G'],
-  ['github', 'Continue with GitHub', ''],
-  ['gitlab', 'Continue with GitLab', ''],
-  ['bitbucket', 'Continue with Bitbucket', ''],
+  ['github', 'Continue with GitHub', '🐙'],
+  ['gitlab', 'Continue with GitLab', '🦊'],
+  ['bitbucket', 'Continue with Bitbucket', '🪣'],
   ['facebook', 'Continue with Facebook', 'f'],
 ];
 
@@ -36,8 +36,8 @@ export async function mountOAuth(container, { beforeRedirect } = {}) {
     const b = e.target.closest('[data-oauth]');
     if (!b) return;
     beforeRedirect?.();
-    const next = new URLSearchParams(location.search).get('next');
-    if (next) sessionStorage.setItem('ps-next', next);
+    const next = new URLSearchParams(location.search).get('next') || new URLSearchParams(location.search).get('redirect');
+    if (next) { try { localStorage.setItem('ps-next', next); } catch { /* storage blocked */ } }
     oauthLogin(b.dataset.oauth);
   });
 }

@@ -1,47 +1,87 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#07101a"><meta name="robots" content="noindex,follow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#000103">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="noindex,follow">
 <title>Creator Hub — Pleading Sanity</title>
-<meta name="description" content="Free Pleading Sanity Creator Hub: preview external streams, share them with the community and plan your next live. See what is ready and what is still in development.">
+<meta name="description" content="Pleading Sanity Creator Hub: bring a supported external livestream from YouTube or Twitch, preview and share it, and plan your next live. Direct broadcasting and automatic clips are still being built.">
 <link rel="canonical" href="https://pleadingsanity.co.uk/creator.html">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="/css/styles.css"><link rel="stylesheet" href="/css/accessibility.css"><link rel="stylesheet" href="/css/mobile-responsive.css"><link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/design-system.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/card-polish.css">
 <style>
-.creator-page{max-width:1050px;margin:0 auto;padding:2rem clamp(1rem,4vw,2rem) 4rem}
-.creator-hero{padding:1rem 0 2rem}.creator-hero h1{font-size:clamp(2.2rem,7vw,4rem);line-height:1.05}
-.creator-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem}
-.creator-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:1.25rem}
-.creator-card h2{margin-top:0;color:#00fff0}.creator-number{font-size:3rem;font-weight:950;color:#ff647d;line-height:1}
-.creator-badge{display:inline-block;background:#b80024;color:#fff;border-radius:999px;padding:.35rem .7rem;font-weight:900}
-.creator-status{border:1px solid #ffffff25;border-radius:12px;padding:.8rem;margin:.6rem 0;background:#03070d}
-.creator-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font-weight:800;text-decoration:none}
-.creator-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff}
-.creator-hero-art{margin:0 0 1.2rem;overflow:hidden;border-radius:18px;border:1px solid #00fff04a;background:#07101a}
-.creator-hero-art img{width:100%;max-height:320px;object-fit:cover;display:block;aspect-ratio:16/7}
-.creator-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:.8rem;margin:1rem 0 1.6rem}
-.creator-step{border:1px solid #ffffff25;background:#07101a;border-radius:14px;padding:1rem}
-.creator-step strong{color:#00fff0}.creator-step p{margin:.35rem 0 0;color:#c6d6e2}
-.creator-btn:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
-@media(max-width:480px){.creator-btn{width:100%}}
-.test-lab,.song-upload{margin:0 0 1.2rem;padding:1rem;border:1px solid rgba(0,255,240,.35);border-radius:18px;background:#0b0f19}
-.lab-card{margin:.8rem 0;padding:.8rem;border:1px solid rgba(148,163,184,.35);border-radius:14px}
-.lab-row,.song-upload .row{display:flex;flex-wrap:wrap;gap:.45rem}
-.lab-card button,.lab-open,.song-upload button,.song-upload input{min-height:48px;font:inherit}
-.lab-open{display:inline-flex;align-items:center;padding:.5rem .8rem;border-radius:12px;background:#00fff0;color:#0b0f19;font-weight:800;text-decoration:none}
-.lab-card textarea,.song-upload input[type="text"]{width:100%;margin:.4rem 0}
-button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.creator-page{max-width:1080px;margin:0 auto;padding:1.25rem clamp(1rem,4vw,2rem) 3rem;overflow-x:hidden;box-sizing:border-box}
+.creator-page *{box-sizing:border-box}
+.cr-crumb{font-size:.85rem;color:#a9c7d1;margin:.4rem 0 1rem}
+.cr-crumb a{color:#00fff0;text-decoration:none}
+.cr-crumb span{opacity:.6}
+.cr-hero{position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(0,255,240,.35);background:#000103;display:flex;align-items:flex-end;min-height:360px}
+.cr-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.6}
+.cr-hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,1,3,.3) 0%,rgba(13,27,42,.72) 55%,rgba(0,1,3,.96) 100%)}
+.cr-hero-in{position:relative;z-index:2;padding:clamp(1.25rem,4vw,2.5rem);width:100%}
+.cr-badge{display:inline-block;background:rgba(0,255,240,.12);color:#00fff0;border:1px solid rgba(0,255,240,.5);border-radius:999px;padding:.3rem .75rem;font-weight:800;letter-spacing:.1em;font-size:.74rem;text-transform:uppercase}
+.cr-hero h1{font-size:clamp(2rem,7vw,3.6rem);line-height:1.05;margin:.6rem 0 .5rem;color:#eef6ff;letter-spacing:-.01em}
+.cr-hero p{color:#c9e9ef;max-width:38rem;margin:0;font-size:1.02rem;line-height:1.6}
+.cr-cta{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.4rem}
+.cr-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.25rem;border-radius:12px;font-weight:800;text-decoration:none;border:1px solid #00fff0;background:#00fff0;color:#000103;font-size:1rem}
+.cr-btn.secondary{background:transparent;color:#dfffff;border-color:rgba(0,255,240,.5)}
+.cr-btn.crisis{background:#ff7a3d;border-color:#ff7a3d;color:#1a0d05}
+.cr-btn:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.cr-sec{margin:1.75rem 0;border-radius:20px;overflow:hidden;border:1px solid rgba(0,255,240,.25);position:relative;background:#0d1b2a}
+.cr-sec-bg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.2}
+.cr-sec-ov{position:absolute;inset:0;background:linear-gradient(160deg,rgba(13,27,42,.84),rgba(0,1,3,.94))}
+.cr-sec-in{position:relative;z-index:2;padding:clamp(1.25rem,4vw,2rem)}
+.cr-sec h2{color:#eef6ff;margin:0 0 .4rem;font-size:clamp(1.4rem,4.5vw,2rem);letter-spacing:-.01em}
+.cr-sec .lead{color:#c9e9ef;margin:0 0 1rem;max-width:44rem;line-height:1.6}
+.cr-grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem}
+.cr-card{background:rgba(0,1,3,.55);border:1px solid rgba(0,255,240,.2);border-radius:16px;padding:1.1rem}
+.cr-card h3{color:#00fff0;margin:0 0 .6rem;font-size:1.1rem}
+.cr-card p,.cr-card li{color:#c9e9ef;font-size:.95rem;line-height:1.55}
+.cr-card ul{margin:.4rem 0 0;padding-left:1.1rem}
+.cr-card li{margin:.35rem 0}
+.cr-st{display:inline-block;border-radius:999px;padding:.2rem .6rem;font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.5rem}
+.st-now{background:rgba(0,255,240,.14);color:#00fff0;border:1px solid rgba(0,255,240,.5)}
+.st-soon{background:rgba(255,122,61,.14);color:#ff9a6a;border:1px solid rgba(255,122,61,.5)}
+.st-beta{background:rgba(255,200,80,.12);color:#ffd98a;border:1px solid rgba(255,200,80,.45)}
+.cr-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:.8rem;margin-top:1rem}
+.cr-step{background:rgba(13,27,42,.7);border:1px solid rgba(0,255,240,.25);border-radius:14px;padding:1rem}
+.cr-step .n{color:#00fff0;font-weight:900;font-size:1.05rem;display:block;margin-bottom:.3rem}
+.cr-step strong{color:#eef6ff}
+.cr-step p{color:#c9e9ef;margin:.35rem 0 .6rem;font-size:.92rem}
+.cr-step a{color:#00fff0;font-weight:700;font-size:.9rem;text-decoration:none}
+.cr-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:.8rem;margin-top:1rem}
+.cr-tool{display:block;background:rgba(0,1,3,.55);border:1px solid rgba(0,255,240,.25);border-radius:14px;padding:1rem;text-decoration:none;transition:border-color .2s}
+.cr-tool:hover{border-color:#00fff0}
+.cr-tool strong{color:#00fff0;display:block;margin-bottom:.25rem;font-size:1rem}
+.cr-tool span{color:#a9c7d1;font-size:.88rem;line-height:1.5;display:block}
+.cr-upcoming{border:1px dashed rgba(255,122,61,.55);border-radius:16px;padding:1.75rem 1.25rem;text-align:center;background:rgba(255,122,61,.06);margin-top:1rem}
+.cr-upcoming .tag{color:#ff9a6a;font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.78rem;display:block;margin-bottom:.5rem}
+.cr-upcoming p{color:#c9e9ef;margin:.25rem auto;max-width:34rem}
+.cr-faq details{background:rgba(0,1,3,.5);border:1px solid rgba(0,255,240,.2);border-radius:12px;padding:.9rem 1rem;margin:.6rem 0}
+.cr-faq summary{color:#eef6ff;font-weight:700;cursor:pointer;list-style:none}
+.cr-faq summary::-webkit-details-marker{display:none}
+.cr-faq summary::before{content:"+ ";color:#00fff0;font-weight:900}
+.cr-faq details[open] summary::before{content:"– "}
+.cr-faq details p{color:#c9e9ef;margin:.6rem 0 0;line-height:1.6;font-size:.95rem}
+.cr-status-list{display:grid;gap:.5rem;margin-top:.8rem}
+.cr-status-row{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;background:rgba(0,1,3,.45);border:1px solid rgba(0,255,240,.18);border-radius:12px;padding:.7rem .9rem}
+.cr-status-row .label{color:#eef6ff;font-weight:600;flex:1 1 auto;min-width:12rem}
+.cr-note{color:#a9c7d1;font-size:.88rem;margin-top:.9rem;line-height:1.55}
+.cr-note a{color:#00fff0}
+.cr-crisis{background:linear-gradient(135deg,#1a0d05,#0d1b2a);border:1px solid rgba(255,122,61,.5);border-radius:16px;padding:1.25rem 1.4rem;margin-top:1.75rem;color:#ffe8d9}
+.cr-crisis p{margin:0;line-height:1.6}
+.cr-crisis strong{color:#ff9a6a}
+.cr-crisis a{color:#ffb08a}
+.cr-numbers{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin-top:.6rem;font-weight:700;font-size:.95rem}
+.cr-motto{text-align:center;color:#a9c7d1;letter-spacing:.18em;font-weight:800;font-size:.82rem;margin:2rem 0 0;text-transform:uppercase}
+@media(max-width:480px){.cr-btn{flex:1 1 100%}.cr-hero{min-height:320px}}
 </style>
-
-
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/support-strip.css">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Creator Hub — Pleading Sanity">
-<meta property="og:description" content="Free Pleading Sanity Creator Hub: preview external streams, share them with the community and plan your next live. See what is ready and what is still in development.">
-<meta property="og:url" content="https://pleadingsanity.co.uk/creator.html">
-<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
 </head>
 <body class="ps-page">
 <a class="skip-link" href="#main">Skip to content</a>
@@ -50,104 +90,190 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{
 <div class="ps-links">
   <a href="/" class="ps-home">Home</a>
   <div class="ps-group" data-group="heal">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">Arron &amp; Healing</button>
     <div class="ps-group-menu" id="ps-g-heal">
-      <a href="/arron.html"> Talk to Arron</a>
-      <a href="/arron-app.html"> Arron App</a>
-      <a href="/journal-vault.html"> Journal Vault</a>
-      <a href="/notes.html"> Sanctuary Notes</a>
-      <a href="/mind-mode.html"> Mind Mode</a>
-      <a href="/mood-journey.html"> Mood Journey</a>
-      <a href="/frequencies.html"> Healing Hz</a>
-      <a href="/meditation.html"> Silence &amp; Breath</a>
-      <a href="/quote-wall.html"> Quote Wall</a>
-      <a href="/finance.html"> Sane Finance</a>
-      <a href="/support.html"> Support</a>
+      <a href="/arron.html">Talk to Arron</a>
+      <a href="/arron-app.html">Arron App</a>
+      <a href="/journal-vault.html">Journal Vault</a>
+      <a href="/notes.html">Sanctuary Notes</a>
+      <a href="/mind-mode.html">Mind Mode</a>
+      <a href="/mood-journey.html">Mood Journey</a>
+      <a href="/frequencies.html">Healing Hz</a>
+      <a href="/meditation.html">Silence &amp; Breath</a>
+      <a href="/quote-wall.html">Quote Wall</a>
+      <a href="/finance.html">Sane Finance</a>
+      <a href="/support.html">Support</a>
     </div>
   </div>
   <div class="ps-group" data-group="community">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">Community</button>
     <div class="ps-group-menu" id="ps-g-community">
-      <a href="/feed.html"> Sanity Feed</a>
-      <a href="/sanctuary.html"> My Sanctuary</a>
-      <a href="/sanityhub.html"> Sanity Hub</a>
-      <a href="/videos.html"> Videos</a>
-      <a href="/ai-stories.html"> AI Stories</a>
+      <a href="/feed.html">Sanity Feed</a>
+      <a href="/sanctuary.html">My Sanctuary</a>
+      <a href="/sanityhub.html">Sanity Hub</a>
+      <a href="/videos.html">Videos</a>
+      <a href="/ai-stories.html">AI Stories</a>
       <a href="/profile.html">Profile</a>
     </div>
   </div>
   <div class="ps-group has-current" data-group="create">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">Create &amp; Live</button>
     <div class="ps-group-menu" id="ps-g-create">
-      <a href="/creator.html" aria-current="page"> Creator Hub</a>
-      <a href="/ai-studio.html"> AI Studio</a>
-      <a href="/creations.html"> Image Creations</a>
-      <a href="/blueprint.html"> Video Blueprint</a>
-      <a href="/write.html"> Write with Arron</a>
-      <a href="/rap.html"> Rap Studio</a>
-      <a href="/wisdom.html"> Words from the Family</a>
-      <a href="/my-digital-story.html"> My Digital Story</a>
+      <a href="/creator.html" aria-current="page">Creator Hub</a>
+      <a href="/ai-studio.html">AI Studio</a>
+      <a href="/creations.html">Image Creations</a>
+      <a href="/blueprint.html">Video Blueprint</a>
+      <a href="/write.html">Write with Arron</a>
+      <a href="/rap.html">Rap Studio</a>
+      <a href="/wisdom.html">Words from the Family</a>
+      <a href="/my-digital-story.html">My Digital Story</a>
     </div>
   </div>
   <div class="ps-group" data-group="play">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">Games &amp; Kids</button>
     <div class="ps-group-menu" id="ps-g-play">
-      <a href="/games.html"> Brain Games</a>
-      <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-      <a href="/cosmic-connect.html"> Cosmic Connect</a>
-      <a href="/truth-tag.html"> Truth Tag</a>
-      <a href="/stardust-dash.html"> Stardust Dash</a>
-      <a href="/poker.html"> Night Table</a>
-      <a href="/kids.html"> Keep Kids Sane</a>
-      <a href="/kids-series.html"> Kids Cartoon Series</a>
+      <a href="/games.html">Brain Games</a>
+      <a href="/sanity-solitaire.html">Sanity Solitaire</a>
+      <a href="/cosmic-connect.html">Cosmic Connect</a>
+      <a href="/truth-tag.html">Truth Tag</a>
+      <a href="/stardust-dash.html">Stardust Dash</a>
+      <a href="/poker.html">Night Table</a>
+      <a href="/kids.html">Keep Kids Sane</a>
+      <a href="/kids-series.html">Kids Cartoon Series</a>
     </div>
   </div>
   <div class="ps-group" data-group="story">
-    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+    <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">Our Story</button>
     <div class="ps-group-menu" id="ps-g-story">
-      <a href="/about.html"> Our Story</a>
-      <a href="/new-gen-bible.html"> New Gen Bible</a>
-      <a href="/movement.html"> The Movement</a>
-      <a href="/ai-ecosystem.html"> Our AI Family</a>
-      <a href="/ai-family.html"> All AIs welcome</a>
-      <a href="/transparency.html"> Transparency</a>
+      <a href="/about.html">Our Story</a>
+      <a href="/new-gen-bible.html">New Gen Bible</a>
+      <a href="/movement.html">The Movement</a>
+      <a href="/ai-ecosystem.html">Our AI Family</a>
+      <a href="/ai-family.html">All AIs welcome</a>
+      <a href="/transparency.html">Transparency</a>
     </div>
   </div>
-  <a href="/shop.html" class="ps-shop"> Shop</a>
-  <a href="/crisis.html" class="ps-crisis"> Truth</a>
+  <a href="/shop.html" class="ps-shop">Shop</a>
+  <a href="/crisis.html" class="ps-crisis">Truth</a>
 </div>
 </div></nav>
+
 <main id="main" class="creator-page">
-<section id="test-lab" class="test-lab" hidden aria-label="Test Lab"></section>
-<section id="song-upload" class="song-upload" hidden aria-labelledby="song-upload-title">
-  <h2 id="song-upload-title">Add one of your own songs</h2>
-  <p>MP3, WAV, M4A or WebM, under 4.5 MB. These are the files that can keep playing on a locked phone. YouTube songs cannot.</p>
-  <form>
-    <label>Title <input name="title" type="text" required maxlength="80"></label>
-    <label>Artist <input name="artist" type="text" value="Shane Cooper" maxlength="80"></label>
-    <label>File <input name="file" type="file" accept="audio/mpeg,audio/wav,audio/ogg,audio/mp4,audio/webm,audio/aac" required></label>
-    <button type="submit">Save song</button>
-  </form>
-  <p data-upload-status role="status"></p>
-</section>
-<section class="creator-hero"><span class="creator-badge">CREATOR HUB</span><h1>Your stage. Your people. Your share.</h1>
-<img src="images/hero-creator-studio.webp" alt="Empty creator desk at night with microphone, camera, headphones and a teal ring light" width="1280" height="720" loading="eager" fetchpriority="high" decoding="async" style="width:100%;max-width:960px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"><p>Bring a public YouTube or Twitch stream, preview it and share the link with your community. Plan your next live here. Direct broadcasting, automatic clips and payouts are still in development.</p></section>
-<figure class="creator-hero-art"><img src="/assets/images/editorial/creator-stage-1280.webp" srcset="/assets/images/editorial/creator-stage-640.webp 640w, /assets/images/editorial/creator-stage-1280.webp 1280w" sizes="(max-width:600px) 92vw, 1000px" width="1280" height="536" alt="A cosy night-time creator studio with camera, microphone and turquoise lighting" loading="lazy" decoding="async"></figure>
-<section aria-label="Start as a creator" class="creator-steps">
-  <div class="creator-step"><strong>1 · Create your profile</strong><p>Sign in and choose how you want to show up.</p><a href="/profile.html">Your profile →</a></div>
-  <div class="creator-step"><strong>2 · Bring your live</strong><p>Paste a public YouTube or Twitch link and preview it.</p><a href="/live.html#bring-live">Preview a stream →</a></div>
-  <div class="creator-step"><strong>3 · Share or plan</strong><p>Share the link to the feed, or save dates and replays on this device.</p><a href="/live.html#live-sections">Plan a live →</a></div>
+<p class="cr-crumb"><a href="/">Home</a> <span>/</span> Creator Hub</p>
+
+<!-- HERO with creator-stage imagery -->
+<section class="cr-hero" aria-label="Creator Hub introduction">
+  <div class="cr-hero-bg" style="background-image:url('/assets/images/editorial/creator-stage-640.webp')"></div>
+  <div class="cr-hero-ov"></div>
+  <div class="cr-hero-in">
+    <span class="cr-badge">Creator Hub</span>
+    <h1>Your stage. Your people. Your share.</h1>
+    <p>Bring a public YouTube or Twitch stream, preview it here and share it with the community. Plan your next live on this device. Direct broadcasting, automatic clips and payouts are still being built — we say so plainly below.</p>
+    <div class="cr-cta">
+      <a class="cr-btn" href="/live.html">Open Live</a>
+      <a class="cr-btn secondary" href="/">Back to home</a>
+    </div>
+  </div>
 </section>
 
-<section class="creator-card" id="owner-stats" style="margin-bottom:1.5rem; display:none;">
-  <h2>House pulse</h2>
-  <div class="creator-grid" style="grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:0.75rem;">
-    <div class="creator-status"><div class="creator-number" id="stat-members">–</div><small>Members</small></div>
-    <div class="creator-status"><div class="creator-number" id="stat-new">–</div><small>New this week</small></div>
-    <div class="creator-status"><div class="creator-number" id="stat-posts">–</div><small>Posts today</small></div>
-    <div class="creator-status"><div class="creator-number" id="stat-pending">–</div><small>Waiting review</small></div>
+<!-- HOW IT WORKS steps -->
+<section class="cr-sec" aria-labelledby="how-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/connected-lights-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="how-heading">How it works today</h2>
+    <p class="lead">Three steps that work right now. Nothing here promises features that are not built yet.</p>
+    <div class="cr-steps">
+      <div class="cr-step"><span class="n">Step 1</span><strong>Create your profile</strong><p>Sign in and choose how you want to show up in the house.</p><a href="/profile.html">Open your profile</a></div>
+      <div class="cr-step"><span class="n">Step 2</span><strong>Bring your live</strong><p>Paste a public YouTube or Twitch link and preview it on the Live page.</p><a href="/live.html#bring-live">Preview a stream</a></div>
+      <div class="cr-step"><span class="n">Step 3</span><strong>Share or plan</strong><p>Share the stream to the feed, or save dates and replays on this device.</p><a href="/live.html#live-sections">Plan a live</a></div>
+    </div>
   </div>
-  <p style="margin-top:0.75rem; font-size:0.9rem; opacity:0.85;">These are the real numbers from the house right now. Logged-in / offline needs a heartbeat later.</p>
+</section>
+
+<!-- HONEST STATUS: what works now / what's coming -->
+<section class="cr-sec" aria-labelledby="status-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/rise-from-madness-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="status-heading">What works now · What is coming</h2>
+    <p class="lead">No invented features. The left column works today. The right column is being built and is <strong>not available yet</strong>.</p>
+    <div class="cr-grid2">
+      <article class="cr-card">
+        <span class="cr-st st-now">Working now</span>
+        <h3>Available today</h3>
+        <ul>
+          <li>Bring a supported external livestream — public YouTube or Twitch — and preview it.</li>
+          <li>Share a stream to the community feed (requires sign-in).</li>
+          <li>See upcoming lives and plan your own; dates and replays save locally on this device.</li>
+          <li>Maker tools for broadcast planning and creative work (AI Studio, Rap Studio, Write with Arron, Video Blueprint, Image Creations).</li>
+          <li>Open the Live hub to watch shared streams.</li>
+        </ul>
+      </article>
+      <article class="cr-card">
+        <span class="cr-st st-soon">In the works</span>
+        <h3>Coming soon — not available yet</h3>
+        <ul>
+          <li>Native direct broadcasting from Pleading Sanity (still being built).</li>
+          <li>Multistreaming to multiple platforms at once.</li>
+          <li>Automatic AI highlight clips and downloadable clips.</li>
+          <li>Real-time shared chat across streams.</li>
+          <li>Verified creator earnings and payouts (no payouts are live today).</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- UPCOMING LIVES placeholder -->
+<section class="cr-sec" aria-labelledby="upcoming-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/connected-lights-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="upcoming-heading">Upcoming lives</h2>
+    <p class="lead">A shared schedule of upcoming creator streams will live here.</p>
+    <div class="cr-upcoming">
+      <span class="tag">Coming soon</span>
+      <p><strong>No upcoming lives scheduled yet.</strong></p>
+      <p>The shared upcoming-lives board is being built. For now, plan your own lives and save dates locally on the Live page.</p>
+      <div class="cr-cta" style="justify-content:center;margin-top:1rem">
+        <a class="cr-btn secondary" href="/live.html#live-sections">Plan a live</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAKER TOOLS -->
+<section class="cr-sec" aria-labelledby="tools-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/rise-from-madness-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="tools-heading">Maker tools &amp; broadcast planning</h2>
+    <p class="lead">Tools already in the house to plan, write and create around your broadcasts. Your drafts remain yours — review and approve anything before publishing.</p>
+    <div class="cr-tools">
+      <a class="cr-tool" href="/ai-studio.html"><strong>AI Studio</strong><span>Ideas, human-versus-AI creativity and original content experiments.</span></a>
+      <a class="cr-tool" href="/rap.html"><strong>Rap Studio</strong><span>Write, develop and share lyrics and creative challenges.</span></a>
+      <a class="cr-tool" href="/write.html"><strong>Write with Arron</strong><span>Draft show notes, scripts and descriptions with Arron.</span></a>
+      <a class="cr-tool" href="/blueprint.html"><strong>Video Blueprint</strong><span>Plan and structure your next video or broadcast.</span></a>
+      <a class="cr-tool" href="/creations.html"><strong>Image Creations</strong><span>Explore existing creations and creative projects.</span></a>
+      <a class="cr-tool" href="/ai-stories.html"><strong>AI Stories</strong><span>Find storytelling ideas and community inspiration.</span></a>
+    </div>
+    <p class="cr-note">Tool availability varies. AI-generated video, automated publishing and paid creator payouts are not implied by these links. Always review content and permissions before sharing.</p>
+  </div>
+</section>
+
+<!-- OWNER STATS (hidden by default, shown only to site owner) -->
+<section class="cr-sec" id="owner-stats" style="display:none" aria-label="House pulse">
+  <div class="cr-sec-in">
+    <h2>House pulse</h2>
+    <div class="cr-grid2" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.75rem">
+      <div class="cr-card"><div style="font-size:2.4rem;font-weight:950;color:#ff9a6a;line-height:1" id="stat-members">–</div><small style="color:#a9c7d1">Members</small></div>
+      <div class="cr-card"><div style="font-size:2.4rem;font-weight:950;color:#ff9a6a;line-height:1" id="stat-new">–</div><small style="color:#a9c7d1">New this week</small></div>
+      <div class="cr-card"><div style="font-size:2.4rem;font-weight:950;color:#ff9a6a;line-height:1" id="stat-posts">–</div><small style="color:#a9c7d1">Posts today</small></div>
+      <div class="cr-card"><div style="font-size:2.4rem;font-weight:950;color:#ff9a6a;line-height:1" id="stat-pending">–</div><small style="color:#a9c7d1">Waiting review</small></div>
+    </div>
+    <p class="cr-note">Real numbers from the house right now. Visible to the site owner only.</p>
+  </div>
 </section>
 <script type="module">
   import { currentUser } from '/js/auth.js';
@@ -170,27 +296,107 @@ button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible{
   })();
 </script>
 
-<section class="creator-card" aria-labelledby="creator-tools-heading" style="margin-bottom:1.5rem">
-<h2 id="creator-tools-heading">Create with Pleading Sanity AI</h2>
-<p>One creator workspace, with clear links to the tools already in the house. Your drafts remain yours; check and approve anything before publishing.</p>
-<div class="creator-grid">
-  <div class="creator-step"><strong>AI Studio</strong><p>Ideas, human-versus-AI creativity and original content experiments.</p><a href="/ai-studio.html">Open AI Studio →</a></div>
-  <div class="creator-step"><strong>Rap Studio</strong><p>Write, develop and share your own lyrics and creative challenges.</p><a href="/rap.html">Open Rap Studio →</a></div>
-  <div class="creator-step"><strong>Creations</strong><p>Explore existing creations and creative projects.</p><a href="/creations.html">Explore Creations →</a></div>
-  <div class="creator-step"><strong>AI Stories</strong><p>Find storytelling ideas and community inspiration.</p><a href="/ai-stories.html">Explore AI Stories →</a></div>
-</div>
-<p class="creator-status">Tool availability varies. AI-generated video, automated publishing and paid creator payouts are not implied by these links. Always review content and permissions before sharing.</p>
+<!-- FOUNDING CREATORS honest note -->
+<section class="cr-sec" aria-labelledby="founding-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/creator-stage-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <span class="cr-st st-beta">Planned · not live</span>
+    <h2 id="founding-heading">Founding Creator offer</h2>
+    <p class="lead">The first 1,000 eligible creators are intended to receive 90% of qualifying creator income generated through the platform. <strong>No income generated means no payout.</strong> Complete terms, attribution, fraud controls, payment eligibility and payout infrastructure must be live before this programme becomes active.</p>
+    <div class="cr-cta">
+      <a class="cr-btn secondary" href="mailto:pleadingsanity1@gmail.com?subject=Founding%20Creator%20Application">Apply as Creator</a>
+      <a class="cr-btn secondary" href="/live.html#founding-creators">Read the offer</a>
+    </div>
+    <p class="cr-note">Applications are reviewed manually. Email us with your creator name, what you create and the platforms where you already stream. Approval is not automatic.</p>
+  </div>
 </section>
-<section class="creator-grid">
-<article class="creator-card"><h2> Your streams</h2><div class="creator-status">Stream preview and sharing: <strong>AVAILABLE</strong><br>Use a public stream URL. Sharing to the community feed requires sign-in; playback depends on the original platform and stream settings.</div><div class="creator-status">Native Pleading Sanity broadcast: <strong> COMING SOON</strong></div><a class="creator-btn" href="/live.html">Open LIVE hub</a></article>
-<article class="creator-card"><h2> Your clips</h2><div class="creator-status">AI Highlights: <strong> COMING SOON</strong></div><p>Automatic highlights and downloadable clips are not available yet.</p><a class="creator-btn secondary" href="/live.html#creator-tools">Open creator controls</a></article>
-<article class="creator-card"><h2> Your earnings</h2><div class="creator-number">90%</div><p><strong>Founding Creator offer</strong> — proposed share of qualifying creator income for the first 1,000 eligible creators.</p><div class="creator-status">Actual payouts: <strong> LAUNCHING SOON</strong><br>Estimated earnings are not a payment promise.</div><a class="creator-btn secondary" href="/live.html#founding-creators">Read the offer</a></article>
+
+<!-- PLATFORM STATUS -->
+<section class="cr-sec" aria-labelledby="plat-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/connected-lights-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="plat-heading">Platform status</h2>
+    <p class="lead">Honest, current state of each piece.</p>
+    <div class="cr-status-list">
+      <div class="cr-status-row"><span class="label">Live page + external-stream preview UI</span><span class="cr-st st-now">Available</span></div>
+      <div class="cr-status-row"><span class="label">Feed sharing (signed-in end-to-end verification in progress)</span><span class="cr-st st-beta">Beta</span></div>
+      <div class="cr-status-row"><span class="label">Creator UI + local planning controls</span><span class="cr-st st-now">Available</span></div>
+      <div class="cr-status-row"><span class="label">Real-time shared chat</span><span class="cr-st st-soon">Coming soon</span></div>
+      <div class="cr-status-row"><span class="label">Native broadcasting + multistreaming</span><span class="cr-st st-soon">Coming soon</span></div>
+      <div class="cr-status-row"><span class="label">AI highlight clips</span><span class="cr-st st-soon">Coming soon</span></div>
+      <div class="cr-status-row"><span class="label">Verified earnings + payouts</span><span class="cr-st st-soon">Coming soon</span></div>
+    </div>
+    <p class="cr-note">Technical status is maintained in the repository: <a href="/docs/CREATOR-PLATFORM-STATUS.md">CREATOR-PLATFORM-STATUS.md</a></p>
+  </div>
 </section>
-<section class="creator-card" style="margin-top:1rem"><h2> Founding Creator</h2><p>The first 1,000 eligible creators are intended to receive 90% of qualifying creator income generated through the platform. No income generated means no payout. Complete terms, attribution, fraud controls, payment eligibility and payout infrastructure must be live before the programme becomes active.</p><a class="creator-btn" href="mailto:pleadingsanity1@gmail.com?subject=Founding%20Creator%20Application">Apply as Creator</a><p class="creator-status">Applications are currently reviewed manually. Email us with your creator name, what you create and the platforms where you already stream. Approval is not automatic.</p></section>
-<section class="creator-card" style="margin-top:1rem"><h2> Platform status</h2><div class="creator-status"> Live page + external-stream preview UI</div><div class="creator-status"> Feed sharing is implemented; needs signed-in end-to-end verification</div><div class="creator-status"> Creator UI + local planning controls</div><div class="creator-status"> Real-time shared chat</div><div class="creator-status"> Native broadcasting + multistreaming</div><div class="creator-status"> AI highlight clips</div><div class="creator-status"> Verified earnings + payouts</div><p><a href="/docs/CREATOR-PLATFORM-STATUS.md">Technical status is maintained in the repository.</a></p></section>
-<p class="ps-motto">PLEADING SANITY · Rise From Madness.</p>
+
+<!-- FAQ -->
+<section class="cr-sec cr-faq" aria-labelledby="faq-heading">
+  <div class="cr-sec-bg" style="background-image:url('/assets/images/editorial/rise-from-madness-640.webp')"></div>
+  <div class="cr-sec-ov"></div>
+  <div class="cr-sec-in">
+    <h2 id="faq-heading">Frequently asked questions</h2>
+    <details open>
+      <summary>Can I broadcast directly on Pleading Sanity right now?</summary>
+      <p>No. Native direct broadcasting is still being built. Right now you bring a public YouTube or Twitch stream, and we help you preview it and share it with the community.</p>
+    </details>
+    <details>
+      <summary>Do you make automatic clips of my stream?</summary>
+      <p>Not yet. Automatic AI highlight clips and downloadable clips are in development and are not available today.</p>
+    </details>
+    <details>
+      <summary>Do creators get paid?</summary>
+      <p>A Founding Creator offer (90% of qualifying income for the first 1,000 eligible creators) is planned, but payouts are not live and no payment is promised. No income generated means no payout.</p>
+    </details>
+    <details>
+      <summary>What do I need to bring a stream?</summary>
+      <p>A public YouTube or Twitch URL. Anyone can preview it; sharing to the community feed requires sign-in. Playback depends on the original platform and your stream settings.</p>
+    </details>
+    <details>
+      <summary>Is my data sold?</summary>
+      <p>No. Pleading Sanity does not sell your data. See our <a href="/privacy.html" style="color:#00fff0">Privacy page</a> for details.</p>
+    </details>
+  </div>
+</section>
+
+<!-- CRISIS STRIP -->
+<section class="cr-crisis" aria-label="Crisis support lines">
+  <p><strong>If you are in crisis, these lines do not depend on this site and are always open:</strong></p>
+  <div class="cr-numbers">
+    <a href="tel:999">999</a>
+    <span>·</span>
+    <a href="tel:116123">Samaritans 116 123</a>
+    <span>·</span>
+    <a href="sms:85258">SHOUT 85258</a>
+    <span>·</span>
+    <a href="tel:111">NHS 111 option 2</a>
+  </div>
+  <p style="margin-top:.6rem;font-size:.9rem;opacity:.9">Immediate danger: call 999. Urgent mental-health help in England: NHS 111, choose option 2. More on the <a href="/crisis.html">Crisis page</a>.</p>
+</section>
+
+<p class="cr-motto">Pleading Sanity · Rise From Madness</p>
 </main>
-<footer class="ps-footer" role="contentinfo"><div class="ps-footer-inner"><p class="ps-motto">Evolution, Not Erasure</p><div class="ps-footer-links"><a href="/">Home</a><a href="/live.html">LIVE</a><a href="/support.html">Support</a><a href="/privacy.html">Privacy</a></div></div></footer>
-<script src="/js/site.js" defer></script><script type="module" src="/js/auth.js"></script><script type="module" src="/js/owner-hub.js"></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-</body></html>
+
+<footer class="ps-footer" role="contentinfo">
+  <div class="ps-footer-inner">
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p style="color:#ffb08a;font-weight:700;margin:.4rem 0">Crisis lines: <a href="tel:999">999</a> · <a href="tel:116123">Samaritans 116 123</a> · <a href="sms:85258">SHOUT 85258</a> · <a href="tel:111">NHS 111 option 2</a></p>
+    <div class="ps-footer-links">
+      <a href="/">Home</a>
+      <a href="/live.html">Live</a>
+      <a href="/support.html">Support</a>
+      <a href="/crisis.html">Crisis</a>
+      <a href="/offline.html">Offline Support</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/transparency.html">Transparency</a>
+      <a href="/shop.html">Shop</a>
+    </div>
+    <p class="ps-copy" style="color:#a9c7d1;font-size:.85rem;margin-top:.8rem">&copy; 2026 Pleading Sanity · Rise From Madness · Built from lived experience in Leicestershire.</p>
+  </div>
+</footer>
+<script src="/js/site.js" defer></script>
+<script type="module" src="/js/auth.js"></script>
+</body>
+</html>
