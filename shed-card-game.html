@@ -10,15 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#04060f; --bg2:#0a1226; --panel:rgba(12,20,42,.72);
+    --bg:#0b0f19; --bg2:#0f1728; --panel:rgba(12,20,42,.72);
     --teal:#00fff0; --amber:#f59e0b; --silver:#c7cedb; --muted:#7a8499;
-    --red:#d1202f; --ink:#14181f; --cardbg:#f6f7fb;
+    --red:#c0392b; --ink:#1a1a1a; --cardbg:#fbf7ee;
     --border:rgba(0,255,240,.18); --border-soft:rgba(199,206,219,.14);
   }
   *{ -webkit-tap-highlight-color: transparent; }
   html,body{ background:var(--bg); color:var(--silver); font-family:'Public Sans',system-ui,sans-serif; }
   body{
-    min-height:100vh;
+    min-height:100vh; overflow-x:hidden;
     background:
       radial-gradient(1.4px 1.4px at 12% 18%, rgba(199,206,219,.55), transparent 60%),
       radial-gradient(1px 1px at 32% 62%, rgba(0,255,240,.45), transparent 60%),
@@ -28,8 +28,8 @@
       radial-gradient(1px 1px at 45% 85%, rgba(199,206,219,.45), transparent 60%),
       radial-gradient(1.5px 1.5px at 8% 88%, rgba(245,158,11,.4), transparent 60%),
       radial-gradient(1px 1px at 95% 22%, rgba(199,206,219,.5), transparent 60%),
-      radial-gradient(ellipse 90% 60% at 50% -10%, #10204a 0%, rgba(16,32,74,0) 55%),
-      radial-gradient(ellipse 70% 50% at 50% 110%, #0a1a30 0%, rgba(10,26,48,0) 60%),
+      radial-gradient(ellipse 90% 60% at 50% -10%, #131d33 0%, rgba(19,29,51,0) 60%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, #0c1830 0%, rgba(12,24,48,0) 60%),
       var(--bg);
     background-attachment: fixed;
   }
@@ -40,56 +40,114 @@
   .panel{ background:var(--panel); border:1px solid var(--border-soft); backdrop-filter: blur(6px); }
   .glow-teal{ box-shadow:0 0 18px rgba(0,255,240,.35), 0 0 4px rgba(0,255,240,.6); }
   .glow-amber{ box-shadow:0 0 18px rgba(245,158,11,.35); }
-
-  /* ---------- cards ---------- */
+  /* ================= REAL PLAYING CARDS ================= */
   .card{
     position:relative; flex-shrink:0;
-    width:56px; height:82px; border-radius:8px;
+    width:62px; height:90px; border-radius:10px;
     background:var(--cardbg); color:var(--ink);
-    box-shadow:0 2px 6px rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,0,0,.08);
+    box-shadow:0 3px 8px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.3), inset 0 0 0 1px rgba(0,0,0,.06);
     user-select:none; cursor:pointer;
-    transition:transform .15s ease, box-shadow .15s ease;
-    font-family:'Chakra Petch',sans-serif;
+    transition:transform .18s ease, box-shadow .18s ease;
+    font-family:Georgia,'Times New Roman',serif;
   }
-  @media(min-width:640px){ .card{ width:70px; height:102px; border-radius:9px; } }
+  @media(min-width:640px){ .card{ width:76px; height:110px; border-radius:11px; } }
   .card.red{ color:var(--red); }
-  .card .corner{ position:absolute; left:5px; top:3px; line-height:1; text-align:center; font-weight:700; }
-  .card .corner .r{ font-size:15px; } .card .corner .s{ font-size:13px; display:block; margin-top:-1px; }
-  @media(min-width:640px){ .card .corner .r{ font-size:18px; } .card .corner .s{ font-size:16px; } }
-  .card .big-suit{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:30px; opacity:.92; }
-  @media(min-width:640px){ .card .big-suit{ font-size:38px; } }
-  .card.back{
-    background:linear-gradient(135deg,#0d1c38 0%,#0a1428 50%,#0d1c38 100%);
-    border:2px solid var(--teal);
-    box-shadow:0 2px 6px rgba(0,0,0,.55), inset 0 0 0 2px rgba(0,255,240,.12);
-    cursor:default;
-  }
-  .card.back::after{
-    content:""; position:absolute; inset:5px; border-radius:4px;
-    background:
-      repeating-linear-gradient(45deg, rgba(0,255,240,.14) 0 3px, transparent 3px 8px),
-      repeating-linear-gradient(-45deg, rgba(0,255,240,.10) 0 3px, transparent 3px 8px);
+  /* corner index: rank above suit */
+  .card .corner{ position:absolute; left:5px; top:4px; line-height:1; text-align:center; font-weight:700; }
+  .card .corner .r{ font-size:16px; display:block; letter-spacing:-.02em; }
+  .card .corner .s{ font-size:14px; display:block; margin-top:1px; }
+  @media(min-width:640px){ .card .corner .r{ font-size:20px; } .card .corner .s{ font-size:17px; } }
+  /* mirrored bottom-right corner */
+  .card .corner.br{ left:auto; top:auto; right:5px; bottom:4px; transform:rotate(180deg); }
+  /* large center suit pip */
+  .card .big-suit{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:36px; opacity:.95; }
+  @media(min-width:640px){ .card .big-suit{ font-size:46px; } }
+  /* ---------- cosmic card back (shared by .card and .mini-card) — NO text ---------- */
+  .card.back, .mini-card.back{
+    cursor:default; overflow:hidden;
     border:1px solid rgba(0,255,240,.35);
+    background:
+      radial-gradient(ellipse 70% 50% at 25% 15%, rgba(0,255,240,.22), transparent 65%),
+      radial-gradient(ellipse 60% 45% at 80% 85%, rgba(245,158,11,.20), transparent 65%),
+      radial-gradient(ellipse 55% 40% at 60% 45%, rgba(0,255,240,.10), transparent 70%),
+      linear-gradient(135deg, #05080f 0%, #0c1424 45%, #070b16 100%);
+    box-shadow:0 3px 8px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.04);
   }
-  .card.back .mono{
-    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-family:'Chakra Petch',sans-serif; font-weight:700; color:var(--teal); font-size:20px; z-index:2;
-    text-shadow:0 0 8px rgba(0,255,240,.6);
+  .card.back::before, .mini-card.back::before{
+    content:""; position:absolute; inset:0; border-radius:inherit;
+    background-image:
+      radial-gradient(circle at 50% 50%, rgba(0,255,240,.55) 1.1px, transparent 1.6px),
+      radial-gradient(circle at 0 0, rgba(245,158,11,.45) 1px, transparent 1.5px);
+    background-size:15px 15px, 15px 15px;
+    background-position:0 0, 7.5px 7.5px;
+    opacity:.55; mix-blend-mode:screen; pointer-events:none;
   }
-  .card.sel{ transform:translateY(-14px); box-shadow:0 0 0 2px var(--teal), 0 8px 22px rgba(0,255,240,.45); }
-  .card.tappable{ cursor:pointer; }
-  .card.tappable:active{ transform:scale(.96); }
-  .card.sel.tappable:active{ transform:translateY(-14px) scale(.96); }
-  .mini-card{ width:30px; height:44px; border-radius:5px; flex-shrink:0; }
-  .mini-card .mono{ font-size:11px; }
-  .mini-card.back{ border-width:1.5px; }
-  .mini-card.back::after{ inset:3px; }
+  .card.back::after, .mini-card.back::after{
+    content:""; position:absolute; inset:4px; border-radius:6px; pointer-events:none;
+    border:1px solid rgba(0,255,240,.28);
+    background:
+      repeating-linear-gradient(45deg, transparent 0 8px, rgba(0,255,240,.06) 8px 9px),
+      repeating-linear-gradient(-45deg, transparent 0 8px, rgba(245,158,11,.05) 8px 9px);
+  }
+  .mini-card.back::after{ inset:2px; border-radius:4px; }
+  /* ---------- deck: stacked pile illusion (solid offset shadows fade with #deckCard opacity) ---------- */
+  #deckCard{
+    box-shadow:
+      3px -3px 0 0 #0c1424,
+      6px -6px 0 0 #070b16,
+      7px -7px 12px 0 rgba(0,0,0,.55),
+      inset 0 0 0 1px rgba(0,255,240,.28);
+  }
+  /* ---------- discard pile: prominent top card + flip-in on reveal ---------- */
+  .pile-stack{ transform:scale(1.08); transform-origin:center bottom; perspective:700px; }
+  #pileCard.card{
+    animation:flipIn .38s ease both;
+    box-shadow:0 0 0 1px rgba(245,158,11,.55), 0 0 20px rgba(245,158,11,.35), 0 5px 12px rgba(0,0,0,.55);
+  }
+  @keyframes flipIn{
+    0%{ transform:rotateY(88deg) scale(.9); opacity:0; }
+    60%{ transform:rotateY(-6deg) scale(1.02); opacity:1; }
+    100%{ transform:rotateY(0) scale(1); opacity:1; }
+  }
+  /* ---------- playable glow ring + hover lift ---------- */
+  .card.tappable{ cursor:pointer; animation:playableGlow 2.2s ease-in-out infinite; }
+  @keyframes playableGlow{
+    0%,100%{ box-shadow:0 0 0 2px rgba(0,255,240,.45), 0 0 10px rgba(0,255,240,.22), 0 3px 8px rgba(0,0,0,.5); }
+    50%{ box-shadow:0 0 0 2px rgba(0,255,240,.85), 0 0 22px rgba(0,255,240,.5), 0 3px 8px rgba(0,0,0,.5); }
+  }
+  .card.tappable:hover{ transform:translateY(-10px) scale(1.04); }
+  .card.tappable:active{ transform:translateY(-10px) scale(.97); }
+  .card.sel, .card.sel.tappable{
+    animation:none; transform:translateY(-16px);
+    box-shadow:0 0 0 2px var(--amber), 0 0 24px rgba(245,158,11,.55), 0 12px 26px rgba(0,0,0,.55);
+  }
+  .card.sel.tappable:hover{ transform:translateY(-16px) scale(1.04); }
+  .card.sel.tappable:active{ transform:translateY(-16px) scale(.97); }
+  /* ---------- deal animation (uses translate/scale props so transform-based hover/sel still work) ---------- */
+  .deal-in{ animation:dealIn .32s ease both; }
+  @keyframes dealIn{
+    from{ opacity:0; translate:-14px -20px; scale:.92; }
+    to{ opacity:1; translate:0 0; scale:1; }
+  }
+  /* ---------- AI mini stacks ---------- */
+  .mini-stack{ position:relative; display:inline-block; }
+  .mini-card{ width:34px; height:50px; border-radius:6px; flex-shrink:0; position:relative; }
+  @media(min-width:640px){ .mini-card{ width:38px; height:56px; } }
+  .mini-card.back{
+    box-shadow:2px -2px 0 0 #0c1424, 3px -3px 7px 0 rgba(0,0,0,.5), inset 0 0 0 1px rgba(0,255,240,.25);
+  }
+  .mini-badge{
+    position:absolute; bottom:-7px; right:-7px; z-index:2;
+    background:var(--bg2); color:var(--teal); border:1px solid var(--teal);
+    border-radius:999px; font-size:10px; font-weight:700; line-height:1;
+    min-width:18px; height:18px; display:flex; align-items:center; justify-content:center; padding:0 4px;
+    font-family:'Chakra Petch',sans-serif; box-shadow:0 0 8px rgba(0,255,240,.3);
+  }
   .empty-slot{
-    width:56px; height:82px; border-radius:8px; flex-shrink:0;
+    width:62px; height:90px; border-radius:10px; flex-shrink:0;
     border:1.5px dashed rgba(199,206,219,.22); background:rgba(199,206,219,.04);
   }
-  @media(min-width:640px){ .empty-slot{ width:70px; height:102px; } }
-
+  @media(min-width:640px){ .empty-slot{ width:76px; height:110px; } }
   /* ---------- buttons ---------- */
   .btn{
     font-family:'Chakra Petch',sans-serif; font-weight:600; letter-spacing:.04em;
@@ -104,16 +162,13 @@
   .btn-amber:not(:disabled):hover{ background:rgba(245,158,11,.12); }
   .btn-ghost{ background:transparent; color:var(--silver); border:1px solid var(--border-soft); }
   .btn-ghost:hover{ border-color:var(--teal); color:var(--teal); }
-
   .ai-active{ border-color:var(--teal) !important; box-shadow:0 0 16px rgba(0,255,240,.3); }
   .thinking-dot{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--teal); margin-left:6px; animation:pulse 1s infinite; }
   @keyframes pulse{ 0%,100%{opacity:.3; transform:scale(.8);} 50%{opacity:1; transform:scale(1.2);} }
   .out-badge{ background:var(--amber); color:#1a1002; font-size:10px; font-weight:700; padding:2px 7px; border-radius:999px; letter-spacing:.08em; }
-
   .log-scroll{ max-height:130px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--teal) transparent; }
   .log-scroll::-webkit-scrollbar{ width:6px; }
   .log-scroll::-webkit-scrollbar-thumb{ background:rgba(0,255,240,.3); border-radius:3px; }
-
   .crisis-strip{
     background:linear-gradient(90deg, rgba(245,158,11,.14), rgba(245,158,11,.05));
     border-top:1.5px solid var(--amber); border-bottom:1.5px solid var(--amber);
@@ -122,24 +177,19 @@
   .crisis-strip a{ color:#fff; font-weight:700; }
   .footer-link{ color:var(--teal); text-decoration:underline; text-underline-offset:3px; }
   .footer-link:hover{ color:#fff; }
-
   .overlay{ position:fixed; inset:0; background:rgba(3,5,12,.88); backdrop-filter:blur(8px); z-index:50; display:flex; align-items:center; justify-content:center; padding:20px; }
   .hidden{ display:none !important; }
   .rules-body{ max-height:0; overflow:hidden; transition:max-height .3s ease; }
   .rules-body.open{ max-height:600px; }
-
   .badge-count{
-    position:absolute; bottom:-6px; right:-6px; background:var(--bg2); color:var(--teal);
+    position:absolute; bottom:-6px; right:-6px; z-index:2; background:var(--bg2); color:var(--teal);
     border:1px solid var(--teal); border-radius:999px; font-size:11px; font-weight:700;
     min-width:20px; height:20px; display:flex; align-items:center; justify-content:center; padding:0 5px;
-    font-family:'Chakra Petch',sans-serif;
+    font-family:'Chakra Petch',sans-serif; box-shadow:0 0 8px rgba(0,255,240,.3);
   }
-  .deal-in{ animation:dealIn .35s ease both; }
-  @keyframes dealIn{ from{ opacity:0; transform:translateY(-8px) scale(.9);} to{opacity:1; transform:none;} }
 </style>
 </head>
 <body class="min-h-screen flex flex-col">
-
 <!-- ================= HEADER ================= -->
 <header class="w-full max-w-5xl mx-auto px-3 sm:px-4 pt-4 pb-2 flex items-center justify-between gap-2 flex-wrap">
   <div class="min-w-0">
@@ -155,7 +205,6 @@
     <button id="newGameBtn" class="btn btn-amber text-xs sm:text-sm !py-2 !px-3">New Game</button>
   </div>
 </header>
-
 <!-- ================= RULES PANEL ================= -->
 <div class="w-full max-w-5xl mx-auto px-3 sm:px-4">
   <div id="rulesBody" class="rules-body">
@@ -173,28 +222,25 @@
     </div>
   </div>
 </div>
-
 <!-- ================= MAIN BOARD ================= -->
 <main class="w-full max-w-5xl mx-auto px-3 sm:px-4 flex-1 flex flex-col gap-3 pb-2">
-
   <!-- AI opponents -->
   <section id="aiRow" class="grid grid-cols-3 gap-2"></section>
-
   <!-- Center: deck + discard + log -->
   <section class="panel rounded-2xl p-3 sm:p-4">
     <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
       <!-- deck -->
       <div class="flex flex-col items-center gap-1">
-        <div class="relative">
-          <div id="deckCard" class="card back"><span class="mono">S</span></div>
+        <div class="relative deck-stack">
+          <div id="deckCard" class="card back"></div>
           <span id="deckCount" class="badge-count">16</span>
         </div>
         <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">DECK</span>
       </div>
       <!-- discard -->
       <div class="flex flex-col items-center gap-1">
-        <div class="relative">
-          <div id="pileCard" class="card back"><span class="mono">?</span></div>
+        <div class="relative pile-stack">
+          <div id="pileCard" class="card back"></div>
           <span id="pileCount" class="badge-count">0</span>
         </div>
         <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">DISCARD</span>
@@ -213,7 +259,6 @@
       <div id="log" class="log-scroll text-[11px] sm:text-xs text-muted font-mono leading-relaxed"></div>
     </div>
   </section>
-
   <!-- Human table: face-up on top of face-down (3 columns) -->
   <section class="panel rounded-2xl p-3 sm:p-4">
     <div class="flex items-center justify-between mb-2">
@@ -222,28 +267,24 @@
     </div>
     <div id="humanTable" class="flex items-end justify-center gap-3 sm:gap-5"></div>
   </section>
-
   <!-- Human hand -->
   <section class="panel rounded-2xl p-3 sm:p-4">
     <div class="flex items-center justify-between mb-2">
       <span class="text-[10px] sm:text-xs text-muted font-display tracking-widest">YOUR HAND</span>
       <span id="handCount" class="text-[10px] sm:text-xs text-muted font-display"></span>
     </div>
-    <div id="hand" class="flex flex-wrap items-end justify-center gap-2 min-h-[86px] sm:min-h-[106px]"></div>
+    <div id="hand" class="flex flex-wrap items-end justify-center gap-2 min-h-[94px] sm:min-h-[114px]"></div>
   </section>
-
   <!-- Actions -->
   <section class="flex items-center justify-center gap-3 pb-1">
     <button id="playBtn" class="btn btn-primary" disabled>PLAY SELECTED</button>
     <button id="pickupBtn" class="btn btn-amber" disabled>PICK UP PILE</button>
   </section>
 </main>
-
 <!-- ================= CRISIS STRIP ================= -->
 <div class="crisis-strip w-full text-center text-xs sm:text-sm py-2 px-3 font-display tracking-wide">
   In crisis? Samaritans free 24/7: <a href="tel:116123">116 123</a> &nbsp;·&nbsp; Text SHOUT to <a href="sms:85258">85258</a> &nbsp;·&nbsp; You are not alone.
 </div>
-
 <!-- ================= FOOTER ================= -->
 <footer class="w-full text-center text-[11px] sm:text-xs text-muted py-3 px-3 font-display tracking-wide">
   <a class="footer-link" href="https://pleadingsanity.co.uk" target="_blank" rel="noopener">pleadingsanity.co.uk</a>
@@ -252,7 +293,6 @@
   <span class="mx-2">·</span>
   Pleading Sanity
 </footer>
-
 <!-- ================= START OVERLAY ================= -->
 <div id="startOverlay" class="overlay">
   <div class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center border-teal glow-teal">
@@ -267,7 +307,6 @@
     <div class="mt-5 text-[10px] text-muted font-display tracking-wide">Pleading Sanity · play responsibly · it's only cards</div>
   </div>
 </div>
-
 <!-- ================= END OVERLAY ================= -->
 <div id="endOverlay" class="overlay hidden">
   <div id="endCard" class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center">
@@ -277,21 +316,17 @@
     <button id="againBtn" class="btn btn-primary text-base !px-8 !py-3">PLAY AGAIN</button>
   </div>
 </div>
-
 <script>
 (function(){
 "use strict";
-
 /* ============================================================
    SHED (aka Shithead) — single-player vs 3 AI
    ============================================================ */
-
 const RANKS = ['2','3','4','5','6','7','8','9','10','J','Q','K','A'];
 const SUITS = ['\u2660','\u2665','\u2666','\u2663']; // spade heart diamond club (text glyphs, not emoji)
 const rankVal = r => RANKS.indexOf(r) + 2;          // 2..14
 const isRed = s => (s === '\u2665' || s === '\u2666');
 const NAMES = ['You','Vega','Orion','Lyra'];
-
 let state = 'start';        // start | playing | ended
 let deck = [], pile = [];
 let players = [];           // {hand:[], faceUp:[c|null], faceDown:[c|null], out:bool}
@@ -299,7 +334,6 @@ let current = 0;
 let selected = new Set();   // card ids selected by human
 let logLines = [];
 let aiRunning = false;
-
 const $ = id => document.getElementById(id);
 const els = {
   aiRow:$('aiRow'), deckCount:$('deckCount'), pileCard:$('pileCard'), pileCount:$('pileCount'),
@@ -311,7 +345,6 @@ const els = {
   deckCard:$('deckCard'),
   startBtn:$('startBtn'), newGameBtn:$('newGameBtn'), againBtn:$('againBtn')
 };
-
 /* ---------- deck / deal ---------- */
 function makeDeck(){
   const d = [];
@@ -338,7 +371,6 @@ function initGame(){
   selected.clear();
   logLines = ['Deck dealt. You go first — tap cards in your hand to select.'];
 }
-
 /* ---------- rules ---------- */
 function topCard(){ return pile.length ? pile[pile.length-1] : null; }
 function isLegal(rank, top){
@@ -350,7 +382,6 @@ function isLegal(rank, top){
 }
 function countNonNull(arr){ return arr.filter(Boolean).length; }
 function totalCards(p){ return p.hand.length + countNonNull(p.faceUp) + countNonNull(p.faceDown); }
-
 /* ---------- helpers ---------- */
 function log(msg){ logLines.push(msg); if(logLines.length>80) logLines.shift(); }
 function sortHand(p){ p.hand.sort((a,b)=> rankVal(a.r)-rankVal(b.r) || a.s.localeCompare(b.s)); }
@@ -366,7 +397,6 @@ function humanSource(){
   return 'blind';
 }
 function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
-
 /* ---------- apply a play (mutates pile / hand) ---------- */
 function applyPlay(idx, cards, src){
   const p = players[idx];
@@ -381,7 +411,6 @@ function applyPlay(idx, cards, src){
   }
   if(src === 'hand') drawUp(idx);
 }
-
 function pickupPile(idx){
   const p = players[idx];
   if(!pile.length){ log(NAMES[idx] + ' — pile empty, nothing to pick up.'); return false; }
@@ -392,7 +421,6 @@ function pickupPile(idx){
   log(NAMES[idx] + ' picks up the pile (' + n + ' cards).');
   return true;
 }
-
 function checkOut(idx){
   const p = players[idx];
   if(!p.out && totalCards(p) === 0){
@@ -427,11 +455,9 @@ function endGame(){
   els.endOverlay.classList.remove('hidden');
   render();
 }
-
 function advanceTurn(){
   do { current = (current+1) % 4; } while(players[current].out);
 }
-
 /* ---------- AI ---------- */
 function aiChoosePlay(idx){
   // returns {cards:[], src:'hand'|'faceUp'} or null if must pick up
@@ -453,7 +479,6 @@ function aiChoosePlay(idx){
   const cards = pool.filter(c=> c.r === chosen);
   return { cards, src, rank: chosen };
 }
-
 function doAITurn(idx){
   const p = players[idx];
   const name = NAMES[idx];
@@ -496,7 +521,6 @@ function doAITurn(idx){
   if(onlyOneLeft()){ endGame(); return; }
   advanceTurn();
 }
-
 async function runAITurns(){
   if(aiRunning) return;
   aiRunning = true;
@@ -514,7 +538,6 @@ async function runAITurns(){
     render();
   }
 }
-
 /* ---------- human actions ---------- */
 function toggleSelect(id){
   if(state !== 'playing' || current !== 0) return;
@@ -534,7 +557,6 @@ function toggleSelect(id){
   }
   render();
 }
-
 function humanPlay(){
   if(state !== 'playing' || current !== 0) return;
   const src = humanSource();
@@ -563,7 +585,6 @@ function humanPlay(){
   applyPlay(0, cards, src);
   finishHumanTurn();
 }
-
 function humanPickup(){
   if(state !== 'playing' || current !== 0) return;
   if(!pile.length){ log('Pile is empty — nothing to pick up.'); render(); return; }
@@ -571,7 +592,6 @@ function humanPickup(){
   pickupPile(0);
   finishHumanTurn();
 }
-
 function humanBlind(colIndex){
   if(state !== 'playing' || current !== 0) return;
   if(humanSource() !== 'blind') return;
@@ -592,7 +612,6 @@ function humanBlind(colIndex){
   }
   finishHumanTurn();
 }
-
 function finishHumanTurn(){
   checkOut(0);
   if(onlyOneLeft()){ endGame(); return; }
@@ -600,18 +619,17 @@ function finishHumanTurn(){
   render();
   if(current !== 0 && state === 'playing') runAITurns();
 }
-
 /* ---------- rendering ---------- */
 function cardHTML(c, extraClass, extraAttr){
   const red = isRed(c.s) ? ' red' : '';
   return '<div class="card' + red + (extraClass?' '+extraClass:'') + '" ' + (extraAttr||'') + '>' +
     '<div class="corner"><span class="r">' + c.r + '</span><span class="s">' + c.s + '</span></div>' +
+    '<div class="corner br"><span class="r">' + c.r + '</span><span class="s">' + c.s + '</span></div>' +
     '<div class="big-suit">' + c.s + '</div></div>';
 }
 function backHTML(extraClass, mono){
-  return '<div class="card back' + (extraClass?' '+extraClass:'') + '"><span class="mono">' + (mono||'S') + '</span></div>';
+  return '<div class="card back' + (extraClass?' '+extraClass:'') + '"></div>';
 }
-
 function renderAI(){
   let html = '';
   for(let i=1;i<4;i++){
@@ -623,18 +641,17 @@ function renderAI(){
     if(active) html += '<span class="thinking-dot"></span>';
     if(p.out) html += ' <span class="out-badge">OUT</span>';
     html += '</div>';
-    // three mini stacks: hand / faceUp / faceDown with counts
-    html += '<div class="flex items-end justify-center gap-2 mt-1">';
-    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">H</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + h + '</span></div>';
-    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">U</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + u + '</span></div>';
-    html += '<div class="flex flex-col items-center"><div class="mini-card back"><span class="mono">D</span></div><span class="text-[9px] text-muted font-display mt-0.5">' + d + '</span></div>';
+    // three mini stacks: hand / faceUp / faceDown with count badges
+    html += '<div class="flex items-end justify-center gap-3 sm:gap-4 mt-1 mb-1">';
+    html += '<div class="mini-stack"><div class="mini-card back"></div><span class="mini-badge">' + h + '</span></div>';
+    html += '<div class="mini-stack"><div class="mini-card back"></div><span class="mini-badge">' + u + '</span></div>';
+    html += '<div class="mini-stack"><div class="mini-card back"></div><span class="mini-badge">' + d + '</span></div>';
     html += '</div>';
     html += '<div class="text-[9px] text-muted font-display tracking-wider">hand · up · blind</div>';
     html += '</div>';
   }
   els.aiRow.innerHTML = html;
 }
-
 function renderCenter(){
   els.deckCount.textContent = deck.length;
   els.deckCard.style.opacity = deck.length ? '1' : '.3';
@@ -672,7 +689,6 @@ function renderCenter(){
     els.phaseHint.textContent = '—';
   }
 }
-
 function renderHumanTable(){
   const p = players[0];
   const src = humanSource();
@@ -687,7 +703,7 @@ function renderHumanTable(){
       html += cardHTML(fu, 'deal-in' + sel + tap, '');
     } else if(fd){
       const tap = (canTap && src === 'blind') ? ' tappable data-blind="' + i + '"' : '';
-      html += '<div class="card back deal-in' + tap + '" style="cursor:' + (tap?'pointer':'default') + '"><span class="mono">?</span></div>';
+      html += '<div class="card back deal-in' + tap + '" style="cursor:' + (tap?'pointer':'default') + '"></div>';
     } else {
       html += '<div class="empty-slot"></div>';
     }
@@ -695,7 +711,6 @@ function renderHumanTable(){
   els.humanTable.innerHTML = html;
   els.tableCount.textContent = 'face-up ' + upCount + ' · blind ' + downCount;
 }
-
 function renderHand(){
   const p = players[0];
   els.handCount.textContent = p.hand.length + ' card' + (p.hand.length===1?'':'s');
@@ -712,14 +727,12 @@ function renderHand(){
   }
   els.hand.innerHTML = html;
 }
-
 function renderButtons(){
   const canAct = (state === 'playing' && current === 0);
   const src = humanSource();
   els.playBtn.disabled = !(canAct && selected.size > 0 && src !== 'blind');
   els.pickupBtn.disabled = !(canAct && pile.length > 0);
 }
-
 function renderLog(){
   els.log.innerHTML = logLines.map(l=> '<div>' + escapeHtml(l) + '</div>').join('');
   els.log.scrollTop = els.log.scrollHeight;
@@ -727,7 +740,6 @@ function renderLog(){
 function escapeHtml(s){
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
-
 function render(){
   if(!players.length) return;
   renderAI();
@@ -737,7 +749,6 @@ function render(){
   renderButtons();
   renderLog();
 }
-
 /* ---------- events ---------- */
 els.hand.addEventListener('click', e=>{
   const t = e.target.closest('[data-hand]');
@@ -761,19 +772,16 @@ $('rulesBtn').addEventListener('click', ()=>{
   $('rulesBody').classList.toggle('open');
 });
 $('clearLogBtn').addEventListener('click', ()=>{ logLines = ['Log cleared.']; renderLog(); });
-
 function newGame(){
   initGame();
   state = 'playing';
   els.endOverlay.classList.add('hidden');
   render();
 }
-
 // initial render of AI placeholders (before deal) so layout is warm
 players = [];
 for(let i=0;i<4;i++) players.push({ hand:[], faceUp:[null,null,null], faceDown:[null,null,null], out:false });
 render();
-
 })();
 </script>
 </body>
