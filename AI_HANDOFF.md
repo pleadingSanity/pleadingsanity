@@ -1,5 +1,19 @@
 # PLEADING SANITY — MASTER HANDOFF (Dola 31 Oct 2026 — read this FIRST)
 
+## 2026-10-31 — Grok, cards, links, backend audit (branch `grokbot/polish-ai-upgrades`, PR #152, not merged)
+
+Verified in this repo, not assumed from a prompt:
+
+- **PR #151** (`grokbot/site-fixes-2026-10-31`) is **merged** to `main`. It added `verify-paypal.mts` (50.00 GBP COMPLETED check, 503 until PayPal keys exist), made `/api/arron/memory/supabase` owner-only, added the Supabase RLS SQL, crisis strip, compliance copy, brand colours, SEO and docs. This branch did not contain that memory lock, so the same owner check, service-key preference and SQL file are repeated here.
+- **PR #152** is the open polish branch. It holds the single-row header, dock clearance, `/api/solar` (`netlify/functions/solar-assistant.mts` + `netlify/lib/solar-knowledge.ts`), Test Lab at the top of the Creator Hub, hero images in `images/heroes/`, and now the ten In the house cards in `images/cards/` (`manifest.json` slugs: live-creators, new-gen-bible, sane-finance, games, ai-family, journal-vault, community, meditation-frequencies, night-table, site-builder).
+- **Brand lock:** cosmic dark `#0b0f19`, teal `#00fff0` / `#38bdf8`, amber `#f59e0b`, silver `#cbd5e1`. No purple or indigo UI, and no `#ff4d8d`. No emoji in the public UI.
+- **Crisis lines stay first:** Samaritans 116 123, Shout 85258, NHS 111, 999. The dock is off on `crisis.html`, `safety.html` and `arron.html`.
+- **Compliance:** AI never certifies MCS or NAPIT. 0% VAT on qualifying solar runs to 31 Mar 2027 and depends on eligibility. An EPC is not required for SEG. Say "typically" for savings and costs. Sanctuary features stay free.
+- **Docs that exist and point at each other:** `AI_HANDOFF.md`, `system_blueprint.json`, `docs/MASTER_PROMPT.md`, referenced from `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `docs/GEMINI-MASTER-CONTEXT.md` and `docs/DOLA-MASTER-CONTEXT.md`.
+- **Backend gaps** (code only, no live database): `docs/BACKEND_GAPS.md`. Solar enquiries and donations have no tables. Supabase RLS SQL is in the repo and is not proven applied on the live project.
+
+---
+
 
 ---
 
