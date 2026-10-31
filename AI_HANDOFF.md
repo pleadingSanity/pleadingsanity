@@ -731,3 +731,10 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
 - Privacy page already says the house does not sell journals or sign-in data. A scan of live HTML, `js/`, and Netlify functions found no Google Analytics, Tag Manager, Meta pixel, Hotjar, Clarity, or DoubleClick. `archive/legacy-js/research-analytics-framework.js` is archived and not loaded.
 - Headless Chrome on 14 key pages produced the DOM and no console error lines. It does not exit by itself here, so each run was stopped by a timeout after the DOM was written. A static check of 85 HTML files found no missing local images or links.
 - Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: one-row header, source emoji, dock, Lighthouse
+- From 1024px the bar is one row. App Hub, Sanity's Songs and About sit under More. Crisis help and Sign in stay visible. The wordmark hides between 1024 and 1399 so the logo and the links do not collide. The full name returns at 1440.
+- Emoji characters were removed from HTML and JS source. Empty icon links now show their accessible name. Pink `#ff4d8d` was replaced with amber in the live CSS, HTML and JS.
+- The phone dock is not created on crisis.html or safety.html. Other pages keep bottom padding of the dock height plus a gap and the safe area.
+- Mobile Lighthouse, simulated, local server: home performance 75, accessibility 100, LCP 6.2s. Crisis 97 / 100 / 2.1s. Insane Solar 81 / 97 / 2.4s. About 69 / 100 / 5.9s. Home LCP is the logo under throttling and render-blocking CSS. About LCP is a YouTube thumbnail. `npm test` 101 passed. Audit and validate-build passed.
+- Not merged. Not on main.
