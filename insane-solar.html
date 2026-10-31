@@ -409,10 +409,123 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 #paypal-donate-msg{color:var(--green2);font-weight:800;font-size:.95rem;margin-top:.8rem;display:none}
 #paypal-donate-fallback{display:none;margin-top:.5rem}
 .hs-donate .alt{font-size:.76rem;color:var(--muted);margin-top:.8rem}
+
+/* ===== v3.3: COSMIC AURORA BACKGROUNDS — pure CSS, no images ===== */
+section{position:relative;overflow:hidden}
+section::before{
+  content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 12% 0%, rgba(45,212,191,.07), transparent 65%),
+    radial-gradient(ellipse 50% 38% at 88% 100%, rgba(251,191,36,.05), transparent 60%);
+}
+section>.wrap{position:relative;z-index:1}
+#hero::before{
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 0%, rgba(45,212,191,.15), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 85% 18%, rgba(56,189,248,.11), transparent 60%),
+    radial-gradient(ellipse 62% 50% at 50% 110%, rgba(251,191,36,.10), transparent 65%),
+    radial-gradient(ellipse 40% 30% at 70% 40%, rgba(45,212,191,.06), transparent 70%);
+  animation:auroraDrift 18s ease-in-out infinite alternate;
+  will-change:transform,opacity;
+}
+@keyframes auroraDrift{
+  0%{transform:translate3d(0,0,0) scale(1);opacity:.85}
+  50%{transform:translate3d(2%,-1.5%,0) scale(1.05);opacity:1}
+  100%{transform:translate3d(-2%,1.5%,0) scale(1.02);opacity:.92}
+}
+@media (prefers-reduced-motion:reduce){ #hero::before{animation:none} }
+/* v3.3: generous spacing */
+section{padding:84px 20px}
+@media(min-width:900px){section{padding:104px 48px}}
+/* v3.3: consistent inline SVG icons */
+.ico{width:1.15em;height:1.15em;display:inline-block;vertical-align:-.18em;flex-shrink:0}
+.sec-ico{width:clamp(26px,4vw,34px);height:clamp(26px,4vw,34px);vertical-align:-.32em;margin-right:.55rem;color:#2dd4bf;flex-shrink:0;display:inline-block}
+.navlink .ico{margin-right:.3rem;color:#2dd4bf;opacity:.95}
+.navlink.cta .ico{color:#0b0f19}
+.btn .ico{color:inherit}
+/* v3.3: details/summary learn-more toggles */
+details.lm{margin-top:1.2rem}
+details.lm>summary{
+  list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;
+  font-weight:800;color:#2dd4bf;font-size:.9rem;padding:.6rem 1rem;border-radius:10px;
+  background:rgba(45,212,191,.08);border:1px solid rgba(45,212,191,.3);min-height:44px;
+}
+details.lm>summary::-webkit-details-marker{display:none}
+details.lm>summary::after{content:"+";font-weight:900;margin-left:.6rem;font-size:1.1rem}
+details.lm[open]>summary::after{content:"\2212"}
+details.lm>.lm-body{margin-top:1rem}
+/* v3.3: kit category headers */
+.kit-cat-head{grid-column:1/-1;display:flex;align-items:center;gap:1rem;margin-top:1.6rem;padding:.9rem 1.2rem;background:linear-gradient(90deg,rgba(45,212,191,.12),transparent);border-left:3px solid #2dd4bf;border-radius:0 12px 12px 0}
+.kit-cat-head h3{font-size:1.12rem;color:var(--heading);margin:0;font-family:'Archivo Black',sans-serif}
+.kit-cat-note{font-size:.78rem;color:var(--muted);margin:.15rem 0 0}
+.kit-cat-ico{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:rgba(45,212,191,.12);border:1px solid rgba(45,212,191,.35);color:#2dd4bf;display:flex;align-items:center;justify-content:center}
+.kit-cta{margin-top:2.2rem;text-align:center}
+/* v3.3: chat hint + toggle icon */
+.ai-hint{font-size:.72rem;color:var(--muted);padding:6px 12px;background:rgba(0,255,240,.06);border-bottom:1px solid rgba(255,255,255,.06);line-height:1.4}
+#ai-chat-toggle svg{width:26px;height:26px}
+/* v3.3: mobile sticky bottom CTA bar */
+#mobileBar{display:none}
+@media(max-width:640px){
+  #mobileBar{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:9997;gap:.5rem;padding:.6rem .8rem;
+    background:rgba(11,15,25,.94);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    border-top:1px solid rgba(45,212,191,.35);
+  }
+  #mobileBar a{flex:1;min-height:48px;display:inline-flex;align-items:center;justify-content:center;gap:.45rem;font-weight:900;border-radius:12px;font-size:.9rem;padding:.7rem .5rem;text-decoration:none}
+  #mobileBar .mb-call{background:var(--glass);color:var(--heading);border:1px solid var(--border2)}
+  #mobileBar .mb-book{background:linear-gradient(135deg,var(--teal),var(--sky));color:#0b0f19}
+  body{padding-bottom:78px}
+  #ai-chat-widget{bottom:88px}
+  #floatWA{bottom:164px}
+}
+/* v3.3: 390px safety */
+@media(max-width:390px){
+  .kit-grid,.comp-grid{grid-template-columns:1fr}
+  h1,h2,h3{word-break:break-word}
+  .hero-stat{gap:1rem}
+  .hero-stat>div{flex:1;min-width:0}
+}
+
 </style>
-<link rel="stylesheet" href="/css/support-strip.css">
 </head>
 <body>
+<!-- v3.3: inline SVG icon sprite (stroke-based, currentColor) -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+  <symbol id="i-panel" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/></symbol>
+  <symbol id="i-battery" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/><line x1="5" y1="10" x2="5" y2="14"/><line x1="9" y1="10" x2="9" y2="14"/><line x1="13" y1="10" x2="13" y2="14"/></symbol>
+  <symbol id="i-wrench" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></symbol>
+  <symbol id="i-pound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 12 15 15 9"/></symbol>
+  <symbol id="i-truck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></symbol>
+  <symbol id="i-calc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="11" x2="8.01" y2="11"/><line x1="12" y1="11" x2="12.01" y2="11"/><line x1="16" y1="11" x2="16.01" y2="11"/><line x1="8" y1="15" x2="8.01" y2="15"/><line x1="12" y1="15" x2="12.01" y2="15"/><line x1="16" y1="15" x2="16.01" y2="15"/><line x1="8" y1="19" x2="8.01" y2="19"/><line x1="12" y1="19" x2="12.01" y2="19"/><line x1="16" y1="19" x2="16.01" y2="19"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-cpu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="6" x2="9" y2="6.01"/><line x1="15" y1="6" x2="15" y2="6.01"/><line x1="9" y1="10" x2="9" y2="10.01"/><line x1="15" y1="10" x2="15" y2="10.01"/><line x1="9" y1="14" x2="9" y2="14.01"/><line x1="15" y1="14" x2="15" y2="14.01"/><line x1="9" y1="18" x2="9" y2="18.01"/><line x1="15" y1="18" x2="15" y2="18.01"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,6 12,13 2,6"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14"/><path d="M5 17l1.5-5.5a2 2 0 0 1 1.9-1.5h7.2a2 2 0 0 1 1.9 1.5L19 17"/><path d="M7 17v2"/><path d="M17 17v2"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/></symbol>
+  <symbol id="i-rail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+</svg>
+
 
 <!-- ==================== NAV ==================== -->
 <nav id="topnav" aria-label="Main navigation">
@@ -422,17 +535,17 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
       <span>INSANE SOLAR<small>by Pleading Sanity</small></span>
     </a>
     <div class="nav-links" role="navigation">
-      <a class="navlink" href="#hero">Home</a>
-      <a class="navlink" href="#pricing">Pricing</a>
-      <a class="navlink" href="#kit">Kit</a>
-      <a class="navlink" href="#ai">AI Office</a>
-      <a class="navlink" href="#whitelabel">White-Label</a>
-      <a class="navlink" href="#rent">Rent AI</a>
-      <a class="navlink" href="#gallery">Gallery</a>
-      <a class="navlink" href="#aftercare">Aftercare</a>
-      <a class="navlink" href="#havesolar">Got solar?</a>
-      <a class="navlink" href="#referral">Refer £250</a>
-      <a class="navlink cta" href="#book">Book Survey</a>
+      <a class="navlink" href="#hero"><svg class="ico"><use href="#i-home"/></svg>Home</a>
+      <a class="navlink" href="#pricing"><svg class="ico"><use href="#i-pound"/></svg>Pricing</a>
+      <a class="navlink" href="#kit"><svg class="ico"><use href="#i-panel"/></svg>Kit</a>
+      <a class="navlink" href="#ai"><svg class="ico"><use href="#i-cpu"/></svg>AI Office</a>
+      <a class="navlink" href="#whitelabel"><svg class="ico"><use href="#i-building"/></svg>White-Label</a>
+      <a class="navlink" href="#rent"><svg class="ico"><use href="#i-briefcase"/></svg>Rent AI</a>
+      <a class="navlink" href="#gallery"><svg class="ico"><use href="#i-camera"/></svg>Gallery</a>
+      <a class="navlink" href="#aftercare"><svg class="ico"><use href="#i-shield"/></svg>Aftercare</a>
+      <a class="navlink" href="#havesolar"><svg class="ico"><use href="#i-wrench"/></svg>Got solar?</a>
+      <a class="navlink" href="#referral"><svg class="ico"><use href="#i-gift"/></svg>Refer £250</a>
+      <a class="navlink cta" href="#book"><svg class="ico"><use href="#i-book"/></svg>Book Survey</a>
     </div>
   </div>
 </nav>
@@ -442,7 +555,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">Leicestershire &amp; Midlands · MCS-registered</span>
-      <h1>Solar fitted by blokes who climb roofs — <span class="grad-text">not salesmen</span> who've never held a rail.</h1>
+      <h1><svg class="sec-ico"><use href="#i-sun"/></svg>Solar fitted by blokes who climb roofs — <span class="grad-text">not salesmen</span> who've never held a rail.</h1>
       <p class="sub">No middleman. No salesman commission. You pay for what you see — that's it.</p>
       <p class="sub" style="color:var(--teal);font-weight:800;font-size:1.02rem;margin-bottom:1.4rem">The AI strips the office and sales layers. Humans still climb the roof and fit the panels — AI just handles the bullshit.</p>
       <div class="hero-ctas">
@@ -498,8 +611,8 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="pricing">
   <div class="wrap">
     <span class="eyebrow amber">Honest Pricing</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">HONEST PRICING VS BIG COMPANIES</h2>
-    <p class="lead reveal">This is on average what you'd be paying somewhere else — but without the middleman.</p>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-calc"/></svg>HONEST PRICING VS BIG COMPANIES</h2>
+    <p class="lead reveal">What big companies charge — vs what we charge. No middleman.</p>
 
     <div class="price-lead reveal" style="margin-top:2rem">
       <div class="big">Typical 4kWp big-company price: £10,000–£14,000</div>
@@ -525,7 +638,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
     <p class="note">All figures typical 2026 — verify at sign-up, varies by roof, orientation, shading and access. 0% VAT to 31 March 2027 subject to eligibility (reverts to 5% from 1 April 2027). Battery prices vary by brand and capacity. We give you a full line-by-line breakdown at survey — no surprises.</p>
 
     <div style="margin-top:2rem" class="reveal">
-      <a class="btn btn-primary" href="tel:+447711147663">Call for your full cost breakdown</a>
+      <a class="btn btn-primary" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call for your full cost breakdown</a>
     </div>
   </div>
 </section>
@@ -534,7 +647,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="planner" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow">30-Second System Designer</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">DESIGN YOUR SYSTEM <span class="grad-text">IN 30 SECONDS</span></h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-wrench"/></svg>DESIGN YOUR SYSTEM <span class="grad-text">IN 30 SECONDS</span></h2>
     <p class="lead reveal">No salesman, no jargon. Tell us about your roof and we'll show you what fits, what it costs, and what's in the box. Worked out entirely on your device — nothing is sent anywhere until you press a WhatsApp button.</p>
 
     <div class="planner-card reveal" style="margin-top:2rem">
@@ -642,13 +755,16 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="kit" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow">Cut Out The Middleman</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">THE KIT — SOURCED DIRECT, NO MARKUP LAYERS</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-truck"/></svg>THE KIT — SOURCED DIRECT, NO MARKUP LAYERS</h2>
     <p class="lead reveal">Rails, roof hooks, mid and end clamps, panels, inverters, batteries, EV chargers — we buy it straight from the distributor and pass it on. Here's the stuff we actually fit, explained like I'm talking to me old mate down the pub. Every price labelled: typical 2026 — call for exact quote.</p>
 
     <div class="kit-grid" id="kitGrid">
       <!-- populated by JS from KIT array -->
     </div>
-    <p class="note">Prices are typical 2026 UK fitted/supplied guide only — final confirmed at survey and sign-up. Links go to the brand's own UK product info so you can read the spec sheet yourself. We're not tied to any one brand — we fit what's right for your roof and your wallet.</p>
+    <p class="note">All prices typical 2026 UK guide — final confirmed at survey and sign-up. Varies by roof, orientation, shading and access.</p>
+    <div class="kit-cta reveal">
+      <a class="btn btn-primary" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call for your exact kit quote</a>
+    </div>
   </div>
 </section>
 
@@ -656,21 +772,21 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="ai">
   <div class="wrap">
     <span class="eyebrow">The AI Office</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">THE AI OFFICE — PAPERWORK THAT DOESN'T SLEEP</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-cpu"/></svg>THE AI OFFICE — PAPERWORK THAT DOESN'T SLEEP</h2>
     <p class="lead reveal">Our AI handles all the paperwork — MCS, G98/G99, invoices, scheduling. If AI can't, Shane steps in. We don't leave you stuck after completion — AI + Shane help you every step of the way.</p>
     <p class="reveal" style="margin-top:.8rem;font-weight:800;color:var(--amber2);font-size:1.02rem">Humans build. AI handles the bullshit. Software never touches a roof — it eats the office paperwork for breakfast.</p>
 
-    <div class="compliance-line reveal" style="margin-top:1.6rem">
+    <details class="lm reveal"><summary>Hard compliance line — learn more</summary><div class="lm-body"><div class="compliance-line reveal">
       <strong>Hard compliance line:</strong> The AI never certifies — MCS / NAPIT-registered humans sign every certificate. Software prepares, files and tracks. Real people put their name to it.
-    </div>
+    </div></div></details>
 
     <div class="comp-grid" id="compGrid">
       <!-- populated by JS -->
     </div>
 
     <div style="margin-top:2.2rem;display:flex;flex-wrap:wrap;gap:.8rem" class="reveal">
-      <a class="btn btn-ghost" href="#book">Ask the AI a question — floating button bottom-right</a>
-      <a class="btn btn-amber" href="https://wa.me/447711147663" target="_blank" rel="noopener">Or WhatsApp Shane direct</a>
+      <a class="btn btn-ghost" href="#book"><svg class="ico"><use href="#i-chat"/></svg>Ask the AI — floating button bottom-right</a>
+      <a class="btn btn-amber" href="https://wa.me/447711147663" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg>WhatsApp Shane direct</a>
     </div>
   </div>
 </section>
@@ -679,15 +795,15 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="whitelabel" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow amber">For Other Companies</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">SELL / RENT THIS SYSTEM TO OTHER COMPANIES</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-building"/></svg>SELL / RENT THIS SYSTEM TO OTHER COMPANIES</h2>
     <p class="lead reveal">Rent or embed this system on your site, or use our site through yours — we generate leads and contacts through ours. The only charges from Shane: £50 sign-up fee to show your seriousness, plus his rate for being there and organising. Then you order all the system and parts you want.</p>
 
     <div class="glass amber-glow reveal" style="margin-top:2rem;padding:1.8rem;max-width:720px">
       <h3 style="margin-bottom:.8rem;font-size:1.2rem">Join the movement — no big-company nonsense.</h3>
       <p style="color:var(--muted);font-size:.95rem;margin-bottom:1.2rem">You bring the brand, we bring the fitters, the AI office and the supply chain. £50 to get in the room — that's it. No lock-in, no commission split on parts. The AI strips the office and sales layers for you too — your lads stay on the tools, not in spreadsheets.</p>
       <div style="display:flex;flex-wrap:wrap;gap:.8rem">
-        <a class="btn btn-amber" href="https://wa.me/447711147663" target="_blank" rel="noopener">WhatsApp 447711147663</a>
-        <a class="btn btn-ghost" id="contactEmail" href="mailto:pleadingsanity1@gmail.com">pleadingsanity1@gmail.com</a>
+        <a class="btn btn-amber" href="https://wa.me/447711147663" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg>WhatsApp us</a>
+        <a class="btn btn-ghost" id="contactEmail" href="mailto:pleadingsanity1@gmail.com"><svg class="ico"><use href="#i-mail"/></svg>Email us</a>
       </div>
       <div class="urgent-line" style="margin-top:1.2rem">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -701,7 +817,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="rent" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow">For Big Solar Firms</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">BIG SOLAR FIRMS — RENT THE AI OFFICE</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-briefcase"/></svg>BIG SOLAR FIRMS — RENT THE AI OFFICE</h2>
     <p class="lead reveal">Big solar firms — rent The AI Office. Embed it on your site or use ours through yours. We generate leads, handle the office. You pay. No fluff — you save millions, we get paid. Message Shane on <a href="tel:+447999899304" style="font-weight:900;color:var(--amber2)">07999 899304</a> to rent it.</p>
 
     <div class="glass amber-glow reveal" style="margin-top:2rem;padding:1.8rem;max-width:840px">
@@ -709,9 +825,9 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
       <p style="color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:1rem">Paperwork, scheduling, invoices, lead-gen, MCS/G98/G99 filings, customer comms — handled by AI, around the clock. Here's the line we will never cross: <strong style="color:var(--teal)">AI never competes with humans in building.</strong> It only removes the unnecessary layers. Humans fit panels. AI runs the office.</p>
       <p style="color:var(--muted);font-size:.95rem;line-height:1.7;margin-bottom:1.4rem">Rent it, license it, white-label it, or embed it in your operation — your crew stays on roofs, your overhead drops like a stone. You pay for the system, we keep it running. No fluff, no equity, no lock-in.</p>
       <div style="display:flex;flex-wrap:wrap;gap:.8rem">
-        <a class="btn btn-amber" href="tel:+447999899304">Call Shane: 07999 899304</a>
-        <a class="btn btn-ghost" href="https://wa.me/447711147663" target="_blank" rel="noopener">WhatsApp main line</a>
-        <a class="btn btn-ghost" href="mailto:pleadingsanity1@gmail.com">pleadingsanity1@gmail.com</a>
+        <a class="btn btn-amber" href="tel:+447999899304"><svg class="ico"><use href="#i-phone"/></svg>Call Shane: 07999 899304</a>
+        <a class="btn btn-ghost" href="https://wa.me/447711147663" target="_blank" rel="noopener"><svg class="ico"><use href="#i-chat"/></svg>WhatsApp main line</a>
+        <a class="btn btn-ghost" href="mailto:pleadingsanity1@gmail.com"><svg class="ico"><use href="#i-mail"/></svg>Email us</a>
       </div>
     </div>
   </div>
@@ -721,7 +837,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="gallery">
   <div class="wrap">
     <span class="eyebrow">Real Jobs</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">GALLERY — REAL FITS, REAL ROOFS</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-camera"/></svg>GALLERY — REAL FITS, REAL ROOFS</h2>
     <p class="lead reveal">Few jobs from companies I've worked on. Tap any photo to open it full size.</p>
     <div id="galleryGrid" class="reveal"></div>
     <p class="gallery-cap">Few jobs from companies I've worked on.</p>
@@ -732,7 +848,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="aftercare" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow amber">Aftercare</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">WE DON'T LEAVE YOU STUCK AFTER COMPLETION</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-shield"/></svg>WE DON'T LEAVE YOU STUCK AFTER COMPLETION</h2>
     <p class="lead reveal">We don't leave you stuck after completion — our AI and Shane will try help you every step of the way. Monitoring app setup, maintenance, fault reporting straight to the site manager's WhatsApp.</p>
 
     <div class="kit-grid" style="margin-top:2rem">
@@ -750,7 +866,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
         <div class="kit-icon" style="background:rgba(34,197,94,.1);border-color:rgba(34,197,94,.35);color:var(--green)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
         <h3>Fault reporting — one tap</h3>
         <p>Something playing up? It goes straight to the site manager's WhatsApp — not a ticket queue. Photo of the fault light, we diagnose remotely and send a lad if needed.</p>
-        <a class="more" id="aftercareWA" href="#" style="font-size:.85rem;font-weight:800;color:var(--green)">Report a fault on WhatsApp →</a>
+        <a class="more" id="aftercareWA" href="#" style="font-size:.85rem;font-weight:800;color:var(--green)"><svg class="ico" style="width:.9em;height:.9em"><use href="#i-chat"/></svg> Report a fault on WhatsApp</a>
       </div>
       <div class="glass reveal">
         <div class="kit-icon" style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35);color:var(--amber)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
@@ -784,7 +900,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
           <a href="https://www.eonnext.com" target="_blank" rel="noopener">View E.ON Next →</a>
         </div>
       </div>
-      <p class="note">The AI office prepares your switch + SEG signup paperwork — you authorise and sign it, the supplier still decides. MPAN setup, export meter registration and the application, all after install. No downtime; your new supplier manages the switch. SEG requires an MCS-certified install and a smart meter — we handle both.</p>
+      <details class="lm reveal"><summary>SEG signup paperwork — learn more</summary><div class="lm-body"><p class="note">The AI office prepares your switch + SEG signup paperwork — you authorise and sign it, the supplier still decides. MPAN setup, export meter registration and the application, all after install. No downtime; your new supplier manages the switch. SEG requires an MCS-certified install and a smart meter — we handle both.</p></div></details>
     </div>
 
     <!-- FAQ -->
@@ -829,7 +945,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="havesolar" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
   <div class="wrap">
     <span class="eyebrow amber">Already Got Solar?</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem;text-transform:uppercase">Already have solar? <span class="grad-text">Stuck? We've got you.</span></h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem;text-transform:uppercase"><svg class="sec-ico"><use href="#i-wrench"/></svg>Already have solar? <span class="grad-text">Stuck? We've got you.</span></h2>
     <p class="lead reveal">Sorry we weren't here for you then. If you've got solar and you're stuck — left in the blue, don't know what to do — we can help. Bird cages (bird guards), upgrades, battery add-ons, EV chargers, inverter replacements, monitoring setup.</p>
 
     <h3 class="display reveal" style="font-size:clamp(1.15rem,3vw,1.5rem);margin-top:2.4rem;margin-bottom:.2rem;color:var(--heading)">Here's how you finish it yourself — simple steps.</h3>
@@ -923,8 +1039,8 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
     <div class="hs-honest reveal">
       <p>These AIs ain't they costing me a fortune — every question you ask costs real money. If we helped in any way, leave an anonymous comment or sign up and tell us how we helped, or how we can upgrade our services.</p>
       <div class="hs-actions">
-        <a class="btn btn-ghost" href="mailto:pleadingsanity1@gmail.com?subject=Anonymous%20feedback">Leave anonymous comment</a>
-        <a class="btn btn-primary" href="signup.html">Sign up</a>
+        <a class="btn btn-ghost" href="mailto:pleadingsanity1@gmail.com?subject=Anonymous%20feedback"><svg class="ico"><use href="#i-mail"/></svg>Leave anonymous comment</a>
+        <a class="btn btn-primary" href="signup.html"><svg class="ico"><use href="#i-check"/></svg>Sign up</a>
       </div>
     </div>
 
@@ -944,7 +1060,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
       <div id="paypal-donate-container"></div>
       <p id="paypal-donate-msg">Thank you — the AIs live another day.</p>
       <div id="paypal-donate-fallback">
-        <a class="btn btn-amber" href="mailto:pleadingsanity1@gmail.com?subject=Donation">Donate via email</a>
+        <a class="btn btn-amber" href="mailto:pleadingsanity1@gmail.com?subject=Donation"><svg class="ico"><use href="#i-mail"/></svg>Donate via email</a>
       </div>
       <p class="alt">Or WhatsApp us on <a href="https://wa.me/447711147663" target="_blank" rel="noopener">07711 147663</a> — every bit keeps the lights on.</p>
     </div>
@@ -955,7 +1071,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="referral">
   <div class="wrap">
     <span class="eyebrow amber">Refer &amp; Earn</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">REFER SOMEONE — GET £250 CASH BACK</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-gift"/></svg>REFER SOMEONE — GET £250 CASH BACK</h2>
 
     <div class="glass referral-card reveal" style="padding:2rem;margin-top:1.6rem;max-width:840px">
       <div style="display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap">
@@ -972,7 +1088,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
         <a class="share-btn x" data-share="x" aria-label="Share on X" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
         <button class="share-btn copy" data-share="copy" aria-label="Copy link"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
       </div>
-      <p class="note">Just mention your name when they enquire — we log it and pay you £250 the day their system completes and signs off. Typical. Terms: referral must be a new customer, install completed and paid in full.</p>
+      <details class="lm reveal"><summary>Referral terms — learn more</summary><div class="lm-body"><p class="note">Just mention your name when they enquire — we log it and pay you £250 the day their system completes and signs off. Typical. Terms: referral must be a new customer, install completed and paid in full.</p></div></details>
     </div>
   </div>
 </section>
@@ -981,7 +1097,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 <section id="book">
   <div class="wrap">
     <span class="eyebrow">Book Your Survey</span>
-    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">GET A QUOTE — IT LANDS STRAIGHT WITH US</h2>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem"><svg class="sec-ico"><use href="#i-book"/></svg>GET A QUOTE — IT LANDS STRAIGHT WITH US</h2>
     <p class="lead reveal">Fill this in — it lands straight on the site manager's WhatsApp and into our Netlify enquiry capture. No call centre, no "press 1 for sales". Call to get us booked in — see what we can save you with honesty and a full breakdown of cost.</p>
 
     <div style="display:grid;gap:2rem;margin-top:2rem" class="reveal">
@@ -1103,14 +1219,14 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
       </div>
     </div>
     <div>
-      <h4>Quick Nav</h4>
-      <a href="#pricing">Pricing</a>
-      <a href="#kit">The Kit</a>
-      <a href="#ai">AI Office</a>
-      <a href="#whitelabel">White-Label / Rent</a>
-      <a href="#gallery">Gallery</a>
-      <a href="#aftercare">Aftercare &amp; SEG</a>
-      <a href="#book">Book Survey</a>
+      <h4><svg class="ico" style="color:var(--teal);margin-right:.4rem"><use href="#i-home"/></svg>Quick Nav</h4>
+      <a href="#pricing"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-pound"/></svg>Pricing</a>
+      <a href="#kit"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-panel"/></svg>The Kit</a>
+      <a href="#ai"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-cpu"/></svg>AI Office</a>
+      <a href="#whitelabel"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-building"/></svg>White-Label / Rent</a>
+      <a href="#gallery"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-camera"/></svg>Gallery</a>
+      <a href="#aftercare"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-shield"/></svg>Aftercare &amp; SEG</a>
+      <a href="#book"><svg class="ico" style="width:.9em;height:.9em;margin-right:.4rem"><use href="#i-book"/></svg>Book Survey</a>
     </div>
     <div>
       <h4>Compliance Summary</h4>
@@ -1160,17 +1276,20 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 
 <!-- ==================== FLOATING AI CHAT ==================== -->
 <div id="ai-chat-widget">
-  <button id="ai-chat-toggle" aria-label="Open AI chat">AI</button>
+  <button id="ai-chat-toggle" aria-label="Open AI chat — ask about solar, batteries, EV chargers">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+  </button>
   <div id="ai-chat-panel">
-    <div class="ai-head">Insane Solar AI — ask me anything
+    <div class="ai-head">Insane Solar AI
       <button id="ai-chat-close" aria-label="Close chat" style="background:none;border:none;color:#0b0f19;font-size:1.3rem;font-weight:900;cursor:pointer;line-height:1">×</button>
     </div>
+    <div class="ai-hint">Ask me anything about solar, batteries, EV chargers…</div>
     <div id="ai-chat-messages">
       <div class="ai-msg">Hi — I'm the Insane Solar AI. Ask me about solar panels, costs, VAT, MCS, the deposit, or anything. I never certify — humans sign — but I'll explain it all in plain English.</div>
     </div>
     <div class="ai-input-row">
       <input id="ai-chat-input" type="text" placeholder="Ask a solar question..." aria-label="Solar question">
-      <button onclick="sendAiChat()">Send</button>
+      <button onclick="sendAiChat()" aria-label="Send message"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
     </div>
   </div>
 </div>
@@ -1212,29 +1331,51 @@ const CONFIG = {
   ]
 };
 
-/* KIT CATALOG — rendered into #kitGrid. Prices typical 2026, confirmed at survey. */
-const KIT = [
-  {icon:"panel", brand:"JA Solar", name:"DeepBlue 4.0 Pro panels", desc:"Budget Tier-1 buy — near-top specs at lower per-watt price. All-black option looks tidy on a bungalow roof.", price:"typical £110–£140/panel supplied", link:"https://www.jasolar.com/"},
-  {icon:"panel", brand:"Jinko Solar", name:"Tiger Neo N-Type panels", desc:"Tier-1 N-type TOPCon, widely stocked in the UK. All-black variants popular on residential roofs.", price:"typical £120–£150/panel supplied", link:"https://www.jinkosolar.com/"},
-  {icon:"panel", brand:"LONGi", name:"Hi-MO 6 / X6 panels", desc:"One of the world's biggest module makers — specified by Octopus and major UK installers. Solid, boring, lasts.", price:"typical £125–£155/panel supplied", link:"https://www.longi.com/"},
-  {icon:"bolt", brand:"GivEnergy", name:"Gen3 Hybrid inverter + battery", desc:"UK's most fitted home battery brand. Hybrid inverter + battery in one wall cabinet. 10ms backup if the grid dies.", price:"typical £4,500–£7,000 fitted (5–9.5kWh)", link:"https://www.givenergy.co.uk/"},
-  {icon:"bolt", brand:"Solis", name:"RHI Hybrid / S5 string inverter", desc:"Top-10 global brand, budget-friendly UK hybrid, widely stocked. Good honest workhorse for a tight budget.", price:"typical £700–£1,400 supplied", link:"https://www.solisinverters.co.uk/"},
-  {icon:"bolt", brand:"Huawei", name:"SUN2000 inverter + LUNA battery", desc:"Scalable modular battery, pairs only with Huawei inverters. FusionSolar cloud monitoring is the slickest out there.", price:"typical £1,000–£1,800 inverter supplied", link:"https://solar.huawei.com/"},
-  {icon:"bolt", brand:"Sunsynk", name:"ECCO / 8.8k Hybrid inverter", desc:"Very popular UK hybrid — takes both low and high voltage batteries, 10ms UPS backup. Fitter favourite.", price:"typical £1,100–£1,800 supplied", link:"https://sunsynk.net/"},
-  {icon:"bolt", brand:"SolarEdge", name:"Single-phase + power optimisers", desc:"Panel-level MPPT — the one you want on a shaded or awkward roof. Each panel does its own thing.", price:"typical £1,200–£2,000 supplied", link:"https://www.solaredge.com/uk"},
-  {icon:"car", brand:"myenergi", name:"zappi EV charger", desc:"Charges your car from surplus solar first — grid only when you need it. The one every EV bloke wants.", price:"typical £900–£1,200 fitted", link:"https://www.myenergi.com/products/zappi/"},
-  {icon:"hot", brand:"Marlec", name:"Solar iBoost+", desc:"Dumps surplus solar into your immersion heater — free hot water instead of exporting it for pennies. Cheap, clever, no battery needed.", price:"typical £300–£400 fitted", link:"https://www.marlec.co.uk/product/solar-iboost/"},
-  {icon:"rail", brand:"K2 / Schletter / Van der Valk", name:"Rails, roof hooks & legs", desc:"The aluminium skeleton that holds it all on. We match the hook to your tile type — slate, plain tile, interlocking, flat. The bit a salesman never checks.", price:"typical £60–£110/panel fitted", link:"https://www.k2-systems.com/"},
-  {icon:"clamp", brand:"Brand-agnostic", name:"Mid + end clamps, earthing lugs", desc:"Mid clamps hold panels together, end clamps lock the outer edges. Properly torqued. Earth lugs bond the frame — required, not optional.", price:"typical £15–£25/panel fitted", link:"https://www.schletter.co.uk/"}
+/* KIT CATALOG v3.3 — grouped by category, rendered into #kitGrid. Prices typical 2026 UK guide. */
+const KIT_CATEGORIES = [
+  {cat:"Solar Panels", icon:"panel", note:"Typical £150–£350 per panel supplied", items:[
+    {brand:"JA Solar", name:"DeepBlue 4.0 Pro", desc:"Tier-1 budget pick — near-top specs, all-black option.", price:"~£160–£240 each"},
+    {brand:"Jinko Solar", name:"Tiger Neo N-type", desc:"TOPCon N-type, widely stocked on UK roofs.", price:"~£170–£260 each"},
+    {brand:"Trina Solar", name:"Vertex S+", desc:"High-efficiency, strong UK warranty backup.", price:"~£180–£280 each"},
+    {brand:"Longi", name:"Hi-MO 6 / X6", desc:"Specified by Octopus & major UK installers.", price:"~£190–£300 each"},
+    {brand:"Panasonic / SunPower (Maxeon)", name:"Maxeon 6 / 7", desc:"Premium 40yr warranty, top-tier efficiency.", price:"~£280–£350 each"}
+  ]},
+  {cat:"Rails & Mounting", icon:"rail", note:"Typical £40–£90 per panel all-in (rails + hooks + clamps)", items:[
+    {brand:"Unirac", name:"SOLARMOUNT / RM", desc:"Aluminium rail system, UK stocked.", price:"~£45–£65/panel"},
+    {brand:"Van der Valk", name:"ValkPro+", desc:"Pitched-roof hook system, UK favourite.", price:"~£50–£75/panel"},
+    {brand:"K2 Systems", name:"MultiRail", desc:"Versatile — tile, slate, flat-roof options.", price:"~£50–£80/panel"},
+    {brand:"Schletter", name:"FixGrid / Rapid", desc:"German engineering, flat-roof strong.", price:"~£55–£90/panel"}
+  ]},
+  {cat:"Inverters", icon:"bolt", note:"Typical £800–£2,500 supplied", items:[
+    {brand:"Solis", name:"RHI Hybrid / S5", desc:"Budget workhorse, widely stocked.", price:"~£800–£1,400"},
+    {brand:"GivEnergy", name:"Gen3 Hybrid", desc:"UK's most fitted — pairs with Giv battery.", price:"~£1,000–£1,700"},
+    {brand:"SolarEdge", name:"Single-phase + optimisers", desc:"Panel-level MPPT — ideal for shaded roofs.", price:"~£1,200–£2,000"},
+    {brand:"Huawei", name:"SUN2000", desc:"FusionSolar cloud — pairs with LUNA battery.", price:"~£1,100–£1,900"},
+    {brand:"Fronius", name:"Primo / Symo", desc:"Austrian premium — 10yr warranty standard.", price:"~£1,400–£2,500"}
+  ]},
+  {cat:"Batteries", icon:"battery", note:"Typical £2,500–£9,000 fitted", items:[
+    {brand:"GivEnergy", name:"Gen3 5–13.5kWh", desc:"UK favourite — 10ms backup switching.", price:"~£2,500–£5,500"},
+    {brand:"Solis (RHI)", name:"S5-EH1P storage", desc:"Low-voltage, budget-friendly storage.", price:"~£2,800–£5,000"},
+    {brand:"Huawei LUNA", name:"5–15kWh modular", desc:"Pairs only with Huawei inverter.", price:"~£3,500–£7,000"},
+    {brand:"Tesla Powerwall", name:"Powerwall 3", desc:"13.5kWh — slick app, premium price.", price:"~£7,000–£9,000"},
+    {brand:"BYD Battery-Box", name:"Premium HVS / HVM", desc:"5–22kWh scalable LFP — safe chemistry.", price:"~£3,500–£8,000"}
+  ]},
+  {cat:"EV Chargers", icon:"car", note:"Typical £800–£1,600 fitted", items:[
+    {brand:"myenergi zappi", name:"v2 / v3", desc:"Surplus-solar-first charging — the EV bloke's pick.", price:"~£1,000–£1,400"},
+    {brand:"Hypervolt", name:"Hypervolt 2.0", desc:"Smart app, solar matching, compact UK design.", price:"~£900–£1,300"},
+    {brand:"Andersen A2", name:"A2", desc:"Sleek design, 7.4kW, app scheduling.", price:"~£1,100–£1,500"},
+    {brand:"Ohme", name:"ePod / Home Pro", desc:"Smart-tariff integration — great value.", price:"~£800–£1,200"}
+  ]}
 ];
 
 const KIT_ICONS = {
   panel:'<rect x="3" y="3" width="18" height="18" rx="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/>',
   bolt:'<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
-  car:'<path d="M5 17h14M5 17l1.5-5.5a2 2 0 0 1 1.9-1.5h7.2a2 2 0 0 1 1.9 1.5L19 17M7 17v2M17 17v2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/>',
+  car:'<path d="M5 17h14M5 17l1.5-5.5a2 2 0 0 1 1.9-1.5h7.2a2 2 0 0 1 1.9 1.5L19 17M7 17v2M17 17v2"/><circle cx="7.5" cy="17.5" r="1.5"/><circle cx="17.5" cy="17.5" r="1.5"/>',
   hot:'<path d="M12 2c1 3 4 4.5 4 8a4 4 0 0 1-8 0c0-1.5.5-2.5 1-3.5C10 9 12 8 12 2z"/>',
   rail:'<line x1="3" y1="8" x2="21" y2="8"/><line x1="3" y1="16" x2="21" y2="16"/><line x1="7" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="17" y2="20"/>',
-  clamp:'<path d="M6 3v6a6 6 0 0 0 12 0V3"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="12" y1="15" x2="12" y2="21"/>'
+  clamp:'<path d="M6 3v6a6 6 0 0 0 12 0V3"/><line x1="6" y1="21" x2="18" y2="21"/><line x1="12" y1="15" x2="12" y2="21"/>',
+  battery:'<rect x="1" y="6" width="18" height="12" rx="2"/><line x1="23" y1="13" x2="23" y2="11"/><line x1="5" y1="10" x2="5" y2="14"/><line x1="9" y1="10" x2="9" y2="14"/><line x1="13" y1="10" x2="13" y2="14"/>'
 };
 
 const COMPLIANCE = [
@@ -1264,21 +1405,26 @@ const COMPLIANCE = [
   set("urgentLineBook", function(el){ el.href = "tel:" + CONFIG.phone2; el.textContent = phone2Fmt; });
   set("footYear", function(el){ el.textContent = new Date().getFullYear(); });
 
-  /* ---------- Render KIT cards ---------- */
+    /* ---------- Render KIT cards (grouped by category) ---------- */
   var kitGrid = document.getElementById("kitGrid");
   if(kitGrid){
-    KIT.forEach(function(k){
-      var card = document.createElement("div");
-      card.className = "glass kit-card reveal";
-      var iconSvg = KIT_ICONS[k.icon] || KIT_ICONS.panel;
-      card.innerHTML =
-        '<div class="kit-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+iconSvg+'</svg></div>'+
-        '<span class="brand-tag">'+k.brand+'</span>'+
-        '<h3>'+k.name+'</h3>'+
-        '<p>'+k.desc+'</p>'+
-        '<div class="price">'+k.price+'<small>typical 2026 — call for exact quote</small></div>'+
-        '<a class="more" href="'+k.link+'" target="_blank" rel="noopener">View product info →</a>';
-      kitGrid.appendChild(card);
+    KIT_CATEGORIES.forEach(function(cat){
+      var head = document.createElement("div");
+      head.className = "kit-cat-head reveal";
+      head.innerHTML =
+        '<span class="kit-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(KIT_ICONS[cat.icon]||KIT_ICONS.panel)+'</svg></span>'+
+        '<div><h3>'+cat.cat+'</h3><p class="kit-cat-note">'+cat.note+'</p></div>';
+      kitGrid.appendChild(head);
+      cat.items.forEach(function(k){
+        var card = document.createElement("div");
+        card.className = "glass kit-card reveal";
+        card.innerHTML =
+          '<span class="brand-tag">'+k.brand+'</span>'+
+          '<h3>'+k.name+'</h3>'+
+          '<p>'+k.desc+'</p>'+
+          '<div class="price">'+k.price+'<small>Typical 2026 guide price, call for exact quote</small></div>';
+        kitGrid.appendChild(card);
+      });
     });
   }
 
@@ -1938,6 +2084,11 @@ document.getElementById('ai-chat-input') && document.getElementById('ai-chat-inp
 })();
 </script>
 
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+
+<!-- v3.3: mobile sticky bottom CTA bar (thumb-reachable, ≤640px) -->
+<div id="mobileBar" aria-label="Quick contact">
+  <a class="mb-call" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call</a>
+  <a class="mb-book" href="#book"><svg class="ico"><use href="#i-book"/></svg>Book Survey</a>
+</div>
 </body>
 </html>
