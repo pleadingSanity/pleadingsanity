@@ -671,7 +671,7 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 ## 2026-10-31 — Grok Bot: polish branch, Test Lab, Sanity's Songs
 - Branch: `grokbot/polish-ai-upgrades` (this work). Also open: PR #151 `grokbot/site-fixes-2026-10-31`. Do not merge either from an AI chat. Other AIs (Arron, Dola, GPT, Gemini, Copilot, Grok Bot) should rebase on these branches and not overwrite them.
 - Read with this file: `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `docs/MASTER_PROMPT.md`, `system_blueprint.json`.
-- Pending owner action for PR #151, not done here: Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and the Supabase migration. No keys are in the repo.
+- Pending owner action for PR #151, not done here: Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and the Supabase migration. This branch also needs `GEMINI_API_KEY` only if Shane wants the direct `gemini-2.5-flash` fallback. No keys are in the repo.
 - Changed here: kit and hero images on Insane Solar and the creator hero; owner Test Lab at the top of the signed-in Creators hub (`/api/test-lab`, migration `20261031193000_add_test_lab`); Pleading Sanity Music for audio Shane owns (`/music/index.html`, owner upload, Media Session); Sanity's Songs for other artists via the YouTube player only.
 
 ### TEST LAB
@@ -704,4 +704,15 @@ Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQ
 - Dead `shop.pleadingsanity.co.uk` product and Main Store links now go to `mailto:pleadingsanity1@gmail.com` as Register interest. Payhip, TikTok Shop and Instagram links were left.
 - Public page does not list supplier names, FOB targets, gsm, magnet specs or millimetre placements. The attached Rise From Madness HTML was a different purple layout with invented prices; that design and those prices were not copied. One line was used: "The pain didn't kill me. It made me art."
 - `movement.html` is the movement page. It still links to `/shop.html`. Its layout was not changed.
+- Not merged. Not on main.
+
+## 2026-10-31 — Grok Bot: Gemini direct fallback on the existing chain
+- Live Arron is `netlify/functions/arron.mts` plus `netlify/lib/ai-chain.ts`. There is no `netlify/functions/arron-chat.js`. Order stays GPT → Claude → Gemini → Grok.
+- Gateway Gemini still uses the chain model (`gemini-3.8-flash` in the soul file). If that hop times out, returns empty, or errors, and `GEMINI_API_KEY` is set, one retry calls `gemini-2.5-flash` through `@google/genai`. Each lab attempt is capped at 4.5s. The key is read from the environment and is not in the repo.
+- Needs owner, still unset in this chat: `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, `GEMINI_API_KEY`. A real Gemini key bills Google and turns off Netlify's Gemini gateway injection. Leave it unset to stay on the gateway. Netlify may inject a placeholder of the same name; the owner-status flag does not print the value.
+- Crisis is still classified in `arron.mts` before any provider call. Rate-limit crisis returns the signpost without a model. A crisis that is allowed through still gets 999, Samaritans 116 123, SHOUT 85258 and NHS 111 on the reply. `SAFETY_FIRST` stays at the front of the system prompt.
+- Skipped, on purpose:
+  - The attached Keep/notes script. It imports Firebase auth, renders note text with innerHTML, and puts the note in a Google Keep URL. The house already has `js/sanctuary-notes.js` (textContent, Netlify account notes, Keep opened without the note in the URL). Production auth stays Netlify Identity. Firebase stays the optional sidecar in `js/firebase.js`.
+  - Adding a gtag consent snippet. Journal, sanctuary, Arron and crisis pages have no Google Analytics tag. The site audit treats `gtag(` as a tracker failure.
+  - `docs/GEMINI_SYSTEMS_INTEGRATION_REPORT.md` is not in this repo, so it was not marked ready for deployment.
 - Not merged. Not on main.

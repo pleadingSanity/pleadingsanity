@@ -745,8 +745,10 @@ export default async (req: Request, context: Context) => {
         gateway: "availability not verified by this endpoint",
         grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY),
         openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY),
+        geminiKeyConfigured: Boolean((process.env.GEMINI_API_KEY || "").trim()),
+        geminiDirectModel: "gemini-2.5-flash",
         liveProviderHealth: "not tested",
-        note: "Configuration presence is not proof of a working AI response. No provider requests were made.",
+        note: "Configuration presence is not proof of a working AI response. No provider requests were made. GEMINI_API_KEY is the optional direct fallback. Netlify may inject a placeholder of that name for the gateway. This flag does not reveal the value.",
       });
     }
     if (route === "health") {

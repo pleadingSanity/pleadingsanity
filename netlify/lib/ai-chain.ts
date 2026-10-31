@@ -6,8 +6,12 @@
 // covenant.chain): welcoming a new model is one JSON block there.
 // NOTE: the soul file OVERRIDES the fallback list below, so the order
 // in covenant.chain must also be GPT, Claude, Gemini, Grok.
-// Claude, GPT and Gemini go through Netlify AI Gateway — no keys in code.
-// Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
+// Claude, GPT and the first Gemini hop go through Netlify AI Gateway — no keys in code.
+// If that Gemini hop times out, comes back empty, or errors, one more try uses
+// gemini-2.5-flash. That try reads GEMINI_API_KEY from the environment. The key
+// is never written here. While GOOGLE_GEMINI_BASE_URL is set, that retry stays
+// on the gateway. A real owner key replaces the gateway injection, so the retry
+// then calls Google directly. Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
 // and an older copy as xAI_KEY. Either name is enough. No key is written here.
 // If neither name is set, he sits this one out.
 // COST GUARDS: no hidden SDK retries (the chain itself is the retry), one hard
@@ -20,9 +24,17 @@ import OpenAI from "openai";
 import { GoogleGenAI } from "@google/genai";
 import { SOUL } from "./arron-knowledge.js";
 import { allowToday } from "./rate-limit.js";
+import {
+  GEMINI_DIRECT_MODEL,
+  GEMINI_GOOGLE_BASE,
+  GEMINI_STEP_MS,
+  geminiDirectRequest,
+  readGeminiKey,
+  walkProviders,
+} from "./provider-fallback.js";
 
-// Every lab gets at most 8s so a slow or hung provider hands over to the next one quickly. No single point of failure.
-const LAB_TIMEOUT_MS = 8_000;
+// Every lab gets at most 4.5s. A timeout steps down to the next mind. No single point of failure.
+const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
 // An attempt is not started with less than this left: it would only bill and then be cut off.
 const MIN_ATTEMPT_MS = 2_500;
 // maxRetries 0 everywhere: an SDK retry is a second paid call the chain cannot see, and on an
@@ -176,11 +188,53 @@ async function callOpenAI(model: string, system: string, turns: Turn[], maxToken
   return (res.choices[0]?.message?.content ?? "").trim();
 }
 
-// One call to one mind. `deadline` (epoch ms) is a hard stop: the request is aborted when it passes.
-export async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number, deadline = defaultDeadline()) {
-  if (provider === "grok") return callGrok(model, system, turns, maxTokens, deadline);
-  if (provider === "openai") return callOpenAI(model, system, turns, maxTokens, deadline);
-  if (provider === "gemini") {
+const geminiOnGateway = () => Boolean((process.env.GOOGLE_GEMINI_BASE_URL || "").trim());
+let geminiDirect: GoogleGenAI | null = null;
+
+type GeminiGenerate = (request: {
+  model: string;
+  contents: unknown;
+  config: Record<string, unknown>;
+}) => Promise<{ text?: string }>;
+
+// Second Gemini try. Gateway model first is askGemini. This uses gemini-2.5-flash.
+// generate is for tests. Production reads GEMINI_API_KEY and never logs it.
+export async function callGeminiFallback(
+  messages: Turn[],
+  systemPrompt: string,
+  deadline = defaultDeadline(),
+  generate?: GeminiGenerate,
+) {
+  if (!generate) readGeminiKey();
+  const ms = Math.min(GEMINI_STEP_MS, deadline - Date.now());
+  if (ms < MIN_ATTEMPT_MS) throw new OutOfTime("time budget spent");
+  const request = geminiDirectRequest(messages, systemPrompt);
+  const onGateway = geminiOnGateway();
+  const config = {
+    ...request.config,
+    abortSignal: AbortSignal.timeout(ms),
+    httpOptions: { timeout: ms, ...(onGateway ? {} : { baseUrl: GEMINI_GOOGLE_BASE }) },
+  };
+  const response = generate
+    ? await generate({ model: request.model, contents: request.contents, config })
+    : await geminiClient(onGateway).models.generateContent({ model: request.model, contents: request.contents, config });
+  return (response.text ?? "").trim();
+}
+
+function geminiClient(onGateway: boolean) {
+  if (onGateway) return gemini;
+  if (!geminiDirect) {
+    geminiDirect = new GoogleGenAI({
+      apiKey: readGeminiKey(),
+      httpOptions: { timeout: GEMINI_STEP_MS, baseUrl: GEMINI_GOOGLE_BASE },
+    });
+  }
+  return geminiDirect;
+}
+
+async function askGemini(model: string, system: string, turns: Turn[], maxTokens: number, deadline: number) {
+  let gatewayError: unknown = null;
+  try {
     const { timeout, signal } = slot(deadline);
     // Gemini's abort stops the wait on our side; the SDK notes it may not cancel the work on Google's side.
     const res = await gemini.models.generateContent({
@@ -188,8 +242,29 @@ export async function ask(provider: Provider, model: string, system: string, tur
       contents: turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
       config: { systemInstruction: system, maxOutputTokens: maxTokens * 4, abortSignal: signal, httpOptions: { timeout } },
     });
-    return (res.text ?? "").trim();
+    const text = (res.text ?? "").trim();
+    if (text) return { text, model };
+    gatewayError = new Error("empty reply");
+  } catch (error) {
+    if (error instanceof OutOfTime) throw error;
+    const status = (error as { status?: unknown }).status;
+    // The same direct account already refused. A second model name would bill the same refusal.
+    if (!geminiOnGateway() && (status === 402 || status === 429)) throw error;
+    gatewayError = error;
   }
+  if (!(process.env.GEMINI_API_KEY || "").trim()) {
+    throw gatewayError instanceof Error ? gatewayError : new Error("Gemini was quiet");
+  }
+  console.warn(`AI chain: ${model} unavailable (${why(gatewayError)}), trying ${GEMINI_DIRECT_MODEL}`);
+  const text = await callGeminiFallback(turns, system, deadline);
+  return { text, model: GEMINI_DIRECT_MODEL };
+}
+
+// One call to one mind. `deadline` (epoch ms) is a hard stop: the request is aborted when it passes.
+export async function ask(provider: Provider, model: string, system: string, turns: Turn[], maxTokens: number, deadline = defaultDeadline()) {
+  if (provider === "grok") return callGrok(model, system, turns, maxTokens, deadline);
+  if (provider === "openai") return callOpenAI(model, system, turns, maxTokens, deadline);
+  if (provider === "gemini") return (await askGemini(model, system, turns, maxTokens, deadline)).text;
   const res = await anthropic.messages.create({ model, max_tokens: maxTokens, system, messages: turns }, slot(deadline));
   return res.content
     .map((block) => (block.type === "text" ? block.text : ""))
@@ -299,36 +374,59 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
   const deadline = deadlineFor(opts);
   await admit(opts);
   const context = fitTurns(turns);
+  const callers: Record<string, () => Promise<{ text: string; model: string } | string>> = {};
   for (const link of CHAIN) {
-    if (link.provider === "grok" && !grok) continue; // neither GROK_API_KEY nor xAI_KEY is set
-    if (isCircuitOpen(link.provider)) {
-      console.warn(`[AI-HOP-SKIP] hop=${link.provider} circuit open`);
-      continue;
-    }
-    const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
-    let hopSucceeded = false;
-    let hopFailure = "empty-or-failed";
-    for (const model of models) {
-      try {
-        const text = await ask(link.provider, model, system, context, maxTokens, deadline);
-        if (text) {
-          recordHop(link.provider, true);
-          hopSucceeded = true;
-          return { text, provider: link.provider, model };
-        }
-        console.warn(`AI chain: empty reply from ${model}, trying the next`);
-      } catch (error) {
-        if (error instanceof OutOfTime) throw new Error("Every AI provider failed (time budget spent)");
-        hopFailure = why(error);
-        console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
+    callers[link.provider] = async () => {
+      if (link.provider === "grok" && !grok) return ""; // neither GROK_API_KEY nor xAI_KEY is set
+      if (isCircuitOpen(link.provider)) {
+        console.warn(`[AI-HOP-SKIP] hop=${link.provider} circuit open`);
+        return "";
       }
-    }
-    // One hop counts once, however many of its models were tried.
-    if (!hopSucceeded) recordHop(link.provider, false, hopFailure);
+      if (link.provider === "gemini") {
+        try {
+          const got = await askGemini(link.model, system, context, maxTokens, deadline);
+          if (got.text) {
+            recordHop(link.provider, true);
+            return got;
+          }
+          recordHop(link.provider, false, "empty");
+          return "";
+        } catch (error) {
+          if (error instanceof OutOfTime) throw error;
+          recordHop(link.provider, false, why(error));
+          throw error;
+        }
+      }
+      const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
+      let hopFailure = "empty-or-failed";
+      for (const model of models) {
+        try {
+          const text = await ask(link.provider, model, system, context, maxTokens, deadline);
+          if (text) {
+            recordHop(link.provider, true);
+            return { text, model };
+          }
+          console.warn(`AI chain: empty reply from ${model}, trying the next`);
+        } catch (error) {
+          if (error instanceof OutOfTime) throw error;
+          hopFailure = why(error);
+          console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
+        }
+      }
+      // One hop counts once, however many of its models were tried.
+      recordHop(link.provider, false, hopFailure);
+      return "";
+    };
   }
-  const spare = spares ? await runSpares(system, context, maxTokens, deadline) : null;
-  if (spare) return spare;
-  throw new Error("Every AI provider failed");
+  try {
+    const won = await walkProviders(CHAIN.map((link) => link.provider), callers);
+    return { text: won.text, provider: won.provider as Provider, model: won.model };
+  } catch (error) {
+    if (error instanceof OutOfTime) throw new Error("Every AI provider failed (time budget spent)");
+    const spare = spares ? await runSpares(system, context, maxTokens, deadline) : null;
+    if (spare) return spare;
+    throw new Error("Every AI provider failed");
+  }
 }
 
 // The Owner's "one family" reply: one mind drafts, a different mind checks and improves it.
