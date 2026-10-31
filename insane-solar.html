@@ -171,7 +171,11 @@ td.bigco{color:#fca5a5;font-weight:700}
 .kit-group{position:relative;overflow:hidden;border-radius:18px;border:1px solid rgba(56,189,248,.22);margin-top:1.4rem;padding:1rem .9rem 1.1rem;background:#0b0f19}
 .kit-group-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .kit-group-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(11,15,25,.78),rgba(11,15,25,.92))}
-.kit-group .kit-cat-head,.kit-group .kit-group-cards{position:relative;z-index:2}
+.kit-group .kit-cat-head,.kit-group .kit-group-cards,.kit-group .kit-figures{position:relative;z-index:2}
+.kit-figures{display:flex;flex-wrap:wrap;gap:.75rem;margin:.15rem 0 .9rem}
+.kit-figures figure{margin:0;width:min(100%,168px)}
+.kit-figures img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid rgba(0,255,240,.28)}
+.kit-figures figcaption{margin-top:.35rem;font-size:.75rem;line-height:1.35;color:#cbd5e1}
 .kit-group .kit-cat-head{margin-top:0;background:transparent}
 .kit-group-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:.8rem}
 .kit-group .kit-card{background:rgba(11,15,25,.72);border-color:rgba(226,232,240,.22)}
@@ -643,7 +647,7 @@ details.lm>.lm-body{margin-top:1rem}
         </tbody>
       </table>
     </div>
-    <p class="note">All figures typical 2026 — verify at sign-up, varies by roof, orientation, shading and access. 0% VAT to 31 March 2027 subject to eligibility (reverts to 5% from 1 April 2027). Battery prices vary by brand and capacity. We give you a full line-by-line breakdown at survey — no surprises.</p>
+    <p class="note">All figures typical 2026 — verify at sign-up, varies by roof, orientation, shading and access. 0% VAT on solar and batteries runs to 31 Mar 2027, subject to eligibility. <a href="https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086">HMRC guidance</a> says 5% applies from 1 Apr 2027. Battery prices vary by brand and capacity. We give you a full line-by-line breakdown at survey — no surprises.</p>
 
     <div style="margin-top:2rem" class="reveal">
       <a class="btn btn-primary" href="tel:+447711147663"><svg class="ico"><use href="#i-phone"/></svg>Call for your full cost breakdown</a>
@@ -1376,12 +1380,35 @@ const KIT_CATEGORIES = [
   ]}
 ];
 
+const KIT_CAPTION = "Generic illustration. Not a specific brand.";
+const KIT_FIGURES = {
+  "Solar Panels": [
+    {src:"images/solar-kit/solar-panel-black.webp", alt:"All-black monocrystalline solar panel with a teal rim light on a dark starry backdrop", w:1024, h:1024},
+    {src:"images/solar-kit/solar-panel-cells-closeup.webp", alt:"Close-up of black solar cells with silver busbars catching teal and amber light", w:1024, h:1024}
+  ],
+  "Rails & Mounting": [
+    {src:"images/solar-kit/mounting-rails-clamps.webp", alt:"Silver aluminium mounting rails and clamps on a dark backdrop", w:1024, h:1024},
+    {src:"images/solar-kit/roof-hook.webp", alt:"Stainless steel solar roof hook bracket lit in teal and amber", w:1024, h:1024}
+  ],
+  "Inverters": [
+    {src:"images/solar-kit/string-inverter.webp", alt:"Unbranded white solar string inverter with cooling fins", w:1024, h:1024},
+    {src:"images/solar-kit/hybrid-inverter.webp", alt:"Unbranded hybrid inverter with cable glands and isolator switch", w:1024, h:1024}
+  ],
+  "Batteries": [
+    {src:"images/solar-kit/battery-wall.webp", alt:"Slim wall-mounted home battery with a teal indicator light", w:1024, h:1024},
+    {src:"images/solar-kit/battery-stack.webp", alt:"Floor-standing modular home battery stack with teal lights", w:1024, h:1024}
+  ],
+  "EV Chargers": [
+    {src:"images/solar-kit/ev-charger-wall.webp", alt:"Wall-mounted EV charger with a teal ring light and coiled cable", w:1024, h:1024},
+    {src:"images/solar-kit/ev-charger-cable.webp", alt:"Type 2 EV charging connector with a coiled black cable", w:1024, h:1024}
+  ]
+};
 const KIT_VISUALS = {
-  "Solar Panels": {src:"images/kit-solar-panel.webp", alt:"Generic all-black solar panel on a dark starry background with teal and amber edge light", w:1152, h:864},
-  "Rails & Mounting": {src:"images/kit-mounting-rails.webp", alt:"Silver aluminium mounting rails, roof hooks and clamps laid out on a dark background", w:1152, h:864},
-  "Inverters": {src:"images/kit-inverter.webp", alt:"Generic wall-mounted hybrid inverter in grey and silver with a teal status light", w:1152, h:864},
-  "Batteries": {src:"images/kit-battery.webp", alt:"Generic home battery cabinet in silver with an amber level light", w:1152, h:864},
-  "EV Chargers": {src:"images/kit-ev-charger.webp", alt:"Generic wall-mounted EV charger with coiled cable and a teal ring light", w:1152, h:864}
+  "Solar Panels": KIT_FIGURES["Solar Panels"][0],
+  "Rails & Mounting": KIT_FIGURES["Rails & Mounting"][0],
+  "Inverters": KIT_FIGURES["Inverters"][0],
+  "Batteries": KIT_FIGURES["Batteries"][0],
+  "EV Chargers": KIT_FIGURES["EV Chargers"][0]
 };
 
 const KIT_ICONS = {
@@ -1401,7 +1428,7 @@ const COMPLIANCE = [
   {title:"EPC", desc:"Energy Performance Certificate. Not required for SEG signup. We still check it at survey so you know where you stand."},
   {title:"Part P via NAPIT", desc:"Building control notification through NAPIT. Electrical Installation Certificate signed by our registered electrician — AI logs and sends docs."},
   {title:"HIES", desc:"Deposit protection and insurance-backed guarantee arranged through HIES where membership is in place. If we go under, HIES covers you."},
-  {title:"0% VAT", desc:"0% VAT on solar + battery to 31 March 2027, subject to eligibility. Reverts to 5% from 1 April 2027. We confirm eligibility at survey."},
+  {title:"0% VAT", desc:"0% VAT on solar and batteries runs to 31 March 2027, subject to eligibility. <a href=\"https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086\">HMRC guidance</a> says 5% applies from 1 April 2027. We confirm eligibility at survey."},
   {title:"SEG Signup", desc:"MPAN setup and Smart Export Guarantee signup after install — typical 3–15p/kWh flat, up to ~27–30p peak with a battery on smart tariffs."}
 ];
 
@@ -1433,7 +1460,8 @@ const COMPLIANCE = [
         var bg = document.createElement("img");
         bg.className = "kit-group-bg";
         bg.src = visual.src;
-        bg.alt = visual.alt;
+        bg.alt = "";
+        bg.setAttribute("aria-hidden", "true");
         bg.width = visual.w;
         bg.height = visual.h;
         bg.loading = "lazy";
@@ -1449,6 +1477,23 @@ const COMPLIANCE = [
       head.innerHTML =
         '<span class="kit-cat-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+(KIT_ICONS[cat.icon]||KIT_ICONS.panel)+'</svg></span>'+
         '<div><h3>'+cat.cat+'</h3><p class="kit-cat-note">'+cat.note+'</p></div>';
+      var figures = document.createElement("div");
+      figures.className = "kit-figures";
+      (KIT_FIGURES[cat.cat] || []).forEach(function(fig){
+        var item = document.createElement("figure");
+        var pic = document.createElement("img");
+        pic.src = fig.src;
+        pic.alt = fig.alt;
+        pic.width = fig.w;
+        pic.height = fig.h;
+        pic.loading = "lazy";
+        pic.decoding = "async";
+        var cap = document.createElement("figcaption");
+        cap.textContent = KIT_CAPTION;
+        item.appendChild(pic);
+        item.appendChild(cap);
+        figures.appendChild(item);
+      });
       var cards = document.createElement("div");
       cards.className = "kit-group-cards";
       cat.items.forEach(function(k){
@@ -1462,6 +1507,7 @@ const COMPLIANCE = [
         cards.appendChild(card);
       });
       group.appendChild(head);
+      group.appendChild(figures);
       group.appendChild(cards);
       kitGrid.appendChild(group);
     });

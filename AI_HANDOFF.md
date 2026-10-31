@@ -1,5 +1,14 @@
 # PLEADING SANITY — MASTER HANDOFF (Dola 31 Oct 2026 — read this FIRST)
 
+## 2026-10-31 — Grok, solar kit pictures and VAT line (branch `grokbot/polish-ai-upgrades`, not merged)
+
+- Ten generic solar illustrations are in `images/solar-kit/` and sit behind and beside the kit categories on `insane-solar.html`. Each caption says they are not a specific brand. The four clothing mockups were not added. `shop.html` is unchanged.
+- Solar pages say 0% VAT on solar and batteries runs to 31 Mar 2027, subject to eligibility, and link HMRC Notice 708/6 for the 5% rate from 1 Apr 2027.
+- `netlify/lib/solar-knowledge.ts` now includes the Warm Homes Loan caps (up to £15,000 solar and up to £15,000 battery, subject to eligibility), the G98 plug-in route for a compliant kit of 800 W or less since 27 August 2026, and the open MCS 042 battery product-standard consultation (comments to 10 November 2026). The assistant still does not certify.
+- PR #152 is already merged. This follow-up is the open pull request on the same branch. Clothing placeholders were refused by Shane.
+
+---
+
 ## 2026-10-31 — Grok, cards, links, backend audit (branch `grokbot/polish-ai-upgrades`, PR #152, not merged)
 
 Verified in this repo, not assumed from a prompt:

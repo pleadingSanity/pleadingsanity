@@ -1,0 +1,92 @@
+[
+  {
+    "slug": "solar-panel-black",
+    "image": "/images/solar-kit/solar-panel-black.webp",
+    "alt": "All-black monocrystalline solar panel with a teal rim light on a dark starry backdrop",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "solar-panel-cells-closeup",
+    "image": "/images/solar-kit/solar-panel-cells-closeup.webp",
+    "alt": "Close-up of black solar cells with silver busbars catching teal and amber light",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "mounting-rails-clamps",
+    "image": "/images/solar-kit/mounting-rails-clamps.webp",
+    "alt": "Silver aluminium mounting rails and clamps on a dark backdrop",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "roof-hook",
+    "image": "/images/solar-kit/roof-hook.webp",
+    "alt": "Stainless steel solar roof hook bracket lit in teal and amber",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "string-inverter",
+    "image": "/images/solar-kit/string-inverter.webp",
+    "alt": "Unbranded white solar string inverter with cooling fins",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "hybrid-inverter",
+    "image": "/images/solar-kit/hybrid-inverter.webp",
+    "alt": "Unbranded hybrid inverter with cable glands and isolator switch",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "battery-wall",
+    "image": "/images/solar-kit/battery-wall.webp",
+    "alt": "Slim wall-mounted home battery with a teal indicator light",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "battery-stack",
+    "image": "/images/solar-kit/battery-stack.webp",
+    "alt": "Floor-standing modular home battery stack with teal lights",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "ev-charger-wall",
+    "image": "/images/solar-kit/ev-charger-wall.webp",
+    "alt": "Wall-mounted EV charger with a teal ring light and coiled cable",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "ev-charger-cable",
+    "image": "/images/solar-kit/ev-charger-cable.webp",
+    "alt": "Type 2 EV charging connector with a coiled black cable",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
+  }
+]
