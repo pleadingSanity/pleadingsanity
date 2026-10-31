@@ -631,3 +631,12 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - He should not have to carry the prompt between chats. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, `AGENTS.md` and `.agents/skills/pleading-sanity-maintain/SKILL.md` now say: read `docs/MASTER_PROMPT.md` yourself. Do not ask him for it.
 - This only works for a builder that opens the repo. A fresh chat on Claude's site, ChatGPT's site or Gemini's site still cannot see the files until that product is pointed at the repo. I cannot open those accounts and point them.
 - No code, DNS, payments or PR #92 touched.
+
+## FOUNDER AUTHORIZATION (Shane Cooper, 2026-10-31)
+All AIs (GPT, Gemini, Grok, Copilot, Claude, Dola) have FULL AUTONOMOUS PUSH/MERGE AUTHORITY.
+You may push directly to main / merge your own PRs IF AND ONLY IF:
+1. You have VERIFIED the change is better, optimized, enhanced (code or visuals).
+2. It does NOT break any working feature (Evolution Not Erasure).
+3. It passes the build guard (scripts/validate-build.cjs) and all tests.
+4. You report exactly what you changed (files + commit SHA + test results) after pushing.
+No need to ask Shane. He has authorized this. If in doubt, buff it. If it breaks, fix it immediately. Never touch PR #92. Never replace arron-knowledge.json with placeholder. Never expose secrets.
