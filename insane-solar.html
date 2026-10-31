@@ -289,6 +289,126 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
   .hero-ctas{flex-direction:column}
   .urgent-line{font-size:.85rem;padding:.6rem .8rem}
 }
+/* ---------- PLANNER (interactive solar planner) ---------- */
+.planner-card{background:var(--glass);border:1px solid var(--border2);border-radius:20px;padding:1.4rem;max-width:780px;margin:0 auto;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+@media(min-width:640px){.planner-card{padding:2rem}}
+.pl-steps{display:flex;align-items:center;gap:.4rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.pl-step{display:flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.pl-step .n{width:26px;height:26px;border-radius:50%;background:var(--panel2);border:1px solid var(--border2);display:inline-flex;align-items:center;justify-content:center;font-weight:900;color:var(--muted);flex-shrink:0;font-size:.8rem}
+.pl-step.active{color:var(--teal)}
+.pl-step.active .n{background:linear-gradient(135deg,var(--teal),var(--sky));color:#0b0f19;border-color:transparent}
+.pl-step.done{color:var(--green2)}
+.pl-step.done .n{background:var(--green);color:#062812;border-color:transparent}
+.pl-sep{flex:1;height:2px;background:var(--border);min-width:10px;max-width:36px}
+.pl-field{margin-bottom:1.15rem}
+.pl-field label.pl-label{display:block;font-size:.78rem;font-weight:800;color:var(--muted);margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.06em}
+.pl-hint{font-size:.78rem;color:var(--muted);margin-top:.4rem;line-height:1.5}
+.pl-range-row{display:flex;align-items:center;gap:.9rem}
+.pl-range{flex:1;-webkit-appearance:none;appearance:none;height:8px;border-radius:999px;background:linear-gradient(90deg,var(--teal),var(--sky));outline:none;min-width:0}
+.pl-range::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;border-radius:50%;background:var(--heading);border:3px solid var(--teal);cursor:pointer;box-shadow:0 4px 14px rgba(0,255,240,.4)}
+.pl-range::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--heading);border:3px solid var(--teal);cursor:pointer}
+.pl-readout{font-family:'Archivo Black','Archivo',sans-serif;font-size:1.3rem;color:var(--teal);min-width:68px;text-align:right;flex-shrink:0}
+.pl-seg{display:flex;gap:.5rem;flex-wrap:wrap}
+.pl-seg button{flex:1;min-width:100px;padding:.65rem .5rem;border-radius:10px;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);font-family:inherit;font-weight:800;font-size:.82rem;cursor:pointer;transition:all .15s;min-height:46px}
+.pl-seg button.on{background:linear-gradient(135deg,var(--teal),var(--sky));color:#0b0f19;border-color:transparent}
+.pl-toggle{display:flex;gap:.5rem;flex-wrap:wrap}
+.pl-toggle button{flex:1;min-width:130px;padding:.65rem .6rem;border-radius:10px;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);font-family:inherit;font-weight:800;cursor:pointer;min-height:46px;font-size:.85rem}
+.pl-toggle button.on{background:linear-gradient(135deg,var(--green),var(--green2));color:#062812;border-color:transparent}
+.pl-results{display:none;margin-top:1.6rem}
+.pl-results.show{display:block;animation:plfade .5s ease}
+@keyframes plfade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.pl-hero-out{background:linear-gradient(135deg,rgba(0,255,240,.12),rgba(56,189,248,.07));border:1px solid rgba(0,255,240,.3);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1.1rem}
+.pl-hero-out .big{font-family:'Archivo Black','Archivo',sans-serif;font-size:clamp(1.1rem,4.5vw,1.6rem);color:var(--heading);line-height:1.25}
+.pl-hero-out .big span{color:var(--teal)}
+.pl-spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;margin-bottom:1.1rem}
+@media(min-width:560px){.pl-spec-grid{grid-template-columns:repeat(3,1fr)}}
+.pl-spec{background:var(--panel2);border:1px solid var(--border);border-radius:12px;padding:.7rem .8rem}
+.pl-spec .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:800}
+.pl-spec .v{font-family:'Archivo Black','Archivo',sans-serif;font-size:1.05rem;color:var(--heading);margin-top:.2rem;line-height:1.2}
+.pl-spec .sub{font-size:.68rem;color:var(--muted);margin-top:.15rem}
+.pl-tiers{display:grid;grid-template-columns:1fr;gap:.7rem;margin-bottom:1.1rem}
+@media(min-width:760px){.pl-tiers{grid-template-columns:repeat(3,1fr)}}
+.pl-tier{background:var(--panel2);border:1px solid var(--border2);border-radius:14px;padding:1rem;display:flex;flex-direction:column}
+.pl-tier.hot{border-color:var(--amber);box-shadow:0 0 0 1px rgba(245,158,11,.25),0 14px 34px -16px rgba(245,158,11,.35)}
+.pl-tier .tag{font-size:.66rem;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:.35rem}
+.pl-tier.hot .tag{color:var(--amber)}
+.pl-tier .name{font-family:'Archivo Black','Archivo',sans-serif;font-size:1rem;color:var(--heading);margin-bottom:.25rem;line-height:1.2}
+.pl-tier .price{font-family:'Archivo Black','Archivo',sans-serif;font-size:1.4rem;color:var(--teal);margin:.35rem 0 .1rem}
+.pl-tier.hot .price{color:var(--amber)}
+.pl-tier .price-sub{font-size:.7rem;color:var(--muted);margin-bottom:.4rem}
+.pl-tier ul{list-style:none;margin:.4rem 0 .8rem;font-size:.8rem;color:var(--muted);line-height:1.5}
+.pl-tier ul li{padding-left:.9rem;position:relative;margin-bottom:.25rem}
+.pl-tier ul li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--teal)}
+.pl-tier .wa-btn{margin-top:auto;width:100%;text-align:center;padding:.7rem .8rem;font-size:.85rem;min-height:46px}
+.pl-actions{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.1rem}
+@media(min-width:600px){.pl-actions{flex-direction:row;flex-wrap:wrap}}
+.pl-actions .btn{flex:1;min-width:180px;width:100%}
+@media(min-width:600px){.pl-actions .btn{width:auto}}
+.pl-parts{display:none;background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1.1rem}
+.pl-parts.show{display:block}
+.pl-line{display:flex;justify-content:space-between;gap:1rem;padding:.5rem 0;border-bottom:1px dashed var(--border);font-size:.86rem}
+.pl-line:last-of-type{border-bottom:none}
+.pl-line .desc{color:var(--text);min-width:0}
+.pl-line .amt{color:var(--heading);font-weight:800;white-space:nowrap;flex-shrink:0}
+.pl-subtotal{display:flex;justify-content:space-between;gap:1rem;padding-top:.6rem;margin-top:.3rem;border-top:2px solid var(--border2);font-family:'Archivo Black','Archivo',sans-serif;font-size:1.05rem}
+.pl-subtotal .amt{color:var(--amber);white-space:nowrap}
+.pl-map-panel{display:none;background:var(--panel2);border:1px solid var(--border);border-radius:14px;padding:1rem 1.1rem;margin-bottom:1.1rem}
+.pl-map-panel.show{display:block}
+.pl-designs{display:grid;grid-template-columns:1fr;gap:.6rem;margin-top:.9rem}
+@media(min-width:560px){.pl-designs{grid-template-columns:repeat(3,1fr)}}
+.pl-design{border:1px solid var(--border2);border-radius:12px;overflow:hidden;background:var(--panel)}
+.pl-design .thumb{height:88px;position:relative;overflow:hidden}
+.pl-design .thumb.t1{background:linear-gradient(135deg,#0c4a6e,#0f766e 55%,#f59e0b)}
+.pl-design .thumb.t2{background:linear-gradient(135deg,#134e4a,#0e7490 50%,#22c55e)}
+.pl-design .thumb.t3{background:linear-gradient(135deg,#422006,#b45309 55%,#38bdf8)}
+.pl-design .thumb::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(0,0,0,.28) 0 13px,transparent 13px 19px)}
+.pl-design .lbl{padding:.55rem .65rem;font-size:.78rem;font-weight:800;color:var(--text)}
+.pl-design .sub{padding:0 .65rem .65rem;font-size:.7rem;color:var(--muted);line-height:1.4}
+.pl-note{font-size:.76rem;color:var(--muted);line-height:1.55;margin-top:.7rem}
+/* AI typing indicator — three bouncing dots */
+.ai-typing{display:inline-flex;gap:5px;align-items:center;padding:12px 14px}
+.ai-typing span{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:aibounce 1.2s infinite ease-in-out}
+.ai-typing span:nth-child(2){animation-delay:.18s}
+.ai-typing span:nth-child(3){animation-delay:.36s}
+@keyframes aibounce{0%,80%,100%{transform:scale(.55);opacity:.45}40%{transform:scale(1);opacity:1}}
+/* ---------- HAVE SOLAR (already-got-solar help + donate) ---------- */
+.hs-grid{display:grid;grid-template-columns:1fr;gap:.8rem;margin-top:2rem}
+@media(min-width:640px){.hs-grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.hs-grid{grid-template-columns:repeat(3,1fr)}}
+.hs-card{background:var(--glass);border:1px solid var(--border2);border-radius:16px;padding:1.1rem;display:flex;flex-direction:column;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .2s,border-color .2s}
+.hs-card:hover{border-color:rgba(34,197,94,.4);transform:translateY(-2px)}
+.hs-card .prob{font-family:'Archivo Black','Archivo',sans-serif;font-size:.95rem;color:var(--heading);line-height:1.25;margin-bottom:.35rem}
+.hs-card .prob .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--amber);margin-right:.45rem;vertical-align:middle;flex-shrink:0}
+.hs-card .why{font-size:.76rem;color:var(--amber2);font-weight:700;margin-bottom:.55rem;line-height:1.4}
+.hs-card ul{list-style:none;margin:0 0 .7rem;font-size:.8rem;color:var(--muted);line-height:1.5}
+.hs-card ul li{padding-left:.9rem;position:relative;margin-bottom:.3rem}
+.hs-card ul li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--green)}
+.hs-card .orcall{margin-top:auto;font-size:.75rem;color:var(--green2);font-weight:700;line-height:1.4;padding-top:.6rem;border-top:1px dashed var(--border)}
+.hs-seg{background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(245,158,11,.08));border:1px solid rgba(34,197,94,.3);border-radius:16px;padding:1.2rem 1.3rem;margin-top:2rem}
+.hs-seg h3{font-family:'Archivo Black','Archivo',sans-serif;font-size:1.1rem;margin-bottom:.5rem;color:var(--heading)}
+.hs-seg ol{margin:.5rem 0 0 1.1rem;font-size:.86rem;color:var(--text);line-height:1.6}
+.hs-seg ol li{margin-bottom:.35rem}
+.hs-providers{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.8rem}
+.hs-providers span{background:var(--panel2);border:1px solid var(--border2);border-radius:999px;padding:.35rem .8rem;font-size:.76rem;font-weight:800;color:var(--text)}
+.hs-seg .kickback{font-size:.76rem;color:var(--muted);margin-top:.8rem;font-style:italic}
+.hs-funny{font-family:'Archivo Black','Archivo',sans-serif;font-size:clamp(1.15rem,4vw,1.6rem);color:var(--green2);text-align:center;margin-top:2.2rem;line-height:1.3}
+.hs-honest{background:var(--glass);border:1px solid var(--border2);border-radius:16px;padding:1.2rem 1.3rem;margin-top:1.2rem;font-size:.92rem;color:var(--text);line-height:1.65}
+.hs-actions{display:flex;flex-direction:column;gap:.6rem;margin-top:1rem}
+@media(min-width:560px){.hs-actions{flex-direction:row;flex-wrap:wrap}}
+.hs-actions .btn{flex:1;min-width:180px;width:100%}
+@media(min-width:560px){.hs-actions .btn{width:auto}}
+.hs-donate{background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(0,255,240,.07));border:1px solid rgba(245,158,11,.35);border-radius:18px;padding:1.4rem 1.5rem;margin-top:1.6rem;text-align:center}
+.hs-donate blockquote{border-left:4px solid var(--amber);padding:.6rem 0 .6rem 1.2rem;margin:0 auto 1.2rem;max-width:680px;text-align:left;font-family:'Archivo',sans-serif;font-style:italic;font-size:clamp(.92rem,2.4vw,1.05rem);color:var(--heading);line-height:1.6}
+.hs-donate .sig{display:block;margin-top:.6rem;font-family:'Archivo Black','Archivo',sans-serif;font-style:normal;font-size:.82rem;color:var(--amber)}
+.hs-amount{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:center;align-items:center;margin-bottom:1rem}
+.hs-amount button{padding:.6rem 1.1rem;border-radius:10px;border:1px solid var(--border2);background:var(--panel2);color:var(--muted);font-family:inherit;font-weight:900;cursor:pointer;min-height:46px;font-size:.9rem;transition:all .15s}
+.hs-amount button.on{background:linear-gradient(135deg,var(--amber2),var(--amber));color:#1a1206;border-color:transparent}
+.hs-amount input{width:110px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:.6rem .8rem;color:var(--heading);font-family:inherit;font-weight:800;font-size:.9rem;min-height:46px;text-align:center}
+.hs-amount input:focus{outline:none;border-color:var(--amber)}
+#paypal-donate-container{max-width:340px;margin:0 auto;min-height:48px}
+#paypal-donate-msg{color:var(--green2);font-weight:800;font-size:.95rem;margin-top:.8rem;display:none}
+#paypal-donate-fallback{display:none;margin-top:.5rem}
+.hs-donate .alt{font-size:.76rem;color:var(--muted);margin-top:.8rem}
 </style>
 </head>
 <body>
@@ -309,6 +429,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
       <a class="navlink" href="#rent">Rent AI</a>
       <a class="navlink" href="#gallery">Gallery</a>
       <a class="navlink" href="#aftercare">Aftercare</a>
+      <a class="navlink" href="#havesolar">Got solar?</a>
       <a class="navlink" href="#referral">Refer £250</a>
       <a class="navlink cta" href="#book">Book Survey</a>
     </div>
@@ -331,6 +452,10 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
         <a class="btn btn-amber" id="contactWA" href="https://wa.me/447711147663" target="_blank" rel="noopener">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           WhatsApp us
+        </a>
+        <a class="btn btn-ghost" href="#planner">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          Design my system — 30 sec
         </a>
       </div>
       <div class="urgent-line">
@@ -400,6 +525,114 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
 
     <div style="margin-top:2rem" class="reveal">
       <a class="btn btn-primary" href="tel:+447711147663">Call for your full cost breakdown</a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PLANNER (interactive solar planner) ==================== -->
+<section id="planner" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
+  <div class="wrap">
+    <span class="eyebrow">30-Second System Designer</span>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem">DESIGN YOUR SYSTEM <span class="grad-text">IN 30 SECONDS</span></h2>
+    <p class="lead reveal">No salesman, no jargon. Tell us about your roof and we'll show you what fits, what it costs, and what's in the box. Worked out entirely on your device — nothing is sent anywhere until you press a WhatsApp button.</p>
+
+    <div class="planner-card reveal" style="margin-top:2rem">
+      <div class="pl-steps" id="pl-steps">
+        <div class="pl-step active" data-step="1"><span class="n">1</span> Your roof</div>
+        <div class="pl-sep"></div>
+        <div class="pl-step" data-step="2"><span class="n">2</span> Your options</div>
+        <div class="pl-sep"></div>
+        <div class="pl-step" data-step="3"><span class="n">3</span> Get it</div>
+      </div>
+
+      <form id="plannerForm" novalidate>
+        <div class="pl-field">
+          <label class="pl-label" for="pl-postcode">Your postcode</label>
+          <input class="input" id="pl-postcode" type="text" placeholder="e.g. LE1 1RH" autocomplete="postal-code" required>
+          <p class="pl-hint">We use this to check we cover your area and send your quote on WhatsApp. We never share it or sell it — ever.</p>
+          <p class="err-msg" id="pl-postcode-err">Pop your postcode in so we can quote for your area.</p>
+        </div>
+
+        <div class="pl-field">
+          <label class="pl-label" for="pl-roof">Roof area — how much roof could take panels?</label>
+          <div class="pl-range-row">
+            <input type="range" id="pl-roof" class="pl-range" min="10" max="80" step="1" value="30" aria-label="Roof area in square metres">
+            <span class="pl-readout" id="pl-roof-val">30 m²</span>
+          </div>
+          <p class="pl-hint">Each 400W panel needs about 1.6 m² of roof. 8 panels = ~13 m²; a typical UK semi's usable south-facing pitch is ~15–20 m². If your whole roof is 30 m²+ you can fit a lot more — drag the slider.</p>
+        </div>
+
+        <div class="pl-field">
+          <label class="pl-label">Roof type</label>
+          <div class="pl-seg" id="pl-rooftype" role="group" aria-label="Roof type">
+            <button type="button" data-val="pitched" class="on">Pitched tile</button>
+            <button type="button" data-val="flat">Flat roof</button>
+            <button type="button" data-val="metal">Metal roof</button>
+          </div>
+          <p class="pl-hint">Pitched tile covers most UK homes. Flat roofs need a weighted frame. Metal roofs clamp on — no drilling.</p>
+        </div>
+
+        <div class="pl-field">
+          <label class="pl-label">Add a battery? Store solar for evenings</label>
+          <div class="pl-toggle" id="pl-battery" role="group" aria-label="Battery">
+            <button type="button" data-val="no" class="on">No battery</button>
+            <button type="button" data-val="yes">Yes, add battery</button>
+          </div>
+        </div>
+
+        <div class="pl-field">
+          <label class="pl-label">Add an EV charger? Charge your car from the sun</label>
+          <div class="pl-toggle" id="pl-ev" role="group" aria-label="EV charger">
+            <button type="button" data-val="no" class="on">No EV charger</button>
+            <button type="button" data-val="yes">Yes, add 7.4kW charger</button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%">Show my system</button>
+        <p class="pl-note" style="text-align:center">Instant — all worked out on your phone, no sign-up, no call.</p>
+      </form>
+
+      <!-- RESULTS (hidden until submit) -->
+      <div class="pl-results" id="pl-results">
+        <div class="pl-hero-out">
+          <div class="big" id="pl-headline">You could fit <span>– panels</span> (– kWp) — from <span>£–</span> fitted.</div>
+          <p class="pl-hint" id="pl-headline-note" style="margin-top:.5rem"></p>
+        </div>
+
+        <div class="pl-spec-grid" id="pl-specs"></div>
+
+        <div class="pl-tiers" id="pl-tiers"></div>
+
+        <p class="pl-note">All prices: typical 2026 UK fitted prices — varies by roof, orientation, shading and access. Exact price confirmed at survey / sign-up. A human surveys and signs off every system — we never certify from a slider.</p>
+
+        <div class="pl-actions">
+          <button type="button" class="btn btn-ghost" id="pl-parts-btn">Order parts individually</button>
+          <button type="button" class="btn btn-ghost" id="pl-map-btn">Get roof design from satellite</button>
+          <a class="btn btn-amber" href="#book">Make a start today — book survey</a>
+        </div>
+
+        <div class="pl-parts" id="pl-parts"></div>
+
+        <div class="pl-map-panel" id="pl-map">
+          <p style="font-weight:800;color:var(--heading);margin-bottom:.4rem">See your roof on satellite</p>
+          <p class="pl-hint" style="margin-bottom:.8rem">Paste a Google Maps API key to load your roof satellite view here — OR let Shane handle the design for you. Call <a href="tel:+447999899304">07999 899304</a> and we'll do it after the survey. Most people just pick up the phone.</p>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center">
+            <input class="input" id="pl-maps-key" type="text" placeholder="Paste Google Maps API key (optional)" style="flex:1;min-width:180px" autocomplete="off">
+            <button type="button" class="btn btn-ghost" id="pl-maps-load" style="min-height:48px">Load roof view</button>
+          </div>
+          <p class="pl-note" id="pl-maps-msg" style="display:none"></p>
+          <div id="pl-map-canvas" style="display:none;height:260px;margin-top:.8rem;border-radius:12px;border:1px solid var(--border2);background:var(--panel)"></div>
+          <p class="pl-note">No key? No problem — 9 out of 10 customers let us do the design on survey. We measure, check shading and orientation, and show you the layout before anything goes on the roof.</p>
+
+          <p style="font-weight:800;color:var(--heading);margin:1rem 0 .1rem">Illustrative layout options</p>
+          <div class="pl-designs">
+            <div class="pl-design"><div class="thumb t1"></div><div class="lbl">South-facing portrait</div><div class="sub">Best yield — one row, simple wiring. Illustrative only.</div></div>
+            <div class="pl-design"><div class="thumb t2"></div><div class="lbl">East–West split</div><div class="sub">More panels across two pitches — steadier all-day. Illustrative only.</div></div>
+            <div class="pl-design"><div class="thumb t3"></div><div class="lbl">Flat-roof ballasted</div><div class="sub">Weighted tilted frames — no drilling. Illustrative only.</div></div>
+          </div>
+          <p class="pl-note">Thumbnails are illustrative — your real design comes after survey.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -587,6 +820,132 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
           <div class="acc-body"><p>0% VAT on solar + battery + wind + heat-pump installs to <strong>31 March 2027</strong>, subject to eligibility. Reverts to 5% from 1 April 2027. We'll confirm your eligibility at survey — no funny business.</p></div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HAVE SOLAR? STUCK? ==================== -->
+<section id="havesolar" style="background:linear-gradient(180deg,transparent,rgba(15,22,35,.6),transparent)">
+  <div class="wrap">
+    <span class="eyebrow amber">Already Got Solar?</span>
+    <h2 class="display" style="font-size:clamp(1.8rem,4.5vw,2.8rem);margin-bottom:1rem;text-transform:uppercase">Already have solar? <span class="grad-text">Stuck? We've got you.</span></h2>
+    <p class="lead reveal">Sorry we weren't here for you then. If you've got solar and you're stuck — left in the blue, don't know what to do — we can help. Bird cages (bird guards), upgrades, battery add-ons, EV chargers, inverter replacements, monitoring setup.</p>
+
+    <h3 class="display reveal" style="font-size:clamp(1.15rem,3vw,1.5rem);margin-top:2.4rem;margin-bottom:.2rem;color:var(--heading)">Here's how you finish it yourself — simple steps.</h3>
+    <p class="lead reveal" style="font-size:.95rem">Most of these take 10 minutes and a phone. Try it yourself first — it's free.</p>
+
+    <div class="hs-grid">
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>G99 application</div>
+        <div class="why">Big systems and batteries need the grid's permission first.</div>
+        <ul>
+          <li>G99 is the form your DNO (grid operator) signs off — needed for systems over ~3.7kW single-phase, or any battery/EV that exports.</li>
+          <li>Apply with your MPAN (on your bill) and your system specs. Takes 5–15 working days.</li>
+          <li>You can't commission without it — your original installer should have done it.</li>
+        </ul>
+        <div class="orcall">Or call us — we handle G99/G98 applications for stuck systems.</div>
+      </div>
+
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>SEG signup</div>
+        <div class="why">You're exporting power for free if no one set this up.</div>
+        <ul>
+          <li>Find your MPAN on any electric bill. Grab your MCS install certificate.</li>
+          <li>Pick an SEG supplier (list below) and ring them — they register your export.</li>
+          <li>Smart meter required so they read what you export. Pays 3–15p/kWh, more on smart tariffs.</li>
+        </ul>
+        <div class="orcall">Or call us — we do the SEG signup paperwork end to end.</div>
+      </div>
+
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>Monitoring app setup</div>
+        <div class="why">Every inverter has an app — you're missing free data.</div>
+        <ul>
+          <li>Read the brand off the inverter front: Solis, GivEnergy, SolarEdge, Huawei, Sunsynk, Fox.</li>
+          <li>Download that brand's app. Connect the inverter to your home wifi (WPS button or wifi dongle).</li>
+          <li>We'll talk you through on WhatsApp — about 10 minutes.</li>
+        </ul>
+        <div class="orcall">Or call us — we set up monitoring remotely for £30.</div>
+      </div>
+
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>Fault codes (red/amber light)</div>
+        <div class="why">A flashing light usually means it lost the grid — not that it's dead.</div>
+        <ul>
+          <li>Note the error code on the inverter screen.</li>
+          <li>Turn the AC isolator (switch near inverter) off, wait 60 seconds, turn back on. Check the DC isolator too.</li>
+          <li>If it re-flashes within the hour, ring the inverter brand's helpline — free, and usually under warranty.</li>
+        </ul>
+        <div class="orcall">Or call us — we diagnose fault codes and replace inverters.</div>
+      </div>
+
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>Export limiter / G100</div>
+        <div class="why">The grid makes you cap export on some installs — it's not your fault.</div>
+        <ul>
+          <li>G100 is an export power limiter the DNO sometimes requires on big systems or batteries.</li>
+          <li>It caps what you send back to the grid. If your export reads 0 on a sunny day, it may be limiting.</li>
+          <li>We check whether it's required, and if allowed, upgrade or remove it.</li>
+        </ul>
+        <div class="orcall">Or call us — we fit and upgrade G100 limiters.</div>
+      </div>
+
+      <div class="hs-card reveal">
+        <div class="prob"><span class="dot"></span>EPC — NOT required for SEG</div>
+        <div class="why">Myth: you need an EPC. Fact: that was the old FIT, not SEG.</div>
+        <ul>
+          <li>SEG (Smart Export Guarantee) does NOT require an EPC — that rule was for the old Feed-in Tariff, closed in 2019.</li>
+          <li>If a supplier tells you otherwise, pick another one.</li>
+          <li>You need an MCS certificate and a smart meter — that's it.</li>
+        </ul>
+        <div class="orcall">Or call us — we'll get you registered with the right supplier.</div>
+      </div>
+    </div>
+
+    <!-- Earn properly: SEG -->
+    <div class="hs-seg reveal">
+      <h3>Earn properly — get paid for what you don't use.</h3>
+      <p style="font-size:.88rem;color:var(--text);line-height:1.6">SEG (Smart Export Guarantee) pays you for every kWh you send back to the grid. You need an MCS-certified install and a smart meter. Shop around — rates vary a lot.</p>
+      <div class="hs-providers">
+        <span>Octopus</span><span>E.ON</span><span>British Gas</span><span>Scottish Power</span><span>Shell</span>
+      </div>
+      <ol>
+        <li>Typical 2026 SEG rates: 3–15p/kWh flat; smart tariffs (Octopus Flux and similar) pay more at peak times.</li>
+        <li>Rates change — check the current deal before you commit.</li>
+        <li>Smart meter required for export readings. If you haven't got one, your supplier installs it free.</li>
+      </ol>
+      <p class="kickback">No kickbacks — we just point you at who pays best. We don't earn a penny from your tariff choice.</p>
+    </div>
+
+    <!-- Funny + honest ask -->
+    <p class="hs-funny reveal">See that? Easy and free?</p>
+    <div class="hs-honest reveal">
+      <p>These AIs ain't they costing me a fortune — every question you ask costs real money. If we helped in any way, leave an anonymous comment or sign up and tell us how we helped, or how we can upgrade our services.</p>
+      <div class="hs-actions">
+        <a class="btn btn-ghost" href="mailto:pleadingsanity1@gmail.com?subject=Anonymous%20feedback">Leave anonymous comment</a>
+        <a class="btn btn-primary" href="signup.html">Sign up</a>
+      </div>
+    </div>
+
+    <!-- Donate + manifesto -->
+    <div class="hs-donate reveal">
+      <blockquote>
+        "You don't have to, but if you'd like to donate to keep the whole sanity ecosystem alive through AI — even when the human creator has faded into dust — we're working on a way to promote good things and ways for life. My 1 billion prompts have already excelled AI's brain more than any prompter — I'd put that on it. This manic ambidextrous bipolar 1 and 2 patient is sick of the world — it's time for a better way for all good or wanting to be good."
+        <span class="sig">— Shane, Pleading Sanity</span>
+      </blockquote>
+      <p style="font-weight:800;color:var(--heading);margin-bottom:.8rem">Buy the AIs a coffee — keep them running.</p>
+      <div class="hs-amount" id="hs-amount">
+        <button type="button" data-amt="5" class="on">£5</button>
+        <button type="button" data-amt="10">£10</button>
+        <button type="button" data-amt="20">£20</button>
+        <input type="number" id="hs-custom-amt" min="1" step="1" placeholder="Custom £" aria-label="Custom donation amount">
+      </div>
+      <div id="paypal-donate-container"></div>
+      <p id="paypal-donate-msg">Thank you — the AIs live another day.</p>
+      <div id="paypal-donate-fallback">
+        <a class="btn btn-amber" href="mailto:pleadingsanity1@gmail.com?subject=Donation">Donate via email</a>
+      </div>
+      <p class="alt">Or WhatsApp us on <a href="https://wa.me/447711147663" target="_blank" rel="noopener">07711 147663</a> — every bit keeps the lights on.</p>
     </div>
   </div>
 </section>
@@ -1170,23 +1529,303 @@ const COMPLIANCE = [
   if(closeBtn && panel) closeBtn.addEventListener("click", function(){ panel.style.display = "none"; });
 })();
 
+/* Solar-specific system prompt prepended to EVERY AI message. */
+const SOLAR_SYSTEM_PROMPT = "You are the Insane Solar AI assistant for a UK solar installation company (Leicestershire/Midlands). Answer in plain UK English, short, helpful, no jargon, max ~4 sentences. You NEVER certify a system or give a binding quote — always say a human surveys and signs off. For quotes/orders direct to WhatsApp 07711 147663 or Shane 07999 899304. If the user seems in crisis or mentions self-harm, include crisis numbers: 999, Samaritans 116 123, SHOUT 85258. Prices are typical 2026 UK fitted and vary by roof.";
+
 function sendAiChat(){
   var inp = document.getElementById('ai-chat-input'); if(!inp) return;
   var msg = inp.value.trim(); if(!msg) return;
-  var box = document.getElementById('ai-chat-messages');
+  var box = document.getElementById('ai-chat-messages'); if(!box) return;
   var u = document.createElement('div'); u.className = 'ai-user'; u.textContent = msg; box.appendChild(u);
-  inp.value = ''; box.scrollTop = box.scrollHeight;
-  var typing = document.createElement('div'); typing.id = 'ai-typing'; typing.className = 'ai-msg'; typing.style.color = '#94a3b8'; typing.textContent = 'Thinking...'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
-  fetch('/api/arron', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:'You are the Insane Solar AI assistant. Answer this solar question in plain UK English, max 3 sentences. Never certify — humans sign. If asked for quote, direct to WhatsApp 07711147663. Question: '+msg})}).then(function(r){return r.json();}).then(function(d){
-    var t = document.getElementById('ai-typing'); if(t) t.remove();
-    var reply = (d && (d.reply || d.response || d.message)) || "Connection flickered — try again or WhatsApp us on 07711147663.";
-    var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = reply; box.appendChild(a); box.scrollTop = box.scrollHeight;
+  inp.value = '';
+  inp.disabled = true;
+  var sendBtn = inp.parentElement ? inp.parentElement.querySelector('button') : null;
+  if(sendBtn) sendBtn.disabled = true;
+  box.scrollTop = box.scrollHeight;
+  var typing = document.createElement('div'); typing.className = 'ai-msg ai-typing'; typing.innerHTML = '<span></span><span></span><span></span>'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
+  function finish(replyText){
+    if(typing && typing.parentNode) typing.parentNode.removeChild(typing);
+    var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = replyText; box.appendChild(a); box.scrollTop = box.scrollHeight;
+    inp.disabled = false;
+    if(sendBtn) sendBtn.disabled = false;
+    try{ inp.focus(); }catch(e){}
+  }
+  fetch('/api/arron', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({ messages:[ {role:'system', content:SOLAR_SYSTEM_PROMPT}, {role:'user', content:msg} ], saveToCloud:false })
+  }).then(function(r){ return r.json(); }).then(function(d){
+    var reply = (d && (d.reply || d.message || d.response)) || "";
+    if(!reply || typeof reply !== 'string' || !reply.trim()){
+      reply = "Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.";
+    }
+    finish(reply);
   }).catch(function(){
-    var t = document.getElementById('ai-typing'); if(t) t.remove();
-    var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = "Try again — or WhatsApp us directly on 07711147663."; box.appendChild(a); box.scrollTop = box.scrollHeight;
+    finish("Our AI is having a quiet moment — WhatsApp us on 07711 147663, we reply fast.");
   });
 }
 document.getElementById('ai-chat-input') && document.getElementById('ai-chat-input').addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); sendAiChat(); } });
+</script>
+
+<script>
+/* ============================================================
+   INTERACTIVE SOLAR PLANNER — 100% client-side, no runtime API.
+   Prices are typical 2026 UK fitted guide prices; exact quote
+   confirmed at survey / sign-up. A human surveys and signs off.
+   ============================================================ */
+(function(){
+  "use strict";
+  var WA = (window.CONFIG && CONFIG.whatsapp) || "447711147663";
+  var SHANE_TEL = "07999 899304";
+  var SHANE_TEL_LINK = "tel:+447999899304";
+  var STANDARD_INVERTERS = [3.0, 3.6, 5.0, 6.0, 8.0, 10.0]; // kW
+
+  var state = { postcode:"", area:30, roofType:"pitched", battery:false, ev:false, result:null };
+
+  function $(id){ return document.getElementById(id); }
+  function gbp(n){ return "£" + (Math.round(n/50)*50).toLocaleString("en-GB"); }
+
+  /* ---- segmented / toggle controls ---- */
+  function wireSeg(containerId, key){
+    var c = $(containerId); if(!c) return;
+    c.addEventListener("click", function(e){
+      var btn = e.target.closest ? e.target.closest("button") : (e.target.tagName === "BUTTON" ? e.target : null);
+      if(!btn) return;
+      var btns = c.querySelectorAll("button");
+      for(var i=0;i<btns.length;i++) btns[i].classList.remove("on");
+      btn.classList.add("on");
+      var v = btn.getAttribute("data-val");
+      if(key === "roofType") state.roofType = v;
+      else state[key] = (v === "yes");
+    });
+  }
+  wireSeg("pl-rooftype", "roofType");
+  wireSeg("pl-battery", "battery");
+  wireSeg("pl-ev", "ev");
+
+  /* ---- range slider live readout ---- */
+  var roofRange = $("pl-roof"), roofVal = $("pl-roof-val");
+  if(roofRange && roofVal){
+    roofRange.addEventListener("input", function(){
+      state.area = parseInt(roofRange.value, 10) || 30;
+      roofVal.textContent = state.area + " m²";
+    });
+  }
+
+  /* ---- computation ---- */
+  function compute(){
+    var rawPanels = Math.floor(state.area / 1.6);
+    var panels = rawPanels < 4 ? 4 : Math.min(rawPanels, 14); // typical 4–14 band
+    var bigRoof = rawPanels > 14;
+    var kWp = +(panels * 0.4).toFixed(1); // 400W panels
+    var rows = Math.ceil(panels / 7); // up to 7 panels per row, portrait
+    var rails = rows * 2; // 2 rails per row (approx)
+    var midClamps = 2 * (panels - rows); // 2 mid clamps per panel joint
+    var endClamps = 4 * rows; // 4 end clamps per row
+    var invTarget = 1.25 * kWp;
+    var inverter = STANDARD_INVERTERS[STANDARD_INVERTERS.length - 1];
+    for(var i=0;i<STANDARD_INVERTERS.length;i++){ if(STANDARD_INVERTERS[i] >= invTarget){ inverter = STANDARD_INVERTERS[i]; break; } }
+    var batteryKwh = state.battery ? (panels <= 6 ? 5 : 10) : 0;
+    var batteryCost = batteryKwh === 5 ? 3500 : (batteryKwh === 10 ? 5500 : 0);
+    var evKw = state.ev ? 7.4 : 0;
+    var evCost = state.ev ? 1000 : 0;
+    var Wp = kWp * 1000;
+    var tiers = {
+      budget:  Math.round(Wp * 1.10),
+      mid:     Math.round(Wp * 1.40 + batteryCost),
+      premium: Math.round(Wp * 1.80 + batteryCost + evCost)
+    };
+    return { rawPanels:rawPanels, panels:panels, bigRoof:bigRoof, kWp:kWp, rows:rows, rails:rails,
+             midClamps:midClamps, endClamps:endClamps, inverter:inverter, batteryKwh:batteryKwh,
+             evKw:evKw, tiers:tiers, batteryCost:batteryCost, evCost:evCost };
+  }
+
+  function waLink(tier){
+    var txt = "Hi Insane Solar — I want the " + tier + " kit for postcode " + state.postcode +
+              ", roof area " + state.area + "m², battery " + (state.battery?"yes":"no") +
+              ", EV " + (state.ev?"yes":"no") + ". Please send me a full quote.";
+    return "https://wa.me/" + WA + "?text=" + encodeURIComponent(txt);
+  }
+
+  function roofNote(){
+    if(state.roofType === "flat") return "Flat roof: we use a weighted (ballasted) tilted frame — no drilling through the membrane.";
+    if(state.roofType === "metal") return "Metal roof: clamp-fit system — no drilling, no sealant, no leaks.";
+    return "Pitched tile: roof hooks fitted under the tiles, rails on top — the standard UK install.";
+  }
+
+  function render(r){
+    /* headline */
+    $("pl-headline").innerHTML = "You could fit <span>" + r.panels + " panels</span> (" + r.kWp + " kWp) — from <span>" + gbp(r.tiers.budget) + "</span> fitted.";
+    var note = roofNote();
+    if(r.bigRoof){
+      note += " Your roof is big — we have shown a typical 14-panel system here, but we can fit more. Call Shane on " + SHANE_TEL + " and we will split it across two arrays or two roofs.";
+    }
+    $("pl-headline-note").textContent = note;
+
+    /* spec grid */
+    var specs = [
+      {k:"Panels", v:r.panels, sub:"400W each"},
+      {k:"System size", v:r.kWp + " kWp", sub:"peak output"},
+      {k:"Inverter", v:r.inverter + " kW", sub:"sized at ~1.25×"},
+      {k:"Rails (approx)", v:r.rails, sub:r.rows + " row(s) × 2"},
+      {k:"Mid clamps", v:r.midClamps, sub:"between panels"},
+      {k:"End clamps", v:r.endClamps, sub:"at array edges"},
+      {k:"Battery", v: state.battery ? r.batteryKwh + " kWh" : "Not added", sub: state.battery ? "typical size" : "add anytime"},
+      {k:"EV charger", v: state.ev ? r.evKw + " kW" : "Not added", sub: state.ev ? "home unit" : "add anytime"}
+    ];
+    var sh = "";
+    specs.forEach(function(s){ sh += '<div class="pl-spec"><div class="k">'+s.k+'</div><div class="v">'+s.v+'</div><div class="sub">'+s.sub+'</div></div>'; });
+    $("pl-specs").innerHTML = sh;
+
+    /* tiers */
+    var batteryLine = state.battery ? ('<li>' + r.batteryKwh + ' kWh home battery (store solar for evenings)</li>') : '';
+    var evLine = state.ev ? '<li>7.4kW home EV charger (solar-first charging)</li>' : '';
+    var th = "";
+    th += '<div class="pl-tier">' +
+      '<div class="tag">Keep it simple</div>' +
+      '<div class="name">BUDGET KIT</div>' +
+      '<div class="price">from ' + gbp(r.tiers.budget) + '</div>' +
+      '<div class="price-sub">typical fitted — varies by roof</div>' +
+      '<ul><li>Jinko / JA Solar 400W panels</li><li>Solis string inverter</li><li>Rails, roof hooks, mid + end clamps</li><li>MCS certificate + monitoring</li><li>10 yr workmanship warranty</li></ul>' +
+      '<a class="btn btn-primary wa-btn" target="_blank" rel="noopener" href="' + waLink("Budget") + '">Choose Budget Kit</a></div>';
+    th += '<div class="pl-tier hot">' +
+      '<div class="tag">Most popular</div>' +
+      '<div class="name">MID KIT</div>' +
+      '<div class="price">from ' + gbp(r.tiers.mid) + '</div>' +
+      '<div class="price-sub">typical fitted — varies by roof</div>' +
+      '<ul><li>JA Solar / Trina panels</li><li>GivEnergy hybrid inverter</li>' + batteryLine +
+      '<li>Phone app monitoring + 10ms backup</li><li>12 yr warranty</li></ul>' +
+      '<a class="btn btn-amber wa-btn" target="_blank" rel="noopener" href="' + waLink("Mid") + '">Choose Mid Kit</a></div>';
+    th += '<div class="pl-tier">' +
+      '<div class="tag">Top of the range</div>' +
+      '<div class="name">PREMIUM KIT</div>' +
+      '<div class="price">from ' + gbp(r.tiers.premium) + '</div>' +
+      '<div class="price-sub">typical fitted — varies by roof</div>' +
+      '<ul><li>Panasonic / SunPower panels</li><li>SolarEdge + power optimisers</li>' + batteryLine + evLine +
+      '<li>Panel-level monitoring</li><li>25 yr performance warranty</li></ul>' +
+      '<a class="btn btn-primary wa-btn" target="_blank" rel="noopener" href="' + waLink("Premium") + '">Choose Premium Kit</a></div>';
+    $("pl-tiers").innerHTML = th;
+
+    /* reset toggles (state changed) */
+    var pb = $("pl-parts"); pb.innerHTML = ""; pb.classList.remove("show");
+    $("pl-parts-btn").textContent = "Order parts individually";
+    $("pl-map").classList.remove("show");
+    $("pl-map-btn").textContent = "Get roof design from satellite";
+  }
+
+  function renderParts(r){
+    var items = [];
+    var panelUnit = 130;
+    items.push({desc: r.panels + " × 400W Tier-1 panels @ ~£" + panelUnit + " each", amt: r.panels * panelUnit});
+    var railUnit = 18;
+    items.push({desc: r.rails + " rail lengths @ ~£" + railUnit + " each", amt: r.rails * railUnit});
+    var midBags = Math.ceil(r.midClamps/10), midUnit = 12;
+    items.push({desc: midBags + " bag(s) mid clamps (10 per bag) @ ~£" + midUnit, amt: midBags * midUnit});
+    var endBags = Math.ceil(r.endClamps/4), endUnit = 8;
+    items.push({desc: endBags + " bag(s) end clamps (4 per bag) @ ~£" + endUnit, amt: endBags * endUnit});
+    var invUnit = state.battery ? 1400 : 900;
+    items.push({desc: (state.battery ? "Hybrid" : "String") + " inverter (~" + r.inverter + " kW) @ ~£" + invUnit, amt: invUnit});
+    if(state.battery) items.push({desc: r.batteryKwh + " kWh battery @ ~£" + r.batteryCost, amt: r.batteryCost});
+    if(state.ev) items.push({desc: "7.4kW EV charger @ ~£" + r.evCost, amt: r.evCost});
+    var sub = 0;
+    for(var i=0;i<items.length;i++) sub += items[i].amt;
+    var html = '<p style="font-weight:800;color:var(--heading);margin-bottom:.5rem">Loose parts — guide prices (supplied, not fitted)</p>';
+    for(var j=0;j<items.length;j++){
+      html += '<div class="pl-line"><span class="desc">' + items[j].desc + '</span><span class="amt">' + gbp(items[j].amt) + '</span></div>';
+    }
+    html += '<div class="pl-subtotal"><span>Subtotal (guide)</span><span class="amt">' + gbp(sub) + '</span></div>';
+    html += '<p class="pl-note">These are guide prices only — call Shane on <a href="' + SHANE_TEL_LINK + '">' + SHANE_TEL + '</a> or WhatsApp us to order individual parts. We do not take card for loose parts online. Fitting, roof hooks, cable, isolator and certification are quoted separately at survey. Typical 2026 UK prices — varies by roof.</p>';
+    return html;
+  }
+
+  /* ---- form submit ---- */
+  var form = $("plannerForm");
+  if(form){
+    form.addEventListener("submit", function(e){
+      e.preventDefault();
+      var pc = $("pl-postcode");
+      state.postcode = (pc.value || "").trim().toUpperCase();
+      var err = $("pl-postcode-err");
+      if(!state.postcode){
+        err.classList.add("show"); pc.classList.add("err"); pc.focus();
+        return;
+      }
+      err.classList.remove("show"); pc.classList.remove("err");
+      state.area = parseInt(roofRange.value, 10) || 30;
+      var r = compute();
+      state.result = r;
+      render(r);
+      var res = $("pl-results");
+      res.classList.add("show");
+      var steps = document.querySelectorAll("#pl-steps .pl-step");
+      for(var i=0;i<steps.length;i++){
+        var n = steps[i].getAttribute("data-step");
+        steps[i].classList.remove("active","done");
+        if(n === "3") steps[i].classList.add("active"); else steps[i].classList.add("done");
+      }
+      try{ setTimeout(function(){ res.scrollIntoView({behavior:"smooth", block:"nearest"}); }, 80); }catch(e){}
+    });
+  }
+
+  /* ---- parts toggle ---- */
+  var partsBtn = $("pl-parts-btn");
+  if(partsBtn){
+    partsBtn.addEventListener("click", function(){
+      var p = $("pl-parts");
+      if(!state.result){ return; }
+      if(!p.innerHTML) p.innerHTML = renderParts(state.result);
+      p.classList.toggle("show");
+      partsBtn.textContent = p.classList.contains("show") ? "Hide parts list" : "Order parts individually";
+    });
+  }
+
+  /* ---- satellite design toggle ---- */
+  var mapBtn = $("pl-map-btn");
+  if(mapBtn){
+    mapBtn.addEventListener("click", function(){
+      $("pl-map").classList.toggle("show");
+      mapBtn.textContent = $("pl-map").classList.contains("show") ? "Hide roof design options" : "Get roof design from satellite";
+    });
+  }
+
+  /* ---- Google Maps guard: NEVER fires without a real key pasted by the user ---- */
+  var mapsLoadBtn = $("pl-maps-load");
+  if(mapsLoadBtn){
+    mapsLoadBtn.addEventListener("click", function(){
+      var keyInput = $("pl-maps-key");
+      var key = keyInput ? keyInput.value.trim() : "";
+      var msg = $("pl-maps-msg");
+      if(!key){
+        msg.style.display = "block";
+        msg.textContent = "No key pasted. You do not need one — just call Shane on " + SHANE_TEL + " and we will design your roof after the survey. Or paste a Google Maps JavaScript API key above and try again.";
+        return;
+      }
+      msg.style.display = "none";
+      var canvas = $("pl-map-canvas");
+      canvas.style.display = "block";
+      canvas.innerHTML = "";
+      window.__plannerMapInit = function(){
+        try{
+          if(window.google && google.maps && google.maps.Map){
+            new google.maps.Map(canvas, { center:{lat:52.6333, lng:-1.1333}, zoom:19, mapTypeId:"satellite", tilt:0 });
+          } else {
+            canvas.innerHTML = "<p style='padding:1rem;color:var(--muted)'>Map library loaded but could not initialise — check the key. Or call Shane: " + SHANE_TEL + ".</p>";
+          }
+        }catch(err){
+          canvas.innerHTML = "<p style='padding:1rem;color:var(--muted)'>Map could not load — check the key. Or call Shane: " + SHANE_TEL + ".</p>";
+        }
+      };
+      try{
+        var s = document.createElement("script");
+        s.src = "https://maps.googleapis.com/maps/api/js?key=" + encodeURIComponent(key) + "&callback=__plannerMapInit";
+        s.async = true; s.defer = true;
+        document.head.appendChild(s);
+      }catch(err){
+        canvas.innerHTML = "<p style='padding:1rem;color:var(--muted)'>Could not load map. Call Shane on " + SHANE_TEL + " — we will design it for you.</p>";
+      }
+    });
+  }
+})();
 </script>
 
 <script>
@@ -1220,6 +1859,81 @@ document.getElementById('ai-chat-input') && document.getElementById('ai-chat-inp
       btn.href = urls[type];
     }
   });
+})();
+</script>
+
+<script>
+/* Donate — SECOND PayPal Buttons instance (separate from the £50 deposit at #paypal-button-container).
+   Guarded: only renders if the PayPal SDK is loaded; else shows mailto fallback. Amount selectable £5/£10/£20/custom. */
+(function(){
+  "use strict";
+  var container = document.getElementById("paypal-donate-container");
+  if(!container) return;
+  var msg = document.getElementById("paypal-donate-msg");
+  var fallback = document.getElementById("paypal-donate-fallback");
+  var amtWrap = document.getElementById("hs-amount");
+  var cust = document.getElementById("hs-custom-amt");
+  var amount = 5;
+  var tries = 0;
+
+  function renderDonate(){
+    if(!window.paypal || !paypal.Buttons){
+      // SDK not ready yet — retry a few times (handles slow/async load), then fall back to mailto
+      if(tries < 20){ tries++; setTimeout(renderDonate, 500); return; }
+      container.style.display = "none";
+      if(fallback) fallback.style.display = "block";
+      return;
+    }
+    container.innerHTML = "";
+    try{
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'paypal', height: 48 },
+        createOrder: function(data, actions){
+          return actions.order.create({
+            purchase_units: [{ amount: { value: amount.toFixed(2), currency_code: 'GBP' }, description: 'Donation — keep the Sanity AIs alive' }]
+          });
+        },
+        onApprove: function(data, actions){
+          return actions.order.capture().then(function(){
+            container.style.display = "none";
+            if(msg) msg.style.display = "block";
+          });
+        }
+      }).render("#paypal-donate-container").catch(function(){
+        container.style.display = "none";
+        if(fallback) fallback.style.display = "block";
+      });
+    }catch(e){
+      container.style.display = "none";
+      if(fallback) fallback.style.display = "block";
+    }
+  }
+
+  if(amtWrap){
+    amtWrap.addEventListener("click", function(e){
+      var btn = e.target.closest ? e.target.closest("button[data-amt]") : (e.target.tagName === "BUTTON" ? e.target : null);
+      if(!btn) return;
+      amount = parseFloat(btn.getAttribute("data-amt")) || 5;
+      var btns = amtWrap.querySelectorAll("button");
+      for(var i=0;i<btns.length;i++) btns[i].classList.remove("on");
+      btn.classList.add("on");
+      if(cust) cust.value = "";
+      renderDonate();
+    });
+  }
+  if(cust){
+    cust.addEventListener("input", function(){
+      var v = parseFloat(cust.value);
+      if(v && v >= 1){
+        amount = v;
+        var btns = amtWrap ? amtWrap.querySelectorAll("button") : [];
+        for(var j=0;j<btns.length;j++) btns[j].classList.remove("on");
+        renderDonate();
+      }
+    });
+  }
+
+  renderDonate();
 })();
 </script>
 
