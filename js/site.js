@@ -189,6 +189,13 @@
       existingLive.classList.add('ps-live-link');
       existingLive.setAttribute('aria-label', 'Live creator stage');
     }
+    if (navLinks && !navLinks.querySelector('a[href="/sanity-songs.html"]') && window.self === window.top) {
+      var songs = document.createElement('a');
+      songs.href = '/sanity-songs.html?page=' + encodeURIComponent(location.pathname + location.search);
+      songs.textContent = "Songs";
+      songs.setAttribute('aria-label', "Sanity's Songs");
+      navLinks.appendChild(songs);
+    }
     if (navLinks && !existingLive) {
       var liveLink = document.createElement('a');
       liveLink.href = '/live.html';

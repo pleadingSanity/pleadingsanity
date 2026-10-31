@@ -667,3 +667,27 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
   ```
 - PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
 - NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
+
+## 2026-10-31 — Grok Bot: polish branch, Test Lab, Sanity's Songs
+- Branch: `grokbot/polish-ai-upgrades` (this work). Also open: PR #151 `grokbot/site-fixes-2026-10-31`. Do not merge either from an AI chat. Other AIs (Arron, Dola, GPT, Gemini, Copilot, Grok Bot) should rebase on these branches and not overwrite them.
+- Read with this file: `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `docs/MASTER_PROMPT.md`, `system_blueprint.json`.
+- Pending owner action for PR #151, not done here: Netlify env `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `SUPABASE_URL`, `SUPABASE_SERVICE_KEY`, and the Supabase migration. No keys are in the repo.
+- Changed here: kit and hero images on Insane Solar and the creator hero; owner Test Lab at the top of the signed-in Creators hub (`/api/test-lab`, migration `20261031193000_add_test_lab`); Pleading Sanity Music for audio Shane owns (`/music/index.html`, owner upload, Media Session); Sanity's Songs for other artists via the YouTube player only.
+
+### TEST LAB
+Owner only. Guests get 401. Signed-in people who are not Shane get 403. The check is `accessDecision` in `netlify/lib/test-lab-core.js`, before any database write.
+- GET `/api/test-lab` and GET `/api/test-lab/export` (export adds `format: pleading-sanity-test-lab/1`).
+- POST `/api/test-lab` JSON:
+  - Result: `{ "action": "result", "item": "sanitys-songs", "status": "works"|"broken"|"changes", "notes": "", "page": "/sanity-songs.html" }`
+  - Note: `{ "action": "feedback", "notes": "what happened", "page": "/creator.html" }`
+  - New card: `{ "action": "add", "id": "kebab-id", "title": "", "what": "", "href": "/page.html", "area": "" }`
+  - Close: `{ "action": "resolve", "item": "kebab-id" }`
+- When you ship something, add a card with `action: add`. Read open feedback from the export. Mark it resolved only after Shane's note says it is fixed. An AI cannot call this without Shane's signed-in session.
+
+### Sanity's Songs
+Label on the page: "Sanity's Songs - picks from Shane's playlists".
+These are other artists' videos from Shane's public @shanecooper1872 playlists (`UC3q3UpppLMXrq45czZT4_HQ`). Playback is the official YouTube IFrame player on youtube-nocookie. Each row shows artist, title, and a link to the YouTube watch page. Nothing is downloaded. The player is not hidden. Lock-screen, background and car playback are not attempted for these. That needs files Shane owns, on `/music/index.html`.
+Included playlist: `PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C` (title Music, oEmbed author Shane Cooper).
+Included videos, official artist or label first, all oEmbed 200 on 31 Oct 2026: hg90Okk0fhw, lNx19-cyhuU, RR8-b6pftEA, a7uhNjgqzlE, DbrXNrXEho8, WKvBmgawmT8, uDwraXBUHgs, XWJrPzAUzAs, CITU4KH93aU, 5zCMIS5UmUI, O6SeD1xE7NA, CxnaPa8ohmM, yvHYWD29ZNY, then non-official embeddable music videos 2VuyQuRAsHI, oXfMoXIWfcI, FQR91Flg4VE, 4pMsOLcdfdE, qNcILWszZlQ, Wgh05DYN63o, vlvtAdxmC_E, fBTypN7ELY0.
+Left out on purpose: lyric uploads 6RtmetiP1DI, htlYxsxPdSE, OIdApbEXL5U, oCpyfQykuG8; Meditation, Photography, Joe Rogan, Intelligence docs, cooking, Postman Pat, channel uploads (bike, gameplay, food); liked-videos playlist LL3q3UpppLMXrq45czZT4_HQ (not public). Full titles are in `music/songs.json`.
+- Not proven: a phone lock-screen test, PayPal sandbox payment, or that the new database migration has been applied on Netlify.

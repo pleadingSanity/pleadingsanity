@@ -79,7 +79,7 @@ Write and remember: `journal-vault.html` `journal-vault-viewer.html` `notes.html
 
 Calm: `mind-mode.html` `frequencies.html` `meditation.html` `mood-journey.html` `sanctuary.html` `my-room.html` `support.html` `crisis.html` `safety.html`
 
-Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `kids-series.html`
+Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `kids-series.html` `sanity-songs.html` `music/index.html`
 
 People: `feed.html` `post.html` `community.html` `community-dashboard.html` `circle.html` `member.html` `profile.html` `login.html` `signup.html` `reset-password.html` `settings.html` `creator.html` `live.html` `videos.html` `creations.html`
 
@@ -93,7 +93,7 @@ App Hub is `get-the-app.html`. It is this house's shelf. It is not Google Play a
 
 ## The whole house — functions that exist
 
-`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `write` `ytFeed.mjs`
+`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `music` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `test-lab` `write` `ytFeed.mjs`
 
 Arron health is `/api/arron/health`. Memory delete is `/api/arron/memory`. Shared code is `netlify/lib/`. Database is the existing Postgres via Drizzle. Never edit an applied migration. Add a new one. Blobs are for files. Sign-in is `js/auth.js` and Netlify Identity.
 

@@ -174,7 +174,7 @@ async function render() {
     <section class="panel fade-in" style="margin-top:1.5rem;border-color:rgba(255,215,0,.45)" aria-labelledby="owner-title">
       <h2 id="owner-title">💫 Welcome home, ${esc(user.ownerName || 'Shane')}</h2>
       <p style="margin-top:0">You hold the only Owner key. Your posts go live instantly; Arron knows it's you.</p>
-      <div class="btn-row"><a class="sbtn primary" href="/owner.html">💫 Owner's Room${counts.awaitingReview ? ` · ${counts.awaitingReview} to review` : ''}</a><a class="sbtn ghost" href="/post.html">✍️ Publish now</a><a class="sbtn ghost" href="/arron.html">💙 Talk to Arron</a></div>
+      <div class="btn-row"><a class="sbtn primary" href="/owner.html">💫 Owner's Room${counts.awaitingReview ? ` · ${counts.awaitingReview} to review` : ''}</a><a class="sbtn ghost" href="/sanity-songs.html">Sanity's Songs</a><a class="sbtn ghost" href="/post.html">✍️ Publish now</a><a class="sbtn ghost" href="/arron.html">💙 Talk to Arron</a></div>
     </section>` : ''}
     <section class="panel fade-in" aria-labelledby="p-name" style="${user.isOwner ? '' : 'margin-top:1.5rem'}">
       <img class="profile-banner" src="/api/images/banner/${esc(user.id)}" alt="" onerror="this.hidden=true" />
