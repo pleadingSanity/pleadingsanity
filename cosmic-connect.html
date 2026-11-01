@@ -99,8 +99,6 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 .tabs button,.picker button{min-height:44px!important;}
 .skip-link{z-index:200;}
 </style>
-<link rel="stylesheet" href="/css/site-music.css">
-<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-page ps-game-page" style="overflow-x:hidden">
 
@@ -194,7 +192,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <main id="main-content" class="social-main wide">
 <p><a class="sg-back" href="/games.html">← All games</a></p>
 <header class="social-head">
-<h1 class="gradient-text">Cosmic Connect</h1>
+<h1>Cosmic Connect</h1>
 <p>Find matching pairs among the stars, or join the dots of a constellation. No clock, no rush — take it at your own pace.</p>
 </header>
 <p class="sg-private">Your progress is private.<span data-sg-guest><a href="/login.html?next=/cosmic-connect.html">Sign in</a>and it follows you to any device.</span><span data-sg-member hidden>You're signed in, so it follows you to any device.</span></p>
@@ -427,16 +425,5 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
   var old=document.querySelector('p[style*="ps-sound-btn"]');if(old)old.style.display='none';
 })();
 </script>
-<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
-<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
-<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
-  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
-    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
-    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
-  </button>
-  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
-</div>
-<script src="/js/site-music.js" defer></script>
-<script src="/js/reveal.js" defer></script>
 </body>
 </html>
