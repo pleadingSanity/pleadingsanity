@@ -70,19 +70,19 @@
       text-shadow: 0 0 25px var(--cyan-glow); margin-bottom: 20px;
     }
 
-    nav {
+    nav:not(.ps-nav):not(.ps-dock) {
       display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 10px;
     }
 
-    nav a {
+    nav:not(.ps-nav):not(.ps-dock) a {
       color: var(--text-soft); font-weight: 700; padding: 10px 16px; border-radius: 10px;
       background: rgba(0,255,240,0.08); border: 1px solid transparent;
       transition: var(--transition-smooth); min-height: 44px;
       display: inline-flex; align-items: center; text-decoration: none;
     }
 
-    nav a:hover,
-    nav a[aria-current="page"] {
+    nav:not(.ps-nav):not(.ps-dock) a:hover,
+    nav:not(.ps-nav):not(.ps-dock) a[aria-current="page"] {
       background: linear-gradient(135deg, var(--magenta), var(--cyan));
       color: #fff; border-color: transparent; transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0,255,240,0.2);
@@ -335,21 +335,21 @@
     }
 
     @keyframes slideOut {
-      to { opacity: 0; transform: translateX(100%); }
+      to { opacity: 0; transform: translateX(30px); }
     }
 
     /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      nav { gap: 6px 8px; }
-      nav a { padding: 8px 12px; font-size: 0.85rem; min-height: 40px; }
+      nav:not(.ps-nav):not(.ps-dock) { gap: 6px 8px; }
+      nav:not(.ps-nav):not(.ps-dock) a { padding: 8px 12px; font-size: 0.85rem; min-height: 40px; }
       .governance-grid { grid-template-columns: 1fr; }
       .council-members { gap: 8px; }
       .dashboard-container { padding: 20px 15px 40px; }
     }
 
     @media (max-width: 480px) {
-      nav { flex-direction: column; width: 100%; }
-      nav a { width: 100%; text-align: center; }
+      nav:not(.ps-nav):not(.ps-dock) { flex-direction: column; width: 100%; }
+      nav:not(.ps-nav):not(.ps-dock) a { width: 100%; text-align: center; }
       .council-members { grid-template-columns: 1fr; }
       .vote-buttons { flex-direction: column; }
       .vote-btn { width: 100%; }
@@ -749,7 +749,7 @@
           style: `position:fixed; top:20px; right:20px; background:${colors[type]}; 
                   border:1px solid var(--border-alpha); border-radius:12px; padding:16px 24px;
                   color:var(--text-bright); z-index:9999; backdrop-filter:blur(10px);
-                  animation:slideIn 0.3s ease; max-width:320px; box-shadow:0 4px 20px rgba(0,255,240,0.15);`
+                  animation:slideIn 0.3s ease; max-width:min(320px, calc(100vw - 40px)); box-shadow:0 4px 20px rgba(0,255,240,0.15);`
         });
         n.textContent = msg;
         document.body.appendChild(n);
