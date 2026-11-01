@@ -5,8 +5,11 @@ class H(http.server.SimpleHTTPRequestHandler):
     def log_message(self,*a): pass
     def send_head(self):
         p=self.path.split('?')[0].split('#')[0]
-        if not os.path.splitext(p)[1] and p!='/' and not p.endswith('/') and os.path.exists('.'+p+'.html'):
-            self.path=p+'.html'
+        if not os.path.splitext(p)[1] and p!='/' and not p.endswith('/'):
+            root=os.path.realpath(os.getcwd())
+            cand=os.path.realpath(os.path.join(root, p.lstrip('/') + '.html'))
+            if cand.startswith(root + os.sep) and os.path.isfile(cand):
+                self.path=p+'.html'
         return super().send_head()
 port=int(sys.argv[1]) if len(sys.argv)>1 else 4173
 http.server.ThreadingHTTPServer(('127.0.0.1',port),H).serve_forever()
