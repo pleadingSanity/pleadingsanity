@@ -34,7 +34,7 @@ class PerformanceOptimizer {
         // Monitor performance continuously
         this.startPerformanceMonitoring();
         
-        console.log('⚡ Performance optimization initialized');
+        console.log(' Performance optimization initialized');
     }
 
     measureCoreWebVitals() {
@@ -338,7 +338,7 @@ class PerformanceOptimizer {
             }
         });
         
-        console.log('📱 Data saver mode enabled');
+        console.log(' Data saver mode enabled');
     }
 
     enableAllFeatures() {
@@ -354,7 +354,7 @@ class PerformanceOptimizer {
             }
         });
         
-        console.log('⚡ Full feature mode enabled');
+        console.log(' Full feature mode enabled');
     }
 }
 

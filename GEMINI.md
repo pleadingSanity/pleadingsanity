@@ -1,6 +1,6 @@
 # Gemini — Pleading Sanity
 
-Read `AI_HANDOFF.md` from "START HERE" to the newest entry at the bottom, then `AGENTS.md`.
+Do not ask Shane to paste a master prompt. Read `docs/MASTER_PROMPT.md` in this repo yourself, then `AI_HANDOFF.md` from "START HERE" to the newest entry, then `AGENTS.md`.
 They hold the map of the site, the rules nobody breaks, open work, and the entry template.
 Add your own dated entry to the bottom of `AI_HANDOFF.md` when you finish.
 

@@ -7,7 +7,7 @@ _Source: Gemini response supplied by Shane Cooper, dated 2026-10-19. This is a h
 - Free core sanctuary: Arron, journal, chronological hearts-only feed, games, frequencies and crisis support. No paywalls, ads, tracking, surveillance or selling data. No new paid services/domains/infrastructure without Shane's approval.
 - Arron is one companion **not a therapist**. Provider failover **GPT → Claude → Gemini → Grok**, unchanged. Root `arron-knowledge.json` is authoritative; preserve the full restored file, never reconstruct or stub it. The older `content/arron-knowledge.json` is not the live soul.
 - Crisis: **999 · Samaritans 116 123 · SHOUT text 85258 · NHS 111 option 2**; keep accessible.
-- Cosmic colours: `#000103` `#0d1b2a` `#00fff0` `#eef6ff` `#ff4d8d`; preserve existing crying-brain logo; mobile-first, accessible.
+- Cosmic colours: `#0b0f19` `#0d1b2a` `#00fff0` `#38bdf8` `#f59e0b` silver; preserve existing crying-brain logo; mobile-first, accessible.
 - PR #92 hop-counting circuit breaker **must remain draft until tested**. Preserve verified work from other AIs, use surgical changes, record SHAs in `AI_HANDOFF.md`.
 
 ## Gemini's reported project status — verify before reusing

@@ -10,7 +10,7 @@ mountProfileForm(document.getElementById('form-root'), {
   submitLabel: 'Enter the community →',
   onSaved: () => {
     clearMe();
-    toast('Welcome in 💙');
+    toast('Welcome in ');
     location.replace(safeNext());
   },
 });

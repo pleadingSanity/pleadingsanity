@@ -1,12 +1,22 @@
 // ==============================================================
-// PLEADING SANITY — ACCOUNTS (Netlify Identity)
+// PLEADING SANITY — ACCOUNTS (Netlify Identity / gotrue)
 // Loaded as a module on every page:
 //   • finishes email links (confirm, sign-in link, password reset)
 //   • shows Sign in, or Community + Post + avatar menu when signed in
 //   • exports helpers the social pages use (api, requireMember, …)
 // Guests can browse every public page without an account.
+//
+// PERSISTENCE MODEL (fixed — sign-in survives reload, navigation and tab close):
+//   • The gotrue token + refresh token live in localStorage ("gotrue.user"),
+//     written by js/vendor/netlify-identity.js. That already persisted; the bug
+//     was that getUser() threw the stored session away when the nf_jwt *cookie*
+//     (a session cookie) was missing after tab close. Vendor now force-refreshes
+//     and re-writes the cookie instead.
+//   • The /api/me cache (ps-me), post-oauth redirect (ps-next) and welcome flag
+//     (ps-welcome) are in localStorage too; they used to be in sessionStorage,
+//     which dies on tab close — a one-time migration copies old values over.
+//   • Tokens only. Passwords are never stored.
 // ==============================================================
-
 import {
   AuthError,
   MissingIdentityError,
@@ -15,15 +25,25 @@ import {
   logout,
   onAuthChange,
 } from '/js/vendor/netlify-identity.js';
-
 export { AuthError, MissingIdentityError };
-
 const ME_CACHE = 'ps-me';
-
+const WELCOME_KEY = 'ps-welcome';
+const NEXT_KEY = 'ps-next';
+// One-time migration: auth/current-user state used to live in sessionStorage,
+// which dies on tab close — a prime cause of "glitchy logouts". Copy any
+// existing values to localStorage on first load, then drop them from
+// sessionStorage so nothing later reads a stale copy. Tokens are never stored
+// here; the gotrue token already lives in localStorage (gotrue.user).
+try {
+  for (const key of [ME_CACHE, WELCOME_KEY, NEXT_KEY]) {
+    const v = sessionStorage.getItem(key);
+    if (v !== null && localStorage.getItem(key) === null) localStorage.setItem(key, v);
+    sessionStorage.removeItem(key);
+  }
+} catch { /* storage blocked — fall back to defaults */ }
 // ─── SMALL HELPERS ───
 export const esc = (value) =>
   String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
-
 // Emoji avatars show as-is; anything else becomes initials.
 export function avatarText(avatar, name) {
   const a = String(avatar || '').trim();
@@ -31,7 +51,6 @@ export function avatarText(avatar, name) {
   const initials = String(a || name || '?').split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase();
   return initials || '?';
 }
-
 export function toast(message, ms = 3500) {
   const el = document.createElement('div');
   el.className = 'ps-toast';
@@ -40,17 +59,25 @@ export function toast(message, ms = 3500) {
   document.body.appendChild(el);
   setTimeout(() => el.remove(), ms);
 }
-
 function readCookie(name) {
   const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
   return match ? decodeURIComponent(match[1]) : '';
 }
-
+// Access token for our own API: prefer the nf_jwt cookie (re-written by
+// getUser() on every load), fall back to the token stored in the persisted
+// gotrue session so a missing/expired cookie never strips the Authorization header.
+function accessToken() {
+  const fromCookie = readCookie('nf_jwt');
+  if (fromCookie) return fromCookie;
+  try {
+    return JSON.parse(localStorage.getItem('gotrue.user') || 'null')?.token?.access_token || '';
+  } catch { return ''; }
+}
 // Fetch our own API as the signed-in member. Throws with a friendly message.
 export async function api(path, { method = 'GET', body, form } = {}) {
-  await getUser(); // refreshes the session token if it's close to expiring
+  await getUser(); // refreshes the session token if close to expiring, and re-creates the nf_jwt cookie if it was lost on tab close
   const headers = {};
-  const token = readCookie('nf_jwt');
+  const token = accessToken();
   if (token) headers.Authorization = `Bearer ${token}`;
   if (body !== undefined) headers['Content-Type'] = 'application/json';
   const res = await fetch(path, {
@@ -67,10 +94,8 @@ export async function api(path, { method = 'GET', body, form } = {}) {
   }
   return data;
 }
-
 // ─── SESSION ───
 let mePromise = null;
-
 export async function currentUser() {
   try {
     return await getUser();
@@ -78,36 +103,33 @@ export async function currentUser() {
     return null;
   }
 }
-
 // { user, profile, counts } for the signed-in member, or null for guests.
 export function loadMe({ fresh = false } = {}) {
   if (mePromise && !fresh) return mePromise;
   mePromise = (async () => {
     const user = await currentUser();
     if (!user) {
-      sessionStorage.removeItem(ME_CACHE);
+      try { localStorage.removeItem(ME_CACHE); } catch { /* storage blocked */ }
       return null;
     }
     try {
       const me = await api('/api/me');
-      sessionStorage.setItem(ME_CACHE, JSON.stringify(me));
+      try { localStorage.setItem(ME_CACHE, JSON.stringify(me)); } catch { /* storage blocked */ }
       return me;
     } catch (error) {
       if (error.status === 401) return null;
-      const cached = sessionStorage.getItem(ME_CACHE);
-      return cached ? JSON.parse(cached) : { user: { id: user.id, email: user.email }, profile: null, counts: {} };
+      let cached = null;
+      try { cached = JSON.parse(localStorage.getItem(ME_CACHE) || 'null'); } catch { cached = null; }
+      return cached || { user: { id: user.id, email: user.email }, profile: null, counts: {} };
     }
   })();
   return mePromise;
 }
-
 export function clearMe() {
   mePromise = null;
-  sessionStorage.removeItem(ME_CACHE);
+  try { localStorage.removeItem(ME_CACHE); } catch { /* storage blocked */ }
 }
-
 const here = () => location.pathname + location.search;
-
 // Gate for private pages. Guests go to sign in; new members to onboarding.
 export async function requireMember({ allowUnonboarded = false } = {}) {
   const me = await loadMe();
@@ -121,12 +143,14 @@ export async function requireMember({ allowUnonboarded = false } = {}) {
   }
   return me;
 }
-
+// Where to go after sign-in: ?next= (our convention) or ?redirect= (common alias),
+// both must be same-origin paths. Fallback is always a real page — never a 404.
 export function safeNext(fallback = '/feed.html') {
-  const next = new URLSearchParams(location.search).get('next') || '';
-  return next.startsWith('/') && !next.startsWith('//') ? next : fallback;
+  const params = new URLSearchParams(location.search);
+  const next = params.get('next') || params.get('redirect') || '';
+  if (next.startsWith('/') && !next.startsWith('//')) return next;
+  return fallback || '/';
 }
-
 // After any successful sign-in: onboarding first, then wherever they were heading.
 export async function afterSignIn(fallback = '/feed.html') {
   clearMe();
@@ -134,7 +158,6 @@ export async function afterSignIn(fallback = '/feed.html') {
   const next = safeNext(fallback);
   location.replace(me?.profile?.onboarded ? next : '/onboarding.html?next=' + encodeURIComponent(next));
 }
-
 // ─── STAY SIGNED IN ───
 // Ticked (the default): the session survives closing the browser, on every
 // device. Unticked: a browser-session cookie marks this visit, and the next
@@ -152,7 +175,6 @@ function sessionExpired() {
     return localStorage.getItem(SESSION_ONLY) === '1' && !/(?:^|; )ps_alive=1/.test(document.cookie);
   } catch { return false; }
 }
-
 // Signing out leaves no trace: synced progress is saved to the account
 // first, then this device forgets the session, every draft, every cached
 // copy and all local data. Arron's memory stays safe in the account.
@@ -182,6 +204,10 @@ export async function signOut({ redirect = true } = {}) {
   try { sessionStorage.clear(); } catch { /* storage blocked */ }
   try { localStorage.clear(); } catch { /* storage blocked */ }
   document.cookie = 'ps_alive=; path=/; max-age=0';
+  // Explicit sign-out must also drop the gotrue session cookies; if the server
+  // logout call failed they would otherwise rehydrate the session on next load.
+  document.cookie = 'nf_jwt=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+  document.cookie = 'nf_refresh=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
   try {
     // Pages are re-fetched next time; the offline crisis pages are kept.
     const names = await caches.keys();
@@ -189,7 +215,6 @@ export async function signOut({ redirect = true } = {}) {
   } catch { /* no Cache API */ }
   if (redirect) location.href = '/';
 }
-
 // ─── EMAIL LINKS ───
 // Confirmation, sign-in links and password resets all land back on the
 // site with a token in the URL hash; finish them on whatever page opens.
@@ -201,10 +226,10 @@ async function finishEmailLink() {
     if (result.type === 'recovery') {
       location.replace('/reset-password.html?mode=set');
     } else if (result.type === 'confirmation' || result.type === 'oauth') {
-      sessionStorage.setItem('ps-welcome', result.type);
-      // One-tap sign in leaves the site, so where they were heading was kept in sessionStorage.
-      const kept = sessionStorage.getItem('ps-next') || '';
-      sessionStorage.removeItem('ps-next');
+      try { localStorage.setItem(WELCOME_KEY, result.type); } catch { /* storage blocked */ }
+      // One-tap sign in leaves the site, so where they were heading was kept in localStorage.
+      let kept = '';
+      try { kept = localStorage.getItem(NEXT_KEY) || ''; localStorage.removeItem(NEXT_KEY); } catch { /* storage blocked */ }
       await afterSignIn(kept.startsWith('/') && !kept.startsWith('//') ? kept : '/feed.html');
     } else if (result.type === 'email_change') {
       toast('Email address updated 💙');
@@ -216,7 +241,6 @@ async function finishEmailLink() {
     location.replace('/login.html?link=expired');
   }
 }
-
 // ─── NAV ───
 function navLink(href, label) {
   const a = document.createElement('a');
@@ -226,15 +250,12 @@ function navLink(href, label) {
   if (location.pathname === href) a.setAttribute('aria-current', 'page');
   return a;
 }
-
 function renderNav(me) {
   const inner = document.querySelector('.ps-nav .ps-nav-inner');
   if (!inner) return;
   inner.querySelectorAll('[data-member-link], .ps-account').forEach((el) => el.remove());
-
   const account = document.createElement('div');
   account.className = 'ps-account';
-
   if (!me) {
     const signin = document.createElement('a');
     signin.className = 'ps-signin';
@@ -245,7 +266,6 @@ function renderNav(me) {
     inner.appendChild(account);
     return;
   }
-
   // Members get their own corner at the top of the Community group.
   const communityMenu = inner.querySelector('#ps-g-community');
   if (communityMenu) {
@@ -256,7 +276,6 @@ function renderNav(me) {
     links?.insertBefore(navLink('/community.html', 'Community'), crisis);
     links?.insertBefore(navLink('/post.html', '✍️ Post'), crisis);
   }
-
   const profile = me.profile;
   const name = profile?.displayName || me.user.email;
   const pending = me.counts?.pendingRequests || 0;
@@ -287,7 +306,6 @@ function renderNav(me) {
       <button type="button" role="menuitem" data-signout>🚪 Sign out</button>
     </div>`;
   inner.appendChild(account);
-
   const button = account.querySelector('.ps-avatar-btn');
   const menu = account.querySelector('.ps-menu');
   const items = () => [...menu.querySelectorAll('[role="menuitem"]')];
@@ -310,22 +328,48 @@ function renderNav(me) {
   document.addEventListener('click', (e) => { if (!account.contains(e.target)) setOpen(false); });
   menu.querySelector('[data-signout]').addEventListener('click', signOut);
 }
-
+// Optimistic signed-in shell: render the member nav immediately from the
+// persisted session/cache so a reload never flashes "Sign in" first. The full
+// /api/me fetch then re-renders with profile name, badges and menu links.
+function cachedMe() {
+  try {
+    const v = JSON.parse(localStorage.getItem(ME_CACHE) || 'null');
+    return v && v.user ? v : null;
+  } catch { return null; }
+}
+function optimisticMe() {
+  const fromCache = cachedMe();
+  if (fromCache) return fromCache;
+  try {
+    const raw = JSON.parse(localStorage.getItem('gotrue.user') || 'null');
+    if (!raw || !raw.id) return null;
+    const role = raw.role || 'member';
+    return { user: { id: raw.id, email: raw.email, role, isOwner: role === 'owner', isAdmin: role === 'admin', isGuardian: role === 'guardian' }, profile: null, counts: {} };
+  } catch { return null; }
+}
 // ─── BOOT ───
 (async () => {
-  await finishEmailLink();
-  if (sessionExpired() && (await currentUser())) await signOut({ redirect: false });
-  const me = await loadMe();
-  renderNav(me);
-  // Shane knows instantly he's home.
-  if (me?.user?.isOwner && !sessionStorage.getItem('ps-owner-welcomed')) {
-    sessionStorage.setItem('ps-owner-welcomed', '1');
-    toast(`💫 Welcome home, ${me.user.ownerName || 'Shane'}. Full power, full respect.${me.counts?.awaitingReview ? ` ${me.counts.awaitingReview} post${me.counts.awaitingReview === 1 ? '' : 's'} waiting for you.` : ''}`, 5000);
-  }
+  // Register first so a login/logout that lands mid-boot still updates the nav.
   onAuthChange((event) => {
     if (event === 'login' || event === 'logout') {
       clearMe();
       loadMe().then(renderNav);
     }
   });
+  try {
+    await finishEmailLink();
+    if (sessionExpired() && (await currentUser())) await signOut({ redirect: false });
+    const opt = optimisticMe();
+    if (opt) renderNav(opt); // no flash of signed-out
+    const me = await loadMe();
+    renderNav(me);
+    // Shane knows instantly he's home (once per browser session).
+    if (me?.user?.isOwner && !sessionStorage.getItem('ps-owner-welcomed')) {
+      sessionStorage.setItem('ps-owner-welcomed', '1');
+      toast(`💫 Welcome home, ${me.user.ownerName || 'Shane'}. Full power, full respect.${me.counts?.awaitingReview ? ` ${me.counts.awaitingReview} post${me.counts.awaitingReview === 1 ? '' : 's'} waiting for you.` : ''}`, 5000);
+    }
+  } catch (err) {
+    // A failed Identity/widget load must never break the page.
+    console.warn('[auth] boot failed (page continues as guest):', err);
+  }
 })();

@@ -31,6 +31,15 @@ if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !standalone) $("ios-install
 // ---------- PROFILE ----------
 const form = $("profile-form");
 let profile = { ...E.EMPTY_PROFILE, ...store.get(KEYS.profile, {}) };
+document.querySelectorAll("input, select, textarea").forEach((el) => {
+  if (el.getAttribute("aria-label") || el.getAttribute("aria-labelledby")) return;
+  const wrap = el.closest("label");
+  if (!wrap) return;
+  const copy = wrap.cloneNode(true);
+  copy.querySelectorAll("input, select, textarea, small, button").forEach((node) => node.remove());
+  const name = copy.textContent.replace(/\s+/g, " ").trim();
+  if (name) el.setAttribute("aria-label", name);
+});
 const fields = [...form.elements].filter((el) => el.name);
 
 function fillProfile() { for (const el of fields) if (profile[el.name] !== undefined) el.value = profile[el.name]; }

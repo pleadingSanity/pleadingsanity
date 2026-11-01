@@ -11,10 +11,10 @@ const GAME = 'cosmic-connect';
 const DEFAULTS = { completed: { 6: 0, 8: 0, 12: 0 }, history: [], found: [], drawn: 0, size: 6 };
 
 const SYMBOLS = [
-  ['🌙', 'crescent moon'], ['⭐', 'star'], ['🪐', 'ringed planet'], ['☄️', 'comet'],
-  ['🌌', 'Milky Way'], ['🌠', 'shooting star'], ['🌍', 'Earth'], ['🌸', 'blossom'],
-  ['🦋', 'butterfly'], ['🕊️', 'dove'], ['💙', 'blue heart'], ['🌊', 'wave'],
-  ['☀️', 'sun'], ['🌈', 'rainbow'], ['🌻', 'sunflower'],
+  ['', 'crescent moon'], ['', 'star'], ['', 'ringed planet'], ['', 'comet'],
+  ['', 'Milky Way'], ['', 'shooting star'], ['', 'Earth'], ['', 'blossom'],
+  ['', 'butterfly'], ['', 'dove'], ['', 'blue heart'], ['', 'wave'],
+  ['', 'sun'], ['', 'rainbow'], ['', 'sunflower'],
 ];
 
 const MATCH_WORDS = [
@@ -169,7 +169,7 @@ function finish() {
   state.completed[size] = (state.completed[size] || 0) + 1;
   state.history.push({ s: size, m: moves, d: today() });
   save();
-  const msg = `All ${size} pairs found, in ${moves} moves. However it felt, you gave your mind a gentle stretch. 🌌`;
+  const msg = `All ${size} pairs found, in ${moves} moves. However it felt, you gave your mind a gentle stretch. `;
   affirm.textContent = msg + ' Another round is waiting.';
   live.textContent = affirm.textContent;
   if (window.PSGames) {
@@ -296,7 +296,7 @@ function tapStar(i) {
     if (next && document.activeElement?.closest?.('.cc-star')) next.focus();
     return;
   }
-  reveal.textContent = `✨ ${c.name}: ${c.msg} Another round is waiting.`;
+  reveal.textContent = ` ${c.name}: ${c.msg} Another round is waiting.`;
   state.drawn = (state.drawn || 0) + 1;
   if (!state.found.includes(c.id)) state.found.push(c.id);
   save();

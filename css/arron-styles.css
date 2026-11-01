@@ -1,5 +1,5 @@
 /* ==============================================================
-   💙 ARRON APP — COSMIC INTERFACE
+    ARRON APP — COSMIC INTERFACE
    Standalone companion (/arron-app.html). Dark space, soft glow,
    thumb-reachable bottom nav, easy on the eyes at 3am.
    Evolution, Not Erasure.
@@ -7,8 +7,8 @@
 
 :root {
   --aa-cyan: #00fff0;
-  --aa-magenta: #ff00ff;
-  --aa-magenta-soft: #ff7aff;
+  --aa-magenta: #f59e0b;
+  --aa-magenta-soft: #fbbf24;
   --aa-bg: #000103;
   --aa-deep: #0d1b2a;
   --aa-panel: rgba(13, 27, 42, 0.82);
@@ -20,7 +20,7 @@
   --aa-top-h: 60px;
   --aa-orb-speed: 6s;
   --aa-orb-a: #00fff0;
-  --aa-orb-b: #ff00ff;
+  --aa-orb-b: #f59e0b;
   --aa-font: 1rem;
   --aa-safe-b: env(safe-area-inset-bottom, 0px);
   --aa-safe-t: env(safe-area-inset-top, 0px);

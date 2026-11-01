@@ -11,12 +11,12 @@ import { api, currentUser, toast } from '/js/auth.js';
 
 const LOCAL_KEY = 'ps-sanctuary-notes';
 const CATEGORY_LABELS = {
-  thought: '💭 Thought',
-  gratitude: '🙏 Gratitude',
-  goal: '🎯 Goal',
-  idea: '💡 Idea',
+  thought: ' Thought',
+  gratitude: ' Gratitude',
+  goal: ' Goal',
+  idea: ' Idea',
   reminder: '⏰ Reminder',
-  win: '🏆 Small win',
+  win: ' Small win',
 };
 
 const $ = (id) => document.getElementById(id);
@@ -133,7 +133,7 @@ function render() {
     li.dataset.cat = CATEGORY_LABELS[n.category] ? n.category : 'thought';
     if (n.title) li.append(el('h3', '', n.title));
     li.append(el('p', 'sn-body', n.content));
-    li.append(el('p', 'sn-meta', [n.pinned ? '📌 Pinned' : '', CATEGORY_LABELS[n.category] || CATEGORY_LABELS.thought, when(n.updatedAt)].filter(Boolean).join(' · ')));
+    li.append(el('p', 'sn-meta', [n.pinned ? ' Pinned' : '', CATEGORY_LABELS[n.category] || CATEGORY_LABELS.thought, when(n.updatedAt)].filter(Boolean).join(' · ')));
 
     const actions = el('div', 'sn-actions');
     actions.append(
@@ -199,7 +199,7 @@ async function onSubmit(event) {
   try {
     if (editing) await store.update(mode === 'account' ? Number(editing) : editing, note);
     else await store.create(note);
-    toast(editing ? 'Note updated ✓' : mode === 'account' ? 'Note saved to your account ✓' : 'Note saved on this device ✓');
+    toast(editing ? 'Note updated ' : mode === 'account' ? 'Note saved to your account ' : 'Note saved on this device ');
     resetForm();
     await refresh();
   } catch (err) {
@@ -260,8 +260,8 @@ async function sendToKeep(n) {
   const tab = window.open('https://keep.google.com/', '_blank', 'noopener');
   if (copied) {
     toast(tab
-      ? 'Copied ✓ Keep is open — tap "Take a note" and paste. It is not in Keep until you do.'
-      : 'Copied ✓ Open keep.google.com, tap "Take a note" and paste.', 7000);
+      ? 'Copied  Keep is open — tap "Take a note" and paste. It is not in Keep until you do.'
+      : 'Copied  Open keep.google.com, tap "Take a note" and paste.', 7000);
   } else {
     toast("Your browser blocked the clipboard. Select the note text, copy it, then paste it into Keep.", 7000);
   }
@@ -289,7 +289,7 @@ function offerImport() {
       const res = await api('/api/notes/import', { method: 'POST', body: { notes: local } });
       if (res.imported === local.length) {
         localStorage.removeItem(LOCAL_KEY);
-        toast('Moved ' + res.imported + ' note' + (res.imported === 1 ? '' : 's') + ' to your account ✓');
+        toast('Moved ' + res.imported + ' note' + (res.imported === 1 ? '' : 's') + ' to your account ');
       } else {
         toast('Moved ' + res.imported + ' of ' + local.length + '. The rest are still on this device.', 6000);
         if (res.imported > 0) writeLocal(local.slice(res.imported));
@@ -322,13 +322,13 @@ async function init() {
     try {
       await api('/api/notes');
       mode = 'account';
-      setSync('🔒 Synced to your account — your notes follow you to any device.');
+      setSync(' Synced to your account — your notes follow you to any device.');
       offerImport();
     } catch {
-      setSync("📱 Couldn't reach your account just now, so notes are saving on this device.");
+      setSync(" Couldn't reach your account just now, so notes are saving on this device.");
     }
   } else {
-    setSync('📱 Saving on this device only.', { href: '/login.html?next=/notes.html', label: 'Sign in to sync across devices →' });
+    setSync(' Saving on this device only.', { href: '/login.html?next=/notes.html', label: 'Sign in to sync across devices →' });
   }
   await refresh();
 }

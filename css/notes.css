@@ -17,15 +17,15 @@
 }
 .sn-card textarea { resize: vertical; min-height: 120px; }
 .sn-card :focus-visible, #sn-search:focus-visible, .sn-btn:focus-visible { outline: 3px solid #00fff0; outline-offset: 2px; }
-.sn-card [aria-invalid="true"] { border-color: #ff6b9a; }
+.sn-card [aria-invalid="true"] { border-color: #f59e0b; }
 .sn-err { color: #ffb3c8; margin: 6px 0 0; font-size: 0.92rem; }
 
 .sn-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
 .sn-btn { min-height: 44px; min-width: 44px; padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0, 255, 240, 0.45); background: rgba(0, 255, 240, 0.08); color: #eafffd; font: inherit; font-weight: 600; cursor: pointer; }
 .sn-btn:hover { background: rgba(0, 255, 240, 0.18); }
 .sn-btn[disabled] { opacity: 0.6; cursor: progress; }
-.sn-primary { background: linear-gradient(135deg, #00fff0, #ff00ff); color: #000103; border: 0; }
-.sn-danger { border-color: rgba(255, 107, 154, 0.6); }
+.sn-primary { background: linear-gradient(135deg, #00fff0, #f59e0b); color: #000103; border: 0; }
+.sn-danger { border-color: rgba(245, 158, 11, 0.6); }
 
 .sn-list-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
 .sn-list-head .sn-h2 { margin: 0; }

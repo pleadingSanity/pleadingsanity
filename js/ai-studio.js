@@ -1,5 +1,5 @@
 // ==============================================================
-// 🎙️ AI STUDIO — where humans and AI create side by side
+//  AI STUDIO — where humans and AI create side by side
 // Create: ask Arron, Nova (GPT), Sol (Gemini), Claude or Grok for
 //         something inspiring, funny or brave, then share it.
 // Battle: one prompt a day. Humans vs AI. Everyone votes.
@@ -64,7 +64,7 @@ tabs.forEach((t, i) => {
 
 // ─── CARDS ───
 function card(item, { battle = false } = {}) {
-  const who = item.ai ? `<span class="st-badge ai">🤖 ${esc(item.author)}</span>` : `<span class="st-badge human">🧑 ${esc(item.author)}</span>`;
+  const who = item.ai ? `<span class="st-badge ai"> ${esc(item.author)}</span>` : `<span class="st-badge human"> ${esc(item.author)}</span>`;
   return `
     <article class="st-card ${item.ai ? 'is-ai' : 'is-human'}" data-id="${item.id}">
       <header>${who}<time datetime="${esc(item.createdAt)}">${when(item.createdAt)}</time></header>
@@ -72,10 +72,10 @@ function card(item, { battle = false } = {}) {
       <p class="st-body">${lines(item.body)}</p>
       <footer>
         <button type="button" class="st-vote" data-vote="${item.id}" aria-pressed="${item.voted}">
-          <span aria-hidden="true">${item.voted ? '💗' : '🤍'}</span> <span data-n>${item.votes}</span><span class="sr-only"> hearts</span>
+          <span aria-hidden="true">${item.voted ? '' : ''}</span> <span data-n>${item.votes}</span><span class="sr-only"> hearts</span>
         </button>
-        ${battle ? '' : `<button type="button" class="st-share" data-share="${item.id}">↗️ Share</button>`}
-        <button type="button" class="st-share" data-copy="${item.id}">📋 Copy</button>
+        ${battle ? '' : `<button type="button" class="st-share" data-share="${item.id}"> Share</button>`}
+        <button type="button" class="st-share" data-copy="${item.id}"> Copy</button>
       </footer>
     </article>`;
 }
@@ -87,7 +87,7 @@ document.addEventListener('click', async (e) => {
     try {
       const { voted, votes } = await api(`/api/studio/vote/${voteBtn.dataset.vote}`, { method: 'POST', body: { deviceKey: deviceKey() } });
       voteBtn.setAttribute('aria-pressed', String(voted));
-      voteBtn.querySelector('[aria-hidden]').textContent = voted ? '💗' : '🤍';
+      voteBtn.querySelector('[aria-hidden]').textContent = voted ? '' : '';
       voteBtn.querySelector('[data-n]').textContent = votes;
       if (voted && !was) voteBtn.classList.add('pop');
       setTimeout(() => voteBtn.classList.remove('pop'), 500);
@@ -104,7 +104,7 @@ document.addEventListener('click', async (e) => {
     try {
       if (share.dataset.share && navigator.share) return await navigator.share({ title: 'Pleading Sanity AI Studio', text, url });
       await navigator.clipboard.writeText(`${text}\n${url}`);
-      toast('Copied — go spread some light ✨');
+      toast('Copied — go spread some light ');
     } catch (error) {
       if (error?.name !== 'AbortError') toast('Could not copy on this device.');
     }
@@ -119,7 +119,7 @@ createForm.addEventListener('submit', async (e) => {
   const out = $('st-result');
   btn.disabled = true;
   btn.setAttribute('aria-busy', 'true');
-  out.innerHTML = '<p class="st-thinking">✨ The AI is dreaming something up…</p>';
+  out.innerHTML = '<p class="st-thinking"> The AI is dreaming something up…</p>';
   try {
     const f = createForm.elements;
     const { item } = await api('/api/studio/create', { method: 'POST', body: { style: f.style.value, voice: f.voice.value, topic: f.topic.value } });
@@ -143,7 +143,7 @@ async function loadWall(more = false) {
     const q = `/api/studio/items?kind=creation&sort=${wallSort}${more && wallBefore ? '&before=' + wallBefore : ''}`;
     const { items, nextBefore } = await get(q);
     if (!more) list.innerHTML = '';
-    list.insertAdjacentHTML('beforeend', items.map((i) => card(i)).join('') || '<p class="st-note">Nothing here yet. Be the first to create something ✨</p>');
+    list.insertAdjacentHTML('beforeend', items.map((i) => card(i)).join('') || '<p class="st-note">Nothing here yet. Be the first to create something </p>');
     wallBefore = nextBefore;
     $('st-wall-more').hidden = !nextBefore;
   } catch (error) {
@@ -160,7 +160,7 @@ $('st-wall-more').addEventListener('click', () => loadWall(true));
 // ─── BATTLE ───
 async function loadBattle() {
   const list = $('st-battle-list');
-  list.innerHTML = '<p class="st-thinking">The AI is warming up… 🥊</p>';
+  list.innerHTML = '<p class="st-thinking">The AI is warming up… </p>';
   try {
     const { prompt, entries, score } = await get('/api/studio/battle');
     $('st-battle-prompt').textContent = prompt;
@@ -183,7 +183,7 @@ $('st-battle-form').addEventListener('submit', async (e) => {
   try {
     await api('/api/studio/battle', { method: 'POST', body: { body: form.elements.entry.value } });
     form.reset();
-    toast('You\'re in! Rally the humans 💪');
+    toast('You\'re in! Rally the humans ');
     loadBattle();
   } catch (error) {
     toast(error.message);
@@ -239,7 +239,7 @@ function playPod(btn) {
 
 function episode(item) {
   if (item.pending) {
-    return `<article class="st-episode pending"><h3>🎙️ Recording: ${esc(item.topic)}</h3><p class="st-thinking">Arron, Nova and Sol are in the booth. This takes a minute or two…</p></article>`;
+    return `<article class="st-episode pending"><h3> Recording: ${esc(item.topic)}</h3><p class="st-thinking">Arron, Nova and Sol are in the booth. This takes a minute or two…</p></article>`;
   }
   const turns = (item.script || []).map((t) => `
     <li class="st-turn" data-voice="${esc(t.voice)}">
@@ -253,7 +253,7 @@ function episode(item) {
       <p>${esc(item.body || item.topic)}</p>
       <div class="st-row">
         <button type="button" class="st-play" data-play>▶ Play episode</button>
-        <button type="button" class="st-vote" data-vote="${item.id}" aria-pressed="${item.voted}"><span aria-hidden="true">${item.voted ? '💗' : '🤍'}</span> <span data-n>${item.votes}</span><span class="sr-only"> hearts</span></button>
+        <button type="button" class="st-vote" data-vote="${item.id}" aria-pressed="${item.voted}"><span aria-hidden="true">${item.voted ? '' : ''}</span> <span data-n>${item.votes}</span><span class="sr-only"> hearts</span></button>
       </div>
       <details><summary>Read the transcript</summary><ol class="st-transcript">${turns}</ol></details>
     </article>`;
@@ -264,7 +264,7 @@ async function loadPods() {
   const list = $('st-pods');
   try {
     const { items } = await get('/api/studio/items?kind=podcast&sort=new');
-    list.innerHTML = items.map(episode).join('') || '<p class="st-note">The first episode is on its way. Check back soon 🎙️</p>';
+    list.innerHTML = items.map(episode).join('') || '<p class="st-note">The first episode is on its way. Check back soon </p>';
     clearTimeout(podTimer);
     if (items.some((i) => i.pending)) podTimer = setTimeout(loadPods, 15000);
   } catch (error) {
@@ -288,7 +288,7 @@ $('st-record').addEventListener('submit', async (e) => {
   try {
     await api('/api/studio/podcast', { method: 'POST', body: { topic: form.elements.topic.value } });
     form.reset();
-    toast('Recording started 🎙️ It appears below in a minute or two.');
+    toast('Recording started  It appears below in a minute or two.');
     loadPods();
   } catch (error) {
     toast(error.message);

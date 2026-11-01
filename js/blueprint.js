@@ -43,7 +43,7 @@ function toText(bp) {
     ].join('\n'))
     .join('\n\n');
   return [
-    `🎬 VIDEO BLUEPRINT — ${bp.title}`,
+    ` VIDEO BLUEPRINT — ${bp.title}`,
     `Pleading Sanity · Evolution Not Erasure · Built with Arron`,
     `Topic: ${bp.topic} · Platform: ${bp.platform} · ${bp.seconds}s · Tone: ${bp.tone}`,
     line, 'HOOK', bp.hook || '',
@@ -86,28 +86,28 @@ function render(bp) {
     <tr><td>${i + 1}</td><td>${esc(s.start)}–${esc(s.end)}</td><td>${esc(s.shot)}</td><td>${esc(s.lighting)}</td><td>${esc(s.transition)}</td></tr>`).join('');
   out.innerHTML = `
     <section class="panel" aria-labelledby="bp-title">
-      <p class="post-time">🎬 ${esc(bp.platform)} · ${esc(bp.seconds)}s · ${esc(bp.tone)} · built with Arron</p>
+      <p class="post-time"> ${esc(bp.platform)} · ${esc(bp.seconds)}s · ${esc(bp.tone)} · built with Arron</p>
       <h2 id="bp-title">${esc(bp.title)}</h2>
       <p><strong>Hook:</strong> ${esc(bp.hook)}</p>
       <div class="btn-row sx-noprint">
-        <button type="button" class="sbtn primary small" data-bp="txt">⬇️ Download Blueprint</button>
-        <button type="button" class="sbtn ghost small" data-bp="srt">💬 Captions (.srt)</button>
-        <button type="button" class="sbtn ghost small" data-bp="pdf">🖨️ Save as PDF</button>
-        <button type="button" class="sbtn ghost small" data-bp="copy">📋 Copy all</button>
-        <button type="button" class="sbtn ghost small" data-bp="post">✍️ Share as post</button>
+        <button type="button" class="sbtn primary small" data-bp="txt"> Download Blueprint</button>
+        <button type="button" class="sbtn ghost small" data-bp="srt"> Captions (.srt)</button>
+        <button type="button" class="sbtn ghost small" data-bp="pdf"> Save as PDF</button>
+        <button type="button" class="sbtn ghost small" data-bp="copy"> Copy all</button>
+        <button type="button" class="sbtn ghost small" data-bp="post"> Share as post</button>
       </div>
     </section>
-    <section class="panel" aria-labelledby="bp-script"><h2 id="bp-script">📝 Script &amp; storyboard</h2><div class="sx-scenes">${scenes}</div></section>
-    <section class="panel" aria-labelledby="bp-shots"><h2 id="bp-shots">🎥 Shot list</h2>
+    <section class="panel" aria-labelledby="bp-script"><h2 id="bp-script"> Script &amp; storyboard</h2><div class="sx-scenes">${scenes}</div></section>
+    <section class="panel" aria-labelledby="bp-shots"><h2 id="bp-shots"> Shot list</h2>
       <div class="sx-table-wrap"><table class="sx-table"><thead><tr><th scope="col">#</th><th scope="col">Time</th><th scope="col">Camera</th><th scope="col">Lighting</th><th scope="col">Transition</th></tr></thead><tbody>${shots}</tbody></table></div>
     </section>
-    <section class="panel" aria-labelledby="bp-vo"><h2 id="bp-vo">🎙️ Voiceover direction</h2><p>${esc(bp.voiceoverNotes)}</p></section>
-    <section class="panel" aria-labelledby="bp-music"><h2 id="bp-music">🎵 Beat &amp; mood guide</h2>
+    <section class="panel" aria-labelledby="bp-vo"><h2 id="bp-vo"> Voiceover direction</h2><p>${esc(bp.voiceoverNotes)}</p></section>
+    <section class="panel" aria-labelledby="bp-music"><h2 id="bp-music"> Beat &amp; mood guide</h2>
       <ul>${arr(bp.music).map((m) => `<li><strong>${esc(m.section)}</strong> — ${esc(m.mood)}: ${esc(m.suggestion)}</li>`).join('')}</ul>
       <p class="post-time">Use royalty-free or properly licensed music only.</p>
     </section>
-    <section class="panel" aria-labelledby="bp-cap"><h2 id="bp-cap">💬 Captions</h2><pre class="sx-pre">${esc(toSRT(bp))}</pre></section>
-    <section class="panel" aria-labelledby="bp-desc"><h2 id="bp-desc">📣 Description &amp; hashtags</h2>
+    <section class="panel" aria-labelledby="bp-cap"><h2 id="bp-cap"> Captions</h2><pre class="sx-pre">${esc(toSRT(bp))}</pre></section>
+    <section class="panel" aria-labelledby="bp-desc"><h2 id="bp-desc"> Description &amp; hashtags</h2>
       <pre class="sx-pre">${esc(bp.description)}</pre>
       <div class="sx-hashtags" style="margin-top:10px">${arr(bp.hashtags).map((h) => `<span>#${esc(String(h).replace(/^#/, ''))}</span>`).join('')}</div>
       ${bp.callToAction ? `<p style="margin-top:10px"><strong>Call to action:</strong> ${esc(bp.callToAction)}</p>` : ''}
@@ -124,7 +124,7 @@ out.addEventListener('click', async (e) => {
   if (b.dataset.bp === 'srt') save(`${name}.srt`, toSRT(current), 'application/x-subrip');
   if (b.dataset.bp === 'pdf') window.print();
   if (b.dataset.bp === 'copy') {
-    try { await navigator.clipboard.writeText(toText(current)); toast('Blueprint copied 📋'); } catch { toast("Couldn't copy — try Download instead."); }
+    try { await navigator.clipboard.writeText(toText(current)); toast('Blueprint copied '); } catch { toast("Couldn't copy — try Download instead."); }
   }
   if (b.dataset.bp === 'post') {
     const script = arr(current.scenes).map((s) => `[${s.start}] ${s.voiceover}`).join('\n');
@@ -133,14 +133,14 @@ out.addEventListener('click', async (e) => {
         method: 'POST',
         body: {
           kind: 'story',
-          title: `🎬 ${current.title}`,
+          title: ` ${current.title}`,
           body: `${current.hook}\n\n${script}\n\n${current.description || ''}`.slice(0, 19000),
           tags: ['VideoBlueprint', 'BuiltWithArron'],
           mood: 'rising',
           truthTag: 'experience',
         },
       });
-      toast('Shared with the community 💙');
+      toast('Shared with the community ');
       setTimeout(() => { location.href = `/feed.html?post=${post.id}#community`; }, 900);
     } catch (error) {
       toast(error.data?.onboarding ? 'Finish your profile first, then you can post.' : error.message, 6000);

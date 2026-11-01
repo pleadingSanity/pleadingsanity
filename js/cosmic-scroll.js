@@ -1,5 +1,5 @@
 // ==============================================================
-// 🌌 COSMIC SCROLL — full-screen, swipe-up "Sanity Feed" stream
+//  COSMIC SCROLL — full-screen, swipe-up "Sanity Feed" stream
 // Any element with [data-cosmic-scroll] becomes a full-screen time-order
 // snap feed: community posts, survivor videos, affirmations and
 // breathing moments, loading forever as you swipe.
@@ -50,12 +50,12 @@ const AFFIRMATIONS = [
 ];
 
 const TIPS = [
-  ['🧊 Grounding trick', 'Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste.'],
-  ['💧 Tiny reset', 'Drink a glass of water, roll your shoulders, unclench your jaw. Yes, that jaw.'],
-  ['📖 Write it out', 'Two lines in the Journal Vault can shrink a storm to a drizzle.', '/journal-vault.html', 'Open Journal'],
-  ['🎵 Sound bath', 'A soft tone and a deep breath. Headphones on, volume low.', '/frequencies.html', 'Play Hz'],
-  ['🧠 Brain snack', 'Two minutes of a calm game resets a racing head.', '/games.html', 'Play a game'],
-  ['💙 Talk it through', 'Arron is here at 3am, no judgement, no account needed.', '/arron.html', 'Talk to Arron'],
+  [' Grounding trick', 'Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, 1 you can taste.'],
+  [' Tiny reset', 'Drink a glass of water, roll your shoulders, unclench your jaw. Yes, that jaw.'],
+  [' Write it out', 'Two lines in the Journal Vault can shrink a storm to a drizzle.', '/journal-vault.html', 'Open Journal'],
+  [' Sound bath', 'A soft tone and a deep breath. Headphones on, volume low.', '/frequencies.html', 'Play Hz'],
+  [' Brain snack', 'Two minutes of a calm game resets a racing head.', '/games.html', 'Play a game'],
+  [' Talk it through', 'Arron is here at 3am, no judgement, no account needed.', '/arron.html', 'Talk to Arron'],
 ];
 
 const GRADIENTS = [
@@ -155,14 +155,14 @@ function actionRail(item) {
   const liked = item.type === 'post' ? item.post.liked : readJSON(LOCAL_LIKES, []).includes(item.key);
   const likes = ''; // hearts are private — no counts, no popularity contests
   const comment = item.type === 'post'
-    ? `<a class="cs-act" href="/feed.html?post=${item.post.id}#community" aria-label="Comments (${item.post.comments})"><span aria-hidden="true">💬</span><small>${item.post.comments || ''}</small></a>`
+    ? `<a class="cs-act" href="/feed.html?post=${item.post.id}#community" aria-label="Comments (${item.post.comments})"><span aria-hidden="true"></span><small>${item.post.comments || ''}</small></a>`
     : '';
   return `
     <div class="cs-rail">
-      <button type="button" class="cs-act" data-act="like" aria-pressed="${liked}" aria-label="Heart"><span aria-hidden="true">${liked ? '💗' : '🤍'}</span><small data-count>${likes || ''}</small></button>
+      <button type="button" class="cs-act" data-act="like" aria-pressed="${liked}" aria-label="Heart"><span aria-hidden="true">${liked ? '' : ''}</span><small data-count>${likes || ''}</small></button>
       ${comment}
-      <button type="button" class="cs-act" data-act="save" aria-pressed="${saved}" aria-label="Save"><span aria-hidden="true">${saved ? '⭐' : '☆'}</span></button>
-      <button type="button" class="cs-act" data-act="share" aria-label="Share"><span aria-hidden="true">↗️</span></button>
+      <button type="button" class="cs-act" data-act="save" aria-pressed="${saved}" aria-label="Save"><span aria-hidden="true">${saved ? '' : ''}</span></button>
+      <button type="button" class="cs-act" data-act="share" aria-label="Share"><span aria-hidden="true"></span></button>
     </div>`;
 }
 
@@ -177,10 +177,10 @@ function cardBody(item, index) {
       return `
         ${media}
         <div class="cs-text">
-          <p class="cs-kicker">💬 Community voice</p>
+          <p class="cs-kicker"> Community voice</p>
           ${p.title ? `<h3>${esc(p.title)}</h3>` : ''}
           <p class="cs-body">${esc(p.body.slice(0, 600))}</p>
-          ${p.views > 0 ? `<p class="cs-kicker"><span aria-hidden="true">👣</span> ${p.views === 1 ? '1 has' : `${Number(p.views).toLocaleString('en-GB')} have`} walked this path</p>` : ''}
+          ${p.views > 0 ? `<p class="cs-kicker"><span aria-hidden="true"></span> ${p.views === 1 ? '1 has' : `${Number(p.views).toLocaleString('en-GB')} have`} walked this path</p>` : ''}
           <a class="cs-author" href="/@${encodeURIComponent(p.author.username)}">
             <span class="cs-avatar" aria-hidden="true">${esc(avatarText(p.author.avatar, name))}</span>${esc(name)}
           </a>
@@ -191,7 +191,7 @@ function cardBody(item, index) {
       return `
         ${videoFrame(v.videoId, v.title, v.thumbnail)}
         <div class="cs-text">
-          <p class="cs-kicker">🎬 ${esc(v.channelTitle || 'Survivor stories')}</p>
+          <p class="cs-kicker"> ${esc(v.channelTitle || 'Survivor stories')}</p>
           <h3>${esc(v.title)}</h3>
           ${v.description ? `<p class="cs-body">${esc(v.description.slice(0, 200))}</p>` : ''}
         </div>`;
@@ -213,9 +213,9 @@ function cardBody(item, index) {
         <p class="cs-big sm">Breathe with the circle</p><p class="cs-sub">In as it grows · out as it shrinks. Three rounds. You've got this.</p></div>`;
     case 'break':
       return `<div class="cs-center"><div class="cs-breath" aria-hidden="true"></div>
-        <p class="cs-big">You've been scrolling a while — breathe with me 💙</p>
+        <p class="cs-big">You've been scrolling a while — breathe with me </p>
         <p class="cs-sub">In as the circle grows · out as it shrinks. Then maybe stretch, sip some water, or look out a window. The cosmos will still be here.</p>
-        <div class="cs-row"><a class="cs-cta" href="/meditation.html">🧘 Two quiet minutes</a><a class="cs-cta ghost" href="/crisis.html">Need to talk? Get help</a></div></div>`;
+        <div class="cs-row"><a class="cs-cta" href="/meditation.html"> Two quiet minutes</a><a class="cs-cta ghost" href="/crisis.html">Need to talk? Get help</a></div></div>`;
     default:
       return `<p>${index}</p>`;
   }
@@ -252,7 +252,7 @@ class CosmicScroll {
       <div class="cs-controls">
         <button type="button" class="cs-ctl" data-ctl="up" aria-label="Previous">▲</button>
         <button type="button" class="cs-ctl" data-ctl="down" aria-label="Next">▼</button>
-        <button type="button" class="cs-ctl" data-ctl="full" aria-pressed="false" aria-label="Full screen">⛶</button>
+        <button type="button" class="cs-ctl" data-ctl="full" aria-pressed="false" aria-label="Full screen"></button>
       </div>
       <p class="sr-only" aria-live="polite" data-announce></p>`;
     this.scroller = root.querySelector('.cs-scroller');
@@ -430,12 +430,12 @@ class CosmicScroll {
     const item = card._item;
     const set = (liked, count) => {
       btn.setAttribute('aria-pressed', String(liked));
-      btn.querySelector('[aria-hidden]').textContent = liked ? '💗' : '🤍';
+      btn.querySelector('[aria-hidden]').textContent = liked ? '' : '';
       if (count !== undefined) btn.querySelector('[data-count]').textContent = count || '';
     };
     if (item.type === 'post') {
       if (!(await loadMe())) {
-        toast('Sign in to send hearts to survivors 💙');
+        toast('Sign in to send hearts to survivors ');
         return;
       }
       set(!on);
@@ -460,7 +460,7 @@ class CosmicScroll {
     if (reduceMotion) return;
     const heart = document.createElement('span');
     heart.className = 'cs-burst';
-    heart.textContent = '💗';
+    heart.textContent = '';
     const box = card.getBoundingClientRect();
     heart.style.left = (x ? x - box.left : box.width / 2) + 'px';
     heart.style.top = (y ? y - box.top : box.height / 2) + 'px';
@@ -479,8 +479,8 @@ class CosmicScroll {
     else delete items[key];
     writeJSON(SAVED_ITEMS, Object.fromEntries(Object.entries(items).filter(([k]) => saved.has(k))));
     btn.setAttribute('aria-pressed', String(on));
-    btn.querySelector('[aria-hidden]').textContent = on ? '⭐' : '☆';
-    toast(on ? 'Saved on this device ⭐' : 'Removed from saved');
+    btn.querySelector('[aria-hidden]').textContent = on ? '' : '';
+    toast(on ? 'Saved on this device ' : 'Removed from saved');
   }
 
   async share(card) {
@@ -492,7 +492,7 @@ class CosmicScroll {
     try {
       if (navigator.share) return await navigator.share({ title: 'Pleading Sanity', text, url });
       await navigator.clipboard.writeText(`${text} ${url}`.trim());
-      toast('Link copied — send some light 💙');
+      toast('Link copied — send some light ');
     } catch (error) {
       if (error?.name !== 'AbortError') toast(url);
     }

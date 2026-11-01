@@ -14,7 +14,7 @@
   var STORAGE_KEY = 'ps-mind-mode';
   var MESSAGES = {
     all: 'Every word here was written by someone who has been in the dark and found a way through. Take what you need.',
-    low: 'Heavy day? You don\'t have to fix it right now. Just breathe, and let these sit with you. 💙',
+    low: 'Heavy day? You don\'t have to fix it right now. Just breathe, and let these sit with you. ',
     anxious: 'Your mind is racing — that\'s okay. Slow breath in for four, out for six. You are safe in this moment.',
     rising: 'You\'re climbing. Notice how far you\'ve come — yesterday\'s you would be proud.',
     fierce: 'That fire is yours. Turn it into purpose. Madness into meaning.'

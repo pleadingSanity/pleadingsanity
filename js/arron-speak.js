@@ -15,7 +15,7 @@
     speakBtn.setAttribute("aria-pressed", on ? "true" : "false");
     speakBtn.setAttribute("aria-label", on ? "Speak replies: on" : "Speak replies: off");
     speakBtn.title = on ? "Speak replies on (free, on this device)" : "Speak replies off";
-    speakBtn.textContent = on ? "🔊" : "🔇";
+    speakBtn.textContent = on ? "" : "";
   };
   paint();
   btn.after(speakBtn);

@@ -36,8 +36,8 @@ export async function mountOAuth(container, { beforeRedirect } = {}) {
     const b = e.target.closest('[data-oauth]');
     if (!b) return;
     beforeRedirect?.();
-    const next = new URLSearchParams(location.search).get('next');
-    if (next) sessionStorage.setItem('ps-next', next);
+    const next = new URLSearchParams(location.search).get('next') || new URLSearchParams(location.search).get('redirect');
+    if (next) { try { localStorage.setItem('ps-next', next); } catch { /* storage blocked */ } }
     oauthLogin(b.dataset.oauth);
   });
 }

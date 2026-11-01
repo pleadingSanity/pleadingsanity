@@ -108,7 +108,7 @@ function tone(phase) {
 const soundBtn = $('mm-sound');
 function renderSound() {
   soundBtn.setAttribute('aria-pressed', String(!!state.sound));
-  soundBtn.textContent = state.sound ? '🔔 Soft tone on' : '🔇 Soft tone off';
+  soundBtn.textContent = state.sound ? ' Soft tone on' : ' Soft tone off';
 }
 soundBtn.addEventListener('click', () => { state.sound = !state.sound; renderSound(); save(); if (state.sound) tone('in'); });
 

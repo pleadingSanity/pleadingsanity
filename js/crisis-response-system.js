@@ -13,7 +13,7 @@ class CrisisResponseSystem {
   }
 
   initialize() {
-    console.log('🚨 Crisis Response System Initialized - 24/7 Support Active');
+    console.log(' Crisis Response System Initialized - 24/7 Support Active');
     this.setupCrisisDetection();
     this.loadResponseTeam();
     this.initializeEmergencyProtocols();
@@ -122,7 +122,7 @@ class CrisisResponseSystem {
   }
 
   async triggerImmediateCrisisResponse(text, source, score) {
-    console.log('🚨 IMMEDIATE CRISIS DETECTED - Activating Emergency Response');
+    console.log(' IMMEDIATE CRISIS DETECTED - Activating Emergency Response');
     
     // Record crisis event (anonymized)
     this.recordCrisisEvent('immediate', source, score);
@@ -143,7 +143,7 @@ class CrisisResponseSystem {
   }
 
   async triggerSupportiveCheck(text, source, score) {
-    console.log('⚠️ Elevated distress detected - Offering supportive check-in');
+    console.log(' Elevated distress detected - Offering supportive check-in');
     
     this.recordCrisisEvent('elevated', source, score);
     this.showCrisisModal('supportive');
@@ -153,7 +153,7 @@ class CrisisResponseSystem {
   }
 
   offerPreventiveSupport(text, source, score) {
-    console.log('💙 Potential distress detected - Offering preventive support');
+    console.log(' Potential distress detected - Offering preventive support');
     
     this.recordCrisisEvent('preventive', source, score);
     this.showWellnessResources();
@@ -221,23 +221,23 @@ class CrisisResponseSystem {
 
         <div class="crisis-actions" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
           <button class="crisis-btn primary-crisis-action" onclick="crisisResponse.connectToCrisisLine()">
-            📞 Call Crisis Line Now
+             Call Crisis Line Now
           </button>
           <button class="crisis-btn" onclick="crisisResponse.requestPeerSupport()">
-            🫂 Talk to Peer Supporter
+             Talk to Peer Supporter
           </button>
           <button class="crisis-btn" onclick="crisisResponse.accessSafetyPlan()">
-            🛡️ View Safety Plan
+             View Safety Plan
           </button>
           <button class="crisis-btn" onclick="crisisResponse.closeModal()">
-            💙 I'm Safe for Now
+             I'm Safe for Now
           </button>
         </div>
       `;
     } else if (level === 'supportive') {
       content.innerHTML = `
         <h2 style="color: var(--primary-cyan, #00fff0); margin-bottom: 20px;">
-          💙 Checking In - You Matter
+           Checking In - You Matter
         </h2>
         <p style="font-size: 1.1rem; margin-bottom: 25px;">
           It seems like you're going through a tough time. That takes courage to express, 
@@ -246,16 +246,16 @@ class CrisisResponseSystem {
         
         <div class="support-options" style="display: grid; gap: 16px; margin: 25px 0;">
           <button class="support-btn" onclick="crisisResponse.requestPeerSupport()">
-            🫂 Connect with Peer Supporter
+             Connect with Peer Supporter
           </button>
           <button class="support-btn" onclick="crisisResponse.accessCopingTools()">
-            🧘 Coping Tools & Techniques
+             Coping Tools & Techniques
           </button>
           <button class="support-btn" onclick="crisisResponse.joinSupportGroup()">
-            👥 Join Support Group Chat
+             Join Support Group Chat
           </button>
           <button class="support-btn" onclick="crisisResponse.scheduleCheckIn()">
-            📅 Schedule Follow-up Check-in
+             Schedule Follow-up Check-in
           </button>
         </div>
 
@@ -264,10 +264,10 @@ class CrisisResponseSystem {
         </p>
         
         <button class="crisis-btn" onclick="crisisResponse.showCrisisResources()" style="margin: 16px 8px;">
-          🚨 I Need Crisis Support
+           I Need Crisis Support
         </button>
         <button class="support-btn" onclick="crisisResponse.closeModal()" style="margin: 16px 8px;">
-          💙 Thanks, I'm Okay
+           Thanks, I'm Okay
         </button>
       `;
     }
@@ -276,7 +276,7 @@ class CrisisResponseSystem {
     const buttonStyles = document.createElement('style');
     buttonStyles.textContent = `
       .crisis-btn, .support-btn {
-        background: linear-gradient(135deg, var(--primary-cyan, #00fff0), var(--secondary-magenta, #ff00ff));
+        background: linear-gradient(135deg, var(--primary-cyan, #00fff0), var(--secondary-magenta, #f59e0b));
         color: var(--bg-dark, #0d1b2a);
         border: none;
         padding: 12px 20px;
@@ -306,7 +306,7 @@ class CrisisResponseSystem {
   async requestCrisisSupport() {
     return new Promise((resolve) => {
       const shouldAlert = confirm(
-        '🫂 Would you like us to connect you with a trained crisis responder from our community? ' +
+        ' Would you like us to connect you with a trained crisis responder from our community? ' +
         'They can provide immediate support and stay with you through this difficult time. ' +
         '\n\nYour privacy is protected - only that you need support will be shared.'
       );
@@ -315,7 +315,7 @@ class CrisisResponseSystem {
   }
 
   async alertCrisisTeam(level, score) {
-    console.log(`🚨 Alerting crisis response team - Level: ${level}, Score: ${score}`);
+    console.log(` Alerting crisis response team - Level: ${level}, Score: ${score}`);
     
     // In a real implementation, this would:
     // 1. Send secure notification to available crisis responders
@@ -324,7 +324,7 @@ class CrisisResponseSystem {
     // 4. Ensure 24/7 coverage across time zones
     
     this.showNotification(
-      '🫂 Crisis response team alerted. Someone will be with you shortly. You are not alone.',
+      ' Crisis response team alerted. Someone will be with you shortly. You are not alone.',
       'crisis'
     );
   }
@@ -377,12 +377,12 @@ class CrisisResponseSystem {
 
   sendFollowUpCheck(period) {
     const messages = {
-      immediate: '💙 Checking in after our earlier conversation. How are you feeling right now?',
-      day1: '🫂 Hi, it\'s been a day since we talked. Wanted to see how you\'re doing.',
-      day3: '🌱 Thinking of you after a few days. How has your recovery been going?',
-      week1: '💪 It\'s been a week - you\'ve shown incredible strength. How are things?',
-      week2: '🌟 Two weeks of courage and resilience. How are you feeling today?',
-      month1: '🎉 A month of healing and growth. Celebrating your journey with you.'
+      immediate: ' Checking in after our earlier conversation. How are you feeling right now?',
+      day1: ' Hi, it\'s been a day since we talked. Wanted to see how you\'re doing.',
+      day3: ' Thinking of you after a few days. How has your recovery been going?',
+      week1: ' It\'s been a week - you\'ve shown incredible strength. How are things?',
+      week2: ' Two weeks of courage and resilience. How are you feeling today?',
+      month1: ' A month of healing and growth. Celebrating your journey with you.'
     };
 
     this.showNotification(messages[period] || 'Checking in on your wellbeing.', 'followup');
@@ -499,7 +499,7 @@ class CrisisResponseSystem {
     const availableResponders = this.responseTeam.filter(r => r.available).length;
     
     if (availableResponders === 0) {
-      console.warn('⚠️ No crisis responders available - escalating to emergency services');
+      console.warn(' No crisis responders available - escalating to emergency services');
       this.activateEmergencyFallback();
     }
   }
@@ -507,7 +507,7 @@ class CrisisResponseSystem {
   activateEmergencyFallback() {
     // When no peer responders available, direct to professional services
     this.showNotification(
-      '🚨 Connecting you directly to professional crisis services for immediate support.',
+      ' Connecting you directly to professional crisis services for immediate support.',
       'emergency'
     );
   }
@@ -560,13 +560,13 @@ class CrisisResponseSystem {
 
   getTypeIcon(type) {
     const icons = {
-      crisis: '🚨',
-      emergency: '⚡',
-      followup: '💙',
-      success: '✅',
-      info: 'ℹ️'
+      crisis: '',
+      emergency: '',
+      followup: '',
+      success: '',
+      info: 'ℹ'
     };
-    return icons[type] || '💙';
+    return icons[type] || '';
   }
 
   // Public methods for crisis modal interactions
@@ -580,7 +580,7 @@ class CrisisResponseSystem {
   }
 
   requestPeerSupport() {
-    alert('🫂 Connecting you with a trained peer supporter...\n\nSomeone from our community crisis team will be with you within 2 minutes.');
+    alert(' Connecting you with a trained peer supporter...\n\nSomeone from our community crisis team will be with you within 2 minutes.');
     this.closeModal();
     
     // In production: match with available responder
@@ -605,14 +605,14 @@ class CrisisResponseSystem {
   }
 
   joinSupportGroup() {
-    alert('💬 Opening community support group...\n\nYou\'ll be connected with others who understand what you\'re going through.');
+    alert(' Opening community support group...\n\nYou\'ll be connected with others who understand what you\'re going through.');
     this.closeModal();
   }
 
   scheduleCheckIn() {
     const time = prompt('When would you like us to check in with you?\n\nOptions: 1 hour, 6 hours, tomorrow, this weekend');
     if (time) {
-      alert(`✅ Check-in scheduled for ${time}. We\'ll reach out to see how you\'re doing.`);
+      alert(` Check-in scheduled for ${time}. We\'ll reach out to see how you\'re doing.`);
       this.closeModal();
     }
   }
@@ -670,4 +670,4 @@ const crisisResponse = new CrisisResponseSystem();
 // Export for use in other scripts
 window.crisisResponse = crisisResponse;
 
-console.log('🚨 Crisis Response System Active - Lives Protected 24/7');
+console.log(' Crisis Response System Active - Lives Protected 24/7');

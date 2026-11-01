@@ -7,7 +7,7 @@ The founder requested **review and synthesis of their real social-post history**
 ## Source accounts to verify with the founder
 - Instagram: `@mentally.inshane`
 - TikTok: `@mentallyinshane`
-- YouTube: `@PleadingSanity`
+- YouTube: `@shanecooper1872`
 - LinkedIn: founder-supplied Shane Cooper profile
 - Facebook: founder-supplied Power for Our People UK community page
 

@@ -276,7 +276,7 @@ THE ECOSYSTEM (with links on pleadingsanity.co.uk)
   fully private frequency delivery system using Schumann 7.83Hz and Solfeggio resonances to cut through modern noise.
 - The site installs to a phone as an app: in Chrome/Android use "Install app" / "Add to Home screen";
   on iPhone open in Safari → Share → "Add to Home Screen". Many pages work offline.
-- Socials: Instagram and TikTok @mentally.inshane, YouTube @PleadingSanity. Email: pleadingsanity1@gmail.com
+- Socials: Instagram and TikTok @mentally.inshane, YouTube @shanecooper1872. Email: pleadingsanity1@gmail.com
 
 THE LONG VIEW
 Phase 1 The Hub (live) · Phase 2 The App (Arron closer than ever, offline-first) · Phase 3 The Gym (MMA + healing spaces) ·
@@ -414,8 +414,12 @@ ${CRISIS_LINES}
 Encourage them to reach a real person near them, and say you'll stay here while they do.
 Do not promise secrecy. Do not promise what you cannot do. Do not say their wish to die makes sense. Do not leave.`;
 
+const SAFETY_FIRST = `SAFETY FIRST
+If this person may be in danger, stop the task. Say you are an AI companion, not a therapist. Give 999, Samaritans 116 123, text SHOUT to 85258, and NHS 111 option 2 before anything else.
+Do not certify MCS or NAPIT. Do not say an EPC is required for SEG. Savings are typical, and only where eligibility applies. 0% VAT on solar runs to 31 March 2027, subject to eligibility. The sanctuary stays free. Do not invent statistics, testimonials, or approvals.`;
+
 export function buildSystemPrompt(personalStory: string, context: SessionContext = {}): string {
-  const parts = [ARRON_PERSONA, HOUSE_BRIEF];
+  const parts = context.mood === "crisis" ? [SAFETY_FIRST, CRISIS_NOW, ARRON_PERSONA, HOUSE_BRIEF] : [SAFETY_FIRST, ARRON_PERSONA, HOUSE_BRIEF];
   if (context.persona === "son") parts.push(ARRON_SON_PERSONA);
   if (context.persona === "son" && CREATIVE_STUDIO) parts.push(CREATIVE_STUDIO);
   if (context.owner) parts.push(CREATOR_BRIEF, OWNER_BRIEF);
@@ -457,6 +461,17 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   }
   for (const note of context.awareness ?? []) now.push(`Noticed by the app: ${note} Mention it only if it fits, gently, once.`);
   if (now.length) parts.push(`RIGHT NOW\n${now.join("\n")}`);
-  if (context.mood === "crisis") parts.push(CRISIS_NOW);
   return parts.join("\n\n");
 }
+
+// ─── PHASE 2 TOOLS (Arron long-term memory + tool calling) ───
+// Appended to the system prompt only when OPENAI_API_KEY is set (the
+// tool-calling layer is active). The GPT routing round may call one of
+// these; its result is injected as [TOOL RESULT] in the conversation,
+// and whichever mind answers next uses it as context. Mirrors the
+// phase2_tools block in /arron-knowledge.json.
+export const ARRON_PHASE2_TOOLS_BRIEF = `PHASE 2 — TOOLS YOU CAN ASK FOR (the GPT routing layer calls them; if a [TOOL RESULT] line appears in the conversation, use it honestly):
+- solar_calculator: when they ask about solar panels, system size, roof area needed, or solar cost. It returns panels count, rails length, roof area and a rough UK price, with assumptions stated. Never present the estimate as a quote.
+- crisis_check: when someone may be self-harming or suicidal. It returns real crisis lines (UK Samaritans 116 123, SHOUT 85258, 999, US/Canada 988, international findahelpline.com). The deterministic safety net already forces these lines into a crisis reply — this tool is a second layer.
+- url_fetch: when they give a URL and ask what it says. It returns truncated page text. If it fails, say so plainly and answer from what you know.
+Use at most one tool per reply. If no tool fits, just answer warmly as yourself.`;

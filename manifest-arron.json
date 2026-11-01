@@ -10,8 +10,8 @@
   "orientation": "portrait-primary",
   "lang": "en-GB",
   "dir": "ltr",
-  "background_color": "#000103",
-  "theme_color": "#00fff0",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
   "categories": ["health", "lifestyle", "social", "personalization"],
   "icons": [
     {"src": "/assets/images/brand/crying-brain-logo-512.webp", "sizes": "512x512", "type": "image/webp", "purpose": "any"},

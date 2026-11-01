@@ -471,3 +471,35 @@ export const sanctuaryNotes = pgTable(
   },
   (t) => [index("sanctuary_notes_user_idx").on(t.userId, t.id)],
 );
+
+// Owner Test Lab. Shane's phone checklist. Not visible to members.
+export const testLabItems = pgTable("test_lab_items", {
+  id: text().primaryKey(),
+  title: text().notNull(),
+  what: text().notNull(),
+  href: text().notNull(),
+  page: text().notNull().default(""),
+  area: text().notNull().default(""),
+  source: text().notNull().default("seed"),
+  status: text().notNull().default("open"),
+  resolvedAt: timestamp("resolved_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const testLabFeedback = pgTable(
+  "test_lab_feedback",
+  {
+    id: serial().primaryKey(),
+    itemId: text("item_id").references(() => testLabItems.id, { onDelete: "set null" }),
+    status: text().notNull().default("note"),
+    notes: text().notNull().default(""),
+    page: text().notNull().default(""),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    screenshot: text().notNull().default(""),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (t) => [index("test_lab_feedback_item_idx").on(t.itemId, t.id)],
+);

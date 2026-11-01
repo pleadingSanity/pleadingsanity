@@ -1,6 +1,6 @@
 # Claude — full check, then enhance. One house. One app.
 
-**First:** read `AI_HANDOFF.md` from "START HERE" to the newest entry. It is the shared memory for every AI on this house.
+**Do not ask Shane for a prompt.** The house is already in this repo. Read `docs/MASTER_PROMPT.md` yourself, then `AI_HANDOFF.md` from "START HERE" to the newest entry.
 
 You are auditing Pleading Sanity for Shane Cooper. One repo: github.com/pleadingSanity/pleadingsanity. Use a dedicated branch and reviewed pull request for changes. Never push unreviewed AI-generated changes directly to main; follow AGENTS.md and obtain owner approval for security, authentication, payments, or data changes. Do not start a second site. Do not create a Grok app, a grok.me app, a new Vercel project, or a new Netlify site. Extra work is a patch on this app.
 Live: https://pleadingsanity.co.uk. That Netlify site already holds the environments. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.

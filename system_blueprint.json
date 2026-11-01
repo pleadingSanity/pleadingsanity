@@ -1,0 +1,149 @@
+{
+  "version": "4.0.0",
+  "lastUpdated": "2026-10-31T19:30:00Z",
+  "site": "https://pleadingsanity.co.uk",
+  "repo": "pleadingSanity/pleadingsanity",
+  "host": "netlify",
+  "domains": {
+    "master": "https://pleadingsanity.co.uk",
+    "masterHost": "netlify",
+    "checked": "2026-10-31T03:09:00Z",
+    "www": "301 to apex, server Netlify. Do not replace this.",
+    "ukAlias": "https://pleadingsanity.uk",
+    "ukHostSeen": "Vercel, title is the same sanctuary. It is not a second product.",
+    "oneHouse": "All Grok apps, chats and prompts point at pleadingsanity.co.uk. Do not give www to another host."
+  },
+  "dnsDoNotApply": {
+    "why": "A custom-domain screen asked for these on www.pleadingsanity.co.uk. Adding them would take the live Netlify house off the domain.",
+    "records": [
+      {
+        "type": "CNAME",
+        "name": "www",
+        "valueStarts": "b0df8eb50e634f05.vercel-dns-016.com",
+        "apply": false
+      },
+      {
+        "type": "TXT",
+        "name": "_vercel",
+        "valueStarts": "vc-domain-verify=www.pleadingsanity.co.uk",
+        "apply": false
+      }
+    ]
+  },
+  "names": {
+    "shane": "founder, final approval",
+    "arron": "companion on the site, not a therapist",
+    "grok": "this lane: assets, copy, outreach drafts, compliance watch. No deploy.",
+    "dola": "design and deploy lane",
+    "gpt": "audit and tests",
+    "claude": "code review and regression tests",
+    "gemini": "mobile, access, wording",
+    "copilot": "repo edits"
+  },
+  "privacyContract": {
+    "forgetMe": "DELETE /api/arron/memory body {memoryId}. Success is {ok:true, cleared:true}. Do not invent a new header or verifiedClean.",
+    "race": "A chat that is already running can still save after a wipe. Do not claim the cloud is clear unless the response says cleared.",
+    "finance": "Sums stay on the device. The adviser still receives the typed question and quote. The profile summary is sent only if consent is checked.",
+    "prs": {
+      "#139": "draft privacy tests, review before merge",
+      "#92": "do not touch"
+    }
+  },
+  "livePages": [
+    "index",
+    "insane-solar",
+    "solar-ai-office",
+    "ai-social",
+    "shed-card-game",
+    "arron",
+    "games",
+    "finance",
+    "community",
+    "creator",
+    "crisis",
+    "shop",
+    "about"
+  ],
+  "aiNodes": {
+    "grok": {
+      "status": "active",
+      "role": "images, social, recruitment, outreach, SEO, compliance watch",
+      "skill": "ps-ecosystem-powerup"
+    },
+    "gpt": {
+      "status": "active",
+      "role": "accuracy, audit, verification, tests, exact commits"
+    },
+    "gemini": {
+      "status": "active",
+      "role": "mobile UX, accessibility, human-tone polish, image prompts"
+    },
+    "claude": {
+      "status": "queued",
+      "role": "deep code review, security, regression tests"
+    },
+    "copilot": {
+      "status": "active",
+      "role": "code edits in repo"
+    },
+    "dola": {
+      "status": "active",
+      "role": "design, structure, deploys, final verification"
+    }
+  },
+  "contact": {
+    "phone": "07711147663",
+    "whatsapp": "447711147663",
+    "email": "pleadingsanity1@gmail.com"
+  },
+  "payments": {
+    "provider": "paypal",
+    "deposit": 50,
+    "currency": "GBP",
+    "serverVerify": "netlify/functions/verify-paypal.mts",
+    "envVarsNeeded": [
+      "PAYPAL_CLIENT_ID",
+      "PAYPAL_CLIENT_SECRET"
+    ]
+  },
+  "compliance": {
+    "aiNeverCertifies": true,
+    "vatZeroUntil": "2027-03-31",
+    "epcForSeg": false,
+    "crisisNumbersAlwaysVisible": true
+  },
+  "buildGuard": "scripts/validate-build.cjs",
+  "arron": {
+    "health": "/api/arron/health",
+    "functions": 31,
+    "providerChain": "GPT->Claude->Gemini->Grok->local (order unchanged; gateway Gemini first, then gemini-2.5-flash when GEMINI_API_KEY is set; tool-calling round precedes it when OPENAI_API_KEY set)",
+    "geminiDirectModel": "gemini-2.5-flash",
+    "needsOwnerEnv": ["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "SUPABASE_URL", "SUPABASE_SERVICE_KEY", "GEMINI_API_KEY"],
+    "memoryDeleteEndpoint": "/api/arron/memory",
+    "memory": "dual: local Netlify DB (source of truth) + Supabase arron_chat_memory (best-effort second copy, env-gated)",
+    "supabaseMemoryEndpoint": "/api/arron/memory/supabase",
+    "tools": [
+      "solar_calculator",
+      "crisis_check",
+      "url_fetch"
+    ],
+    "phase2": "active when SUPABASE_URL+SUPABASE_ANON_KEY (memory) and/or OPENAI_API_KEY (tools) set; inert otherwise"
+  },
+  "openPRs": {
+    "#137": "draft-CI-guard",
+    "#139": "draft-privacy-tests",
+    "#138": "draft-visual-audit",
+    "#140": "draft-AI-config",
+    "#92": "DO-NOT-TOUCH"
+  },
+  "queuedPhase2": [
+    "PWA + service worker",
+    "canvas game engine",
+    "Arron orchestrator (one-prompt master brain)",
+    "investor/funder outbound engine"
+  ],
+  "dailyCron": "Pleading Sanity Daily Power-Up \u2014 9:07am Europe/London",
+  "phase2Completed": {
+    "arron": "Supabase long-term memory + GPT tool calling (2026-10-31, committed in 788493e; Supabase migration in supabase/migrations)"
+  }
+}

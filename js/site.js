@@ -125,7 +125,7 @@
   // clears old caches). A long-open app checks for a new version when it
   // comes back to the screen, at most once an hour. Nothing is reloaded
   // under anyone's fingers: fresh pages simply arrive on the next tap.
-  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  if ('serviceWorker' in navigator && location.protocol === 'https:' && location.pathname.indexOf('/music/') !== 0) {
     window.addEventListener('load', function () {
       navigator.serviceWorker.register('/sw.js').then(function (reg) {
         var lastCheck = Date.now();
@@ -139,7 +139,7 @@
     });
   }
 
-  // "Arron grew wiser ✨" — when the soul file (/arron-knowledge.json) changes,
+  // "Arron grew wiser " — when the soul file (/arron-knowledge.json) changes,
   // a gentle note says so, once per new version. Never on someone's first visit.
   var SOUL_SEEN = 'ps-soul-version';
   function gentleNote(text) {
@@ -162,7 +162,7 @@
         try { seen = localStorage.getItem(SOUL_SEEN); localStorage.setItem(SOUL_SEEN, key); } catch (e) { return; }
         if (!seen || seen === key) return;
         var latest = Array.isArray(soul.changelog) && soul.changelog[0] && soul.changelog[0].tag;
-        gentleNote('Arron grew wiser ✨' + (latest ? ' — ' + latest : ''));
+        gentleNote('Arron grew wiser ' + (latest ? ' — ' + latest : ''));
       })
       .catch(function () {});
   }
@@ -180,7 +180,71 @@
     grid.insertBefore(card, grid.firstChild);
   }
   if (/\/games\.html$|\/games$/.test(location.pathname)) ensureSolitaireCard();
+  if (!document.querySelector('.ps-nav') && document.body && window.self === window.top) {
+    var house = document.createElement('nav');
+    house.className = 'ps-nav';
+    house.setAttribute('aria-label', 'Main navigation');
+    house.innerHTML = '<div class="ps-nav-inner"><a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a><div class="ps-links"></div><div class="ps-account"><a class="ps-signin" href="/login.html">Sign in</a></div></div>';
+    document.body.insertBefore(house, document.body.firstChild);
+    document.querySelectorAll('.eco-nav').forEach(function (el) { el.hidden = true; });
+    if (!document.querySelector('link[href="/css/site.css"]')) {
+      var sheet = document.createElement('link');
+      sheet.rel = 'stylesheet';
+      sheet.href = '/css/site.css';
+      document.head.appendChild(sheet);
+    }
+  }
   var nav = document.querySelector('.ps-nav');
+  function ensureNavLink(href, label) {
+    if (!nav) return;
+    var links = nav.querySelector('.ps-links');
+    if (!links) return;
+    for (var i = 0; i < links.children.length; i++) {
+      var child = links.children[i];
+      if (child.tagName === 'A' && child.getAttribute('href') === href) {
+        child.classList.add('ps-main');
+        return;
+      }
+    }
+    var anchor = document.createElement('a');
+    anchor.href = href;
+    anchor.className = 'ps-main';
+    anchor.textContent = label;
+    links.appendChild(anchor);
+  }
+  if (nav) {
+    ensureNavLink('/get-the-app.html', 'App Hub');
+    ensureNavLink('/insane-solar.html', 'Solar');
+    ensureNavLink('/shop.html', 'Shop');
+    ensureNavLink('/about.html', 'About');
+    var crisisLink = nav.querySelector('a.ps-crisis, a[href="/crisis.html"]');
+    var navInnerBar = nav.querySelector('.ps-nav-inner') || nav;
+    if (!crisisLink) {
+      crisisLink = document.createElement('a');
+      crisisLink.href = '/crisis.html';
+      navInnerBar.appendChild(crisisLink);
+    } else if (crisisLink.parentElement !== navInnerBar) {
+      navInnerBar.appendChild(crisisLink);
+    }
+    crisisLink.classList.add('ps-crisis');
+    crisisLink.textContent = 'Crisis help';
+    crisisLink.setAttribute('aria-label', 'Crisis help');
+    nav.querySelectorAll('a, button').forEach(function (el) {
+      if (el.children.length) return;
+      var clean = el.textContent.replace(/\p{Extended_Pictographic}/gu, '').replace(/\s+/g, ' ').trim();
+      if (clean) el.textContent = clean;
+    });
+    if (!nav.querySelector('.ps-account')) {
+      var accountSlot = document.createElement('div');
+      accountSlot.className = 'ps-account';
+      var signIn = document.createElement('a');
+      signIn.className = 'ps-signin';
+      signIn.href = '/login.html';
+      signIn.textContent = 'Sign in';
+      accountSlot.appendChild(signIn);
+      navInnerBar.appendChild(accountSlot);
+    }
+  }
   // The LIVE door is deliberately visible across the house.
   if (nav) {
     var navLinks = nav.querySelector('.ps-links');
@@ -189,6 +253,21 @@
       existingLive.classList.add('ps-live-link');
       existingLive.setAttribute('aria-label', 'Live creator stage');
     }
+    var kidsPage = /\/kids(?:-series)?\.html$/.test(location.pathname);
+    if (!kidsPage && navLinks && !navLinks.querySelector('a[href="/get-the-app.html"]')) {
+      var hub = document.createElement('a');
+      hub.href = '/get-the-app.html';
+      hub.textContent = 'App Hub';
+      hub.setAttribute('aria-label', 'App Hub and install');
+      navLinks.appendChild(hub);
+    }
+    if (!kidsPage && navLinks && !navLinks.querySelector('a[href="/sanity-songs.html"]') && window.self === window.top) {
+      var songs = document.createElement('a');
+      songs.href = '/sanity-songs.html?page=' + encodeURIComponent(location.pathname + location.search);
+      songs.textContent = "Sanity's Songs";
+      songs.setAttribute('aria-label', "Sanity's Songs");
+      navLinks.appendChild(songs);
+    }
     if (navLinks && !existingLive) {
       var liveLink = document.createElement('a');
       liveLink.href = '/live.html';
@@ -196,6 +275,38 @@
       liveLink.innerHTML = '<span aria-hidden="true">●</span> LIVE';
       liveLink.setAttribute('aria-label', 'Live creator stage');
       navLinks.insertBefore(liveLink, navLinks.firstChild);
+    }
+    if (navLinks && !navLinks.querySelector('.ps-more')) {
+      var more = document.createElement('div');
+      more.className = 'ps-group ps-more';
+      var moreBtn = document.createElement('button');
+      moreBtn.type = 'button';
+      moreBtn.className = 'ps-group-btn';
+      moreBtn.setAttribute('aria-expanded', 'false');
+      moreBtn.setAttribute('aria-controls', 'ps-g-more');
+      moreBtn.textContent = 'More';
+      var moreMenu = document.createElement('div');
+      moreMenu.className = 'ps-group-menu';
+      moreMenu.id = 'ps-g-more';
+      function moreLink(href, label) {
+        var item = document.createElement('a');
+        item.href = href;
+        item.textContent = label;
+        moreMenu.appendChild(item);
+      }
+      moreLink('/get-the-app.html', 'App Hub');
+      if (!kidsPage) moreLink('/sanity-songs.html?page=' + encodeURIComponent(location.pathname + location.search), "Sanity's Songs");
+      moreLink('/about.html', 'About');
+      more.appendChild(moreBtn);
+      more.appendChild(moreMenu);
+      navLinks.appendChild(more);
+      Array.prototype.forEach.call(navLinks.children, function (child) {
+        if (!child || child.tagName !== 'A') return;
+        var href = child.getAttribute('href') || '';
+        if (href === '/get-the-app.html' || href === '/about.html' || href.indexOf('/sanity-songs.html') === 0) {
+          child.classList.add('ps-more-item');
+        }
+      });
     }
   }
   if (nav && !nav.querySelector('.ps-nav-toggle')) {
@@ -251,6 +362,17 @@
       if (open && links) { var first = links.querySelector('a'); if (first) first.focus(); }
     });
     document.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab' && nav.classList.contains('is-open') && links) {
+        var items = links.querySelectorAll('a, button');
+        if (items.length) {
+          var list = Array.prototype.slice.call(items);
+          var firstItem = list[0];
+          var lastItem = list[list.length - 1];
+          if (e.shiftKey && document.activeElement === firstItem) { e.preventDefault(); lastItem.focus(); }
+          else if (!e.shiftKey && document.activeElement === lastItem) { e.preventDefault(); firstItem.focus(); }
+        }
+        return;
+      }
       if (e.key === 'Escape') {
         var wasOpen = nav.classList.contains('is-open') || !!nav.querySelector('.ps-group.open');
         var openGroup = nav.querySelector('.ps-group.open');
@@ -287,8 +409,9 @@
   }
   var path = location.pathname;
   var onArron = /arron/.test(path);
-  if (onArron) document.body.classList.add('ps-no-dock');
-  if (!onArron && !document.querySelector('.ps-dock')) {
+  var calmPage = /\/(?:crisis|safety)(?:\.html)?$/.test(path);
+  if (onArron || calmPage) document.body.classList.add('ps-no-dock');
+  if (!onArron && !calmPage && !document.querySelector('.ps-dock')) {
     var dock = document.createElement('nav');
     dock.className = 'ps-dock';
     dock.setAttribute('aria-label', 'Phone doors');
@@ -309,5 +432,21 @@
       });
     }
   }
+
+  // Brand lock: visitors should not see emoji. Leave form fields and code alone.
+  try {
+    var emoji = /\p{Extended_Pictographic}/gu;
+    var skip = { SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, NOSCRIPT: 1 };
+    var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    var textNode;
+    while ((textNode = walker.nextNode())) {
+      var parent = textNode.parentElement;
+      if (!parent || skip[parent.tagName]) continue;
+      if (!emoji.test(textNode.nodeValue || "")) { emoji.lastIndex = 0; continue; }
+      emoji.lastIndex = 0;
+      var cleaned = textNode.nodeValue.replace(emoji, "").replace(/[ \t]{2,}/g, " ");
+      if (cleaned !== textNode.nodeValue) textNode.nodeValue = cleaned;
+    }
+  } catch (err) {}
 
 })();

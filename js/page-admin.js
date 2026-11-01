@@ -22,7 +22,7 @@ function card(r) {
   return `
     <article class="panel" data-id="${r.id}">
       <div class="row" style="justify-content:space-between">
-        <strong>${r.reason === 'self-harm-risk' ? '🚨 ' : ''}${esc(REASONS[r.reason] || r.reason)}</strong>
+        <strong>${r.reason === 'self-harm-risk' ? ' ' : ''}${esc(REASONS[r.reason] || r.reason)}</strong>
         <span class="post-time">${esc(r.targetType)} · ${esc(r.status)} · ${timeAgo(r.createdAt)}</span>
       </div>
       ${t
@@ -43,7 +43,7 @@ async function load() {
   queue.innerHTML = '<div class="skeleton"></div>';
   try {
     const { reports } = await api(`/api/admin/reports?status=${status}`);
-    queue.innerHTML = reports.length ? reports.map(card).join('') : '<p class="empty">Nothing here. The community is being kind. 💙</p>';
+    queue.innerHTML = reports.length ? reports.map(card).join('') : '<p class="empty">Nothing here. The community is being kind. </p>';
   } catch (error) {
     queue.innerHTML = `<p class="notice err">${esc(error.message)}</p>`;
   }
@@ -66,7 +66,7 @@ queue.addEventListener('click', async (e) => {
   b.disabled = true;
   try {
     await api('/api/admin/reports', { method: 'POST', body });
-    toast('Updated ✓');
+    toast('Updated ');
     load();
   } catch (error) {
     toast(error.message);

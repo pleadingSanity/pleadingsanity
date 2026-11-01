@@ -1,0 +1,65 @@
+[
+  {
+    "filename": "kit-solar-panel.webp",
+    "page": "insane-solar.html",
+    "section": "Kit: Solar Panels",
+    "alt": "Generic all-black solar panel on a dark starry background with teal and amber edge light",
+    "width": 1152,
+    "height": 864,
+    "bytes": 51204
+  },
+  {
+    "filename": "kit-mounting-rails.webp",
+    "page": "insane-solar.html",
+    "section": "Kit: Rails & Mounting",
+    "alt": "Silver aluminium mounting rails, roof hooks and clamps laid out on a dark background",
+    "width": 1152,
+    "height": 864,
+    "bytes": 62260
+  },
+  {
+    "filename": "kit-inverter.webp",
+    "page": "insane-solar.html",
+    "section": "Kit: Inverters",
+    "alt": "Generic wall-mounted hybrid inverter in grey and silver with a teal status light",
+    "width": 1152,
+    "height": 864,
+    "bytes": 24602
+  },
+  {
+    "filename": "kit-battery.webp",
+    "page": "insane-solar.html",
+    "section": "Kit: Batteries",
+    "alt": "Generic home battery cabinet in silver with an amber level light",
+    "width": 1152,
+    "height": 864,
+    "bytes": 24538
+  },
+  {
+    "filename": "kit-ev-charger.webp",
+    "page": "insane-solar.html",
+    "section": "Kit: EV Chargers",
+    "alt": "Generic wall-mounted EV charger with coiled cable and a teal ring light",
+    "width": 1152,
+    "height": 864,
+    "bytes": 20132
+  },
+  {
+    "filename": "hero-insane-solar.webp",
+    "page": "insane-solar.html",
+    "section": "Hero",
+    "alt": "Abstract grid of solar cells under a starry sky with an amber sunrise on the horizon",
+    "width": 1280,
+    "height": 720,
+    "bytes": 54726
+  },
+  {
+    "filename": "hero-creator-studio.webp",
+    "page": "creator.html",
+    "section": "Hero",
+    "alt": "Empty creator desk at night with microphone, camera, headphones and a teal ring light",
+    "width": 1280,
+    "height": 720,
+    "bytes": 39864
+  }
+]

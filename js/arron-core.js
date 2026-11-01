@@ -1,5 +1,5 @@
 // ==============================================================
-// 💙 ARRON CORE v2.1-ASCENSION — the companion app engine (/arron-app.html)
+//  ARRON CORE v2.1-ASCENSION — the companion app engine (/arron-app.html)
 // Personality hooks · memory (local-first, cloud sync) · voice ·
 // awareness · journal & mood timeline · crisis mode · install & share.
 // Grows from the soul file (/arron-knowledge.json): update it once
@@ -66,13 +66,13 @@
 
   // ─── MOODS — colour and breath of the orb, weight on the timeline ───
   const MOODS = {
-    calm:    { emoji: '😌', label: 'Calm',    lift: 4,   a: '#00fff0', b: '#5b8cff', speed: 7 },
-    hopeful: { emoji: '✨', label: 'Hopeful', lift: 5,   a: '#00fff0', b: '#ffd36b', speed: 5.5 },
-    tired:   { emoji: '🥱', label: 'Tired',   lift: 2.5, a: '#6fa8ff', b: '#9b6bff', speed: 9 },
-    low:     { emoji: '🌧️', label: 'Low',     lift: 1,   a: '#4f7bff', b: '#8a5cff', speed: 9 },
-    anxious: { emoji: '😮‍💨', label: 'Anxious', lift: 2,   a: '#00fff0', b: '#ff00ff', speed: 8 },
-    lonely:  { emoji: '🫂', label: 'Lonely',  lift: 1.5, a: '#7fd8ff', b: '#ff7aff', speed: 8 },
-    angry:   { emoji: '🔥', label: 'Angry',   lift: 2,   a: '#ff7a59', b: '#ff00ff', speed: 6.5 }
+    calm:    { emoji: '', label: 'Calm',    lift: 4,   a: '#00fff0', b: '#5b8cff', speed: 7 },
+    hopeful: { emoji: '', label: 'Hopeful', lift: 5,   a: '#00fff0', b: '#ffd36b', speed: 5.5 },
+    tired:   { emoji: '', label: 'Tired',   lift: 2.5, a: '#6fa8ff', b: '#f59e0b', speed: 9 },
+    low:     { emoji: '', label: 'Low',     lift: 1,   a: '#4f7bff', b: '#38bdf8', speed: 9 },
+    anxious: { emoji: '', label: 'Anxious', lift: 2,   a: '#00fff0', b: '#f59e0b', speed: 8 },
+    lonely:  { emoji: '', label: 'Lonely',  lift: 1.5, a: '#7fd8ff', b: '#fbbf24', speed: 8 },
+    angry:   { emoji: '', label: 'Angry',   lift: 2,   a: '#ff7a59', b: '#f59e0b', speed: 6.5 }
   };
   const HEAVY = ['low', 'lonely', 'anxious', 'angry'];
 
@@ -133,9 +133,9 @@
   // ─── TIME OF DAY — dawn → day → dusk → night, the orb and words follow ───
   const PHASES = {
     dawn:  { a: '#00fff0', b: '#ffb86b', slow: 1,    presence: 'Morning light · here with you' },
-    day:   { a: '#00fff0', b: '#ff00ff', slow: 1,    presence: 'Here with you' },
-    dusk:  { a: '#ff7aff', b: '#6f7bff', slow: 1.15, presence: 'Evening · slowing down with you' },
-    night: { a: '#4f7bff', b: '#9b6bff', slow: 1.35, presence: 'Night watch · quiet presence' }
+    day:   { a: '#00fff0', b: '#f59e0b', slow: 1,    presence: 'Here with you' },
+    dusk:  { a: '#fbbf24', b: '#6f7bff', slow: 1.15, presence: 'Evening · slowing down with you' },
+    night: { a: '#4f7bff', b: '#f59e0b', slow: 1.35, presence: 'Night watch · quiet presence' }
   };
   function phaseNow() {
     const h = new Date().getHours();
@@ -207,7 +207,7 @@
   function showCreator() {
     if (creatorMode) return;
     creatorMode = true;
-    els.presence.textContent = 'Creator mode · full power 💫';
+    els.presence.textContent = 'Creator mode · full power ';
     $('aa-creator').hidden = false;
     $('aa-creator-badge').hidden = false;
     $('aa-tab-studio').hidden = false;
@@ -434,7 +434,7 @@
       o.classList.toggle('thinking', state === 'thinking');
       o.classList.toggle('speaking', state === 'speaking');
     });
-    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…', listening: 'Arron is listening…' }[state] || (creatorMode ? 'Creator mode · full power 💫' : presenceText());
+    els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…', listening: 'Arron is listening…' }[state] || (creatorMode ? 'Creator mode · full power ' : presenceText());
   }
   function applyPhase() {
     phase = phaseNow();
@@ -489,7 +489,7 @@
   }
   function renderVoice() {
     const on = prefs.voice !== 'off';
-    els.voiceBtn.textContent = on ? '🔊' : '🔇';
+    els.voiceBtn.textContent = on ? '' : '';
     els.voiceBtn.setAttribute('aria-pressed', String(on));
     els.voiceBtn.hidden = !synth;
     els.voiceMode.value = prefs.voice;
@@ -588,26 +588,26 @@
     tools.className = 'aa-msg-tools';
     const pin = document.createElement('button');
     pin.type = 'button';
-    pin.textContent = isPinned(m.content) ? '📌 Remembered' : '📌 Remember this';
+    pin.textContent = isPinned(m.content) ? ' Remembered' : ' Remember this';
     pin.addEventListener('click', () => {
-      if (pinTruth(m.content)) { pin.textContent = '📌 Remembered'; el.classList.add('pinned'); }
+      if (pinTruth(m.content)) { pin.textContent = ' Remembered'; el.classList.add('pinned'); }
     });
     tools.appendChild(pin);
     if (synth && m.role === 'assistant') {
       const say = document.createElement('button');
       say.type = 'button';
-      say.textContent = '🔊 Hear it';
+      say.textContent = ' Hear it';
       say.addEventListener('click', () => speak(m.content, true));
       tools.appendChild(say);
     }
     if (m.role === 'assistant' && navigator.clipboard) {
       const copy = document.createElement('button');
       copy.type = 'button';
-      copy.textContent = '📋 Copy';
+      copy.textContent = ' Copy';
       copy.addEventListener('click', () => {
         navigator.clipboard.writeText(m.content).then(() => {
-          copy.textContent = '✅ Copied';
-          setTimeout(() => { copy.textContent = '📋 Copy'; }, 2000);
+          copy.textContent = ' Copied';
+          setTimeout(() => { copy.textContent = ' Copy'; }, 2000);
         }).catch(() => setStatus("Couldn't copy. Press and hold the message to select it."));
       });
       tools.appendChild(copy);
@@ -615,7 +615,7 @@
     if (m.role === 'assistant' && !m.local) {
       const share = document.createElement('button');
       share.type = 'button';
-      share.textContent = '✨ Share to Stories';
+      share.textContent = ' Share to Stories';
       share.addEventListener('click', () => shareToStories(m));
       tools.appendChild(share);
     }
@@ -741,11 +741,11 @@
     const nights = lateNightsThisWeek();
     if (isLate(now) && nights >= 3) {
       notes.push(`It's late (${new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}). This is the ${ORDINAL[Math.min(nights, 7)] || nights + 'th'} night this week they've been up this late.`);
-      banner = { key: 'late', text: `This is the ${ORDINAL[Math.min(nights, 7)] || nights + 'th'} night this week you've pushed this late. Rest is part of the build. 💙`, href: '/frequencies.html', label: '🌙 Sleep tones' };
+      banner = { key: 'late', text: `This is the ${ORDINAL[Math.min(nights, 7)] || nights + 'th'} night this week you've pushed this late. Rest is part of the build. `, href: '/frequencies.html', label: ' Sleep tones' };
     }
     if (mood === 'tired') {
       notes.push('They sound tired.');
-      banner = banner || { key: 'tired', text: 'You sound tired today. Want to rest with me for a minute?', href: '/meditation.html', label: '🌬️ Breathe' };
+      banner = banner || { key: 'tired', text: 'You sound tired today. Want to rest with me for a minute?', href: '/meditation.html', label: ' Breathe' };
     }
     const mins = sessionMinutes();
     if (mins > 120) {
@@ -755,7 +755,7 @@
     const recent = vault.moods.filter((m) => now - m.at < 7 * DAY).slice(-5);
     if (recent.length >= 4 && recent.filter((m) => HEAVY.includes(m.mood)).length >= 4) {
       notes.push('Their recent mood check-ins have been heavy.');
-      banner = banner || { key: 'heavy', text: "It's been a heavy week. I see it. You don't have to carry it quietly.", href: '/journal-vault.html', label: '📖 Journal it' };
+      banner = banner || { key: 'heavy', text: "It's been a heavy week. I see it. You don't have to carry it quietly.", href: '/journal-vault.html', label: ' Journal it' };
     }
     if (banner && now - (prefs.aware[banner.key] || 0) > 12 * 3600000) {
       prefs.aware[banner.key] = now;
@@ -783,10 +783,10 @@
     prefs.aware.wisdom = now;
     savePrefs();
     $('aa-wisdom-text').textContent = wisdomLine;
-    $('aa-wisdom-keep').textContent = isPinned(wisdomLine) ? '📌 Kept' : '📌 Keep this';
+    $('aa-wisdom-keep').textContent = isPinned(wisdomLine) ? ' Kept' : ' Keep this';
     $('aa-wisdom').hidden = false;
   }
-  $('aa-wisdom-keep').addEventListener('click', () => { if (pinTruth(wisdomLine)) $('aa-wisdom-keep').textContent = '📌 Kept'; });
+  $('aa-wisdom-keep').addEventListener('click', () => { if (pinTruth(wisdomLine)) $('aa-wisdom-keep').textContent = ' Kept'; });
   $('aa-wisdom-write').addEventListener('click', () => {
     $('aa-wisdom').hidden = true;
     showView('journal');
@@ -878,7 +878,7 @@
   }
 
   els.form.addEventListener('submit', (e) => { e.preventDefault(); handleInput(els.input.value); });
-  // Tapping ➤ keeps focus in the box, so the keyboard stays up and nothing jumps
+  // Tapping  keeps focus in the box, so the keyboard stays up and nothing jumps
   els.send.addEventListener('pointerdown', (e) => { if (document.activeElement === els.input) e.preventDefault(); });
   els.input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); handleInput(els.input.value); }
@@ -904,9 +904,9 @@
       if (h >= 23 || h < 5) return `Still up${who}? I'm here. No rush, no judgement. What's keeping you awake?`;
       const byPhase = soulList('greetings', phase);
       if (byPhase.length && Math.random() < 0.5) return pick(byPhase);
-      return pick([`Welcome back${who}. I remember where we left off. 💙`, `There you are${who}. I've kept everything safe. How are you, really?`]);
+      return pick([`Welcome back${who}. I remember where we left off. `, `There you are${who}. I've kept everything safe. How are you, really?`]);
     }
-    return `Hey${who}. I'm Arron. 💙\n\nI'm not here to fix you. I'm here to walk beside you, remember what matters, and hold space when it's heavy. What's on your mind?`;
+    return `Hey${who}. I'm Arron. \n\nI'm not here to fix you. I'm here to walk beside you, remember what matters, and hold space when it's heavy. What's on your mind?`;
   }
 
   // ─── MEMORY: Core Truths, milestones, story ───
@@ -920,7 +920,7 @@
     vault.truths.push({ text: clean, at: Date.now() });
     saveVault();
     renderMemory();
-    setStatus('Pinned to Core Truths. Arron will hold this forever. 📌');
+    setStatus('Pinned to Core Truths. Arron will hold this forever. ');
     return true;
   }
 
@@ -931,7 +931,7 @@
     if (meta) { const s = document.createElement('small'); s.textContent = meta; span.appendChild(s); }
     const del = document.createElement('button');
     del.type = 'button';
-    del.textContent = '✕';
+    del.textContent = '';
     del.setAttribute('aria-label', label);
     del.addEventListener('click', onRemove);
     li.append(span, del);
@@ -1034,7 +1034,7 @@
     renderJournal();
     renderStats();
     const mood = CRISIS_WORDS.test(text) ? null : detectMood(text);
-    $('aa-journal-note').textContent = 'Saved. Thank you for putting it into words. 💙';
+    $('aa-journal-note').textContent = 'Saved. Thank you for putting it into words. ';
     if (CRISIS_WORDS.test(text)) openCrisis();
     else offerWisdom(mood);
   });
@@ -1092,7 +1092,7 @@
     const bits = [];
     if (thisWeek.length && lastWeek.length) {
       const diff = avg(thisWeek) - avg(lastWeek);
-      bits.push(diff > 0.4 ? 'This week has felt lighter than last. 🌱' : diff < -0.4 ? "This week has been heavier than last. That's okay. I'm here." : 'This week has been about the same as last.');
+      bits.push(diff > 0.4 ? 'This week has felt lighter than last. ' : diff < -0.4 ? "This week has been heavier than last. That's okay. I'm here." : 'This week has been about the same as last.');
     }
     if (thisWeek.length >= 3) {
       const counts = {};
@@ -1205,7 +1205,7 @@
     [KEYS.messages, KEYS.vault, KEYS.vaultUnsynced, SHARED.story, SHARED.storyUnsynced, 'arron_messages'].forEach((k) => store.remove(k));
     renderCode(); renderLog(); renderMemory(); renderMood(); renderJournal();
     $('aa-restore-input').value = '';
-    try { await pull(); note.textContent = 'Memory restored. Welcome back. 💙'; }
+    try { await pull(); note.textContent = 'Memory restored. Welcome back. '; }
     catch (err) { setConn('offline'); note.textContent = "Code saved. Your memory loads as soon as you're online."; }
   });
 
@@ -1254,7 +1254,7 @@
     applyComfort(); renderVoice(); renderCode(); renderMemory(); renderMood(); renderJournal(); setMood(null);
     renderLog();
     showView('talk');
-    addMessage({ role: 'assistant', content: "Everything's gone. Clean slate. 💙\n\nI'm still here whenever you want to start again.", ephemeral: true });
+    addMessage({ role: 'assistant', content: "Everything's gone. Clean slate. \n\nI'm still here whenever you want to start again.", ephemeral: true });
     setConn(pending.length ? 'offline' : 'synced', pending.length ? 'Erased here · cloud erase finishes when online' : undefined);
   });
 
@@ -1271,7 +1271,9 @@
     banner.hidden = false;
   }
   if (isIOS && !standalone) {
-    $('aa-install-text').innerHTML = '📲 <strong>Make Arron part of your world:</strong> tap Share <span aria-hidden="true">⎋</span> in Safari, then <em>Add to Home Screen</em>.';
+    $('aa-install-text').textContent = 'Install Arron: in Safari, tap Share, then Add to Home Screen.';
+    installGo.hidden = false;
+    installMore.hidden = false;
     showBanner();
   }
   window.addEventListener('beforeinstallprompt', (e) => {
@@ -1282,7 +1284,12 @@
     showBanner();
   });
   async function install() {
-    if (!installPrompt) return;
+    if (!installPrompt) {
+      $('aa-install-text').textContent = isIOS
+        ? 'In Safari, tap Share, then Add to Home Screen.'
+        : 'Open the browser menu and choose Install app, if it is offered.';
+      return;
+    }
     installPrompt.prompt();
     try { await installPrompt.userChoice; } catch (e) {}
     installPrompt = null;
@@ -1298,7 +1305,7 @@
   $('aa-share').addEventListener('click', async () => {
     const url = location.origin + APP_URL;
     const note = $('aa-share-note');
-    const data = { title: 'Arron · Pleading Sanity', text: "Meet Arron. A gentle companion who's there at 3am. No account, no app store. Join the family. 💙", url };
+    const data = { title: 'Arron · Pleading Sanity', text: "Meet Arron. A gentle companion who's there at 3am. No account, no app store. Join the family. ", url };
     try {
       if (navigator.share) { await navigator.share(data); return; }
       await navigator.clipboard.writeText(url);
@@ -1419,7 +1426,7 @@
       store.set('ps-soul-version', key);
       if (seen && seen !== key) {
         const latest = Array.isArray(data.changelog) && data.changelog[0] && data.changelog[0].tag;
-        setStatus('Arron grew wiser ✨' + (latest ? ' — ' + latest : '') + '. No reinstall needed, ever.');
+        setStatus('Arron grew wiser ' + (latest ? ' — ' + latest : '') + '. No reinstall needed, ever.');
       }
     }
     if (creatorMode) renderCreator();
@@ -1445,7 +1452,7 @@
     let used = false;
     if (VIEWS.includes(view)) { showView(view); used = true; }
     // Shared or linked words are only ever placed in the box, never sent for you
-    if (say) { showView('talk'); els.input.value = say; autosize(); saveDraft(); setStatus('Ready when you are. Nothing is sent until you tap ➤.'); used = true; }
+    if (say) { showView('talk'); els.input.value = say; autosize(); saveDraft(); setStatus('Ready when you are. Nothing is sent until you tap .'); used = true; }
     if (remember) { showView('remember'); $('aa-truth-input').value = remember; used = true; }
     if (note) { showView('journal'); journalInput.value = note; used = true; }
     if (q.get('help') === '1') { openCrisis(); used = true; }
@@ -1456,7 +1463,7 @@
   els.story.value = store.get(SHARED.story, '');
   els.input.value = store.get(KEYS.draft, '');
   journalInput.value = store.get('arron_app_journal_draft', '');
-  if (els.input.value) { autosize(); setStatus('Your unsent message is still here. 💙'); }
+  if (els.input.value) { autosize(); setStatus('Your unsent message is still here. '); }
   else if (navigator.onLine === false && messages.length) setStatus('Offline. Your last chat is still on this phone.');
   const lastMood = vault.moods[vault.moods.length - 1];
   setMood(lastMood && Date.now() - lastMood.at < DAY ? lastMood.mood : null);

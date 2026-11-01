@@ -1,7 +1,7 @@
 /* ==========================================
    PLEADING SANITY — OUR AI FAMILY & AI STORIES
    /ai-ecosystem.html and /ai-stories.html
-   Cyan #00fff0 · magenta #ff00ff · deep space
+   Cyan #00fff0 · magenta #f59e0b · deep space
 ============================================ */
 
 /* ─── BREATHING ORBS ─── */
@@ -15,7 +15,7 @@
 }
 .eco-orbs span:nth-child(1) { --c: #00fff0; left: 0; }
 .eco-orbs span:nth-child(2) { --c: #ffd700; left: 75px; top: 0; animation-delay: -2s; }
-.eco-orbs span:nth-child(3) { --c: #ff00ff; left: 150px; animation-delay: -4s; }
+.eco-orbs span:nth-child(3) { --c: #f59e0b; left: 150px; animation-delay: -4s; }
 @keyframes eco-breathe {
   0%, 100% { transform: scale(0.88); opacity: 0.85; }
   50% { transform: scale(1.08); opacity: 1; }
@@ -49,7 +49,7 @@
 .eco-dola { --c: #b98cff; }
 .eco-copilot { --c: #7ee787; }
 .eco-nova { --c: #ffd700; }
-.eco-sol { --c: #ff9ff3; }
+.eco-sol { --c: #fde68a; }
 .eco-claude { --c: #ffb38a; }
 
 /* ─── PANELS ─── */
@@ -69,7 +69,7 @@
 .eco-dot { width: 14px; height: 14px; border-radius: 50%; animation: eco-breathe 3s ease-in-out infinite; }
 .eco-dot.cyan { background: #00fff0; box-shadow: 0 0 12px #00fff0; }
 .eco-dot.gold { background: #ffd700; box-shadow: 0 0 12px #ffd700; animation-delay: -1s; }
-.eco-dot.magenta { background: #ff00ff; box-shadow: 0 0 12px #ff00ff; animation-delay: -2s; }
+.eco-dot.magenta { background: #f59e0b; box-shadow: 0 0 12px #f59e0b; animation-delay: -2s; }
 .eco-note { color: #a9c7d1; font-size: 0.95rem; }
 
 .eco-promises { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
@@ -107,7 +107,7 @@ a.as-who:hover { color: #00fff0; }
 .as-inspiring { color: #8ffff7; border-color: rgba(0, 255, 240, 0.5); background: rgba(0, 255, 240, 0.08); }
 .as-funny { color: #ffe08a; border-color: rgba(255, 215, 0, 0.5); background: rgba(255, 215, 0, 0.08); }
 .as-wisdom { color: #d7c2ff; border-color: rgba(185, 140, 255, 0.55); background: rgba(185, 140, 255, 0.1); }
-.as-win { color: #ffb3ff; border-color: rgba(255, 0, 255, 0.55); background: rgba(255, 0, 255, 0.1); }
+.as-win { color: #fde68a; border-color: rgba(255, 0, 255, 0.55); background: rgba(255, 0, 255, 0.1); }
 
 .as-bubble { margin: 0 0 0.6rem; padding: 0.8rem 1rem; border-radius: 16px; line-height: 1.6; }
 .as-bubble p { margin: 0; }
@@ -116,7 +116,7 @@ a.as-who:hover { color: #00fff0; }
 .as-label { display: block; margin-bottom: 4px; color: #a9c7d1; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
 .as-reflect { margin: 0.4rem 0 0; color: #d6ecf0; font-style: italic; }
 .as-actions { margin-top: 0.75rem; }
-.as-actions [data-heart][aria-pressed="true"] { border-color: #ff00ff; }
+.as-actions [data-heart][aria-pressed="true"] { border-color: #f59e0b; }
 .as-check { display: flex; align-items: center; gap: 10px; min-height: 44px; margin-bottom: 0.75rem; cursor: pointer; }
 .as-check input { width: 22px; height: 22px; accent-color: #00fff0; }
 
