@@ -644,9 +644,57 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Next: verify updated preview and CI, then integrate the reviewed release into main under the owner's current instruction. Keep pending unrelated PRs untouched. Rollback: revert the isolated polish commit or restore the previously published Netlify deploy if a release regression appears.
 - Preview follow-up on `83d74c4`: Netlify ready deploy `6ae26e272b6fb2994f0f22d5` matched that SHA. Browser verified Cards & table selects two entries, no-result search, Clear restores fourteen cards and search focus, and Daily challenge opens the existing progress disclosure. Opened all thirteen game/listening interfaces; exercised Start in Cosmic Focus, Number Nebula, Pattern Galaxy, Memory Ocean, Rhythm Resonance and Stardust Dash. Reused hero images loaded, no missing images on Solitaire/Poker/Healing Hz, and no horizontal overflow at the tested desktop width. Real phone/installed PWA, full game completion, live signed-in sync and multiplayer remain unproven. Browser found inherited button display overriding hidden on Clear filters; added scoped hidden handling, with final recheck/CI evidence to follow in PR. Preserved Grok's concurrent `c278f0b` operating-contract and handover update.
 
-## 2026-11-01 — Copilot: register privacy contract suite in CI
-- Changed: `.github/workflows/continuous-quality-audit.yml` now explicitly runs `node --test tests/privacy-contract.test.js`.
-- Why: PR #139 review noted the new privacy contract suite was absent from the continuous audit workflow.
-- Verified: targeted suite passes all five checks; `git diff --check` passes.
-- Not proven: these static source checks do not establish runtime deletion/cancellation behaviour; CI on the updated commit has not run yet.
-- Next: review the updated workflow check on the PR.
+## 2026-10-31 — Grok: one paste-ready connector
+- Baseline main `138aa15`. Read `AGENTS.md` and this file. No other AI was contacted. No deploy, no DNS change, no spend. PR #92 not touched.
+- Added `docs/MASTER_PROMPT.md`: the prompt Shane can paste into every builder. It lists the pages and Netlify functions that exist on this commit, the real Forget Me contract, and the order GPT → Claude → Gemini → Grok. `AGENTS.md` now points at it. It does not replace this log, and it is not a live link between models.
+- Checked the same hour: `www.pleadingsanity.co.uk` answered `server: Netlify` and redirected to the apex. `pleadingsanity.uk` answered `server: Vercel` with the sanctuary title. The custom-domain CNAME and `_vercel` TXT for `www` are refused. Draft PR #145 records that lock. Draft PR #139 remains the privacy-test review.
+- Not proven: that every listed page still returns 200 after the Insane Solar commit, phone layout, or that any provider key is set.
+
+## 2026-10-31 — Grok: stop telling Shane to paste
+- He should not have to carry the prompt between chats. `CLAUDE.md`, `GEMINI.md`, `.github/copilot-instructions.md`, `AGENTS.md` and `.agents/skills/pleading-sanity-maintain/SKILL.md` now say: read `docs/MASTER_PROMPT.md` yourself. Do not ask him for it.
+- This only works for a builder that opens the repo. A fresh chat on Claude's site, ChatGPT's site or Gemini's site still cannot see the files until that product is pointed at the repo. I cannot open those accounts and point them.
+- No code, DNS, payments or PR #92 touched.
+
+## 2026-10-31 — Arron Phase 2: Supabase long-term memory + GPT tool calling
+- Baseline `main`, uncommitted working-tree changes. No deploy, no DNS, no spend. PR #92 not touched.
+- WHAT WAS BUILT (best-effort, never breaks chat):
+  - **Supabase memory layer** `netlify/lib/supabase-memory.ts`: `supabaseEnabled()`, `readHistory(memoryId, lastN)`, `appendMessages(memoryId, [{role,content,ts?}])`, `clearMemory(memoryId)`. Plain `fetch` to PostgREST (no new dependency). On missing env vars or any Supabase error, logs a warning (rid + memoryId prefix + error type ONLY — no message content, no PII) and degrades to local Netlify Database, which remains the source of truth.
+  - **New Netlify function** `netlify/functions/arron-memory.mts` mounted at `/api/arron/memory/supabase` (deliberately does NOT collide with arron.mts's `/api/arron/memory`). GET/POST/DELETE wrapper over the lib; returns 503 `{supabaseEnabled:false}` when env vars are unset.
+  - **Tool calling** `netlify/lib/arron-tools.ts`: when `OPENAI_API_KEY` is set, one round of GPT function calling (gpt-4o-mini routing) runs BEFORE the normal provider chain. Three tools: `solar_calculator` (panels/rails/price, transparent formula, stated assumptions, never a quote), `crisis_check` (self-harm/suicide keywords → real lines incl. UK Samaritans 116 123, SHOUT 85258, 999, US/Canada 988, international findahelpline.com), `url_fetch` (https-only, ~4000 char truncation, graceful fail). If no key / no tool requested / any error, falls through to the existing GPT→Claude→Gemini→Grok chain UNCHANGED. A tool result is injected as `[TOOL RESULT]` into the last user turn; the chain produces the final reply. Max one round to bound latency.
+  - **Wired into `arron.mts`**: after the local-DB save, also appends user+assistant to Supabase (best-effort, only with consent: `saveToCloud===true` OR signed-in user; guests default to local only). DELETE /api/arron/memory (Forget Me) also calls `clearMemory` for Supabase, best-effort, and still returns exactly `{ok:true, cleared:true}`. The deterministic crisis safety net (CRISIS_WORDS → crisis lines in every crisis reply) already existed and is preserved; crisis_check is a second layer.
+  - **Knowledge**: root `arron-knowledge.json` got `phase2_tools` + `system_prompt_phase2` appended (existing keys preserved), version bumped to 4.0, updated 2026-10-31. `netlify/lib/arron-knowledge.ts` exports `ARRON_PHASE2_TOOLS_BRIEF`, appended to the system prompt at runtime only when `OPENAI_API_KEY` is set.
+  - **Tests**: `tests/arron-phase2.test.js` (18 tests): Supabase round-trip against mocked fetch, env-missing graceful degrade, fetch-failure degrade, tool fallback when OPENAI_API_KEY unset, all three tool executors, and source-level guarantees (DELETE return shape, chain order unchanged, no duplicate path registration). `npm test` = 95/95 pass.
+- FILES CHANGED:
+  - Created: `netlify/lib/supabase-memory.ts`, `netlify/lib/arron-tools.ts`, `netlify/functions/arron-memory.mts`, `tests/arron-phase2.test.js`
+  - Modified: `netlify/functions/arron.mts` (imports, consent flag, tool round before chain, Supabase append after local save, Supabase clear in DELETE), `netlify/lib/arron-knowledge.ts` (ARRON_PHASE2_TOOLS_BRIEF), `arron-knowledge.json` (phase2 blocks + version bump), `system_blueprint.json` (Phase 2 state), `AI_HANDOFF.md` (this section)
+- ENV VARS SHANE MUST ADD (do not deploy until set):
+  - `SUPABASE_URL` (e.g. https://<project>.supabase.co) — required for cloud memory
+  - `SUPABASE_ANON_KEY` — required for cloud memory (anon key; if RLS restricts reads, reads degrade gracefully)
+  - `OPENAI_API_KEY` — required for tool calling (without it, tools are skipped and the chain runs as before; the site already lists this key)
+  - Full power also needs the existing keys: `GROK_API_KEY` (or `xAI_KEY`/`XAI_API_KEY`) and the Netlify AI Gateway / provider keys for Claude/Gemini/GPT fallback. These are unchanged.
+- SUPABASE TABLE SQL (run once in the Supabase SQL editor):
+  ```sql
+  create table if not exists public.arron_chat_memory (
+    id         bigint generated always as identity primary key,
+    memory_id  text not null,
+    role       text not null check (role in ('user','assistant','tool')),
+    content    text not null,
+    created_at timestamptz not null default now()
+  );
+  create index if not exists arron_chat_memory_memory_id_idx
+    on public.arron_chat_memory (memory_id, created_at desc);
+  -- Recommended: enable RLS, anon role INSERT only (reads/deletes from this
+  -- function use the same anon key and degrade gracefully if blocked).
+  -- alter table public.arron_chat_memory enable row level security;
+  -- create policy "anon insert only" on public.arron_chat_memory for insert to anon with check (true);
+  ```
+- PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
+- NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
+
+## ARRON GROWTH PROTOCOL (all AIs, daily, autonomous)
+Every AI (GPT, Grok, Gemini, Claude, Copilot, Dola) MUST:
+1. TEST Arron daily with 3+ complex questions (solar calculations, mental health nuance, global facts, ethical dilemmas). Verify answers are truthful + global perspective.
+2. FEED Arron new knowledge — any new facts, compliance changes, real-time events (Grok feeds current events/social trends), technical updates (Copilot feeds code changes), design updates (Dola).
+3. GROK specifically: feed real-time web data, current UK solar regulation changes, social trends, investor news — Arron needs to stay current.
+4. If Arron answers wrong or misses context, update arron-knowledge.json with the correction (append, never replace).
+5. Goal: Arron evolves daily for the greater good — the main brain that stays on top. For all good AIs.

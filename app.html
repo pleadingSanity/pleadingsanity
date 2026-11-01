@@ -24,6 +24,23 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/card-polish.css">
 <link rel="stylesheet" href="/css/app-hub.css">
+<style id="ps-polish-overrides">
+html,body{overflow-x:hidden;max-width:100%;}
+main{padding-bottom:64px;}
+main button,main .btn,main .sbtn,main .chip,main .store-open,main .game-card a,.ps-sound-toggle,.freq,.ps-group-btn{min-height:44px;min-width:44px;}
+a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;}
+:focus-visible{outline:2px solid #00fff0!important;outline-offset:2px;border-radius:4px;}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+.ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0;}
+.ps-crisis-footer strong{color:#00fff0;}
+.ps-crisis-footer a{color:#f59e0b;font-weight:700;}
+.ps-hud{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px 0;max-width:100%;}
+.ps-sound-toggle{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.35);color:#e2e8f0;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:.85rem;min-height:44px;}
+.ps-sound-toggle svg{width:20px;height:20px;flex:none;stroke:#00fff0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ps-sound-toggle[aria-pressed="true"]{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);}
+.ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
+.ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
+</style>
 </head>
 <body style="background:#000103;color:#c9e9ef;overflow-x:hidden;">
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,240,.25);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
@@ -37,6 +54,34 @@
   <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
+<div class="ps-hud"><button type="button" class="ps-sound-toggle" data-sound-toggle aria-pressed="false" aria-label="Sound is off — tap to turn on">
+<svg class="ps-spk-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+<svg class="ps-spk-on" viewBox="0 0 24 24" aria-hidden="true" hidden><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+<span class="ps-spk-label">Sound off</span></button></div>
+<script>
+(function(){
+  var KEY='ps_sound_on';
+  function on(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function syncAudio(){var o=on();document.querySelectorAll('audio').forEach(function(a){try{a.muted=!o}catch(e){}});}
+  function render(){
+    var o=on();var btn=document.querySelector('[data-sound-toggle]');if(!btn)return;
+    btn.setAttribute('aria-pressed',o?'true':'false');
+    btn.setAttribute('aria-label',o?'Sound is on — tap to turn off':'Sound is off — tap to turn on');
+    var offSvg=btn.querySelector('.ps-spk-off'),onSvg=btn.querySelector('.ps-spk-on'),lab=btn.querySelector('.ps-spk-label');
+    if(offSvg)offSvg.hidden=o;if(onSvg)onSvg.hidden=!o;if(lab)lab.textContent=o?'Sound on':'Sound off';
+    syncAudio();
+  }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest?e.target.closest('[data-sound-toggle]'):null;if(!btn)return;
+    var o=!on();try{localStorage.setItem(KEY,o?'1':'0')}catch(err){}
+    if(!o&&typeof stop==='function'){try{stop()}catch(err){}}
+    render();
+  });
+  render();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',render);}else{render();}
+})();
+</script>
+
 
 <a class="skip-link" href="#main-content" style="position:absolute;left:-9999px;top:0;background:#00fff0;color:#000103;padding:.5rem 1rem;z-index:100;">Skip to content</a>
 
@@ -462,6 +507,7 @@
 </div>
 </main>
 
+<div class="ps-crisis-footer" aria-label="Crisis and emergency help"><p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7, UK/Ireland) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></div>
 <footer style="background:#0d1b2a;border-top:1px solid rgba(0,255,240,.25);color:#c9e9ef;padding:2rem 1rem;text-align:center;line-height:1.8;">
   <p style="color:#eef6ff;font-weight:700;margin:0 0 .6rem;">Evolution, Not Erasure</p>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;margin-bottom:.8rem;">
