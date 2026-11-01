@@ -42,8 +42,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
+      --amber: #f59e0b;
+      --amber-deep: #d97706;
       --gold: #ffd700;
       --gold-bright: #ffd000;
       --orange-gold: #ff9500;
@@ -66,7 +66,7 @@
       font-family: var(--font-sans);
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
@@ -79,7 +79,7 @@
       body {
         background: 
           radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
           radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
@@ -87,7 +87,7 @@
     /* Light Mode Toggle */
     body.light-mode {
       --cyan: #0091cc;
-      --magenta: #d97706;
+      --amber: #d97706;
       --deep: #eef4f8;
       --dark: #ffffff;
       --deepest: #dce8f0;
@@ -111,7 +111,7 @@
     .skip-link:focus { top: 12px; }
 
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+    a:hover { color: var(--amber); text-shadow: 0 0 8px rgba(245,158,11,0.3); }
 
     /* Nebula Background Particles */
     .nebula-particle {
@@ -161,7 +161,7 @@
     .logo-text-wrap { text-align: left; }
     .logo-main {
       font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 900; letter-spacing: 0.08em;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      background: linear-gradient(90deg, var(--cyan), var(--amber), var(--gold));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.1;
     }
@@ -191,7 +191,7 @@
       letter-spacing: 0.05em;
     }
     header .tagline {
-      color: var(--magenta);
+      color: var(--amber);
       font-size: 0.9rem;
       font-weight: 600;
       margin-bottom: 15px;
@@ -263,7 +263,7 @@
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--amber) 100%);
       color: #000; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 50px;
       border: none; cursor: pointer; font-size: 0.95rem; transition: var(--transition);
       box-shadow: 0 0 20px rgba(0,255,240,0.25);
@@ -271,7 +271,7 @@
     }
     .btn:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      box-shadow: 0 0 35px rgba(245,158,11,0.4);
       color: #000;
     }
     .btn-secondary {
@@ -318,7 +318,7 @@
     }
     .entry::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 3px; background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      height: 3px; background: linear-gradient(90deg, var(--cyan), var(--amber));
       opacity: 0; transition: var(--transition);
     }
     .entry:hover {
@@ -335,7 +335,7 @@
       flex-wrap: wrap; gap: 8px;
     }
     .entry-number { color: var(--cyan); font-weight: 800; font-size: 1.1rem; }
-    .entry-date { color: var(--magenta); font-size: 0.9rem; }
+    .entry-date { color: var(--amber); font-size: 0.9rem; }
     .entry-source {
       color: var(--gold); font-size: 0.8rem;
       background: rgba(255,215,0,0.08); padding: 3px 12px;

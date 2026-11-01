@@ -31,8 +31,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
+      --amber: #f59e0b;
+      --amber-deep: #d97706;
       --gold: #ffd700;
       --deep: #0d1b2a;
       --darker: #020d13;
@@ -48,14 +48,14 @@
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.06) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(245,158,11,0.06) 0%, transparent 50%),
         radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--darker) 100%);
       color: var(--text);
       min-height: 100vh;
       line-height: 1.6;
     }
     a { color: var(--cyan); text-decoration: none; transition: var(--t); }
-    a:hover { color: var(--magenta); text-decoration: underline; }
+    a:hover { color: var(--amber); text-decoration: underline; }
 
     /* Skip Link — Accessibility First */
     .skip-link {
@@ -77,7 +77,7 @@
     .logo-icon { font-size: 1.8rem; }
     .logo-text {
       font-size: clamp(1.3rem,3vw,1.6rem); font-weight: 900;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      background: linear-gradient(90deg, var(--cyan), var(--amber));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
@@ -121,14 +121,14 @@
     .playlist-fallback {
       position: absolute; inset: 0; display: flex; flex-direction: column;
       align-items: center; justify-content: center; gap: 16px;
-      background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(255,0,255,0.08));
+      background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(245,158,11,0.08));
       padding: 30px; text-align: center;
     }
     .playlist-fallback h3 { color: var(--cyan); font-size: 1.1rem; }
     .playlist-fallback p { color: var(--muted); font-size: 0.95rem; }
     .btn-playlist {
       padding: 12px 24px; border-radius: 30px; font-weight: 700;
-      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      background: linear-gradient(135deg, var(--cyan), var(--amber));
       color: #000; border: none; cursor: pointer; transition: var(--t);
     }
     .btn-playlist:hover { transform: scale(1.05); color: #000; box-shadow: 0 0 20px rgba(0,255,240,0.3); }
@@ -152,7 +152,7 @@
     }
     .card-body { padding: 18px; }
     .video-card h3 {
-      color: var(--magenta); font-size: 1rem; margin-bottom: 8px; line-height: 1.4;
+      color: var(--amber); font-size: 1rem; margin-bottom: 8px; line-height: 1.4;
     }
     .video-card p {
       color: var(--muted); font-size: 0.9rem; margin-bottom: 14px;
@@ -160,7 +160,7 @@
     }
     .watch-btn {
       display: inline-block; padding: 10px 20px;
-      background: linear-gradient(135deg, var(--cyan), var(--magenta));
+      background: linear-gradient(135deg, var(--cyan), var(--amber));
       color: #000; font-weight: 700; border-radius: 8px; font-size: 0.9rem;
       transition: var(--t);
     }
@@ -364,7 +364,7 @@
       try {
         // Try both API endpoints
         let res = await fetch('/api/fetchVideos?limit=6');
-        if (!res.ok) res = await fetch('/.netlify/functions/ytFeed?limit=6');
+        if (!res.ok) res = await fetch('/api/ytFeed?limit=6');
         
         if (res.ok) {
           const data = await res.json();

@@ -52,8 +52,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
+      --amber: #f59e0b;
+      --amber-deep: #d97706;
       --gold: #ffd700;
       --gold-bright: #ffd000;
       --orange-gold: #ff9500;
@@ -77,7 +77,7 @@
       font-family: var(--font-sans);
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
@@ -89,7 +89,7 @@
       body {
         background: 
           radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
           radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
@@ -107,11 +107,11 @@
     }
 
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+    a:hover { color: var(--amber); text-shadow: 0 0 8px rgba(245,158,11,0.3); }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--amber) 100%);
       color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px;
       border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
       box-shadow: 0 0 20px rgba(0,255,240,0.25);
@@ -119,7 +119,7 @@
     }
     .btn:hover {
       transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      box-shadow: 0 0 35px rgba(245,158,11,0.4);
       color: #000;
     }
     .btn-gold {
@@ -176,7 +176,7 @@
     .logo-text-wrap { text-align: left; }
     .logo-main {
       font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: 0.08em;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      background: linear-gradient(90deg, var(--cyan), var(--amber), var(--gold));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.1;
     }
@@ -194,7 +194,7 @@
       text-transform: uppercase;
     }
     header .tagline {
-      color: var(--magenta);
+      color: var(--amber);
       font-size: 1.05rem;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -237,7 +237,7 @@
     }
     .movement-blurb strong { color: #fff; }
     .highlight-cyan { color: var(--cyan); font-weight: 700; }
-    .highlight-magenta { color: var(--magenta); font-weight: 700; }
+    .highlight-magenta { color: var(--amber); font-weight: 700; }
     .highlight-gold { color: var(--gold); font-weight: 700; }
 
     .divider {
@@ -252,7 +252,7 @@
       background: linear-gradient(135deg, rgba(26,1,58,0.8), rgba(18,4,42,0.8)); 
       padding: 35px; 
       border-radius: 20px; 
-      box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(255,0,255,0.08); 
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(245,158,11,0.08); 
       border: 1px solid rgba(0,255,240,0.2);
       font-weight: 600;
       line-height: 1.9;
@@ -270,7 +270,7 @@
     .big-quote::before { top: 10px; left: 20px; }
     .big-quote::after { bottom: -10px; right: 20px; }
     .mini-quote { 
-      color: var(--magenta); 
+      color: var(--amber); 
       margin-top: 15px; 
       font-weight: 700;
       font-size: 1rem;
@@ -294,7 +294,7 @@
     .manifesto-point {
       margin-bottom: 25px;
       padding-left: 20px;
-      border-left: 2px solid var(--magenta);
+      border-left: 2px solid var(--amber);
       transition: var(--transition);
     }
     .manifesto-point:hover {
@@ -336,7 +336,7 @@
       background: rgba(0,255,240,0.03);
       border-radius: 20px;
       border-top: 1px solid rgba(0,255,240,0.15);
-      border-bottom: 1px solid rgba(255,0,255,0.15);
+      border-bottom: 1px solid rgba(245,158,11,0.15);
     }
     .founder-section h2 {
       color: var(--cyan); margin-bottom: 20px; font-size: 1.4rem;

@@ -44,8 +44,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
+      --amber: #f59e0b;
+      --amber-deep: #d97706;
       --gold: #ffd700;
       --gold-bright: #ffd000;
       --orange-gold: #ff9500;
@@ -68,7 +68,7 @@
       font-family: var(--font-sans);
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
@@ -81,7 +81,7 @@
       body {
         background: 
           radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
           radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
@@ -99,11 +99,11 @@
     }
 
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+    a:hover { color: var(--amber); text-shadow: 0 0 8px rgba(245,158,11,0.3); }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--amber) 100%);
       color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px;
       border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
       box-shadow: 0 0 20px rgba(0,255,240,0.25);
@@ -111,7 +111,7 @@
     }
     .btn:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      box-shadow: 0 0 35px rgba(245,158,11,0.4);
       color: #000;
     }
 
@@ -150,7 +150,7 @@
     .logo-text-wrap { text-align: left; }
     .logo-main {
       font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 900; letter-spacing: 0.08em;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
+      background: linear-gradient(90deg, var(--cyan), var(--amber), var(--gold));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.1;
     }
@@ -167,7 +167,7 @@
       letter-spacing: 0.05em;
     }
     header .tagline {
-      color: var(--magenta);
+      color: var(--amber);
       font-size: 0.95rem;
       font-weight: 600;
       margin-bottom: 15px;
@@ -222,7 +222,7 @@
     }
     #arron-messages::-webkit-scrollbar { width: 6px; }
     #arron-messages::-webkit-scrollbar-thumb {
-      background: linear-gradient(180deg, var(--cyan), var(--magenta));
+      background: linear-gradient(180deg, var(--cyan), var(--amber));
       border-radius: 3px;
     }
 
@@ -254,8 +254,8 @@
       color: #000; box-shadow: 0 0 12px rgba(0,255,240,0.25);
     }
     .btn-magenta {
-      background: linear-gradient(135deg, var(--magenta), var(--magenta-deep));
-      color: #fff; box-shadow: 0 0 12px rgba(255,0,255,0.25);
+      background: linear-gradient(135deg, var(--amber), var(--amber-deep));
+      color: #fff; box-shadow: 0 0 12px rgba(245,158,11,0.25);
     }
     .btn-gold {
       background: linear-gradient(135deg, var(--gold), #d4b000);
@@ -287,7 +287,7 @@
     }
     .feed-item:hover {
       transform: translateY(-4px);
-      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(255,0,255,0.08);
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(245,158,11,0.08);
       border-color: var(--cyan);
     }
     .feed-item iframe {
@@ -313,7 +313,7 @@
     .feed-buttons { display: flex; gap: 8px; margin-top: 10px; }
 
     .promo-card, .sponsor-card {
-      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.08));
+      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(245,158,11,0.08));
       padding: 30px 24px; border-radius: 16px; margin: 35px 0;
       border: 1px solid rgba(0,255,240,0.2); box-shadow: 0 0 25px rgba(0,255,240,0.1);
       transition: var(--transition);
@@ -334,7 +334,7 @@
     .promo-card p, .sponsor-card p { margin-bottom: 15px; color: var(--text-soft); }
     .promo-link {
       display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta));
+      background: linear-gradient(90deg, var(--cyan), var(--amber));
       color: #000; font-weight: 800; text-decoration: none; padding: 12px 28px;
       border-radius: 12px; box-shadow: 0 0 15px rgba(0,255,240,0.25); transition: var(--transition);
       min-height: 44px;

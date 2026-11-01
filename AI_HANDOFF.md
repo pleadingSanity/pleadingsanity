@@ -650,3 +650,10 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
 - Verified: targeted suite passes all five checks; `git diff --check` passes.
 - Not proven: these static source checks do not establish runtime deletion/cancellation behaviour; CI on the updated commit has not run yet.
 - Next: review the updated workflow check on the PR.
+
+## 2026-11-01 — Grok: audit fixes for crisis order, colours, nav and video fallback
+- Home crisis strip is the first thing in `index.html`, in this order: Samaritans 116 123, SHOUT 85258, NHS 111, 999. The existing teal and amber home glow is unchanged. `arron.html` now has tappable NHS 111 and 999 beside the other two lines.
+- Feed and videos fall back to `/api/ytFeed` instead of `/.netlify/functions/ytFeed`.
+- Root pages no longer use `#ff00ff`, `#ff4d8d`, `#ff6688`, `rgba(255,0,255,…)`, or `--magenta`. Those accents are teal `#00fff0` / `#38bdf8` or amber `#f59e0b`.
+- Emoji were removed from the shared nav on ai-family, arron, new-gen-bible, offline, platform, rap and tools. The labels stay. `safety.html` has a meta description. Cache name is `pleading-sanity-static-v107`.
+- Not merged. Phone layout was not opened in a browser.
