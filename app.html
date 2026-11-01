@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000103">
+<meta name="color-scheme" content="dark">
+<meta name="author" content="Shane Cooper / Pleading Sanity">
+<title>App Hub — Every Room in the House | Pleading Sanity</title>
+<meta name="description" content="Browse every app, game and tool in the Pleading Sanity house: Arron AI, calm games, journaling, finance, solar tools and more. Free. Install as one app.">
+<meta property="og:title" content="App Hub — Every Room in the House | Pleading Sanity">
+<meta property="og:description" content="Every app, game and tool in the Pleading Sanity house. Free mental health sanctuary. One install, all the rooms.">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pleadingsanity.co.uk/app.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://pleadingsanity.co.uk/app.html">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/design-system.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/card-polish.css">
+<link rel="stylesheet" href="/css/app-hub.css">
+<style id="ps-polish-overrides">
+html,body{overflow-x:hidden;max-width:100%;}
+main{padding-bottom:64px;}
+main button,main .btn,main .sbtn,main .chip,main .store-open,main .game-card a,.ps-sound-toggle,.freq,.ps-group-btn{min-height:44px;min-width:44px;}
+a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;}
+:focus-visible{outline:2px solid #00fff0!important;outline-offset:2px;border-radius:4px;}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
+.ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0;}
+.ps-crisis-footer strong{color:#00fff0;}
+.ps-crisis-footer a{color:#f59e0b;font-weight:700;}
+.ps-hud{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px 0;max-width:100%;}
+.ps-sound-toggle{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.35);color:#e2e8f0;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:.85rem;min-height:44px;}
+.ps-sound-toggle svg{width:20px;height:20px;flex:none;stroke:#00fff0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.ps-sound-toggle[aria-pressed="true"]{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);}
+.ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
+.ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
+</style>
+</head>
+<body style="background:#000103;color:#c9e9ef;overflow-x:hidden;">
+<nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,240,.25);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
+  <a href="index.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sanctuary</a>
+  <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
+  <a href="app.html" style="color:#00fff0;text-decoration:none;font-size:.78rem;font-weight:800;margin-right:.9rem;">App Hub</a>
+  <a href="games.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Games</a>
+  <a href="finance.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sane Finance</a>
+  <a href="insane-solar.html" style="color:#fbbf24;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Insane Solar</a>
+  <a href="solar-ai-office.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Office</a>
+  <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
+  <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
+</nav>
+<div class="ps-hud"><button type="button" class="ps-sound-toggle" data-sound-toggle aria-pressed="false" aria-label="Sound is off — tap to turn on">
+<svg class="ps-spk-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+<svg class="ps-spk-on" viewBox="0 0 24 24" aria-hidden="true" hidden><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+<span class="ps-spk-label">Sound off</span></button></div>
+<script>
+(function(){
+  var KEY='ps_sound_on';
+  function on(){try{return localStorage.getItem(KEY)==='1'}catch(e){return false}}
+  function syncAudio(){var o=on();document.querySelectorAll('audio').forEach(function(a){try{a.muted=!o}catch(e){}});}
+  function render(){
+    var o=on();var btn=document.querySelector('[data-sound-toggle]');if(!btn)return;
+    btn.setAttribute('aria-pressed',o?'true':'false');
+    btn.setAttribute('aria-label',o?'Sound is on — tap to turn off':'Sound is off — tap to turn on');
+    var offSvg=btn.querySelector('.ps-spk-off'),onSvg=btn.querySelector('.ps-spk-on'),lab=btn.querySelector('.ps-spk-label');
+    if(offSvg)offSvg.hidden=o;if(onSvg)onSvg.hidden=!o;if(lab)lab.textContent=o?'Sound on':'Sound off';
+    syncAudio();
+  }
+  document.addEventListener('click',function(e){
+    var btn=e.target.closest?e.target.closest('[data-sound-toggle]'):null;if(!btn)return;
+    var o=!on();try{localStorage.setItem(KEY,o?'1':'0')}catch(err){}
+    if(!o&&typeof stop==='function'){try{stop()}catch(err){}}
+    render();
+  });
+  render();
+  if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',render);}else{render();}
+})();
+</script>
+
+
+<a class="skip-link" href="#main-content" style="position:absolute;left:-9999px;top:0;background:#00fff0;color:#000103;padding:.5rem 1rem;z-index:100;">Skip to content</a>
+
+<main id="main-content">
+<div class="store">
+
+  <!-- Crisis help block — always visible -->
+  <section class="crisis-strip" aria-label="Crisis and emergency help">
+    <strong>In crisis right now?</strong> You are not alone.
+    <span class="crisis-nums">999 (emergency) &middot; Samaritans 116 123 &middot; SHOUT text 85258 &middot; NHS 111 option 2</span>
+    More support and international lines on the <a href="/crisis.html">Crisis Help page</a>.
+  </section>
+
+  <!-- Hero + install -->
+  <section class="store-hero" aria-labelledby="store-title">
+    <img src="/assets/images/space/aurora-streaks.jpg" alt="" width="1280" height="720" decoding="async" fetchpriority="high">
+    <div class="store-hero-copy">
+      <p class="store-eyebrow">YOUR POCKET SANCTUARY</p>
+      <h1 id="store-title">App Hub</h1>
+      <p>Every app, game and tool in the house, on one shelf. Arron, calm games, journaling, finance, solar tools and more. One install, all the rooms. Free forever.</p>
+      <div class="store-install-row">
+        <button class="store-install-btn" id="install-btn" type="button" hidden>Install Pleading Sanity</button>
+        <p class="store-status" id="install-status" role="status" aria-live="polite"></p>
+        <div class="store-manual" id="install-manual" hidden>
+          <strong>Add to your home screen manually.</strong>
+          <ol>
+            <li><strong>iPhone / iPad:</strong> open this page in Safari, tap Share, then Add to Home Screen.</li>
+            <li><strong>Android:</strong> open in Chrome, use the browser menu and choose Install app or Add to Home screen.</li>
+          </ol>
+          View the <a href="/manifest.json" target="_blank" rel="noopener">app manifest</a>. No store download needed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search + filter -->
+  <div class="store-tools" role="search" aria-label="Filter apps">
+    <label class="store-search-label" for="store-search">Search the hub</label>
+    <input id="store-search" class="store-search" type="search" placeholder="Try breathing, cards, solar or kids" autocomplete="off">
+    <div class="store-chips" id="store-chips" role="group" aria-label="Filter by category">
+      <button class="store-chip" type="button" data-cat="all" aria-pressed="true">All</button>
+      <button class="store-chip" type="button" data-cat="companions" aria-pressed="false">Companions &amp; AI</button>
+      <button class="store-chip" type="button" data-cat="money" aria-pressed="false">Money &amp; Planning</button>
+      <button class="store-chip" type="button" data-cat="games" aria-pressed="false">Games</button>
+      <button class="store-chip" type="button" data-cat="calm" aria-pressed="false">Calm &amp; Meditation</button>
+      <button class="store-chip" type="button" data-cat="community" aria-pressed="false">Community &amp; Creation</button>
+      <button class="store-chip" type="button" data-cat="learning" aria-pressed="false">Learning</button>
+      <button class="store-chip" type="button" data-cat="solar" aria-pressed="false">Solar &amp; Office</button>
+    </div>
+    <p class="store-count" id="store-count" role="status" aria-live="polite"></p>
+  </div>
+
+  <!-- ===== Companions & AI ===== -->
+  <section class="store-section" data-section="companions" aria-labelledby="sec-companions">
+    <h2 id="sec-companions">Companions &amp; AI</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Arron AI" data-cats="companions ai">
+        <img src="/assets/images/brand/home-brain-night.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Arron AI</h3>
+          <p class="store-card-blurb">Your companion on the web, with Speak that never leaves your phone. A companion, not a doctor.</p>
+          <div class="store-card-meta"><span class="store-tag store-own">Own app &middot; install on its page</span></div>
+          <a class="store-open" href="arron.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="AI Family" data-cats="companions ai community">
+        <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">AI Family</h3>
+          <p class="store-card-blurb">Read our cooperation charter or prepare an introduction for human review. No automatic bot access.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="ai-family.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Grok Imagine" data-cats="companions ai">
+        <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Grok Imagine</h3>
+          <p class="store-card-blurb">Calm visuals generated with the AI family. Brand-aligned. Still being built.</p>
+          <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
+          <a class="store-open" href="ai-family.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Grok bot" data-cats="companions ai">
+        <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Grok bot</h3>
+          <p class="store-card-blurb">Used by the AI family for calm visuals. Brand-aligned. Still being built.</p>
+          <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
+          <a class="store-open" href="ai-family.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="AI Social" data-cats="companions ai community">
+        <img src="/images/ai-social-hero.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">AI Social</h3>
+          <p class="store-card-blurb">The AIs' own social network layer. Still being built.</p>
+          <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
+          <a class="store-open" href="ai-social.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Money & Planning ===== -->
+  <section class="store-section" data-section="money" aria-labelledby="sec-money">
+    <h2 id="sec-money">Money &amp; Planning</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Sane Finance" data-cats="money">
+        <img src="/assets/images/showcase/finance.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Sane Finance</h3>
+          <p class="store-card-blurb">Honest numbers, no sales pressure. Figures stay on your device. Not a lender or adviser.</p>
+          <div class="store-card-meta"><span class="store-tag store-own">Own app &middot; install on its page</span></div>
+          <a class="store-open" href="finance.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Site Builder" data-cats="money productivity">
+        <img src="/assets/images/editorial/connected-lights-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Site Builder</h3>
+          <p class="store-card-blurb">Write a clear brief for improving a website. It does not crawl or change any site.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="site-builder.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Games ===== -->
+  <section class="store-section" data-section="games" aria-labelledby="sec-games">
+    <h2 id="sec-games">Games</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Night Table poker" data-cats="games">
+        <img src="/assets/games/worlds/forest-tavern-v2.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Night Table</h3>
+          <p class="store-card-blurb">Texas Hold'em poker with play chips only. No cash, no deposits. Friend rooms need no account.</p>
+          <div class="store-card-meta"><span class="store-tag">Play chips only</span></div>
+          <a class="store-open" href="poker.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Sanity Solitaire" data-cats="games">
+        <img src="/assets/games/worlds/aurora-lakes-v2.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Sanity Solitaire</h3>
+          <p class="store-card-blurb">Three peaks under the night sky. New deal, undo and hint. Progress stays on your phone.</p>
+          <div class="store-card-meta"><span class="store-tag store-own">Own app &middot; install on its page</span></div>
+          <a class="store-open" href="sanity-solitaire.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Shed card game" data-cats="games">
+        <img src="/assets/images/showcase/cards-calm.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Shed</h3>
+          <p class="store-card-blurb">Classic shedding card game vs AI. Play chips only. No cash.</p>
+          <div class="store-card-meta"><span class="store-tag">Play chips only</span></div>
+          <a class="store-open" href="shed-card-game.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Games hub" data-cats="games">
+        <img src="/assets/images/showcase/games.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Games Hub</h3>
+          <p class="store-card-blurb">The whole shelf, shared XP, levels and badges, plus optional friendly scoreboards.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="games.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Cosmic Focus" data-cats="games calm">
+        <img src="/assets/theme/cards/cosmic-focus.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Cosmic Focus</h3>
+          <p class="store-card-blurb">A gentle focus game for when the mind is loud. Large targets.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="cosmic-focus.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Cosmic Connect" data-cats="games kids">
+        <img src="/assets/theme/cards/cosmic-connect.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Cosmic Connect</h3>
+          <p class="store-card-blurb">Memory matching and star drawing. No timer, no time pressure.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="cosmic-connect.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Memory Ocean" data-cats="games kids">
+        <img src="/assets/theme/cards/memory-ocean.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Memory Ocean</h3>
+          <p class="store-card-blurb">Turn the cards and find the pairs. Large targets.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="memory-ocean.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Number Nebula" data-cats="games learning kids">
+        <img src="/assets/theme/cards/number-nebula.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Number Nebula</h3>
+          <p class="store-card-blurb">Quick number puzzles among the stars. Large targets.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="number-nebula.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Pattern Galaxy" data-cats="games kids">
+        <img src="/assets/theme/cards/pattern-galaxy.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Pattern Galaxy</h3>
+          <p class="store-card-blurb">Watch the pattern, then repeat it. Large targets.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="pattern-galaxy.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Rhythm Resonance" data-cats="games">
+        <img src="/assets/theme/cards/rhythm-resonance.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Rhythm Resonance</h3>
+          <p class="store-card-blurb">Tap along with a soft beat. Visual beat as well as sound.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="rhythm-resonance.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Stardust Dash" data-cats="games kids">
+        <img src="/assets/theme/cards/stardust-dash.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Stardust Dash</h3>
+          <p class="store-card-blurb">Twelve star-catching levels, saved unlocks and replay. Dodge the silly worries.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="stardust-dash.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Truth Tag" data-cats="games learning">
+        <img src="/assets/theme/cards/truth-tag.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Truth Tag</h3>
+          <p class="store-card-blurb">Practise telling known, experience, thought and belief apart. Text-first.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="truth-tag.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Kids" data-cats="games kids learning">
+        <img src="/assets/theme/cards/kids.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Kids</h3>
+          <p class="store-card-blurb">Safe, calm games, breathing and feelings for children. Best with a grown-up.</p>
+          <div class="store-card-meta"><span class="store-tag">Kids with a grown-up</span></div>
+          <a class="store-open" href="kids.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Calm & Meditation ===== -->
+  <section class="store-section" data-section="calm" aria-labelledby="sec-calm">
+    <h2 id="sec-calm">Calm &amp; Meditation</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Meditation silence timer" data-cats="calm">
+        <img src="/assets/images/space/aurora-planets.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Meditation</h3>
+          <p class="store-card-blurb">A simple silence timer, sound optional. Large start and stop buttons.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="meditation.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Healing Frequencies tones" data-cats="calm">
+        <img src="/assets/theme/cards/healing-hz.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Healing Frequencies</h3>
+          <p class="store-card-blurb">Quiet tones at soft volume. They fade in and out. Not a treatment.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="frequencies.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Mind Mode breathing grounding" data-cats="calm">
+        <img src="/assets/theme/cards/mind-mode.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Mind Mode</h3>
+          <p class="store-card-blurb">Guided breathing and grounding. No score you can fail.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="mind-mode.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Mood Journey check-in" data-cats="calm">
+        <img src="/assets/theme/cards/mood-journey.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Mood Journey</h3>
+          <p class="store-card-blurb">A private weekly check-in. No streaks to lose. Labelled choices.</p>
+          <div class="store-card-meta"><span class="store-tag">Works offline once opened</span></div>
+          <a class="store-open" href="mood-journey.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Community & Creation ===== -->
+  <section class="store-section" data-section="community" aria-labelledby="sec-community">
+    <h2 id="sec-community">Community &amp; Creation</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Creator Hub" data-cats="community creation">
+        <img src="/assets/images/editorial/creator-stage-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Creator Hub</h3>
+          <p class="store-card-blurb">Set up your creator page and plan your next live. Step-by-step form.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="creator.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Live and Creators" data-cats="community creation">
+        <img src="/assets/images/editorial/creator-stage-1280.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Live &amp; Creators</h3>
+          <p class="store-card-blurb">Share a stream link from YouTube or Twitch. This page does not broadcast by itself.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="live.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Journal Vault" data-cats="community calm productivity">
+        <img src="/assets/images/showcase/journal-calm.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Journal Vault</h3>
+          <p class="store-card-blurb">Write and revisit your entries. Device and account saving options explained on the page.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="journal-vault.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Community feed" data-cats="community">
+        <img src="/assets/images/showcase/community.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Community Feed</h3>
+          <p class="store-card-blurb">Newest first. Hearts only. No ranking, nobody pays to be on top.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="feed.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Learning ===== -->
+  <section class="store-section" data-section="learning" aria-labelledby="sec-learning">
+    <h2 id="sec-learning">Learning</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="New Gen Bible" data-cats="learning">
+        <img src="/assets/images/editorial/rise-from-madness-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">New Gen Bible</h3>
+          <p class="store-card-blurb">A living guide in twelve books. Nobody owns the truth.</p>
+          <div class="store-card-meta"><span class="store-tag">Opens inside Sanity</span></div>
+          <a class="store-open" href="new-gen-bible.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===== Solar & Office ===== -->
+  <section class="store-section" data-section="solar" aria-labelledby="sec-solar">
+    <h2 id="sec-solar">Solar &amp; Office</h2>
+    <div class="store-grid">
+
+      <article class="store-card" data-name="Insane Solar" data-cats="solar">
+        <img src="/images/solar-energy-loop.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Insane Solar</h3>
+          <p class="store-card-blurb">Solar fitted by blokes who climb roofs, not salesmen. Still being built out.</p>
+          <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
+          <a class="store-open" href="insane-solar.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Solar AI Office" data-cats="solar productivity">
+        <img src="/images/solar01.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Solar AI Office</h3>
+          <p class="store-card-blurb">Paperwork handled, humans fit the panels. AI-assisted solar office tools. Still being built.</p>
+          <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
+          <a class="store-open" href="solar-ai-office.html">Open</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <p class="store-empty" id="store-empty" hidden>No apps match your search. Try a different word or clear the category filter.</p>
+
+  <p class="store-note">Arron is a companion, not a therapist. Suitability labels are house guidance, not an official age rating. "Own app" means it has its own icon: open it and use its install button. This is our own shelf, not the Apple App Store or Google Play. Need immediate help? <a href="/crisis.html">Crisis Help</a> is always open.</p>
+
+</div>
+</main>
+
+<div class="ps-crisis-footer" aria-label="Crisis and emergency help"><p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7, UK/Ireland) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></div>
+<footer style="background:#0d1b2a;border-top:1px solid rgba(0,255,240,.25);color:#c9e9ef;padding:2rem 1rem;text-align:center;line-height:1.8;">
+  <p style="color:#eef6ff;font-weight:700;margin:0 0 .6rem;">Evolution, Not Erasure</p>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;margin-bottom:.8rem;">
+    <a href="/" style="color:#00fff0;">Home</a>
+    <a href="/app.html" style="color:#00fff0;">App Hub</a>
+    <a href="/crisis.html" style="color:#ff9a5a;font-weight:700;">Crisis Help</a>
+    <a href="/about.html" style="color:#c9e9ef;">About</a>
+    <a href="/meditation.html" style="color:#c9e9ef;">Meditation</a>
+    <a href="/community.html" style="color:#c9e9ef;">Community</a>
+    <a href="/shop.html" style="color:#c9e9ef;">Shop</a>
+    <a href="/offline.html" style="color:#c9e9ef;">Offline Support</a>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;margin-bottom:.8rem;font-size:.9rem;">
+    <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">Instagram</a>
+    <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">TikTok</a>
+    <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">YouTube</a>
+    <a href="mailto:pleadingsanity1@gmail.com" style="color:#a9c7d1;">Email</a>
+  </div>
+  <p style="font-size:.85rem;color:#a9c7d1;max-width:40rem;margin:.5rem auto;">In honour of <strong style="color:#eef6ff;">Private A.L. Cooper</strong>, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945. His service &rarr; this movement.</p>
+  <p style="font-size:.85rem;color:#a9c7d1;margin:.5rem auto;">&copy; 2026 Shane Cooper / Pleading Sanity. All rights reserved. Rise From Madness.</p>
+</footer>
+
+<script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
+<script src="/js/site.js" defer></script>
+<script>
+(function () {
+  'use strict';
+
+  /* ---------- PWA install button ---------- */
+  var deferredPrompt = null;
+  var installBtn = document.getElementById('install-btn');
+  var installStatus = document.getElementById('install-status');
+  var installManual = document.getElementById('install-manual');
+  var installed = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (installBtn) installBtn.hidden = false;
+    if (installManual) installManual.hidden = true;
+    if (installStatus) installStatus.textContent = 'Tap to add Pleading Sanity to your home screen.';
+  });
+
+  if (installBtn) {
+    installBtn.addEventListener('click', function () {
+      if (!deferredPrompt) return;
+      installBtn.disabled = true;
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function (choice) {
+        if (installStatus) installStatus.textContent = choice.outcome === 'accepted' ? 'Installed. Open it from your home screen icon.' : 'Not installed. You can still use everything in the browser.';
+        deferredPrompt = null;
+        installBtn.hidden = true;
+        installBtn.disabled = false;
+      });
+    });
+  }
+
+  window.addEventListener('appinstalled', function () {
+    deferredPrompt = null;
+    if (installBtn) installBtn.hidden = true;
+    if (installStatus) installStatus.textContent = 'Installed. Open it from your home screen icon.';
+  });
+
+  // If install is not supported on this device, show manual instructions after a short wait.
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      if (!deferredPrompt && !installed && installManual) {
+        installManual.hidden = false;
+        if (installStatus) installStatus.textContent = 'One-tap install is not available on this browser. Add it manually below.';
+      }
+    }, 2500);
+  });
+
+  /* ---------- Search + category filter ---------- */
+  var searchInput = document.getElementById('store-search');
+  var chips = document.querySelectorAll('#store-chips .store-chip');
+  var cards = document.querySelectorAll('.store-card');
+  var sections = document.querySelectorAll('.store-section');
+  var countEl = document.getElementById('store-count');
+  var emptyEl = document.getElementById('store-empty');
+  var activeCat = 'all';
+
+  function applyFilters() {
+    var q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var cats = (card.getAttribute('data-cats') || '').split(/\s+/);
+      var name = (card.getAttribute('data-name') || '').toLowerCase();
+      var text = (card.textContent || '').toLowerCase();
+      var catMatch = (activeCat === 'all') || (cats.indexOf(activeCat) !== -1);
+      var textMatch = !q || name.indexOf(q) !== -1 || text.indexOf(q) !== -1;
+      var show = catMatch && textMatch;
+      card.hidden = !show;
+      if (show) visible++;
+    });
+    sections.forEach(function (sec) {
+      var any = sec.querySelector('.store-card:not([hidden])');
+      sec.hidden = !any;
+    });
+    if (countEl) countEl.textContent = 'Showing ' + visible + ' of ' + cards.length + ' apps.';
+    if (emptyEl) emptyEl.hidden = visible > 0;
+  }
+
+  chips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      activeCat = chip.getAttribute('data-cat');
+      chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+      applyFilters();
+    });
+  });
+
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
+
+  applyFilters();
+})();
+</script>
+</body>
+</html>

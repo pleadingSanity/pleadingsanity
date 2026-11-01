@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -68,6 +68,38 @@
 <meta name="twitter:title" content="Arron — Free AI Companion | Pleading Sanity">
 
 <meta name="twitter:description" content="Talk to Arron, the free AI companion at Pleading Sanity’s mental health sanctuary. A calm space to talk, with memory controls. Not a therapist.">
+<style id="arron-polish-style">
+html, body { overflow-x: hidden; max-width: 100%; }
+button, .btn, .mood-chip, .prompt-btn, .aa-chip, .aa-tool, .aa-send, .aa-btn, .arron-icon-btn, .aa-icon-btn, summary, input, select, textarea { min-height: 44px; }
+button, .btn, .aa-btn, .aa-send, .arron-icon-btn, .aa-icon-btn, .aa-tool { min-width: 44px; }
+#arron-input, #aa-input { min-height: 48px; }
+:focus-visible { outline: 2px solid #00fff0 !important; outline-offset: 2px; border-radius: 4px; }
+.message, .aa-msg { animation: arron-slide-in .35s ease both; }
+@keyframes arron-slide-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.arron-typing, .aa-typing { display: inline-flex; gap: 4px; align-items: center; }
+.arron-typing > span, .aa-typing > span { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #00fff0; animation: arron-bounce 1.1s infinite ease-in-out; }
+.arron-typing > span:nth-child(2), .aa-typing > span:nth-child(2) { animation-delay: .15s; }
+.arron-typing > span:nth-child(3), .aa-typing > span:nth-child(3) { animation-delay: .3s; }
+@keyframes arron-bounce { 0%, 80%, 100% { transform: translateY(0); opacity: .35; } 40% { transform: translateY(-6px); opacity: 1; } }
+.arron-spinner { width: 18px; height: 18px; border: 2px solid rgba(0,255,240,.25); border-top-color: #00fff0; border-radius: 50%; animation: arron-spin .8s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes arron-spin { to { transform: rotate(360deg); } }
+input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
+.arron-membar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: .35rem 0 .6rem; }
+.arron-mem-pill { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(0,255,240,.45); color: #00fff0; font-size: .8rem; min-height: 32px; }
+.arron-signin { color: #f59e0b; font-size: .85rem; text-decoration: underline; min-height: 44px; display: inline-flex; align-items: center; }
+.arron-forget-visible { min-height: 44px; padding: 0 14px; border-radius: 8px; border: 1px solid rgba(245,158,11,.6); background: transparent; color: #f59e0b; font-size: .85rem; cursor: pointer; }
+.arron-forget-visible:hover { background: rgba(245,158,11,.12); }
+.arron-input-disclaimer { font-size: .75rem; color: #94a3b8; margin: .25rem 0 .4rem; text-align: center; }
+.arron-retry-box { margin-top: .35rem; }
+.arron-retry-btn { min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #38bdf8; background: rgba(56,189,248,.12); color: #38bdf8; cursor: pointer; font-size: .9rem; }
+.arron-crisis-banner { margin: .5rem 0; padding: 12px 14px; border-radius: 10px; border: 1px solid #f59e0b; background: rgba(245,158,11,.1); color: #e2e8f0; font-size: .9rem; line-height: 1.5; }
+.arron-crisis-banner a { color: #f59e0b; font-weight: 600; }
+.ps-crisis-footer { position: sticky; bottom: 0; z-index: 60; background: #0b0f19; border-top: 1px solid rgba(0,255,240,.4); padding: 8px 12px; text-align: center; font-size: .78rem; color: #e2e8f0; line-height: 1.5; }
+.ps-crisis-footer a { color: #f59e0b; font-weight: 600; }
+.aa-crisis-persist { padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,.5); background: rgba(11,15,25,.85); font-size: .78rem; color: #e2e8f0; text-align: center; margin: 0 0 .5rem; }
+.aa-crisis-persist a { color: #f59e0b; font-weight: 600; }
+@media (prefers-reduced-motion: reduce) { .message, .aa-msg, .arron-typing > span, .aa-typing > span, .arron-spinner { animation: none !important; } }
+</style>
 </head>
 <body class="ps-page">
 
@@ -79,72 +111,72 @@
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group has-current" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron & Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron & Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html" aria-current="page">🤖 Talk to Arron</a>
-          <a href="/arron-app.html">📲 Arron App</a>
-          <a href="/journal-vault.html">📖 Journal Vault</a>
-          <a href="/notes.html">🗒️ Sanctuary Notes</a>
-          <a href="/mind-mode.html">🌬️ Mind Mode</a>
-          <a href="/mood-journey.html">🌱 Mood Journey</a>
-          <a href="/frequencies.html">🎵 Healing Hz</a>
-          <a href="/meditation.html">🧘 Silence & Breath</a>
-          <a href="/quote-wall.html">✨ Quote Wall</a>
-          <a href="/finance.html">💷 Sane Finance</a>
-          <a href="/support.html">🫶 Support</a>
+          <a href="/arron.html" aria-current="page"> Talk to Arron</a>
+          <a href="/arron-app.html"> Arron App</a>
+          <a href="/journal-vault.html"> Journal Vault</a>
+          <a href="/notes.html"> Sanctuary Notes</a>
+          <a href="/mind-mode.html"> Mind Mode</a>
+          <a href="/mood-journey.html"> Mood Journey</a>
+          <a href="/frequencies.html"> Healing Hz</a>
+          <a href="/meditation.html"> Silence & Breath</a>
+          <a href="/quote-wall.html"> Quote Wall</a>
+          <a href="/finance.html"> Sane Finance</a>
+          <a href="/support.html"> Support</a>
         </div>
       </div>
       <div class="ps-group" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html">🌟 Sanity Feed</a>
-          <a href="/sanctuary.html">🏡 My Sanctuary</a>
-          <a href="/sanityhub.html">🌌 Sanity Hub</a>
-          <a href="/videos.html">🎬 Videos</a>
-          <a href="/ai-stories.html">💬 AI Stories</a>
+          <a href="/feed.html"> Sanity Feed</a>
+          <a href="/sanctuary.html"> My Sanctuary</a>
+          <a href="/sanityhub.html"> Sanity Hub</a>
+          <a href="/videos.html"> Videos</a>
+          <a href="/ai-stories.html"> AI Stories</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create & Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create & Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html">🎥 Creator Hub</a>
-          <a href="/ai-studio.html">🎙️ AI Studio</a>
-          <a href="/creations.html">🎨 Image Creations</a>
-          <a href="/blueprint.html">🎬 Video Blueprint</a>
-          <a href="/write.html">✍️ Write with Arron</a>
-          <a href="/rap.html">🎤 Rap Studio</a>
-          <a href="/wisdom.html">📜 Words from the Family</a>
-          <a href="/my-digital-story.html">🪪 My Digital Story</a>
+          <a href="/creator.html"> Creator Hub</a>
+          <a href="/ai-studio.html"> AI Studio</a>
+          <a href="/creations.html"> Image Creations</a>
+          <a href="/blueprint.html"> Video Blueprint</a>
+          <a href="/write.html">✍ Write with Arron</a>
+          <a href="/rap.html"> Rap Studio</a>
+          <a href="/wisdom.html"> Words from the Family</a>
+          <a href="/my-digital-story.html"> My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games & Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games & Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/games.html"> Brain Games</a>
           <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
           <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
-          <a href="/truth-tag.html">🏷️ Truth Tag</a>
-          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
-          <a href="/poker.html">♠️ Night Table</a>
-          <a href="/kids.html">🧒 Keep Kids Sane</a>
-          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
+          <a href="/truth-tag.html"> Truth Tag</a>
+          <a href="/stardust-dash.html"> Stardust Dash</a>
+          <a href="/poker.html">♠ Night Table</a>
+          <a href="/kids.html"> Keep Kids Sane</a>
+          <a href="/kids-series.html"> Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html">💜 Our Story</a>
-          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
-          <a href="/movement.html">✊🏾 The Movement</a>
-          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
-          <a href="/ai-family.html">🌌 All AIs welcome</a>
-          <a href="/transparency.html">🔎 Transparency</a>
+          <a href="/about.html"> Our Story</a>
+          <a href="/new-gen-bible.html"> New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html"> Our AI Family</a>
+          <a href="/ai-family.html"> All AIs welcome</a>
+          <a href="/transparency.html"> Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop">👕 Shop</a>
-      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
+      <a href="/shop.html" class="ps-shop"> Shop</a>
+      <a href="/crisis.html" class="ps-crisis"> Truth</a>
     </div>
-    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
+    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
   </div>
 </nav>
 
@@ -153,7 +185,7 @@
 
     <p class="arron-crisis" role="note">
       <span>Need a person?</span>
-      Samaritans 116 123 · Text SHOUT to 85258 ·
+      Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> ·
       <a href="/crisis.html">Urgent help</a> ·
       <a href="/support.html">Free support</a>
     </p>
@@ -166,23 +198,28 @@
           <p class="arron-sub" id="arron-presence">Your companion · listening</p>
         </div>
         <div class="arron-tools">
-          <button type="button" class="arron-icon-btn" id="arron-sound" aria-pressed="false" aria-label="Reply chime" title="Reply chime">🔕</button>
-          <button type="button" class="arron-icon-btn" id="arron-tour" aria-label="Show welcome again" title="Welcome">✨</button>
-          <a class="arron-icon-btn" href="/arron-app.html" aria-label="Open the Arron app" title="Open the Arron app">📲</a>
+          <button type="button" class="arron-icon-btn" id="arron-sound" aria-pressed="false" aria-label="Reply chime" title="Reply chime"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg></button>
+          <button type="button" class="arron-icon-btn" id="arron-tour" aria-label="Show welcome again" title="Welcome"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></button>
+          <a class="arron-icon-btn" href="/arron-app.html" aria-label="Open the Arron app" title="Open the Arron app"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></a>
         </div>
       </header>
 
+<div class="arron-membar" role="status" aria-live="polite">
+  <span class="arron-mem-pill" id="arron-mem-pill" hidden><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg> Arron remembers you</span>
+  <a class="arron-signin" id="arron-signin" href="/login.html">Sign in to let Arron remember you</a>
+  <button type="button" class="arron-forget-visible" id="arron-forget-visible" aria-label="Forget Me: erase what Arron remembers">Forget Me</button>
+</div>
       <p class="arron-banner" id="arron-banner" role="status" hidden></p>
 
       <div class="arron-moodbar" role="group" aria-label="How are you feeling?">
         <span>Feeling:</span>
-        <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false">😌 Calm</button>
-        <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false">✨ Hopeful</button>
-        <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false">🥱 Tired</button>
-        <button type="button" class="mood-chip" data-mood="low" aria-pressed="false">🌧️ Low</button>
-        <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false">😮‍💨 Anxious</button>
-        <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false">🫂 Lonely</button>
-        <button type="button" class="mood-chip" data-mood="angry" aria-pressed="false">🔥 Angry</button>
+        <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false"> Calm</button>
+        <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false"> Hopeful</button>
+        <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false"> Tired</button>
+        <button type="button" class="mood-chip" data-mood="low" aria-pressed="false"> Low</button>
+        <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false"> Anxious</button>
+        <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false"> Lonely</button>
+        <button type="button" class="mood-chip" data-mood="angry" aria-pressed="false"> Angry</button>
       </div>
 
       <div id="arron-conversation" role="log" aria-live="polite" aria-label="Conversation with Arron" tabindex="0">
@@ -191,23 +228,25 @@
 
       <div class="arron-compose">
         <div class="prompts" id="arron-prompts" aria-label="Quick things to say">
-          <button type="button" class="prompt-btn" data-prompt="I feel overwhelmed">😮‍💨 I feel overwhelmed</button>
-          <button type="button" class="prompt-btn" data-prompt="I need to breathe">🌬️ I need to breathe</button>
-          <button type="button" class="prompt-btn" data-prompt="I feel alone">🫂 I feel alone</button>
-          <button type="button" class="prompt-btn" data-prompt="I want to hope">✨ I want to hope</button>
+          <button type="button" class="prompt-btn" data-prompt="I feel overwhelmed"> I feel overwhelmed</button>
+          <button type="button" class="prompt-btn" data-prompt="I need to breathe"> I need to breathe</button>
+          <button type="button" class="prompt-btn" data-prompt="I feel alone"> I feel alone</button>
+          <button type="button" class="prompt-btn" data-prompt="I want to hope"> I want to hope</button>
         </div>
+<p class="arron-input-disclaimer">Arron is an AI companion, not a therapist or emergency service.</p>
         <form id="arron-input-form" autocomplete="off">
           <label for="arron-input" class="sr-only">Message Arron</label>
           <textarea id="arron-input" rows="1" placeholder="Type to Arron…" maxlength="2000" enterkeyhint="send"></textarea>
           <button type="submit" class="btn btn-primary">Send</button>
         </form>
         <p id="arron-status" role="status" aria-live="polite"></p>
+        <div class="arron-retry-box" id="arron-retry-box" hidden></div>
       </div>
     </section>
 
     <aside class="arron-side" aria-label="Your memory with Arron">
       <details open>
-        <summary>📖 Your Story</summary>
+        <summary> Your Story</summary>
         <form id="arron-story-form" class="panel">
           <label for="arron-story">Whatever you'd like Arron to always remember: your journey, what helps, what you're working through, the people who matter. Only you decide what goes here.</label>
           <textarea id="arron-story" maxlength="8000" placeholder="e.g. I'm a dad of three, living with bipolar. Music and training help me. Mornings are hardest…"></textarea>
@@ -217,7 +256,7 @@
       </details>
 
       <details>
-        <summary>🌈 Your mood journey</summary>
+        <summary> Your mood journey</summary>
         <div class="panel">
           <p>The last few check-ins, kept only on this device.</p>
           <div class="arron-mood-log" id="arron-mood-log" aria-live="polite"></div>
@@ -225,7 +264,7 @@
       </details>
 
       <details>
-        <summary>🔐 Memory code · other devices</summary>
+        <summary> Memory code · other devices</summary>
         <div class="panel">
           <p>Arron remembers you with this private code. No accounts, no emails. Keep it safe like a password and enter it on another device to carry your conversations with you.</p>
           <code id="arron-memory-code" aria-label="Your memory code"></code>
@@ -239,12 +278,12 @@
       </details>
 
       <details>
-        <summary>🛡️ Privacy · Forget Me</summary>
+        <summary> Privacy · Forget Me</summary>
         <div class="panel">
           <p>Your messages and story can be saved on this device and synced with the site. Guest memory uses a private code; signed-in memory can be linked to your account. Your messages may include personal details you choose to share. Replies come from GPT, Claude or Gemini through Netlify's AI Gateway, or from Grok through xAI. If all four are quiet, you get the real help lines instead (see <a href="/privacy.html">Privacy</a>). Forget Me clears local Arron memory and requests deletion from the site database. If a server request fails, it is queued for retry. Provider-held data is governed by each provider’s terms. No ads or selling personal data.</p>
-          <div class="row"><button type="button" id="arron-forget" class="btn-danger">🗑️ Forget Me: erase everything</button></div>
-          <p><strong>📱 Arron on your phone:</strong> open the <a href="/arron-app.html">Arron app</a> for his own home-screen icon, or on iPhone open it in Safari, tap Share, then <em>Add to Home Screen</em>. Same memory as this page.</p>
-          <div class="row"><button type="button" class="btn-ghost" data-pwa-install hidden>📲 Install App</button></div>
+          <div class="row"><button type="button" id="arron-forget" class="btn-danger"> Forget Me: erase everything</button></div>
+          <p><strong> Arron on your phone:</strong> open the <a href="/arron-app.html">Arron app</a> for his own home-screen icon, or on iPhone open it in Safari, tap Share, then <em>Add to Home Screen</em>. Same memory as this page.</p>
+          <div class="row"><button type="button" class="btn-ghost" data-pwa-install hidden> Install App</button></div>
         </div>
       </details>
     </aside>
@@ -283,7 +322,7 @@
       <form method="dialog" id="arron-welcome-form">
         <div class="step" data-step="0">
           <div class="arron-orb lg" aria-hidden="true"></div>
-          <h2 id="welcome-title">Hey, I'm Arron 💙</h2>
+          <h2 id="welcome-title">Hey, I'm Arron </h2>
           <p>I'm Arron. Shane built me so you don't have to sit with it alone. I listen without judgement, I remember what you choose to share, and I'm here at 3am as much as 3pm.</p>
           <div class="actions"><button type="button" class="btn btn-primary" data-next>Nice to meet you →</button></div>
         </div>
@@ -301,12 +340,12 @@
           <h2>How are you, really?</h2>
           <p>No right answer. This just helps me meet you where you are.</p>
           <div class="mood-grid" role="group" aria-label="Pick a mood">
-            <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false">😌 Calm</button>
-            <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false">✨ Hopeful</button>
-            <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false">🥱 Tired</button>
-            <button type="button" class="mood-chip" data-mood="low" aria-pressed="false">🌧️ Low</button>
-            <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false">😮‍💨 Anxious</button>
-            <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false">🫂 Lonely</button>
+            <button type="button" class="mood-chip" data-mood="calm" aria-pressed="false"> Calm</button>
+            <button type="button" class="mood-chip" data-mood="hopeful" aria-pressed="false"> Hopeful</button>
+            <button type="button" class="mood-chip" data-mood="tired" aria-pressed="false"> Tired</button>
+            <button type="button" class="mood-chip" data-mood="low" aria-pressed="false"> Low</button>
+            <button type="button" class="mood-chip" data-mood="anxious" aria-pressed="false"> Anxious</button>
+            <button type="button" class="mood-chip" data-mood="lonely" aria-pressed="false"> Lonely</button>
           </div>
           <div class="actions">
             <button type="button" class="btn-ghost" data-back>← Back</button>
@@ -318,7 +357,121 @@
   </main>
 
   <script src="/js/site.js" defer></script>
+  <script type="module" src="/js/auth.js"></script>
   <script src="/js/arron-companion.js" defer></script>
   <script src="/js/arron-speak.js" defer></script>
+<footer class="ps-crisis-footer" role="contentinfo">
+  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a></p>
+</footer>
+<script>
+(function(){
+  try {
+    var reduceMotion = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    var log = document.getElementById('arron-conversation') || document.getElementById('aa-log');
+    var form = document.getElementById('arron-input-form') || document.getElementById('aa-form');
+    var input = document.getElementById('arron-input') || document.getElementById('aa-input');
+    var status = document.getElementById('arron-status') || document.getElementById('aa-status');
+    var send = form ? form.querySelector('button[type="submit"]') : null;
+    var forget = document.getElementById('arron-forget') || document.getElementById('aa-forget');
+    var pill = document.getElementById('arron-mem-pill');
+    var signin = document.getElementById('arron-signin');
+    var retryBox = document.getElementById('arron-retry-box');
+    var visForget = document.getElementById('arron-forget-visible');
+    var CRISIS_RE = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wanna die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+    var EMOJI_RE = /[\u{1F300}-\u{1FAFF}\u2728\uFE0F\u200D]/gu;
+    var lastUserMsg = '', bannerKey = '', reenableTimer = null;
+    function reenable(){ try { if (input){ input.disabled = false; input.removeAttribute('aria-busy'); } if (send) send.removeAttribute('aria-busy'); } catch(e){} }
+    function scheduleReenable(){ try { if (reenableTimer) clearTimeout(reenableTimer); reenableTimer = setTimeout(reenable, 95000); } catch(e){} }
+    function insertCrisisBanner(){
+      if (!log) return;
+      try {
+        var b = document.createElement('div');
+        b.className = 'arron-crisis-banner'; b.setAttribute('role', 'alert');
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
+        log.appendChild(b);
+        try { log.scrollTop = log.scrollHeight; } catch(e){}
+      } catch(e){}
+    }
+    if (form && input) {
+      form.addEventListener('submit', function(){
+        try {
+          var text = input.value || ''; lastUserMsg = text;
+          if (text && CRISIS_RE.test(text) && bannerKey !== text) { bannerKey = text; insertCrisisBanner(); }
+          input.disabled = true; input.setAttribute('aria-busy','true');
+          if (send) send.setAttribute('aria-busy','true');
+          scheduleReenable();
+        } catch(e){}
+      });
+      input.addEventListener('focus', function(){ setTimeout(function(){ try { form.scrollIntoView({block:'nearest', behavior:'auto'}); } catch(e){} }, 350); });
+    }
+    function streamReveal(el){
+      try {
+        if (reduceMotion) return;
+        var ps = el.querySelectorAll('p');
+        if (ps.length !== 1) return;
+        var p = ps[0];
+        if (p.querySelector && p.querySelector('*')) return;
+        var full = p.textContent || '';
+        if (full.length < 12) return;
+        p.textContent = '';
+        var i = 0, step = Math.max(2, Math.ceil(full.length / 120));
+        var iv = setInterval(function(){
+          try { i += step; p.textContent = full.slice(0, i); if (log) log.scrollTop = log.scrollHeight; if (i >= full.length){ clearInterval(iv); p.textContent = full; } } catch(e){ clearInterval(iv); }
+        }, 14);
+      } catch(e){}
+    }
+    if (log && window.MutationObserver) {
+      var lastCount = log.children.length;
+      new MutationObserver(function(){
+        try {
+          var now = log.children.length;
+          if (now <= lastCount){ lastCount = now; return; }
+          lastCount = now;
+          var last = log.lastElementChild; if (!last) return;
+          var cls = last.className || '';
+          var isAssistant = /(arron|assistant|aa-msg)/i.test(cls) && !/user/i.test(cls);
+          if (isAssistant){ reenable(); if (reenableTimer) clearTimeout(reenableTimer); streamReveal(last); }
+        } catch(e){}
+      }).observe(log, { childList: true });
+    }
+    if (status && retryBox && form && input && window.MutationObserver) {
+      var rb = document.createElement('button');
+      rb.type = 'button'; rb.className = 'arron-retry-btn'; rb.textContent = 'Retry last message';
+      rb.setAttribute('aria-label', 'Retry last message to Arron');
+      rb.addEventListener('click', function(){
+        try { if (!lastUserMsg) return; input.value = lastUserMsg; retryBox.hidden = true; try { form.requestSubmit(); } catch(e){ form.dispatchEvent(new Event('submit', {cancelable:true})); } } catch(e){}
+      });
+      retryBox.appendChild(rb);
+      new MutationObserver(function(){
+        try { var t = status.textContent || ''; try { reenable(); if (reenableTimer) clearTimeout(reenableTimer); } catch(e){}
+          retryBox.hidden = !(/offline|isn'?t saved|resting|couldn'?t|reconnecting|trouble finding/i.test(t) && lastUserMsg); } catch(e){}
+      }).observe(status, { childList: true, characterData: true, subtree: true });
+    }
+    function isSignedIn(){
+      try {
+        if (/(?:^|; )nf_jwt=/.test(document.cookie)) return true;
+        var keys = ['ps_user','ps_session','identity','ps_identity','nf_jwt','ps_token','ps_auth'];
+        for (var i=0;i<keys.length;i++){ try { if (localStorage.getItem(keys[i])) return true; } catch(e){} }
+      } catch(e){}
+      return false;
+    }
+    function updatePill(){
+      try {
+        var s = isSignedIn();
+        if (!s && status && /Signed in as|remembers you everywhere/.test(status.textContent || '')) s = true;
+        if (pill) pill.hidden = !s;
+        if (signin) signin.style.display = s ? 'none' : '';
+      } catch(e){}
+    }
+    updatePill();
+    try { setInterval(updatePill, 5000); } catch(e){}
+    if (visForget && forget) { visForget.addEventListener('click', function(){ try { forget.click(); } catch(e){} }); }
+    function sanitize(el){ try { if (el && EMOJI_RE.test(el.textContent || '')) el.textContent = (el.textContent||'').replace(EMOJI_RE,''); } catch(e){} }
+    if (status && window.MutationObserver) new MutationObserver(function(){ sanitize(status); }).observe(status, { childList:true, characterData:true, subtree:true });
+    var pres = document.getElementById('arron-presence') || document.getElementById('aa-presence') || document.getElementById('aa-conn');
+    if (pres && window.MutationObserver) new MutationObserver(function(){ sanitize(pres); }).observe(pres, { childList:true, characterData:true, subtree:true });
+  } catch(e){}
+})();
+</script>
 </body>
 </html>

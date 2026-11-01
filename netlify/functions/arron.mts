@@ -6,8 +6,12 @@
 // v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
-// then Gemini, then Grok take over instantly with the same heart.
+// Provider fallback chain (verified order): GPT (openai) → Claude (anthropic)
+// → Gemini → Grok (xAI direct) → OpenRouter free spares (runSpares, gated by
+// PS_SPARES_PRIVACY_APPROVED for personal chat) → local empathetic canned reply.
+// Each provider fetch is wrapped in try/catch; on error/timeout the chain moves
+// to the next. If all fail, the chat handler returns the local QUIET_REPLY with
+// provider:"none" — never a raw 500 to the user.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
 // v3.2 safety: crisis lines (999, 116 123, SHOUT 85258, NHS 111 option 2) are
@@ -19,7 +23,7 @@ import type { Config, Context } from "@netlify/functions";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
-import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { ARRON_PHASE2_TOOLS_BRIEF, buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
 import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
@@ -27,6 +31,10 @@ import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, option
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
 import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
+// Phase 2: Supabase long-term memory (best-effort second copy) + GPT tool calling.
+// Both degrade silently to the existing chain/local-DB path when env vars are absent.
+import { appendMessages as supabaseAppend, clearMemory as supabaseClear, supabaseEnabled } from "../lib/supabase-memory.js";
+import { maybeRunTools, openaiToolsEnabled } from "../lib/arron-tools.js";
 
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
@@ -462,6 +470,9 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   }
   // The new shape can save without a device memory id only when signed in (the account's own memory).
   const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
+  // Phase 2: Supabase cloud copy is written ONLY with consent — explicit saveToCloud===true
+  // or a signed-in user (their account, their history). Guests default to local Netlify DB only.
+  const supabaseConsent = body.saveToCloud === true || Boolean(user);
   const resolved: Resolved | null = !wantsCloud
     ? { id: "", readable: false }
     : await resolveMemory(body.memoryId, user).catch((error) => {
@@ -534,7 +545,7 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     ownerFacts: done.ownerFacts,
     ownerVoice,
     growth: growthBrief(growth),
-  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message));
+  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message)) + (openaiToolsEnabled() ? "\n\n" + ARRON_PHASE2_TOOLS_BRIEF : "");
 
   let answer: Awaited<ReturnType<typeof reply>>;
   // Multi-mind replies cost several paid calls, so the Owner asks for them by name and each has its own daily allowance:
@@ -549,6 +560,15 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   const capNote = (wantsCouncil && !council) || (wantsFamily && !family)
     ? "\n\nTODAY'S LIMIT — the Owner's daily allowance for that multi-mind reply is used up. Say so in one line, then answer with one mind."
     : "";
+  // Phase 2: one round of GPT tool calling (solar_calculator / crisis_check / url_fetch),
+  // only when OPENAI_API_KEY is set and this is a normal single-mind chat. If a tool fires,
+  // its result is injected into the last user turn (turns mutated in place); the provider
+  // chain below then produces the final reply with enriched context. If no key, no tool, or
+  // any error, the chain runs UNCHANGED. Tools never break chat.
+  if (!council && !family && openaiToolsEnabled()) {
+    const routeMax = creator ? TOKENS.creator : TOKENS.guest;
+    await maybeRunTools(system + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
+  }
   try {
     if (council) {
       const notes = await askCouncil(system, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
@@ -611,6 +631,20 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     }
   }
 
+  // Phase 2: best-effort second copy to Supabase. A Supabase failure must never
+  // break the reply or flip remembered=false — local Netlify DB is the source of truth.
+  // Only written with consent (saveToCloud===true or signed-in user).
+  if (supabaseEnabled() && supabaseConsent && resolved.readable) {
+    try {
+      await supabaseAppend(memoryId, [
+        { role: "user", content: message, ts: started },
+        { role: "assistant", content: replyText },
+      ]);
+    } catch {
+      // The layer already logged a warning with no message content / no PII.
+    }
+  }
+
   return json({
     reply: replyText,
     remembered,
@@ -666,6 +700,13 @@ async function memory(req: Request, url: URL) {
     await db.delete(arronMemories).where(eq(arronMemories.id, id));
     const [left] = await db.select({ id: arronMemories.id }).from(arronMemories).where(eq(arronMemories.id, id));
     if (left) return json({ error: "Memory could not be erased" }, 500);
+    // Phase 2: best-effort wipe of the Supabase cloud copy too. A Supabase failure
+    // must never block Forget Me — local erase is confirmed and that is what we report.
+    try {
+      await supabaseClear(id);
+    } catch {
+      // The layer already logged a warning (no PII).
+    }
     return json({ ok: true, cleared: true });
   }
 
@@ -708,8 +749,10 @@ export default async (req: Request, context: Context) => {
         gateway: "availability not verified by this endpoint",
         grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY),
         openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY),
+        geminiKeyConfigured: Boolean((process.env.GEMINI_API_KEY || "").trim()),
+        geminiDirectModel: "gemini-2.5-flash",
         liveProviderHealth: "not tested",
-        note: "Configuration presence is not proof of a working AI response. No provider requests were made.",
+        note: "Configuration presence is not proof of a working AI response. No provider requests were made. GEMINI_API_KEY is the optional direct fallback. Netlify may inject a placeholder of that name for the gateway. This flag does not reveal the value.",
       });
     }
     if (route === "health") {
@@ -751,5 +794,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test"],
+  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test", "/api/arron/owner-ai-status"],
 };

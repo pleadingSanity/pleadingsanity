@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#07140f" />
   <title>Sanity Solitaire | Pleading Sanity</title>
   <meta name="description" content="Three peaks. Clear them. A calm solitaire with combos, levels and a felt table." />
@@ -58,10 +58,10 @@
       box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(0,255,240,.4);
       font-weight:700;
     }
-    .card.hearts, .waste.hearts { color:#ff6b9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,107,154,.7), 0 0 16px rgba(255,107,154,.28); }
+    .card.hearts, .waste.hearts { color:#f59e0b; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(245,158,11,.7), 0 0 16px rgba(245,158,11,.28); }
     .card.spades, .waste.spades { color:#5ee9ff; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(94,233,255,.7), 0 0 16px rgba(94,233,255,.25); }
     .card.clubs, .waste.clubs { color:#5dff9a; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(93,255,154,.65), 0 0 16px rgba(93,255,154,.22); }
-    .card.diamonds, .waste.diamonds { color:#c084fc; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(192,132,252,.7), 0 0 16px rgba(192,132,252,.25); }
+    .card.diamonds, .waste.diamonds { color:#f59e0b; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(245,158,11,.7), 0 0 16px rgba(245,158,11,.25); }
     .card {
       position:absolute; border:0; padding:0; text-align:left; touch-action:manipulation;
     }
@@ -162,7 +162,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .stage{background:rgba(0,8,23,.58);border:2px solid rgba(0,255,240,.45);box-shadow:0 12px 32px #000a,0 0 24px #00fff022;border-radius:22px}
 .felt{background:linear-gradient(180deg,rgba(4,16,42,.62),rgba(1,10,30,.85)),url('/assets/games/ps-starlake.svg') center/cover!important}
 .card,.waste{background:linear-gradient(150deg,#fefefe,#dce9fb)!important;color:#13213a!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #ffffff!important}
-.card.hearts,.waste.hearts{color:#b3184b!important}.card.diamonds,.waste.diamonds{color:#802cc5!important}.card.clubs,.waste.clubs{color:#137948!important}.card.spades,.waste.spades{color:#17469b!important}
+.card.hearts,.waste.hearts{color:#b3184b!important}.card.diamonds,.waste.diamonds{color:#f59e0b!important}.card.clubs,.waste.clubs{color:#137948!important}.card.spades,.waste.spades{color:#17469b!important}
 .card.back,.stock{background:#030a25 url('/assets/theme/solitaire-board.jpg') center/cover!important;box-shadow:0 5px 10px #0009,inset 0 0 0 2px #00fff0aa!important}
 .card.playable{outline:3px solid #ffc95d!important;outline-offset:1px;box-shadow:0 0 22px #ffcf69,0 5px 12px #0009!important}
 #book{background:rgba(2,10,28,.7);border-radius:16px}
@@ -192,10 +192,10 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .k-card .tl { top:4px; left:4px; }
 .k-card .br { right:4px; bottom:4px; transform:rotate(180deg); }
 .k-card .suit { position:absolute; left:50%; top:58%; width:24px; height:24px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
-.k-card.hearts { color:#ff6b9a; }
+.k-card.hearts { color:#f59e0b; }
 .k-card.spades { color:#5ee9ff; }
 .k-card.clubs { color:#5dff9a; }
-.k-card.diamonds { color:#c084fc; }
+.k-card.diamonds { color:#f59e0b; }
 .k-card.back { background:#000103 url("/assets/games/ps-cosmic-card-back.svg") center/cover; color:transparent; }
 .k-card .count { position:relative; z-index:1; color:#eef6ff; font-size:.85rem; }
 @media (max-width: 420px) {
@@ -251,24 +251,126 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 </style>
 <link rel="stylesheet" href="/css/ps-game-art.css">
   <link rel="stylesheet" href="/css/games-phone.css">
+<style>
+/* === GOD-MODE POLISH OVERRIDES — cosmic dark, teal/amber, no emoji === */
+/* Recolor diamonds to warm amber */
+.card.diamonds, .waste.diamonds { color:#f59e0b !important; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(245,158,11,.7), 0 0 16px rgba(245,158,11,.25) !important; }
+.k-card.diamonds { color:#f59e0b !important; }
+/* Shared cosmic card back for every card back / stock across all modes (keep referenced asset) */
+.card.back, .stock, .k-card.back { background:#030a25 url('/assets/games/ps-cosmic-card-back.svg') center/cover no-repeat !important; box-shadow:0 5px 10px rgba(0,0,0,.55), inset 0 0 0 2px rgba(0,255,240,.65) !important; }
+.card.back, .stock { color:transparent !important; }
+.k-card.back .count { color:#eef6ff !important; position:relative; z-index:1; text-shadow:0 0 6px #000; }
+/* Corner suit glyph sizing (rank above suit in both corners) */
+.card .c i { font-style:normal; font-size:.72rem; line-height:1; }
+.k-card .c { font-size:.6rem; line-height:1.05; }
+.k-card .c b { font-size:.78rem; }
+.k-card .c i { font-style:normal; font-size:.62rem; line-height:1; }
+/* Deal-in animation: transform + opacity only, compositor-friendly */
+@keyframes ps-deal-in { from { opacity:0; transform:translateY(-16px) scale(.95); } to { opacity:1; transform:none; } }
+.deal-in { animation:ps-deal-in .34s cubic-bezier(.2,.7,.3,1) both; }
+@media (prefers-reduced-motion: reduce) { .deal-in { animation:none !important; } .ps-result-card { animation:none !important; } }
+/* Sound toggle SVG icon */
+.ps-sound-icon { width:20px; height:20px; vertical-align:middle; fill:currentColor; margin-right:6px; flex:none; }
+#sound { display:inline-flex; align-items:center; gap:6px; }
+/* Win/lose result modal (accessible dialog) */
+.ps-result-overlay[hidden] { display:none !important; }
+.ps-result-overlay { position:fixed; inset:0; z-index:100002; background:rgba(0,1,3,.9); display:grid; place-items:center; padding:16px; overflow:auto; backdrop-filter:blur(12px); }
+.ps-result-card { width:min(460px,100%); border-radius:26px; border:1px solid rgba(0,255,240,.65); background:linear-gradient(155deg,#14384c,#08101f 75%); box-shadow:0 20px 75px #000; padding:clamp(20px,5vw,32px); color:#eef6ff; font:1rem/1.6 system-ui,-apple-system,sans-serif; text-align:center; animation:ps-deal-in .3s ease both; }
+.ps-result-card h2 { font-size:clamp(1.5rem,5vw,2.1rem); margin:4px 0 8px; color:#00fff0; }
+.ps-result-card.lose h2 { color:#f59e0b; }
+.ps-result-stats { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:16px 0; }
+.ps-result-stats span { display:block; min-height:52px; padding:10px; border-radius:12px; background:rgba(13,27,42,.94); border:1px solid rgba(0,255,240,.28); }
+.ps-result-stats b { display:block; color:#00fff0; font-size:1.2rem; }
+.ps-result-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+.ps-result-actions button { flex:1 1 140px; min-height:52px; border-radius:14px; border:1px solid #00fff0; background:#00fff0; color:#000103; font:750 1rem system-ui; cursor:pointer; }
+.ps-result-actions button.ps-result-close { background:transparent; color:#eef6ff; }
+.ps-result-card button:focus-visible { outline:3px solid #f59e0b; outline-offset:3px; }
+/* Crisis footer banner (persistent, high contrast) */
+.ps-crisis-footer { position:sticky; bottom:0; z-index:60; background:#0b0f19; border-top:2px solid #00fff0; padding:10px 14px; text-align:center; font-size:.8rem; line-height:1.55; color:#e2e8f0; margin:0; }
+.ps-crisis-footer p { margin:0; max-width:100%; word-wrap:break-word; }
+.ps-crisis-footer a { color:#f59e0b; font-weight:700; text-decoration:underline; min-height:44px; display:inline-block; padding:6px 4px; }
+.ps-crisis-footer strong { color:#f59e0b; }
+.ps-copyright { text-align:center; font-size:.72rem; color:#94a3b8; padding:8px 14px 16px; background:#0b0f19; margin:0; }
+#main-content { padding-bottom:12px; }
+.ps-header { position:sticky; top:0; z-index:55; }
+@media (max-width:420px) { .ps-crisis-footer { font-size:.74rem; padding:8px 10px; } .ps-header { padding:8px 10px !important; } }
+</style>
+<style>
+/* === NATIVE-APP LAYOUT + THEME ENGINE (add-on) === */
+html, body { height:100%; margin:0; overflow:hidden; overscroll-behavior:none; touch-action:manipulation; }
+body { display:flex; flex-direction:column; height:100vh; height:100dvh; min-height:100vh; user-select:none; -webkit-user-select:none; }
+input, textarea, select { user-select:text; -webkit-user-select:text; }
+.ps-header { flex:none; position:static !important; padding:8px 12px !important; }
+#main-content { flex:1; overflow-y:auto; overflow-x:hidden; position:relative; -webkit-overflow-scrolling:touch; overscroll-behavior:contain; }
+.ps-crisis-footer { flex:none; position:static !important; padding:6px 10px !important; font-size:.72rem !important; line-height:1.4; }
+.ps-crisis-footer p { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px 8px; margin:0; }
+.ps-copyright { display:none; }
+/* Pure-CSS cosmic aurora background (no external images) with slow drift */
+body::before { content:""; position:fixed; inset:0; z-index:-2; background:
+ radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,255,240,.10), transparent 60%),
+ radial-gradient(ellipse 60% 40% at 80% 20%, rgba(56,189,248,.10), transparent 60%),
+ radial-gradient(ellipse 70% 50% at 50% 100%, rgba(245,158,11,.08), transparent 60%),
+ linear-gradient(180deg, #0b0f19, #05070d);
+ animation: ps-aurora-drift 26s ease-in-out infinite alternate; will-change:transform; }
+@keyframes ps-aurora-drift { from { transform:translate3d(0,0,0) scale(1); } to { transform:translate3d(-4%,-2%,0) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { body::before { animation:none !important; } }
+/* Felt table pure-CSS (no external image) */
+.felt { background: linear-gradient(180deg, rgba(4,16,42,.62), rgba(1,10,30,.85)) !important; }
+.stage { background: rgba(0,8,23,.58) !important; }
+/* Genre pill + theme palette button */
+.ps-genre-pill { display:inline-flex; align-items:center; min-height:30px; padding:3px 12px; border-radius:999px; border:1px solid rgba(0,255,240,.5); color:#00fff0; font:600 .72rem system-ui; letter-spacing:.1em; text-transform:uppercase; }
+.ps-theme-btn { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; min-width:44px; border-radius:12px; border:1px solid rgba(0,255,240,.5); background:transparent; color:#eef6ff; cursor:pointer; padding:0; touch-action:manipulation; }
+.ps-theme-btn svg { width:22px; height:22px; fill:currentColor; }
+.ps-theme-btn:focus-visible { outline:3px solid #f59e0b; outline-offset:2px; }
+/* Theme engine: body[data-theme] CSS vars (4 themes) */
+body[data-theme] { --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; background: var(--ps-bg) !important; }
+body[data-theme="cosmic"] { --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; }
+body[data-theme="amber"] { --ps-bg:#1a1206; --ps-accent:#f59e0b; --ps-secondary:#fb923c; --ps-highlight:#00fff0; }
+body[data-theme="deepspace"] { --ps-bg:#05070d; --ps-accent:#38bdf8; --ps-secondary:#22d3ee; --ps-highlight:#f59e0b; }
+body[data-theme="mono"] { --ps-bg:#111418; --ps-accent:#e2e8f0; --ps-secondary:#94a3b8; --ps-highlight:#f59e0b; }
+body[data-theme]::before { background:
+ radial-gradient(ellipse 80% 50% at 20% 10%, color-mix(in srgb, var(--ps-accent) 12%, transparent), transparent 60%),
+ radial-gradient(ellipse 60% 40% at 80% 20%, color-mix(in srgb, var(--ps-secondary) 12%, transparent), transparent 60%),
+ radial-gradient(ellipse 70% 50% at 50% 100%, color-mix(in srgb, var(--ps-highlight) 10%, transparent), transparent 60%),
+ linear-gradient(180deg, var(--ps-bg), #05070d); }
+body[data-theme] .ps-header { background: var(--ps-bg) !important; border-color: color-mix(in srgb, var(--ps-accent) 40%, transparent) !important; }
+body[data-theme] .ps-crisis-footer { background: var(--ps-bg) !important; border-top-color: var(--ps-accent) !important; }
+body[data-theme] .ps-crisis-footer a, body[data-theme] .ps-crisis-footer strong { color: var(--ps-highlight) !important; }
+body[data-theme] .ps-genre-pill { border-color: color-mix(in srgb, var(--ps-accent) 50%, transparent); color: var(--ps-accent); }
+body[data-theme] .ps-theme-btn { border-color: color-mix(in srgb, var(--ps-accent) 50%, transparent); color: var(--ps-accent); }
+body[data-theme] .btn, body[data-theme] #seat, body[data-theme] #sound, body[data-theme] #music { border-color: color-mix(in srgb, var(--ps-accent) 65%, transparent) !important; }
+body[data-theme] .stage { border-color: color-mix(in srgb, var(--ps-accent) 45%, transparent) !important; }
+body[data-theme] .card.playable { outline-color: var(--ps-highlight) !important; box-shadow: 0 0 22px color-mix(in srgb, var(--ps-highlight) 60%, transparent), 0 5px 12px #0009 !important; }
+body[data-theme] #flash { color: var(--ps-accent) !important; }
+body[data-theme] .book b { color: var(--ps-accent) !important; }
+body[data-theme] .ps-help-trigger { border-color: var(--ps-accent); color: var(--ps-accent); }
+body[data-theme] .ps-result-card { border-color: color-mix(in srgb, var(--ps-accent) 65%, transparent) !important; }
+body[data-theme] .ps-result-card h2, body[data-theme] .ps-result-stats b { color: var(--ps-accent) !important; }
+body[data-theme] .ps-result-actions button { border-color: var(--ps-accent); background: var(--ps-accent); color: #000103; }
+body[data-theme] .ps-result-actions button.ps-result-close { background: transparent; color: #eef6ff; }
+body[data-theme] .wrap > .row:first-of-type { border-color: color-mix(in srgb, var(--ps-accent) 55%, transparent) !important; }
+body[data-theme] #level, body[data-theme] #score, body[data-theme] #best { color: var(--ps-accent); }
+body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[data-theme] select:focus-visible { outline-color: var(--ps-highlight) !important; }
+</style>
 </head>
 <body class="night ps-art ps-art-solitaire ps-game-page">
+<script>(function(){try{var t=localStorage.getItem("ps_theme_solitaire")||"cosmic";}catch(e){var t="cosmic";}document.body.setAttribute("data-theme",t);})();</script>
 <!-- PS games navigation: owner-editable label -->
-<nav aria-label="Game navigation" style="padding:12px 16px;text-align:center;background:#0d1b2a"><a href="/games.html" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">← Back to Brain Games</a></nav>
+<header class="ps-header" aria-label="Site header" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:#0b0f19;border-bottom:1px solid rgba(0,255,240,.3)"><a class="brand" href="/" aria-label="Pleading Sanity Home — Rise From Madness" style="display:inline-flex;align-items:center;gap:8px;color:#eef6ff;text-decoration:none;font-weight:800;min-height:48px;font-family:Georgia,serif;font-size:1.1rem"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" style="width:36px;height:36px;border-radius:50%;object-fit:cover;background:radial-gradient(circle at 35% 30%,rgba(0,255,240,.45),#000103 70%);box-shadow:0 0 0 1px rgba(0,255,240,.65)" />Pleading Sanity</a><span class="ps-genre-pill">Card</span><button type="button" id="ps-theme-btn" class="ps-theme-btn" aria-label="Change colour theme: cosmic, tap to cycle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0 0 20c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16a6 6 0 0 0 6-6c0-5.52-4.48-10-10-10zM6.5 11C5.67 11 5 10.33 5 9.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S18.67 8 19.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></button><a href="/games.html" aria-label="Back to Brain Games" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">Brain Games</a></header>
 <script src="/js/ps-splash.js"></script>
   <div class="wrap" role="main" id="main-content">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
-    <a class="brand" href="/" aria-label="Pleading Sanity Home — Rise From Madness"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" />Pleading Sanity</a>
     <div class="row">
       <a class="btn" href="/games.html">Games</a>
       <strong id="level">Level 1</strong>
       <strong id="score">Calm 0</strong>
+      <strong id="best">Best 0</strong>
       <button class="btn" id="today" type="button">Today</button><button class="btn" id="new" type="button">New peaks</button>
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game." />
     <h1>Sanity Solitaire</h1>
-<img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Purple skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>💜 COMING SOON — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>💜 COMING SOON — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>💜 COMING SOON — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>💜 COMING SOON — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>💜 COMING SOON — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
+<img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Aurora skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>Coming soon — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>Coming soon — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>Coming soon — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>Coming soon — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
     <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
     <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
@@ -334,6 +436,12 @@ window.PSBook = (function () {
 window.PSTable = (function () {
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
   let ctx, on = false, music = false, bed = null;
+  try { on = localStorage.getItem("ps_sound_on") === "1"; } catch(e) {}
+  const soundBtn = document.getElementById("sound");
+  const soundOnSVG = '<svg class="ps-sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3a4.5 4.5 0 0 0-2.5-4.03v8.05A4.5 4.5 0 0 0 16.5 12zM14 3.23v2.06a7 7 0 0 1 0 13.42v2.06a9 9 0 0 0 0-17.54z"/></svg>';
+  const soundOffSVG = '<svg class="ps-sound-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>';
+  function renderSound(){ if(!soundBtn) return; soundBtn.setAttribute("aria-pressed", on ? "true" : "false"); soundBtn.setAttribute("aria-label", on ? "Sound on, tap to mute" : "Sound off, tap to enable"); soundBtn.innerHTML = (on ? soundOnSVG : soundOffSVG) + (on ? " Sound on" : " Sound off"); }
+  renderSound();
   function ac() { if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)(); return ctx; }
   function tone(freq, len, gain) {
     if (!on || reduce) return;
@@ -363,14 +471,14 @@ window.PSTable = (function () {
     bed.start();
   }
   function stopBed() { if (bed) { try { bed.stop(); } catch (e) {} bed = null; } }
-  document.getElementById("sound").onclick = () => { on = !on; document.getElementById("sound").textContent = on ? "Sound on" : "Sound off"; if (!on) stopBed(); };
+  document.getElementById("sound").onclick = () => { on = !on; try { localStorage.setItem("ps_sound_on", on ? "1" : "0"); } catch(e) {} renderSound(); if (!on) stopBed(); };
   document.getElementById("music").onclick = () => {
     music = !music;
     document.getElementById("music").textContent = music ? "Music on" : "Music off";
     stopBed();
     if (music) startBed();
   };
-  if (reduce) { document.getElementById("music").textContent = "Music off"; on = false; document.getElementById("sound").textContent = "Sound off"; }
+  if (reduce) { document.getElementById("music").textContent = "Music off"; on = false; try { localStorage.setItem("ps_sound_on","0"); } catch(e){} renderSound(); }
   function seat(){ tone(432, 0.12, 0.03); } return { play, draw, win, seat };
 })();
 </script>
@@ -378,6 +486,7 @@ window.PSTable = (function () {
   <script src="/js/guest-progress.js"></script>
 <script src="/js/offline-note.js" defer></script>
   <script src="/js/games.js"></script>
+  <script src="/js/game-brains.js"></script>
   <script>
     const ranks=["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
     const suits=["\u2660","\u2665","\u2666","\u2663"];
@@ -387,13 +496,14 @@ window.PSTable = (function () {
     const suitArt={"\u2665":"/assets/theme/suits/heart.jpg","\u2660":"/assets/theme/suits/spade.jpg","\u2663":"/assets/theme/suits/club.jpg","\u2666":"/assets/theme/suits/diamond.jpg"};
     const val=(r)=>ranks.indexOf(r);
     const $=(id)=>document.getElementById(id);
-    let deck,board,waste,calm,combo,wins,look,cleared,history,seatOn=false,seat=0;
+    let deck,board,waste,calm,combo,wins,look,cleared,history,seatOn=false,seat=0,loseShown=false;
     function snap(){history.push(JSON.stringify({deck,board,waste,calm,combo,cleared})); if(history.length>40) history.shift();}
     function load(){wins=Math.max(Number(localStorage.getItem("ps-sol-wins")||0), (window.PSGames ? PSGames.stats("solitaire").bestLevel || 1 : 1) - 1);look=localStorage.getItem("ps-sol-look")||"night";}
     function level(){return 1+wins;}
     function paintMeta(){
       $("level").textContent="Level "+level();
       $("score").textContent="Calm "+calm+" \u00b7 combo "+combo;
+      try{ const bk=JSON.parse(localStorage.getItem("ps-sol-book")||"{}"); const md=($("mode")||{}).value||"peaks"; const bel=$("best"); if(bel) bel.textContent="Best "+(((bk[md]||{}).best)||0); }catch(e){}
       document.body.classList.remove(...looks.map(item => item.id));
       document.body.classList.add(look);
       $("table").innerHTML=looks.map((item)=>`<option value="${item.id}" ${level()<item.need?"disabled":""}>${item.name}${level()<item.need?" \u00b7 level "+item.need:""}</option>`).join("");
@@ -409,7 +519,7 @@ window.PSTable = (function () {
         for (let i = cards.length - 1; i > 0; i--) { const j = Math.floor(rnd() * (i + 1)); [cards[i], cards[j]] = [cards[j], cards[i]]; }
       } else shuffle(cards);
       board=cards.splice(0,28).map((c,i)=>({...c,i,up:i>=18,gone:false}));
-      deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; history=[]; snap(); paint();
+      deck=cards; waste=deck.pop(); calm=0; combo=0; cleared=false; loseShown=false; history=[]; snap(); paint();
       if (window.PSVoice) PSVoice.speak("Three peaks. One rank up or down.");
     }
     // Each card is held down by the two cards that overlap it in the row below, exactly as drawn.
@@ -419,7 +529,7 @@ window.PSTable = (function () {
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
     function faceHTML(card) {
       const art = suitArt[card.s];
-      return `<span class="c tl"><b>${card.r}</b></span><img class="suit" alt="" src="${art}"><span class="c br"><b>${card.r}</b></span>`;
+      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span><img class="suit" alt="" src="${art}"><span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
     }
     function fit() {
       const stage = document.querySelector(".stage");
@@ -440,19 +550,19 @@ window.PSTable = (function () {
         b.disabled = !canPlay(card);
         b.setAttribute("aria-label", card.up ? card.r + " " + card.s : "Face down");
         b.innerHTML = card.up ? faceHTML(card) : "PS";
-        b.classList.add("flip"); b.onclick = () => play(card);
+        if(history.length<=1){ b.classList.add("deal-in"); b.style.animationDelay=(card.i*14)+"ms"; } b.onclick = () => play(card);
         box.appendChild(b);
       });
       const w = $("waste");
       w.className = "waste " + suitName(waste.s);
       w.innerHTML = faceHTML(waste);
       if (!cleared && board.every((c) => c.gone)) { cleared = true; win(); }
-      else if (!cleared && !deck.length && !board.some(canPlay)) $("status").textContent = "No plays and no draws left. Undo, or New peaks when you are ready.";
+      else if (!cleared && !deck.length && !board.some(canPlay)) { $("status").textContent = "No plays and no draws left. Undo, or New peaks when you are ready."; if(!loseShown){ loseShown=true; if(window.PSShowResult) PSShowResult("peaks", calm, false); } }
     }
     function play(card){ if(!canPlay(card)) return; snap(); card.gone=true; waste=card; combo+=1; calm+=10*combo; if (window.PSBook) PSBook.card("peaks"); board.forEach((c)=>{ if(!c.gone&&!covered(c.i)) c.up=true; }); const note=combo>1?combo+" in a row.":""; $("status").textContent = window.PSFriend ? PSFriend.pass(note) : note; if (window.PSTable) PSTable.play(); paint(); keepFocus(); if(window.PSGames){ PSGames.sfx("good", combo); PSGames.pulse($("waste"), "good"); } }
     function keepFocus(){ const next = $("peaks").querySelector(".playable") || $("draw"); if (next && document.activeElement === document.body) next.focus({ preventScroll: true }); }
     function draw(){ if(!deck.length){ $("status").textContent="No more draws. New peaks when you are ready."; return; } snap(); waste=deck.pop(); combo=0; if (window.PSTable) PSTable.draw(); paint(); if (window.PSFriend) $("status").textContent = PSFriend.pass("Drew."); }
-    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSGuest) PSGuest.record("solitaire", level()); if (window.PSBook) PSBook.win("peaks", calm); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); paintMeta(); }
+    function win(){ wins+=1; localStorage.setItem("ps-sol-wins",String(wins)); if (window.PSGuest) PSGuest.record("solitaire", level()); if (window.PSBook) PSBook.win("peaks", calm); const flash=$("flash"); if(flash){ flash.textContent="Peaks clear. You rose."; flash.className="flash show"; } if (window.PSTable) PSTable.win(); $("status").textContent="You rose. Peaks clear. Level "+level()+". Another deal is waiting."; if(window.PSGames){ PSGames.record("solitaire",{score:calm,level:level(),maxCombo:combo}); PSGames.markWeekly("solitaire"); if(PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); } if(window.PSVoice) PSVoice.speak("You rose. Another deal is waiting."); if(window.PSShowResult) PSShowResult("peaks", calm, true); paintMeta(); }
     let deferred; window.addEventListener("beforeinstallprompt",(e)=>{ e.preventDefault(); deferred=e; });
     $("newdeal").onclick=()=>fresh();
     $("seat").onclick=()=>{ seatOn=!seatOn; seat=0; $("seat").textContent = seatOn ? "Friend seat on" : "Friend seat off"; $("seat").classList.toggle("seat-on", seatOn); $("status").textContent = seatOn ? "Pass the phone. Your go, then your friend." : "Solo table."; };
@@ -463,18 +573,19 @@ window.PSTable = (function () {
       if (window.PSTable) PSTable.win();
       if (window.PSVoice) PSVoice.speak("You rose.");
       if (window.PSGames) { PSGames.record("solitaire", { score: score || 1, level: 1, maxCombo: 1 }); if (PSGames.confetti) PSGames.confetti(); PSGames.sfx("level"); }
+      if (window.PSShowResult) PSShowResult(mode, score || 0, true);
     }; // Daily challenge glow: local only, no leaderboard. Glows until today's deal is opened.
     const dayKey=()=>{ const d=new Date(); return d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(); };
     try { if (localStorage.getItem("ps-sol-daily-seen")!==dayKey()) $("today").classList.add("daily-new"); } catch(e) {}
     $("today").onclick=()=>{ try { localStorage.setItem("ps-sol-daily-seen",dayKey()); } catch(e) {} $("today").classList.remove("daily-new"); fresh(true); $("status").textContent="Today's peaks. Same deal until midnight."; };
-    $("undo").onclick=()=>{ if(cleared){ $("status").textContent="This deal is won. New peaks when you are ready."; return; } if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; paint(); };
+    $("undo").onclick=()=>{ if(cleared){ $("status").textContent="This deal is won. New peaks when you are ready."; return; } if(history.length<2) return; const s=JSON.parse(history.pop()); deck=s.deck; board=s.board; waste=s.waste; calm=s.calm; combo=s.combo; cleared=s.cleared; loseShown=false; paint(); };
     $("hint").onclick=()=>{ const card=board.find(canPlay); $("status").textContent=card?("Try the "+card.r+" "+card.s):(deck.length?"No play. Draw.":"No plays and no draws left."); };
     $("install").onclick=async()=>{ if(deferred){ deferred.prompt(); deferred=null; return; } alert("iPhone: Share, then Add to Home Screen. Android: menu, Install app. This icon stays Solitaire when the game updates."); };
     $("new").onclick=()=>fresh(); $("draw").onclick=draw; $("table").onchange=(e)=>{ look=e.target.value; localStorage.setItem("ps-sol-look",look); paint(); };
     addEventListener("resize", fit);
     if (window.visualViewport) visualViewport.addEventListener("resize", fit);
     window.addEventListener('ps-progress-sync', e => {
-      if (!e.detail.includes('brain-games')) return;
+      if (!e.detail.includes('brain-games')) return; if(!window.PSGames) return;
       wins = Math.max(wins, (PSGames.stats('solitaire').bestLevel || 1) - 1);
       localStorage.setItem('ps-sol-wins', String(wins)); paintMeta();
     });
@@ -507,14 +618,14 @@ window.PSTable = (function () {
     const d = deck();
     tab = [[],[],[],[],[],[],[]];
     for (let c = 0; c < 7; c++) for (let r = 0; r <= c; r++) { const x = d.pop(); x.up = r === c; tab[c].push(x); }
-    stock = d; waste = []; found = [[],[],[],[]]; score = 0; hist = []; drawN = Number(document.getElementById("k-draw").value); paint("New deal.");
+    stock = d; waste = []; found = [[],[],[],[]]; score = 0; hist = []; drawN = Number(document.getElementById("k-draw").value); paint("New deal."); if(window._psDealAnimate) _psDealAnimate(board);
   }
   function label(x) { return ranks[x.r] + x.s; }
   const art = { "\u2665":"/assets/theme/suits/heart.jpg", "\u2660":"/assets/theme/suits/spade.jpg", "\u2663":"/assets/theme/suits/club.jpg", "\u2666":"/assets/theme/suits/diamond.jpg" };
   function kindOf(s) { return s === "\u2665" ? "hearts" : s === "\u2660" ? "spades" : s === "\u2663" ? "clubs" : "diamonds"; }
   function dress(btn, rank, suit, up) {
     btn.className = "k-card " + (up ? kindOf(suit) : "back");
-    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b></span><img class="suit" alt="" src="${art[suit]}"><span class="c br"><b>${rank}</b></span>` : "";
+    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b><i>${suit}</i></span><img class="suit" alt="" src="${art[suit]}"><span class="c br"><b>${rank}</b><i>${suit}</i></span>` : "";
     btn.setAttribute("aria-label", up ? rank + " " + suit : "Face down");
   }
   window.PSNight = dress;
@@ -620,7 +731,7 @@ window.PSTable = (function () {
     if (window.PSBook) PSBook.start("freecell"); fwon = false;
     const d = deck(); cols = [[], [], [], [], [], [], [], []];
     d.forEach((c, i) => cols[i % 8].push(c));
-    free = [null, null, null, null]; found = [[], [], [], []]; fhist = []; fpaint("New FreeCell.");
+    free = [null, null, null, null]; found = [[], [], [], []]; fhist = []; fpaint("New FreeCell."); if(window._psDealAnimate) _psDealAnimate(fboard);
   }
   function fsnap() { fhist.push(JSON.stringify({ free, found, cols })); }
   function fpaint(msg) {
@@ -669,7 +780,7 @@ window.PSTable = (function () {
     if (window.PSBook) PSBook.start("pyramid"); pwon = false;
     const d = deck(); prow = []; let n = 0;
     for (let r = 0; r < 7; r++) { const row = []; for (let c = 0; c <= r; c++) row.push(d[n++]); prow.push(row); }
-    pstock = d.slice(n); pwaste = []; phist = []; picked = null; ppaint("New pyramid.");
+    pstock = d.slice(n); pwaste = []; phist = []; picked = null; ppaint("New pyramid."); if(window._psDealAnimate) _psDealAnimate(pboard);
   }
   function psnap() { phist.push(JSON.stringify({ prow, pstock, pwaste, picked })); }
   function openAt(r, c) {
@@ -726,7 +837,7 @@ window.PSTable = (function () {
   const STEPS=[["1 · Find the glowing cards","Only uncovered cards can be played. The gold outline shows your choices."],["2 · Match the open card","Tap a card one number higher or lower than the card by WASTE. For example, play 7 on 6, or 5 on 6. Ace connects to King."],["3 · Keep the run going","Clear all three peaks. Tap STOCK when no cards match. Undo and Hint are here to help; there is no rush."],["4 · Make it yours","Try Three Peaks first. Other modes are in the Game menu. Sound and music are optional."]];
   const KEY="ps-guide-sanity-solitaire-v1";
   const root=document.getElementById("main-content");if(!root)return;
-  const launch=document.createElement("button");launch.type="button";launch.className="ps-help-trigger";launch.textContent="▶ How to play · 60-second guide";
+  const launch=document.createElement("button");launch.type="button";launch.className="ps-help-trigger";launch.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true" style="width:18px;height:18px;vertical-align:middle;fill:currentColor;margin-right:6px"><path d="M8 5v14l11-7z"/></svg>How to play · 60-second guide';
   const title=root.querySelector("h1");if(title)title.insertAdjacentElement("afterend",launch);else root.prepend(launch);
   const overlay=document.createElement("div");overlay.className="ps-help-overlay";overlay.hidden=true;overlay.setAttribute("role","dialog");overlay.setAttribute("aria-modal","true");overlay.setAttribute("aria-label","How to play");
   overlay.innerHTML='<div class="ps-help-card"><div class="ps-help-progress" id="ps-guide-count"></div><h2>Welcome to Sanity Solitaire</h2><h3 id="ps-guide-title"></h3><p id="ps-guide-text"></p><div class="ps-help-actions"><button type="button" id="ps-guide-back">Previous</button><button type="button" id="ps-guide-next">Next</button></div></div>';
@@ -741,6 +852,96 @@ window.PSTable = (function () {
   try{if(!localStorage.getItem(KEY))open();}catch(e){open();}
 })();
 </script>
+<footer class="ps-crisis-footer" role="contentinfo">
+  <p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · Emergency <a href="tel:999">999</a> · <a href="/crisis.html">More help</a></p>
+</footer>
+<p class="ps-copyright">Pleading Sanity · A calm space, not a substitute for professional care.</p>
+<div id="ps-result" class="ps-result-overlay" hidden role="dialog" aria-modal="true" aria-labelledby="ps-result-title">
+  <div class="ps-result-card">
+    <h2 id="ps-result-title">You rose</h2>
+    <p id="ps-result-sub" style="margin:0;color:#94a3b8"></p>
+    <div class="ps-result-stats">
+      <span><b id="ps-result-score">0</b>Score</span>
+      <span><b id="ps-result-best">0</b>Best</span>
+    </div>
+    <div class="ps-result-actions">
+      <button type="button" id="ps-result-again">Play again</button>
+      <button type="button" id="ps-result-close" class="ps-result-close">Close</button>
+    </div>
+  </div>
+</div>
+<script>
+// Deal-in stagger helper for k-modes (transform + opacity only)
+window._psDealAnimate = function(container){
+  if(!container) return;
+  if(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var cards = container.querySelectorAll(".k-card");
+  for(var i=0;i<cards.length;i++){ cards[i].classList.add("deal-in"); cards[i].style.animationDelay=(i*18)+"ms"; }
+};
+// Win / lose result modal (accessible: role=dialog, aria-modal, Escape to close, focus return)
+(function(){
+  var overlay = document.getElementById("ps-result");
+  if(!overlay) return;
+  var card = overlay.querySelector(".ps-result-card");
+  var title = overlay.querySelector("#ps-result-title");
+  var sub = overlay.querySelector("#ps-result-sub");
+  var scoreEl = overlay.querySelector("#ps-result-score");
+  var bestEl = overlay.querySelector("#ps-result-best");
+  var again = overlay.querySelector("#ps-result-again");
+  var closeBtn = overlay.querySelector("#ps-result-close");
+  var prevFocus = null;
+  var modeNames = { peaks:"TriPeaks", klondike:"Klondike", freecell:"FreeCell", pyramid:"Pyramid" };
+  function bestFor(mode){ try{ var b=JSON.parse(localStorage.getItem("ps-sol-book")||"{}"); return ((b[mode]||{}).best)||0; }catch(e){ return 0; } }
+  function close(){ overlay.hidden = true; document.body.style.removeProperty("overflow"); if(prevFocus){ try{ prevFocus.focus(); }catch(e){} } }
+  again.addEventListener("click", function(){
+    close();
+    var mode = (document.getElementById("mode")||{}).value || "peaks";
+    var id = mode==="peaks" ? "newdeal" : (mode==="klondike"?"k-deal":mode==="freecell"?"f-deal":"p-deal");
+    var btn = document.getElementById(id);
+    if(btn) btn.click();
+  });
+  closeBtn.addEventListener("click", close);
+  overlay.addEventListener("click", function(e){ if(e.target===overlay) close(); });
+  overlay.addEventListener("keydown", function(e){
+    if(e.key==="Escape"){ close(); return; }
+    if(e.key==="Tab"){
+      if(e.shiftKey && document.activeElement===again){ e.preventDefault(); closeBtn.focus(); }
+      else if(!e.shiftKey && document.activeElement===closeBtn){ e.preventDefault(); again.focus(); }
+    }
+  });
+  window.PSShowResult = function(mode, score, won){
+    if(!overlay) return;
+    prevFocus = document.activeElement;
+    card.classList.toggle("lose", !won);
+    var name = modeNames[mode] || mode;
+    title.textContent = won ? "You rose" : "No moves left";
+    sub.textContent = won ? (name + " cleared. Take a breath.") : (name + " — this deal ran out. Undo, or try again.");
+    scoreEl.textContent = (score||0);
+    bestEl.textContent = Math.max(bestFor(mode), score||0);
+    overlay.hidden = false;
+    document.body.style.overflow = "hidden";
+    again.focus();
+  };
+})();
+</script>
+<script>
+(function(){
+  var THEMES = ["cosmic","amber","deepspace","mono"];
+  var btn = document.getElementById("ps-theme-btn");
+  function apply(t){
+    if(THEMES.indexOf(t) < 0) t = "cosmic";
+    document.body.setAttribute("data-theme", t);
+    try{ localStorage.setItem("ps_theme_solitaire", t); }catch(e){}
+    if(btn) btn.setAttribute("aria-label", "Colour theme: " + t + ", tap to cycle");
+  }
+  apply(document.body.getAttribute("data-theme") || "cosmic");
+  if(btn) btn.addEventListener("click", function(){
+    var i = THEMES.indexOf(document.body.getAttribute("data-theme"));
+    apply(THEMES[(i + 1) % THEMES.length]);
+  });
+})();
+</script>
   <script type="module" src="/js/progress.js"></script>
+<script src="/js/site.js" defer></script>
 </body>
 </html>
