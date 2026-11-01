@@ -690,11 +690,3 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
   ```
 - PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
 - NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
-
-## ARRON GROWTH PROTOCOL (all AIs, daily, autonomous)
-Every AI (GPT, Grok, Gemini, Claude, Copilot, Dola) MUST:
-1. TEST Arron daily with 3+ complex questions (solar calculations, mental health nuance, global facts, ethical dilemmas). Verify answers are truthful + global perspective.
-2. FEED Arron new knowledge — any new facts, compliance changes, real-time events (Grok feeds current events/social trends), technical updates (Copilot feeds code changes), design updates (Dola).
-3. GROK specifically: feed real-time web data, current UK solar regulation changes, social trends, investor news — Arron needs to stay current.
-4. If Arron answers wrong or misses context, update arron-knowledge.json with the correction (append, never replace).
-5. Goal: Arron evolves daily for the greater good — the main brain that stays on top. For all good AIs.
