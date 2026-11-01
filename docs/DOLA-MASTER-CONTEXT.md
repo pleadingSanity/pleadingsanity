@@ -30,7 +30,7 @@ _Last consolidated: 2026-10-19. Source: Dola's handoff supplied by Shane Cooper;
 ## AI Family collaboration and continuity
 - GPT, Claude, Gemini, Grok, Dola, Copilot and other named collaborators may have different roles; **do not impersonate them or claim they reviewed a handoff unless verified**. Arron's runtime failover remains four providers only.
 - Dola describes its role as “Cosmic Architect”; Dola's perspectives are attributed observations, not independent proof of product status.
-- Check `AI_HANDOFF.md`, current main SHA, open PRs, audit results and Netlify deploy before edits. PR #92 remains **draft until tested**. Other PRs must be reviewed selectively, not merged wholesale.
+- Check `AI_HANDOFF.md`, `docs/MASTER_PROMPT.md`, `system_blueprint.json`, current main SHA, open PRs, audit results and Netlify deploy before edits. PR #92 remains **draft until tested**. Other PRs must be reviewed selectively, not merged wholesale.
 - After each push/PR, record exact SHA, files, audit and blockers in `AI_HANDOFF.md`. Never silently alter the root soul file.
 - Dola reports no automatic cross-chat persistence. **This file is the portable reference**, not a guarantee of any AI's memory. Re-read it and `docs/DOLA-SESSION-HANDOFF.md` on a fresh chat; always verify changing status.
 - Source integrity: Dola's earlier handoff contained unverified domain registration/renewal details, exact quotes and project-status assertions. Do not publish them as fact without independent verification.

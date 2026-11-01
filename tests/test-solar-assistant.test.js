@@ -30,6 +30,17 @@ test('a solar question is grounded in the knowledge base', () => {
   assert.match(SOLAR_BOUNDARY, /not MCS-certified/);
   assert.match(SOLAR_BOUNDARY, /07999 899304/);
   assert.match(SOLAR_KB, /31 March 2027/);
+  assert.match(SOLAR_KB, /HMRC guidance says 5% applies from 1 April 2027/);
+  assert.match(SOLAR_KB, /up to £15,000 for solar panels/);
+  assert.match(SOLAR_KB, /up to £15,000 for an electrical storage battery/);
+  assert.match(SOLAR_KB, /800 W or less/);
+  assert.match(SOLAR_KB, /27 August 2026/);
+  assert.match(SOLAR_KB, /MCS 042/);
+  assert.match(page, /vat-on-energy-saving-materials-and-heating-equipment-notice-7086/);
+  assert.match(page, /Generic illustration\. Not a specific brand\./);
+  assert.match(page, /images\/solar-kit\/solar-panel-black\.webp/);
+  assert.match(page, /images\/solar-kit\/ev-charger-cable\.webp/);
+  assert.doesNotMatch(page, /hoodie-blank|joggers-blank|leggings-blank|sports-bra-blank/);
   assert.equal(turn.system.includes('AIza'), false);
 });
 
@@ -37,6 +48,8 @@ test('cited solar sources are the checked public pages', () => {
   const hrefs = SOLAR_SOURCES.map((source) => source.href);
   for (const href of [
     'https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086',
+    'https://www.gov.uk/government/news/warm-homes-loan-scheme-factsheet',
+    'https://mcscertified.com/mcs-launches-four-week-consultation-on-new-battery-storage-product-standard/',
     'https://www.ofgem.gov.uk/environmental-and-social-schemes/smart-export-guarantee-seg',
     'https://mcscertified.com/mcs-standards/',
     'https://www.ena-eng.org/ena-docs/',

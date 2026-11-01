@@ -8,7 +8,7 @@ _Source: Gemini response supplied by Shane Cooper, dated 2026-10-19. This is a h
 - Arron is one companion **not a therapist**. Provider failover **GPT → Claude → Gemini → Grok**, unchanged. Root `arron-knowledge.json` is authoritative; preserve the full restored file, never reconstruct or stub it. The older `content/arron-knowledge.json` is not the live soul.
 - Crisis: **999 · Samaritans 116 123 · SHOUT text 85258 · NHS 111 option 2**; keep accessible.
 - Cosmic colours: `#0b0f19` `#0d1b2a` `#00fff0` `#38bdf8` `#f59e0b` silver; preserve existing crying-brain logo; mobile-first, accessible.
-- PR #92 hop-counting circuit breaker **must remain draft until tested**. Preserve verified work from other AIs, use surgical changes, record SHAs in `AI_HANDOFF.md`.
+- Shared memory for every model: `AI_HANDOFF.md`, `docs/MASTER_PROMPT.md`, and `system_blueprint.json` (a snapshot). Record SHAs in `AI_HANDOFF.md`. PR #92 hop-counting circuit breaker **must remain draft until tested**.
 
 ## Gemini's reported project status — verify before reusing
 - Existing sanctuary, founder story, AI Family pages, Arron interface, feed, journal, games, frequencies and crisis pages.
