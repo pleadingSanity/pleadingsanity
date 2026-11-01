@@ -70,6 +70,9 @@ delForm.addEventListener('submit', async (e) => {
     try { await logout(); } catch { /* account is already gone */ }
     clearMe();
     try { localStorage.clear(); sessionStorage.clear(); } catch { /* storage blocked */ }
+    // Drop the gotrue session cookies too, so a failed server logout can't rehydrate the deleted account.
+    document.cookie = 'nf_jwt=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    document.cookie = 'nf_refresh=; path=/; secure; samesite=lax; expires=Thu, 01 Jan 1970 00:00:00 GMT';
     location.replace('/login.html?deleted=1');
   } catch (error) {
     toast(error.message);

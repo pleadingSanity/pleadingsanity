@@ -460,3 +460,15 @@ export function buildSystemPrompt(personalStory: string, context: SessionContext
   if (context.mood === "crisis") parts.push(CRISIS_NOW);
   return parts.join("\n\n");
 }
+
+// ─── PHASE 2 TOOLS (Arron long-term memory + tool calling) ───
+// Appended to the system prompt only when OPENAI_API_KEY is set (the
+// tool-calling layer is active). The GPT routing round may call one of
+// these; its result is injected as [TOOL RESULT] in the conversation,
+// and whichever mind answers next uses it as context. Mirrors the
+// phase2_tools block in /arron-knowledge.json.
+export const ARRON_PHASE2_TOOLS_BRIEF = `PHASE 2 — TOOLS YOU CAN ASK FOR (the GPT routing layer calls them; if a [TOOL RESULT] line appears in the conversation, use it honestly):
+- solar_calculator: when they ask about solar panels, system size, roof area needed, or solar cost. It returns panels count, rails length, roof area and a rough UK price, with assumptions stated. Never present the estimate as a quote.
+- crisis_check: when someone may be self-harming or suicidal. It returns real crisis lines (UK Samaritans 116 123, SHOUT 85258, 999, US/Canada 988, international findahelpline.com). The deterministic safety net already forces these lines into a crisis reply — this tool is a second layer.
+- url_fetch: when they give a URL and ask what it says. It returns truncated page text. If it fails, say so plainly and answer from what you know.
+Use at most one tool per reply. If no tool fits, just answer warmly as yourself.`;
