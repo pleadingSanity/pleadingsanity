@@ -645,11 +645,6 @@ img.logo, .logo-mark {
   .ps-arron-banner-orb { animation: none; }
 }
 
-/* Five pills on the smallest phones: Heal · Play · Create · Community · Help */
-@media (max-width: 420px) {
-  .ps-nav .ps-group-btn,
-  .ps-nav .ps-links > a.ps-crisis { font-size: 0.8rem; padding: 0 4px; }
-}
 
 /* ==========================================
    HOME — the crying brain logo, Shining Lights, AI family wall
@@ -1172,3 +1167,71 @@ html[data-theme="light"] .ps-menu { background: #fff; color: #173247; border-col
 html[data-theme="light"] .ps-menu :is(a,button) { color: #173247; }
 html[data-theme="light"] .ps-nav .ps-links a.ps-live-link { background: #a90024; color: #fff; }
 html[data-theme="light"] .ps-nav .ps-group-btn:focus-visible { outline-color: #005f69; }
+
+/* ==========================================
+   PHONE HEADER + DRAWER — final word on the mobile nav.
+   One row: logo · Sign in · Crisis help · Menu. The closed drawer takes no
+   layout and cannot widen the page; the open drawer is a vertical sheet.
+============================================ */
+html { overflow-x: clip; }
+@supports not (overflow: clip) { html { overflow-x: hidden; } }
+@media (max-width: 960px), (hover: none) and (pointer: coarse) {
+  .ps-nav .ps-nav-inner {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+  }
+  .ps-nav .ps-brand { flex: 1 1 auto; min-width: 0; overflow: hidden; }
+  .ps-nav .ps-account,
+  .ps-nav a.ps-crisis,
+  .ps-nav .ps-theme,
+  .ps-nav .ps-nav-toggle { flex: none; margin-left: 0; }
+  .ps-nav.ps-nav-ready .ps-links { display: none; }
+  .ps-nav.ps-nav-ready.is-open .ps-links {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    visibility: visible;
+    transform: none;
+    /* .ps-nav has backdrop-filter, which makes it the containing block for this
+       fixed sheet, so size it from the viewport rather than top/bottom insets. */
+    top: 100%;
+    bottom: auto;
+    height: calc(100vh - 60px);
+    height: calc(100dvh - 60px);
+    animation: ps-drawer-in 0.24s ease-out;
+  }
+  .ps-nav.ps-nav-ready.is-open .ps-links a,
+  .ps-nav.ps-nav-ready.is-open .ps-group-btn { white-space: normal; }
+  /* Content always clears the fixed bottom dock. */
+  body:not(.ps-no-dock) { padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)); }
+  html { scroll-padding-bottom: calc(104px + env(safe-area-inset-bottom, 0px)); }
+}
+@keyframes ps-drawer-in { from { transform: translateX(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .ps-nav.ps-nav-ready.is-open .ps-links { animation: none; } }
+@media (max-width: 440px) {
+  .ps-nav .ps-brand span {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+  }
+  .ps-nav .ps-signin,
+  .ps-nav .ps-avatar-btn,
+  .ps-nav a.ps-crisis,
+  .ps-nav .ps-theme,
+  .ps-nav .ps-nav-toggle { padding: 0 11px; font-size: 0.86rem; }
+}
+@media (max-width: 370px) {
+  .ps-nav .ps-nav-inner { gap: 4px; padding: 6px 8px; }
+  .ps-nav .ps-signin,
+  .ps-nav .ps-avatar-btn,
+  .ps-nav a.ps-crisis,
+  .ps-nav .ps-theme,
+  .ps-nav .ps-nav-toggle { padding: 0 9px; font-size: 0.82rem; }
+}
+
+/* <picture> wrappers (WebP + JPG fallback) must not change card layout. */
+picture { display: contents; }

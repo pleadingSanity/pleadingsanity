@@ -322,6 +322,5 @@ img[width][height] {
   .ps-page p, .ps-page li, .ps-aifam-body { color: #eef6ff; }
   .ps-aifam-body { display: block; -webkit-line-clamp: unset; overflow: visible; }
   .ps-doors, .ps-rooms { grid-template-columns: 1fr; }
-  .ps-nav .ps-links { flex-wrap: wrap; gap: 6px; }
-  .ps-nav .ps-links a, .ps-nav .ps-group-btn { white-space: normal; }
+  /* Nav layout lives in site.css only (phone header + drawer). */
 }
