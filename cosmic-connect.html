@@ -5,9 +5,7 @@ Evolution, Not Erasure. One Source. One Family.
 -->
 <html lang="en-GB">
 <head>
-<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
-
-<meta charset="UTF-8" />
+<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script> <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
 <meta name="theme-color" content="#000103" />
 <link rel="icon" href="/assets/favicon.ico" sizes="any" />
@@ -36,86 +34,16 @@ Evolution, Not Erasure. One Source. One Family.
 <link rel="stylesheet" href="/css/games-sky.css" />
 <link rel="stylesheet" href="/css/social.css" />
 <link rel="stylesheet" href="/css/sanctuary.css" />
-<link rel="stylesheet" href="/css/games-sanctuary.css" />
-
-<link rel="stylesheet" href="/css/games-phone.css">
-<style id="ps-polish-style">
-body{overflow-x:hidden;}
-.ps-crisis-footer{position:sticky;bottom:0;z-index:90;background:#0b0f19;border-top:2px solid #00fff0;color:#e2e8f0;font-size:.8rem;padding:10px 16px;text-align:center;line-height:1.6;margin:0;}
-.ps-crisis-footer p{margin:0;}
-.ps-crisis-footer a{color:#f59e0b;font-weight:700;}
-.ps-crisis-footer strong{color:#f59e0b;}
-.ps-sound-btn{min-width:48px;min-height:48px;background:transparent;border:2px solid #00fff0;border-radius:10px;color:#00fff0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:8px;touch-action:manipulation;vertical-align:middle;}
-.ps-sound-btn[aria-pressed="true"]{border-color:#f59e0b;color:#f59e0b;}
-.ps-sound-btn:focus-visible,.ps-modal-btn:focus-visible{outline:3px solid #00fff0;outline-offset:2px;}
-.ps-best-hud{color:#f59e0b;font-weight:700;font-size:.9rem;margin:0;}
-.ps-result-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(11,15,25,.88);backdrop-filter:blur(6px);padding:20px;}
-.ps-result-modal[hidden]{display:none;}
-.ps-result-modal .ps-modal-card{background:#0b0f19;border:2px solid #00fff0;border-radius:16px;padding:28px;max-width:420px;width:100%;text-align:center;box-shadow:0 0 40px rgba(0,255,240,.25);}
-.ps-result-modal h2{color:#00fff0;margin:0 0 12px;font-size:1.4rem;}
-.ps-result-modal p{color:#e2e8f0;margin:0 0 12px;}
-.ps-result-modal .ps-modal-best{color:#f59e0b;font-weight:700;margin-bottom:16px;}
-.ps-result-modal .ps-modal-btn{min-height:48px;min-width:120px;padding:12px 24px;border-radius:10px;background:#f59e0b;color:#0b0f19;font-weight:700;border:none;cursor:pointer;font-size:1rem;touch-action:manipulation;}
-main,.social-main{padding-bottom:70px;}
-.ps-brand{min-height:48px!important;display:inline-flex;align-items:center;}
-.ps-nav a[href="/games.html"]{min-height:48px!important;display:inline-flex;align-items:center;}
-@media (prefers-reduced-motion:reduce){.ps-result-modal,.ps-crisis-footer,.ps-sound-btn{animation:none;transition:none;}}
-</style>
-<style id="ps-app-style">
-html,body{height:100%;margin:0;padding:0;overflow:hidden!important;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;}
-input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;touch-action:auto;}
-body{display:flex;flex-direction:column;height:100vh;height:100dvh;background:var(--ps-bg,#0b0f19)!important;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}
-.ps-app-header{flex:0 0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 10px;background:rgba(11,15,25,.94);border-bottom:1px solid var(--ps-accent,#00fff0);z-index:50;position:relative;}
-.ps-app-link{min-height:40px;min-width:44px;display:inline-flex;align-items:center;padding:4px 10px;border-radius:8px;color:var(--ps-accent,#00fff0);font-weight:700;text-decoration:none;font-size:.82rem;border:1px solid transparent;}
-.ps-app-link:focus-visible{outline:2px solid var(--ps-accent,#00fff0);outline-offset:2px;}
-.ps-genre-pill{padding:3px 10px;border-radius:999px;background:var(--ps-highlight,#f59e0b);color:#0b0f19;font-weight:800;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;}
-.ps-best-hud{color:var(--ps-highlight,#f59e0b);font-weight:700;font-size:.75rem;margin-left:auto;}
-.ps-sound-btn,.ps-theme-btn{min-width:40px;min-height:40px;width:40px;height:40px;background:transparent;border:2px solid var(--ps-accent,#00fff0);border-radius:10px;color:var(--ps-accent,#00fff0);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;touch-action:manipulation;flex:0 0 auto;}
-.ps-sound-btn[aria-pressed="true"],.ps-theme-btn[aria-pressed="true"]{border-color:var(--ps-highlight,#f59e0b);color:var(--ps-highlight,#f59e0b);}
-.ps-sound-btn:focus-visible,.ps-theme-btn:focus-visible{outline:2px solid var(--ps-accent,#00fff0);outline-offset:2px;}
-.ps-nav,.ps-footer,.ps-theme-pic,.ps-game-icon,.ps-install,.sg-back,.ps-game-back{display:none!important;}
-#main-content,#main{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:10px 12px 16px!important;margin:0 auto!important;max-width:640px!important;width:100%!important;position:relative;box-sizing:border-box;}
-header{padding:4px 2px!important;text-align:left!important;background:transparent!important;position:static!important;}
-header .logo,.tag,.social-head p,.sg-private{display:none!important;}
-h1{font-size:1.05rem!important;margin:0 0 4px!important;letter-spacing:.02em!important;color:var(--ps-accent,#00fff0)!important;text-shadow:none!important;}
-.social-head{padding:0!important;margin:0 0 6px!important;}
-.ps-crisis-footer{flex:0 0 auto;position:static!important;padding:6px 10px!important;font-size:.7rem!important;line-height:1.4!important;border-top:2px solid var(--ps-accent,#00fff0)!important;background:var(--ps-bg,#0b0f19)!important;}
-.ps-crisis-footer p{white-space:normal!important;margin:0!important;}
-.ps-aurora{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(0,255,240,.10),transparent 60%),radial-gradient(ellipse 70% 60% at 85% 85%,rgba(56,189,248,.10),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(245,158,11,.06),transparent 70%);animation:psAurora 24s ease-in-out infinite alternate;}
-@keyframes psAurora{from{transform:translate3d(-2%,-1%,0) scale(1);}to{transform:translate3d(2%,2%,0) scale(1.08);}}
-@media (prefers-reduced-motion:reduce){.ps-aurora{animation:none;}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
-body[data-theme="cosmic"]{--ps-bg:#0b0f19;--ps-accent:#00fff0;--ps-secondary:#38bdf8;--ps-highlight:#f59e0b;--cyan:#00fff0;--accent2:#f59e0b;--gold:#f59e0b;--deep:#0b0f19;--blackest:#05070d;--muted:#94a3b8;}
-body[data-theme="amber"]{--ps-bg:#1a1206;--ps-accent:#f59e0b;--ps-secondary:#fb923c;--ps-highlight:#00fff0;--cyan:#f59e0b;--accent2:#fb923c;--gold:#00fff0;--deep:#2d1b0f;--blackest:#120c04;--muted:#d6c9a8;}
-body[data-theme="deepspace"]{--ps-bg:#05070d;--ps-accent:#38bdf8;--ps-secondary:#22d3ee;--ps-highlight:#f59e0b;--cyan:#38bdf8;--accent2:#22d3ee;--gold:#f59e0b;--deep:#0a0f1c;--blackest:#020408;--muted:#7a93b8;}
-body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3b8;--ps-highlight:#f59e0b;--cyan:#e2e8f0;--accent2:#94a3b8;--gold:#f59e0b;--deep:#1a1e24;--blackest:#0a0c0f;--muted:#94a3b8;}
-.sd-stage{width:100%!important;max-width:100%!important;aspect-ratio:auto!important;height:auto;max-height:calc(100dvh - 180px);min-height:240px;}
-#cv{touch-action:none;display:block;}
-.game-card{padding:14px!important;}
-.stats{padding:8px 12px!important;margin-bottom:10px!important;}
-.grid{margin:10px 0!important;}
-.btn{min-height:48px!important;}
-.tile,.tt-answer,.chip,.cc-grid button{min-height:44px!important;touch-action:manipulation;}
-.panel{padding:12px!important;}
-.tabs button,.picker button{min-height:44px!important;}
-.skip-link{z-index:200;}
-</style>
+<link rel="stylesheet" href="/css/games-sanctuary.css" /> <link rel="stylesheet" href="/css/games-phone.css">
+<style id="ps-polish-style">body{overflow-x:hidden;}.ps-crisis-footer{position:sticky;bottom:0;z-index:90;background:#0b0f19;border-top:2px solid #00fff0;color:#e2e8f0;font-size:.8rem;padding:10px 16px;text-align:center;line-height:1.6;margin:0;}.ps-crisis-footer p{margin:0;}.ps-crisis-footer a{color:#f59e0b;font-weight:700;}.ps-crisis-footer strong{color:#f59e0b;}.ps-sound-btn{min-width:48px;min-height:48px;background:transparent;border:2px solid #00fff0;border-radius:10px;color:#00fff0;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:8px;touch-action:manipulation;vertical-align:middle;}.ps-sound-btn[aria-pressed="true"]{border-color:#f59e0b;color:#f59e0b;}.ps-sound-btn:focus-visible,.ps-modal-btn:focus-visible{outline:3px solid #00fff0;outline-offset:2px;}.ps-best-hud{color:#f59e0b;font-weight:700;font-size:.9rem;margin:0;}.ps-result-modal{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;background:rgba(11,15,25,.88);backdrop-filter:blur(6px);padding:20px;}.ps-result-modal[hidden]{display:none;}.ps-result-modal .ps-modal-card{background:#0b0f19;border:2px solid #00fff0;border-radius:16px;padding:28px;max-width:420px;width:100%;text-align:center;box-shadow:0 0 40px rgba(0,255,240,.25);}.ps-result-modal h2{color:#00fff0;margin:0 0 12px;font-size:1.4rem;}.ps-result-modal p{color:#e2e8f0;margin:0 0 12px;}.ps-result-modal .ps-modal-best{color:#f59e0b;font-weight:700;margin-bottom:16px;}.ps-result-modal .ps-modal-btn{min-height:48px;min-width:120px;padding:12px 24px;border-radius:10px;background:#f59e0b;color:#0b0f19;font-weight:700;border:none;cursor:pointer;font-size:1rem;touch-action:manipulation;}main,.social-main{padding-bottom:70px;}.ps-brand{min-height:48px!important;display:inline-flex;align-items:center;}.ps-nav a[href="/games.html"]{min-height:48px!important;display:inline-flex;align-items:center;}@media (prefers-reduced-motion:reduce){.ps-result-modal,.ps-crisis-footer,.ps-sound-btn{animation:none;transition:none;}}</style>
+<style id="ps-app-style">html,body{height:100%;margin:0;padding:0;overflow:hidden!important;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;}input,textarea,select,[contenteditable]{-webkit-user-select:text;user-select:text;touch-action:auto;}body{display:flex;flex-direction:column;height:100vh;height:100dvh;background:var(--ps-bg,#0b0f19)!important;color:#e2e8f0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}.ps-app-header{flex:0 0 auto;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px 10px;background:rgba(11,15,25,.94);border-bottom:1px solid var(--ps-accent,#00fff0);z-index:50;position:relative;}.ps-app-link{min-height:44px;min-width:44px;display:inline-flex;align-items:center;padding:4px 10px;border-radius:8px;color:var(--ps-accent,#00fff0);font-weight:700;text-decoration:none;font-size:.82rem;border:1px solid transparent;}.ps-app-link:focus-visible{outline:2px solid var(--ps-accent,#00fff0);outline-offset:2px;}.ps-genre-pill{padding:3px 10px;border-radius:999px;background:var(--ps-highlight,#f59e0b);color:#0b0f19;font-weight:800;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;}.ps-best-hud{color:var(--ps-highlight,#f59e0b);font-weight:700;font-size:.75rem;margin-left:auto;}.ps-sound-btn,.ps-theme-btn{min-width:40px;min-height:44px;width:40px;height:40px;background:transparent;border:2px solid var(--ps-accent,#00fff0);border-radius:10px;color:var(--ps-accent,#00fff0);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;touch-action:manipulation;flex:0 0 auto;}.ps-sound-btn[aria-pressed="true"],.ps-theme-btn[aria-pressed="true"]{border-color:var(--ps-highlight,#f59e0b);color:var(--ps-highlight,#f59e0b);}.ps-sound-btn:focus-visible,.ps-theme-btn:focus-visible{outline:2px solid var(--ps-accent,#00fff0);outline-offset:2px;}.ps-nav,.ps-footer,.ps-theme-pic,.ps-game-icon,.ps-install,.sg-back,.ps-game-back{display:none!important;}#main-content,#main{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:10px 12px 16px!important;margin:0 auto!important;max-width:640px!important;width:100%!important;position:relative;box-sizing:border-box;}header{padding:4px 2px!important;text-align:left!important;background:transparent!important;position:static!important;}header .logo,.tag,.social-head p,.sg-private{display:none!important;}h1{font-size:1.05rem!important;margin:0 0 4px!important;letter-spacing:.02em!important;color:var(--ps-accent,#00fff0)!important;text-shadow:none!important;}.social-head{padding:0!important;margin:0 0 6px!important;}.ps-crisis-footer{flex:0 0 auto;position:static!important;padding:6px 10px!important;font-size:.7rem!important;line-height:1.4!important;border-top:2px solid var(--ps-accent,#00fff0)!important;background:var(--ps-bg,#0b0f19)!important;}.ps-crisis-footer p{white-space:normal!important;margin:0!important;}.ps-aurora{position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 80% 50% at 20% 10%,rgba(0,255,240,.10),transparent 60%),radial-gradient(ellipse 70% 60% at 85% 85%,rgba(56,189,248,.10),transparent 60%),radial-gradient(ellipse 60% 40% at 50% 50%,rgba(245,158,11,.06),transparent 70%);animation:psAurora 24s ease-in-out infinite alternate;}@keyframes psAurora{from{transform:translate3d(-2%,-1%,0) scale(1);}to{transform:translate3d(2%,2%,0) scale(1.08);}}@media (prefers-reduced-motion:reduce){.ps-aurora{animation:none;}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}}body[data-theme="cosmic"]{--ps-bg:#0b0f19;--ps-accent:#00fff0;--ps-secondary:#38bdf8;--ps-highlight:#f59e0b;--cyan:#00fff0;--accent2:#f59e0b;--gold:#f59e0b;--deep:#0b0f19;--blackest:#05070d;--muted:#94a3b8;}body[data-theme="amber"]{--ps-bg:#1a1206;--ps-accent:#f59e0b;--ps-secondary:#fb923c;--ps-highlight:#00fff0;--cyan:#f59e0b;--accent2:#fb923c;--gold:#00fff0;--deep:#2d1b0f;--blackest:#120c04;--muted:#d6c9a8;}body[data-theme="deepspace"]{--ps-bg:#05070d;--ps-accent:#38bdf8;--ps-secondary:#22d3ee;--ps-highlight:#f59e0b;--cyan:#38bdf8;--accent2:#22d3ee;--gold:#f59e0b;--deep:#0a0f1c;--blackest:#020408;--muted:#7a93b8;}body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3b8;--ps-highlight:#f59e0b;--cyan:#e2e8f0;--accent2:#94a3b8;--gold:#f59e0b;--deep:#1a1e24;--blackest:#0a0c0f;--muted:#94a3b8;}.sd-stage{width:100%!important;max-width:100%!important;aspect-ratio:auto!important;height:auto;max-height:calc(100dvh - 180px);min-height:240px;}#cv{touch-action:none;display:block;}.game-card{padding:14px!important;}.stats{padding:8px 12px!important;margin-bottom:10px!important;}.grid{margin:10px 0!important;}.btn{min-height:48px!important;}.tile,.tt-answer,.chip,.cc-grid button{min-height:44px!important;touch-action:manipulation;}.panel{padding:12px!important;}.tabs button,.picker button{min-height:44px!important;}.skip-link{z-index:200;}</style>
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
-<body class="ps-page ps-game-page" style="overflow-x:hidden">
-
-<a href="#main-content" class="skip-link">Skip to main content</a><div class="ps-app-header" role="banner">
-  <a href="/" class="ps-app-link" aria-label="Pleading Sanity home">Home</a>
-  <a href="/games.html" class="ps-app-link" aria-label="Brain Games">Games</a>
-  <span class="ps-genre-pill">Memory</span>
-  <span class="ps-best-hud" id="psBestHud" aria-live="polite"></span>
-  <button type="button" class="ps-sound-btn" data-sound-toggle aria-pressed="false" aria-label="Toggle sound effects (currently off)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button>
-  <button type="button" class="ps-theme-btn" id="psThemeBtn" aria-label="Change colour theme" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".6" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".6" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".6" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".6" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.6C22 6 17.5 2 12 2z"></path></svg></button>
+<body class="ps-page ps-game-page" style="overflow-x:hidden"> <a href="#main-content" class="skip-link">Skip to main content</a><div class="ps-app-header" role="banner"> <a href="/" class="ps-app-link" aria-label="Pleading Sanity home">Home</a> <a href="/games.html" class="ps-app-link" aria-label="Brain Games">Games</a> <span class="ps-genre-pill">Memory</span> <span class="ps-best-hud" id="psBestHud" aria-live="polite"></span> <button type="button" class="ps-sound-btn" data-sound-toggle aria-pressed="false" aria-label="Toggle sound effects (currently off)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg></button> <button type="button" class="ps-theme-btn" id="psThemeBtn" aria-label="Change colour theme" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".6" fill="currentColor"></circle><circle cx="17.5" cy="10.5" r=".6" fill="currentColor"></circle><circle cx="8.5" cy="7.5" r=".6" fill="currentColor"></circle><circle cx="6.5" cy="12.5" r=".6" fill="currentColor"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.6 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.8-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.6C22 6 17.5 2 12 2z"></path></svg></button>
 </div>
-<div class="ps-aurora" aria-hidden="true"></div>
-
-
-<nav class="ps-nav" aria-label="Main navigation">
+<div class="ps-aurora" aria-hidden="true"></div> <nav class="ps-nav" aria-label="Main navigation">
 <div class="ps-nav-inner">
-<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
 <div class="ps-links">
 <a href="/" class="ps-home">Home</a>
 <div class="ps-group" data-group="heal">
@@ -165,7 +93,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <a href="/cosmic-connect.html" aria-current="page">Cosmic Connect</a>
 <a href="/truth-tag.html"> Truth Tag</a>
 <a href="/stardust-dash.html">Stardust Dash</a>
-<a href="/poker.html">♠ Night Table</a>
+<a href="/poker.html"> Night Table</a>
 <a href="/kids.html">Keep Kids Sane</a>
 <a href="/kids-series.html">Kids Cartoon Series</a>
 </div>
@@ -186,23 +114,17 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 </div>
 <button type="button" class="ps-install" data-pwa-install hidden>Install App</button>
 </div>
-</nav>
-
-<img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/cosmic-connect.webp" alt="" />
+</nav> <img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/cosmic-connect.webp" alt="" loading="lazy" decoding="async" width="640" height="400" />
 <main id="main-content" class="social-main wide">
 <p><a class="sg-back" href="/games.html">← All games</a></p>
 <header class="social-head">
 <h1>Cosmic Connect</h1>
 <p>Find matching pairs among the stars, or join the dots of a constellation. No clock, no rush — take it at your own pace.</p>
 </header>
-<p class="sg-private">Your progress is private.<span data-sg-guest><a href="/login.html?next=/cosmic-connect.html">Sign in</a>and it follows you to any device.</span><span data-sg-member hidden>You're signed in, so it follows you to any device.</span></p>
-
-<div class="tabs" role="group" aria-label="Choose a mode">
+<p class="sg-private">Your progress is private.<span data-sg-guest><a href="/login.html?next=/cosmic-connect.html">Sign in</a>and it follows you to any device.</span><span data-sg-member hidden>You're signed in, so it follows you to any device.</span></p> <div class="tabs" role="group" aria-label="Choose a mode">
 <button type="button" data-mode="memory" aria-pressed="true">Memory</button>
 <button type="button" data-mode="stars" aria-pressed="false">Constellations</button>
-</div>
-
-<section class="panel sg-mode" data-panel="memory" aria-labelledby="cc-mem-h">
+</div> <section class="panel sg-mode" data-panel="memory" aria-labelledby="cc-mem-h">
 <h2 id="cc-mem-h">Cosmic pairs</h2>
 <div class="sg-group" role="group" aria-labelledby="cc-size-l">
 <span class="sg-label" id="cc-size-l">Puzzle size</span>
@@ -219,9 +141,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <div class="btn-row" style="justify-content:center">
 <button type="button" class="sbtn ghost" id="cc-new">Shuffle a new puzzle</button>
 </div>
-</section>
-
-<section class="panel sg-mode" data-panel="stars" aria-labelledby="cc-stars-h" hidden>
+</section> <section class="panel sg-mode" data-panel="stars" aria-labelledby="cc-stars-h" hidden>
 <h2 id="cc-stars-h">Constellations</h2>
 <p class="muted">Tap the stars in order, starting at 1. The next star glows pink. When the shape is complete, a message appears.</p>
 <div class="picker cc-picker" id="cc-const-pick" role="group" aria-label="Choose a constellation"></div>
@@ -233,18 +153,14 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <button type="button" class="sbtn ghost" id="cc-const-again">Draw it again</button>
 <button type="button" class="sbtn primary" id="cc-const-next">Next constellation</button>
 </div>
-</section>
-
-<section class="panel" aria-labelledby="cc-stats-h">
+</section> <section class="panel" aria-labelledby="cc-stats-h">
 <h2 id="cc-stats-h">Your personal calm</h2>
 <p class="muted">Just for you. Moves aren't a score — some days the mind wanders, and that's fine.</p>
 <ul class="sg-stats" id="cc-stats"></ul>
 <h3 class="sg-section-title">Recent puzzles</h3>
 <p class="muted" id="cc-history"></p>
 </section>
-</main>
-
-<footer class="ps-footer" role="contentinfo">
+</main> <footer class="ps-footer" role="contentinfo">
 <div class="ps-footer-inner">
 <p class="ps-motto">Evolution, Not Erasure</p>
 <p>One Source. One Consciousness. One Family.</p>
@@ -283,15 +199,8 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <script src="/js/site.js" defer></script>
 <script type="module" src="/js/auth.js"></script>
 <script type="module" src="/js/cosmic-connect.js"></script>
-<footer class="ps-crisis-footer" role="contentinfo">
-  <p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p>
-</footer><div class="ps-result-modal" id="psResultModal" role="dialog" aria-modal="true" aria-labelledby="psModalTitle" hidden>
-  <div class="ps-modal-card" role="document">
-    <h2 id="psModalTitle">Result</h2>
-    <p id="psModalBody"></p>
-    <p class="ps-modal-best" id="psModalBest"></p>
-    <button type="button" class="ps-modal-btn" id="psModalClose">Play again</button>
-  </div>
+<footer class="ps-crisis-footer" role="contentinfo"> <p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p>
+</footer><div class="ps-result-modal" id="psResultModal" role="dialog" aria-modal="true" aria-labelledby="psModalTitle" hidden> <div class="ps-modal-card" role="document"> <h2 id="psModalTitle">Result</h2> <p id="psModalBody"></p> <p class="ps-modal-best" id="psModalBest"></p> <button type="button" class="ps-modal-btn" id="psModalClose">Play again</button> </div>
 </div><script id="ps-polish-script">
 (function(){
   var sKey='ps_sound_on';
@@ -425,5 +334,6 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
   var old=document.querySelector('p[style*="ps-sound-btn"]');if(old)old.style.display='none';
 })();
 </script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

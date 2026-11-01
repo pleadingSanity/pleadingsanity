@@ -68,7 +68,7 @@
       font-family: var(--font-sans);
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(0,255,240,0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
@@ -81,7 +81,7 @@
       body {
         background: 
           radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(0,255,240,0.08) 0%, transparent 50%),
           radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
@@ -99,7 +99,7 @@
     }
 
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(0,255,240,0.3); }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -111,7 +111,7 @@
     }
     .btn:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
+      box-shadow: 0 0 35px rgba(0,255,240,0.4);
       color: #000;
     }
 
@@ -255,7 +255,7 @@
     }
     .btn-magenta {
       background: linear-gradient(135deg, var(--magenta), var(--magenta-deep));
-      color: #fff; box-shadow: 0 0 12px rgba(255,0,255,0.25);
+      color: #fff; box-shadow: 0 0 12px rgba(0,255,240,0.25);
     }
     .btn-gold {
       background: linear-gradient(135deg, var(--gold), #d4b000);
@@ -287,7 +287,7 @@
     }
     .feed-item:hover {
       transform: translateY(-4px);
-      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(255,0,255,0.08);
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(0,255,240,0.08);
       border-color: var(--cyan);
     }
     .feed-item iframe {
@@ -313,7 +313,7 @@
     .feed-buttons { display: flex; gap: 8px; margin-top: 10px; }
 
     .promo-card, .sponsor-card {
-      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.08));
+      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(0,255,240,0.08));
       padding: 30px 24px; border-radius: 16px; margin: 35px 0;
       border: 1px solid rgba(0,255,240,0.2); box-shadow: 0 0 25px rgba(0,255,240,0.1);
       transition: var(--transition);
@@ -406,14 +406,14 @@
 
 
 <meta property="og:site_name" content="Pleading Sanity">
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"  loading="eager" fetchpriority="high" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -495,7 +495,7 @@
     <header role="banner">
       <!-- Unified SVG Logo → SAME across ALL pages -->
       <div class="logo-container">
-        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high">
+        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high" loading="lazy">
         <div class="logo-text-wrap">
           <div class="logo-main">PLEADING SANITY</div>
           <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
@@ -512,7 +512,7 @@
       </section>
 
       <!-- ARRON AI CHAT + JOURNAL VAULT → SYNCED with journal-vault.html -->
-      <section id="arron-chat-container" aria-labelledby="arron-heading">
+      <section id="arron-chat-container" aria-labelledby="arron-heading" class="ps-reveal">
         <div class="arron-welcome">
           <h3 id="arron-heading"> Arron — Your Companion</h3>
           <p>What's one thought you'd like to release right now? I'm listening.</p>
@@ -540,7 +540,7 @@
       </section>
 
       <!-- VIDEO FEED → Works with or without API key -->
-      <section id="video-feed" aria-labelledby="feed-heading">
+      <section id="video-feed" aria-labelledby="feed-heading" class="ps-reveal">
         <h2 id="feed-heading"> Cosmic Feed — Stories That Heal</h2>
         <div id="feed" aria-live="polite">
           <div class="loading"><span class="loading-spinner"></span> Awakening the cosmos…</div>
@@ -785,6 +785,7 @@
           One Source. One Consciousness. One Family.<br>
           pleadingsanity.co.uk
         </p>
+<script defer src="/js/ps-boost.js"></script>
 </body></html>
       `);
       win.document.close();

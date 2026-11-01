@@ -57,7 +57,7 @@
     a { color: var(--cyan); text-decoration: none; transition: var(--t); }
     a:hover { color: var(--magenta); text-decoration: underline; }
 
-    /* Skip Link — Accessibility First */
+    
     .skip-link {
       position: absolute; top: -50px; left: 6px;
       background: var(--gold); color: #000; padding: 12px 24px;
@@ -66,7 +66,7 @@
     }
     .skip-link:focus { top: 12px; }
 
-    /* Universal Header & Nav — Matches All Pages */
+    
     header {
       text-align: center; padding: 20px 20px 15px;
       background: rgba(0,1,3,0.7); backdrop-filter: blur(12px);
@@ -109,7 +109,7 @@
       display: flex; align-items: center; gap: 8px;
     }
 
-    /* Playlist Embed — Fixed Error 153 Prevention */
+    
     .playlist-container {
       position: relative; width: 100%; padding-bottom: 56.25%; height: 0; overflow: hidden;
       border-radius: 16px; box-shadow: var(--glow); background: rgba(0,0,0,0.5);
@@ -133,7 +133,7 @@
     }
     .btn-playlist:hover { transform: scale(1.05); color: #000; box-shadow: 0 0 20px rgba(0,255,240,0.3); }
 
-    /* Video Grid */
+    
     .video-grid {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
     }
@@ -187,7 +187,7 @@
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/videos-hero.webp">
 </head>
 <body>
@@ -195,7 +195,7 @@
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"  loading="eager" fetchpriority="high" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -272,7 +272,7 @@
 
   <header role="banner">
     <div class="logo-row">
-      <img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="48" height="48" decoding="async">
+      <img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="48" height="48" decoding="async" loading="lazy">
       <span class="logo-text">PLEADING SANITY</span>
     </div>
     <h1>Sanity Cinema</h1>
@@ -281,19 +281,19 @@
 
   <main id="main">
     <!-- Playlist 1 -->
-    <section>
+    <section class="ps-reveal">
       <h2> Laughter & Light</h2>
       <div data-ps-video data-list="PL3oW2tjiIxvQe3f2JqzF5C2p_cXShBHDL" data-title="Funny &amp; Entertaining Playlist"></div>
     </section>
 
     <!-- Playlist 2 -->
-    <section>
+    <section class="ps-reveal">
       <h2> Spiritual & Awakening</h2>
       <div data-ps-video data-list="PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA" data-title="Spiritual &amp; Inspirational Playlist"></div>
     </section>
 
     <!-- Playlist 3 -->
-    <section>
+    <section class="ps-reveal">
       <h2> Mental Health & Motivation</h2>
       <div data-ps-video data-list="PL0JmUuYJK5yo8PfBsh5TtEi9FR6rZcdVj" data-title="Motivational &amp; Mental Health Playlist"></div>
     </section>
@@ -418,5 +418,6 @@
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 <figure class="ps-hero-visual"><img src="/images/heroes/videos-hero.webp" alt="A small dark cinema with a softly glowing blank screen" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

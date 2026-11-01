@@ -48,372 +48,19 @@
        Unified design · SVG logo · Full Legacy
        Matches index.html & about.html perfectly
        ========================================== -->
-  <style>
-    :root {
-      --cyan: #00fff0;
-      --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
-      --gold: #ffd700;
-      --gold-bright: #ffd000;
-      --orange-gold: #ff9500;
-      --deep: #0d1b2a;
-      --dark: #030712;
-      --deepest: #060014;
-      --text-bright: #eafffd;
-      --text-soft: #b9faff;
-      --text-muted: #7ab8c8;
-      --text-dim: #90a4ae;
-      --glass: rgba(0,255,240,0.06);
-      --glass-deep: rgba(18,4,42,0.85);
-      --border-glow: rgba(0,255,240,0.15);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      font-family: var(--font-sans);
-      background: 
-        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
-      color: var(--text-bright);
-      min-height: 100vh;
-      line-height: 1.7;
-      background-attachment: fixed;
-    }
-
-    @media (prefers-color-scheme: light) {
-      body {
-        background: 
-          radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
-          radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
-      }
-    }
-
-    .skip-link {
-      position: absolute; top: -50px; left: 6px;
-      background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000;
-      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
-    }
-    .skip-link:focus { top: 12px; }
-
-    .sr-only {
-      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-      overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
-
-    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
-      color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px;
-      border: none; cursor: pointer; font-size: 1rem; transition: var(--transition);
-      box-shadow: 0 0 20px rgba(0,255,240,0.25);
-      min-height: 48px; font-family: inherit; gap: 8px;
-    }
-    .btn:hover {
-      transform: translateY(-3px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
-      color: #000;
-    }
-    .btn-gold {
-      background: linear-gradient(90deg, var(--gold-bright) 0%, var(--orange-gold) 100%);
-      box-shadow: 0 0 20px rgba(255,215,0,0.35);
-    }
-    .btn-gold:hover {
-      box-shadow: 0 0 35px rgba(255,215,0,0.6);
-    }
-
-    /* Nebula Particles */
-    .nebula-particle {
-      position: fixed; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
-      pointer-events: none; z-index: 0;
-      animation: float 20s infinite ease-in-out;
-    }
-    .nebula-particle.gold-glow {
-      background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%);
-      animation-delay: -7s;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
-      50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; }
-    }
-
-    .page-wrapper { position: relative; z-index: 1; }
-
-    header { 
-      text-align: center; padding: 30px 20px 15px;
-      background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-glow);
-      animation: fadeIn 0.8s ease-out both;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* === CUSTOM SVG LOGO — SAME AS INDEX & ABOUT === */
-    .logo-container {
-      display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .logo-mark {
-      width: 80px; height: 80px; flex-shrink: 0;
-      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
-      animation: logoPulse 3.5s infinite ease-in-out;
-    }
-    @keyframes logoPulse {
-      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 35px rgba(255,215,0,0.25)); }
-      50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 45px rgba(255,215,0,0.35)); }
-    }
-    .logo-text-wrap { text-align: left; }
-    .logo-main {
-      font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: 0.08em;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; line-height: 1.1;
-    }
-    .logo-tag {
-      font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.15em;
-      margin-top: 4px;
-    }
-
-    header h1 {
-      font-size: clamp(1.6rem, 4vw, 2.2rem);
-      color: var(--cyan);
-      text-shadow: 0 0 20px rgba(0,255,240,0.35);
-      margin-bottom: 8px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    header .tagline {
-      color: var(--magenta);
-      font-size: 1.05rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      margin-bottom: 25px;
-    }
-
-    nav {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 10px;
-    }
-    nav a {
-      color: var(--text-soft); font-weight: 700; padding: 8px 14px;
-      border-radius: 24px; border: 1px solid transparent;
-      transition: var(--transition);
-      font-size: clamp(0.9rem, 2vw, 1rem);
-      min-height: 44px; display: inline-flex; align-items: center;
-      background: rgba(0,255,240,0.04);
-    }
-    nav a[aria-current="page"],
-    nav a:hover {
-      border-color: var(--cyan);
-      background: rgba(0,255,240,0.12);
-      color: #fff;
-      box-shadow: 0 0 15px rgba(0,255,240,0.15);
-    }
-
-    main { max-width: 780px; margin: 0 auto; padding: 35px 24px 70px; animation: fadeInUp 1s ease-out both; }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(25px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    section { margin-bottom: 50px; }
-
-    .movement-blurb { 
-      text-align: center; 
-      font-size: 1.15rem; 
-      color: var(--text-soft);
-      margin-bottom: 40px;
-      line-height: 1.9;
-    }
-    .movement-blurb strong { color: #fff; }
-    .highlight-cyan { color: var(--cyan); font-weight: 700; }
-    .highlight-magenta { color: var(--magenta); font-weight: 700; }
-    .highlight-gold { color: var(--gold); font-weight: 700; }
-
-    .divider {
-      display: flex; align-items: center; justify-content: center; gap: 15px; margin: 45px 0;
-      color: rgba(0,255,240,0.35); font-size: 1.5rem;
-    }
-    .divider span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,240,0.3), transparent); }
-
-    .big-quote { 
-      font-size: 1.2rem; 
-      color: #fff; 
-      background: linear-gradient(135deg, rgba(26,1,58,0.8), rgba(18,4,42,0.8)); 
-      padding: 35px; 
-      border-radius: 20px; 
-      box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(255,0,255,0.08); 
-      border: 1px solid rgba(0,255,240,0.2);
-      font-weight: 600;
-      line-height: 1.9;
-      text-align: center;
-      position: relative;
-      margin: 40px 0;
-    }
-    .big-quote::before, .big-quote::after {
-      content: '"';
-      position: absolute;
-      font-size: 4rem;
-      color: rgba(0,255,240,0.15);
-      font-family: Georgia, serif;
-    }
-    .big-quote::before { top: 10px; left: 20px; }
-    .big-quote::after { bottom: -10px; right: 20px; }
-    .mini-quote { 
-      color: var(--magenta); 
-      margin-top: 15px; 
-      font-weight: 700;
-      font-size: 1rem;
-      display: block;
-    }
-
-    .manifesto-section {
-      background: rgba(0,255,240,0.04);
-      border-radius: 20px;
-      padding: 35px 30px;
-      border: 1px solid rgba(0,255,240,0.15);
-      box-shadow: 0 0 25px rgba(0,255,240,0.08);
-    }
-    .manifesto-section h2 {
-      color: var(--cyan);
-      text-align: center;
-      margin-bottom: 25px;
-      font-size: 1.5rem;
-      text-shadow: 0 0 15px rgba(0,255,240,0.25);
-    }
-    .manifesto-point {
-      margin-bottom: 25px;
-      padding-left: 20px;
-      border-left: 2px solid var(--magenta);
-      transition: var(--transition);
-    }
-    .manifesto-point:hover {
-      padding-left: 28px;
-      border-left-width: 3px;
-    }
-    .manifesto-point strong {
-      color: var(--cyan);
-      display: block;
-      margin-bottom: 8px;
-      font-size: 1.05rem;
-    }
-
-    .legacy-box {
-      background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,149,0,0.04));
-      border-radius: 20px; padding: 30px; margin: 45px 0;
-      border: 1px solid rgba(255,215,0,0.2);
-      box-shadow: inset 0 0 30px rgba(255,215,0,0.05);
-      text-align: center;
-    }
-    .legacy-box h2 { color: var(--gold); margin-bottom: 18px; }
-    .legacy-box p { color: #fff3b0; line-height: 1.9; margin-bottom: 12px; }
-    .legacy-quote {
-      font-style: italic; border-left: 3px solid var(--gold); padding-left: 18px; margin: 20px 0;
-      color: #fff9c4; font-weight: 550; text-align: left;
-    }
-    .legacy-names {
-      color: var(--gold); font-weight: 700; margin: 12px 0; letter-spacing: 0.08em;
-      font-size: 1.1rem;
-    }
-
-    .cta-row { 
-      display: flex; gap: 12px; justify-content: center; margin: 45px 0; flex-wrap: wrap;
-    }
-    .cta-row .btn { min-width: 160px; }
-
-    .founder-section { 
-      text-align: center; margin: 50px 0; padding: 35px 30px;
-      background: rgba(0,255,240,0.03);
-      border-radius: 20px;
-      border-top: 1px solid rgba(0,255,240,0.15);
-      border-bottom: 1px solid rgba(255,0,255,0.15);
-    }
-    .founder-section h2 {
-      color: var(--cyan); margin-bottom: 20px; font-size: 1.4rem;
-    }
-    .founder-section p {
-      max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.9;
-      color: var(--text-soft);
-    }
-    .founder-section strong { color: var(--text-bright); }
-
-    footer {
-      text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.15);
-      color: var(--text-muted); font-size: 0.9rem;
-      background: rgba(6,0,20,0.75);
-      backdrop-filter: blur(10px);
-      margin-top: 20px;
-    }
-    .footer-brand {
-      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0,255,240,0.15);
-    }
-    .socials { margin: 20px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; }
-    .socials a { 
-      color: var(--text-soft); transition: var(--transition);
-      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 50%; background: rgba(0,255,240,0.05);
-    }
-    .socials a:hover { 
-      color: var(--cyan); transform: scale(1.15);
-      background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2);
-    }
-    .footer-legacy {
-      margin-top: 25px; padding-top: 20px;
-      border-top: 1px solid rgba(255,215,0,0.15);
-    }
-    .footer-names {
-      color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.08em;
-    }
-    .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 8px; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 700px) {
-      nav { gap: 6px 8px; }
-      nav a { padding: 7px 12px; font-size: 0.9rem; }
-      main { padding: 25px 18px 50px; }
-      .manifesto-section, .legacy-box, .founder-section { padding: 25px 20px; }
-      .cta-row { flex-direction: column; gap: 10px; }
-      .cta-row .btn { width: 100%; }
-      .logo-container { gap: 12px; }
-      .logo-mark { width: 64px; height: 64px; }
-    }
-    @media (max-width: 480px) {
-      .logo-text-wrap { text-align: center; }
-      .big-quote { padding: 25px 20px; font-size: 1.05rem; }
-    }
-
-    /* ===== REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-      .btn:hover, .socials a:hover { transform: none; }
-    }
-  </style>
+  <style>:root { --cyan: #00fff0; --cyan-deep: #00c8c0; --magenta: #f59e0b; --magenta-deep: #d97706; --gold: #ffd700; --gold-bright: #ffd000; --orange-gold: #ff9500; --deep: #0d1b2a; --dark: #030712; --deepest: #060014; --text-bright: #eafffd; --text-soft: #b9faff; --text-muted: #7ab8c8; --text-dim: #90a4ae; --glass: rgba(0,255,240,0.06); --glass-deep: rgba(18,4,42,0.85); --border-glow: rgba(0,255,240,0.15); --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; } * { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: var(--font-sans); background: radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%); color: var(--text-bright); min-height: 100vh; line-height: 1.7; background-attachment: fixed; } @media (prefers-color-scheme: light) { body { background: radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important; } } .skip-link { position: absolute; top: -50px; left: 6px; background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000; font-weight: 700; border-radius: 8px; transition: top 0.25s ease; } .skip-link:focus { top: 12px; } .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; } a { color: var(--cyan); text-decoration: none; transition: var(--transition); } a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(245,158,11,0.3); } .btn { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%); color: #000; font-weight: 800; padding: 0.9rem 2rem; border-radius: 50px; border: none; cursor: pointer; font-size: 1rem; transition: var(--transition); box-shadow: 0 0 20px rgba(0,255,240,0.25); min-height: 48px; font-family: inherit; gap: 8px; } .btn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 35px rgba(245,158,11,0.4); color: #000; } .btn-gold { background: linear-gradient(90deg, var(--gold-bright) 0%, var(--orange-gold) 100%); box-shadow: 0 0 20px rgba(255,215,0,0.35); } .btn-gold:hover { box-shadow: 0 0 35px rgba(255,215,0,0.6); } .nebula-particle { position: fixed; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%); pointer-events: none; z-index: 0; animation: float 20s infinite ease-in-out; } .nebula-particle.gold-glow { background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%); animation-delay: -7s; } @keyframes float { 0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; } 50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; } } .page-wrapper { position: relative; z-index: 1; } header { text-align: center; padding: 30px 20px 15px; background: rgba(6,0,20,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-glow); animation: fadeIn 0.8s ease-out both; } @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } .logo-container { display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; } .logo-mark { width: 80px; height: 80px; flex-shrink: 0; filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)); animation: logoPulse 3.5s infinite ease-in-out; } @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 35px rgba(255,215,0,0.25)); } 50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 45px rgba(255,215,0,0.35)); } } .logo-text-wrap { text-align: left; } .logo-main { font-size: clamp(1.8rem, 5vw, 2.4rem); font-weight: 900; letter-spacing: 0.08em; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; } .logo-tag { font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.15em; margin-top: 4px; } header h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); color: var(--cyan); text-shadow: 0 0 20px rgba(0,255,240,0.35); margin-bottom: 8px; letter-spacing: 0.05em; text-transform: uppercase; } header .tagline { color: var(--magenta); font-size: 1.05rem; font-weight: 600; letter-spacing: 0.1em; margin-bottom: 25px; } nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 10px; margin-bottom: 10px; } nav a { color: var(--text-soft); font-weight: 700; padding: 8px 14px; border-radius: 24px; border: 1px solid transparent; transition: var(--transition); font-size: clamp(0.9rem, 2vw, 1rem); min-height: 44px; display: inline-flex; align-items: center; background: rgba(0,255,240,0.04); } nav a[aria-current="page"], nav a:hover { border-color: var(--cyan); background: rgba(0,255,240,0.12); color: #fff; box-shadow: 0 0 15px rgba(0,255,240,0.15); } main { max-width: 780px; margin: 0 auto; padding: 35px 24px 70px; animation: fadeInUp 1s ease-out both; } @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } } section { margin-bottom: 50px; } .movement-blurb { text-align: center; font-size: 1.15rem; color: var(--text-soft); margin-bottom: 40px; line-height: 1.9; } .movement-blurb strong { color: #fff; } .highlight-cyan { color: var(--cyan); font-weight: 700; } .highlight-magenta { color: var(--magenta); font-weight: 700; } .highlight-gold { color: var(--gold); font-weight: 700; } .divider { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 45px 0; color: rgba(0,255,240,0.35); font-size: 1.5rem; } .divider span { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(0,255,240,0.3), transparent); } .big-quote { font-size: 1.2rem; color: #fff; background: linear-gradient(135deg, rgba(26,1,58,0.8), rgba(18,4,42,0.8)); padding: 35px; border-radius: 20px; box-shadow: 0 0 30px rgba(0,255,240,0.15), inset 0 0 20px rgba(245,158,11,0.08); border: 1px solid rgba(0,255,240,0.2); font-weight: 600; line-height: 1.9; text-align: center; position: relative; margin: 40px 0; } .big-quote::before, .big-quote::after { content: '"'; position: absolute; font-size: 4rem; color: rgba(0,255,240,0.15); font-family: Georgia, serif; } .big-quote::before { top: 10px; left: 20px; } .big-quote::after { bottom: -10px; right: 20px; } .mini-quote { color: var(--magenta); margin-top: 15px; font-weight: 700; font-size: 1rem; display: block; } .manifesto-section { background: rgba(0,255,240,0.04); border-radius: 20px; padding: 35px 30px; border: 1px solid rgba(0,255,240,0.15); box-shadow: 0 0 25px rgba(0,255,240,0.08); } .manifesto-section h2 { color: var(--cyan); text-align: center; margin-bottom: 25px; font-size: 1.5rem; text-shadow: 0 0 15px rgba(0,255,240,0.25); } .manifesto-point { margin-bottom: 25px; padding-left: 20px; border-left: 2px solid var(--magenta); transition: var(--transition); } .manifesto-point:hover { padding-left: 28px; border-left-width: 3px; } .manifesto-point strong { color: var(--cyan); display: block; margin-bottom: 8px; font-size: 1.05rem; } .legacy-box { background: linear-gradient(135deg, rgba(255,215,0,0.08), rgba(255,149,0,0.04)); border-radius: 20px; padding: 30px; margin: 45px 0; border: 1px solid rgba(255,215,0,0.2); box-shadow: inset 0 0 30px rgba(255,215,0,0.05); text-align: center; } .legacy-box h2 { color: var(--gold); margin-bottom: 18px; } .legacy-box p { color: #fff3b0; line-height: 1.9; margin-bottom: 12px; } .legacy-quote { font-style: italic; border-left: 3px solid var(--gold); padding-left: 18px; margin: 20px 0; color: #fff9c4; font-weight: 550; text-align: left; } .legacy-names { color: var(--gold); font-weight: 700; margin: 12px 0; letter-spacing: 0.08em; font-size: 1.1rem; } .cta-row { display: flex; gap: 12px; justify-content: center; margin: 45px 0; flex-wrap: wrap; } .cta-row .btn { min-width: 160px; } .founder-section { text-align: center; margin: 50px 0; padding: 35px 30px; background: rgba(0,255,240,0.03); border-radius: 20px; border-top: 1px solid rgba(0,255,240,0.15); border-bottom: 1px solid rgba(245,158,11,0.15); } .founder-section h2 { color: var(--cyan); margin-bottom: 20px; font-size: 1.4rem; } .founder-section p { max-width: 600px; margin: 0 auto; font-size: 1.05rem; line-height: 1.9; color: var(--text-soft); } .founder-section strong { color: var(--text-bright); } footer { text-align: center; padding: 40px 20px; border-top: 2px solid rgba(0,255,240,0.15); color: var(--text-muted); font-size: 0.9rem; background: rgba(6,0,20,0.75); backdrop-filter: blur(10px); margin-top: 20px; } .footer-brand { font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0,255,240,0.15); } .socials { margin: 20px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; } .socials a { color: var(--text-soft); transition: var(--transition); min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,255,240,0.05); } .socials a:hover { color: var(--cyan); transform: scale(1.15); background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2); } .footer-legacy { margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,215,0,0.15); } .footer-names { color: var(--gold); font-weight: 700; margin: 8px 0; letter-spacing: 0.08em; } .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 8px; } @media (max-width: 700px) { nav { gap: 6px 8px; } nav a { padding: 7px 12px; font-size: 0.9rem; } main { padding: 25px 18px 50px; } .manifesto-section, .legacy-box, .founder-section { padding: 25px 20px; } .cta-row { flex-direction: column; gap: 10px; } .cta-row .btn { width: 100%; } .logo-container { gap: 12px; } .logo-mark { width: 64px; height: 64px; } } @media (max-width: 480px) { .logo-text-wrap { text-align: center; } .big-quote { padding: 25px 20px; font-size: 1.05rem; } } @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } .btn:hover, .socials a:hover { transform: none; } }</style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
   <link rel="stylesheet" href="/css/editorial-art.css">
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" / loading="eager" fetchpriority="high" decoding="async"><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -497,7 +144,7 @@
     <header role="banner">
       <!-- === CUSTOM SVG LOGO — MATCHES ALL PAGES === -->
       <div class="logo-container">
-        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high">
+        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high" loading="lazy" decoding="async">
         <div class="logo-text-wrap">
           <div class="logo-main">PLEADING SANITY</div>
           <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
@@ -513,7 +160,7 @@
 
 
     <main id="main" role="main">
-      <section class="movement-blurb">
+      <section class="movement-blurb ps-reveal">
         <p>
           This is more than merch. More than a website. <strong>This is a movement.</strong><br><br>
           Every piece of pain stitched into power. Every breakdown built into community.<br>
@@ -533,7 +180,7 @@
 
       <div class="divider"><span></span><span></span></div>
 
-      <section class="manifesto-section" aria-labelledby="manifesto-heading">
+      <section class="manifesto-section ps-reveal" aria-labelledby="manifesto-heading">
         <h2 id="manifesto-heading"> What We Stand For</h2>
         
         <div class="manifesto-point">
@@ -569,7 +216,7 @@
 
       <div class="divider"><span></span><span></span></div>
 
-      <section class="legacy-box" aria-labelledby="legacy-heading">
+      <section class="legacy-box ps-reveal" aria-labelledby="legacy-heading">
         <h2 id="legacy-heading"> BLOODLINE OF UNBREAKABLE STRENGTH</h2>
         <p style="font-size:0.94rem;color:#b9faff">These stories were passed down through my family. Not every wartime detail has been independently verified; I share them as family memories, not as official records.</p>
         <p>
@@ -650,5 +297,5 @@
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-</body>
+<script defer src="/js/ps-boost.js"></script></body>
 </html>

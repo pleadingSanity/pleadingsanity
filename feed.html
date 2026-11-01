@@ -33,147 +33,7 @@
   <meta name="twitter:description" content="Explore the Pleading Sanity mental health community feed: survivor stories and hopeful posts, newest first. Free, with no ads or algorithmic ranking.">
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
 
-  <style>
-    :root{
-      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
-      --magenta:#f59e0b;--magenta-deep:#d97706;--magenta-glow:rgba(255,0,255,.4);
-      --gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);
-      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
-      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;
-      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
-      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
-      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
-      --t:.3s cubic-bezier(.4,0,.2,1);
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    }
-    *{box-sizing:border-box;margin:0;padding:0;}
-    body{
-      background:
-        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.1) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.07) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
-      color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;
-      display:flex;flex-direction:column;
-    }
-    .skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}
-    .skip-link:focus{top:12px;}
-    a{color:var(--cyan);transition:var(--t);text-decoration:none;}
-    a:hover{color:var(--magenta);text-decoration:underline;}
-    header{
-      position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);
-      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
-      animation:fadeIn .8s ease-out;
-    }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
-    .logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
-    .logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}
-    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}
-    .logo-text{text-align:left;}
-    .logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
-    .logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}
-    .back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}
-    .back-link:hover{color:var(--cyan);}
-    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}
-    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}
-    nav a{
-      color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;
-      min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;
-      background:rgba(0,255,240,0.04);
-    }
-    nav a[aria-current=page]{
-      background:rgba(0,255,240,.12);border-color:var(--cyan);
-      box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;
-    }
-    nav a:hover{
-      border-color:var(--magenta);background:rgba(255,0,255,.08);
-      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
-    }
-    main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
-    .intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}
-    .intro strong{color:var(--cyan);}
-
-    .search-wrap{margin-bottom:30px;}
-    #feed-search{
-      width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);
-      background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;
-      outline:none;transition:var(--t);font-family:inherit;
-    }
-    #feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}
-    .search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}
-    .search-term{color:var(--cyan);font-weight:700;}
-    .btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:36px;}
-    .btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}
-
-    .feed-item{
-      background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(255,0,255,.04));
-      border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;
-      transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;
-    }
-    @keyframes cardFade{to{opacity:1;transform:none;}}
-    .feed-item:nth-child(1){animation-delay:.1s;}
-    .feed-item:nth-child(2){animation-delay:.2s;}
-    .feed-item:nth-child(3){animation-delay:.3s;}
-    .feed-item:nth-child(4){animation-delay:.4s;}
-    .feed-item:nth-child(5){animation-delay:.5s;}
-    .feed-item:hover{
-      transform:translateY(-4px);border-color:var(--magenta);
-      box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(255,0,255,.1);
-    }
-    .feed-item iframe{
-      width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;
-      box-shadow:0 0 15px rgba(0,255,240,.15);
-    }
-    .item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}
-    .item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}
-    .like-buttons{display:flex;gap:10px;flex-wrap:wrap;}
-    .like-btn{
-      padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);
-      font-size:0.9rem;min-height:42px;font-family:inherit;flex:1;
-    }
-    .like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}
-    .like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}
-    .video-desc{color:var(--text-soft);line-height:1.7;}
-
-    #loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}
-    .end-msg{
-      text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;
-      border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;
-    }
-    .end-msg a{color:var(--cyan);font-weight:700;}
-    .end-msg a:hover{color:var(--magenta);}
-
-    footer{
-      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
-      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
-      backdrop-filter:blur(10px);
-    }
-    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
-    .socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}
-    .socials a{
-      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
-      border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);
-    }
-    .socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}
-    .quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}
-    .quick-links a{margin:0 6px;}
-    .legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}
-    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
-
-    @media (max-width:768px){
-      main{padding:25px 15px 50px;}
-      .like-buttons{width:100%;}
-      nav{gap:6px 6px;}
-      nav a{padding:6px 11px;font-size:0.85rem;}
-    }
-    @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
-      .feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}
-    }
-    .topic-grid { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin:1.2rem 0 0; }
-    .topic-grid .topic { display:inline-flex; align-items:center; min-height:44px; padding:.55rem 1.05rem; border-radius:999px; border:1px solid rgba(0,255,240,.5); background:rgba(13,27,42,.75); color:#eef6ff; text-decoration:none; font-weight:600; }
-    .topic-grid .topic:hover, .topic-grid .topic:focus-visible { border-color:#f59e0b; color:#00fff0; outline:none; box-shadow:0 0 0 3px rgba(255,0,255,.35); }
-  </style>
+  <style>:root{--cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);--magenta:#f59e0b;--magenta-deep:#d97706;--magenta-glow:rgba(245,158,11,.4);--gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);--deep:#0d1b2a;--dark:#030712;--blackest:#000103;--text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;--glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);--btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);--btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(245,158,11,.15);--t:.3s cubic-bezier(.4,0,.2,1);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}*{box-sizing:border-box;margin:0;padding:0;}body{background:radial-gradient(circle at 15% 25%,rgba(0,255,240,0.1) 0%,transparent 50%),radial-gradient(circle at 85% 75%,rgba(245,158,11,0.07) 0%,transparent 50%),radial-gradient(ellipse at 50% 120%,#0d1b2a 0,var(--deep) 45%,var(--blackest) 100%);color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;display:flex;flex-direction:column;}.skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}.skip-link:focus{top:12px;}a{color:var(--cyan);transition:var(--t);text-decoration:none;}a:hover{color:var(--magenta);text-decoration:underline;}header{position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);animation:fadeIn .8s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}.logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}.logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}@keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}.logo-text{text-align:left;}.logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}.logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}.back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}.back-link:hover{color:var(--cyan);}h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}nav a{color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;background:rgba(0,255,240,0.04);}nav a[aria-current=page]{background:rgba(0,255,240,.12);border-color:var(--cyan);box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;}nav a:hover{border-color:var(--magenta);background:rgba(245,158,11,.08);color:#fff;box-shadow:0 0 20px rgba(245,158,11,.25);}main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}@keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}.intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}.intro strong{color:var(--cyan);}.search-wrap{margin-bottom:30px;}#feed-search{width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;outline:none;transition:var(--t);font-family:inherit;}#feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}.search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}.search-term{color:var(--cyan);font-weight:700;}.btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:44px;}.btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}.feed-item{background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(245,158,11,.04));border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;}@keyframes cardFade{to{opacity:1;transform:none;}}.feed-item:nth-child(1){animation-delay:.1s;}.feed-item:nth-child(2){animation-delay:.2s;}.feed-item:nth-child(3){animation-delay:.3s;}.feed-item:nth-child(4){animation-delay:.4s;}.feed-item:nth-child(5){animation-delay:.5s;}.feed-item:hover{transform:translateY(-4px);border-color:var(--magenta);box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(245,158,11,.1);}.feed-item iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;box-shadow:0 0 15px rgba(0,255,240,.15);}.item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}.item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}.like-buttons{display:flex;gap:10px;flex-wrap:wrap;}.like-btn{padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);font-size:0.9rem;min-height:44px;font-family:inherit;flex:1;}.like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}.like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}.video-desc{color:var(--text-soft);line-height:1.7;}#loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}.end-msg{text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;}.end-msg a{color:var(--cyan);font-weight:700;}.end-msg a:hover{color:var(--magenta);}footer{text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;backdrop-filter:blur(10px);}.brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}.socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}.socials a{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);}.socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}.quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}.quick-links a{margin:0 6px;}.legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}.names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}@media (max-width:768px){main{padding:25px 15px 50px;}.like-buttons{width:100%;}nav{gap:6px 6px;}nav a{padding:6px 11px;font-size:0.85rem;}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}.feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}}.topic-grid{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.2rem 0 0;}.topic-grid .topic{display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.05rem;border-radius:999px;border:1px solid rgba(0,255,240,.5);background:rgba(13,27,42,.75);color:#eef6ff;text-decoration:none;font-weight:600;}.topic-grid .topic:hover,.topic-grid .topic:focus-visible{border-color:#f59e0b;color:#00fff0;outline:none;box-shadow:0 0 0 3px rgba(245,158,11,.35);}</style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
   <link rel="stylesheet" href="/css/cosmic-scroll.css" />
@@ -181,13 +41,14 @@
 
 <meta property="og:site_name" content="Pleading Sanity">
 <link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -262,7 +123,7 @@
 
   <header role="banner">
     <div class="logo-container">
-      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="eager" />
+      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="lazy" decoding="async" />
       <div class="logo-text">
         <div class="logo-main">PLEADING SANITY</div>
         <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
@@ -311,13 +172,13 @@
       <p>Three kind jokes. Newest house notes stay in this order. People&rsquo;s posts stay underneath, newest first.</p>
       <div class="ps-meme-row">
         <figure>
-          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." />
+          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." loading="lazy" decoding="async" />
         </figure>
         <figure>
-          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." />
+          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." loading="lazy" decoding="async" />
         </figure>
         <figure>
-          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." />
+          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." loading="lazy" decoding="async" />
         </figure>
       </div>
       <a class="ps-stay-play" href="/sanity-solitaire.html">Two minutes of Solitaire</a>
@@ -748,5 +609,6 @@
     }
   </script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

@@ -19,53 +19,18 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css">
   <link rel="stylesheet" href="/css/site.css">
   <link rel="stylesheet" href="/css/social.css">
-  <style>
-    .live-page{max-width:1050px;margin:0 auto;padding:1rem clamp(1rem,4vw,2rem) 4rem}
-    .live-alert{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;background:#b80024;color:#fff;padding:1rem clamp(1rem,4vw,2rem);font-weight:900;letter-spacing:.08em;text-transform:uppercase;border-radius:0 0 16px 16px;box-shadow:0 8px 28px #b8002440}
-    .live-dot{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff30}
-    .live-hero{padding:clamp(1.5rem,5vw,3rem) 0 1.5rem}
-    .live-hero h1{font-size:clamp(2.2rem,7vw,4.4rem);line-height:1.02;margin:.4rem 0 1rem}
-    .live-hero p{max-width:70ch;line-height:1.7;color:#c7dce7}
-    .live-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:clamp(1rem,3vw,1.5rem);margin:1rem 0}
-    .live-card h2{margin-top:0;color:#00fff0}
-    .live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem}
-    .live-field{display:block;margin:.8rem 0}
-    .live-field span{display:block;font-weight:700;margin-bottom:.4rem}
-    .live-field input,.live-field textarea,.live-field select{box-sizing:border-box;width:100%;min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit}
-    .live-field textarea{min-height:100px}
-    .live-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}
-    .live-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff}
-    .live-btn:focus-visible,.live-field input:focus-visible,.live-field textarea:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
-    .live-player{width:100%;aspect-ratio:16/9;background:#020409;border:1px solid #ffffff25;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#a9c7d1;text-align:center}
-    .live-player iframe{width:100%;height:100%;border:0}
-    .live-note{color:#a9c7d1;font-size:.94rem;line-height:1.6}
-    .live-offer{border:1px solid #ff4767;background:linear-gradient(135deg,#260711,#0b101b)}
-    .live-offer .number{font-size:clamp(2.7rem,9vw,5rem);font-weight:950;line-height:1;color:#ff647d}
-    .live-tag{display:inline-block;background:#b80024;color:white;border-radius:999px;padding:.25rem .65rem;font-size:.78rem;font-weight:900;letter-spacing:.05em}
-    .live-status{min-height:1.5rem;color:#bafaf5}
-    .live-tabs{display:flex;gap:.5rem;overflow:auto;padding-bottom:.5rem}
-    .live-tab{flex:0 0 auto;min-height:44px;padding:.65rem .9rem;border:1px solid #ffffff2e;border-radius:999px;background:#07101a;color:#dff;font:inherit;font-weight:800;cursor:pointer}
-    .live-tab.active{background:#b80024;border-color:#ff4767;color:#fff}
-    .live-list{display:grid;gap:.7rem}
-    .live-list article,.chat-log article{padding:.8rem;border:1px solid #ffffff20;border-radius:12px;background:#03070d}
-    .coming-soon{border:1px solid #ff4767;border-radius:14px;padding:1rem;background:#260711;color:#fff;font-weight:900}
-    .chat-log{display:grid;gap:.6rem;max-height:260px;overflow:auto;margin:1rem 0}
-    .live-chat-form{display:grid;grid-template-columns:1fr auto;gap:.6rem}
-    .live-chat-form input{min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit}
-    @media(max-width:480px){.live-chat-form{grid-template-columns:1fr}.live-chat-form .live-btn{width:100%}}
-    @media(max-width:480px){.live-card{border-radius:15px}.live-btn{width:100%}}
-  </style>
+  <style>.live-page{max-width:1050px;margin:0 auto;padding:1rem clamp(1rem,4vw,2rem) 4rem} .live-alert{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;background:#b80024;color:#fff;padding:1rem clamp(1rem,4vw,2rem);font-weight:900;letter-spacing:.08em;text-transform:uppercase;border-radius:0 0 16px 16px;box-shadow:0 8px 28px #b8002440} .live-dot{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff30} .live-hero{padding:clamp(1.5rem,5vw,3rem) 0 1.5rem} .live-hero h1{font-size:clamp(2.2rem,7vw,4.4rem);line-height:1.02;margin:.4rem 0 1rem} .live-hero p{max-width:70ch;line-height:1.7;color:#c7dce7} .live-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:clamp(1rem,3vw,1.5rem);margin:1rem 0} .live-card h2{margin-top:0;color:#00fff0} .live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem} .live-field{display:block;margin:.8rem 0} .live-field span{display:block;font-weight:700;margin-bottom:.4rem} .live-field input,.live-field textarea,.live-field select{box-sizing:border-box;width:100%;min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit} .live-field textarea{min-height:100px} .live-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font:inherit;font-weight:800;text-decoration:none;cursor:pointer} .live-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff} .live-btn:focus-visible,.live-field input:focus-visible,.live-field textarea:focus-visible{outline:3px solid #00fff0;outline-offset:3px} .live-player{width:100%;aspect-ratio:16/9;background:#020409;border:1px solid #ffffff25;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#a9c7d1;text-align:center} .live-player iframe{width:100%;height:100%;border:0} .live-note{color:#a9c7d1;font-size:.94rem;line-height:1.6} .live-offer{border:1px solid #ff4767;background:linear-gradient(135deg,#260711,#0b101b)} .live-offer .number{font-size:clamp(2.7rem,9vw,5rem);font-weight:950;line-height:1;color:#ff647d} .live-tag{display:inline-block;background:#b80024;color:white;border-radius:999px;padding:.25rem .65rem;font-size:.78rem;font-weight:900;letter-spacing:.05em} .live-status{min-height:1.5rem;color:#bafaf5} .live-tabs{display:flex;gap:.5rem;overflow:auto;padding-bottom:.5rem} .live-tab{flex:0 0 auto;min-height:44px;padding:.65rem .9rem;border:1px solid #ffffff2e;border-radius:999px;background:#07101a;color:#dff;font:inherit;font-weight:800;cursor:pointer} .live-tab.active{background:#b80024;border-color:#ff4767;color:#fff} .live-list{display:grid;gap:.7rem} .live-list article,.chat-log article{padding:.8rem;border:1px solid #ffffff20;border-radius:12px;background:#03070d} .coming-soon{border:1px solid #ff4767;border-radius:14px;padding:1rem;background:#260711;color:#fff;font-weight:900} .chat-log{display:grid;gap:.6rem;max-height:260px;overflow:auto;margin:1rem 0} .live-chat-form{display:grid;grid-template-columns:1fr auto;gap:.6rem} .live-chat-form input{min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit} @media(max-width:480px){.live-chat-form{grid-template-columns:1fr}.live-chat-form .live-btn{width:100%}} @media(max-width:480px){.live-card{border-radius:15px}.live-btn{width:100%}}</style>
   <link rel="stylesheet" href="/css/editorial-art.css">
 
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta property="og:url" content="https://pleadingsanity.co.uk/live.html">
 </head>
 <body class="ps-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="eager" fetchpriority="high" decoding="async"><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -140,7 +105,7 @@
 <div class="live-alert" role="status"><span class="live-dot" aria-hidden="true"></span> Pleading Sanity LIVE HUB <span>· External streams only; no native broadcast running here.</span></div>
 <main id="main-content" class="live-page">
 <div id="creator-status-notice" role="note" style="background:rgba(13,27,42,.85);border-left:3px solid #f59e0b;padding:12px 16px;border-radius:4px;margin:20px 0;color:#eef6ff"><strong>Creator tools status:</strong> Stream sharing is available where supported. Scheduling, automatic clips and creator payments may be limited or under development. The first-1,000-creators 90% revenue-share proposal is not an active payout programme; final terms and eligibility require founder approval.</div>
-  <section class="live-hero">
+  <section class="live-hero ps-reveal">
     <span class="live-tag">CREATOR STAGE</span>
     <h1>Go live. Bring your people with you.</h1>
     <p>Gaming, music, training, honest conversations, creative sessions or a moment worth sharing. Bring your stream into Pleading Sanity before you start or while you're already live, then share it with the community feed so people can find you here too.</p>
@@ -155,7 +120,7 @@
     </figure>
 
 
-  <section class="live-card" id="live-sections" aria-labelledby="live-sections-title">
+  <section class="live-card ps-reveal" id="live-sections" aria-labelledby="live-sections-title">
     <h2 id="live-sections-title">Live Hub</h2>
     <div class="live-tabs" role="tablist" aria-label="Live streams">
       <button class="live-tab active" type="button" data-tab="now" role="tab" aria-selected="true"> Live Now</button>
@@ -191,7 +156,7 @@
     </div>
   </section>
 
-  <section class="live-card" id="bring-live">
+  <section class="live-card ps-reveal" id="bring-live">
     <h2>Bring your live to the house</h2>
     <p>Already live on YouTube or Twitch? Paste your public stream link below. You can do this before going live (if your platform has scheduled the stream) or while broadcasting. We'll show an embeddable preview when the link supports it, and you can share the stream to the Pleading Sanity feed.</p>
     <form id="live-form">
@@ -408,5 +373,5 @@ form.addEventListener('submit',async(e)=>{
 })();
 </script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-</body>
+<script defer src="/js/ps-boost.js"></script></body>
 </html>

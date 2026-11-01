@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="/css/my-room.css" />
   <link rel="stylesheet" href="/css/space.css" />
   <!-- Sensitive page: no Google Analytics scripts loaded. -->
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/my-room-hero.webp">
 </head>
 <body>
@@ -39,9 +39,9 @@
       Arron is a companion, not a therapist.
     </div>
 
-    <section id="gate">
+    <section id="gate" class="ps-reveal">
       <div class="top">
-        <img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity" width="42" height="42" />
+        <img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity" width="42" height="42" / loading="eager" fetchpriority="high" decoding="async">
         <div>
           <h1>Your room</h1>
           <p class="lede">Private corner. Your look, your words, your pace.</p>
@@ -55,10 +55,10 @@
       </div>
     </section>
 
-    <section id="room" style="display: none;">
+    <section id="room" style="display: none;" class="ps-reveal">
       <p id="room-note" class="note" role="status"></p>
       <div class="top">
-        <img id="pic-preview" class="pic" src="" alt="Your look" style="display: none;" />
+        <img id="pic-preview" class="pic" src="" alt="Your look" style="display: none;" / loading="lazy" decoding="async">
         <div style="flex: 1;">
           <h1 id="headline-display">Your room</h1>
           <p id="song-display" class="lede"></p>
@@ -116,5 +116,5 @@
 <figure class="ps-hero-visual"><img src="/images/heroes/my-room-hero.webp" alt="A small room at night with one lamp, an armchair and a starry window" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 <script src="/js/site.js" defer></script>
-</body>
+<script defer src="/js/ps-boost.js"></script></body>
 </html>

@@ -98,7 +98,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 .panel{padding:12px!important;}
 .tabs button,.picker button{min-height:44px!important;}
 .skip-link{z-index:200;}
-</style>
+</style><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body class="ps-page ps-game-page" style="overflow-x:hidden">
 
@@ -115,7 +115,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 
 <nav class="ps-nav" aria-label="Main navigation">
 <div class="ps-nav-inner">
-<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"  loading="eager" fetchpriority="high" decoding="async" /><span>Pleading Sanity</span></a>
 <div class="ps-links">
 <a href="/" class="ps-home">Home</a>
 <div class="ps-group" data-group="heal">
@@ -188,7 +188,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 </div>
 </nav>
 
-<img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/truth-tag.webp" alt="" />
+<img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/truth-tag.webp" alt=""  loading="lazy" decoding="async" />
 <main id="main-content" class="social-main wide">
 <p><a class="sg-back" href="/games.html">← All games</a></p>
 <header class="social-head">
@@ -197,7 +197,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 </header>
 <p class="sg-private">Your progress is private.<span data-sg-guest><a href="/login.html?next=/truth-tag.html">Sign in</a>and it follows you to any device.</span><span data-sg-member hidden>You're signed in, so it follows you to any device.</span></p>
 
-<section class="panel" aria-labelledby="tt-why-h">
+<section class="panel ps-reveal" aria-labelledby="tt-why-h">
 <h2 id="tt-why-h">Why truth tags matter here</h2>
 <p>Every post on the Sanctuary can carry a truth tag, so readers know what kind of truth they're reading:</p>
 <ul class="tt-legend">
@@ -211,7 +211,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 <p><a class="sbtn small ghost" href="/post.html">Share something with a truth tag</a></p>
 </section>
 
-<section class="panel" aria-labelledby="tt-play-h" id="tt-play">
+<section class="panel ps-reveal" aria-labelledby="tt-play-h" id="tt-play">
 <h2 id="tt-play-h">Which tag fits?</h2>
 <p class="tt-progress" id="tt-progress"></p>
 <blockquote class="tt-statement" id="tt-statement"></blockquote>
@@ -229,7 +229,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 </div>
 </section>
 
-<section class="panel" aria-labelledby="tt-stats-h">
+<section class="panel ps-reveal" aria-labelledby="tt-stats-h">
 <h2 id="tt-stats-h">Your practice so far</h2>
 <p class="muted">Private to you. "Matched" means your tag matched ours — and plenty of statements genuinely sit near a border.</p>
 <ul class="sg-stats" id="tt-stats"></ul>
@@ -419,5 +419,6 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
   var old=document.querySelector('p[style*="ps-sound-btn"]');if(old)old.style.display='none';
 })();
 </script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

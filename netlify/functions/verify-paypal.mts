@@ -21,6 +21,10 @@ const json = (body: unknown, status = 200) =>
 
 const ORDER_ID = /^[A-Z0-9]{10,32}$/;
 const EXPECTED = { value: "50.00", currency: "GBP" };
+// Best-effort replay protection: a single order id may only verify once per
+// function instance. Persist this set (e.g. Supabase/KV) for a cross-instance
+// guarantee; an attacker would need a second warm instance to bypass it.
+const seenOrders = new Set<string>();
 
 function apiBase() {
   return (process.env.PAYPAL_ENV || "").toLowerCase() === "sandbox"
@@ -60,6 +64,10 @@ export default async (req: Request, context: Context) => {
   if (typeof orderID !== "string" || !ORDER_ID.test(orderID)) {
     return json({ error: "Invalid order id" }, 400);
   }
+  if (seenOrders.has(orderID)) {
+    console.warn(`verify-paypal: order ${orderID} reused`);
+    return json({ ok: false, verified: false, error: "Order already used" }, 409);
+  }
 
   try {
     const token = await accessToken(id, secret);
@@ -82,6 +90,7 @@ export default async (req: Request, context: Context) => {
       order.status === "COMPLETED" &&
       amount?.value === EXPECTED.value &&
       amount?.currency_code === EXPECTED.currency;
+    if (verified) seenOrders.add(orderID);
 
     console.log(`verify-paypal: order ${verified ? "verified" : "rejected"} (status ${order.status ?? "unknown"})`);
     return json({ ok: true, verified, status: order.status ?? null });

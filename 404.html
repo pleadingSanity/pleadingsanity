@@ -31,218 +31,19 @@
     <meta name="house-tools" content="Life tools — /tools.html">
     <meta name="emergency" content="999 (UK)">
     
-    <style>
-        :root {
-            --bg-primary: #060713;
-            --bg-secondary: #0d1b2a;
-            --text-primary: #E9ECFF;
-            --text-secondary: #94A3B8;
-            --primary-cyan: #00fff0;
-            --primary-magenta: #f59e0b;
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        .error-page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .error-content {
-            max-width: 600px;
-            z-index: 2;
-            position: relative;
-        }
-
-        .error-code {
-            font-size: clamp(4rem, 15vw, 8rem);
-            font-weight: 900;
-            color: var(--primary-cyan);
-            margin: 0;
-            text-shadow: 0 0 20px rgba(0, 255, 240, 0.5);
-            animation: pulse-glow 2.5s ease-in-out infinite alternate;
-            line-height: 1;
-        }
-
-        .error-title {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            color: var(--text-primary);
-            margin: 1rem 0;
-            font-weight: 300;
-        }
-
-        .error-message {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            margin: 2rem 0;
-            line-height: 1.7;
-        }
-
-        .error-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 2rem;
-        }
-
-        .error-button {
-            padding: 0.85rem 1.75rem;
-            border: 2px solid var(--primary-cyan);
-            background: transparent;
-            color: var(--primary-cyan);
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            transition: var(--transition-smooth);
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            min-height: 48px;
-            cursor: pointer;
-        }
-
-        .error-button:hover,
-        .error-button:focus-visible {
-            background: var(--primary-cyan);
-            color: var(--bg-primary);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(0, 255, 240, 0.35);
-            outline: none;
-        }
-
-        .error-button.secondary {
-            border-color: var(--primary-magenta);
-            color: var(--primary-magenta);
-        }
-
-        .error-button.secondary:hover,
-        .error-button.secondary:focus-visible {
-            background: var(--primary-magenta);
-            color: var(--bg-primary);
-            box-shadow: 0 8px 25px rgba(255, 0, 255, 0.35);
-        }
-
-        .cosmic-bg-404 {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0.4;
-        }
-
-        .floating-brain {
-            position: absolute;
-            font-size: 3rem;
-            animation: float 6s ease-in-out infinite;
-            opacity: 0.08;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .floating-brain:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
-        .floating-brain:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
-        .floating-brain:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        @keyframes pulse-glow {
-            from { text-shadow: 0 0 20px rgba(0, 255, 240, 0.5); }
-            to { text-shadow: 0 0 30px rgba(0, 255, 240, 0.7), 0 0 50px rgba(0, 255, 240, 0.3); }
-        }
-
-        .crisis-notice {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 0, 85, 0.9);
-            color: white;
-            padding: 1rem 1.25rem;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            max-width: 320px;
-            z-index: 1000;
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.3);
-        }
-
-        .crisis-notice.show {
-            transform: translateX(0);
-        }
-
-        .crisis-notice strong {
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .crisis-notice a {
-            color: #fff;
-            text-decoration: underline;
-            font-weight: 600;
-        }
-
-        @media (max-width: 768px) {
-            .error-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            .error-button {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-            .crisis-notice {
-                left: 20px;
-                right: 20px;
-                max-width: unset;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .error-code, .floating-brain { animation: none; }
-            .error-button:hover { transform: none; }
-            .cosmic-bg-404 canvas { display: none; }
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --bg-primary: #eef2f8;
-                --bg-secondary: #dfe6f0;
-                --text-primary: #0d1b2a;
-                --text-secondary: #475569;
-            }
-            .error-code { color: #00a8a0; }
-        }
-    </style>
+    <style>:root{--bg-primary:#060713;--bg-secondary:#0d1b2a;--text-primary:#E9ECFF;--text-secondary:#94A3B8;--primary-cyan:#00fff0;--primary-magenta:#f59e0b;--transition-smooth:all 0.3s cubic-bezier(0.4,0,0.2,1);}*{box-sizing:border-box;margin:0;padding:0;}.error-page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);position:relative;overflow:hidden;}.error-content{max-width:600px;z-index:2;position:relative;}.error-code{font-size:clamp(4rem,15vw,8rem);font-weight:900;color:var(--primary-cyan);margin:0;text-shadow:0 0 20px rgba(0,255,240,0.5);animation:pulse-glow 2.5s ease-in-out infinite alternate;line-height:1;}.error-title{font-size:clamp(1.5rem,4vw,2.5rem);color:var(--text-primary);margin:1rem 0;font-weight:300;}.error-message{font-size:1.15rem;color:var(--text-secondary);margin:2rem 0;line-height:1.7;}.error-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;}.error-button{padding:0.85rem 1.75rem;border:2px solid var(--primary-cyan);background:transparent;color:var(--primary-cyan);text-decoration:none;border-radius:12px;font-weight:600;transition:var(--transition-smooth);display:inline-flex;align-items:center;gap:0.5rem;min-height:48px;cursor:pointer;}.error-button:hover,.error-button:focus-visible{background:var(--primary-cyan);color:var(--bg-primary);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,255,240,0.35);outline:none;}.error-button.secondary{border-color:var(--primary-magenta);color:var(--primary-magenta);}.error-button.secondary:hover,.error-button.secondary:focus-visible{background:var(--primary-magenta);color:var(--bg-primary);box-shadow:0 8px 25px rgba(245,158,11,0.35);}.cosmic-bg-404{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:0.4;}.floating-brain{position:absolute;font-size:3rem;animation:float 6s ease-in-out infinite;opacity:0.08;z-index:1;pointer-events:none;}.floating-brain:nth-child(1){top:20%;left:10%;animation-delay:0s;}.floating-brain:nth-child(2){top:60%;right:15%;animation-delay:2s;}.floating-brain:nth-child(3){bottom:30%;left:20%;animation-delay:4s;}@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(5deg);}}@keyframes pulse-glow{from{text-shadow:0 0 20px rgba(0,255,240,0.5);}to{text-shadow:0 0 30px rgba(0,255,240,0.7),0 0 50px rgba(0,255,240,0.3);}}.crisis-notice{position:fixed;bottom:20px;right:20px;background:rgba(255,0,85,0.9);color:white;padding:1rem 1.25rem;border-radius:12px;font-size:0.9rem;max-width:320px;z-index:1000;transform:translateX(120%);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 20px rgba(255,0,85,0.3);}.crisis-notice.show{transform:translateX(0);}.crisis-notice strong{display:block;margin-bottom:0.25rem;}.crisis-notice a{color:#fff;text-decoration:underline;font-weight:600;}@media (max-width:768px){.error-actions{flex-direction:column;align-items:center;}.error-button{width:100%;max-width:300px;justify-content:center;}.crisis-notice{left:20px;right:20px;max-width:unset;}}@media (prefers-reduced-motion:reduce){.error-code,.floating-brain{animation:none;}.error-button:hover{transform:none;}.cosmic-bg-404 canvas{display:none;}}@media (prefers-color-scheme:light){:root{--bg-primary:#eef2f8;--bg-secondary:#dfe6f0;--text-primary:#0d1b2a;--text-secondary:#475569;}.error-code{color:#00a8a0;}}</style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
 <link rel="stylesheet" href="/css/support-strip.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/404-hero.webp">
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -464,5 +265,6 @@
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 <figure class="ps-hero-visual"><img src="/images/heroes/404-hero.webp" alt="Quiet night sky with a small glowing Crying Brain above an amber horizon" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

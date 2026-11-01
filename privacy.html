@@ -33,7 +33,7 @@
 
 <meta name="twitter:description" content="See how Pleading Sanity handles journals, accounts and game progress. We never sell your words or sign-in data. Learn what stays on your device.">
 <link rel="stylesheet" href="/css/support-strip.css">
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/privacy-hero.webp">
 </head>
 <body>
@@ -41,23 +41,23 @@
   <div class="wrap" role="main" id="main-content">
     <p class="note">Arron is a companion, not a therapist. The house sits with the story.</p>
     <div class="top">
-      <a href="/" aria-label="Pleading Sanity home"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying cosmic brain logo" width="42" height="42" /></a>
+      <a href="/" aria-label="Pleading Sanity home"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying cosmic brain logo" width="42" height="42"  loading="eager" fetchpriority="high" decoding="async" /></a>
       <a class="btn" href="/arron-app.html">Arron</a>
     </div>
     <h1>Privacy</h1>
-    <section class="card">
+    <section class="card ps-reveal">
       <p>Pleading Sanity does not sell your words, your journal, or your sign-in.</p>
       <p>A sign-in keeps an email and the name you choose. A post keeps the words you send. A game score and a card back can stay on this phone.</p>
       <p>Arron is a companion. Do not send passwords or card numbers. Crisis lines are public. Each tool explains its storage and deletion controls. Clearing this browser does not by itself delete information held by the site or an AI provider.</p>
       <p>Owner: Shane Cooper. For privacy questions, email <a href="mailto:pleadingsanity1@gmail.com">pleadingsanity1@gmail.com</a>.</p>
     </section>
-    <section class="card" id="analytics">
+    <section class="card ps-reveal" id="analytics">
       <h2>Website analytics and your choices</h2>
       <p>No tracking anywhere. Period. Pleading Sanity does not load Google Analytics or any other analytics or advertising tracker on any page, so there is nothing to consent to and no tracking cookie is set.</p>
       <p>Google Analytics was removed from every page in October 2026. Crisis, support, sanctuary, Arron, journal, notes, finance and account pages had it removed first, and the remaining public pages, including the games, the feed, solitaire, the 404 page and the offline page, followed.</p>
       <p>If we ever consider analytics again, it will stay off the sensitive pages above, it will be off by default, and it will only start after you choose to allow it. This notice will be updated before anything changes.</p>
     </section>
-    <section class="card" id="arron-ai">
+    <section class="card ps-reveal" id="arron-ai">
       <h2>Arron and the AI providers</h2>
       <p>When you message Arron, your words are sent to our server and may be passed to the AI provider that answers. The main order is GPT through OpenAI, Claude through Anthropic, Gemini through Google, then Grok through xAI when Grok is configured.</p>
       <p>If those four providers cannot answer, Arron gives you a short reply with the real help lines instead. Free fallback models routed through OpenRouter are switched off for Arron chats and the finance helper until their data-handling terms have been reviewed. If that is ever switched on, this page will say so first, and OpenRouter and the selected model provider would also process the message. These providers are separate services; Pleading Sanity does not control their systems or their own data-handling terms.</p>
@@ -78,5 +78,6 @@
 <figure class="ps-hero-visual"><img src="/images/heroes/privacy-hero.webp" alt="A closed padlock drawn in silver light on a dark sky" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 <script src="/js/site.js" defer></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

@@ -19,105 +19,10 @@
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
-<style>
-body {
-  color: #eef6ff;
-  font-family: system-ui, -apple-system, sans-serif;
-  margin: 0;
-  background: radial-gradient(ellipse at top, rgba(0,255,240,0.06), transparent 55%), #000103;
-  line-height: 1.6;
-}
-.wrap {
-  max-width: 44rem;
-  margin: 0 auto;
-  padding: 3.5rem 1.25rem 5rem;
-}
-.eyebrow {
-  color: #00fff0;
-  font-size: 0.8rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  margin-bottom: 0.75rem;
-}
-h1 {
-  font-size: clamp(2.2rem, 7vw, 3.2rem);
-  margin: 0 0 0.5rem;
-  text-shadow: 0 0 28px rgba(0,255,240,0.35);
-}
-.lead {
-  color: #b9faff;
-  font-size: 1.15rem;
-  margin: 0 0 2.5rem;
-  max-width: 36rem;
-}
-.card {
-  background: rgba(13,27,42,0.68);
-  border: 1px solid rgba(0,255,240,0.28);
-  border-radius: 20px;
-  padding: 1.6rem 1.4rem;
-  margin-bottom: 1.25rem;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.28), inset 0 1px 0 rgba(238,246,255,0.05);
-  text-align: left;
-}
-.card h2 {
-  color: #00fff0;
-  font-size: 1.2rem;
-  margin: 0 0 0.75rem;
-}
-.card p, .card li { color: #c9e9ef; font-size: 0.98rem; margin: 0 0 0.6rem; }
-.card ul { margin: 0.5rem 0 0; padding-left: 1.2rem; }
-.card code {
-  background: rgba(0,0,0,0.4);
-  padding: 0.15rem 0.4rem;
-  border-radius: 6px;
-  font-size: 0.9em;
-  color: #00fff0;
-}
-.btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 1.5rem 0 2rem;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(13,27,42,0.8);
-  border: 1px solid rgba(0,255,240,0.5);
-  border-radius: 999px;
-  padding: 0.7rem 1.4rem;
-  color: #00fff0;
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-.btn:hover {
-  background: rgba(0,255,240,0.15);
-  border-color: #00fff0;
-  transform: translateY(-1px);
-}
-.note {
-  color: #a9c7d1;
-  font-size: 0.85rem;
-  margin-top: 2.5rem;
-}
-.note a { color: #00fff0; }
-.back {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-}
-.back a { color: #00fff0; text-decoration: none; }
-.back a:hover { color: #f59e0b; }
-@media (max-width: 600px) {
-  .wrap { padding: 2.5rem 1rem 3.5rem; }
-  .card { padding: 1.3rem 1.1rem; }
-}
-</style>
+<style>body{color:#eef6ff;font-family:system-ui,-apple-system,sans-serif;margin:0;background:radial-gradient(ellipse at top,rgba(0,255,240,0.06),transparent 55%),#000103;line-height:1.6;}.wrap{max-width:44rem;margin:0 auto;padding:3.5rem 1.25rem 5rem;}.eyebrow{color:#00fff0;font-size:0.8rem;letter-spacing:0.28em;text-transform:uppercase;margin-bottom:0.75rem;}h1{font-size:clamp(2.2rem,7vw,3.2rem);margin:0 0 0.5rem;text-shadow:0 0 28px rgba(0,255,240,0.35);}.lead{color:#b9faff;font-size:1.15rem;margin:0 0 2.5rem;max-width:36rem;}.card{background:rgba(13,27,42,0.68);border:1px solid rgba(0,255,240,0.28);border-radius:20px;padding:1.6rem 1.4rem;margin-bottom:1.25rem;backdrop-filter:blur(10px);box-shadow:0 8px 30px rgba(0,0,0,0.28),inset 0 1px 0 rgba(238,246,255,0.05);text-align:left;}.card h2{color:#00fff0;font-size:1.2rem;margin:0 0 0.75rem;}.card p,.card li{color:#c9e9ef;font-size:0.98rem;margin:0 0 0.6rem;}.card ul{margin:0.5rem 0 0;padding-left:1.2rem;}.card code{background:rgba(0,0,0,0.4);padding:0.15rem 0.4rem;border-radius:6px;font-size:0.9em;color:#00fff0;}.btn-row{display:flex;flex-wrap:wrap;gap:0.75rem;margin:1.5rem 0 2rem;}.btn{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(13,27,42,0.8);border:1px solid rgba(0,255,240,0.5);border-radius:999px;padding:0.7rem 1.4rem;color:#00fff0;font-weight:700;font-size:0.95rem;text-decoration:none;transition:all 0.2s ease;}.btn:hover{background:rgba(0,255,240,0.15);border-color:#00fff0;transform:translateY(-1px);}.note{color:#a9c7d1;font-size:0.85rem;margin-top:2.5rem;}.note a{color:#00fff0;}.back{margin-top:2rem;font-size:0.9rem;}.back a{color:#00fff0;text-decoration:none;}.back a:hover{color:#f59e0b;}@media (max-width:600px){.wrap{padding:2.5rem 1rem 3.5rem;}.card{padding:1.3rem 1.1rem;}}</style>
 <link rel="stylesheet" href="/css/support-strip.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/developers-hero.webp">
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
 
@@ -172,5 +77,6 @@ npm run dev</code></pre>
 <figure class="ps-hero-visual"><img src="/images/heroes/developers-hero.webp" alt="A workbench at night with an open notebook, tools and a closed laptop" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 <script src="/js/site.js" defer></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

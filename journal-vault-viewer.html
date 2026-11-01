@@ -38,388 +38,11 @@
         Dark locked + light toggle · Gold nebula particles
         Ivan & Arthur legacy footer · Privacy-first
        ========================================== -->
-  <style>
-    :root {
-      --cyan: #00fff0;
-      --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
-      --gold: #ffd700;
-      --gold-bright: #ffd000;
-      --orange-gold: #ff9500;
-      --deep: #0d1b2a;
-      --dark: #030712;
-      --deepest: #060014;
-      --text-bright: #eafffd;
-      --text-soft: #b9faff;
-      --text-muted: #7ab8c8;
-      --text-dim: #90a4ae;
-      --glass: rgba(0,255,240,0.06);
-      --border-glow: rgba(0,255,240,0.15);
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      font-family: var(--font-sans);
-      background: 
-        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
-      color: var(--text-bright);
-      min-height: 100vh;
-      line-height: 1.7;
-      background-attachment: fixed;
-    }
-
-    /*  DARK THEME — LOCKED BY DEFAULT */
-    @media (prefers-color-scheme: light) {
-      body {
-        background: 
-          radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
-          radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
-      }
-    }
-
-    /* Light Mode Toggle */
-    body.light-mode {
-      --cyan: #0091cc;
-      --magenta: #d97706;
-      --deep: #eef4f8;
-      --dark: #ffffff;
-      --deepest: #dce8f0;
-      --text-bright: #0f1e2e;
-      --text-soft: #1e3a5f;
-      --text-muted: #5a7a8a;
-      --glass: rgba(0,145,204,0.06);
-      --border-glow: rgba(0,145,204,0.2);
-      background: 
-        radial-gradient(circle at 15% 25%, rgba(0,145,204,0.08) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(184,0,158,0.05) 0%, transparent 50%),
-        linear-gradient(135deg, #f0f7ff 0%, #e0edf5 100%) !important;
-    }
-
-    /* Accessibility */
-    .skip-link {
-      position: absolute; top: -50px; left: 6px;
-      background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000;
-      font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
-    }
-    .skip-link:focus { top: 12px; }
-
-    a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
-
-    /* Nebula Background Particles */
-    .nebula-particle {
-      position: fixed; border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%);
-      pointer-events: none; z-index: 0;
-      animation: float 20s infinite ease-in-out;
-    }
-    .nebula-particle.gold-glow {
-      background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%);
-      animation-delay: -7s;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
-      50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; }
-    }
-
-    .page-wrapper { position: relative; z-index: 1; }
-
-    /* Header — FULLY ALIGNED with journal-vault.html */
-    header {
-      position: sticky; top: 0; z-index: 100;
-      text-align: center; padding: 18px 20px 15px;
-      background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-glow);
-      animation: fadeIn 0.8s ease-out both;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Unified SVG Logo — SAME across ALL pages */
-    .logo-container {
-      display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-    .logo-mark {
-      width: 56px; height: 56px; flex-shrink: 0;
-      filter: drop-shadow(0 0 20px rgba(0,255,240,0.4));
-      animation: logoPulse 3.5s infinite ease-in-out;
-    }
-    @keyframes logoPulse {
-      0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25)); }
-      50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35)); }
-    }
-    .logo-text-wrap { text-align: left; }
-    .logo-main {
-      font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 900; letter-spacing: 0.08em;
-      background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text; line-height: 1.1;
-    }
-    .logo-tag {
-      font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.15em;
-      margin-top: 2px;
-    }
-
-    .theme-toggle {
-      position: absolute; top: 18px; right: 20px;
-      background: var(--glass); border: 1px solid var(--border-glow);
-      border-radius: 50px; padding: 8px 14px; cursor: pointer;
-      transition: var(--transition); backdrop-filter: blur(10px);
-      font-size: 0.85rem; color: var(--text-bright); font-family: inherit;
-      min-height: 44px; display: inline-flex; align-items: center; gap: 6px;
-    }
-    .theme-toggle:hover {
-      background: var(--cyan); color: #000; transform: scale(1.05);
-      box-shadow: 0 0 15px rgba(0,255,240,0.3);
-    }
-
-    header h1 {
-      font-size: clamp(1.3rem, 3.5vw, 1.6rem);
-      color: var(--cyan);
-      text-shadow: 0 0 15px rgba(0,255,240,0.3);
-      margin: 8px 0 4px;
-      letter-spacing: 0.05em;
-    }
-    header .tagline {
-      color: var(--magenta);
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 15px;
-    }
-
-    nav {
-      display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 5px;
-    }
-    nav a {
-      color: var(--text-soft); font-weight: 700; padding: 7px 13px;
-      border-radius: 24px; border: 1px solid transparent;
-      transition: var(--transition);
-      font-size: 0.9rem;
-      min-height: 44px; display: inline-flex; align-items: center;
-      background: rgba(0,255,240,0.04);
-    }
-    nav a[aria-current="page"],
-    nav a:hover {
-      border-color: var(--cyan);
-      background: rgba(0,255,240,0.12);
-      color: #fff;
-      box-shadow: 0 0 15px rgba(0,255,240,0.15);
-    }
-
-    main { max-width: 720px; margin: 0 auto; padding: 25px 20px 70px; animation: fadeInUp 1s ease-out both; }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(25px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .sync-note {
-      background: rgba(255,215,0,0.06); border-radius: 12px;
-      padding: 14px 18px; margin-bottom: 25px; border-left: 3px solid var(--gold);
-      font-size: 0.9rem; color: var(--text-soft);
-    }
-    .sync-note strong { color: var(--text-bright); }
-
-    .container {
-      background: var(--glass);
-      border-radius: 20px;
-      padding: 28px 25px;
-      border: 1px solid var(--border-glow);
-      box-shadow: 0 0 25px rgba(0,255,240,0.08);
-      backdrop-filter: blur(12px);
-    }
-
-    .submit-section {
-      background: rgba(0,255,240,0.03);
-      border-radius: 16px; padding: 24px; margin-bottom: 28px;
-      border: 1px solid rgba(0,255,240,0.12);
-    }
-    .submit-section h2 {
-      color: var(--cyan); margin-bottom: 14px; font-size: 1.25rem;
-      text-shadow: 0 0 10px rgba(0,255,240,0.2);
-    }
-    .submit-textarea {
-      width: 100%; min-height: 130px;
-      background: rgba(0,0,0,0.35); border: 1px solid var(--border-glow);
-      border-radius: 12px; padding: 16px;
-      color: var(--text-bright); font-size: 1rem;
-      font-family: inherit; resize: vertical; margin-bottom: 12px;
-      transition: var(--transition); line-height: 1.7;
-    }
-    .submit-textarea:focus {
-      outline: none; border-color: var(--cyan);
-      box-shadow: 0 0 20px rgba(0,255,240,0.25);
-      background: rgba(0,255,240,0.03);
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%);
-      color: #000; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 50px;
-      border: none; cursor: pointer; font-size: 0.95rem; transition: var(--transition);
-      box-shadow: 0 0 20px rgba(0,255,240,0.25);
-      min-height: 46px; font-family: inherit; gap: 6px;
-    }
-    .btn:hover {
-      transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 35px rgba(255,0,255,0.4);
-      color: #000;
-    }
-    .btn-secondary {
-      background: transparent; color: var(--cyan);
-      border: 1px solid var(--cyan);
-      box-shadow: none;
-    }
-    .btn-secondary:hover {
-      background: var(--cyan); color: #000; border-color: var(--cyan);
-      transform: none;
-    }
-
-    .controls {
-      text-align: center; margin-bottom: 22px;
-      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
-    }
-
-    .search-box {
-      width: 100%; max-width: 480px; padding: 14px 22px;
-      border-radius: 30px; border: 1px solid var(--border-glow);
-      background: rgba(0,0,0,0.35); color: var(--text-bright);
-      margin: 0 auto 22px; display: block; font-size: 1rem;
-      transition: var(--transition); font-family: inherit;
-    }
-    .search-box:focus {
-      outline: none; border-color: var(--cyan);
-      box-shadow: 0 0 20px rgba(0,255,240,0.25);
-    }
-    .search-box::placeholder { color: var(--text-muted); }
-
-    .stats {
-      text-align: center; margin-bottom: 22px; color: var(--text-muted);
-      font-size: 0.9rem; padding-bottom: 15px;
-      border-bottom: 1px solid var(--border-glow);
-    }
-    .stats strong { color: var(--cyan); }
-
-    .entry {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(0,255,240,0.1);
-      border-radius: 16px; padding: 24px; margin: 20px 0;
-      transition: var(--transition);
-      position: relative; overflow: hidden;
-    }
-    .entry::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 3px; background: linear-gradient(90deg, var(--cyan), var(--magenta));
-      opacity: 0; transition: var(--transition);
-    }
-    .entry:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0,255,240,0.1);
-      border-color: rgba(0,255,240,0.25);
-    }
-    .entry:hover::before { opacity: 1; }
-
-    .entry-header {
-      display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 14px; padding-bottom: 12px;
-      border-bottom: 1px solid rgba(0,255,240,0.1);
-      flex-wrap: wrap; gap: 8px;
-    }
-    .entry-number { color: var(--cyan); font-weight: 800; font-size: 1.1rem; }
-    .entry-date { color: var(--magenta); font-size: 0.9rem; }
-    .entry-source {
-      color: var(--gold); font-size: 0.8rem;
-      background: rgba(255,215,0,0.08); padding: 3px 12px;
-      border-radius: 20px; font-weight: 600;
-    }
-    .entry-text {
-      font-size: 1rem; line-height: 1.8;
-      white-space: pre-wrap; color: var(--text-soft);
-    }
-
-    .empty-state {
-      text-align: center; color: var(--text-muted); padding: 50px 30px;
-    }
-    .empty-state-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; }
-
-    .privacy-note {
-      background: rgba(0,255,240,0.04); border-radius: 12px;
-      padding: 18px; margin-top: 25px; border-left: 3px solid var(--cyan);
-      font-size: 0.9rem; color: var(--text-soft);
-      line-height: 1.7;
-    }
-    .privacy-note strong { color: var(--text-bright); }
-
-    footer {
-      text-align: center; padding: 35px 20px; border-top: 2px solid rgba(0,255,240,0.15);
-      color: var(--text-muted); font-size: 0.9rem;
-      background: rgba(6,0,20,0.75);
-      backdrop-filter: blur(10px);
-      margin-top: 20px;
-    }
-    .footer-brand {
-      font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0,255,240,0.15);
-    }
-    .socials { margin: 16px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; }
-    .socials a { 
-      color: var(--text-soft); transition: var(--transition);
-      min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center;
-      border-radius: 50%; background: rgba(0,255,240,0.05);
-    }
-    .socials a:hover { 
-      color: var(--cyan); transform: scale(1.15);
-      background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2);
-    }
-    .footer-legacy {
-      margin-top: 20px; padding-top: 18px;
-      border-top: 1px solid rgba(255,215,0,0.15);
-    }
-    .footer-names {
-      color: var(--gold); font-weight: 700; margin: 6px 0; letter-spacing: 0.08em;
-    }
-    .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 6px; }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 700px) {
-      .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 12px; }
-      nav { gap: 6px 6px; }
-      nav a { padding: 6px 11px; font-size: 0.85rem; }
-      main { padding: 20px 15px 50px; }
-      .container { padding: 22px 18px; }
-      .submit-section { padding: 20px; }
-      .controls { flex-direction: column; }
-      .btn { width: 100%; }
-      .entry-header { flex-direction: column; align-items: flex-start; }
-      .logo-container { gap: 10px; }
-      .logo-mark { width: 48px; height: 48px; }
-    }
-    @media (max-width: 480px) {
-      .logo-text-wrap { text-align: center; }
-    }
-
-    /* ===== REDUCED MOTION ===== */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
-      .btn:hover, .entry:hover, .socials a:hover { transform: none; }
-    }
-  </style>
+  <style>:root { --cyan: #00fff0; --cyan-deep: #00c8c0; --magenta: #f59e0b; --magenta-deep: #d97706; --gold: #ffd700; --gold-bright: #ffd000; --orange-gold: #ff9500; --deep: #0d1b2a; --dark: #030712; --deepest: #060014; --text-bright: #eafffd; --text-soft: #b9faff; --text-muted: #7ab8c8; --text-dim: #90a4ae; --glass: rgba(0,255,240,0.06); --border-glow: rgba(0,255,240,0.15); --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; } * { box-sizing: border-box; margin: 0; padding: 0; } body { font-family: var(--font-sans); background: radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%); color: var(--text-bright); min-height: 100vh; line-height: 1.7; background-attachment: fixed; } @media (prefers-color-scheme: light) { body { background: radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%), radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important; } } body.light-mode { --cyan: #0091cc; --magenta: #d97706; --deep: #eef4f8; --dark: #ffffff; --deepest: #dce8f0; --text-bright: #0f1e2e; --text-soft: #1e3a5f; --text-muted: #5a7a8a; --glass: rgba(0,145,204,0.06); --border-glow: rgba(0,145,204,0.2); background: radial-gradient(circle at 15% 25%, rgba(0,145,204,0.08) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(184,0,158,0.05) 0%, transparent 50%), linear-gradient(135deg, #f0f7ff 0%, #e0edf5 100%) !important; } .skip-link { position: absolute; top: -50px; left: 6px; background: var(--gold); color: #000; padding: 12px 24px; z-index: 10000; font-weight: 700; border-radius: 8px; transition: top 0.25s ease; } .skip-link:focus { top: 12px; } a { color: var(--cyan); text-decoration: none; transition: var(--transition); } a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(245,158,11,0.3); } .nebula-particle { position: fixed; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,240,0.15), transparent 70%); pointer-events: none; z-index: 0; animation: float 20s infinite ease-in-out; } .nebula-particle.gold-glow { background: radial-gradient(circle, rgba(255,215,0,0.12), transparent 70%); animation-delay: -7s; } @keyframes float { 0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; } 50% { transform: translateY(-40px) scale(1.15); opacity: 0.8; } } .page-wrapper { position: relative; z-index: 1; } header { position: sticky; top: 0; z-index: 100; text-align: center; padding: 18px 20px 15px; background: rgba(6,0,20,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-glow); animation: fadeIn 0.8s ease-out both; } @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } } .logo-container { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; flex-wrap: wrap; } .logo-mark { width: 56px; height: 56px; flex-shrink: 0; filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)); animation: logoPulse 3.5s infinite ease-in-out; } @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 0 20px rgba(0,255,240,0.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25)); } 50% { filter: drop-shadow(0 0 30px rgba(0,255,240,0.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35)); } } .logo-text-wrap { text-align: left; } .logo-main { font-size: clamp(1.2rem, 3.5vw, 1.6rem); font-weight: 900; letter-spacing: 0.08em; background: linear-gradient(90deg, var(--cyan), var(--magenta), var(--gold)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.1; } .logo-tag { font-size: 0.7rem; color: var(--text-dim); letter-spacing: 0.15em; margin-top: 2px; } .theme-toggle { position: absolute; top: 18px; right: 20px; background: var(--glass); border: 1px solid var(--border-glow); border-radius: 50px; padding: 8px 14px; cursor: pointer; transition: var(--transition); backdrop-filter: blur(10px); font-size: 0.85rem; color: var(--text-bright); font-family: inherit; min-height: 44px; display: inline-flex; align-items: center; gap: 6px; } .theme-toggle:hover { background: var(--cyan); color: #000; transform: scale(1.05); box-shadow: 0 0 15px rgba(0,255,240,0.3); } header h1 { font-size: clamp(1.3rem, 3.5vw, 1.6rem); color: var(--cyan); text-shadow: 0 0 15px rgba(0,255,240,0.3); margin: 8px 0 4px; letter-spacing: 0.05em; } header .tagline { color: var(--magenta); font-size: 0.9rem; font-weight: 600; margin-bottom: 15px; } nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px 8px; margin-bottom: 5px; } nav a { color: var(--text-soft); font-weight: 700; padding: 7px 13px; border-radius: 24px; border: 1px solid transparent; transition: var(--transition); font-size: 0.9rem; min-height: 44px; display: inline-flex; align-items: center; background: rgba(0,255,240,0.04); } nav a[aria-current="page"], nav a:hover { border-color: var(--cyan); background: rgba(0,255,240,0.12); color: #fff; box-shadow: 0 0 15px rgba(0,255,240,0.15); } main { max-width: 720px; margin: 0 auto; padding: 25px 20px 70px; animation: fadeInUp 1s ease-out both; } @keyframes fadeInUp { from { opacity: 0; transform: translateY(25px); } to { opacity: 1; transform: translateY(0); } } .sync-note { background: rgba(255,215,0,0.06); border-radius: 12px; padding: 14px 18px; margin-bottom: 25px; border-left: 3px solid var(--gold); font-size: 0.9rem; color: var(--text-soft); } .sync-note strong { color: var(--text-bright); } .container { background: var(--glass); border-radius: 20px; padding: 28px 25px; border: 1px solid var(--border-glow); box-shadow: 0 0 25px rgba(0,255,240,0.08); backdrop-filter: blur(12px); } .submit-section { background: rgba(0,255,240,0.03); border-radius: 16px; padding: 24px; margin-bottom: 28px; border: 1px solid rgba(0,255,240,0.12); } .submit-section h2 { color: var(--cyan); margin-bottom: 14px; font-size: 1.25rem; text-shadow: 0 0 10px rgba(0,255,240,0.2); } .submit-textarea { width: 100%; min-height: 130px; background: rgba(0,0,0,0.35); border: 1px solid var(--border-glow); border-radius: 12px; padding: 16px; color: var(--text-bright); font-size: 1rem; font-family: inherit; resize: vertical; margin-bottom: 12px; transition: var(--transition); line-height: 1.7; } .submit-textarea:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,255,240,0.25); background: rgba(0,255,240,0.03); } .btn { display: inline-flex; align-items: center; justify-content: center; background: linear-gradient(90deg, var(--cyan) 0%, var(--magenta) 100%); color: #000; font-weight: 800; padding: 0.85rem 1.4rem; border-radius: 50px; border: none; cursor: pointer; font-size: 0.95rem; transition: var(--transition); box-shadow: 0 0 20px rgba(0,255,240,0.25); min-height: 46px; font-family: inherit; gap: 6px; } .btn:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 0 35px rgba(245,158,11,0.4); color: #000; } .btn-secondary { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); box-shadow: none; } .btn-secondary:hover { background: var(--cyan); color: #000; border-color: var(--cyan); transform: none; } .controls { text-align: center; margin-bottom: 22px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; } .search-box { width: 100%; max-width: 480px; padding: 14px 22px; border-radius: 30px; border: 1px solid var(--border-glow); background: rgba(0,0,0,0.35); color: var(--text-bright); margin: 0 auto 22px; display: block; font-size: 1rem; transition: var(--transition); font-family: inherit; } .search-box:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 20px rgba(0,255,240,0.25); } .search-box::placeholder { color: var(--text-muted); } .stats { text-align: center; margin-bottom: 22px; color: var(--text-muted); font-size: 0.9rem; padding-bottom: 15px; border-bottom: 1px solid var(--border-glow); } .stats strong { color: var(--cyan); } .entry { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,240,0.1); border-radius: 16px; padding: 24px; margin: 20px 0; transition: var(--transition); position: relative; overflow: hidden; } .entry::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--magenta)); opacity: 0; transition: var(--transition); } .entry:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,255,240,0.1); border-color: rgba(0,255,240,0.25); } .entry:hover::before { opacity: 1; } .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(0,255,240,0.1); flex-wrap: wrap; gap: 8px; } .entry-number { color: var(--cyan); font-weight: 800; font-size: 1.1rem; } .entry-date { color: var(--magenta); font-size: 0.9rem; } .entry-source { color: var(--gold); font-size: 0.8rem; background: rgba(255,215,0,0.08); padding: 3px 12px; border-radius: 20px; font-weight: 600; } .entry-text { font-size: 1rem; line-height: 1.8; white-space: pre-wrap; color: var(--text-soft); } .empty-state { text-align: center; color: var(--text-muted); padding: 50px 30px; } .empty-state-icon { font-size: 3rem; margin-bottom: 15px; opacity: 0.5; } .privacy-note { background: rgba(0,255,240,0.04); border-radius: 12px; padding: 18px; margin-top: 25px; border-left: 3px solid var(--cyan); font-size: 0.9rem; color: var(--text-soft); line-height: 1.7; } .privacy-note strong { color: var(--text-bright); } footer { text-align: center; padding: 35px 20px; border-top: 2px solid rgba(0,255,240,0.15); color: var(--text-muted); font-size: 0.9rem; background: rgba(6,0,20,0.75); backdrop-filter: blur(10px); margin-top: 20px; } .footer-brand { font-size: 1.1rem; color: var(--cyan); font-weight: 800; margin-bottom: 10px; text-shadow: 0 0 10px rgba(0,255,240,0.15); } .socials { margin: 16px 0; display: flex; justify-content: center; gap: 16px; font-size: 1.5rem; } .socials a { color: var(--text-soft); transition: var(--transition); min-height: 44px; min-width: 44px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgba(0,255,240,0.05); } .socials a:hover { color: var(--cyan); transform: scale(1.15); background: rgba(0,255,240,0.15); box-shadow: 0 0 15px rgba(0,255,240,0.2); } .footer-legacy { margin-top: 20px; padding-top: 18px; border-top: 1px solid rgba(255,215,0,0.15); } .footer-names { color: var(--gold); font-weight: 700; margin: 6px 0; letter-spacing: 0.08em; } .footer-tagline { font-style: italic; color: var(--text-dim); margin-top: 6px; } @media (max-width: 700px) { .theme-toggle { position: relative; top: 0; right: 0; margin: 0 auto 12px; } nav { gap: 6px 6px; } nav a { padding: 6px 11px; font-size: 0.85rem; } main { padding: 20px 15px 50px; } .container { padding: 22px 18px; } .submit-section { padding: 20px; } .controls { flex-direction: column; } .btn { width: 100%; } .entry-header { flex-direction: column; align-items: flex-start; } .logo-container { gap: 10px; } .logo-mark { width: 48px; height: 48px; } } @media (max-width: 480px) { .logo-text-wrap { text-align: center; } } @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; } .btn:hover, .entry:hover, .socials a:hover { transform: none; } }</style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
   <!-- Sensitive page: no Google Analytics scripts loaded. -->
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/journal-vault-viewer-hero.webp">
 </head>
 <body>
@@ -427,7 +50,7 @@
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" / loading="eager" fetchpriority="high" decoding="async"><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -519,7 +142,7 @@
 
       <!-- Unified SVG Logo -->
       <div class="logo-container">
-        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high">
+        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high" loading="lazy" decoding="async">
         <div class="logo-text-wrap">
           <div class="logo-main">PLEADING SANITY</div>
           <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
@@ -538,7 +161,7 @@
         </div>
 
         <!--  OPTIONAL WRITE — can add entries directly here too -->
-        <section class="submit-section">
+        <section class="submit-section ps-reveal">
           <h2> Add New Entry</h2>
           <textarea 
             id="newEntryText" 
@@ -553,7 +176,7 @@
         </section>
 
         <!-- CONTROLS -->
-        <section class="controls" aria-label="Vault tools">
+        <section class="controls ps-reveal" aria-label="Vault tools">
           <button class="btn btn-secondary" onclick="loadVault()"> Refresh</button>
           <button class="btn btn-secondary" onclick="exportVault()"> Export</button>
           <button class="btn btn-secondary" onclick="printVault()"> Print</button>
@@ -808,18 +431,7 @@
         <html>
         <head>
           <title>Full Journal Vault — Pleading Sanity</title>
-          <style>
-            body{font-family:system-ui,Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;background:#030b18;color:#fff;line-height:1.7;}
-            h1{color:#00fff0;border-bottom:1px solid rgba(0,255,240,0.3);padding-bottom:15px;}
-            .entry{border-bottom:1px solid #222;padding:25px 0;}
-            .meta{color:#ffd700;font-size:0.9rem;margin-bottom:10px;}
-            .body{white-space:pre-wrap;}
-            @media print{
-              body{background:#fff;color:#000;}
-              .meta{color:#b8860b;}
-              @page{margin:1.5cm;}
-            }
-          </style>
+          <style>body{font-family:system-ui,Arial,sans-serif;max-width:700px;margin:0 auto;padding:30px;background:#030b18;color:#fff;line-height:1.7;} h1{color:#00fff0;border-bottom:1px solid rgba(0,255,240,0.3);padding-bottom:15px;} .entry{border-bottom:1px solid #222;padding:25px 0;} .meta{color:#ffd700;font-size:0.9rem;margin-bottom:10px;} .body{white-space:pre-wrap;} @media print{ body{background:#fff;color:#000;} .meta{color:#b8860b;} @page{margin:1.5cm;} }</style>
         </head>
         <body>
           <h1> Full Journal Vault — Pleading Sanity</h1>
@@ -844,7 +456,7 @@
           One Source. One Consciousness. One Family.<br>
           pleadingsanity.co.uk
         </p>
-        </body></html>
+        <script defer src="/js/ps-boost.js"></script></body></html>
       `);
       win.document.close();
       win.focus();

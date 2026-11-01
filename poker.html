@@ -78,7 +78,7 @@ body { overflow-x: hidden; }
 @media (max-width: 480px) { .seat { min-width: 0; flex: 1 1 calc(50% - 8px); } .card { width:48px; min-width:48px; height:70px; min-height:70px; } }
 @media (prefers-reduced-motion: reduce) { .lvl.now { animation:none; } }
 
-/* PS NIGHT TABLE EXPERIENCE — owner controls: --ps-accent, --ps-felt, --ps-radius */
+
 :root { --ps-accent:#00fff0; --ps-felt:#071d23; --ps-radius:24px; }
 .wrap { width:min(1000px,calc(100% - 20px)); }
 .wrap h1 { font-size:clamp(2rem,5vw,3rem); margin:4px 0; letter-spacing:.02em; }
@@ -99,13 +99,13 @@ button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid #
 @media(max-width:600px) { .wrap { width:calc(100% - 16px); } .felt { padding:14px 10px; } .felt .seat { flex:1 1 calc(50% - 8px); min-width:0; min-height:118px; padding:8px; } .felt .row button { flex:1 1 calc(33% - 8px); } .felt .board { gap:5px; } .felt .board .card { width:clamp(46px,15vw,66px); min-width:0; height:clamp(68px,21vw,90px); } }
 @media(prefers-reduced-motion:reduce) { .felt .seat { transition:none; } }
 
-/* PS GAME ONBOARDING: adjust colours, sizing and wording below without touching engines */
+
 .ps-help-trigger{min-height:48px;padding:9px 18px;margin:8px 0;border-radius:14px;border:1px solid #00fff0;background:#103247;color:#eef6ff;font:700 1rem system-ui;cursor:pointer}
 .ps-help-overlay[hidden]{display:none!important}.ps-help-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,1,3,.88);display:grid;place-items:center;padding:16px;overflow:auto;backdrop-filter:blur(12px)}
 .ps-help-card{width:min(520px,100%);max-height:min(90dvh,760px);overflow:auto;border-radius:26px;border:1px solid rgba(0,255,240,.65);background:linear-gradient(155deg,#14384c,#08101f 75%);box-shadow:0 20px 75px #000;padding:clamp(20px,5vw,32px);color:#eef6ff;font:1rem/1.6 system-ui}
 .ps-help-card h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 12px;color:#00fff0}.ps-help-card h3{font-size:1.16rem;margin:12px 0;color:#f0c36a}.ps-help-card p{font-size:1rem}.ps-help-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.ps-help-actions button{flex:1 1 125px;min-height:52px;border-radius:14px;border:1px solid #00fff0;background:#00fff0;color:#000103;font:750 1rem system-ui;cursor:pointer}.ps-help-actions button:first-child{background:transparent;color:#eef6ff}.ps-help-progress{font-weight:750;color:#99f9f1;letter-spacing:.05em}.ps-help-card button:focus-visible,.ps-help-trigger:focus-visible{outline:3px solid #f0c36a;outline-offset:3px}
 
-/* PS NIGHT TAVERN SKIN v1 — TUNABLE: --ps-gold, --ps-cyan, --ps-table */
+
 :root{--ps-gold:#f7c879;--ps-cyan:#00fff0;--ps-table:#082a38}
 body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cover fixed no-repeat!important;color:#f5f8ff}
 .wrap{width:min(980px,calc(100% - 20px));padding:12px 0 42px}
@@ -130,7 +130,7 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
 #log{background:rgba(2,10,25,.9);color:#f7c879}
 @media(max-width:600px){body{background-attachment:scroll!important;background-size:auto 1450px!important}.felt{padding:12px 7px!important}.felt .seats{gap:6px}.felt .seat{padding:7px;min-height:116px}.felt .row{gap:7px}.felt .row button{padding:8px 10px;font-size:.9rem}.wrap>.top .chips{width:56px;height:65px}.ps-help-trigger{display:block;width:100%}}
 
-/* PS character seats — owner-tunable avatar size */
+
 .ps-seat-avatar{display:block;float:right;width:clamp(46px,7vw,76px);height:auto;aspect-ratio:10/11;border-radius:14px;border:1px solid #00fff066;filter:drop-shadow(0 0 8px #00fff044);margin:2px 0 5px 6px}
 .felt .seat{min-height:160px}
 @media(max-width:600px){.ps-seat-avatar{width:48px}.felt .seat{min-height:146px}}
@@ -140,7 +140,7 @@ body{background:#060b1a url('/assets/games/ps-night-tavern.svg') center top/cove
 .ps-expansion{margin:20px 0;color:#eef6ff}.ps-expansion h2{font-size:clamp(1.1rem,4vw,1.45rem);color:#00fff0;margin:0 0 12px}.ps-expansion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:12px}.ps-expansion-card{background:rgba(13,27,42,.92);border:1px solid #00fff066;border-radius:14px;padding:14px;min-width:0}.ps-expansion-card p{font-size:.9rem;line-height:1.5;margin:6px 0}.ps-expansion-card img{width:62px;height:68px;object-fit:contain;float:right}.ps-expansion-card strong{color:#eef6ff}.ps-expansion .ps-status{font-size:.8rem;color:#00fff0}.ps-expansion .ps-soon{color:#eef6ff}.ps-expansion-hero{display:block;width:100%;max-width:700px;max-height:220px;object-fit:cover;border:2px solid #f59e0b;border-radius:14px;margin:12px auto 18px}.ps-expansion summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-expansion details{border:1px solid #00fff066;border-radius:14px;padding:0 12px}.ps-expansion a{color:#00fff0;min-height:48px;display:inline-flex;align-items:center}@media(prefers-reduced-motion:reduce){.ps-expansion *{animation:none!important;transition:none!important}}
 </style>
 <style>
-/* 2026-10-20 mobile visual polish: contain tavern art behind readable surfaces. */
+
 body{background:#000103!important;background-image:radial-gradient(ellipse at 50% 0%,#0d1b2a 0%,#000103 72%)!important;background-attachment:scroll!important}
 .felt{background:linear-gradient(180deg,rgba(2,10,21,.87),rgba(2,10,21,.93)),url('/assets/games/ps-night-tavern.svg') center/cover!important;border-color:#00fff077!important;border-radius:24px!important}
 .ps-expansion-hero{max-height:160px;object-position:center 58%}
@@ -149,7 +149,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
 @media(prefers-reduced-motion:reduce){body{background-attachment:scroll!important}}
 </style>
 <style>
-/* Asset Bible phase 1: calm, legible, mobile-first table UI; gameplay untouched. */
+
 .wrap>h1{letter-spacing:.015em;text-wrap:balance}
 .ps-expansion-hero{object-fit:cover;object-position:center 52%;box-shadow:0 12px 32px #0009,0 0 0 1px #00fff044}
 .ps-expansion details{background:rgba(13,27,42,.94);margin:8px 0}
@@ -164,28 +164,28 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
 <link rel="stylesheet" href="/css/ps-game-art.css">
   <link rel="stylesheet" href="/css/games-phone.css">
   <style>
-    /* ===== Polish pass: cosmic cards, animations, overlay, sound, crisis footer ===== */
+    
     .wrap { padding-bottom: 96px; }
-    /* Unicode suit glyph on card faces (primary visual, no external img dependency) */
+    
     .card .suit-glyph { position:absolute; left:50%; top:56%; transform:translate(-50%,-50%); font-size:1.7rem; line-height:1; pointer-events:none; text-shadow:0 0 10px currentColor; }
     .card .c { display:flex; flex-direction:column; align-items:center; gap:1px; }
     .card .c .suit-small { font-size:.62rem; line-height:1; }
-    /* Card deal-in animation (transform/opacity only) */
+    
     @keyframes ps-card-in { from { opacity:0; transform:translateY(-14px) scale(.92); } to { opacity:1; transform:translateY(0) scale(1); } }
     .board .card, .seat .card { animation: ps-card-in .32s ease-out both; }
     .board .card:nth-child(2){ animation-delay:.06s } .board .card:nth-child(3){ animation-delay:.12s }
     .board .card:nth-child(4){ animation-delay:.18s } .board .card:nth-child(5){ animation-delay:.24s }
-    /* Cosmic card back enhancement */
+    
     .card.back { box-shadow: inset 0 0 0 1px rgba(0,255,240,.55), 0 8px 18px rgba(0,0,0,.45), 0 0 14px rgba(0,255,240,.18); }
-    /* Sound toggle button in nav */
+    
     #psSoundToggle { min-height:48px; min-width:48px; padding:0 12px; margin-left:10px; border-radius:12px; border:1px solid rgba(0,255,240,.5); background:#0d1b2a; color:#eef6ff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; }
     #psSoundToggle:focus-visible { outline:3px solid #00fff0; outline-offset:3px; }
     #psSoundToggle[aria-pressed="true"] { border-color:#f59e0b; color:#f59e0b; }
-    /* HUD stats line */
+    
     #ps-hud-stats { font-size:.82rem; color:#94a3b8; margin:2px 0 8px; }
     #ps-hud-stats b { color:#00fff0; font-weight:700; }
     #ps-hud-stats .wins { color:#f59e0b; font-weight:700; }
-    /* Win/lose hand result overlay */
+    
     .ps-result-overlay { position:fixed; inset:0; z-index:9000; background:rgba(3,6,14,.86); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity .25s ease; }
     .ps-result-overlay.open { opacity:1; pointer-events:auto; }
     .ps-result-card { background:#0f1728; border:1px solid rgba(0,255,240,.45); border-radius:20px; padding:24px 22px; max-width:380px; width:100%; text-align:center; box-shadow:0 0 40px rgba(0,255,240,.2); transform:scale(.92); transition:transform .28s cubic-bezier(.2,.9,.3,1.2); }
@@ -204,12 +204,12 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     .ps-result-actions button { flex:1 1 130px; min-height:48px; border-radius:14px; border:1px solid #00fff0; background:#00fff0; color:#000103; font-weight:800; font-size:1rem; cursor:pointer; }
     .ps-result-actions button.secondary { background:transparent; color:#eef6ff; }
     .ps-result-actions button:focus-visible { outline:3px solid #f59e0b; outline-offset:3px; }
-    /* Crisis footer banner (sticky) */
+    
     .ps-crisis-footer { position:sticky; bottom:0; z-index:8000; background:#0b0f19; border-top:2px solid #00fff0; padding:10px 12px; text-align:center; font-size:.8rem; line-height:1.5; color:#e2e8f0; }
     .ps-crisis-footer a { color:#f59e0b; font-weight:700; text-decoration:none; min-height:44px; display:inline-block; padding:6px 4px; }
     .ps-crisis-footer a:focus-visible { outline:2px solid #00fff0; outline-offset:2px; border-radius:6px; }
     .ps-crisis-footer strong { color:#f59e0b; }
-    /* Ensure all interactive elements meet 44px tap */
+    
     .ps-expansion summary { min-height:44px; display:flex; align-items:center; cursor:pointer; }
     .ps-soon { color:#f59e0b; font-weight:700; }
     @media (prefers-reduced-motion: reduce) {
@@ -226,7 +226,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     }
   </style>
   <style>
-    /* ===== Native-app layout + theming (add-on) ===== */
+    
     html,body{ height:100%; margin:0; overflow:hidden; overscroll-behavior:none; touch-action:manipulation; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
     input,textarea,select,[contenteditable]{ -webkit-user-select:text; user-select:text; touch-action:manipulation; }
     body.ps-native{ display:flex; flex-direction:column; height:100vh; height:100dvh; background:var(--ps-bg,#0b0f19); color:var(--ps-text,#e2e8f0); }
@@ -234,12 +234,12 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     body.ps-native > nav{ flex-shrink:0; }
     body.ps-native > .ps-crisis-footer{ flex-shrink:0; display:flex; align-items:center; justify-content:center; gap:0; padding:6px 8px; font-size:.72rem; line-height:1.3; }
     body.ps-native > .ps-crisis-footer p{ margin:0; }
-    /* Theme palette vars (cool/warm neutrals only) */
+    
     body[data-theme="cosmic"]{ --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; --ps-text:#e2e8f0; --ps-muted:#94a3b8; }
     body[data-theme="amber"]{ --ps-bg:#1a1206; --ps-accent:#f59e0b; --ps-secondary:#fb923c; --ps-highlight:#00fff0; --ps-text:#fde8c8; --ps-muted:#c9a86a; }
     body[data-theme="deepspace"]{ --ps-bg:#05070d; --ps-accent:#38bdf8; --ps-secondary:#22d3ee; --ps-highlight:#f59e0b; --ps-text:#dbeafe; --ps-muted:#7d94b8; }
     body[data-theme="mono"]{ --ps-bg:#111418; --ps-accent:#e2e8f0; --ps-secondary:#94a3b8; --ps-highlight:#f59e0b; --ps-text:#e5e7eb; --ps-muted:#8a9199; }
-    /* Apply theme accent to prominent elements */
+    
     body.ps-native h1{ color:var(--ps-accent); }
     body.ps-native nav{ background:var(--ps-bg); border-bottom:1px solid color-mix(in srgb, var(--ps-accent) 35%, transparent); }
     body.ps-native nav a{ border-color:var(--ps-accent); color:var(--ps-text); }
@@ -256,12 +256,12 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     body.ps-native .ps-result-card.win h2{ color:var(--ps-accent); }
     body.ps-native .ps-result-actions button{ background:var(--ps-accent); border-color:var(--ps-accent); color:#000; }
     body.ps-native .ps-result-actions button.secondary{ background:transparent; color:var(--ps-text); }
-    /* Genre pill */
+    
     .ps-genre-pill{ display:inline-flex; align-items:center; min-height:32px; padding:4px 12px; border-radius:999px; border:1px solid color-mix(in srgb, var(--ps-highlight,#f59e0b) 50%, transparent); color:var(--ps-highlight,#f59e0b); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; background:color-mix(in srgb, var(--ps-highlight,#f59e0b) 10%, transparent); }
-    /* Theme button */
+    
     #psThemeBtn{ min-height:44px; min-width:44px; padding:0 10px; border-radius:12px; border:1px solid color-mix(in srgb, var(--ps-accent) 50%, transparent); background:transparent; color:var(--ps-accent); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
     #psThemeBtn:focus-visible{ outline:3px solid var(--ps-highlight); outline-offset:2px; }
-    /* Pure-CSS drifting background (firelit tavern / amber-cosmic) */
+    
     body.ps-native::before{ content:""; position:fixed; inset:-25%; z-index:-1; pointer-events:none;
       background:
         radial-gradient(ellipse 70% 45% at 18% 108%, color-mix(in srgb, var(--ps-highlight) 22%, transparent), transparent 60%),
@@ -276,10 +276,10 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     }
     @keyframes ps-bg-drift{ from{ transform:translate3d(-2%,-1%,0) scale(1.02); } to{ transform:translate3d(2%,1.5%,0) scale(1.06); } }
     @media (prefers-reduced-motion: reduce){ body.ps-native::before{ animation:none !important; } body.ps-native *{ transition:none !important; } }
-    /* Hide external-image hero/art in native-app mode (pure-CSS bg only); keep table felt */
+    
     body.ps-native .ps-expansion-hero{ display:none; }
     body.ps-native .top img.chips{ max-height:90px; width:auto; }
-  </style>
+  </style><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body class="ps-art ps-art-poker ps-game-page ps-native" data-theme="cosmic">
 <!-- PS games navigation: owner-editable label -->
@@ -288,11 +288,11 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
 <img class="ps-expansion-hero" src="/assets/games/worlds/forest-tavern-v2.webp" width="1280" height="853" decoding="async" alt="Original illustration of the cosy Night Table tavern" loading="lazy">
-<details class="ps-expansion"><summary>Explore characters, table worlds and extras</summary><section aria-label="Meet your table"><h2>Meet Your Table — character concepts</h2><p>Meet the wider Pleading Sanity cast. These are story portraits, not additional playable seats or AI opponents.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><img src="/assets/games/characters/ollie-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Ollie</strong><p>Gentle and observant</p><p><em>“Take your time. No rush here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/zara-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Zara</strong><p>Warm and playful</p><p><em>“Good game, everyone!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/bruno-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Bruno</strong><p>Relaxed and steady</p><p><em>“Play calm, play kind, have fun.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/blinky-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Blinky</strong><p>Cheerful and honest</p><p><em>“Still breathing. Still trying!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/max-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Max</strong><p>Respectful learner</p><p><em>“I'm still learning — but having fun!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/mia-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Mia</strong><p>Quiet and sharp</p><p><em>“It's not just the cards — it's who's here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/nova-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Nova</strong><p>A playful explorer who always looks for the bright side.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/pip-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Pip</strong><p>A cheeky red panda with a kind heart and a very big grin.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><strong>The Host</strong><p>Calm and fair guide</p><p><em>“Good people. Good games. Brighter minds.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div></div></section><section aria-label="Table worlds"><h2>Your Journey — Table Worlds</h2><p>Forest Table is the current experience. Future worlds are previews, not active unlocks; existing in-game level behaviour is unchanged.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>1. Forest Table</strong><p>Warm lanterns and woodland</p><small class="ps-status">Current play table</small></div><div class="ps-expansion-card"><strong>2. Ocean Dome</strong><p>Glass observatory beneath the waves</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 3 player wins</small></div><div class="ps-expansion-card"><strong>3. Moon Base</strong><p>A cosy lunar lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 5 wins at Ocean Dome</small></div><div class="ps-expansion-card"><strong>4. Asteroid Lounge</strong><p>A stellar jazz lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 7 wins at Moon Base</small></div><div class="ps-expansion-card"><strong>5. Solar Empire</strong><p>A golden celestial observatory</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 10 wins at Asteroid Lounge</small></div></div><p>Play chips only; never real money. No promised hourly rewards or timed pressure.</p></section><section aria-label="Other game features"><h2>More Ways to Play</h2><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>How to Play</strong><p>Use the existing How to Play button above the table.</p></div><div class="ps-expansion-card"><strong>Hand Rankings</strong><p>Use the existing hand-ranking guide on this page.</p></div><div class="ps-expansion-card"><strong>Friend Room</strong><p>Use the existing friend-room controls; confirm connection before inviting.</p></div><div class="ps-expansion-card"><strong>Leaderboards</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no live rankings yet.</p></div><div class="ps-expansion-card"><strong>Tournaments</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no tournaments running.</p></div><div class="ps-expansion-card"><strong>Chat</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no public chat service.</p></div></div></section></details>
+<details class="ps-expansion"><summary>Explore characters, table worlds and extras</summary><section aria-label="Meet your table"><h2>Meet Your Table — character concepts</h2><p>Meet the wider Pleading Sanity cast. These are story portraits, not additional playable seats or AI opponents.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><img src="/assets/games/characters/ollie-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Ollie</strong><p>Gentle and observant</p><p><em>“Take your time. No rush here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/zara-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Zara</strong><p>Warm and playful</p><p><em>“Good game, everyone!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/bruno-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Bruno</strong><p>Relaxed and steady</p><p><em>“Play calm, play kind, have fun.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/blinky-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Blinky</strong><p>Cheerful and honest</p><p><em>“Still breathing. Still trying!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/max-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Max</strong><p>Respectful learner</p><p><em>“I'm still learning — but having fun!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/mia-v2.webp" alt="" loading="lazy" onerror="this.hidden=true" decoding="async"><strong>Mia</strong><p>Quiet and sharp</p><p><em>“It's not just the cards — it's who's here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/nova-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Nova</strong><p>A playful explorer who always looks for the bright side.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/pip-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Pip</strong><p>A cheeky red panda with a kind heart and a very big grin.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><strong>The Host</strong><p>Calm and fair guide</p><p><em>“Good people. Good games. Brighter minds.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div></div></section><section aria-label="Table worlds"><h2>Your Journey — Table Worlds</h2><p>Forest Table is the current experience. Future worlds are previews, not active unlocks; existing in-game level behaviour is unchanged.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>1. Forest Table</strong><p>Warm lanterns and woodland</p><small class="ps-status">Current play table</small></div><div class="ps-expansion-card"><strong>2. Ocean Dome</strong><p>Glass observatory beneath the waves</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 3 player wins</small></div><div class="ps-expansion-card"><strong>3. Moon Base</strong><p>A cosy lunar lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 5 wins at Ocean Dome</small></div><div class="ps-expansion-card"><strong>4. Asteroid Lounge</strong><p>A stellar jazz lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 7 wins at Moon Base</small></div><div class="ps-expansion-card"><strong>5. Solar Empire</strong><p>A golden celestial observatory</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 10 wins at Asteroid Lounge</small></div></div><p>Play chips only; never real money. No promised hourly rewards or timed pressure.</p></section><section aria-label="Other game features"><h2>More Ways to Play</h2><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>How to Play</strong><p>Use the existing How to Play button above the table.</p></div><div class="ps-expansion-card"><strong>Hand Rankings</strong><p>Use the existing hand-ranking guide on this page.</p></div><div class="ps-expansion-card"><strong>Friend Room</strong><p>Use the existing friend-room controls; confirm connection before inviting.</p></div><div class="ps-expansion-card"><strong>Leaderboards</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no live rankings yet.</p></div><div class="ps-expansion-card"><strong>Tournaments</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no tournaments running.</p></div><div class="ps-expansion-card"><strong>Chat</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no public chat service.</p></div></div></section></details>
     <p class="note">A calm Texas Hold’em table under the stars. Play chips only. Soft focus when the mind is loud.</p>
     <div class="levels" id="levels"></div>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. <a href="/support.html">Support</a> · <a href="/crisis.html">Crisis</a>.</p>
-    <div class="top"><img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220" /><p class="note" id="bank">Bank 1000 play chips</p></div>
+    <div class="top"><img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220"  loading="lazy" decoding="async" /><p class="note" id="bank">Bank 1000 play chips</p></div>
     <p class="note" id="ps-hud-stats" aria-live="polite"></p>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
     <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name" class="room-name" aria-live="polite"></span></div>
@@ -357,7 +357,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       $("seats").innerHTML = seats.map((s, i) => {
         const mark = i === button ? '<span class="dealer" title="Dealer" aria-label="Dealer">D</span>' : i === sbSeat ? '<span class="blind">SB</span>' : i === bbSeat ? '<span class="blind">BB</span>' : i === (bbSeat + 1) % 4 ? '<span class="blind">UTG</span>' : '';
         const psAvatars = ["max","bruno","zara","ollie"];
-        const psAvatar = '<img class="ps-seat-avatar" src="/assets/games/characters/' + psAvatars[i % psAvatars.length] + '-128.webp" alt="" loading="lazy" width="58" height="58">';
+        const psAvatar = '<img class="ps-seat-avatar" src="/assets/games/characters/' + psAvatars[i % psAvatars.length] + '-128.webp" alt="" loading="lazy" width="58" height="58" decoding="async">';
         const holes = (i === mySeat || (handOver && shown && !s.folded)) ? s.hole.map(cardHtml).join("") : "<span class=\"card back\"></span><span class=\"card back\"></span>";
         return `<div class="seat ${i === turn && !handOver ? "on" : ""}"><b>${esc(s.name)}</b>${mark}${psAvatar}<br>${s.folded ? "Folded" : s.stack + " chips"}<br>${s.bet ? "In " + s.bet : ""}<br>${holes}</div>`;
       }).join("");
@@ -864,5 +864,6 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
   <script type="module" src="/js/progress.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 <script src="/js/site.js" defer></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="/css/space.css" />
   <link rel="stylesheet" href="/css/notes.css" />
   <!-- Sensitive page: no Google Analytics scripts loaded. -->
-<link rel="stylesheet" href="/css/support-strip.css">
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Sanctuary Notes — Pleading Sanity">
 <meta property="og:description" content="Free private notes for thoughts, wins and gratitude. Kept on your device, and synced to your account when you sign in. Only you can read them.">
@@ -32,7 +32,7 @@
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" / loading="lazy" decoding="async"><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group has-current" data-group="heal">
@@ -107,13 +107,13 @@
 
 <main id="main" class="sn-wrap">
   <header class="sn-hero">
-    <img class="sn-hero-pic" src="/assets/theme/icons/sanity-stories.webp" alt="" width="96" height="96" />
+    <img class="sn-hero-pic" src="/assets/theme/icons/sanity-stories.webp" alt="" width="96" height="96" / loading="eager" fetchpriority="high" decoding="async">
     <h1>Sanctuary Notes</h1>
     <p class="sn-tag">Catch a thought before it slips away. Only you can read these.</p>
     <p class="sn-sync" id="sn-sync" role="status" aria-live="polite">Checking where your notes are kept…</p>
   </header>
 
-  <section class="sn-card" aria-labelledby="sn-form-title">
+  <section class="sn-card ps-reveal" aria-labelledby="sn-form-title">
     <h2 id="sn-form-title" class="sn-h2">New note</h2>
     <form id="sn-form" novalidate>
       <input type="hidden" id="sn-edit-id" value="" />
@@ -138,7 +138,7 @@
     </form>
   </section>
 
-  <section aria-labelledby="sn-list-title">
+  <section aria-labelledby="sn-list-title" class="ps-reveal">
     <div class="sn-list-head">
       <h2 id="sn-list-title" class="sn-h2">My notes <span id="sn-count" class="sn-opt"></span></h2>
       <label class="sr-only" for="sn-search">Search notes</label>
@@ -148,7 +148,7 @@
     <p id="sn-empty" class="sn-empty" hidden>No notes yet. One line is enough.</p>
   </section>
 
-  <section class="sn-card sn-keep" aria-labelledby="sn-keep-title">
+  <section class="sn-card sn-keep ps-reveal" aria-labelledby="sn-keep-title">
     <h2 id="sn-keep-title" class="sn-h2">Sending a note to Google Keep</h2>
     <p>Google doesn't let websites write into Keep for you. "Copy for Keep" puts the note on your clipboard and opens Keep in a new tab — tap <strong>Take a note</strong> there and paste. Nothing is sent to Google until you paste it yourself.</p>
   </section>
@@ -194,5 +194,5 @@
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/sanctuary-notes.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-</body>
+<script defer src="/js/ps-boost.js"></script></body>
 </html>

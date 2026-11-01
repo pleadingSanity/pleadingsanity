@@ -27,20 +27,12 @@
   <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/crisis-hero.webp" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/crisis.html" />
   <meta name="twitter:card" content="summary_large_image" />
-  <style>
-    .help-card { border-color: rgba(255, 0, 255, 0.45); }
-    .help-card .number { display: block; margin: .5rem 0; font-size: 1.6rem; font-weight: 800; color: #00fff0; text-decoration: none; }
-    .help-card .number:hover { color: #fbbf24; }
-    .emergency { text-align: center; border: 2px solid #ff3b5c; background: rgba(255, 59, 92, 0.08); }
-    .emergency .number { color: #ff8095; font-size: 2.2rem; }
-    .breathe { width: 140px; height: 140px; margin: 1.5rem auto; border-radius: 50%; background: radial-gradient(circle, rgba(0,255,240,.5), rgba(255,0,255,.2)); box-shadow: 0 0 40px rgba(0,255,240,.4); animation: breathe 12s ease-in-out infinite; }
-    @keyframes breathe { 0%, 100% { transform: scale(.6); } 33% { transform: scale(1); } 58% { transform: scale(1); } }
-    @media (prefers-reduced-motion: reduce) { .breathe { animation: none; } }
-  </style>
+  <style>.help-card{border-color:rgba(245,158,11,0.45);}.help-card .number{display:block;margin:.5rem 0;font-size:1.6rem;font-weight:800;color:#00fff0;text-decoration:none;}.help-card .number:hover{color:#fbbf24;}.emergency{text-align:center;border:2px solid #ff3b5c;background:rgba(255,59,92,0.08);}.emergency .number{color:#ff8095;font-size:2.2rem;}.breathe{width:140px;height:140px;margin:1.5rem auto;border-radius:50%;background:radial-gradient(circle,rgba(0,255,240,.5),rgba(245,158,11,.2));box-shadow:0 0 40px rgba(0,255,240,.4);animation:breathe 12s ease-in-out infinite;}@keyframes breathe{0%,100%{transform:scale(.6);}33%{transform:scale(1);}58%{transform:scale(1);}}@media (prefers-reduced-motion:reduce){.breathe{animation:none;}}</style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/crisis-hero.webp">
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body class="ps-page">
 
@@ -48,7 +40,7 @@
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
@@ -128,7 +120,7 @@
       <p class="ps-hero-name">Pleading Sanity</p>
       <h1>Crisis &amp; Emergency Help</h1>
       
-      <section class="ps-home-note help-card ps-help-board" aria-labelledby="help-now-title">
+      <section class="ps-home-note help-card ps-help-board ps-reveal" aria-labelledby="help-now-title">
         <h2 id="help-now-title">If you need a person now</h2>
         <p>These are real lines. Tap one. This house is not a clinic, and Arron is not a therapist.</p>
         <p class="emergency"><a class="number" href="tel:999">999</a> Emergency. If you or someone else is in immediate danger.</p>
@@ -138,7 +130,7 @@
         <p><a class="number" href="tel:08001111">0800 1111</a> Childline. Free for children and young people.</p>
         <p><a class="number" href="tel:08082000247">0808 2000 247</a> National Domestic Abuse Helpline. Free, 24 hours.</p>
       </section>
-<figure class="ps-hero-visual ps-hero-behind"><img src="/images/heroes/crisis-hero.webp" alt="A calm, steady horizon at first light" width="1024" height="576" loading="eager" fetchpriority="low" decoding="async"></figure>
+<figure class="ps-hero-visual ps-hero-behind"><img src="/images/heroes/crisis-hero.webp" alt="A calm, steady horizon at first light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
       <p class="lead">A formal account of this house. Written from survival, not from a textbook.</p>
     </header>
@@ -214,5 +206,6 @@
 </footer>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

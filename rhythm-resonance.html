@@ -104,7 +104,7 @@
     .btn:focus-visible,.pad:focus-visible,.ah-btn:focus-visible,.ah-link:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px;}
     .psg-bar-wrap{margin-bottom:10px;}
   </style>
-    <link rel="stylesheet" href="/css/site.css">
+    <link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body data-theme="cosmic" class="ps-app">
   <a href="#main" class="skip-link">Skip to game</a>
@@ -312,5 +312,6 @@
     window.addEventListener('ps-progress-sync', e => { if (e.detail.includes('legacy-rhythm') && !isPlaying) loadSave(); });
   </script>
   <script src="/js/site.js" defer></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

@@ -101,6 +101,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 .aa-crisis-persist a { color: #f59e0b; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .message, .aa-msg, .arron-typing > span, .aa-typing > span, .arron-spinner { animation: none !important; } }
 </style>
+  <link rel="stylesheet" href="/css/ps-boost.css" />
 </head>
 <body class="aa-body" data-phase="day">
 <script src="/js/ps-splash.js"></script>
@@ -117,7 +118,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   <div class="aa-shell" id="aa-shell">
 
     <header class="aa-top">
-      <a class="aa-brand" href="/" aria-label="Pleading Sanity home"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" /></a>
+      <a class="aa-brand" href="/" aria-label="Pleading Sanity home"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" decoding="async" /></a>
       <div class="aa-orb sm" aria-hidden="true"></div>
       <div class="aa-title">
         <h1>Arron</h1>
@@ -128,7 +129,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
       <button type="button" class="aa-help-btn" id="aa-help-btn"> Truth</button>
     </header>
 
-    <div class="aa-notices" id="aa-notices"><div class="aa-crisis-persist" role="note"><strong>Crisis:</strong> <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a></div>
+    <div class="aa-notices" id="aa-notices"><div class="aa-crisis-persist" role="note"><strong>Crisis:</strong> <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a></div>
 
       <div class="aa-notice" id="aa-install-banner" hidden>
         <p id="aa-install-text"> <strong>Make Arron part of your world.</strong> Add him to your Home Screen so he's one tap away, even offline.</p>
@@ -266,7 +267,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
         </div>
 
         <div class="aa-card">
-          <h3>✍ Write it out</h3>
+          <h3>Write it out</h3>
           <form id="aa-journal-form">
             <label for="aa-journal-input">A few lines, or a lot. Only you (and your memory code) can see this.</label>
             <textarea id="aa-journal-input" maxlength="2000" placeholder="What's on your heart today…"></textarea>
@@ -447,7 +448,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
         var b = document.createElement('div');
         b.className = 'arron-crisis-banner';
         b.setAttribute('role', 'alert');
-        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a>';
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
         log.appendChild(b);
         try { log.scrollTop = log.scrollHeight; } catch(e){}
       } catch(e){}
@@ -558,5 +559,6 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   } catch(e){ /* polish layer must never break the page */ }
 })();
 </script>
+  <script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

@@ -24,23 +24,8 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/card-polish.css">
 <link rel="stylesheet" href="/css/app-hub.css">
-<style id="ps-polish-overrides">
-html,body{overflow-x:hidden;max-width:100%;}
-main{padding-bottom:64px;}
-main button,main .btn,main .sbtn,main .chip,main .store-open,main .game-card a,.ps-sound-toggle,.freq,.ps-group-btn{min-height:44px;min-width:44px;}
-a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;}
-:focus-visible{outline:2px solid #00fff0!important;outline-offset:2px;border-radius:4px;}
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
-.ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0;}
-.ps-crisis-footer strong{color:#00fff0;}
-.ps-crisis-footer a{color:#f59e0b;font-weight:700;}
-.ps-hud{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px 0;max-width:100%;}
-.ps-sound-toggle{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.35);color:#e2e8f0;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:.85rem;min-height:44px;}
-.ps-sound-toggle svg{width:20px;height:20px;flex:none;stroke:#00fff0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.ps-sound-toggle[aria-pressed="true"]{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);}
-.ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
-.ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
-</style>
+<style id="ps-polish-overrides">html,body{overflow-x:hidden;max-width:100%;}main{padding-bottom:64px;}main button,main .btn,main .sbtn,main .chip,main .store-open,main .game-card a,.ps-sound-toggle,.freq,.ps-group-btn{min-height:44px;min-width:44px;}a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-content:center;padding:0 1rem;}:focus-visible{outline:2px solid #00fff0!important;outline-offset:2px;border-radius:4px;}@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}.ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0;}.ps-crisis-footer strong{color:#00fff0;}.ps-crisis-footer a{color:#f59e0b;font-weight:700;}.ps-hud{display:flex;justify-content:flex-end;gap:8px;padding:8px 12px 0;max-width:100%;}.ps-sound-toggle{display:inline-flex;align-items:center;gap:8px;background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.35);color:#e2e8f0;border-radius:10px;padding:8px 14px;cursor:pointer;font-size:.85rem;min-height:44px;}.ps-sound-toggle svg{width:20px;height:20px;flex:none;stroke:#00fff0;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}.ps-sound-toggle[aria-pressed="true"]{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);}.ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}.ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}</style>
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body style="background:#000103;color:#c9e9ef;overflow-x:hidden;">
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,240,.25);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
@@ -97,7 +82,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 
   <!-- Hero + install -->
   <section class="store-hero" aria-labelledby="store-title">
-    <img src="/assets/images/space/aurora-streaks.jpg" alt="" width="1280" height="720" decoding="async" fetchpriority="high">
+    <img src="/assets/images/space/aurora-streaks.jpg" alt="" width="1280" height="720" decoding="async" fetchpriority="high" loading="eager">
     <div class="store-hero-copy">
       <p class="store-eyebrow">YOUR POCKET SANCTUARY</p>
       <h1 id="store-title">App Hub</h1>
@@ -139,7 +124,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-companions">Companions &amp; AI</h2>
     <div class="store-grid">
 
-      <article class="store-card" data-name="Arron AI" data-cats="companions ai">
+      <article class="store-card ps-reveal" data-name="Arron AI" data-cats="companions ai">
         <img src="/assets/images/brand/home-brain-night.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Arron AI</h3>
@@ -149,7 +134,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class="store-card" data-name="AI Family" data-cats="companions ai community">
+      <article class="store-card ps-reveal" data-name="AI Family" data-cats="companions ai community">
         <picture><source srcset="/assets/images/showcase/ai-family.webp" type="image/webp"><img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async"></picture>
         <div class="store-card-body">
           <h3 class="store-card-name">AI Family</h3>
@@ -624,5 +609,6 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   applyFilters();
 })();
 </script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

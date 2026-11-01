@@ -100,6 +100,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 .aa-crisis-persist a { color: #f59e0b; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .message, .aa-msg, .arron-typing > span, .aa-typing > span, .arron-spinner { animation: none !important; } }
 </style>
+  <link rel="stylesheet" href="/css/ps-boost.css" />
 </head>
 <body class="ps-page">
 
@@ -107,7 +108,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand" aria-label="Pleading Sanity Home — Rise From Madness"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand" aria-label="Pleading Sanity Home — Rise From Madness"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" decoding="async" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group has-current" data-group="heal">
@@ -143,7 +144,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
           <a href="/ai-studio.html"> AI Studio</a>
           <a href="/creations.html"> Image Creations</a>
           <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html">✍ Write with Arron</a>
+          <a href="/write.html">Write with Arron</a>
           <a href="/rap.html"> Rap Studio</a>
           <a href="/wisdom.html"> Words from the Family</a>
           <a href="/my-digital-story.html"> My Digital Story</a>
@@ -167,7 +168,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
         <div class="ps-group-menu" id="ps-g-story">
           <a href="/about.html"> Our Story</a>
           <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html">✊ The Movement</a>
+          <a href="/movement.html">The Movement</a>
           <a href="/ai-ecosystem.html"> Our AI Family</a>
           <a href="/ai-family.html"> All AIs welcome</a>
           <a href="/transparency.html"> Transparency</a>
@@ -185,7 +186,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
     <p class="arron-crisis" role="note">
       <span>Need a person?</span>
-      Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> ·
+      Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> ·
       <a href="/crisis.html">Urgent help</a> ·
       <a href="/support.html">Free support</a>
     </p>
@@ -361,7 +362,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   <script src="/js/arron-companion.js" defer></script>
   <script src="/js/arron-speak.js" defer></script>
 <footer class="ps-crisis-footer" role="contentinfo">
-  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a></p>
+  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a></p>
 </footer>
 <script>
 (function(){
@@ -387,7 +388,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
       try {
         var b = document.createElement('div');
         b.className = 'arron-crisis-banner'; b.setAttribute('role', 'alert');
-        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a>';
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
         log.appendChild(b);
         try { log.scrollTop = log.scrollHeight; } catch(e){}
       } catch(e){}
@@ -473,5 +474,6 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   } catch(e){}
 })();
 </script>
+  <script defer src="/js/ps-boost.js"></script>
 </body>
 </html>

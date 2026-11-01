@@ -14,123 +14,8 @@
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
-<style>
-body {
-  color: #eef6ff;
-  font-family: system-ui, -apple-system, sans-serif;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  line-height: 1.6;
-  min-height: 100vh;
-  background: radial-gradient(ellipse at top, rgba(0,255,240,0.06), transparent 60%), #000103;
-}
-.wrap {
-  max-width: 40rem;
-  margin: 0 auto;
-  padding: 3rem 1.25rem 4rem;
-}
-.eyebrow {
-  color: #00fff0;
-  font-size: 0.85rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-h1 {
-  font-size: clamp(1.8rem, 6vw, 2.6rem);
-  margin: 0 0 1rem;
-  text-shadow: 0 0 24px rgba(0,255,240,0.3);
-}
-.lead {
-  color: #b9faff;
-  font-size: 1.1rem;
-  margin: 0 0 2rem;
-}
-.card {
-  background: rgba(13,27,42,0.7);
-  border: 1px solid rgba(0,255,240,0.3);
-  border-radius: 20px;
-  padding: 1.75rem 1.5rem;
-  text-align: left;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(238,246,255,0.06);
-  margin-bottom: 1.5rem;
-}
-.card h2 {
-  color: #00fff0;
-  font-size: 1.15rem;
-  margin: 0 0 0.75rem;
-}
-.card p { margin: 0 0 0.75rem; color: #c9e9ef; font-size: 0.98rem; }
-.card p:last-child { margin-bottom: 0; }
-.num {
-  color: #ffd700;
-  font-weight: 800;
-  font-size: 1.3rem;
-}
-.tag {
-  display: inline-block;
-  background: rgba(0,255,240,0.1);
-  border: 1px solid rgba(0,255,240,0.4);
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  color: #00fff0;
-  font-weight: 700;
-  font-size: 0.9rem;
-  margin: 0.25rem 0.25rem 0 0;
-}
-.btn-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  margin: 1.5rem 0 2rem;
-}
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(13,27,42,0.75);
-  border: 1px solid rgba(0,255,240,0.5);
-  border-radius: 999px;
-  padding: 0.7rem 1.4rem;
-  color: #00fff0;
-  font-weight: 700;
-  font-size: 0.95rem;
-  text-decoration: none;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-.btn:hover {
-  background: rgba(0,255,240,0.16);
-  border-color: #00fff0;
-  transform: translateY(-1px);
-}
-.btn.copied {
-  border-color: #f59e0b;
-  color: #f59e0b;
-}
-.btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-.note {
-  color: #a9c7d1;
-  font-size: 0.85rem;
-  margin-top: 2rem;
-}
-.note a { color: #00fff0; }
-.back {
-  margin-top: 2rem;
-  font-size: 0.9rem;
-}
-.back a { color: #00fff0; text-decoration: none; }
-.back a:hover { color: #f59e0b; }
-@media (max-width: 600px) {
-  .wrap { padding: 2rem 1rem 3rem; }
-  .card { padding: 1.4rem 1.1rem; }
-}
-</style>
-<link rel="stylesheet" href="/css/support-strip.css">
+<style>body { color: #eef6ff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 0; text-align: center; line-height: 1.6; min-height: 100vh; background: radial-gradient(ellipse at top, rgba(0,255,240,0.06), transparent 60%), #000103; } .wrap { max-width: 40rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; } .eyebrow { color: #00fff0; font-size: 0.85rem; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 1rem; } h1 { font-size: clamp(1.8rem, 6vw, 2.6rem); margin: 0 0 1rem; text-shadow: 0 0 24px rgba(0,255,240,0.3); } .lead { color: #b9faff; font-size: 1.1rem; margin: 0 0 2rem; } .card { background: rgba(13,27,42,0.7); border: 1px solid rgba(0,255,240,0.3); border-radius: 20px; padding: 1.75rem 1.5rem; text-align: left; backdrop-filter: blur(10px); box-shadow: 0 8px 30px rgba(0,0,0,0.3), inset 0 1px 0 rgba(238,246,255,0.06); margin-bottom: 1.5rem; } .card h2 { color: #00fff0; font-size: 1.15rem; margin: 0 0 0.75rem; } .card p { margin: 0 0 0.75rem; color: #c9e9ef; font-size: 0.98rem; } .card p:last-child { margin-bottom: 0; } .num { color: #ffd700; font-weight: 800; font-size: 1.3rem; } .tag { display: inline-block; background: rgba(0,255,240,0.1); border: 1px solid rgba(0,255,240,0.4); border-radius: 999px; padding: 0.35rem 0.9rem; color: #00fff0; font-weight: 700; font-size: 0.9rem; margin: 0.25rem 0.25rem 0 0; } .btn-row { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin: 1.5rem 0 2rem; } .btn { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(13,27,42,0.75); border: 1px solid rgba(0,255,240,0.5); border-radius: 999px; padding: 0.7rem 1.4rem; color: #00fff0; font-weight: 700; font-size: 0.95rem; text-decoration: none; cursor: pointer; font-family: inherit; transition: all 0.2s ease; } .btn:hover { background: rgba(0,255,240,0.16); border-color: #00fff0; transform: translateY(-1px); } .btn.copied { border-color: #f59e0b; color: #f59e0b; } .btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; } .note { color: #a9c7d1; font-size: 0.85rem; margin-top: 2rem; } .note a { color: #00fff0; } .back { margin-top: 2rem; font-size: 0.9rem; } .back a { color: #00fff0; text-decoration: none; } .back a:hover { color: #f59e0b; } @media (max-width: 600px) { .wrap { padding: 2rem 1rem 3rem; } .card { padding: 1.4rem 1.1rem; } }</style>
+<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
 <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/offer-hero.webp">
 <meta property="og:image:width" content="1024">
 <meta property="og:image:height" content="576">
@@ -200,5 +85,5 @@ h1 {
 <figure class="ps-hero-visual"><img src="/images/heroes/offer-hero.webp" alt="A blank silver-edged card on a dark table" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 <script src="/js/site.js" defer></script>
-</body>
+<script defer src="/js/ps-boost.js"></script></body>
 </html>

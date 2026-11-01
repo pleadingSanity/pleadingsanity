@@ -34,7 +34,7 @@
   .grad-text{ background:linear-gradient(92deg,var(--amber2),var(--amber) 55%,#fde68a); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .grad-text-green{ background:linear-gradient(92deg,var(--green2),var(--green)); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .grad-text-teal{ background:linear-gradient(92deg,var(--teal),var(--teal2) 60%,var(--teal3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  /* Buttons */
+  
   .btn{ display:inline-flex; align-items:center; gap:.55rem; font-weight:800; padding:.9rem 1.5rem; border-radius:.65rem; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease; cursor:pointer; border:1px solid transparent; text-decoration:none; font-size:.95rem; letter-spacing:.01em; }
   .btn:hover{ transform:translateY(-2px); }
   .btn-amber{ background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; box-shadow:0 8px 24px -8px rgba(245,158,11,.55); }
@@ -44,14 +44,14 @@
   .btn-ghost-dark{ background:transparent; color:var(--ink-text); border-color:rgba(56,189,248,.35); }
   .btn-ghost-dark:hover{ border-color:var(--teal2); color:var(--teal3); }
   .btn-green{ background:linear-gradient(135deg,var(--green2),var(--green)); color:#052e22; box-shadow:0 8px 24px -8px rgba(16,185,129,.5); }
-  /* Chips */
+  
   .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem; border-radius:999px; font-weight:700; font-size:.8rem; border:1px solid var(--border-dark); background:rgba(30,41,59,.7); backdrop-filter:blur(6px); }
   .chip .dot{ width:.5rem; height:.5rem; border-radius:999px; background:var(--amber); box-shadow:0 0 10px var(--amber); }
   .chip.green .dot{ background:var(--green2); box-shadow:0 0 10px var(--green2); }
-  /* Cards */
+  
   .card-dark{ background:var(--panel); border:1px solid var(--border-dark); border-radius:1rem; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
   .card-dark:hover{ transform:translateY(-3px); border-color:rgba(56,189,248,.45); box-shadow:0 18px 40px -18px rgba(0,0,0,.6); }
-  /* Hero sunburst */
+  
   .sunburst{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .sunburst .glow{ position:absolute; top:-30%; right:-10%; width:70vw; height:70vw; max-width:900px; max-height:900px; border-radius:50%;
     background:radial-gradient(circle at center, rgba(251,191,36,.32) 0%, rgba(245,158,11,.14) 30%, rgba(245,158,11,0) 62%);
@@ -66,27 +66,27 @@
     background-image:linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
     background-size:44px 44px;
     -webkit-mask:linear-gradient(to bottom, black, transparent 85%); mask:linear-gradient(to bottom, black, transparent 85%); }
-  /* Nav */
+  
   .navlink{ position:relative; font-weight:600; font-size:.9rem; color:var(--muted-light); transition:color .15s ease; padding:.3rem .1rem; text-decoration:none; }
   .navlink:hover{ color:var(--ink-text); }
   .navlink.active{ color:var(--teal3); }
   .navlink.active::after{ content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--teal2); border-radius:2px; }
-  /* Reveal animation */
+  
   .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in{ opacity:1; transform:none; }
-  /* Steps / accordion */
+  
   .step-num{ width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.15rem; background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; flex-shrink:0; box-shadow:0 8px 20px -6px rgba(245,158,11,.5); transition:all .25s ease; }
   .step-item.open .step-num{ background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 8px 20px -6px rgba(16,185,129,.5); }
   .step-body{ max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease; opacity:0; }
   .step-item.open .step-body{ max-height:400px; opacity:1; }
   .step-chevron{ transition:transform .3s ease; flex-shrink:0; }
   .step-item.open .step-chevron{ transform:rotate(180deg); }
-  /* Human sign-off note inside cards */
+  
   .signoff{ display:flex; align-items:flex-start; gap:.5rem; margin-top:.9rem; padding-top:.8rem; border-top:1px dashed var(--border-dark); font-size:.78rem; line-height:1.5; color:var(--green2); font-weight:600; }
   .signoff svg{ flex-shrink:0; margin-top:1px; }
-  /* Avatar ring */
+  
   .avatar-ring{ width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(245,158,11,.25), rgba(16,185,129,.25)); border:1px solid rgba(245,158,11,.35); flex-shrink:0; }
-  /* Mobile menu */
+  
   .mobile-menu{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
   .mobile-menu.open{ max-height:480px; }
   .brand-badge{ display:inline-block; font-weight:800; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; padding:.28rem .6rem; border-radius:.35rem; background:rgba(148,163,184,.12); color:var(--muted-light); border:1px solid var(--border-dark); }
@@ -101,7 +101,7 @@
     .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
   }
 </style>
-<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body class="antialiased">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -167,7 +167,7 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 overflow-hidden">
+<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 overflow-hidden ps-reveal">
   <div class="sunburst">
     <div class="rays"></div>
     <div class="glow"></div>
@@ -183,7 +183,7 @@
       paperwork handled,<br class="hidden sm:block">
       <span class="grad-text">humans fit panels.</span>
     </h1>
-<img src="/images/crying-brain-cosmic.jpg" alt="The Solar AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
+<img src="/images/crying-brain-cosmic.jpg" alt="The Solar AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);" decoding="async">
     <p class="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto mb-10 reveal" style="color:var(--muted-light); line-height:1.7;">
       The office tool for solar companies &amp; customers: AI prepares your MCS, G98/G99, Part P and SEG paperwork.
       Registered human installers sign every certificate — <strong style="color:var(--green2);">AI never certifies.</strong>
@@ -203,7 +203,7 @@
 </section>
 
 <!-- ============ WHAT THE AI OFFICE DOES — 11 CARDS ============ -->
-<section id="what" class="py-16 lg:py-24 px-5 relative">
+<section id="what" class="py-16 lg:py-24 px-5 relative ps-reveal">
   <div class="max-w-7xl mx-auto">
     <div class="max-w-3xl mb-12 reveal">
       <div class="eyebrow mb-3" style="color:var(--teal3);">The boring stuff — automated</div>
@@ -218,7 +218,7 @@
 </section>
 
 <!-- ============ JOURNEY — 6 STEP INTERACTIVE ACCORDION ============ -->
-<section id="journey" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, rgba(30,41,59,.4), transparent);">
+<section id="journey" class="py-16 lg:py-24 px-5 relative ps-reveal" style="background:linear-gradient(180deg, rgba(30,41,59,.4), transparent);">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12 reveal">
       <div class="eyebrow mb-3" style="color:var(--green2);">From click to clean power</div>
@@ -312,7 +312,7 @@
           </div>
         </div>
         <p class="text-xs mt-6" style="color:var(--muted-light); line-height:1.6;">
-          Why it's cheaper: no salesman layer, no three-person admin team. The savings go straight into your quote.
+          Why it can be cheaper: no salesman layer, no three-person admin team. The savings typically pass into your quote.
           0% VAT to 31 Mar 2027, subject to eligibility.
         </p>
       </div>
@@ -763,5 +763,6 @@ const PERSONAS = [
 </section>
 <script src="/js/site.js" defer></script>
 <script src="/js/solar-assistant.js" defer></script>
+<script defer src="/js/ps-boost.js"></script>
 </body>
 </html>
