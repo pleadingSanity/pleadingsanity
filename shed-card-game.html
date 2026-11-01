@@ -285,6 +285,8 @@
 <meta property="og:image:alt" content="A felt card table with Crying Brain card backs under a lamp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/shed-card-game-hero.webp">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="min-h-screen flex flex-col ps-native" data-theme="cosmic">
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
@@ -302,7 +304,7 @@
 <header class="w-full max-w-5xl mx-auto px-3 sm:px-4 pt-4 pb-2 flex items-center justify-between gap-2 flex-wrap">
   <div class="min-w-0">
     <div class="text-[10px] sm:text-xs font-display tracking-[0.25em] text-muted uppercase mb-1">Pleading Sanity · Games</div>
-    <h1 class="font-display text-lg sm:text-2xl font-bold tracking-wide leading-tight">
+    <h1 class=class="font-display text-lg sm:text-2xl font-bold tracking-wide leading-tight gradient-text">
       <span class="text-teal">SHED</span>
       <span class="text-silver text-sm sm:text-base font-medium"> (aka Shithead) — classic card game vs 3 AI opponents</span>
     </h1>
@@ -1036,5 +1038,16 @@ render();
   setTimeout(fitBoard, 400);
 })();
 </script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>
