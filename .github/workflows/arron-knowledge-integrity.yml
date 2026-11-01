@@ -1,0 +1,17 @@
+name: Arron knowledge integrity
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  knowledge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Reject malformed or placeholder Arron knowledge
+        run: node scripts/validate-arron-knowledge.mjs

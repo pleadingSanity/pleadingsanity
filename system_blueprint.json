@@ -66,29 +66,35 @@
   ],
   "aiNodes": {
     "grok": {
-      "status": "active",
+      "status": "not_independently_verified",
       "role": "images, social, recruitment, outreach, SEO, compliance watch",
-      "skill": "ps-ecosystem-powerup"
+      "skill": "ps-ecosystem-powerup",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     },
     "gpt": {
-      "status": "active",
-      "role": "accuracy, audit, verification, tests, exact commits"
+      "status": "not_independently_verified",
+      "role": "accuracy, audit, verification, tests, exact commits",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     },
     "gemini": {
-      "status": "active",
-      "role": "mobile UX, accessibility, human-tone polish, image prompts"
+      "status": "not_independently_verified",
+      "role": "mobile UX, accessibility, human-tone polish, image prompts",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     },
     "claude": {
-      "status": "queued",
-      "role": "deep code review, security, regression tests"
+      "status": "not_independently_verified",
+      "role": "deep code review, security, regression tests",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     },
     "copilot": {
-      "status": "active",
-      "role": "code edits in repo"
+      "status": "not_independently_verified",
+      "role": "code edits in repo",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     },
     "dola": {
-      "status": "active",
-      "role": "design, structure, deploys, final verification"
+      "status": "not_independently_verified",
+      "role": "design, structure, deploys, final verification",
+      "statusMeaning": "Assigned role only; not proof of connection, availability or completed work"
     }
   },
   "contact": {

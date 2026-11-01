@@ -208,7 +208,7 @@ async function deleteMe(userId: string) {
     // Profile banners are stored under banner/<userId>, outside the userId/ prefix.
     await store.delete(`banner/${userId}`);
   } catch (error) {
-    console.error("Could not list images for erasure:", error);
+    console.error("Could not list images for erasure:", logReason(error));
   }
 
   await db.delete(users).where(eq(users.id, userId));
@@ -217,7 +217,7 @@ async function deleteMe(userId: string) {
   try {
     await admin.deleteUser(userId);
   } catch (error) {
-    console.error("Could not delete Identity account:", error);
+    console.error("Could not delete Identity account:", logReason(error));
     return json({ ok: true, identityDeleted: false });
   }
   return json({ ok: true, identityDeleted: true });

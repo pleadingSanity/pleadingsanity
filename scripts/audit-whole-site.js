@@ -120,6 +120,17 @@ for (const [file,p] of pageData) {
   const viewport=ts.find(t=>t.name==='meta' && t.attrs.name?.toLowerCase()==='viewport');
   if (!viewport || !/width\s*=\s*device-width/i.test(viewport.attrs.content) || !/initial-scale\s*=\s*1(?:\.0)?(?:\s*[,;]|\s*$)/i.test(viewport.attrs.content)) add(categories[5],'FAIL','VIEWPORT_MISSING_OR_INCOMPLETE',file,viewport?.line || 1,'Require device-width and initial-scale=1 (equivalent formatting accepted)');
   if (!/<title\b[^>]*>\s*[^<\s][\s\S]*?<\/title>/i.test(html)) add(categories[5],'FAIL','TITLE_MISSING_OR_EMPTY',file,1,'Missing or empty title');
+  const htmlTag=ts.find(t=>t.name==='html');
+  if(!htmlTag?.attrs.lang) add(categories[5],'WARN','HTML_LANG_MISSING',file,1,'Document has no html lang attribute');
+  const description=ts.find(t=>t.name==='meta' && t.attrs.name?.toLowerCase()==='description');
+  if(!description?.attrs.content?.trim()) add(categories[5],'WARN','META_DESCRIPTION_MISSING',file,1,'Missing or empty meta description');
+  const canonical=ts.find(t=>t.name==='link' && t.attrs.rel?.toLowerCase().split(/\\s+/).includes('canonical'));
+  if(!canonical?.attrs.href) add(categories[0],'WARN','CANONICAL_MISSING',file,1,'Missing canonical URL');
+  for(const a of ts.filter(t=>t.name==='a' && /(^|\\s)_blank(\\s|$)/i.test(t.attrs.target||''))) {
+    const rel=(a.attrs.rel||'').toLowerCase().split(/\\s+/);
+    if(!rel.includes('noopener')) add(categories[2],'WARN','NEW_TAB_NO_NOOPENER',file,a.line,'target=_blank link lacks rel=noopener',a.attrs.href||'');
+  }
+
   if (/ps-group-btn|ps-mobile-(?:menu|toggle)|id=["']menu-toggle/.test(html) && !ts.some(t=>t.name==='script' && /(?:^|\/)site\.js(?:[?#]|$)/.test(t.attrs.src || ''))) add(categories[0],'FAIL','SHARED_MENU_SCRIPT_MISSING',file,1,'Shared-menu markup exists without site.js; verify any alternate controller');
   if (/mental\s+health|\bcrisis\b|\barron\b/i.test(text)) {
     const missing=[['Samaritans','116\\s*123'],['Shout','85258'],['NHS','\\b111\\b'],['emergency','\\b999\\b']].filter(([,re])=>!new RegExp(re).test(text)).map(([label])=>label);

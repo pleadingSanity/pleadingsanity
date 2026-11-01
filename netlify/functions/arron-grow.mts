@@ -75,7 +75,7 @@ export default async () => {
       .slice(0, 3);
     if (lessons.length) await addLessons(lessons, day);
   } catch (error) {
-    console.error("Arron could not grow tonight:", error);
+    console.error("Arron could not grow tonight:", error instanceof Error ? error.name : "error");
   }
 };
 

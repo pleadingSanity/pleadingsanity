@@ -58,7 +58,7 @@ jobs:
           echo 'Synthetic API did not start.' >&2
           exit 1
       - name: Mayhem for API
-        uses: ForAllSecure/mapi-action@v1
+        uses: ForAllSecure/mapi-action@v2
         with:
           mayhem-token: ${{ secrets.MAYHEM_TOKEN }}
           api-url: http://localhost:8080

@@ -4,6 +4,8 @@
 
 export const SOLAR_SOURCES = [
   { name: "HMRC VAT Notice 708/6", href: "https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086" },
+  { name: "Warm Homes Loan factsheet", href: "https://www.gov.uk/government/news/warm-homes-loan-scheme-factsheet" },
+  { name: "MCS 042 battery consultation", href: "https://mcscertified.com/mcs-launches-four-week-consultation-on-new-battery-storage-product-standard/" },
   { name: "GOV.UK VAT rates", href: "https://www.gov.uk/guidance/vat-rates-on-different-goods-and-services" },
   { name: "GOV.UK renewable and low carbon energy", href: "https://www.gov.uk/guidance/renewable-and-low-carbon-energy" },
   { name: "Approved Document P", href: "https://www.gov.uk/government/publications/electrical-safety-approved-document-p" },
@@ -44,11 +46,18 @@ A string inverter serves a roof with little shade. Microinverters or optimisers 
 G98 AND G99
 The Energy Networks Association publishes the engineering recommendations. G98 is the usual notification route for a small type-tested inverter connection, commonly up to 16 A per phase (about 3.68 kW). G99 is the route for larger plant, or where the network operator needs an application before connection. The local distribution network operator (DNO) decides which form applies. Notification is required. This assistant cannot submit it and cannot say a design is approved.
 
+Since 27 August 2026, a compliant plug-in solar kit of 800 W or less uses a G98 self-notification: the customer tells the network. That route is not for a hard-wired roof system, and it is not for anything above 800 W. A plug-in kit does not make a roof array MCS-certified. This assistant cannot send the notification.
+
 MCS AND SEG
 MCS is the certification scheme for products and installers. A SEG export tariff is offered by electricity suppliers under Ofgem's Smart Export Guarantee. Suppliers generally ask for an MCS certificate before they pay for export. An EPC is not required for SEG. Some suppliers may still ask for one as their own extra. That request is not an Ofgem requirement to join the scheme. Do not say an EPC is required for SEG. Do not say a system is MCS-certified unless a real certificate exists.
 
+MCS opened a consultation on a draft Battery Storage Product Standard, MCS 042, on 13 October 2026. Comments close at 11:59pm on 10 November 2026. It is a draft product standard. It is not a certificate, and a battery already on a wall is not certified to MCS 042 because the consultation exists.
+
 VAT
-HMRC VAT Notice 708/6: installations of qualifying energy-saving materials, including solar panels, are relieved at 0% until 31 March 2027, subject to the eligibility rules in that notice. From 1 April 2027 the installation rate is due to return to 5%. Supply-only kit and work that does not meet the notice may not get the relief. Say subject to eligibility. Never promise a tax outcome.
+HMRC VAT Notice 708/6: 0% VAT on qualifying solar and battery installations runs to 31 March 2027, subject to eligibility. HMRC guidance says 5% applies from 1 April 2027. Supply-only kit and work that does not meet the notice may not get the relief. Say subject to eligibility. Never promise a tax outcome.
+
+WARM HOMES LOAN
+The Warm Homes Loan factsheet on GOV.UK says the loan cap is up to £15,000 for solar panels and up to £15,000 for an electrical storage battery. It is a loan, not a grant, and it is subject to eligibility. Those measures are described as fitted by MCS-certified installers. Do not say a person qualifies. Point them at the factsheet.
 
 PLANNING
 Many domestic roof arrays are permitted development. Listed buildings, conservation areas, flats, and panels that stick out beyond the roof rules can need permission. The Planning Portal describes the domestic solar rules. GOV.UK's renewable energy guidance points planning officers at the same idea. Say the council decides. Do not say permission is granted.
