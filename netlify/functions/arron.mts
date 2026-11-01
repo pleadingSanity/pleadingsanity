@@ -6,8 +6,12 @@
 // v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
-// then Gemini, then Grok take over instantly with the same heart.
+// Provider fallback chain (verified order): GPT (openai) → Claude (anthropic)
+// → Gemini → Grok (xAI direct) → OpenRouter free spares (runSpares, gated by
+// PS_SPARES_PRIVACY_APPROVED for personal chat) → local empathetic canned reply.
+// Each provider fetch is wrapped in try/catch; on error/timeout the chain moves
+// to the next. If all fail, the chat handler returns the local QUIET_REPLY with
+// provider:"none" — never a raw 500 to the user.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
 // v3.2 safety: crisis lines (999, 116 123, SHOUT 85258, NHS 111 option 2) are

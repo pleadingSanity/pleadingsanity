@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Shed (aka Shithead) — Play the classic card game vs AI | Pleading Sanity</title><meta name="description" content="Play Shed (aka Shithead) — the classic shedding card game — against 3 AI opponents. Free, no ads, cosmic dark theme. Part of the Pleading Sanity sanctuary."><link rel="canonical" href="https://pleadingsanity.co.uk/shed-card-game.html">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Shed (aka Shithead) — Play the classic card game vs AI | Pleading Sanity</title><meta name="description" content="Play Shed (aka Shithead) — the classic shedding card game — against 3 AI opponents. Free, no ads, cosmic dark theme. Part of the Pleading Sanity sanctuary.">
+    <meta property="og:title" content="Shed (aka Shithead) — Play the classic card game vs AI | Pleading Sanity">
+    <meta property="og:description" content="Play Shed (aka Shithead) — the classic shedding card game — against 3 AI opponents. Free, no ads, cosmic dark theme. Part of the Pleading Sanity sanctuary."><link rel="canonical" href="https://pleadingsanity.co.uk/shed-card-game.html">
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -208,6 +210,74 @@
     #hand{ gap:6px; }
     #humanTable{ gap:8px !important; }
   }
+  /* ===== Polish pass: a11y, reduced-motion, focus, tap targets, sound toggle ===== */
+  :focus-visible { outline:3px solid #00fff0 !important; outline-offset:2px; border-radius:6px; }
+  button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline:3px solid #00fff0; outline-offset:2px; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+    .card { transition:none !important; }
+  }
+  /* Nav links meet 44px tap */
+  .eco-nav a { display:inline-block; min-height:44px; line-height:44px; padding:0 10px; }
+  /* Log clear button meets 44px */
+  #clearLogBtn { min-height:44px; min-width:44px; padding:0 10px; display:inline-flex; align-items:center; justify-content:center; }
+  /* Header buttons meet 48px tap */
+  header .btn { min-height:48px !important; }
+  /* Sound toggle */
+  #psSoundToggle { min-height:48px; min-width:48px; padding:0 10px; border-radius:12px; border:1px solid rgba(0,255,240,.5); background:transparent; color:#e2e8f0; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+  #psSoundToggle[aria-pressed="true"] { border-color:#f59e0b; color:#f59e0b; }
+  /* HUD stats */
+  #ps-hud-stats { font-size:.72rem; color:#94a3b8; margin-top:4px; font-family:'Chakra Petch',sans-serif; letter-spacing:.03em; }
+  #ps-hud-stats b { color:#00fff0; }
+  #ps-hud-stats .wins { color:#f59e0b; font-weight:700; }
+  /* Overlay a11y */
+  .overlay[role="dialog"] { padding:20px; }
+  .overlay .panel button { min-height:48px; }
+  @media (max-width:390px) {
+    .card { width:54px; height:80px; }
+    .eco-nav { padding:.4rem .6rem; }
+    .crisis-strip { font-size:.7rem; padding:8px 6px; }
+  }
+  /* ===== Native-app layout + theming (add-on) ===== */
+  html,body{ height:100%; margin:0; overflow:hidden; overscroll-behavior:none; touch-action:manipulation; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+  input,textarea,select,[contenteditable]{ -webkit-user-select:text; user-select:text; touch-action:manipulation; }
+  body.ps-native{ display:flex; flex-direction:column; height:100vh; height:100dvh; min-height:0; }
+  body.ps-native > nav.eco-nav{ flex-shrink:0; }
+  body.ps-native > header{ flex-shrink:0; padding-top:8px; padding-bottom:6px; }
+  body.ps-native > .rules-wrap, body.ps-native > div[class*="max-w-5xl"]:has(#rulesBody){ flex-shrink:0; }
+  body.ps-native > main{ flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; min-height:0; }
+  body.ps-native > .crisis-strip{ flex-shrink:0; padding:5px 8px; font-size:.7rem; }
+  body.ps-native > footer{ flex-shrink:0; padding:6px 8px; }
+  /* Theme palette: redefine shed's existing vars per theme (cool/warm neutrals only) */
+  body[data-theme="cosmic"]{ --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; --ps-text:#e2e8f0; --ps-muted:#94a3b8;
+    --bg:#0b0f19; --bg2:#0f1728; --teal:#00fff0; --sky:#38bdf8; --amber:#f59e0b; --silver:#e2e8f0; --muted:#94a3b8; --border:rgba(56,189,248,.15); --border-soft:rgba(56,189,248,.15); }
+  body[data-theme="amber"]{ --ps-bg:#1a1206; --ps-accent:#f59e0b; --ps-secondary:#fb923c; --ps-highlight:#00fff0; --ps-text:#fde8c8; --ps-muted:#c9a86a;
+    --bg:#1a1206; --bg2:#2d1b0f; --teal:#f59e0b; --sky:#fb923c; --amber:#00fff0; --silver:#fde8c8; --muted:#c9a86a; --border:rgba(245,158,11,.25); --border-soft:rgba(245,158,11,.25); }
+  body[data-theme="deepspace"]{ --ps-bg:#05070d; --ps-accent:#38bdf8; --ps-secondary:#22d3ee; --ps-highlight:#f59e0b; --ps-text:#dbeafe; --ps-muted:#7d94b8;
+    --bg:#05070d; --bg2:#0a0f1c; --teal:#38bdf8; --sky:#22d3ee; --amber:#f59e0b; --silver:#dbeafe; --muted:#7d94b8; --border:rgba(56,189,248,.2); --border-soft:rgba(56,189,248,.2); }
+  body[data-theme="mono"]{ --ps-bg:#111418; --ps-accent:#e2e8f0; --ps-secondary:#94a3b8; --ps-highlight:#f59e0b; --ps-text:#e5e7eb; --ps-muted:#8a9199;
+    --bg:#111418; --bg2:#1a1e24; --teal:#e2e8f0; --sky:#94a3b8; --amber:#f59e0b; --silver:#e5e7eb; --muted:#8a9199; --border:rgba(226,232,240,.18); --border-soft:rgba(226,232,240,.18); }
+  body.ps-native{ background:var(--ps-bg); color:var(--ps-text); }
+  /* Genre pill */
+  .ps-genre-pill{ display:inline-flex; align-items:center; min-height:32px; padding:4px 12px; border-radius:999px; border:1px solid color-mix(in srgb, var(--amber,#f59e0b) 50%, transparent); color:var(--amber,#f59e0b); font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; background:color-mix(in srgb, var(--amber,#f59e0b) 10%, transparent); font-family:'Chakra Petch',sans-serif; }
+  /* Theme button */
+  #psThemeBtn{ min-height:44px; min-width:44px; padding:0 10px; border-radius:12px; border:1px solid color-mix(in srgb, var(--teal) 50%, transparent); background:transparent; color:var(--teal); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+  #psThemeBtn:focus-visible{ outline:3px solid var(--amber); outline-offset:2px; }
+  /* Pure-CSS drifting cosmic aurora background */
+  body.ps-native::before{ content:""; position:fixed; inset:-25%; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(ellipse 65% 40% at 25% -5%, color-mix(in srgb, var(--teal) 14%, transparent), transparent 60%),
+      radial-gradient(ellipse 55% 35% at 78% 12%, color-mix(in srgb, var(--sky) 12%, transparent), transparent 55%),
+      radial-gradient(ellipse 50% 40% at 50% 108%, color-mix(in srgb, var(--sky) 10%, transparent), transparent 60%),
+      radial-gradient(1.4px 1.4px at 12% 22%, rgba(226,232,240,.5), transparent 60%),
+      radial-gradient(1px 1px at 32% 62%, color-mix(in srgb, var(--teal) 45%, transparent), transparent 60%),
+      radial-gradient(1.6px 1.6px at 55% 14%, color-mix(in srgb, var(--amber) 50%, transparent), transparent 60%),
+      radial-gradient(1.3px 1.3px at 88% 70%, color-mix(in srgb, var(--teal) 40%, transparent), transparent 60%),
+      linear-gradient(180deg, var(--bg), color-mix(in srgb, var(--bg) 85%, #000));
+    animation: ps-bg-drift 48s ease-in-out infinite alternate;
+  }
+  @keyframes ps-bg-drift{ from{ transform:translate3d(-2%,-1%,0) scale(1.02); } to{ transform:translate3d(2%,1.5%,0) scale(1.06); } }
+  @media (prefers-reduced-motion: reduce){ body.ps-native::before{ animation:none !important; } body.ps-native *{ transition:none !important; animation:none !important; } }
 </style>
 <link rel="stylesheet" href="/css/support-strip.css">
 <link rel="stylesheet" href="/css/site.css">
@@ -218,7 +288,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/shed-card-game-hero.webp">
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col ps-native" data-theme="cosmic">
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
   <a href="index.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanctuary</a>
   <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
@@ -230,8 +300,6 @@
   <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
-<figure class="ps-hero-visual"><img src="/images/heroes/shed-card-game-hero.webp" alt="A felt card table with Crying Brain card backs under a lamp" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
-
 <!-- ================= HEADER ================= -->
 <header class="w-full max-w-5xl mx-auto px-3 sm:px-4 pt-4 pb-2 flex items-center justify-between gap-2 flex-wrap">
   <div class="min-w-0">
@@ -241,10 +309,15 @@
       <span class="text-silver text-sm sm:text-base font-medium"> (aka Shithead) — classic card game vs 3 AI opponents</span>
     </h1>
     <p id="turnIndicator" class="text-xs sm:text-sm text-amber font-display mt-1 tracking-wide">Press Deal to begin.</p>
+    <p id="ps-hud-stats" aria-live="polite"></p>
   </div>
-  <div class="flex items-center gap-2">
+  <div class="flex items-center gap-2 flex-wrap">
+    <span class="ps-genre-pill" aria-label="Genre: Card">Card</span>
+    <a href="games.html" class="btn btn-ghost text-xs sm:text-sm !py-2 !px-3" style="min-height:44px;display:inline-flex;align-items:center;text-decoration:none;" aria-label="Back to Brain Games hub">Brain Games</a>
     <button id="rulesBtn" class="btn btn-ghost text-xs sm:text-sm !py-2 !px-3">Rules</button>
     <button id="newGameBtn" class="btn btn-amber text-xs sm:text-sm !py-2 !px-3">New Game</button>
+    <button type="button" id="psThemeBtn" aria-label="Theme: cosmic — tap to change" title="Change theme"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1 0-4 4 4 0 0 0 0-8z"/></svg></button>
+    <button type="button" id="psSoundToggle" data-sound-toggle aria-pressed="false" aria-label="Sound off — tap to turn on" title="Sound"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path class="ps-sound-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path class="ps-sound-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"/><line class="ps-sound-off" x1="22" y1="9" x2="16" y2="15" stroke="#ff8a80"/><line class="ps-sound-off" x1="16" y1="9" x2="22" y2="15" stroke="#ff8a80"/></svg></button>
   </div>
 </header>
 <!-- ================= RULES PANEL ================= -->
@@ -325,7 +398,7 @@
 </main>
 <!-- ================= CRISIS STRIP ================= -->
 <div class="crisis-strip w-full text-center text-xs sm:text-sm py-2 px-3 font-display tracking-wide">
-  In crisis? Samaritans free 24/7: <a href="tel:116123">116 123</a> &nbsp;·&nbsp; Text SHOUT to <a href="sms:85258">85258</a> &nbsp;·&nbsp; You are not alone.
+  In crisis? Samaritans free 24/7: <a href="tel:116123">116 123</a> &nbsp;·&nbsp; Text SHOUT to <a href="sms:85258">85258</a> &nbsp;·&nbsp; Emergency <a href="tel:999">999</a> &nbsp;·&nbsp; <a href="/crisis.html">More help</a> &nbsp;·&nbsp; You are not alone.
 </div>
 <!-- ================= FOOTER ================= -->
 <footer class="w-full text-center text-[11px] sm:text-xs text-muted py-4 px-3 font-display tracking-wide" style="background:#080b10;border-top:1px solid rgba(56,189,248,.15);">
@@ -350,7 +423,7 @@
   <div class="mt-2 text-[10px] text-muted">Powered by Pleading Sanity AI</div>
 </footer>
 <!-- ================= START OVERLAY ================= -->
-<div id="startOverlay" class="overlay">
+<div id="startOverlay" class="overlay" role="dialog" aria-modal="true" aria-label="Start game — Shed card game">
   <div class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center border-teal glow-teal">
     <div class="font-display text-5xl sm:text-6xl font-bold text-teal tracking-widest mb-2">SHED</div>
     <div class="text-sm sm:text-base text-silver font-display tracking-wide mb-1">the classic card game</div>
@@ -365,7 +438,7 @@
   </div>
 </div>
 <!-- ================= END OVERLAY ================= -->
-<div id="endOverlay" class="overlay hidden">
+<div id="endOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
   <div id="endCard" class="panel rounded-2xl p-6 sm:p-10 max-w-md text-center">
     <div id="endTitle" class="font-display text-4xl sm:text-5xl font-bold tracking-widest mb-3"></div>
     <div id="endMsg" class="text-sm sm:text-base text-silver mb-2"></div>
@@ -460,6 +533,7 @@ function applyPlay(idx, cards, src){
   const p = players[idx];
   const rank = cards[0].r;
   const name = NAMES[idx];
+  try { if(window.psBlip) window.psBlip('play'); } catch(e){}
   log(name + ' plays ' + cards.length + 'x ' + rank + (cards.length>1 ? 's' : '') + '.');
   if(rank === '10' || cards.length === 4){
     pile = [];
@@ -471,6 +545,7 @@ function applyPlay(idx, cards, src){
 }
 function pickupPile(idx){
   const p = players[idx];
+  try { if(window.psBlip) window.psBlip('pickup'); } catch(e){}
   if(!pile.length){ log(NAMES[idx] + ' — pile empty, nothing to pick up.'); return false; }
   p.hand.push(...pile);
   const n = pile.length;
@@ -511,6 +586,7 @@ function endGame(){
   els.endCard.style.borderColor = win ? 'var(--teal)' : 'var(--amber)';
   els.endCard.style.boxShadow = win ? '0 0 30px rgba(0,255,240,.35)' : '0 0 30px rgba(245,158,11,.35)';
   els.endOverlay.classList.remove('hidden');
+  try { if(window.psBlip) window.psBlip(win ? 'win' : 'lose'); if(window.psShedEnd) window.psShedEnd(!!win); } catch(e){}
   render();
 }
 function advanceTurn(){
@@ -840,6 +916,7 @@ function newGame(){
   initGame();
   state = 'playing';
   els.endOverlay.classList.add('hidden');
+  try { if(window.psBlip) window.psBlip('deal'); } catch(e){}
   render();
 }
 // initial render of AI placeholders (before deal) so layout is warm
@@ -848,7 +925,118 @@ for(let i=0;i<4;i++) players.push({ hand:[], faceUp:[null,null,null], faceDown:[
 render();
 })();
 </script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<script src="/js/site.js" defer></script>
+<script>
+/* ===== Polish pass: WebAudio sound (default OFF), HUD wins/streak, overlay a11y ===== */
+(function(){
+  var audioCtx = null, soundOn = false;
+  try { soundOn = localStorage.getItem("ps_sound_on") === "1"; } catch(e){ soundOn = false; }
+  function ensureCtx(){ if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(audioCtx && audioCtx.state === "suspended"){ audioCtx.resume().catch(function(){}); } return audioCtx; }
+  function tone(freq, dur, type, gain, when){
+    if(!soundOn) return;
+    var ctx = ensureCtx(); if(!ctx) return;
+    var t0 = ctx.currentTime + (when||0);
+    try{
+      var osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.type = type||"sine"; osc.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(gain||0.12, t0+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(t0); osc.stop(t0+dur+0.02);
+    }catch(e){}
+  }
+  window.psBlip = function(kind){
+    if(!soundOn) return;
+    switch(kind){
+      case "deal": tone(520,.12,"triangle",.1); tone(660,.12,"triangle",.08,.07); break;
+      case "play": tone(440,.09,"sine",.1); break;
+      case "pickup": tone(300,.18,"sawtooth",.07); tone(220,.2,"sawtooth",.06,.08); break;
+      case "win": [523,659,784,1047].forEach(function(f,i){ tone(f,.18,"triangle",.1,i*.09); }); break;
+      case "lose": [392,330,262].forEach(function(f,i){ tone(f,.22,"sawtooth",.07,i*.1); }); break;
+    }
+  };
+  var btn = document.getElementById("psSoundToggle");
+  function renderToggle(){
+    if(!btn) return;
+    btn.setAttribute("aria-pressed", soundOn ? "true" : "false");
+    btn.setAttribute("aria-label", soundOn ? "Sound on — tap to turn off" : "Sound off — tap to turn on");
+    btn.title = soundOn ? "Sound on" : "Sound off";
+    var offs = btn.querySelectorAll(".ps-sound-off"), waves = btn.querySelectorAll(".ps-sound-wave");
+    offs.forEach(function(el){ el.style.display = soundOn ? "none" : "block"; });
+    waves.forEach(function(el){ el.style.opacity = soundOn ? "1" : ".35"; });
+  }
+  if(btn){ btn.addEventListener("click", function(){ soundOn = !soundOn; try{ localStorage.setItem("ps_sound_on", soundOn?"1":"0"); }catch(e){} if(soundOn){ ensureCtx(); window.psBlip("deal"); } renderToggle(); }); }
+  renderToggle();
+
+  var WINS_KEY = "ps_shed_wins", STREAK_KEY = "ps_shed_streak", BEST_KEY = "ps_shed_best_streak";
+  function getNum(k, d){ try{ var v = Number(localStorage.getItem(k)); return Number.isFinite(v) ? v : d; }catch(e){ return d; } }
+  function setNum(k, v){ try{ localStorage.setItem(k, String(Math.floor(v))); }catch(e){} }
+  function renderHud(){
+    var el = document.getElementById("ps-hud-stats"); if(!el) return;
+    var wins = getNum(WINS_KEY, 0), streak = getNum(STREAK_KEY, 0), best = getNum(BEST_KEY, 0);
+    el.innerHTML = 'Wins: <span class="wins">' + wins + '</span> · Streak: <b>' + streak + '</b> · Best streak: <b>' + best + '</b>';
+  }
+  renderHud();
+  window.psShedEnd = function(win){
+    var wins = getNum(WINS_KEY, 0), streak = getNum(STREAK_KEY, 0), best = getNum(BEST_KEY, 0);
+    if(win){ wins += 1; streak += 1; if(streak > best) best = streak; }
+    else { streak = 0; }
+    setNum(WINS_KEY, wins); setNum(STREAK_KEY, streak); setNum(BEST_KEY, best);
+    renderHud();
+    // focus the primary action in the end dialog for accessibility
+    setTimeout(function(){ var again = document.getElementById("againBtn"); if(again) again.focus(); }, 80);
+  };
+  // Escape closes end overlay (review board) and start overlay focuses deal button
+  document.addEventListener("keydown", function(e){
+    if(e.key !== "Escape") return;
+    var endO = document.getElementById("endOverlay");
+    if(endO && !endO.classList.contains("hidden")){ e.preventDefault(); endO.classList.add("hidden"); var ng = document.getElementById("newGameBtn"); if(ng) ng.focus(); return; }
+    var startO = document.getElementById("startOverlay");
+    if(startO && !startO.classList.contains("hidden")){ e.preventDefault(); var sb = document.getElementById("startBtn"); if(sb) sb.focus(); }
+  });
+  // Focus deal button on load in start overlay
+  window.addEventListener("load", function(){ var sb = document.getElementById("startBtn"); if(sb) sb.focus(); });
+})();
+</script>
+<script>
+/* ===== Native-app add-on: theme selector (4 themes, persisted) + board fit ===== */
+(function(){
+  var THEMES = ["cosmic","amber","deepspace","mono"];
+  var KEY = "ps_theme_shed";
+  var idx = 0;
+  try {
+    var saved = localStorage.getItem(KEY) || "cosmic";
+    idx = Math.max(0, THEMES.indexOf(saved));
+  } catch(e){ idx = 0; }
+  function applyTheme(i){
+    idx = ((i % THEMES.length) + THEMES.length) % THEMES.length;
+    var t = THEMES[idx];
+    document.body.setAttribute("data-theme", t);
+    try { localStorage.setItem(KEY, t); } catch(e){}
+    var btn = document.getElementById("psThemeBtn");
+    if(btn){ btn.setAttribute("aria-label", "Theme: " + t + " — tap to change"); btn.title = "Theme: " + t; }
+  }
+  applyTheme(idx);
+  var btn = document.getElementById("psThemeBtn");
+  if(btn){ btn.addEventListener("click", function(){ applyTheme(idx + 1); }); }
+  /* Scale board via transform to fit short viewports (safe; transform-only) */
+  var main = document.querySelector("main");
+  function fitBoard(){
+    if(!main) return;
+    var panels = main.querySelectorAll(".panel");
+    var scale = 1;
+    if(main.scrollHeight > main.clientHeight + 40 && window.innerHeight < 700){
+      scale = Math.max(0.72, main.clientHeight / (main.scrollHeight + 20));
+    }
+    panels.forEach(function(p){ p.style.transform = "scale(" + scale + ")"; p.style.transformOrigin = "top center"; });
+  }
+  var rt;
+  function onResize(){ clearTimeout(rt); rt = setTimeout(fitBoard, 120); }
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", onResize);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) fitBoard(); });
+  setTimeout(fitBoard, 400);
+})();
+</script>
 </body>
 </html>
