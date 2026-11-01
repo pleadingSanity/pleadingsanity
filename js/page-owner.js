@@ -47,8 +47,13 @@ async function render() {
     </section>
 
     <section class="panel" aria-labelledby="wb-title" id="workbench">
+<<<<<<< HEAD
       <h2 id="wb-title"> Arron's Workbench</h2>
       <p class="muted" style="margin-top:0;max-width:65ch">Changes Arron drafted for you in chat. Nothing on the site changes until you say so. Approve one and you get a ready build brief — paste it into the Netlify agent (or any builder) and it goes live in one deploy. Tell Arron <em>"update the home page: …"</em> or ask <em>"what's missing?"</em> to fill this.</p>
+=======
+      <h2 id="wb-title">🛠️ Arron's Workbench</h2>
+      <p class="muted" style="margin-top:0;max-width:65ch">Changes Arron drafted for you in chat. Nothing on the site changes until you say so. Approve a draft to prepare a build brief for an authorised builder. Copying or approving it does not change the website: source review, checks, a deploy preview and your release review still come next. Review the brief for private information before sharing it with another service. Tell Arron <em>"update the home page: …"</em> or ask <em>"what's missing?"</em> to fill this.</p>
+>>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
       <div data-workbench><div class="skeleton" style="height:90px"></div></div>
     </section>
 
@@ -162,7 +167,11 @@ function wire(o) {
 }
 
 // ─── WORKBENCH ───
+<<<<<<< HEAD
 const STATUS_LABEL = { proposed: ' Drafted', approved: ' Approved — ready to push', done: ' Done', dismissed: ' Set aside' };
+=======
+const STATUS_LABEL = { proposed: '💭 Drafted', approved: '✅ Approved for build review', done: '🌌 Done', dismissed: '🍂 Set aside' };
+>>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
 const proposalItem = (p) => `
   <article class="queue-item" id="proposal-${p.id}" data-proposal="${p.id}">
     <div class="switch-row" style="align-items:flex-start">
@@ -172,9 +181,15 @@ const proposalItem = (p) => `
     ${p.why ? `<p style="margin:.5rem 0"><strong>Why:</strong> ${esc(p.why)}</p>` : ''}
     <details><summary>Read Arron's draft</summary><div class="post-body" style="margin-top:.5rem">${esc(p.body)}</div></details>
     <div class="btn-row" style="margin-top:.75rem">
+<<<<<<< HEAD
       ${p.status === 'proposed' ? '<button type="button" class="sbtn primary small" data-pstatus="approved"> Approve &amp; copy brief</button>' : ''}
       ${p.status === 'approved' ? '<button type="button" class="sbtn primary small" data-copy> Copy build brief</button><button type="button" class="sbtn ghost small" data-pstatus="done"> Mark as live</button>' : ''}
       ${p.status !== 'dismissed' ? '<button type="button" class="sbtn ghost small" data-pstatus="dismissed"> Set aside</button>' : '<button type="button" class="sbtn ghost small" data-pstatus="proposed"> Bring back</button>'}
+=======
+      ${p.status === 'proposed' ? '<button type="button" class="sbtn primary small" data-pstatus="approved">✅ Approve &amp; copy brief</button>' : ''}
+      ${p.status === 'approved' ? '<button type="button" class="sbtn primary small" data-copy>📋 Copy build brief</button><button type="button" class="sbtn ghost small" data-pstatus="done">🌌 Mark work complete</button>' : ''}
+      ${p.status !== 'dismissed' ? '<button type="button" class="sbtn ghost small" data-pstatus="dismissed">🍂 Set aside</button>' : '<button type="button" class="sbtn ghost small" data-pstatus="proposed">↩️ Bring back</button>'}
+>>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
     </div>
   </article>`;
 
@@ -189,7 +204,11 @@ const pulseHTML = (p) => `
   </details>`;
 
 async function copyText(text) {
+<<<<<<< HEAD
   try { await navigator.clipboard.writeText(text); toast('Build brief copied — paste it into the Netlify agent '); }
+=======
+  try { await navigator.clipboard.writeText(text); toast('Build brief copied — review private details before sharing 📋'); }
+>>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
   catch { prompt('Copy this build brief:', text); }
 }
 

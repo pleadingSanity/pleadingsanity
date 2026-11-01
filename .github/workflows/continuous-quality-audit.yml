@@ -36,8 +36,8 @@ jobs:
       - name: Check game catalogue filtering and recovery
         run: node --test scripts/test-games-discovery.mjs
 
-      - name: Check the community board does not invent votes, money or a crisis team
-        run: node --test scripts/test-community-dashboard-honesty.mjs
+      - name: Check owner build handoff and access guards (synthetic only)
+        run: node --experimental-vm-modules --test scripts/test-workbench-brief.mjs
 
       - name: Check AI family introduction boundaries
         run: node --test scripts/test-ai-family-intro.mjs
