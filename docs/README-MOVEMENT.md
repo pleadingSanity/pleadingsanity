@@ -351,7 +351,8 @@ npm run dev
 # 4. Commit & push
 git add new-page.html
 git commit -m "Add page: New Page — description"
-git push origin main
+git push -u origin your-branch
+# Open a reviewed pull request. Shane merges. Do not push or merge to main without his approval.
 ```
 
 ### When Adding Styles
@@ -392,7 +393,8 @@ npm run dev
 # 5. Commit & push
 git add js/new-feature.js
 git commit -m "Add feature: New Feature — description"
-git push origin main
+git push -u origin your-branch
+# Open a reviewed pull request. Shane merges. Do not push or merge to main without his approval.
 ```
 
 ---
@@ -414,19 +416,19 @@ npm start
 
 ### Deploy to Netlify
 ```bash
-# Push to main branch
+# Open a reviewed pull request. Shane merges to main.
 git add .
 git commit -m "Your message"
-git push origin main
+git push -u origin your-branch
 
-# Netlify auto-deploys
+# After Shane merges, Netlify publishes main.
 # Check deployment: Site Settings > Deploys
 # Live at: pleadingsanity.netlify.app
 ```
 
 ### Deploy to Vercel
 ```bash
-# Auto-deploys on push to main
+# After Shane merges the pull request, the host publishes main.
 # Check deployment: https://vercel.com/dashboard
 # Live at: pleadingsanity.uk
 ```
