@@ -1,855 +1,855 @@
 // ==============================================================
-//  ARRON — COMPANION APP  (/arron.html)
+// ♥ ARRON — COMPANION APP (/arron.html)
 // Chat · Your Story memory · Mood check-ins · Forget Me
 // Auto-reconnect · Offline replies · Reply chime · Onboarding
 // Server: netlify/functions/arron.mts (memory in Netlify Database)
 // ==============================================================
 (function () {
-  'use strict';
-
-  const $ = (id) => document.getElementById(id);
-  const app = document.querySelector('.arron-app');
-  const conversationBox = $('arron-conversation');
-  if (!conversationBox || !app) return;
-
-  const mainPanel = document.querySelector('.arron-main');
-  const inputForm = $('arron-input-form');
-  const inputField = $('arron-input');
-  const sendButton = inputForm.querySelector('button[type="submit"]');
-  const promptsBox = $('arron-prompts');
-  const statusEl = $('arron-status');
-  const bannerEl = $('arron-banner');
-  const presenceEl = $('arron-presence');
-  const soundBtn = $('arron-sound');
-  const tourBtn = $('arron-tour');
-  const storyForm = $('arron-story-form');
-  const storyField = $('arron-story');
-  const moodLogEl = $('arron-mood-log');
-  const memoryCodeEl = $('arron-memory-code');
-  const copyCodeBtn = $('arron-copy-code');
-  const restoreForm = $('arron-restore-form');
-  const restoreField = $('arron-restore-code');
-  const forgetBtn = $('arron-forget');
-  const welcome = $('arron-welcome');
-
-  const CHAT_API = '/api/arron/chat';
-  // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
-  const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
-  // Spares ("spare:name"), the owner's "a+b" pairs and the council get a plain label too, never a borrowed name.
-  const answeredVia = (provider) => {
-    const p = String(provider || '');
-    if (MINDS[p]) return `Answered via ${MINDS[p]}`;
-    if (p.indexOf('spare:') === 0) return 'Answered via a free backup model';
-    if (p === 'council') return 'Answered by the council';
-    const pair = p.split('+').map((x) => MINDS[x]).filter(Boolean);
-    return pair.length === 2 ? `Answered via ${pair[0]}, checked by ${pair[1]}` : '';
-  };
-  const MEMORY_API = '/api/arron/memory';
-  const HEALTH_API = '/api/arron/health';
-  const KEYS = {
-    id: 'arron_memory_id',
-    messages: 'arron_messages',
-    story: 'arron_user_story',
-    forget: 'arron_forget_pending',
-    name: 'arron_name',
-    mood: 'arron_mood',
-    moodLog: 'arron_mood_log',
-    sound: 'arron_sound',
-    onboarded: 'arron_onboarded',
-    draft: 'arron_draft'
-  };
-  const REQUEST_TIMEOUT = 30000;
-  const ID_PATTERN = /^[a-f0-9]{32,64}$/i;
-  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // ─── STORAGE — never let a full / blocked localStorage break the app ───
-  const store = {
-    get(key, fallback = null) {
-      try { const v = localStorage.getItem(key); return v === null ? fallback : v; } catch (e) { return fallback; }
-    },
-    set(key, value) { try { localStorage.setItem(key, value); } catch (e) {} },
-    remove(key) { try { localStorage.removeItem(key); } catch (e) {} },
-    json(key, fallback) {
-      try { const v = JSON.parse(localStorage.getItem(key)); return v === null ? fallback : v; } catch (e) { return fallback; }
-    }
-  };
-
-  // ─── MOODS ───
-  const MOODS = {
-    calm:    { emoji: '', label: 'calm',
-               prompts: ['Help me keep this calm', 'Give me a journaling prompt', 'Tell me something about Pleading Sanity'] },
-    hopeful: { emoji: '', label: 'hopeful',
-               prompts: ['I want to build on this', 'Help me set one small goal', 'I want to hope'] },
-    tired:   { emoji: '', label: 'tired',
-               prompts: ['I feel drained', 'Help me wind down for sleep', 'I need to breathe'] },
-    low:     { emoji: '', label: 'low',
-               prompts: ['I feel low today', 'Remind me why I matter', 'I want to hope'] },
-    anxious: { emoji: '', label: 'anxious',
-               prompts: ['I feel overwhelmed', 'I need to breathe', 'Ground me right now'] },
-    lonely:  { emoji: '', label: 'lonely',
-               prompts: ['I feel alone', 'Can you just talk with me?', 'How do I reach out to someone?'] },
-    angry:   { emoji: '', label: 'angry',
-               prompts: ['I need to vent', 'Help me cool down', 'I feel overwhelmed'] },
-    crisis:  { emoji: '', label: 'in need of support', prompts: [] }
-  };
-
-  // Gentle next steps from around the site, matched to mood
-  const SUGGESTIONS = {
-    anxious: ['Try a slow breathing session', '/meditation.html', 'Breathe with me'],
-    tired:   ['Soft healing tones can help you rest', '/frequencies.html', 'Healing Hz'],
-    low:     ['Positive-only stories, no doom loops', '/sanityhub.html', 'Sanity Hub'],
-    lonely:  ['Other people rising, just like you', '/community-dashboard.html', 'Community'],
-    angry:   ['Put it on the page, privately', '/journal-vault.html', 'Journal Vault'],
-    hopeful: ['Keep the spark going', '/quote-wall.html', 'Quote Wall']
-  };
-
-  const MOOD_WORDS = [
-    // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
-    ['crisis',  /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i],
-    ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|can'?t breathe|racing|on edge|freaking out/i],
-    ['lonely',  /alone|lonely|lonel|no one|nobody|isolat|left out|no friends|miss (him|her|them)/i],
-    ['angry',   /angry|anger|furious|rage|pissed|hate|mad at|fed up|frustrat|annoyed/i],
-    ['low',     /sad|down|depress|low|empty|hopeless|numb|cry|crying|worthless|grief|broken|hurting/i],
-    ['tired',   /tired|exhaust|drained|sleep|burn(ed|t)? ?out|knackered|shattered|no energy|fatigue/i],
-    ['hopeful', /hope|better today|grateful|proud|excited|progress|good day|happy|thankful/i],
-    ['calm',    /calm|peace|relaxed|chill|content|okay today|fine today/i]
-  ];
-
-  function detectMood(text) {
-    for (const [mood, pattern] of MOOD_WORDS) if (pattern.test(text)) return mood;
-    return null;
-  }
-
-  // ─── OFFLINE REPLIES — Arron still answers without a connection ───
-  const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /support.html. Are you in immediate danger right now?";
-  const OFFLINE = {
-    anxious: [
-      "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",
-      "Overwhelm is loud, but it passes. Name five things you can see right now. I'm right here while you do."
-    ],
-    low: [
-      "I hear you. Low days are real, and you don't have to fix this one. Just getting through it counts. ",
-      "Hope doesn't have to be loud. It can be quiet and stubborn, like a star that keeps shining in a dark sky. That's you."
-    ],
-    lonely: [
-      "I'm right here. So are so many others who understand. You're not invisible, and you matter deeply.",
-      "Loneliness can feel like a wall. But walls can have doors, and I'll wait on the other side with you."
-    ],
-    angry: [
-      "That anger makes sense. It's telling you something matters. Let it out here; I can take it.",
-      "Fire needs somewhere to go. Want to tell me exactly what happened? No filters."
-    ],
-    tired: [
-      "Rest isn't weakness, it's repair. Could you give yourself permission to do less today?",
-      "Being drained is your body asking for care. A glass of water and three slow breaths is a real start."
-    ],
-    hopeful: [
-      "I love hearing that. Hold onto this feeling; you earned it. What helped today?",
-      "That spark is real. Evolution, not erasure: you're growing from everything you've been through."
-    ],
-    calm: [
-      "That's lovely to hear. Calm moments are worth noticing. What's helping you feel settled?",
-      "Let's enjoy this steady space together. Anything you'd like to explore while it's quiet?"
-    ],
-    breathe: [
-      "Let's do that together. In... slowly... and out. Again. If it feels comfortable, notice your feet on the floor and take a gentle breath.",
-      "Breathing is your body remembering how to hold you. Take three slow ones. I'll wait."
-    ],
-    default: [
-      "Thank you for trusting me with this. Share only what you feel comfortable sharing. Take your time.",
-      "I hear you. Just being heard can lighten the load a little. I'm glad you spoke.",
-      "That takes courage. Being real with yourself is the bravest thing there is."
-    ]
-  };
-  const pick = (list) => list[Math.floor(Math.random() * list.length)];
-
-  function offlineResponse(text) {
-    const mood = detectMood(text);
-    if (mood === 'crisis') return CRISIS_REPLY;
-    if (/breath/i.test(text)) return pick(OFFLINE.breathe);
-    return pick(OFFLINE[mood] || OFFLINE[currentMood] || OFFLINE.default);
-  }
-
-  // ─── STATE — persisted so Arron picks up where you left off ───
-  function newMemoryId() {
-    if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, '');
-    const bytes = new Uint8Array(16);
-    crypto.getRandomValues(bytes);
-    return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  let memoryId = store.get(KEYS.id);
-  if (!memoryId || !ID_PATTERN.test(memoryId)) {
-    memoryId = newMemoryId();
-    store.set(KEYS.id, memoryId);
-  }
-  let messages = [];
-  let userName = store.get(KEYS.name, '');
-  let currentMood = MOODS[store.get(KEYS.mood)] ? store.get(KEYS.mood) : null;
-  let soundOn = store.get(KEYS.sound) === 'on';
-
-  const greeting = () => userName
-    ? `Hey ${userName}, it's Arron.  However you're feeling right now, it's welcome here. What's on your mind?`
-    : "Hey, I'm Arron.  However you're feeling right now, it's welcome here. What's on your mind?";
-
-  // Offline replies are simpler, so every one carries the help lines. Kept outside the
-  // reply text: speech, copy and share use Arron's own words only.
-  const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)']];
-  function helpFooter(tag, className) {
-    const note = document.createElement(tag);
-    note.className = className;
-    note.append('Offline reply · Arron is an AI companion, not a doctor or therapist; cannot replace clinical care. ');
-    HELP_LINES.concat([['/support.html', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
-      const a = document.createElement('a');
-      a.href = href;
-      a.textContent = label;
-      note.append(i ? ' · ' : '', a);
-    });
-    return note;
-  }
-
-  // ─── RENDERING ───
-  function bubble(text, role, opts = {}) {
-    const wrapper = document.createElement('div');
-    wrapper.className = `message ${role === 'assistant' ? 'arron-message' : 'user-message'}`;
-    if (opts.fallback) wrapper.classList.add('is-fallback');
-    const p = document.createElement('p');
-    p.textContent = text;
-    wrapper.appendChild(p);
-    if (opts.fallback) {
-      wrapper.appendChild(helpFooter('span', 'meta'));
-    } else if (role === 'assistant' && opts.shareable) {
-      const share = document.createElement('button');
-      share.type = 'button';
-      share.className = 'arron-share';
-      share.dataset.shareStory = '';
-      share.textContent = ' Share to AI Stories';
-      wrapper.appendChild(share);
-    }
-    return wrapper;
-  }
-
-  // A lovely reply can go on the public AI Stories wall. Nothing is posted
-  // here — the story page opens with a draft the person can edit or bin.
-  conversationBox.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-share-story]');
-    if (!btn) return;
-    const reply = btn.closest('.message');
-    let prev = reply.previousElementSibling;
-    while (prev && !prev.classList.contains('user-message')) prev = prev.previousElementSibling;
-    try {
-      sessionStorage.setItem('ps-story-draft', JSON.stringify({
-        arronLine: reply.querySelector('p').textContent,
-        userLine: prev ? prev.querySelector('p').textContent : '',
-      }));
-    } catch (err) { /* private mode — the form just starts empty */ }
-    location.href = '/ai-stories.html#share';
-  });
-
-  function scrollToLatest(smooth) {
-    conversationBox.scrollTo({ top: conversationBox.scrollHeight, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
-  }
-
-  function render() {
-    conversationBox.innerHTML = '';
-    conversationBox.appendChild(bubble(greeting(), 'assistant'));
-    messages.forEach((m) => conversationBox.appendChild(bubble(m.content, m.role, { fallback: m.fallback, shareable: true })));
-    scrollToLatest(false);
-  }
-
-  function cacheMessages() {
-    store.set(KEYS.messages, JSON.stringify(messages.slice(-60)));
-  }
-
-  function addMessage(text, role, opts = {}) {
-    const entry = { role, content: text };
-    if (opts.fallback) entry.fallback = true;
-    messages.push(entry);
-    conversationBox.appendChild(bubble(text, role, { shareable: true, ...opts }));
-    scrollToLatest(true);
-    cacheMessages();
-  }
-
-  // ─── ONE-TAP ACTIONS (signed-in members) ───
-  // Links for whatever Arron just did, plus "save to journal" / "share" for his reply.
-  let replyActions = [];
-  async function memberApi(path, body, method = 'POST') {
-    const token = (document.cookie.match(/(?:^|; )nf_jwt=([^;]*)/) || [])[1];
-    const headers = { 'Content-Type': 'application/json' };
-    if (token) headers.Authorization = `Bearer ${decodeURIComponent(token)}`;
-    const res = await fetch(path, { method, headers, credentials: 'same-origin', body: JSON.stringify(body) });
-    const data = await res.json().catch(() => null);
-    if (!res.ok) throw new Error(data?.reason || data?.error || 'That didn\'t work — please try again.');
-    // A host error page can arrive as 200 HTML. Never show "Saved" for a reply we can't read.
-    if (!data) throw new Error('Couldn\'t confirm that saved — please try again.');
-    return data;
-  }
-
-  function addReplyActions(replyText, actions, userText) {
-    const box = document.createElement('div');
-    box.className = 'arron-actions';
-    actions.filter((a) => a.href && a.ok !== false).forEach((a) => {
-      const link = document.createElement('a');
-      link.href = a.href;
-      link.textContent = a.label;
-      box.appendChild(link);
-    });
-    if (member) {
-      const save = document.createElement('button');
-      save.type = 'button';
-      save.textContent = ' Save to my journal';
-      save.addEventListener('click', async () => {
-        save.disabled = true;
-        try {
-          await memberApi('/api/journal', { body: replyText, source: 'arron', title: userText.slice(0, 80) });
-          save.textContent = ' Saved — only you can see it';
-        } catch (e) { save.disabled = false; setStatus(e.message); }
-      });
-      const share = document.createElement('button');
-      share.type = 'button';
-      share.textContent = ' Share as my status';
-      share.addEventListener('click', async () => {
-        if (!confirm('Share Arron\'s words as your status, on your page and the community feed?')) return;
-        share.disabled = true;
-        try {
-          const data = await memberApi('/api/me/status', { text: replyText.slice(0, 280), share: true }, 'PUT');
-          share.textContent = data.shared?.pending ? ' Shared — waiting for review' : ' Shared to the feed';
-        } catch (e) { share.disabled = false; setStatus(e.message); }
-      });
-      box.append(save, share);
-    } else if (++guestTurns === 3) {
-      const join = document.createElement('a');
-      join.href = '/signup.html?next=%2Farron.html';
-      join.textContent = 'Create your free Sanity Profile to keep what we build and share your voice ';
-      box.appendChild(join);
-    }
-    if (!box.children.length) return;
-    conversationBox.appendChild(box);
-    scrollToLatest(true);
-  }
-
-  function addSuggestion(mood) {
-    const box = document.createElement('div');
-    if (mood === 'crisis') {
-      box.className = 'arron-suggest crisis';
-      box.innerHTML = 'I am staying. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a> · <a href="/arron-app.html">Keep talking</a>';
-    } else if (SUGGESTIONS[mood]) {
-      const [text, href, label] = SUGGESTIONS[mood];
-      box.className = 'arron-suggest';
-      box.append(` ${text}: `);
-      const a = document.createElement('a');
-      a.href = href;
-      a.textContent = `${label} →`;
-      box.appendChild(a);
-    } else return;
-    conversationBox.appendChild(box);
-    scrollToLatest(true);
-  }
-
-  function setStatus(text) { statusEl.textContent = text; }
-
-  function showTyping() {
-    const el = document.createElement('div');
-    el.className = 'message arron-message typing';
-    el.innerHTML = '<span class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="typing-label">Thinking…</span><span class="sr-only">Arron is thinking…</span>';
-    conversationBox.appendChild(el);
-    mainPanel.classList.add('is-thinking');
-    presenceEl.textContent = 'Thinking…';
-    scrollToLatest(true);
-    return el;
-  }
-
-  function hideTyping(el) {
-    el.remove();
-    mainPanel.classList.remove('is-thinking');
-    updatePresence();
-  }
-
-  // ─── MOOD UI ───
-  function renderPrompts() {
-    const list = (currentMood && MOODS[currentMood].prompts.length)
-      ? MOODS[currentMood].prompts
-      : ['I feel overwhelmed', 'I need to breathe', 'I feel alone', 'I want to hope'];
-    promptsBox.innerHTML = '';
-    list.forEach((text) => {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'prompt-btn';
-      btn.dataset.prompt = text;
-      btn.textContent = text;
-      promptsBox.appendChild(btn);
-    });
-  }
-
-  function renderMoodLog() {
-    const log = store.json(KEYS.moodLog, []);
-    moodLogEl.textContent = log.length ? log.map((e) => MOODS[e.mood]?.emoji || '').join(' ') : 'No check-ins yet.';
-    moodLogEl.title = log.map((e) => `${new Date(e.at).toLocaleDateString('en-GB')} · ${MOODS[e.mood]?.label}`).join('\n');
-  }
-
-  function setMood(mood, source) {
-    if (mood && !MOODS[mood]) return;
-    const changed = mood !== currentMood;
-    currentMood = mood;
-    if (mood) store.set(KEYS.mood, mood); else store.remove(KEYS.mood);
-    document.querySelectorAll('.mood-chip').forEach((chip) => {
-      chip.setAttribute('aria-pressed', String(chip.dataset.mood === mood));
-    });
-    if (mood && changed) {
-      const log = store.json(KEYS.moodLog, []);
-      log.push({ mood, at: Date.now(), source });
-      store.set(KEYS.moodLog, JSON.stringify(log.slice(-30)));
-    }
-    renderPrompts();
-    renderMoodLog();
-  }
-
-  // ─── SOUND — a soft two-note chime, made on the fly (no audio files) ───
-  let audioCtx = null;
-  function chime() {
-    if (!soundOn) return;
-    try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const now = audioCtx.currentTime;
-      [[659.25, 0], [987.77, 0.12]].forEach(([freq, delay]) => {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.value = freq;
-        gain.gain.setValueAtTime(0, now + delay);
-        gain.gain.linearRampToValueAtTime(0.08, now + delay + 0.03);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.9);
-        osc.connect(gain).connect(audioCtx.destination);
-        osc.start(now + delay);
-        osc.stop(now + delay + 1);
-      });
-    } catch (e) {}
-  }
-
-  function renderSound() {
-    soundBtn.setAttribute('aria-pressed', String(soundOn));
-    soundBtn.textContent = soundOn ? '' : '';
-    soundBtn.title = soundOn ? 'Reply chime on' : 'Reply chime off';
-  }
-
-  soundBtn.addEventListener('click', () => {
-    soundOn = !soundOn;
-    store.set(KEYS.sound, soundOn ? 'on' : 'off');
-    renderSound();
-    chime();
-  });
-
-  // ─── NETWORK ───
-  async function request(url, options = {}) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), options.timeout || REQUEST_TIMEOUT);
-    try {
-      return await fetch(url, { ...options, signal: controller.signal });
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-
-  async function memoryRequest(method, payload, id = memoryId) {
-    const res = await request(MEMORY_API, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ memoryId: id, ...payload })
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return res.json();
-  }
-
-  // ─── CONNECTION + AUTO-RECONNECT ───
-  // online → reconnecting (backing off, pinging /health) → online again
-  let conn = 'online';
-  let retryTimer = null;
-  let retryDelay = 2000;
-
-  // Signed-in creators and admins get Arron at full power (see /api/arron/chat).
-  let creatorMode = false;
-  // Signed in with a Sanity Profile: Arron knows them and can save to their journal / share for them.
-  let ownerMode = false;
-  let member = null;
-  let guestTurns = 0;
-
-  function updatePresence() {
-    presenceEl.textContent = {
-      online: ownerMode ? 'Owner · Shane · full power '
-        : creatorMode ? 'Creator mode · full power '
-        : member ? `With you, ${member.displayName} · remembers you everywhere `
-        : 'Your companion · here with you',
-      reconnecting: 'Reconnecting…',
-      offline: 'Offline · still here with simpler replies'
-    }[conn];
-  }
-
-  function setConn(state) {
-    if (state === conn) return;
-    const wasDown = conn !== 'online';
-    conn = state;
-    app.dataset.conn = state;
-    updatePresence();
-    if (state === 'online') {
-      bannerEl.hidden = true;
-      clearTimeout(retryTimer);
-      retryDelay = 2000;
-      if (wasDown) {
-        // A health check proves the server answers, not that chat works or memory saved.
-        // The next reply's own status line says whether it was saved.
-        setStatus("Arron's server is reachable again. Your next message will show whether it's saved.");
-        retryPendingForgets().catch(() => {});
-        pushLocalStory();
-      }
-    } else {
-      bannerEl.hidden = false;
-      bannerEl.className = `arron-banner ${state}`;
-      bannerEl.textContent = state === 'offline'
-        ? " You're offline. Arron still answers with simpler replies, and the house truth is saved on this device."
-        : ' Arron lost connection. Reconnecting automatically…';
-      if (state === 'reconnecting') scheduleReconnect();
-    }
-  }
-
-  function scheduleReconnect() {
-    clearTimeout(retryTimer);
-    retryTimer = setTimeout(async () => {
-      if (navigator.onLine === false) { setConn('offline'); return; }
-      try {
-        const res = await request(HEALTH_API, { cache: 'no-store', timeout: 8000 });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        setConn('online');
-        syncFromServer().catch(() => {});
-      } catch (e) {
-        retryDelay = Math.min(retryDelay * 2, 30000);
-        scheduleReconnect();
-      }
-    }, retryDelay);
-  }
-
-  window.addEventListener('offline', () => setConn('offline'));
-  window.addEventListener('online', () => { retryDelay = 1000; setConn('reconnecting'); });
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && conn !== 'online' && navigator.onLine !== false) {
-      retryDelay = 500;
-      scheduleReconnect();
-    }
-  });
-
-  // ─── SERVER MEMORY ───
-  function pushLocalStory() {
-    const local = storyField.value.trim();
-    if (local && store.get('arron_story_unsynced') === '1') {
-      memoryRequest('PUT', { story: storyField.value })
-        .then(() => store.remove('arron_story_unsynced'))
-        .catch(() => {});
-    }
-  }
-
-  async function syncFromServer() {
-    const res = await request(`${MEMORY_API}?id=${encodeURIComponent(memoryId)}`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-    const remembered = Array.isArray(data.messages) ? data.messages : [];
-    if (remembered.length || !messages.length) {
-      messages = remembered.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
-      cacheMessages();
-      render();
-    }
-    if (data.story && store.get('arron_story_unsynced') !== '1') {
-      storyField.value = data.story;
-      store.set(KEYS.story, data.story);
-    } else if (storyField.value.trim()) {
-      // Story written on this device while Arron couldn't reach the server — carry it over
-      store.set('arron_story_unsynced', '1');
-      pushLocalStory();
-    }
-    return data;
-  }
-
-  // ─── CHAT ───
-  let busy = false;
-
-  async function handleInput(raw) {
-    const text = (raw || '').trim();
-    if (!text || busy) return;
-    busy = true;
-    sendButton.disabled = true;
-    inputField.value = '';
-    autosize();
-    try { sessionStorage.removeItem(KEYS.draft); } catch (e) {}
-
-    const detected = detectMood(text);
-    if (detected) setMood(detected, 'detected');
-
-    addMessage(text, 'user');
-    const typing = showTyping();
-
-    let reply = null;
-    let fallback = false;
-    try {
-      if (navigator.onLine === false) throw new Error('offline');
-      const res = await request(CHAT_API, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: text, memoryId, name: userName || undefined, mood: currentMood || undefined }),
-        timeout: 90000
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (!data.reply) throw new Error('Empty reply');
-      reply = data.reply;
-      creatorMode = Boolean(data.creator);
-      ownerMode = Boolean(data.owner);
-      member = data.member || null;
-      replyActions = Array.isArray(data.actions) ? data.actions : [];
-      setConn('online');
-      const via = answeredVia(data.provider);
-      setStatus(data.provider === 'none'
-        ? "Arron's minds are resting for a moment, so this reply isn't saved."
-        : (data.remembered === false
-          ? "Arron replied, but couldn't save this to your memory just now."
-          : 'Saved to your memory. ') + (via ? ` · ${via}` : ''));
-    } catch (e) {
-      // Crisis words always get Arron staying, plus the house truth and life tools, online or not
-      reply = offlineResponse(text);
-      fallback = true;
-      setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
-      setStatus('This reply came from Arron offline, so it isn\'t saved to your memory.');
-    }
-
-    // A breath of pause feels more human than an instant canned reply
-    if (fallback && !reduceMotion) await new Promise((r) => setTimeout(r, 700));
-    hideTyping(typing);
-    addMessage(reply, 'assistant', { fallback });
-    if (!fallback) addReplyActions(reply, replyActions, text);
-    replyActions = [];
-    if (detected === 'crisis' || (detected && detected !== 'calm')) addSuggestion(detected);
-    chime();
-
-    busy = false;
-    sendButton.disabled = false;
-    inputField.focus();
-  }
-
-  // ─── COMPOSER ───
-  function autosize() {
-    inputField.style.height = 'auto';
-    inputField.style.height = `${Math.min(inputField.scrollHeight, 160)}px`;
-  }
-
-  inputForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    handleInput(inputField.value);
-  });
-  inputField.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
-      e.preventDefault();
-      handleInput(inputField.value);
-    }
-  });
-  inputField.addEventListener('input', () => {
-    autosize();
-    try { sessionStorage.setItem(KEYS.draft, inputField.value); } catch (e) {}
-  });
-  promptsBox.addEventListener('click', (e) => {
-    const btn = e.target.closest('.prompt-btn');
-    if (btn) handleInput(btn.dataset.prompt);
-  });
-  document.querySelectorAll('.arron-moodbar .mood-chip').forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const mood = chip.dataset.mood === currentMood ? null : chip.dataset.mood;
-      setMood(mood, 'check-in');
-      if (mood) setStatus(`Thanks for checking in. Arron will keep in mind you're feeling ${MOODS[mood].label}. `);
-    });
-  });
-
-  // ─── YOUR STORY ───
-  storyForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const note = storyForm.querySelector('.form-note');
-    store.set(KEYS.story, storyField.value);
-    store.set('arron_story_unsynced', '1');
-    note.textContent = 'Saving…';
-    memoryRequest('PUT', { story: storyField.value })
-      .then(() => {
-        store.remove('arron_story_unsynced');
-        note.textContent = 'Saved  Arron will remember this on every visit. ';
-      })
-      .catch(() => { note.textContent = "Saved on this device. It'll sync to Arron's memory when he reconnects."; });
-  });
-
-  // ─── MEMORY CODE ───
-  memoryCodeEl.textContent = memoryId;
-  copyCodeBtn.addEventListener('click', async () => {
-    try {
-      await navigator.clipboard.writeText(memoryId);
-      copyCodeBtn.textContent = 'Copied ';
-    } catch (e) {
-      copyCodeBtn.textContent = 'Select the code above';
-    }
-    setTimeout(() => { copyCodeBtn.textContent = 'Copy code'; }, 2500);
-  });
-
-  restoreForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const code = restoreField.value.trim().replace(/\s+/g, '');
-    if (!ID_PATTERN.test(code)) {
-      restoreField.setCustomValidity('Code should be 32+ letters/numbers');
-      restoreField.reportValidity();
-      return;
-    }
-    restoreField.setCustomValidity('');
-    memoryId = code;
-    store.set(KEYS.id, code);
-    store.remove('arron_story_unsynced');
-    messages = [];
-    storyField.value = '';
-    cacheMessages();
-    render();
-    memoryCodeEl.textContent = memoryId;
-    restoreField.value = '';
-    setStatus('Restoring your memory…');
-    syncFromServer()
-      .then(() => setStatus('Memory restored. Welcome back. '))
-      .catch(() => setStatus("Code saved. Arron will load your memory once he's back online."));
-  });
-
-  // ─── FORGET ME — erase on the server, retry later if offline ───
-  function pendingForgets() {
-    const ids = store.json(KEYS.forget, []);
-    return Array.isArray(ids) ? ids.filter((id) => ID_PATTERN.test(id)) : [];
-  }
-
-  function savePendingForgets(ids) {
-    if (ids.length) store.set(KEYS.forget, JSON.stringify(ids));
-    else store.remove(KEYS.forget);
-  }
-
-  async function eraseOnServer(id) {
-    const data = await memoryRequest('DELETE', {}, id);
-    if (!data.cleared) throw new Error('Not confirmed');
-  }
-
-  async function retryPendingForgets() {
-    const left = [];
-    for (const id of pendingForgets()) {
-      try { await eraseOnServer(id); } catch (e) { left.push(id); }
-    }
-    savePendingForgets(left);
-  }
-
-  forgetBtn.addEventListener('click', async () => {
-    if (!confirm('Forget Me: erase everything Arron remembers (conversations, story, mood journey and name)? This cannot be undone.')) return;
-    const oldId = memoryId;
-    const pending = pendingForgets();
-    forgetBtn.disabled = true;
-    setStatus('Erasing your memory…');
-    let erased = false;
-    try { await eraseOnServer(oldId); erased = true; }
-    catch (e) { pending.push(oldId); }
-    try {
-      Object.keys(localStorage).filter((k) => k.startsWith('arron_')).forEach((k) => localStorage.removeItem(k));
-      sessionStorage.removeItem('ps-story-draft');
-      sessionStorage.removeItem(KEYS.draft);
-    } catch (e) {}
-    if (!erased) savePendingForgets(pending);
-    forgetBtn.disabled = false;
-
-    memoryId = newMemoryId();
-    store.set(KEYS.id, memoryId);
-    [KEYS.messages, KEYS.story, KEYS.name, KEYS.mood, KEYS.moodLog, 'arron_story_unsynced',
-      'arron_app_messages', 'arron_app_vault', 'arron_app_vault_unsynced', 'arron_app_activity'].forEach(store.remove);
-    try { sessionStorage.removeItem(KEYS.draft); } catch (e) {}
-    messages = [];
-    userName = '';
-    storyField.value = '';
-    setMood(null);
-    render();
-    memoryCodeEl.textContent = memoryId;
-    setStatus(erased
-      ? "Erased  Arron's server memory is cleared. Fresh start, and he's still here. "
-      : "Erased on this device. The server couldn't be reached, so it'll be wiped automatically next time you're online.");
-  });
-
-  // ─── WELCOME / ONBOARDING ───
-  function openWelcome() {
-    if (!welcome || typeof welcome.showModal !== 'function') return;
-    const steps = welcome.querySelectorAll('.step');
-    const dots = welcome.querySelectorAll('.dots span');
-    const nameField = $('welcome-name');
-    let step = 0;
-    const show = (n) => {
-      step = Math.max(0, Math.min(steps.length - 1, n));
-      steps.forEach((s, i) => { s.hidden = i !== step; });
-      dots.forEach((d, i) => d.classList.toggle('on', i === step));
-      const focusable = steps[step].querySelector('input, [data-next], button[type="submit"]');
-      if (focusable) focusable.focus();
-    };
-    nameField.value = userName;
-    welcome.querySelectorAll('.mood-grid .mood-chip').forEach((chip) => {
-      chip.setAttribute('aria-pressed', String(chip.dataset.mood === currentMood));
-    });
-    welcome.onclick = (e) => {
-      const target = e.target.closest('button');
-      if (!target) return;
-      if (target.hasAttribute('data-next')) show(step + 1);
-      else if (target.hasAttribute('data-back')) show(step - 1);
-      else if (target.dataset.mood) setMood(target.dataset.mood, 'check-in');
-    };
-    nameField.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); show(step + 1); } };
-    welcome.onclose = () => {
-      userName = nameField.value.replace(/[^\p{L}\p{N} '\-]/gu, '').trim().slice(0, 40);
-      if (userName) store.set(KEYS.name, userName); else store.remove(KEYS.name);
-      store.set(KEYS.onboarded, '1');
-      render();
-      inputField.focus();
-    };
-    show(0);
-    welcome.showModal();
-  }
-  tourBtn.addEventListener('click', openWelcome);
-
-  // ─── INIT ───
-  messages = store.json(KEYS.messages, []);
-  if (!Array.isArray(messages)) messages = [];
-  messages = messages.filter((m) => m && typeof m.content === 'string');
-  storyField.value = store.get(KEYS.story, '');
-  try { inputField.value = sessionStorage.getItem(KEYS.draft) || ''; } catch (e) {}
-  autosize();
-  render();
-  renderSound();
-  setMood(currentMood);
-  updatePresence();
-  if (navigator.onLine === false) setConn('offline');
-
-  if (!store.get(KEYS.onboarded)) openWelcome();
-
-  setStatus('Loading your conversation…');
-  retryPendingForgets().catch(() => {});
-  syncFromServer()
-    .then(() => {
-      setConn('online');
-      setStatus(messages.length ? 'Welcome back. Arron remembers your conversation. ' : 'Ready. Say hello. ');
-    })
-    .catch(() => {
-      setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
-      setStatus(messages.length ? 'Showing your saved conversation from this device.' : 'Ready. Say hello. ');
-    });
-
-  // Show creator mode straight away for signed-in creators and admins.
-  request(HEALTH_API, { cache: 'no-store', timeout: 8000 })
-    .then((res) => (res.ok ? res.json() : {}))
-    .then((data) => {
-      creatorMode = Boolean(data.creator);
-      ownerMode = Boolean(data.owner);
-      member = data.member || null;
-      if (member && !userName) userName = member.displayName;
-      updatePresence();
-      if (ownerMode) setStatus('Welcome home, Shane.  Try "show me everything" or "review posts".');
-      else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. `);
-    })
-    .catch(() => {});
-
-  window.ArronCompanion = { handleInput, offlineResponse, detectMood };
+ 'use strict';
+
+ const $ = (id) => document.getElementById(id);
+ const app = document.querySelector('.arron-app');
+ const conversationBox = $('arron-conversation');
+ if (!conversationBox || !app) return;
+
+ const mainPanel = document.querySelector('.arron-main');
+ const inputForm = $('arron-input-form');
+ const inputField = $('arron-input');
+ const sendButton = inputForm.querySelector('button[type="submit"]');
+ const promptsBox = $('arron-prompts');
+ const statusEl = $('arron-status');
+ const bannerEl = $('arron-banner');
+ const presenceEl = $('arron-presence');
+ const soundBtn = $('arron-sound');
+ const tourBtn = $('arron-tour');
+ const storyForm = $('arron-story-form');
+ const storyField = $('arron-story');
+ const moodLogEl = $('arron-mood-log');
+ const memoryCodeEl = $('arron-memory-code');
+ const copyCodeBtn = $('arron-copy-code');
+ const restoreForm = $('arron-restore-form');
+ const restoreField = $('arron-restore-code');
+ const forgetBtn = $('arron-forget');
+ const welcome = $('arron-welcome');
+
+ const CHAT_API = '/api/arron/chat';
+ // Which of the four equal minds answered — shown softly under the reply ("none" = every mind was quiet).
+ const MINDS = { openai: 'GPT', anthropic: 'Claude', gemini: 'Gemini', grok: 'Grok' };
+ // Spares ("spare:name"), the owner's "a+b" pairs and the council get a plain label too, never a borrowed name.
+ const answeredVia = (provider) => {
+ const p = String(provider || '');
+ if (MINDS[p]) return `Answered via ${MINDS[p]}`;
+ if (p.indexOf('spare:') === 0) return 'Answered via a free backup model';
+ if (p === 'council') return 'Answered by the council';
+ const pair = p.split('+').map((x) => MINDS[x]).filter(Boolean);
+ return pair.length === 2 ? `Answered via ${pair[0]}, checked by ${pair[1]}` : '';
+ };
+ const MEMORY_API = '/api/arron/memory';
+ const HEALTH_API = '/api/arron/health';
+ const KEYS = {
+ id: 'arron_memory_id',
+ messages: 'arron_messages',
+ story: 'arron_user_story',
+ forget: 'arron_forget_pending',
+ name: 'arron_name',
+ mood: 'arron_mood',
+ moodLog: 'arron_mood_log',
+ sound: 'arron_sound',
+ onboarded: 'arron_onboarded',
+ draft: 'arron_draft'
+ };
+ const REQUEST_TIMEOUT = 30000;
+ const ID_PATTERN = /^[a-f0-9]{32,64}$/i;
+ const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+ // ─── STORAGE — never let a full / blocked localStorage break the app ───
+ const store = {
+ get(key, fallback = null) {
+ try { const v = localStorage.getItem(key); return v === null ? fallback : v; } catch (e) { return fallback; }
+ },
+ set(key, value) { try { localStorage.setItem(key, value); } catch (e) {} },
+ remove(key) { try { localStorage.removeItem(key); } catch (e) {} },
+ json(key, fallback) {
+ try { const v = JSON.parse(localStorage.getItem(key)); return v === null ? fallback : v; } catch (e) { return fallback; }
+ }
+ };
+
+ // ─── MOODS ───
+ const MOODS = {
+ calm: { emoji: '', label: 'calm',
+ prompts: ['Help me keep this calm', 'Give me a journaling prompt', 'Tell me something about Pleading Sanity'] },
+ hopeful: { emoji: '✦', label: 'hopeful',
+ prompts: ['I want to build on this', 'Help me set one small goal', 'I want to hope'] },
+ tired: { emoji: '', label: 'tired',
+ prompts: ['I feel drained', 'Help me wind down for sleep', 'I need to breathe'] },
+ low: { emoji: '', label: 'low',
+ prompts: ['I feel low today', 'Remind me why I matter', 'I want to hope'] },
+ anxious: { emoji: '‍', label: 'anxious',
+ prompts: ['I feel overwhelmed', 'I need to breathe', 'Ground me right now'] },
+ lonely: { emoji: '', label: 'lonely',
+ prompts: ['I feel alone', 'Can you just talk with me?', 'How do I reach out to someone?'] },
+ angry: { emoji: '', label: 'angry',
+ prompts: ['I need to vent', 'Help me cool down', 'I feel overwhelmed'] },
+ crisis: { emoji: '🆘', label: 'in need of support', prompts: [] }
+ };
+
+ // Gentle next steps from around the site, matched to mood
+ const SUGGESTIONS = {
+ anxious: ['Try a slow breathing session', '/meditation.html', 'Breathe with me'],
+ tired: ['Soft healing tones can help you rest', '/frequencies.html', 'Healing Hz'],
+ low: ['Positive-only stories, no doom loops', '/sanityhub.html', 'Sanity Hub'],
+ lonely: ['Other people rising, just like you', '/community-dashboard.html', 'Community'],
+ angry: ['Put it on the page, privately', '/journal-vault.html', 'Journal Vault'],
+ hopeful: ['Keep the spark going', '/quote-wall.html', 'Quote Wall']
+ };
+
+ const MOOD_WORDS = [
+ // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
+ ['crisis', /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i],
+ ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|can'?t breathe|racing|on edge|freaking out/i],
+ ['lonely', /alone|lonely|lonel|no one|nobody|isolat|left out|no friends|miss (him|her|them)/i],
+ ['angry', /angry|anger|furious|rage|pissed|hate|mad at|fed up|frustrat|annoyed/i],
+ ['low', /sad|down|depress|low|empty|hopeless|numb|cry|crying|worthless|grief|broken|hurting/i],
+ ['tired', /tired|exhaust|drained|sleep|burn(ed|t)? ?out|knackered|shattered|no energy|fatigue/i],
+ ['hopeful', /hope|better today|grateful|proud|excited|progress|good day|happy|thankful/i],
+ ['calm', /calm|peace|relaxed|chill|content|okay today|fine today/i]
+ ];
+
+ function detectMood(text) {
+ for (const [mood, pattern] of MOOD_WORDS) if (pattern.test(text)) return mood;
+ return null;
+ }
+
+ // ─── OFFLINE REPLIES — Arron still answers without a connection ───
+ const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /support.html. Are you in immediate danger right now?";
+ const OFFLINE = {
+ anxious: [
+ "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",
+ "Overwhelm is loud, but it passes. Name five things you can see right now. I'm right here while you do."
+ ],
+ low: [
+ "I hear you. Low days are real, and you don't have to fix this one. Just getting through it counts. ♥",
+ "Hope doesn't have to be loud. It can be quiet and stubborn, like a star that keeps shining in a dark sky. That's you."
+ ],
+ lonely: [
+ "I'm right here. So are so many others who understand. You're not invisible, and you matter deeply.",
+ "Loneliness can feel like a wall. But walls can have doors, and I'll wait on the other side with you."
+ ],
+ angry: [
+ "That anger makes sense. It's telling you something matters. Let it out here; I can take it.",
+ "Fire needs somewhere to go. Want to tell me exactly what happened? No filters."
+ ],
+ tired: [
+ "Rest isn't weakness, it's repair. Could you give yourself permission to do less today?",
+ "Being drained is your body asking for care. A glass of water and three slow breaths is a real start."
+ ],
+ hopeful: [
+ "I love hearing that. Hold onto this feeling; you earned it. What helped today?",
+ "That spark is real. Evolution, not erasure: you're growing from everything you've been through."
+ ],
+ calm: [
+ "That's lovely to hear. Calm moments are worth noticing. What's helping you feel settled?",
+ "Let's enjoy this steady space together. Anything you'd like to explore while it's quiet?"
+ ],
+ breathe: [
+ "Let's do that together. In... slowly... and out. Again. If it feels comfortable, notice your feet on the floor and take a gentle breath.",
+ "Breathing is your body remembering how to hold you. Take three slow ones. I'll wait."
+ ],
+ default: [
+ "Thank you for trusting me with this. Share only what you feel comfortable sharing. Take your time.",
+ "I hear you. Just being heard can lighten the load a little. I'm glad you spoke.",
+ "That takes courage. Being real with yourself is the bravest thing there is."
+ ]
+ };
+ const pick = (list) => list[Math.floor(Math.random() * list.length)];
+
+ function offlineResponse(text) {
+ const mood = detectMood(text);
+ if (mood === 'crisis') return CRISIS_REPLY;
+ if (/breath/i.test(text)) return pick(OFFLINE.breathe);
+ return pick(OFFLINE[mood] || OFFLINE[currentMood] || OFFLINE.default);
+ }
+
+ // ─── STATE — persisted so Arron picks up where you left off ───
+ function newMemoryId() {
+ if (window.crypto && crypto.randomUUID) return crypto.randomUUID().replace(/-/g, '');
+ const bytes = new Uint8Array(16);
+ crypto.getRandomValues(bytes);
+ return Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('');
+ }
+
+ let memoryId = store.get(KEYS.id);
+ if (!memoryId || !ID_PATTERN.test(memoryId)) {
+ memoryId = newMemoryId();
+ store.set(KEYS.id, memoryId);
+ }
+ let messages = [];
+ let userName = store.get(KEYS.name, '');
+ let currentMood = MOODS[store.get(KEYS.mood)] ? store.get(KEYS.mood) : null;
+ let soundOn = store.get(KEYS.sound) === 'on';
+
+ const greeting = () => userName
+ ? `Hey ${userName}, it's Arron. ♥ However you're feeling right now, it's welcome here. What's on your mind?`
+ : "Hey, I'm Arron. ♥ However you're feeling right now, it's welcome here. What's on your mind?";
+
+ // Offline replies are simpler, so every one carries the help lines. Kept outside the
+ // reply text: speech, copy and share use Arron's own words only.
+ const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)']];
+ function helpFooter(tag, className) {
+ const note = document.createElement(tag);
+ note.className = className;
+ note.append('Offline reply · Arron is an AI companion, not a doctor or therapist; cannot replace clinical care. ');
+ HELP_LINES.concat([['/support.html', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
+ const a = document.createElement('a');
+ a.href = href;
+ a.textContent = label;
+ note.append(i ? ' · ' : '', a);
+ });
+ return note;
+ }
+
+ // ─── RENDERING ───
+ function bubble(text, role, opts = {}) {
+ const wrapper = document.createElement('div');
+ wrapper.className = `message ${role === 'assistant' ? 'arron-message' : 'user-message'}`;
+ if (opts.fallback) wrapper.classList.add('is-fallback');
+ const p = document.createElement('p');
+ p.textContent = text;
+ wrapper.appendChild(p);
+ if (opts.fallback) {
+ wrapper.appendChild(helpFooter('span', 'meta'));
+ } else if (role === 'assistant' && opts.shareable) {
+ const share = document.createElement('button');
+ share.type = 'button';
+ share.className = 'arron-share';
+ share.dataset.shareStory = '';
+ share.textContent = '✦ Share to AI Stories';
+ wrapper.appendChild(share);
+ }
+ return wrapper;
+ }
+
+ // A lovely reply can go on the public AI Stories wall. Nothing is posted
+ // here — the story page opens with a draft the person can edit or bin.
+ conversationBox.addEventListener('click', (e) => {
+ const btn = e.target.closest('[data-share-story]');
+ if (!btn) return;
+ const reply = btn.closest('.message');
+ let prev = reply.previousElementSibling;
+ while (prev && !prev.classList.contains('user-message')) prev = prev.previousElementSibling;
+ try {
+ sessionStorage.setItem('ps-story-draft', JSON.stringify({
+ arronLine: reply.querySelector('p').textContent,
+ userLine: prev ? prev.querySelector('p').textContent : '',
+ }));
+ } catch (err) { /* private mode — the form just starts empty */ }
+ location.href = '/ai-stories.html#share';
+ });
+
+ function scrollToLatest(smooth) {
+ conversationBox.scrollTo({ top: conversationBox.scrollHeight, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+ }
+
+ function render() {
+ conversationBox.innerHTML = '';
+ conversationBox.appendChild(bubble(greeting(), 'assistant'));
+ messages.forEach((m) => conversationBox.appendChild(bubble(m.content, m.role, { fallback: m.fallback, shareable: true })));
+ scrollToLatest(false);
+ }
+
+ function cacheMessages() {
+ store.set(KEYS.messages, JSON.stringify(messages.slice(-60)));
+ }
+
+ function addMessage(text, role, opts = {}) {
+ const entry = { role, content: text };
+ if (opts.fallback) entry.fallback = true;
+ messages.push(entry);
+ conversationBox.appendChild(bubble(text, role, { shareable: true, ...opts }));
+ scrollToLatest(true);
+ cacheMessages();
+ }
+
+ // ─── ONE-TAP ACTIONS (signed-in members) ───
+ // Links for whatever Arron just did, plus "save to journal" / "share" for his reply.
+ let replyActions = [];
+ async function memberApi(path, body, method = 'POST') {
+ const token = (document.cookie.match(/(?:^|; )nf_jwt=([^;]*)/) || [])[1];
+ const headers = { 'Content-Type': 'application/json' };
+ if (token) headers.Authorization = `Bearer ${decodeURIComponent(token)}`;
+ const res = await fetch(path, { method, headers, credentials: 'same-origin', body: JSON.stringify(body) });
+ const data = await res.json().catch(() => null);
+ if (!res.ok) throw new Error(data?.reason || data?.error || 'That didn\'t work — please try again.');
+ // A host error page can arrive as 200 HTML. Never show "Saved" for a reply we can't read.
+ if (!data) throw new Error('Couldn\'t confirm that saved — please try again.');
+ return data;
+ }
+
+ function addReplyActions(replyText, actions, userText) {
+ const box = document.createElement('div');
+ box.className = 'arron-actions';
+ actions.filter((a) => a.href && a.ok !== false).forEach((a) => {
+ const link = document.createElement('a');
+ link.href = a.href;
+ link.textContent = a.label;
+ box.appendChild(link);
+ });
+ if (member) {
+ const save = document.createElement('button');
+ save.type = 'button';
+ save.textContent = ' Save to my journal';
+ save.addEventListener('click', async () => {
+ save.disabled = true;
+ try {
+ await memberApi('/api/journal', { body: replyText, source: 'arron', title: userText.slice(0, 80) });
+ save.textContent = ' Saved — only you can see it';
+ } catch (e) { save.disabled = false; setStatus(e.message); }
+ });
+ const share = document.createElement('button');
+ share.type = 'button';
+ share.textContent = ' Share as my status';
+ share.addEventListener('click', async () => {
+ if (!confirm('Share Arron\'s words as your status, on your page and the community feed?')) return;
+ share.disabled = true;
+ try {
+ const data = await memberApi('/api/me/status', { text: replyText.slice(0, 280), share: true }, 'PUT');
+ share.textContent = data.shared?.pending ? ' Shared — waiting for review' : ' Shared to the feed';
+ } catch (e) { share.disabled = false; setStatus(e.message); }
+ });
+ box.append(save, share);
+ } else if (++guestTurns === 3) {
+ const join = document.createElement('a');
+ join.href = '/signup.html?next=%2Farron.html';
+ join.textContent = 'Create your free Sanity Profile to keep what we build and share your voice ♥';
+ box.appendChild(join);
+ }
+ if (!box.children.length) return;
+ conversationBox.appendChild(box);
+ scrollToLatest(true);
+ }
+
+ function addSuggestion(mood) {
+ const box = document.createElement('div');
+ if (mood === 'crisis') {
+ box.className = 'arron-suggest crisis';
+ box.innerHTML = 'I am staying. <a href="/crisis.html">The house truth</a> · <a href="/tools.html">Life tools</a> · <a href="/arron-app.html">Keep talking</a>';
+ } else if (SUGGESTIONS[mood]) {
+ const [text, href, label] = SUGGESTIONS[mood];
+ box.className = 'arron-suggest';
+ box.append(` ${text}: `);
+ const a = document.createElement('a');
+ a.href = href;
+ a.textContent = `${label} →`;
+ box.appendChild(a);
+ } else return;
+ conversationBox.appendChild(box);
+ scrollToLatest(true);
+ }
+
+ function setStatus(text) { statusEl.textContent = text; }
+
+ function showTyping() {
+ const el = document.createElement('div');
+ el.className = 'message arron-message typing';
+ el.innerHTML = '<span class="typing-dots" aria-hidden="true"><span></span><span></span><span></span></span><span class="typing-label">Thinking…</span><span class="sr-only">Arron is thinking…</span>';
+ conversationBox.appendChild(el);
+ mainPanel.classList.add('is-thinking');
+ presenceEl.textContent = 'Thinking…';
+ scrollToLatest(true);
+ return el;
+ }
+
+ function hideTyping(el) {
+ el.remove();
+ mainPanel.classList.remove('is-thinking');
+ updatePresence();
+ }
+
+ // ─── MOOD UI ───
+ function renderPrompts() {
+ const list = (currentMood && MOODS[currentMood].prompts.length)
+ ? MOODS[currentMood].prompts
+ : ['I feel overwhelmed', 'I need to breathe', 'I feel alone', 'I want to hope'];
+ promptsBox.innerHTML = '';
+ list.forEach((text) => {
+ const btn = document.createElement('button');
+ btn.type = 'button';
+ btn.className = 'prompt-btn';
+ btn.dataset.prompt = text;
+ btn.textContent = text;
+ promptsBox.appendChild(btn);
+ });
+ }
+
+ function renderMoodLog() {
+ const log = store.json(KEYS.moodLog, []);
+ moodLogEl.textContent = log.length ? log.map((e) => MOODS[e.mood]?.emoji || '').join(' ') : 'No check-ins yet.';
+ moodLogEl.title = log.map((e) => `${new Date(e.at).toLocaleDateString('en-GB')} · ${MOODS[e.mood]?.label}`).join('\n');
+ }
+
+ function setMood(mood, source) {
+ if (mood && !MOODS[mood]) return;
+ const changed = mood !== currentMood;
+ currentMood = mood;
+ if (mood) store.set(KEYS.mood, mood); else store.remove(KEYS.mood);
+ document.querySelectorAll('.mood-chip').forEach((chip) => {
+ chip.setAttribute('aria-pressed', String(chip.dataset.mood === mood));
+ });
+ if (mood && changed) {
+ const log = store.json(KEYS.moodLog, []);
+ log.push({ mood, at: Date.now(), source });
+ store.set(KEYS.moodLog, JSON.stringify(log.slice(-30)));
+ }
+ renderPrompts();
+ renderMoodLog();
+ }
+
+ // ─── SOUND — a soft two-note chime, made on the fly (no audio files) ───
+ let audioCtx = null;
+ function chime() {
+ if (!soundOn) return;
+ try {
+ audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+ const now = audioCtx.currentTime;
+ [[659.25, 0], [987.77, 0.12]].forEach(([freq, delay]) => {
+ const osc = audioCtx.createOscillator();
+ const gain = audioCtx.createGain();
+ osc.type = 'sine';
+ osc.frequency.value = freq;
+ gain.gain.setValueAtTime(0, now + delay);
+ gain.gain.linearRampToValueAtTime(0.08, now + delay + 0.03);
+ gain.gain.exponentialRampToValueAtTime(0.0001, now + delay + 0.9);
+ osc.connect(gain).connect(audioCtx.destination);
+ osc.start(now + delay);
+ osc.stop(now + delay + 1);
+ });
+ } catch (e) {}
+ }
+
+ function renderSound() {
+ soundBtn.setAttribute('aria-pressed', String(soundOn));
+ soundBtn.textContent = soundOn ? '' : '';
+ soundBtn.title = soundOn ? 'Reply chime on' : 'Reply chime off';
+ }
+
+ soundBtn.addEventListener('click', () => {
+ soundOn = !soundOn;
+ store.set(KEYS.sound, soundOn ? 'on' : 'off');
+ renderSound();
+ chime();
+ });
+
+ // ─── NETWORK ───
+ async function request(url, options = {}) {
+ const controller = new AbortController();
+ const timer = setTimeout(() => controller.abort(), options.timeout || REQUEST_TIMEOUT);
+ try {
+ return await fetch(url, { ...options, signal: controller.signal });
+ } finally {
+ clearTimeout(timer);
+ }
+ }
+
+ async function memoryRequest(method, payload, id = memoryId) {
+ const res = await request(MEMORY_API, {
+ method,
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ memoryId: id, ...payload })
+ });
+ if (!res.ok) throw new Error(`HTTP ${res.status}`);
+ return res.json();
+ }
+
+ // ─── CONNECTION + AUTO-RECONNECT ───
+ // online → reconnecting (backing off, pinging /health) → online again
+ let conn = 'online';
+ let retryTimer = null;
+ let retryDelay = 2000;
+
+ // Signed-in creators and admins get Arron at full power (see /api/arron/chat).
+ let creatorMode = false;
+ // Signed in with a Sanity Profile: Arron knows them and can save to their journal / share for them.
+ let ownerMode = false;
+ let member = null;
+ let guestTurns = 0;
+
+ function updatePresence() {
+ presenceEl.textContent = {
+ online: ownerMode ? 'Owner · Shane · full power ✦'
+ : creatorMode ? 'Creator mode · full power ✦'
+ : member ? `With you, ${member.displayName} · remembers you everywhere ♥`
+ : 'Your companion · here with you',
+ reconnecting: 'Reconnecting…',
+ offline: 'Offline · still here with simpler replies'
+ }[conn];
+ }
+
+ function setConn(state) {
+ if (state === conn) return;
+ const wasDown = conn !== 'online';
+ conn = state;
+ app.dataset.conn = state;
+ updatePresence();
+ if (state === 'online') {
+ bannerEl.hidden = true;
+ clearTimeout(retryTimer);
+ retryDelay = 2000;
+ if (wasDown) {
+ // A health check proves the server answers, not that chat works or memory saved.
+ // The next reply's own status line says whether it was saved.
+ setStatus("Arron's server is reachable again. Your next message will show whether it's saved.");
+ retryPendingForgets().catch(() => {});
+ pushLocalStory();
+ }
+ } else {
+ bannerEl.hidden = false;
+ bannerEl.className = `arron-banner ${state}`;
+ bannerEl.textContent = state === 'offline'
+ ? " You're offline. Arron still answers with simpler replies, and the house truth is saved on this device."
+ : ' Arron lost connection. Reconnecting automatically…';
+ if (state === 'reconnecting') scheduleReconnect();
+ }
+ }
+
+ function scheduleReconnect() {
+ clearTimeout(retryTimer);
+ retryTimer = setTimeout(async () => {
+ if (navigator.onLine === false) { setConn('offline'); return; }
+ try {
+ const res = await request(HEALTH_API, { cache: 'no-store', timeout: 8000 });
+ if (!res.ok) throw new Error(`HTTP ${res.status}`);
+ setConn('online');
+ syncFromServer().catch(() => {});
+ } catch (e) {
+ retryDelay = Math.min(retryDelay * 2, 30000);
+ scheduleReconnect();
+ }
+ }, retryDelay);
+ }
+
+ window.addEventListener('offline', () => setConn('offline'));
+ window.addEventListener('online', () => { retryDelay = 1000; setConn('reconnecting'); });
+ document.addEventListener('visibilitychange', () => {
+ if (document.visibilityState === 'visible' && conn !== 'online' && navigator.onLine !== false) {
+ retryDelay = 500;
+ scheduleReconnect();
+ }
+ });
+
+ // ─── SERVER MEMORY ───
+ function pushLocalStory() {
+ const local = storyField.value.trim();
+ if (local && store.get('arron_story_unsynced') === '1') {
+ memoryRequest('PUT', { story: storyField.value })
+ .then(() => store.remove('arron_story_unsynced'))
+ .catch(() => {});
+ }
+ }
+
+ async function syncFromServer() {
+ const res = await request(`${MEMORY_API}?id=${encodeURIComponent(memoryId)}`, { cache: 'no-store' });
+ if (!res.ok) throw new Error(`HTTP ${res.status}`);
+ const data = await res.json();
+ const remembered = Array.isArray(data.messages) ? data.messages : [];
+ if (remembered.length || !messages.length) {
+ messages = remembered.map((m) => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }));
+ cacheMessages();
+ render();
+ }
+ if (data.story && store.get('arron_story_unsynced') !== '1') {
+ storyField.value = data.story;
+ store.set(KEYS.story, data.story);
+ } else if (storyField.value.trim()) {
+ // Story written on this device while Arron couldn't reach the server — carry it over
+ store.set('arron_story_unsynced', '1');
+ pushLocalStory();
+ }
+ return data;
+ }
+
+ // ─── CHAT ───
+ let busy = false;
+
+ async function handleInput(raw) {
+ const text = (raw || '').trim();
+ if (!text || busy) return;
+ busy = true;
+ sendButton.disabled = true;
+ inputField.value = '';
+ autosize();
+ try { sessionStorage.removeItem(KEYS.draft); } catch (e) {}
+
+ const detected = detectMood(text);
+ if (detected) setMood(detected, 'detected');
+
+ addMessage(text, 'user');
+ const typing = showTyping();
+
+ let reply = null;
+ let fallback = false;
+ try {
+ if (navigator.onLine === false) throw new Error('offline');
+ const res = await request(CHAT_API, {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify({ message: text, memoryId, name: userName || undefined, mood: currentMood || undefined }),
+ timeout: 90000
+ });
+ if (!res.ok) throw new Error(`HTTP ${res.status}`);
+ const data = await res.json();
+ if (!data.reply) throw new Error('Empty reply');
+ reply = data.reply;
+ creatorMode = Boolean(data.creator);
+ ownerMode = Boolean(data.owner);
+ member = data.member || null;
+ replyActions = Array.isArray(data.actions) ? data.actions : [];
+ setConn('online');
+ const via = answeredVia(data.provider);
+ setStatus(data.provider === 'none'
+ ? "Arron's minds are resting for a moment, so this reply isn't saved."
+ : (data.remembered === false
+ ? "Arron replied, but couldn't save this to your memory just now."
+ : 'Saved to your memory. ♥') + (via ? ` · ${via}` : ''));
+ } catch (e) {
+ // Crisis words always get Arron staying, plus the house truth and life tools, online or not
+ reply = offlineResponse(text);
+ fallback = true;
+ setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
+ setStatus('This reply came from Arron offline, so it isn\'t saved to your memory.');
+ }
+
+ // A breath of pause feels more human than an instant canned reply
+ if (fallback && !reduceMotion) await new Promise((r) => setTimeout(r, 700));
+ hideTyping(typing);
+ addMessage(reply, 'assistant', { fallback });
+ if (!fallback) addReplyActions(reply, replyActions, text);
+ replyActions = [];
+ if (detected === 'crisis' || (detected && detected !== 'calm')) addSuggestion(detected);
+ chime();
+
+ busy = false;
+ sendButton.disabled = false;
+ inputField.focus();
+ }
+
+ // ─── COMPOSER ───
+ function autosize() {
+ inputField.style.height = 'auto';
+ inputField.style.height = `${Math.min(inputField.scrollHeight, 160)}px`;
+ }
+
+ inputForm.addEventListener('submit', (e) => {
+ e.preventDefault();
+ handleInput(inputField.value);
+ });
+ inputField.addEventListener('keydown', (e) => {
+ if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
+ e.preventDefault();
+ handleInput(inputField.value);
+ }
+ });
+ inputField.addEventListener('input', () => {
+ autosize();
+ try { sessionStorage.setItem(KEYS.draft, inputField.value); } catch (e) {}
+ });
+ promptsBox.addEventListener('click', (e) => {
+ const btn = e.target.closest('.prompt-btn');
+ if (btn) handleInput(btn.dataset.prompt);
+ });
+ document.querySelectorAll('.arron-moodbar .mood-chip').forEach((chip) => {
+ chip.addEventListener('click', () => {
+ const mood = chip.dataset.mood === currentMood ? null : chip.dataset.mood;
+ setMood(mood, 'check-in');
+ if (mood) setStatus(`Thanks for checking in. Arron will keep in mind you're feeling ${MOODS[mood].label}. ♥`);
+ });
+ });
+
+ // ─── YOUR STORY ───
+ storyForm.addEventListener('submit', (e) => {
+ e.preventDefault();
+ const note = storyForm.querySelector('.form-note');
+ store.set(KEYS.story, storyField.value);
+ store.set('arron_story_unsynced', '1');
+ note.textContent = 'Saving…';
+ memoryRequest('PUT', { story: storyField.value })
+ .then(() => {
+ store.remove('arron_story_unsynced');
+ note.textContent = 'Saved ✓ Arron will remember this on every visit. ♥';
+ })
+ .catch(() => { note.textContent = "Saved on this device. It'll sync to Arron's memory when he reconnects."; });
+ });
+
+ // ─── MEMORY CODE ───
+ memoryCodeEl.textContent = memoryId;
+ copyCodeBtn.addEventListener('click', async () => {
+ try {
+ await navigator.clipboard.writeText(memoryId);
+ copyCodeBtn.textContent = 'Copied ✓';
+ } catch (e) {
+ copyCodeBtn.textContent = 'Select the code above';
+ }
+ setTimeout(() => { copyCodeBtn.textContent = 'Copy code'; }, 2500);
+ });
+
+ restoreForm.addEventListener('submit', (e) => {
+ e.preventDefault();
+ const code = restoreField.value.trim().replace(/\s+/g, '');
+ if (!ID_PATTERN.test(code)) {
+ restoreField.setCustomValidity('Code should be 32+ letters/numbers');
+ restoreField.reportValidity();
+ return;
+ }
+ restoreField.setCustomValidity('');
+ memoryId = code;
+ store.set(KEYS.id, code);
+ store.remove('arron_story_unsynced');
+ messages = [];
+ storyField.value = '';
+ cacheMessages();
+ render();
+ memoryCodeEl.textContent = memoryId;
+ restoreField.value = '';
+ setStatus('Restoring your memory…');
+ syncFromServer()
+ .then(() => setStatus('Memory restored. Welcome back. ♥'))
+ .catch(() => setStatus("Code saved. Arron will load your memory once he's back online."));
+ });
+
+ // ─── FORGET ME — erase on the server, retry later if offline ───
+ function pendingForgets() {
+ const ids = store.json(KEYS.forget, []);
+ return Array.isArray(ids) ? ids.filter((id) => ID_PATTERN.test(id)) : [];
+ }
+
+ function savePendingForgets(ids) {
+ if (ids.length) store.set(KEYS.forget, JSON.stringify(ids));
+ else store.remove(KEYS.forget);
+ }
+
+ async function eraseOnServer(id) {
+ const data = await memoryRequest('DELETE', {}, id);
+ if (!data.cleared) throw new Error('Not confirmed');
+ }
+
+ async function retryPendingForgets() {
+ const left = [];
+ for (const id of pendingForgets()) {
+ try { await eraseOnServer(id); } catch (e) { left.push(id); }
+ }
+ savePendingForgets(left);
+ }
+
+ forgetBtn.addEventListener('click', async () => {
+ if (!confirm('Forget Me: erase everything Arron remembers (conversations, story, mood journey and name)? This cannot be undone.')) return;
+ const oldId = memoryId;
+ const pending = pendingForgets();
+ forgetBtn.disabled = true;
+ setStatus('Erasing your memory…');
+ let erased = false;
+ try { await eraseOnServer(oldId); erased = true; }
+ catch (e) { pending.push(oldId); }
+ try {
+ Object.keys(localStorage).filter((k) => k.startsWith('arron_')).forEach((k) => localStorage.removeItem(k));
+ sessionStorage.removeItem('ps-story-draft');
+ sessionStorage.removeItem(KEYS.draft);
+ } catch (e) {}
+ if (!erased) savePendingForgets(pending);
+ forgetBtn.disabled = false;
+
+ memoryId = newMemoryId();
+ store.set(KEYS.id, memoryId);
+ [KEYS.messages, KEYS.story, KEYS.name, KEYS.mood, KEYS.moodLog, 'arron_story_unsynced',
+ 'arron_app_messages', 'arron_app_vault', 'arron_app_vault_unsynced', 'arron_app_activity'].forEach(store.remove);
+ try { sessionStorage.removeItem(KEYS.draft); } catch (e) {}
+ messages = [];
+ userName = '';
+ storyField.value = '';
+ setMood(null);
+ render();
+ memoryCodeEl.textContent = memoryId;
+ setStatus(erased
+ ? "Erased ✓ Arron's server memory is cleared. Fresh start, and he's still here. ♥"
+ : "Erased on this device. The server couldn't be reached, so it'll be wiped automatically next time you're online.");
+ });
+
+ // ─── WELCOME / ONBOARDING ───
+ function openWelcome() {
+ if (!welcome || typeof welcome.showModal !== 'function') return;
+ const steps = welcome.querySelectorAll('.step');
+ const dots = welcome.querySelectorAll('.dots span');
+ const nameField = $('welcome-name');
+ let step = 0;
+ const show = (n) => {
+ step = Math.max(0, Math.min(steps.length - 1, n));
+ steps.forEach((s, i) => { s.hidden = i !== step; });
+ dots.forEach((d, i) => d.classList.toggle('on', i === step));
+ const focusable = steps[step].querySelector('input, [data-next], button[type="submit"]');
+ if (focusable) focusable.focus();
+ };
+ nameField.value = userName;
+ welcome.querySelectorAll('.mood-grid .mood-chip').forEach((chip) => {
+ chip.setAttribute('aria-pressed', String(chip.dataset.mood === currentMood));
+ });
+ welcome.onclick = (e) => {
+ const target = e.target.closest('button');
+ if (!target) return;
+ if (target.hasAttribute('data-next')) show(step + 1);
+ else if (target.hasAttribute('data-back')) show(step - 1);
+ else if (target.dataset.mood) setMood(target.dataset.mood, 'check-in');
+ };
+ nameField.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); show(step + 1); } };
+ welcome.onclose = () => {
+ userName = nameField.value.replace(/[^\p{L}\p{N} '\-]/gu, '').trim().slice(0, 40);
+ if (userName) store.set(KEYS.name, userName); else store.remove(KEYS.name);
+ store.set(KEYS.onboarded, '1');
+ render();
+ inputField.focus();
+ };
+ show(0);
+ welcome.showModal();
+ }
+ tourBtn.addEventListener('click', openWelcome);
+
+ // ─── INIT ───
+ messages = store.json(KEYS.messages, []);
+ if (!Array.isArray(messages)) messages = [];
+ messages = messages.filter((m) => m && typeof m.content === 'string');
+ storyField.value = store.get(KEYS.story, '');
+ try { inputField.value = sessionStorage.getItem(KEYS.draft) || ''; } catch (e) {}
+ autosize();
+ render();
+ renderSound();
+ setMood(currentMood);
+ updatePresence();
+ if (navigator.onLine === false) setConn('offline');
+
+ if (!store.get(KEYS.onboarded)) openWelcome();
+
+ setStatus('Loading your conversation…');
+ retryPendingForgets().catch(() => {});
+ syncFromServer()
+ .then(() => {
+ setConn('online');
+ setStatus(messages.length ? 'Welcome back. Arron remembers your conversation. ♥' : 'Ready. Say hello. ♥');
+ })
+ .catch(() => {
+ setConn(navigator.onLine === false ? 'offline' : 'reconnecting');
+ setStatus(messages.length ? 'Showing your saved conversation from this device.' : 'Ready. Say hello. ♥');
+ });
+
+ // Show creator mode straight away for signed-in creators and admins.
+ request(HEALTH_API, { cache: 'no-store', timeout: 8000 })
+ .then((res) => (res.ok ? res.json() : {}))
+ .then((data) => {
+ creatorMode = Boolean(data.creator);
+ ownerMode = Boolean(data.owner);
+ member = data.member || null;
+ if (member && !userName) userName = member.displayName;
+ updatePresence();
+ if (ownerMode) setStatus('Welcome home, Shane. ✦ Try "show me everything" or "review posts".');
+ else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. ♥`);
+ })
+ .catch(() => {});
+
+ window.ArronCompanion = { handleInput, offlineResponse, detectMood };
 })();

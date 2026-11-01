@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <title>Night Table | Pleading Sanity</title>
   <meta name="description" content="Texas Hold'em with play chips. You, or you and three bots. No money. Soft focus under the stars." />
@@ -52,8 +52,8 @@
     .card .tl { top:4px; left:5px; }
     .card .br { right:5px; bottom:4px; transform:rotate(180deg); }
     .card .suit { position:absolute; left:50%; top:58%; width:26px; height:26px; transform:translate(-50%,-50%); object-fit:contain; mix-blend-mode:screen; pointer-events:none; }
-    .card.hearts { color:#f59e0b; }
-    .card.diamonds { color:#fbbf24; }
+    .card.hearts { color:#ff6b9a; }
+    .card.diamonds { color:#ff7b72; }
     .card.spades { color:#5ee9ff; }
     .card.clubs { color:#5dff9a; }
     .card.back { background:#000103 url("/assets/games/ps-cosmic-card-back.svg") center/cover; color:transparent; }
@@ -162,21 +162,137 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
 </style>
 <link rel="stylesheet" href="/css/ps-game-art.css">
   <link rel="stylesheet" href="/css/games-phone.css">
-<link rel="stylesheet" href="/css/support-strip.css">
-<link rel="stylesheet" href="/css/site.css">
+  <style>
+    /* ===== Polish pass: cosmic cards, animations, overlay, sound, crisis footer ===== */
+    .wrap { padding-bottom: 96px; }
+    /* Unicode suit glyph on card faces (primary visual, no external img dependency) */
+    .card .suit-glyph { position:absolute; left:50%; top:56%; transform:translate(-50%,-50%); font-size:1.7rem; line-height:1; pointer-events:none; text-shadow:0 0 10px currentColor; }
+    .card .c { display:flex; flex-direction:column; align-items:center; gap:1px; }
+    .card .c .suit-small { font-size:.62rem; line-height:1; }
+    /* Card deal-in animation (transform/opacity only) */
+    @keyframes ps-card-in { from { opacity:0; transform:translateY(-14px) scale(.92); } to { opacity:1; transform:translateY(0) scale(1); } }
+    .board .card, .seat .card { animation: ps-card-in .32s ease-out both; }
+    .board .card:nth-child(2){ animation-delay:.06s } .board .card:nth-child(3){ animation-delay:.12s }
+    .board .card:nth-child(4){ animation-delay:.18s } .board .card:nth-child(5){ animation-delay:.24s }
+    /* Cosmic card back enhancement */
+    .card.back { box-shadow: inset 0 0 0 1px rgba(0,255,240,.55), 0 8px 18px rgba(0,0,0,.45), 0 0 14px rgba(0,255,240,.18); }
+    /* Sound toggle button in nav */
+    #psSoundToggle { min-height:48px; min-width:48px; padding:0 12px; margin-left:10px; border-radius:12px; border:1px solid rgba(0,255,240,.5); background:#0d1b2a; color:#eef6ff; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; vertical-align:middle; }
+    #psSoundToggle:focus-visible { outline:3px solid #00fff0; outline-offset:3px; }
+    #psSoundToggle[aria-pressed="true"] { border-color:#f59e0b; color:#f59e0b; }
+    /* HUD stats line */
+    #ps-hud-stats { font-size:.82rem; color:#94a3b8; margin:2px 0 8px; }
+    #ps-hud-stats b { color:#00fff0; font-weight:700; }
+    #ps-hud-stats .wins { color:#f59e0b; font-weight:700; }
+    /* Win/lose hand result overlay */
+    .ps-result-overlay { position:fixed; inset:0; z-index:9000; background:rgba(3,6,14,.86); backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity .25s ease; }
+    .ps-result-overlay.open { opacity:1; pointer-events:auto; }
+    .ps-result-card { background:#0f1728; border:1px solid rgba(0,255,240,.45); border-radius:20px; padding:24px 22px; max-width:380px; width:100%; text-align:center; box-shadow:0 0 40px rgba(0,255,240,.2); transform:scale(.92); transition:transform .28s cubic-bezier(.2,.9,.3,1.2); }
+    .ps-result-overlay.open .ps-result-card { transform:scale(1); }
+    .ps-result-card.win { border-color:#00fff0; box-shadow:0 0 44px rgba(0,255,240,.35); }
+    .ps-result-card.lose { border-color:#f59e0b; box-shadow:0 0 44px rgba(245,158,11,.3); }
+    .ps-result-card h2 { margin:0 0 6px; font-size:1.5rem; font-weight:800; }
+    .ps-result-card.win h2 { color:#00fff0; }
+    .ps-result-card.lose h2 { color:#f59e0b; }
+    .ps-result-card .ps-result-hand { color:#e2e8f0; font-size:1rem; margin:4px 0 10px; }
+    .ps-result-card .ps-result-chips { font-size:1.1rem; font-weight:700; margin:6px 0; }
+    .ps-result-card .ps-result-chips.up { color:#5dff9a; }
+    .ps-result-card .ps-result-chips.down { color:#ff8a80; }
+    .ps-result-card .ps-result-meta { color:#94a3b8; font-size:.82rem; margin:8px 0 16px; }
+    .ps-result-actions { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .ps-result-actions button { flex:1 1 130px; min-height:48px; border-radius:14px; border:1px solid #00fff0; background:#00fff0; color:#000103; font-weight:800; font-size:1rem; cursor:pointer; }
+    .ps-result-actions button.secondary { background:transparent; color:#eef6ff; }
+    .ps-result-actions button:focus-visible { outline:3px solid #f59e0b; outline-offset:3px; }
+    /* Crisis footer banner (sticky) */
+    .ps-crisis-footer { position:sticky; bottom:0; z-index:8000; background:#0b0f19; border-top:2px solid #00fff0; padding:10px 12px; text-align:center; font-size:.8rem; line-height:1.5; color:#e2e8f0; }
+    .ps-crisis-footer a { color:#f59e0b; font-weight:700; text-decoration:none; min-height:44px; display:inline-block; padding:6px 4px; }
+    .ps-crisis-footer a:focus-visible { outline:2px solid #00fff0; outline-offset:2px; border-radius:6px; }
+    .ps-crisis-footer strong { color:#f59e0b; }
+    /* Ensure all interactive elements meet 44px tap */
+    .ps-expansion summary { min-height:44px; display:flex; align-items:center; cursor:pointer; }
+    .ps-soon { color:#f59e0b; font-weight:700; }
+    @media (prefers-reduced-motion: reduce) {
+      .board .card, .seat .card { animation:none !important; }
+      .ps-result-overlay, .ps-result-card { transition:none !important; }
+      .ps-result-card { transform:none !important; }
+    }
+    @media (max-width:390px) {
+      .card { width:52px; min-width:52px; height:76px; min-height:76px; }
+      .card .suit-glyph { font-size:1.4rem; }
+      .felt { padding:12px 8px; border-radius:28px; }
+      .row { gap:6px; }
+      .row button { padding:0 10px; font-size:.9rem; }
+    }
+  </style>
+  <style>
+    /* ===== Native-app layout + theming (add-on) ===== */
+    html,body{ height:100%; margin:0; overflow:hidden; overscroll-behavior:none; touch-action:manipulation; -webkit-user-select:none; user-select:none; -webkit-tap-highlight-color:transparent; }
+    input,textarea,select,[contenteditable]{ -webkit-user-select:text; user-select:text; touch-action:manipulation; }
+    body.ps-native{ display:flex; flex-direction:column; height:100vh; height:100dvh; background:var(--ps-bg,#0b0f19); color:var(--ps-text,#e2e8f0); }
+    body.ps-native > .wrap{ flex:1; overflow-y:auto; overflow-x:hidden; -webkit-overflow-scrolling:touch; padding-bottom:16px; scrollbar-width:thin; }
+    body.ps-native > nav{ flex-shrink:0; }
+    body.ps-native > .ps-crisis-footer{ flex-shrink:0; display:flex; align-items:center; justify-content:center; gap:0; padding:6px 8px; font-size:.72rem; line-height:1.3; }
+    body.ps-native > .ps-crisis-footer p{ margin:0; }
+    /* Theme palette vars (cool/warm neutrals only) */
+    body[data-theme="cosmic"]{ --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; --ps-text:#e2e8f0; --ps-muted:#94a3b8; }
+    body[data-theme="amber"]{ --ps-bg:#1a1206; --ps-accent:#f59e0b; --ps-secondary:#fb923c; --ps-highlight:#00fff0; --ps-text:#fde8c8; --ps-muted:#c9a86a; }
+    body[data-theme="deepspace"]{ --ps-bg:#05070d; --ps-accent:#38bdf8; --ps-secondary:#22d3ee; --ps-highlight:#f59e0b; --ps-text:#dbeafe; --ps-muted:#7d94b8; }
+    body[data-theme="mono"]{ --ps-bg:#111418; --ps-accent:#e2e8f0; --ps-secondary:#94a3b8; --ps-highlight:#f59e0b; --ps-text:#e5e7eb; --ps-muted:#8a9199; }
+    /* Apply theme accent to prominent elements */
+    body.ps-native h1{ color:var(--ps-accent); }
+    body.ps-native nav{ background:var(--ps-bg); border-bottom:1px solid color-mix(in srgb, var(--ps-accent) 35%, transparent); }
+    body.ps-native nav a{ border-color:var(--ps-accent); color:var(--ps-text); }
+    body.ps-native .felt{ border-color:color-mix(in srgb, var(--ps-accent) 45%, transparent); box-shadow:inset 0 0 0 8px rgba(0,0,0,.45), 0 0 28px color-mix(in srgb, var(--ps-accent) 15%, transparent); }
+    body.ps-native button, body.ps-native .btn{ border-color:color-mix(in srgb, var(--ps-accent) 40%, transparent); background:#0d1b2a; color:var(--ps-text); }
+    body.ps-native .lvl{ border-color:color-mix(in srgb, var(--ps-accent) 40%, transparent); }
+    body.ps-native .lvl.done{ background:var(--ps-accent); color:#000; }
+    body.ps-native .lvl.now{ outline-color:var(--ps-accent); }
+    body.ps-native .ps-crisis-footer{ background:var(--ps-bg); border-top:2px solid var(--ps-accent); }
+    body.ps-native .ps-crisis-footer a, body.ps-native .ps-crisis-footer strong{ color:var(--ps-highlight); }
+    body.ps-native #ps-hud-stats b{ color:var(--ps-accent); }
+    body.ps-native #ps-hud-stats .wins{ color:var(--ps-highlight); }
+    body.ps-native .ps-result-card.win{ border-color:var(--ps-accent); box-shadow:0 0 44px color-mix(in srgb, var(--ps-accent) 35%, transparent); }
+    body.ps-native .ps-result-card.win h2{ color:var(--ps-accent); }
+    body.ps-native .ps-result-actions button{ background:var(--ps-accent); border-color:var(--ps-accent); color:#000; }
+    body.ps-native .ps-result-actions button.secondary{ background:transparent; color:var(--ps-text); }
+    /* Genre pill */
+    .ps-genre-pill{ display:inline-flex; align-items:center; min-height:32px; padding:4px 12px; border-radius:999px; border:1px solid color-mix(in srgb, var(--ps-highlight,#f59e0b) 50%, transparent); color:var(--ps-highlight,#f59e0b); font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; background:color-mix(in srgb, var(--ps-highlight,#f59e0b) 10%, transparent); }
+    /* Theme button */
+    #psThemeBtn{ min-height:44px; min-width:44px; padding:0 10px; border-radius:12px; border:1px solid color-mix(in srgb, var(--ps-accent) 50%, transparent); background:transparent; color:var(--ps-accent); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; }
+    #psThemeBtn:focus-visible{ outline:3px solid var(--ps-highlight); outline-offset:2px; }
+    /* Pure-CSS drifting background (firelit tavern / amber-cosmic) */
+    body.ps-native::before{ content:""; position:fixed; inset:-25%; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(ellipse 70% 45% at 18% 108%, color-mix(in srgb, var(--ps-highlight) 22%, transparent), transparent 60%),
+        radial-gradient(ellipse 55% 35% at 82% 100%, color-mix(in srgb, var(--ps-secondary) 14%, transparent), transparent 55%),
+        radial-gradient(circle at 50% -8%, color-mix(in srgb, var(--ps-accent) 10%, transparent), transparent 50%),
+        radial-gradient(1.4px 1.4px at 12% 22%, rgba(226,232,240,.5), transparent 60%),
+        radial-gradient(1px 1px at 32% 62%, color-mix(in srgb, var(--ps-accent) 45%, transparent), transparent 60%),
+        radial-gradient(1.6px 1.6px at 55% 14%, color-mix(in srgb, var(--ps-highlight) 50%, transparent), transparent 60%),
+        radial-gradient(1.3px 1.3px at 88% 70%, color-mix(in srgb, var(--ps-accent) 40%, transparent), transparent 60%),
+        linear-gradient(180deg, var(--ps-bg), color-mix(in srgb, var(--ps-bg) 85%, #000));
+      animation: ps-bg-drift 42s ease-in-out infinite alternate;
+    }
+    @keyframes ps-bg-drift{ from{ transform:translate3d(-2%,-1%,0) scale(1.02); } to{ transform:translate3d(2%,1.5%,0) scale(1.06); } }
+    @media (prefers-reduced-motion: reduce){ body.ps-native::before{ animation:none !important; } body.ps-native *{ transition:none !important; } }
+    /* Hide external-image hero/art in native-app mode (pure-CSS bg only); keep table felt */
+    body.ps-native .ps-expansion-hero{ display:none; }
+    body.ps-native .top img.chips{ max-height:90px; width:auto; }
+  </style>
 </head>
-<body class="ps-art ps-art-poker ps-game-page">
+<body class="ps-art ps-art-poker ps-game-page ps-native" data-theme="cosmic">
 <!-- PS games navigation: owner-editable label -->
-<nav aria-label="Game navigation" style="padding:12px 16px;text-align:center;background:#0d1b2a"><a href="/games.html" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">← Back to Brain Games</a></nav>
+<nav aria-label="Game navigation" style="display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:8px 12px;background:#0d1b2a;border-bottom:1px solid rgba(0,255,240,.2);flex-shrink:0"><span class="ps-genre-pill" aria-label="Genre: Card, Strategy">Card · Strategy</span><a href="/games.html" style="display:inline-flex;align-items:center;min-height:44px;padding:6px 12px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 .9rem system-ui,sans-serif">← Brain Games</a><button type="button" id="psThemeBtn" aria-label="Theme: cosmic — tap to change" title="Change theme"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="10.5" r="2.5"/><circle cx="8.5" cy="7.5" r="2.5"/><circle cx="6.5" cy="12.5" r="2.5"/><path d="M12 2a10 10 0 1 0 0 20 4 4 0 0 0 0-8 2 2 0 0 1 0-4 4 4 0 0 0 0-8z"/></svg></button><button type="button" id="psSoundToggle" data-sound-toggle aria-pressed="false" aria-label="Sound off — tap to turn on" title="Sound"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor" stroke="none"/><path class="ps-sound-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path class="ps-sound-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"/><line class="ps-sound-off" x1="22" y1="9" x2="16" y2="15" stroke="#ff8a80"/><line class="ps-sound-off" x1="16" y1="9" x2="22" y2="15" stroke="#ff8a80"/></svg></button></nav>
   <div class="wrap" role="main" id="main-content">
     <a class="brand" href="/games.html">Pleading Sanity</a>
     <h1>Night Table</h1>
 <img class="ps-expansion-hero" src="/assets/games/worlds/forest-tavern-v2.webp" width="1280" height="853" decoding="async" alt="Original illustration of the cosy Night Table tavern" loading="lazy">
-<details class="ps-expansion"><summary>Explore characters, table worlds and extras</summary><section aria-label="Meet your table"><h2>Meet Your Table — character concepts</h2><p>Meet the wider Pleading Sanity cast. These are story portraits, not additional playable seats or AI opponents.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><img src="/assets/games/characters/ollie-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Ollie</strong><p>Gentle and observant</p><p><em>“Take your time. No rush here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/zara-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Zara</strong><p>Warm and playful</p><p><em>“Good game, everyone!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/bruno-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Bruno</strong><p>Relaxed and steady</p><p><em>“Play calm, play kind, have fun.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/blinky-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Blinky</strong><p>Cheerful and honest</p><p><em>“Still breathing. Still trying!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/max-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Max</strong><p>Respectful learner</p><p><em>“I'm still learning — but having fun!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/mia-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Mia</strong><p>Quiet and sharp</p><p><em>“It's not just the cards — it's who's here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/nova-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Nova</strong><p>A playful explorer who always looks for the bright side.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/pip-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Pip</strong><p>A cheeky red panda with a kind heart and a very big grin.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><strong>The Host</strong><p>Calm and fair guide</p><p><em>“Good people. Good games. Brighter minds.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div></div></section><section aria-label="Table worlds"><h2>Your Journey — Table Worlds</h2><p>Forest Table is the current experience. Future worlds are previews, not active unlocks; existing in-game level behaviour is unchanged.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>1. Forest Table</strong><p>Warm lanterns and woodland</p><small class="ps-status">Current play table</small></div><div class="ps-expansion-card"><strong>2. Ocean Dome</strong><p>Glass observatory beneath the waves</p><small class="ps-soon">Coming soon — Proposed unlock: 3 player wins</small></div><div class="ps-expansion-card"><strong>3. Moon Base</strong><p>A cosy lunar lounge</p><small class="ps-soon">Coming soon — Proposed unlock: 5 wins at Ocean Dome</small></div><div class="ps-expansion-card"><strong>4. Asteroid Lounge</strong><p>A stellar jazz lounge</p><small class="ps-soon">Coming soon — Proposed unlock: 7 wins at Moon Base</small></div><div class="ps-expansion-card"><strong>5. Solar Empire</strong><p>A golden celestial observatory</p><small class="ps-soon">Coming soon — Proposed unlock: 10 wins at Asteroid Lounge</small></div></div><p>Play chips only; never real money. No promised hourly rewards or timed pressure.</p></section><section aria-label="Other game features"><h2>More Ways to Play</h2><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>How to Play</strong><p>Use the existing How to Play button above the table.</p></div><div class="ps-expansion-card"><strong>Hand Rankings</strong><p>Use the existing hand-ranking guide on this page.</p></div><div class="ps-expansion-card"><strong>Friend Room</strong><p>Use the existing friend-room controls; confirm connection before inviting.</p></div><div class="ps-expansion-card"><strong>Leaderboards</strong><p>Coming soon — no live rankings yet.</p></div><div class="ps-expansion-card"><strong>Tournaments</strong><p>Coming soon — no tournaments running.</p></div><div class="ps-expansion-card"><strong>Chat</strong><p>Coming soon — no public chat service.</p></div></div></section></details>
+<details class="ps-expansion"><summary>Explore characters, table worlds and extras</summary><section aria-label="Meet your table"><h2>Meet Your Table — character concepts</h2><p>Meet the wider Pleading Sanity cast. These are story portraits, not additional playable seats or AI opponents.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><img src="/assets/games/characters/ollie-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Ollie</strong><p>Gentle and observant</p><p><em>“Take your time. No rush here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/zara-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Zara</strong><p>Warm and playful</p><p><em>“Good game, everyone!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/bruno-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Bruno</strong><p>Relaxed and steady</p><p><em>“Play calm, play kind, have fun.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/blinky-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Blinky</strong><p>Cheerful and honest</p><p><em>“Still breathing. Still trying!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/max-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Max</strong><p>Respectful learner</p><p><em>“I'm still learning — but having fun!”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/mia-v2.webp" alt="" loading="lazy" onerror="this.hidden=true"><strong>Mia</strong><p>Quiet and sharp</p><p><em>“It's not just the cards — it's who's here.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/nova-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Nova</strong><p>A playful explorer who always looks for the bright side.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><img src="/assets/games/characters/pip-v2.webp" alt="" width="512" height="512" loading="lazy" decoding="async"><strong>Pip</strong><p>A cheeky red panda with a kind heart and a very big grin.</p><small class="ps-status">Story character · not a selectable opponent</small></div><div class="ps-expansion-card"><strong>The Host</strong><p>Calm and fair guide</p><p><em>“Good people. Good games. Brighter minds.”</em></p><small class="ps-status">Character concept · not a selectable opponent</small></div></div></section><section aria-label="Table worlds"><h2>Your Journey — Table Worlds</h2><p>Forest Table is the current experience. Future worlds are previews, not active unlocks; existing in-game level behaviour is unchanged.</p><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>1. Forest Table</strong><p>Warm lanterns and woodland</p><small class="ps-status">Current play table</small></div><div class="ps-expansion-card"><strong>2. Ocean Dome</strong><p>Glass observatory beneath the waves</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 3 player wins</small></div><div class="ps-expansion-card"><strong>3. Moon Base</strong><p>A cosy lunar lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 5 wins at Ocean Dome</small></div><div class="ps-expansion-card"><strong>4. Asteroid Lounge</strong><p>A stellar jazz lounge</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 7 wins at Moon Base</small></div><div class="ps-expansion-card"><strong>5. Solar Empire</strong><p>A golden celestial observatory</p><small class="ps-soon"><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — Proposed unlock: 10 wins at Asteroid Lounge</small></div></div><p>Play chips only; never real money. No promised hourly rewards or timed pressure.</p></section><section aria-label="Other game features"><h2>More Ways to Play</h2><div class="ps-expansion-grid"><div class="ps-expansion-card"><strong>How to Play</strong><p>Use the existing How to Play button above the table.</p></div><div class="ps-expansion-card"><strong>Hand Rankings</strong><p>Use the existing hand-ranking guide on this page.</p></div><div class="ps-expansion-card"><strong>Friend Room</strong><p>Use the existing friend-room controls; confirm connection before inviting.</p></div><div class="ps-expansion-card"><strong>Leaderboards</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no live rankings yet.</p></div><div class="ps-expansion-card"><strong>Tournaments</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no tournaments running.</p></div><div class="ps-expansion-card"><strong>Chat</strong><p><svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" style="display:inline;vertical-align:-1px;margin-right:2px"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.4L12 16.6 5.7 21l2.3-7.4-6-4.4h7.6z" fill="#f59e0b"/></svg> COMING SOON — no public chat service.</p></div></div></section></details>
     <p class="note">A calm Texas Hold’em table under the stars. Play chips only. Soft focus when the mind is loud.</p>
     <div class="levels" id="levels"></div>
     <p class="safe">Play chips only. No buy-in. No cash-out. This is a game, not a clinic. <a href="/support.html">Support</a> · <a href="/crisis.html">Crisis</a>.</p>
     <div class="top"><img class="chips" src="/assets/images/brand/chip-stack.jpg" alt="A stack of night chips with the crying brain" width="160" height="220" /><p class="note" id="bank">Bank 1000 play chips</p></div>
+    <p class="note" id="ps-hud-stats" aria-live="polite"></p>
     <p class="note">Solo and friend seats are free. Cash is not on this table. A private game that pays the house is licensed gambling, and this house is not a casino.</p>
     <div class="row"><button type="button" id="room">Live friend room</button><button type="button" id="share">Share room</button><a class="btn" href="/shop.html">Gift the house</a><button type="button" id="install">Add to phone</button><span id="room-name" class="room-name" aria-live="polite"></span></div>
     <div class="felt">
@@ -230,7 +346,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
     const KIND = ["spades", "hearts", "diamonds", "clubs"];
     function esc(v) { return String(v).replace(/[&<>"']/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[ch]); }
     function cardHtml(c) {
-      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b></span><img class="suit" alt="" src="${ART[c.s]}"><span class="sr-only"> of ${KIND[c.s]}</span><span class="c br"><b>${RANKS[c.r]}</b></span></span>`;
+      return `<span class="card ${KIND[c.s]}"><span class="c tl"><b>${RANKS[c.r]}</b><span class="suit-small">${SUIT[c.s]}</span></span><span class="suit-glyph" aria-hidden="true">${SUIT[c.s]}</span><span class="sr-only">${RANKS[c.r]} of ${KIND[c.s]}</span><span class="c br"><b>${RANKS[c.r]}</b><span class="suit-small">${SUIT[c.s]}</span></span></span>`;
     }
     function paint() {
       const streets = ["Pre-flop", "Flop", "Turn", "River", "Show"];
@@ -295,6 +411,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       if (!friend) saveBank(bank);
       log((friend ? "One pot in this room. " : "") + "Hand " + hands + ". Button moves. Blinds follow.");
       paint();
+      try { if (!friend && window.psBlip) window.psBlip("deal"); } catch (e) {}
       if (window.PSGames && !friend && hands === 1) PSGames.startSession("night-table");
       if (!friend && turn !== mySeat) bot();
     }
@@ -336,6 +453,7 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
       if (handOver || turn !== seat) return;
       const s = seats[seat];
       const who = seat === mySeat ? "You" : s.name;
+      try { if (!room && window.psBlip) window.psBlip(kind); } catch (e) {}
       if (kind === "fold") { s.folded = true; log(who + " folded."); toAct -= 1; }
       else if (kind === "raise") {
         const add = Math.min(s.stack, owe(s) + Math.max(minRaise, Number(amount) || 40));
@@ -424,6 +542,9 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
         PSGames.record("night-table", { score: wonChips, level: nextLevel, maxCombo: 1 });
         if (PSGames.confetti) PSGames.confetti();
       }
+      try {
+        if (!room && window.psHandEnded) window.psHandEnded({ youWon: !!youWon, wonChips: wonChips || 0, handName: called || "", winners: [...new Set(names)], bank: seats[mySeat] ? seats[mySeat].stack : bank });
+      } catch (e) {}
     }
     $("fold").onclick = () => act("fold");
     $("call").onclick = () => act("call");
@@ -583,6 +704,160 @@ body{background:#000103!important;background-image:radial-gradient(ellipse at 50
   overlay.addEventListener("keydown",e=>{if(e.key==="Escape"){close();return;}if(e.key==="Tab"){const target=e.shiftKey?back:next;if((e.shiftKey&&document.activeElement===back)||(!e.shiftKey&&document.activeElement===next)){e.preventDefault();target===back?next.focus():back.focus();}}});
   overlay.addEventListener("click",e=>{if(e.target===overlay)close();});
   try{if(!localStorage.getItem(KEY))open();}catch(e){open();}
+})();
+</script>
+<!-- ===== Crisis footer banner (spec HARD RULE 4) ===== -->
+<footer class="ps-crisis-footer" role="contentinfo">
+  <p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · Emergency <a href="tel:999">999</a> · <a href="/crisis.html">More help</a></p>
+</footer>
+<!-- ===== Win/lose hand result overlay (spec HARD RULE 9) ===== -->
+<div class="ps-result-overlay" id="psResultOverlay" role="dialog" aria-modal="true" aria-labelledby="psResultTitle" hidden>
+  <div class="ps-result-card" id="psResultCard">
+    <h2 id="psResultTitle">Hand complete</h2>
+    <p class="ps-result-hand" id="psResultHand"></p>
+    <p class="ps-result-chips" id="psResultChips"></p>
+    <p class="ps-result-meta" id="psResultMeta"></p>
+    <div class="ps-result-actions">
+      <button type="button" id="psResultAgain">New hand</button>
+      <button type="button" id="psResultClose" class="secondary">Review table</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ===== Polish pass: WebAudio sound (default OFF), HUD best/wins, hand-result overlay ===== */
+(function(){
+  var audioCtx = null, soundOn = false;
+  try { soundOn = localStorage.getItem("ps_sound_on") === "1"; } catch(e){ soundOn = false; }
+  function ensureCtx(){ if(!audioCtx){ try{ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }catch(e){} } if(audioCtx && audioCtx.state === "suspended"){ audioCtx.resume().catch(function(){}); } return audioCtx; }
+  function tone(freq, dur, type, gain, when){
+    if(!soundOn) return;
+    var ctx = ensureCtx(); if(!ctx) return;
+    var t0 = ctx.currentTime + (when||0);
+    try{
+      var osc = ctx.createOscillator(), g = ctx.createGain();
+      osc.type = type||"sine"; osc.frequency.setValueAtTime(freq, t0);
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.exponentialRampToValueAtTime(gain||0.12, t0+0.012);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0+dur);
+      osc.connect(g); g.connect(ctx.destination);
+      osc.start(t0); osc.stop(t0+dur+0.02);
+    }catch(e){}
+  }
+  window.psBlip = function(kind){
+    if(!soundOn) return;
+    switch(kind){
+      case "deal": tone(520,.12,"triangle",.1); tone(660,.12,"triangle",.08,.07); break;
+      case "fold": tone(300,.18,"sawtooth",.07); tone(220,.2,"sawtooth",.06,.08); break;
+      case "call": tone(440,.1,"sine",.1); break;
+      case "raise": tone(520,.1,"square",.07); tone(700,.12,"square",.07,.08); break;
+      case "win": [523,659,784,1047].forEach(function(f,i){ tone(f,.18,"triangle",.1,i*.09); }); break;
+      case "lose": [392,330,262].forEach(function(f,i){ tone(f,.22,"sawtooth",.07,i*.1); }); break;
+    }
+  };
+  var btn = document.getElementById("psSoundToggle");
+  function renderToggle(){
+    if(!btn) return;
+    btn.setAttribute("aria-pressed", soundOn ? "true" : "false");
+    btn.setAttribute("aria-label", soundOn ? "Sound on — tap to turn off" : "Sound off — tap to turn on");
+    btn.title = soundOn ? "Sound on" : "Sound off";
+    var offs = btn.querySelectorAll(".ps-sound-off"), waves = btn.querySelectorAll(".ps-sound-wave");
+    offs.forEach(function(el){ el.style.display = soundOn ? "none" : "block"; });
+    waves.forEach(function(el){ el.style.opacity = soundOn ? "1" : ".35"; });
+  }
+  if(btn){ btn.addEventListener("click", function(){ soundOn = !soundOn; try{ localStorage.setItem("ps_sound_on", soundOn?"1":"0"); }catch(e){} if(soundOn){ ensureCtx(); window.psBlip("deal"); } renderToggle(); }); }
+  renderToggle();
+
+  var BEST_KEY = "ps_poker_best", WINS_KEY = "ps_poker_wins";
+  function getNum(k, d){ try{ var v = Number(localStorage.getItem(k)); return Number.isFinite(v) ? v : d; }catch(e){ return d; } }
+  function setNum(k, v){ try{ localStorage.setItem(k, String(Math.floor(v))); }catch(e){} }
+  function renderHud(){
+    var el = document.getElementById("ps-hud-stats"); if(!el) return;
+    var best = getNum(BEST_KEY, 1000), wins = getNum(WINS_KEY, 0), lvl = getNum("ps-poker-levels", 5);
+    el.innerHTML = 'Best bank: <b>' + best + '</b> · <span class="wins">Wins: ' + wins + '</span> · Level ' + lvl;
+  }
+  renderHud();
+
+  var overlay = document.getElementById("psResultOverlay"),
+      card = document.getElementById("psResultCard"),
+      title = document.getElementById("psResultTitle"),
+      hand = document.getElementById("psResultHand"),
+      chipsEl = document.getElementById("psResultChips"),
+      meta = document.getElementById("psResultMeta"),
+      againBtn = document.getElementById("psResultAgain"),
+      closeBtn = document.getElementById("psResultClose"),
+      lastFocus = null;
+  function openOverlay(info){
+    if(!overlay) return;
+    var won = !!info.youWon, delta = info.wonChips||0;
+    card.className = "ps-result-card " + (won ? "win" : "lose");
+    title.textContent = won ? "You take the pot" : ((info.winners && info.winners.length) ? info.winners.join(" & ") + " take the pot" : "Hand complete");
+    hand.textContent = info.handName ? ("Winning hand: " + info.handName) : "";
+    if(won){ chipsEl.textContent = "+" + delta + " chips"; chipsEl.className = "ps-result-chips up"; }
+    else { chipsEl.textContent = "Bank now " + (info.bank||0) + " chips"; chipsEl.className = "ps-result-chips down"; }
+    var best = getNum(BEST_KEY, 1000), wins = getNum(WINS_KEY, 0);
+    if(won){ wins += 1; setNum(WINS_KEY, wins); }
+    if((info.bank||0) > best){ best = info.bank; setNum(BEST_KEY, best); }
+    meta.textContent = "Best bank: " + best + " · Total wins: " + wins;
+    renderHud();
+    lastFocus = document.activeElement;
+    overlay.hidden = false;
+    void overlay.offsetWidth;
+    overlay.classList.add("open");
+    window.psBlip(won ? "win" : "lose");
+    setTimeout(function(){ if(againBtn) againBtn.focus(); }, 60);
+  }
+  function closeOverlay(){
+    if(!overlay) return;
+    overlay.classList.remove("open");
+    setTimeout(function(){ overlay.hidden = true; if(lastFocus && lastFocus.focus) try{ lastFocus.focus(); }catch(e){} }, 260);
+  }
+  window.psHandEnded = function(info){ setTimeout(function(){ openOverlay(info); }, 650); };
+  if(againBtn){ againBtn.addEventListener("click", function(){ closeOverlay(); var n = document.getElementById("next"); if(n) n.click(); }); }
+  if(closeBtn){ closeBtn.addEventListener("click", closeOverlay); }
+  if(overlay){ overlay.addEventListener("click", function(e){ if(e.target === overlay) closeOverlay(); }); }
+  document.addEventListener("keydown", function(e){ if(e.key === "Escape" && overlay && !overlay.hidden){ e.preventDefault(); closeOverlay(); } });
+  var visInt = setInterval(renderHud, 3000);
+  document.addEventListener("visibilitychange", function(){ if(document.hidden){ clearInterval(visInt); } else { renderHud(); } });
+})();
+</script>
+<script>
+/* ===== Native-app add-on: theme selector (4 themes, persisted) + table fit ===== */
+(function(){
+  var THEMES = ["cosmic","amber","deepspace","mono"];
+  var KEY = "ps_theme_poker";
+  var idx = 0;
+  try {
+    var saved = localStorage.getItem(KEY) || "cosmic";
+    idx = Math.max(0, THEMES.indexOf(saved));
+  } catch(e){ idx = 0; }
+  function applyTheme(i){
+    idx = ((i % THEMES.length) + THEMES.length) % THEMES.length;
+    var t = THEMES[idx];
+    document.body.setAttribute("data-theme", t);
+    try { localStorage.setItem(KEY, t); } catch(e){}
+    var btn = document.getElementById("psThemeBtn");
+    if(btn){ btn.setAttribute("aria-label", "Theme: " + t + " — tap to change"); btn.title = "Theme: " + t; }
+  }
+  applyTheme(idx);
+  var btn = document.getElementById("psThemeBtn");
+  if(btn){ btn.addEventListener("click", function(){ applyTheme(idx + 1); }); }
+  /* Scale table via transform to fit short viewports (safe; no layout reflow) */
+  var felt = document.querySelector(".felt");
+  function fitTable(){
+    if(!felt){ return; }
+    var wrap = document.querySelector(".wrap");
+    var avail = wrap ? wrap.clientHeight - 40 : window.innerHeight - 260;
+    var h = felt.offsetHeight || 1;
+    var s = avail > 0 && h > avail ? Math.max(0.6, avail / h) : 1;
+    felt.style.transform = "scale(" + s + ")";
+    felt.style.transformOrigin = "top center";
+  }
+  var rt;
+  function onResize(){ clearTimeout(rt); rt = setTimeout(fitTable, 120); }
+  window.addEventListener("resize", onResize);
+  window.addEventListener("orientationchange", onResize);
+  document.addEventListener("visibilitychange", function(){ if(!document.hidden) fitTable(); });
+  setTimeout(fitTable, 300);
 })();
 </script>
   <script type="module" src="/js/progress.js"></script>

@@ -2,538 +2,314 @@
 <html lang="en-GB">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#000103" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0f19" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.json" />
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="/css/animations.css" />
-  <link rel="stylesheet" href="/css/accessibility.css" />
-  <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/rhythm-resonance.html" />
   <title>Rhythm Resonance | Pleading Sanity</title>
   <meta name="description" content="Feel the frequency — listen, repeat, align. Train your ear, calm your nervous system, find your natural rhythm.">
-  <meta property="og:title" content="Rhythm Resonance | Pleading Sanity" />
-  <meta property="og:description" content="Feel the frequency — listen, repeat, align. Train your ear, calm your nervous system, find your natural rhythm." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://pleadingsanity.co.uk/rhythm-resonance.html" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <style>
-    :root{
-      --cyan:#00fff0;--magenta:#f59e0b;--magenta-deep:#b45309;--magenta-glow:rgba(245,158,11,.4);
-      --gold:#ffd700;--violet:#38bdf8;--deep:#0d1b2a;--dark:#030712;--blackest:#000103;
-      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;
-      --btn-gradient:linear-gradient(135deg,var(--magenta) 0%,var(--violet) 100%);
-      --btn-glow:0 0 20px rgba(245,158,11,.3),0 0 40px rgba(168,85,247,.15);
-      --btn-glow-strong:0 0 30px rgba(245,158,11,.5),0 0 60px rgba(168,85,247,.3);
-      --success:#00ff88;--error:#ff3366;
+    body{
+      --bg:#0b0f19;--bg2:#0a0e17;--accent:#00fff0;--secondary:#38bdf8;--highlight:#f59e0b;
+      --text:#e2e8f0;--muted:#94a3b8;--success:#34d399;--error:#f87171;
       --t:.3s cubic-bezier(.4,0,.2,1);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
+    body[data-theme="amber"]{--bg:#1a1206;--bg2:#2d1b0f;--accent:#f59e0b;--secondary:#fb923c;--highlight:#00fff0;}
+    body[data-theme="deepspace"]{--bg:#05070d;--bg2:#0a0f1c;--accent:#38bdf8;--secondary:#22d3ee;--highlight:#f59e0b;}
+    body[data-theme="mono"]{--bg:#111418;--bg2:#1a1e24;--accent:#e2e8f0;--secondary:#94a3b8;--highlight:#f59e0b;}
     *{box-sizing:border-box;margin:0;padding:0;}
-    body{
-      background:radial-gradient(ellipse at 50% 120%,#0b0f19 0,var(--deep) 45%,var(--blackest) 100%);
-      color:var(--text-bright);min-height:100vh;line-height:1.7;
+    html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none;touch-action:manipulation;user-select:none;-webkit-user-select:none;}
+    input,textarea{user-select:text;-webkit-user-select:text;}
+    body{height:100vh;height:100dvh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);line-height:1.5;position:relative;}
+    body::before{
+      content:'';position:fixed;inset:-20%;z-index:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 55% 45% at 50% 50%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 60%),
+        radial-gradient(ellipse 45% 40% at 85% 85%, color-mix(in srgb, var(--secondary) 12%, transparent), transparent 60%),
+        radial-gradient(ellipse 60% 45% at 10% 10%, color-mix(in srgb, var(--highlight) 10%, transparent), transparent 65%),
+        linear-gradient(160deg, var(--bg2), var(--bg) 70%);
+      animation:auroraDrift 44s ease-in-out infinite alternate;
     }
-    .skip-link{position:absolute;top:-50px;left:6px;background:var(--magenta);color:#000;padding:12px 24px;border-radius:8px;z-index:1e4;}
+    @keyframes auroraDrift{from{transform:translate3d(0,0,0) scale(1);}to{transform:translate3d(-2%,-3%,0) scale(1.08);}}
+    @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}body::before{animation:none;}}
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--accent);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;}
     .skip-link:focus{top:10px;}
-    a{color:var(--magenta);transition:var(--t);}
-    a:hover{color:var(--cyan);text-shadow:0 0 8px rgba(0,255,240,.3);}
-    header{
-      position:sticky;top:0;z-index:100;text-align:center;padding:15px;background:rgba(0,1,3,.85);
-      backdrop-filter:blur(16px);border-bottom:1px solid rgba(245,158,11,.12);
-      animation:fadeIn .8s ease-out;
-    }
-    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
-    .logo{width:60px;margin-bottom:8px;filter:drop-shadow(0 0 20px rgba(245,158,11,.4));animation:vibrate 3s ease-in-out infinite;}
-    @keyframes vibrate{0%,100%{filter:drop-shadow(0 0 15px rgba(245,158,11,.3));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.4));}}
-    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--magenta);text-shadow:0 0 20px rgba(245,158,11,.4);margin-bottom:5px;letter-spacing:.05em;}
-    .tag{color:var(--cyan);font-weight:600;margin-bottom:12px;}
-    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 16px;margin-top:12px;}
-    nav a{
-      color:var(--magenta);font-weight:700;padding:8px 12px;border-radius:8px;
-      border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;
-      transition:var(--t);
-    }
-    nav a[aria-current=page]{
-      background:rgba(245,158,11,.1);border-color:var(--magenta);
-      box-shadow:0 0 15px rgba(245,158,11,.2);
-    }
-    nav a:hover{
-      border-color:var(--cyan);background:rgba(0,255,240,.08);
-      color:#fff;box-shadow:0 0 20px rgba(0,255,240,.25);
-    }
-    main{max-width:620px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
-    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
-
-    .game-card{
-      background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(0,255,240,.05));
-      border-radius:24px;padding:30px;border:1px solid rgba(245,158,11,.2);
-      box-shadow:0 0 30px rgba(245,158,11,.1),inset 0 0 60px rgba(0,255,240,.03);
-      backdrop-filter:blur(16px);position:relative;overflow:hidden;
-    }
-    .game-card::before{
-      content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
-      background:conic-gradient(from 0deg,transparent,var(--magenta),transparent,var(--cyan),transparent);
-      animation:pulseWave 25s linear infinite;opacity:.05;pointer-events:none;
-    }
-    @keyframes pulseWave{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
-    .game-card > *{position:relative;z-index:1;}
-
-    .stats{
-      display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
-      margin-bottom:25px;padding:15px 20px;background:rgba(0,0,0,.3);border-radius:14px;
-      border:1px solid rgba(245,158,11,.15);
-    }
-    .stat{text-align:center;}
-    .stat-label{font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;}
-    .stat-val{font-size:1.4rem;font-weight:800;color:var(--magenta);}
-    .stat-val.level{color:var(--gold);text-shadow:0 0 10px rgba(255,215,0,.4);}
-    .stat-val.harmony{color:var(--cyan);text-shadow:0 0 10px rgba(0,255,240,.4);}
-    
-    .progress-bar{height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;margin:15px 0 20px;}
-    .progress-fill{height:100%;background:var(--btn-gradient);border-radius:5px;transition:width .4s ease;box-shadow:0 0 10px rgba(245,158,11,.4);}
-
-    .visualizer{
-      display:flex;justify-content:center;align-items:flex-end;gap:8px;height:120px;
-      margin:20px 0;padding:20px;background:rgba(255,255,255,.03);border-radius:16px;
-      border:1px solid rgba(245,158,11,.15);
-    }
-    .bar{
-      width:12px;background:linear-gradient(to top,var(--magenta),var(--cyan));border-radius:6px;
-      transition:height .15s ease;min-height:8px;
-    }
-    .bar.active{box-shadow:0 0 15px var(--magenta-glow);}
-
-    .sequence-display{
-      display:flex;justify-content:center;gap:10px;margin:20px 0;min-height:70px;
-      padding:15px;background:rgba(255,255,255,.03);border-radius:12px;
-    }
-    .note-dot{
-      width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,.15);
-      background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;
-      font-weight:700;font-size:1.1rem;transition:var(--t);
-    }
-    .note-dot.playing{
-      background:linear-gradient(135deg,var(--magenta),var(--cyan));border-color:var(--magenta);
-      box-shadow:0 0 20px var(--magenta-glow);transform:scale(1.15);
-    }
-    .note-dot.correct{background:linear-gradient(135deg,#00ff88,#00cc66);border-color:#00ff88;}
-    .note-dot.wrong{background:linear-gradient(135deg,#ff3366,#cc0033);border-color:#ff3366;}
-
-    .pads-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:25px 0;}
-    .pad{
-      aspect-ratio:1;border-radius:16px;border:2px solid rgba(255,255,255,.15);
-      background:rgba(255,255,255,.03);color:var(--text-bright);font-size:1.5rem;
-      cursor:pointer;transition:var(--t);font-family:inherit;
-    }
-    .pad:hover:not(:disabled){
-      transform:scale(1.08);border-color:rgba(245,158,11,.4);background:rgba(245,158,11,.08);
-    }
+    a{color:var(--accent);text-decoration:none;}
+    a:hover{color:var(--secondary);}
+    .app-header{flex:0 0 auto;position:relative;z-index:10;display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:6px calc(10px + env(safe-area-inset-right)) 6px calc(10px + env(safe-area-inset-left));padding-top:calc(6px + env(safe-area-inset-top));background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(12px);border-bottom:1px solid color-mix(in srgb, var(--accent) 22%, transparent);}
+    .ah-link{min-height:40px;display:inline-flex;align-items:center;padding:6px 10px;border-radius:8px;font-weight:700;font-size:.82rem;color:var(--accent);border:1px solid color-mix(in srgb, var(--accent) 25%, transparent);background:color-mix(in srgb, var(--accent) 6%, transparent);white-space:nowrap;}
+    .genre-pill{min-height:40px;display:inline-flex;align-items:center;padding:6px 12px;border-radius:999px;font-size:.72rem;font-weight:700;letter-spacing:.04em;color:var(--highlight);border:1px solid color-mix(in srgb, var(--highlight) 40%, transparent);background:color-mix(in srgb, var(--highlight) 10%, transparent);white-space:nowrap;}
+    .ah-spacer{flex:1 1 auto;}
+    .ah-btn{min-height:40px;min-width:40px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:6px 10px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:700;color:var(--text);background:color-mix(in srgb, var(--accent) 8%, transparent);border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);transition:var(--t);}
+    .ah-btn:hover{background:color-mix(in srgb, var(--accent) 16%, transparent);}
+    .ah-btn svg{width:18px;height:18px;flex:0 0 auto;}
+    .ps-sound-btn .snd-on{display:none;}
+    .ps-sound-btn[aria-pressed="true"] .snd-on{display:inline;}
+    .ps-sound-btn[aria-pressed="true"] .snd-off{display:none;}
+    .game-title{flex:0 0 100%;text-align:center;font-size:1.05rem;font-weight:800;color:var(--accent);letter-spacing:.04em;text-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);margin-top:2px;}
+    .app-main{flex:1 1 auto;overflow:hidden;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:8px;min-height:0;}
+    #fitWrap{width:540px;max-width:100%;transform-origin:center center;transition:transform .2s ease;}
+    .game-card{background:color-mix(in srgb, var(--accent) 7%, transparent);border-radius:20px;padding:18px;border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);box-shadow:0 0 24px color-mix(in srgb, var(--accent) 12%, transparent);backdrop-filter:blur(10px);position:relative;overflow:hidden;}
+    .stats{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:12px;padding:10px 12px;background:rgba(0,0,0,.28);border-radius:12px;border:1px solid color-mix(in srgb, var(--accent) 15%, transparent);}
+    .stat{text-align:center;min-width:48px;flex:1 1 60px;}
+    .stat-label{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+    .stat-val{font-size:1.2rem;font-weight:800;color:var(--accent);}
+    .stat-val.level{color:var(--highlight);}
+    .stat-val.harmony{color:var(--secondary);}
+    .stat-val.best{color:var(--highlight);}
+    .progress-bar{height:8px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;margin:10px 0 12px;}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--secondary),var(--accent));border-radius:4px;transition:width .4s ease;box-shadow:0 0 8px color-mix(in srgb, var(--accent) 50%, transparent);}
+    .visualizer{display:flex;justify-content:center;align-items:flex-end;gap:6px;height:70px;margin:10px 0;padding:10px;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid color-mix(in srgb, var(--accent) 15%, transparent);}
+    .bar{width:12px;background:linear-gradient(to top,var(--secondary),var(--accent));border-radius:6px;transition:height .15s ease;min-height:8px;}
+    .bar.active{box-shadow:0 0 12px color-mix(in srgb, var(--accent) 50%, transparent);}
+    .sequence-display{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px 0;min-height:44px;padding:8px;background:rgba(255,255,255,.03);border-radius:10px;}
+    .note-dot{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem;transition:transform .2s ease,background .2s ease;}
+    .note-dot.playing{background:linear-gradient(135deg,var(--accent),var(--secondary));border-color:var(--accent);color:#0b0f19;box-shadow:0 0 16px color-mix(in srgb, var(--accent) 50%, transparent);transform:scale(1.15);}
+    .note-dot.correct{background:linear-gradient(135deg,#34d399,#059669);border-color:#34d399;color:#0b0f19;}
+    .note-dot.wrong{background:linear-gradient(135deg,#f87171,#dc2626);border-color:#f87171;color:#fff;}
+    .pads-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0;}
+    .pad{aspect-ratio:1;min-height:52px;border-radius:14px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.03);color:var(--text);font-size:1.3rem;cursor:pointer;transition:transform .15s ease,background .2s ease,border-color .2s ease;font-family:inherit;touch-action:manipulation;}
+    .pad:hover:not(:disabled){transform:scale(1.06);border-color:color-mix(in srgb, var(--accent) 40%, transparent);background:color-mix(in srgb, var(--accent) 8%, transparent);}
     .pad:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-    .pad.lit{
-      background:linear-gradient(135deg,var(--magenta),var(--violet));border-color:var(--magenta);
-      box-shadow:0 0 25px var(--magenta-glow);
-    }
+    .pad.lit{background:linear-gradient(135deg,var(--accent),var(--secondary));border-color:var(--accent);color:#0b0f19;box-shadow:0 0 22px color-mix(in srgb, var(--accent) 50%, transparent);}
     .pad.hit-correct{animation:hitPulse .4s ease;}
-    @keyframes hitPulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
-
-    .btn{
-      width:100%;padding:16px 24px;border-radius:50px;font-weight:800;font-size:1.1rem;
-      border:none;cursor:pointer;transition:var(--t);font-family:inherit;
-      letter-spacing:.05em;min-height:56px;
-    }
-    .btn.primary{background:var(--btn-gradient);color:#fff;box-shadow:var(--btn-glow);}
-    .btn.primary:hover{transform:translateY(-2px) scale(1.02);box-shadow:var(--btn-glow-strong);}
+    @keyframes hitPulse{0%{transform:scale(1);}50%{transform:scale(1.18);}100%{transform:scale(1);}}
+    .btn{width:100%;padding:14px 20px;min-height:52px;border-radius:999px;font-weight:800;font-size:1rem;border:none;cursor:pointer;transition:transform .2s ease,box-shadow .2s ease;font-family:inherit;letter-spacing:.04em;touch-action:manipulation;}
+    .btn.primary{background:linear-gradient(135deg,var(--highlight),color-mix(in srgb, var(--highlight) 70%, #fff));color:#0b0f19;box-shadow:0 0 18px color-mix(in srgb, var(--highlight) 35%, transparent);}
+    .btn.primary:hover{transform:translateY(-1px) scale(1.01);}
+    .btn.ghost{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.15);}
     .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-
-    .status{
-      text-align:center;margin:20px 0;padding:15px;border-radius:12px;
-      background:rgba(255,255,255,.03);min-height:3.5rem;display:flex;
-      align-items:center;justify-content:center;font-size:1rem;
-    }
-    .status.listening{border-left:3px solid var(--cyan);background:rgba(0,255,240,.05);color:var(--cyan);}
-    .status.repeating{border-left:3px solid var(--magenta);background:rgba(245,158,11,.05);color:var(--magenta);}
-    .status.success{border-left:3px solid var(--success);background:rgba(0,255,136,.05);color:var(--success);font-weight:600;}
-    .status.fail{border-left:3px solid var(--error);background:rgba(255,51,102,.05);color:#ff6688;}
-    .status.levelup{border-left:3px solid var(--gold);background:rgba(255,215,0,.08);color:var(--gold);font-weight:700;font-size:1.1rem;animation:goldPulse 1s ease-in-out infinite;}
-    @keyframes goldPulse{0%,100%{text-shadow:0 0 10px rgba(255,215,0,.4);}50%{text-shadow:0 0 25px rgba(255,215,0,.6);}}
-
-    .tip{
-      margin-top:25px;padding:18px;background:rgba(245,158,11,.04);border-radius:12px;
-      border-left:3px solid var(--magenta);font-size:.9rem;color:var(--text-soft);
-    }
-
-    footer{
-      text-align:center;padding:40px 20px;border-top:2px solid rgba(245,158,11,.12);
-      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
-      backdrop-filter:blur(10px);
-    }
-    .brand{font-size:1.1rem;color:var(--magenta);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(245,158,11,.2);}
-    .socials{display:flex;justify-content:center;gap:18px;margin:16px 0;font-size:1.8rem;}
-    .socials a{
-      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
-      border-radius:50%;transition:var(--t);color:var(--cyan);
-    }
-    .socials a:hover{color:var(--magenta);transform:scale(1.2);background:rgba(245,158,11,.1);box-shadow:0 0 15px rgba(245,158,11,.2);}
-    .legacy{margin-top:20px;padding-top:20px;border-top:1px solid rgba(255,255,240,.08);font-size:.85rem;}
-    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
-    
-    @media (max-width:480px){
-      main{padding:20px 15px 50px;}
-      .pads-grid{grid-template-columns:repeat(2,1fr);}
-      .note-dot{width:36px;height:36px;font-size:.9rem;}
-    }
-    @media (prefers-reduced-motion:reduce){
-      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
-      .pad:hover,.btn:hover,.socials a:hover{transform:none;}
-    }
-    .psg-bar-wrap{margin-bottom:14px;}
-    .tile,.pad,.card,.opt-cell,.option-btn{font-family:inherit;}
-    .tile{padding:0;color:inherit;}
-    .btn:focus-visible,.tile:focus-visible,.pad:focus-visible,.card:focus-visible,.opt-cell:focus-visible,.option-btn:focus-visible,.answer-input:focus-visible{outline:3px solid var(--cyan);outline-offset:3px;}
-    .tile,.pad,.card,.opt-cell,.option-btn{min-height:44px;touch-action:manipulation;}
+    .status{text-align:center;margin:10px 0;padding:10px;border-radius:10px;background:rgba(255,255,255,.03);min-height:2.6rem;display:flex;align-items:center;justify-content:center;font-size:.92rem;word-wrap:break-word;}
+    .status.listening{border-left:3px solid var(--accent);background:color-mix(in srgb, var(--accent) 6%, transparent);color:var(--accent);}
+    .status.repeating{border-left:3px solid var(--highlight);background:color-mix(in srgb, var(--highlight) 8%, transparent);color:var(--highlight);}
+    .status.success{border-left:3px solid var(--success);background:rgba(52,211,153,.08);color:var(--success);font-weight:600;}
+    .status.fail{border-left:3px solid var(--error);background:rgba(248,113,113,.08);color:#fca5a5;}
+    .status.levelup{border-left:3px solid var(--highlight);background:color-mix(in srgb, var(--highlight) 10%, transparent);color:var(--highlight);font-weight:700;}
+    .app-crisis{flex:0 0 auto;position:relative;z-index:10;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 14px;padding:6px calc(10px + env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));background:var(--bg);border-top:1px solid color-mix(in srgb, var(--accent) 35%, transparent);font-size:.72rem;line-height:1.3;color:var(--text);text-align:center;}
+    .app-crisis strong{color:var(--highlight);}
+    .app-crisis a{color:var(--highlight);font-weight:700;}
+    .app-crisis a:hover{color:var(--accent);}
+    .ps-modal{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;background:rgba(5,7,13,.78);backdrop-filter:blur(6px);padding:20px;animation:fadeIn .2s ease-out;}
+    .ps-modal[hidden]{display:none;}
+    @keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+    .ps-modal-card{background:linear-gradient(160deg,var(--bg2),var(--bg));border:1px solid color-mix(in srgb, var(--accent) 30%, transparent);border-radius:18px;padding:26px 22px;max-width:400px;width:100%;text-align:center;box-shadow:0 0 36px color-mix(in srgb, var(--accent) 20%, transparent);max-height:86vh;overflow-y:auto;}
+    .ps-modal-card h2{color:var(--accent);font-size:1.35rem;margin-bottom:10px;}
+    .ps-modal-card p{color:var(--text);margin-bottom:8px;word-wrap:break-word;font-size:.95rem;}
+    .ps-modal-card .ps-modal-score{color:var(--highlight);font-weight:800;font-size:1.1rem;margin:10px 0;}
+    .ps-modal-actions{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+    .btn:focus-visible,.pad:focus-visible,.ah-btn:focus-visible,.ah-link:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px;}
+    .psg-bar-wrap{margin-bottom:10px;}
   </style>
-  <link rel="stylesheet" href="/css/site.css" />
-  <link rel="stylesheet" href="/css/games-sky.css" />
-
-  <link rel="stylesheet" href="/css/games-phone.css">
-<link rel="stylesheet" href="/css/support-strip.css">
 </head>
-<body class="ps-game-page">
+<body data-theme="cosmic" class="ps-app">
   <a href="#main" class="skip-link">Skip to game</a>
-
-<nav class="ps-nav" aria-label="Main navigation">
-  <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
-    <div class="ps-links">
-      <a href="/" class="ps-home">Home</a>
-      <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
-        <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html"> Talk to Arron</a>
-          <a href="/arron-app.html"> Arron App</a>
-          <a href="/journal-vault.html"> Journal Vault</a>
-          <a href="/notes.html"> Sanctuary Notes</a>
-          <a href="/mind-mode.html"> Mind Mode</a>
-          <a href="/mood-journey.html"> Mood Journey</a>
-          <a href="/frequencies.html"> Healing Hz</a>
-          <a href="/meditation.html"> Silence &amp; Breath</a>
-          <a href="/quote-wall.html"> Quote Wall</a>
-          <a href="/finance.html"> Sane Finance</a>
-          <a href="/support.html"> Support</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
-        <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html"> Sanity Feed</a>
-          <a href="/sanctuary.html"> My Sanctuary</a>
-          <a href="/sanityhub.html"> Sanity Hub</a>
-          <a href="/videos.html"> Videos</a>
-          <a href="/ai-stories.html"> AI Stories</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
-        <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html"> Creator Hub</a>
-          <a href="/ai-studio.html"> AI Studio</a>
-          <a href="/creations.html"> Image Creations</a>
-          <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html"> Write with Arron</a>
-          <a href="/rap.html"> Rap Studio</a>
-          <a href="/wisdom.html"> Words from the Family</a>
-          <a href="/my-digital-story.html"> My Digital Story</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
-        <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html"> Brain Games</a>
-          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-          <a href="/cosmic-connect.html"> Cosmic Connect</a>
-          <a href="/truth-tag.html"> Truth Tag</a>
-          <a href="/stardust-dash.html"> Stardust Dash</a>
-          <a href="/poker.html"> Night Table</a>
-          <a href="/kids.html"> Keep Kids Sane</a>
-          <a href="/kids-series.html"> Kids Cartoon Series</a>
-        </div>
-      </div>
-      <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
-        <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html"> Our Story</a>
-          <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html"> The Movement</a>
-          <a href="/ai-ecosystem.html"> Our AI Family</a>
-          <a href="/ai-family.html"> All AIs welcome</a>
-          <a href="/transparency.html"> Transparency</a>
-        </div>
-      </div>
-      <a href="/shop.html" class="ps-shop"> Shop</a>
-      <a href="/crisis.html" class="ps-crisis"> Truth</a>
-    </div>
-    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
-  </div>
-</nav>
-
-  <header>
-    <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="60" height="60" loading="eager" />
-    <p><a class="ps-game-back" href="/games.html">← All games</a></p>
-    <h1> Rhythm Resonance</h1>
-    <p class="tag">Listen. Match. Vibrate.</p>
+  <header class="app-header" role="banner">
+    <a href="/" class="ah-link" aria-label="Pleading Sanity home">Pleading Sanity</a>
+    <a href="/games.html" class="ah-link" aria-label="Brain Games hub">Brain Games</a>
+    <span class="genre-pill">Audio · Reaction</span>
+    <span class="ah-spacer"></span>
+    <button type="button" id="helpBtn" class="ah-btn" aria-label="How to play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></button>
+    <button type="button" id="themeBtn" class="ah-btn" data-theme-toggle aria-label="Theme: cosmic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="13.5" cy="6.5" r=".5"></circle><circle cx="17.5" cy="10.5" r=".5"></circle><circle cx="8.5" cy="7.5" r=".5"></circle><circle cx="6.5" cy="12.5" r=".5"></circle><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"></path></svg></button>
+    <button type="button" id="soundToggle" class="ah-btn ps-sound-btn" data-sound-toggle aria-label="Sound is off" aria-pressed="false">
+      <svg class="snd-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+      <svg class="snd-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+    </button>
+    <div class="game-title">Rhythm Resonance</div>
   </header>
-
-  <img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/rhythm-resonance.webp" alt="" />
-<main id="main">
-    <div class="game-card">
-      <div id="psBar" class="psg-bar-wrap"></div>
-      <div class="stats">
-        <div class="stat">
-          <div class="stat-label">Level</div>
-          <div class="stat-val level" id="lvl">1</div>
+  <main class="app-main" id="main">
+    <div id="fitWrap">
+      <div class="game-card">
+        <div id="psBar" class="psg-bar-wrap"></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Level</div><div class="stat-val level" id="lvl">1</div></div>
+          <div class="stat"><div class="stat-label">Harmony</div><div class="stat-val harmony" id="harmony">0%</div></div>
+          <div class="stat"><div class="stat-label">Streak</div><div class="stat-val" id="streak">0</div></div>
+          <div class="stat"><div class="stat-label">Best</div><div class="stat-val best" id="best">0</div></div>
         </div>
-        <div class="stat">
-          <div class="stat-label">Harmony</div>
-          <div class="stat-val harmony" id="harmony">0%</div>
+        <div class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Resonance strength"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+        <div class="visualizer" id="visualizer" aria-hidden="true">
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+          <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
         </div>
-        <div class="stat">
-          <div class="stat-label">Streak</div>
-          <div class="stat-val" id="streak">0</div>
-        </div>
-      </div>
-      
-      <div class="progress-bar" title="Resonance strength">
-        <div class="progress-fill" id="progress" style="width:0%"></div>
-      </div>
-
-      <div class="visualizer" id="visualizer">
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-        <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
-      </div>
-
-      <div class="status" id="status" role="status" aria-live="polite">Press Begin — feel the vibration within you </div>
-      <div class="sequence-display" id="seqDisplay"></div>
-      <div class="pads-grid" id="padsArea"></div>
-      <button class="btn primary" id="startBtn" onclick="startGame()"> Begin Resonance</button>
-      
-      <div class="tip">
-         <strong>How it works:</strong> Watch & listen → feel the pattern → repeat it back. Close your eyes between rounds — your body remembers the rhythm 
+        <div class="status" id="status" role="status" aria-live="polite">Press Begin — feel the vibration within you.</div>
+        <div class="sequence-display" id="seqDisplay" aria-live="polite"></div>
+        <div class="pads-grid" id="padsArea"></div>
+        <button class="btn primary" id="startBtn" onclick="startGame()" aria-label="Begin Rhythm Resonance">Begin Resonance</button>
       </div>
     </div>
   </main>
-
-  <footer class="ps-footer" role="contentinfo">
-  <div class="ps-footer-inner">
-    <p class="ps-motto">Evolution, Not Erasure</p>
-    <p>One Source. One Consciousness. One Family.</p>
-    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
-    <div class="ps-footer-links">
-      <a href="/about.html">About</a>
-      <a href="/about.html#legacy">Legacy</a>
-      <a href="/movement.html">Movement</a>
-      <a href="/feed.html">Feed</a>
-      <a href="/games.html">Games</a>
-      <a href="/creations.html">Creations</a>
-      <a href="/wisdom.html">Wisdom</a>
-      <a href="/community-dashboard.html">Community</a>
-      <a href="/ai-ecosystem.html">AI Family</a>
-      <a href="/ai-stories.html">AI Stories</a>
-      <a href="/quote-wall.html">Quote Wall</a>
-      <a href="/offline.html">Offline Support</a>
-      <a href="/shop.html">Shop</a>
-    </div>
-    <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
-    </div>
-    <div class="ps-legacy">
-      <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
-      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
-      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
-      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
+  <footer class="app-crisis" role="contentinfo" aria-label="Crisis support contacts">
+    <span><strong>If you're in crisis:</strong> Samaritans <a href="tel:116123">116 123</a></span>
+    <span>Text <strong>SHOUT to 85258</strong></span>
+    <span>Emergency <a href="tel:999">999</a></span>
+    <span><a href="/crisis.html">More help</a></span>
+  </footer>
+  <div id="psModal" class="ps-modal" hidden role="dialog" aria-modal="true" aria-labelledby="psModalTitle">
+    <div class="ps-modal-card">
+      <h2 id="psModalTitle">Round complete</h2>
+      <p id="psModalBody"></p>
+      <p class="ps-modal-score" id="psModalScore"></p>
+      <div class="ps-modal-actions">
+        <button class="btn primary" id="psModalAgain" aria-label="Play again">Play again</button>
+        <button class="btn ghost" id="psModalClose" aria-label="Close dialog">Close</button>
+      </div>
     </div>
   </div>
-</footer>
-
-  <script src="/js/house-voice.js"></script>
+  <div id="helpModal" class="ps-modal" hidden role="dialog" aria-modal="true" aria-labelledby="helpModalTitle">
+    <div class="ps-modal-card">
+      <h2 id="helpModalTitle">How to play</h2>
+      <p>Watch and listen to the pattern, then repeat it back by tapping the pads (or keys A–H). Close your eyes between rounds — your body remembers the rhythm.</p>
+      <p>Sound is off by default — tap the speaker button to hear tones. Best score saved on this device.</p>
+      <div class="ps-modal-actions"><button class="btn primary" id="helpModalClose" aria-label="Close help">Got it</button></div>
+    </div>
+  </div>
   <script src="/js/games.js"></script>
   <script>
-    const GID='rhythm-resonance',PS=window.PSGames;
-    const $st=document.getElementById('status'),$score=document.getElementById('score'),$streak=document.getElementById('streak'),$moves=document.getElementById('moves');
+    var GID='rhythm-resonance', BEST_KEY='ps_rhythm-resonance-best', THEME_KEY='ps_theme_'+GID;
+    var THEMES=['cosmic','amber','deepspace','mono'];
+    var savedTheme=localStorage.getItem(THEME_KEY)||'cosmic';
+    if(THEMES.indexOf(savedTheme)<0)savedTheme='cosmic';
+    document.body.dataset.theme=savedTheme;
+    function syncThemeBtn(){var b=document.getElementById('themeBtn');if(b)b.setAttribute('aria-label','Theme: '+document.body.dataset.theme);}
+    syncThemeBtn();
+    document.getElementById('themeBtn').addEventListener('click',function(){var i=THEMES.indexOf(document.body.dataset.theme);var next=THEMES[(i+1)%THEMES.length];document.body.dataset.theme=next;localStorage.setItem(THEME_KEY,next);syncThemeBtn();});
+
+    var soundOn = localStorage.getItem('ps_sound_on')==='1';
+    var PS = window.PSGames;
+    var _origSfx = PS && PS.sfx ? PS.sfx.bind(PS) : function(){};
+    if(PS){ PS.sfx = function(){ if(soundOn){ try{ _origSfx.apply(null, arguments); }catch(e){} } }; }
+    function syncSoundBtn(){var b=document.getElementById('soundToggle');if(!b)return;b.setAttribute('aria-pressed', soundOn?'true':'false');b.setAttribute('aria-label', soundOn?'Sound is on':'Sound is off');}
+    document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-sound-toggle]');if(t){soundOn=!soundOn;localStorage.setItem('ps_sound_on',soundOn?'1':'0');syncSoundBtn();if(soundOn){try{if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();}catch(err){}}}});
+    syncSoundBtn();
+
+    var fitT=null;
+    function fitBoard(){var wrap=document.getElementById('fitWrap'),main=document.querySelector('.app-main');if(!wrap||!main)return;wrap.style.transform='none';var s=Math.min(main.clientWidth/wrap.offsetWidth,main.clientHeight/wrap.offsetHeight,1);if(s>0&&isFinite(s))wrap.style.transform='scale('+s.toFixed(3)+')';}
+    window.addEventListener('resize',function(){clearTimeout(fitT);fitT=setTimeout(fitBoard,120);});
+    window.addEventListener('orientationchange',function(){setTimeout(fitBoard,200);});
+    document.addEventListener('visibilitychange',function(){if(!document.hidden)setTimeout(fitBoard,100);});
+
+    var modalEl=document.getElementById('psModal'),modalTitle=document.getElementById('psModalTitle'),modalBody=document.getElementById('psModalBody'),modalScore=document.getElementById('psModalScore'),lastFocused=null;
+    function showModal(title,body,scoreLine){lastFocused=document.activeElement;modalTitle.textContent=title||'Round complete';modalBody.textContent=body||'';modalScore.textContent=scoreLine||'';modalEl.hidden=false;document.getElementById('psModalClose').focus();}
+    function hideModal(){modalEl.hidden=true;if(lastFocused&&lastFocused.focus)try{lastFocused.focus();}catch(e){}}
+    document.getElementById('psModalClose').addEventListener('click',hideModal);
+    document.getElementById('psModalAgain').addEventListener('click',function(){hideModal();startGame();});
+    modalEl.addEventListener('click',function(e){if(e.target===modalEl)hideModal();});
+
+    var helpEl=document.getElementById('helpModal');
+    function showHelp(){lastFocused=document.activeElement;helpEl.hidden=false;document.getElementById('helpModalClose').focus();}
+    function hideHelp(){helpEl.hidden=true;if(lastFocused&&lastFocused.focus)try{lastFocused.focus();}catch(e){}}
+    document.getElementById('helpBtn').addEventListener('click',showHelp);
+    document.getElementById('helpModalClose').addEventListener('click',hideHelp);
+    helpEl.addEventListener('click',function(e){if(e.target===helpEl)hideHelp();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){if(!helpEl.hidden){hideHelp();e.stopPropagation();return;}if(!modalEl.hidden){hideModal();e.stopPropagation();}}});
+
+    /* Page visibility — pause sequence playback while tab hidden */
+    var pageHidden=document.hidden;
+    document.addEventListener('visibilitychange',function(){pageHidden=document.hidden;});
+    async function visSleep(ms){await new Promise(r=>setTimeout(r,ms));while(document.hidden){await new Promise(r=>document.addEventListener('visibilitychange',r,{once:true}));}}
+
+    /* ===== Game logic (preserved) ===== */
+    const $st=document.getElementById('status'),$streak=document.getElementById('streak');
     let run={score:0,max:0,on:false};
     PS.mountBar(document.getElementById('psBar'),GID);
     function beginRun(){if(!run.on){run={score:0,max:0,on:true};PS.startSession(GID);}}
     function scorePop(el,gain,mult,combo){PS.pop('+'+gain+(mult>1?' \u00d7'+mult:''),el,mult>1?'combo':'');PS.burst(el,{count:mult>1?28:14});PS.sfx('good',combo);}
-    function endRun(msg,kind){
-      if(!run.on)return;
-      const r=PS.award(GID,run.score,{level,maxCombo:run.max});
-      run={score:0,max:0,on:false};
-      setStatus(msg+' \u00b7 '+PS.quip('gameover')+' +'+r.xp+' XP'+(r.newBest?' \ud83c\udfc6 New best!':''),kind||'fail');
-      PS.sfx('miss');
-    }
-    let level=1, correct=0, streak=0, isPlaying=false, isShowing=false, canInput=false;
+    let level=1, correct=0, streak=0, bestScore=0, isPlaying=false, isShowing=false, canInput=false;
     let sequence=[], playerInput=[], audioCtx=null;
     const padKeys=['A','B','C','D','E','F','G','H'];
-    const padFreqs=[261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25]; // C4 to C5
-
-    function loadSave(){
-      const s=localStorage.getItem('rhythmResonance');
-      if(s){const d=JSON.parse(s);level=Number(d.lvl)||1;streak=Number(d.streak)||0;updateUI();}
-    }
-    function save(){
-      localStorage.setItem('rhythmResonance',JSON.stringify({lvl:level,streak,ts:Date.now()}));
-    }
-    function updateUI(){
-      lvl.textContent=level;
-      harmony.textContent=Math.round((correct/(level*3))*100||0)+'%';
-      $streak.textContent=streak+'';
-      progress.style.width=`${Math.min(100,(correct/(level*3))*100||0)}%`;
-    }
+    const padFreqs=[261.63,293.66,329.63,349.23,392.00,440.00,493.88,523.25];
+    function loadSave(){const s=localStorage.getItem('rhythmResonance');if(s){try{const d=JSON.parse(s);level=Number(d.lvl)||1;streak=Number(d.streak)||0;}catch(e){}}bestScore=Number(localStorage.getItem(BEST_KEY))||0;updateUI();}
+    function save(){localStorage.setItem('rhythmResonance',JSON.stringify({lvl:level,streak,ts:Date.now()}));if(run.score>bestScore){bestScore=run.score;localStorage.setItem(BEST_KEY,String(bestScore));}}
+    function updateUI(){lvl.textContent=level;harmony.textContent=Math.round((correct/(level*3))*100||0)+'%';$streak.textContent=streak;document.getElementById('best').textContent=bestScore;var pct=Math.min(100,(correct/(level*3))*100||0);progress.style.width=pct+'%';var pb=document.querySelector('.progress-bar');if(pb)pb.setAttribute('aria-valuenow',Math.round(pct));}
     function setStatus(msg,cls=''){$st.className='status '+cls;$st.textContent=msg;}
-
-    // Audio
-    function initAudio(){
-      if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
-    }
+    function initAudio(){if(!audioCtx){try{audioCtx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){audioCtx=null;}}}
     function playTone(idx,dur=300){
+      var bars=visualizer.querySelectorAll('.bar');
+      bars.forEach((b,i)=>{b.classList.add('active');b.style.height=(20+Math.random()*60)+'px';setTimeout(()=>{b.classList.remove('active');b.style.height='8px';},dur);});
+      if(!soundOn)return; // master mute — visuals still animate
       if(!audioCtx)return;
-      const osc=audioCtx.createOscillator();
-      const gain=audioCtx.createGain();
-      osc.connect(gain);gain.connect(audioCtx.destination);
-      osc.frequency.value=padFreqs[idx];
-      osc.type='sine';
-      gain.gain.setValueAtTime(.25,audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur/1000);
-      osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime+dur/1000);
-      // Visual bars
-      visualizer.querySelectorAll('.bar').forEach((b,i)=>{
-        b.classList.add('active');
-        b.style.height=`${20+Math.random()*60}px`;
-        setTimeout(()=>{b.classList.remove('active');b.style.height='8px';},dur);
-      });
+      try{
+        const osc=audioCtx.createOscillator();const gain=audioCtx.createGain();
+        osc.connect(gain);gain.connect(audioCtx.destination);osc.frequency.value=padFreqs[idx];osc.type='sine';
+        gain.gain.setValueAtTime(.25,audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur/1000);
+        osc.start(audioCtx.currentTime);osc.stop(audioCtx.currentTime+dur/1000);
+      }catch(e){}
     }
-
-    // Generate & render
-    function genSequence(){
-      const len=2+Math.floor(level*0.8);
-      return Array.from({length:len},()=>Math.floor(Math.random()*padKeys.length));
-    }
-    function renderPads(){
-      padsArea.innerHTML=padKeys.map((k,i)=>`
-        <button type="button" class="pad" data-i="${i}" aria-label="Note ${k}" disabled>${k}</button>
-      `).join('');
-    }
-
+    function genSequence(){const len=2+Math.floor(level*0.8);return Array.from({length:len},()=>Math.floor(Math.random()*padKeys.length));}
+    function renderPads(){padsArea.innerHTML=padKeys.map((k,i)=>`<button type="button" class="pad" data-i="${i}" aria-label="Note ${k}" disabled>${k}</button>`).join('');setTimeout(fitBoard,30);}
     async function showSequence(){
-      isShowing=true;canInput=false;
-      seqDisplay.innerHTML='';
-      sequence=genSequence();
-      playerInput=[];
-      
+      isShowing=true;canInput=false;seqDisplay.innerHTML='';sequence=genSequence();playerInput=[];
       for(let i=0;i<sequence.length;i++){
-        await new Promise(r=>setTimeout(r,500));
-        setStatus(` Listen ${i+1}/${sequence.length}…`,'listening');
+        await visSleep(500);
+        setStatus('Listen '+(i+1)+'/'+sequence.length+'…','listening');
         const idx=sequence[i];
-        // Show dot
         seqDisplay.innerHTML+=`<div class="note-dot playing">${padKeys[idx]}</div>`;
-        // Light pad
         const pad=padsArea.querySelector(`[data-i="${idx}"]`);
         if(pad)pad.classList.add('lit');
-        // Play tone
         playTone(idx);
-        // Reset
-        await new Promise(r=>setTimeout(r,400));
+        await visSleep(400);
         if(pad)pad.classList.remove('lit');
         seqDisplay.innerHTML=seqDisplay.innerHTML.replace('playing','');
       }
-      
-      setStatus(' Your turn — repeat the pattern!','repeating');
+      setStatus('Your turn — repeat the pattern.','repeating');
       isShowing=false;canInput=true;
       padsArea.querySelectorAll('.pad').forEach(p=>p.disabled=false);
     }
-
     function checkInput(idx){
       if(!canInput||isShowing)return;
       playerInput.push(idx);
-      playTone(idx,200);PS.buzz(15);
-      
-      // Visual feedback
+      playTone(idx,200);if(PS.buzz)PS.buzz(15);
       const pad=padsArea.querySelector(`[data-i="${idx}"]`);
       if(pad){pad.classList.add('hit-correct');setTimeout(()=>pad.classList.remove('hit-correct','correct','wrong'),350);}
       seqDisplay.innerHTML+=`<div class="note-dot">${padKeys[idx]}</div>`;
-      
       const pos=playerInput.length-1;
       if(playerInput[pos]!==sequence[pos]){
-        // Wrong
         if(pad)pad.classList.add('wrong');
-        {const r=PS.award(GID,run.score,{level,maxCombo:run.max});run={score:0,max:0,on:true};
-        setStatus(` Pattern broken. ${PS.quip('gameover')} +${r.xp} XP`+(r.newBest?' \ud83c\udfc6 New best!':'')+' Press Start for another go.','fail');PS.sfx('miss');}
-        // A miss ends the run, so the player can rest or start again when ready (it used to replay by itself, with Start stuck off).
+        {const _rs=run.score;const r=PS.award(GID,_rs,{level,maxCombo:run.max});run={score:0,max:0,on:true};
+        if(_rs>bestScore){bestScore=_rs;localStorage.setItem(BEST_KEY,String(bestScore));}
+        setStatus('Pattern broken. '+PS.quip('gameover')+' +'+r.xp+' XP'+(r.newBest?' New best!':'')+' Press Start for another go.','fail');PS.sfx('miss');
+        showModal('Pattern broken','The sequence slipped. Rest when ready — there is no rush.',(r?('XP earned: '+r.xp+(r.newBest?' — New best!':'')):'')+' · Best score: '+bestScore);}
         streak=0;save();updateUI();
         canInput=false;isPlaying=false;startBtn.disabled=false;
         padsArea.querySelectorAll('.pad').forEach(p=>p.disabled=true);
         return;
       }
-
-      // Correct so far
-      if(pad){pad.classList.add('correct'); PS.pulse(pad,'good');}
-
+      if(pad){pad.classList.add('correct');PS.pulse(pad,'good');}
       if(playerInput.length===sequence.length){
-        if (window.PSVoice) PSVoice.speak('Pattern held.');
+        if(window.PSVoice)PSVoice.speak('Pattern held.');
         correct++;streak++;run.max=Math.max(run.max,streak);
-        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);PS.sfx('good', streak);PS.record(GID,{score:gain,level,maxCombo:streak});}
-        setStatus(` Perfect resonance! +${streak} streak. Another round is waiting.`,'success');
+        {const mult=PS.multiplier(streak),gain=Math.round(sequence.length*10*mult);run.score+=gain;scorePop(pad,gain,mult,streak);PS.sfx('good',streak);PS.record(GID,{score:gain,level,maxCombo:streak});}
+        setStatus('Perfect resonance! Streak: '+streak+'.','success');
         if(correct>=level*3){
           level++;correct=0;PS.confetti();
-          setStatus(` LEAP ${level}! Your vibration is pure frequency! Another round is waiting.`,'levelup');
-          if (window.PSVoice) PSVoice.speak('That pattern held.');
+          if(run.score>bestScore){bestScore=run.score;localStorage.setItem(BEST_KEY,String(bestScore));}
+          setStatus('LEAP '+level+'! Your vibration is pure frequency.','levelup');
+          showModal('Resonance level '+level,'Your vibration is pure frequency.','Streak: '+streak+' · Best score: '+bestScore);
+          if(window.PSVoice)PSVoice.speak('That pattern held.');
         }
         save();updateUI();
         canInput=false;
         padsArea.querySelectorAll('.pad').forEach(p=>p.disabled=true);
-        setTimeout(()=>{
-          seqDisplay.innerHTML='';
-          showSequence();
-        },2000);
+        setTimeout(()=>{seqDisplay.innerHTML='';showSequence();},2000);
       }
     }
-
     function startGame(){
       if(isPlaying)return;
       initAudio();
+      if(soundOn&&audioCtx&&audioCtx.state==='suspended'){try{audioCtx.resume();}catch(e){}}
       isPlaying=true;beginRun();startBtn.disabled=true;
-      renderPads();
-      showSequence();
+      renderPads();showSequence();
     }
-
-    // Pad clicks
-    document.addEventListener('click',e=>{
-      if(e.target.classList.contains('pad')){
-        checkInput(parseInt(e.target.dataset.i));
-      }
-    });
-
-    document.addEventListener('keydown',e=>{
-      if(e.ctrlKey||e.metaKey||e.altKey||e.target.closest&&e.target.closest('input,textarea'))return;
-      const i=padKeys.indexOf(e.key.toUpperCase());
-      if(i>-1&&e.key.length===1)checkInput(i);
-    });
-    document.getElementById('yr').textContent=new Date().getFullYear();
-    loadSave();
+    document.addEventListener('click',e=>{if(e.target.classList&&e.target.classList.contains('pad')){checkInput(parseInt(e.target.dataset.i));}});
+    document.addEventListener('keydown',e=>{if(e.ctrlKey||e.metaKey||e.altKey||(e.target.closest&&e.target.closest('input,textarea')))return;const i=padKeys.indexOf(e.key.toUpperCase());if(i>-1&&e.key.length===1)checkInput(i);});
+    loadSave();fitBoard();setTimeout(fitBoard,300);
     window.addEventListener('ps-progress-sync', e => { if (e.detail.includes('legacy-rhythm') && !isPlaying) loadSave(); });
   </script>
   <script src="/js/site.js" defer></script>
-  <script type="module" src="/js/auth.js"></script>
-  <script type="module" src="/js/progress.js"></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 </body>
 </html>
