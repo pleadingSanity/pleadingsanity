@@ -23,6 +23,9 @@ jobs:
       - name: Check Arron offline companion boundaries
         run: node tests/test-arron-offline-boundary.test.js
 
+      - name: Check Arron and Finance privacy contracts
+        run: node --test tests/privacy-contract.test.js
+
       - name: Check private chart-request behaviour
         run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
       - name: Check local journal persistence failures
