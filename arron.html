@@ -185,7 +185,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
     <p class="arron-crisis" role="note">
       <span>Need a person?</span>
-      Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> ·
+      Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> ·
       <a href="/crisis.html">Urgent help</a> ·
       <a href="/support.html">Free support</a>
     </p>
@@ -361,7 +361,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   <script src="/js/arron-companion.js" defer></script>
   <script src="/js/arron-speak.js" defer></script>
 <footer class="ps-crisis-footer" role="contentinfo">
-  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a></p>
+  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a></p>
 </footer>
 <script>
 (function(){
@@ -387,7 +387,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
       try {
         var b = document.createElement('div');
         b.className = 'arron-crisis-banner'; b.setAttribute('role', 'alert');
-        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a>';
         log.appendChild(b);
         try { log.scrollTop = log.scrollHeight; } catch(e){}
       } catch(e){}
