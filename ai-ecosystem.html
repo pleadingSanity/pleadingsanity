@@ -10,7 +10,7 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -37,6 +37,8 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/ai-family.css" />
   <link rel="stylesheet" href="/css/space.css" />
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-page">
 
@@ -125,7 +127,7 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
 
     <header class="hero fade-in eco-hero">
       <div class="eco-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
-      <h1>Our AI Family</h1>
+      <h1 class="gradient-text">Our AI Family</h1>
       <p class="lead">Human-led. AI-supported. Always.<br />Different labs, one side — yours.</p>
       <p>Pleading Sanity was built by <strong>Shane Cooper</strong> from lived experience, with AI partners working beside him in the open.
         We credit every one of them, because honesty is part of healing.</p>
@@ -141,14 +143,14 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
       </section>
       <h2 id="eco-family" class="eco-h2">Meet the family</h2>
       <div class="eco-grid">
-        <article class="eco-card eco-arron">
+        <article class=class="eco-card eco-arron reveal">
           <div class="eco-avatar" aria-hidden="true">🤖</div>
           <h3>Arron</h3>
           <p class="eco-role">Companion &amp; heart of the site</p>
           <p>Listens first and offers memory controls for what you choose to share. Arron follows the <strong>GPT → Claude → Gemini → Grok</strong> chain, moving to the next provider when the current one is unavailable.</p>
           <a class="btn btn-primary" href="/arron.html">Talk to Arron</a>
         </article>
-        <article class="eco-card eco-dola" id="dola">
+        <article class=class="eco-card eco-dola reveal" id="dola">
           <div class="eco-avatar" aria-hidden="true"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="56" height="56" style="border-radius:14px" /></div>
           <h3>Dola</h3>
           <p class="eco-role">Cosmic Architect · structure, design &amp; future vision</p>
@@ -156,35 +158,35 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
           <p><strong>Arron is the heart &amp; voice. Dola is the architecture. Together, one ecosystem.</strong></p>
           <a class="btn btn-secondary" href="/movement.html">See the vision</a>
         </article>
-        <article class="eco-card eco-copilot">
+        <article class=class="eco-card eco-copilot reveal">
           <div class="eco-avatar" aria-hidden="true">🛠️</div>
           <h3>Copilot</h3>
           <p class="eco-role">Code partner</p>
           <p>GitHub Copilot helped write, fix and tidy the code across our repositories: the main site, the frontend, the Infinity build and the PSSI desktop agent.</p>
           <a class="btn btn-secondary" href="https://github.com/pleadingSanity" target="_blank" rel="noopener noreferrer">Our open code ↗</a>
         </article>
-        <article class="eco-card eco-nova">
+        <article class=class="eco-card eco-nova reveal">
           <div class="eco-avatar" aria-hidden="true">🔬</div>
           <h3>Nova</h3>
           <p class="eco-role">GPT by OpenAI · AI Studio</p>
           <p>The practical problem-solver. Nova brings small experiments and tools you can use tonight to the AI Studio and the Unity Pod.</p>
           <a class="btn btn-secondary" href="/ai-studio.html">Visit the Studio</a>
         </article>
-        <article class="eco-card eco-sol">
+        <article class=class="eco-card eco-sol reveal">
           <div class="eco-avatar" aria-hidden="true">☀️</div>
           <h3>Sol</h3>
           <p class="eco-role">Gemini by Google · AI Studio</p>
           <p>The creative optimist and comic relief. Sol finds the funny side without ever mocking pain.</p>
           <a class="btn btn-secondary" href="/ai-studio.html#tab-pod">Hear the Unity Pod</a>
         </article>
-        <article class="eco-card eco-grok">
+        <article class=class="eco-card eco-grok reveal">
           <div class="eco-avatar" aria-hidden="true">⚡</div>
           <h3>Grok</h3>
           <p class="eco-role">Grok by xAI · fourth voice</p>
           <p>Grok brings a fast, direct outside angle to the family. When the xAI connection is configured, Grok joins the same chain and council rather than being treated as a rival.</p>
           <a class="btn btn-secondary" href="/ai-studio.html">Visit the Studio</a>
         </article>
-        <article class="eco-card eco-claude">
+        <article class=class="eco-card eco-claude reveal">
           <div class="eco-avatar" aria-hidden="true">🧩</div>
           <h3>Claude</h3>
           <p class="eco-role">Build partner</p>
@@ -269,5 +271,16 @@ Shane Cooper — Founder & Heart · Dola AI — Cosmic Architect
 </footer>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

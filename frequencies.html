@@ -317,6 +317,8 @@ input[type="range"]{accent-color:var(--accent);}
 textarea,input[type="text"],input[type="search"],input[type="email"],input[type="password"]{background:rgba(255,255,255,.05);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:10px;width:100%;box-sizing:border-box;}
 button{font-family:inherit;}
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-game-page">
   <a href="#main" class="skip-link">Skip to frequencies</a>
@@ -459,12 +461,12 @@ button{font-family:inherit;}
       </div>
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/healing-hz.webp" alt="Healing Hz" />
-    <h1>Healing Hz</h1>
+    <h1 class="gradient-text">Healing Hz</h1>
     <p class="tag">Ten soft tones. One at a time.</p>
   </header>
 
   <main id="main" role="main">
-    <div class="card">
+    <div class="card reveal">
       <p class="intro">The number you pick is really in the sound. Under it: wind, water, and a slow chord. Not a cure. If you are new, test 174 or 432 for eight seconds, then sit for five minutes.</p>
 
       <div id="freqList" role="radiogroup" aria-label="Healing frequency selection">
@@ -579,7 +581,7 @@ button{font-family:inherit;}
       </div>
     </div>
 
-    <section class="card" id="how-to-use" aria-labelledby="how-to-use-title">
+    <section class="card reveal" id="how-to-use" aria-labelledby="how-to-use-title">
       <h2 id="how-to-use-title" class="freq-name">How long, if you are new</h2>
       <p class="freq-desc">One tone a day. Do not play the whole set in one sitting. Longer is not better. The slider already stays low. Leave it there.</p>
       <table class="day-table">
@@ -602,7 +604,7 @@ button{font-family:inherit;}
       </ol>
     </section>
 
-    <section class="card" id="tone-guide" aria-labelledby="tone-guide-title">
+    <section class="card reveal" id="tone-guide" aria-labelledby="tone-guide-title">
       <h2 id="tone-guide-title" class="freq-name">What people say each tone is for</h2>
       <p class="freq-desc">These meanings were written down in the 1990s, not in old chant books. They are a way people have chosen to sit with a number. They are not a medical effect. The picture on each tone is only a picture. The tone is the practice.</p>
       <ul class="freq-desc" style="margin:12px 0 0 1.4rem;">
@@ -619,7 +621,7 @@ button{font-family:inherit;}
       </ul>
     </section>
 
-    <section class="card" id="honest-truth" aria-labelledby="honest-truth-title">
+    <section class="card reveal" id="honest-truth" aria-labelledby="honest-truth-title">
       <h2 id="honest-truth-title" class="freq-name">The honest truth</h2>
       <div class="note" style="margin-top:12px;">
         <p><strong>This is a calming practice, not a treatment.</strong> The science on specific frequencies is limited. There is no good evidence that one number heals something another number cannot. These tones are not a cure for anything.</p>
@@ -992,5 +994,16 @@ button{font-family:inherit;}
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

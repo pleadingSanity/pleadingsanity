@@ -290,6 +290,8 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
   .urgent-line{font-size:.85rem;padding:.6rem .8rem}
 }
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
 
@@ -320,7 +322,7 @@ footer .phone-big{color:var(--heading);font-weight:900;font-size:1.05rem}
   <div class="wrap hero-grid">
     <div>
       <span class="eyebrow">Leicestershire &amp; Midlands · MCS-registered</span>
-      <h1>Solar fitted by blokes who climb roofs — <span class="grad-text">not salesmen</span> who've never held a rail.</h1>
+      <h1 class="gradient-text">Solar fitted by blokes who climb roofs — <span class="grad-text">not salesmen</span> who've never held a rail.</h1>
       <p class="sub">No middleman. No salesman commission. You pay for what you see — that's it.</p>
       <p class="sub" style="color:var(--teal);font-weight:800;font-size:1.02rem;margin-bottom:1.4rem">The AI strips the office and sales layers. Humans still climb the roof and fit the panels — AI just handles the bullshit.</p>
       <div class="hero-ctas">
@@ -1177,7 +1179,7 @@ function sendAiChat(){
   var u = document.createElement('div'); u.className = 'ai-user'; u.textContent = msg; box.appendChild(u);
   inp.value = ''; box.scrollTop = box.scrollHeight;
   var typing = document.createElement('div'); typing.id = 'ai-typing'; typing.className = 'ai-msg'; typing.style.color = '#94a3b8'; typing.textContent = 'Thinking...'; box.appendChild(typing); box.scrollTop = box.scrollHeight;
-  fetch('/api/arron', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:'You are the Insane Solar AI assistant. Answer this solar question in plain UK English, max 3 sentences. Never certify — humans sign. If asked for quote, direct to WhatsApp 07711147663. Question: '+msg})}).then(function(r){return r.json();}).then(function(d){
+  fetch('/api/arron/chat', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({message:'You are the Insane Solar AI assistant. Answer this solar question in plain UK English, max 3 sentences. Never certify — humans sign. If asked for quote, direct to WhatsApp 07711147663. Question: '+msg})}).then(function(r){return r.json();}).then(function(d){
     var t = document.getElementById('ai-typing'); if(t) t.remove();
     var reply = (d && (d.reply || d.response || d.message)) || "Connection flickered — try again or WhatsApp us on 07711147663.";
     var a = document.createElement('div'); a.className = 'ai-msg'; a.textContent = reply; box.appendChild(a); box.scrollTop = box.scrollHeight;
@@ -1223,5 +1225,16 @@ document.getElementById('ai-chat-input') && document.getElementById('ai-chat-inp
 })();
 </script>
 
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

@@ -352,6 +352,8 @@ body[data-theme] .wrap > .row:first-of-type { border-color: color-mix(in srgb, v
 body[data-theme] #level, body[data-theme] #score, body[data-theme] #best { color: var(--ps-accent); }
 body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[data-theme] select:focus-visible { outline-color: var(--ps-highlight) !important; }
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="night ps-art ps-art-solitaire ps-game-page">
 <script>(function(){try{var t=localStorage.getItem("ps_theme_solitaire")||"cosmic";}catch(e){var t="cosmic";}document.body.setAttribute("data-theme",t);})();</script>
@@ -369,7 +371,7 @@ body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[da
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
     <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game." />
-    <h1>Sanity Solitaire</h1>
+    <h1 class="gradient-text">Sanity Solitaire</h1>
 <img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Aurora skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>Coming soon — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>Coming soon — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>Coming soon — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>Coming soon — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
     <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
     <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
@@ -943,5 +945,16 @@ window._psDealAnimate = function(container){
 </script>
   <script type="module" src="/js/progress.js"></script>
 <script src="/js/site.js" defer></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

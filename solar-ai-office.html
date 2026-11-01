@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="canonical" href="https://pleadingsanity.co.uk/solar-ai-office.html">
 <title>Solar AI Office — Paperwork Handled, Humans Fit the Panels | Insane Solar</title>
 <meta name="description" content="AI prepares MCS, G98/G99, Part P and SEG paperwork. Registered installers sign every certificate. Leicestershire & Midlands. No salesman layer.">
@@ -99,6 +99,8 @@
     .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
   }
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="antialiased">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -175,7 +177,7 @@
       <span class="dot"></span>
       <span style="color:var(--green2);">AI runs the office · humans sign the certificates</span>
     </div>
-    <h1 class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal">
+    <h1 class=class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal gradient-text">
       The <span class="grad-text-teal">Solar AI Office</span> —<br class="hidden sm:block">
       paperwork handled,<br class="hidden sm:block">
       <span class="grad-text">humans fit panels.</span>
@@ -747,5 +749,16 @@ const PERSONAS = [
   onScroll();
 })();
 </script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

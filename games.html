@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -312,6 +312,8 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 .ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
 .ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-game-page games-hub-page">
 <div style="max-width:720px;margin:1rem auto;padding:1rem 1.25rem;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.3);border-radius:12px;text-align:center;">
@@ -431,7 +433,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
       </div>
     </div>
-    <h1> Brain Games</h1>
+    <h1 class="gradient-text"> Brain Games</h1>
     <p class="purpose" style="color:#00fff0;font-weight:600;margin:0.3rem 0 0.4rem;">Soft focus when the mind is loud.</p>
     <p class="tag">No Ads. No Stress. Just Play.</p>
     <button type="button" class="install-btn hidden" id="installPWA" data-pwa-install hidden> Install as App</button>
@@ -504,7 +506,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 
     </details>
     <div class="games-grid" id="games-catalogue">
-      <article class="game-card" data-game="sanity-solitaire">
+      <article class=class="game-card reveal" data-game="sanity-solitaire">
         <div class="game-thumb" data-mark="sanity-solitaire">
           <span class="badge official">OFFICIAL</span>
         </div>
@@ -522,7 +524,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class="game-card" data-game="night-table">
+      <article class=class="game-card reveal" data-game="night-table">
         <div class="game-thumb" data-mark="night-table">
           <span class="badge official">OFFICIAL</span>
         </div>
@@ -541,7 +543,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 1 COSMIC FOCUS — MEMORY -->
-      <article class="game-card" data-game="cosmic-focus">
+      <article class=class="game-card reveal" data-game="cosmic-focus">
         <div class="game-thumb" data-mark="cosmic-focus">
           <span class="badge official">OFFICIAL</span>
         </div>
@@ -563,7 +565,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 2 NUMBER NEBULA — LOGIC & MATH -->
-      <article class="game-card" data-game="number-nebula">
+      <article class=class="game-card reveal" data-game="number-nebula">
         <div class="game-thumb" data-mark="number-nebula">
           <span class="badge live">LIVE</span>
         </div>
@@ -585,7 +587,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 3 PATTERN GALAXY — VISUAL PERCEPTION -->
-      <article class="game-card" data-game="pattern-galaxy">
+      <article class=class="game-card reveal" data-game="pattern-galaxy">
         <div class="game-thumb" data-mark="pattern-galaxy">
           <span class="badge new">NEW</span>
         </div>
@@ -607,7 +609,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 4 MEMORY OCEAN — CALM MATCHING -->
-      <article class="game-card" data-game="memory-ocean">
+      <article class=class="game-card reveal" data-game="memory-ocean">
         <div class="game-thumb" data-mark="memory-ocean">
           <span class="badge new">NEW</span>
         </div>
@@ -629,7 +631,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 5 RHYTHM RESONANCE — AUDIO & VIBRATION -->
-      <article class="game-card" data-game="rhythm-resonance">
+      <article class=class="game-card reveal" data-game="rhythm-resonance">
         <div class="game-thumb" data-mark="rhythm-resonance">
           <span class="badge new">NEW</span>
         </div>
@@ -651,7 +653,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- STARDUST DASH — REFLEX -->
-      <article class="game-card" data-game="stardust-dash">
+      <article class=class="game-card reveal" data-game="stardust-dash">
         <div class="game-thumb" data-mark="stardust-dash">
           <span class="badge new">NEW</span>
         </div>
@@ -673,7 +675,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 6 HEALING HZ — FREQUENCY LISTENING -->
-      <article class="game-card">
+      <article class=class="game-card reveal">
         <div class="game-thumb" data-mark="healing-hz">
           <span class="badge calm">CALM</span>
         </div>
@@ -693,7 +695,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       </article>
 
       <!-- 7 SANITY STORIES — JOURNALING -->
-      <article class="game-card">
+      <article class=class="game-card reveal">
         <div class="game-thumb" data-mark="sanity-stories">
           <span class="badge calm">HEALING</span>
         </div>
@@ -717,7 +719,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
       <h2 id="sg-hub-h"> Healing Games — no scores, no timers, just you</h2>
       <p>Gentle tools for breathing, noticing and reflecting. Your progress is private — sign in and it follows you to any device.</p>
       <div class="games-grid" id="games-calm-catalogue">
-      <article class="game-card" data-sanctuary-game="mind-mode">
+      <article class=class="game-card reveal" data-sanctuary-game="mind-mode">
         <div class="game-thumb" data-mark="mind-mode">
           <span class="badge calm">CALM</span>
         </div>
@@ -735,7 +737,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class="game-card" data-sanctuary-game="cosmic-connect">
+      <article class=class="game-card reveal" data-sanctuary-game="cosmic-connect">
         <div class="game-thumb" data-mark="cosmic-connect">
           <span class="badge calm">GENTLE</span>
         </div>
@@ -753,7 +755,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class="game-card" data-sanctuary-game="truth-tag">
+      <article class=class="game-card reveal" data-sanctuary-game="truth-tag">
         <div class="game-thumb" data-mark="truth-tag">
           <span class="badge calm">LEARN</span>
         </div>
@@ -771,7 +773,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class="game-card" data-sanctuary-game="mood-journey">
+      <article class=class="game-card reveal" data-sanctuary-game="mood-journey">
         <div class="game-thumb" data-mark="mood-journey">
           <span class="badge calm">HEALING</span>
         </div>
@@ -898,5 +900,16 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   <script type="module" src="/js/games-discovery.js"></script>
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
 
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

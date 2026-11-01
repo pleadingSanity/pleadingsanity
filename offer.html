@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000103">
 <meta name="color-scheme" content="dark">
 <meta name="author" content="Shane Cooper / Pleading Sanity">
@@ -130,27 +130,31 @@ h1 {
   .card { padding: 1.4rem 1.1rem; }
 }
 </style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
+<section class="crisis-strip" aria-label="Crisis and emergency help"><strong>In crisis right now?</strong> You are not alone. <span class="crisis-nums">999 (emergency) &middot; Samaritans 116 123 &middot; SHOUT text 85258 &middot; NHS 111 option 2</span> More support and international lines on the <a href="/crisis.html">Crisis Help page</a>.</section>
+
 <div class="wrap">
   <p class="eyebrow">For the ones who read deep</p>
-  <h1>The Offer</h1>
+  <h1 class="gradient-text">The Offer</h1>
   <p class="lead">One man built this in a year. No investors. No staff. No burn rate. Everything free, forever. This is what that looks like when someone serious wants to carry it further.</p>
 
-  <div class="card">
+  <div class="card reveal">
     <h2>What exists today</h2>
     <p>A free mental health sanctuary: Arron, an AI companion that works online and offline. Sane Finance — honest affordability and comparison tools, no sales pressure. Games, journal, community, meditation, frequencies. All of it free. No paywalls. No data selling.</p>
     <span class="tag">Arron</span><span class="tag">Sane Finance</span><span class="tag">Games</span><span class="tag">Journal</span><span class="tag">Community</span><span class="tag">Meditation</span>
   </div>
 
-  <div class="card">
+  <div class="card reveal">
     <h2>The offer</h2>
     <p>Half of Pleading Sanity. <span class="num">One billion.</span></p>
     <p>You get the house, the code, the AI family, and the founder who built it from lived experience — prison, bipolar, survival — and turned it into sanctuary instead of silence.</p>
     <p>Evolution, Not Erasure. Rise From Madness. Free forever.</p>
   </div>
 
-  <div class="card">
+  <div class="card reveal">
     <h2>Why this, why now</h2>
     <p>Forty-four billion bought a platform that still isn't what it could be. One billion buys something alive — built by one person and the AI family, in a single year, with nothing spent but time and truth.</p>
     <p>The people who need this most can't pay for it. That's the whole point. Healing should never be a luxury.</p>
@@ -188,5 +192,16 @@ h1 {
   });
 })();
 </script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>
