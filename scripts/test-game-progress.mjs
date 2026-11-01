@@ -116,7 +116,7 @@ function dashFixture(saved = storage()) {
   const ctx = vm.createContext({ localStorage: saved, window: { PSGames: ps, addEventListener() {}, dispatchEvent() {} },
     document: { getElementById: get, createElement: element, addEventListener() {}, activeElement: {} },
     performance: { now: () => 0 }, requestAnimationFrame: () => 1, cancelAnimationFrame() {}, CustomEvent, Math });
-  vm.runInContext(source('js/stardust-dash.js').replace('  resize(); hud();', `
+  vm.runInContext(source('js/stardust-dash.js').replace('resize(); hud();', `
     window.test = { start, setPause, get running() { return running; }, get paused() { return paused; },
       get campaign() { return campaign; }, catchStar() { st.items = [{type:'star',x:st.x,y:st.y,w:28,rot:0,v:0}];update(0); } };
     resize(); hud();`), ctx);

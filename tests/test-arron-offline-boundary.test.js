@@ -5,7 +5,7 @@ import { readFileSync } from 'node:fs';
 
 const sources = Object.fromEntries(['companion', 'core'].map(name => [name,
   readFileSync(new URL(`../js/arron-${name}.js`, import.meta.url), 'utf8')]));
-const replies = source => vm.runInNewContext(`${source.slice(source.indexOf('  const CRISIS_REPLY ='), source.indexOf('  const pick ='))}\n({ CRISIS_REPLY, OFFLINE })`);
+const replies = source => vm.runInNewContext(`${source.slice(source.indexOf('const CRISIS_REPLY ='), source.indexOf('const pick ='))}\n({ CRISIS_REPLY, OFFLINE })`);
 
 for (const [name, source] of Object.entries(sources)) {
   test(`${name}: unsupported safety and clinical promises stay absent`, () => {
@@ -20,8 +20,10 @@ for (const [name, source] of Object.entries(sources)) {
     assert.match(CRISIS_REPLY, /Are you in immediate danger right now\?/);
   });
   test(`${name}: rendered offline footer preserves tappable support routes`, () => {
-    const start = source.indexOf('  const HELP_LINES =');
-    const end = source.indexOf('\n  }', source.indexOf('  function helpFooter(', start)) + 4;
+    const start = source.indexOf('const HELP_LINES =');
+    const fnStart = source.indexOf('function helpFooter(', start);
+    const closeMatch = /\n\s*\}\n/.exec(source.slice(fnStart));
+    const end = fnStart + closeMatch.index + closeMatch[0].length;
     const element = () => ({ children: [], append(...items) { this.children.push(...items); } });
     const footer = vm.runInNewContext(`${source.slice(start, end)}\nhelpFooter('p', 'offline')`,
       { document: { createElement: element } });
@@ -33,7 +35,7 @@ for (const [name, source] of Object.entries(sources)) {
   });
 }
 
-const companion = vm.runInNewContext(`${sources.companion.slice(sources.companion.indexOf('  const MOOD_WORDS ='), sources.companion.indexOf('  // ─── STATE'))}\n({ offlineResponse, CRISIS_REPLY, OFFLINE })`, { currentMood: null });
+const companion = vm.runInNewContext(`${sources.companion.slice(sources.companion.indexOf('const MOOD_WORDS ='), sources.companion.indexOf('// ─── STATE'))}\n({ offlineResponse, CRISIS_REPLY, OFFLINE })`, { currentMood: null });
 test('web fallback: crisis takes priority over breathing and anxious keywords', () => {
   assert.equal(companion.offlineResponse('I want to die and cannot breathe'), companion.CRISIS_REPLY);
 });
@@ -43,8 +45,8 @@ test('web fallback: ordinary breathing and unknown messages retain local replies
 });
 test('app fallback: cached crisis override cannot replace the reviewed reply', () => {
   const source = sources.core;
-  const start = source.indexOf('      local = true;', source.indexOf('const offlineSoul') - 100);
-  const end = source.indexOf("      setConn('offline');", start);
+  const start = source.indexOf('local = true;', source.indexOf('const offlineSoul') - 100);
+  const end = source.indexOf("setConn('offline');", start);
   assert.ok(start > 0 && end > start);
   const result = vm.runInNewContext(`${source.slice(start, end)}\nreply`, {
     soul: { offlineReplies: { crisis: 'unreviewed override', default: ['ordinary reply'] } },

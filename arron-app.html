@@ -128,7 +128,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
       <button type="button" class="aa-help-btn" id="aa-help-btn"> Truth</button>
     </header>
 
-    <div class="aa-notices" id="aa-notices"><div class="aa-crisis-persist" role="note"><strong>Crisis:</strong> <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a></div>
+    <div class="aa-notices" id="aa-notices"><div class="aa-crisis-persist" role="note"><strong>Crisis:</strong> <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a></div>
 
       <div class="aa-notice" id="aa-install-banner" hidden>
         <p id="aa-install-text"> <strong>Make Arron part of your world.</strong> Add him to your Home Screen so he's one tap away, even offline.</p>
@@ -447,7 +447,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
         var b = document.createElement('div');
         b.className = 'arron-crisis-banner';
         b.setAttribute('role', 'alert');
-        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · NHS <a href="tel:111">111</a> · Text <a href="sms:85258"><strong>SHOUT to 85258</strong></a> · <a href="/crisis.html">More help</a>';
         log.appendChild(b);
         try { log.scrollTop = log.scrollHeight; } catch(e){}
       } catch(e){}
