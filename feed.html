@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -33,104 +33,244 @@
   <meta name="twitter:description" content="Explore the Pleading Sanity mental health community feed: survivor stories and hopeful posts, newest first. Free, with no ads or algorithmic ranking.">
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
 
-  <style>:root{--cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);--magenta:#f59e0b;--magenta-deep:#d97706;--magenta-glow:rgba(245,158,11,.4);--gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);--deep:#0d1b2a;--dark:#030712;--blackest:#000103;--text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;--glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);--btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);--btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(245,158,11,.15);--t:.3s cubic-bezier(.4,0,.2,1);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;}*{box-sizing:border-box;margin:0;padding:0;}body{background:radial-gradient(circle at 15% 25%,rgba(0,255,240,0.1) 0%,transparent 50%),radial-gradient(circle at 85% 75%,rgba(245,158,11,0.07) 0%,transparent 50%),radial-gradient(ellipse at 50% 120%,#0d1b2a 0,var(--deep) 45%,var(--blackest) 100%);color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;display:flex;flex-direction:column;}.skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}.skip-link:focus{top:12px;}a{color:var(--cyan);transition:var(--t);text-decoration:none;}a:hover{color:var(--magenta);text-decoration:underline;}header{position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);animation:fadeIn .8s ease-out;}@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}.logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}.logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}@keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}.logo-text{text-align:left;}.logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}.logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}.back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}.back-link:hover{color:var(--cyan);}h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}nav a{color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;background:rgba(0,255,240,0.04);}nav a[aria-current=page]{background:rgba(0,255,240,.12);border-color:var(--cyan);box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;}nav a:hover{border-color:var(--magenta);background:rgba(245,158,11,.08);color:#fff;box-shadow:0 0 20px rgba(245,158,11,.25);}main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}@keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}.intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}.intro strong{color:var(--cyan);}.search-wrap{margin-bottom:30px;}#feed-search{width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;outline:none;transition:var(--t);font-family:inherit;}#feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}.search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}.search-term{color:var(--cyan);font-weight:700;}.btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:44px;}.btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}.feed-item{background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(245,158,11,.04));border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;}@keyframes cardFade{to{opacity:1;transform:none;}}.feed-item:nth-child(1){animation-delay:.1s;}.feed-item:nth-child(2){animation-delay:.2s;}.feed-item:nth-child(3){animation-delay:.3s;}.feed-item:nth-child(4){animation-delay:.4s;}.feed-item:nth-child(5){animation-delay:.5s;}.feed-item:hover{transform:translateY(-4px);border-color:var(--magenta);box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(245,158,11,.1);}.feed-item iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;box-shadow:0 0 15px rgba(0,255,240,.15);}.item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}.item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}.like-buttons{display:flex;gap:10px;flex-wrap:wrap;}.like-btn{padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);font-size:0.9rem;min-height:44px;font-family:inherit;flex:1;}.like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}.like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}.video-desc{color:var(--text-soft);line-height:1.7;}#loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}.end-msg{text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;}.end-msg a{color:var(--cyan);font-weight:700;}.end-msg a:hover{color:var(--magenta);}footer{text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;backdrop-filter:blur(10px);}.brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}.socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}.socials a{min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);}.socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}.quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}.quick-links a{margin:0 6px;}.legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}.names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}@media (max-width:768px){main{padding:25px 15px 50px;}.like-buttons{width:100%;}nav{gap:6px 6px;}nav a{padding:6px 11px;font-size:0.85rem;}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}.feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}}.topic-grid{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin:1.2rem 0 0;}.topic-grid .topic{display:inline-flex;align-items:center;min-height:44px;padding:.55rem 1.05rem;border-radius:999px;border:1px solid rgba(0,255,240,.5);background:rgba(13,27,42,.75);color:#eef6ff;text-decoration:none;font-weight:600;}.topic-grid .topic:hover,.topic-grid .topic:focus-visible{border-color:#f59e0b;color:#00fff0;outline:none;box-shadow:0 0 0 3px rgba(245,158,11,.35);}</style>
+  <style>
+    :root{
+      --cyan:#00fff0;--cyan-deep:#00c8c0;--cyan-glow:rgba(0,255,240,.4);
+      --magenta:#ff00ff;--magenta-deep:#c800c8;--magenta-glow:rgba(255,0,255,.4);
+      --gold:#ffd700;--gold-bright:#ffd000;--gold-glow:rgba(255,215,0,.3);
+      --deep:#0d1b2a;--dark:#030712;--blackest:#000103;
+      --text-bright:#eafffd;--text-soft:#b9faff;--muted:#7ab8c8;--dim:#90a4ae;
+      --glass:rgba(0,255,240,.06);--border:rgba(0,255,240,.18);
+      --btn-gradient:linear-gradient(135deg,var(--cyan) 0%,var(--magenta) 100%);
+      --btn-glow:0 0 20px rgba(0,255,240,.3),0 0 40px rgba(255,0,255,.15);
+      --t:.3s cubic-bezier(.4,0,.2,1);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:
+        radial-gradient(circle at 15% 25%, rgba(0,255,240,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 120%,#1a0b3d 0,var(--deep) 45%,var(--blackest) 100%);
+      color:var(--text-bright);min-height:100vh;line-height:1.7;background-attachment:fixed;
+      display:flex;flex-direction:column;
+    }
+    .skip-link{position:absolute;top:-50px;left:6px;background:var(--gold);color:#000;padding:12px 24px;border-radius:8px;z-index:10000;font-weight:700;transition:top 0.25s ease;}
+    .skip-link:focus{top:12px;}
+    a{color:var(--cyan);transition:var(--t);text-decoration:none;}
+    a:hover{color:var(--magenta);text-decoration:underline;}
+    header{
+      position:sticky;top:0;z-index:100;text-align:center;padding:18px 20px 15px;background:rgba(0,1,3,.85);
+      backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,255,240,.12);
+      animation:fadeIn .8s ease-out;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+    .logo-container{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;flex-wrap:wrap;}
+    .logo{width:56px;height:56px;filter:drop-shadow(0 0 20px rgba(0,255,240,.4));animation:pulse 3.5s infinite ease-in-out;}
+    @keyframes pulse{0%,100%{filter:drop-shadow(0 0 20px rgba(0,255,240,.4)) drop-shadow(0 0 30px rgba(255,215,0,0.25));}50%{filter:drop-shadow(0 0 30px rgba(0,255,240,.5)) drop-shadow(0 0 40px rgba(255,215,0,0.35));}}
+    .logo-text{text-align:left;}
+    .logo-main{font-size:clamp(1.1rem,3vw,1.4rem);font-weight:900;letter-spacing:0.08em;background:linear-gradient(90deg,var(--cyan),var(--magenta),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;}
+    .logo-tag{font-size:0.7rem;color:var(--dim);letter-spacing:0.15em;margin-top:2px;}
+    .back-link{display:inline-block;text-align:left;margin-bottom:8px;color:var(--text-soft);font-size:0.9rem;}
+    .back-link:hover{color:var(--cyan);}
+    h1{font-size:clamp(1.5rem,4vw,2rem);color:var(--cyan);text-shadow:0 0 20px rgba(0,255,240,.4);margin:8px 0 4px;letter-spacing:.05em;}
+    nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;margin-top:10px;}
+    nav a{
+      color:var(--text-soft);font-weight:700;padding:7px 13px;border-radius:24px;border:1px solid transparent;
+      min-height:44px;display:inline-flex;align-items:center;transition:var(--t);font-size:0.9rem;
+      background:rgba(0,255,240,0.04);
+    }
+    nav a[aria-current=page]{
+      background:rgba(0,255,240,.12);border-color:var(--cyan);
+      box-shadow:0 0 15px rgba(0,255,240,.15);color:#fff;
+    }
+    nav a:hover{
+      border-color:var(--magenta);background:rgba(255,0,255,.08);
+      color:#fff;box-shadow:0 0 20px rgba(255,0,255,.25);
+    }
+    main{max-width:800px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;flex:1;width:100%;}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
+    .intro{text-align:center;max-width:650px;margin:0 auto 16px;color:#eef6ff;font-size:1.05rem;background:rgba(0,1,3,.66);border:1px solid rgba(0,255,240,.24);border-radius:22px;padding:14px 16px;backdrop-filter:blur(10px);}
+    .intro strong{color:var(--cyan);}
+
+    .search-wrap{margin-bottom:30px;}
+    #feed-search{
+      width:100%;max-width:540px;padding:14px 24px;border-radius:50px;border:1.5px solid rgba(0,255,240,.2);
+      background:rgba(255,255,255,.05);color:var(--text-bright);font-size:1rem;
+      outline:none;transition:var(--t);font-family:inherit;
+    }
+    #feed-search:focus{border-color:var(--cyan);box-shadow:0 0 18px rgba(0,255,240,.25);background:rgba(0,255,240,.08);}
+    .search-meta{display:none;justify-content:center;align-items:center;gap:12px;margin-top:14px;color:var(--text-soft);flex-wrap:wrap;}
+    .search-term{color:var(--cyan);font-weight:700;}
+    .btn-small{padding:6px 14px;border-radius:20px;background:transparent;color:var(--cyan);border:1px solid var(--cyan);cursor:pointer;transition:var(--t);font-size:0.85rem;min-height:36px;}
+    .btn-small:hover{background:rgba(0,255,240,.1);color:#fff;}
+
+    .feed-item{
+      background:linear-gradient(135deg,rgba(0,255,240,.06),rgba(255,0,255,.04));
+      border-radius:20px;border:1px solid rgba(0,255,240,.15);padding:24px;margin-bottom:28px;
+      transition:var(--t);opacity:0;transform:translateY(20px);animation:cardFade .6s ease forwards;
+    }
+    @keyframes cardFade{to{opacity:1;transform:none;}}
+    .feed-item:nth-child(1){animation-delay:.1s;}
+    .feed-item:nth-child(2){animation-delay:.2s;}
+    .feed-item:nth-child(3){animation-delay:.3s;}
+    .feed-item:nth-child(4){animation-delay:.4s;}
+    .feed-item:nth-child(5){animation-delay:.5s;}
+    .feed-item:hover{
+      transform:translateY(-4px);border-color:var(--magenta);
+      box-shadow:0 15px 35px rgba(0,255,240,.12),0 0 25px rgba(255,0,255,.1);
+    }
+    .feed-item iframe{
+      width:100%;aspect-ratio:16/9;border:none;border-radius:14px;margin-bottom:18px;
+      box-shadow:0 0 15px rgba(0,255,240,.15);
+    }
+    .item-meta{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;margin-bottom:10px;}
+    .item-meta h3{font-size:1.1rem;color:var(--cyan);flex:1;min-width:200px;}
+    .like-buttons{display:flex;gap:10px;flex-wrap:wrap;}
+    .like-btn{
+      padding:10px 16px;border-radius:10px;border:none;font-weight:700;cursor:pointer;transition:var(--t);
+      font-size:0.9rem;min-height:42px;font-family:inherit;flex:1;
+    }
+    .like-btn.pos{background:rgba(0,255,144,.1);color:#00ff90;border:1px solid rgba(0,255,144,.25);}
+    .like-btn.pos:hover,.like-btn.pos.active{background:#00ff90;color:#000;box-shadow:0 0 12px rgba(0,255,144,.3);}
+    .video-desc{color:var(--text-soft);line-height:1.7;}
+
+    #loader{text-align:center;padding:40px 0;color:var(--cyan);font-size:1.1rem;}
+    .end-msg{
+      text-align:center;padding:30px 25px;background:rgba(0,255,240,.05);border-radius:16px;
+      border:1px solid rgba(0,255,240,.15);color:var(--text-soft);margin-top:20px;
+    }
+    .end-msg a{color:var(--cyan);font-weight:700;}
+    .end-msg a:hover{color:var(--magenta);}
+
+    footer{
+      text-align:center;padding:40px 20px;border-top:2px solid rgba(0,255,240,.12);
+      color:var(--muted);background:rgba(0,1,3,.85);margin-top:20px;
+      backdrop-filter:blur(10px);
+    }
+    .brand{font-size:1.1rem;color:var(--cyan);font-weight:800;margin-bottom:10px;text-shadow:0 0 10px rgba(0,255,240,.2);}
+    .socials{display:flex;justify-content:center;gap:16px;margin:16px 0;font-size:1.5rem;}
+    .socials a{
+      min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;
+      border-radius:50%;transition:var(--t);color:var(--text-soft);background:rgba(0,255,240,0.05);
+    }
+    .socials a:hover{color:var(--cyan);transform:scale(1.15);background:rgba(0,255,240,0.15);box-shadow:0 0 15px rgba(0,255,240,0.2);}
+    .quick-links{margin:16px 0;font-size:0.9rem;color:var(--text-soft);line-height:1.8;}
+    .quick-links a{margin:0 6px;}
+    .legacy{margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,215,0,.15);font-size:0.9rem;}
+    .names{color:var(--gold);font-weight:700;margin:8px 0;letter-spacing:.05em;}
+
+    @media (max-width:768px){
+      main{padding:25px 15px 50px;}
+      .like-buttons{width:100%;}
+      nav{gap:6px 6px;}
+      nav a{padding:6px 11px;font-size:0.85rem;}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;}
+      .feed-item:hover,.like-btn:hover,.socials a:hover{transform:none;}
+    }
+    .topic-grid { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin:1.2rem 0 0; }
+    .topic-grid .topic { display:inline-flex; align-items:center; min-height:44px; padding:.55rem 1.05rem; border-radius:999px; border:1px solid rgba(0,255,240,.5); background:rgba(13,27,42,.75); color:#eef6ff; text-decoration:none; font-weight:600; }
+    .topic-grid .topic:hover, .topic-grid .topic:focus-visible { border-color:#ff00ff; color:#00fff0; outline:none; box-shadow:0 0 0 3px rgba(255,0,255,.35); }
+  </style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/social.css" />
   <link rel="stylesheet" href="/css/cosmic-scroll.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
 <meta property="og:site_name" content="Pleading Sanity">
-<link rel="stylesheet" href="/css/support-strip.css">
-<link rel="stylesheet" href="/css/ps-boost.css">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to feed</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html"> Talk to Arron</a>
-          <a href="/arron-app.html"> Arron App</a>
-          <a href="/journal-vault.html"> Journal Vault</a>
-          <a href="/notes.html"> Sanctuary Notes</a>
-          <a href="/mind-mode.html"> Mind Mode</a>
-          <a href="/mood-journey.html"> Mood Journey</a>
-          <a href="/frequencies.html"> Healing Hz</a>
-          <a href="/meditation.html"> Silence &amp; Breath</a>
-          <a href="/quote-wall.html"> Quote Wall</a>
-          <a href="/finance.html"> Sane Finance</a>
-          <a href="/support.html"> Support</a>
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
         </div>
       </div>
       <div class="ps-group has-current" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html" aria-current="page"> Sanity Feed</a>
-          <a href="/sanctuary.html"> My Sanctuary</a>
-          <a href="/sanityhub.html"> Sanity Hub</a>
-          <a href="/videos.html"> Videos</a>
-          <a href="/ai-stories.html"> AI Stories</a>
+          <a href="/feed.html" aria-current="page">🌟 Sanity Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html"> Creator Hub</a>
-          <a href="/ai-studio.html"> AI Studio</a>
-          <a href="/creations.html"> Image Creations</a>
-          <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html"> Write with Arron</a>
-          <a href="/rap.html"> Rap Studio</a>
-          <a href="/wisdom.html"> Words from the Family</a>
-          <a href="/my-digital-story.html"> My Digital Story</a>
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html"> Brain Games</a>
-          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-          <a href="/cosmic-connect.html"> Cosmic Connect</a>
-          <a href="/truth-tag.html"> Truth Tag</a>
-          <a href="/stardust-dash.html"> Stardust Dash</a>
-          <a href="/poker.html"> Night Table</a>
-          <a href="/kids.html"> Keep Kids Sane</a>
-          <a href="/kids-series.html"> Kids Cartoon Series</a>
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html"> Our Story</a>
-          <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html"> The Movement</a>
-          <a href="/ai-ecosystem.html"> Our AI Family</a>
-          <a href="/ai-family.html"> All AIs welcome</a>
-          <a href="/transparency.html"> Transparency</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop"> Shop</a>
-      <a href="/crisis.html" class="ps-crisis"> Truth</a>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
-    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
 
   <header role="banner">
     <div class="logo-container">
-      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="lazy" decoding="async" />
+      <img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="56" height="56" loading="eager" />
       <div class="logo-text">
         <div class="logo-main">PLEADING SANITY</div>
         <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
       </div>
     </div>
     <a href="index.html" class="back-link">← Back to Home</a>
-    <h1> Sanity Feed</h1>
+    <h1 class="gradient-text">🌌 Sanity Feed</h1>
     <p class="tag" style="color:var(--magenta);font-weight:600;margin-bottom:12px;">Time order. Free forever. Better than social media.</p>
   </header>
 
@@ -172,30 +312,30 @@
       <p>Three kind jokes. Newest house notes stay in this order. People&rsquo;s posts stay underneath, newest first.</p>
       <div class="ps-meme-row">
         <figure>
-          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." loading="lazy" decoding="async" />
+          <img src="/assets/memes/out-of-bed.jpg" width="800" height="800" alt="The crying cosmic brain. Got out of bed. That is the win." />
         </figure>
         <figure>
-          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." loading="lazy" decoding="async" />
+          <img src="/assets/memes/drank-the-water.jpg" width="800" height="800" alt="The crying cosmic brain. Drank the water. That counts." />
         </figure>
         <figure>
-          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." loading="lazy" decoding="async" />
+          <img src="/assets/memes/three-am-brain.jpg" width="800" height="800" alt="The crying cosmic brain. 3am brain says everyone hates you. 9am brain says that was a lie." />
         </figure>
       </div>
       <a class="ps-stay-play" href="/sanity-solitaire.html">Two minutes of Solitaire</a>
       <div class="house-posts" style="margin-top:1.5rem;display:grid;gap:1rem;">
-        <article class="feed-item" style="opacity:1;transform:none;">
+        <article class=class="feed-item reveal" style="opacity:1;transform:none;">
           <h3>Shane · House note</h3>
           <p class="video-desc">Got out of bed today. That is the win. If you did too, you already did something real. Rise From Madness.</p>
         </article>
-        <article class="feed-item" style="opacity:1;transform:none;">
+        <article class=class="feed-item reveal" style="opacity:1;transform:none;">
           <h3>Shane · House note</h3>
           <p class="video-desc">The 3am brain lies. The 9am brain is usually kinder. You do not have to believe every thought. You’re not alone.</p>
         </article>
-        <article class="feed-item" style="opacity:1;transform:none;">
+        <article class=class="feed-item reveal" style="opacity:1;transform:none;">
           <h3>Shane · House note</h3>
           <p class="video-desc">Private words. Yours alone. If the feed feels loud, the Journal Vault is still there. Write one line. It stays on your phone.</p>
         </article>
-        <article class="feed-item" style="opacity:1;transform:none;">
+        <article class=class="feed-item reveal" style="opacity:1;transform:none;">
           <h3>Shane · House note</h3>
           <p class="video-desc">This feed is newest first. No algorithm. Hearts only. Sit with people who get it. One Source. One Family.</p>
         </article>
@@ -203,15 +343,15 @@
     </section>
 
     <div class="cs-view-toggle" role="group" aria-label="Feed view">
-      <button type="button" data-view="immersive" aria-pressed="true"> Immersive</button>
-      <button type="button" data-view="list" aria-pressed="false"> List</button>
+      <button type="button" data-view="immersive" aria-pressed="true">📱 Immersive</button>
+      <button type="button" data-view="list" aria-pressed="false">📜 List</button>
     </div>
     <section id="immersive" aria-label="Immersive feed">
       <div data-cosmic-scroll data-sources="posts,videos" data-label="Sanity Feed: swipe for the next story"></div>
     </section>
     <div id="list-view">
     <section id="community" class="social-main" aria-labelledby="community-heading" style="padding-top:0">
-      <h2 id="community-heading" style="text-align:center;"> Community Voices</h2>
+      <h2 id="community-heading" style="text-align:center;">💬 Community Voices</h2>
       <div id="community-guest" hidden>
         <div class="panel center">
           <p style="margin:0 0 1rem">Real people, real updates — newest first, no algorithm. Hearts only, never dislikes: we don&rsquo;t feed darkness. Join free to heart, reply, journal and share your own voice.</p>
@@ -223,8 +363,8 @@
       </div>
       <div id="community-public" hidden>
         <div class="tabs" role="group" aria-label="Show posts" id="public-filters" style="margin:0 0 1rem">
-          <button type="button" data-filter="all" aria-pressed="true"> Everyone</button>
-          <button type="button" data-filter="uplifting" aria-pressed="false"> Uplifting only</button>
+          <button type="button" data-filter="all" aria-pressed="true">🌍 Everyone</button>
+          <button type="button" data-filter="uplifting" aria-pressed="false">🌅 Uplifting only</button>
         </div>
         <div id="public-posts" aria-live="polite"></div>
         <div class="center"><button type="button" class="sbtn ghost" id="public-more" hidden>Load more</button></div>
@@ -232,13 +372,13 @@
       <div id="community-member" hidden>
         <div class="row" style="justify-content:space-between;margin-bottom:1rem">
           <div class="tabs" role="group" aria-label="Show posts from" id="community-filters" style="margin:0">
-            <button type="button" data-filter="all" aria-pressed="true"> Everyone</button>
-            <button type="button" data-filter="friends" aria-pressed="false"> Friends</button>
-            <button type="button" data-filter="mine" aria-pressed="false"> Mine</button>
-            <button type="button" data-filter="saved" aria-pressed="false"> My Saved</button>
-            <button type="button" data-filter="uplifting" aria-pressed="false"> Uplifting only</button>
+            <button type="button" data-filter="all" aria-pressed="true">🌍 Everyone</button>
+            <button type="button" data-filter="friends" aria-pressed="false">💙 Friends</button>
+            <button type="button" data-filter="mine" aria-pressed="false">👤 Mine</button>
+            <button type="button" data-filter="saved" aria-pressed="false">🌟 My Saved</button>
+            <button type="button" data-filter="uplifting" aria-pressed="false">🌅 Uplifting only</button>
           </div>
-          <a class="sbtn primary" href="/post.html"> Share</a>
+          <a class="sbtn primary" href="/post.html">✍️ Share</a>
         </div>
         <p id="community-tag" class="notice info" hidden></p>
         <div id="community-posts" aria-live="polite"></div>
@@ -250,16 +390,16 @@
       <input id="feed-search" type="search" placeholder="Search topics: resilience, hope, healing, calm, bipolar..." aria-label="Search feed" />
       <div id="search-meta" class="search-meta">
         <span>Showing: <span id="search-term" class="search-term"></span></span>
-        <button id="clear-search" class="btn-small"> Clear</button>
+        <button id="clear-search" class="btn-small">✕ Clear</button>
       </div>
     </div>
 
     <div id="feed" role="feed" aria-live="polite"></div>
-    <div id="loader"> Loading cosmic stories...</div>
+    <div id="loader">🚀 Loading cosmic stories...</div>
     <div id="end" class="end-msg" hidden></div>
 
     <section aria-labelledby="explore-heading" style="margin-top:3rem;">
-      <h2 id="explore-heading" style="text-align:center;"> Explore by Topic</h2>
+      <h2 id="explore-heading" style="text-align:center;">🧭 Explore by Topic</h2>
       <p class="intro">Hand-picked themes from the movement — each one opens a YouTube search.</p>
       <div data-scroll-feed data-src="/content/content_feed.json"></div>
       <div class="topic-grid">
@@ -293,10 +433,10 @@
       <a href="/shop.html">Shop</a>
     </div>
     <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
     </div>
     <div class="ps-legacy">
       <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
@@ -339,7 +479,7 @@
     const clearBtn = document.getElementById('clear-search');
     let cardCounter = 0;
 
-    //  Curated fallback — always shows content
+    // ✅ Curated fallback — always shows content
     const FALLBACK = [
       { id: "iCvmsMzlF7o", title: "The Power of Vulnerability — Brené Brown (TED)", desc: "Why real courage starts with showing up and letting ourselves be seen." },
       { id: "F2hc2FLOdhI", title: "How to Practice Emotional First Aid — Guy Winch (TED)", desc: "Why we should look after our minds as carefully as we look after our bodies." },
@@ -362,7 +502,7 @@
           desc: (v.desc || v.description || '').slice(0, 220)
         })).filter(v => v.id);
       } catch (err) {
-        console.log(" Using curated fallback feed");
+        console.log("📡 Using curated fallback feed");
         if (!query) return FALLBACK;
         const q = query.toLowerCase();
         return FALLBACK.filter(v => 
@@ -377,7 +517,7 @@
       const on = !btn.classList.contains('active');
       btn.classList.toggle('active', on);
       btn.setAttribute('aria-pressed', String(on));
-      btn.textContent = on ? ' Hearted' : ' Heart';
+      btn.textContent = on ? '💗 Hearted' : '🤍 Heart';
       try {
         if (on) localStorage.setItem(`like_${encodeURIComponent(title)}`, 'pos');
         else localStorage.removeItem(`like_${encodeURIComponent(title)}`);
@@ -401,7 +541,7 @@
           <h3>${esc(video.title)}</h3>
           <div class="like-buttons">
             <button type="button" class="like-btn pos ${savedLike === 'pos' ? 'active' : ''}" aria-pressed="${savedLike === 'pos'}">
-              ${savedLike === 'pos' ? ' Hearted' : ' Heart'}
+              ${savedLike === 'pos' ? '💗 Hearted' : '🤍 Heart'}
             </button>
           </div>
         </div>
@@ -423,10 +563,10 @@
         end = true;
         endDiv.hidden = false;
         endDiv.innerHTML = `
-          <p> No stories match "<strong>${esc(query)}</strong>" — yet.</p>
+          <p>✨ No stories match "<strong>${esc(query)}</strong>" — yet.</p>
           <p style="margin-top:16px;">
             <a href="mailto:pleadingsanity1@gmail.com?subject=My%20Story%20Submission">Share your story</a> 
-            to help grow the feed  Every voice matters.
+            to help grow the feed 💙 Every voice matters.
           </p>
         `;
         return;
@@ -440,7 +580,7 @@
       
       if (added === 0) {
         endDiv.hidden = false;
-        endDiv.innerHTML = `<p> You've reached the edge of the cosmos — for now. More stories coming soon.</p>`;
+        endDiv.innerHTML = `<p>🌌 You've reached the edge of the cosmos — for now. More stories coming soon.</p>`;
       }
       loading = false;
     }
@@ -522,7 +662,7 @@
           const data = await api(`/api/posts?${q}`);
           const html = data.posts.map((p) => postHTML(p)).join('');
           if (append) list.insertAdjacentHTML('beforeend', html);
-          else list.innerHTML = html || '<p class="empty">Nothing public yet — <a href="/signup.html">be the first to share</a>. </p>';
+          else list.innerHTML = html || '<p class="empty">Nothing public yet — <a href="/signup.html">be the first to share</a>. 💙</p>';
           nextBefore = data.nextBefore;
           more.hidden = !nextBefore;
         } catch (error) {
@@ -543,7 +683,7 @@
           const { post } = await api(`/api/posts/${single}`);
           list.innerHTML = postHTML(post, { full: true }) + '<p class="center"><a href="/feed.html#community">← All community posts</a></p>';
         } catch {
-          list.innerHTML = '<p class="notice info">This post is for members. <a href="/login.html?next=' + encodeURIComponent(location.pathname + location.search) + '">Sign in</a> or <a href="/signup.html">join free</a> to see it. </p>';
+          list.innerHTML = '<p class="notice info">This post is for members. <a href="/login.html?next=' + encodeURIComponent(location.pathname + location.search) + '">Sign in</a> or <a href="/signup.html">join free</a> to see it. 💙</p>';
         }
       } else loadPublic();
       if (location.hash === '#community') document.getElementById('community').scrollIntoView();
@@ -570,7 +710,7 @@
           const html = (append ? '' : (data.pinned || []).map((p) => postHTML(p)).join('')) +
             data.posts.filter((p) => append || !pinnedIds.has(p.id)).map((p) => postHTML(p)).join('');
           if (append) list.insertAdjacentHTML('beforeend', html);
-          else list.innerHTML = html || `<p class="empty">${filter === 'friends' ? 'No posts from friends yet — <a href="/community.html">find your people</a>.' : filter === 'saved' ? 'Nothing saved yet. Tap  Save on any post to keep it in <a href="/sanctuary.html">My Sanctuary</a>.' : filter === 'uplifting' ? 'No uplifting posts yet — <a href="/post.html?kind=status">share a small win</a>. ' : 'Nothing here yet. <a href="/post.html">Be the first to share</a>. '}</p>`;
+          else list.innerHTML = html || `<p class="empty">${filter === 'friends' ? 'No posts from friends yet — <a href="/community.html">find your people</a>.' : filter === 'saved' ? 'Nothing saved yet. Tap ☆ Save on any post to keep it in <a href="/sanctuary.html">My Sanctuary</a>.' : filter === 'uplifting' ? 'No uplifting posts yet — <a href="/post.html?kind=status">share a small win</a>. 🌅' : 'Nothing here yet. <a href="/post.html">Be the first to share</a>. 💙'}</p>`;
           nextBefore = data.nextBefore;
           more.hidden = !nextBefore;
         } catch (error) {
@@ -608,7 +748,16 @@
       if (location.hash === '#community') document.getElementById('community').scrollIntoView();
     }
   </script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<script defer src="/js/ps-boost.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

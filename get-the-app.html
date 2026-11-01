@@ -34,25 +34,28 @@
 <meta name="twitter:title" content="Free Sanctuary App &amp; Tools | Pleading Sanity">
 
 <meta name="twitter:description" content="Explore Pleading Sanity’s free mental health sanctuary app: Arron, calm games, journaling and creative tools. Browse the rooms or install on your phone.">
-<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
+<section class="crisis-strip" aria-label="Crisis and emergency help"><strong>In crisis right now?</strong> You are not alone. <span class="crisis-nums">999 (emergency) &middot; Samaritans 116 123 &middot; SHOUT text 85258 &middot; NHS 111 option 2</span> More support and international lines on the <a href="/crisis.html">Crisis Help page</a>.</section>
+
   <div class="wrap" role="main" id="main-content">
     <p class="note">Arron is a companion, not a therapist. The house sits with the story.</p>
     <div class="top">
-      <a href="/" aria-label="Pleading Sanity home"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying cosmic brain logo" width="42" height="42" / loading="eager" fetchpriority="high" decoding="async"></a>
+      <a href="/" aria-label="Pleading Sanity home"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Pleading Sanity crying cosmic brain logo" width="42" height="42" /></a>
       <a class="btn" href="/arron-app.html">Arron</a>
     </div>
     <div class="hub-welcome">
-      <div class="hub-welcome-copy"><p class="hub-eyebrow">YOUR POCKET SANCTUARY</p><h1>Your Sanity App Hub</h1>
+      <div class="hub-welcome-copy"><p class="hub-eyebrow">YOUR POCKET SANCTUARY</p><h1 class="gradient-text">Your Sanity App Hub</h1>
       <p>Room to play. Space to breathe. A place to create.</p>
       <a class="btn" href="#hub-browse">Find your next room ↓</a></div>
-      <img src="/assets/games/worlds/aurora-lakes-v2.webp" alt="Illustrated aurora glowing above a peaceful mountain lake" width="1280" height="720" decoding="async" fetchpriority="high" loading="lazy" decoding="async">
+      <img src="/assets/games/worlds/aurora-lakes-v2.webp" alt="Illustrated aurora glowing above a peaceful mountain lake" width="1280" height="720" decoding="async" fetchpriority="high">
     </div>
     <p>This is the house. Arron, Finance, Solitaire and the games are rooms inside it. A new build adds to this icon. It does not make a second app.</p>
     <p class="lede">One install, all the rooms. On supported devices, it opens as an app from your home screen. The sanctuary stays free.</p>
     <p><a class="btn" href="#hub-browse">Browse the Sanity App Hub</a></p>
-    <section class="card hub-install ps-reveal" aria-labelledby="install-heading">
+    <section class="card hub-install reveal" aria-labelledby="install-heading">
       <h2 id="install-heading">Keep the sanctuary close</h2>
       <p>Use it in your browser, or add it to your home screen. No store download or account needed to install.</p>
       <button class="btn solid" id="install" type="button" data-pwa-install hidden>Install Pleading Sanity</button>
@@ -72,18 +75,18 @@
         <a href="/offline.html">Open offline support</a>
       </details>
     </section>
-    <details class="card hub-extra">
+    <details class="card hub-extra reveal">
       <summary>New here? Pick one small thing</summary>
       <p>No need to try everything today. <a href="/arron.html">Talk to Arron</a>, <a href="/mind-mode.html">take a breathing or grounding break</a>, or <a href="/journal-vault.html">write something down</a>.</p>
       <p>Arron is AI, not a therapist. <a href="/support.html">Support options are here</a>. Each room explains its own saving and account options.</p>
     </details>
-    <section class="card ps-reveal">
+    <section class="card reveal">
       <p>After it is on your home screen, open it from the icon. The rooms are already inside.</p>
       <p><a href="/arron-app.html">Arron</a> · <a href="/finance.html">Finance</a> · <a href="/sanity-solitaire.html">Solitaire</a> · <a href="/games.html">Games</a> · <a href="/feed.html">Feed</a></p>
     </section>
     <p class="note">This is the real installable app. A Google Play listing still needs your Play Console account. It is not in the store yet. This web app is not an Apple App Store listing either.</p>
 
-    <section id="app-hub" class="hub ps-reveal" aria-labelledby="hub-title">
+    <section id="app-hub" class="hub" aria-labelledby="hub-title">
       <h2 id="hub-title">Sanity App Hub</h2>
       <p class="hub-lede">Every room in this house, in one catalogue. All free. No account needed to look around. This is our own shelf, not the Apple App Store or Google Play.</p>
       <h3 class="hub-h">Featured</h3>
@@ -110,6 +113,16 @@
   </div>
   <script src="/js/site.js" defer></script>
   <script src="/js/app-hub.js" defer></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<script defer src="/js/ps-boost.js"></script></body>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
+</body>
 </html>

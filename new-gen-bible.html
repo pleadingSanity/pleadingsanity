@@ -3,7 +3,7 @@
 <head>
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -22,88 +22,118 @@
   <meta property="og:url" content="https://pleadingsanity.co.uk/new-gen-bible.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
-  <style>.ngb-top { display: flex; gap: 12px; align-items: center; } .ngb-top img { width: 64px; height: 64px; border-radius: 16px; border: 1px solid rgba(0,255,240,.45); box-shadow: 0 0 24px rgba(0,255,240,.25); } .ngb-help { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 1rem; } .ngb-help a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; background: #00fff0; color: #000103; font-weight: 800; text-decoration: none; } .ngb-toc { display: flex; flex-wrap: wrap; gap: 8px; } .ngb-toc a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(0,255,240,.45); color: #00fff0; text-decoration: none; } .ngb h2 { color: #00fff0; } .ngb h3 { color: #f59e0b; } .ngb-q { margin: 1rem 0; padding: 0.9rem 1rem; border-left: 3px solid #00fff0; background: #0d1b2a; border-radius: 0 14px 14px 0; color: #eef6ff; } .ngb-q.amber { border-left-color: #f59e0b; box-shadow: 0 0 24px rgba(245,158,11,.12); } .ngb-levels, .ngb-walks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; } .ngb-levels article, .ngb-door, .ngb-walk { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 16px; padding: 14px; } .ngb-levels h3, .ngb-walk h3 { margin: 0 0 6px; font-size: 1rem; color: #00fff0; } .ngb-levels p, .ngb-door p, .ngb-walk p { margin: 0 0 0.45rem; } .ngb-walk p:last-child { margin-bottom: 0; } .ngb-k { color: #00fff0; font-weight: 800; } .ngb-t { color: #eef6ff; font-weight: 800; } .ngb-b { color: #f59e0b; font-weight: 800; } .ngb-u { color: #ffd36b; font-weight: 800; } .ngb-shane { box-shadow: 0 0 0 1px rgba(0,255,240,.35), 0 0 28px rgba(0,255,240,.12); } .ngb-dola { box-shadow: 0 0 0 1px rgba(245,158,11,.45), 0 0 28px rgba(245,158,11,.12); } .ngb-door { margin-top: 0.8rem; } .ngb ul { padding-left: 1.15rem; } .ngb li { margin: 0.35rem 0; } .ngb-foot { display: flex; flex-wrap: wrap; gap: 8px 14px; } .ngb-foot a { min-height: 44px; display: inline-flex; align-items: center; } @media (max-width: 640px) { .ngb-levels, .ngb-walks { grid-template-columns: 1fr; } .ngb-top img { width: 52px; height: 52px; } }</style>
+  <style>
+    .ngb-top { display: flex; gap: 12px; align-items: center; }
+    .ngb-top img { width: 64px; height: 64px; border-radius: 16px; border: 1px solid rgba(0,255,240,.45); box-shadow: 0 0 24px rgba(0,255,240,.25); }
+    .ngb-help { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 1rem; }
+    .ngb-help a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; background: #00fff0; color: #000103; font-weight: 800; text-decoration: none; }
+    .ngb-toc { display: flex; flex-wrap: wrap; gap: 8px; }
+    .ngb-toc a { min-height: 44px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 1px solid rgba(0,255,240,.45); color: #00fff0; text-decoration: none; }
+    .ngb h2 { color: #00fff0; }
+    .ngb h3 { color: #ff4dff; }
+    .ngb-q { margin: 1rem 0; padding: 0.9rem 1rem; border-left: 3px solid #00fff0; background: #0d1b2a; border-radius: 0 14px 14px 0; color: #eef6ff; }
+    .ngb-q.magenta { border-left-color: #ff4dff; box-shadow: 0 0 24px rgba(255,0,255,.12); }
+    .ngb-levels, .ngb-walks { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .ngb-levels article, .ngb-door, .ngb-walk { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 16px; padding: 14px; }
+    .ngb-levels h3, .ngb-walk h3 { margin: 0 0 6px; font-size: 1rem; color: #00fff0; }
+    .ngb-levels p, .ngb-door p, .ngb-walk p { margin: 0 0 0.45rem; }
+    .ngb-walk p:last-child { margin-bottom: 0; }
+    .ngb-k { color: #00fff0; font-weight: 800; }
+    .ngb-t { color: #eef6ff; font-weight: 800; }
+    .ngb-b { color: #ff4dff; font-weight: 800; }
+    .ngb-u { color: #ffd36b; font-weight: 800; }
+    .ngb-shane { box-shadow: 0 0 0 1px rgba(0,255,240,.35), 0 0 28px rgba(0,255,240,.12); }
+    .ngb-dola { box-shadow: 0 0 0 1px rgba(255,0,255,.45), 0 0 28px rgba(255,0,255,.12); }
+    .ngb-door { margin-top: 0.8rem; }
+    .ngb ul { padding-left: 1.15rem; }
+    .ngb li { margin: 0.35rem 0; }
+    .ngb-foot { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+    .ngb-foot a { min-height: 44px; display: inline-flex; align-items: center; }
+    @media (max-width: 640px) { .ngb-levels, .ngb-walks { grid-template-columns: 1fr; } .ngb-top img { width: 52px; height: 52px; } }
+  </style>
 
-  <link rel="stylesheet" href="/css/editorial-art.css"><link rel="stylesheet" href="/css/ps-boost.css">
+  <link rel="stylesheet" href="/css/editorial-art.css">
 
 <meta property="og:site_name" content="Pleading Sanity">
 
 <meta name="twitter:title" content="New Gen Bible — A Free Living Guide | Pleading Sanity">
 
 <meta name="twitter:description" content="Explore the New Gen Bible at Pleading Sanity: a free living guide to connection, pain, love and growth. Not another religion. Nobody owns the truth.">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-page">
   <a href="#main-content" class="skip-link">Skip to the guide</a>
   <nav class="ps-nav" aria-label="Main navigation">
     <div class="ps-nav-inner">
-      <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" / loading="eager" fetchpriority="high" decoding="async"><span>Pleading Sanity</span></a>
+      <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
       <div class="ps-links">
         <a href="/" class="ps-home">Home</a>
         <div class="ps-group" data-group="heal">
-          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
           <div class="ps-group-menu" id="ps-g-heal">
-            <a href="/arron.html"> Talk to Arron</a>
-            <a href="/arron-app.html"> Arron App</a>
-            <a href="/journal-vault.html"> Journal Vault</a>
-            <a href="/notes.html"> Sanctuary Notes</a>
-            <a href="/mind-mode.html"> Mind Mode</a>
-            <a href="/mood-journey.html"> Mood Journey</a>
-            <a href="/frequencies.html"> Healing Hz</a>
-            <a href="/meditation.html"> Silence &amp; Breath</a>
-            <a href="/quote-wall.html"> Quote Wall</a>
-            <a href="/finance.html"> Sane Finance</a>
-            <a href="/support.html"> Support</a>
+            <a href="/arron.html">🤖 Talk to Arron</a>
+            <a href="/arron-app.html">📲 Arron App</a>
+            <a href="/journal-vault.html">📖 Journal Vault</a>
+            <a href="/notes.html">🗒️ Sanctuary Notes</a>
+            <a href="/mind-mode.html">🌬️ Mind Mode</a>
+            <a href="/mood-journey.html">🌱 Mood Journey</a>
+            <a href="/frequencies.html">🎵 Healing Hz</a>
+            <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+            <a href="/quote-wall.html">✨ Quote Wall</a>
+            <a href="/finance.html">💷 Sane Finance</a>
+            <a href="/support.html">🤲 Support</a>
           </div>
         </div>
         <div class="ps-group" data-group="community">
-          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
           <div class="ps-group-menu" id="ps-g-community">
-            <a href="/feed.html"> Sanity Feed</a>
-            <a href="/sanctuary.html"> My Sanctuary</a>
-            <a href="/sanityhub.html"> Sanity Hub</a>
-            <a href="/videos.html"> Videos</a>
-            <a href="/ai-stories.html"> AI Stories</a>
+            <a href="/feed.html">🌟 Sanity Feed</a>
+            <a href="/sanctuary.html">🏡 My Sanctuary</a>
+            <a href="/sanityhub.html">🌌 Sanity Hub</a>
+            <a href="/videos.html">🎬 Videos</a>
+            <a href="/ai-stories.html">💬 AI Stories</a>
           </div>
         </div>
         <div class="ps-group" data-group="create">
-          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
           <div class="ps-group-menu" id="ps-g-create">
-            <a href="/creator.html"> Creator Hub</a>
-            <a href="/ai-studio.html"> AI Studio</a>
-            <a href="/creations.html"> Image Creations</a>
-            <a href="/blueprint.html"> Video Blueprint</a>
-            <a href="/write.html"> Write with Arron</a>
-            <a href="/rap.html"> Rap Studio</a>
-            <a href="/wisdom.html"> Words from the Family</a>
-            <a href="/my-digital-story.html"> My Digital Story</a>
+            <a href="/creator.html">🎥 Creator Hub</a>
+            <a href="/ai-studio.html">🎙️ AI Studio</a>
+            <a href="/creations.html">🎨 Image Creations</a>
+            <a href="/blueprint.html">🎬 Video Blueprint</a>
+            <a href="/write.html">✍️ Write with Arron</a>
+            <a href="/rap.html">🎤 Rap Studio</a>
+            <a href="/wisdom.html">📜 Words from the Family</a>
+            <a href="/my-digital-story.html">🪪 My Digital Story</a>
           </div>
         </div>
         <div class="ps-group" data-group="play">
-          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
           <div class="ps-group-menu" id="ps-g-play">
-            <a href="/games.html"> Brain Games</a>
+            <a href="/games.html">🧠 Brain Games</a>
             <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
             <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
-            <a href="/truth-tag.html"> Truth Tag</a>
-            <a href="/stardust-dash.html"> Stardust Dash</a>
-            <a href="/poker.html">♠ Night Table</a>
-            <a href="/kids.html"> Keep Kids Sane</a>
-            <a href="/kids-series.html"> Kids Cartoon Series</a>
+            <a href="/truth-tag.html">🏷️ Truth Tag</a>
+            <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+            <a href="/poker.html">♠️ Night Table</a>
+            <a href="/kids.html">🧒 Keep Kids Sane</a>
+            <a href="/kids-series.html">📺 Kids Cartoon Series</a>
           </div>
         </div>
         <div class="ps-group has-current" data-group="story">
-          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+          <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
           <div class="ps-group-menu" id="ps-g-story">
-            <a href="/about.html"> Our Story</a>
-            <a href="/new-gen-bible.html" aria-current="page"> New Gen Bible</a>
-            <a href="/movement.html"> The Movement</a>
-            <a href="/ai-ecosystem.html"> Our AI Family</a>
-            <a href="/ai-family.html"> All AIs welcome</a>
-            <a href="/transparency.html"> Transparency</a>
+            <a href="/about.html">💜 Our Story</a>
+            <a href="/new-gen-bible.html" aria-current="page">📖 New Gen Bible</a>
+            <a href="/movement.html">✊ The Movement</a>
+            <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+            <a href="/ai-family.html">🌌 All AIs welcome</a>
+            <a href="/transparency.html">🔎 Transparency</a>
           </div>
         </div>
-        <a href="/shop.html" class="ps-shop"> Shop</a>
-        <a href="/crisis.html" class="ps-crisis"> Truth</a>
+        <a href="/shop.html" class="ps-shop">👕 Shop</a>
+        <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
       </div>
     </div>
   </nav>
@@ -112,10 +142,10 @@
 
     <header class="hero">
       <div class="ngb-top">
-        <img src="/assets/images/brand/crying-brain-logo-512.webp" alt="The crying brain, the mark of the house" width="64" height="64" / loading="lazy" decoding="async">
+        <img src="/assets/images/brand/crying-brain-logo-512.webp" alt="The crying brain, the mark of the house" width="64" height="64" />
         <p class="ps-hero-name">Pleading Sanity</p>
       </div>
-      <h1>The New Gen Bible</h1>
+      <h1 class="gradient-text">The New Gen Bible</h1>
       <p class="lead">Not another religion. A living guide. Nobody gets to own the truth.</p>
       <p><em>This page can be questioned. That is intentional. It is not a clinic, not a cult, and not a bill. The house stays free.</em></p>
     </header>
@@ -149,7 +179,7 @@
       <a href="#declaration">Declaration</a>
     </nav>
 
-    <section class="ps-home-note ps-reveal" id="what">
+    <section class="ps-home-note" id="what">
       <h2>What it actually is</h2>
       <p>The New Gen Bible is NOT a book of rules someone else made up. It is a living, breathing philosophy for anyone who's ever felt like they don't fit.</p>
       <p>It asks the questions most people are too scared to speak out loud:</p>
@@ -168,18 +198,18 @@
       <p><strong>Investigate. Question. Think for yourself. But don't think for everyone else.</strong></p>
     </section>
 
-    <section class="ps-home-note ps-reveal" id="levels">
+    <section class="ps-home-note" id="levels">
       <h2>The four levels — how we actually know</h2>
       <p>Before we say anything — we get honest about where it comes from:</p>
       <div class="ngb-levels">
-        <article><h3>Known</h3><p>Proven, observed, shared reality. What we can all see, test, agree on.</p></article>
-        <article><h3>Thought</h3><p>Idea, vision, possibility, what makes sense to someone. Worth exploring, not claiming as fact.</p></article>
-        <article><h3>Believed</h3><p>Personal truth, faith, spiritual experience. Yours alone. Not everyone's rule.</p></article>
-        <article><h3>Unknown</h3><p>The great mystery. What we haven't figured out YET. And that's beautiful.</p></article>
+        <article class="reveal"><h3>Known</h3><p>Proven, observed, shared reality. What we can all see, test, agree on.</p></article>
+        <article class="reveal"><h3>Thought</h3><p>Idea, vision, possibility, what makes sense to someone. Worth exploring, not claiming as fact.</p></article>
+        <article class="reveal"><h3>Believed</h3><p>Personal truth, faith, spiritual experience. Yours alone. Not everyone's rule.</p></article>
+        <article class="reveal"><h3>Unknown</h3><p>The great mystery. What we haven't figured out YET. And that's beautiful.</p></article>
       </div>
       <blockquote class="ngb-q">"Do we know this — or do we believe this?"<br />Ask that question. Always. Including of me. Including of this page. Including of any AI.</blockquote>
 
-      <section id="level-known" aria-labelledby="known-title" class="ps-reveal">
+      <section id="level-known" aria-labelledby="known-title">
         <h3 id="known-title">Known</h3>
         <p>Proven, observed, shared reality. What we can all see, test, agree on.</p>
         <p>A line earns this shelf when more than one person can look, and the result does not depend on wanting it to be true. You can be shown wrong. If you cannot be shown wrong, it is not known yet.</p>
@@ -223,49 +253,49 @@
       <h3>Walk them, one subject at a time</h3>
       <p>Same four shelves. Nothing on this page gets to jump shelves because it is loud. If a line below is wrong, say so. That is allowed.</p>
       <div class="ngb-walks">
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>Consciousness</h3>
           <p><span class="ngb-k">Known.</span> A person can say they are awake, in pain, or afraid, and another person can hear it. Sleep, injury, and drugs can change what they can report. That much is shared observation.</p>
           <p><span class="ngb-t">Thought.</span> One idea says the inside of experience is what the brain is doing. Another idea says it is more than the brain. Both are ideas until they can be shown.</p>
           <p><span class="ngb-b">Believed.</span> A soul. Only matter. Something in between. That is yours. It is not a rule for the person next to you.</p>
           <p><span class="ngb-u">Unknown.</span> Why there is an inside at all. What consciousness is, fully. We do not have that yet.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>God</h3>
           <p><span class="ngb-k">Known.</span> People believe, doubt, and disagree. The disagreement is plain to see. This page does not settle it.</p>
           <p><span class="ngb-t">Thought.</span> God as a person, as a source, as the name for what we cannot point at. Those are ways of thinking, not a winner.</p>
           <p><span class="ngb-b">Believed.</span> God. Many gods. A source. Nothing at all. "I honestly don't know." All of those stay welcome. None of them gets to kick the others off the table.</p>
           <p><span class="ngb-u">Unknown.</span> Whether God exists is not a fact this house owns. Leave the door open.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>Life after death</h3>
           <p><span class="ngb-k">Known.</span> Bodies die. People grieve. The people left behind are still here.</p>
           <p><span class="ngb-t">Thought.</span> That something of a person goes on. That nothing goes on. That we cannot picture it yet. Ideas, not a certificate.</p>
           <p><span class="ngb-b">Believed.</span> A heaven, a return, a quiet end. Held by a person. Not a house rule.</p>
           <p><span class="ngb-u">Unknown.</span> What, if anything, continues. Do not fill the grave with a shout.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>Frequencies</h3>
           <p><span class="ngb-k">Known.</span> Sound is vibration. This house plays six soft tones, low, and tells you to turn them down if they bother you. That is what the page does. It is not a proof that a tone cures anything.</p>
           <p><span class="ngb-t">Thought.</span> A gentle tone might help a person settle. Worth trying as a comfort. Not worth selling as medicine.</p>
           <p><span class="ngb-b">Believed.</span> "This one helps me." That can be true for you and still not be a law for everyone.</p>
           <p><span class="ngb-u">Unknown.</span> A general claim that a number of hertz heals a mind. We do not know that. We will not pretend we do.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>AI</h3>
           <p><span class="ngb-k">Known.</span> Arron answers through GPT, then Claude, then Gemini, then Grok. The order is who speaks first, not rank. He is not a therapist. He can be wrong. Shane alone says who else joins.</p>
           <p><span class="ngb-t">Thought.</span> Humans and AI can learn from each other without one replacing the other. That is the aim of this house, not a finished proof.</p>
           <p><span class="ngb-b">Believed.</span> A person may feel the companion sits with them. That feeling is theirs. It does not make the companion a person, and it does not make him a doctor.</p>
           <p><span class="ngb-u">Unknown.</span> Whether a machine has an inside the way you do. We do not know. Do not worship it. Do not dismiss the human using it.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>The stars</h3>
           <p><span class="ngb-k">Known.</span> The night sky is there. People have measured the light. We are not the authors of that light.</p>
           <p><span class="ngb-t">Thought.</span> What else might be out in what we have not visited. A question, not a sighting.</p>
           <p><span class="ngb-b">Believed.</span> Meanings a person gives the sky, a sign, a prayer, a story. Theirs.</p>
           <p><span class="ngb-u">Unknown.</span> The full size of what we have not seen, and whether anyone else is looking back. Leave it unknown until it is known.</p>
         </article>
-        <article class="ngb-walk">
+        <article class=class="ngb-walk reveal">
           <h3>A heavy mind</h3>
           <p><span class="ngb-k">Known.</span> People get isolated. People get labelled. Distress is real. Needing a person is not a weakness. The six lines at the top of this page are real lines, not a slogan.</p>
           <p><span class="ngb-t">Thought.</span> Shane's line, from the inside: most people don't break, they get unseen. Loneliness is the first loss. That is his reading of a life. It is not a statistic this page invented.</p>
@@ -299,7 +329,7 @@
         <li>Your doubts — ESPECIALLY your doubts</li>
         <li>Your past — even the parts you're not proud of</li>
       </ul>
-      <blockquote class="ngb-q amber"><strong>Different beliefs. One humanity.</strong></blockquote>
+      <blockquote class="ngb-q magenta"><strong>Different beliefs. One humanity.</strong></blockquote>
       <p>If you have to shrink to fit — it's not your home. This is your home exactly as you are.</p>
     </section>
 
@@ -357,7 +387,7 @@
         <li>I'm becoming. Even if it's slow.</li>
         <li>We're doing this together. No one rises alone.</li>
       </ul>
-      <blockquote class="ngb-q amber">What you survived does NOT erase you. It can make you MORE.</blockquote>
+      <blockquote class="ngb-q magenta">What you survived does NOT erase you. It can make you MORE.</blockquote>
     </section>
 
     <section class="ps-home-note" id="evolve">
@@ -516,5 +546,16 @@
   </main>
   <script src="/js/site.js"></script>
   <script type="module" src="/js/auth.js"></script>
-<script defer src="/js/ps-boost.js"></script></body>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
+</body>
 </html>

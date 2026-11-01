@@ -1,0 +1,88 @@
+/* =====================================================
+   PLEADING SANITY — UI POLISH (light touch, additive)
+   Reusable classes: .gradient-text, .glass, .reveal
+   Plus global: consistent transitions, focus-visible,
+   hover lift+glow. Teal + amber only — no purple/indigo.
+===================================================== */
+
+/* ---- Gradient text: teal -> amber ---- */
+.gradient-text {
+  background: linear-gradient(100deg, #2dd4bf 0%, #14b8a6 35%, #f59e0b 75%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* Fallback for browsers without background-clip:text */
+@supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+  .gradient-text { color: #5eead4; -webkit-text-fill-color: #5eead4; }
+}
+
+/* ---- Glassmorphism ---- */
+.glass {
+  background: rgba(13, 22, 33, 0.55);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+  backdrop-filter: blur(12px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+/* ---- Reveal on scroll (JS-gated) ---- */
+.reveal-js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+              transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: opacity, transform;
+}
+.reveal-js .reveal.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+/* Stagger: optional .reveal-delay-N */
+.reveal-js .reveal-delay-1 { transition-delay: 0.08s; }
+.reveal-js .reveal-delay-2 { transition-delay: 0.16s; }
+.reveal-js .reveal-delay-3 { transition-delay: 0.24s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-js .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- Consistent transitions + hover states ---- */
+button, .btn, a.btn, [role="button"] {
+  transition: transform 0.25s ease, box-shadow 0.25s ease,
+              background-color 0.25s ease, border-color 0.25s ease,
+              color 0.25s ease, opacity 0.25s ease;
+  touch-action: manipulation;
+}
+
+/* Hover lift + soft teal glow (desktop only) */
+@media (hover: hover) {
+  button:hover, .btn:hover, a.btn:hover, [role="button"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), 0 0 14px rgba(45, 212, 191, 0.18);
+  }
+}
+
+/* ---- Accessible focus-visible: teal outline ---- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid #2dd4bf;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---- Card hover polish (opt-in, light) ---- */
+@media (hover: hover) {
+  .card-hover { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+  .card-hover:hover {
+    transform: translateY(-3px);
+    border-color: rgba(45, 212, 191, 0.35);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 18px rgba(45, 212, 191, 0.12);
+  }
+}

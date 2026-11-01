@@ -2,12 +2,10 @@
 <html lang="en-GB">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="canonical" href="https://pleadingsanity.co.uk/solar-ai-office.html">
 <title>Solar AI Office — Paperwork Handled, Humans Fit the Panels | Insane Solar</title>
 <meta name="description" content="AI prepares MCS, G98/G99, Part P and SEG paperwork. Registered installers sign every certificate. Leicestershire & Midlands. No salesman layer.">
-    <meta property="og:title" content="Solar AI Office — Paperwork Handled, Humans Fit the Panels | Insane Solar">
-    <meta property="og:description" content="AI prepares MCS, G98/G99, Part P and SEG paperwork. Registered installers sign every certificate. Leicestershire & Midlands. No salesman layer.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,7 +32,7 @@
   .grad-text{ background:linear-gradient(92deg,var(--amber2),var(--amber) 55%,#fde68a); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .grad-text-green{ background:linear-gradient(92deg,var(--green2),var(--green)); -webkit-background-clip:text; background-clip:text; color:transparent; }
   .grad-text-teal{ background:linear-gradient(92deg,var(--teal),var(--teal2) 60%,var(--teal3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-  
+  /* Buttons */
   .btn{ display:inline-flex; align-items:center; gap:.55rem; font-weight:800; padding:.9rem 1.5rem; border-radius:.65rem; transition:transform .18s ease, box-shadow .18s ease, background .18s ease, border-color .18s ease; cursor:pointer; border:1px solid transparent; text-decoration:none; font-size:.95rem; letter-spacing:.01em; }
   .btn:hover{ transform:translateY(-2px); }
   .btn-amber{ background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; box-shadow:0 8px 24px -8px rgba(245,158,11,.55); }
@@ -44,14 +42,14 @@
   .btn-ghost-dark{ background:transparent; color:var(--ink-text); border-color:rgba(56,189,248,.35); }
   .btn-ghost-dark:hover{ border-color:var(--teal2); color:var(--teal3); }
   .btn-green{ background:linear-gradient(135deg,var(--green2),var(--green)); color:#052e22; box-shadow:0 8px 24px -8px rgba(16,185,129,.5); }
-  
+  /* Chips */
   .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.55rem .95rem; border-radius:999px; font-weight:700; font-size:.8rem; border:1px solid var(--border-dark); background:rgba(30,41,59,.7); backdrop-filter:blur(6px); }
   .chip .dot{ width:.5rem; height:.5rem; border-radius:999px; background:var(--amber); box-shadow:0 0 10px var(--amber); }
   .chip.green .dot{ background:var(--green2); box-shadow:0 0 10px var(--green2); }
-  
+  /* Cards */
   .card-dark{ background:var(--panel); border:1px solid var(--border-dark); border-radius:1rem; transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease; }
   .card-dark:hover{ transform:translateY(-3px); border-color:rgba(56,189,248,.45); box-shadow:0 18px 40px -18px rgba(0,0,0,.6); }
-  
+  /* Hero sunburst */
   .sunburst{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
   .sunburst .glow{ position:absolute; top:-30%; right:-10%; width:70vw; height:70vw; max-width:900px; max-height:900px; border-radius:50%;
     background:radial-gradient(circle at center, rgba(251,191,36,.32) 0%, rgba(245,158,11,.14) 30%, rgba(245,158,11,0) 62%);
@@ -66,27 +64,27 @@
     background-image:linear-gradient(rgba(148,163,184,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.06) 1px, transparent 1px);
     background-size:44px 44px;
     -webkit-mask:linear-gradient(to bottom, black, transparent 85%); mask:linear-gradient(to bottom, black, transparent 85%); }
-  
+  /* Nav */
   .navlink{ position:relative; font-weight:600; font-size:.9rem; color:var(--muted-light); transition:color .15s ease; padding:.3rem .1rem; text-decoration:none; }
   .navlink:hover{ color:var(--ink-text); }
   .navlink.active{ color:var(--teal3); }
   .navlink.active::after{ content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:var(--teal2); border-radius:2px; }
-  
+  /* Reveal animation */
   .reveal{ opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.in{ opacity:1; transform:none; }
-  
+  /* Steps / accordion */
   .step-num{ width:3rem; height:3rem; border-radius:.8rem; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.15rem; background:linear-gradient(135deg,var(--amber2),var(--amber)); color:#1a1206; flex-shrink:0; box-shadow:0 8px 20px -6px rgba(245,158,11,.5); transition:all .25s ease; }
   .step-item.open .step-num{ background:linear-gradient(135deg,var(--green2),var(--green)); box-shadow:0 8px 20px -6px rgba(16,185,129,.5); }
   .step-body{ max-height:0; overflow:hidden; transition:max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease; opacity:0; }
   .step-item.open .step-body{ max-height:400px; opacity:1; }
   .step-chevron{ transition:transform .3s ease; flex-shrink:0; }
   .step-item.open .step-chevron{ transform:rotate(180deg); }
-  
+  /* Human sign-off note inside cards */
   .signoff{ display:flex; align-items:flex-start; gap:.5rem; margin-top:.9rem; padding-top:.8rem; border-top:1px dashed var(--border-dark); font-size:.78rem; line-height:1.5; color:var(--green2); font-weight:600; }
   .signoff svg{ flex-shrink:0; margin-top:1px; }
-  
+  /* Avatar ring */
   .avatar-ring{ width:72px; height:72px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, rgba(245,158,11,.25), rgba(16,185,129,.25)); border:1px solid rgba(245,158,11,.35); flex-shrink:0; }
-  
+  /* Mobile menu */
   .mobile-menu{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
   .mobile-menu.open{ max-height:480px; }
   .brand-badge{ display:inline-block; font-weight:800; font-size:.68rem; letter-spacing:.1em; text-transform:uppercase; padding:.28rem .6rem; border-radius:.35rem; background:rgba(148,163,184,.12); color:var(--muted-light); border:1px solid var(--border-dark); }
@@ -101,7 +99,8 @@
     .sunburst .glow{ width:90vw; height:90vw; top:-10%; right:-30%; }
   }
 </style>
-<link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/ps-boost.css">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="antialiased">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -167,7 +166,7 @@
 </header>
 
 <!-- ============ HERO ============ -->
-<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 overflow-hidden ps-reveal">
+<section id="top" class="relative pt-32 pb-20 lg:pt-40 lg:pb-28 px-5 overflow-hidden">
   <div class="sunburst">
     <div class="rays"></div>
     <div class="glow"></div>
@@ -178,12 +177,12 @@
       <span class="dot"></span>
       <span style="color:var(--green2);">AI runs the office · humans sign the certificates</span>
     </div>
-    <h1 class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal">
+    <h1 class=class="display text-4xl sm:text-5xl lg:text-6xl mb-6 reveal gradient-text">
       The <span class="grad-text-teal">Solar AI Office</span> —<br class="hidden sm:block">
       paperwork handled,<br class="hidden sm:block">
       <span class="grad-text">humans fit panels.</span>
     </h1>
-<img src="/images/crying-brain-cosmic.jpg" alt="The Solar AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);" decoding="async">
+<img src="images/crying-brain-cosmic.jpg" alt="The Solar AI Office — Crying Brain" loading="lazy" style="width:100%;max-width:720px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
     <p class="text-base sm:text-lg lg:text-xl max-w-3xl mx-auto mb-10 reveal" style="color:var(--muted-light); line-height:1.7;">
       The office tool for solar companies &amp; customers: AI prepares your MCS, G98/G99, Part P and SEG paperwork.
       Registered human installers sign every certificate — <strong style="color:var(--green2);">AI never certifies.</strong>
@@ -203,7 +202,7 @@
 </section>
 
 <!-- ============ WHAT THE AI OFFICE DOES — 11 CARDS ============ -->
-<section id="what" class="py-16 lg:py-24 px-5 relative ps-reveal">
+<section id="what" class="py-16 lg:py-24 px-5 relative">
   <div class="max-w-7xl mx-auto">
     <div class="max-w-3xl mb-12 reveal">
       <div class="eyebrow mb-3" style="color:var(--teal3);">The boring stuff — automated</div>
@@ -218,7 +217,7 @@
 </section>
 
 <!-- ============ JOURNEY — 6 STEP INTERACTIVE ACCORDION ============ -->
-<section id="journey" class="py-16 lg:py-24 px-5 relative ps-reveal" style="background:linear-gradient(180deg, rgba(30,41,59,.4), transparent);">
+<section id="journey" class="py-16 lg:py-24 px-5 relative" style="background:linear-gradient(180deg, rgba(30,41,59,.4), transparent);">
   <div class="max-w-4xl mx-auto">
     <div class="text-center mb-12 reveal">
       <div class="eyebrow mb-3" style="color:var(--green2);">From click to clean power</div>
@@ -312,7 +311,7 @@
           </div>
         </div>
         <p class="text-xs mt-6" style="color:var(--muted-light); line-height:1.6;">
-          Why it can be cheaper: no salesman layer, no three-person admin team. The savings typically pass into your quote.
+          Why it's cheaper: no salesman layer, no three-person admin team. The savings go straight into your quote.
           0% VAT to 31 Mar 2027, subject to eligibility.
         </p>
       </div>
@@ -384,7 +383,6 @@
 </section>
 
 <!-- ============ FOOTER ============ -->
-<p class="text-sm mt-2" style="color:#fbbf24;font-weight:700;">Urgent solar line — call Shane direct: <a href="tel:+447999899304" style="color:#fbbf24;">07999 899304</a> (Titan 2 — solar, urgent, join the movement)</p>
 <footer class="py-14 px-5" style="background:#080b10; border-top:1px solid var(--border-dark);">
   <div class="max-w-7xl mx-auto">
     <div class="grid md:grid-cols-3 gap-10 mb-10">
@@ -451,7 +449,7 @@
    ===================================================================== */
 const CONFIG = {
   phone: "07711147663",
-  whatsapp: "447711147663", phone2: "+447999899304",
+  whatsapp: "447711147663",
   email: "pleadingsanity1@gmail.com",
   mainSite: "https://pleadingsanity.co.uk",
   quoteUrl: "insane-solar.html#quote",
@@ -505,7 +503,7 @@ const CARDS = [
   },
   {
     title: "Invoices & quotes",
-    desc: "Itemised quotes in 24 hours, invoices the day the job finishes. 0% VAT (to 31 March 2027, subject to eligibility) applied correctly as one supply — no dodgy split invoicing.",
+    desc: "Itemised quotes in 24 hours, invoices the day the job finishes. 0% VAT applied correctly as one supply — no dodgy split invoicing.",
     signoff: "Human signs: you approve the quote; invoices are issued by the company.",
     icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/>'
   },
@@ -559,7 +557,7 @@ const STEPS = [
   { title: "Survey booked — real surveyor calls",
     detail: "A real human surveyor calls to book a site visit. They measure your roof, check structure and shading, and confirm (or correct) the quote. No drone-only surveys, no guesswork. AI books the slot and sends reminders." },
   { title: "£50 refundable deposit — PayPal",
-    detail: "Pay a £50 refundable deposit via PayPal to lock your install date. It's protected under HIES deposit insurance — refunded in full if you cancel before survey. We register the protection with the insurer and email you their certificate." },
+    detail: "Pay a £50 refundable deposit via PayPal to lock your install date. It's protected under HIES deposit insurance — refunded in full if you cancel before survey. The AI registers the protection and emails you the certificate." },
   { title: "Install — 1–2 days, same crew",
     detail: "The same crew fits your panels, inverter and battery — typically 1–2 days. Scaffold goes up and comes down same job. Bird proofing mesh fitted as standard. AI had the materials ordered and checked off before they arrived." },
   { title: "Handover — full paperwork pack, monitoring app",
@@ -751,18 +749,16 @@ const PERSONAS = [
   onScroll();
 })();
 </script>
-<section id="ask-solar" style="padding:2rem 1rem 4rem;background:#0b0f19">
-  <form data-solar-ask style="max-width:40rem;margin:0 auto">
-    <h2 style="color:#00fff0">Ask the solar desk</h2>
-    <p style="color:#cbd5e1">General UK information. It does not certify a system. If you are unsure, call Titan 2 on 07999 899304.</p>
-    <div id="solar-ask-log" style="min-height:4rem;margin:1rem 0;color:#e2e8f0"></div>
-    <label for="solar-ask-input" style="display:block;margin-bottom:.4rem">Your question</label>
-    <input id="solar-ask-input" type="text" style="width:100%;min-height:48px;padding:.6rem .8rem;border-radius:12px;border:1px solid rgba(56,189,248,.4);background:#0b0f19;color:#e2e8f0">
-    <button type="submit" data-solar-send style="margin-top:.8rem;min-height:48px;padding:0 1rem;border:0;border-radius:999px;background:#f59e0b;color:#0b0f19;font-weight:800">Ask</button>
-  </form>
-</section>
-<script src="/js/site.js" defer></script>
-<script src="/js/solar-assistant.js" defer></script>
-<script defer src="/js/ps-boost.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

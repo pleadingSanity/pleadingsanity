@@ -18,7 +18,6 @@
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="manifest" href="/manifest-solitaire.json" />
   <link rel="stylesheet" href="/css/styles.css" />
-    <link rel="stylesheet" href="/css/site.css">
   <link rel="stylesheet" href="/css/animations.css" />
   <link rel="stylesheet" href="/css/accessibility.css" />
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
@@ -126,7 +125,7 @@ button, .btn { min-height: 44px; font-size: 16px; }
 body { overflow-x: hidden; }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
 
-
+/* PS GAME EXPERIENCE — owner controls: --ps-panel, --ps-accent, --ps-spacing */
 :root { --ps-panel:rgba(2,14,24,.88); --ps-accent:#00fff0; --ps-spacing:14px; }
 .wrap { width:min(1000px,calc(100% - 20px)); }
 .wrap > .ps-theme-pic, .wrap > .suit-band { display:none; }
@@ -143,13 +142,13 @@ button:focus-visible, a:focus-visible, select:focus-visible { outline:3px solid 
 @media(max-width:600px) { .wrap { width:calc(100% - 16px); } .wrap > .row:first-of-type { gap:6px; } .wrap > .row:first-of-type .btn { flex:1 1 auto; text-align:center; } .stage { margin-top:12px; } }
 @media(prefers-reduced-motion:reduce) { .card.playable { animation:none; } }
 
-
+/* PS GAME ONBOARDING: adjust colours, sizing and wording below without touching engines */
 .ps-help-trigger{min-height:48px;padding:9px 18px;margin:8px 0;border-radius:14px;border:1px solid #00fff0;background:#103247;color:#eef6ff;font:700 1rem system-ui;cursor:pointer}
 .ps-help-overlay[hidden]{display:none!important}.ps-help-overlay{position:fixed;inset:0;z-index:100000;background:rgba(0,1,3,.88);display:grid;place-items:center;padding:16px;overflow:auto;backdrop-filter:blur(12px)}
 .ps-help-card{width:min(520px,100%);max-height:min(90dvh,760px);overflow:auto;border-radius:26px;border:1px solid rgba(0,255,240,.65);background:linear-gradient(155deg,#14384c,#08101f 75%);box-shadow:0 20px 75px #000;padding:clamp(20px,5vw,32px);color:#eef6ff;font:1rem/1.6 system-ui}
 .ps-help-card h2{font-size:clamp(1.5rem,5vw,2.1rem);margin:4px 0 12px;color:#00fff0}.ps-help-card h3{font-size:1.16rem;margin:12px 0;color:#f0c36a}.ps-help-card p{font-size:1rem}.ps-help-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.ps-help-actions button{flex:1 1 125px;min-height:52px;border-radius:14px;border:1px solid #00fff0;background:#00fff0;color:#000103;font:750 1rem system-ui;cursor:pointer}.ps-help-actions button:first-child{background:transparent;color:#eef6ff}.ps-help-progress{font-weight:750;color:#99f9f1;letter-spacing:.05em}.ps-help-card button:focus-visible,.ps-help-trigger:focus-visible{outline:3px solid #f0c36a;outline-offset:3px}
 
-
+/* PS STARLAKE GAME SKIN v1: original artwork. TUNABLE: --ps-gold, --ps-cyan, --ps-panel */
 :root{--ps-gold:#f9c86b;--ps-cyan:#00fff0;--ps-panel:rgba(3,13,32,.87)}
 body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps-starlake.svg') center top/cover fixed no-repeat;color:#f3faff;font-family:system-ui,-apple-system,sans-serif}
 .wrap{width:min(960px,calc(100% - 20px));padding-top:10px}
@@ -170,7 +169,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .dock{padding:10px;border-radius:16px;background:rgba(2,9,28,.72)}
 @media(max-width:600px){body.night,body.sea,body.rose,body.gold{background-attachment:scroll;background-size:auto 1500px}.wrap>.row:first-of-type{padding:8px 5px;gap:5px}.wrap>.row:first-of-type .btn{font-size:.85rem;padding:8px 9px}.wrap>h1{margin:12px 0 4px}.wrap>.note{font-size:.86rem}.ps-help-trigger{display:block;width:100%}}
 
-
+/* PS game companions: change names, art and tips in the markup above */
 .ps-companions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px auto;padding:10px;border:1px solid #00fff066;border-radius:18px;background:rgba(2,9,27,.85);max-width:650px}
 .ps-companion{display:flex;align-items:center;gap:10px;flex:1 1 210px;font:650 .95rem/1.3 system-ui;color:#f5f8ff}
 .ps-companion img{width:62px;height:68px;border-radius:13px;object-fit:cover}
@@ -224,7 +223,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 @media (prefers-reduced-motion: reduce) {
   .card, .card.playable, .card.flip { animation: none; transition: none; }
 }
-
+/* Phone polish: 48px touch targets, soft glows that stay still when motion is reduced. */
 @media (max-width: 640px) {
   button, .btn, select, .row button, .row select, .k-board button.k-slot { min-height: 48px; }
 }
@@ -239,7 +238,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .ps-worlds{margin:18px 0;color:#eef6ff}.ps-worlds summary{cursor:pointer;min-height:48px;padding:14px;color:#00fff0;font-weight:700}.ps-worlds details{border:1px solid #00fff077;border-radius:14px;padding:0 12px}.ps-worlds h2{font-size:clamp(1.1rem,4vw,1.4rem);color:#00fff0;margin:14px 0}.ps-world-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px}.ps-world-card{background:rgba(13,27,42,.94);border:1px solid #00fff055;border-radius:12px;padding:14px;min-width:0}.ps-world-card p{font-size:.9rem;line-height:1.5}.ps-world-card small{color:#eef6ff}.ps-world-hero{display:block;width:100%;max-width:700px;max-height:180px;object-fit:cover;border-radius:14px;border:2px solid #00fff0;margin:12px auto 18px}@media(prefers-reduced-motion:reduce){.ps-worlds *{animation:none!important;transition:none!important}}
 </style>
 <style>
-
+/* Asset Bible phase 1: accessible cozy-cosmic surfaces; preserve card engines. */
 .wrap>h1{text-wrap:balance;letter-spacing:.012em}
 .ps-worlds,.ps-companions{isolation:isolate}
 .ps-world-card,.ps-companion{background-color:rgba(13,27,42,.94)}
@@ -253,27 +252,27 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 <link rel="stylesheet" href="/css/ps-game-art.css">
   <link rel="stylesheet" href="/css/games-phone.css">
 <style>
-
-
+/* === GOD-MODE POLISH OVERRIDES — cosmic dark, teal/amber, no emoji === */
+/* Recolor diamonds to warm amber */
 .card.diamonds, .waste.diamonds { color:#f59e0b !important; box-shadow:0 8px 14px rgba(0,0,0,.4), inset 0 0 0 1px rgba(245,158,11,.7), 0 0 16px rgba(245,158,11,.25) !important; }
 .k-card.diamonds { color:#f59e0b !important; }
-
+/* Shared cosmic card back for every card back / stock across all modes (keep referenced asset) */
 .card.back, .stock, .k-card.back { background:#030a25 url('/assets/games/ps-cosmic-card-back.svg') center/cover no-repeat !important; box-shadow:0 5px 10px rgba(0,0,0,.55), inset 0 0 0 2px rgba(0,255,240,.65) !important; }
 .card.back, .stock { color:transparent !important; }
 .k-card.back .count { color:#eef6ff !important; position:relative; z-index:1; text-shadow:0 0 6px #000; }
-
+/* Corner suit glyph sizing (rank above suit in both corners) */
 .card .c i { font-style:normal; font-size:.72rem; line-height:1; }
 .k-card .c { font-size:.6rem; line-height:1.05; }
 .k-card .c b { font-size:.78rem; }
 .k-card .c i { font-style:normal; font-size:.62rem; line-height:1; }
-
+/* Deal-in animation: transform + opacity only, compositor-friendly */
 @keyframes ps-deal-in { from { opacity:0; transform:translateY(-16px) scale(.95); } to { opacity:1; transform:none; } }
 .deal-in { animation:ps-deal-in .34s cubic-bezier(.2,.7,.3,1) both; }
 @media (prefers-reduced-motion: reduce) { .deal-in { animation:none !important; } .ps-result-card { animation:none !important; } }
-
+/* Sound toggle SVG icon */
 .ps-sound-icon { width:20px; height:20px; vertical-align:middle; fill:currentColor; margin-right:6px; flex:none; }
 #sound { display:inline-flex; align-items:center; gap:6px; }
-
+/* Win/lose result modal (accessible dialog) */
 .ps-result-overlay[hidden] { display:none !important; }
 .ps-result-overlay { position:fixed; inset:0; z-index:100002; background:rgba(0,1,3,.9); display:grid; place-items:center; padding:16px; overflow:auto; backdrop-filter:blur(12px); }
 .ps-result-card { width:min(460px,100%); border-radius:26px; border:1px solid rgba(0,255,240,.65); background:linear-gradient(155deg,#14384c,#08101f 75%); box-shadow:0 20px 75px #000; padding:clamp(20px,5vw,32px); color:#eef6ff; font:1rem/1.6 system-ui,-apple-system,sans-serif; text-align:center; animation:ps-deal-in .3s ease both; }
@@ -286,7 +285,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 .ps-result-actions button { flex:1 1 140px; min-height:52px; border-radius:14px; border:1px solid #00fff0; background:#00fff0; color:#000103; font:750 1rem system-ui; cursor:pointer; }
 .ps-result-actions button.ps-result-close { background:transparent; color:#eef6ff; }
 .ps-result-card button:focus-visible { outline:3px solid #f59e0b; outline-offset:3px; }
-
+/* Crisis footer banner (persistent, high contrast) */
 .ps-crisis-footer { position:sticky; bottom:0; z-index:60; background:#0b0f19; border-top:2px solid #00fff0; padding:10px 14px; text-align:center; font-size:.8rem; line-height:1.55; color:#e2e8f0; margin:0; }
 .ps-crisis-footer p { margin:0; max-width:100%; word-wrap:break-word; }
 .ps-crisis-footer a { color:#f59e0b; font-weight:700; text-decoration:underline; min-height:44px; display:inline-block; padding:6px 4px; }
@@ -297,7 +296,7 @@ body.night,body.sea,body.rose,body.gold{background:#030a1c url('/assets/games/ps
 @media (max-width:420px) { .ps-crisis-footer { font-size:.74rem; padding:8px 10px; } .ps-header { padding:8px 10px !important; } }
 </style>
 <style>
-
+/* === NATIVE-APP LAYOUT + THEME ENGINE (add-on) === */
 html, body { height:100%; margin:0; overflow:hidden; overscroll-behavior:none; touch-action:manipulation; }
 body { display:flex; flex-direction:column; height:100vh; height:100dvh; min-height:100vh; user-select:none; -webkit-user-select:none; }
 input, textarea, select { user-select:text; -webkit-user-select:text; }
@@ -306,7 +305,7 @@ input, textarea, select { user-select:text; -webkit-user-select:text; }
 .ps-crisis-footer { flex:none; position:static !important; padding:6px 10px !important; font-size:.72rem !important; line-height:1.4; }
 .ps-crisis-footer p { display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:4px 8px; margin:0; }
 .ps-copyright { display:none; }
-
+/* Pure-CSS cosmic aurora background (no external images) with slow drift */
 body::before { content:""; position:fixed; inset:0; z-index:-2; background:
  radial-gradient(ellipse 80% 50% at 20% 10%, rgba(0,255,240,.10), transparent 60%),
  radial-gradient(ellipse 60% 40% at 80% 20%, rgba(56,189,248,.10), transparent 60%),
@@ -315,15 +314,15 @@ body::before { content:""; position:fixed; inset:0; z-index:-2; background:
  animation: ps-aurora-drift 26s ease-in-out infinite alternate; will-change:transform; }
 @keyframes ps-aurora-drift { from { transform:translate3d(0,0,0) scale(1); } to { transform:translate3d(-4%,-2%,0) scale(1.08); } }
 @media (prefers-reduced-motion: reduce) { body::before { animation:none !important; } }
-
+/* Felt table pure-CSS (no external image) */
 .felt { background: linear-gradient(180deg, rgba(4,16,42,.62), rgba(1,10,30,.85)) !important; }
 .stage { background: rgba(0,8,23,.58) !important; }
-
+/* Genre pill + theme palette button */
 .ps-genre-pill { display:inline-flex; align-items:center; min-height:30px; padding:3px 12px; border-radius:999px; border:1px solid rgba(0,255,240,.5); color:#00fff0; font:600 .72rem system-ui; letter-spacing:.1em; text-transform:uppercase; }
 .ps-theme-btn { display:inline-flex; align-items:center; justify-content:center; width:44px; height:44px; min-width:44px; border-radius:12px; border:1px solid rgba(0,255,240,.5); background:transparent; color:#eef6ff; cursor:pointer; padding:0; touch-action:manipulation; }
 .ps-theme-btn svg { width:22px; height:22px; fill:currentColor; }
 .ps-theme-btn:focus-visible { outline:3px solid #f59e0b; outline-offset:2px; }
-
+/* Theme engine: body[data-theme] CSS vars (4 themes) */
 body[data-theme] { --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; background: var(--ps-bg) !important; }
 body[data-theme="cosmic"] { --ps-bg:#0b0f19; --ps-accent:#00fff0; --ps-secondary:#38bdf8; --ps-highlight:#f59e0b; }
 body[data-theme="amber"] { --ps-bg:#1a1206; --ps-accent:#f59e0b; --ps-secondary:#fb923c; --ps-highlight:#00fff0; }
@@ -352,12 +351,14 @@ body[data-theme] .ps-result-actions button.ps-result-close { background: transpa
 body[data-theme] .wrap > .row:first-of-type { border-color: color-mix(in srgb, var(--ps-accent) 55%, transparent) !important; }
 body[data-theme] #level, body[data-theme] #score, body[data-theme] #best { color: var(--ps-accent); }
 body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[data-theme] select:focus-visible { outline-color: var(--ps-highlight) !important; }
-</style><link rel="stylesheet" href="/css/ps-boost.css">
+</style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="night ps-art ps-art-solitaire ps-game-page">
 <script>(function(){try{var t=localStorage.getItem("ps_theme_solitaire")||"cosmic";}catch(e){var t="cosmic";}document.body.setAttribute("data-theme",t);})();</script>
 <!-- PS games navigation: owner-editable label -->
-<header class="ps-header" aria-label="Site header" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:#0b0f19;border-bottom:1px solid rgba(0,255,240,.3)"><a class="brand" href="/" aria-label="Pleading Sanity Home — Rise From Madness" style="display:inline-flex;align-items:center;gap:8px;color:#eef6ff;text-decoration:none;font-weight:800;min-height:48px;font-family:Georgia,serif;font-size:1.1rem"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" style="width:36px;height:36px;border-radius:50%;object-fit:cover;background:radial-gradient(circle at 35% 30%,rgba(0,255,240,.45),#000103 70%);box-shadow:0 0 0 1px rgba(0,255,240,.65)"  loading="eager" fetchpriority="high" decoding="async" />Pleading Sanity</a><span class="ps-genre-pill">Card</span><button type="button" id="ps-theme-btn" class="ps-theme-btn" aria-label="Change colour theme: cosmic, tap to cycle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0 0 20c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16a6 6 0 0 0 6-6c0-5.52-4.48-10-10-10zM6.5 11C5.67 11 5 10.33 5 9.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S18.67 8 19.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></button><a href="/games.html" aria-label="Back to Brain Games" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">Brain Games</a></header>
+<header class="ps-header" aria-label="Site header" style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:12px 16px;background:#0b0f19;border-bottom:1px solid rgba(0,255,240,.3)"><a class="brand" href="/" aria-label="Pleading Sanity Home — Rise From Madness" style="display:inline-flex;align-items:center;gap:8px;color:#eef6ff;text-decoration:none;font-weight:800;min-height:48px;font-family:Georgia,serif;font-size:1.1rem"><img src="/assets/images/brand/crying-brain-logo-512.webp" alt="" width="36" height="36" style="width:36px;height:36px;border-radius:50%;object-fit:cover;background:radial-gradient(circle at 35% 30%,rgba(0,255,240,.45),#000103 70%);box-shadow:0 0 0 1px rgba(0,255,240,.65)" />Pleading Sanity</a><span class="ps-genre-pill">Card</span><button type="button" id="ps-theme-btn" class="ps-theme-btn" aria-label="Change colour theme: cosmic, tap to cycle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0 0 20c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16a6 6 0 0 0 6-6c0-5.52-4.48-10-10-10zM6.5 11C5.67 11 5 10.33 5 9.5S5.67 8 6.5 8 8 8.67 8 9.5 7.33 11 6.5 11zm3-4C8.67 7 8 6.33 8 5.5S8.67 4 9.5 4s1.5.67 1.5 1.5S10.33 7 9.5 7zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 4 14.5 4s1.5.67 1.5 1.5S15.33 7 14.5 7zm3 4c-.83 0-1.5-.67-1.5-1.5S18.67 8 19.5 8s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg></button><a href="/games.html" aria-label="Back to Brain Games" style="display:inline-flex;align-items:center;min-height:48px;padding:8px 16px;border:1px solid #00fff0;border-radius:12px;color:#eef6ff;text-decoration:none;font:600 1rem system-ui,sans-serif">Brain Games</a></header>
 <script src="/js/ps-splash.js"></script>
   <div class="wrap" role="main" id="main-content">
     <p class="note">You are not a file. The house will sit with the story. This is a game, not therapy.</p>
@@ -369,11 +370,11 @@ body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[da
       <button class="btn" id="today" type="button">Today</button><button class="btn" id="new" type="button">New peaks</button>
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
-    <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game."  loading="lazy" decoding="async" />
-    <h1>Sanity Solitaire</h1>
+    <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game." />
+    <h1 class="gradient-text">Sanity Solitaire</h1>
 <img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Aurora skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>Coming soon — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>Coming soon — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>Coming soon — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>Coming soon — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
-    <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy" decoding="async"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy" decoding="async"><span>Zara says: keep your streak going!</span></div></div>
-    <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180"  loading="lazy" decoding="async" />
+    <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
+    <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
     <button type="button" id="seat">Friend seat off</button><button type="button" id="sound">Sound off</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
@@ -530,7 +531,7 @@ window.PSTable = (function () {
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
     function faceHTML(card) {
       const art = suitArt[card.s];
-      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span><img class="suit" alt="" src="${art}" loading="lazy" decoding="async"><span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
+      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span><img class="suit" alt="" src="${art}"><span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
     }
     function fit() {
       const stage = document.querySelector(".stage");
@@ -626,7 +627,7 @@ window.PSTable = (function () {
   function kindOf(s) { return s === "\u2665" ? "hearts" : s === "\u2660" ? "spades" : s === "\u2663" ? "clubs" : "diamonds"; }
   function dress(btn, rank, suit, up) {
     btn.className = "k-card " + (up ? kindOf(suit) : "back");
-    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b><i>${suit}</i></span><img class="suit" alt="" src="${art[suit]}" loading="lazy" decoding="async"><span class="c br"><b>${rank}</b><i>${suit}</i></span>` : "";
+    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b><i>${suit}</i></span><img class="suit" alt="" src="${art[suit]}"><span class="c br"><b>${rank}</b><i>${suit}</i></span>` : "";
     btn.setAttribute("aria-label", up ? rank + " " + suit : "Face down");
   }
   window.PSNight = dress;
@@ -944,6 +945,16 @@ window._psDealAnimate = function(container){
 </script>
   <script type="module" src="/js/progress.js"></script>
 <script src="/js/site.js" defer></script>
-<script defer src="/js/ps-boost.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

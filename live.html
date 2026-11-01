@@ -2,7 +2,7 @@
 <html lang="en-GB">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#b80024">
   <title>LIVE — Pleading Sanity</title>
   <meta name="description" content="Watch and share creator livestreams with the Pleading Sanity community. Connect your live from a supported streaming platform.">
@@ -19,95 +19,130 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css">
   <link rel="stylesheet" href="/css/site.css">
   <link rel="stylesheet" href="/css/social.css">
-  <style>.live-page{max-width:1050px;margin:0 auto;padding:1rem clamp(1rem,4vw,2rem) 4rem} .live-alert{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;background:#b80024;color:#fff;padding:1rem clamp(1rem,4vw,2rem);font-weight:900;letter-spacing:.08em;text-transform:uppercase;border-radius:0 0 16px 16px;box-shadow:0 8px 28px #b8002440} .live-dot{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff30} .live-hero{padding:clamp(1.5rem,5vw,3rem) 0 1.5rem} .live-hero h1{font-size:clamp(2.2rem,7vw,4.4rem);line-height:1.02;margin:.4rem 0 1rem} .live-hero p{max-width:70ch;line-height:1.7;color:#c7dce7} .live-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:clamp(1rem,3vw,1.5rem);margin:1rem 0} .live-card h2{margin-top:0;color:#00fff0} .live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem} .live-field{display:block;margin:.8rem 0} .live-field span{display:block;font-weight:700;margin-bottom:.4rem} .live-field input,.live-field textarea,.live-field select{box-sizing:border-box;width:100%;min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit} .live-field textarea{min-height:100px} .live-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font:inherit;font-weight:800;text-decoration:none;cursor:pointer} .live-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff} .live-btn:focus-visible,.live-field input:focus-visible,.live-field textarea:focus-visible{outline:3px solid #00fff0;outline-offset:3px} .live-player{width:100%;aspect-ratio:16/9;background:#020409;border:1px solid #ffffff25;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#a9c7d1;text-align:center} .live-player iframe{width:100%;height:100%;border:0} .live-note{color:#a9c7d1;font-size:.94rem;line-height:1.6} .live-offer{border:1px solid #ff4767;background:linear-gradient(135deg,#260711,#0b101b)} .live-offer .number{font-size:clamp(2.7rem,9vw,5rem);font-weight:950;line-height:1;color:#ff647d} .live-tag{display:inline-block;background:#b80024;color:white;border-radius:999px;padding:.25rem .65rem;font-size:.78rem;font-weight:900;letter-spacing:.05em} .live-status{min-height:1.5rem;color:#bafaf5} .live-tabs{display:flex;gap:.5rem;overflow:auto;padding-bottom:.5rem} .live-tab{flex:0 0 auto;min-height:44px;padding:.65rem .9rem;border:1px solid #ffffff2e;border-radius:999px;background:#07101a;color:#dff;font:inherit;font-weight:800;cursor:pointer} .live-tab.active{background:#b80024;border-color:#ff4767;color:#fff} .live-list{display:grid;gap:.7rem} .live-list article,.chat-log article{padding:.8rem;border:1px solid #ffffff20;border-radius:12px;background:#03070d} .coming-soon{border:1px solid #ff4767;border-radius:14px;padding:1rem;background:#260711;color:#fff;font-weight:900} .chat-log{display:grid;gap:.6rem;max-height:260px;overflow:auto;margin:1rem 0} .live-chat-form{display:grid;grid-template-columns:1fr auto;gap:.6rem} .live-chat-form input{min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit} @media(max-width:480px){.live-chat-form{grid-template-columns:1fr}.live-chat-form .live-btn{width:100%}} @media(max-width:480px){.live-card{border-radius:15px}.live-btn{width:100%}}</style>
+  <style>
+    .live-page{max-width:1050px;margin:0 auto;padding:1rem clamp(1rem,4vw,2rem) 4rem}
+    .live-alert{display:flex;align-items:center;gap:.7rem;flex-wrap:wrap;background:#b80024;color:#fff;padding:1rem clamp(1rem,4vw,2rem);font-weight:900;letter-spacing:.08em;text-transform:uppercase;border-radius:0 0 16px 16px;box-shadow:0 8px 28px #b8002440}
+    .live-dot{display:inline-block;width:.75rem;height:.75rem;border-radius:50%;background:#fff;box-shadow:0 0 0 5px #ffffff30}
+    .live-hero{padding:clamp(1.5rem,5vw,3rem) 0 1.5rem}
+    .live-hero h1{font-size:clamp(2.2rem,7vw,4.4rem);line-height:1.02;margin:.4rem 0 1rem}
+    .live-hero p{max-width:70ch;line-height:1.7;color:#c7dce7}
+    .live-card{background:linear-gradient(145deg,#0a1726,#080b13);border:1px solid #ffffff20;border-radius:20px;padding:clamp(1rem,3vw,1.5rem);margin:1rem 0}
+    .live-card h2{margin-top:0;color:#00fff0}
+    .live-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem}
+    .live-field{display:block;margin:.8rem 0}
+    .live-field span{display:block;font-weight:700;margin-bottom:.4rem}
+    .live-field input,.live-field textarea,.live-field select{box-sizing:border-box;width:100%;min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit}
+    .live-field textarea{min-height:100px}
+    .live-btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:.75rem 1.1rem;border-radius:12px;border:1px solid #ff4767;background:#d40b30;color:#fff;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}
+    .live-btn.secondary{background:transparent;border-color:#00fff0;color:#dfffff}
+    .live-btn:focus-visible,.live-field input:focus-visible,.live-field textarea:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+    .live-player{width:100%;aspect-ratio:16/9;background:#020409;border:1px solid #ffffff25;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#a9c7d1;text-align:center}
+    .live-player iframe{width:100%;height:100%;border:0}
+    .live-note{color:#a9c7d1;font-size:.94rem;line-height:1.6}
+    .live-offer{border:1px solid #ff4767;background:linear-gradient(135deg,#260711,#0b101b)}
+    .live-offer .number{font-size:clamp(2.7rem,9vw,5rem);font-weight:950;line-height:1;color:#ff647d}
+    .live-tag{display:inline-block;background:#b80024;color:white;border-radius:999px;padding:.25rem .65rem;font-size:.78rem;font-weight:900;letter-spacing:.05em}
+    .live-status{min-height:1.5rem;color:#bafaf5}
+    .live-tabs{display:flex;gap:.5rem;overflow:auto;padding-bottom:.5rem}
+    .live-tab{flex:0 0 auto;min-height:44px;padding:.65rem .9rem;border:1px solid #ffffff2e;border-radius:999px;background:#07101a;color:#dff;font:inherit;font-weight:800;cursor:pointer}
+    .live-tab.active{background:#b80024;border-color:#ff4767;color:#fff}
+    .live-list{display:grid;gap:.7rem}
+    .live-list article,.chat-log article{padding:.8rem;border:1px solid #ffffff20;border-radius:12px;background:#03070d}
+    .coming-soon{border:1px solid #ff4767;border-radius:14px;padding:1rem;background:#260711;color:#fff;font-weight:900}
+    .chat-log{display:grid;gap:.6rem;max-height:260px;overflow:auto;margin:1rem 0}
+    .live-chat-form{display:grid;grid-template-columns:1fr auto;gap:.6rem}
+    .live-chat-form input{min-height:48px;border-radius:12px;border:1px solid #ffffff3d;background:#03070d;color:#fff;padding:.8rem;font:inherit}
+    @media(max-width:480px){.live-chat-form{grid-template-columns:1fr}.live-chat-form .live-btn{width:100%}}
+    @media(max-width:480px){.live-card{border-radius:15px}.live-btn{width:100%}}
+  </style>
   <link rel="stylesheet" href="/css/editorial-art.css">
 
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
-<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
-<meta property="og:url" content="https://pleadingsanity.co.uk/live.html">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="eager" fetchpriority="high" decoding="async"><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html"> Talk to Arron</a>
-          <a href="/arron-app.html"> Arron App</a>
-          <a href="/journal-vault.html"> Journal Vault</a>
-          <a href="/notes.html"> Sanctuary Notes</a>
-          <a href="/mind-mode.html"> Mind Mode</a>
-          <a href="/mood-journey.html"> Mood Journey</a>
-          <a href="/frequencies.html"> Healing Hz</a>
-          <a href="/meditation.html"> Silence &amp; Breath</a>
-          <a href="/quote-wall.html"> Quote Wall</a>
-          <a href="/finance.html"> Sane Finance</a>
-          <a href="/support.html"> Support</a>
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
         </div>
       </div>
       <div class="ps-group" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html"> Sanity Feed</a>
-          <a href="/sanctuary.html"> My Sanctuary</a>
-          <a href="/sanityhub.html"> Sanity Hub</a>
-          <a href="/videos.html"> Videos</a>
-          <a href="/ai-stories.html"> AI Stories</a>
+          <a href="/feed.html">🌟 Sanity Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
           <a href="/community.html">Friends</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html"> Creator Hub</a>
-          <a href="/ai-studio.html"> AI Studio</a>
-          <a href="/creations.html"> Image Creations</a>
-          <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html"> Write with Arron</a>
-          <a href="/rap.html"> Rap Studio</a>
-          <a href="/wisdom.html"> Words from the Family</a>
-          <a href="/my-digital-story.html"> My Digital Story</a>
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html"> Brain Games</a>
-          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-          <a href="/cosmic-connect.html"> Cosmic Connect</a>
-          <a href="/truth-tag.html"> Truth Tag</a>
-          <a href="/stardust-dash.html"> Stardust Dash</a>
-          <a href="/poker.html"> Night Table</a>
-          <a href="/kids.html"> Keep Kids Sane</a>
-          <a href="/kids-series.html"> Kids Cartoon Series</a>
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html"> Our Story</a>
-          <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html"> The Movement</a>
-          <a href="/ai-ecosystem.html"> Our AI Family</a>
-          <a href="/ai-family.html"> All AIs welcome</a>
-          <a href="/transparency.html"> Transparency</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop"> Shop</a>
-      <a href="/crisis.html" class="ps-crisis"> Truth</a>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
   </div>
 </nav>
 <div class="live-alert" role="status"><span class="live-dot" aria-hidden="true"></span> Pleading Sanity LIVE HUB <span>· External streams only; no native broadcast running here.</span></div>
 <main id="main-content" class="live-page">
-<div id="creator-status-notice" role="note" style="background:rgba(13,27,42,.85);border-left:3px solid #f59e0b;padding:12px 16px;border-radius:4px;margin:20px 0;color:#eef6ff"><strong>Creator tools status:</strong> Stream sharing is available where supported. Scheduling, automatic clips and creator payments may be limited or under development. The first-1,000-creators 90% revenue-share proposal is not an active payout programme; final terms and eligibility require founder approval.</div>
-  <section class="live-hero ps-reveal">
+<div id="creator-status-notice" role="note" style="background:rgba(13,27,42,.85);border-left:3px solid #ff4d8d;padding:12px 16px;border-radius:4px;margin:20px 0;color:#eef6ff"><strong>Creator tools status:</strong> Stream sharing is available where supported. Scheduling, automatic clips and creator payments may be limited or under development. The first-1,000-creators 90% revenue-share proposal is not an active payout programme; final terms and eligibility require founder approval.</div>
+  <section class="live-hero">
     <span class="live-tag">CREATOR STAGE</span>
-    <h1>Go live. Bring your people with you.</h1>
+    <h1 class="gradient-text">Go live. Bring your people with you.</h1>
     <p>Gaming, music, training, honest conversations, creative sessions or a moment worth sharing. Bring your stream into Pleading Sanity before you start or while you're already live, then share it with the community feed so people can find you here too.</p>
     <div class="live-grid">
       <a class="live-btn" href="#bring-live">Bring a live stream here ↓</a>
@@ -120,12 +155,12 @@
     </figure>
 
 
-  <section class="live-card ps-reveal" id="live-sections" aria-labelledby="live-sections-title">
+  <section class="live-card" id="live-sections" aria-labelledby="live-sections-title">
     <h2 id="live-sections-title">Live Hub</h2>
     <div class="live-tabs" role="tablist" aria-label="Live streams">
-      <button class="live-tab active" type="button" data-tab="now" role="tab" aria-selected="true"> Live Now</button>
-      <button class="live-tab" type="button" data-tab="scheduled" role="tab" aria-selected="false"> Scheduled</button>
-      <button class="live-tab" type="button" data-tab="past" role="tab" aria-selected="false">▶ Past Lives</button>
+      <button class="live-tab active" type="button" data-tab="now" role="tab" aria-selected="true">🔴 Live Now</button>
+      <button class="live-tab" type="button" data-tab="scheduled" role="tab" aria-selected="false">📅 Scheduled</button>
+      <button class="live-tab" type="button" data-tab="past" role="tab" aria-selected="false">▶️ Past Lives</button>
     </div>
     <div id="tab-now" class="live-tab-panel" role="tabpanel">
       <div class="live-player" id="live-now-empty">No Pleading Sanity-native broadcast is connected yet. When a creator brings a supported external live here, the stream preview appears above.</div>
@@ -140,7 +175,7 @@
         <p class="live-status" id="schedule-status" role="status" aria-live="polite"></p>
       </form>
       <div id="scheduled-list" class="live-list"><p class="live-note">No scheduled lives have been added on this device yet.</p></div>
-      <p class="live-note"> Shared, cross-device scheduled lives and reminders will arrive with the creator/live backend. For now this is a local planning layer.</p>
+      <p class="live-note">🔜 Shared, cross-device scheduled lives and reminders will arrive with the creator/live backend. For now this is a local planning layer.</p>
     </div>
     <div id="tab-past" class="live-tab-panel" role="tabpanel" hidden>
       <form id="past-form">
@@ -152,11 +187,11 @@
         <p class="live-status" id="past-status" role="status" aria-live="polite"></p>
       </form>
       <div id="past-list" class="live-list"><p class="live-note">No replay links have been saved on this device yet.</p></div>
-      <p class="live-note">Creators can add replay links here locally now. Cross-device replay storage is  COMING SOON.</p>
+      <p class="live-note">Creators can add replay links here locally now. Cross-device replay storage is 🔜 COMING SOON.</p>
     </div>
   </section>
 
-  <section class="live-card ps-reveal" id="bring-live">
+  <section class="live-card" id="bring-live">
     <h2>Bring your live to the house</h2>
     <p>Already live on YouTube or Twitch? Paste your public stream link below. You can do this before going live (if your platform has scheduled the stream) or while broadcasting. We'll show an embeddable preview when the link supports it, and you can share the stream to the Pleading Sanity feed.</p>
     <form id="live-form">
@@ -191,7 +226,7 @@
     <div class="live-grid">
       <div>
         <p class="live-note">Use these controls to prepare or manage the stream link currently on this device.</p>
-        <label class="live-field"><span>Stream state</span><select id="creator-state"><option value="draft">Ready / not live</option><option value="live"> Live</option><option value="ended">Ended / replay available</option></select></label>
+        <label class="live-field"><span>Stream state</span><select id="creator-state"><option value="draft">Ready / not live</option><option value="live">🔴 Live</option><option value="ended">Ended / replay available</option></select></label>
         <label class="live-field"><span>Local planning visibility (not a feed setting)</span><select id="creator-visibility"><option value="public">Public</option><option value="friends">Friends only</option></select></label>
         <label class="live-field"><span>Chat</span><select id="creator-chat-toggle"><option value="on">Chat on</option><option value="off">Chat off</option></select></label>
         <div class="live-grid">
@@ -202,7 +237,7 @@
       </div>
       <div>
         <h3>Native broadcast</h3>
-        <div class="coming-soon"> LIVE FROM PLEADING SANITY — COMING SOON</div>
+        <div class="coming-soon">🔜 LIVE FROM PLEADING SANITY — COMING SOON</div>
         <p class="live-note">Direct camera/microphone broadcast and server-side multistreaming need a verified live-video provider and secure ingest infrastructure. The buttons above manage the current browser-side planning state only.</p>
       </div>
     </div>
@@ -231,9 +266,9 @@
   <section class="live-card">
     <h2>Your whole social world, in one house</h2>
     <div class="live-grid">
-      <div><h3> Your profile</h3><p>Build your Sanity Profile, tell your story and choose your privacy settings.</p><a href="/profile.html">Open your profile</a></div>
-      <div><h3> Friends &amp; community</h3><p>Discover people, send friend requests, and manage blocks and reports.</p><a href="/community.html">Find your people</a></div>
-      <div><h3> Feed &amp; creations</h3><p>Share words, images, videos and uplifting moments with the audience you choose.</p><a href="/feed.html">Open the feed</a></div>
+      <div><h3>👤 Your profile</h3><p>Build your Sanity Profile, tell your story and choose your privacy settings.</p><a href="/profile.html">Open your profile</a></div>
+      <div><h3>🤝 Friends &amp; community</h3><p>Discover people, send friend requests, and manage blocks and reports.</p><a href="/community.html">Find your people</a></div>
+      <div><h3>🌌 Feed &amp; creations</h3><p>Share words, images, videos and uplifting moments with the audience you choose.</p><a href="/feed.html">Open the feed</a></div>
     </div>
   </section>
   <p class="live-note">Pleading Sanity is built on contribution over clout, love over money, and Evolution, Not Erasure. Keep it real, respect consent, and never share someone else's private moment without permission.</p>
@@ -372,6 +407,16 @@ form.addEventListener('submit',async(e)=>{
   });
 })();
 </script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<script defer src="/js/ps-boost.js"></script></body>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
+</body>
 </html>

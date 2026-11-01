@@ -75,7 +75,7 @@
  main{max-width:600px;margin:0 auto;padding:30px 20px 70px;animation:fadeInUp 1s ease-out;}
  @keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:none;}}
 
- 
+ /* === GAME WRAPPER === */
  .game-card{
  background:linear-gradient(135deg,rgba(0,255,240,.08),rgba(245,158,11,.05));
  border-radius:24px;padding:30px;border:1px solid rgba(0,255,240,.2);
@@ -90,7 +90,7 @@
  @keyframes rotate{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
  .game-card >*{position:relative;z-index:1;}
 
- 
+ /* === STATS BAR === */
  .stats{
  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;
  margin-bottom:25px;padding:15px 20px;background:rgba(0,0,0,.3);border-radius:14px;
@@ -102,7 +102,7 @@
  .stat-val.level{color:var(--gold);text-shadow:0 0 10px var(--gold-glow);}
  .stat-val.streak{color:var(--accent2);text-shadow:0 0 10px var(--accent2-glow);}
  
- 
+ /* === PROGRESS BAR === */
  .progress-bar{
  height:10px;background:rgba(255,255,255,.08);border-radius:5px;overflow:hidden;
  margin:15px 0 20px;
@@ -112,7 +112,7 @@
  box-shadow:0 0 10px var(--cyan-glow);
  }
 
- 
+ /* === SEQUENCE GRID === */
  .grid{
  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:25px 0;
  }
@@ -140,7 +140,7 @@
  @keyframes pop{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
  @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-5px);}40%,80%{transform:translateX(5px);}}
 
- 
+ /* === BUTTONS === */
  .btn{
  width:100%;padding:16px 24px;border-radius:50px;font-weight:800;font-size:1.1rem;
  border:none;cursor:pointer;transition:var(--t);font-family:inherit;
@@ -156,7 +156,7 @@
  .btn.secondary:hover{background:rgba(0,255,240,.1);box-shadow:0 0 20px rgba(0,255,240,.2);}
  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
- 
+ /* === STATUS MESSAGE === */
  .status{
  text-align:center;margin:20px 0;padding:15px;border-radius:12px;
  background:rgba(255,255,255,.03);min-height:3.5rem;display:flex;
@@ -168,7 +168,7 @@
  .status.levelup{border-left:3px solid var(--gold);background:rgba(255,215,0,.08);color:var(--gold);font-weight:700;font-size:1.1rem;animation:pulseGold 1s ease-in-out infinite;}
  @keyframes pulseGold{0%,100%{text-shadow:0 0 10px var(--gold-glow);}50%{text-shadow:0 0 25px var(--gold-glow);}}
 
- 
+ /* === TIP BOX === */
  .tip{
  margin-top:25px;padding:18px;background:rgba(0,255,240,.04);border-radius:12px;
  border-left:3px solid var(--cyan);font-size:.9rem;color:var(--text-soft);
@@ -281,7 +281,9 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 .panel{padding:12px!important;}
 .tabs button,.picker button{min-height:44px!important;}
 .skip-link{z-index:200;}
-</style><link rel="stylesheet" href="/css/ps-boost.css">
+</style>
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body class="ps-game-page" style="overflow-x:hidden">
 <a href="#main" class="skip-link">Skip to game</a><div class="ps-app-header" role="banner">
@@ -297,7 +299,7 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 
 <nav class="ps-nav" aria-label="Main navigation">
 <div class="ps-nav-inner">
-<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"  loading="eager" fetchpriority="high" decoding="async" /><span>Pleading Sanity</span></a>
+<a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
 <div class="ps-links">
 <a href="/" class="ps-home">Home</a>
 <div class="ps-group" data-group="heal">
@@ -371,13 +373,13 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
 </nav>
 
 <header>
-<img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="60" height="60" loading="eager"  decoding="async" />
+<img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" class="logo" width="60" height="60" loading="eager" />
 <p><a class="ps-game-back" href="/games.html">← All games</a></p>
-<h1>Stardust Dash</h1>
+<h1 class="gradient-text">Stardust Dash</h1>
 <p class="tag">Catch stars. Dodge worries. Giggle.</p>
 </header>
 
-<img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/stardust-dash.webp" alt=""  loading="lazy" decoding="async" />
+<img class="ps-theme-pic ps-game-icon" src="/assets/theme/cards/stardust-dash.webp" alt="" />
 <main id="main">
 <div class="game-card">
 <div id="psBar" class="psg-bar-wrap"></div>
@@ -595,6 +597,16 @@ body[data-theme="mono"]{--ps-bg:#111418;--ps-accent:#e2e8f0;--ps-secondary:#94a3
   var old=document.querySelector('p[style*="ps-sound-btn"]');if(old)old.style.display='none';
 })();
 </script>
-<script defer src="/js/ps-boost.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

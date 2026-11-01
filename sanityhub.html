@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
@@ -25,7 +25,7 @@
 
   <meta property="og:title" content="Sanity Hub — Community &amp; Calm Tools | Pleading Sanity">
   <meta property="og:description" content="Find community, survivor stories, Arron and calm tools in the Pleading Sanity sanctuary. Explore the feed, journal, games and creative spaces for free.">
-  <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/sanityhub-hero.webp" />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://pleadingsanity.co.uk/sanityhub.html" />
 
@@ -44,8 +44,8 @@
     :root {
       --cyan: #00fff0;
       --cyan-deep: #00c8c0;
-      --magenta: #f59e0b;
-      --magenta-deep: #d97706;
+      --magenta: #ff00ff;
+      --magenta-deep: #c800c8;
       --gold: #ffd700;
       --gold-bright: #ffd000;
       --orange-gold: #ff9500;
@@ -68,7 +68,7 @@
       font-family: var(--font-sans);
       background: 
         radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-        radial-gradient(circle at 85% 75%, rgba(0,255,240,0.08) 0%, transparent 50%),
+        radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
         radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
       color: var(--text-bright);
       min-height: 100vh;
@@ -81,7 +81,7 @@
       body {
         background: 
           radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
-          radial-gradient(circle at 85% 75%, rgba(0,255,240,0.08) 0%, transparent 50%),
+          radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
           radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
       }
     }
@@ -99,7 +99,7 @@
     }
 
     a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
-    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(0,255,240,0.3); }
+    a:hover { color: var(--magenta); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
 
     .btn {
       display: inline-flex; align-items: center; justify-content: center;
@@ -111,7 +111,7 @@
     }
     .btn:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 0 35px rgba(0,255,240,0.4);
+      box-shadow: 0 0 35px rgba(255,0,255,0.4);
       color: #000;
     }
 
@@ -255,7 +255,7 @@
     }
     .btn-magenta {
       background: linear-gradient(135deg, var(--magenta), var(--magenta-deep));
-      color: #fff; box-shadow: 0 0 12px rgba(0,255,240,0.25);
+      color: #fff; box-shadow: 0 0 12px rgba(255,0,255,0.25);
     }
     .btn-gold {
       background: linear-gradient(135deg, var(--gold), #d4b000);
@@ -287,7 +287,7 @@
     }
     .feed-item:hover {
       transform: translateY(-4px);
-      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(0,255,240,0.08);
+      box-shadow: 0 0 30px rgba(0,255,240,0.15), 0 0 40px rgba(255,0,255,0.08);
       border-color: var(--cyan);
     }
     .feed-item iframe {
@@ -313,7 +313,7 @@
     .feed-buttons { display: flex; gap: 8px; margin-top: 10px; }
 
     .promo-card, .sponsor-card {
-      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(0,255,240,0.08));
+      text-align: center; background: linear-gradient(135deg, rgba(0,255,240,0.12), rgba(255,0,255,0.08));
       padding: 30px 24px; border-radius: 16px; margin: 35px 0;
       border: 1px solid rgba(0,255,240,0.2); box-shadow: 0 0 25px rgba(0,255,240,0.1);
       transition: var(--transition);
@@ -406,87 +406,86 @@
 
 
 <meta property="og:site_name" content="Pleading Sanity">
-<link rel="stylesheet" href="/css/support-strip.css"><link rel="stylesheet" href="/css/ps-boost.css">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
   <a href="#main" class="skip-link">Skip to main content</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36"  loading="eager" fetchpriority="high" decoding="async" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html"> Talk to Arron</a>
-          <a href="/arron-app.html"> Arron App</a>
-          <a href="/journal-vault.html"> Journal Vault</a>
-          <a href="/notes.html"> Sanctuary Notes</a>
-          <a href="/mind-mode.html"> Mind Mode</a>
-          <a href="/mood-journey.html"> Mood Journey</a>
-          <a href="/frequencies.html"> Healing Hz</a>
-          <a href="/meditation.html"> Silence &amp; Breath</a>
-          <a href="/quote-wall.html"> Quote Wall</a>
-          <a href="/finance.html"> Sane Finance</a>
-          <a href="/support.html"> Support</a>
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
         </div>
       </div>
       <div class="ps-group has-current" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html"> Sanity Feed</a>
-          <a href="/sanctuary.html"> My Sanctuary</a>
-          <a href="/sanityhub.html" aria-current="page"> Sanity Hub</a>
-          <a href="/videos.html"> Videos</a>
-          <a href="/ai-stories.html"> AI Stories</a>
+          <a href="/feed.html">🌟 Sanity Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html" aria-current="page">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html"> Creator Hub</a>
-          <a href="/ai-studio.html"> AI Studio</a>
-          <a href="/creations.html"> Image Creations</a>
-          <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html"> Write with Arron</a>
-          <a href="/rap.html"> Rap Studio</a>
-          <a href="/wisdom.html"> Words from the Family</a>
-          <a href="/my-digital-story.html"> My Digital Story</a>
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html"> Brain Games</a>
-          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-          <a href="/cosmic-connect.html"> Cosmic Connect</a>
-          <a href="/truth-tag.html"> Truth Tag</a>
-          <a href="/stardust-dash.html"> Stardust Dash</a>
-          <a href="/poker.html"> Night Table</a>
-          <a href="/kids.html"> Keep Kids Sane</a>
-          <a href="/kids-series.html"> Kids Cartoon Series</a>
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html"> Our Story</a>
-          <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html"> The Movement</a>
-          <a href="/ai-ecosystem.html"> Our AI Family</a>
-          <a href="/ai-family.html"> All AIs welcome</a>
-          <a href="/transparency.html"> Transparency</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop"> Shop</a>
-      <a href="/crisis.html" class="ps-crisis"> Truth</a>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
-    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
-<figure class="ps-hero-visual"><img src="/images/heroes/sanityhub-hero.webp" alt="A ring of four glowing doorways around the Crying Brain" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
-
 
   <canvas class="stars" aria-hidden="true"></canvas>
   <div id="announcements" aria-live="polite" aria-atomic="true" class="sr-only"></div>
@@ -495,31 +494,31 @@
     <header role="banner">
       <!-- Unified SVG Logo → SAME across ALL pages -->
       <div class="logo-container">
-        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high" loading="lazy">
+        <img class="logo-mark" src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="Pleading Sanity crying-brain logo" width="64" height="64" decoding="async" fetchpriority="high">
         <div class="logo-text-wrap">
           <div class="logo-main">PLEADING SANITY</div>
           <div class="logo-tag">EVOLUTION · NOT ERASURE</div>
         </div>
       </div>
       
-      <h1>Sanity Hub</h1>
+      <h1 class="gradient-text">Sanity Hub</h1>
       <p class="tagline">Your Cosmic Sanctuary — Heal, Connect, Rise</p>
     </header>
 
     <main id="main" role="main">
       <section class="cosmic-hero">
-        <p>Built from the bottom, rising to the cosmos — P.S. It's not over. </p>
+        <p>Built from the bottom, rising to the cosmos — P.S. It's not over. 💙</p>
       </section>
 
       <!-- ARRON AI CHAT + JOURNAL VAULT → SYNCED with journal-vault.html -->
-      <section id="arron-chat-container" aria-labelledby="arron-heading" class="ps-reveal">
+      <section id="arron-chat-container" aria-labelledby="arron-heading">
         <div class="arron-welcome">
-          <h3 id="arron-heading"> Arron — Your Companion</h3>
+          <h3 id="arron-heading">🧠 Arron — Your Companion</h3>
           <p>What's one thought you'd like to release right now? I'm listening.</p>
         </div>
 
         <div id="arron-messages" aria-live="polite">
-          <div class="arron-msg"><strong class="cyan">Arron:</strong> I'm here. You're safe. Speak your truth. </div>
+          <div class="arron-msg"><strong class="cyan">Arron:</strong> I'm here. You're safe. Speak your truth. ✨</div>
         </div>
 
         <div id="arron-input-row">
@@ -533,15 +532,15 @@
         <div class="arron-affirm" id="arron-affirm" aria-live="polite"></div>
 
         <div class="vault-actions" aria-label="Journal Vault actions">
-          <button class="arron-btn btn-gold" onclick="exportJournalVault()"> Export</button>
-          <button class="arron-btn btn-magenta" onclick="printJournalVault()"> Print</button>
-          <button class="arron-btn btn-dark" onclick="clearJournalVault()"> Clear</button>
+          <button class="arron-btn btn-gold" onclick="exportJournalVault()">⬇️ Export</button>
+          <button class="arron-btn btn-magenta" onclick="printJournalVault()">🖨️ Print</button>
+          <button class="arron-btn btn-dark" onclick="clearJournalVault()">🗑️ Clear</button>
         </div>
       </section>
 
       <!-- VIDEO FEED → Works with or without API key -->
-      <section id="video-feed" aria-labelledby="feed-heading" class="ps-reveal">
-        <h2 id="feed-heading"> Cosmic Feed — Stories That Heal</h2>
+      <section id="video-feed" aria-labelledby="feed-heading">
+        <h2 id="feed-heading">🌟 Cosmic Feed — Stories That Heal</h2>
         <div id="feed" aria-live="polite">
           <div class="loading"><span class="loading-spinner"></span> Awakening the cosmos…</div>
         </div>
@@ -549,7 +548,7 @@
 
       <!-- CREATIVE PARTNER -->
       <div class="sponsor-card">
-        <span class="sponsor-badge"> Creative Partner</span>
+        <span class="sponsor-badge">✨ Creative Partner</span>
         <h3>Want Your Brand Here?</h3>
         <p>Support real change. Reach a growing community of survivors, creators, and dreamers. Creative ads only — no soul-sucking corporations.</p>
         <a href="mailto:pleadingsanity1@gmail.com?subject=Creative%20Sponsorship" class="promo-link">Let's Collaborate →</a>
@@ -557,7 +556,7 @@
 
       <!-- MERCH PROMO -->
       <div class="promo-card">
-        <h3> Be Part of the Movement </h3>
+        <h3>✨ Be Part of the Movement ✨</h3>
         <p>Wear strength, not stress. Every piece supports survivors & builds the community. Evolution, Not Erasure.</p>
         <a href="shop.html" class="promo-link">Explore Merch →</a>
       </div>
@@ -584,10 +583,10 @@
       <a href="/shop.html">Shop</a>
     </div>
     <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
     </div>
     <div class="ps-legacy">
       <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
@@ -601,7 +600,7 @@
 
   <script>
     // ==========================================
-    //  STARFIELD BACKGROUND — OPTIMIZED
+    // 🌌 STARFIELD BACKGROUND — OPTIMIZED
     // ==========================================
     (function initStarfield(){
       const canvas = document.querySelector('.stars');
@@ -629,7 +628,7 @@
           ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
           ctx.fillStyle = `rgba(0, 255, 240, ${s.o * twinkle})`;
           ctx.shadowBlur = 6;
-          ctx.shadowColor = Math.random() > 0.5 ? '#00fff0' : '#f59e0b';
+          ctx.shadowColor = Math.random() > 0.5 ? '#00fff0' : '#ff00ff';
           ctx.fill();
           s.x += s.dx; s.y += s.dy;
           if (s.x < 0) s.x = w; if (s.x > w) s.x = 0;
@@ -641,37 +640,37 @@
     })();
 
     // ==========================================
-    //  ARRON AI + JOURNAL VAULT — SYNCED
+    // 🧠 ARRON AI + JOURNAL VAULT — SYNCED
     // ==========================================
     const AFFIRMATIONS = [
-      " Your words matter. This is progress.",
-      " Keep going — every thought has power.",
-      " You showed up for yourself today. That's huge.",
-      " Struggle into strength. Madness into meaning.",
-      " You are seen. You are part of something bigger.",
-      " Healing isn't linear — every step counts.",
-      " You're rewriting the story. That takes courage.",
-      " What you feel is real. What you become is greater.",
-      " You don't have to carry it all alone.",
-      " Your light matters — even on the dark days."
+      "✨ Your words matter. This is progress.",
+      "🌌 Keep going — every thought has power.",
+      "💎 You showed up for yourself today. That's huge.",
+      "🔥 Struggle into strength. Madness into meaning.",
+      "👁️ You are seen. You are part of something bigger.",
+      "💙 Healing isn't linear — every step counts.",
+      "🌟 You're rewriting the story. That takes courage.",
+      "⚡ What you feel is real. What you become is greater.",
+      "🌱 You don't have to carry it all alone.",
+      "💛 Your light matters — even on the dark days."
     ];
 
     const ARRON_RESPONSES = [
-      "I hear you. That weight matters — sharing it lightens it. ",
-      "Thank you for trusting me. That takes real courage. ",
-      "Your truth is powerful. Don't let anyone dim your light. ",
-      "That pain has purpose — it's shaping something new. ",
-      "You're not alone in this. We rise together. ",
-      "Keep going. The world needs what you're becoming. ",
-      "Every scar tells a story of survival. Yours matters. ",
-      "You're rewriting the script. That's brave. ",
-      "What you've endured doesn't define you — it fuels you. ",
-      "The fact you're still here is proof nothing broke you. ",
-      "You are more than a label. You are a universe unfolding. ",
-      "Healing isn't about fixing — it's about becoming. "
+      "I hear you. That weight matters — sharing it lightens it. 💙",
+      "Thank you for trusting me. That takes real courage. ✨",
+      "Your truth is powerful. Don't let anyone dim your light. 🔥",
+      "That pain has purpose — it's shaping something new. 🌱",
+      "You're not alone in this. We rise together. 🌌",
+      "Keep going. The world needs what you're becoming. 💎",
+      "Every scar tells a story of survival. Yours matters. 🧠",
+      "You're rewriting the script. That's brave. ⚡",
+      "What you've endured doesn't define you — it fuels you. 👊",
+      "The fact you're still here is proof nothing broke you. 🌟",
+      "You are more than a label. You are a universe unfolding. 👁️",
+      "Healing isn't about fixing — it's about becoming. 💫"
     ];
 
-    const STORAGE_KEY = 'journalVault'; //  SAME KEY = INSTANT SYNC
+    const STORAGE_KEY = 'journalVault'; // ✅ SAME KEY = INSTANT SYNC
 
     function getVault() {
       try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
@@ -732,8 +731,8 @@
 
     function exportJournalVault() {
       const vault = getVault();
-      if (!vault.length) return alert(" Journal Vault is empty — share something first!");
-      let content = " PLEADING SANITY — JOURNAL VAULT\n";
+      if (!vault.length) return alert("⚠️ Journal Vault is empty — share something first!");
+      let content = "🧠 PLEADING SANITY — JOURNAL VAULT\n";
       content += "=".repeat(40) + "\n\n";
       vault.forEach((e, i) => {
         const dt = new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' });
@@ -753,9 +752,9 @@
 
     function printJournalVault() {
       const vault = getVault();
-      if (!vault.length) return alert(" Journal Vault is empty — share something first!");
+      if (!vault.length) return alert("⚠️ Journal Vault is empty — share something first!");
       const win = window.open("", "PRINT_VAULT", "height=650,width=800");
-      if (!win) return alert(" Pop-up blocked — allow pop-ups to print");
+      if (!win) return alert("⚠️ Pop-up blocked — allow pop-ups to print");
       win.document.write(`
         <html>
         <head>
@@ -769,7 +768,7 @@
           </style>
         </head>
         <body>
-          <h1> Pleading Sanity — Journal Vault</h1>
+          <h1>🧠 Pleading Sanity — Journal Vault</h1>
       `);
       vault.forEach((e, i) => {
         const dt = new Date(e.timestamp).toLocaleString('en-GB', { timeZone: 'Europe/London' });
@@ -785,7 +784,6 @@
           One Source. One Consciousness. One Family.<br>
           pleadingsanity.co.uk
         </p>
-<script defer src="/js/ps-boost.js"></script>
 </body></html>
       `);
       win.document.close();
@@ -794,11 +792,11 @@
     }
 
     function clearJournalVault() {
-      if (!confirm(" Clear ALL entries? This cannot be undone.\n\nExport first if you want to keep them.")) return;
-      if (!confirm(" Final check — everything gone forever. Sure?")) return;
+      if (!confirm("🗑️ Clear ALL entries? This cannot be undone.\n\nExport first if you want to keep them.")) return;
+      if (!confirm("🔐 Final check — everything gone forever. Sure?")) return;
       localStorage.removeItem(STORAGE_KEY);
       const msgs = document.getElementById('arron-messages');
-      if (msgs) msgs.innerHTML = '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? </div>';
+      if (msgs) msgs.innerHTML = '<div class="arron-msg"><strong class="cyan">Arron:</strong> Fresh start. What\'s on your mind? ✨</div>';
       const affirm = document.getElementById('arron-affirm');
       if (affirm) affirm.textContent = '';
       const announce = document.getElementById('announcements');
@@ -806,12 +804,12 @@
     }
 
     // ==========================================
-    //  VIDEO FEED — Works WITH or WITHOUT API
+    // 📺 VIDEO FEED — Works WITH or WITHOUT API
     // ==========================================
     const PLAYLIST_ID = "PL7C1VriGLDPrAq1Im9t7WQxZcuXlA77DA";
     let nextPageToken = "", isLoading = false;
 
-    //  CURATED FALLBACK — ALWAYS WORKS, no API needed
+    // ✅ CURATED FALLBACK — ALWAYS WORKS, no API needed
     const FALLBACK = [
       { videoId: "iCvmsMzlF7o", title: "The Power of Vulnerability — Brené Brown (TED)", desc: "Why real courage starts with showing up and letting ourselves be seen." },
       { videoId: "XiCrniLQGYc", title: "I Had a Black Dog, His Name Was Depression — WHO", desc: "A gentle, honest animation about living with depression and finding a way through." },
@@ -843,7 +841,7 @@
         })), Boolean(data.fallback));
 
       } catch (err) {
-        console.log(" Feed — curated stories showing:", err.message);
+        console.log("📺 Feed — curated stories showing:", err.message);
         if (!feed.querySelector('.feed-item')) {
           render(FALLBACK.map(v => ({ vid: v.videoId, title: v.title, desc: v.desc })), true);
         }
@@ -873,7 +871,7 @@
           </div>
           ${v.desc ? `<p class="feed-desc">${escapeHtml(v.desc.slice(0, 180))}</p>` : ''}
           <div class="feed-buttons">
-            <button type="button" class="like-btn${liked ? ' liked' : ''}" aria-pressed="${liked}"> ${liked ? 'Loved' : 'This helped'}</button>
+            <button type="button" class="like-btn${liked ? ' liked' : ''}" aria-pressed="${liked}">💙 ${liked ? 'Loved' : 'This helped'}</button>
           </div>`;
 
         // Positive only — a heart, never a dislike. Tap again to take it back.
@@ -882,7 +880,7 @@
           const on = likeState[v.vid] !== 'like';
           if (on) likeState[v.vid] = 'like'; else delete likeState[v.vid];
           try { localStorage.setItem('feedLikes', JSON.stringify(likeState)); } catch {}
-          likeBtn.classList.toggle('liked', on); likeBtn.textContent = on ? ' Loved' : ' This helped'; likeBtn.setAttribute('aria-pressed', String(on));
+          likeBtn.classList.toggle('liked', on); likeBtn.textContent = on ? '💙 Loved' : '💙 This helped'; likeBtn.setAttribute('aria-pressed', String(on));
         });
 
         feed.appendChild(card);
@@ -892,13 +890,13 @@
         const note = document.createElement('p');
         note.className = 'feed-desc';
         note.style.textAlign = 'center';
-        note.textContent = 'Curated movement stories — always here. ';
+        note.textContent = 'Curated movement stories — always here. 💙';
         feed.appendChild(note);
       }
     }
 
     // ==========================================
-    //  INIT
+    // 🚀 INIT
     // ==========================================
     document.getElementById('arron-input')?.addEventListener('keydown', e => {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendArronMsg(); }
@@ -908,6 +906,16 @@
   <script src="/js/video-feed.js" defer></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>

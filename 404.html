@@ -4,7 +4,7 @@
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
       <base href="/" />
   <meta name="theme-color" content="#000103" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
@@ -20,7 +20,7 @@
     <meta name="description" content="Page not found — even stars drift sometimes. Find your way back home to the Pleading Sanity sanctuary.">
   <meta property="og:title" content="Page Not Found | Pleading Sanity" />
   <meta property="og:description" content="Page not found — even stars drift sometimes. Find your way back home to the Pleading Sanity sanctuary." />
-  <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/404-hero.webp" />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
     <meta name="author" content="Shane Cooper / Pleading Sanity">
@@ -31,102 +31,300 @@
     <meta name="house-tools" content="Life tools — /tools.html">
     <meta name="emergency" content="999 (UK)">
     
-    <style>:root{--bg-primary:#060713;--bg-secondary:#0d1b2a;--text-primary:#E9ECFF;--text-secondary:#94A3B8;--primary-cyan:#00fff0;--primary-magenta:#f59e0b;--transition-smooth:all 0.3s cubic-bezier(0.4,0,0.2,1);}*{box-sizing:border-box;margin:0;padding:0;}.error-page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;background:linear-gradient(135deg,var(--bg-primary) 0%,var(--bg-secondary) 100%);position:relative;overflow:hidden;}.error-content{max-width:600px;z-index:2;position:relative;}.error-code{font-size:clamp(4rem,15vw,8rem);font-weight:900;color:var(--primary-cyan);margin:0;text-shadow:0 0 20px rgba(0,255,240,0.5);animation:pulse-glow 2.5s ease-in-out infinite alternate;line-height:1;}.error-title{font-size:clamp(1.5rem,4vw,2.5rem);color:var(--text-primary);margin:1rem 0;font-weight:300;}.error-message{font-size:1.15rem;color:var(--text-secondary);margin:2rem 0;line-height:1.7;}.error-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;}.error-button{padding:0.85rem 1.75rem;border:2px solid var(--primary-cyan);background:transparent;color:var(--primary-cyan);text-decoration:none;border-radius:12px;font-weight:600;transition:var(--transition-smooth);display:inline-flex;align-items:center;gap:0.5rem;min-height:48px;cursor:pointer;}.error-button:hover,.error-button:focus-visible{background:var(--primary-cyan);color:var(--bg-primary);transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,255,240,0.35);outline:none;}.error-button.secondary{border-color:var(--primary-magenta);color:var(--primary-magenta);}.error-button.secondary:hover,.error-button.secondary:focus-visible{background:var(--primary-magenta);color:var(--bg-primary);box-shadow:0 8px 25px rgba(245,158,11,0.35);}.cosmic-bg-404{position:absolute;inset:0;width:100%;height:100%;z-index:1;opacity:0.4;}.floating-brain{position:absolute;font-size:3rem;animation:float 6s ease-in-out infinite;opacity:0.08;z-index:1;pointer-events:none;}.floating-brain:nth-child(1){top:20%;left:10%;animation-delay:0s;}.floating-brain:nth-child(2){top:60%;right:15%;animation-delay:2s;}.floating-brain:nth-child(3){bottom:30%;left:20%;animation-delay:4s;}@keyframes float{0%,100%{transform:translateY(0) rotate(0deg);}50%{transform:translateY(-20px) rotate(5deg);}}@keyframes pulse-glow{from{text-shadow:0 0 20px rgba(0,255,240,0.5);}to{text-shadow:0 0 30px rgba(0,255,240,0.7),0 0 50px rgba(0,255,240,0.3);}}.crisis-notice{position:fixed;bottom:20px;right:20px;background:rgba(255,0,85,0.9);color:white;padding:1rem 1.25rem;border-radius:12px;font-size:0.9rem;max-width:320px;z-index:1000;transform:translateX(120%);transition:transform 0.5s cubic-bezier(0.4,0,0.2,1);box-shadow:0 4px 20px rgba(255,0,85,0.3);}.crisis-notice.show{transform:translateX(0);}.crisis-notice strong{display:block;margin-bottom:0.25rem;}.crisis-notice a{color:#fff;text-decoration:underline;font-weight:600;}@media (max-width:768px){.error-actions{flex-direction:column;align-items:center;}.error-button{width:100%;max-width:300px;justify-content:center;}.crisis-notice{left:20px;right:20px;max-width:unset;}}@media (prefers-reduced-motion:reduce){.error-code,.floating-brain{animation:none;}.error-button:hover{transform:none;}.cosmic-bg-404 canvas{display:none;}}@media (prefers-color-scheme:light){:root{--bg-primary:#eef2f8;--bg-secondary:#dfe6f0;--text-primary:#0d1b2a;--text-secondary:#475569;}.error-code{color:#00a8a0;}}</style>
+    <style>
+        :root {
+            --bg-primary: #060713;
+            --bg-secondary: #0d1b2a;
+            --text-primary: #E9ECFF;
+            --text-secondary: #94A3B8;
+            --primary-cyan: #00fff0;
+            --primary-magenta: #ff00ff;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .error-content {
+            max-width: 600px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .error-code {
+            font-size: clamp(4rem, 15vw, 8rem);
+            font-weight: 900;
+            color: var(--primary-cyan);
+            margin: 0;
+            text-shadow: 0 0 20px rgba(0, 255, 240, 0.5);
+            animation: pulse-glow 2.5s ease-in-out infinite alternate;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            color: var(--text-primary);
+            margin: 1rem 0;
+            font-weight: 300;
+        }
+
+        .error-message {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin: 2rem 0;
+            line-height: 1.7;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .error-button {
+            padding: 0.85rem 1.75rem;
+            border: 2px solid var(--primary-cyan);
+            background: transparent;
+            color: var(--primary-cyan);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 48px;
+            cursor: pointer;
+        }
+
+        .error-button:hover,
+        .error-button:focus-visible {
+            background: var(--primary-cyan);
+            color: var(--bg-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 240, 0.35);
+            outline: none;
+        }
+
+        .error-button.secondary {
+            border-color: var(--primary-magenta);
+            color: var(--primary-magenta);
+        }
+
+        .error-button.secondary:hover,
+        .error-button.secondary:focus-visible {
+            background: var(--primary-magenta);
+            color: var(--bg-primary);
+            box-shadow: 0 8px 25px rgba(255, 0, 255, 0.35);
+        }
+
+        .cosmic-bg-404 {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .floating-brain {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.08;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .floating-brain:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-brain:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-brain:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 20px rgba(0, 255, 240, 0.5); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 240, 0.7), 0 0 50px rgba(0, 255, 240, 0.3); }
+        }
+
+        .crisis-notice {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 0, 85, 0.9);
+            color: white;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            max-width: 320px;
+            z-index: 1000;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(255, 0, 85, 0.3);
+        }
+
+        .crisis-notice.show {
+            transform: translateX(0);
+        }
+
+        .crisis-notice strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .crisis-notice a {
+            color: #fff;
+            text-decoration: underline;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .error-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .error-button {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+            .crisis-notice {
+                left: 20px;
+                right: 20px;
+                max-width: unset;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .error-code, .floating-brain { animation: none; }
+            .error-button:hover { transform: none; }
+            .cosmic-bg-404 canvas { display: none; }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --bg-primary: #eef2f8;
+                --bg-secondary: #dfe6f0;
+                --text-primary: #0d1b2a;
+                --text-secondary: #475569;
+            }
+            .error-code { color: #00a8a0; }
+        }
+    </style>
   <link rel="stylesheet" href="/css/site.css" />
   <link rel="stylesheet" href="/css/space.css" />
 
-<link rel="stylesheet" href="/css/support-strip.css">
-<meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/404-hero.webp">
-<link rel="stylesheet" href="/css/ps-boost.css">
+<link rel="stylesheet" href="/css/site-music.css">
+<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body>
 
 <nav class="ps-nav" aria-label="Main navigation">
   <div class="ps-nav-inner">
-    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
     <div class="ps-links">
       <a href="/" class="ps-home">Home</a>
       <div class="ps-group" data-group="heal">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal">💙 Arron &amp; Healing</button>
         <div class="ps-group-menu" id="ps-g-heal">
-          <a href="/arron.html"> Talk to Arron</a>
-          <a href="/arron-app.html"> Arron App</a>
-          <a href="/journal-vault.html"> Journal Vault</a>
-          <a href="/notes.html"> Sanctuary Notes</a>
-          <a href="/mind-mode.html"> Mind Mode</a>
-          <a href="/mood-journey.html"> Mood Journey</a>
-          <a href="/frequencies.html"> Healing Hz</a>
-          <a href="/meditation.html"> Silence &amp; Breath</a>
-          <a href="/quote-wall.html"> Quote Wall</a>
-          <a href="/finance.html"> Sane Finance</a>
-          <a href="/support.html"> Support</a>
+          <a href="/arron.html">🤖 Talk to Arron</a>
+          <a href="/arron-app.html">📲 Arron App</a>
+          <a href="/journal-vault.html">📖 Journal Vault</a>
+          <a href="/notes.html">🗒️ Sanctuary Notes</a>
+          <a href="/mind-mode.html">🌬️ Mind Mode</a>
+          <a href="/mood-journey.html">🌱 Mood Journey</a>
+          <a href="/frequencies.html">🎵 Healing Hz</a>
+          <a href="/meditation.html">🧘 Silence &amp; Breath</a>
+          <a href="/quote-wall.html">✨ Quote Wall</a>
+          <a href="/finance.html">💷 Sane Finance</a>
+          <a href="/support.html">🤲 Support</a>
         </div>
       </div>
       <div class="ps-group" data-group="community">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community">🌌 Community</button>
         <div class="ps-group-menu" id="ps-g-community">
-          <a href="/feed.html"> Sanity Feed</a>
-          <a href="/sanctuary.html"> My Sanctuary</a>
-          <a href="/sanityhub.html"> Sanity Hub</a>
-          <a href="/videos.html"> Videos</a>
-          <a href="/ai-stories.html"> AI Stories</a>
+          <a href="/feed.html">🌟 Sanity Feed</a>
+          <a href="/sanctuary.html">🏡 My Sanctuary</a>
+          <a href="/sanityhub.html">🌌 Sanity Hub</a>
+          <a href="/videos.html">🎬 Videos</a>
+          <a href="/ai-stories.html">💬 AI Stories</a>
         </div>
       </div>
       <div class="ps-group" data-group="create">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create">✨ Create &amp; Live</button>
         <div class="ps-group-menu" id="ps-g-create">
-          <a href="/creator.html"> Creator Hub</a>
-          <a href="/ai-studio.html"> AI Studio</a>
-          <a href="/creations.html"> Image Creations</a>
-          <a href="/blueprint.html"> Video Blueprint</a>
-          <a href="/write.html"> Write with Arron</a>
-          <a href="/rap.html"> Rap Studio</a>
-          <a href="/wisdom.html"> Words from the Family</a>
-          <a href="/my-digital-story.html"> My Digital Story</a>
+          <a href="/creator.html">🎥 Creator Hub</a>
+          <a href="/ai-studio.html">🎙️ AI Studio</a>
+          <a href="/creations.html">🎨 Image Creations</a>
+          <a href="/blueprint.html">🎬 Video Blueprint</a>
+          <a href="/write.html">✍️ Write with Arron</a>
+          <a href="/rap.html">🎤 Rap Studio</a>
+          <a href="/wisdom.html">📜 Words from the Family</a>
+          <a href="/my-digital-story.html">🪪 My Digital Story</a>
         </div>
       </div>
       <div class="ps-group" data-group="play">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play">🎮 Games &amp; Kids</button>
         <div class="ps-group-menu" id="ps-g-play">
-          <a href="/games.html"> Brain Games</a>
-          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
-          <a href="/cosmic-connect.html"> Cosmic Connect</a>
-          <a href="/truth-tag.html"> Truth Tag</a>
-          <a href="/stardust-dash.html"> Stardust Dash</a>
-          <a href="/poker.html"> Night Table</a>
-          <a href="/kids.html"> Keep Kids Sane</a>
-          <a href="/kids-series.html"> Kids Cartoon Series</a>
+          <a href="/games.html">🧠 Brain Games</a>
+          <a href="/sanity-solitaire.html">🃏 Sanity Solitaire</a>
+          <a href="/cosmic-connect.html">🃏 Cosmic Connect</a>
+          <a href="/truth-tag.html">🏷️ Truth Tag</a>
+          <a href="/stardust-dash.html">🌠 Stardust Dash</a>
+          <a href="/poker.html">♠️ Night Table</a>
+          <a href="/kids.html">🧒 Keep Kids Sane</a>
+          <a href="/kids-series.html">📺 Kids Cartoon Series</a>
         </div>
       </div>
       <div class="ps-group" data-group="story">
-        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story">💜 Our Story</button>
         <div class="ps-group-menu" id="ps-g-story">
-          <a href="/about.html"> Our Story</a>
-          <a href="/new-gen-bible.html"> New Gen Bible</a>
-          <a href="/movement.html"> The Movement</a>
-          <a href="/ai-ecosystem.html"> Our AI Family</a>
-          <a href="/ai-family.html"> All AIs welcome</a>
-          <a href="/transparency.html"> Transparency</a>
+          <a href="/about.html">💜 Our Story</a>
+          <a href="/new-gen-bible.html">📖 New Gen Bible</a>
+          <a href="/movement.html">✊ The Movement</a>
+          <a href="/ai-ecosystem.html">🤝 Our AI Family</a>
+          <a href="/ai-family.html">🌌 All AIs welcome</a>
+          <a href="/transparency.html">🔎 Transparency</a>
         </div>
       </div>
-      <a href="/shop.html" class="ps-shop"> Shop</a>
-      <a href="/crisis.html" class="ps-crisis"> Truth</a>
+      <a href="/shop.html" class="ps-shop">👕 Shop</a>
+      <a href="/crisis.html" class="ps-crisis">🕊️ Truth</a>
     </div>
-    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
+    <button type="button" class="ps-install" data-pwa-install hidden>📲 Install App</button>
   </div>
 </nav>
-
 
 
     <main class="error-page" role="main">
         <div class="cosmic-bg-404" aria-hidden="true"></div>
         
-        <div class="floating-brain" aria-hidden="true"></div>
-        <div class="floating-brain" aria-hidden="true"></div>
-        <div class="floating-brain" aria-hidden="true"></div>
+        <div class="floating-brain" aria-hidden="true">🧠</div>
+        <div class="floating-brain" aria-hidden="true">✨</div>
+        <div class="floating-brain" aria-hidden="true">🌙</div>
         
         <div class="error-content">
-            <h1 class="error-code">404</h1>
+            <h1 class=class="error-code gradient-text">404</h1>
             <h2 class="error-title">Lost in the Cosmos</h2>
             <p class="error-message">
                 The page you're looking for seems to have drifted into the void.<br>
@@ -135,13 +333,13 @@
             
             <div class="error-actions">
                 <a href="/" class="error-button">
-                    <span></span> Return Home
+                    <span>🏠</span> Return Home
                 </a>
                 <a href="sanityhub.html" class="error-button secondary">
-                    <span></span> Sanity Hub
+                    <span>🧠</span> Sanity Hub
                 </a>
                 <a href="journal-vault.html" class="error-button">
-                    <span></span> Journal Vault
+                    <span>📔</span> Journal Vault
                 </a>
             </div>
             
@@ -174,10 +372,10 @@
       <a href="/shop.html">Shop</a>
     </div>
     <div class="ps-socials">
-      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
-      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
-      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">📸</a>
+      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">🎵</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶️</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">✉️</a>
     </div>
     <div class="ps-legacy">
       <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
@@ -190,7 +388,7 @@
 
 
     <div id="crisis-notice" class="crisis-notice" role="alert" aria-live="polite">
-        <strong> Not feeling okay right now?</strong>
+        <strong>💙 Not feeling okay right now?</strong>
         The house truth: <a href="/crisis.html">why people lose themselves</a><br>
         Life tools: <a href="/tools.html">water, breath, sun, story</a>
     </div>
@@ -262,9 +460,16 @@
     <script src="js/error-handler.js"></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<figure class="ps-hero-visual"><img src="/images/heroes/404-hero.webp" alt="Quiet night sky with a small glowing Crying Brain above an amber horizon" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
-
-<script defer src="/js/ps-boost.js"></script>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<iframe id="ps-music-frame" src="https://www.youtube.com/embed/DjdB4Bm4n2M?autoplay=1&amp;mute=1&amp;loop=1&amp;playlist=DjdB4Bm4n2M&amp;rel=0&amp;modestbranding=1" title="Background music: Man on the Moon by Kid Cudi" aria-hidden="true" tabindex="-1" style="position:fixed;width:0;height:0;border:0;left:-9999px;top:-9999px;visibility:hidden;pointer-events:none;"></iframe>
+<div id="ps-music-widget" class="ps-music-widget" role="region" aria-label="Background music control">
+  <button id="ps-music-toggle" type="button" class="ps-music-btn" aria-label="Unmute background music: Man on the Moon by Kid Cudi" title="♪ Man on the Moon — Kid Cudi (tap to unmute)">
+    <svg class="ps-icon-speaker-off" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+    <svg class="ps-icon-speaker-on" viewBox="0 0 24 24" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+  </button>
+  <span class="ps-music-label"><span class="ps-music-title-accent">♪ Man on the Moon</span> — <span class="ps-music-artist">Kid Cudi</span></span>
+</div>
+<script src="/js/site-music.js" defer></script>
+<script src="/js/reveal.js" defer></script>
 </body>
 </html>
