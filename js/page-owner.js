@@ -8,6 +8,18 @@ if (!me.user.isOwner) {
   root.innerHTML = '<section class="panel empty"><p> Only Shane holds that key.</p><a class="sbtn primary" href="/feed.html#community">Back to the feed</a></section>';
 }
 
+// polish: prevents double-clicks firing the same API call twice — disables button during fetch, restores after
+async function withBusy(btn, fn) {
+  if (!btn || btn.disabled) return;
+  btn.disabled = true;
+  btn.setAttribute('aria-busy', 'true');
+  try { return await fn(); }
+  finally {
+    btn.disabled = false;
+    btn.removeAttribute('aria-busy');
+  }
+}
+
 const queueItem = (q) => `
   <article class="queue-item" data-queue="${q.id}">
     <div class="post-head">
@@ -22,8 +34,8 @@ const queueItem = (q) => `
     ${q.imageUrl ? `<div class="post-media"><img src="${esc(q.imageUrl)}" alt="Image shared by ${esc(q.author.displayName)}" loading="lazy" /></div>` : ''}
     ${q.crisis ? CRISIS_STRIP : ''}
     <div class="btn-row" style="margin-top:.75rem">
-      <button type="button" class="sbtn primary small" data-approve> Approve — go live</button>
-      ${q.status === 'held' ? '' : '<button type="button" class="sbtn ghost small" data-hold>⏸ Hold</button>'}
+      <button type="button" class="sbtn primary small" data-approve title="Approve this post and publish it to the feed"> Approve — go live</button>
+      ${q.status === 'held' ? '' : '<button type="button" class="sbtn ghost small" data-hold title="Hold this post — only the author can see it">⏸ Hold</button>'}
     </div>
   </article>`;
 
@@ -47,14 +59,9 @@ async function render() {
     </section>
 
     <section class="panel" aria-labelledby="wb-title" id="workbench">
-<<<<<<< HEAD
-      <h2 id="wb-title"> Arron's Workbench</h2>
-      <p class="muted" style="margin-top:0;max-width:65ch">Changes Arron drafted for you in chat. Nothing on the site changes until you say so. Approve one and you get a ready build brief — paste it into the Netlify agent (or any builder) and it goes live in one deploy. Tell Arron <em>"update the home page: …"</em> or ask <em>"what's missing?"</em> to fill this.</p>
-=======
       <h2 id="wb-title">🛠️ Arron's Workbench</h2>
       <p class="muted" style="margin-top:0;max-width:65ch">Changes Arron drafted for you in chat. Nothing on the site changes until you say so. Approve a draft to prepare a build brief for an authorised builder. Copying or approving it does not change the website: source review, checks, a deploy preview and your release review still come next. Review the brief for private information before sharing it with another service. Tell Arron <em>"update the home page: …"</em> or ask <em>"what's missing?"</em> to fill this.</p>
->>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
-      <div data-workbench><div class="skeleton" style="height:90px"></div></div>
+      <div data-workbench aria-busy="true"><div class="skeleton" style="height:90px"></div></div>
     </section>
 
     <section class="panel" aria-labelledby="mode-title">
@@ -69,7 +76,7 @@ async function render() {
 
     <section class="panel" aria-labelledby="q-title" id="review">
       <div class="switch-row"><h2 id="q-title" style="margin:0">⏳ Review queue</h2>
-        <div class="btn-row" style="margin:0">${o.queue.length ? '<button type="button" class="sbtn small primary" data-approve-all> Approve all</button>' : ''}<button type="button" class="sbtn small ghost" data-show-held>⏸ Held posts</button></div></div>
+        <div class="btn-row" style="margin:0">${o.queue.length ? '<button type="button" class="sbtn small primary" data-approve-all title="Approve every post currently waiting"> Approve all</button>' : ''}<button type="button" class="sbtn small ghost" data-show-held title="Show posts you have held back">⏸ Held posts</button></div></div>
       <div data-queue style="margin-top:1rem">${o.queue.map(queueItem).join('') || '<p class="muted">Nothing waiting. </p>'}</div>
     </section>
 
@@ -77,13 +84,13 @@ async function render() {
       <h2 id="roles-title"> Roles</h2>
       <p class="muted" style="margin-top:0">Guardians review reports and can pin up to 3 posts. Creators get Arron and the studios at full power. Only you can give or take these — and the Owner key stays yours alone.</p>
       <form class="row" data-role-form novalidate style="align-items:flex-end">
-        <label class="field" style="margin:0;flex:2;min-width:180px"><span>Username</span><input type="text" name="username" maxlength="25" placeholder="@username" autocapitalize="off" spellcheck="false" required /></label>
+        <label class="field" style="margin:0;flex:2;min-width:180px"><span>Username</span><input type="text" name="username" maxlength="25" placeholder="@username" autocapitalize="off" autocomplete="off" inputmode="verbatim" spellcheck="false" required /></label>
         <label class="field" style="margin:0;flex:1;min-width:140px"><span>Role</span><select name="role"><option value="guardian"> Guardian</option><option value="creator"> Creator</option></select></label>
         <button type="submit" class="sbtn primary">Give role</button>
       </form>
       <ul class="pp-saved" style="margin-top:1rem" data-team>${o.team.map((t) => `
         <li><span>${avatar(t, 'sm')} <a href="${pageLink(t.username)}">${esc(t.displayName)}</a> <small class="muted">@${esc(t.username)}</small> ${roleBadge(t.role)}</span>
-          <button type="button" class="sbtn small ghost" data-revoke="${esc(t.username)}" data-role="${esc(t.role)}">Remove ${esc(t.role)}</button></li>`).join('') || '<li class="muted">No Guardians or Creators yet.</li>'}</ul>
+          <button type="button" class="sbtn small ghost" data-revoke="${esc(t.username)}" data-role="${esc(t.role)}" title="Remove ${esc(t.role)} role from @${esc(t.username)}">Remove ${esc(t.role)}</button></li>`).join('') || '<li class="muted">No Guardians or Creators yet.</li>'}</ul>
     </section>
 
     <section class="panel" aria-labelledby="new-title">
@@ -106,37 +113,39 @@ async function render() {
 }
 
 function wire(o) {
-  root.querySelector('[data-toggle-review]').addEventListener('click', async () => {
+  root.querySelector('[data-toggle-review]')?.addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
     try {
       await api('/api/owner/settings', { method: 'PUT', body: { reviewMode: !o.settings.reviewMode } });
       toast(!o.settings.reviewMode ? 'Review mode on — member posts will wait for you.' : 'Instant mode — member posts go live straight away.');
       render();
     } catch (error) { toast(error.message); }
-  });
+  }));
 
   const queue = root.querySelector('[data-queue]');
-  queue.addEventListener('click', async (e) => {
+  queue?.addEventListener('click', (e) => {
     const item = e.target.closest('[data-queue]');
     const b = e.target.closest('button');
-    if (!item || !b) return;
+    if (!item || !b || b.disabled) return;
     const action = b.matches('[data-approve]') ? 'approve' : b.matches('[data-hold]') ? 'hold' : null;
     if (!action) return;
-    try {
-      await api(`/api/owner/posts/${item.dataset.queue}`, { method: 'POST', body: { action } });
-      item.remove();
-      toast(action === 'approve' ? 'Live on the feed ' : 'Held back — only the author can see it.');
-      if (!queue.children.length) queue.innerHTML = '<p class="muted">Nothing waiting. </p>';
-    } catch (error) { toast(error.message); }
+    withBusy(b, async () => {
+      try {
+        await api(`/api/owner/posts/${item.dataset.queue}`, { method: 'POST', body: { action } });
+        item.remove();
+        toast(action === 'approve' ? 'Live on the feed ' : 'Held back — only the author can see it.');
+        if (!queue.children.length) queue.innerHTML = '<p class="muted">Nothing waiting. </p>';
+      } catch (error) { toast(error.message); }
+    });
   });
-  root.querySelector('[data-approve-all]')?.addEventListener('click', async () => {
+  root.querySelector('[data-approve-all]')?.addEventListener('click', (e) => withBusy(e.currentTarget, async () => {
     if (!confirm('Approve every waiting post?')) return;
     try { const r = await api('/api/owner/approve-all', { method: 'POST' }); toast(`${r.approved} posts are live `); render(); }
     catch (error) { toast(error.message); }
-  });
-  root.querySelector('[data-show-held]').addEventListener('click', async () => {
+  }));
+  root.querySelector('[data-show-held]')?.addEventListener('click', async () => {
     try {
       const { queue: held } = await api('/api/owner/queue?status=held');
-      queue.innerHTML = held.map(queueItem).join('') || '<p class="muted">No held posts.</p>';
+      if (queue) queue.innerHTML = held.map(queueItem).join('') || '<p class="muted">No held posts.</p>';
     } catch (error) { toast(error.message); }
   });
 
@@ -146,32 +155,36 @@ function wire(o) {
     toast(grant ? `${r.displayName} is now a ${r.role} ` : `${r.role} removed from ${r.displayName}.`);
     render();
   };
-  roleForm.addEventListener('submit', async (e) => {
+  roleForm?.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = roleForm.username.value.trim().replace(/^@/, '');
-    if (!name) return toast('Type their username first.');
-    try { await setRole(name, roleForm.role.value, true); } catch (error) { toast(error.message); }
+    const btn = roleForm.querySelector('button[type="submit"]');
+    withBusy(btn, async () => {
+      const name = roleForm.username.value.trim().replace(/^@/, '');
+      if (!name) return toast('Type their username first.');
+      try { await setRole(name, roleForm.role.value, true); } catch (error) { toast(error.message); }
+    });
   });
-  root.querySelector('[data-team]').addEventListener('click', async (e) => {
+  root.querySelector('[data-team]')?.addEventListener('click', (e) => {
     const b = e.target.closest('[data-revoke]');
     if (!b || !confirm(`Remove ${b.dataset.role} from @${b.dataset.revoke}?`)) return;
-    try { await setRole(b.dataset.revoke, b.dataset.role, false); } catch (error) { toast(error.message); }
+    withBusy(b, async () => {
+      try { await setRole(b.dataset.revoke, b.dataset.role, false); } catch (error) { toast(error.message); }
+    });
   });
 
   const voice = root.querySelector('[data-voice]');
-  voice.addEventListener('submit', async (e) => {
+  voice?.addEventListener('submit', (e) => {
     e.preventDefault();
-    try { await api('/api/owner/settings', { method: 'PUT', body: { arronVoice: voice.voice.value } }); toast('Arron will speak this way from his next reply '); }
-    catch (error) { toast(error.message); }
+    const btn = voice.querySelector('button[type="submit"]');
+    withBusy(btn, async () => {
+      try { await api('/api/owner/settings', { method: 'PUT', body: { arronVoice: voice.voice.value } }); toast('Arron will speak this way from his next reply '); }
+      catch (error) { toast(error.message); }
+    });
   });
 }
 
 // ─── WORKBENCH ───
-<<<<<<< HEAD
-const STATUS_LABEL = { proposed: ' Drafted', approved: ' Approved — ready to push', done: ' Done', dismissed: ' Set aside' };
-=======
 const STATUS_LABEL = { proposed: '💭 Drafted', approved: '✅ Approved for build review', done: '🌌 Done', dismissed: '🍂 Set aside' };
->>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
 const proposalItem = (p) => `
   <article class="queue-item" id="proposal-${p.id}" data-proposal="${p.id}">
     <div class="switch-row" style="align-items:flex-start">
@@ -181,15 +194,9 @@ const proposalItem = (p) => `
     ${p.why ? `<p style="margin:.5rem 0"><strong>Why:</strong> ${esc(p.why)}</p>` : ''}
     <details><summary>Read Arron's draft</summary><div class="post-body" style="margin-top:.5rem">${esc(p.body)}</div></details>
     <div class="btn-row" style="margin-top:.75rem">
-<<<<<<< HEAD
-      ${p.status === 'proposed' ? '<button type="button" class="sbtn primary small" data-pstatus="approved"> Approve &amp; copy brief</button>' : ''}
-      ${p.status === 'approved' ? '<button type="button" class="sbtn primary small" data-copy> Copy build brief</button><button type="button" class="sbtn ghost small" data-pstatus="done"> Mark as live</button>' : ''}
-      ${p.status !== 'dismissed' ? '<button type="button" class="sbtn ghost small" data-pstatus="dismissed"> Set aside</button>' : '<button type="button" class="sbtn ghost small" data-pstatus="proposed"> Bring back</button>'}
-=======
-      ${p.status === 'proposed' ? '<button type="button" class="sbtn primary small" data-pstatus="approved">✅ Approve &amp; copy brief</button>' : ''}
-      ${p.status === 'approved' ? '<button type="button" class="sbtn primary small" data-copy>📋 Copy build brief</button><button type="button" class="sbtn ghost small" data-pstatus="done">🌌 Mark work complete</button>' : ''}
-      ${p.status !== 'dismissed' ? '<button type="button" class="sbtn ghost small" data-pstatus="dismissed">🍂 Set aside</button>' : '<button type="button" class="sbtn ghost small" data-pstatus="proposed">↩️ Bring back</button>'}
->>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
+      ${p.status === 'proposed' ? '<button type="button" class="sbtn primary small" data-pstatus="approved" title="Approve this draft and copy the build brief">✅ Approve &amp; copy brief</button>' : ''}
+      ${p.status === 'approved' ? '<button type="button" class="sbtn primary small" data-copy title="Copy the build brief to your clipboard">📋 Copy build brief</button><button type="button" class="sbtn ghost small" data-pstatus="done" title="Mark this work as complete (does not change the site)">🌌 Mark work complete</button>' : ''}
+      ${p.status !== 'dismissed' ? '<button type="button" class="sbtn ghost small" data-pstatus="dismissed" title="Set this proposal aside — nothing changes on the site">🍂 Set aside</button>' : '<button type="button" class="sbtn ghost small" data-pstatus="proposed" title="Bring this proposal back to the bench">↩️ Bring back</button>'}
     </div>
   </article>`;
 
@@ -204,11 +211,7 @@ const pulseHTML = (p) => `
   </details>`;
 
 async function copyText(text) {
-<<<<<<< HEAD
-  try { await navigator.clipboard.writeText(text); toast('Build brief copied — paste it into the Netlify agent '); }
-=======
   try { await navigator.clipboard.writeText(text); toast('Build brief copied — review private details before sharing 📋'); }
->>>>>>> a73a058 (Make owner build handoffs source-aware and review-only)
   catch { prompt('Copy this build brief:', text); }
 }
 
@@ -218,34 +221,39 @@ async function renderWorkbench() {
   let wb;
   try { wb = await api('/api/owner/workbench'); }
   catch (error) { box.innerHTML = `<p class="notice err">${esc(error.message)}</p>`; return; }
+  box.removeAttribute('aria-busy');
   const briefs = new Map(wb.proposals.map((p) => [String(p.id), p.brief]));
   box.innerHTML = (wb.proposals.map(proposalItem).join('') || '<p class="muted">Nothing on the bench. Ask Arron <em>"what\'s missing?"</em> </p>')
     + pulseHTML(wb.pulse)
     + '<p style="margin-top:.75rem"><button type="button" class="linkish" data-show-done>Show finished &amp; set-aside changes</button></p>';
-  box.onclick = async (e) => {
+  box.onclick = (e) => {
     const b = e.target.closest('button');
-    if (!b) return;
+    if (!b || b.disabled) return;
     if (b.matches('[data-show-done]')) {
-      try {
-        const [done, dismissed] = await Promise.all([api('/api/owner/workbench?status=done'), api('/api/owner/workbench?status=dismissed')]);
-        const all = [...done.proposals, ...dismissed.proposals];
-        all.forEach((p) => briefs.set(String(p.id), p.brief));
-        b.parentElement.insertAdjacentHTML('beforebegin', all.map(proposalItem).join('') || '<p class="muted">Nothing finished yet.</p>');
-        b.remove();
-      } catch (error) { toast(error.message); }
+      withBusy(b, async () => {
+        try {
+          const [done, dismissed] = await Promise.all([api('/api/owner/workbench?status=done'), api('/api/owner/workbench?status=dismissed')]);
+          const all = [...done.proposals, ...dismissed.proposals];
+          all.forEach((p) => briefs.set(String(p.id), p.brief));
+          b.parentElement.insertAdjacentHTML('beforebegin', all.map(proposalItem).join('') || '<p class="muted">Nothing finished yet.</p>');
+          b.remove();
+        } catch (error) { toast(error.message); }
+      });
       return;
     }
     const item = b.closest('[data-proposal]');
     if (!item) return;
     const id = item.dataset.proposal;
     if (b.matches('[data-copy]')) return copyText(briefs.get(id) || '');
-    try {
-      const { proposal } = await api(`/api/owner/workbench/${id}`, { method: 'POST', body: { status: b.dataset.pstatus } });
-      briefs.set(id, proposal.brief);
-      item.outerHTML = proposalItem(proposal);
-      if (proposal.status === 'approved') copyText(proposal.brief);
-      else toast(proposal.status === 'done' ? 'Marked as live ' : proposal.status === 'dismissed' ? 'Set aside — nothing changed.' : 'Back on the bench.');
-    } catch (error) { toast(error.message); }
+    withBusy(b, async () => {
+      try {
+        const { proposal } = await api(`/api/owner/workbench/${id}`, { method: 'POST', body: { status: b.dataset.pstatus } });
+        briefs.set(id, proposal.brief);
+        item.outerHTML = proposalItem(proposal);
+        if (proposal.status === 'approved') copyText(proposal.brief);
+        else toast(proposal.status === 'done' ? 'Marked as live ' : proposal.status === 'dismissed' ? 'Set aside — nothing changed.' : 'Back on the bench.');
+      } catch (error) { toast(error.message); }
+    });
   };
   if (location.hash.startsWith('#proposal-')) document.getElementById(location.hash.slice(1))?.scrollIntoView({ block: 'center' });
   else if (location.hash === '#workbench') document.getElementById('workbench')?.scrollIntoView();
