@@ -1,5 +1,5 @@
 /* =====================================================
-   PLEADING SANITY — 4-SONG BACKGROUND MUSIC PLAYLIST
+   PLEADING SANITY — 5-SONG BACKGROUND MUSIC PLAYLIST
    Injects a hidden YouTube iframe (playlist, loop) + a
    floating widget (play/pause, prev, next, mute, volume).
    - Starts MUTED + autoplays (iOS-safe).
@@ -19,7 +19,8 @@
     { id: 'DjdB4Bm4n2M',  title: 'Man on the Moon (The Anthem)', artist: 'Kid Cudi' },
     { id: '3pysm_JU_wA',  title: 'Deliverance (ft. Timbaland)',   artist: 'Bubba Sparxxx' },
     { id: '0slhR2obZSE',  title: 'NVM (Starring Mya)',            artist: 'Joyner Lucas' },
-    { id: 'rT1fqRkFiqY',  title: 'Locked Up (DJ Fleq Remix ft. Lil Wayne, 2Pac & Biggie)', artist: 'Akon' }
+    { id: 'rT1fqRkFiqY',  title: 'Locked Up (DJ Fleq Remix ft. Lil Wayne, 2Pac & Biggie)', artist: 'Akon' },
+    { id: 'b8M6N0FTpNc',  title: 'Girls Want Girls (ft. Lil Baby)', artist: 'Drake' }
   ];
 
   var K_MUTED  = 'psMusicMuted';

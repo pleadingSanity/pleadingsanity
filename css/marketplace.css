@@ -1,0 +1,255 @@
+/* =====================================================
+   PLEADING SANITY — CREATOR MARKETPLACE STYLES
+   Scoped under .psm-* prefix. Reuses brand variables
+   from css/design-system.css: --ps-cyan (teal),
+   --ps-amber, --ps-bg, --ps-deep, --ps-text, --ps-muted.
+   Cosmic dark background. NO purple/indigo/violet.
+   Mobile-first (min 390px), scales up. No emoji.
+===================================================== */
+
+.psm-page {
+  color: var(--ps-text, #eef6ff);
+  font-family: var(--ps-font, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif);
+  background:
+    radial-gradient(circle at 18% 8%, rgba(0, 255, 240, 0.09), transparent 42%),
+    radial-gradient(circle at 82% 92%, rgba(245, 158, 11, 0.07), transparent 45%),
+    var(--ps-black, #000103);
+  min-height: 100vh;
+  line-height: 1.55;
+}
+
+.psm-wrap { max-width: 1120px; margin: 0 auto; padding: 0 1rem; }
+
+/* ---------- Hero ---------- */
+.psm-hero {
+  text-align: center;
+  padding: 2.6rem 1rem 2rem;
+  border-bottom: 1px solid rgba(0, 255, 240, 0.14);
+}
+.psm-hero h1 {
+  font-size: clamp(1.9rem, 6vw, 3rem);
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+  background: linear-gradient(120deg, var(--ps-cyan, #00fff0), var(--ps-sky, #38bdf8) 55%, var(--ps-amber, #f59e0b));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.psm-hero p { color: var(--ps-muted, #a9c7d1); max-width: 38rem; margin: 0 auto 1.2rem; font-size: 1.02rem; }
+.psm-hero-ctas { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; }
+
+/* ---------- Filter bar ---------- */
+.psm-filters {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;
+  margin: 1.6rem 0 0.6rem;
+}
+.psm-filter-btn {
+  min-height: 44px; padding: 0.45rem 1.1rem;
+  border-radius: 999px; border: 1.5px solid rgba(0, 255, 240, 0.3);
+  background: rgba(13, 27, 42, 0.6); color: var(--ps-text, #eef6ff);
+  font: inherit; font-weight: 600; font-size: 0.92rem; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  transition: background 0.18s, border-color 0.18s, color 0.18s;
+}
+.psm-filter-btn:hover { border-color: var(--ps-cyan, #00fff0); background: rgba(0, 255, 240, 0.1); }
+.psm-filter-btn:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }
+.psm-filter-btn.active {
+  background: var(--ps-cyan, #00fff0); color: var(--ps-black, #000103);
+  border-color: var(--ps-cyan, #00fff0); font-weight: 800;
+}
+.psm-count { text-align: center; color: var(--ps-muted, #a9c7d1); font-size: 0.9rem; margin: 0 0 1.2rem; }
+
+/* ---------- Listing grid ---------- */
+.psm-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+  padding: 0.5rem 0 2.5rem;
+}
+@media (min-width: 640px) { .psm-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) { .psm-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.psm-card {
+  background: linear-gradient(165deg, rgba(13, 27, 42, 0.82), rgba(0, 1, 3, 0.72));
+  border: 1px solid rgba(0, 255, 240, 0.24);
+  border-radius: 18px; overflow: hidden; cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex; flex-direction: column;
+}
+.psm-card:hover, .psm-card:focus-visible {
+  transform: translateY(-4px); border-color: var(--ps-cyan, #00fff0);
+  box-shadow: 0 14px 36px rgba(0, 255, 240, 0.16);
+}
+.psm-card:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }
+
+.psm-card-img {
+  position: relative; height: 150px; display: flex;
+  align-items: center; justify-content: center;
+  border-bottom: 1px solid rgba(0, 255, 240, 0.14);
+}
+.psm-img-icon { display: inline-flex; opacity: 0.9; }
+.psm-img-icon svg { width: 44px; height: 44px; }
+.psm-img-label {
+  position: absolute; bottom: 0.5rem; right: 0.6rem;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--ps-muted, #a9c7d1); background: rgba(0, 1, 3, 0.55);
+  padding: 0.15rem 0.55rem; border-radius: 999px;
+}
+
+.psm-card-body { padding: 0.95rem 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+.psm-card-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.psm-card-title { margin: 0.15rem 0 0; font-size: 1.02rem; line-height: 1.35; color: var(--ps-text, #eef6ff); }
+.psm-card-price { margin: 0; font-size: 1.25rem; font-weight: 800; color: var(--ps-amber, #f59e0b); }
+.psm-seller-link {
+  margin-top: auto; display: inline-flex; align-items: center; gap: 0.35rem;
+  color: var(--ps-cyan, #00fff0); text-decoration: none; font-size: 0.88rem; font-weight: 600;
+}
+.psm-seller-link:hover { text-decoration: underline; }
+
+/* ---------- Badges ---------- */
+.psm-cat-badge {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.2rem 0.6rem; border-radius: 999px; font-size: 0.74rem; font-weight: 700;
+  letter-spacing: 0.02em; text-transform: uppercase;
+  border: 1px solid rgba(0, 255, 240, 0.35); color: var(--ps-cyan, #00fff0);
+  background: rgba(0, 255, 240, 0.08);
+}
+.psm-cat-badge svg { width: 13px; height: 13px; }
+.psm-cat-survival { border-color: rgba(245, 158, 11, 0.5); color: var(--ps-amber, #f59e0b); background: rgba(245, 158, 11, 0.1); }
+.psm-cat-digital { border-color: rgba(56, 189, 248, 0.5); color: var(--ps-sky, #38bdf8); background: rgba(56, 189, 248, 0.08); }
+
+.psm-uk-badge {
+  display: inline-flex; align-items: center; gap: 0.35rem;
+  padding: 0.2rem 0.55rem 0.2rem 0.3rem; border-radius: 999px;
+  border: 1px solid rgba(0, 255, 240, 0.45); background: rgba(0, 255, 240, 0.08);
+  font-size: 0.72rem; font-weight: 800; color: var(--ps-cyan, #00fff0);
+  letter-spacing: 0.03em;
+}
+.psm-uk-badge svg { flex-shrink: 0; border-radius: 2px; }
+
+/* ---------- Empty state ---------- */
+.psm-empty { grid-column: 1 / -1; text-align: center; color: var(--ps-muted, #a9c7d1); padding: 2rem 0; }
+
+/* ---------- Panels (money flow, legal, sell form) ---------- */
+.psm-panel {
+  background: linear-gradient(160deg, rgba(13, 27, 42, 0.75), rgba(0, 1, 3, 0.65));
+  border: 1px solid rgba(0, 255, 240, 0.22);
+  border-radius: 18px; padding: 1.3rem 1.3rem; margin: 0 0 1.6rem;
+}
+.psm-panel h2 { margin: 0 0 0.7rem; color: var(--ps-cyan, #00fff0); font-size: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
+.psm-panel h2 svg { width: 20px; height: 20px; }
+.psm-panel p, .psm-panel li { color: var(--ps-muted, #a9c7d1); font-size: 0.95rem; line-height: 1.6; }
+.psm-panel ul { margin: 0.4rem 0 0; padding-left: 1.3rem; }
+.psm-panel strong { color: var(--ps-text, #eef6ff); }
+.psm-panel a { color: var(--ps-cyan, #00fff0); }
+
+/* Money flow breakdown */
+.psm-flow { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 0.9rem; }
+.psm-flow-step {
+  flex: 1 1 140px; text-align: center; padding: 0.9rem 0.7rem;
+  border-radius: 14px; border: 1px solid rgba(0, 255, 240, 0.2);
+  background: rgba(0, 1, 3, 0.4);
+}
+.psm-flow-step .amt { display: block; font-size: 1.4rem; font-weight: 800; color: var(--ps-amber, #f59e0b); }
+.psm-flow-step .lbl { font-size: 0.8rem; color: var(--ps-muted, #a9c7d1); margin-top: 0.2rem; display: block; }
+.psm-flow-arrow { align-self: center; color: var(--ps-cyan, #00fff0); font-weight: 800; font-size: 1.1rem; }
+
+/* ---------- Sell form mock ---------- */
+.psm-form-row { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 0.9rem; }
+.psm-form-row label { font-weight: 600; font-size: 0.92rem; color: var(--ps-text, #eef6ff); }
+.psm-form-row input[type="text"], .psm-form-row input[type="number"], .psm-form-row textarea, .psm-form-row select {
+  min-height: 44px; padding: 0.55rem 0.8rem; border-radius: 10px;
+  border: 1.5px solid rgba(0, 255, 240, 0.28); background: rgba(0, 1, 3, 0.55);
+  color: var(--ps-text, #eef6ff); font: inherit; font-size: 0.95rem;
+}
+.psm-form-row input:focus, .psm-form-row textarea:focus, .psm-form-row select:focus {
+  outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 1px; border-color: var(--ps-cyan, #00fff0);
+}
+.psm-check-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
+.psm-check-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--ps-cyan, #00fff0); }
+.psm-create-msg { padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.9rem; margin-top: 0.5rem; display: none; }
+.psm-create-msg.err { display: block; background: rgba(182, 0, 42, 0.18); border: 1px solid rgba(255, 102, 136, 0.5); color: #ffb3c1; }
+.psm-create-msg.ok { display: block; background: rgba(0, 255, 240, 0.1); border: 1px solid rgba(0, 255, 240, 0.4); color: var(--ps-cyan, #00fff0); }
+
+/* ---------- Modal ---------- */
+.psm-modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0, 1, 3, 0.78); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem; overflow-y: auto;
+}
+.psm-modal {
+  position: relative; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
+  background: linear-gradient(170deg, #0d1b2a, #000103);
+  border: 1.5px solid rgba(0, 255, 240, 0.4); border-radius: 20px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 255, 240, 0.15);
+}
+.psm-modal-close {
+  position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2;
+  min-height: 40px; min-width: 40px; border-radius: 50%;
+  border: 1.5px solid rgba(0, 255, 240, 0.4); background: rgba(0, 1, 3, 0.7);
+  color: var(--ps-text, #eef6ff); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+}
+.psm-modal-close:hover { background: rgba(0, 255, 240, 0.15); border-color: var(--ps-cyan, #00fff0); }
+.psm-modal-close:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }
+.psm-modal .psm-card-img { height: 180px; border-radius: 20px 20px 0 0; }
+.psm-modal-body { padding: 1.2rem 1.3rem 1.5rem; }
+.psm-modal-title { margin: 0.5rem 0 0.2rem; font-size: 1.35rem; line-height: 1.3; color: var(--ps-text, #eef6ff); }
+.psm-modal-seller { margin: 0 0 0.4rem; color: var(--ps-muted, #a9c7d1); font-size: 0.92rem; }
+.psm-modal-seller a { color: var(--ps-cyan, #00fff0); font-weight: 600; }
+.psm-modal-price { margin: 0 0 0.7rem; font-size: 1.6rem; font-weight: 800; color: var(--ps-amber, #f59e0b); }
+.psm-digital-note { font-size: 0.85rem; font-weight: 500; color: var(--ps-sky, #38bdf8); }
+.psm-modal-desc { color: var(--ps-muted, #a9c7d1); line-height: 1.6; margin: 0 0 0.9rem; }
+.psm-fee-note {
+  font-size: 0.82rem; color: var(--ps-muted, #a9c7d1);
+  background: rgba(0, 255, 240, 0.06); border: 1px solid rgba(0, 255, 240, 0.18);
+  border-radius: 10px; padding: 0.6rem 0.8rem; margin: 0 0 1rem; line-height: 1.5;
+}
+
+/* ---------- Payment area ---------- */
+.psm-pay-area { border-top: 1px solid rgba(0, 255, 240, 0.15); padding-top: 1rem; }
+.psm-pay-label { font-weight: 700; margin: 0 0 0.6rem; color: var(--ps-text, #eef6ff); }
+.psm-paypal-container { min-height: 48px; margin-bottom: 0.7rem; color: var(--ps-muted, #a9c7d1); font-size: 0.9rem; }
+.psm-paypal-fallback {
+  background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 10px; padding: 0.7rem 0.9rem; color: #fde68a; font-size: 0.9rem; margin: 0;
+}
+.psm-stripe-placeholder {
+  border: 1.5px dashed rgba(245, 158, 11, 0.5); border-radius: 10px;
+  padding: 0.65rem 0.9rem; font-size: 0.85rem; color: #fde68a;
+  background: rgba(245, 158, 11, 0.06); margin-bottom: 0.6rem;
+}
+.psm-pay-note { font-size: 0.78rem; color: var(--ps-muted, #a9c7d1); margin: 0; line-height: 1.5; }
+.psm-thanks { text-align: center; padding: 1rem 0.5rem; }
+.psm-thanks-icon { display: inline-flex; width: 48px; height: 48px; border-radius: 50%; background: rgba(0, 255, 240, 0.15); color: var(--ps-cyan, #00fff0); align-items: center; justify-content: center; margin-bottom: 0.6rem; }
+.psm-thanks-icon svg { width: 24px; height: 24px; }
+.psm-thanks h3 { margin: 0 0 0.5rem; color: var(--ps-cyan, #00fff0); }
+.psm-thanks p { color: var(--ps-muted, #a9c7d1); font-size: 0.95rem; margin: 0 0 1rem; }
+
+/* ---------- Profile shop (injected into profile pages) ---------- */
+.psm-profile-shop { margin-top: 1.5rem; border-color: rgba(0, 255, 240, 0.3); }
+.psm-shop-heading { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 0.8rem; }
+.psm-shop-heading svg { width: 20px; height: 20px; color: var(--ps-cyan, #00fff0); }
+.psm-shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; }
+.psm-shop-card {
+  border: 1px solid rgba(0, 255, 240, 0.22); border-radius: 14px; overflow: hidden;
+  background: rgba(0, 1, 3, 0.5); cursor: pointer; transition: transform 0.18s, border-color 0.18s;
+}
+.psm-shop-card:hover, .psm-shop-card:focus-visible { transform: translateY(-2px); border-color: var(--ps-cyan, #00fff0); }
+.psm-shop-card:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }
+.psm-shop-card .psm-card-img { height: 90px; }
+.psm-shop-card .psm-img-icon svg { width: 28px; height: 28px; }
+.psm-shop-card-body { padding: 0.6rem 0.7rem 0.8rem; }
+.psm-shop-card-body h3 { margin: 0 0 0.3rem; font-size: 0.88rem; line-height: 1.3; color: var(--ps-text, #eef6ff); }
+.psm-shop-card-body .psm-card-price { font-size: 1rem; }
+
+/* ---------- Crisis strip (matches app.html pattern) ---------- */
+.psm-crisis-strip {
+  background: #0b0f19; border-top: 2px solid var(--ps-cyan, #00fff0);
+  color: #e2e8f0; font-size: 0.82rem; padding: 10px 16px; text-align: center; line-height: 1.6;
+}
+.psm-crisis-strip strong { color: var(--ps-amber, #f59e0b); }
+.psm-crisis-strip a { color: var(--ps-amber, #f59e0b); font-weight: 700; }
+
+@media (prefers-reduced-motion: reduce) {
+  .psm-card, .psm-shop-card { transition: none; }
+  .psm-card:hover, .psm-shop-card:hover { transform: none; }
+}
