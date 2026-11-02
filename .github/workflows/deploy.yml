@@ -20,7 +20,7 @@ jobs:
     name: House check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Manifests stay the same app
         run: |
           python3 - << 'PY'
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - name: 🧱 Checkout Source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
