@@ -2,4 +2,6 @@
 html,body{height:auto!important;min-height:100dvh;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:auto!important}
 body{display:block!important}
 #main-content,#main{overflow:visible!important;flex:none!important;height:auto!important;max-height:none!important}
+/* A game dialog sets body overflow hidden inline; keep the page still behind it. */
+body[style*="overflow: hidden"],body[style*="overflow:hidden"],html:has(body[style*="overflow: hidden"]),html:has(body[style*="overflow:hidden"]){overflow:hidden!important}
 @media (prefers-reduced-motion:reduce){body::before,body::after{animation:none!important}}

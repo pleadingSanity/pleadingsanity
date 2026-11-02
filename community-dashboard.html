@@ -375,7 +375,7 @@
 
     // Sample board only. Clicks stay on this device. Nothing here is a live ballot or account.
     const Governance = {
-      voted: JSON.parse(localStorage.getItem('voted_on') || '{}'),
+      voted: JSON.parse(localStorage.getItem('voted_on_v2') || '{}'),
       
       castVote(id, choice) {
         if (this.voted[id]) {
@@ -384,7 +384,7 @@
         }
         
         this.voted[id] = choice;
-        localStorage.setItem('voted_on', JSON.stringify(this.voted));
+        localStorage.setItem('voted_on_v2', JSON.stringify(this.voted));
         
         // Visual feedback — mark all buttons in this group
         const voteGroup = document.querySelector(`[data-vote-id="${id}"]`);
