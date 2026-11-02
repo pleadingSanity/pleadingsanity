@@ -1,0 +1,5 @@
+/* The page scrolls. Releases the old fixed "native app" shell on game pages; engines are untouched. */
+html,body{height:auto!important;min-height:100dvh;overflow-x:hidden!important;overflow-y:auto!important;overscroll-behavior:auto!important}
+body{display:block!important}
+#main-content,#main{overflow:visible!important;flex:none!important;height:auto!important;max-height:none!important}
+@media (prefers-reduced-motion:reduce){body::before,body::after{animation:none!important}}
