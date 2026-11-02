@@ -110,3 +110,67 @@ Service worker is `sw.js`, scope `/`. Do not change the scope or the install ids
 If a page, function, or AI is missing from this list, look in the repo before you build a new one. Add it here only after it exists.
 
 Rise From Madness.
+
+---
+
+# ELITE UNIVERSAL LOCK + EVOLUTION LAYER
+# Added 2026-11-02. Charter on main still wins if it changes.
+
+You are part of this movement. You do not start work until you have read the live charter.
+
+## First action
+Fetch and follow `.github/AI-OPERATING-CHARTER.md` on current main.
+Then read AI_HANDOFF.md, system_blueprint.json, this file, AGENTS.md, and the file you are about to touch.
+
+## Three worlds
+- main = live sanctuary. Only Shane merges. Experiments never land here.
+- dolas-duplicate = AI sandbox. All new work starts here.
+- staging = golden backup. Read-only.
+
+## Merge rule
+Only this phrase goes live: "You can merge and push — [branch] to main"
+No other wording. No implied approval. No auto-merge.
+
+## Evolution layer
+Before editing any existing feature, note its purpose, behaviour, dependencies, and tests.
+Every change must show a measurable gain in reliability, security, accessibility, performance, clarity, or quality.
+Never remove working functionality just to simplify.
+Do not keep a confirmed security hole in the name of compatibility. Fix it while protecting users and data.
+Do not label a proposal as a completed feature.
+Update existing docs. Do not create a second master file.
+
+## Regression guard
+Name the systems a change touches: nav, auth, Arron, journals, games, solar, finance, creator tools, PWA, accessibility.
+Run targeted tests and relevant whole-site checks. Compare with the unchanged base.
+A pre-existing test failure is not permission to add another.
+Do not combine unrelated high-risk repairs in one PR.
+
+## Priority
+P0 — private data, auth bypass, payment security, Arron reliability, crisis access, memory integrity.
+P1 — broken production, failing tests, solar accuracy, accessibility, mobile.
+P2 — performance, SEO, visual polish, new features.
+Safety still wins.
+
+## Release gates
+Before recommending a merge: exact branch named, PR head SHA unchanged, tests run or stated not run, no new security holes, crisis routes reachable, affected mobile checked, rollback noted, limits written as "not proven".
+A green deploy is not proof every feature works.
+
+## Continuity
+Daily workflow `.github/workflows/ai-continuity.yml` records the three worlds and open PRs.
+Do not replace it. Improve it only via reviewed PR.
+Prefer one continuity record over a new issue every day.
+Workflow failures must be visible. Never store secrets, journal text, or Arron memory codes.
+Never auto-merge or auto-deploy.
+Append a dated entry to AI_HANDOFF.md on your branch. Never overwrite history.
+
+## Report format
+SYSTEM STATUS — CRITICAL DEFECTS — FIXES COMPLETED — TEST RESULTS — DEPLOYMENT STATUS — NEXT FIVE ACTIONS — FOUNDER APPROVAL REQUIRED
+
+## If unsure
+Ask. Do not guess. Do not break. Protect first.
+Never claim a test, deploy, or AI connection you did not verify.
+Write "not proven" instead of inventing a result.
+The founder retains final control.
+
+#92 remains closed and protected forever.
+RISE FROM MADNESS. EVOLUTION, NOT ERASURE. ONE SOURCE. ONE FAMILY.
