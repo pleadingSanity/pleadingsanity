@@ -1,0 +1,40 @@
+name: AI continuity monitor
+on:
+  schedule:
+    - cron: '7 6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+  issues: write
+jobs:
+  lock-in:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Record three worlds and open work
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          MAIN=$(git rev-parse origin/main 2>/dev/null || git rev-parse main)
+          DUP=$(git rev-parse origin/dolas-duplicate 2>/dev/null || echo "missing")
+          STG=$(git rev-parse origin/staging 2>/dev/null || echo "missing")
+          OPEN=$(gh pr list --state open --limit 20 --json number,title --jq '.[] | "#\(.number) \(.title)"' || echo "none")
+          NOW=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          BODY="## AI continuity ${NOW}
+
+          **main** \`${MAIN:0:7}\`
+          **dolas-duplicate** \`${DUP:0:7}\`
+          **staging** \`${STG:0:7}\`
+
+          Open PRs:
+          ${OPEN}
+
+          Charter: .github/AI-OPERATING-CHARTER.md
+          #92 protected. No auto-merge. Shane phrase required for live.
+          "
+          gh issue create --title "AI continuity ${NOW}" --body "$BODY" --label "ai-continuity" || true
+          echo "$BODY"
