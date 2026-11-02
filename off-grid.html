@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000103">
+<link rel="icon" href="/assets/favicon.ico" sizes="any">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="canonical" href="https://pleadingsanity.co.uk/off-grid.html">
+<title>Get Off the Mains If You Want — Solar + Battery | Pleading Sanity</title>
+<meta name="description" content="How solar panels and battery storage work in the UK, typical costs, Smart Export Guarantee rates, MCS installers, Building Regulations Part P and DNO notification. Plain English.">
+<meta name="author" content="Shane Cooper / Pleading Sanity">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pleading Sanity">
+<meta property="og:title" content="Get Off the Mains If You Want — Solar + Battery | Pleading Sanity">
+<meta property="og:description" content="Solar + battery storage in plain English: how it works, typical UK costs, SEG export payments, MCS, Part P and DNO rules.">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:url" content="https://pleadingsanity.co.uk/off-grid.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/animations.css">
+<link rel="stylesheet" href="/css/accessibility.css">
+<link rel="stylesheet" href="/css/mobile-responsive.css">
+<link rel="stylesheet" href="/css/space.css">
+<style>
+  .crisis-strip{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.4);border-radius:14px;padding:.9rem 1.1rem;margin:1rem 0;font-size:.92rem;line-height:1.6;color:#e2e8f0;text-align:center}
+  .crisis-strip strong{color:#fca5a5}
+  .crisis-strip a{color:#fbbf24;font-weight:700}
+  .crisis-nums{display:block;margin:.35rem 0;font-weight:700;color:#00fff0}
+  .ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0}
+  .ps-crisis-footer strong{color:#00fff0}
+  .ps-crisis-footer a{color:#f59e0b;font-weight:700}
+  .disclaimer{background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.45);border-left:4px solid #fbbf24;border-radius:12px;padding:1rem 1.2rem;margin:1.2rem 0;font-size:.95rem;line-height:1.6;color:#fde68a}
+  .disclaimer strong{color:#fbbf24}
+  .og-card{background:rgba(15,22,35,.6);border:1px solid rgba(0,255,240,.18);border-radius:16px;padding:1.4rem 1.5rem;margin:1.2rem 0;backdrop-filter:blur(8px)}
+  .og-card h3{color:#00fff0;font-size:1.25rem;margin-bottom:.6rem}
+  .og-card.amber{border-color:rgba(251,191,36,.4);background:rgba(245,158,11,.06)}
+  .og-card.amber h3{color:#fbbf24}
+  .og-card ul{margin:.5rem 0 .5rem 1.2rem;color:#cbd5e1;line-height:1.7}
+  .og-card li{margin-bottom:.4rem}
+  .cite{font-size:.82rem;color:#67e8f9}
+  .cite a{color:#22d3ee;text-decoration:underline;text-underline-offset:2px}
+  .flow{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:center;margin:1rem 0}
+  .flow-step{background:rgba(0,255,240,.08);border:1px solid rgba(0,255,240,.3);border-radius:12px;padding:.7rem 1rem;font-weight:700;color:#a5f3fc;font-size:.92rem;text-align:center;flex:1 1 120px;max-width:180px}
+  .flow-arrow{color:#fbbf24;font-weight:900;font-size:1.2rem}
+  .product-grid{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.product-grid{grid-template-columns:1fr 1fr}}
+  .product{background:rgba(8,15,30,.7);border:1px solid rgba(251,191,36,.3);border-radius:14px;padding:1.1rem 1.2rem}
+  .product h4{color:#fbbf24;margin-bottom:.3rem;font-size:1.05rem}
+  .product p{color:#cbd5e1;font-size:.92rem;line-height:1.6;margin:0}
+  .cost-table{width:100%;border-collapse:collapse;margin:.8rem 0;font-size:.92rem}
+  .cost-table th,.cost-table td{border:1px solid rgba(0,255,240,.2);padding:.6rem .8rem;text-align:left;color:#cbd5e1}
+  .cost-table th{color:#00fff0;background:rgba(0,255,240,.08)}
+  .section-eyebrow{font-size:.78rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#fbbf24;margin-bottom:.4rem}
+  h2.sec-title{color:#00fff0;font-size:clamp(1.6rem,4vw,2.2rem);margin:2.2rem 0 .6rem;text-shadow:0 0 18px rgba(0,255,240,.3)}
+  .og-hero{text-align:center;padding:2.5rem 1rem 1.5rem}
+  .og-hero h1{font-size:clamp(2.2rem,6vw,3.4rem);background:linear-gradient(120deg,#00fff0,#22d3ee 55%,#fbbf24);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:.8rem}
+  .og-hero p.lead{max-width:62ch;margin:0 auto;color:#cbd5e1}
+  .source-list{columns:1;list-style:none;padding:0;margin:.5rem 0}
+  .source-list li{margin-bottom:.35rem;font-size:.9rem}
+  .source-list a{color:#22d3ee;text-decoration:underline;text-underline-offset:2px}
+  @media(min-width:720px){.source-list{columns:2}}
+  .skip-link{position:absolute;left:-9999px;top:0;background:#00fff0;color:#000103;padding:.5rem 1rem;z-index:100;border-radius:6px;font-weight:700}
+  .skip-link:focus{left:8px;top:8px}
+  .eco-nav a.cur{color:#00fff0;font-weight:800}
+  .stand-box{background:rgba(0,255,240,.07);border:2px solid rgba(0,255,240,.4);border-radius:16px;padding:1.4rem 1.5rem;margin:1.5rem 0;text-align:center}
+  .stand-box p{color:#e0f2fe;font-size:1.05rem;max-width:60ch;margin:0 auto}
+  .stand-box a{color:#fbbf24;font-weight:800;text-decoration:underline;text-underline-offset:3px}
+</style>
+</head>
+<body class="ps-page">
+<a class="skip-link" href="#main-content">Skip to content</a>
+
+<nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,240,.25);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;" aria-label="Main navigation">
+  <a href="index.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sanctuary</a>
+  <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
+  <a href="app.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">App Hub</a>
+  <a href="finance.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sane Finance</a>
+  <a href="insane-solar.html" style="color:#fbbf24;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Insane Solar</a>
+  <a href="off-grid.html" class="cur" style="color:#00fff0;text-decoration:none;font-size:.78rem;font-weight:800;margin-right:.9rem;" aria-current="page">Off Grid</a>
+  <a href="sanity-law.html" style="color:#22d3ee;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanity Law</a>
+  <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
+</nav>
+
+<main id="main-content" class="container" style="max-width:960px;margin:0 auto;padding:0 16px 3rem;">
+
+  <section class="crisis-strip" aria-label="Crisis and emergency help">
+    <strong>In crisis right now?</strong> You are not alone.
+    <span class="crisis-nums">999 (immediate danger) &middot; Samaritans free 24/7: <a href="tel:116123">116 123</a> &middot; NHS 111 (press 2 for mental health) &middot; Text SHOUT to 85258</span>
+    More support on the <a href="/crisis.html">Crisis Help page</a>.
+  </section>
+
+  <header class="og-hero fade-in">
+    <p class="section-eyebrow">Insane Solar &middot; Plain English Energy</p>
+    <h1>Get Off the Mains If You Want</h1>
+    <p class="lead">Solar panels and a battery can cut your bills, keep the lights on in a cut, and take pressure off the grid. You do not have to go fully off-grid — most homes stay connected and sell spare power back. This page explains how it works, what it costs, and the rules that keep it safe and legal.</p>
+  </header>
+
+  <div class="disclaimer" role="note">
+    <strong>Not legal advice. Always consult a solicitor. We help you understand your rights.</strong> Costs and rates change; check current figures with the sources below and get quotes from MCS-certified installers.
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <h2 class="sec-title" id="how">How solar + battery storage works</h2>
+  <div class="og-card">
+    <p style="color:#cbd5e1">The journey of the electricity is simple. Panels make DC power in daylight, the inverter turns it into the AC power your home uses, and any surplus is stored in a battery for the evening. If you stay connected to the grid, extra power can be exported and you get paid under the Smart Export Guarantee (SEG).</p>
+    <div class="flow" aria-label="Solar power flow">
+      <div class="flow-step">Solar panels (DC)</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Inverter (AC)</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Battery storage</div>
+      <span class="flow-arrow">&rarr;</span>
+      <div class="flow-step">Your home</div>
+    </div>
+    <ul>
+      <li><strong>Grid-tied (most homes):</strong> you stay connected. You use solar first, then battery, then grid. Surplus is exported and paid via SEG. You are never without power because the grid is the backup.</li>
+      <li><strong>Off-grid (fully):</strong> no grid connection at all — you need enough panels and battery (and often a generator) to cover the darkest winter days. It is a bigger, more expensive step and usually only makes sense for remote buildings.</li>
+      <li><strong>Hybrid:</strong> grid-tied with a large battery so you can ride through power cuts and use almost no grid power on sunny days.</li>
+    </ul>
+    <p class="cite">Sources: <a href="https://energysavingtrust.org.uk/advice/solar-pv-panels/" target="_blank" rel="noopener">Energy Saving Trust — Solar PV panels</a> · <a href="https://www.ofgem.gov.uk/information-consumers/energy-advice-households/smart-export-guarantee" target="_blank" rel="noopener">Ofgem — Smart Export Guarantee</a></p>
+  </div>
+
+  <!-- PRODUCTS -->
+  <h2 class="sec-title" id="products">Battery systems — a few well-known names</h2>
+  <p style="color:#cbd5e1;max-width:70ch">These are examples only, not recommendations or affiliate links. Compare warranties, usable capacity (kWh), round-trip efficiency and installer support before buying. A good installer will size the battery to your actual use, not just sell the biggest one.</p>
+  <div class="product-grid">
+    <div class="product"><h4>Tesla Powerwall</h4><p>13.5 kWh home battery with app monitoring and backup during cuts. One of the premium-priced options; often paired with Tesla solar or any compatible inverter.</p></div>
+    <div class="product"><h4>GivEnergy</h4><p>UK-popular hybrid inverters and batteries (roughly 5–13 kWh), strong app control and a wide installer network. Often a mid-price choice.</p></div>
+    <div class="product"><h4>Anker SOLIX</h4><p>Plug-and-play balcony and home battery systems, plus larger whole-home storage. Known for portable power stations expanding into fixed home storage.</p></div>
+    <div class="product"><h4>EcoFlow</h4><p>Portable power stations and modular home battery kits (PowerOcean / Delta series) for backup and partial off-grid setups. Good for renters and smaller systems.</p></div>
+  </div>
+  <p class="cite" style="margin-top:.8rem">Brand facts are general product descriptions. Always confirm current specs and price with the manufacturer or an MCS-certified installer.</p>
+
+  <!-- COSTS -->
+  <h2 class="sec-title" id="costs">Typical system sizes and costs (UK)</h2>
+  <div class="og-card amber">
+    <p style="color:#fde68a">Figures are typical ranges and change with equipment, roof type and installer. VAT on residential solar panels and battery storage installed together is currently 0% (a relief running to 31 March 2027). Always get at least three quotes.</p>
+    <table class="cost-table">
+      <thead><tr><th>System</th><th>Typical size</th><th>Typical installed cost</th></tr></thead>
+      <tbody>
+        <tr><td>Solar panels only (average home)</td><td>3.5–4 kWp (~8–10 panels)</td><td>roughly £5,000–£8,000</td></tr>
+        <tr><td>Home battery (add-on)</td><td>5–13.5 kWh</td><td>roughly £4,000–£10,000+</td></tr>
+        <tr><td>Solar + battery together</td><td>4 kWp + ~8 kWh</td><td>roughly £9,000–£14,000</td></tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><strong>Smart Export Guarantee (SEG):</strong> suppliers with 150,000+ customers must pay you for exported electricity. In 2024–25 the average export rate was around 10–13p per kWh, but rates vary widely (from ~1p up to higher tied tariffs) — shop around. You need an MCS certificate and a smart meter to be paid.</li>
+      <li><strong>Running costs:</strong> panels and inverters have almost no running cost; batteries last roughly 10–15 years (check the warranty's cycle count). Inverters are usually replaced once in the system's life.</li>
+      <li><strong>Grid strain:</strong> every kWh you make and use at home is a kWh the grid does not have to deliver — batteries smooth out peaks, which is why the grid benefits too.</li>
+    </ul>
+    <p class="cite">Sources: <a href="https://www.moneysavingexpert.com/utilities/solar-panels/" target="_blank" rel="noopener">MoneySavingExpert — Solar panels guide</a> · <a href="https://www.moneysavingexpert.com/utilities/best-solar-rates-seg-tariffs/" target="_blank" rel="noopener">MoneySavingExpert — SEG export rates</a> · <a href="https://energysavingtrust.org.uk/advice/solar-pv-panels/" target="_blank" rel="noopener">Energy Saving Trust — Solar PV</a> · <a href="https://www.ofgem.gov.uk/sites/default/files/2025-12/Smart_Export_Guarantee_Annual_Report_Year_5-20251203191140.pdf" target="_blank" rel="noopener">Ofgem — SEG Annual Report Year 5</a></p>
+  </div>
+
+  <!-- PRACTICAL / LEGAL -->
+  <h2 class="sec-title" id="legal">Practical and legal: do it right the first time</h2>
+  <div class="og-card">
+    <ul>
+      <li><strong>Use an MCS-certified installer.</strong> The Microgeneration Certification Scheme (MCS) certificate is required to claim SEG payments and most warranties. A rogue installer without MCS can leave you with no export payments and no comeback.</li>
+      <li><strong>Building Regulations Part P (electrical safety).</strong> Connecting a generator to your home is notifiable electrical work. An MCS installer registered with a competent person scheme (NICEIC / NAPIT) self-certifies and notifies building control for you. If they cannot, building control must be involved separately.</li>
+      <li><strong>Notify the Distribution Network Operator (DNO).</strong> For systems up to 3.68 kW per phase the installer follows the G98 "connect and notify" route (notify within 28 days). Larger systems need G99 approval before energising. Your installer handles this — confirm it is in their quote.</li>
+      <li><strong>Sign up for a SEG tariff.</strong> After install, shop SEG rates and register with a supplier; you need the MCS certificate and a smart meter (or export meter).</li>
+      <li><strong>Renters:</strong> you usually need the landlord's permission for panels on the building. Portable plug-in solar (balcony) systems may be possible — check your tenancy agreement and ask.</li>
+    </ul>
+    <p class="cite">Sources: <a href="https://mcscertified.com/" target="_blank" rel="noopener">MCS — Microgeneration Certification Scheme</a> · <a href="https://www.gov.uk/government/publications/electrical-safety" target="_blank" rel="noopener">GOV.UK — Electrical safety (Part P)</a> · <a href="https://www.energynetworks.org/" target="_blank" rel="noopener">Energy Networks Association — DNOs and G98/G99</a> · <a href="https://www.ofgem.gov.uk/information-consumers/energy-advice-households/smart-export-guarantee" target="_blank" rel="noopener">Ofgem — Smart Export Guarantee</a></p>
+  </div>
+
+  <!-- REASSURANCE + LINK TO SANITY LAW -->
+  <div class="stand-box">
+    <p><strong>If you get a letter — about energy, a meter, or a court — Cooper's Energy Law stands with you.</strong> Shane will sit with you, read it with you, and help you respond lawfully and peacefully through the proper channels. <a href="/sanity-law.html">Open Sanity Law →</a></p>
+  </div>
+
+  <footer style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(0,255,240,.2);text-align:center">
+    <div class="crisis-strip" style="margin:0 0 1.2rem">
+      <strong>Crisis numbers — keep them in your phone.</strong>
+      <span class="crisis-nums">999 (immediate danger) &middot; Samaritans free 24/7: <a href="tel:116123">116 123</a> &middot; NHS 111 (press 2 for mental health) &middot; Text SHOUT to 85258</span>
+    </div>
+    <div class="disclaimer" role="note" style="text-align:left">
+      <strong>Not legal advice. Always consult a solicitor. We help you understand your rights.</strong> Costs, tariffs and rules change — check current figures with Ofgem, MCS and your installer.
+    </div>
+    <h3 style="color:#00fff0;font-size:1.1rem;margin:1.2rem 0 .5rem">Sources used on this page</h3>
+    <ul class="source-list" style="text-align:left">
+      <li><a href="https://energysavingtrust.org.uk/advice/solar-pv-panels/" target="_blank" rel="noopener">Energy Saving Trust — Solar PV</a></li>
+      <li><a href="https://www.moneysavingexpert.com/utilities/solar-panels/" target="_blank" rel="noopener">MoneySavingExpert — Solar panels</a></li>
+      <li><a href="https://www.moneysavingexpert.com/utilities/best-solar-rates-seg-tariffs/" target="_blank" rel="noopener">MoneySavingExpert — SEG rates</a></li>
+      <li><a href="https://www.ofgem.gov.uk/information-consumers/energy-advice-households/smart-export-guarantee" target="_blank" rel="noopener">Ofgem — Smart Export Guarantee</a></li>
+      <li><a href="https://mcscertified.com/" target="_blank" rel="noopener">MCS — certified installers</a></li>
+      <li><a href="https://www.gov.uk/" target="_blank" rel="noopener">GOV.UK — Building Regulations</a></li>
+      <li><a href="https://www.energynetworks.org/" target="_blank" rel="noopener">Energy Networks Association — DNOs</a></li>
+      <li><a href="https://www.samaritans.org/" target="_blank" rel="noopener">Samaritans — 116 123</a></li>
+    </ul>
+    <p style="margin-top:1.5rem;font-size:.85rem;color:#64748b"><a href="/" style="color:#22d3ee">Home</a> · <a href="/insane-solar.html" style="color:#fbbf24">Insane Solar</a> · <a href="/sanity-law.html" style="color:#22d3ee">Sanity Law</a> · <a href="/crisis.html" style="color:#f87171">Crisis Help</a> · <a href="/app.html" style="color:#22d3ee">App Hub</a></p>
+    <p style="margin-top:.8rem;font-size:.8rem;color:#475569">&copy; <span id="yr">2026</span> Pleading Sanity · Built by Shane Cooper from survival. Evolution, Not Erasure.</p>
+  </footer>
+
+</main>
+
+<div class="ps-crisis-footer" aria-label="Crisis and emergency help"><p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; NHS 111 (press 2) &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></div>
+
+<script src="/js/crisis-response-system.js"></script>
+<script src="/js/site.js" defer></script>
+<script>try{document.getElementById('yr').textContent=String(new Date().getFullYear());}catch(e){}</script>
+</body>
+</html>

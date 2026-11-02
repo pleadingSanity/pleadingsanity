@@ -41,7 +41,6 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 .ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
 .ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
 </style>
-<link rel="stylesheet" href="/css/ui-polish.css">
 </head>
 <body style="background:#000103;color:#c9e9ef;overflow-x:hidden;">
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,255,240,.25);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
@@ -53,6 +52,8 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   <a href="insane-solar.html" style="color:#fbbf24;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Insane Solar</a>
   <a href="solar-ai-office.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Office</a>
   <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
+  <a href="sanity-law.html" style="color:#22d3ee;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanity Law</a>
+  <a href="off-grid.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Off Grid</a>
   <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
 </nav>
 <div class="ps-hud"><button type="button" class="ps-sound-toggle" data-sound-toggle aria-pressed="false" aria-label="Sound is off — tap to turn on">
@@ -101,7 +102,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <img src="/assets/images/space/aurora-streaks.jpg" alt="" width="1280" height="720" decoding="async" fetchpriority="high">
     <div class="store-hero-copy">
       <p class="store-eyebrow">YOUR POCKET SANCTUARY</p>
-      <h1 id="store-title" class="gradient-text">App Hub</h1>
+      <h1 id="store-title">App Hub</h1>
       <p>Every app, game and tool in the house, on one shelf. Arron, calm games, journaling, finance, solar tools and more. One install, all the rooms. Free forever.</p>
       <div class="store-install-row">
         <button class="store-install-btn" id="install-btn" type="button" hidden>Install Pleading Sanity</button>
@@ -140,7 +141,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-companions">Companions &amp; AI</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Arron AI" data-cats="companions ai">
+      <article class="store-card" data-name="Arron AI" data-cats="companions ai">
         <img src="/assets/images/brand/home-brain-night.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Arron AI</h3>
@@ -150,17 +151,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Creator Marketplace" data-cats="community shop">
-        <img src="/assets/images/brand/home-brain-night.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
-        <div class="store-card-body">
-          <h3 class="store-card-name">Creator Marketplace</h3>
-          <p class="store-card-blurb">Survivors and creators sell physical goods, digital downloads and UK-rooted survival tools. 5% platform fee.</p>
-          <div class="store-card-meta"><span class="store-tag">Buy &amp; sell · PayPal checkout</span></div>
-          <a class="store-open" href="marketplace.html">Open</a>
-        </div>
-      </article>
-
-      <article class=class="store-card reveal" data-name="AI Family" data-cats="companions ai community">
+      <article class="store-card" data-name="AI Family" data-cats="companions ai community">
         <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">AI Family</h3>
@@ -170,7 +161,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Grok Imagine" data-cats="companions ai">
+      <article class="store-card" data-name="Grok Imagine" data-cats="companions ai">
         <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Grok Imagine</h3>
@@ -180,7 +171,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Grok bot" data-cats="companions ai">
+      <article class="store-card" data-name="Grok bot" data-cats="companions ai">
         <img src="/assets/images/showcase/ai-family.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Grok bot</h3>
@@ -190,7 +181,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="AI Social" data-cats="companions ai community">
+      <article class="store-card" data-name="AI Social" data-cats="companions ai community">
         <img src="/images/ai-social-hero.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">AI Social</h3>
@@ -208,7 +199,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-money">Money &amp; Planning</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Sane Finance" data-cats="money">
+      <article class="store-card" data-name="Sane Finance" data-cats="money">
         <img src="/assets/images/showcase/finance.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Sane Finance</h3>
@@ -218,7 +209,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Site Builder" data-cats="money productivity">
+      <article class="store-card" data-name="Site Builder" data-cats="money productivity">
         <img src="/assets/images/editorial/connected-lights-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Site Builder</h3>
@@ -236,7 +227,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-games">Games</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Night Table poker" data-cats="games">
+      <article class="store-card" data-name="Night Table poker" data-cats="games">
         <img src="/assets/games/worlds/forest-tavern-v2.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Night Table</h3>
@@ -246,7 +237,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Sanity Solitaire" data-cats="games">
+      <article class="store-card" data-name="Sanity Solitaire" data-cats="games">
         <img src="/assets/games/worlds/aurora-lakes-v2.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Sanity Solitaire</h3>
@@ -256,7 +247,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Shed card game" data-cats="games">
+      <article class="store-card" data-name="Shed card game" data-cats="games">
         <img src="/assets/images/showcase/cards-calm.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Shed</h3>
@@ -266,7 +257,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Games hub" data-cats="games">
+      <article class="store-card" data-name="Games hub" data-cats="games">
         <img src="/assets/images/showcase/games.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Games Hub</h3>
@@ -276,7 +267,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Cosmic Focus" data-cats="games calm">
+      <article class="store-card" data-name="Cosmic Focus" data-cats="games calm">
         <img src="/assets/theme/cards/cosmic-focus.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Cosmic Focus</h3>
@@ -286,7 +277,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Cosmic Connect" data-cats="games kids">
+      <article class="store-card" data-name="Cosmic Connect" data-cats="games kids">
         <img src="/assets/theme/cards/cosmic-connect.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Cosmic Connect</h3>
@@ -296,7 +287,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Memory Ocean" data-cats="games kids">
+      <article class="store-card" data-name="Memory Ocean" data-cats="games kids">
         <img src="/assets/theme/cards/memory-ocean.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Memory Ocean</h3>
@@ -306,7 +297,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Number Nebula" data-cats="games learning kids">
+      <article class="store-card" data-name="Number Nebula" data-cats="games learning kids">
         <img src="/assets/theme/cards/number-nebula.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Number Nebula</h3>
@@ -316,7 +307,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Pattern Galaxy" data-cats="games kids">
+      <article class="store-card" data-name="Pattern Galaxy" data-cats="games kids">
         <img src="/assets/theme/cards/pattern-galaxy.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Pattern Galaxy</h3>
@@ -326,7 +317,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Rhythm Resonance" data-cats="games">
+      <article class="store-card" data-name="Rhythm Resonance" data-cats="games">
         <img src="/assets/theme/cards/rhythm-resonance.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Rhythm Resonance</h3>
@@ -336,7 +327,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Stardust Dash" data-cats="games kids">
+      <article class="store-card" data-name="Stardust Dash" data-cats="games kids">
         <img src="/assets/theme/cards/stardust-dash.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Stardust Dash</h3>
@@ -346,7 +337,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Truth Tag" data-cats="games learning">
+      <article class="store-card" data-name="Truth Tag" data-cats="games learning">
         <img src="/assets/theme/cards/truth-tag.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Truth Tag</h3>
@@ -356,7 +347,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Kids" data-cats="games kids learning">
+      <article class="store-card" data-name="Kids" data-cats="games kids learning">
         <img src="/assets/theme/cards/kids.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Kids</h3>
@@ -374,7 +365,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-calm">Calm &amp; Meditation</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Meditation silence timer" data-cats="calm">
+      <article class="store-card" data-name="Meditation silence timer" data-cats="calm">
         <img src="/assets/images/space/aurora-planets.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Meditation</h3>
@@ -384,7 +375,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Healing Frequencies tones" data-cats="calm">
+      <article class="store-card" data-name="Healing Frequencies tones" data-cats="calm">
         <img src="/assets/theme/cards/healing-hz.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Healing Frequencies</h3>
@@ -394,7 +385,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Mind Mode breathing grounding" data-cats="calm">
+      <article class="store-card" data-name="Mind Mode breathing grounding" data-cats="calm">
         <img src="/assets/theme/cards/mind-mode.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Mind Mode</h3>
@@ -404,7 +395,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Mood Journey check-in" data-cats="calm">
+      <article class="store-card" data-name="Mood Journey check-in" data-cats="calm">
         <img src="/assets/theme/cards/mood-journey.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Mood Journey</h3>
@@ -422,7 +413,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-community">Community &amp; Creation</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Creator Hub" data-cats="community creation">
+      <article class="store-card" data-name="Creator Hub" data-cats="community creation">
         <img src="/assets/images/editorial/creator-stage-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Creator Hub</h3>
@@ -432,7 +423,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Live and Creators" data-cats="community creation">
+      <article class="store-card" data-name="Live and Creators" data-cats="community creation">
         <img src="/assets/images/editorial/creator-stage-1280.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Live &amp; Creators</h3>
@@ -442,7 +433,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Journal Vault" data-cats="community calm productivity">
+      <article class="store-card" data-name="Journal Vault" data-cats="community calm productivity">
         <img src="/assets/images/showcase/journal-calm.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Journal Vault</h3>
@@ -452,7 +443,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Community feed" data-cats="community">
+      <article class="store-card" data-name="Community feed" data-cats="community">
         <img src="/assets/images/showcase/community.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Community Feed</h3>
@@ -470,7 +461,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-learning">Learning</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="New Gen Bible" data-cats="learning">
+      <article class="store-card" data-name="New Gen Bible" data-cats="learning">
         <img src="/assets/images/editorial/rise-from-madness-640.webp" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">New Gen Bible</h3>
@@ -488,7 +479,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
     <h2 id="sec-solar">Solar &amp; Office</h2>
     <div class="store-grid">
 
-      <article class=class="store-card reveal" data-name="Insane Solar" data-cats="solar">
+      <article class="store-card" data-name="Insane Solar" data-cats="solar">
         <img src="/images/solar-energy-loop.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Insane Solar</h3>
@@ -498,13 +489,33 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
         </div>
       </article>
 
-      <article class=class="store-card reveal" data-name="Solar AI Office" data-cats="solar productivity">
+      <article class="store-card" data-name="Solar AI Office" data-cats="solar productivity">
         <img src="/images/solar01.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
         <div class="store-card-body">
           <h3 class="store-card-name">Solar AI Office</h3>
           <p class="store-card-blurb">Paperwork handled, humans fit the panels. AI-assisted solar office tools. Still being built.</p>
           <div class="store-card-meta"><span class="store-tag store-beta">Still being built</span></div>
           <a class="store-open" href="solar-ai-office.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Sanity Law" data-cats="legal rights education">
+        <img src="/assets/images/brand/home-brain-night.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Sanity Law</h3>
+          <p class="store-card-blurb">Plain-English UK energy and court rights. Ofgem rules, Energy Ombudsman, prepayment meter protections, McKenzie friends and how to spot fake laws. Not legal advice.</p>
+          <div class="store-card-meta"><span class="store-tag" style="background:rgba(0,255,240,.15);color:#00fff0;border:1px solid rgba(0,255,240,.4)">New</span></div>
+          <a class="store-open" href="sanity-law.html">Open</a>
+        </div>
+      </article>
+
+      <article class="store-card" data-name="Off Grid" data-cats="solar energy education">
+        <img src="/images/solar01.jpg" alt="" loading="lazy" width="640" height="400" decoding="async">
+        <div class="store-card-body">
+          <h3 class="store-card-name">Off Grid</h3>
+          <p class="store-card-blurb">Get off the mains if you want. How solar + battery storage works, typical UK costs, SEG export payments, MCS, Part P and DNO rules in plain English.</p>
+          <div class="store-card-meta"><span class="store-tag" style="background:rgba(251,191,36,.15);color:#fbbf24;border:1px solid rgba(251,191,36,.4)">New</span></div>
+          <a class="store-open" href="off-grid.html">Open</a>
         </div>
       </article>
 
@@ -635,8 +646,5 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   applyFilters();
 })();
 </script>
-<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
-<script src="/js/music-player.js" defer></script>
-<script src="/js/reveal.js" defer></script>
 </body>
 </html>
