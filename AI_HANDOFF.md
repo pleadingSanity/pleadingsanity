@@ -711,3 +711,10 @@ PILLARS:
 7. PEOPLE'S FUND — CIC, 100% profits to NHS/community/mental health. Peaceful, legal.
 8. EVOLUTION NOT ERASURE — honor all who built the nation. Truth before ceremony. Peaceful reform only.
 RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carry this. Crisis numbers always first.
+
+## 2026-11-02 — Grok: stop the fake Founder's 100 count
+- Baseline main `b37950f`. No other AI was contacted. No spend.
+- `aura-hz.html` and `shop.html` showed 37/100 claimed from this browser, starting at 37. That number was not a sales count. Removed.
+- After a £99 PayPal capture those pages said a certificate would be emailed within 48 hours. They cannot do that. The message now says to keep the PayPal receipt.
+- `netlify/functions/verify-paypal.mts` only accepts a completed £50.00 order. The £99 buttons were calling it and ignoring the answer. Those calls are removed. The £50 solar check is unchanged.
+- The £99 button is still on the page. Pink, crisis lines, and the frequency player were not touched.

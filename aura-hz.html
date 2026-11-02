@@ -216,14 +216,9 @@
       <li>7-day refund, no questions asked</li>
       <li>Deposit deducted from final balance when your unit ships</li>
     </ul>
-    <div class="counter-row">
-      <div class="counter-bar" role="progressbar" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100" id="counterBar">
-        <div class="counter-fill" id="counterFill" style="width:37%"></div>
-      </div>
-      <div class="counter-text"><span id="counterNum">37</span>/100 claimed</div>
-    </div>
+    <p class="counter-text">First 100 places. This page does not count them.</p>
     <div id="paypal-button-container-aura"></div>
-    <p id="paypal-msg-aura">Deposit received — thank you. Welcome to the Founder's 100. Your digital certificate will be emailed within 48 hours. Refundable for 7 days.</p>
+    <p id="paypal-msg-aura">PayPal has the payment. This page cannot confirm a Founder's 100 place, and it does not email a certificate. Keep your PayPal receipt. For a refund, use that receipt or email pleadingsanity1@gmail.com.</p>
     <p class="founder-small">Pay with PayPal, debit or credit card. No account needed. Consumer Contracts Regulations — 14-day cancellation right applies; we offer 7 days no-questions refund on this deposit. Not a medical device. For relaxation only.</p>
   </section>
 
@@ -236,29 +231,7 @@
 (function(){
   "use strict";
 
-  /* ---------- Shared Founder's 100 counter (localStorage) ---------- */
-  var COUNTER_KEY = "auraHzFounder100Claimed";
-  var COUNTER_START = 37;
-  function getClaimed(){
-    try {
-      var v = parseInt(localStorage.getItem(COUNTER_KEY), 10);
-      if (isNaN(v) || v < COUNTER_START || v > 100) return COUNTER_START;
-      return v;
-    } catch(e){ return COUNTER_START; }
-  }
-  function setClaimed(n){
-    try { localStorage.setItem(COUNTER_KEY, String(n)); } catch(e){}
-  }
-  function renderCounter(){
-    var n = getClaimed();
-    var numEl = document.getElementById("counterNum");
-    var fillEl = document.getElementById("counterFill");
-    var barEl = document.getElementById("counterBar");
-    if (numEl) numEl.textContent = String(n);
-    if (fillEl) fillEl.style.width = Math.min(100, n) + "%";
-    if (barEl) barEl.setAttribute("aria-valuenow", String(n));
-  }
-  renderCounter();
+  /* The old counter lived in this browser and started at 37. That was not a real count. */
 
   /* ---------- PayPal — Founder's 100 £99 deposit ---------- */
   try {
@@ -269,16 +242,11 @@
           return actions.order.create({ purchase_units: [{ amount: { value: '99.00', currency_code: 'GBP' }, description: 'Aura Hz One — Founder\'s 100 refundable deposit' }] });
         },
         onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
+          return actions.order.capture().then(function() {
             var m = document.getElementById('paypal-msg-aura');
             if (m) m.style.display = 'block';
             var b = document.getElementById('paypal-button-container-aura');
             if (b) b.style.display = 'none';
-            var n = getClaimed();
-            if (n < 100) { setClaimed(n + 1); renderCounter(); }
-            try {
-              fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, product: 'Aura Hz One Founder 100 deposit' }) }).catch(function(){});
-            } catch(e){}
           });
         }
       }).render('#paypal-button-container-aura');
