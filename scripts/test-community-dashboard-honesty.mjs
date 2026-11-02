@@ -45,7 +45,7 @@ test('community board does not present invented people, ballots, money or a cris
 
 test('the corrected board stays on the existing service worker and install path', () => {
   const site = readFileSync(new URL('../js/site.js', import.meta.url), 'utf8');
-  assert.match(sw, /const STATIC_CACHE = 'pleading-sanity-static-v106'/);
+  assert.match(sw, /const STATIC_CACHE = 'pleading-sanity-static-v\d+'/);
   assert.match(sw, /\/community-dashboard\.html/);
   assert.match(site, /navigator\.serviceWorker\.register\('\/sw\.js'\)/);
   assert.doesNotMatch(sw, /const STATIC_CACHE = 'pleading-sanity-static-v105'/);

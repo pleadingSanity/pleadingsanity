@@ -244,7 +244,7 @@ test('arron.mts: Supabase append + clear wired in, best-effort (try/catch), cons
 });
 
 test('arron.mts: no duplicate path registration — arron-memory.mts owns /api/arron/memory/supabase', () => {
-  assert.match(arronSrc, /path: \["\/api\/arron\/chat", "\/api\/arron\/memory", "\/api\/arron\/health", "\/api\/arron\/grok-test"\]/);
+  assert.match(arronSrc, /path: \["\/api\/arron\/chat", "\/api\/arron\/memory", "\/api\/arron\/health", "\/api\/arron\/grok-test", "\/api\/arron\/owner-ai-status"\]/);
   const memFn = readFileSync(new URL('../netlify/functions/arron-memory.mts', import.meta.url), 'utf8');
   assert.match(memFn, /path: "\/api\/arron\/memory\/supabase"/);
   assert.doesNotMatch(arronSrc, /\/api\/arron\/memory\/supabase/);
