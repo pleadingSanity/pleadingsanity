@@ -48,5 +48,5 @@ test('the corrected board stays on the existing service worker and install path'
   assert.match(sw, /const STATIC_CACHE = 'pleading-sanity-static-v\d+'/);
   assert.match(sw, /\/community-dashboard\.html/);
   assert.match(site, /navigator\.serviceWorker\.register\('\/sw\.js'\)/);
-  assert.doesNotMatch(sw, /const STATIC_CACHE = 'pleading-sanity-static-v105'/);
+  assert.doesNotMatch(sw, /const STATIC_CACHE = 'pleading-sanity-static-v110'/);
 });

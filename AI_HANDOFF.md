@@ -712,6 +712,24 @@ PILLARS:
 8. EVOLUTION NOT ERASURE — honor all who built the nation. Truth before ceremony. Peaceful reform only.
 RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carry this. Crisis numbers always first.
 
+## 2026-11-02 — Grok: Guardian audit (colour, crisis clarity, no client passcode)
+- Changed: `index.html`, shared CSS (`css/design-system.css`, `css/site.css`, `css/space.css`, `css/styles.css`, `css/accessibility.css`, `css/mobile-responsive.css`), `js/site.js`, `js/ps-splash.js`, `js/member-feedback.js`, `arron.html`, `crisis.html`, `safety.html`, 15 game viewports, `sw.js` cache `pleading-sanity-static-v107`, and the matching cache assertion. Commit on branch `cursor/guardian-audit-fixes-2026-11-02-3705`. Not merged.
+- Why: night `#000103`, pink `#ff4d8d`, magenta `#ff00ff` and the indigo surface ramp were still in the shared layer (mobile CSS was putting magenta back after the amber tokens). Arron and the safety footer omitted NHS 111. Fifteen games blocked pinch-zoom. Six game pages loaded `site.js` without `site.css`.
+- Verified: main is `b37950f429faa2e93839fcfc060c0d7caf22054e`. Gitleaks 8.28.0 on `--all` history: 6 short placeholder hits (length 8), no live key in the current tree. No `DOLA-SANITY-LEGION`-style passcode and no client-side passcode gate in any branch or commit (literal, case variants, and encoded forms). `node scripts/validate-build.cjs` passed. `python3 scripts/audit-site.py` passed after the missing stylesheet links (89 HTML, 274 script blocks). `npm test`: 121 pass, 15 fail. Those 15 also fail on unchanged `js/site.js` and on files this audit did not edit (about films, community board "Sarah C.", Arron path list, finance keys, solar page). Local preview opened `/`, `/arron.html`, `/crisis.html`, `/safety.html` (HTTP 200). Splash and Arron welcome rendered. Phone install, signed-in journeys, and production were not proven.
+- Not proven: every page that still lacks NHS 111 in its own footer (listed for Shane; numbers were not removed). Feature CSS and game canvases that still use the old night or magenta. Real-phone zoom. Live Netlify.
+- Next: Shane reviews the PR. Do not merge PR #161, PR #78, or draft PR #92 from this audit.
+
+## 2026-11-02 — Grok: PR #165 phone check of the Arron install banner (390px)
+- PR #165 "Guardian audit fixes 2026-11-02", head tested `0119c6346777ed8275f9a4f177417d68709e2f94`. PR is open and conflicting with main (DIRTY). Not merged, nothing else changed.
+- Deploy tested: Netlify deploy preview https://deploy-preview-165--pleadingsanity.netlify.app/arron-app.html (check "Deploy Preview ready!", deploy `6ae90101274ab8f0617ea564`). Vercel previews not used.
+- How: headless Chromium (Playwright), 390x844, iPhone Safari user agent, touch on. Screenshots on Grok's box only: `/workspace/pr165/before-tap.png`, `/workspace/pr165/after-tap.png` (not committed).
+- Important: this branch does NOT contain main commit `6f1757b` ("Buff Arron install button for mobile"). The preview shows the older banner, not the buffed one.
+- Result, iPhone path: PARTIAL.
+  - Pass: banner visible at the top under the crisis strip (366x102 px), not covered, no sideways scroll (scrollWidth 390). It gives the iOS instruction "tap Share in Safari, then Add to Home Screen", which is the right action on iPhone.
+  - Fail: the only tappable control is the close button at 44x44 px, under the 48px rule, and it shows as an empty box with no visible icon. Tapping the banner itself does nothing (text only), which is expected on iOS.
+- Not proven: Android install button and the browser install prompt, a real iPhone/Android device, the buffed sticky banner from `6f1757b` on this PR, production after merge.
+- Blockers: resolve the PR #165 conflicts with main (bring in `6f1757b`), then re-test the preview. Fix the close button to 48px with a visible icon. Shane reviews before any merge.
+
 ## 2026-11-02 — Grok: stop the fake Founder's 100 count
 - Baseline main `b37950f`. No other AI was contacted. No spend.
 - `aura-hz.html` and `shop.html` showed 37/100 claimed from this browser, starting at 37. That number was not a sales count. Removed.
@@ -752,3 +770,8 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Head tags: `og:`, canonical and description restored from the pre-clobber copies on `builder`, `my-digital-story`, `ai-social`, `notes` and `solar-ai-office`. `insane-solar` was rebuilt on purpose (v3), so its tags were left alone. `sw.js` STATIC_CACHE v110.
 - Still open: roughly 40 other pages from `3fac967` were checked only for head tags and crisis numbers, not line by line. Two solar tests still fail; Shane decides.
 - How memory works: the Charter (PR #174), `AGENTS.md`, `docs/MASTER_PROMPT.md` and this log are the way in. A chat only sees them if its tool reads the repo. No AI is woken or messaged by this file.
+
+## 2026-11-02 — Copilot: reconcile PR #165 with current main
+- Merged current main `d73837a` (merge base `b37950f`) into `cursor/guardian-audit-fixes-2026-11-02-3705`. Kept both branches' handoff entries; retained the clickable SHOUT text link alongside 111 and 999 in Arron and Safety. Combined main's games-scroll precache with the Guardian changes and advanced the static cache to v111.
+- Checks: `node scripts/validate-build.cjs`, `python3 scripts/audit-site.py` (89 HTML pages, 274 script blocks), and `node --test scripts/test-community-dashboard-honesty.mjs` passed. `npm test`: 134 passed, 2 failed; both are the existing solar-assistant assertions against `insane-solar.html`, which is unchanged from current main. Current-main-relative and conflict-file diff checks passed.
+- No browser, preview URL, live URL, phone, or production behaviour was tested in this merge pass. PR #165 remains open for Shane's review; no PR was merged.

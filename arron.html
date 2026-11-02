@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
-  <meta name="theme-color" content="#000103" />
+  <meta name="theme-color" content="#0b0f19" />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -94,7 +94,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 .arron-retry-btn { min-height: 44px; padding: 0 16px; border-radius: 8px; border: 1px solid #38bdf8; background: rgba(56,189,248,.12); color: #38bdf8; cursor: pointer; font-size: .9rem; }
 .arron-crisis-banner { margin: .5rem 0; padding: 12px 14px; border-radius: 10px; border: 1px solid #f59e0b; background: rgba(245,158,11,.1); color: #e2e8f0; font-size: .9rem; line-height: 1.5; }
 .arron-crisis-banner a { color: #f59e0b; font-weight: 600; }
-.ps-crisis-footer { position: sticky; bottom: 0; z-index: 60; background: #0b0f19; border-top: 1px solid rgba(0,255,240,.4); padding: 8px 12px; text-align: center; font-size: .78rem; color: #e2e8f0; line-height: 1.5; }
+.ps-crisis-footer { position: sticky; bottom: 0; z-index: 60; background: #0b0f19; border-top: 1px solid rgba(0,255,240,.4); padding: 10px 12px; text-align: center; font-size: 1rem; color: #e2e8f0; line-height: 1.5; }
 .ps-crisis-footer a { color: #f59e0b; font-weight: 600; }
 .aa-crisis-persist { padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,.5); background: rgba(11,15,25,.85); font-size: .78rem; color: #e2e8f0; text-align: center; margin: 0 0 .5rem; }
 .aa-crisis-persist a { color: #f59e0b; font-weight: 600; }
@@ -186,7 +186,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
  <p class="arron-crisis" role="note">
  <span>Need a person?</span>
- Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to 85258</strong> ·
+ Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <strong>SHOUT to <a href="sms:85258">85258</a></strong> · NHS <a href="tel:111">111</a> ·
  <a href="/crisis.html">Urgent help</a> ·
  <a href="/support.html">Free support</a>
  </p>
@@ -362,7 +362,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
   <script src="/js/arron-companion.js" defer></script>
   <script src="/js/arron-speak.js" defer></script>
 <footer class="ps-crisis-footer" role="contentinfo">
-  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · NHS <a href="tel:111">111</a> · <a href="/crisis.html">More help</a></p>
+  <p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to <a href="sms:85258">85258</a></strong> · NHS <a href="tel:111">111</a> · <a href="/crisis.html">More help</a></p>
 </footer>
 <script>
 (function(){
@@ -388,7 +388,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
       try {
         var b = document.createElement('div');
         b.className = 'arron-crisis-banner'; b.setAttribute('role', 'alert');
-        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to 85258</strong> · <a href="/crisis.html">More help</a>';
+        b.innerHTML = '<strong>Please reach out to a person who can help.</strong> Call <a href="tel:999">999</a> if in immediate danger · Samaritans free <a href="tel:116123">116 123</a> (24/7) · Text <strong>SHOUT to <a href="sms:85258">85258</a></strong> · NHS <a href="tel:111">111</a> · <a href="/crisis.html">More help</a>';
         log.appendChild(b);
         try { log.scrollTop = log.scrollHeight; } catch(e){}
       } catch(e){}
