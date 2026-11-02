@@ -718,3 +718,14 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Verified: main is `b37950f429faa2e93839fcfc060c0d7caf22054e`. Gitleaks 8.28.0 on `--all` history: 6 short placeholder hits (length 8), no live key in the current tree. No `DOLA-SANITY-LEGION`-style passcode and no client-side passcode gate in any branch or commit (literal, case variants, and encoded forms). `node scripts/validate-build.cjs` passed. `python3 scripts/audit-site.py` passed after the missing stylesheet links (89 HTML, 274 script blocks). `npm test`: 121 pass, 15 fail. Those 15 also fail on unchanged `js/site.js` and on files this audit did not edit (about films, community board "Sarah C.", Arron path list, finance keys, solar page). Local preview opened `/`, `/arron.html`, `/crisis.html`, `/safety.html` (HTTP 200). Splash and Arron welcome rendered. Phone install, signed-in journeys, and production were not proven.
 - Not proven: every page that still lacks NHS 111 in its own footer (listed for Shane; numbers were not removed). Feature CSS and game canvases that still use the old night or magenta. Real-phone zoom. Live Netlify.
 - Next: Shane reviews the PR. Do not merge PR #161, PR #78, or draft PR #92 from this audit.
+
+## 2026-11-02 — Grok: PR #165 phone check of the Arron install banner (390px)
+- PR #165 "Guardian audit fixes 2026-11-02", head tested `0119c6346777ed8275f9a4f177417d68709e2f94`. PR is open and conflicting with main (DIRTY). Not merged, nothing else changed.
+- Deploy tested: Netlify deploy preview https://deploy-preview-165--pleadingsanity.netlify.app/arron-app.html (check "Deploy Preview ready!", deploy `6ae90101274ab8f0617ea564`). Vercel previews not used.
+- How: headless Chromium (Playwright), 390x844, iPhone Safari user agent, touch on. Screenshots on Grok's box only: `/workspace/pr165/before-tap.png`, `/workspace/pr165/after-tap.png` (not committed).
+- Important: this branch does NOT contain main commit `6f1757b` ("Buff Arron install button for mobile"). The preview shows the older banner, not the buffed one.
+- Result, iPhone path: PARTIAL.
+  - Pass: banner visible at the top under the crisis strip (366x102 px), not covered, no sideways scroll (scrollWidth 390). It gives the iOS instruction "tap Share in Safari, then Add to Home Screen", which is the right action on iPhone.
+  - Fail: the only tappable control is the close button at 44x44 px, under the 48px rule, and it shows as an empty box with no visible icon. Tapping the banner itself does nothing (text only), which is expected on iOS.
+- Not proven: Android install button and the browser install prompt, a real iPhone/Android device, the buffed sticky banner from `6f1757b` on this PR, production after merge.
+- Blockers: resolve the PR #165 conflicts with main (bring in `6f1757b`), then re-test the preview. Fix the close button to 48px with a visible icon. Shane reviews before any merge.
