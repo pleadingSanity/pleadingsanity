@@ -8,8 +8,8 @@
 :root {
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
-  --magenta: #ff00ff;
-  --magenta-deep: #c800c8;
+  --magenta: #f59e0b;
+  --magenta-deep: #d97706;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.6s ease;
@@ -259,7 +259,7 @@ nav a:focus-visible,
    ============================================== */
 @media (prefers-color-scheme: dark) and (max-width: 768px) {
   body {
-    background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, #050a18 60%, #000 100%);
+    background: radial-gradient(ellipse at 50% 120%, rgba(56,189,248,0.18) 0%, #0b0f19 60%, #0b0f19 100%);
   }
 }
 

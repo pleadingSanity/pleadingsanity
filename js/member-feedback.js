@@ -18,7 +18,7 @@
       <p style="margin:0 0 8px;font-weight:700;color:#00fff0">You're part of something we're building together.</p>
       <p style="margin:0 0 12px;font-size:.9rem;line-height:1.4">Pleading Sanity is still growing. What have you enjoyed? Anything confusing or that we could make better?</p>
       <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-        <button type="button" id="ps-feedback-share" style="min-height:48px;padding:0 16px;border-radius:999px;background:#00fff0;color:#000103;border:none;font-weight:700">Share an idea</button>
+        <button type="button" id="ps-feedback-share" style="min-height:48px;padding:0 16px;border-radius:999px;background:#00fff0;color:#0b0f19;border:none;font-weight:700">Share an idea</button>
         <button type="button" id="ps-feedback-later" style="min-height:48px;padding:0 16px;border-radius:999px;background:transparent;color:#eef6ff;border:1px solid #00fff0">Maybe later</button>
       </div>
     `;

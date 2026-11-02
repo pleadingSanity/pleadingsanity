@@ -16,9 +16,9 @@
     var style = document.createElement('style');
     style.textContent =
       '#ps-splash{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;' +
-      'background:#000103 url(/assets/theme/sky.jpg) center/cover no-repeat;transition:opacity .45s ease,visibility .45s ease;}' +
+      'background:#0b0f19 url(/assets/theme/sky.jpg) center/cover no-repeat;transition:opacity .45s ease,visibility .45s ease;}' +
       '#ps-splash.ps-out{opacity:0;visibility:hidden;}' +
-      '#ps-splash img{width:min(46vw,200px);height:auto;filter:drop-shadow(0 0 18px rgba(0,255,240,.5)) drop-shadow(0 0 36px rgba(255,0,255,.22));animation:psSplashIn .7s ease-out both;}' +
+      '#ps-splash img{width:min(46vw,200px);height:auto;filter:drop-shadow(0 0 18px rgba(0,255,240,.5)) drop-shadow(0 0 36px rgba(245,158,11,.22));animation:psSplashIn .7s ease-out both;}' +
       '#ps-splash span{font:800 clamp(1.1rem,5vw,1.5rem)/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.06em;color:#eef6ff;text-shadow:0 0 18px rgba(0,255,240,.45);}' +
       '@keyframes psSplashIn{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}' +
       '@media (prefers-reduced-motion: reduce){#ps-splash,#ps-splash img{transition:none;animation:none;}}';
