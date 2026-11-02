@@ -100,6 +100,16 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 .aa-crisis-persist { padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(245,158,11,.5); background: rgba(11,15,25,.85); font-size: .78rem; color: #e2e8f0; text-align: center; margin: 0 0 .5rem; }
 .aa-crisis-persist a { color: #f59e0b; font-weight: 600; }
 @media (prefers-reduced-motion: reduce) { .message, .aa-msg, .arron-typing > span, .aa-typing > span, .arron-spinner { animation: none !important; } }
+
+/* Install banner — always pop on mobile */
+#aa-install-banner { display: flex !important; flex-direction: column; gap: 10px; padding: 16px; margin: 12px 0; background: linear-gradient(135deg, #0b0f19, #0d1b2a); border: 2px solid #00fff0; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,255,240,.25); }
+#aa-install-banner[hidden] { display: none !important; }
+#aa-install-go { display: inline-flex !important; align-items: center; justify-content: center; min-height: 52px; padding: 12px 24px; background: linear-gradient(135deg, #00fff0, #38bdf8); color: #0b0f19; font-weight: 800; font-size: 1.05rem; border-radius: 12px; border: none; cursor: pointer; }
+#aa-install-go[hidden] { display: none !important; }
+@media (max-width: 640px) {
+  #aa-install-banner { position: sticky; top: 8px; z-index: 40; }
+}
+
 </style>
 <link rel="stylesheet" href="/css/ui-polish.css">
 </head>
