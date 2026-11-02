@@ -885,3 +885,9 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Founder supplied Reddit feedback about homepage clutter. Branch polish/homepage-breathing-room-20261106 reorganises existing homepage content: clear actions before artwork, calmer panels and typography, responsive starting choices, secondary app shelf in native details, one mobile navigation instead of two simultaneous rows. Original story, artwork and every link destination retained; no scripts or urgent-help wording changed.
 - Files: index.html, sw.js (static cache v113), this log. No auth, payment, provider, DNS or #92 changes.
 - Verified locally: original destination set retained; no duplicate IDs; all script blocks unchanged; urgent-help paragraph unchanged; primary actions precede hero artwork. Browser/mobile rendering, full suite, deploy preview and independent review not yet proven. Draft only, not a production release. Rollback: revert this scoped branch.
+
+## 2026-11-02 — Copilot — PayPal deposit binding (issue #158)
+- `netlify/lib/paypal-verify.ts` (new, mocked tests in `tests/paypal-verify.test.js`) now backs `verify-paypal.mts`: checks COMPLETED order, single £50.00 GBP unit, payee `PAYPAL_MERCHANT_ID`, completed capture(s) summing £50.00, and `custom_id` equal to the enquiry reference.
+- Each order is consumed once in Netlify Blobs store `paypal-orders` (same enquiry repeat = safe 200; other enquiry = 409).
+- `insane-solar.html` makes a per-visit random `enquiryRef` (sessionStorage), sends it as PayPal `custom_id` and to the function; customer email/name are no longer sent.
+- **New required env: `PAYPAL_MERCHANT_ID`** (Netlify). Without it the function returns 503 (fail closed). No live PayPal calls made; not deployed.
