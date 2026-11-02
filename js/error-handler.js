@@ -1,17 +1,3 @@
-class PleadingSanityErrorHandler{constructor(){this.announcer=document.getElementById('announcements');this.retryAttempts=new Map();this.maxRetries=3;this.baseRetryDelay=1000;}
-handleError(error,context={}){const errorInfo=this.parseError(error);const userMessage=this.getUserMessage(errorInfo,context);console.error(` PS Error [${context.component || 'Unknown'}]:`,error);this.announceError(userMessage.screenReader);return this.createErrorUI(userMessage,context,errorInfo);}
-parseError(error){if(error.name==='NetworkError'||error.code==='ENOTFOUND'||error.message?.includes('fetch')||error.message?.includes('network')){return{type:'network',message:'Connection could not be established',recoverable:true,retryable:true};}
-if(error.status===429||error?.response?.status===429){const retryAfter=parseInt(error.headers?.['retry-after']||error?.response?.headers?.['retry-after'])*1000||60000;return{type:'rateLimit',message:'API rate limit reached',recoverable:true,retryable:true,retryAfter};}
-const status=error.status||error?.response?.status||0;if(status>=500){return{type:'server',message:'Cosmic server disturbance',recoverable:true,retryable:true};}
-if(status===403||status===401){return{type:'authorization',message:'Access limit reached or key invalid',recoverable:false,retryable:false};}
-if(status===404){return{type:'notFound',message:'Content drifted away',recoverable:false,retryable:false};}
-return{type:'unknown',message:error.message||'Unexpected cosmic disturbance',recoverable:true,retryable:true};}
-getUserMessage(errorInfo,context){const messages={network:{title:' Connection Drifted',description:'Your connection to the stars got interrupted. Check your internet and try again.',screenReader:'Network connection lost. Please check your internet connection.',action:'Reconnect'},rateLimit:{title:'⏱ Cosmic Energy Peak',description:'We\'re getting so much love right now! Take a breath and try again in a moment.',screenReader:'Too many requests. Please wait before trying again.',action:'Wait & Retry'},server:{title:' Nebula Maintenance',description:'Our cosmic servers are having a moment. Everything will be back stronger soon.',screenReader:'Server error. Please try again in a few minutes.',action:'Try Again'},authorization:{title:' Daily Quota Reached',description:'We\'ve reached our view limit for today. Fresh content returns tomorrow — or browse our curated stories now.',screenReader:'API quota exceeded. Curated content available immediately.',action:'View Featured'},notFound:{title:'✦ Content Drifted Away',description:'This piece of the cosmos couldn\'t be found. It may have moved or been updated.',screenReader:'Content not found.',action:'Return Home'},unknown:{title:' Something Shifted',description:'An unexpected shift happened. Don\'t worry — we\'re watching the stars.',screenReader:'An error occurred. Please try again.',action:'Try Again'}};return messages[errorInfo.type]||messages.unknown;}
-createErrorUI(userMessage,context,errorInfo){const container=document.createElement('div');container.className='error-container animate-fade-in';container.setAttribute('role','alert');container.setAttribute('aria-live','polite');container.setAttribute('aria-labelledby','error-title');container.setAttribute('aria-describedby','error-desc');container.innerHTML=`
- <div class="error-card">
- <h3 id="error-title" class="error-title">${userMessage.title}</h3>
- <p id="error-desc" class="error-desc">${userMessage.description}</p>
-
 class PleadingSanityErrorHandler {
  constructor() {
  this.announcer = document.getElementById('announcements');
@@ -110,7 +96,7 @@ class PleadingSanityErrorHandler {
  }
 
  // ==============================================
- // USER-FRIENDLY MESSAGES — cosmic tone ✦
+ // USER-FRIENDLY MESSAGES — cosmic tone 
  // ==============================================
  getUserMessage(errorInfo, context) {
  const messages = {
@@ -121,7 +107,7 @@ class PleadingSanityErrorHandler {
  action: 'Reconnect'
  },
  rateLimit: {
- title: '⏱ Cosmic Energy Peak',
+ title: ' Cosmic Energy Peak',
  description: 'We\'re getting so much love right now! Take a breath and try again in a moment.',
  screenReader: 'Too many requests. Please wait before trying again.',
  action: 'Wait & Retry'
@@ -139,7 +125,7 @@ class PleadingSanityErrorHandler {
  action: 'View Featured'
  },
  notFound: {
- title: '✦ Content Drifted Away',
+ title: ' Content Drifted Away',
  description: 'This piece of the cosmos couldn\'t be found. It may have moved or been updated.',
  screenReader: 'Content not found.',
  action: 'Return Home'
@@ -191,11 +177,11 @@ class PleadingSanityErrorHandler {
  const attempts = this.retryAttempts.get(component) || 0;
 
  if (attempts >= this.maxRetries) {
- return `<button class="btn btn-secondary" disabled>⏱ Max attempts reached</button>`;
+ return `<button class="btn btn-secondary" disabled> Max attempts reached</button>`;
  }
 
  const delay = this.baseRetryDelay * (2 ** attempts);
- const label = attempts > 0 ? `Retry (${attempts + 1}/${this.maxRetries})` : userMessage?.action || 'Retry';
+ const label = attempts > 0 ? `Retry (${attempts + 1}/${this.maxRetries})` : 'Retry';
 
  return `
  <button class="btn btn-primary"

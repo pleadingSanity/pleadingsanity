@@ -29,19 +29,19 @@
  desc: 'Spot what comes next in the cosmic flow. Trains focus and intuition.' },
  { id: 'memory-ocean', title: 'Memory Ocean', icon: '', url: '/memory-ocean.html', skill: 'Calm',
  desc: 'Flip and match in a peaceful sea of cards. No timers, just flow.' },
- { id: 'rhythm-resonance', title: 'Rhythm Resonance', icon: '♪', url: '/rhythm-resonance.html', skill: 'Listening',
+ { id: 'rhythm-resonance', title: 'Rhythm Resonance', icon: '', url: '/rhythm-resonance.html', skill: 'Listening',
  desc: 'Listen, feel, repeat. Soothing tones that settle a busy mind.' },
  { id: 'stardust-dash', title: 'Stardust Dash', icon: '', url: '/stardust-dash.html', skill: 'Reflex',
  desc: 'Catch stars, dodge silly worries like "Did I leave the oven on?"' },
- { id: 'solitaire', title: 'Sanity Solitaire', icon: '🃏', url: '/sanity-solitaire.html', skill: 'Patience',
+ { id: 'solitaire', title: 'Sanity Solitaire', icon: '', url: '/sanity-solitaire.html', skill: 'Patience',
  desc: 'Four solitaire games. Night cards. Your own app.' },
  { id: 'night-table', title: 'Night Table', icon: '♠', url: '/poker.html', skill: 'Patience',
  desc: 'Hold\'em with play chips. One table. No cash.' },
- { id: 'cosmic-connect', title: 'Cosmic Connect', icon: '✦', url: '/cosmic-connect.html', skill: 'Memory',
+ { id: 'cosmic-connect', title: 'Cosmic Connect', icon: '', url: '/cosmic-connect.html', skill: 'Memory',
  desc: 'Turn two cards. No timer. Match the sky.' },
  { id: 'truth-tag', title: 'Truth Tag', icon: '', url: '/truth-tag.html', skill: 'Discernment',
  desc: 'Evidence, lived experience, or philosophy. Learn the difference.' }
- ,{ id: 'healing-hz', title: 'Healing Hz', icon: '♪', url: '/frequencies.html', skill: 'Regulation', desc: 'Choose a gentle frequency and settle into a calmer pace.' }
+ ,{ id: 'healing-hz', title: 'Healing Hz', icon: '', url: '/frequencies.html', skill: 'Regulation', desc: 'Choose a gentle frequency and settle into a calmer pace.' }
  ,{ id: 'mind-mode', title: 'Mind Mode', icon: '', url: '/mind-mode.html', skill: 'Calm', desc: 'A guided reset for breathing, focus and quiet.' }
  ,{ id: 'mood-journey', title: 'Mood Journey', icon: '', url: '/mood-journey.html', skill: 'Reflection', desc: 'Check in, notice patterns and build a kinder picture of your days.' }
  ];
@@ -52,8 +52,8 @@
 
  // ─── BADGES ───
  var BADGES = {
- 'first-light': { icon: '✦', name: 'First Light', desc: 'Played your very first game' },
- 'personal-best':{ icon: '★', name: 'Beat Yesterday', desc: 'Set a new personal best' },
+ 'first-light': { icon: '', name: 'First Light', desc: 'Played your very first game' },
+ 'personal-best':{ icon: '', name: 'Beat Yesterday', desc: 'Set a new personal best' },
  'combo-5': { icon: '', name: 'On a Roll', desc: 'Hit a 5× combo' },
  'combo-10': { icon: '', name: 'Flow State', desc: 'Hit a 10× combo' },
  'combo-20': { icon: '', name: 'Cosmic Flow', desc: 'Hit a 20× combo' },
@@ -62,8 +62,8 @@
  'streak-30': { icon: '', name: 'Orbit Complete', desc: 'Played 30 days in a row' },
  'explorer': { icon: '', name: 'Star Explorer', desc: 'Played every game at least once' },
  'daily': { icon: '', name: 'Daily Devotee', desc: 'Completed a Daily Challenge' },
- 'level-5': { icon: '✦', name: 'Rising Star', desc: 'Reached player level 5' },
- 'level-10': { icon: '★', name: 'Supernova', desc: 'Reached player level 10' },
+ 'level-5': { icon: '', name: 'Rising Star', desc: 'Reached player level 5' },
+ 'level-10': { icon: '', name: 'Supernova', desc: 'Reached player level 10' },
  'night-owl': { icon: '', name: 'Night Owl', desc: 'Played after 11pm (rest counts too ♥)' },
  'early-bird': { icon: '', name: 'Early Bird', desc: 'Played before 7am' },
  'steady-light': { icon: '', name: 'Steady Light', desc: 'Cleared the weekly challenge on this device' }
@@ -198,7 +198,7 @@
  save();
  if (after.level > before) {
  profile.starlight = (profile.starlight || 0) + ((after.level - before) * STARLIGHT_PER_LEVEL);
- toast('★ Player level ' + after.level + ' — ' + after.title + '! +' + ((after.level - before) * STARLIGHT_PER_LEVEL) + ' Starlight', { kind: 'level' });
+ toast(' Player level ' + after.level + ' — ' + after.title + '! +' + ((after.level - before) * STARLIGHT_PER_LEVEL) + ' Starlight', { kind: 'level' });
  confetti();
  sfx('level');
  }
@@ -224,7 +224,7 @@
  unlock('first-light');
  if (isBest && prevBest > 0) {
  unlock('personal-best');
- toast('★ New personal best: ' + score + '!', { kind: 'best', sub: 'Previous: ' + prevBest });
+ toast(' New personal best: ' + score + '!', { kind: 'best', sub: 'Previous: ' + prevBest });
  confetti();
  }
  var combo = stats.maxCombo || 0;
@@ -275,11 +275,11 @@
  'Phones down, stars up. You’ve got this.',
  'No pressure. The universe is 13.8 billion years old — it can wait.',
  'Warming up the neurons. They said “5 more minutes” but we insisted.',
- 'Let’s gently make your brain feel fancy. ✦',
+ 'Let’s gently make your brain feel fancy. ',
  'Reminder: you showed up. That’s already a win.'
  ],
  correct: [
- 'Nailed it! ★', 'Brain: 1, Chaos: 0.', 'Look at you go!', 'Stellar work.',
+ 'Nailed it! ', 'Brain: 1, Chaos: 0.', 'Look at you go!', 'Stellar work.',
  'Your neurons just high-fived.', 'Smooth as a comet.', 'Chef’s kiss. ',
  'That was so good a star blushed.', 'Galaxy brain activated.', 'Yes! Keep that flow.'
  ],
@@ -301,7 +301,7 @@
  'Gentle reminder: you’re doing better than you think.'
  ],
  levelup: [
- 'Level up! Your mind just got a new room. ✦',
+ 'Level up! Your mind just got a new room. ',
  'New level unlocked — the stars are taking notes.',
  'Levelling up like a houseplant finally getting sunlight. ',
  'Brain upgrade installed. No restart needed.',
@@ -315,7 +315,7 @@
  'Not a loss — a warm-up for your next personal best.'
  ],
  best: [
- 'NEW PERSONAL BEST! Past you would be amazed. ★',
+ 'NEW PERSONAL BEST! Past you would be amazed. ',
  'You just out-did yesterday’s you. Legend.',
  'Record smashed (gently, respectfully).'
  ]
@@ -579,14 +579,14 @@
  '<span class="psg-chip" data-psg="lvl"></span>' +
  '<span class="psg-xp" role="progressbar" aria-label="XP to next player level" aria-valuemin="0" aria-valuemax="100"><span></span></span>' +
  '<span class="psg-chip" data-psg="streak"></span>' +
- '<span class="psg-chip" data-psg="starlight">✦ <b>0</b></span>' +
+ '<span class="psg-chip" data-psg="starlight"> <b>0</b></span>' +
  (id ? '<span class="psg-chip" data-psg="best"></span>' : '') +
  '<button type="button" class="psg-sound" aria-pressed="false"></button>';
  var btn = el.querySelector('.psg-sound');
  btn.addEventListener('click', function () { setSound(!profile.sound); });
  function paint() {
  var li = levelInfo(profile.xp);
- el.querySelector('[data-psg="lvl"]').innerHTML = '★ Lv <b>' + li.level + '</b> <small>' + li.title + '</small>';
+ el.querySelector('[data-psg="lvl"]').innerHTML = ' Lv <b>' + li.level + '</b> <small>' + li.title + '</small>';
  var bar = el.querySelector('.psg-xp');
  bar.setAttribute('aria-valuenow', String(li.pct));
  bar.setAttribute('aria-valuetext', li.into + ' of ' + li.need + ' XP');
@@ -594,8 +594,8 @@
  var s = profile.streak;
  var live = s.last === dayKey() || s.last === yesterdayKey();
  el.querySelector('[data-psg="streak"]').innerHTML = ' <b>' + (live ? s.count : 0) + '</b> day streak';
- el.querySelector('[data-psg="starlight"]').innerHTML = '✦ <b>' + (profile.starlight || 0) + '</b> Starlight';
- if (id) el.querySelector('[data-psg="best"]').innerHTML = '★ Best <b>' + (gameStats(id).best || 0) + '</b>';
+ el.querySelector('[data-psg="starlight"]').innerHTML = ' <b>' + (profile.starlight || 0) + '</b> Starlight';
+ if (id) el.querySelector('[data-psg="best"]').innerHTML = ' Best <b>' + (gameStats(id).best || 0) + '</b>';
  btn.setAttribute('aria-pressed', profile.sound ? 'true' : 'false');
  btn.textContent = profile.sound ? ' Sound on' : ' Sound off';
  }
@@ -691,7 +691,7 @@
  var best = window.PSGames.best(g.id);
  if (best) {
  var pb = document.createElement('p');
- pb.textContent = '★ Your best: ' + best;
+ pb.textContent = ' Your best: ' + best;
  card.appendChild(pb);
  }
  var link = document.createElement('a');

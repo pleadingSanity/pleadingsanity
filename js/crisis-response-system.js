@@ -1,50 +1,3 @@
-class CrisisResponseSystem{constructor(){this.isActive=true;this.responseTeam=[];this.crisisDetectionPatterns=[];this.averageResponseTime=47;this.successRate=94.7;this.followUpPeriod=30;this.initialize();}
-initialize(){console.log(' Crisis Response System Initialized - 24/7 Support Active');this.setupCrisisDetection();this.loadResponseTeam();this.initializeEmergencyProtocols();this.startRealTimeMonitoring();}
-setupCrisisDetection(){this.crisisDetectionPatterns=[/\b(suicide|kill myself|end it all|can't go on|want to die)\b/i,/\b(overdose|pills|razor|bridge|rope)\b/i,/\b(completely hopeless|no way out|nobody cares|better off dead)\b/i,/\b(can't take it anymore|breaking point|too much pain)\b/i,/\b(need help now|crisis|emergency|desperate)\b/i,/\b(someone talk to me|please help|immediate support)\b/i,/\b(gave away belongings|said goodbye|final message)\b/i,/\b(making plans|writing letters|getting ready)\b/i];this.setupJournalMonitoring();this.setupCommunicationMonitoring();}
-setupJournalMonitoring(){const journalTextarea=document.querySelector('#journal-text');if(journalTextarea){let analysisTimeout;journalTextarea.addEventListener('input',(e)=>{clearTimeout(analysisTimeout);analysisTimeout=setTimeout(()=>{this.analyzeForCrisis(e.target.value,'journal');},2000);});}}
-setupCommunicationMonitoring(){const messageInputs=document.querySelectorAll('input[type="text"], textarea');messageInputs.forEach(input=>{if(input.id!=='journal-text'){input.addEventListener('blur',(e)=>{this.analyzeForCrisis(e.target.value,'communication');});}});}
-analyzeForCrisis(text,source){if(!text||text.length<10)return;const crisisScore=this.calculateCrisisScore(text);if(crisisScore>=0.8){this.triggerImmediateCrisisResponse(text,source,crisisScore);}else if(crisisScore>=0.5){this.triggerSupportiveCheck(text,source,crisisScore);}else if(crisisScore>=0.3){this.offerPreventiveSupport(text,source,crisisScore);}}
-calculateCrisisScore(text){let score=0;const words=text.toLowerCase().split(/\s+/);this.crisisDetectionPatterns.forEach(pattern=>{if(pattern.test(text)){score+=0.3;}});const negativeWords=['hopeless','worthless','useless','broken','alone','trapped'];const immediacyWords=['now','tonight','today','right now','immediately'];const planningWords=['plan','method','way','how to','going to'];negativeWords.forEach(word=>{if(words.includes(word))score+=0.1;});immediacyWords.forEach(word=>{if(text.toLowerCase().includes(word))score+=0.2;});planningWords.forEach(word=>{if(text.toLowerCase().includes(word))score+=0.15;});if(text.length>500)score+=0.1;if(/(.+?)\1{2,}/.test(text))score+=0.1;return Math.min(score,1.0);}
-async triggerImmediateCrisisResponse(text,source,score){console.log(' IMMEDIATE CRISIS DETECTED - Activating Emergency Response');this.recordCrisisEvent('immediate',source,score);this.showCrisisModal('immediate');if(await this.requestCrisisSupport()){this.alertCrisisTeam('immediate',score);}
-this.provideCrisisResources();this.initiateCrisisFollowUp();}
-async triggerSupportiveCheck(text,source,score){console.log(' Elevated distress detected - Offering supportive check-in');this.recordCrisisEvent('elevated',source,score);this.showCrisisModal('supportive');this.offerPeerSupport();}
-offerPreventiveSupport(text,source,score){console.log('♥ Potential distress detected - Offering preventive support');this.recordCrisisEvent('preventive',source,score);this.showWellnessResources();}
-showCrisisModal(level){const existingModal=document.querySelector('.crisis-modal');if(existingModal)existingModal.remove();const modal=document.createElement('div');modal.className='crisis-modal';modal.style.cssText=`
- position: fixed;
- top: 0;
- left: 0;
- right: 0;
- bottom: 0;
- background: rgba(0, 0, 0, 0.9);
- z-index: 10000;
- display: flex;
- align-items: center;
- justify-content: center;
- backdrop-filter: blur(10px);
- `;const modalContent=this.createModalContent(level);modal.appendChild(modalContent);document.body.appendChild(modal);const primaryButton=modal.querySelector('.primary-crisis-action');if(primaryButton)primaryButton.focus();}
-createModalContent(level){const content=document.createElement('div');content.className='crisis-modal-content';content.style.cssText=`
- background: var(--bg-dark, #0d1b2a);
- border-radius: 21px;
- padding: 40px;
- max-width: 600px;
- margin: 20px;
- border: 2px solid var(--primary-cyan, #00fff0);
- box-shadow: 0 0 50px rgba(0, 255, 240, 0.3);
- text-align: center;
- color: var(--text-light, #f0faff);
- `;if(level==='immediate'){content.innerHTML=`
- <h2 style="color: var(--primary-cyan, #00fff0); margin-bottom: 20px;">
- You are not a file
- </h2>
- <p style="font-size: 1.2rem; margin-bottom: 30px;">
- I am staying. You do not have to perform for a room. Tell the story, drink water if you can, and put your feet on the floor.
- </p>
- <div style="background: rgba(0,255,240,0.08); border-radius: 12px; padding: 20px; margin: 20px 0;">
- <h3>This house</h3>
- <p><a href="/crisis.html">Why people lose themselves</a></p>
- <p><a href="/tools.html">Life tools</a></p>
- </div>
-
 class CrisisResponseSystem {
  constructor() {
  this.isActive = true;
@@ -425,7 +378,7 @@ class CrisisResponseSystem {
  day1: ' Hi, it\'s been a day since we talked. Wanted to see how you\'re doing.',
  day3: ' Thinking of you after a few days. How has your recovery been going?',
  week1: ' It\'s been a week - you\'ve shown incredible strength. How are things?',
- week2: '★ Two weeks of courage and resilience. How are you feeling today?',
+ week2: ' Two weeks of courage and resilience. How are you feeling today?',
  month1: ' A month of healing and growth. Celebrating your journey with you.'
  };
 

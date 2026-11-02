@@ -11,7 +11,7 @@ const GAME = 'cosmic-connect';
 const DEFAULTS = { completed: { 6: 0, 8: 0, 12: 0 }, history: [], found: [], drawn: 0, size: 6 };
 
 const SYMBOLS = [
- ['', 'crescent moon'], ['★', 'star'], ['', 'ringed planet'], ['☄', 'comet'],
+ ['', 'crescent moon'], ['', 'star'], ['', 'ringed planet'], ['', 'comet'],
  ['', 'Milky Way'], ['', 'shooting star'], ['', 'Earth'], ['', 'blossom'],
  ['', 'butterfly'], ['', 'dove'], ['♥', 'blue heart'], ['', 'wave'],
  ['', 'sun'], ['', 'rainbow'], ['', 'sunflower'],
@@ -296,7 +296,7 @@ function tapStar(i) {
  if (next && document.activeElement?.closest?.('.cc-star')) next.focus();
  return;
  }
- reveal.textContent = `✦ ${c.name}: ${c.msg} Another round is waiting.`;
+ reveal.textContent = ` ${c.name}: ${c.msg} Another round is waiting.`;
  state.drawn = (state.drawn || 0) + 1;
  if (!state.found.includes(c.id)) state.found.push(c.id);
  save();

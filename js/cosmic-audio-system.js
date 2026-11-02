@@ -25,7 +25,7 @@ class CosmicAudio {
  this.volume = parseFloat(localStorage.getItem('cosmicAudioVolume')) || 0.08;
 
  // ========================================
- // ♪ HEALING FREQUENCY PRESETS — FULL LIBRARY
+ // HEALING FREQUENCY PRESETS — FULL LIBRARY
  // ========================================
  this.FREQ = {
  DEEP_BASE: 43.0, // Earth resonance foundation
@@ -78,7 +78,7 @@ class CosmicAudio {
  description: 'Open heart • release old patterns • connect'
  },
  awaken: {
- name: '✦ Awaken & Rise',
+ name: ' Awaken & Rise',
  layers: [
  { freq: 'SOLFEGGIO_852', type: 'sine', gain: 0.06, mod: 0.6 },
  { freq: 'SOLFEGGIO_963', type: 'sine', gain: 0.04, mod: 0.4 },
@@ -255,7 +255,7 @@ class CosmicAudio {
  }
 
  // ==============================================
- // ♪ AUDIO ENGINE — LAYERED + BINAURAL
+ // AUDIO ENGINE — LAYERED + BINAURAL
  // ==============================================
  async activateAudio() {
  try {
@@ -425,7 +425,7 @@ class CosmicAudio {
  }
 
  // ==============================================
- // ⏱ SESSION TIMER
+ // SESSION TIMER
  // ==============================================
  startTimer() {
  this.sessionSeconds = 0;
@@ -511,7 +511,7 @@ class CosmicAudio {
  }
 
  // ==============================================
- // ✦ VISUAL EFFECTS — AUDIO-RESPONSIVE
+ // VISUAL EFFECTS — AUDIO-RESPONSIVE
  // ==============================================
  attachVisualEffects() {
  if (this.visualStyle) return;

@@ -153,7 +153,7 @@ function renderPath() {
  else if (isCur) state_ = 'this week';
  else if (j && i < cur) state_ = 'no check-in, and that\'s okay';
  const cls = ['mj-stone', entry ? 'is-done' : '', isCur ? 'is-current' : ''].join(' ').trim();
- return `<li class="${cls}"${isCur ? ' aria-current="step"' : ''}><span class="mj-emoji" aria-hidden="true">${m ? m.e : isCur ? '✦' : '·'}</span><span>Week ${i + 1}</span><span class="sr-only">, ${state_}</span></li>`;
+ return `<li class="${cls}"${isCur ? ' aria-current="step"' : ''}><span class="mj-emoji" aria-hidden="true">${m ? m.e : isCur ? '' : '·'}</span><span>Week ${i + 1}</span><span class="sr-only">, ${state_}</span></li>`;
  }).join('');
 
  const status = $('mj-status');

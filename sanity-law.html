@@ -72,6 +72,35 @@
   .skip-link{position:absolute;left:-9999px;top:0;background:#00fff0;color:#000103;padding:.5rem 1rem;z-index:100;border-radius:6px;font-weight:700}
   .skip-link:focus{left:8px;top:8px}
   .eco-nav a.cur{color:#00fff0;font-weight:800}
+  /* Agree & Stand + How It Works + Power sections */
+  .agree-grid{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.agree-grid{grid-template-columns:1fr 1fr}}
+  .agree-card{background:rgba(15,22,35,.6);border:1px solid rgba(0,255,240,.18);border-radius:16px;padding:1.4rem 1.5rem;margin:1.2rem 0;backdrop-filter:blur(8px)}
+  .agree-card h3{color:#00fff0;font-size:1.2rem;margin-bottom:.6rem}
+  .agree-card p{color:#cbd5e1;line-height:1.6}
+  .agree-card.whatsapp{border-color:rgba(37,211,102,.45)}
+  .agree-card.whatsapp h3{color:#25D366}
+  .agree-form label{display:block;color:#e2e8f0;font-weight:700;margin:.7rem 0 .3rem;font-size:.92rem}
+  .agree-form input[type="text"],.agree-form input[type="email"]{width:100%;max-width:100%;box-sizing:border-box;background:rgba(0,0,0,.5);border:2px solid rgba(0,255,240,.3);border-radius:10px;color:#fff;padding:.7rem .8rem;font-family:inherit;font-size:1rem}
+  .agree-form input:focus{border-color:#00fff0;outline:none;box-shadow:0 0 0 3px rgba(0,255,240,.25)}
+  .agree-consent{font-size:.85rem;color:#94a3b8;margin:.8rem 0;line-height:1.5}
+  .agree-success{display:none;margin-top:1rem;padding:1rem 1.2rem;background:rgba(37,211,102,.1);border:1px solid rgba(37,211,102,.5);border-radius:12px;color:#bbf7d0;line-height:1.6}
+  .agree-success.show{display:block}
+  .btn-whatsapp{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.75rem 1.8rem;border-radius:50px;font-weight:800;font-size:1rem;border:none;cursor:pointer;min-height:44px;background:linear-gradient(90deg,#1ebe5b,#25D366);color:#041414;box-shadow:0 8px 24px rgba(37,211,102,.3);font-family:inherit;text-decoration:none;margin-top:.8rem}
+  .btn-whatsapp:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(37,211,102,.45)}
+  .whatsapp-note{font-size:.82rem;color:#94a3b8;margin-top:.8rem;line-height:1.5}
+  .how-grid{display:grid;gap:1rem;grid-template-columns:1fr}
+  @media(min-width:720px){.how-grid{grid-template-columns:1fr 1fr}}
+  .step-card{background:rgba(15,22,35,.6);border:1px solid rgba(0,255,240,.18);border-radius:16px;padding:1.3rem 1.4rem;backdrop-filter:blur(8px)}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(90deg,#00c8c0,#22d3ee);color:#041414;font-weight:900;font-size:1.1rem;margin-bottom:.6rem}
+  .step-card h3{color:#00fff0;font-size:1.1rem;margin-bottom:.4rem}
+  .step-card p{color:#cbd5e1;line-height:1.6;font-size:.95rem;margin:0}
+  .step-card strong{color:#fbbf24}
+  .power-box{background:rgba(15,22,35,.6);border:1px solid rgba(251,191,36,.4);border-radius:16px;padding:1.6rem 1.5rem;margin:1.2rem 0;text-align:center;backdrop-filter:blur(8px)}
+  .power-statement{color:#fde68a;font-size:1.15rem;line-height:1.7;font-weight:600;max-width:60ch;margin:0 auto 1rem}
+  .counter-num{font-size:clamp(2.5rem,8vw,4rem);font-weight:900;color:#00fff0;text-shadow:0 0 24px rgba(0,255,240,.4);line-height:1.1}
+  .counter-label{color:#cbd5e1;font-size:.95rem;margin-top:.4rem}
+  .counter-honest{font-size:.8rem;color:#64748b;margin:.8rem auto 0;line-height:1.6;text-align:left;max-width:60ch}
 </style>
 </head>
 <body class="ps-page">
@@ -105,7 +134,8 @@
   </header>
 
   <div class="disclaimer" role="note">
-    <strong>Not legal advice. Always consult a solicitor. We help you understand your rights.</strong> We explain the system in plain English so you can respond calmly and lawfully. For your specific situation, get advice from a solicitor, Citizens Advice or a LawWorks clinic.
+    <strong>This is information, not legal advice — BUT when we agree and stand together for the greater good, Shane will stand with you in court.</strong> Shane stands with you as a McKenzie friend and supporter, with the court's permission. He is <strong>not</strong> a solicitor — he cannot speak for you in court, question witnesses, or sign documents for you. For your specific situation, get advice from a solicitor, Citizens Advice (free helpline <a href="tel:08082231133" style="color:#fbbf24">0808 223 1133</a>) or a LawWorks free clinic.
+    <p class="cite" style="margin-top:.6rem;margin-bottom:0">McKenzie friends (lay supporters) are allowed in the civil and family courts: <a href="https://www.judiciary.uk/guidance-and-resources/practice-guidance-mckenzie-friends-civil-and-family-courts/" target="_blank" rel="noopener">Judiciary — Practice Guidance: McKenzie Friends (Civil and Family Courts)</a> · <a href="https://www.gov.uk/government/publications/family-court-applications-that-involve-children-cb1/making-an-application-children-and-the-family-courts" target="_blank" rel="noopener">GOV.UK — Help from a layperson (McKenzie friend)</a></p>
   </div>
 
   <!-- SECTION 2: KNOW YOUR RIGHTS -->
@@ -162,6 +192,71 @@
     </div>
     <p class="cite">What a McKenzie friend can and cannot do: <a href="https://www.judiciary.uk/guidance-and-resources/practice-guidance-mckenzie-friends-civil-and-family-courts/" target="_blank" rel="noopener">Judiciary — Practice Guidance: McKenzie Friends (Civil and Family Courts)</a> · <a href="https://www.gov.uk/government/publications/family-court-applications-that-involve-children-cb1/making-an-application-children-and-the-family-courts" target="_blank" rel="noopener">GOV.UK — Help from a layperson (McKenzie friend)</a></p>
   </div>
+
+  <!-- SECTION 3.5: AGREE & STAND -->
+  <h2 class="sec-title" id="agree">Agree &amp; Stand</h2>
+  <p style="color:#cbd5e1;max-width:70ch">Two ways to join. Shane keeps every agreement and stands with you peacefully and lawfully — as a McKenzie friend and supporter, with the court's permission. He is not a solicitor.</p>
+  <div class="agree-grid">
+    <div class="agree-card">
+      <h3>1. Sign by email</h3>
+      <form name="sanity-agree" method="POST" action="/sanity-law.html?agreed=1#agree" data-netlify="true" netlify-honeypot="bot-field" class="agree-form" id="sl-agree-form">
+        <input type="hidden" name="form-name" value="sanity-agree">
+        <p hidden><label>Don't fill: <input name="bot-field"></label></p>
+        <label for="sl-agree-name">Your name (optional)</label>
+        <input type="text" id="sl-agree-name" name="name" autocomplete="name" placeholder="Your name">
+        <label for="sl-agree-email">Your email (required)</label>
+        <input type="email" id="sl-agree-email" name="email" autocomplete="email" required aria-required="true" placeholder="you@example.com">
+        <p class="agree-consent">By submitting you agree to stand with the movement for the greater good.</p>
+        <button type="submit" class="btn-cyan">I AGREE &amp; STAND</button>
+      </form>
+      <div class="agree-success" id="sl-agree-success" role="status" aria-live="polite">Thank you — you're standing with us. Shane has your agreement.</div>
+      <p class="cite" style="margin-top:1rem">McKenzie friends are allowed in civil and family courts with the court's permission: <a href="https://www.judiciary.uk/guidance-and-resources/practice-guidance-mckenzie-friends-civil-and-family-courts/" target="_blank" rel="noopener">Judiciary — Practice Guidance: McKenzie Friends</a> · Free advice: Citizens Advice <a href="tel:08082231133" style="color:#22d3ee">0808 223 1133</a> · <a href="https://www.lawworks.org.uk/" target="_blank" rel="noopener">LawWorks free clinic</a></p>
+    </div>
+    <div class="agree-card whatsapp">
+      <h3>2. Message Shane on WhatsApp</h3>
+      <p>Prefer to talk directly? Send one word and Shane will know you stand with him.</p>
+      <a href="https://wa.me/447711147663?text=AGREE" target="_blank" rel="noopener" class="btn-whatsapp">Message Shane privately on WhatsApp — send AGREE</a>
+      <p class="whatsapp-note">Sending "AGREE" comes to Shane only — for people who want to help, could help, or want to ask him personally.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3.6: HOW THIS WORKS -->
+  <h2 class="sec-title" id="how">How This Works</h2>
+  <p style="color:#cbd5e1;max-width:70ch">Four simple steps. Peaceful, lawful, no violence — and never ignore a court letter.</p>
+  <div class="how-grid">
+    <div class="step-card">
+      <span class="step-num">1</span>
+      <h3>Agree</h3>
+      <p>Sign by email above, or send <strong>AGREE</strong> on WhatsApp to Shane. That is it — you are in.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">2</span>
+      <h3>Keep the letter</h3>
+      <p>If you get an energy or court letter, <strong>do not ignore it</strong>. Take a photo and keep the envelope and every page. Ignoring a county court claim leads to a default judgment (CCJ).</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">3</span>
+      <h3>Contact Shane</h3>
+      <p>Message Shane on WhatsApp (above). He will talk you through what the letter means and the lawful next steps.</p>
+    </div>
+    <div class="step-card">
+      <span class="step-num">4</span>
+      <h3>Shane stands WITH you</h3>
+      <p>Peacefully, legally, in court — as a <strong>McKenzie friend / supporter</strong> (not a solicitor). He sits beside you, helps with papers, and quietly advises. You speak for yourself.</p>
+    </div>
+  </div>
+  <p class="cite" style="margin-top:.6rem">Responding to a court claim: <a href="https://www.gov.uk/government/publications/form-n1-claim-form-cpr-part-7/guidance-for-defendants-replying-to-the-claim-form-n1c" target="_blank" rel="noopener">GOV.UK — Replying to the claim form (N1C)</a> · McKenzie friends: <a href="https://www.judiciary.uk/guidance-and-resources/practice-guidance-mckenzie-friends-civil-and-family-courts/" target="_blank" rel="noopener">Judiciary — Practice Guidance</a> · Free help: <a href="https://www.citizensadvice.org.uk/law-and-courts/" target="_blank" rel="noopener">Citizens Advice — Law and courts</a></p>
+
+  <!-- SECTION 3.7: POWER FOR OUR PEOPLE -->
+  <h2 class="sec-title" id="power">Power for Our People</h2>
+  <div class="power-box">
+    <p class="power-statement">"When enough of us agree, Shane will fully stand up to them all — on his own if that's what it takes."</p>
+    <div class="counter-num" id="sl-counter-num">0</div>
+    <p class="counter-label">people have stood up so far (counted on this device + Shane's verified tally)</p>
+    <button type="button" class="btn-cyan" id="sl-stand-btn" style="margin-top:1rem">I stand with them</button>
+    <p class="counter-honest">Honesty: this is not a fake live server count. The number above is recorded on this device, starting at 0. The full verified tally is kept and confirmed by Shane from Netlify form submissions and WhatsApp AGREE messages — and it includes your agreement. No invented numbers. And growing.</p>
+  </div>
+  <p class="cite">The rights we stand on: <a href="https://www.ofgem.gov.uk/information-consumers/energy-advice-households/complain-about-your-energy-supplier" target="_blank" rel="noopener">Ofgem</a> · <a href="https://www.citizensadvice.org.uk/consumer/energy/energy-supply/complain-about-an-energy-company/complain-to-the-energy-ombudsman/" target="_blank" rel="noopener">Citizens Advice</a> · <a href="https://www.energyombudsman.org/" target="_blank" rel="noopener">Energy Ombudsman</a></p>
 
   <!-- SECTION 4: AI SEARCH BOX -->
   <h2 class="sec-title" id="ask">Ask Sanity Law (AI)</h2>
@@ -319,6 +414,63 @@
     });
   });
   try { document.getElementById('yr').textContent = String(new Date().getFullYear()); } catch(e){}
+})();
+(function(){
+  'use strict';
+  // Agree & Stand: post-submit success state + honest local counter (no fake server tally).
+  try {
+    var COUNT_KEY = 'ps_sanity_agree_count';
+    var COUNTED_FLAG = 'ps_agree_counted';
+    var STAND_FLAG = 'ps_stand_clicked';
+    function readCount(){
+      var n = 0;
+      try { n = parseInt(localStorage.getItem(COUNT_KEY), 10) || 0; } catch(e){ n = 0; }
+      if (n < 0 || isNaN(n)) n = 0;
+      return n;
+    }
+    function writeCount(n){ try { localStorage.setItem(COUNT_KEY, String(n)); } catch(e){} }
+    function renderCount(){
+      var el = document.getElementById('sl-counter-num');
+      if (el) { el.textContent = String(readCount()); }
+    }
+    renderCount();
+
+    var justAgreed = (location.href && location.href.indexOf('agreed=1') !== -1);
+    var form = document.getElementById('sl-agree-form');
+    var success = document.getElementById('sl-agree-success');
+    if (justAgreed) {
+      if (form) { form.style.display = 'none'; }
+      if (success) { success.classList.add('show'); }
+      var alreadyCounted = false;
+      try { alreadyCounted = sessionStorage.getItem(COUNTED_FLAG) === '1'; } catch(e){}
+      if (!alreadyCounted) {
+        writeCount(readCount() + 1);
+        try { sessionStorage.setItem(COUNTED_FLAG, '1'); } catch(e){}
+        renderCount();
+      }
+    }
+
+    var standBtn = document.getElementById('sl-stand-btn');
+    if (standBtn) {
+      var stood = false;
+      try { stood = localStorage.getItem(STAND_FLAG) === '1'; } catch(e){}
+      if (stood) {
+        standBtn.textContent = 'You are standing with them';
+        standBtn.disabled = true;
+      }
+      standBtn.addEventListener('click', function(){
+        var already = false;
+        try { already = localStorage.getItem(STAND_FLAG) === '1'; } catch(e){}
+        if (!already) {
+          writeCount(readCount() + 1);
+          try { localStorage.setItem(STAND_FLAG, '1'); } catch(e){}
+          renderCount();
+          standBtn.textContent = 'You are standing with them';
+          standBtn.disabled = true;
+        }
+      });
+    }
+  } catch(e){}
 })();
 </script>
 </body>

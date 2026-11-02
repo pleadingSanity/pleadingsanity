@@ -29,7 +29,7 @@
  levelSelect.innerHTML = '';
  for (var n = 1; n <= TARGET_LEVELS; n++) {
  var option = document.createElement('option'); option.value = n;
- option.textContent = 'Level ' + n + ' · ' + (6 + n * 2) + ' stars' + (n <= campaign.completed ? ' ✓' : '');
+ option.textContent = 'Level ' + n + ' · ' + (6 + n * 2) + ' stars' + (n <= campaign.completed ? ' ' : '');
  option.disabled = n > campaign.completed + 1; levelSelect.appendChild(option);
  }
  levelSelect.value = Math.min(chosen, campaign.completed + 1, TARGET_LEVELS);
@@ -226,7 +226,7 @@
  PS.confetti();
  PS.sfx('good', st.max);
  if (window.PSVoice) PSVoice.speak('Round done. You stayed with it.');
- showOverlay(r.newBest ? '★ New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. Another round is waiting.', ' Dash again');
+ showOverlay(r.newBest ? ' New best!' : 'Round complete', 'Score ' + st.score + ' · Best combo ' + st.max + ' · +' + r.xp + ' XP. Another round is waiting.', ' Dash again');
  }
  function setPause(p) {
  if (!running || over) return;

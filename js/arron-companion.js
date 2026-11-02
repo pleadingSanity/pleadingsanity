@@ -78,7 +78,7 @@
  const MOODS = {
  calm: { emoji: '', label: 'calm',
  prompts: ['Help me keep this calm', 'Give me a journaling prompt', 'Tell me something about Pleading Sanity'] },
- hopeful: { emoji: '✦', label: 'hopeful',
+ hopeful: { emoji: '', label: 'hopeful',
  prompts: ['I want to build on this', 'Help me set one small goal', 'I want to hope'] },
  tired: { emoji: '', label: 'tired',
  prompts: ['I feel drained', 'Help me wind down for sleep', 'I need to breathe'] },
@@ -90,7 +90,7 @@
  prompts: ['I feel alone', 'Can you just talk with me?', 'How do I reach out to someone?'] },
  angry: { emoji: '', label: 'angry',
  prompts: ['I need to vent', 'Help me cool down', 'I feel overwhelmed'] },
- crisis: { emoji: '🆘', label: 'in need of support', prompts: [] }
+ crisis: { emoji: '', label: 'in need of support', prompts: [] }
  };
 
  // Gentle next steps from around the site, matched to mood
@@ -223,7 +223,7 @@
  share.type = 'button';
  share.className = 'arron-share';
  share.dataset.shareStory = '';
- share.textContent = '✦ Share to AI Stories';
+ share.textContent = ' Share to AI Stories';
  wrapper.appendChild(share);
  }
  return wrapper;
@@ -475,8 +475,8 @@
 
  function updatePresence() {
  presenceEl.textContent = {
- online: ownerMode ? 'Owner · Shane · full power ✦'
- : creatorMode ? 'Creator mode · full power ✦'
+ online: ownerMode ? 'Owner · Shane · full power '
+ : creatorMode ? 'Creator mode · full power '
  : member ? `With you, ${member.displayName} · remembers you everywhere ♥`
  : 'Your companion · here with you',
  reconnecting: 'Reconnecting…',
@@ -674,7 +674,7 @@
  memoryRequest('PUT', { story: storyField.value })
  .then(() => {
  store.remove('arron_story_unsynced');
- note.textContent = 'Saved ✓ Arron will remember this on every visit. ♥';
+ note.textContent = 'Saved Arron will remember this on every visit. ♥';
  })
  .catch(() => { note.textContent = "Saved on this device. It'll sync to Arron's memory when he reconnects."; });
  });
@@ -684,7 +684,7 @@
  copyCodeBtn.addEventListener('click', async () => {
  try {
  await navigator.clipboard.writeText(memoryId);
- copyCodeBtn.textContent = 'Copied ✓';
+ copyCodeBtn.textContent = 'Copied ';
  } catch (e) {
  copyCodeBtn.textContent = 'Select the code above';
  }
@@ -768,7 +768,7 @@
  render();
  memoryCodeEl.textContent = memoryId;
  setStatus(erased
- ? "Erased ✓ Arron's server memory is cleared. Fresh start, and he's still here. ♥"
+ ? "Erased Arron's server memory is cleared. Fresh start, and he's still here. ♥"
  : "Erased on this device. The server couldn't be reached, so it'll be wiped automatically next time you're online.");
  });
 
@@ -846,7 +846,7 @@
  member = data.member || null;
  if (member && !userName) userName = member.displayName;
  updatePresence();
- if (ownerMode) setStatus('Welcome home, Shane. ✦ Try "show me everything" or "review posts".');
+ if (ownerMode) setStatus('Welcome home, Shane. Try "show me everything" or "review posts".');
  else if (member) setStatus(`Signed in as ${member.displayName}. Your history follows you on every device. ♥`);
  })
  .catch(() => {});

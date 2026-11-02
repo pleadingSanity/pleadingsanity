@@ -14,7 +14,7 @@
  box.hidden = false;
  box.classList.add("ps-music");
  box.innerHTML =
- '<p class="ps-music-title">♪ Soft music <span>· free, optional, never plays by itself</span></p>' +
+ '<p class="ps-music-title"> Soft music <span>· free, optional, never plays by itself</span></p>' +
  '<div class="ps-music-row"></div><div class="ps-music-frame" hidden></div>';
  const row = box.querySelector(".ps-music-row");
  const frame = box.querySelector(".ps-music-frame");

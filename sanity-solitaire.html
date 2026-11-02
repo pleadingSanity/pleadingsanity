@@ -369,11 +369,11 @@ body[data-theme] button:focus-visible, body[data-theme] a:focus-visible, body[da
       <button class="btn" id="today" type="button">Today</button><button class="btn" id="new" type="button">New peaks</button>
       <button class="btn" id="newdeal" type="button">New deal</button><button class="btn" id="undo" type="button">Undo</button><button class="btn" id="hint" type="button">Hint</button><button class="btn" id="install" type="button">Install this app</button>
     </div>
-    <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game." />
+    <img class="ps-theme-pic ps-game-icon" src="/assets/theme/icons/sanity-solitaire.webp" alt="The starry brain for this game."  loading="lazy" />
     <h1 class="gradient-text">Sanity Solitaire</h1>
 <img class="ps-world-hero" src="/assets/games/worlds/aurora-lakes-v2.webp" width="1280" height="853" decoding="async" alt="Original moonlit mountain lake illustration for Sanity Solitaire" loading="lazy"><details class="ps-worlds"><summary>Explore game modes, future worlds and extras</summary><h2>Your Journey Through Calm</h2><p>These five worlds are an art and progression plan, not 70 working levels. Existing gameplay stays available without unlocking.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>Aurora Lakes</strong><p>Proposed levels 1–12 · Aurora skies, mountains and moonlit water</p><small>Current world artwork · no 12-level campaign engine</small></div><div class="ps-world-card"><strong>Whispering Woods</strong><p>Proposed levels 13–25 · Ancient trees and gentle mist</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Crystal Shores</strong><p>Proposed levels 26–40 · Gentle waves and glowing crystals</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Starlight Peaks</strong><p>Proposed levels 41–55 · Moonlight and quiet magic</p><small>Coming soon — progression not implemented</small></div><div class="ps-world-card"><strong>Eternal Sanctuary</strong><p>Proposed levels 56–70 · A peaceful celestial summit</p><small>Coming soon — progression not implemented</small></div></div><h2>Choose Your Space</h2><p>Use the existing Game selector to switch between the four working modes.</p><div class="ps-world-grid"><div class="ps-world-card"><strong>TriPeaks</strong><p>Three peaks</p></div><div class="ps-world-card"><strong>Klondike</strong><p>Classic solitaire</p></div><div class="ps-world-card"><strong>FreeCell</strong><p>Four free cells</p></div><div class="ps-world-card"><strong>Pyramid</strong><p>Pairs adding to thirteen</p></div><div class="ps-world-card"><strong>Spider</strong><p>Coming soon — no Spider engine</p></div></div><h2>More Ways to Grow</h2><div class="ps-world-grid"><div class="ps-world-card"><strong>Daily Challenge</strong><p>Existing Today button; verify its current behaviour in play.</p></div><div class="ps-world-card"><strong>Achievements</strong><p>Coming soon — no new achievement engine.</p></div><div class="ps-world-card"><strong>Skins</strong><p>Existing Table selector; no new unlockable skins.</p></div><div class="ps-world-card"><strong>Statistics</strong><p>Current level and calm score appear in the game HUD.</p></div><div class="ps-world-card"><strong>World Map</strong><p>Coming soon — concept worlds shown here.</p></div><div class="ps-world-card"><strong>How to Play</strong><p>Existing interactive How to Play guide.</p></div></div><p>No rush, no paid unlocks. Undo and hints follow the existing game rules.</p></details>
     <div class="ps-companions" aria-label="Your game companions"><div class="ps-companion"><img src="/assets/games/characters/ollie-v2.webp" alt="Ollie the Owl" width="72" height="80" loading="lazy"><span>Ollie says: one card at a time.</span></div><div class="ps-companion"><img src="/assets/games/characters/zara-v2.webp" alt="Zara the Squirrel" width="72" height="80" loading="lazy"><span>Zara says: keep your streak going!</span></div></div>
-    <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180" />
+    <img class="suit-band" src="/assets/images/brand/suits-neon.jpg" alt="Neon spade, heart, diamond and club" width="800" height="180"  loading="lazy" />
     <p class="note">Clear the three peaks. A card plays if it is one rank above or below the open card. A combo keeps the light moving.</p>
     
     <button type="button" id="seat">Friend seat off</button><button type="button" id="sound">Sound off</button><button type="button" id="music">Music off</button><p id="flash" class="flash" role="status"></p><div class="book" id="book" aria-label="Your solitaire book"></div>
@@ -530,7 +530,7 @@ window.PSTable = (function () {
     function canPlay(card){ if(!card.up||card.gone||covered(card.i)) return false; const a=val(card.r), b=val(waste.r); return Math.abs(a-b)===1||(a===0&&b===12)||(a===12&&b===0); }
     function faceHTML(card) {
       const art = suitArt[card.s];
-      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span><img class="suit" alt="" src="${art}"><span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
+      return `<span class="c tl"><b>${card.r}</b><i>${card.s}</i></span><img class="suit" alt="" src="${art}" loading="lazy"><span class="c br"><b>${card.r}</b><i>${card.s}</i></span>`;
     }
     function fit() {
       const stage = document.querySelector(".stage");
@@ -626,7 +626,7 @@ window.PSTable = (function () {
   function kindOf(s) { return s === "\u2665" ? "hearts" : s === "\u2660" ? "spades" : s === "\u2663" ? "clubs" : "diamonds"; }
   function dress(btn, rank, suit, up) {
     btn.className = "k-card " + (up ? kindOf(suit) : "back");
-    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b><i>${suit}</i></span><img class="suit" alt="" src="${art[suit]}"><span class="c br"><b>${rank}</b><i>${suit}</i></span>` : "";
+    btn.innerHTML = up ? `<span class="c tl"><b>${rank}</b><i>${suit}</i></span><img class="suit" alt="" src="${art[suit]}" loading="lazy"><span class="c br"><b>${rank}</b><i>${suit}</i></span>` : "";
     btn.setAttribute("aria-label", up ? rank + " " + suit : "Face down");
   }
   window.PSNight = dress;

@@ -67,7 +67,7 @@
  // ─── MOODS — colour and breath of the orb, weight on the timeline ───
  const MOODS = {
  calm: { emoji: '', label: 'Calm', lift: 4, a: '#00fff0', b: '#5b8cff', speed: 7 },
- hopeful: { emoji: '✦', label: 'Hopeful', lift: 5, a: '#00fff0', b: '#ffd36b', speed: 5.5 },
+ hopeful: { emoji: '', label: 'Hopeful', lift: 5, a: '#00fff0', b: '#ffd36b', speed: 5.5 },
  tired: { emoji: '', label: 'Tired', lift: 2.5, a: '#6fa8ff', b: '#9b6bff', speed: 9 },
  low: { emoji: '', label: 'Low', lift: 1, a: '#4f7bff', b: '#8a5cff', speed: 9 },
  anxious: { emoji: '‍', label: 'Anxious', lift: 2, a: '#00fff0', b: '#ff00ff', speed: 8 },
@@ -207,7 +207,7 @@
  function showCreator() {
  if (creatorMode) return;
  creatorMode = true;
- els.presence.textContent = 'Creator mode · full power ✦';
+ els.presence.textContent = 'Creator mode · full power ';
  $('aa-creator').hidden = false;
  $('aa-creator-badge').hidden = false;
  $('aa-tab-studio').hidden = false;
@@ -434,7 +434,7 @@
  o.classList.toggle('thinking', state === 'thinking');
  o.classList.toggle('speaking', state === 'speaking');
  });
- els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…', listening: 'Arron is listening…' }[state] || (creatorMode ? 'Creator mode · full power ✦' : presenceText());
+ els.presence.textContent = { thinking: 'Arron is thinking…', speaking: 'Arron is speaking…', listening: 'Arron is listening…' }[state] || (creatorMode ? 'Creator mode · full power ' : presenceText());
  }
  function applyPhase() {
  phase = phaseNow();
@@ -615,7 +615,7 @@
  if (m.role === 'assistant' && !m.local) {
  const share = document.createElement('button');
  share.type = 'button';
- share.textContent = '✦ Share to Stories';
+ share.textContent = ' Share to Stories';
  share.addEventListener('click', () => shareToStories(m));
  tools.appendChild(share);
  }
@@ -878,7 +878,7 @@
  }
 
  els.form.addEventListener('submit', (e) => { e.preventDefault(); handleInput(els.input.value); });
- // Tapping ➤ keeps focus in the box, so the keyboard stays up and nothing jumps
+ // Tapping keeps focus in the box, so the keyboard stays up and nothing jumps
  els.send.addEventListener('pointerdown', (e) => { if (document.activeElement === els.input) e.preventDefault(); });
  els.input.addEventListener('keydown', (e) => {
  if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); handleInput(els.input.value); }
@@ -931,7 +931,7 @@
  if (meta) { const s = document.createElement('small'); s.textContent = meta; span.appendChild(s); }
  const del = document.createElement('button');
  del.type = 'button';
- del.textContent = '✕';
+ del.textContent = '';
  del.setAttribute('aria-label', label);
  del.addEventListener('click', onRemove);
  li.append(span, del);
@@ -1419,7 +1419,7 @@
  store.set('ps-soul-version', key);
  if (seen && seen !== key) {
  const latest = Array.isArray(data.changelog) && data.changelog[0] && data.changelog[0].tag;
- setStatus('Arron grew wiser ✦' + (latest ? ' — ' + latest : '') + '. No reinstall needed, ever.');
+ setStatus('Arron grew wiser ' + (latest ? ' — ' + latest : '') + '. No reinstall needed, ever.');
  }
  }
  if (creatorMode) renderCreator();
@@ -1445,7 +1445,7 @@
  let used = false;
  if (VIEWS.includes(view)) { showView(view); used = true; }
  // Shared or linked words are only ever placed in the box, never sent for you
- if (say) { showView('talk'); els.input.value = say; autosize(); saveDraft(); setStatus('Ready when you are. Nothing is sent until you tap ➤.'); used = true; }
+ if (say) { showView('talk'); els.input.value = say; autosize(); saveDraft(); setStatus('Ready when you are. Nothing is sent until you tap .'); used = true; }
  if (remember) { showView('remember'); $('aa-truth-input').value = remember; used = true; }
  if (note) { showView('journal'); journalInput.value = note; used = true; }
  if (q.get('help') === '1') { openCrisis(); used = true; }

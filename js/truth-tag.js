@@ -14,7 +14,7 @@ const CATS = {
  experience: { icon: '♥', name: 'Experience' },
  thought: { icon: '', name: 'Thought' },
  belief: { icon: '', name: 'Belief' },
- unknown: { icon: '❔', name: 'Unknown' },
+ unknown: { icon: '', name: 'Unknown' },
 };
 const DEFAULTS = {
  practised: 0, rounds: 0,
