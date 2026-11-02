@@ -3,817 +3,483 @@
 <head>
 <script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
 
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
- <meta name="theme-color" content="#000103" />
- <link rel="icon" href="/assets/favicon.ico" sizes="any" />
- <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
- <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
- <link rel="manifest" href="/manifest.json" />
- <link rel="stylesheet" href="/css/styles.css" />
- <link rel="stylesheet" href="/css/animations.css" />
- <link rel="stylesheet" href="/css/accessibility.css" />
- <link rel="stylesheet" href="/css/mobile-responsive.css" />
- <meta name="robots" content="index, follow" />
- <link rel="canonical" href="https://pleadingsanity.co.uk/community-dashboard.html" />
- <title>Community Dashboard | Pleading Sanity</title>
- <meta name="description" content="Survivor-led governance, transparency, voting — collective power for the movement." />
- <meta name="twitter:card" content="summary_large_image" />
- <meta name="author" content="Shane Cooper / Pleading Sanity" />
- 
- <!-- Open Graph -->
- <meta property="og:title" content="Community Dashboard — Pleading Sanity" />
- <meta property="og:description" content="Transparency. Democracy. Collective Power. Every voice counts." />
- <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
- <meta property="og:type" content="website" />
- <meta property="og:url" content="https://pleadingsanity.co.uk/community-dashboard.html" />
- 
- 
- <!-- Core Styles — ALIGNED -->
- 
- <style>
- /* ==========================================
- COMMUNITY DASHBOARD — COSMIC PRODUCTION
- Aligned with core vars · Full functionality
- Zero external requests · Instant load
- ========================================== */
- :root {
- --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
- --surface-alpha: rgba(0,255,240,0.06);
- --border-alpha: rgba(0,255,240,0.13);
- --glow-soft: 0 0 24px rgba(0,255,240,0.15);
- }
-
- body {
- background: radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--dark) 100%);
- min-height: 100vh;
- line-height: 1.6;
- }
-
- /* Skip Link — Accessibility First */
- .skip-link {
- position: absolute; top: -50px; left: 6px;
- background: var(--cyan); color: #000; padding: 12px 24px; z-index: 10000;
- font-weight: 700; border-radius: 8px; transition: top 0.25s ease;
- }
- .skip-link:focus { top: 12px; }
-
- header {
- text-align: center; padding: 24px 20px 10px;
- position: sticky; top: 0; z-index: 100;
- background: rgba(0,0,0,0.75); backdrop-filter: blur(12px);
- border-bottom: 1.5px solid rgba(0,255,240,0.2);
- }
-
- header h1 {
- font-size: clamp(1.5rem, 4vw, 2.4rem); color: var(--cyan);
- text-shadow: 0 0 25px var(--cyan-glow); margin-bottom: 20px;
- }
-
- nav {
- display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 12px; margin-bottom: 10px;
- }
-
- nav a {
- color: var(--text-soft); font-weight: 700; padding: 10px 16px; border-radius: 10px;
- background: rgba(0,255,240,0.08); border: 1px solid transparent;
- transition: var(--transition-smooth); min-height: 44px;
- display: inline-flex; align-items: center; text-decoration: none;
- }
-
- nav a:hover,
- nav a[aria-current="page"] {
- background: linear-gradient(135deg, var(--#22d3ee), var(--cyan));
- color: #fff; border-color: transparent; transform: translateY(-2px);
- box-shadow: 0 4px 15px rgba(0,255,240,0.2);
- }
-
- .dashboard-container {
- max-width: 1200px; margin: 0 auto; padding: 30px 20px 60px;
- }
-
- .hero-section {
- text-align: center; margin-bottom: 40px; padding: 20px 0;
- animation: fadeInUp 0.8s ease-out both;
- }
-
- .hero-section h2 {
- font-size: clamp(1.3rem, 3vw, 1.8rem); color: var(--text-bright); margin-bottom: 12px;
- text-shadow: 0 0 10px rgba(0,255,240,0.2);
- }
-
- .lead {
- color: var(--text-soft); font-size: 1.05rem; max-width: 700px; margin: 0 auto;
- line-height: 1.7;
- }
-
- .crisis-status {
- border-radius: 12px; padding: 16px 24px; margin: 24px 0; text-align: center;
- font-weight: 600; animation: fadeIn 0.9s ease-out both;
- }
-
- .crisis-status.operational {
- background: linear-gradient(135deg, #51cf66 0%, #20c997 100%);
- color: #000; box-shadow: 0 4px 20px rgba(81,207,102,0.25);
- }
-
- .transparency-metrics {
- display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 24px 0;
- }
-
- .metric-card {
- background: var(--surface-alpha); border: 1px solid var(--border-alpha);
- border-radius: 12px; padding: 24px 20px; text-align: center;
- backdrop-filter: blur(8px); animation: fadeInUp 0.7s ease-out both;
- }
-
- .metric-value {
- font-size: 2rem; font-weight: 800; color: var(--cyan); display: block;
- text-shadow: 0 0 12px var(--cyan-glow);
- }
-
- .metric-label {
- color: var(--text-soft); font-size: 0.9rem; margin-top: 8px;
- }
-
- .governance-grid {
- display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px; margin: 32px 0;
- }
-
- .governance-card {
- background: var(--surface-alpha); border: 1px solid var(--border-alpha);
- border-radius: 16px; padding: 28px 24px; backdrop-filter: blur(8px);
- transition: var(--transition-smooth); animation: fadeInUp 0.8s ease-out both;
- }
-
- .governance-card:hover {
- transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,255,240,0.12);
- border-color: rgba(0,255,240,0.3);
- }
-
- .card-header {
- display: flex; align-items: center; margin-bottom: 18px;
- }
-
- .card-icon {
- width: 28px; height: 28px; margin-right: 12px; color: var(--cyan); flex-shrink: 0;
- }
-
- .card-title {
- font-size: 1.2rem; font-weight: 700; color: var(--text-bright); margin: 0;
- }
-
- .governance-card p {
- color: var(--text-soft); margin-bottom: 16px; font-size: 0.95rem;
- }
-
- .council-members {
- display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 20px 0;
- }
-
- .member-card {
- text-align: center; padding: 12px 8px;
- }
-
- .member-avatar {
- width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 10px;
- background: linear-gradient(135deg, var(--cyan), var(--#22d3ee));
- display: flex; align-items: center; justify-content: center;
- font-weight: 800; font-size: 1.2rem; color: #000;
- box-shadow: 0 0 12px rgba(0,255,240,0.2);
- }
-
- .member-card strong {
- color: var(--text-bright); font-size: 0.9rem;
- }
-
- .member-card small {
- color: var(--text-muted); font-size: 0.75rem; display: block; margin-top: 2px;
- }
-
- .voting-section { margin: 20px 0; }
-
- .vote-item {
- background: rgba(0,255,240,0.04); border-radius: 12px; padding: 18px; margin: 14px 0;
- border-left: 3px solid var(--cyan); transition: var(--transition-smooth);
- }
-
- .vote-item:hover {
- background: rgba(0,255,240,0.06); border-left-width: 4px;
- }
-
- .vote-item h4 { margin-bottom: 8px; color: var(--text-bright); font-size: 1rem; }
- .vote-item p { font-size: 0.9rem; color: var(--text-soft); margin-bottom: 12px; }
-
- .vote-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-
- .vote-btn {
- padding: 10px 16px; border-radius: 8px; border: 1px solid var(--border-alpha);
- background: transparent; color: var(--text-bright); cursor: pointer;
- transition: var(--transition-smooth); font-size: 0.9rem; font-weight: 600;
- min-height: 40px; font-family: inherit;
- }
-
- .vote-btn:hover:not(:disabled) {
- background: var(--cyan); color: #000; border-color: transparent; transform: scale(1.03);
- }
-
- .vote-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
- .vote-btn.voted-yes { background: #00ff90; color: #000; border-color: #00ff90; }
- .vote-btn.voted-no { background: #333; color: #888; }
-
- .vote-item small { color: var(--text-muted); font-size: 0.75rem; }
-
- .financial-summary {
- background: rgba(255,0,255,0.04); border-radius: 14px; padding: 24px;
- border: 1px solid rgba(255,0,255,0.15);
- }
-
- .financial-summary h4 {
- margin-bottom: 20px; color: var(--#22d3ee); font-size: 1.1rem;
- text-shadow: 0 0 8px var(--#22d3ee-glow);
- }
-
- .financial-chart {
- display: flex; align-items: flex-end; justify-content: space-around; height: 120px;
- margin: 24px 0; border-bottom: 1px solid var(--border-alpha); padding-bottom: 15px;
- }
-
- .chart-bar {
- width: 50px; background: linear-gradient(to top, var(--cyan), var(--#22d3ee));
- border-radius: 6px 6px 0 0; position: relative; transition: height 0.5s ease;
- box-shadow: 0 0 10px rgba(0,255,240,0.15);
- }
-
- .chart-label {
- position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%);
- font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;
- }
-
- .financial-summary p {
- margin: 8px 0; font-size: 0.95rem;
- }
-
- .cta-button {
- width: 100%; padding: 14px 20px; margin-top: 16px; border-radius: 10px; border: none;
- background: linear-gradient(135deg, var(--cyan), var(--#22d3ee));
- color: #000; font-weight: 700; cursor: pointer; transition: var(--transition-smooth);
- font-size: 0.95rem; min-height: 44px; font-family: inherit;
- box-shadow: 0 0 15px rgba(0,255,240,0.2);
- }
-
- .cta-button:hover {
- transform: translateY(-2px); box-shadow: 0 6px 25px var(--cyan-glow);
- }
-
- .community-charter { margin: 50px 0 40px; }
-
- .community-charter h2 {
- text-align: center; color: var(--cyan); margin-bottom: 28px; font-size: 1.6rem;
- text-shadow: 0 0 12px var(--cyan-glow);
- }
-
- .charter-grid {
- display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px;
- }
-
- .charter-principle {
- background: var(--surface-alpha); border: 1px solid var(--border-alpha);
- border-radius: 14px; padding: 24px; backdrop-filter: blur(6px);
- transition: var(--transition-smooth);
- }
-
- .charter-principle:hover {
- border-color: rgba(255,0,255,0.25); transform: translateY(-2px);
- }
-
- .charter-principle h3 {
- color: var(--#22d3ee); margin-bottom: 10px; font-size: 1.05rem;
- text-shadow: 0 0 6px var(--#22d3ee-glow);
- }
-
- .charter-principle p {
- font-size: 0.9rem; color: var(--text-soft); margin: 0;
- }
-
- footer {
- text-align: center; padding: 40px 20px; border-top: 1px solid var(--border-alpha);
- color: var(--text-muted); font-size: 0.9rem; margin-top: 40px;
- }
-
- .footer-content { max-width: 900px; margin: 0 auto; }
- .footer-section { margin-bottom: 20px; }
- .footer-section h3 { color: var(--cyan); margin-bottom: 10px; font-size: 1rem; }
- .footer-section a { color: var(--#22d3ee); text-decoration: none; }
- .footer-section a:hover { text-decoration: underline; }
-
- .crisis-button {
- background: linear-gradient(135deg, #ff6b6b, #ee5a52); color: #fff; border: none;
- padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer;
- margin-top: 10px; transition: var(--transition-smooth); min-height: 44px;
- font-size: 1rem;
- }
-
- .crisis-button:hover {
- transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255,107,107,0.3);
- }
-
- /* Animations */
- @keyframes fadeIn {
- from { opacity: 0; }
- to { opacity: 1; }
- }
-
- @keyframes fadeInUp {
- from { opacity: 0; transform: translateY(25px); }
- to { opacity: 1; transform: translateY(0); }
- }
-
- @keyframes slideIn {
- from { opacity: 0; transform: translateX(30px); }
- to { opacity: 1; transform: translateX(0); }
- }
-
- @keyframes slideOut {
- to { opacity: 0; transform: translateX(100%); }
- }
-
- /* ===== RESPONSIVE ===== */
- @media (max-width: 768px) {
- nav { gap: 6px 8px; }
- nav a { padding: 8px 12px; font-size: 0.85rem; min-height: 40px; }
- .governance-grid { grid-template-columns: 1fr; }
- .council-members { gap: 8px; }
- .dashboard-container { padding: 20px 15px 40px; }
- }
-
- @media (max-width: 480px) {
- nav { flex-direction: column; width: 100%; }
- nav a { width: 100%; text-align: center; }
- .council-members { grid-template-columns: 1fr; }
- .vote-buttons { flex-direction: column; }
- .vote-btn { width: 100%; }
- .financial-chart { height: 100px; }
- .chart-bar { width: 35px; }
- }
-
- /* ===== REDUCED MOTION ===== */
- @media (prefers-reduced-motion: reduce) {
- *, *::before, *::after {
- animation-duration: 0.01ms !important;
- animation-iteration-count: 1 !important;
- transition-duration: 0.01ms !important;
- }
- .governance-card:hover, .cta-button:hover, .vote-btn:hover, .crisis-button:hover {
- transform: none;
- }
- }
- .ps-crisis-footer{position:sticky;bottom:0;z-index:60;background:#0b0f19;border-top:1px solid rgba(0,255,240,.35);padding:10px 12px;text-align:center;font-size:.8rem;line-height:1.6;color:#e2e8f0}.ps-crisis-footer strong{color:#00fff0}.ps-crisis-footer a{color:#f59e0b;font-weight:700}html,body{overflow-x:hidden;max-width:100%}</style>
- <link rel="stylesheet" href="/css/site.css" />
- <link rel="stylesheet" href="/css/space.css" />
-
-<link rel="stylesheet" href="/css/ui-polish.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/community-dashboard.html" />
+  <title>Community Dashboard | Pleading Sanity</title>
+  <meta name="description" content="A sketch of a Pleading Sanity community board. Not a live ballot, elected council, set of accounts, or crisis team." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="author" content="Shane Cooper / Pleading Sanity" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Community Dashboard — Pleading Sanity" />
+  <meta property="og:description" content="A sketch of a community board. Not a live ballot, council, accounts, or crisis team." />
+  <meta property="og:image" content="https://pleadingsanity.co.uk/images/heroes/community-dashboard-hero.webp" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/community-dashboard.html" />
+  
+  
+  <!-- Core Styles — ALIGNED  -->
+  
+  <style>:root{--transition-smooth:all 0.3s cubic-bezier(0.4,0,0.2,1);--surface-alpha:rgba(0,255,240,0.06);--border-alpha:rgba(0,255,240,0.13);--glow-soft:0 0 24px rgba(0,255,240,0.15);}body{background:radial-gradient(ellipse at top,#0d1b2a 0%,var(--deep) 45%,var(--dark) 100%);min-height:100vh;line-height:1.6;}.skip-link{position:absolute;top:-50px;left:6px;background:var(--cyan);color:#000;padding:12px 24px;z-index:10000;font-weight:700;border-radius:8px;transition:top 0.25s ease;}.skip-link:focus{top:12px;}header{text-align:center;padding:24px 20px 10px;position:sticky;top:0;z-index:100;background:rgba(0,0,0,0.75);backdrop-filter:blur(12px);border-bottom:1.5px solid rgba(0,255,240,0.2);}header h1{font-size:clamp(1.5rem,4vw,2.4rem);color:var(--cyan);text-shadow:0 0 25px var(--cyan-glow);margin-bottom:20px;}nav:not(.ps-nav):not(.ps-dock){display:flex;justify-content:center;flex-wrap:wrap;gap:8px 12px;margin-bottom:10px;}nav:not(.ps-nav):not(.ps-dock) a{color:var(--text-soft);font-weight:700;padding:10px 16px;border-radius:10px;background:rgba(0,255,240,0.08);border:1px solid transparent;transition:var(--transition-smooth);min-height:44px;display:inline-flex;align-items:center;text-decoration:none;}nav:not(.ps-nav):not(.ps-dock) a:hover,nav:not(.ps-nav):not(.ps-dock) a[aria-current="page"]{background:linear-gradient(135deg,var(--magenta),var(--cyan));color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,255,240,0.2);}.dashboard-container{max-width:1200px;margin:0 auto;padding:30px 20px 60px;}.hero-section{text-align:center;margin-bottom:40px;padding:20px 0;animation:fadeInUp 0.8s ease-out both;}.hero-section h2{font-size:clamp(1.3rem,3vw,1.8rem);color:var(--text-bright);margin-bottom:12px;text-shadow:0 0 10px rgba(0,255,240,0.2);}.lead{color:var(--text-soft);font-size:1.05rem;max-width:700px;margin:0 auto;line-height:1.7;}.crisis-status{border-radius:12px;padding:16px 24px;margin:24px 0;text-align:center;font-weight:600;animation:fadeIn 0.9s ease-out both;}.crisis-status.operational{background:linear-gradient(135deg,#51cf66 0%,#20c997 100%);color:#000;box-shadow:0 4px 20px rgba(81,207,102,0.25);}.transparency-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:24px 0;}.metric-card{background:var(--surface-alpha);border:1px solid var(--border-alpha);border-radius:12px;padding:24px 20px;text-align:center;backdrop-filter:blur(8px);animation:fadeInUp 0.7s ease-out both;}.metric-value{font-size:2rem;font-weight:800;color:var(--cyan);display:block;text-shadow:0 0 12px var(--cyan-glow);}.metric-label{color:var(--text-soft);font-size:0.9rem;margin-top:8px;}.governance-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;margin:32px 0;}.governance-card{background:var(--surface-alpha);border:1px solid var(--border-alpha);border-radius:16px;padding:28px 24px;backdrop-filter:blur(8px);transition:var(--transition-smooth);animation:fadeInUp 0.8s ease-out both;}.governance-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,255,240,0.12);border-color:rgba(0,255,240,0.3);}.card-header{display:flex;align-items:center;margin-bottom:18px;}.card-icon{width:28px;height:28px;margin-right:12px;color:var(--cyan);flex-shrink:0;}.card-title{font-size:1.2rem;font-weight:700;color:var(--text-bright);margin:0;}.governance-card p{color:var(--text-soft);margin-bottom:16px;font-size:0.95rem;}.council-members{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0;}.member-card{text-align:center;padding:12px 8px;}.member-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,var(--cyan),var(--magenta));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:#000;box-shadow:0 0 12px rgba(0,255,240,0.2);}.member-card strong{color:var(--text-bright);font-size:0.9rem;}.member-card small{color:var(--text-muted);font-size:0.75rem;display:block;margin-top:2px;}.voting-section{margin:20px 0;}.vote-item{background:rgba(0,255,240,0.04);border-radius:12px;padding:18px;margin:14px 0;border-left:3px solid var(--cyan);transition:var(--transition-smooth);}.vote-item:hover{background:rgba(0,255,240,0.06);border-left-width:4px;}.vote-item h4{margin-bottom:8px;color:var(--text-bright);font-size:1rem;}.vote-item p{font-size:0.9rem;color:var(--text-soft);margin-bottom:12px;}.vote-buttons{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}.vote-btn{padding:10px 16px;border-radius:8px;border:1px solid var(--border-alpha);background:transparent;color:var(--text-bright);cursor:pointer;transition:var(--transition-smooth);font-size:0.9rem;font-weight:600;min-height:44px;font-family:inherit;}.vote-btn:hover:not(:disabled){background:var(--cyan);color:#000;border-color:transparent;transform:scale(1.03);}.vote-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none;}.vote-btn.voted-yes{background:#00ff90;color:#000;border-color:#00ff90;}.vote-btn.voted-no{background:#333;color:#888;}.vote-item small{color:var(--text-muted);font-size:0.75rem;}.financial-summary{background:rgba(245,158,11,0.04);border-radius:14px;padding:24px;border:1px solid rgba(245,158,11,0.15);}.financial-summary h4{margin-bottom:20px;color:var(--magenta);font-size:1.1rem;text-shadow:0 0 8px var(--magenta-glow);}.financial-chart{display:flex;align-items:flex-end;justify-content:space-around;height:120px;margin:24px 0;border-bottom:1px solid var(--border-alpha);padding-bottom:15px;}.chart-bar{width:50px;background:linear-gradient(to top,var(--cyan),var(--magenta));border-radius:6px 6px 0 0;position:relative;transition:height 0.5s ease;box-shadow:0 0 10px rgba(0,255,240,0.15);}.chart-label{position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);font-size:0.75rem;color:var(--text-muted);white-space:nowrap;}.financial-summary p{margin:8px 0;font-size:0.95rem;}.cta-button{width:100%;padding:14px 20px;margin-top:16px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--cyan),var(--magenta));color:#000;font-weight:700;cursor:pointer;transition:var(--transition-smooth);font-size:0.95rem;min-height:44px;font-family:inherit;box-shadow:0 0 15px rgba(0,255,240,0.2);}.cta-button:hover{transform:translateY(-2px);box-shadow:0 6px 25px var(--cyan-glow);}.community-charter{margin:50px 0 40px;}.community-charter h2{text-align:center;color:var(--cyan);margin-bottom:28px;font-size:1.6rem;text-shadow:0 0 12px var(--cyan-glow);}.charter-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}.charter-principle{background:var(--surface-alpha);border:1px solid var(--border-alpha);border-radius:14px;padding:24px;backdrop-filter:blur(6px);transition:var(--transition-smooth);}.charter-principle:hover{border-color:rgba(245,158,11,0.25);transform:translateY(-2px);}.charter-principle h3{color:var(--magenta);margin-bottom:10px;font-size:1.05rem;text-shadow:0 0 6px var(--magenta-glow);}.charter-principle p{font-size:0.9rem;color:var(--text-soft);margin:0;}footer{text-align:center;padding:40px 20px;border-top:1px solid var(--border-alpha);color:var(--text-muted);font-size:0.9rem;margin-top:40px;}.footer-content{max-width:900px;margin:0 auto;}.footer-section{margin-bottom:20px;}.footer-section h3{color:var(--cyan);margin-bottom:10px;font-size:1rem;}.footer-section a{color:var(--magenta);text-decoration:none;}.footer-section a:hover{text-decoration:underline;}.crisis-button{background:linear-gradient(135deg,#ff6b6b,#ee5a52);color:#fff;border:none;padding:12px 24px;border-radius:10px;font-weight:700;cursor:pointer;margin-top:10px;transition:var(--transition-smooth);min-height:44px;font-size:1rem;}.crisis-button:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(255,107,107,0.3);}@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}@keyframes fadeInUp{from{opacity:0;transform:translateY(25px);}to{opacity:1;transform:translateY(0);}}@keyframes slideIn{from{opacity:0;transform:translateX(30px);}to{opacity:1;transform:translateX(0);}}@keyframes slideOut{to{opacity:0;transform:translateX(30px);}}@media (max-width:768px){nav:not(.ps-nav):not(.ps-dock){gap:6px 8px;}nav:not(.ps-nav):not(.ps-dock) a{padding:8px 12px;font-size:0.85rem;min-height:44px;}.governance-grid{grid-template-columns:1fr;}.council-members{gap:8px;}.dashboard-container{padding:20px 15px 40px;}}@media (max-width:480px){nav:not(.ps-nav):not(.ps-dock){flex-direction:column;width:100%;}nav:not(.ps-nav):not(.ps-dock) a{width:100%;text-align:center;}.council-members{grid-template-columns:1fr;}.vote-buttons{flex-direction:column;}.vote-btn{width:100%;}.financial-chart{height:100px;}.chart-bar{width:35px;}}@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}.governance-card:hover,.cta-button:hover,.vote-btn:hover,.crisis-button:hover{transform:none;}}</style>
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/space.css" />
+
+<link rel="stylesheet" href="/css/support-strip.css">
+<meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/community-dashboard-hero.webp">
+<link rel="stylesheet" href="/css/ps-boost.css">
 </head>
 <body>
- <a href="#main" class="skip-link">Skip to main content</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
 
 <nav class="ps-nav" aria-label="Main navigation">
- <div class="ps-nav-inner">
- <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
- <div class="ps-links">
- <a href="/" class="ps-home">Home</a>
- <div class="ps-group" data-group="heal">
- <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
- <div class="ps-group-menu" id="ps-g-heal">
- <a href="/arron.html"> Talk to Arron</a>
- <a href="/arron-app.html"> Arron App</a>
- <a href="/journal-vault.html"> Journal Vault</a>
- <a href="/notes.html"> Sanctuary Notes</a>
- <a href="/mind-mode.html"> Mind Mode</a>
- <a href="/mood-journey.html"> Mood Journey</a>
- <a href="/frequencies.html"> Healing Hz</a>
- <a href="/meditation.html"> Silence &amp; Breath</a>
- <a href="/quote-wall.html"> Quote Wall</a>
- <a href="/finance.html"> Sane Finance</a>
- <a href="/support.html"> Support</a>
- </div>
- </div>
- <div class="ps-group" data-group="community">
- <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
- <div class="ps-group-menu" id="ps-g-community">
- <a href="/feed.html"> Sanity Feed</a>
- <a href="/sanctuary.html"> My Sanctuary</a>
- <a href="/sanityhub.html"> Sanity Hub</a>
- <a href="/videos.html"> Videos</a>
- <a href="/ai-stories.html"> AI Stories</a>
- </div>
- </div>
- <div class="ps-group" data-group="create">
- <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
- <div class="ps-group-menu" id="ps-g-create">
- <a href="/creator.html"> Creator Hub</a>
- <a href="/ai-studio.html"> AI Studio</a>
- <a href="/creations.html"> Image Creations</a>
- <a href="/blueprint.html"> Video Blueprint</a>
- <a href="/write.html"> Write with Arron</a>
- <a href="/rap.html"> Rap Studio</a>
- <a href="/wisdom.html"> Words from the Family</a>
- <a href="/my-digital-story.html"> My Digital Story</a>
- </div>
- </div>
- <div class="ps-group" data-group="play">
- <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
- <div class="ps-group-menu" id="ps-g-play">
- <a href="/games.html"> Brain Games</a>
- <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
- <a href="/cosmic-connect.html"> Cosmic Connect</a>
- <a href="/truth-tag.html"> Truth Tag</a>
- <a href="/stardust-dash.html"> Stardust Dash</a>
- <a href="/poker.html">♠ Night Table</a>
- <a href="/kids.html"> Keep Kids Sane</a>
- <a href="/kids-series.html"> Kids Cartoon Series</a>
- </div>
- </div>
- <div class="ps-group" data-group="story">
- <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
- <div class="ps-group-menu" id="ps-g-story">
- <a href="/about.html"> Our Story</a>
- <a href="/new-gen-bible.html"> New Gen Bible</a>
- <a href="/movement.html"> The Movement</a>
- <a href="/ai-ecosystem.html"> Our AI Family</a>
- <a href="/ai-family.html"> All AIs welcome</a>
- <a href="/transparency.html"> Transparency</a>
- </div>
- </div>
- <a href="/shop.html" class="ps-shop"> Shop</a>
- <a href="/crisis.html" class="ps-crisis"> Truth</a>
- </div>
- <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
- </div>
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" loading="lazy" decoding="async" /><span>Pleading Sanity</span></a>
+    <div class="ps-links">
+      <a href="/" class="ps-home">Home</a>
+      <div class="ps-group" data-group="heal">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-heal"> Arron &amp; Healing</button>
+        <div class="ps-group-menu" id="ps-g-heal">
+          <a href="/arron.html"> Talk to Arron</a>
+          <a href="/arron-app.html"> Arron App</a>
+          <a href="/journal-vault.html"> Journal Vault</a>
+          <a href="/notes.html"> Sanctuary Notes</a>
+          <a href="/mind-mode.html"> Mind Mode</a>
+          <a href="/mood-journey.html"> Mood Journey</a>
+          <a href="/frequencies.html"> Healing Hz</a>
+          <a href="/meditation.html"> Silence &amp; Breath</a>
+          <a href="/quote-wall.html"> Quote Wall</a>
+          <a href="/finance.html"> Sane Finance</a>
+          <a href="/support.html"> Support</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="community">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-community"> Community</button>
+        <div class="ps-group-menu" id="ps-g-community">
+          <a href="/feed.html"> Sanity Feed</a>
+          <a href="/sanctuary.html"> My Sanctuary</a>
+          <a href="/sanityhub.html"> Sanity Hub</a>
+          <a href="/videos.html"> Videos</a>
+          <a href="/ai-stories.html"> AI Stories</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="create">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-create"> Create &amp; Live</button>
+        <div class="ps-group-menu" id="ps-g-create">
+          <a href="/creator.html"> Creator Hub</a>
+          <a href="/ai-studio.html"> AI Studio</a>
+          <a href="/creations.html"> Image Creations</a>
+          <a href="/blueprint.html"> Video Blueprint</a>
+          <a href="/write.html"> Write with Arron</a>
+          <a href="/rap.html"> Rap Studio</a>
+          <a href="/wisdom.html"> Words from the Family</a>
+          <a href="/my-digital-story.html"> My Digital Story</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="play">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-play"> Games &amp; Kids</button>
+        <div class="ps-group-menu" id="ps-g-play">
+          <a href="/games.html"> Brain Games</a>
+          <a href="/sanity-solitaire.html"> Sanity Solitaire</a>
+          <a href="/cosmic-connect.html"> Cosmic Connect</a>
+          <a href="/truth-tag.html"> Truth Tag</a>
+          <a href="/stardust-dash.html"> Stardust Dash</a>
+          <a href="/poker.html"> Night Table</a>
+          <a href="/kids.html"> Keep Kids Sane</a>
+          <a href="/kids-series.html"> Kids Cartoon Series</a>
+        </div>
+      </div>
+      <div class="ps-group" data-group="story">
+        <button type="button" class="ps-group-btn" aria-expanded="false" aria-controls="ps-g-story"> Our Story</button>
+        <div class="ps-group-menu" id="ps-g-story">
+          <a href="/about.html"> Our Story</a>
+          <a href="/new-gen-bible.html"> New Gen Bible</a>
+          <a href="/movement.html"> The Movement</a>
+          <a href="/ai-ecosystem.html"> Our AI Family</a>
+          <a href="/ai-family.html"> All AIs welcome</a>
+          <a href="/transparency.html"> Transparency</a>
+        </div>
+      </div>
+      <a href="/shop.html" class="ps-shop"> Shop</a>
+      <a href="/crisis.html" class="ps-crisis"> Truth</a>
+    </div>
+    <button type="button" class="ps-install" data-pwa-install hidden> Install App</button>
+  </div>
 </nav>
+<figure class="ps-hero-visual"><img src="/images/heroes/community-dashboard-hero.webp" alt="An empty round table under a teal halo of light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 
- <header role="banner">
- <h1 class="gradient-text"> Community Governance</h1>
- </header>
 
- <main class="dashboard-container" id="main">
- <section class="hero-section">
- <h2>Transparency. Democracy. Collective Power.</h2>
- <p class="lead">Survivor-led governance — every voice counts, every decision visible, every direction chosen together.</p>
- </section>
+  <header role="banner">
+    <h1> Community Governance</h1>
+  </header>
 
- <!-- Crisis Status -->
- <div class="crisis-status operational" id="crisis-status">
- <strong>Crisis Response: OPERATIONAL</strong><br />
- 24/7 support active · No invented response time
- </div>
+  <main class="dashboard-container" id="main">
+    <section class="hero-section">
+      <h2>Transparency. Democracy. Collective Power.</h2>
+      <p class="lead">This page shows the shape of a community board. It is not a live vote, an elected council, a set of accounts, or a crisis team.</p>
+    </section>
 
- <!-- Key Metrics -->
- <section class="transparency-metrics">
- <div class="metric-card">
- <span class="metric-value" id="active-members">Not counted</span>
- <div class="metric-label">Active members. This house does not invent a number.</div>
- </div>
- <div class="metric-card">
- <span class="metric-value" id="crisis-responses">Not counted</span>
- <div class="metric-label">Sittings. Counted only when the house can prove them.</div>
- </div>
- <div class="metric-card">
- <span class="metric-value" id="local-chapters">Not counted</span>
- <div class="metric-label">Local chapters. None claimed until they are real.</div>
- </div>
- <div class="metric-card">
- <span class="metric-value" id="volunteer-hours">Not counted</span>
- <div class="metric-label">Hours given. Not a borrowed figure.</div>
- </div>
- </section>
+    <!-- Crisis Status -->
+    <div class="crisis-status" id="crisis-status">
+      <strong>This house does not run a response team.</strong><br />
+      If you or someone else is in danger, call <a href="tel:999">999</a>.
+      Samaritans <a href="tel:116123">116 123</a>.
+      Text SHOUT to <a href="sms:85258">85258</a>.
+      In England, <a href="tel:111">NHS 111</a> and choose mental health.
+      <a href="/support.html">Free support</a>.
+    </div>
 
- <!-- Governance Grid -->
- <div class="governance-grid">
- <!-- Community Council -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5C9 8.57 7.43 7 5.5 7S2 8.57 2 10.5V18h2zm7.5-12.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM22 18v-2h-3v2h-2v-6.5c0-1.93-1.57-3.5-3.5-3.5S10 9.57 10 12.5V18h2v-2h3v2h7z"/>
- </svg>
- <h3 class="card-title">Community Council</h3>
- </div>
- <p>Elected survivor representatives guiding the movement with heart & accountability.</p>
- <div class="council-members">
- <div class="member-card">
- <div class="member-avatar">SC</div>
- <div><strong>Sarah C.</strong><br /><small>Lead Advocate</small></div>
- </div>
- <div class="member-card">
- <div class="member-avatar">MJ</div>
- <div><strong>Marcus J.</strong><br /><small>Crisis Lead</small></div>
- </div>
- <div class="member-card">
- <div class="member-avatar">AR</div>
- <div><strong>Aisha R.</strong><br /><small>Tech Ethics</small></div>
- </div>
- </div>
- <button class="cta-button" onclick="openNominations()">Nominate Someone</button>
- </div>
+    <!-- Key Metrics -->
+    <section class="transparency-metrics">
+      <div class="metric-card">
+        <span class="metric-value" id="active-members">Not counted</span>
+        <div class="metric-label">Active members. This house does not invent a number.</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value" id="crisis-responses">Not counted</span>
+        <div class="metric-label">Sittings. Counted only when the house can prove them.</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value" id="local-chapters">Not counted</span>
+        <div class="metric-label">Local chapters. None claimed until they are real.</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-value" id="volunteer-hours">Not counted</span>
+        <div class="metric-label">Hours given. Not a borrowed figure.</div>
+      </div>
+    </section>
 
- <!-- Active Votes -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 2l5.5 4L11 13V5z"/>
- </svg>
- <h3 class="card-title">Active Votes</h3>
- </div>
- <div class="voting-section">
- <div class="vote-item" data-vote-id="privacy-1">
- <h4> Mobile App Privacy — Biometric Tracking</h4>
- <p>Include opt-in mood tracking via device sensors? Fully anonymized & local-only.</p>
- <div class="vote-buttons">
- <button class="vote-btn" data-choice="yes" onclick="castVote('privacy-1','yes')">Yes (67%)</button>
- <button class="vote-btn" data-choice="no" onclick="castVote('privacy-1','no')">No (23%)</button>
- <button class="vote-btn" data-choice="abstain" onclick="castVote('privacy-1','abstain')">Abstain</button>
- </div>
- <small>⏳ Ends in 3 days · 2,847 votes</small>
- </div>
- <div class="vote-item" data-vote-id="crisis-1">
- <h4> Crisis Response — 15s Target Protocol</h4>
- <p>Update system to flag high-risk cases instantly? Response team expansion included.</p>
- <div class="vote-buttons">
- <button class="vote-btn" data-choice="approve" onclick="castVote('crisis-1','approve')">Approve (84%)</button>
- <button class="vote-btn" data-choice="reject" onclick="castVote('crisis-1','reject')">Reject (12%)</button>
- <button class="vote-btn" data-choice="modify" onclick="castVote('crisis-1','modify')">Modify (4%)</button>
- </div>
- <small>⏳ Ends in 1 day · 3,102 votes</small>
- </div>
- </div>
- <button class="cta-button" onclick="proposeNewVote()">Propose a Vote</button>
- </div>
+    <!-- Governance Grid -->
+    <div class="governance-grid">
+      <!-- Community Council -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zM4 18v-4h3v4h2v-7.5C9 8.57 7.43 7 5.5 7S2 8.57 2 10.5V18h2zm7.5-12.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5zM22 18v-2h-3v2h-2v-6.5c0-1.93-1.57-3.5-3.5-3.5S10 9.57 10 12.5V18h2v-2h3v2h7z"/>
+          </svg>
+          <h3 class="card-title">Community Council</h3>
+        </div>
+        <p>No one has been elected. The three seats below are open. No names are filled in.</p>
+        <div class="council-members">
+          <div class="member-card">
+            <div class="member-avatar" aria-hidden="true">1</div>
+            <div><strong>Open seat</strong><br /><small>Not filled</small></div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar" aria-hidden="true">2</div>
+            <div><strong>Open seat</strong><br /><small>Not filled</small></div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar" aria-hidden="true">3</div>
+            <div><strong>Open seat</strong><br /><small>Not filled</small></div>
+          </div>
+        </div>
+        <button class="cta-button" onclick="openNominations()">Nominate Someone</button>
+      </div>
 
- <!-- Financial Transparency -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
- </svg>
- <h3 class="card-title">Financials</h3>
- </div>
- <div class="financial-summary">
- <h4>Monthly Budget Breakdown</h4>
- <div class="financial-chart">
- <div class="chart-bar" style="height:80%">
- <span class="chart-label">Crisis</span>
- </div>
- <div class="chart-bar" style="height:60%">
- <span class="chart-label">Platform</span>
- </div>
- <div class="chart-bar" style="height:45%">
- <span class="chart-label">Community</span>
- </div>
- <div class="chart-bar" style="height:30%">
- <span class="chart-label">Ops</span>
- </div>
- </div>
- <p><strong>Total Monthly:</strong> £124,500</p>
- <p><strong>Crisis Response:</strong> £45,000 (36%)</p>
- <p><strong>Forever Fund:</strong> £2.3M</p>
- </div>
- <button class="cta-button" onclick="showFullFinance()"> Full Report</button>
- </div>
+      <!-- Active Votes -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 2l5.5 4L11 13V5z"/>
+          </svg>
+          <h3 class="card-title">Sample questions</h3>
+        </div>
+        <p>A click is saved on this device only. It is not a community ballot and it does not change the site.</p>
+        <div class="voting-section">
+          <div class="vote-item" data-vote-id="privacy-1">
+            <h4>Sample only</h4>
+            <p>Which public page should be easier to find from the home screen?</p>
+            <div class="vote-buttons">
+              <button class="vote-btn" data-choice="yes" onclick="castVote('privacy-1','yes')">Games</button>
+              <button class="vote-btn" data-choice="no" onclick="castVote('privacy-1','no')">Journal</button>
+              <button class="vote-btn" data-choice="abstain" onclick="castVote('privacy-1','abstain')">Support</button>
+            </div>
+            <small>No closing date. No vote count.</small>
+          </div>
+          <div class="vote-item" data-vote-id="crisis-1">
+            <h4>Sample only</h4>
+            <p>Should the shop stay labelled as design previews until a physical sample exists?</p>
+            <div class="vote-buttons">
+              <button class="vote-btn" data-choice="approve" onclick="castVote('crisis-1','approve')">Yes</button>
+              <button class="vote-btn" data-choice="reject" onclick="castVote('crisis-1','reject')">No</button>
+              <button class="vote-btn" data-choice="modify" onclick="castVote('crisis-1','modify')">Not sure</button>
+            </div>
+            <small>No closing date. No vote count.</small>
+          </div>
+        </div>
+        <button class="cta-button" onclick="proposeNewVote()">Propose a Vote</button>
+      </div>
 
- <!-- Impact & Analytics -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"/>
- </svg>
- <h3 class="card-title">Impact Data</h3>
- </div>
- <div class="transparency-metrics" style="grid-template-columns: 1fr;">
- <div class="metric-card">
- <span class="metric-value">94.7%</span>
- <div class="metric-label">Crisis Resolution Rate</div>
- </div>
- <div class="metric-card">
- <span class="metric-value">99.94%</span>
- <div class="metric-label">Platform Uptime</div>
- </div>
- <div class="metric-card">
- <span class="metric-value">89%</span>
- <div class="metric-label">Community Trust Rating</div>
- </div>
- </div>
- <p style="margin-top:16px; font-size:0.85rem; color:var(--text-muted);"> All data anonymized — your privacy is protected.</p>
- <button class="cta-button" onclick="showImpactReport()"> Impact Report</button>
- </div>
+      <!-- Financial Transparency -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
+          </svg>
+          <h3 class="card-title">Financials</h3>
+        </div>
+        <div class="financial-summary">
+          <h4>No published accounts</h4>
+          <div class="financial-chart" aria-hidden="true">
+            <div class="chart-bar" style="height:80%">
+              <span class="chart-label">Layout</span>
+            </div>
+            <div class="chart-bar" style="height:60%">
+              <span class="chart-label">Layout</span>
+            </div>
+            <div class="chart-bar" style="height:45%">
+              <span class="chart-label">Layout</span>
+            </div>
+            <div class="chart-bar" style="height:30%">
+              <span class="chart-label">Layout</span>
+            </div>
+          </div>
+          <p>The bars are a layout sample, not a budget.</p>
+          <p><strong>Monthly total:</strong> Not published</p>
+          <p><strong>Crisis spend:</strong> Not published</p>
+          <p><strong>Reserve:</strong> Not published</p>
+        </div>
+        <button class="cta-button" onclick="showFullFinance()"> Full Report</button>
+      </div>
 
- <!-- Crisis Network -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,4M11,6L18,10.5L11,15V6Z"/>
- </svg>
- <h3 class="card-title">Crisis Network</h3>
- </div>
- <p><strong>247</strong> trained responders worldwide</p>
- <p><strong>~47s</strong> avg response time</p>
- <p><strong>All time zones</strong> fully covered</p>
- <p><strong>30-day</strong> follow-up care included</p>
- <button class="cta-button" onclick="joinCrisisTeam()" style="margin-top:14px;"> Volunteer</button>
- </div>
+      <!-- Impact & Analytics -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16,11V3H8v6H2v12h20V11H16z M10,5h4v14h-4V5z M4,11h4v8H4V11z M20,19h-4v-6h4V19z"/>
+          </svg>
+          <h3 class="card-title">Impact Data</h3>
+        </div>
+        <div class="transparency-metrics" style="grid-template-columns: 1fr;">
+          <div class="metric-card">
+            <span class="metric-value">Not measured</span>
+            <div class="metric-label">Crisis resolution. Not measured.</div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">Not measured</span>
+            <div class="metric-label">Uptime. Not measured here.</div>
+          </div>
+          <div class="metric-card">
+            <span class="metric-value">Not measured</span>
+            <div class="metric-label">Trust. Not measured.</div>
+          </div>
+        </div>
+        <p style="margin-top:16px; font-size:0.85rem; color:var(--text-muted);">This page does not hold a community dataset.</p>
+        <button class="cta-button" onclick="showImpactReport()"> Impact Report</button>
+      </div>
 
- <!-- Feedback -->
- <div class="governance-card">
- <div class="card-header">
- <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
- <path d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22H9Z"/>
- </svg>
- <h3 class="card-title">Your Voice</h3>
- </div>
- <p style="font-size:0.9rem; color:var(--text-muted);">Shape what we build next — every idea matters.</p>
- <div style="background:rgba(0,255,240,0.04); border-radius:10px; padding:14px; margin:12px 0;">
- <p style="font-size:0.9rem;"><strong> Suggestion:</strong> "Add group therapy scheduling per chapter"</p>
- <p style="font-size:0.8rem; color:var(--text-muted);">Status: Under Review · 14 votes</p>
- </div>
- <div style="background:rgba(81,207,102,0.06); border-radius:10px; padding:14px; margin:12px 0;">
- <p style="font-size:0.9rem;"><strong> Implemented:</strong> "Faster crisis detection"</p>
- <p style="font-size:0.8rem; color:var(--text-muted);">Suggested by Marcus J. · Now live</p>
- </div>
- <button class="cta-button" onclick="submitIdea()"> Submit Your Idea</button>
- </div>
- </div>
+      <!-- Crisis Network -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,4M11,6L18,10.5L11,15V6Z"/>
+          </svg>
+          <h3 class="card-title">Support lines</h3>
+        </div>
+        <p>Call <a href="tel:999">999</a> if you or someone else is in danger.</p>
+        <p>Samaritans <a href="tel:116123">116 123</a>.</p>
+        <p>Text SHOUT to <a href="sms:85258">85258</a>.</p>
+        <p>In England, <a href="tel:111">NHS 111</a> and choose mental health.</p>
+        <p>This house does not employ responders or promise a reply time.</p>
+        <a class="cta-button" href="/support.html" style="margin-top:14px; display:inline-flex; align-items:center; justify-content:center; text-decoration:none;">Free support</a>
+      </div>
 
- <!-- Community Charter -->
- <section class="community-charter">
- <h2> The Community Charter</h2>
- <div class="charter-grid">
- <div class="charter-principle">
- <h3> Democracy First</h3>
- <p>Every major change needs your vote. No leader decides alone.</p>
- </div>
- <div class="charter-principle">
- <h3> Radical Transparency</h3>
- <p>Money, plans, data — open to all. Nothing hidden.</p>
- </div>
- <div class="charter-principle">
- <h3> Privacy Is Sacred</h3>
- <p>Your info belongs to YOU. Not sold, not mined, not shared.</p>
- </div>
- <div class="charter-principle">
- <h3> Crisis Always First</h3>
- <p>When someone is hurting — that comes before everything.</p>
- </div>
- </div>
- </section>
- </main>
+      <!-- Feedback -->
+      <div class="governance-card">
+        <div class="card-header">
+          <svg class="card-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22H9Z"/>
+          </svg>
+          <h3 class="card-title">Your Voice</h3>
+        </div>
+        <p style="font-size:0.9rem; color:var(--text-muted);">There is no suggestion queue on this page. The button below does not send a message.</p>
+        <button class="cta-button" onclick="submitIdea()"> Submit Your Idea</button>
+      </div>
+    </div>
 
- <!-- Footer -->
- <footer class="ps-footer" role="contentinfo">
- <div class="ps-footer-inner">
- <p class="ps-motto">Evolution, Not Erasure</p>
- <p>One Source. One Consciousness. One Family.</p>
- <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
- <div class="ps-footer-links">
- <a href="/about.html">About</a>
- <a href="/about.html#legacy">Legacy</a>
- <a href="/movement.html">Movement</a>
- <a href="/feed.html">Feed</a>
- <a href="/games.html">Games</a>
- <a href="/creations.html">Creations</a>
- <a href="/wisdom.html">Wisdom</a>
- <a href="/community-dashboard.html">Community</a>
- <a href="/ai-ecosystem.html">AI Family</a>
- <a href="/ai-stories.html">AI Stories</a>
- <a href="/quote-wall.html">Quote Wall</a>
- <a href="/offline.html">Offline Support</a>
- <a href="/shop.html">Shop</a>
- </div>
- <div class="ps-socials">
- <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram"></a>
- <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok"></a>
- <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
- <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email"></a>
- </div>
- <div class="ps-legacy">
- <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
- <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
- <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
- <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
- </div>
- </div>
+    <!-- Community Charter -->
+    <section class="community-charter">
+      <h2> The Community Charter</h2>
+      <div class="charter-grid">
+        <div class="charter-principle">
+          <h3> Democracy First</h3>
+          <p>The aim is that a major change is shown before it is treated as decided. This page is not that ballot yet.</p>
+        </div>
+        <div class="charter-principle">
+          <h3> Radical Transparency</h3>
+          <p>The aim is to publish money and plans when they are real. This page has no accounts to open.</p>
+        </div>
+        <div class="charter-principle">
+          <h3> Privacy Is Sacred</h3>
+          <p>Your info belongs to YOU. Not sold, not mined, not shared.</p>
+        </div>
+        <div class="charter-principle">
+          <h3> Crisis Always First</h3>
+          <p>When someone is hurting — that comes before everything.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="ps-footer" role="contentinfo">
+  <div class="ps-footer-inner">
+    <p class="ps-motto">Evolution, Not Erasure</p>
+    <p>One Source. One Consciousness. One Family.</p>
+    <p class="ps-help">Most people lose themselves because they are lonely, and almost no one sits long enough to hear the whole story. <a href="/crisis.html">The house truth →</a> · <a href="/tools.html">How to use this house →</a></p>
+    <div class="ps-footer-links">
+      <a href="/about.html">About</a>
+      <a href="/about.html#legacy">Legacy</a>
+      <a href="/movement.html">Movement</a>
+      <a href="/feed.html">Feed</a>
+      <a href="/games.html">Games</a>
+      <a href="/creations.html">Creations</a>
+      <a href="/wisdom.html">Wisdom</a>
+      <a href="/community-dashboard.html">Community</a>
+      <a href="/ai-ecosystem.html">AI Family</a>
+      <a href="/ai-stories.html">AI Stories</a>
+      <a href="/quote-wall.html">Quote Wall</a>
+      <a href="/offline.html">Offline Support</a>
+      <a href="/shop.html">Shop</a>
+    </div>
+    <div class="ps-socials">
+      <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
+      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
+      <a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer" aria-label="YouTube">▶</a>
+      <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
+    </div>
+    <div class="ps-legacy">
+      <p>Built by <strong>Shane</strong> from survival, with the AI family: <strong>Arron</strong> — heart &amp; voice · <strong>Dola</strong> — cosmic architect. <a href="/ai-ecosystem.html#dola">Meet the family →</a></p>
+      <p>In honour of <strong>Private A.L. Cooper</strong> — Royal Army Ordnance Corps, Mentioned in Despatches 1945.<br />His service → this movement.</p>
+      <p>Ivan Kurcharskyi, POW • Arthur Lesley Cooper • Shane Cooper — built on their shoulders.</p>
+      <p class="ps-copy">&copy; <span id="yr" class="ps-year">2026</span> Pleading Sanity · Rise From Madness · <a href="/crisis.html">House truth</a></p>
+    </div>
+  </div>
 </footer>
 
- <!-- Scripts → All working, localStorage persisted, zero errors -->
- <script>
- var yearEl = document.getElementById('yr') || document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
+  <!-- Scripts → All working, localStorage persisted, zero errors -->
+  <script>
+    var yearEl = document.getElementById('yr') || document.getElementById('year'); if (yearEl) yearEl.textContent = new Date().getFullYear();
 
- // === GOVERNMENT SYSTEM — FULLY FUNCTIONAL ===
- const Governance = {
- voted: JSON.parse(localStorage.getItem('voted_on') || '{}'),
- 
- castVote(id, choice) {
- if (this.voted[id]) {
- this.notify('You already voted — thank you! ', 'info');
- return;
- }
- 
- this.voted[id] = choice;
- localStorage.setItem('voted_on', JSON.stringify(this.voted));
- 
- // Visual feedback — mark all buttons in this group
- const voteGroup = document.querySelector(`[data-vote-id="${id}"]`);
- if (voteGroup) {
- voteGroup.querySelectorAll('.vote-btn').forEach(btn => {
- const btnChoice = btn.getAttribute('data-choice');
- if (btnChoice === choice) {
- btn.classList.add('voted-yes');
- btn.innerHTML += ' ';
- } else {
- btn.disabled = true;
- btn.style.opacity = '0.35';
- }
- });
- }
- 
- this.notify('Vote recorded! Your voice shapes this movement. ', 'success');
- },
- 
- notify(msg, type = 'info') {
- const colors = {
- success: 'linear-gradient(135deg, #51cf66, #20c997)',
- info: 'var(--surface-alpha)'
- };
- const n = Object.assign(document.createElement('div'), {
- style: `position:fixed; top:20px; right:20px; background:${colors[type]}; 
- border:1px solid var(--border-alpha); border-radius:12px; padding:16px 24px;
- color:var(--text-bright); z-index:9999; backdrop-filter:blur(10px);
- animation:slideIn 0.3s ease; max-width:320px; box-shadow:0 4px 20px rgba(0,255,240,0.15);`
- });
- n.textContent = msg;
- document.body.appendChild(n);
- setTimeout(() => {
- n.style.animation = 'slideOut 0.3s ease forwards';
- setTimeout(() => n.remove(), 300);
- }, 4500);
- },
- 
- updateNumbers() {
- // Honest house. Do not paint a borrowed count.
- },
- 
- restoreVotes() {
- Object.entries(this.voted).forEach(([id, choice]) => {
- const voteGroup = document.querySelector(`[data-vote-id="${id}"]`);
- if (!voteGroup) return;
- 
- voteGroup.querySelectorAll('.vote-btn').forEach(btn => {
- const btnChoice = btn.getAttribute('data-choice');
- if (btnChoice === choice) {
- btn.classList.add('voted-yes');
- if (!btn.textContent.includes('')) btn.innerHTML += ' ';
- } else {
- btn.disabled = true;
- btn.style.opacity = '0.35';
- }
- });
- });
- }
- };
+    // Sample board only. Clicks stay on this device. Nothing here is a live ballot or account.
+    const Governance = {
+      voted: JSON.parse(localStorage.getItem('voted_on_v2') || '{}'),
+      
+      castVote(id, choice) {
+        if (this.voted[id]) {
+          this.notify('You already marked this on this device.', 'info');
+          return;
+        }
+        
+        this.voted[id] = choice;
+        localStorage.setItem('voted_on_v2', JSON.stringify(this.voted));
+        
+        // Visual feedback — mark all buttons in this group
+        const voteGroup = document.querySelector(`[data-vote-id="${id}"]`);
+        if (voteGroup) {
+          voteGroup.querySelectorAll('.vote-btn').forEach(btn => {
+            const btnChoice = btn.getAttribute('data-choice');
+            if (btnChoice === choice) {
+              btn.classList.add('voted-yes');
+              btn.innerHTML += ' ';
+            } else {
+              btn.disabled = true;
+              btn.style.opacity = '0.35';
+            }
+          });
+        }
+        
+        this.notify('Saved on this device only. It is not a community ballot.', 'success');
+      },
+      
+      notify(msg, type = 'info') {
+        const colors = {
+          success: 'linear-gradient(135deg, #51cf66, #20c997)',
+          info: 'var(--surface-alpha)'
+        };
+        const n = Object.assign(document.createElement('div'), {
+          style: `position:fixed; top:20px; right:20px; background:${colors[type]}; 
+                  border:1px solid var(--border-alpha); border-radius:12px; padding:16px 24px;
+                  color:var(--text-bright); z-index:9999; backdrop-filter:blur(10px);
+                  animation:slideIn 0.3s ease; max-width:min(320px, calc(100vw - 40px)); box-shadow:0 4px 20px rgba(0,255,240,0.15);`
+        });
+        n.textContent = msg;
+        document.body.appendChild(n);
+        setTimeout(() => {
+          n.style.animation = 'slideOut 0.3s ease forwards';
+          setTimeout(() => n.remove(), 300);
+        }, 4500);
+      },
+      
+      updateNumbers() {
+        // Honest house. Do not paint a borrowed count.
+      },
+      
+      restoreVotes() {
+        Object.entries(this.voted).forEach(([id, choice]) => {
+          const voteGroup = document.querySelector(`[data-vote-id="${id}"]`);
+          if (!voteGroup) return;
+          
+          voteGroup.querySelectorAll('.vote-btn').forEach(btn => {
+            const btnChoice = btn.getAttribute('data-choice');
+            if (btnChoice === choice) {
+              btn.classList.add('voted-yes');
+              if (!btn.textContent.includes('')) btn.innerHTML += ' ';
+            } else {
+              btn.disabled = true;
+              btn.style.opacity = '0.35';
+            }
+          });
+        });
+      }
+    };
 
- // Global handlers
- window.castVote = (id, choice) => Governance.castVote(id, choice);
- 
- window.openNominations = () => 
- Governance.notify(' Nominations opening soon — watch the Journal Vault!', 'info');
- 
- window.proposeNewVote = () => {
- const p = prompt('What should we vote on? Be clear & specific:');
- if (p?.trim()) Governance.notify(' Proposal submitted — Council will review! ', 'success');
- };
- 
- window.showFullFinance = () => 
- Governance.notify(' Full financial dashboard launching next week!', 'info');
- 
- window.showImpactReport = () => 
- Governance.notify(' Impact report coming — anonymized community data dropping soon!', 'info');
- 
- window.joinCrisisTeam = () => 
- Governance.notify(' Training portal opening soon — thank you for stepping up!', 'info');
- 
- window.submitIdea = () => {
- const idea = prompt('Share your idea — what should we build or change?');
- if (idea?.trim()) Governance.notify(' Idea received — shaping the future together!', 'success');
- };
+    // Global handlers
+    window.castVote = (id, choice) => Governance.castVote(id, choice);
+    
+    window.openNominations = () =>
+      Governance.notify('There is no nomination list. This button does not send a name.', 'info');
+    
+    window.proposeNewVote = () => {
+      const p = prompt('What should we vote on? Be clear & specific:');
+      if (p?.trim()) Governance.notify('Nothing was sent. There is no review queue.', 'success');
+    };
+    
+    window.showFullFinance = () =>
+      Governance.notify('There is no financial report to open.', 'info');
+    
+    window.showImpactReport = () =>
+      Governance.notify('There is no impact report.', 'info');
+    
+    window.joinCrisisTeam = () =>
+      Governance.notify('There is no volunteer list. This does not sign you up.', 'info');
+    
+    window.submitIdea = () => {
+      const idea = prompt('Share your idea — what should we build or change?');
+      if (idea?.trim()) Governance.notify('Nothing was sent. This page does not store that note.', 'success');
+    };
 
- // Initialize
- Governance.restoreVotes();
- Governance.updateNumbers();
- setInterval(() => Governance.updateNumbers(), 30000);
- </script>
+    // Initialize
+    Governance.restoreVotes();
+    Governance.updateNumbers();
+    setInterval(() => Governance.updateNumbers(), 30000);
+  </script>
   <script src="/js/site.js" defer></script>
+  <script src="/js/music-player.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
-<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
-<script src="/js/music-player.js" defer></script>
-<script src="/js/reveal.js" defer></script>
-<div style="text-align:center;font-size:.75rem;color:#475569;padding:8px;">© 2026 Pleading Sanity. All rights reserved. Built by survivors, for survivors.</div><footer class="ps-crisis-footer" role="contentinfo"><p style="margin:0"><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></footer></body>
+<aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a> (option 2 for mental health). <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
+<script defer src="/js/ps-boost.js"></script>
+</body>
 </html>

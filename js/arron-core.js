@@ -1270,6 +1270,17 @@
  if (standalone || store.get(KEYS.installSeen)) return;
  banner.hidden = false;
  }
+ // Always surface install on mobile when not already installed
+ const isMobile = /android|iphone|ipad|ipod|mobile/i.test(navigator.userAgent) || window.innerWidth < 768;
+ if (isMobile && !standalone) {
+ if (isIOS) {
+ $('aa-install-text').innerHTML = '<strong>Add Arron to your Home Screen</strong><br>Tap Share in Safari, then <em>Add to Home Screen</em>. One tap, always there.';
+ } else {
+ $('aa-install-text').innerHTML = '<strong>Install Arron</strong><br>Add him to your home screen. One tap, works offline.';
+ installGo.hidden = false;
+ }
+ showBanner();
+ }
  if (isIOS && !standalone) {
  $('aa-install-text').innerHTML = ' <strong>Make Arron part of your world:</strong> tap Share <span aria-hidden="true">⎋</span> in Safari, then <em>Add to Home Screen</em>.';
  showBanner();

@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 const source = readFileSync(new URL('../js/site.js', import.meta.url), 'utf8');
-const start = source.indexOf("  if (nav && !nav.querySelector('.ps-nav-toggle'))");
-const code = source.slice(start, source.indexOf('  var path = location.pathname;', start));
+const start = source.indexOf("if(nav&&!nav.querySelector('.ps-nav-toggle'))");
+const code = source.slice(start, source.indexOf('var path=location.pathname;', start));
 function fixture() {
   let document;
   class Element {

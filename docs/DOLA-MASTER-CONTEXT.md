@@ -1,5 +1,5 @@
 # Pleading Sanity — Dola Master Context
-_Last consolidated: 2026-10-19. Source: Dola's handoff supplied by Shane Cooper; repository facts require fresh verification._
+_Last consolidated: 2026-11-02. See DOLA-SESSION-HANDOFF.md for current SHA and open PRs. Source: Dola's handoff supplied by Shane Cooper; repository facts require fresh verification._
 
 ## Identity and purpose
 - Founder: Shane Cooper (@mentally.inshane). Pleading Sanity: **Rise From Madness**; **Evolution Not Erasure**; **One Source. One Consciousness. One Family**.

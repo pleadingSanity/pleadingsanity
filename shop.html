@@ -308,35 +308,23 @@
       <h2 id="founder100-shop-title" style="color:#f59e0b;margin:4px 0 8px;font-size:1.5rem;">Founder's 100 — Aura Hz One</h2>
       <div style="font-size:2.4rem;font-weight:900;color:#eafffd;margin:6px 0 2px;">£99 <small style="font-size:.9rem;color:#9fb8c4;font-weight:600;">fully refundable deposit</small></div>
       <p style="color:#b8c9d2;line-height:1.6;font-size:.92rem;max-width:520px;margin:8px auto;">Reserve one of the first 100 Aura Hz One frequency companions. Numbered unit, digital Founder's 100 certificate, 7-day refund, no questions. <a href="aura-hz.html" style="color:#00fff0;text-decoration:underline;">Try the player first →</a></p>
-      <div style="margin:14px 0 16px;">
-        <div role="progressbar" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100" id="shop-counter-bar" style="width:min(360px,80%);height:10px;border-radius:999px;background:rgba(255,255,255,.08);margin:8px auto 6px;overflow:hidden;border:1px solid rgba(245,158,11,.3);">
-          <div id="shop-counter-fill" style="height:100%;width:37%;background:linear-gradient(90deg,#00fff0,#f59e0b);border-radius:999px;transition:width .6s ease;"></div>
-        </div>
-        <div style="font-weight:800;color:#f59e0b;font-size:1rem;"><span id="shop-counter-num">37</span>/100 claimed</div>
-      </div>
+      <p style="margin:14px 0 16px;font-weight:800;color:#f59e0b;font-size:1rem;">First 100 places. This page does not count them.</p>
       <div id="paypal-button-container-shop" style="max-width:340px;margin:0 auto;"></div>
-      <p id="paypal-msg-shop" style="display:none;margin-top:12px;padding:12px 16px;border-radius:10px;background:rgba(0,255,240,.08);border:1px solid #00fff0;color:#eafffd;font-weight:700;font-size:.9rem;">Deposit received — thank you. Welcome to the Founder's 100. Your digital certificate will be emailed within 48 hours. Refundable for 7 days.</p>
+      <p id="paypal-msg-shop" style="display:none;margin-top:12px;padding:12px 16px;border-radius:10px;background:rgba(0,255,240,.08);border:1px solid #00fff0;color:#eafffd;font-weight:700;font-size:.9rem;">PayPal has the payment. This page cannot confirm a Founder's 100 place, and it does not email a certificate. Keep your PayPal receipt. For a refund, use that receipt or email pleadingsanity1@gmail.com.</p>
       <p style="margin-top:14px;font-size:.72rem;color:#64748b;line-height:1.6;">Pay with PayPal, debit or credit card. No account needed. Consumer Contracts Regulations — 14-day cancellation right applies; we offer 7 days no-questions refund on this deposit. Not a medical device. For relaxation only.</p>
     </section>
     <script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
     <script>
     (function(){
-      var COUNTER_KEY = "auraHzFounder100Claimed", COUNTER_START = 37;
-      function getClaimed(){ try { var v = parseInt(localStorage.getItem(COUNTER_KEY),10); if (isNaN(v)||v<COUNTER_START||v>100) return COUNTER_START; return v; } catch(e){ return COUNTER_START; } }
-      function setClaimed(n){ try { localStorage.setItem(COUNTER_KEY, String(n)); } catch(e){} }
-      function render(){ var n=getClaimed(); var a=document.getElementById("shop-counter-num"); var b=document.getElementById("shop-counter-fill"); var c=document.getElementById("shop-counter-bar"); if(a)a.textContent=String(n); if(b)b.style.width=Math.min(100,n)+"%"; if(c)c.setAttribute("aria-valuenow",String(n)); }
-      render();
       try {
         if (window.paypal && paypal.Buttons) {
           paypal.Buttons({
             style: { layout:'vertical', color:'gold', shape:'pill', label:'pay', height:48 },
             createOrder: function(data, actions){ return actions.order.create({ purchase_units:[{ amount:{ value:'99.00', currency_code:'GBP' }, description:'Aura Hz One — Founder\'s 100 refundable deposit' }] }); },
             onApprove: function(data, actions){
-              return actions.order.capture().then(function(details){
+              return actions.order.capture().then(function(){
                 var m=document.getElementById('paypal-msg-shop'); if(m)m.style.display='block';
                 var b=document.getElementById('paypal-button-container-shop'); if(b)b.style.display='none';
-                var n=getClaimed(); if(n<100){ setClaimed(n+1); render(); }
-                try { fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, product:'Aura Hz One Founder 100 deposit' }) }).catch(function(){}); } catch(e){}
               });
             }
           }).render('#paypal-button-container-shop');
@@ -401,5 +389,5 @@
 <!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
 <script src="/js/music-player.js" defer></script>
 <script src="/js/reveal.js" defer></script>
-<div style="text-align:center;font-size:.75rem;color:#475569;padding:8px;">© 2026 Pleading Sanity. All rights reserved. Built by survivors, for survivors.</div><footer class="ps-crisis-footer" role="contentinfo"><p style="margin:0"><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></footer></body>
+<div style="text-align:center;font-size:.75rem;color:#475569;padding:8px;">© 2026 Pleading Sanity. All rights reserved. Built by survivors, for survivors.</div><footer class="ps-crisis-footer" role="contentinfo"><p style="margin:0"><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; NHS <a href="tel:111">111</a> &middot; <a href="/crisis.html">More help</a></p></footer></body>
 </html>

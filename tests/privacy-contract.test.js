@@ -26,7 +26,7 @@ test('Arron deletes messages and memory before returning success', () => {
 
 test('Finance deletion covers every registered storage key', () => {
   assert.match(finance, /Object\.values\(KEYS\)\.forEach\(store\.drop\)/);
-  assert.match(finance, /profile = \{ \.\.\.E\.EMPTY_PROFILE \}/);
+  assert.match(finance, /profile\s*=\s*\{\s*\.\.\.E\.EMPTY_PROFILE\s*\}/);
 });
 
 test('Finance AI request shares profile only behind explicit consent', () => {

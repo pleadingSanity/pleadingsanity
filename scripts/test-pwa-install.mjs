@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import { readFileSync } from 'node:fs';
 const source = readFileSync(new URL('../js/site.js', import.meta.url), 'utf8');
-const start = source.indexOf('  // Install controls are optional.');
-const code = source.slice(start, source.indexOf('  // ─── INSTALL ONCE', start));
+const start = source.indexOf('var installPrompt=null;');
+const code = source.slice(start, source.indexOf("if('serviceWorker'in navigator", start));
 function fixture({standalone=false, ios=false, ipad=false}={}) {
   const listeners = {}, displayListeners = {};
   const document = { activeElement: null, createElement: () => note() };
