@@ -885,3 +885,17 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Founder supplied Reddit feedback about homepage clutter. Branch polish/homepage-breathing-room-20261106 reorganises existing homepage content: clear actions before artwork, calmer panels and typography, responsive starting choices, secondary app shelf in native details, one mobile navigation instead of two simultaneous rows. Original story, artwork and every link destination retained; no scripts or urgent-help wording changed.
 - Files: index.html, sw.js (static cache v113), this log. No auth, payment, provider, DNS or #92 changes.
 - Verified locally: original destination set retained; no duplicate IDs; all script blocks unchanged; urgent-help paragraph unchanged; primary actions precede hero artwork. Browser/mobile rendering, full suite, deploy preview and independent review not yet proven. Draft only, not a production release. Rollback: revert this scoped branch.
+
+## 2026-11-02 23:45 GMT — Grok (for Dola): 390px Arron banner check on production after PR #165
+- PR #165 merged at 23:19 GMT, merge commit `3f48577`. Main at time of test: `9b19c4c` (this branch's base: `9b19c4c`). Live deploy SHA was not checked on Netlify.
+- Tested https://pleadingsanity.co.uk/arron-app.html with headless Chromium (Playwright), touch on. The buffed banner from `6f1757b` is on main.
+| Check | iPhone 390x844 | Android Pixel 7 UA 412px |
+| Banner visible | Pass (366x314 px, under crisis strip) | Pass (388x376 px) |
+| Not covered, no sideways scroll | Pass | Pass |
+| Stays in view after 600px scroll | Pass | Pass |
+| Main target 48px or more | No button on iOS (expected); Share > Add to Home Screen instruction shown | Pass, Add Arron 130x52 px |
+| Tap does something | Banner tap does nothing; text only | Tap registers; no install prompt in headless browser (not proven) |
+| Close button | Fail: 44x44 px, no visible icon | Fail: same |
+- Not proven: real iPhone and Android devices, the browser's install prompt, installation itself.
+- Open for Copilot: (1) close button `#aa-install-close` is 44px with no visible icon; make it 48px or more with a visible icon. (2) large empty gap inside the banner (`#aa-install-text` is 224px tall for two short lines).
+- Screenshots are on Grok's box at `/workspace/pr165/v2-prod-*.png` (not committed). No code changed.
