@@ -719,6 +719,11 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - `netlify/functions/verify-paypal.mts` only accepts a completed £50.00 order. The £99 buttons were calling it and ignoring the answer. Those calls are removed. The £50 solar check is unchanged.
 - The £99 button is still on the page. Pink, crisis lines, and the frequency player were not touched.
 
+## 2026-11-02 — Copilot: AI Operating Charter added (draft PR, not merged)
+- Added `.github/AI-OPERATING-CHARTER.md` exactly as Shane wrote it. Added Shane's Copilot block to the top of `.github/copilot-instructions.md`; the existing house instructions (sky, solitaire, games passes) are kept below it, not replaced. No keys, no spend, nothing merged.
+- Conflicts left visible for Shane to settle, not resolved by an AI: (1) the Charter says all work on `dolas-duplicate`, but that branch is 111 commits behind main, so this PR is from a branch off main `74461fc` instead; (2) the Charter says no forced removal of pink/purple/indigo, while `docs/MASTER_PROMPT.md` and `AGENTS.md`-era notes say no purple, indigo or pink; (3) the Charter's removal rule needs "all active AIs" and no AI can prove another is active, so only Shane's decision is checkable; (4) `d8056ef` (all AIs autonomous merge authority) still conflicts with "only Shane merges".
+- "Updates reach every AI automatically" holds only for tools that read this repo at session start. A pasted prompt does not link a chat to the repo, and no AI is contacted or woken by this file.
+
 ## 2026-11-02 — Copilot: full history, PR and Dola sync audit (read-only)
 - Read main at `74461fc` (full clone, 1320 commits). Dola's handoff says `6f1757b`; that is still on main, three commits back (`15577bd`, `57fc941`, then dependabot #171 `74461fc`). No other AI was contacted. No spend. Nothing deleted, merged or pushed to main. #92 untouched.
 - Authors on main: Shane Cooper 1106, Pleading Sanity AI 70 (+1 "PleadingSanity AI"), netlify[bot] 47, pleadingSanity 37, Cursor Agent 22, copilot-swe-agent[bot] 16, dependabot 10, worker 3, Pleading Sanity Automation 3, Pleading Sanity 3, shopify[bot] 1, Grok Bot 1.
