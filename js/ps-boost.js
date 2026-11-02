@@ -15,13 +15,14 @@
   // Smooth in-page anchor scroll (respects reduced motion via CSS media query)
   document.addEventListener("click",function(ev){
     var a=ev.target.closest&&ev.target.closest("a[href^='#']");
-    if(!a)return;
+    if(!a||a.classList.contains("skip-link"))return;
     var id=a.getAttribute("href");
     if(id.length<2)return;
     var el=document.querySelector(id);
     if(!el)return;
     ev.preventDefault();
-    el.scrollIntoView({behavior:"smooth",block:"start"});
+    var calm=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({behavior:calm?"auto":"smooth",block:"start"});
     history.replaceState(null,"",id);
   });
 })();
