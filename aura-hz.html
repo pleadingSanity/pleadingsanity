@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#000103" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/animations.css" />
+  <link rel="stylesheet" href="/css/accessibility.css" />
+  <link rel="stylesheet" href="/css/mobile-responsive.css" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://pleadingsanity.co.uk/aura-hz.html" />
+  <title>Aura Hz One — Frequency Player &amp; Founder's 100 | Pleading Sanity</title>
+  <meta name="description" content="Aura Hz One hardware page. Pure Web Audio sine-wave frequency player: 174Hz, 396Hz, 417Hz, 528Hz, 4-7-8 breath sync and Source Stream mode. Founder's 100 refundable deposit. Not a medical device, for relaxation only." />
+  <meta property="og:title" content="Aura Hz One — Frequency Player | Pleading Sanity" />
+  <meta property="og:description" content="Rise From Madness. Evolution, Not Erasure. A grounded frequency player and the Aura Hz One hardware Founder's 100 deposit. For relaxation only." />
+  <meta property="og:url" content="https://pleadingsanity.co.uk/aura-hz.html" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <style>
+    body { background: radial-gradient(ellipse at 50% 0%, #0a1420 0%, #000103 70%); color: #eafffd; }
+    main { max-width: 960px; margin: 0 auto; padding: 28px 16px 40px; text-align: center; }
+    .aura-hero { padding: 18px 0 8px; }
+    .aura-hero h1 { font-size: clamp(1.8rem, 5vw, 2.8rem); margin: 10px 0 6px; letter-spacing: .02em; }
+    .aura-hero .kicker { color: #00fff0; font-weight: 800; letter-spacing: .22em; text-transform: uppercase; font-size: .78rem; }
+    .aura-hero p.tag { color: #9fb8c4; max-width: 620px; margin: 10px auto 0; line-height: 1.6; font-size: .98rem; }
+    .aura-cross { margin-top: 14px; font-size: .85rem; color: #7d93a0; }
+    .aura-cross a { color: #00fff0; text-decoration: underline; }
+
+    .player-card { margin: 26px auto 0; max-width: 640px; background: rgba(0,255,240,0.04); border: 1px solid rgba(0,255,240,0.22); border-radius: 18px; padding: 22px 18px 24px; box-shadow: 0 0 40px rgba(0,255,240,0.12); text-align: center; }
+    .player-card h2 { margin: 0 0 4px; font-size: 1.25rem; color: #eafffd; }
+    .player-sub { color: #7d93a0; font-size: .82rem; margin: 0 0 18px; }
+
+    .breath-wrap { position: relative; width: 190px; height: 190px; margin: 6px auto 14px; display: flex; align-items: center; justify-content: center; }
+    .breath-circle { width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(0,255,240,0.55), rgba(0,255,240,0.08) 70%); border: 1px solid rgba(0,255,240,0.5); box-shadow: 0 0 30px rgba(0,255,240,0.35); transition: transform 1.2s ease-in-out, box-shadow .8s ease, background .8s ease, border-color .8s ease; will-change: transform; }
+    .breath-wrap.coherence .breath-circle { background: radial-gradient(circle at 35% 30%, rgba(245,158,11,0.65), rgba(245,158,11,0.12) 70%); border-color: rgba(245,158,11,0.7); box-shadow: 0 0 44px rgba(245,158,11,0.55); }
+    .breath-label { position: absolute; bottom: -26px; left: 0; right: 0; font-size: .8rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: #00fff0; min-height: 1em; }
+    .breath-wrap.coherence .breath-label { color: #f59e0b; }
+
+    .freq-readout { font-size: 2.1rem; font-weight: 800; color: #00fff0; margin: 30px 0 2px; letter-spacing: .02em; }
+    .freq-readout .hz { font-size: 1rem; color: #7d93a0; font-weight: 600; margin-left: 4px; }
+    .freq-purpose { color: #9fb8c4; font-size: .86rem; min-height: 1.2em; margin-bottom: 16px; }
+
+    .freq-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; margin: 0 auto 16px; max-width: 520px; }
+    .freq-btn { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 8px; border-radius: 12px; border: 1px solid rgba(0,255,240,0.28); background: rgba(6,16,28,0.7); color: #eafffd; cursor: pointer; font: inherit; transition: border-color .2s, background .2s, box-shadow .2s, transform .15s; min-height: 44px; }
+    .freq-btn:hover, .freq-btn:focus { border-color: #00fff0; box-shadow: 0 0 16px rgba(0,255,240,0.25); outline: none; }
+    .freq-btn.active { border-color: #00fff0; background: rgba(0,255,240,0.12); box-shadow: 0 0 22px rgba(0,255,240,0.35); }
+    .freq-btn.coherence-active { border-color: #f59e0b; background: rgba(245,158,11,0.12); box-shadow: 0 0 22px rgba(245,158,11,0.45); }
+    .freq-btn .f-num { font-weight: 800; font-size: 1.05rem; color: #00fff0; }
+    .freq-btn.coherence-active .f-num { color: #f59e0b; }
+    .freq-btn .f-label { font-size: .72rem; color: #9fb8c4; line-height: 1.3; }
+    .freq-btn svg { width: 22px; height: 22px; stroke: #00fff0; fill: none; stroke-width: 1.8; }
+    .freq-btn.coherence-active svg { stroke: #f59e0b; }
+
+    .transport { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin: 6px 0 14px; }
+    .aura-btn { min-height: 46px; padding: 0 20px; border-radius: 999px; border: 1px solid #00fff0; background: transparent; color: #00fff0; font-weight: 800; font-size: .95rem; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background .2s, color .2s, box-shadow .2s; }
+    .aura-btn:hover, .aura-btn:focus { background: #00fff0; color: #000103; outline: none; box-shadow: 0 0 18px rgba(0,255,240,0.4); }
+    .aura-btn.primary { background: #00fff0; color: #000103; }
+    .aura-btn.primary:hover { background: #b3fff8; }
+    .aura-btn.amber { border-color: #f59e0b; color: #f59e0b; }
+    .aura-btn.amber:hover, .aura-btn.amber.on { background: #f59e0b; color: #000103; box-shadow: 0 0 18px rgba(245,158,11,0.45); }
+    .aura-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+    .vol-row { display: flex; align-items: center; gap: 12px; justify-content: center; margin: 4px 0 10px; color: #9fb8c4; font-size: .85rem; }
+    .vol-row input[type=range] { width: min(240px, 60vw); accent-color: #00fff0; }
+
+    .live-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: #f59e0b; box-shadow: 0 0 8px #f59e0b; animation: auraPulse 1.6s ease-in-out infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes auraPulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+    .source-status { font-size: .78rem; color: #f59e0b; min-height: 1.2em; margin-top: 2px; font-weight: 700; letter-spacing: .08em; }
+
+    .medical-note { margin-top: 16px; font-size: .74rem; color: #64748b; line-height: 1.5; }
+
+    .founder-card { margin: 34px auto 0; max-width: 640px; background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.3); border-radius: 18px; padding: 24px 18px; text-align: center; box-shadow: 0 0 36px rgba(245,158,11,0.12); }
+    .founder-badge { display: inline-block; padding: 5px 14px; border-radius: 999px; background: rgba(245,158,11,0.14); border: 1px solid rgba(245,158,11,0.4); color: #f59e0b; font-weight: 800; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 12px; }
+    .founder-card h2 { margin: 4px 0 8px; font-size: 1.5rem; color: #f59e0b; }
+    .founder-card .price { font-size: 2.4rem; font-weight: 900; color: #eafffd; margin: 6px 0 2px; }
+    .founder-card .price small { font-size: .9rem; color: #9fb8c4; font-weight: 600; }
+    .founder-card p { color: #b8c9d2; line-height: 1.6; font-size: .92rem; max-width: 520px; margin: 8px auto; }
+    .founder-perks { text-align: left; max-width: 420px; margin: 14px auto; color: #cfe3ea; font-size: .88rem; line-height: 1.9; list-style: none; padding: 0; }
+    .founder-perks li { padding-left: 26px; position: relative; }
+    .founder-perks li::before { content: ""; position: absolute; left: 4px; top: .55em; width: 12px; height: 6px; border-left: 2px solid #00fff0; border-bottom: 2px solid #00fff0; transform: rotate(-45deg); }
+    .counter-row { margin: 14px 0 16px; }
+    .counter-bar { width: min(360px, 80%); height: 10px; border-radius: 999px; background: rgba(255,255,255,0.08); margin: 8px auto 6px; overflow: hidden; border: 1px solid rgba(245,158,11,0.3); }
+    .counter-fill { height: 100%; background: linear-gradient(90deg, #00fff0, #f59e0b); border-radius: 999px; transition: width .6s ease; }
+    .counter-text { font-weight: 800; color: #f59e0b; font-size: 1rem; }
+    #paypal-button-container-aura { max-width: 340px; margin: 0 auto; }
+    #paypal-msg-aura { display: none; margin-top: 12px; padding: 12px 16px; border-radius: 10px; background: rgba(0,255,240,0.08); border: 1px solid #00fff0; color: #eafffd; font-weight: 700; font-size: .9rem; }
+    .founder-small { margin-top: 14px; font-size: .72rem; color: #64748b; line-height: 1.6; }
+
+    .hw-section { margin: 30px auto 0; max-width: 720px; text-align: left; color: #b8c9d2; font-size: .92rem; line-height: 1.7; }
+    .hw-section h3 { color: #00fff0; font-size: 1.05rem; margin-bottom: 6px; }
+    .hw-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-top: 12px; }
+    .hw-cell { background: rgba(0,255,240,0.04); border: 1px solid rgba(0,255,240,0.18); border-radius: 12px; padding: 14px; }
+    .hw-cell strong { color: #eafffd; display: block; margin-bottom: 4px; }
+
+    @media (max-width: 420px) {
+      .freq-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .freq-btn { padding: 10px 6px; }
+      .breath-wrap { width: 160px; height: 160px; }
+      .breath-circle { width: 100px; height: 100px; }
+      .freq-readout { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+<nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
+  <a href="index.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanctuary</a>
+  <a href="frequencies.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Healing Hz</a>
+  <a href="aura-hz.html" style="color:#f59e0b;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Aura Hz</a>
+  <a href="shop.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Shop</a>
+  <a href="games.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Games</a>
+  <a href="sanity-law.html" style="color:#22d3ee;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanity Law</a>
+  <a href="off-grid.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Off Grid</a>
+  <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
+</nav>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+<main id="main-content">
+
+  <header class="aura-hero">
+    <span class="kicker">Aura Hz One</span>
+    <h1>Rise From Madness. <span style="color:#f59e0b;">Tune To Yourself.</span></h1>
+    <p class="tag">They Labeled It. We Lived It. A grounded frequency player built for the long nights — pure sine waves, no files, no noise. The Aura Hz One hardware is coming; the Founder's 100 build the infrastructure with us.</p>
+    <p class="aura-cross">Prefer the free gentle tones? <a href="frequencies.html">Open Healing Hz</a> — no hardware, no signup.</p>
+  </header>
+
+  <!-- ============ FREQUENCY PLAYER ============ -->
+  <section class="player-card" aria-labelledby="player-title">
+    <h2 id="player-title">Aura Hz Frequency Player</h2>
+    <p class="player-sub">Pure Web Audio sine wave. Generated live in your browser. Nothing to download.</p>
+
+    <div class="breath-wrap" id="breathWrap">
+      <div class="breath-circle" id="breathCircle" aria-hidden="true"></div>
+      <div class="breath-label" id="breathLabel">Breath sync off</div>
+    </div>
+
+    <div class="freq-readout"><span id="freqValue">528</span><span class="hz">Hz</span></div>
+    <div class="freq-purpose" id="freqPurpose">Transformation / The Source — target coherence state</div>
+
+    <div class="freq-grid" role="group" aria-label="Choose a frequency">
+      <button type="button" class="freq-btn" data-freq="174" data-purpose="Ground / Foundation — initial calibration" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg>
+        <span class="f-num">174Hz</span>
+        <span class="f-label">Ground / Foundation</span>
+      </button>
+      <button type="button" class="freq-btn" data-freq="396" data-purpose="Liberate Fear &amp; Guilt — stress &amp; anxiety" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+        <span class="f-num">396Hz</span>
+        <span class="f-label">Liberate Fear &amp; Guilt</span>
+      </button>
+      <button type="button" class="freq-btn" data-freq="417" data-purpose="Facilitate Change — grief &amp; blockage" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg>
+        <span class="f-num">417Hz</span>
+        <span class="f-label">Facilitate Change</span>
+      </button>
+      <button type="button" class="freq-btn coherence-active active" data-freq="528" data-purpose="Transformation / The Source — target coherence state" aria-pressed="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg>
+        <span class="f-num">528Hz</span>
+        <span class="f-label">Transformation / The Source</span>
+      </button>
+    </div>
+
+    <div class="transport">
+      <button type="button" class="aura-btn primary" id="playPauseBtn" aria-pressed="false">
+        <svg id="playIcon" viewBox="0 0 24 24" aria-hidden="true"><polygon points="6,4 20,12 6,20" fill="currentColor" stroke="none"/></svg>
+        <svg id="pauseIcon" viewBox="0 0 24 24" aria-hidden="true" style="display:none"><rect x="6" y="4" width="4" height="16" fill="currentColor" stroke="none"/><rect x="14" y="4" width="4" height="16" fill="currentColor" stroke="none"/></svg>
+        <span id="playPauseLabel">Play</span>
+      </button>
+      <button type="button" class="aura-btn" id="breathToggleBtn" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c-4 4-6 7-6 10a6 6 0 0 0 12 0c0-3-2-6-6-10z"/></svg>
+        <span id="breathToggleLabel">Breath sync: off</span>
+      </button>
+      <button type="button" class="aura-btn amber" id="sourceStreamBtn" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12c3-6 7-6 10 0s7 6 10 0"/><path d="M2 17c3-6 7-6 10 0s7 6 10 0" opacity=".5"/></svg>
+        <span id="sourceStreamLabel">Source Stream: off</span>
+      </button>
+    </div>
+
+    <div class="source-status" id="sourceStatus" aria-live="polite"></div>
+
+    <div class="vol-row">
+      <label for="volumeSlider">Volume</label>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.15" aria-label="Player volume" />
+      <span id="volumeValue">15%</span>
+    </div>
+
+    <p class="medical-note">Not a medical device. For relaxation only. If you are in crisis, call Samaritans free on <a href="tel:116123" style="color:#00fff0;">116 123</a> (24/7) or text SHOUT to 85258.</p>
+  </section>
+
+  <!-- ============ HARDWARE TEASER ============ -->
+  <section class="hw-section" aria-labelledby="hw-title">
+    <h3 id="hw-title">The Aura Hz One — what we're building</h3>
+    <p>A pocket-sized, survivor-built frequency companion. Long battery. Real dial. No app required to play a tone. No account, no tracking, no subscription. The deposit below reserves your unit and funds the first production run — refundable for 7 days, no questions.</p>
+    <div class="hw-grid">
+      <div class="hw-cell"><strong>Pure sine output</strong>Four calibrated frequencies, hardware-grade oscillator, clean headphone + line out.</div>
+      <div class="hw-cell"><strong>Breath light</strong>Front ring follows 4-7-8 breathing. No screen to stare at.</div>
+      <div class="hw-cell"><strong>Source Stream</strong>24/7 mode cycles 174 → 396 → 417 → 528 and rests at coherence.</div>
+      <div class="hw-cell"><strong>Built by survivors</strong>Profits fund the free sanctuary. Evolution, Not Erasure.</div>
+    </div>
+  </section>
+
+  <!-- ============ FOUNDER'S 100 ============ -->
+  <section class="founder-card" aria-labelledby="founder-title">
+    <span class="founder-badge">Infrastructure Member · First 100 only</span>
+    <h2 id="founder-title">Founder's 100 — Aura Hz One</h2>
+    <div class="price">£99 <small>fully refundable deposit</small></div>
+    <p>Lock in one of the first 100 Aura Hz One units. Your deposit reserves your serial number, funds the tooling, and is refundable in full within 7 days. Founder's 100 members receive a digital certificate and lifetime firmware updates.</p>
+    <ul class="founder-perks">
+      <li>Infrastructure Member status — your name on the build list</li>
+      <li>First 100 only — numbered unit, digital Founder's 100 certificate</li>
+      <li>7-day refund, no questions asked</li>
+      <li>Deposit deducted from final balance when your unit ships</li>
+    </ul>
+    <div class="counter-row">
+      <div class="counter-bar" role="progressbar" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100" id="counterBar">
+        <div class="counter-fill" id="counterFill" style="width:37%"></div>
+      </div>
+      <div class="counter-text"><span id="counterNum">37</span>/100 claimed</div>
+    </div>
+    <div id="paypal-button-container-aura"></div>
+    <p id="paypal-msg-aura">Deposit received — thank you. Welcome to the Founder's 100. Your digital certificate will be emailed within 48 hours. Refundable for 7 days.</p>
+    <p class="founder-small">Pay with PayPal, debit or credit card. No account needed. Consumer Contracts Regulations — 14-day cancellation right applies; we offer 7 days no-questions refund on this deposit. Not a medical device. For relaxation only.</p>
+  </section>
+
+</main>
+
+<footer class="ps-crisis-footer" role="contentinfo" style="position:static;margin-top:30px;"><p style="margin:0"><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></footer>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Shared Founder's 100 counter (localStorage) ---------- */
+  var COUNTER_KEY = "auraHzFounder100Claimed";
+  var COUNTER_START = 37;
+  function getClaimed(){
+    try {
+      var v = parseInt(localStorage.getItem(COUNTER_KEY), 10);
+      if (isNaN(v) || v < COUNTER_START || v > 100) return COUNTER_START;
+      return v;
+    } catch(e){ return COUNTER_START; }
+  }
+  function setClaimed(n){
+    try { localStorage.setItem(COUNTER_KEY, String(n)); } catch(e){}
+  }
+  function renderCounter(){
+    var n = getClaimed();
+    var numEl = document.getElementById("counterNum");
+    var fillEl = document.getElementById("counterFill");
+    var barEl = document.getElementById("counterBar");
+    if (numEl) numEl.textContent = String(n);
+    if (fillEl) fillEl.style.width = Math.min(100, n) + "%";
+    if (barEl) barEl.setAttribute("aria-valuenow", String(n));
+  }
+  renderCounter();
+
+  /* ---------- PayPal — Founder's 100 £99 deposit ---------- */
+  try {
+    if (window.paypal && paypal.Buttons) {
+      paypal.Buttons({
+        style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
+        createOrder: function(data, actions) {
+          return actions.order.create({ purchase_units: [{ amount: { value: '99.00', currency_code: 'GBP' }, description: 'Aura Hz One — Founder\'s 100 refundable deposit' }] });
+        },
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+            var m = document.getElementById('paypal-msg-aura');
+            if (m) m.style.display = 'block';
+            var b = document.getElementById('paypal-button-container-aura');
+            if (b) b.style.display = 'none';
+            var n = getClaimed();
+            if (n < 100) { setClaimed(n + 1); renderCounter(); }
+            try {
+              fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, product: 'Aura Hz One Founder 100 deposit' }) }).catch(function(){});
+            } catch(e){}
+          });
+        }
+      }).render('#paypal-button-container-aura');
+    }
+  } catch(e){}
+
+  /* ---------- Web Audio frequency player ---------- */
+  var ctx = null;
+  var osc = null;
+  var gainNode = null;
+  var isPlaying = false;
+  var currentFreq = 528;
+  var volume = 0.15;
+  var RAMP_MS = 400;
+
+  var FREQ_ORDER = [174, 396, 417, 528];
+
+  function ensureCtx(){
+    if (!ctx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      ctx = new AC();
+      gainNode = ctx.createGain();
+      gainNode.gain.value = 0;
+      gainNode.connect(ctx.destination);
+      osc = ctx.createOscillator();
+      osc.type = "sine";
+      osc.frequency.value = currentFreq;
+      osc.connect(gainNode);
+      osc.start();
+    }
+    if (ctx.state === "suspended") { try { ctx.resume(); } catch(e){} }
+    return ctx;
+  }
+
+  function now(){ return ctx ? ctx.currentTime : 0; }
+
+  function setFreq(f, purpose){
+    currentFreq = f;
+    document.getElementById("freqValue").textContent = String(f);
+    document.getElementById("freqPurpose").innerHTML = purpose || "";
+    var btns = document.querySelectorAll(".freq-btn");
+    for (var i = 0; i < btns.length; i++) {
+      var active = parseInt(btns[i].getAttribute("data-freq"), 10) === f;
+      btns[i].classList.toggle("active", active);
+      btns[i].classList.toggle("coherence-active", active && f === 528);
+      btns[i].setAttribute("aria-pressed", active ? "true" : "false");
+    }
+    var coherence = (f === 528);
+    document.getElementById("breathWrap").classList.toggle("coherence", coherence);
+    if (ctx && osc) {
+      var t = now();
+      osc.frequency.cancelScheduledValues(t);
+      osc.frequency.setValueAtTime(osc.frequency.value, t);
+      osc.frequency.linearRampToValueAtTime(f, t + RAMP_MS / 1000);
+    }
+  }
+
+  function play(){
+    if (!ensureCtx()) return;
+    isPlaying = true;
+    var t = now();
+    gainNode.gain.cancelScheduledValues(t);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, t);
+    gainNode.gain.linearRampToValueAtTime(volume, t + RAMP_MS / 1000);
+    document.getElementById("playPauseLabel").textContent = "Pause";
+    document.getElementById("playIcon").style.display = "none";
+    document.getElementById("pauseIcon").style.display = "";
+    document.getElementById("playPauseBtn").setAttribute("aria-pressed", "true");
+  }
+
+  function pause(){
+    if (!ctx) { isPlaying = false; return; }
+    isPlaying = false;
+    var t = now();
+    gainNode.gain.cancelScheduledValues(t);
+    gainNode.gain.setValueAtTime(gainNode.gain.value, t);
+    gainNode.gain.linearRampToValueAtTime(0.0001, t + RAMP_MS / 1000);
+    document.getElementById("playPauseLabel").textContent = "Play";
+    document.getElementById("playIcon").style.display = "";
+    document.getElementById("pauseIcon").style.display = "none";
+    document.getElementById("playPauseBtn").setAttribute("aria-pressed", "false");
+  }
+
+  document.getElementById("playPauseBtn").addEventListener("click", function(){
+    if (isPlaying) pause(); else play();
+  });
+
+  var freqBtns = document.querySelectorAll(".freq-btn");
+  for (var i = 0; i < freqBtns.length; i++) {
+    freqBtns[i].addEventListener("click", function(){
+      var f = parseInt(this.getAttribute("data-freq"), 10);
+      var p = this.getAttribute("data-purpose");
+      setFreq(f, p);
+      if (!isPlaying) play();
+    });
+  }
+
+  var volSlider = document.getElementById("volumeSlider");
+  var volValue = document.getElementById("volumeValue");
+  volSlider.addEventListener("input", function(){
+    volume = parseFloat(this.value);
+    volValue.textContent = Math.round(volume * 100) + "%";
+    if (ctx && gainNode && isPlaying) {
+      var t = now();
+      gainNode.gain.cancelScheduledValues(t);
+      gainNode.gain.setValueAtTime(gainNode.gain.value, t);
+      gainNode.gain.linearRampToValueAtTime(volume, t + 0.1);
+    }
+  });
+
+  /* ---------- Breath sync 4-7-8 ---------- */
+  var breathOn = false;
+  var breathTimer = null;
+  var breathPhase = 0; // 0=inhale 4s, 1=hold 7s, 2=exhale 8s
+  var PHASES = [
+    { name: "Inhale", dur: 4000, scale: 1.45 },
+    { name: "Hold",   dur: 7000, scale: 1.45 },
+    { name: "Exhale", dur: 8000, scale: 1.0 }
+  ];
+  function breathStep(){
+    var ph = PHASES[breathPhase];
+    document.getElementById("breathLabel").textContent = ph.name;
+    document.getElementById("breathCircle").style.transform = "scale(" + ph.scale + ")";
+    breathPhase = (breathPhase + 1) % PHASES.length;
+    breathTimer = setTimeout(breathStep, ph.dur);
+  }
+  function startBreath(){
+    breathOn = true;
+    breathPhase = 0;
+    document.getElementById("breathToggleLabel").textContent = "Breath sync: on";
+    document.getElementById("breathToggleBtn").setAttribute("aria-pressed", "true");
+    breathStep();
+  }
+  function stopBreath(){
+    breathOn = false;
+    if (breathTimer) { clearTimeout(breathTimer); breathTimer = null; }
+    document.getElementById("breathCircle").style.transform = "scale(1)";
+    document.getElementById("breathLabel").textContent = "Breath sync off";
+    document.getElementById("breathToggleLabel").textContent = "Breath sync: off";
+    document.getElementById("breathToggleBtn").setAttribute("aria-pressed", "false");
+  }
+  document.getElementById("breathToggleBtn").addEventListener("click", function(){
+    if (breathOn) stopBreath(); else startBreath();
+  });
+
+  /* ---------- Source Stream 24/7 ---------- */
+  var sourceOn = false;
+  var sourceTimer = null;
+  var sourceIdx = 0;
+  var SOURCE_MS = 90000; // ~90s per frequency
+  function sourceAdvance(){
+    if (!sourceOn) return;
+    if (sourceIdx >= FREQ_ORDER.length - 1) {
+      // arrived at 528 — hold, show LIVE
+      setFreq(528, "Transformation / The Source — target coherence state");
+      document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — resting at 528Hz coherence';
+      sourceTimer = null;
+      return;
+    }
+    sourceIdx++;
+    var f = FREQ_ORDER[sourceIdx];
+    var btn = document.querySelector('.freq-btn[data-freq="' + f + '"]');
+    setFreq(f, btn ? btn.getAttribute("data-purpose") : "");
+    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream ' + f + 'Hz (' + (sourceIdx+1) + '/4)';
+    sourceTimer = setTimeout(sourceAdvance, SOURCE_MS);
+  }
+  function startSource(){
+    sourceOn = true;
+    sourceIdx = 0;
+    setFreq(174, "Ground / Foundation — initial calibration");
+    if (!isPlaying) play();
+    document.getElementById("sourceStreamLabel").textContent = "Source Stream: on";
+    document.getElementById("sourceStreamBtn").classList.add("on");
+    document.getElementById("sourceStreamBtn").setAttribute("aria-pressed", "true");
+    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream 174Hz (1/4)';
+    sourceTimer = setTimeout(sourceAdvance, SOURCE_MS);
+  }
+  function stopSource(){
+    sourceOn = false;
+    if (sourceTimer) { clearTimeout(sourceTimer); sourceTimer = null; }
+    document.getElementById("sourceStreamLabel").textContent = "Source Stream: off";
+    document.getElementById("sourceStreamBtn").classList.remove("on");
+    document.getElementById("sourceStreamBtn").setAttribute("aria-pressed", "false");
+    document.getElementById("sourceStatus").textContent = "";
+  }
+  document.getElementById("sourceStreamBtn").addEventListener("click", function(){
+    if (sourceOn) stopSource(); else startSource();
+  });
+
+  // initial UI state
+  setFreq(528, "Transformation / The Source — target coherence state");
+})();
+</script>
+</body>
+</html>
