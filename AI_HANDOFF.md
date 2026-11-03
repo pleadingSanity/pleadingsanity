@@ -781,3 +781,9 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Original docs PR #185 was conflicting because its branch started from `dolas-duplicate`. Recreated the same public-safe founder recovery document from current `main` on `docs/founder-continuity-main-aligned-20261103`, preserving all existing main handoff entries.
 - No successor names, email addresses, credentials or private records published. No application code, charter, crisis text, #92, staging, auth or payment files changed.
 - Verification: compared source document content and fetched current main handoff. Automated tests **not run** (documentation-only); Netlify preview **not proven**. Do not claim disaster recovery or succession access is configured.
+
+
+## 2026-11-03 — GPT: original watermark-free cosmic wave asset
+- Added `assets/ps-cosmic-wave.svg` as a new original scalable, lightweight, static teal/silver/amber starfield current inspired by the founder's approved cosmic visual direction. This does **not** remove or alter the Dola watermarks; it is a separate original artwork.
+- No page references changed: visual integration, mobile review, brand identity and licensing checks remain pending. Existing official Crying Brain artwork untouched.
+- Branch `art/original-cosmic-wave-20261103`. Reviewed SVG source; automated tests **not run** (asset-only), browser preview **not proven**. No protected files or production logic changed.
