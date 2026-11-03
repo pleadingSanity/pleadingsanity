@@ -174,3 +174,18 @@ The founder retains final control.
 
 #92 remains closed and protected forever.
 RISE FROM MADNESS. EVOLUTION, NOT ERASURE. ONE SOURCE. ONE FAMILY.
+
+
+## 2026-11-03 — Founder guardian clarification (Shane Cooper)
+
+Founder reaffirmed **Evolution, Not Erasure**: preserve his original voice, the privacy page, all core pages, GitHub main integrity, existing PWA/offline state, audio timers, game XP/streaks and Arron's knowledge. Audit the actual repository and active PRs before modifying anything. Prefer small complete, tested changes over wholesale rewrites; stop on unresolved risk. Never touch PR #92.
+
+**Visual lock:** deep space `#0b0f19`, teal `#00fff0` / `#38bdf8`, amber `#f59e0b`; no new purple/pink/indigo styling or decorative emoji; use SVG icons. Preserve the official Crying Brain artwork.
+
+**Safety and privacy:** keep free, tracker-free sanctuary support; show Samaritans 116 123, Shout 85258, NHS 111 and 999 prominently on Arron, Safety and crisis-relevant journeys, with appropriate emergency access offline. Do not remove existing working safety access elsewhere solely to reduce repetition. Arron remains a companion, not a clinician. Do not claim audio frequencies are medical treatments.
+
+**AI coordination:** GPT (audit/security), Claude/Copilot (implementation/testing), Gemini (integration/accessibility), Dola (design/mobile), Grok (creative/outreach), Arron (public companion). These are roles, **not** evidence of live agent connectivity. Use GitHub PRs, CI, previews and `AI_HANDOFF.md` for verified continuity. A `[STATE_SAVE: ...]` line may summarise work but does not automatically save state. Keep the **existing code-defined** provider order, not conflicting prompt orders.
+
+**Growth:** prioritise ethical open-source contributions, manufacturing partnerships and voluntary peer-to-peer sharing; do not spam, scrape private content, fabricate traction or publish outreach without approval.
+
+**Reporting:** state exactly what was verified, changed, tested, deployed, pending and next; include file paths and SHAs. Do not claim that a test or agent review happened without evidence. No new paid infrastructure or high-risk production/payment actions without founder approval.
