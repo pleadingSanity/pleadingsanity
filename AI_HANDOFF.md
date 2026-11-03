@@ -667,3 +667,10 @@ Merge commit: `39ade64c81fe64b6dd12b907bbe690e73d3f3691`. Preserve full file; no
   ```
 - PRIVACY: Supabase writes keyed by memoryId only; only written with consent (saveToCloud===true or signed-in member). Forget Me clears both local DB and Supabase. Logs never contain message content or PII.
 - NOT PROVEN: live Supabase connectivity (env vars not set in this environment), live OpenAI tool-call round (no key here), that the Netlify functions build bundles the new .mts (Netlify builds at deploy; local `npx netlify functions:build` not run because the CLI is not installed). Rollback: revert the working-tree changes; with env vars unset the new code is inert.
+
+
+## 2026-11-03 — GPT: founder continuity and disaster recovery (development branch)
+- Added `docs/FOUNDER_CONTINUITY_AND_RECOVERY.md` as a public-safe operational and succession planning document. It deliberately omits private successor identities, email addresses and secrets. Founder-designated equal successors and a temporary adult custodian require a separate private, legally reviewed record and provider-supported access arrangements.
+- Covers private asset register, provider ownership and renewal, encrypted backups of repo/assets/permitted AI conversation exports, restore drills, privacy, monitoring, static crisis fallback and bounded AI stewardship. Explicitly marks all unconfigured controls **not proven**.
+- Branch: `docs/founder-continuity-recovery-20261103`, based on `dolas-duplicate`. No production, charter, PR #92, staging, payments, auth, Arron memory or crisis wording changes.
+- Checks: reviewed repository charter and AGENTS.md; documentation-only content review. Automated tests and deploy preview **not run/not proven**. PR and release review required.
