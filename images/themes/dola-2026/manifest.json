@@ -1,0 +1,66 @@
+{
+  "name": "Dola 2026",
+  "note": "Selectable themes. Existing site images are not replaced.",
+  "themes": [
+    {
+      "id": "overview-full",
+      "file": "overview-full.png",
+      "bestFor": "App Hub / full house overview",
+      "slot": "app-hub"
+    },
+    {
+      "id": "overview-core",
+      "file": "overview-core.png",
+      "bestFor": "Homepage hero option",
+      "slot": "home"
+    },
+    {
+      "id": "cosmic-chess",
+      "file": "cosmic-chess.png",
+      "bestFor": "Cosmic Chess",
+      "slot": "games"
+    },
+    {
+      "id": "sanity-chess",
+      "file": "sanity-chess.png",
+      "bestFor": "Sanity Chess",
+      "slot": "games"
+    },
+    {
+      "id": "kids-chess",
+      "file": "kids-chess.png",
+      "bestFor": "Kids / Ollie & Friends",
+      "slot": "kids"
+    },
+    {
+      "id": "brain-split",
+      "file": "brain-split.png",
+      "bestFor": "Sanctuary / AI Family",
+      "slot": "sanctuary"
+    },
+    {
+      "id": "brain-vertical",
+      "file": "brain-vertical.png",
+      "bestFor": "About / soul mark",
+      "slot": "about"
+    },
+    {
+      "id": "aurora-sky",
+      "file": "aurora-sky.png",
+      "bestFor": "Hero background",
+      "slot": "hero"
+    },
+    {
+      "id": "wave-energy",
+      "file": "wave-energy.png",
+      "bestFor": "Frequencies / meditation",
+      "slot": "frequencies"
+    },
+    {
+      "id": "podium",
+      "file": "podium.png",
+      "bestFor": "Shop or feature spotlight",
+      "slot": "shop"
+    }
+  ]
+}
