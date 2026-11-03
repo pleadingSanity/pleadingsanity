@@ -775,3 +775,9 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Merged current main `d73837a` (merge base `b37950f`) into `cursor/guardian-audit-fixes-2026-11-02-3705`. Kept both branches' handoff entries; retained the clickable SHOUT text link alongside 111 and 999 in Arron and Safety. Combined main's games-scroll precache with the Guardian changes and advanced the static cache to v111.
 - Checks: `node scripts/validate-build.cjs`, `python3 scripts/audit-site.py` (89 HTML pages, 274 script blocks), and `node --test scripts/test-community-dashboard-honesty.mjs` passed. `npm test`: 134 passed, 2 failed; both are the existing solar-assistant assertions against `insane-solar.html`, which is unchanged from current main. Current-main-relative and conflict-file diff checks passed.
 - No browser, preview URL, live URL, phone, or production behaviour was tested in this merge pass. PR #165 remains open for Shane's review; no PR was merged.
+
+
+## 2026-11-03 — GPT: founder continuity PR conflict reconciliation
+- Original docs PR #185 was conflicting because its branch started from `dolas-duplicate`. Recreated the same public-safe founder recovery document from current `main` on `docs/founder-continuity-main-aligned-20261103`, preserving all existing main handoff entries.
+- No successor names, email addresses, credentials or private records published. No application code, charter, crisis text, #92, staging, auth or payment files changed.
+- Verification: compared source document content and fetched current main handoff. Automated tests **not run** (documentation-only); Netlify preview **not proven**. Do not claim disaster recovery or succession access is configured.
