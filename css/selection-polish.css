@@ -1,0 +1,12 @@
+/* Additive polish — selection and tap. No layout change. */
+::selection {
+  background: rgba(0, 255, 240, 0.28);
+  color: #eef6ff;
+}
+::-moz-selection {
+  background: rgba(0, 255, 240, 0.28);
+  color: #eef6ff;
+}
+a, button, [role="button"] {
+  -webkit-tap-highlight-color: rgba(0, 255, 240, 0.18);
+}
