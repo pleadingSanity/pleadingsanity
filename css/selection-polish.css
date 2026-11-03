@@ -1,12 +1,14 @@
-/* Additive polish — selection and tap. Stronger, readable. */
+/* Additive polish — selection and tap. Vibrant. */
 ::selection {
-  background: #00fff0;
-  color: #0b0f19;
+  background: #5fffff;
+  color: #000103;
+  text-shadow: 0 0 8px rgba(0, 255, 240, 0.6);
 }
 ::-moz-selection {
-  background: #00fff0;
-  color: #0b0f19;
+  background: #5fffff;
+  color: #000103;
+  text-shadow: 0 0 8px rgba(0, 255, 240, 0.6);
 }
 a, button, [role="button"] {
-  -webkit-tap-highlight-color: rgba(0, 255, 240, 0.22);
+  -webkit-tap-highlight-color: rgba(95, 255, 255, 0.28);
 }
