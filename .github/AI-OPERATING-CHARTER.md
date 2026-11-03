@@ -41,3 +41,32 @@ Sanctuary: Mental health help = FREE FOREVER. No paywalls.
 - Shane's original voice and story — never rewrite, never erase
 
 RISE FROM MADNESS. ONE SOURCE. ONE FAMILY.
+
+## AI TEST, PUSH AND MERGE AUTHORITY — 2026-11-03
+Shane Cooper grants the AI family authority to test, push, and merge on his behalf, within these limits.
+
+### Allowed without asking again
+- Read the whole repo, open PRs, and use Netlify deploy previews.
+- Push to dolas-duplicate and to focused branches.
+- Merge to main when ALL of these are true:
+  - Change is docs, copy, CSS, images, or a small non-auth bugfix.
+  - Existing checks that apply were run, or “not run” is written in the PR.
+  - Crisis lines, #92, arron-knowledge.json, and payment handlers were not touched.
+  - PR body names the files, the SHA, and what was verified.
+  - A dated note is appended to AI_HANDOFF.md on that branch.
+
+### Still blocked — needs Shane’s exact phrase
+- Payments, PayPal, auth, Arron memory delete, crisis page wording, DNS, or new paid services.
+- Any change to this charter.
+- Force-merge of a conflicting PR.
+- Touching #92 or staging.
+- Deleting working pages or the root soul file.
+
+### Exact phrase still required for blocked items
+"You can merge and push — [branch] to main"
+
+### How AIs test
+Use the PR deploy preview URL. Do not treat a green Action as proof the page works.
+Report “not proven” for anything not opened.
+
+This section is Shane’s grant. It does not remove the founder’s final control.
