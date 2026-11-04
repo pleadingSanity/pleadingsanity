@@ -1,0 +1,34 @@
+name: Whole ecosystem static audit
+on:
+  pull_request:
+    paths:
+      - '**/*.html'
+      - 'assets/**'
+      - 'css/**'
+      - 'js/**'
+      - 'scripts/audit-ecosystem.mjs'
+      - '.github/workflows/whole-ecosystem-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  static-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Run comprehensive static audit
+        run: node scripts/audit-ecosystem.mjs --json > ecosystem-audit.json
+      - name: Print summary
+        run: node -e "const r=require('./ecosystem-audit.json'); console.log(JSON.stringify({scope:r.scope,summary:r.summary},null,2))"
+      - name: Upload audit evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: ecosystem-static-audit
+          path: ecosystem-audit.json
+          retention-days: 14
+      - name: Flag high-confidence missing local references
+        run: node scripts/audit-ecosystem.mjs --strict
