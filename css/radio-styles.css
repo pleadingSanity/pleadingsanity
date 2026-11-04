@@ -23,3 +23,5 @@
 .radio-promise{margin-top:1.5rem;padding:1rem;background:var(--panel);border-left:3px solid var(--amber);border-radius:12px;font-size:.9rem;line-height:1.5}
 .radio-promise h2{color:var(--amber);font-size:1rem;margin:0 0 .5rem}
 @media(max-width:390px){.radio-wrap{padding:1rem}.radio-hero h1{font-size:1.6rem}}
+
+#radio-video{margin:.8rem 0 1rem}#radio-video[hidden]{display:none}.radio-hint{font-size:.84rem;color:#cbd5e1;line-height:1.5;text-align:center;margin:.5rem 0 1rem}.radio-controls button:focus-visible,.radio-support:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
