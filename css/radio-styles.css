@@ -1,0 +1,16 @@
+.radio-page{background:#0b0f19;color:#eef6ff;min-height:100vh;font-family:system-ui,sans-serif;margin:0}
+.radio-wrap{max-width:720px;margin:0 auto;padding:1.5rem}
+.radio-wrap h1{color:#00fff0;font-size:1.8rem;margin:0 0 .3rem}
+.radio-wrap .tag{color:#94a3b8;font-size:.9rem;margin-bottom:1.5rem}
+.radio-card{background:#0d1b2a;border:1px solid rgba(0,255,240,.25);border-radius:16px;padding:1.2rem}
+.radio-title{font-size:1.3rem;font-weight:700;margin:0}
+.radio-artist{color:#f59e0b;margin:.2rem 0}
+.radio-era{color:#94a3b8;font-size:.85rem}
+.radio-controls{display:flex;gap:.6rem;align-items:center;margin:1rem 0;flex-wrap:wrap}
+.radio-controls button{background:#00fff0;color:#0b0f19;border:0;border-radius:999px;padding:.7rem 1.2rem;font-weight:700;cursor:pointer}
+.radio-controls button.secondary{background:transparent;color:#eef6ff;border:1px solid #38bdf8}
+.radio-controls input[type=range]{width:100px}
+.radio-upnext{list-style:none;padding:0;margin:.5rem 0;color:#94a3b8;font-size:.9rem}
+.radio-support{display:inline-block;margin-top:.6rem;color:#00fff0;text-decoration:none;border-bottom:1px solid #00fff0}
+.radio-promise{margin-top:2rem;padding:1rem;background:#0d1b2a;border-left:3px solid #f59e0b;border-radius:8px;font-size:.95rem;line-height:1.5}
+.radio-promise h2{color:#f59e0b;font-size:1.1rem;margin:0 0 .5rem}
