@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insane Radio — Music That Speaks | Pleading Sanity</title>
 <meta name="description" content="Insane Radio. Hip hop and R&B from both sides of the Atlantic. No ads. No paywall. Free forever. Music heals.">
+<link rel="canonical" href="https://pleadingsanity.co.uk/insane-radio.html">
 <link rel="stylesheet" href="/css/radio-styles.css">
 </head>
 <body class="radio-page">
@@ -16,15 +17,17 @@
   <p class="tag">Music that speaks. No ads. No nonsense. Free forever.</p>
   <div class="radio-card" role="region" aria-label="Insane Radio player">
     <p id="radio-title" class="radio-title">Press Play</p>
+    <div id="radio-video" hidden aria-label="Visible YouTube music player"></div>
     <p id="radio-artist" class="radio-artist"></p>
     <p id="radio-era" class="radio-era"></p>
-    <p id="radio-status" style="color:#94a3b8;font-size:.85rem">Silent</p>
+    <p id="radio-status" role="status" aria-live="polite" style="color:#94a3b8;font-size:.85rem">Loading track list…</p>
     <div class="radio-controls">
       <button type="button" id="radio-prev" class="secondary" aria-label="Previous">Prev</button>
       <button type="button" id="radio-play" aria-label="Play">Play</button>
       <button type="button" id="radio-next" class="secondary" aria-label="Next">Next</button>
-      <input type="range" id="radio-vol" min="0" max="100" value="15" aria-label="Volume">
+
     </div>
+    <p class="radio-hint">Tap Play to load a visible YouTube player. If playback is blocked on your device, use the official link. Control volume with your phone or the video controls.</p>
     <a id="radio-support" class="radio-support" href="#" target="_blank" rel="noopener">Support this artist</a>
     <p style="margin-top:1rem;font-size:.85rem;color:#94a3b8">Up next</p>
     <ul id="radio-upnext" class="radio-upnext"></ul>
