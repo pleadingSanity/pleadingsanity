@@ -25,3 +25,24 @@
 @media(max-width:390px){.radio-wrap{padding:1rem}.radio-hero h1{font-size:1.6rem}}
 
 #radio-video{margin:.8rem 0 1rem}#radio-video[hidden]{display:none}.radio-hint{font-size:.84rem;color:#cbd5e1;line-height:1.5;text-align:center;margin:.5rem 0 1rem}.radio-controls button:focus-visible,.radio-support:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+
+
+/* 2026-11 listening-room refinement: layered cosmic atmosphere, clear focus, mobile-first. */
+*,*::before,*::after{box-sizing:border-box}
+.radio-page{background:radial-gradient(ellipse 85% 45% at 50% 0%,rgba(20,128,143,.24),transparent 75%),radial-gradient(ellipse 65% 45% at 100% 45%,rgba(90,46,144,.14),transparent 80%),#060b15;line-height:1.55}
+.radio-wrap{max-width:760px;padding:clamp(1rem,4vw,2.5rem) 1rem 4rem}
+.radio-hero{margin:0 auto 1.8rem;padding:1.25rem 0;text-align:center}
+.radio-hero h1{font-size:clamp(2.8rem,9vw,5rem);letter-spacing:-.055em;line-height:1.05;margin:.35rem 0 .75rem;font-weight:850}
+.radio-hero p{font-size:1rem;max-width:35rem;margin:.5rem auto}
+.radio-kicker{font-size:.75rem;font-weight:800;letter-spacing:.18em;color:#9ffcf5}
+.radio-mode{display:inline-block!important;padding:.5rem .85rem;border:1px solid rgba(150,240,235,.35);border-radius:999px;color:#d5e8f1!important;font-size:.85rem!important}
+.radio-card{border-color:rgba(112,239,227,.4);padding:clamp(1.25rem,4vw,2.5rem);background:linear-gradient(145deg,rgba(15,37,52,.96),rgba(9,17,35,.98));box-shadow:0 24px 80px rgba(0,0,0,.32),0 0 55px rgba(0,255,240,.045)}
+.radio-player-label{text-align:center;color:#8de8df;font-size:.7rem;font-weight:800;letter-spacing:.2em;margin:0 0 .65rem}
+.radio-title{font-size:clamp(1.35rem,4vw,2rem);line-height:1.2}
+.radio-controls button{min-width:90px;min-height:48px;transition:background .2s ease,transform .2s ease}
+.radio-controls button:hover{background:#a7fff8}
+.radio-controls button.secondary:hover{background:rgba(0,255,240,.14);color:#fff}
+.radio-page a:focus-visible,.radio-page button:focus-visible{outline:3px solid #fbbf24;outline-offset:4px}
+.radio-promise{line-height:1.7}
+@media(max-width:420px){.radio-controls{gap:.35rem}.radio-controls button{padding:.75rem .8rem;min-width:75px}.radio-wrap{padding-inline:.8rem}}
+@media(prefers-reduced-motion:reduce){.radio-page *,.radio-page *::before,.radio-page *::after{transition:none!important;animation:none!important}}
