@@ -183,7 +183,7 @@
     if (iframe.parentNode) postCmd('previousVideo', []);
     state.index = (state.index - 1 + PLAYLIST.length) % PLAYLIST.length;
     writeStore(K_INDEX, state.index);
-    if (loadPlayer()) { /* User selected a track: load on explicit action. */ }
+    loadPlayer();
     state.playing = true; renderPlayIcon(); renderTrack();
   });
 
@@ -193,6 +193,7 @@
     if (iframe.parentNode) postCmd('nextVideo', []);
     state.index = (state.index + 1) % PLAYLIST.length;
     writeStore(K_INDEX, state.index);
+    loadPlayer();
     state.playing = true; renderPlayIcon(); renderTrack();
   });
 
