@@ -276,6 +276,41 @@ body {
 </head>
 <body>
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
+<style>
+/* Additive mobile discovery menu: the original navigation remains intact. */
+.mobile-explore{display:none}
+@media(max-width:700px){
+  .mobile-explore{display:block;position:relative;z-index:52;background:#0b0f19;border-bottom:1px solid rgba(56,189,248,.25);color:#e5f6ff}
+  .mobile-explore summary{cursor:pointer;padding:.85rem 1rem;font-size:1rem;font-weight:700;list-style-position:inside;min-height:44px}
+  .mobile-explore summary:focus-visible,.mobile-explore a:focus-visible{outline:3px solid #00fff0;outline-offset:2px}
+  .mobile-explore[open] .mobile-explore-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;padding:.4rem .7rem .85rem;max-height:60vh;overflow-y:auto}
+  .mobile-explore a{display:flex;align-items:center;min-height:44px;padding:.65rem;border:1px solid rgba(148,163,184,.2);border-radius:9px;color:#e5f6ff;text-decoration:none;font-size:.88rem;white-space:normal}
+  .mobile-explore a:hover{border-color:#38bdf8}
+  .mobile-explore .urgent{border-color:#f87171;color:#fecaca}
+}
+</style>
+<details class="mobile-explore">
+  <summary>Explore Pleading Sanity — menu</summary>
+  <nav class="mobile-explore-links" aria-label="Mobile explore">
+    <a href="/index.html">Sanctuary</a>
+    <a href="/arron.html">Arron AI</a>
+    <a href="/journal-vault.html">Journal Vault</a>
+    <a href="/games.html">Games</a>
+    <a href="/community.html">Community</a>
+    <a href="/insane-radio.html">Insane Radio</a>
+    <a href="/kids.html">Kids</a>
+    <a href="/shop.html">Shop</a>
+    <a href="/new-gen-bible.html">New Gen Bible</a>
+    <a href="/frequencies.html">Frequencies</a>
+    <a href="/support.html">Support</a>
+    <a href="/live.html">Live &amp; Creators</a>
+    <a href="/finance.html">Sane Finance</a>
+    <a href="/insane-solar.html">Insane Solar</a>
+    <a href="/aura-hz.html">Aura Hz</a>
+    <a href="/app.html">App Hub</a>
+    <a href="/crisis.html" class="urgent">Urgent crisis help</a>
+  </nav>
+</details>
 <nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
   <a href="index.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanctuary</a>
   <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
