@@ -831,3 +831,8 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - `package.json` now includes `tests/*.test.mjs` in standard `npm test` and adds `test:discovery` plus `audit:site` convenience commands. This closes the gap where #216's search tests were covered by one workflow but not by `npm test`.
 - `docs/CONTINUOUS_EVOLUTION_ROADMAP.md` proposes phased safety, navigation, accessibility, radio/games, creator, clothing, solar, SEO and operations improvements with measurable gates. This is a plan, not evidence those areas were audited or fixed.
 - **Not yet run:** full `npm test`, local audit, browser/mobile smoke. Keep draft until CI and owner review. No production feature code changed.
+
+## 2026-11-04 — Insane Radio playback fix (draft)
+- Root cause in source: previous `js/radio-player.js` used an invisible 0×0 YouTube iframe with autoplay and incorrectly displayed `Playing` without playback confirmation. Mobile autoplay is not reliable; volume slider was not wired to YouTube.
+- Radio now loads a visible user-initiated YouTube embed, offers official artist/video link fallback, removes nonfunctional volume slider, improves status/focus and adds canonical URL. Original library retained; no audio hosted or rights bypass.
+- Added `tests/radio-player.test.mjs` and CI coverage. **Actual playback on Android/iOS and embed permissions are not verified yet**. Some third-party videos can disallow embedding, and entries without YouTube IDs open the official link instead. Do not merge without CI/mobile smoke and founder approval.
