@@ -810,3 +810,7 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 ## 2026-11-04 — Insane Radio homepage discoverability
 - Founder reported radio difficult to find. On `polish/radio-home-discovery-20261104`, added one prominent Insane Radio link to the existing homepage quick links, beside Games/Live, with an explicit Play-when-ready description. CSS supports both original and optional calmer view. No player, audio or crisis logic modified; no autoplay introduced.
 - Verified source path `/insane-radio.html` exists and original header/mobile links remain. No browser/mobile/CI tests run; preview and accessibility remain to verify. Do not merge until founder review and preview checks. Production main untouched.
+
+## 2026-11-04 — navigation discovery expansion before radio release
+- In the same unmerged radio PR branch, inspected homepage, App Hub, Games and Shop nav source. Confirmed homepage mobile Explore contains radio and 17 core routes; however App Hub and PS grouped nav did not expose Insane Radio. Added Radio/Journal/Shop to App Hub nav, Journal/Shop to homepage desktop nav, and Radio to Games/Shop grouped nav's top-level links. Renamed misleading `Truth` crisis nav labels on Games/Shop to `Crisis Help` (destination unchanged). All additions are links only.
+- Source inspection completed; automated browser, viewport, screen-reader and full-link audits **not run**. Do not claim entire site's menus have been exhaustively checked. No production merge or deploy authorized by this note.
