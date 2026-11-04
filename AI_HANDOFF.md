@@ -787,3 +787,9 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Added `assets/ps-cosmic-wave.svg` as a new original scalable, lightweight, static teal/silver/amber starfield current inspired by the founder's approved cosmic visual direction. This does **not** remove or alter the Dola watermarks; it is a separate original artwork.
 - No page references changed: visual integration, mobile review, brand identity and licensing checks remain pending. Existing official Crying Brain artwork untouched.
 - Branch `art/original-cosmic-wave-20261103`. Reviewed SVG source; automated tests **not run** (asset-only), browser preview **not proven**. No protected files or production logic changed.
+
+
+## 2026-11-04 — GPT: additive content enrichment review
+- Branch `content/enhanced-pages`: added short, human, non-clinical introductory context to `index.html`, `journal-vault.html`, `community.html`, `new-gen-bible.html`, `meditation.html`, `support.html` without replacing original text. Added `docs/CONTENT_ENRICHMENT_REVIEW_2026-11-04.md` recording all other requested page work and factual claim blockers.
+- No production merge, no page rewrite, no change to crisis wording, Arron memory, payments, auth, charter, #92 or staging. Current Arron/device-only privacy and Founder's 100 financial claims deliberately **not** published.
+- Verification: reviewed exact file content and insertion points via GitHub. Automated build, mobile browser, preview and link tests **not run**; full site audit **not proven**. Founder review requested before merge.
