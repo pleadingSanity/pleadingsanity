@@ -4,7 +4,9 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import vm from 'node:vm';
-const root=resolve(import.meta.dirname,'..');
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const script=readFileSync(join(root,'js/home-search.js'),'utf8');
 function element(tag='div') {return {tagName:tag,children:[],textContent:'',href:'',className:'',value:'',listeners:{},focused:false,appendChild(child){this.children.push(child);return child;},replaceChildren(...children){this.children=children;},addEventListener(name,fn){this.listeners[name]=fn;},focus(){this.focused=true;}};}
 function setup(hash='') {const input=element('input'),output=element();const listeners={};const context={document:{getElementById(id){return id==='ps-site-search'?input:id==='ps-search-results'?output:null;},createElement:element},window:{location:{hash},addEventListener(name,fn){listeners[name]=fn;}}};vm.runInNewContext(script,context);return {input,output,context,listeners,search(value){input.value=value;input.listeners.input();return output.children;}};}
