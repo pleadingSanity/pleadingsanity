@@ -826,3 +826,8 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 ## 2026-11-04 — CI regression gate for navigation search (draft)
 - After PR #216 merged, updated `.github/workflows/whole-ecosystem-audit.yml` to run `node --test tests/home-search.test.mjs` before the existing static audit. Trigger on relevant pull requests, manual dispatch, and pushes to main (relevant HTML/CSS/JS/assets/tests/audit/workflow paths). Existing strict static audit and artifact upload remain.
 - This adds no new service, secrets, tracking or production code. CI execution has not been verified yet; do not merge without checking the workflow run and fixing any baseline failures. It cannot replace real mobile/browser testing.
+
+## 2026-11-04 — Unified test command and evolution plan (draft)
+- `package.json` now includes `tests/*.test.mjs` in standard `npm test` and adds `test:discovery` plus `audit:site` convenience commands. This closes the gap where #216's search tests were covered by one workflow but not by `npm test`.
+- `docs/CONTINUOUS_EVOLUTION_ROADMAP.md` proposes phased safety, navigation, accessibility, radio/games, creator, clothing, solar, SEO and operations improvements with measurable gates. This is a plan, not evidence those areas were audited or fixed.
+- **Not yet run:** full `npm test`, local audit, browser/mobile smoke. Keep draft until CI and owner review. No production feature code changed.
