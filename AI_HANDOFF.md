@@ -822,3 +822,7 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 ## 2026-11-04 — Cross-page search discovery (draft)
 - Added `Search` entry links to homepage desktop/mobile nav, App Hub, Games and Shop, pointing to the existing homepage local-only feature finder. `js/home-search.js` focuses the field when linked with `/#ps-site-search`. No server-side search, telemetry, personal data, or new services.
 - Added `tests/home-search.test.mjs` for indexed route existence, radio/games/journal search, multiword matching, no-results text, hash focus and hub navigation links. **Tests have been authored but not executed in this connector session.** CI, mobile and browser checks are release gates; do not merge without verification and founder approval.
+
+## 2026-11-04 — CI regression gate for navigation search (draft)
+- After PR #216 merged, updated `.github/workflows/whole-ecosystem-audit.yml` to run `node --test tests/home-search.test.mjs` before the existing static audit. Trigger on relevant pull requests, manual dispatch, and pushes to main (relevant HTML/CSS/JS/assets/tests/audit/workflow paths). Existing strict static audit and artifact upload remain.
+- This adds no new service, secrets, tracking or production code. CI execution has not been verified yet; do not merge without checking the workflow run and fixing any baseline failures. It cannot replace real mobile/browser testing.

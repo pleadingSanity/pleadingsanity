@@ -1,5 +1,15 @@
 name: Whole ecosystem static audit
 on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.html'
+      - 'assets/**'
+      - 'css/**'
+      - 'js/**'
+      - 'tests/**'
+      - 'scripts/audit-ecosystem.mjs'
+      - '.github/workflows/whole-ecosystem-audit.yml'
   pull_request:
     paths:
       - '**/*.html'
@@ -7,6 +17,7 @@ on:
       - 'css/**'
       - 'js/**'
       - 'scripts/audit-ecosystem.mjs'
+      - 'tests/**'
       - '.github/workflows/whole-ecosystem-audit.yml'
   workflow_dispatch:
 permissions:
@@ -20,6 +31,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
+      - name: Verify homepage search and navigation regressions
+        run: node --test tests/home-search.test.mjs
       - name: Run comprehensive static audit
         run: node scripts/audit-ecosystem.mjs --json > ecosystem-audit.json
       - name: Print summary
