@@ -818,3 +818,7 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 ## 2026-11-04 — Homepage radio feature and local search (draft)
 - Founder still cannot find radio after #214. This branch adds a large, above-the-fold-intent `NEW · FEATURED` Insane Radio link immediately after homepage welcome, and a search input for 28 curated site destinations (games, radio, Arron, journal, shop, support, etc.). Search runs entirely in browser, makes no requests, and never searches private user data. No audio auto-play. No changes to Arron, crisis, radio playback, payments or other pages.
 - Needs validation: syntax/browser tests, mobile 320/390px, keyboard, screen reader, link existence for each search entry, Netlify deploy preview, consent/service-worker behaviour. Do not merge without review.
+
+## 2026-11-04 — Cross-page search discovery (draft)
+- Added `Search` entry links to homepage desktop/mobile nav, App Hub, Games and Shop, pointing to the existing homepage local-only feature finder. `js/home-search.js` focuses the field when linked with `/#ps-site-search`. No server-side search, telemetry, personal data, or new services.
+- Added `tests/home-search.test.mjs` for indexed route existence, radio/games/journal search, multiword matching, no-results text, hash focus and hub navigation links. **Tests have been authored but not executed in this connector session.** CI, mobile and browser checks are release gates; do not merge without verification and founder approval.
