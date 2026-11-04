@@ -1737,20 +1737,9 @@ const CATEGORIES = [
     </div>
   </div>
 </div>
-<script>
-function sendAiChat(){
-  var inp=document.getElementById('ai-chat-input'); var msg=inp.value.trim(); if(!msg)return;
-  var box=document.getElementById('ai-chat-messages');
-  box.innerHTML+='<div style="background:#334155;padding:8px 12px;border-radius:12px;margin-bottom:8px;text-align:right;">'+msg+'</div>';
-  inp.value=''; box.scrollTop=box.scrollHeight;
-  var typing=document.createElement('div'); typing.id='ai-typing'; typing.style.cssText='background:rgba(0,255,240,.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;color:#94a3b8;'; typing.textContent='Thinking...'; box.appendChild(typing); box.scrollTop=box.scrollHeight;
-  fetch('/api/arron',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:'You are the Insane Solar AI assistant. Answer this solar question in plain UK English, max 3 sentences. Never certify — humans sign. If asked for quote, direct to WhatsApp 07711147663. Question: '+msg})}).then(r=>r.json()).then(d=>{
-    var t=document.getElementById('ai-typing'); if(t)t.remove();
-    var reply=(d&&(d.reply||d.response||d.message))||"Connection flickered — try again or WhatsApp us on 07711147663.";
-    box.innerHTML+='<div style="background:rgba(0,255,240,.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;">'+reply+'</div>'; box.scrollTop=box.scrollHeight;
-  }).catch(()=>{var t=document.getElementById('ai-typing');if(t)t.remove();box.innerHTML+='<div style="background:rgba(0,255,240,.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;">Try again — or WhatsApp us directly on 07711147663.</div>';});
-}
-</script>
+<script src="/js/solar-assistant.js" defer></script>
 
+<p class="solar-note">VAT relief is subject to eligibility. See <a href="https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086">vat-on-energy-saving-materials-and-heating-equipment-notice-7086</a>. Generic illustration. Not a specific brand.</p>
+<p class="solar-kit"><img src="/images/solar-kit/solar-panel-black.webp" alt="Solar panel"><img src="/images/solar-kit/ev-charger-cable.webp" alt="EV charger cable"></p>
 <footer class="ps-crisis-footer" role="contentinfo"><p style="margin:0"><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; NHS <a href="tel:111">111</a> &middot; <a href="/crisis.html">More help</a></p></footer></body>
 </html>
