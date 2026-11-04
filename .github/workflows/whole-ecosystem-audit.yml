@@ -8,6 +8,7 @@ on:
       - 'css/**'
       - 'js/**'
       - 'tests/**'
+      - 'data/radio-library.json'
       - 'scripts/audit-ecosystem.mjs'
       - '.github/workflows/whole-ecosystem-audit.yml'
   pull_request:
@@ -18,6 +19,7 @@ on:
       - 'js/**'
       - 'scripts/audit-ecosystem.mjs'
       - 'tests/**'
+      - 'data/radio-library.json'
       - '.github/workflows/whole-ecosystem-audit.yml'
   workflow_dispatch:
 permissions:
@@ -32,7 +34,9 @@ jobs:
         with:
           node-version: '24'
       - name: Verify homepage search and navigation regressions
-        run: node --test tests/home-search.test.mjs tests/radio-player.test.mjs
+        run: node --test tests/home-search.test.mjs tests/radio-player.test.mjs tests/radio-integrity.test.js
+      - name: Validate Netlify build configuration and local assets
+        run: node scripts/validate-build.cjs
       - name: Run comprehensive static audit
         run: node scripts/audit-ecosystem.mjs --json > ecosystem-audit.json
       - name: Print summary
