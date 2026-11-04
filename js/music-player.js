@@ -2,9 +2,8 @@
    PLEADING SANITY — 5-SONG BACKGROUND MUSIC PLAYLIST
    Injects a hidden YouTube iframe (playlist, loop) + a
    floating widget (play/pause, prev, next, mute, volume).
-   - Starts MUTED + autoplays (iOS-safe).
-   - First user gesture (click/touchstart/keydown) unmutes
-     to saved volume, unless user explicitly muted.
+   - No media requests until explicit Play or track selection.
+   - No page-wide gesture auto-unmute.
    - Persists: psMusicMuted, psMusicVolume, psMusicIndex.
    - Uses postMessage (enablejsapi=1) — no external API
      dependency. Listens to infoDelivery for current track.
@@ -61,8 +60,13 @@
       '&loop=1&playlist=' + ids +
       '&enablejsapi=1&rel=0&modestbranding=1&playsinline=1';
   }
-  iframe.src = buildSrc(PLAYLIST[state.index].id, true); // always start muted for autoplay
-  document.body.appendChild(iframe);
+  // Defer all YouTube requests until the visitor explicitly chooses Play.
+  function loadPlayer() {
+    if (iframe.parentNode) return false;
+    iframe.src = buildSrc(PLAYLIST[state.index].id, state.muted);
+    document.body.appendChild(iframe);
+    return true;
+  }
 
   function postCmd(func, args) {
     if (!iframe || !iframe.contentWindow) return;
@@ -169,25 +173,27 @@
     stopProp(e);
     state.unlocked = true; removeGestureListeners();
     if (state.playing) { postCmd('pauseVideo', []); state.playing = false; }
-    else { postCmd('playVideo', []); state.playing = true; if (state.muted && !userExplicitlyMuted) { state.muted = false; postCmd('unMute', []); writeStore(K_MUTED, '0'); } }
+    else { if (state.muted && !userExplicitlyMuted) { state.muted = false; writeStore(K_MUTED, '0'); } if (!loadPlayer()) postCmd('playVideo', []); state.playing = true; }
     renderPlayIcon(); renderTrack();
   });
 
   elPrev.addEventListener('click', function (e) {
     stopProp(e);
     state.unlocked = true; removeGestureListeners();
-    postCmd('previousVideo', []);
+    if (iframe.parentNode) postCmd('previousVideo', []);
     state.index = (state.index - 1 + PLAYLIST.length) % PLAYLIST.length;
     writeStore(K_INDEX, state.index);
+    loadPlayer();
     state.playing = true; renderPlayIcon(); renderTrack();
   });
 
   elNext.addEventListener('click', function (e) {
     stopProp(e);
     state.unlocked = true; removeGestureListeners();
-    postCmd('nextVideo', []);
+    if (iframe.parentNode) postCmd('nextVideo', []);
     state.index = (state.index + 1) % PLAYLIST.length;
     writeStore(K_INDEX, state.index);
+    loadPlayer();
     state.playing = true; renderPlayIcon(); renderTrack();
   });
 
@@ -210,33 +216,10 @@
     if (state.muted) { state.muted = false; postCmd('unMute', []); writeStore(K_MUTED, '0'); renderMuteIcon(); renderTrack(); }
   });
 
-  // ---------- first-gesture auto-unmute ----------
-  function onFirstGesture() {
-    if (state.unlocked || userExplicitlyMuted) return;
-    state.unlocked = true;
-    removeGestureListeners();
-    state.muted = false;
-    postCmd('unMute', []);
-    postCmd('setVolume', [state.volume]);
-    writeStore(K_MUTED, '0');
-    renderMuteIcon(); renderTrack();
-  }
-  function addGestureListeners() {
-    document.addEventListener('click', onFirstGesture, { capture: true, once: true });
-    document.addEventListener('touchstart', onFirstGesture, { capture: true, once: true, passive: true });
-    document.addEventListener('keydown', onFirstGesture, { capture: true, once: true });
-  }
-  function removeGestureListeners() {
-    document.removeEventListener('click', onFirstGesture, { capture: true });
-    document.removeEventListener('touchstart', onFirstGesture, { capture: true });
-    document.removeEventListener('keydown', onFirstGesture, { capture: true });
-  }
+  // Playback and unmute are controlled only by the player's own buttons.
+  function removeGestureListeners() { /* No global gesture listeners. */ }
 
   // ---------- init ----------
   renderAll();
-  if (userExplicitlyMuted) {
-    writeStore(K_MUTED, '1');
-  } else {
-    addGestureListeners();
-  }
+  // No media requests or audio until explicit player interaction.
 })();
