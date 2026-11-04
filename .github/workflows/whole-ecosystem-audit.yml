@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: '24'
       - name: Verify homepage search and navigation regressions
-        run: node --test tests/home-search.test.mjs
+        run: node --test tests/home-search.test.mjs tests/radio-player.test.mjs
       - name: Run comprehensive static audit
         run: node scripts/audit-ecosystem.mjs --json > ecosystem-audit.json
       - name: Print summary
