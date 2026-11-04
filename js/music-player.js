@@ -35,9 +35,9 @@
   var state = {
     index: parseInt(readStore(K_INDEX, '0'), 10) || 0,
     muted: readStore(K_MUTED, '1') === '1', // default muted until first gesture
-    volume: parseInt(readStore(K_VOLUME, '50'), 10) || 50,
+    volume: parseInt(readStore(K_VOLUME, '15'), 10) || 15,
     unlocked: false,
-    playing: true, // autoplay starts playing (muted)
+    playing: false, // starts OFF — user chooses
     iframeReady: false
   };
   if (state.index < 0 || state.index >= PLAYLIST.length) state.index = 0;
