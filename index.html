@@ -271,6 +271,21 @@ body {
 @media (prefers-reduced-motion: reduce) {
   body { background-attachment: scroll; }
 }
+
+/* Optional low-stimulation sanctuary presentation. Original cosmic style remains available. */
+.atmosphere-control{display:flex;justify-content:center;align-items:center;gap:.55rem;margin:.5rem auto 1.15rem;flex-wrap:wrap}
+.atmosphere-control button{font:inherit;font-size:.92rem;font-weight:650;min-height:44px;padding:.55rem 1rem;border-radius:999px;border:1px solid #93a6b7;background:#182536;color:#f0f7ff;cursor:pointer}
+.atmosphere-control button:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.atmosphere-control .atmosphere-hint{font-size:.83rem;color:#c2d3e1}
+body.ps-calm{background:#111c27!important;color:#edf3f8}
+body.ps-calm .logo{animation:none!important;filter:none!important}
+body.ps-calm h1{text-shadow:none!important}
+body.ps-calm .tagline{color:#d5e9ef}
+body.ps-calm .door{background:#1b2b39!important;border-color:#7295a8!important;box-shadow:0 4px 14px rgba(0,0,0,.22)!important;backdrop-filter:none!important;transform:none!important}
+body.ps-calm .door:hover{border-color:#b4d3dc!important;box-shadow:0 4px 14px rgba(0,0,0,.22)!important;transform:none!important}
+body.ps-calm .hero img:not(.logo){box-shadow:none!important}
+body.ps-calm .eco-nav{backdrop-filter:none!important}
+@media(prefers-reduced-motion:reduce){.atmosphere-control *,body.ps-calm *{animation:none!important;transition:none!important}}
 </style>
 <link rel="stylesheet" href="/css/card-polish.css">
 </head>
@@ -331,6 +346,7 @@ body {
 <a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content">
 <div class="hero">
+<div class="atmosphere-control"><button id="atmosphereToggle" type="button" aria-pressed="false">Calmer view: Off</button><span class="atmosphere-hint">Reduce glow and movement on this page</span></div>
 <img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 100px, 120px" alt="Pleading Sanity crying brain logo" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
 <img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" loading="lazy" style="width:100%;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
@@ -553,5 +569,26 @@ Share this sanctuary
   <script type="module" src="/js/auth.js"></script>
 <script src="/js/consent.js" defer></script>
 <script src="/js/home-music.js" defer></script>
+
+<script>
+/* User-controlled visual preference only; no analytics or external requests. */
+(function(){
+  var button=document.getElementById('atmosphereToggle');
+  if(!button)return;
+  var key='psCalmView';
+  var calm=false;
+  try{calm=localStorage.getItem(key)==='yes';}catch(e){}
+  function render(){
+    document.body.classList.toggle('ps-calm',calm);
+    button.setAttribute('aria-pressed',String(calm));
+    button.textContent='Calmer view: '+(calm?'On':'Off');
+  }
+  render();
+  button.addEventListener('click',function(){
+    calm=!calm;render();
+    try{localStorage.setItem(key,calm?'yes':'no');}catch(e){}
+  });
+})();
+</script>
 </body>
 </html>
