@@ -157,6 +157,19 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
 .solar-founder-note{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2rem;padding:clamp(1.4rem,3vw,2.5rem);border:1px solid rgba(251,191,36,.42);border-radius:22px;background:radial-gradient(circle at 100% 0,rgba(251,191,36,.16),transparent 55%),rgba(0,0,0,.16)}
 .solar-founder-note>div{flex:1 1 320px}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important;transform:none!important;transition:none!important}.rays,.sunburst .glow{animation:none!important}}
+
+/* Insane Solar refinement: additive visuals only, preserve pricing, copy and all forms. */
+#top{isolation:isolate}
+#top::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 55% 60% at 85% 15%,rgba(245,158,11,.095),transparent 75%),radial-gradient(ellipse 65% 65% at 8% 90%,rgba(16,185,129,.075),transparent 80%)}
+.card-dark,.card-light{transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.card-dark:hover,.card-light:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(0,0,0,.16)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+.btn:active{transform:translateY(0) scale(.99)}
+#ai-chat-toggle{transition:transform .2s ease,box-shadow .2s ease}
+#ai-chat-toggle:hover{transform:translateY(-2px);box-shadow:0 10px 34px rgba(0,255,240,.3)}
+@media(max-width:640px){.btn{min-height:48px;justify-content:center}#ai-chat-toggle{width:56px!important;height:56px!important}#ai-chat-panel{max-height:min(75vh,560px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto!important}.card-dark,.card-light,.btn,#ai-chat-toggle{transition:none!important}.card-dark:hover,.card-light:hover,.btn:hover,#ai-chat-toggle:hover{transform:none!important}}
+
 </style>
 </head>
 <body class="antialiased">
