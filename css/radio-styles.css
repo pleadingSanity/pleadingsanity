@@ -46,3 +46,28 @@
 .radio-promise{line-height:1.7}
 @media(max-width:420px){.radio-controls{gap:.35rem}.radio-controls button{padding:.75rem .8rem;min-width:75px}.radio-wrap{padding-inline:.8rem}}
 @media(prefers-reduced-motion:reduce){.radio-page *,.radio-page *::before,.radio-page *::after{transition:none!important;animation:none!important}}
+
+/* Insane Radio calm continuous-listening treatment. */
+.radio-card{transition:box-shadow .45s ease,border-color .45s ease}
+.radio-card.is-playing{border-color:rgba(0,255,240,.7);animation:radio-breathe 4.5s ease-in-out infinite}
+.radio-player-label{color:#00fff0;text-shadow:0 0 14px rgba(0,255,240,.35)}
+.radio-artist{color:#cbd5e1}
+.radio-art{height:clamp(100px,24vw,155px);aspect-ratio:auto;margin:1rem 0;border:1px solid rgba(0,255,240,.22)}
+.radio-art span{font-size:clamp(1.25rem,4vw,2rem);font-weight:800;letter-spacing:.2em;text-shadow:0 0 24px rgba(0,255,240,.3)}
+.is-playing .radio-art{animation:radio-art-breathe 4.5s ease-in-out infinite}
+.radio-video-shell{width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;background:#030712}
+.radio-video-shell iframe{display:block;width:100%;height:100%;border:0}
+.radio-progress-wrap{display:flex;align-items:center;gap:.75rem;margin:1rem 0}
+#radio-progress{width:100%;height:5px;appearance:none;-webkit-appearance:none;overflow:hidden;border:0;border-radius:999px;background:#233645}
+#radio-progress::-webkit-progress-bar{background:#233645;border-radius:999px}
+#radio-progress::-webkit-progress-value{background:#00fff0;border-radius:999px;box-shadow:0 0 10px rgba(0,255,240,.6)}
+#radio-progress::-moz-progress-bar{background:#00fff0;border-radius:999px}
+#radio-time{font-size:.76rem;white-space:nowrap;color:#cbd5e1;font-variant-numeric:tabular-nums}
+#radio-play{min-width:110px;min-height:56px;font-size:1.12rem;box-shadow:0 0 20px rgba(0,255,240,.16)}
+.is-playing #radio-play{box-shadow:0 0 24px rgba(0,255,240,.35)}
+.radio-upnext li{padding:.65rem .5rem;border-radius:8px;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+.radio-upnext li:hover{transform:translateY(-2px);background:rgba(0,255,240,.07);box-shadow:0 0 12px rgba(0,255,240,.09)}
+@keyframes radio-breathe{50%{box-shadow:0 24px 80px rgba(0,0,0,.32),0 0 32px rgba(0,255,240,.17)}}
+@keyframes radio-art-breathe{50%{box-shadow:inset 0 0 35px rgba(0,255,240,.12)}}
+@media(max-width:420px){.radio-controls button{min-height:52px;min-width:75px}.radio-upnext{font-size:.92rem}.radio-upnext li{padding:.75rem .4rem}}
+@media(prefers-reduced-motion:reduce){.radio-card.is-playing,.is-playing .radio-art{animation:none!important}.radio-upnext li:hover{transform:none}}
