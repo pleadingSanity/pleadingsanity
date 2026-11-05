@@ -1,6 +1,6 @@
 {
   "station": "Insane Radio",
-  "note": "Official links only. No hosted audio. Mixtape platforms like DatPiff are not linked \u2014 use artist official channels.",
+  "note": "Artist and album discovery via official YouTube sources only; no hosted audio. Search-only entries have no verified embeddable video and will be skipped by the in-page player. Playback depends on YouTube availability and browser restrictions.",
   "tracks": [
     {
       "era": "early-90s",
@@ -507,7 +507,7 @@
       "region": "US",
       "genre": "rnb",
       "title": "Crazy in Love",
-      "artist": "Beyonc\u00e9 ft. Jay-Z",
+      "artist": "Beyoncé ft. Jay-Z",
       "year": 2003,
       "youtubeId": "ViwtNLUqkMY",
       "supportLink": "https://www.youtube.com/watch?v=ViwtNLUqkMY"
@@ -537,7 +537,7 @@
       "region": "US",
       "genre": "rnb",
       "title": "Irreplaceable",
-      "artist": "Beyonc\u00e9",
+      "artist": "Beyoncé",
       "year": 2006,
       "youtubeId": "2EwViQxSJJQ",
       "supportLink": "https://www.youtube.com/watch?v=2EwViQxSJJQ"
@@ -607,7 +607,7 @@
       "region": "US",
       "genre": "rnb",
       "title": "Formation",
-      "artist": "Beyonc\u00e9",
+      "artist": "Beyoncé",
       "year": 2016,
       "youtubeId": "WDZJPJV__bQ",
       "supportLink": "https://www.youtube.com/watch?v=WDZJPJV__bQ"
@@ -741,6 +741,138 @@
       "year": 2012,
       "youtubeId": "vO2Su3erRIA",
       "supportLink": "https://www.youtube.com/watch?v=vO2Su3erRIA"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "Without Me",
+      "artist": "Eminem",
+      "year": 2002,
+      "album": "The Eminem Show",
+      "youtubeId": "YVkUvmDQ3HY",
+      "supportLink": "https://www.youtube.com/watch?v=YVkUvmDQ3HY"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "Mockingbird",
+      "artist": "Eminem",
+      "year": 2004,
+      "album": "Encore",
+      "youtubeId": "S9bCLPwzSC0",
+      "supportLink": "https://www.youtube.com/watch?v=S9bCLPwzSC0"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "The Real Slim Shady",
+      "artist": "Eminem",
+      "year": 2000,
+      "album": "The Marshall Mathers LP",
+      "youtubeId": "eJO5HU_7_1w",
+      "supportLink": "https://www.youtube.com/watch?v=eJO5HU_7_1w"
+    },
+    {
+      "era": "2010s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "Not Afraid",
+      "artist": "Eminem",
+      "year": 2010,
+      "album": "Recovery",
+      "youtubeId": "j5-yKhDd64s",
+      "supportLink": "https://www.youtube.com/watch?v=j5-yKhDd64s"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "Smack That",
+      "artist": "Akon ft. Eminem",
+      "year": 2006,
+      "album": "Konvicted",
+      "youtubeId": "bKDdT_nyP54",
+      "supportLink": "https://www.youtube.com/watch?v=bKDdT_nyP54"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "rnb",
+      "title": "Lonely",
+      "artist": "Akon",
+      "year": 2005,
+      "album": "Trouble",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Akon%20Lonely%20official%20music%20video"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "rnb",
+      "title": "Don't Matter",
+      "artist": "Akon",
+      "year": 2006,
+      "album": "Konvicted",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Akon%20Don't%20Matter%20official%20music%20video"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "rnb",
+      "title": "Right Now (Na Na Na)",
+      "artist": "Akon",
+      "year": 2008,
+      "album": "Freedom",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Akon%20Right%20Now%20(Na%20Na%20Na)%20official%20music%20video"
+    },
+    {
+      "era": "2010s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "Roll Up",
+      "artist": "Wiz Khalifa",
+      "year": 2011,
+      "album": "Rolling Papers",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Wiz%20Khalifa%20Roll%20Up%20official%20music%20video"
+    },
+    {
+      "era": "2010s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "We Dem Boyz",
+      "artist": "Wiz Khalifa",
+      "year": 2014,
+      "album": "Blacc Hollywood",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Wiz%20Khalifa%20We%20Dem%20Boyz%20official%20music%20video"
+    },
+    {
+      "era": "2000s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "The Thrill",
+      "artist": "Wiz Khalifa",
+      "year": 2009,
+      "album": "Burn After Rolling",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Wiz%20Khalifa%20The%20Thrill%20official%20music%20video"
+    },
+    {
+      "era": "2010s",
+      "region": "US",
+      "genre": "hiphop",
+      "title": "No Sleep",
+      "artist": "Wiz Khalifa",
+      "year": 2011,
+      "album": "Rolling Papers",
+      "youtubeId": "",
+      "supportLink": "https://www.youtube.com/results?search_query=Wiz%20Khalifa%20No%20Sleep%20official%20music%20video"
     }
   ]
 }
