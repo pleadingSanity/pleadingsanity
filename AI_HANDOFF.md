@@ -853,3 +853,6 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Added state-driven progress, light volume ramp, calm reduced-motion-aware glow and responsive controls. Artist Promise and crisis paragraph unchanged.
 - First library track remains Dr. Dre ft. Snoop Dogg, YouTube ID mWDMTYn2y78. Its actual regional playback/embedding permission has NOT been verified; do not claim repaired stream without device test. YouTube/mobile browser restrictions can prevent automatic successive playback or volume control. True cross-track gapless audio fade is not possible with these external embeds.
 - Run tests and smoke-test Android and desktop; do not deploy until reviewed.
+
+## 2026-11-05 — Arron Guardian Charter
+Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Consensus required. #92, crisis, prices locked. Shane reviews on return.
