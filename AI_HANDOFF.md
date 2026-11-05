@@ -847,3 +847,9 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 - Root cause in source: previous `js/radio-player.js` used an invisible 0×0 YouTube iframe with autoplay and incorrectly displayed `Playing` without playback confirmation. Mobile autoplay is not reliable; volume slider was not wired to YouTube.
 - Radio now loads a visible user-initiated YouTube embed, offers official artist/video link fallback, removes nonfunctional volume slider, improves status/focus and adds canonical URL. Original library retained; no audio hosted or rights bypass.
 - Added `tests/radio-player.test.mjs` and CI coverage. **Actual playback on Android/iOS and embed permissions are not verified yet**. Some third-party videos can disallow embedding, and entries without YouTube IDs open the official link instead. Do not merge without CI/mobile smoke and founder approval.
+
+## 2026-11-05 — Insane Radio continuous player (review branch)
+- YouTube IFrame API replaces optimistic iframe status; Play is user initiated, track END advances automatically, API errors and 8-second startup timeout skip with a bounded all-tracks failure stop. No audio is hosted.
+- Added state-driven progress, light volume ramp, calm reduced-motion-aware glow and responsive controls. Artist Promise and crisis paragraph unchanged.
+- First library track remains Dr. Dre ft. Snoop Dogg, YouTube ID mWDMTYn2y78. Its actual regional playback/embedding permission has NOT been verified; do not claim repaired stream without device test. YouTube/mobile browser restrictions can prevent automatic successive playback or volume control. True cross-track gapless audio fade is not possible with these external embeds.
+- Run tests and smoke-test Android and desktop; do not deploy until reviewed.

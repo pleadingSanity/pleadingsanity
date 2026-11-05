@@ -13,20 +13,22 @@
   <a href="/" style="color:#00fff0;text-decoration:none;font-weight:700">← Back to Sanity Hub</a>
 </nav>
 <div class="radio-wrap">
-  <header class="radio-hero"><span class="radio-kicker">PLEADING SANITY · LISTENING ROOM</span><h1>Insane Radio</h1><p>Music that speaks. UK and US hip-hop, R&amp;B and the artists behind the tracks.</p><p class="radio-mode">Curated music player · starts silent · you choose when to play</p></header>
-  <div class="radio-card" role="region" aria-label="Insane Radio player"><p class="radio-player-label">NOW SELECTED</p>
+  <header class="radio-hero"><span class="radio-kicker">PLEADING SANITY · LISTENING ROOM</span><h1>Insane Radio</h1><p>Music that speaks. UK and US hip-hop, R&amp;B and the artists behind the tracks.</p><p class="radio-mode">Curated music player · starts silent · press Play once to listen</p></header>
+  <div class="radio-card" id="radio-card" role="region" aria-label="Insane Radio player"><p class="radio-player-label">NOW PLAYING</p>
     <p id="radio-title" class="radio-title">Press Play</p>
-    <div id="radio-video" hidden aria-label="Visible YouTube music player"></div>
+    <div class="radio-art" aria-hidden="true"><span id="radio-art-title">INSANE RADIO</span></div>
+    <div class="radio-video-shell" aria-label="Official YouTube video player"><div id="radio-video-player"></div></div>
     <p id="radio-artist" class="radio-artist"></p>
     <p id="radio-era" class="radio-era"></p>
     <p id="radio-status" role="status" aria-live="polite" style="color:#94a3b8;font-size:.85rem">Loading track list…</p>
+    <div class="radio-progress-wrap"><progress id="radio-progress" max="100" value="0" aria-label="Track playback progress"></progress><span id="radio-time">0:00 / --:--</span></div>
     <div class="radio-controls">
       <button type="button" id="radio-prev" class="secondary" aria-label="Previous">Prev</button>
       <button type="button" id="radio-play" aria-label="Play">Play</button>
       <button type="button" id="radio-next" class="secondary" aria-label="Next">Next</button>
 
     </div>
-    <p class="radio-hint">Tap Play to load a visible YouTube player. If playback is blocked on your device, use the official link. Control volume with your phone or the video controls.</p>
+    <p class="radio-hint">Press Play once to start continuous listening. Playback moves to the next song when the current one ends. Some videos may require a tap inside YouTube or may block embedding; use the official link if needed.</p>
     <a id="radio-support" class="radio-support" href="#" target="_blank" rel="noopener">Support this artist</a>
     <p style="margin-top:1rem;font-size:.85rem;color:#94a3b8">Up next</p>
     <ul id="radio-upnext" class="radio-upnext"></ul>

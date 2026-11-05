@@ -1,114 +1,178 @@
-/* Insane Radio: user-initiated, visible official video playback. No hosted audio. */
+/* Insane Radio — consent-first continuous official YouTube embeds. No hosted audio. */
 (function () {
   'use strict';
-  var lib = [], idx = 0, playing = false, frame = null;
+  var tracks = [], index = 0, player = null, wanted = false, ready = false;
+  var loadTimer = null, progressTimer = null, fadeTimer = null, generation = 0, failures = 0;
+  var STATE = {ENDED:0, PLAYING:1, PAUSED:2, BUFFERING:3, CUED:5};
   function el(id) { return document.getElementById(id); }
-  function setText(id, value) { var n = el(id); if (n) n.textContent = value; }
-  function current() { return lib[idx]; }
-  function validId(value) { return typeof value === 'string' && /^[A-Za-z0-9_-]{11}$/.test(value); }
-  function sourceLink(track) {
-    var raw = track && track.supportLink;
-    try { var url = new URL(raw); if (url.protocol === 'https:' && ['www.youtube.com','youtube.com','youtu.be','music.youtube.com'].includes(url.hostname)) return url.href; } catch (e) {}
-    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent((track ? track.artist + ' ' + track.title : 'Insane Radio'));
+  function label(id, value) { var node = el(id); if (node) node.textContent = value; }
+  function track() { return tracks[index]; }
+  function valid(id) { return typeof id === 'string' && /^[A-Za-z0-9_-]{11}$/.test(id); }
+  function official(t) {
+    try {
+      var u = new URL(t.supportLink);
+      if (u.protocol === 'https:' && ['youtube.com','www.youtube.com','music.youtube.com','youtu.be'].indexOf(u.hostname) >= 0) return u.href;
+    } catch (e) {}
+    return 'https://www.youtube.com/results?search_query=' + encodeURIComponent(t.artist + ' ' + t.title);
   }
-  function ensureFrame() {
-    if (frame) return frame;
-    var container = el('radio-video');
-    if (!container) return null;
-    frame = document.createElement('iframe');
-    frame.title = 'Official music video — YouTube player';
-    frame.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
-    frame.setAttribute('allowfullscreen', '');
-    frame.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-    frame.style.cssText = 'width:100%;aspect-ratio:16/9;display:block;border:0;border-radius:12px;background:#05070b';
-    container.appendChild(frame);
-    return frame;
+  function clearLoad() { if (loadTimer !== null) { clearTimeout(loadTimer); loadTimer = null; } }
+  function clearFade() { if (fadeTimer !== null) { clearInterval(fadeTimer); fadeTimer = null; } }
+  function resetProgress() {
+    var bar = el('radio-progress'), time = el('radio-time');
+    if (bar) { bar.value = 0; bar.max = 100; }
+    if (time) time.textContent = '0:00 / --:--';
   }
-  function resetFrame() {
-    if (frame) { frame.remove(); frame = null; }
-    var container = el('radio-video');
-    if (container) container.hidden = true;
+  function fmt(seconds) {
+    seconds = Math.max(0, Math.floor(Number(seconds) || 0));
+    return Math.floor(seconds / 60) + ':' + String(seconds % 60).padStart(2, '0');
   }
-  function updateButton(label) {
-    var button = el('radio-play');
-    if (button) { button.textContent = label; button.setAttribute('aria-label', label); }
+  function stateUI(active) {
+    var card = el('radio-card'), button = el('radio-play');
+    if (card) card.classList.toggle('is-playing', active);
+    if (button) { button.textContent = wanted ? 'Pause' : 'Play'; button.setAttribute('aria-label', wanted ? 'Pause radio' : 'Play radio'); }
   }
   function render() {
-    var t = current();
-    if (!t) { setText('radio-title', 'No tracks available'); setText('radio-status', 'The radio library is empty. Please try again later.'); return; }
-    setText('radio-title', t.title);
-    setText('radio-artist', t.artist);
-    setText('radio-era', [t.region, t.era, t.genre].filter(Boolean).join(' · '));
-    var link = el('radio-support');
-    if (link) { link.href = sourceLink(t); link.textContent = 'Open official music link'; }
-    var up = el('radio-upnext');
-    if (up) {
-      up.replaceChildren();
-      for (var i = 1; i < Math.min(lib.length, 4); i++) {
-        var n = lib[(idx + i) % lib.length];
-        var li = document.createElement('li');
-        li.textContent = n.title + ' · ' + n.artist;
-        up.appendChild(li);
+    var t = track(); if (!t) return;
+    label('radio-title', t.title); label('radio-artist', t.artist);
+    label('radio-era', [t.region, t.era, t.genre].filter(Boolean).join(' · '));
+    var link = el('radio-support'); if (link) { link.href = official(t); link.textContent = 'Open official music link'; }
+    var list = el('radio-upnext'); if (list) {
+      list.replaceChildren();
+      for (var i = 1; i < Math.min(tracks.length, 5); i++) {
+        var t2 = tracks[(index + i) % tracks.length];
+        var item = document.createElement('li');
+        item.textContent = t2.title + ' · ' + t2.artist;
+        list.appendChild(item);
       }
     }
+    var art = el('radio-art-title'); if (art) art.textContent = t.genre === 'rnb' ? 'R&B' : 'HIP-HOP';
+    resetProgress();
   }
-  function play() {
-    var t = current();
-    if (!t) return;
-    if (!validId(t.youtubeId)) {
-      playing = false;
-      resetFrame();
-      updateButton('Open on YouTube');
-      setText('radio-status', 'This track has no verified embedded player. Use the official music link.');
-      var link = el('radio-support');
-      if (link) { link.focus(); }
-      return;
+  function safeCall(method, arg) {
+    try { if (player && typeof player[method] === 'function') return player[method](arg); } catch (e) {}
+    return undefined;
+  }
+  function fadeTo(target, callback) {
+    clearFade();
+    var volume = Number(safeCall('getVolume')); if (!Number.isFinite(volume)) volume = 75;
+    var steps = 5, count = 0, start = volume;
+    fadeTimer = setInterval(function () {
+      count++;
+      safeCall('setVolume', Math.round(start + (target - start) * count / steps));
+      if (count >= steps) { clearFade(); if (callback) callback(); }
+    }, 70);
+  }
+  function scheduleTimeout(token) {
+    clearLoad();
+    loadTimer = setTimeout(function () {
+      if (!wanted || token !== generation) return;
+      label('radio-status', "This one's resting — up next instead ✨");
+      skipFailed();
+    }, 8000);
+  }
+  function skipFailed() {
+    clearLoad(); clearFade(); failures++;
+    if (failures >= tracks.length) {
+      wanted = false; stateUI(false);
+      label('radio-status', 'No embeddable tracks are available right now. Use the official music link.');
+      safeCall('stopVideo'); return;
     }
-    var container = el('radio-video');
-    if (!container) { setText('radio-status', 'Player unavailable. Use the official music link.'); return; }
-    container.hidden = false;
-    var video = ensureFrame();
-    if (!video) return;
-    video.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(t.youtubeId) + '?autoplay=1&playsinline=1&rel=0';
-    playing = true;
-    updateButton('Stop');
-    setText('radio-status', 'Video loaded. If sound does not start, tap Play in the video or open the official link below.');
+    move(1, true);
+  }
+  function startCurrent() {
+    if (!wanted || !tracks.length) return;
+    generation++;
+    var token = generation, t = track();
+    render();
+    if (!valid(t.youtubeId)) {
+      label('radio-status', "This one's resting — up next instead ✨");
+      skipFailed(); return;
+    }
+    if (!ready || !player) {
+      label('radio-status', 'Connecting to official music player…');
+      scheduleTimeout(token); return;
+    }
+    label('radio-status', 'Loading ' + t.title + '…');
+    safeCall('loadVideoById', t.youtubeId);
+    scheduleTimeout(token);
+  }
+  function move(delta, failed) {
+    if (!tracks.length) return;
+    clearLoad(); clearFade(); generation++;
+    if (!failed) failures = 0;
+    index = (index + delta + tracks.length) % tracks.length;
+    if (wanted) startCurrent();
+    else { render(); label('radio-status', 'Selected — press Play'); }
   }
   function stop() {
-    resetFrame();
-    playing = false;
-    updateButton('Play');
-    setText('radio-status', 'Stopped — press Play');
+    wanted = false; generation++; clearLoad(); clearFade();
+    safeCall('pauseVideo'); stateUI(false);
+    label('radio-status', 'Paused — press Play to continue');
   }
-  function move(delta) {
-    if (!lib.length) return;
-    var resume = playing;
-    stop();
-    idx = (idx + delta + lib.length) % lib.length;
-    render();
-    if (resume) play();
+  function play() {
+    if (!tracks.length) return;
+    wanted = true; failures = 0; stateUI(false);
+    if (ready && player && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
+      label('radio-status', 'Resuming…');
+      safeCall('playVideo'); scheduleTimeout(++generation);
+    } else startCurrent();
+    stateUI(false);
+  }
+  function tick() {
+    if (!wanted || !ready || safeCall('getPlayerState') !== STATE.PLAYING) return;
+    var duration = Number(safeCall('getDuration')), position = Number(safeCall('getCurrentTime'));
+    if (!(duration > 0) || !(position >= 0)) return;
+    var bar = el('radio-progress');
+    if (bar) { bar.max = duration; bar.value = Math.min(duration, position); }
+    label('radio-time', fmt(position) + ' / ' + fmt(duration));
+  }
+  function onState(event) {
+    if (!wanted) return;
+    if (event.data === STATE.PLAYING) {
+      clearLoad(); failures = 0;
+      stateUI(true); label('radio-status', 'Now playing · official YouTube source');
+      if (typeof player.setVolume === 'function') { safeCall('setVolume', 0); fadeTo(75); }
+    } else if (event.data === STATE.ENDED) {
+      clearLoad(); clearFade(); move(1, false);
+    } else if (event.data === STATE.BUFFERING) {
+      label('radio-status', 'Buffering…');
+      if (loadTimer === null) scheduleTimeout(generation);
+    } else if (event.data === STATE.PAUSED) {
+      stateUI(false);
+      label('radio-status', 'Paused by the player. Tap Play to continue.');
+    }
+  }
+  function initYouTube() {
+    window.onYouTubeIframeAPIReady = function () {
+      player = new window.YT.Player('radio-video-player', {
+        width:'640', height:'360',
+        playerVars:{playsinline:1,rel:0,origin:window.location.origin},
+        events:{
+          onReady:function () { ready = true; if (wanted) startCurrent(); },
+          onStateChange:onState,
+          onError:function () { if (wanted) { label('radio-status', "This one's resting — up next instead ✨"); skipFailed(); } }
+        }
+      });
+    };
+    var script = document.createElement('script');
+    script.src = 'https://www.youtube.com/iframe_api'; script.async = true;
+    script.onerror = function () { label('radio-status', 'Player unavailable. Open the official music link below.'); clearLoad(); wanted = false; stateUI(false); };
+    document.head.appendChild(script);
   }
   function init() {
-    setText('radio-status', 'Loading track list…');
-    fetch('/data/radio-library.json').then(function (response) {
-      if (!response.ok) throw new Error('Library HTTP ' + response.status);
-      return response.json();
-    }).then(function (data) {
-      lib = Array.isArray(data.tracks) ? data.tracks.filter(function (t) { return t && typeof t.title === 'string' && typeof t.artist === 'string'; }) : [];
-      render();
-      if (lib.length) setText('radio-status', 'Ready — press Play. Sound starts only when you choose.');
-      var button = el('radio-play');
-      if (button) button.addEventListener('click', function () {
-        if (playing) stop();
-        else if (current() && !validId(current().youtubeId)) {
-          window.open(sourceLink(current()), '_blank', 'noopener,noreferrer');
-          setText('radio-status', 'Opened the official music link in a new tab.');
-        } else play();
-      });
-      var next = el('radio-next'); if (next) next.addEventListener('click', function () { move(1); });
-      var prev = el('radio-prev'); if (prev) prev.addEventListener('click', function () { move(-1); });
-    }).catch(function () { setText('radio-status', 'Track list unavailable. Please reload or try again later.'); updateButton('Play'); });
+    label('radio-status', 'Loading track list…');
+    var playButton = el('radio-play');
+    if (playButton) playButton.addEventListener('click', function () { if (wanted) stop(); else play(); });
+    var next = el('radio-next'); if (next) next.addEventListener('click', function () { move(1, false); });
+    var prev = el('radio-prev'); if (prev) prev.addEventListener('click', function () { move(-1, false); });
+    progressTimer = setInterval(tick, 500);
+    fetch('/data/radio-library.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (data) {
+      tracks = Array.isArray(data.tracks) ? data.tracks.filter(function (t) { return t && typeof t.title === 'string' && typeof t.artist === 'string'; }) : [];
+      if (!tracks.length) { label('radio-status', 'Track list empty.'); return; }
+      render(); label('radio-status', 'Ready — press Play once for continuous listening');
+      initYouTube();
+    }).catch(function () { label('radio-status', 'Track list unavailable. Please try again later.'); });
+    document.addEventListener('visibilitychange', function () { if (document.hidden) clearFade(); });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
-  else init();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
