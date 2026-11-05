@@ -856,3 +856,8 @@ RULES: No violence. No incitement. Peaceful, legal, for the people. All AIs carr
 
 ## 2026-11-05 — Arron Guardian Charter
 Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Consensus required. #92, crisis, prices locked. Shane reviews on return.
+
+## 2026-11-05 — Guardian + Solar + Radio finishing pass (review branch)
+- Added an implementation-safeguards section to `docs/ARRON-GUARDIAN-CHARTER.md` clarifying immutable-SHA reviews, no invented AI consensus, protected founder-only changes, consent-based notifications and human escalation. The charter remains policy, not a working approval service.
+- Additive CSS-only polish on `insane-solar.html`, `solar-trade.html` and `css/radio-styles.css`: calmer depth, refined hover/focus states, mobile targets and reduced-motion accommodations. No forms, pricing, supplier claims, music sources, artist promise or crisis content changed.
+- Source review only; no full browser, mobile or deployment verification. Review visual regressions and run CI before any merge. No licensed trade hero photo was added.
