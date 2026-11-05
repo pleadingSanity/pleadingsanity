@@ -34,7 +34,7 @@
   function render() {
     var t = track(); if (!t) return;
     label('radio-title', t.title); label('radio-artist', t.artist);
-    label('radio-era', [t.region, t.era, t.genre].filter(Boolean).join(' · '));
+    label('radio-era', [t.album, t.year, t.region].filter(Boolean).join(' · '));
     var link = el('radio-support'); if (link) { link.href = official(t); link.textContent = 'Open official music link'; }
     var list = el('radio-upnext'); if (list) {
       list.replaceChildren();
