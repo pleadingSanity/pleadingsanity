@@ -1,3 +1,14 @@
+## 2026-11-05 — Founder-approved Insane Solar imagery and UK kit evidence (PR #224)
+
+**READ BEFORE ANY SOLAR EDIT:** `docs/INSANE_SOLAR_TRADE_VISUAL_AND_PRODUCT_RULES.md`.
+
+- Shane approved the second, premium commercial solar image **direction** for the Trade Buyers Hub hero; the reference photo is not yet licensed or committed. Keep the existing original SVG until a licensed or newly created approved replacement is available.
+- First image was AI-generated; **do not represent it as genuine UK equipment, an EnergyWin installation or compliant system evidence**.
+- Technical product cards must use real UK-market model numbers, genuine authorised photography, official datasheets, compatibility checks and dates. Candidate research: GivEnergy, Solis, Fox ESS, JA Solar. Do not fabricate supplier prices or lowest-price claims.
+- Keep human-first EnergyWin inspiration, independent status, nonbinding potential 50/50 commercial proposal, and preserve existing homeowner/PayPal flows.
+- `solar-trade.html` adds supplier search, technology comparison and opt-in RFQ; no live supplier price integration or auto-purchasing. Full mobile/accessibility/links and deployment validation still required.
+- Repo handoff docs persist across AI sessions; **no automatic shared memory across providers**. Require each agent to read these files.
+
 # PLEADING SANITY — MASTER HANDOFF (Dola 31 Oct 2026 — read this FIRST)
 
 ## 2026-10-31 — Grok, solar kit pictures and VAT line (branch `grokbot/polish-ai-upgrades`, not merged)

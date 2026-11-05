@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: '24'
       - name: Verify homepage search and navigation regressions
-        run: node --test tests/home-search.test.mjs tests/radio-player.test.mjs tests/radio-integrity.test.js
+        run: node --test tests/home-search.test.mjs tests/radio-player.test.mjs tests/radio-integrity.test.js tests/solar-trade.test.mjs
       - name: Validate Netlify build configuration and local assets
         run: node scripts/validate-build.cjs
       - name: Run comprehensive static audit
