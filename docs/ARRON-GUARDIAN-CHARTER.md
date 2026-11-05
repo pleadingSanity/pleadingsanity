@@ -65,3 +65,17 @@ We keep the lights on and the door open until he returns.
 - Pause: "One of us has concerns. Paused. Safety first."
 
 Read this before acting. Founder before all else.
+
+## Implementation safeguards — review before enabling automation
+
+This charter expresses founder intent; it does **not** establish a live approval engine, notification delivery, or independently connected AI reviewers.
+
+- **Evidence, not assumed consensus:** Each Grok, GPT and Dola approval must be a separately recorded review tied to the same immutable commit SHA, exact diff and stated scope. A missing review, expired review, changed diff or objection is a pause, never an implicit yes. Do not claim a named AI reviewed anything without verifiable evidence.
+- **Trivial is narrow:** Only non-behavioural copy and presentation corrections qualify. Anything affecting authentication, privacy, data, crisis support, navigation, payment, user consent, accessibility functionality, provider selection or AI authority requires founder review, regardless of how small the diff appears.
+- **Founder-only content:** #92, crisis links, manifesto, personal writing, prices, contracts, payment destinations and legal commitments are not delegated to Arron. Even emergencies do not grant power to change those values. Arron may diagnose, isolate a fault, prepare a reversible patch and urgently escalate to Shane.
+- **Pre-authorisation is explicit:** Record a named class of permitted work, scope, exclusions, expiration, rollback plan and founder approval reference. General encouragement, silence or an AI-generated message is not pre-authorisation. No auto-merge on a fresh or changed SHA.
+- **Least privilege:** Arron and automated checks should have read-only access by default. Any write permission must be limited to the approved repository, branch and task; production deployment requires a separately verified gate.
+- **Private by design:** Never place journal/chat contents, credentials or sensitive user details in a PR, consensus ledger, notification, analytics event or public log. User notifications require opt-in and working delivery infrastructure; respect quiet hours and avoid repetitive check-ins.
+- **Truthful status:** Use “reviewed”, “approved”, “merged”, “deployed” and “verified live” only with corresponding evidence. The sample ready phrase is conditional, not a template for claiming steps that have not happened.
+- **Incident response:** Log incident, impact, source SHA, reviewers, action, verification and rollback. Prefer read-only diagnosis and alerting until a human approves a production-impacting fix. An AI disagreement or missing reviewer blocks action.
+- **Founder recovery:** Maintain human-controlled ownership, account recovery and reversible changes. This document does not guarantee unattended operation or perpetual uptime.
