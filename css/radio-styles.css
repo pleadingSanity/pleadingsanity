@@ -71,3 +71,15 @@
 @keyframes radio-art-breathe{50%{box-shadow:inset 0 0 35px rgba(0,255,240,.12)}}
 @media(max-width:420px){.radio-controls button{min-height:52px;min-width:75px}.radio-upnext{font-size:.92rem}.radio-upnext li{padding:.75rem .4rem}}
 @media(prefers-reduced-motion:reduce){.radio-card.is-playing,.is-playing .radio-art{animation:none!important}.radio-upnext li:hover{transform:none}}
+
+/* Listening-room finishing pass — respects reduced motion and keeps player visible. */
+.radio-hero{position:relative}
+.radio-hero::after{content:"";display:block;width:72px;height:2px;margin:1.25rem auto 0;background:linear-gradient(90deg,transparent,#00fff0,transparent);box-shadow:0 0 14px rgba(0,255,240,.28)}
+.radio-card{backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.radio-video-shell{border:1px solid rgba(145,237,218,.25);box-shadow:0 10px 30px rgba(0,0,0,.23)}
+.radio-support{padding:.75rem .9rem;border:1px solid rgba(0,255,240,.24);border-radius:12px;background:rgba(0,255,240,.045);transition:border-color .2s ease,background .2s ease}
+.radio-support:hover{background:rgba(0,255,240,.11);border-color:rgba(0,255,240,.55)}
+.radio-upnext li{line-height:1.5}
+.radio-hint{max-width:56ch;margin-inline:auto}
+@media(max-width:420px){.radio-card{padding:1.15rem}.radio-video-shell{margin-top:.85rem}.radio-title{overflow-wrap:anywhere}.radio-support{min-height:48px;display:flex;align-items:center;justify-content:center}}
+@media(prefers-reduced-motion:reduce){.radio-support{transition:none!important}}
