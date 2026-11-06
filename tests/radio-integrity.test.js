@@ -24,9 +24,9 @@ test('no unrelated tracks share a video ID',()=>{
 });
 test('radio has explicit user play and visible video controls',()=>{
   assert.match(page,/id="radio-play"/);
-  assert.match(page,/id="radio-video"/);
+  assert.match(page,/id="radio-video-player"/);
   assert.match(page,/\/js\/radio-player\.js/);
-  assert.match(player,/youtube-nocookie\.com\/embed/);
+  assert.match(player,/youtube\.com\/iframe_api/);
   assert.match(player,/function play\(\)/);
   assert.match(player,/addEventListener\('click'/);
   assert.doesNotMatch(page,/<iframe\b/i);

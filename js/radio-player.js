@@ -1,7 +1,7 @@
 /* Insane Radio — consent-first continuous official YouTube embeds. No hosted audio. */
 (function () {
   'use strict';
-  var tracks = [], index = 0, player = null, wanted = false, ready = false;
+  var tracks = [], index = 0, player = null, wanted = false, ready = false, loadedId = null;
   var loadTimer = null, progressTimer = null, fadeTimer = null, generation = 0, failures = 0;
   var STATE = {ENDED:0, PLAYING:1, PAUSED:2, BUFFERING:3, CUED:5};
   function el(id) { return document.getElementById(id); }
@@ -93,6 +93,7 @@
       scheduleTimeout(token); return;
     }
     label('radio-status', 'Loading ' + t.title + '…');
+    loadedId = t.youtubeId;
     safeCall('loadVideoById', t.youtubeId);
     scheduleTimeout(token);
   }
@@ -112,7 +113,7 @@
   function play() {
     if (!tracks.length) return;
     wanted = true; failures = 0; stateUI(false);
-    if (ready && player && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
+    if (ready && player && loadedId === track().youtubeId && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
       label('radio-status', 'Resuming…');
       safeCall('playVideo'); scheduleTimeout(++generation);
     } else startCurrent();
@@ -127,7 +128,10 @@
     label('radio-time', fmt(position) + ' / ' + fmt(duration));
   }
   function onState(event) {
-    if (!wanted) return;
+    if (!wanted) {
+      if (event.data === STATE.PLAYING) safeCall('pauseVideo');
+      return;
+    }
     if (event.data === STATE.PLAYING) {
       clearLoad(); failures = 0;
       stateUI(true); label('radio-status', 'Now playing · official YouTube source');
@@ -138,6 +142,7 @@
       label('radio-status', 'Buffering…');
       if (loadTimer === null) scheduleTimeout(generation);
     } else if (event.data === STATE.PAUSED) {
+      wanted = false; generation++; clearLoad(); clearFade();
       stateUI(false);
       label('radio-status', 'Paused by the player. Tap Play to continue.');
     }
