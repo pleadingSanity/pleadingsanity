@@ -115,7 +115,7 @@
     wanted = true; failures = 0; stateUI(false);
     if (ready && player && loadedId === track().youtubeId && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
       label('radio-status', 'Resuming…');
-      safeCall('playVideo'); scheduleTimeout(++generation);
+      safeCall('playVideo'); clearLoad();
     } else startCurrent();
     stateUI(false);
   }

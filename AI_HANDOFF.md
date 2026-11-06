@@ -885,3 +885,28 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Founder supplied Reddit feedback about homepage clutter. Branch polish/homepage-breathing-room-20261106 reorganises existing homepage content: clear actions before artwork, calmer panels and typography, responsive starting choices, secondary app shelf in native details, one mobile navigation instead of two simultaneous rows. Original story, artwork and every link destination retained; no scripts or urgent-help wording changed.
 - Files: index.html, sw.js (static cache v113), this log. No auth, payment, provider, DNS or #92 changes.
 - Verified locally: original destination set retained; no duplicate IDs; all script blocks unchanged; urgent-help paragraph unchanged; primary actions precede hero artwork. Browser/mobile rendering, full suite, deploy preview and independent review not yet proven. Draft only, not a production release. Rollback: revert this scoped branch.
+
+
+## 2026-11-06 — GPT: founder clarity and homepage editorial polish (review branch)
+- Founder requested a clearer, more personal next polish after merged PR #242. Branch `polish/founder-clarity-20261106` starts from current main; index baseline blob `18f0bd8bf3b1949be9b5760bd7afce598771663b`. Open PRs #185, #180, #176 and #78 inspected for overlap; not changed.
+- index.html: concise action-led introduction, a responsive founder section using founder-supplied builder/solar-fitter identity and inclusive mission, clearer New Gen Bible/AI descriptions, and one radio link instead of two in the mobile menu. Original About story and all destination URLs retained. No private personal details, new biography anecdotes or unverified endorsements added.
+- sw.js: static cache v113 to v114 only, with explanatory comment; scope and caching logic unchanged. Systems touched: homepage copy/layout/navigation and cache refresh.
+- Verified: unchanged script blocks, original href destination set preserved, unique IDs, exact urgent-help paragraph retained; Python standard-library HTML parser confirms one H1, resolving aria-labelledby targets and alt attributes on all 16 images. Initial BeautifulSoup check could not run because the package is absent; equivalent stated checks ran with the standard parser.
+- Not run/proven: full repository audit/test suite, browser rendering/mobile interaction, live deploy, independent review. Keep draft until mobile/desktop preview checks. No auth/payment/provider/Arron memory/crisis-page/#92 changes. Rollback: revert this scoped PR; no data migration.
+
+## 2026-11-06 — Final Shane release polish (DRAFT PR, not merged)
+- Branch `polish/final-shane-release-20261106` from main `1f5db86`. DRAFT PR only — DO NOT MERGE until Shane's exact merge phrase.
+- Applied PR #243 (open): homepage founder clarity copy on index.html (concise action-led intro, responsive founder section, clearer feature descriptions). Original About story and destination URLs retained. No private details added.
+- New page `/support-us.html`: ethical investor / revenue page — what the sanctuary is, transparent funds use, ethical investment principles, no venture capital, supporter contact. Crisis numbers tappable (999, 116 123, 85258, 111). Linked from index footer.
+- Insane Radio fix (js/radio-player.js): removed 8-second auto-skip timer from the resume-paused-track path (it was scheduling a skip on resume when PLAYING state does not re-fire). First-track load and skip-on-actual-failure logic unchanged. `node --check` passes.
+- sw.js: static cache bumped v113 → v114 (via PR #243, with explanatory comment).
+- Verified: #92 untouched, crisis tel:/sms: hrefs unchanged, no secrets in diff, one H1 on homepage, alt text present, audit-site.py passes. Netlify preview deploy auto-triggered on draft PR.
+- Not merged. Waiting for Shane's exact merge phrase. Rollback: close draft PR, delete branch.
+
+## 2026-11-06 — ELITE PERFECTION PASS (DRAFT PR, not merged)
+- Branch `polish/final-elite-perfection-20261106` from `polish/final-shane-release-20261106` (48aa26de). Includes all prior release polish (support-us.html, radio 8s fix, sw.js v114, PR #243 homepage copy).
+- netlify.toml: build command simplified (kept validate-build.cjs safety check), X-Frame-Options SAMEORIGIN→DENY, added immutable Cache-Control (31536000s) for /js/* and /css/*, 3600s for /data/*.json, added 301 redirects /radio→/insane-radio.html, /solar→/insane-solar.html, /support→/support-us.html.
+- sitemap.xml: added support-us.html + insane-radio.html. robots.txt already has Sitemap line.
+- Arron verified: disclaimer (not doctor/therapist), AI identity, forget/wipe, local memory, crisis links (999/116123/85258/111 tappable), offline fallback — all present. Notifications absent = default OFF (safe). No diagnosis/prescribe guard needed (covered by disclaimer).
+- Site-wide: 93 HTML pages, all have <title>, 1 missing meta description (safety.html), 5 missing og:title (cosmic-reflections, creator, insane-solar, memory-ocean, number-nebula) — noted pending. JSON-LD (Organization/WebSite/BreadcrumbList) present. manifest valid. 0 missing alt text. Lazy loading on 43 pages. Three brands separate (no cross-brand confusion).
+- NOT MERGED. DRAFT. Wait for Shane's exact merge phrase. #92 closed/untouched. Crisis numbers unchanged. Payments/auth untouched. Manifesto words unaltered.
