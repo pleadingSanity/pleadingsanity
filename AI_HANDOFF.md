@@ -902,3 +902,11 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - sw.js: static cache bumped v113 → v114 (via PR #243, with explanatory comment).
 - Verified: #92 untouched, crisis tel:/sms: hrefs unchanged, no secrets in diff, one H1 on homepage, alt text present, audit-site.py passes. Netlify preview deploy auto-triggered on draft PR.
 - Not merged. Waiting for Shane's exact merge phrase. Rollback: close draft PR, delete branch.
+
+## 2026-11-06 — ELITE PERFECTION PASS (DRAFT PR, not merged)
+- Branch `polish/final-elite-perfection-20261106` from `polish/final-shane-release-20261106` (48aa26de). Includes all prior release polish (support-us.html, radio 8s fix, sw.js v114, PR #243 homepage copy).
+- netlify.toml: build command simplified (kept validate-build.cjs safety check), X-Frame-Options SAMEORIGIN→DENY, added immutable Cache-Control (31536000s) for /js/* and /css/*, 3600s for /data/*.json, added 301 redirects /radio→/insane-radio.html, /solar→/insane-solar.html, /support→/support-us.html.
+- sitemap.xml: added support-us.html + insane-radio.html. robots.txt already has Sitemap line.
+- Arron verified: disclaimer (not doctor/therapist), AI identity, forget/wipe, local memory, crisis links (999/116123/85258/111 tappable), offline fallback — all present. Notifications absent = default OFF (safe). No diagnosis/prescribe guard needed (covered by disclaimer).
+- Site-wide: 93 HTML pages, all have <title>, 1 missing meta description (safety.html), 5 missing og:title (cosmic-reflections, creator, insane-solar, memory-ocean, number-nebula) — noted pending. JSON-LD (Organization/WebSite/BreadcrumbList) present. manifest valid. 0 missing alt text. Lazy loading on 43 pages. Three brands separate (no cross-brand confusion).
+- NOT MERGED. DRAFT. Wait for Shane's exact merge phrase. #92 closed/untouched. Crisis numbers unchanged. Payments/auth untouched. Manifesto words unaltered.

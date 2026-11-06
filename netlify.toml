@@ -6,14 +6,14 @@
 
 [build]
   publish = "."
-  command = "node scripts/validate-build.cjs && echo 'Static site — no build step'"
+  command = "node scripts/validate-build.cjs && echo 'Static site — no build needed'"
   functions = "netlify/functions"
 
 # ─── SECURITY HEADERS ───
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
@@ -327,7 +327,35 @@
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# ─── ELITE PASS: long-lived immutable cache for hashed/static assets ───
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# ─── ELITE PASS: 301 redirects (short URLs → canonical pages) ───
+[[redirects]]
+  from = "/radio"
+  to = "/insane-radio.html"
+  status = 301
+[[redirects]]
+  from = "/solar"
+  to = "/insane-solar.html"
+  status = 301
+[[redirects]]
+  from = "/support"
+  to = "/support-us.html"
+  status = 301
