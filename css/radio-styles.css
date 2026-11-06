@@ -83,3 +83,11 @@
 .radio-hint{max-width:56ch;margin-inline:auto}
 @media(max-width:420px){.radio-card{padding:1.15rem}.radio-video-shell{margin-top:.85rem}.radio-title{overflow-wrap:anywhere}.radio-support{min-height:48px;display:flex;align-items:center;justify-content:center}}
 @media(prefers-reduced-motion:reduce){.radio-support{transition:none!important}}
+
+.radio-stations{margin:2rem 0;padding:1.2rem;border:1px solid rgba(0,255,240,.25);border-radius:16px;background:rgba(11,15,25,.6)}
+.radio-stations h2{margin:0 0 .4rem;color:#00fff0;font-size:1.2rem}
+.radio-note{color:#94a3b8;font-size:.9rem;margin:.4rem 0 1rem}
+.station-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.6rem}
+.station{background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:.8rem;font:inherit;font-weight:700;cursor:pointer;min-height:48px}
+.station:hover{border-color:#00fff0;box-shadow:0 0 12px rgba(0,255,240,.3)}
+.station:focus-visible{outline:3px solid #00fff0;outline-offset:2px}

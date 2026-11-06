@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Insane Radio — Music That Speaks | Pleading Sanity</title>
-<meta name="description" content="Explore Insane Radio, Pleading Sanity’s free curated hip-hop and R&B listening room. User-controlled official music videos and artist links.">
+<title>Insane Radio — Free Hip-Hop & R&B | Pleading Sanity</title>
+<meta name="description" content="Free hip-hop and R&B listening room plus ad-free stations. Starts silent. Official links only. Bluetooth and lock-screen ready.">
 <meta name="keywords" content="Insane Radio, hip hop, R&B, free music, Pleading Sanity, listening room, UK, US, mental health, Shane Cooper">
 <link rel="canonical" href="https://pleadingsanity.co.uk/insane-radio.html">
 <meta property="og:title" content="Insane Radio — Music That Speaks | Pleading Sanity">
@@ -50,5 +50,41 @@
   <p style="margin-top:1.5rem;font-size:.85rem;color:#94a3b8">Crisis: Samaritans <a href="tel:116123" style="color:#f87171">116 123</a> · SHOUT 85258 · NHS 111 · 999</p>
 </div>
 <script src="/js/radio-player.js" defer></script>
+
+<section class="radio-stations" aria-labelledby="stations-title">
+  <h2 id="stations-title">Free stations</h2>
+  <p class="radio-note">Ad-free streams. Press play. Audio goes to your speakers, headphones, or Bluetooth if your phone is already connected.</p>
+  <div class="station-grid">
+    <button type="button" class="station" data-src="https://ice6.somafm.com/groovesalad-256-mp3" data-name="Groove Salad">Groove Salad · chill</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/defcon-256-mp3" data-name="DEF CON">DEF CON · ambient</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/dronezone-256-mp3" data-name="Drone Zone">Drone Zone · deep</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/secretagent-256-mp3" data-name="Secret Agent">Secret Agent · spy</button>
+  </div>
+  <audio id="station-audio" preload="none"></audio>
+  <p id="station-status" class="radio-note" role="status"></p>
+</section>
+<script>
+(function(){
+  var audio = document.getElementById('station-audio');
+  var status = document.getElementById('station-status');
+  if (!audio) return;
+  document.querySelectorAll('.station').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var src = btn.getAttribute('data-src');
+      var name = btn.getAttribute('data-name');
+      if (audio.src !== src) audio.src = src;
+      audio.play().then(function(){
+        status.textContent = 'Playing ' + name + '. Connect Bluetooth in your phone settings and sound follows.';
+        if ('mediaSession' in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio · SomaFM' });
+        }
+      }).catch(function(){
+        status.textContent = 'Could not start. Try again or pick another station.';
+      });
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
