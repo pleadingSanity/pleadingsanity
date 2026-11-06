@@ -8,6 +8,7 @@ from urllib.parse import urlsplit
 
 ORIGIN = 'https://pleadingsanity.co.uk'
 TARGETS = (('/', 'html'), ('/games.html', 'html'),
+           ('/support.html', 'html'), ('/crisis.html', 'html'),
            ('/api/arron/health', 'arron'),
            ('/api/firebase-public-config', 'firebase'))
 
