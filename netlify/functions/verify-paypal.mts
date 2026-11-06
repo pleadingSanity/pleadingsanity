@@ -2,11 +2,13 @@
 // Insane Solar — server-side check of the £50 refundable survey
 // deposit. insane-solar.html POSTs { orderID } here after the
 // PayPal button captures. We ask PayPal directly whether that order
-// is COMPLETED for 50.00 GBP, so a forged client call cannot fake a
+// is COMPLETED and captured for 50.00 GBP to our merchant, tagged with this
+// visit's enquiry reference (custom_id), and each order verifies once, so a forged client call cannot fake a
 // paid deposit.
 //
 // Env (set in Netlify, never in the repo):
 //   PAYPAL_CLIENT_ID, PAYPAL_CLIENT_SECRET   (required)
+//   PAYPAL_MERCHANT_ID                        (required; expected payee)
 //   PAYPAL_ENV=sandbox                        (optional; default live)
 //
 // No customer name or email is logged. Returns 503 when the keys are
@@ -14,90 +16,44 @@
 // ==============================================================
 
 import type { Context } from "@netlify/functions";
+import { getStore } from "@netlify/blobs";
 import { allow } from "../lib/rate-limit.js";
+import { verifyDeposit } from "../lib/paypal-verify.js";
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 
-const ORDER_ID = /^[A-Z0-9]{10,32}$/;
-const EXPECTED = { value: "50.00", currency: "GBP" };
-// Best-effort replay protection: a single order id may only verify once per
-// function instance. Persist this set (e.g. Supabase/KV) for a cross-instance
-// guarantee; an attacker would need a second warm instance to bypass it.
-const seenOrders = new Set<string>();
-
-function apiBase() {
-  return (process.env.PAYPAL_ENV || "").toLowerCase() === "sandbox"
-    ? "https://api-m.sandbox.paypal.com"
-    : "https://api-m.paypal.com";
-}
-
-async function accessToken(id: string, secret: string): Promise<string | null> {
-  const res = await fetch(`${apiBase()}/v1/oauth2/token`, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${Buffer.from(`${id}:${secret}`).toString("base64")}`,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: "grant_type=client_credentials",
-  });
-  if (!res.ok) return null;
-  const data = (await res.json()) as { access_token?: string };
-  return data.access_token ?? null;
-}
-
 export default async (req: Request, context: Context) => {
   if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
 
-  const id = process.env.PAYPAL_CLIENT_ID;
-  const secret = process.env.PAYPAL_CLIENT_SECRET;
-  if (!id || !secret) return json({ ok: false, configured: false }, 503);
+  const env = process.env;
+  if (!env.PAYPAL_CLIENT_ID || !env.PAYPAL_CLIENT_SECRET || !env.PAYPAL_MERCHANT_ID) {
+    return json({ ok: false, configured: false }, 503);
+  }
 
   if (!(await allow("write", context))) return json({ error: "Too many requests" }, 429);
 
-  let orderID: unknown;
+  let body: Record<string, unknown> = {};
   try {
-    orderID = ((await req.json()) as Record<string, unknown>).orderID;
+    body = (await req.json()) as Record<string, unknown>;
   } catch {
-    orderID = undefined;
-  }
-  if (typeof orderID !== "string" || !ORDER_ID.test(orderID)) {
-    return json({ error: "Invalid order id" }, 400);
-  }
-  if (seenOrders.has(orderID)) {
-    console.warn(`verify-paypal: order ${orderID} reused`);
-    return json({ ok: false, verified: false, error: "Order already used" }, 409);
+    body = {};
   }
 
-  try {
-    const token = await accessToken(id, secret);
-    if (!token) {
-      console.error("verify-paypal: token request failed");
-      return json({ ok: false, error: "Payment provider unavailable" }, 502);
-    }
-    const res = await fetch(`${apiBase()}/v2/checkout/orders/${encodeURIComponent(orderID)}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (res.status === 404) return json({ ok: false, verified: false, error: "Order not found" }, 404);
-    if (!res.ok) return json({ ok: false, error: "Payment provider unavailable" }, 502);
-
-    const order = (await res.json()) as {
-      status?: string;
-      purchase_units?: { amount?: { value?: string; currency_code?: string } }[];
-    };
-    const amount = order.purchase_units?.[0]?.amount;
-    const verified =
-      order.status === "COMPLETED" &&
-      amount?.value === EXPECTED.value &&
-      amount?.currency_code === EXPECTED.currency;
-    if (verified) seenOrders.add(orderID);
-
-    console.log(`verify-paypal: order ${verified ? "verified" : "rejected"} (status ${order.status ?? "unknown"})`);
-    return json({ ok: true, verified, status: order.status ?? null });
-  } catch (error) {
-    console.error("verify-paypal:", error instanceof Error ? error.name : "error");
-    return json({ ok: false, error: "Verification failed" }, 500);
-  }
+  const store = getStore("paypal-orders");
+  const { status, body: result } = await verifyDeposit(
+    { orderID: body.orderID, enquiryRef: body.enquiryRef },
+    {
+      fetch,
+      env,
+      store: {
+        get: (key) => store.get(key),
+        setIfNew: async (key, value) => (await store.set(key, value, { onlyIfNew: true })).modified,
+      },
+    },
+  );
+  console.log(`verify-paypal: ${status}${result.verified === true ? " verified" : ""}`);
+  return json(result, status);
 };
 
 // No custom path: Netlify serves this at its default /.netlify/functions/verify-paypal,

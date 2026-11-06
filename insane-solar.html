@@ -978,11 +978,21 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
 <script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
 <script>
 (function(){
+  function enquiryRef() {
+    var k = 'ps-solar-enquiry-ref', r = null;
+    try { r = sessionStorage.getItem(k); } catch(e) {}
+    if (!r) {
+      var a = new Uint8Array(16); crypto.getRandomValues(a);
+      r = Array.prototype.map.call(a, function(x){ return ('0' + x.toString(16)).slice(-2); }).join('');
+      try { sessionStorage.setItem(k, r); } catch(e) {}
+    }
+    return r;
+  }
   if (window.paypal && paypal.Buttons) {
     paypal.Buttons({
       style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
       createOrder: function(data, actions) {
-        return actions.order.create({ purchase_units: [{ amount: { value: '50.00', currency_code: 'GBP' }, description: 'Insane Solar — refundable survey deposit' }] });
+        return actions.order.create({ purchase_units: [{ custom_id: enquiryRef(), amount: { value: '50.00', currency_code: 'GBP' }, description: 'Insane Solar — refundable survey deposit' }] });
       },
       onApprove: function(data, actions) {
         return actions.order.capture().then(function(details) {
@@ -990,7 +1000,7 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
           if (m) m.style.display = 'block';
           var b = document.getElementById('paypal-button-container');
           if (b) b.style.display = 'none';
-          try { fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, customerName: document.getElementById('fName').value }) }).catch(function(){}); } catch(e) {}
+          try { fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, enquiryRef: enquiryRef() }) }).catch(function(){}); } catch(e) {}
         });
       }
     }).render('#paypal-button-container');
