@@ -129,7 +129,7 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 ## 📬 GET IN TOUCH
 
 **Email:** pleadingsanity1@gmail.com  
-**GitHub:** @pleadingSanity  
+**GitHub:** [@pleadingSanity](https://github.com/pleadingSanity)  
 **Instagram:** [@mentally.inshane](https://instagram.com/mentally.inshane)  
 **TikTok:** [@mentally.inshane](https://www.tiktok.com/@mentallyinshane)
 
