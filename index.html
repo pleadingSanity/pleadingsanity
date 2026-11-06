@@ -298,6 +298,20 @@ body.ps-calm .home-quick-links .home-radio{border-color:#7295a8;background:#1b2b
 .ps-radio-feature strong{font-size:1.5rem}.ps-radio-feature .ps-radio-new{font-size:.75rem;font-weight:800;letter-spacing:.1em;color:#a5fff6}.ps-radio-action{font-weight:800;color:#a5fff6;margin-top:.3rem}.ps-radio-feature:hover,.ps-radio-feature:focus-visible{outline:3px solid #f4ffff;outline-offset:2px}
 .ps-find{padding:1rem;border:1px solid #507889;border-radius:16px;background:#12202c}.ps-find label{display:block;font-weight:800;margin-bottom:.5rem}.ps-find input{display:block;box-sizing:border-box;width:100%;min-height:48px;border:2px solid #90b3c0;border-radius:10px;padding:.75rem;background:#07141f;color:#fff;font:inherit}.ps-find input:focus-visible{outline:3px solid #00fff0;outline-offset:2px}.ps-find p{font-size:.8rem;color:#c3d5df;margin:.45rem 0}.ps-search-list{list-style:none;padding:0;margin:.65rem 0 0;display:grid;gap:.4rem}.ps-search-list a{display:block;padding:.7rem;border:1px solid #537585;border-radius:9px;color:#fff;text-decoration:none;background:#1b3140}.ps-search-list a:hover,.ps-search-list a:focus-visible{outline:2px solid #00fff0}.ps-search-list small{display:block;color:#c3d5df}.ps-no-results{padding:.5rem 0}
 body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#789baa}
+/* First-visit wayfinding: self-contained, no tracking or JavaScript. */
+.ps-start-here{width:min(100%,860px);box-sizing:border-box;margin:1rem auto 1.8rem;padding:clamp(1rem,3vw,1.65rem);background:rgba(13,27,42,.94);border:1px solid rgba(0,255,240,.4);border-radius:20px;text-align:left}
+.ps-start-here .ps-start-kicker{color:#b9faff;font-size:.8rem;font-weight:800;letter-spacing:.1em;margin:0 0 .35rem}
+.ps-start-here h2{font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;color:#eef6ff;margin:0 0 .5rem}
+.ps-start-here p{color:#d7e9ed;margin:.5rem 0 1rem}
+.ps-start-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.ps-start-grid a{display:flex;flex-direction:column;justify-content:center;min-height:72px;box-sizing:border-box;padding:1rem;border:1px solid #587b86;border-radius:13px;background:#142634;color:#eef6ff;text-decoration:none}
+.ps-start-grid a strong{font-size:1rem;color:#b9faff}
+.ps-start-grid a span{font-size:.88rem;color:#d7e9ed;margin-top:.2rem}
+.ps-start-grid a:hover{border-color:#00fff0;background:#193846}
+.ps-start-grid a:focus-visible,.ps-start-urgent a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.ps-start-here .ps-start-urgent{margin:1rem 0 0;font-size:.9rem}
+.ps-start-urgent a{color:#b9faff;text-decoration:underline}
+@media(max-width:540px){.ps-start-grid{grid-template-columns:1fr}.ps-start-grid a{min-height:64px}}
 </style>
 <link rel="stylesheet" href="/css/card-polish.css">
 </head>
@@ -371,6 +385,21 @@ body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#
 <p class="built">Built from survival by Shane Cooper. Midlands. Lived it. Still building. Free for everyone. No one turned away.</p>
 <p class="home-welcome-context" style="max-width:44rem;margin:1rem auto 1.4rem;padding:0 1rem;color:#d7e9ed;line-height:1.7">You do not need the right words to be here. Pleading Sanity is a free place to explore conversation, writing, games and connection at your own pace. Built from lived experience, not a replacement for professional care. Start wherever feels manageable. Leave what does not help.</p>
 
+
+<section class="ps-start-here" id="ps-start-here" aria-labelledby="ps-start-title">
+  <p class="ps-start-kicker">NEW HERE? START HERE</p>
+  <h2 id="ps-start-title">What would help you today?</h2>
+  <p>Choose one path. No account needed to explore. Everything else is still here when you're ready.</p>
+  <div class="ps-start-grid">
+    <a href="/support.html"><strong>I need support</strong><span>Find free support and someone to talk to.</span></a>
+    <a href="/arron.html"><strong>I want to talk</strong><span>Meet Arron, an AI companion, not a therapist.</span></a>
+    <a href="/mind-mode.html"><strong>I need a moment</strong><span>Try breathing and grounding at your pace.</span></a>
+    <a href="/games.html"><strong>I want to play</strong><span>Explore games and take a break.</span></a>
+    <a href="/community.html"><strong>I want connection</strong><span>Discover the community; posting may require sign-in.</span></a>
+    <a href="/tools.html"><strong>Show me everything</strong><span>Browse the full sanctuary and its tools.</span></a>
+  </div>
+  <p class="ps-start-urgent">In immediate danger? Call <strong>999</strong>. <a href="/crisis.html">Urgent help and UK crisis contacts</a>.</p>
+</section>
 
 <section class="ps-discover" aria-label="Find Pleading Sanity features">
   <a class="ps-radio-feature" href="/insane-radio.html"><span class="ps-radio-new">NEW · FEATURED</span><strong>♫ Insane Radio</strong><span>Discover the music and the artists behind the movement.</span><span class="ps-radio-action">Open Insane Radio →</span></a>
