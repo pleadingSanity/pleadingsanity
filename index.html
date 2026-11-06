@@ -314,6 +314,33 @@ body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#
 @media(max-width:540px){.ps-start-grid{grid-template-columns:1fr}.ps-start-grid a{min-height:64px}}
 </style>
 <link rel="stylesheet" href="/css/card-polish.css">
+<style>
+/* Homepage breathing room: presentation only; existing tools and content retained. */
+.hero{min-height:0;max-width:1120px;margin:auto;padding:clamp(2rem,6vw,5rem) 1.25rem 3rem}
+.hero>.logo{width:72px;height:72px;animation:none;filter:drop-shadow(0 0 12px rgba(56,189,248,.2));margin-bottom:1rem}
+h1{font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.08;text-shadow:none;letter-spacing:-.045em}
+.tagline{max-width:36rem;font-size:clamp(1.05rem,2.4vw,1.3rem);color:#d6e5eb;margin:1rem auto}
+.built{max-width:36rem;color:#aebfc9;font-size:.9rem}
+.atmosphere-control{order:0;margin:0 0 1.75rem}.atmosphere-control .atmosphere-hint{display:none}
+.home-primary-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;margin:1.25rem 0 .6rem}
+.home-primary-actions a{display:inline-flex;align-items:center;justify-content:center;gap:2rem;min-height:50px;padding:.75rem 1.5rem;border:1px solid #647e8c;border-radius:12px;background:#142330;color:#eef6ff;text-decoration:none;font-weight:700;box-sizing:border-box}
+.home-primary-actions a:first-child{background:#9aeee2;color:#092425;border-color:#9aeee2}
+.home-companion-note{font-size:.85rem;color:#b5c6d0;margin:.5rem 0 2rem}.home-companion-note a{color:#d8f9f4}
+.ps-start-here{max-width:860px;background:#101e2a;border:1px solid #314652;border-radius:18px;margin:1rem auto 2rem;padding:clamp(1.25rem,4vw,2rem);box-shadow:none}
+.ps-start-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.ps-start-grid a{background:#152632;border:1px solid #3c5360;border-radius:12px;padding:1.1rem;min-height:110px}.ps-start-grid a strong{color:#e7f4f5}.ps-start-grid a span{color:#bdccd4;line-height:1.5}.ps-start-kicker{letter-spacing:.14em!important}
+.home-sanctuary-art{width:100%;max-width:860px;margin:1rem auto 0}.home-sanctuary-art img{max-width:100%!important;max-height:340px;object-fit:cover;margin:0!important;border-radius:18px!important;box-shadow:none!important}.home-sanctuary-art figcaption{color:#aebfc9;font-size:.85rem;margin-top:.75rem}
+.ps-discover{max-width:860px;grid-template-columns:1fr 1fr;align-items:stretch;margin:1.5rem auto 2rem}.ps-radio-feature{background:#112631;border:1px solid #42616e;box-shadow:none;border-radius:16px;justify-content:center;padding:1.5rem}.ps-radio-feature strong{font-size:1.35rem}.ps-radio-new{color:#b5d4d7!important}.ps-find{background:#101e2a;border-color:#3c5360;padding:1.5rem}
+.doors{max-width:860px}.door{border:1px solid #3c5360;border-radius:14px;box-shadow:none;backdrop-filter:none;font-size:1.1rem;padding:1rem;max-width:none}.door:hover,.door:focus-visible{transform:none;box-shadow:none}.share-btn{box-shadow:none;border-color:#4b6572;color:#c9dce5;font-size:.9rem}
+.home-quick-links{max-width:860px;gap:.4rem}.home-quick-links a{border-color:transparent;background:transparent;font-size:.9rem;font-weight:500}.home-quick-links .home-live{background:#192d38;border-color:#4b6572}
+.why-better{max-width:860px!important;margin:1rem auto 4rem!important;padding:2rem!important;background:#101e2a;border:1px solid #314652;border-radius:18px;box-sizing:border-box}.why-better h2{color:#e7f4f5!important}.ps-anti-algo{line-height:1.9}
+.home-more-apps{max-width:1120px;margin:0 auto 3rem;padding:0 1.25rem;box-sizing:border-box;text-align:left}.home-more-apps>summary{min-height:48px;padding:1rem 0;border-top:1px solid #344b59;border-bottom:1px solid #344b59;cursor:pointer;font-size:1.1rem;font-weight:650;color:#dcebf0}.home-more-apps .apps-showcase{margin-top:2rem!important;padding:0!important}
+.tools{padding:1rem 1.25rem 4rem}.tools h2{color:#e7f4f5;text-shadow:none}.tools .sub{font-size:1rem;color:#b8cbd4;line-height:1.65}.tool-grid{gap:1.5rem;grid-template-columns:repeat(3,minmax(0,1fr))}.tool-card,.app-card.app-door{background:#11202c!important;border:1px solid #344b59!important;border-radius:16px!important;box-shadow:none!important;backdrop-filter:none!important}.tool-card{padding:1rem}.tool-card:hover{transform:none;box-shadow:none;border-color:#84c6c3!important}.tool-card p{line-height:1.65}.tool-card h3{font-size:1.15rem}.tool-card img{height:160px;border-radius:10px}.purpose{color:#a1e4dd}
+.eco-nav a{display:inline-flex;align-items:center;min-height:44px;font-size:.85rem!important}.eco-nav{scrollbar-width:thin}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1e4dd;outline-offset:4px}
+@media(max-width:800px){.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ps-start-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.eco-nav{display:none}.mobile-explore summary{min-height:48px;box-sizing:border-box}.hero{padding-top:1.5rem}.atmosphere-control{margin-bottom:1.25rem}.home-primary-actions{width:100%}.home-primary-actions a{flex:1;gap:.5rem;padding:.75rem 1rem}.ps-discover{grid-template-columns:1fr}.home-sanctuary-art img{max-height:240px}.why-better{width:calc(100% - 2.5rem);padding:1.25rem!important}.tool-grid{grid-template-columns:1fr}}
+@media(max-width:380px){.ps-start-grid{grid-template-columns:1fr}.home-primary-actions a{flex-basis:100%}}
+</style>
 </head>
 <body>
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -380,10 +407,10 @@ body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#
 <div class="atmosphere-control"><button id="atmosphereToggle" type="button" aria-pressed="false">Calmer view: Off</button><span class="atmosphere-hint">Reduce glow and movement on this page</span></div>
 <img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 100px, 120px" alt="Pleading Sanity crying brain logo" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
 <h1>Pleading Sanity</h1>
-<img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" decoding="async" style="width:100%;height:auto;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);">
+
 <p class="tagline">Free mental health sanctuary. Rise From Madness. Evolution, Not Erasure.</p>
 <p class="built">Built from survival by Shane Cooper. Midlands. Lived it. Still building. Free for everyone. No one turned away.</p>
-<p class="home-welcome-context" style="max-width:44rem;margin:1rem auto 1.4rem;padding:0 1rem;color:#d7e9ed;line-height:1.7">You do not need the right words to be here. Pleading Sanity is a free place to explore conversation, writing, games and connection at your own pace. Built from lived experience, not a replacement for professional care. Start wherever feels manageable. Leave what does not help.</p>
+<div class="home-primary-actions"><a href="/arron.html">Talk to Arron <span aria-hidden="true">→</span></a><a href="#ps-start-here">Find what helps</a></div><p class="home-companion-note">An AI companion, not a therapist. <a href="/support.html">Human support is here too.</a></p>
 
 
 <section class="ps-start-here" id="ps-start-here" aria-labelledby="ps-start-title">
@@ -401,8 +428,10 @@ body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#
   <p class="ps-start-urgent">In immediate danger? Call <strong>999</strong>. <a href="/crisis.html">Urgent help and UK crisis contacts</a>.</p>
 </section>
 
+<figure class="home-sanctuary-art"><img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" decoding="async" style="width:100%;height:auto;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"><figcaption>A little space to breathe. Rise From Madness.</figcaption></figure>
+<p class="home-welcome-context" style="max-width:44rem;margin:1rem auto 1.4rem;padding:0 1rem;color:#d7e9ed;line-height:1.7">You do not need the right words to be here. Pleading Sanity is a free place to explore conversation, writing, games and connection at your own pace. Built from lived experience, not a replacement for professional care. Start wherever feels manageable. Leave what does not help.</p>
 <section class="ps-discover" aria-label="Find Pleading Sanity features">
-  <a class="ps-radio-feature" href="/insane-radio.html"><span class="ps-radio-new">NEW · FEATURED</span><strong>♫ Insane Radio</strong><span>Discover the music and the artists behind the movement.</span><span class="ps-radio-action">Open Insane Radio →</span></a>
+  <a class="ps-radio-feature" href="/insane-radio.html"><span class="ps-radio-new">MUSIC &amp; DISCOVERY</span><strong>♫ Insane Radio</strong><span>Discover the music and the artists behind the movement.</span><span class="ps-radio-action">Open Insane Radio →</span></a>
   <div class="ps-find"><label for="ps-site-search">Find anything on Pleading Sanity</label><input id="ps-site-search" type="search" placeholder="Search games, radio, journal, support…" autocomplete="off" aria-controls="ps-search-results" aria-describedby="ps-search-help"><p id="ps-search-help">Search site pages and features. Nothing you type is sent to a server.</p><div id="ps-search-results" role="status" aria-live="polite"></div></div>
 </section>
 
@@ -450,6 +479,7 @@ Share this sanctuary
 <!-- Soft music: paste the house playlist link into data-playlist (Spotify) and/or data-link (Amazon Music). Hidden until set. -->
 <div data-ps-music data-playlist="" data-link="" hidden style="max-width:1120px;margin:0 auto 2rem;padding:0 1.2rem"></div>
 
+<details class="home-more-apps"><summary>Explore more apps &amp; creative tools</summary>
 <section class="apps-showcase" style="max-width:1120px;margin:0 auto 3rem;padding:0 1.2rem">
 <h2 style="color:#00fff0;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 0.6rem">Apps you can try</h2>
 <p><a href="/app.html">Browse every app and game · install Pleading Sanity</a></p>
@@ -488,6 +518,7 @@ Share this sanctuary
 </div>
 </section>
 
+</details>
 <section class="tools">
 <h2>In the house</h2>
 <p class="sub">Each tool does one clear thing. Free. No pressure. Built with the AI family, including Grok Imagine for calm visuals. Evolution, not erasure.</p>
