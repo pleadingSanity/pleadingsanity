@@ -36,13 +36,21 @@ type Order = {
 
 const pence = (v?: string) => (v && /^\d+\.\d{2}$/.test(v) ? Number(v.replace(".", "")) : NaN);
 
-export async function verifyDeposit(input: { orderID: unknown; enquiryRef: unknown }, deps: Deps): Promise<Result> {
+// Parsed JSON `null`, arrays and other non-objects are not a deposit request.
+export function readDepositBody(raw: unknown): { orderID: unknown; enquiryRef: unknown } | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) return null;
+  const record = raw as Record<string, unknown>;
+  return { orderID: record.orderID, enquiryRef: record.enquiryRef };
+}
+
+export async function verifyDeposit(input: { orderID: unknown; enquiryRef: unknown } | null | undefined, deps: Deps): Promise<Result> {
   const { env } = deps;
   const id = env.PAYPAL_CLIENT_ID;
   const secret = env.PAYPAL_CLIENT_SECRET;
   const merchant = env.PAYPAL_MERCHANT_ID;
   if (!id || !secret || !merchant) return out(503, { ok: false, configured: false });
 
+  if (!input || typeof input !== "object" || Array.isArray(input)) return out(400, { error: "Invalid request" });
   const { orderID, enquiryRef } = input;
   if (typeof orderID !== "string" || !ORDER_ID.test(orderID)) return out(400, { error: "Invalid order id" });
   if (typeof enquiryRef !== "string" || !ENQUIRY_REF.test(enquiryRef)) return out(400, { error: "Invalid enquiry reference" });

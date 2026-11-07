@@ -891,3 +891,14 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Each order is consumed once in Netlify Blobs store `paypal-orders` (same enquiry repeat = safe 200; other enquiry = 409).
 - `insane-solar.html` makes a per-visit random `enquiryRef` (sessionStorage), sends it as PayPal `custom_id` and to the function; customer email/name are no longer sent.
 - **New required env: `PAYPAL_MERCHANT_ID`** (Netlify). Without it the function returns 503 (fail closed). No live PayPal calls made; not deployed.
+
+## 2026-11-07 — Grok: PR #176 review fixes (not merged)
+
+- Branch `copilot/bind-paypal-order-to-enquiry`, starting from `107f0634cdd4fbe82dbc41e19536d8de85a92d2a`. Addresses the owner CHANGES_REQUESTED review on PR #176. No merge, no deploy, no live PayPal order call, no secret or billing change.
+- `insane-solar.html` now waits for `verify-paypal` after capture. The thank-you line is shown only when the HTTP response is ok and `verified === true`. Any other result hides the PayPal buttons and shows Check again plus the existing phone, WhatsApp and email links. The customer is not asked to pay a second time.
+- The enquiry reference stays in memory for the page lifetime if sessionStorage is missing or throws. A value already in sessionStorage is still reused when storage works.
+- `verify-paypal.mts` returns 400 for null, non-object and invalid JSON. It does not throw.
+- `verifyDeposit` rules are unchanged: COMPLETED, one 50.00 GBP unit, payee `PAYPAL_MERCHANT_ID`, completed captures summing to 50.00, `custom_id` equal to the enquiry reference, and a Netlify Blobs `onlyIfNew` write.
+- Tests run: `node --experimental-vm-modules --test tests/paypal-verify.test.js` — 16 passed. `python3 scripts/audit-site.py` — passed, 92 HTML pages, 282 script blocks. `git diff --check` — passed.
+- Local browser check, PayPal hosts blocked: at 1280px and 390px the thank-you line and Check again control stayed hidden before any payment, and the deposit script raised no page error. Page scroll width at 390px was 390. The PayPal button itself was not rendered in that check because the SDK host was blocked. The success and failure path was exercised by running the page script against a fake document and a fake PayPal capture, not against PayPal.
+- Still open: the enquiry reference is a visit token, not a saved enquiry record. Without `PAYPAL_MERCHANT_ID` the function stays 503. Shane reviews before any merge.

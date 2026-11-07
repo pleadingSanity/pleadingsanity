@@ -1,6 +1,6 @@
 // ==============================================================
 // Insane Solar — server-side check of the £50 refundable survey
-// deposit. insane-solar.html POSTs { orderID } here after the
+// deposit. insane-solar.html POSTs { orderID, enquiryRef } here after the
 // PayPal button captures. We ask PayPal directly whether that order
 // is COMPLETED and captured for 50.00 GBP to our merchant, tagged with this
 // visit's enquiry reference (custom_id), and each order verifies once, so a forged client call cannot fake a
@@ -18,7 +18,7 @@
 import type { Context } from "@netlify/functions";
 import { getStore } from "@netlify/blobs";
 import { allow } from "../lib/rate-limit.js";
-import { verifyDeposit } from "../lib/paypal-verify.js";
+import { readDepositBody, verifyDeposit } from "../lib/paypal-verify.js";
 
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
@@ -33,16 +33,18 @@ export default async (req: Request, context: Context) => {
 
   if (!(await allow("write", context))) return json({ error: "Too many requests" }, 429);
 
-  let body: Record<string, unknown> = {};
+  let raw: unknown;
   try {
-    body = (await req.json()) as Record<string, unknown>;
+    raw = await req.json();
   } catch {
-    body = {};
+    return json({ error: "Invalid request" }, 400);
   }
+  const input = readDepositBody(raw);
+  if (!input) return json({ error: "Invalid request" }, 400);
 
   const store = getStore("paypal-orders");
   const { status, body: result } = await verifyDeposit(
-    { orderID: body.orderID, enquiryRef: body.enquiryRef },
+    input,
     {
       fetch,
       env,
