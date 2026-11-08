@@ -29,7 +29,7 @@ for (const [name, source] of Object.entries(sources)) {
       { document: { createElement: element } });
     assert.match(footer.children[0], /not a doctor or therapist; cannot replace clinical care/);
     const links = footer.children.filter(item => typeof item === 'object');
-    for (const href of ['tel:999', 'tel:116123', 'sms:85258', 'tel:111', '/support.html', 'https://findahelpline.com/']) {
+    for (const href of ['tel:999', 'tel:116123', 'sms:85258', 'tel:111', '/about.html#support', 'https://findahelpline.com/']) {
       assert.ok(links.some(link => link.href === href), href);
     }
   });

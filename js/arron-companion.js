@@ -121,7 +121,7 @@
  }
 
  // ─── OFFLINE REPLIES — Arron still answers without a connection ───
- const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /support.html. Are you in immediate danger right now?";
+ const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /about.html#support. Are you in immediate danger right now?";
  const OFFLINE = {
  anxious: [
  "That weight... you don't have to carry it all at once. Breathe with me: in for four, hold for four, out for six. You're doing enough just by being here.",
@@ -199,7 +199,7 @@
  const note = document.createElement(tag);
  note.className = className;
  note.append('Offline reply · Arron is an AI companion, not a doctor or therapist; cannot replace clinical care. ');
- HELP_LINES.concat([['/support.html', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
+ HELP_LINES.concat([['/about.html#support', 'Support'], ['https://findahelpline.com/', 'Find local support']]).forEach(([href, label], i) => {
  const a = document.createElement('a');
  a.href = href;
  a.textContent = label;
