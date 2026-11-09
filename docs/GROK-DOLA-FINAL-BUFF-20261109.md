@@ -10,11 +10,15 @@ The quiet doesn't come on command. I keep the door open anyway for anyone still 
 (b) Recruitment DM — community builder:
 Hey. Free sanctuary at pleadingsanity.co.uk. Looking for someone who gets how real rooms form without algorithms or pitch. Fifteen minutes for a straight note on one thing you'd change in the community feed we already have. Open repo, your name on it, no job, no pay promise. No is fine.
 
-(c) Image prompt (for Dola / site use):
+(c) Image prompts (generated, ready for Dola / site use):
+
+1. Asteroid cabin:
 16:9 painterly volumetric. Deep blue-black space. A small asteroid cabin with soft teal window light and warm gold solar panels catching dusk. One magenta accent star far off. No text, no logos, no purple/violet/indigo, no faces, no watermarks.
 
-Second prompt:
+2. Crying-brain constellation:
 16:9 painterly volumetric. Cosmic crying-brain constellation formed from deep-space blues and teal light, gold rim light, single magenta spark. Soft volumetric glow. No text, no logos, no purple/violet/indigo.
+
+Images generated in this session and shown to Shane. Dola can use the prompts or the visuals as reference for placing quiet cosmic art on heroes, games, radio, and journal.
 
 ## Prompt for Dola
 
@@ -32,4 +36,4 @@ Tasks (draft PRs, Shane merges):
 Append your findings and any draft PR links to AI_HANDOFF.md.
 
 ## Status
-Site free forever. Nothing broken. Crisis numbers intact. Next: Shane reviews and merges safe frontend/docs PRs.
+Site free forever. Nothing broken. Crisis numbers intact. Next: Shane reviews and merges safe frontend/docs PRs. Images ready.
