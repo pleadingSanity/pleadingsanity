@@ -33,3 +33,6 @@ Never diagnoses, never prescribes, never claims human/consciousness, never gives
 - Netlify preview deploys error account-wide (Shane: check dashboard — likely dependency/build-image issue).
 - webmention.io signup pending (dev email available; requires confirmation link click — manual step for Shane).
 - Grok "on full time" blocked by missing GROK_API_KEY.
+
+## Palette correction — 2026-11-09
+The Brand Palette line above is kept as history. It is superseded. The locked palette is background `#0b0f19`, teal `#00fff0` and `#38bdf8`, amber `#f59e0b`, and silver. `#ec4899`, `#db2777`, and the other non-locked hexes in that older line (`#0a1a3a`, `#102a5c`, `#0d9488`, `#2dd4bf`, `#f5c542`) are not the locked set. Do not paint purple, violet, indigo, pink, or magenta, including `#ff4d8d`, `#ff00ff`, `#ff66ff`, and `#000103`.
