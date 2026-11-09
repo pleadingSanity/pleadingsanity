@@ -1012,3 +1012,16 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - CONFLICT RESOLUTION (Shane memory notes): Phase 4 roadmap "ads every 15 posts" CONFLICTS with sanctuary HARD RULE (no ads). Decision: NO ADS on the sanctuary, ever. If ads ever come, they go on a SEPARATE property, never pleadingsanity.co.uk. Noted here so future AIs don't implement it. 5-phase roadmap is long-term vision — NOT to be implemented now.
 - PRIVACY GUARDRAIL: no private personal details (phone, family names, home address, kids' details) committed to public repo files including AI_HANDOFF.md/DOLA_MEMORY.md.
 - Rollback: git revert -m 1 4d4af97.
+
+## 2026-11-09 — Grok: audit fix pass 2 (draft PR #254, not merged)
+- Branch `grok/audit-radio-2026-11-09`. Merged `origin/main` `1c681811c5295dfb0b8585adbb50f9e3cc4c2098` as `d0a4db7c62e266a90e2aa0e8fb236c3496110343`. No rebase and no force-push. Not deployed.
+- `1c68181` had replaced `arron-knowledge.json` with `PLACEHOLDER`. Restored from its parent (`b652635493ea24ad392b266c1ca29145f7f854bb`, date kept at `2026-10-31` by `dca86c5581b3c3d074970cfdfc92e58fc4f14ed8`). Provider chain not edited.
+- Deploy house check now reads `about.html` and `_redirects` (`b1d7cc77e886e1f1167a0bb5b9b3ae16d507819a`). Local Python check passed. GitHub Actions not read back yet.
+- Auth links `/support.html`, `/kids-series.html`, and `/transparency.html` already redirect to `/about.html#support`, `/kids.html#kids-series`, and `/about.html#transparency`. Targets exist. Auth pages not edited. `audit-site.py` passes.
+- `js/consent.js` no longer loads Google Analytics (`a61020b9bf37920357720882ab763c0d7c21a55c`). Banner stores `psConsent` only. No tag request in the local browser check.
+- Banned paints replaced outside protected pages (`94127477000c0acd551b71077b3ad1b045c46d19`). Palette note appended to `DOLA_MEMORY.md` (`cb4933ccac0318cf541ff0dbcc2a4f63b5915ded`). `#000103` remains on login, signup, reset-password, and privacy theme-color.
+- Five visible fields named (`377b083761aab5c4530280cd4db168b3cf093949`). Eight heading warnings fixed without a new title style (`369b601f6cbf5a563d62e57cb75932c061f14c01`). Three print-document h1 warnings left. Duplicate Return of the Mack row removed (`92b96adb9796200dae02afe8ffdd648ae0f969e5`). No Stop button added. No video id invented.
+- Verified: `npm test` 190 pass, 0 fail. `audit-site.py` pass. `audit-ecosystem.mjs --strict` exit 0 (3 heading warnings). `audit-markup-safety.mjs` exit 0 (banned-colour HTML files 33 to 4, tracker files 1 to 0, unlabeled counter 152 to 150). `audit-whole-site.js` tracker failures 4 to 0. `validate-build.cjs` pass. `git diff --check` pass.
+- Browser: headless Chrome at 390x844 on a local static server. `/`, `/offline.html`, `/sanity-solitaire.html`, and `/shop.html` returned 200 with no console error. Solitaire opened on its tutorial. Radio Play created a youtube-nocookie iframe with no video id, and the status said no embeddable tracks were available. Not a phone and not production.
+- Privacy body not edited. Three analytics sentences are listed in `docs/AUDIT-2026-11-09.md` for Shane. Not touched: login, signup, reset-password, crisis.html, crisis numbers, PayPal, AI chain, manifesto, factory specs, #92.
+- Next: Shane reviews the draft. Do not merge or deploy until he says so.
