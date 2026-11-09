@@ -42,7 +42,7 @@ jobs:
       - name: Print summary
         run: node -e "const r=require('./ecosystem-audit.json'); console.log(JSON.stringify({scope:r.scope,summary:r.summary},null,2))"
       - name: Upload audit evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ecosystem-static-audit
           path: ecosystem-audit.json
