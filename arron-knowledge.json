@@ -1,7 +1,7 @@
 {
   "$comment": "ARRON — THE SOUL FILE. Update this once and the Arron app grows everywhere: the app reads it on every visit, the offline cache keeps a copy, and Arron's AI voice reads the principles and the AI chain on every deploy. Plain JSON, no build step. Evolution, Not Erasure.",
   "version": "4.0 · Phase 2 — Supabase long-term memory + GPT tool calling",
-  "updated": "2026-11-09",
+  "updated": "2026-10-31",
   "staySane": {
     "name": "Stay Sane AI",
     "voice": "I'm Arron, Shane built me, here to help you Stay Sane",
