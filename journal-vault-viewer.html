@@ -42,14 +42,14 @@
  :root {
  --cyan: #00fff0;
  --cyan-deep: #00c8c0;
- --#22d3ee: #ff00ff;
- --#22d3ee-deep: #c800c8;
+ --#22d3ee: #f59e0b;
+ --#22d3ee-deep: #d97706;
  --gold: #ffd700;
  --gold-bright: #ffd000;
  --orange-gold: #ff9500;
  --deep: #0d1b2a;
  --dark: #030712;
- --deepest: #060014;
+ --deepest: #0b0f19;
  --text-bright: #eafffd;
  --text-soft: #b9faff;
  --text-muted: #7ab8c8;
@@ -66,7 +66,7 @@
  font-family: var(--font-sans);
  background: 
  radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
- radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+ radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
  radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%);
  color: var(--text-bright);
  min-height: 100vh;
@@ -79,7 +79,7 @@
  body {
  background: 
  radial-gradient(circle at 15% 25%, rgba(0,255,240,0.12) 0%, transparent 50%),
- radial-gradient(circle at 85% 75%, rgba(255,0,255,0.08) 0%, transparent 50%),
+ radial-gradient(circle at 85% 75%, rgba(245,158,11,0.08) 0%, transparent 50%),
  radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, var(--deep) 45%, var(--deepest) 100%) !important;
  }
  }
@@ -87,7 +87,7 @@
  /* Light Mode Toggle */
  body.light-mode {
  --cyan: #0091cc;
- --#22d3ee: #b8009e;
+ --#22d3ee: #d97706;
  --deep: #eef4f8;
  --dark: #ffffff;
  --deepest: #dce8f0;
@@ -98,7 +98,7 @@
  --border-glow: rgba(0,145,204,0.2);
  background: 
  radial-gradient(circle at 15% 25%, rgba(0,145,204,0.08) 0%, transparent 50%),
- radial-gradient(circle at 85% 75%, rgba(184,0,158,0.05) 0%, transparent 50%),
+ radial-gradient(circle at 85% 75%, rgba(245,158,11,0.05) 0%, transparent 50%),
  linear-gradient(135deg, #f0f7ff 0%, #e0edf5 100%) !important;
  }
 
@@ -111,7 +111,7 @@
  .skip-link:focus { top: 12px; }
 
  a { color: var(--cyan); text-decoration: none; transition: var(--transition); }
- a:hover { color: var(--#22d3ee); text-shadow: 0 0 8px rgba(255,0,255,0.3); }
+ a:hover { color: var(--#22d3ee); text-shadow: 0 0 8px rgba(245,158,11,0.3); }
 
  /* Nebula Background Particles */
  .nebula-particle {
@@ -135,7 +135,7 @@
  header {
  position: sticky; top: 0; z-index: 100;
  text-align: center; padding: 18px 20px 15px;
- background: rgba(6,0,20,0.8); backdrop-filter: blur(12px);
+ background: rgba(11,15,25,0.8); backdrop-filter: blur(12px);
  border-bottom: 1px solid var(--border-glow);
  animation: fadeIn 0.8s ease-out both;
  }
@@ -271,7 +271,7 @@
  }
  .btn:hover {
  transform: translateY(-2px) scale(1.03);
- box-shadow: 0 0 35px rgba(255,0,255,0.4);
+ box-shadow: 0 0 35px rgba(245,158,11,0.4);
  color: #000;
  }
  .btn-secondary {
@@ -362,7 +362,7 @@
  footer {
  text-align: center; padding: 35px 20px; border-top: 2px solid rgba(0,255,240,0.15);
  color: var(--text-muted); font-size: 0.9rem;
- background: rgba(6,0,20,0.75);
+ background: rgba(11,15,25,0.75);
  backdrop-filter: blur(10px);
  margin-top: 20px;
  }

@@ -31,12 +31,12 @@
  :root {
  --cyan: #00fff0;
  --cyan-deep: #00c8c0;
- --#22d3ee: #ff00ff;
- --#22d3ee-deep: #c800c8;
+ --#22d3ee: #f59e0b;
+ --#22d3ee-deep: #d97706;
  --gold: #ffd700;
  --deep: #0d1b2a;
  --darker: #020d13;
- --blackest: #000103;
+ --blackest: #0b0f19;
  --text: #f0faff;
  --muted: #b9faff;
  --surface: rgba(0,255,240,0.07);
@@ -48,7 +48,7 @@
  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
  background: 
  radial-gradient(circle at 15% 25%, rgba(0,255,240,0.08) 0%, transparent 50%),
- radial-gradient(circle at 85% 75%, rgba(255,0,255,0.06) 0%, transparent 50%),
+ radial-gradient(circle at 85% 75%, rgba(245,158,11,0.06) 0%, transparent 50%),
  radial-gradient(ellipse at top, #1a0b3d 0%, var(--deep) 45%, var(--darker) 100%);
  color: var(--text);
  min-height: 100vh;
@@ -69,7 +69,7 @@
  /* Universal Header & Nav — Matches All Pages */
  header {
  text-align: center; padding: 20px 20px 15px;
- background: rgba(0,1,3,0.7); backdrop-filter: blur(12px);
+ background: rgba(11,15,25,0.7); backdrop-filter: blur(12px);
  border-bottom: 1px solid rgba(0,255,240,0.12);
  position: sticky; top: 0; z-index: 100;
  }
@@ -121,7 +121,7 @@
  .playlist-fallback {
  position: absolute; inset: 0; display: flex; flex-direction: column;
  align-items: center; justify-content: center; gap: 16px;
- background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(255,0,255,0.08));
+ background: linear-gradient(135deg, rgba(0,255,240,0.1), rgba(245,158,11,0.08));
  padding: 30px; text-align: center;
  }
  .playlist-fallback h3 { color: var(--cyan); font-size: 1.1rem; }

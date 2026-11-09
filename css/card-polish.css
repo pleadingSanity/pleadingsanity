@@ -7,7 +7,7 @@
   overflow: hidden;
   isolation: isolate;
   min-height: 180px;
-  background: rgba(0, 1, 3, 0.55);
+  background: rgba(11,15,25, 0.55);
   border: 1px solid rgba(0, 255, 240, 0.35);
   border-radius: 20px;
   transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
@@ -17,7 +17,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,1,3,0.18) 0%, rgba(0,1,3,0.55) 55%, rgba(0,1,3,0.88) 100%);
+  background: linear-gradient(180deg, rgba(11,15,25,0.18) 0%, rgba(11,15,25,0.55) 55%, rgba(11,15,25,0.88) 100%);
   z-index: 1;
   border-radius: inherit;
 }
@@ -25,7 +25,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0,1,3,0.55) 0%, rgba(0,1,3,0.82) 55%, rgba(0,1,3,0.9) 100%);
+  background: linear-gradient(180deg, rgba(11,15,25,0.55) 0%, rgba(11,15,25,0.82) 55%, rgba(11,15,25,0.9) 100%);
   z-index: 1;
   border-radius: inherit;
 }
@@ -109,7 +109,7 @@
 /* Text keeps a soft shadow so the picture never fights the words. */
 .tool-card h3,
 .tool-card p {
-  text-shadow: 0 1px 3px rgba(0, 1, 3, 0.9);
+  text-shadow: 0 1px 3px rgba(11,15,25, 0.9);
 }
 @media (max-width: 700px) {
   .tool-card img,
@@ -121,7 +121,7 @@
 }
 
 /* Soft music player (js/ps-music.js) — in the page flow, never over text. */
-.ps-music { padding: 1rem 1.1rem; border-radius: 18px; border: 1px solid rgba(0, 255, 240, 0.35); background: rgba(0, 1, 3, 0.72); color: #eef6ff; }
+.ps-music { padding: 1rem 1.1rem; border-radius: 18px; border: 1px solid rgba(0, 255, 240, 0.35); background: rgba(11,15,25, 0.72); color: #eef6ff; }
 .ps-music-title { margin: 0 0 0.6rem; font-weight: 800; color: #00fff0; }
 .ps-music-title span { font-weight: 400; color: #c9e9ef; font-size: 0.9rem; }
 .ps-music-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
@@ -134,7 +134,7 @@
 /* Illustrated homepage doors: clear artwork above a quiet text area. */
 .app-card.app-door { display:flex !important; flex-direction:column; justify-content:flex-end; min-height:230px; box-sizing:border-box; }
 .app-card.app-door img { opacity:.88; }
-.app-card.app-door::before { background:linear-gradient(180deg,rgba(0,1,3,.04) 0%,rgba(0,1,3,.22) 36%,rgba(0,1,3,.96) 76%); }
+.app-card.app-door::before { background:linear-gradient(180deg,rgba(11,15,25,.04) 0%,rgba(11,15,25,.22) 36%,rgba(11,15,25,.96) 76%); }
 .app-card.app-door strong { margin-top:130px; }
 .app-card.app-door:hover img { opacity:1; }
 @media (prefers-reduced-motion:reduce) { .app-card.app-door img { transition:none; } .app-card.app-door:hover img { transform:none; } }

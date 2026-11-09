@@ -29,7 +29,7 @@
 
 /* 2026-11 listening-room refinement: layered cosmic atmosphere, clear focus, mobile-first. */
 *,*::before,*::after{box-sizing:border-box}
-.radio-page{background:radial-gradient(ellipse 85% 45% at 50% 0%,rgba(20,128,143,.24),transparent 75%),radial-gradient(ellipse 65% 45% at 100% 45%,rgba(90,46,144,.14),transparent 80%),#060b15;line-height:1.55}
+.radio-page{background:radial-gradient(ellipse 85% 45% at 50% 0%,rgba(20,128,143,.24),transparent 75%),radial-gradient(ellipse 65% 45% at 100% 45%,rgba(56,189,248,.14),transparent 80%),#060b15;line-height:1.55}
 .radio-wrap{max-width:760px;padding:clamp(1rem,4vw,2.5rem) 1rem 4rem}
 .radio-hero{margin:0 auto 1.8rem;padding:1.25rem 0;text-align:center}
 .radio-hero h1{font-size:clamp(2.8rem,9vw,5rem);letter-spacing:-.055em;line-height:1.05;margin:.35rem 0 .75rem;font-weight:850}
