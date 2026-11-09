@@ -35,8 +35,8 @@ jobs:
               assert pathlib.Path(name).exists(), name
           # Crisis numbers stay tappable on the Arron pages as well as on crisis.html.
           crisis = pathlib.Path("crisis.html").read_text(encoding="utf-8", errors="ignore")
-          support = pathlib.Path("support.html").read_text(encoding="utf-8", errors="ignore")
-          safety = pathlib.Path("safety.html").read_text(encoding="utf-8", errors="ignore").lower()
+          support = pathlib.Path("about.html").read_text(encoding="utf-8", errors="ignore")
+          redirects = pathlib.Path("_redirects").read_text(encoding="utf-8", errors="ignore")
           arron = pathlib.Path("arron.html").read_text(encoding="utf-8", errors="ignore").lower()
           arron_app = pathlib.Path("arron-app.html").read_text(encoding="utf-8", errors="ignore").lower()
           contacts = {
@@ -49,14 +49,14 @@ jobs:
           }
           for label, href in contacts.items():
               assert label in crisis and href in crisis, f"crisis.html missing or untappable: {label}"
-          assert "id=\"anytime\"" in support and "id=\"ongoing\"" in support and "id=\"emergency\"" in support
-          assert "support.html" in arron and "support.html" in arron_app
+          assert 'id="support-anytime"' in support and 'id="support-ongoing"' in support and 'id="support-emergency"' in support
+          assert "/about.html#support" in arron and "/about.html#support" in arron_app
           for page_name, page in (("arron.html", arron), ("arron-app.html", arron_app)):
               assert "tel:999" in page, f"{page_name} missing tappable 999"
               assert "tel:116123" in page, f"{page_name} missing tappable Samaritans 116 123"
               assert "sms:85258" in page, f"{page_name} missing tappable SHOUT 85258"
               assert "tel:111" in page, f"{page_name} missing tappable NHS 111"
-          assert "crisis.html" in safety, "Legacy safety page must route to the crisis anchor"
+          assert "/safety.html" in redirects and "/crisis.html" in redirects, "Legacy safety route must redirect to crisis.html"
           # Creator stage, social sign-in choices and existing social foundation.
           live = pathlib.Path("live.html").read_text(encoding="utf-8", errors="ignore")
           oauth = pathlib.Path("js/oauth.js").read_text(encoding="utf-8", errors="ignore")
