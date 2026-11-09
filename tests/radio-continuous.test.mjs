@@ -29,5 +29,18 @@ test('first entry retains official link and does not host audio',()=>{
  assert.equal(first.title,"Nuthin' but a 'G' Thang");
  assert.match(first.supportLink,/^https:\/\/www\.youtube\.com\/watch\?v=/);
  assert.match(first.youtubeId,/^[\w-]{11}$/);
- assert.doesNotMatch(html,/<audio\b/);
+ const players = [...html.matchAll(/<audio\b([^>]*)>([\s\S]*?)<\/audio>/gi)];
+ assert.equal(players.length, 1);
+ const [, attributes, children] = players[0];
+ assert.match(attributes, /\bid="station-audio"/);
+ assert.match(attributes, /\bpreload="none"/);
+ assert.doesNotMatch(attributes, /\b(?:autoplay|src)\b/i);
+ assert.doesNotMatch(children, /<source\b/i);
+ const stationUrls = [...html.matchAll(/<button\b[^>]*\bdata-src="([^"]+)"/gi)];
+ assert.ok(stationUrls.length > 0);
+ for (const [, source] of stationUrls) {
+  const url = new URL(source);
+  assert.equal(url.protocol, 'https:');
+  assert.match(url.hostname, /^(?:[a-z0-9-]+\.)*somafm\.com$/i);
+ }
 });
