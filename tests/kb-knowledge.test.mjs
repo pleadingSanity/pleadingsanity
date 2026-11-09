@@ -50,24 +50,21 @@ test("PII scanner refuses keys and unpublished contacts, and keeps the published
   assert.equal(looksLikePlaceholder("# A real public document\n\nThe sanctuary stays free."), false);
 });
 
-test("placeholder and invalid JSON are refused, and a restored soul is accepted without being the placeholder", () => {
-  const refused = prepareText("arron-knowledge.json", "PLACEHOLDER", () => null);
+test("placeholder and invalid JSON are refused", () => {
+  const refused = prepareText("arron-knowledge.json", "PLACEHOLDER");
   assert.equal(refused.action, "refuse");
   assert.equal(refused.reason, "placeholder");
   assert.equal(refused.text, "");
 
-  const invalid = prepareText("notes.json", "{", null);
+  const invalid = prepareText("notes.json", "{");
   assert.equal(invalid.action, "refuse");
   assert.equal(invalid.reason, "invalid-json");
+  assert.equal(invalid.text, "");
 
-  const restored = prepareText("arron-knowledge.json", "PLACEHOLDER", () => ({
-    text: JSON.stringify({ version: "4.0", covenant: { chain: [] } }),
-    ref: "b652635:arron-knowledge.json",
-  }));
-  assert.equal(restored.action, "restore");
-  assert.equal(restored.ref, "b652635:arron-knowledge.json");
-  assert.equal(JSON.parse(restored.text).version, "4.0");
-  assert.doesNotMatch(restored.text, /PLACEHOLDER/);
+  const kept = prepareText("arron-knowledge.json", JSON.stringify({ version: "4.0", covenant: { chain: [] } }));
+  assert.equal(kept.action, "keep");
+  assert.equal(JSON.parse(kept.text).version, "4.0");
+  assert.doesNotMatch(kept.text, /PLACEHOLDER/);
 });
 
 test("corpus walk does not ingest a placeholder soul and does not modify the file", () => {
@@ -79,22 +76,19 @@ test("corpus walk does not ingest a placeholder soul and does not modify the fil
   writeFileSync(join(dir, "docs", "LEAK.md"), "Do not keep this.\n\napi_key: \"supersecretvalue\"\n");
   writeFileSync(join(dir, "secret.md"), "token: \"abcdEFGHijklmnop\"\n");
   const before = readFileSync(join(dir, "arron-knowledge.json"), "utf8");
-  const corpus = buildCorpus(dir, {
-    restore: () => ({ text: JSON.stringify({ ok: true, covenant: { chain: [] } }), ref: "b652635:arron-knowledge.json" }),
-  });
-  const soul = corpus.documents.find((doc) => doc.path === "arron-knowledge.json");
-  assert.ok(soul);
-  assert.equal(JSON.parse(soul.text).ok, true);
+  const corpus = buildCorpus(dir);
+  assert.equal(corpus.documents.some((doc) => doc.path === "arron-knowledge.json"), false);
+  assert.ok(corpus.refused.some((item) => item.path === "arron-knowledge.json" && item.reason === "placeholder"));
   assert.equal(readFileSync(join(dir, "arron-knowledge.json"), "utf8"), before);
   assert.ok(!corpus.documents.some((doc) => doc.text.trim() === "PLACEHOLDER"));
   assert.ok(corpus.refused.some((item) => item.path === "docs/LEAK.md" && item.reason === "secret"));
   assert.equal(corpus.documents.some((doc) => doc.path === "docs/LEAK.md"), false);
 });
 
-test("a placeholder with no restored copy is refused and not ingested", () => {
+test("a placeholder soul file is refused and not ingested", () => {
   const dir = mkdtempSync(join(tmpdir(), "kb-skip-"));
   writeFileSync(join(dir, "arron-knowledge.json"), "PLACEHOLDER");
-  const corpus = buildCorpus(dir, { restore: () => null });
+  const corpus = buildCorpus(dir);
   assert.equal(corpus.documents.some((doc) => doc.path === "arron-knowledge.json"), false);
   assert.ok(corpus.refused.some((item) => item.path === "arron-knowledge.json" && item.reason === "placeholder"));
 });
@@ -272,21 +266,16 @@ test("Arron crisis signpost is unchanged and grounding cannot run ahead of the e
   assert.equal(EMBED_DIM, 384);
 });
 
-test("working tree soul file is not rewritten when the real corpus can restore it", () => {
+test("working tree soul file is ingested as-is and not rewritten", () => {
   const diskBefore = readFileSync(join(repo, "arron-knowledge.json"), "utf8");
   const corpus = buildCorpus(repo);
   const diskAfter = readFileSync(join(repo, "arron-knowledge.json"), "utf8");
   assert.equal(diskAfter, diskBefore);
   const soul = corpus.documents.find((doc) => doc.path === "arron-knowledge.json");
-  if (diskBefore.trim() === "PLACEHOLDER") {
-    if (soul) {
-      assert.notEqual(soul.text.trim(), "PLACEHOLDER");
-      JSON.parse(soul.text);
-      assert.ok(soul.restoredFrom);
-    } else {
-      assert.ok(corpus.refused.some((item) => item.path === "arron-knowledge.json"));
-    }
-  }
+  assert.ok(soul, "the working-tree soul file is part of the corpus");
+  assert.equal(soul.text, diskBefore);
+  JSON.parse(soul.text);
+  assert.notEqual(soul.text.trim(), "PLACEHOLDER");
   assert.equal(corpus.secrets, 0);
   assert.ok(!corpus.documents.some((doc) => doc.text.trim() === "PLACEHOLDER"));
 });

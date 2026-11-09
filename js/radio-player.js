@@ -66,7 +66,7 @@
     clearLoad();
     loadTimer = setTimeout(function () {
       if (!wanted || token !== generation) return;
-      label('radio-status', "This one's resting — up next instead ✨");
+      label('radio-status', "This one's resting — up next instead.");
       skipFailed();
     }, 8000);
   }
@@ -85,7 +85,7 @@
     var token = generation, t = track();
     render();
     if (!valid(t.youtubeId)) {
-      label('radio-status', "This one's resting — up next instead ✨");
+      label('radio-status', "This one's resting — up next instead.");
       skipFailed(); return;
     }
     if (!ready || !player) {
@@ -150,12 +150,13 @@
   function initYouTube() {
     window.onYouTubeIframeAPIReady = function () {
       player = new window.YT.Player('radio-video-player', {
+        host:'https://www.youtube-nocookie.com',
         width:'640', height:'360',
         playerVars:{playsinline:1,rel:0,origin:window.location.origin},
         events:{
           onReady:function () { ready = true; if (wanted) startCurrent(); },
           onStateChange:onState,
-          onError:function () { if (wanted) { label('radio-status', "This one's resting — up next instead ✨"); skipFailed(); } }
+          onError:function () { if (wanted) { label('radio-status', "This one's resting — up next instead."); skipFailed(); } }
         }
       });
     };

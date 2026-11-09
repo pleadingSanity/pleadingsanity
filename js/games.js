@@ -392,14 +392,14 @@
  '.psg-toast{pointer-events:auto;width:100%;padding:12px 18px;border-radius:16px;background:rgba(6,16,28,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(0,255,240,.55);color:#eafffd;font:600 .95rem/1.4 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 22px rgba(0,255,240,.18);animation:psgIn .35s cubic-bezier(.2,.9,.3,1.3) both;}',
  '.psg-toast small{display:block;font-weight:500;color:#b9faff;font-size:.82rem;}',
  '.psg-toast.badge,.psg-toast.best{border-color:#ffd700;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(255,215,0,.3);}',
- '.psg-toast.level,.psg-toast.daily{border-color:#ff00ff;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(255,0,255,.3);}',
+ '.psg-toast.level,.psg-toast.daily{border-color:#f59e0b;box-shadow:0 10px 30px rgba(0,0,0,.5),0 0 24px rgba(245,158,11,.3);}',
  '.psg-toast.out{animation:psgOut .3s ease forwards;}',
  '@keyframes psgIn{from{opacity:0;transform:translateY(16px) scale(.95);}to{opacity:1;transform:none;}}',
  '@keyframes psgOut{to{opacity:0;transform:translateY(10px);}}',
  '.psg-pop{position:fixed;z-index:3900;pointer-events:none;font:900 1.25rem/1 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#00fff0;text-shadow:0 0 12px rgba(0,255,240,.7),0 2px 4px #000;transform:translate(-50%,-50%);animation:psgPop 1s ease-out forwards;white-space:nowrap;}',
- '.psg-pop.combo{color:#ff7cff;text-shadow:0 0 14px rgba(255,0,255,.8),0 2px 4px #000;font-size:1.45rem;}',
+ '.psg-pop.combo{color:#f59e0b;text-shadow:0 0 14px rgba(245,158,11,.8),0 2px 4px #000;font-size:1.45rem;}',
  '.psg-pop.gold{color:#ffd700;text-shadow:0 0 14px rgba(255,215,0,.8),0 2px 4px #000;font-size:1.5rem;}',
- '.psg-pop.miss{color:#ffb3c6;text-shadow:0 0 10px rgba(255,80,120,.6),0 2px 4px #000;}',
+ '.psg-pop.miss{color:#f59e0b;text-shadow:0 0 10px rgba(255,80,120,.6),0 2px 4px #000;}',
  '@keyframes psgPop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6);}15%{opacity:1;transform:translate(-50%,-60%) scale(1.15);}100%{opacity:0;transform:translate(-50%,-180%) scale(1);}}',
  '.psg-pulse-good{animation:psgGood .5s ease-out;}',
  '.psg-pulse-bad{animation:psgBad .5s ease-out;}',
@@ -408,15 +408,15 @@
  '@keyframes psgBad{0%{box-shadow:0 0 0 0 rgba(255,80,140,.6);}100%{box-shadow:0 0 0 18px rgba(255,80,140,0);}}',
  '@keyframes psgGold{0%{box-shadow:0 0 0 0 rgba(255,215,0,.8);}100%{box-shadow:0 0 0 30px rgba(255,215,0,0);}}',
  '.psg-confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:3800;}',
- '.psg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:10px 12px;border-radius:16px;background:rgba(0,1,3,.45);border:1px solid rgba(0,255,240,.18);font:600 .85rem/1.3 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#eafffd;}',
+ '.psg-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 18px;padding:10px 12px;border-radius:16px;background:rgba(11,15,25,.45);border:1px solid rgba(0,255,240,.18);font:600 .85rem/1.3 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#eafffd;}',
  '.psg-chip{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;background:rgba(0,255,240,.07);border:1px solid rgba(0,255,240,.2);white-space:nowrap;}',
  '.psg-chip b{color:#00fff0;}',
  '.psg-chip small{color:#b9faff;font-weight:500;}',
  '.psg-xp{flex:1 1 90px;min-width:90px;height:8px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden;}',
- '.psg-xp span{display:block;height:100%;background:linear-gradient(90deg,#00fff0,#ff00ff);box-shadow:0 0 10px rgba(0,255,240,.6);transition:width .6s ease;}',
- '.psg-sound{min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(0,255,240,.45);background:rgba(0,1,3,.6);color:#eafffd;font:inherit;cursor:pointer;margin-left:auto;}',
+ '.psg-xp span{display:block;height:100%;background:linear-gradient(90deg,#00fff0,#f59e0b);box-shadow:0 0 10px rgba(0,255,240,.6);transition:width .6s ease;}',
+ '.psg-sound{min-height:44px;min-width:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(0,255,240,.45);background:rgba(11,15,25,.6);color:#eafffd;font:inherit;cursor:pointer;margin-left:auto;}',
  '.psg-sound[aria-pressed="true"]{background:rgba(0,255,240,.16);border-color:#00fff0;}',
- '.psg-sound:hover{border-color:#ff00ff;}',
+ '.psg-sound:hover{border-color:#f59e0b;}',
  '.psg-sound:focus-visible{outline:3px solid #00fff0;outline-offset:2px;}',
  '@media (prefers-reduced-motion:reduce){.psg-toast,.psg-toast.out,.psg-pop,.psg-pulse-good,.psg-pulse-bad,.psg-pulse-gold{animation:none!important;}.psg-pop{display:none;}.psg-xp span{transition:none;}}'
  ].join('\n');
@@ -535,7 +535,7 @@
  }
  fx.raf = requestAnimationFrame(frame);
  }
- var COLORS = ['#00fff0', '#ff00ff', '#ffd700', '#a855f7', '#eafffd'];
+ var COLORS = ['#00fff0', '#f59e0b', '#ffd700', '#38bdf8', '#eafffd'];
  // Radial sparkle burst at an element or {x, y} viewport point
  function burst(at, opts) {
  if (typeof at === 'number' && typeof opts === 'number') { at = { x: at, y: opts }; opts = arguments[2]; }

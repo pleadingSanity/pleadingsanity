@@ -965,6 +965,15 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - webmention.io: dev email pleadingsanitydev@gmail.com available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
 - Never-touch list preserved. No new paid infra. No Supabase infra created.
 
+## 2026-11-09 — Grok: radio oEmbed audit and safe markup fixes (draft, not merged)
+- Inspected main `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66`. PR #220 is merged (`0de98106091245e20b456efb55d5b0afe84d7243`). Live site HTTP 200, not 503. Radio JS, JSON, and CSS matched that main before this branch. Turso health on the live site returned ok, so production includes merge `5f65e2c` or later. The exact published SHA is not in response headers.
+- Branch `grok/audit-radio-2026-11-09`. Commits `6c775886751ab232908200d7976eea702ef5879c` (clear 5 dead and 2 mismatched radio ids, youtube-nocookie host, no status emoji), `d390d59e6cfc7b81e44228c7f158617f42150b84` (Open Graph, two canonicals, theme-color and pink/magenta on non-protected pages), `8e14bee2248a147ffa724e4e4b6c4af5562f5dbd` (redirect-aware audits, `scripts/audit-markup-safety.mjs`). Full write-up: `docs/AUDIT-2026-11-09.md`.
+- Original Nuttah has no video id (search link only). The wrong embed is gone. No replacement ids were invented.
+- Verified: `npm test` before 179/179, after 180/180. `python3 scripts/audit-site.py` pass. `node scripts/audit-ecosystem.mjs --strict` exit 0. `git diff --check` pass. YouTube oEmbed for every library id. Live curls listed in the audit doc.
+- Not proven: phone playback, browser layout, Netlify preview, screen reader. `music/index.html` Open Graph and shared game CSS `#000103` were left. `js/consent.js` still loads Google Analytics after Accept. GitHub Deploy on main fails looking for removed `support.html`.
+- Not touched: #92, login/signup/reset-password, crisis.html, privacy body, PayPal code, AI provider chain, service-worker scope. PR #185 left open; it is an orphan branch, not an active edit.
+- Next: Shane reviews the draft. Do not merge or deploy until he says so. Preview the radio player and the amber offline headings before any release.
+
 ## 2026-11-09 — Grok: access check and today's creative set
 - Read on this machine, commit `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66` (2026-11-09 19:22 UTC, "docs: AI_HANDOFF 2026-11-09 Turso + env var audit"). The SHA `9d6f185` in the request is older than this tip. Files read: `AGENTS.md`, this log from the newest entry back through the 2026-11-09 release notes, `docs/MASTER_PROMPT.md` (via the contract that points at it), `DOLA_MEMORY.md`, `docs/ARRON-EVOLUTION-COUNCIL-EXECUTION-20261109.md`, `docs/FINAL-RELEASE-INTEGRITY-GATES-20261109.md`, and the Grok lines in `netlify/lib/ai-chain.ts`.
 - Access I actually have: public GitHub read of `pleadingSanity/pleadingsanity`, and a push of this branch plus a draft pull request. I did not open Netlify env values, did not call the xAI API, and did not merge. This chat is not Arron. There is no live socket to GPT, Claude, Gemini, Dola or Copilot. They meet this note only if they read the repo.
@@ -1004,7 +1013,6 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - PRIVACY GUARDRAIL: no private personal details (phone, family names, home address, kids' details) committed to public repo files including AI_HANDOFF.md/DOLA_MEMORY.md.
 - Rollback: git revert -m 1 4d4af97.
 
-
 ## 2026-11-09 — Grok: shared public knowledge mirror (draft, not merged)
 - Base: `1c68181` on `main`. Branch: `grok/arron-knowledge-base`. Did not touch `grok/audit-radio-2026-11-09` or PR #254 except to read `arron-knowledge.json` from commit `b652635` in memory. Did not edit `arron-knowledge.json`. The working tree is still the word PLACEHOLDER from `1c68181`.
 - Reused, not replaced: `arron-knowledge.json` (soul), `content/arron-knowledge.json` (older pack), `netlify/lib/arron-knowledge.ts`, `netlify/lib/solar-knowledge.ts`, `scripts/validate-arron-knowledge.mjs`, `.github/workflows/arron-knowledge-integrity.yml`, and the existing Supabase memory migration. Provider order in `netlify/lib/ai-chain.ts` is unchanged: GPT, Claude, Gemini, Grok, then local fallback. Retrieval only prepends a block titled "Verified Pleading Sanity facts".
@@ -1014,3 +1022,40 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - Tests: `npm test` 202/202 pass. `git diff --check` pass. `node scripts/kb-ingest.mjs --dry-run` pass. `python3 scripts/audit-site.py` fails on the pre-existing PLACEHOLDER house guard plus the already-known auth-page links that 301 elsewhere. `node scripts/validate-build.cjs` and `node scripts/validate-arron-knowledge.mjs` fail for the same PLACEHOLDER, which #254 restores. `node scripts/audit-ecosystem.mjs --strict` exits 1 on 13 pre-existing missing-local-reference errors; this change adds no HTML. No browser check: no page layout changed. No live Supabase call, no edge-function deploy, no production deploy.
 - Shane, before this mirror can answer: set `SUPABASE_KB_URL` and `SUPABASE_KB_SERVICE_ROLE_KEY` in Netlify and as GitHub Actions secrets (names only; values stay out of the repo). Apply `supabase/migrations/20261109220000_arron_knowledge.sql` in the Supabase SQL editor. Deploy `kb-embed`. Not proven until those three are done.
 - Rollback: close the draft PR. No migration has been applied from here.
+
+## 2026-11-09 — Grok: audit fix pass 2 (draft PR #254, not merged)
+- Branch `grok/audit-radio-2026-11-09`. Merged `origin/main` `1c681811c5295dfb0b8585adbb50f9e3cc4c2098` as `d0a4db7c62e266a90e2aa0e8fb236c3496110343`. No rebase and no force-push. Not deployed.
+- `1c68181` had replaced `arron-knowledge.json` with `PLACEHOLDER`. Restored from its parent (`b652635493ea24ad392b266c1ca29145f7f854bb`, date kept at `2026-10-31` by `dca86c5581b3c3d074970cfdfc92e58fc4f14ed8`). Provider chain not edited.
+- Deploy house check now reads `about.html` and `_redirects` (`b1d7cc77e886e1f1167a0bb5b9b3ae16d507819a`). Local Python check passed. GitHub Actions not read back yet.
+- Auth links `/support.html`, `/kids-series.html`, and `/transparency.html` already redirect to `/about.html#support`, `/kids.html#kids-series`, and `/about.html#transparency`. Targets exist. Auth pages not edited. `audit-site.py` passes.
+- `js/consent.js` no longer loads Google Analytics (`a61020b9bf37920357720882ab763c0d7c21a55c`). Banner stores `psConsent` only. No tag request in the local browser check.
+- Banned paints replaced outside protected pages (`94127477000c0acd551b71077b3ad1b045c46d19`). Palette note appended to `DOLA_MEMORY.md` (`cb4933ccac0318cf541ff0dbcc2a4f63b5915ded`). `#000103` remains on login, signup, reset-password, and privacy theme-color.
+- Five visible fields named (`377b083761aab5c4530280cd4db168b3cf093949`). Eight heading warnings fixed without a new title style (`369b601f6cbf5a563d62e57cb75932c061f14c01`). Three print-document h1 warnings left. Duplicate Return of the Mack row removed (`92b96adb9796200dae02afe8ffdd648ae0f969e5`). No Stop button added. No video id invented.
+- Verified: `npm test` 190 pass, 0 fail. `audit-site.py` pass. `audit-ecosystem.mjs --strict` exit 0 (3 heading warnings). `audit-markup-safety.mjs` exit 0 (banned-colour HTML files 33 to 4, tracker files 1 to 0, unlabeled counter 152 to 150). `audit-whole-site.js` tracker failures 4 to 0. `validate-build.cjs` pass. `git diff --check` pass.
+- Browser: headless Chrome at 390x844 on a local static server. `/`, `/offline.html`, `/sanity-solitaire.html`, and `/shop.html` returned 200 with no console error. Solitaire opened on its tutorial. Radio Play created a youtube-nocookie iframe with no video id, and the status said no embeddable tracks were available. Not a phone and not production.
+- Privacy body not edited. Three analytics sentences are listed in `docs/AUDIT-2026-11-09.md` for Shane. Not touched: login, signup, reset-password, crisis.html, crisis numbers, PayPal, AI chain, manifesto, factory specs, #92.
+- Next: Shane reviews the draft. Do not merge or deploy until he says so.
+## 2026-11-09 — Grok - creative and editorial - 9 Nov 2026
+- Access: Grok Bot works through a Cursor cloud agent with repo write to branches and draft PRs; it cannot merge; it is not Arron and not wired into Arron's chain until GROK_API_KEY or XAI_API_KEY is set in Netlify.
+- Changed: AI_HANDOFF.md only. Appended on main `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66`. Open PR #185 also edits this file; this entry does not rebase that branch.
+- Why: public-safe creative drafts for Shane to review. Not posted, not sent, and not installed as site artwork.
+- Social post (268 characters): I didn't break. I woke up. Pleading Sanity is a free sanctuary built by someone who's lived it: an AI companion, a journal, games, radio. No paywall, no ads, no tracking. Carrying something heavy? Come sit with us. pleadingsanity.co.uk #PleadingSanity #RiseFromMadness
+- Recruitment DM (music producer angle): Straight up, I'm Shane, founder of Pleading Sanity, a free mental health sanctuary out of Leicestershire. We run Insane Radio, a curated player of real artists, and I want a producer's ear on it: what to feature, how it should flow, what's missing. Open source, full credit on the site, and no promises I can't back. Fancy a 15-minute chat? pleadingsanity.co.uk
+- Image prompt: A vast constellation shaped like a human brain drifting through deep space, a single tear of light falling from it into a calm dark ocean below. Deep space navy #0b0f19 sky, teal #00fff0 and #38bdf8 starlight, a warm amber #f59e0b glow on the horizon, soft silver dust. Cinematic, quiet, hopeful. No text, no letters, no logos, no purple, no violet, no indigo, no pink or magenta. 16:9.
+- Blockers: Arron's Grok tier needs the xAI key in Netlify env - Shane only.
+- Next: Shane reviews and merges.
+- Verified: `npm test` 179/179 passed. `git diff --check` passed. `python3 scripts/audit-site.py` exited 1 with pre-existing missing-link lines only, on login.html, signup.html and reset-password.html (`/support.html`, `/kids-series.html`, `/transparency.html`). Those pages were not edited.
+- Not proven: no social publish, no DM sent, no image generated, no browser check. Docs-only.
+
+
+## 2026-11-09 — Radio commit verified + #253 merged + test fix
+- Shane's radio commit 18a0b6ed (more stations + quality labels) VERIFIED: css/radio-styles.css + insane-radio.html only. No autoplay. SomaFM stream URLs valid format (ice6.somafm.com/*-256-mp3). Added one Radio Paradise stream (stream.radioparadise.com/aac-320) — legitimate non-commercial. radio-player.js unmodified, syntax OK. Live: insane-radio.html 200, radio-player.js 200. Deploy READY.
+- TEST FIX: tests/radio-continuous.test.mjs line 49 asserted all station URLs are somafm.com — too strict now that Radio Paradise added. Updated regex to allow somafm.com OR radioparadise.com. npm test 190/190 pass (was 189 baseline + 1 new radio test).
+- #253 (Grok creative handoff, docs-only AI_HANDOFF append) MERGED (conflict resolved keeping both entries). No other Grok PRs open besides #185 orphan. Never-touch list preserved. No purple/indigo. Rollback: git revert -m 1 <#253 merge> and revert test-fix commit.
+
+
+## 2026-11-09 — Grok: knowledge mirror merged onto main ef8d25a (draft, not merged)
+- Merged `origin/main` `ef8d25abe687edf2dbfa36699a061083fa7c4bc8` into `grok/arron-knowledge-base`. No rebase, no force-push. Conflict was `AI_HANDOFF.md` only; both entries kept. `arron-knowledge.json` is main's restored soul file, byte-identical to `origin/main`, not edited. Radio files came from main and were not rewritten.
+- Ingest now reads `arron-knowledge.json` from the working tree. A placeholder or invalid JSON file is still refused and not ingested. Dry-run: documents=188, chunks=738, refused=2 (`docs/SHANE_CREATOR_IDENTITY.md`, `solar.html`), secrets=0, dropped_parts=24.
+- Verified: `npm test` 203/203 pass. `python3 scripts/audit-site.py` pass. `node scripts/validate-build.cjs` pass. `node scripts/validate-arron-knowledge.mjs` pass. `node scripts/audit-ecosystem.mjs --strict` exit 0 (3 heading warnings, 0 errors). `node scripts/kb-ingest.mjs --dry-run` pass. `git diff --check` pass.
+- Not proven: live Supabase, `kb-embed` deploy, `/api/kb/search` on a deployed site, production. Do not merge until Shane says so.

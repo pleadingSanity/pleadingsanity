@@ -13,7 +13,7 @@
   background:
     radial-gradient(circle at 18% 8%, rgba(0, 255, 240, 0.09), transparent 42%),
     radial-gradient(circle at 82% 92%, rgba(245, 158, 11, 0.07), transparent 45%),
-    var(--ps-black, #000103);
+    var(--ps-black, #0b0f19);
   min-height: 100vh;
   line-height: 1.55;
 }
@@ -52,7 +52,7 @@
 .psm-filter-btn:hover { border-color: var(--ps-cyan, #00fff0); background: rgba(0, 255, 240, 0.1); }
 .psm-filter-btn:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }
 .psm-filter-btn.active {
-  background: var(--ps-cyan, #00fff0); color: var(--ps-black, #000103);
+  background: var(--ps-cyan, #00fff0); color: var(--ps-black, #0b0f19);
   border-color: var(--ps-cyan, #00fff0); font-weight: 800;
 }
 .psm-count { text-align: center; color: var(--ps-muted, #a9c7d1); font-size: 0.9rem; margin: 0 0 1.2rem; }
@@ -68,7 +68,7 @@
 @media (min-width: 960px) { .psm-grid { grid-template-columns: repeat(3, 1fr); } }
 
 .psm-card {
-  background: linear-gradient(165deg, rgba(13, 27, 42, 0.82), rgba(0, 1, 3, 0.72));
+  background: linear-gradient(165deg, rgba(13, 27, 42, 0.82), rgba(11,15,25, 0.72));
   border: 1px solid rgba(0, 255, 240, 0.24);
   border-radius: 18px; overflow: hidden; cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
@@ -90,7 +90,7 @@
 .psm-img-label {
   position: absolute; bottom: 0.5rem; right: 0.6rem;
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
-  color: var(--ps-muted, #a9c7d1); background: rgba(0, 1, 3, 0.55);
+  color: var(--ps-muted, #a9c7d1); background: rgba(11,15,25, 0.55);
   padding: 0.15rem 0.55rem; border-radius: 999px;
 }
 
@@ -130,7 +130,7 @@
 
 /* ---------- Panels (money flow, legal, sell form) ---------- */
 .psm-panel {
-  background: linear-gradient(160deg, rgba(13, 27, 42, 0.75), rgba(0, 1, 3, 0.65));
+  background: linear-gradient(160deg, rgba(13, 27, 42, 0.75), rgba(11,15,25, 0.65));
   border: 1px solid rgba(0, 255, 240, 0.22);
   border-radius: 18px; padding: 1.3rem 1.3rem; margin: 0 0 1.6rem;
 }
@@ -146,7 +146,7 @@
 .psm-flow-step {
   flex: 1 1 140px; text-align: center; padding: 0.9rem 0.7rem;
   border-radius: 14px; border: 1px solid rgba(0, 255, 240, 0.2);
-  background: rgba(0, 1, 3, 0.4);
+  background: rgba(11,15,25, 0.4);
 }
 .psm-flow-step .amt { display: block; font-size: 1.4rem; font-weight: 800; color: var(--ps-amber, #f59e0b); }
 .psm-flow-step .lbl { font-size: 0.8rem; color: var(--ps-muted, #a9c7d1); margin-top: 0.2rem; display: block; }
@@ -157,7 +157,7 @@
 .psm-form-row label { font-weight: 600; font-size: 0.92rem; color: var(--ps-text, #eef6ff); }
 .psm-form-row input[type="text"], .psm-form-row input[type="number"], .psm-form-row textarea, .psm-form-row select {
   min-height: 44px; padding: 0.55rem 0.8rem; border-radius: 10px;
-  border: 1.5px solid rgba(0, 255, 240, 0.28); background: rgba(0, 1, 3, 0.55);
+  border: 1.5px solid rgba(0, 255, 240, 0.28); background: rgba(11,15,25, 0.55);
   color: var(--ps-text, #eef6ff); font: inherit; font-size: 0.95rem;
 }
 .psm-form-row input:focus, .psm-form-row textarea:focus, .psm-form-row select:focus {
@@ -166,26 +166,26 @@
 .psm-check-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.9rem; }
 .psm-check-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--ps-cyan, #00fff0); }
 .psm-create-msg { padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.9rem; margin-top: 0.5rem; display: none; }
-.psm-create-msg.err { display: block; background: rgba(182, 0, 42, 0.18); border: 1px solid rgba(255, 102, 136, 0.5); color: #ffb3c1; }
+.psm-create-msg.err { display: block; background: rgba(182, 0, 42, 0.18); border: 1px solid rgba(245,158,11, 0.5); color: #f59e0b; }
 .psm-create-msg.ok { display: block; background: rgba(0, 255, 240, 0.1); border: 1px solid rgba(0, 255, 240, 0.4); color: var(--ps-cyan, #00fff0); }
 
 /* ---------- Modal ---------- */
 .psm-modal-overlay {
   position: fixed; inset: 0; z-index: 200;
-  background: rgba(0, 1, 3, 0.78); backdrop-filter: blur(6px);
+  background: rgba(11,15,25, 0.78); backdrop-filter: blur(6px);
   display: flex; align-items: center; justify-content: center;
   padding: 1rem; overflow-y: auto;
 }
 .psm-modal {
   position: relative; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto;
-  background: linear-gradient(170deg, #0d1b2a, #000103);
+  background: linear-gradient(170deg, #0d1b2a, #0b0f19);
   border: 1.5px solid rgba(0, 255, 240, 0.4); border-radius: 20px;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 255, 240, 0.15);
 }
 .psm-modal-close {
   position: absolute; top: 0.7rem; right: 0.7rem; z-index: 2;
   min-height: 40px; min-width: 40px; border-radius: 50%;
-  border: 1.5px solid rgba(0, 255, 240, 0.4); background: rgba(0, 1, 3, 0.7);
+  border: 1.5px solid rgba(0, 255, 240, 0.4); background: rgba(11,15,25, 0.7);
   color: var(--ps-text, #eef6ff); cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
 }
 .psm-modal-close:hover { background: rgba(0, 255, 240, 0.15); border-color: var(--ps-cyan, #00fff0); }
@@ -231,7 +231,7 @@
 .psm-shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.8rem; }
 .psm-shop-card {
   border: 1px solid rgba(0, 255, 240, 0.22); border-radius: 14px; overflow: hidden;
-  background: rgba(0, 1, 3, 0.5); cursor: pointer; transition: transform 0.18s, border-color 0.18s;
+  background: rgba(11,15,25, 0.5); cursor: pointer; transition: transform 0.18s, border-color 0.18s;
 }
 .psm-shop-card:hover, .psm-shop-card:focus-visible { transform: translateY(-2px); border-color: var(--ps-cyan, #00fff0); }
 .psm-shop-card:focus-visible { outline: 3px solid var(--ps-cyan, #00fff0); outline-offset: 2px; }

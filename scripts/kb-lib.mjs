@@ -2,7 +2,6 @@
 // The repository files are the source of truth. This module never writes
 // arron-knowledge.json and never prints secret values.
 
-import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
@@ -34,11 +33,6 @@ const ROOT_FILES = [
   "content/arron-knowledge.json",
   "netlify/lib/solar-knowledge.ts",
   "netlify/lib/arron-knowledge.ts",
-];
-
-const ARRON_RESTORE_REFS = [
-  "b652635:arron-knowledge.json",
-  "origin/grok/audit-radio-2026-11-09:arron-knowledge.json",
 ];
 
 const HARD_SECRET_RE = /(?:\bsk-(?:ant-)?(?!your-key\b)[A-Za-z0-9_-]{20,}|AIza[0-9A-Za-z_-]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|xai-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}|postgres(?:ql)?:\/\/[^:\s]+:[^@\s]+@)/i;
@@ -207,16 +201,9 @@ export function chunkText(text, { size = 1800, overlap = 200 } = {}) {
   }));
 }
 
-export function prepareText(path, text, restore) {
-  const placeholder = looksLikePlaceholder(text);
+export function prepareText(path, text) {
+  if (looksLikePlaceholder(text)) return { action: "refuse", text: "", reason: "placeholder", ref: "", dropped: 0 };
   const invalid = jsonProblem(path, text);
-  if (path === "arron-knowledge.json" && (placeholder || invalid) && typeof restore === "function") {
-    const restored = restore();
-    if (restored && typeof restored.text === "string" && !looksLikePlaceholder(restored.text) && !jsonProblem(path, restored.text)) {
-      return finishText(path, restored.text, { action: "restore", ref: restored.ref || "" });
-    }
-  }
-  if (placeholder) return { action: "refuse", text: "", reason: "placeholder", ref: "", dropped: 0 };
   if (invalid) return { action: "refuse", text: "", reason: invalid, ref: "", dropped: 0 };
   return finishText(path, text, { action: "keep", ref: "" });
 }
@@ -293,29 +280,6 @@ function walk(dir, acc, root) {
   }
 }
 
-export function gitShowFile(root, ref) {
-  try {
-    return execFileSync("git", ["show", ref], {
-      cwd: root,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-      maxBuffer: 8 * 1024 * 1024,
-    });
-  } catch {
-    return null;
-  }
-}
-
-export function restoreArronKnowledge(root) {
-  for (const ref of ARRON_RESTORE_REFS) {
-    const text = gitShowFile(root, ref);
-    if (!text) continue;
-    if (looksLikePlaceholder(text) || jsonProblem("arron-knowledge.json", text)) continue;
-    return { text, ref };
-  }
-  return null;
-}
-
 function readSafe(root, filePath) {
   try {
     return readFileSync(join(root, filePath), "utf8");
@@ -334,15 +298,13 @@ function pushDoc(documents, filePath, text, extra = {}) {
     source_sha: sha256(text),
     text,
     chunks,
-    restoredFrom: extra.ref || "",
   });
 }
 
-export function buildCorpus(root, options = {}) {
+export function buildCorpus(root) {
   const documents = [];
   const refused = [];
   let droppedParts = 0;
-  const restore = options.restore || (() => restoreArronKnowledge(root));
   const seen = new Set();
 
   const consider = (filePath, raw) => {
@@ -351,13 +313,13 @@ export function buildCorpus(root, options = {}) {
       refused.push({ path: filePath, reason: "denylist" });
       return;
     }
-    const prepared = prepareText(filePath, raw, filePath === "arron-knowledge.json" ? restore : null);
+    const prepared = prepareText(filePath, raw);
     droppedParts += prepared.dropped || 0;
     if (prepared.action === "refuse") {
       refused.push({ path: filePath, reason: prepared.reason });
       return;
     }
-    pushDoc(documents, filePath, prepared.text, { ref: prepared.ref });
+    pushDoc(documents, filePath, prepared.text);
     seen.add(filePath);
   };
 
@@ -394,7 +356,7 @@ export function buildCorpus(root, options = {}) {
     if (raw === null) continue;
     const card = htmlCard(filePath, raw);
     if (!card) continue;
-    const prepared = prepareText(filePath, card.text, null);
+    const prepared = prepareText(filePath, card.text);
     droppedParts += prepared.dropped || 0;
     if (prepared.action === "refuse") {
       refused.push({ path: filePath, reason: prepared.reason });

@@ -12,7 +12,7 @@ The files in `pleadingSanity/pleadingsanity` are the source of truth:
 - `AI_HANDOFF.md` is the append-only status log.
 - `docs/MASTER_PROMPT.md` is the charter.
 - `system_blueprint.json` is a snapshot, not a running hivemind.
-- `arron-knowledge.json` is Arron's soul file when it is real JSON. On main `1c68181` that file is the word `PLACEHOLDER`. The restored copy is on `grok/audit-radio-2026-11-09` at commit `b652635` (PR #254). Ingest reads that copy in memory when the working tree is a placeholder. It does not write the file.
+- `arron-knowledge.json` is Arron's soul file. Ingest reads the working-tree copy and does not write it. A placeholder or invalid JSON file is refused and not ingested.
 - `netlify/lib/arron-knowledge.ts` and `netlify/lib/solar-knowledge.ts` are the knowledge modules Arron and the solar desk already use.
 
 If a mirror row and a file disagree, the file wins.
@@ -71,7 +71,7 @@ That deploy is not done by this repository on its own.
 
 `node scripts/kb-ingest.mjs` upserts by path and `source_sha`, replaces chunks when the file changed, and deletes documents that left the allowlist. A placeholder or invalid JSON file is not ingested, and its previous good copy is left in place. A secret, a private contact, or a denylisted file is not ingested, and an older copy of that path is removed.
 
-If `SUPABASE_KB_URL` or `SUPABASE_KB_SERVICE_ROLE_KEY` is unset, the script exits 0 and writes nothing. The GitHub Action `.github/workflows/kb-ingest.yml` does the same. It runs on a manual dispatch and on a push to `main` that touches the allowlist. It tries to fetch the restored soul file first. Fetching that branch does not edit it.
+If `SUPABASE_KB_URL` or `SUPABASE_KB_SERVICE_ROLE_KEY` is unset, the script exits 0 and writes nothing. The GitHub Action `.github/workflows/kb-ingest.yml` does the same. It runs on a manual dispatch and on a push to `main` that touches the allowlist.
 
 ## What Shane sets
 

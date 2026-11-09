@@ -262,13 +262,13 @@ class ResearchAnalyticsFramework {
 
           <label class="ps-consent-option" style="
             display: flex; align-items: flex-start; gap: 14px; cursor: pointer;
-            background: rgba(255,0,255,0.06); padding: 18px; border-radius: 14px;
+            background: rgba(245,158,11,0.06); padding: 18px; border-radius: 14px;
             border-left: 4px solid #f59e0b;
           ">
             <input type="checkbox" id="consent-research" style="margin-top: 4px; transform: scale(1.3); accent-color: #f59e0b;">
             <div>
               <strong style="color: #f59e0b; font-size: 1.05rem;"> Join the Research Movement</strong>
-              <p style="margin: 6px 0 0; font-size: 0.9rem; color: #cc88dd; line-height: 1.5;">
+              <p style="margin: 6px 0 0; font-size: 0.9rem; color: #38bdf8; line-height: 1.5;">
                 Quick anonymous check-ins → your voice becomes proof that changes how 
                 mental health is understood and supported. 
                 <span style="color: #ffdd00; font-weight: 600;">+10 Impact Credits per check-in</span>

@@ -3,8 +3,8 @@
 // --dry-run prints counts only and does not call the network.
 // If SUPABASE_KB_URL or SUPABASE_KB_SERVICE_ROLE_KEY is missing, exit 0
 // without writing. A secret match refuses that file and exits 1.
-// arron-knowledge.json is never written. A placeholder working copy is
-// read from the restored commit when git can see it, or skipped.
+// arron-knowledge.json is read from the working tree and never written.
+// A placeholder or invalid JSON file is refused and not ingested.
 
 import { buildCorpus, EMBED_DIM, shouldDeleteStale } from "./kb-lib.mjs";
 
@@ -21,9 +21,8 @@ const { counts, refused, documents } = corpus;
 
 console.log(`kb-ingest: documents=${counts.documents} chunks=${counts.chunks} refused=${counts.refused} secrets=${counts.secrets} dropped_parts=${counts.droppedParts}`);
 for (const item of refused) console.log(`refused ${item.path} reason=${item.reason}`);
-const restored = documents.find((doc) => doc.path === "arron-knowledge.json" && doc.restoredFrom);
-if (restored) console.log(`arron-knowledge.json read from ${restored.restoredFrom}; working tree not modified`);
-else if (refused.some((item) => item.path === "arron-knowledge.json")) console.log("arron-knowledge.json placeholder or invalid JSON was not ingested");
+if (refused.some((item) => item.path === "arron-knowledge.json")) console.log("arron-knowledge.json placeholder or invalid JSON was not ingested");
+else if (documents.some((doc) => doc.path === "arron-knowledge.json")) console.log("arron-knowledge.json read from the working tree");
 
 if (counts.secrets > 0) {
   console.error("kb-ingest: refused a file that looks like a key or token. Nothing was written.");

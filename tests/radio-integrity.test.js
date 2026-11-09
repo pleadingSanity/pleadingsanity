@@ -27,6 +27,7 @@ test('radio has explicit user play and visible video controls',()=>{
   assert.match(page,/id="radio-video-player"/);
   assert.match(page,/\/js\/radio-player\.js/);
   assert.match(player,/youtube\.com\/iframe_api/);
+  assert.match(player,/host:'https:\/\/www\.youtube-nocookie\.com'/);
   assert.match(player,/function play\(\)/);
   assert.match(player,/addEventListener\('click'/);
   assert.doesNotMatch(page,/<iframe\b/i);

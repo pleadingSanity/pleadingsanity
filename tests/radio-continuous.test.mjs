@@ -19,6 +19,8 @@ test('eight-second timeout and explicit failure state',()=>{
 });
 test('player reports real state and exposes official fallback',()=>{
  assert.match(js,/youtube\.com\/iframe_api/);
+ assert.match(js,/youtube-nocookie\.com/);
+ assert.doesNotMatch(js,/✨/);
  assert.match(js,/onStateChange:onState/);
  assert.match(html,/id="radio-progress"/);
  assert.match(html,/id="radio-support"/);
@@ -27,8 +29,11 @@ test('player reports real state and exposes official fallback',()=>{
 test('first entry retains official link and does not host audio',()=>{
  const first=library.tracks[0];
  assert.equal(first.title,"Nuthin' but a 'G' Thang");
- assert.match(first.supportLink,/^https:\/\/www\.youtube\.com\/watch\?v=/);
- assert.match(first.youtubeId,/^[\w-]{11}$/);
+ assert.equal(first.youtubeId,'');
+ assert.match(first.supportLink,/^https:\/\/www\.youtube\.com\/results\?search_query=/);
+ const removed=['mWDMTYn2y78','Q9zR3c8E8-4','gUhRbsLUitc','GeHJjA2K0nA','r7qovh4d0jo','oKsxPW6i3pM','vO2Su3erRIA'];
+ const ids=library.tracks.map(t=>t.youtubeId).filter(Boolean);
+ for (const id of removed) assert.equal(ids.includes(id), false, id);
  const players = [...html.matchAll(/<audio\b([^>]*)>([\s\S]*?)<\/audio>/gi)];
  assert.equal(players.length, 1);
  const [, attributes, children] = players[0];
@@ -41,6 +46,6 @@ test('first entry retains official link and does not host audio',()=>{
  for (const [, source] of stationUrls) {
   const url = new URL(source);
   assert.equal(url.protocol, 'https:');
-  assert.match(url.hostname, /^(?:[a-z0-9-]+\.)*somafm\.com$/i);
+  assert.match(url.hostname, /^(?:[a-z0-9-]+\.)*(somafm\.com|radioparadise\.com)$/i);
  }
 });

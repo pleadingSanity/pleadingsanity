@@ -3,7 +3,7 @@ import { api, loadMe, esc } from "/js/auth.js";
 // Everything in the room is kept on the phone first (localStorage "ps-room"),
 // then offered to the server. If the server says no, the words stay here and we say so.
 const STORAGE_KEY = "ps-room";
-const COLORS = ["#00fff0", "#7aa2ff", "#c9a0ff", "#ffb4d9", "#eef6ff", "#f0c36a"];
+const COLORS = ["#00fff0", "#7aa2ff", "#38bdf8", "#fbbf24", "#eef6ff", "#f0c36a"];
 const PIC_SIZE = 256; // pictures are shrunk so they fit in phone storage
 
 function loadFromStorage() {
