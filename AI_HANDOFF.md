@@ -1063,3 +1063,10 @@ Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so
 - `NETLIFY_BUILD_HOOK` returned 404 in October. Needs a fresh hook from Shane if it is still used.
 - Older 2 to 6 Oct chats were not read in this sync. Not proven they hold nothing new.
 docs/grok-sync-20261109
+
+
+## 2026-11-09 — Grok branches merged (4 safe) + stale cleanup
+- MERGED (safe, verified): grok/final-buff-dola-prompt-2026-11-09 (docs/GROK-DOLA-FINAL-BUFF-20261109.md — on-brand, no purple/indigo, no private details), grok/daily-2026-11-09 + docs/grok-sync-20261109 (AI_HANDOFF appends, conflicts resolved keeping both), grok/radio-arron-polish-2026-11-09 (js/radio-playlists.js copy polish + empty state, no autoplay, youtube-nocookie intact). npm test 190/190, validate-build pass, radio-playlists.js syntax OK. All 5 spot-check pages 200.
+- SKIPPED (risky, left unmerged): grok/arron-knowledge-base — touches netlify/functions/arron.mts + new kb-search.mts/kb-retrieve.ts + supabase migrations + GitHub workflow + supabase/functions. Backend/Arron surface — needs Shane review. Not merged.
+- DELETED (stale/empty): polish/founder-clarity-20261106, polish/final-shane-release-20261106, grok/daily-2026-11-09-b, docs/founder-continuity-clean-2026-11-09 (HTTP 204). Others 422 (already gone/protected). Open PRs: only #185 orphan remains.
+- Rollback: git revert -m 1 the 4 merge commits in reverse order.
