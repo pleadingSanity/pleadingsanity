@@ -982,3 +982,9 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 
 ### (c) Image prompt — not generated into the repo
 16:9. A night sky over a low black horizon. Deep blue, almost black. A loose constellation in the shape of a human brain, drawn only in teal pinpricks and a few warm gold stars. One magenta star at the centre, small, not a logo. No letters, no words, no watermark, no face, no purple, no violet, no indigo. Soft, still, room to breathe.
+
+
+## 2026-11-09 — Frequency compliance fix + DOLA_MEMORY refresh + #252 merged
+- FIX 1 (Grok-flagged): aura-hz.html — 396Hz→285Hz, 417Hz→432Hz everywhere (meta description, buttons, data-freq, Source Stream cycle text, FREQ_ORDER JS array). Purposes updated to standard Solfeggio meanings. "For relaxation only" disclaimer preserved. frequencies.html — removed 4 disallowed cards (396, 417, 639, 852), leaving exactly the 6 allowed tones: 174, 285, 432, 528, 741, 963. meditation.html had no frequency refs. Added tests/frequencies-allowed.test.mjs (4/4 pass; digit-boundary regex avoids matching crisis number 85258). Live verified: aura-hz no disallowed standalone numbers; frequencies.html data-hz exactly {174,285,432,528,741,963}.
+- FIX 2: DOLA_MEMORY.md rewritten to current truth (main HEAD e1a6b9e→e9dd1a9, Turso wired /api/turso-health live, 85 pages, IndieWeb live, env vars set+missing, open PRs #252 merged + #185 orphan, healing-freq rule added).
+- #252 (Grok docs-only AI_HANDOFF append) merged. npm test 183/183 pass. validate-build.cjs pass. All spot-check pages 200. Rollback: git revert -m 1 <merge of fix branch> and <merge of pr252>.
