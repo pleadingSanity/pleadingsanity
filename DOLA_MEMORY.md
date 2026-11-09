@@ -1,5 +1,14 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+
+## 2026-11-10 — Dola session: cache-header fix, PayPal audit, security rotation (read this first)
+- **FIXED (PR open):** `netlify.toml` had DUPLICATE `/js/*` + `/css/*` cache headers — a 1-year `immutable` block overrode the `must-revalidate` rules, so pushed fixes never reached visitors. Removed immutable js/css blocks (kept `/data/*.json` 3600). JS/CSS now always fresh. Merge PR to deploy.
+- **PayPal audit (verify-paypal.mts):** Code is SAFE — server-side checks `status===COMPLETED` AND `50.00 GBP`, rate-limited, replay-protected, returns 503 gracefully. **Only gap:** returns 503 until Shane sets `PAYPAL_CLIENT_ID` + `PAYPAL_CLIENT_SECRET` (+`PAYPAL_MERCHANT_ID`) in Netlify env. Not a code bug.
+- **SECURITY — ROTATE NOW:** (1) OpenRouter key Shane pasted into Claude chat — revoke at openrouter.ai/keys. (2) GitHub PAT pasted in this Dola chat (still valid 2026-11-10) — revoke at GitHub → Settings → Developer settings → Tokens after this PR pushes.
+- **Insane Solar chat widget (~line 1778):** No lead-gate — fires `/api/arron/chat` directly. Claude proposed name+number capture before widget fires — open enhancement, not a bug. No Google Maps API key/box exists on main's solar pages (Claude likely saw a draft); nothing to remove.
+- **Claude social pack:** `insane-solar-social-pack.html` built as chat artifact (5 TikTok scripts, 4 FB posts, 4 WhatsApp statuses, 4-week calendar + audit) — NOT in repo. Shane to film Script 1 (60s roof/doorstep) for first leads.
+- **Live:** `/insane-solar.html`, `/ai-social.html`, `/images/solar01-08.jpg` all 200. Repo pleadingSanity/pleadingsanity, main protected (branch + PR only).
+
 ## Project
 - **Site:** https://pleadingsanity.co.uk — free mental-health sanctuary. "Rise From Madness. Evolution, Not Erasure. One Source. One Family." Built by Shane Cooper (Midlands, UK).
 - **Repo:** pleadingSanity/pleadingsanity (org capital S). `main` branch protected (no direct push; branch + PR; self-merge via API works, no required reviews).
