@@ -72,10 +72,19 @@
   <h2 id="stations-title">Free stations</h2>
   <p class="radio-note">Ad-free streams. Press play. Audio goes to your speakers, headphones, or Bluetooth if your phone is already connected.</p>
   <div class="station-grid">
-    <button type="button" class="station" data-src="https://ice6.somafm.com/groovesalad-256-mp3" data-name="Groove Salad">Groove Salad · chill</button>
-    <button type="button" class="station" data-src="https://ice6.somafm.com/defcon-256-mp3" data-name="DEF CON">DEF CON · ambient</button>
-    <button type="button" class="station" data-src="https://ice6.somafm.com/dronezone-256-mp3" data-name="Drone Zone">Drone Zone · deep</button>
-    <button type="button" class="station" data-src="https://ice6.somafm.com/secretagent-256-mp3" data-name="Secret Agent">Secret Agent · spy</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/groovesalad-256-mp3" data-name="Groove Salad" data-q="256">Groove Salad · chill · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/sonicuniverse-256-mp3" data-name="Sonic Universe" data-q="256">Sonic Universe · jazz · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/digitalis-256-mp3" data-name="Digitalis" data-q="256">Digitalis · electronic · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/cliqhop-256-mp3" data-name="cliqhop" data-q="256">cliqhop · idm · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/dubstep-256-mp3" data-name="Dub Step Beyond" data-q="256">Dub Step Beyond · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/bossa-256-mp3" data-name="Bossa Beyond" data-q="256">Bossa Beyond · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/darkzone-256-mp3" data-name="The Dark Zone" data-q="256">Dark Zone · deep · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/dronezone-256-mp3" data-name="Drone Zone" data-q="256">Drone Zone · ambient · 256</button>
+    <button type="button" class="station" data-src="https://ice6.somafm.com/defcon-256-mp3" data-name="DEF CON" data-q="256">DEF CON · ambient · 256</button>
+    <button type="button" class="station" data-src="https://stream.radioparadise.com/aac-320" data-name="Radio Paradise" data-q="320">Radio Paradise · mix · 320</button>
+  </div>
+  <div class="station-actions">
+    <button type="button" id="station-stop" class="station station-stop">Stop station</button>
   </div>
   <audio id="station-audio" preload="none"></audio>
   <p id="station-status" class="radio-note" role="status"></p>
@@ -84,22 +93,39 @@
 (function(){
   var audio = document.getElementById('station-audio');
   var status = document.getElementById('station-status');
+  var stopBtn = document.getElementById('station-stop');
   if (!audio) return;
-  document.querySelectorAll('.station').forEach(function(btn){
+  function clearActive() {
+    document.querySelectorAll('.station').forEach(function(b){ b.classList.remove('is-active'); });
+  }
+  document.querySelectorAll('.station[data-src]').forEach(function(btn){
     btn.addEventListener('click', function(){
       var src = btn.getAttribute('data-src');
       var name = btn.getAttribute('data-name');
+      var q = btn.getAttribute('data-q') || '';
+      clearActive();
+      btn.classList.add('is-active');
       if (audio.src !== src) audio.src = src;
       audio.play().then(function(){
-        status.textContent = 'Playing ' + name + '. Connect Bluetooth in your phone settings and sound follows.';
+        status.textContent = 'Playing ' + name + (q ? ' · ' + q + ' kbps' : '') + '. Sound follows your speakers, headphones, or Bluetooth.';
         if ('mediaSession' in navigator) {
-          navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio · SomaFM' });
+          navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio' });
         }
       }).catch(function(){
-        status.textContent = 'Could not start. Try again or pick another station.';
+        status.textContent = 'Could not start ' + name + '. Try another station.';
+        btn.classList.remove('is-active');
       });
     });
   });
+  if (stopBtn) {
+    stopBtn.addEventListener('click', function(){
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      clearActive();
+      status.textContent = 'Station stopped.';
+    });
+  }
 })();
 </script>
 
