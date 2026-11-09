@@ -964,3 +964,15 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Supabase OAuth: creds set but only enable Supabase Management API / OAuth login flow. No DB client keys -> no Supabase DB feature wired. Not half-implemented.
 - webmention.io: dev email pleadingsanitydev@gmail.com available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
 - Never-touch list preserved. No new paid infra. No Supabase infra created.
+
+## 2026-11-09 — Grok - creative and editorial - 9 Nov 2026
+- Access: Grok Bot works through a Cursor cloud agent with repo write to branches and draft PRs; it cannot merge; it is not Arron and not wired into Arron's chain until GROK_API_KEY or XAI_API_KEY is set in Netlify.
+- Changed: AI_HANDOFF.md only. Appended on main `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66`. Open PR #185 also edits this file; this entry does not rebase that branch.
+- Why: public-safe creative drafts for Shane to review. Not posted, not sent, and not installed as site artwork.
+- Social post (268 characters): I didn't break. I woke up. Pleading Sanity is a free sanctuary built by someone who's lived it: an AI companion, a journal, games, radio. No paywall, no ads, no tracking. Carrying something heavy? Come sit with us. pleadingsanity.co.uk #PleadingSanity #RiseFromMadness
+- Recruitment DM (music producer angle): Straight up, I'm Shane, founder of Pleading Sanity, a free mental health sanctuary out of Leicestershire. We run Insane Radio, a curated player of real artists, and I want a producer's ear on it: what to feature, how it should flow, what's missing. Open source, full credit on the site, and no promises I can't back. Fancy a 15-minute chat? pleadingsanity.co.uk
+- Image prompt: A vast constellation shaped like a human brain drifting through deep space, a single tear of light falling from it into a calm dark ocean below. Deep space navy #0b0f19 sky, teal #00fff0 and #38bdf8 starlight, a warm amber #f59e0b glow on the horizon, soft silver dust. Cinematic, quiet, hopeful. No text, no letters, no logos, no purple, no violet, no indigo, no pink or magenta. 16:9.
+- Blockers: Arron's Grok tier needs the xAI key in Netlify env - Shane only.
+- Next: Shane reviews and merges.
+- Verified: `npm test` 179/179 passed. `git diff --check` passed. `python3 scripts/audit-site.py` exited 1 with pre-existing missing-link lines only, on login.html, signup.html and reset-password.html (`/support.html`, `/kids-series.html`, `/transparency.html`). Those pages were not edited.
+- Not proven: no social publish, no DM sent, no image generated, no browser check. Docs-only.
