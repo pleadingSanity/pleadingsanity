@@ -35,6 +35,7 @@ import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
 // Both degrade silently to the existing chain/local-DB path when env vars are absent.
 import { appendMessages as supabaseAppend, clearMemory as supabaseClear, supabaseEnabled } from "../lib/supabase-memory.js";
 import { maybeRunTools, openaiToolsEnabled } from "../lib/arron-tools.js";
+import { groundArronSystem } from "../lib/kb-retrieve.js";
 
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
@@ -547,6 +548,11 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     growth: growthBrief(growth),
   }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message)) + (openaiToolsEnabled() ? "\n\n" + ARRON_PHASE2_TOOLS_BRIEF : "");
 
+  // Public knowledge mirror. Crisis returns above never reach this, and a crisis
+  // turn here does not call the mirror, so the lifelines are not waiting on it.
+  // A missing or slow mirror leaves the prompt exactly as it was. Chain order is unchanged.
+  const grounded = await groundArronSystem(system, message, crisis);
+
   let answer: Awaited<ReturnType<typeof reply>>;
   // Multi-mind replies cost several paid calls, so the Owner asks for them by name and each has its own daily allowance:
   // "/council" (every mind, then one woven answer) and "/family" (one drafts, another checks). Otherwise one mind answers.
@@ -567,18 +573,18 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   // any error, the chain runs UNCHANGED. Tools never break chat.
   if (!council && !family && openaiToolsEnabled()) {
     const routeMax = creator ? TOKENS.creator : TOKENS.guest;
-    await maybeRunTools(system + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
+    await maybeRunTools(grounded + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
   }
   try {
     if (council) {
-      const notes = await askCouncil(system, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
+      const notes = await askCouncil(grounded, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
       // The council round already counted the whole call against today's site budget.
-      answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true, false, budget, true);
+      answer = await reply(grounded + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true, false, budget, true);
       answer = { ...answer, provider: "council", model: "claude-gpt-gemini-grok" };
     } else if (family) {
-      answer = await workAsOne(system, turns, creative ? TOKENS.creatorCreative : TOKENS.creator, budget);
+      answer = await workAsOne(grounded, turns, creative ? TOKENS.creatorCreative : TOKENS.creator, budget);
     } else {
-      answer = await reply(system + capNote, turns, creator, creative, Boolean(user), budget, ownerAdmitted);
+      answer = await reply(grounded + capNote, turns, creator, creative, Boolean(user), budget, ownerAdmitted);
     }
   } catch {
     // Every mind is quiet: a gentle reply with the real help lines — no error, no stack trace, nothing saved.
