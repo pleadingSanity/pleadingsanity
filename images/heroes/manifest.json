@@ -280,5 +280,17 @@
     "alt": "Silver headphones on the night desk by a teal ring light",
     "width": 1024,
     "height": 576
+  },
+  "aura-hz.html": {
+    "image": "/images/heroes/aura-hz-hero.webp",
+    "alt": "Teal and sky-blue light waves rippling out from a warm amber centre in deep space",
+    "width": 1280,
+    "height": 720
+  },
+  "insane-radio.html": {
+    "image": "/images/heroes/insane-radio-hero.webp",
+    "alt": "A dark vinyl record in deep space with a teal sound wave rising from it toward an amber sunrise",
+    "width": 1280,
+    "height": 720
   }
 }
