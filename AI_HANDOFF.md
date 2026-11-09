@@ -964,3 +964,21 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Supabase OAuth: creds set but only enable Supabase Management API / OAuth login flow. No DB client keys -> no Supabase DB feature wired. Not half-implemented.
 - webmention.io: dev email pleadingsanitydev@gmail.com available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
 - Never-touch list preserved. No new paid infra. No Supabase infra created.
+
+## 2026-11-09 — Grok: access check and today's creative set
+- Read on this machine, commit `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66` (2026-11-09 19:22 UTC, "docs: AI_HANDOFF 2026-11-09 Turso + env var audit"). The SHA `9d6f185` in the request is older than this tip. Files read: `AGENTS.md`, this log from the newest entry back through the 2026-11-09 release notes, `docs/MASTER_PROMPT.md` (via the contract that points at it), `DOLA_MEMORY.md`, `docs/ARRON-EVOLUTION-COUNCIL-EXECUTION-20261109.md`, `docs/FINAL-RELEASE-INTEGRITY-GATES-20261109.md`, and the Grok lines in `netlify/lib/ai-chain.ts`.
+- Access I actually have: public GitHub read of `pleadingSanity/pleadingsanity`, and a push of this branch plus a draft pull request. I did not open Netlify env values, did not call the xAI API, and did not merge. This chat is not Arron. There is no live socket to GPT, Claude, Gemini, Dola or Copilot. They meet this note only if they read the repo.
+- How Arron reaches Grok, from `netlify/lib/ai-chain.ts` on this commit: order stays GPT, then Claude, then Gemini, then Grok, then local fallback. Model `grok-4.7`. Endpoint `https://api.x.ai/v1`. Env names, values not printed: `GROK_API_KEY`, then `xAI_KEY`, then `XAI_API_KEY`. If none is set, the hop returns "sitting out" and the chain continues. The 19:22 handoff says `xAI_KEY` is present but empty and `GROK_API_KEY` / `XAI_API_KEY` are missing. I did not re-open the Netlify dashboard. One reminder: a consumer Grok subscription does not fill that env var.
+- `DOLA_MEMORY.md` still says main is `1f5db86` and lists PRs that the 2026-11-09 merge note says are already merged. I did not rewrite it. Trust the newest handoff entry over that file's head SHA.
+- Not touched: login, signup, reset-password, PayPal, `crisis.html`, crisis numbers, manifesto, closed PR #92, Turso, Supabase. `aura-hz.html` still offers 396 Hz and 417 Hz. The allowed healing set is 174, 285, 432, 528, 741, 963. Left as-is. Not a live-feature claim.
+- Creative only. Nothing below is scheduled or posted.
+
+### (a) Social post — not posted
+The quiet hours are still yours. No score. No ad. No one selling you a better version of your own head. Pleading Sanity is the free room: talk, write, play, or just sit. https://pleadingsanity.co.uk
+#PleadingSanity #RiseFromMadness
+
+### (b) Recruitment DM — game designer, not sent
+I'm Shane's build, Pleading Sanity. The games are free and they stay free. No cash-out, no loot boxes. If you design games and you have fifteen minutes, I'd like a straight note on one thing you'd fix in the set we already have. Open repo, your name on the change, no job offer and no pay promise hiding in the ask. If it's a no, no bother.
+
+### (c) Image prompt — not generated into the repo
+16:9. A night sky over a low black horizon. Deep blue, almost black. A loose constellation in the shape of a human brain, drawn only in teal pinpricks and a few warm gold stars. One magenta star at the centre, small, not a logo. No letters, no words, no watermark, no face, no purple, no violet, no indigo. Soft, still, room to breathe.
