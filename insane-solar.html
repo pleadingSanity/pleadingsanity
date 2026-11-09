@@ -974,25 +974,77 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
  <h3 class="text-xl font-extrabold mb-2" style="color:var(--amber2);">Lock in your survey — £50 fully refundable deposit</h3>
  <p class="text-sm mb-4" style="color:var(--muted-light);line-height:1.65;">Deducted from your final installation cost. Refunded in full if your roof is unsuitable at survey. Subject to survey. Consumer Contracts Regulations — 14-day cancellation right. Formal certification issued only by MCS/NAPIT registered installers; AI can assist with draft paperwork for human review only.</p>
  <div id="paypal-button-container" style="max-width:340px;"></div>
- <p id="paypal-msg" class="text-sm mt-3 font-bold" style="color:var(--green2);display:none;">Deposit received — thank you. A real surveyor will call you within 24 hours. Still WhatsApp us anytime on the number above.</p>
+ <p id="paypal-msg" class="text-sm mt-3 font-bold" style="color:var(--green2);display:none;" role="status">Deposit received — thank you. A real surveyor will call you within 24 hours. Still WhatsApp us anytime on the number above.</p>
+ <p id="paypal-verify-msg" class="text-sm mt-3 font-bold" style="color:var(--amber2);display:none;" role="status">PayPal has your payment, but we could not confirm it yet. Do not pay again. Choose Check again, or contact us by phone, WhatsApp or email on this page and quote your PayPal receipt.</p>
+ <button type="button" id="paypal-verify-retry" class="btn btn-amber mt-3" style="display:none;min-height:48px;">Check again</button>
  <p class="text-xs mt-3" style="color:var(--muted-dark);">Pay with PayPal, debit or credit card. No account needed.</p>
 </div>
 <script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
 <script>
 (function(){
+  /* enquiry-ref:start */
+  var memoryRef = null;
+  function enquiryRef() {
+    if (memoryRef) return memoryRef;
+    var k = 'ps-solar-enquiry-ref', r = null;
+    try { r = sessionStorage.getItem(k); } catch(e) {}
+    if (!r || !/^[A-Za-z0-9_-]{16,64}$/.test(r)) {
+      var a = new Uint8Array(16); crypto.getRandomValues(a);
+      r = Array.prototype.map.call(a, function(x){ return ('0' + x.toString(16)).slice(-2); }).join('');
+      try { sessionStorage.setItem(k, r); } catch(e) {}
+    }
+    memoryRef = r;
+    return r;
+  }
+  /* enquiry-ref:end */
+  var capturedOrder = null;
+  var checking = false;
+  var bad = document.getElementById('paypal-verify-msg');
+  var failText = bad ? bad.textContent : '';
+  function setVerifyState(kind) {
+    var ok = document.getElementById('paypal-msg');
+    var retry = document.getElementById('paypal-verify-retry');
+    var buttons = document.getElementById('paypal-button-container');
+    if (ok) ok.style.display = kind === 'ok' ? 'block' : 'none';
+    if (bad) {
+      bad.textContent = kind === 'pending' ? 'Confirming your deposit. Please wait.' : failText;
+      bad.style.display = kind === 'ok' ? 'none' : 'block';
+    }
+    if (retry) retry.style.display = kind === 'fail' ? 'inline-flex' : 'none';
+    if (buttons) buttons.style.display = 'none';
+    if (kind === 'fail' && retry) retry.focus();
+  }
+  function confirmDeposit(orderID) {
+    if (checking) return Promise.resolve();
+    checking = true;
+    setVerifyState('pending');
+    return fetch('/.netlify/functions/verify-paypal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderID: orderID, enquiryRef: enquiryRef() })
+    }).then(function(res) {
+      return res.json().then(function(body) {
+        setVerifyState(res.ok && body && body.verified === true ? 'ok' : 'fail');
+      }, function() { setVerifyState('fail'); });
+    }, function() { setVerifyState('fail'); })
+      .then(function() { checking = false; });
+  }
+  var retryBtn = document.getElementById('paypal-verify-retry');
+  if (retryBtn) retryBtn.addEventListener('click', function() {
+    if (capturedOrder) confirmDeposit(capturedOrder);
+  });
   if (window.paypal && paypal.Buttons) {
     paypal.Buttons({
       style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
       createOrder: function(data, actions) {
-        return actions.order.create({ purchase_units: [{ amount: { value: '50.00', currency_code: 'GBP' }, description: 'Insane Solar — refundable survey deposit' }] });
+        return actions.order.create({ purchase_units: [{ custom_id: enquiryRef(), amount: { value: '50.00', currency_code: 'GBP' }, description: 'Insane Solar — refundable survey deposit' }] });
       },
       onApprove: function(data, actions) {
-        return actions.order.capture().then(function(details) {
-          var m = document.getElementById('paypal-msg');
-          if (m) m.style.display = 'block';
-          var b = document.getElementById('paypal-button-container');
-          if (b) b.style.display = 'none';
-          try { fetch('/.netlify/functions/verify-paypal', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ orderID: data.orderID, customerEmail: (details.payer||{}).email_address, customerName: document.getElementById('fName').value }) }).catch(function(){}); } catch(e) {}
+        return actions.order.capture().then(function() {
+          capturedOrder = data.orderID;
+          var buttons = document.getElementById('paypal-button-container');
+          if (buttons) buttons.style.display = 'none';
+          return confirmDeposit(data.orderID);
         });
       }
     }).render('#paypal-button-container');
