@@ -1036,3 +1036,9 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - Next: Shane reviews and merges.
 - Verified: `npm test` 179/179 passed. `git diff --check` passed. `python3 scripts/audit-site.py` exited 1 with pre-existing missing-link lines only, on login.html, signup.html and reset-password.html (`/support.html`, `/kids-series.html`, `/transparency.html`). Those pages were not edited.
 - Not proven: no social publish, no DM sent, no image generated, no browser check. Docs-only.
+
+
+## 2026-11-09 — Radio commit verified + #253 merged + test fix
+- Shane's radio commit 18a0b6ed (more stations + quality labels) VERIFIED: css/radio-styles.css + insane-radio.html only. No autoplay. SomaFM stream URLs valid format (ice6.somafm.com/*-256-mp3). Added one Radio Paradise stream (stream.radioparadise.com/aac-320) — legitimate non-commercial. radio-player.js unmodified, syntax OK. Live: insane-radio.html 200, radio-player.js 200. Deploy READY.
+- TEST FIX: tests/radio-continuous.test.mjs line 49 asserted all station URLs are somafm.com — too strict now that Radio Paradise added. Updated regex to allow somafm.com OR radioparadise.com. npm test 190/190 pass (was 189 baseline + 1 new radio test).
+- #253 (Grok creative handoff, docs-only AI_HANDOFF append) MERGED (conflict resolved keeping both entries). No other Grok PRs open besides #185 orphan. Never-touch list preserved. No purple/indigo. Rollback: git revert -m 1 <#253 merge> and revert test-fix commit.
