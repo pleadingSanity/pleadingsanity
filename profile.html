@@ -123,6 +123,56 @@ Evolution, Not Erasure. One Source. One Family.
 
  <main id="main-content" class="social-main">
  <div id="root" aria-live="polite"><div class="skeleton" style="height:200px"></div><div class="skeleton"></div></div>
+
+ <section id="ps-my-songs" class="ps-songs-widget" aria-labelledby="ps-songs-title" style="margin:2rem auto;max-width:640px;padding:1.25rem;border:1px solid rgba(0,255,240,.25);border-radius:16px;background:rgba(13,27,42,.6)">
+  <h2 id="ps-songs-title" style="color:#00fff0;font-size:1.2rem;margin:0 0 .5rem">My Songs <span style="font-size:.75rem;color:#94a3b8;font-weight:400">(saved on this device only)</span></h2>
+  <p style="color:#94a3b8;font-size:.88rem;margin:0 0 1rem">Add a song you love. Stored in this browser — cross-device sync and public profile songs need a backend migration (coming soon). Only YouTube video links are accepted.</p>
+  <div style="display:grid;gap:.6rem">
+    <input id="ps-song-url" type="url" placeholder="Paste YouTube link (e.g. https://youtu.be/VIDEO_ID)" aria-label="YouTube video link" style="min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff">
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <input id="ps-song-title" type="text" placeholder="Song title" aria-label="Song title" style="flex:1;min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff;min-width:140px">
+      <input id="ps-song-artist" type="text" placeholder="Artist" aria-label="Artist" style="flex:1;min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff;min-width:120px">
+    </div>
+    <label style="display:flex;align-items:center;gap:.5rem;color:#c9e9ef;font-size:.9rem;min-height:44px"><input id="ps-song-public" type="checkbox" role="switch" aria-label="Make songs visible on public profile"> Show on my public profile (currently device-local only)</label>
+    <button type="button" id="ps-song-add" class="btn" style="min-height:48px;justify-self:start">Add song</button>
+  </div>
+  <p id="ps-song-status" role="status" aria-live="polite" style="color:#ff9ab0;font-size:.88rem;min-height:1.2rem;margin:.5rem 0"></p>
+  <ul id="ps-song-list" style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem"></ul>
+ </section>
+ <script>
+ (function(){
+   'use strict';
+   var KEY='ps-profile-songs-v1';
+   function read(){ try{ var a=JSON.parse(localStorage.getItem(KEY)||'[]'); return Array.isArray(a)?a.filter(function(s){return s&&typeof s.id==='string'&&/^[A-Za-z0-9_-]{11}$/.test(s.id);}).slice(0,20):[]; }catch(e){ return []; } }
+   function write(a){ try{ localStorage.setItem(KEY,JSON.stringify(a)); }catch(e){} }
+   function ytId(url){ try{ var u=new URL(url); if(['youtube.com','www.youtube.com','m.youtube.com','music.youtube.com'].indexOf(u.hostname)>=0){ var v=u.searchParams.get('v'); if(v&&/^[A-Za-z0-9_-]{11}$/.test(v)) return v; if(u.pathname==='/watch') return null; var sh=u.pathname.split('/').filter(Boolean); if(sh.length&&sh[0]==='shorts'&&sh[1]&&/^[A-Za-z0-9_-]{11}$/.test(sh[1])) return sh[1]; } if(u.hostname==='youtu.be'){ var id=u.pathname.replace(/^\//,''); if(/^[A-Za-z0-9_-]{11}$/.test(id)) return id; } }catch(e){} if(typeof url==='string'&&/^[A-Za-z0-9_-]{11}$/.test(url.trim())) return url.trim(); return null; }
+   var status=document.getElementById('ps-song-status'), list=document.getElementById('ps-song-list');
+   function render(){
+     var songs=read(); list.replaceChildren();
+     songs.forEach(function(s,i){
+       var li=document.createElement('li'); li.style.cssText='border:1px solid rgba(0,255,240,.2);border-radius:12px;padding:.75rem;background:rgba(11,15,25,.6)';
+       var head=document.createElement('div'); head.style.cssText='display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin-bottom:.5rem';
+       var t=document.createElement('strong'); t.style.color='#eef6ff'; t.textContent=(s.title||'Untitled')+(s.artist?' — '+s.artist:'');
+       var rm=document.createElement('button'); rm.type='button'; rm.textContent='Remove'; rm.style.cssText='min-height:36px;padding:.35rem .8rem;border-radius:8px;border:1px solid rgba(255,100,130,.5);background:transparent;color:#ff9ab0;cursor:pointer'; rm.setAttribute('aria-label','Remove '+(s.title||'song'));
+       rm.addEventListener('click',function(){ var a=read(); a.splice(i,1); write(a); render(); });
+       head.appendChild(t); head.appendChild(rm); li.appendChild(head);
+       var frame=document.createElement('iframe'); frame.src='https://www.youtube-nocookie.com/embed/'+s.id; frame.title='YouTube player: '+(s.title||'song'); frame.loading='lazy'; frame.referrerPolicy='strict-origin-when-cross-origin'; frame.allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px';
+       li.appendChild(frame); list.appendChild(li);
+     });
+     if(!songs.length){ var p=document.createElement('p'); p.style.color='#64748b'; p.textContent='No songs added yet.'; list.appendChild(p); }
+   }
+   document.getElementById('ps-song-add').addEventListener('click',function(){
+     var url=document.getElementById('ps-song-url').value.trim();
+     var id=ytId(url); status.textContent='';
+     if(!id){ status.textContent='Please paste a valid YouTube link or 11-character video ID.'; return; }
+     var a=read(); if(a.some(function(s){return s.id===id;})){ status.textContent='That song is already in your list.'; return; }
+     a.push({id:id,title:document.getElementById('ps-song-title').value.trim().slice(0,80),artist:document.getElementById('ps-song-artist').value.trim().slice(0,60),isPublic:document.getElementById('ps-song-public').checked});
+     write(a); document.getElementById('ps-song-url').value=''; document.getElementById('ps-song-title').value=''; document.getElementById('ps-song-artist').value=''; render();
+   });
+   render();
+ })();
+ </script>
+
  </main>
 
 <footer class="ps-footer" role="contentinfo">
