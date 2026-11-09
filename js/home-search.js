@@ -16,7 +16,7 @@ var pages=[
 ['Live & Creators','/live.html','Live, creator, video, stream'],
 ['Creator Hub','/creator.html','Create, content, creator'],
 ['Kids Games','/kids.html','Children, kids, family, games'],
-['Kids Cartoon Series','/kids-series.html','Cartoons, Ollie, kids'],
+['Kids Cartoon Series','/kids.html#kids-series','Cartoons, Ollie, kids'],
 ['Meditation','/meditation.html','Breathe, calm, silence, relax'],
 ['Frequencies','/frequencies.html','Sound, tones, Hz, music'],
 ['Aura Hz','/aura-hz.html','Sound, frequencies, audio'],
@@ -26,7 +26,7 @@ var pages=[
 ['Shop','/shop.html','Clothing, fashion, hoodie, joggers, apparel'],
 ['New Gen Bible','/new-gen-bible.html','Book, wisdom, writing'],
 ['Our Story','/about.html','Founder, Shane Cooper, legacy, mission'],
-['Support','/support.html','Help, mental health, support'],
+['Support','/about.html#support','Help, mental health, support'],
 ['Urgent Crisis Help','/crisis.html','Emergency, crisis, Samaritans, Shout, 999, 111'],
 ['App Hub','/app.html','Apps, install, tools'],
 ['Sign in','/login.html','Account, login, profile']

@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.61'; // Host errors (5xx) fall back to the saved copy, like a dropped signal.
-const STATIC_CACHE = 'pleading-sanity-static-v114'; // v114: homepage founder context and clearer feature descriptions. v113: homepage breathing room. v112: homepage hero dimensions/loading and concise metadata. v111: merged Guardian palette/crisis assets with current main navigation, scroll, and metadata updates. v110: og tags restored on five pages. v109: NHS 111 restored to the crisis footer. v108: games-scroll.css precached. v107: shared header stylesheet on six game pages. v106: In the house card pictures. Heroes stay out of this list. v105: one-row header, dock clearance. v104: header polish. v103: shared header and solar assistant. v102: Songs link and App Hub entries. v101: games discovery, artwork and controls. v100: v1.1 shop brief, Arron boundaries, hub privacy copy. v88: offline page carries the support lines; support.html cached; 5xx uses the cached copy. v87: original game portraits and scenery. v86: games shelf restored, Sanity App Hub. v85: Night Table room sync, offline crisis words, Speak, App Library
+const VERSION = '5.12.63'; // v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
+const STATIC_CACHE = 'pleading-sanity-static-v115'; // v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -84,7 +84,6 @@ const PRECACHE_URLS = [
     '/community-dashboard.html',
     '/cosmic-focus.html',
     '/crisis.html',
-    '/support.html',
     '/tools.html',
     '/feed.html',
     '/frequencies.html',
@@ -97,7 +96,6 @@ const PRECACHE_URLS = [
     '/js/finance-engine.js',
     '/assets/images/finance/sane-finance-mark.svg',
     '/get-the-app.html',
-    '/safety.html',
     '/sanity-solitaire.html',
     '/poker.html',
     '/circle.html',

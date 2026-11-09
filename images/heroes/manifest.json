@@ -29,7 +29,7 @@
     "width": 1024,
     "height": 576
   },
-  "ai-welcome.html": {
+  "ai-family.html#welcome": {
     "image": "/images/heroes/ai-welcome-hero.webp",
     "alt": "An open door spilling amber light, the Crying Brain glowing above it",
     "width": 1024,
@@ -77,7 +77,7 @@
     "width": 1024,
     "height": 576
   },
-  "arron-intro.html": {
+  "ai-family.html#arron-intro": {
     "image": "/images/heroes/arron-intro-hero.webp",
     "alt": "Arron, half length, a calm figure of teal light on the night sky",
     "width": 1024,
@@ -89,7 +89,7 @@
     "width": 1024,
     "height": 576
   },
-  "developers.html": {
+  "about.html#developers": {
     "image": "/images/heroes/developers-hero.webp",
     "alt": "A workbench at night with an open notebook, tools and a closed laptop",
     "width": 1024,
@@ -125,7 +125,7 @@
     "width": 1024,
     "height": 576
   },
-  "offer.html": {
+  "about.html#offer": {
     "image": "/images/heroes/offer-hero.webp",
     "alt": "A blank silver-edged card on a dark table",
     "width": 1024,
@@ -155,7 +155,7 @@
     "width": 1024,
     "height": 576
   },
-  "play-listing.html": {
+  "games.html#play-listing": {
     "image": "/images/heroes/play-listing-hero.webp",
     "alt": "Card decks and a solitaire layout with Crying Brain card backs",
     "width": 1024,
@@ -191,7 +191,7 @@
     "width": 1024,
     "height": 576
   },
-  "safety.html": {
+  "crisis.html": {
     "image": "/images/heroes/safety-hero.webp",
     "alt": "Still water under a quiet night sky with a faint horizon",
     "width": 1024,
@@ -239,19 +239,19 @@
     "width": 1024,
     "height": 576
   },
-  "sources.html": {
+  "about.html#sources": {
     "image": "/images/heroes/sources-hero.webp",
     "alt": "A short shelf of plain papers and folders",
     "width": 1024,
     "height": 576
   },
-  "support.html": {
+  "about.html#support": {
     "image": "/images/heroes/support-hero.webp",
     "alt": "Two people seen from behind on a bench, one comforting the other, under stars",
     "width": 1024,
     "height": 576
   },
-  "transparency.html": {
+  "about.html#transparency": {
     "image": "/images/heroes/transparency-hero.webp",
     "alt": "An open, empty ledger with a silver pen under lamplight",
     "width": 1024,

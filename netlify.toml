@@ -42,15 +42,6 @@
   [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q=' 'sha256-yXdfY54iBy9A97MvFis9bOKqOMPN4UWuLBE5XWPyWXU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 
-# ─── ARRON INTRO — same strict policy as arron.html (only the shared theme inline script) ───
-[[headers]]
-  for = "/arron-intro.html"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
-[[headers]]
-  for = "/arron-intro"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 # ─── THE SANE FINANCE GBT — finance figures stay on the device ───
 # Same-origin scripts and API only. No third-party scripts, no frames, no trackers.
 [[headers]]
