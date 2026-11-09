@@ -1042,3 +1042,21 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - Shane's radio commit 18a0b6ed (more stations + quality labels) VERIFIED: css/radio-styles.css + insane-radio.html only. No autoplay. SomaFM stream URLs valid format (ice6.somafm.com/*-256-mp3). Added one Radio Paradise stream (stream.radioparadise.com/aac-320) — legitimate non-commercial. radio-player.js unmodified, syntax OK. Live: insane-radio.html 200, radio-player.js 200. Deploy READY.
 - TEST FIX: tests/radio-continuous.test.mjs line 49 asserted all station URLs are somafm.com — too strict now that Radio Paradise added. Updated regex to allow somafm.com OR radioparadise.com. npm test 190/190 pass (was 189 baseline + 1 new radio test).
 - #253 (Grok creative handoff, docs-only AI_HANDOFF append) MERGED (conflict resolved keeping both entries). No other Grok PRs open besides #185 orphan. Never-touch list preserved. No purple/indigo. Rollback: git revert -m 1 <#253 merge> and revert test-fix commit.
+
+## 2026-11-09 grok.com sync
+Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so every AI in the house works from the same page. Docs only.
+- One house only: `pleadingsanity.co.uk` on Netlify site `pleadingsanity`, built from `main`. `pleadingsanity.uk` is the backup on Vercel project `html-starter-pleadinsanity-2179`. Netlify `pleadingsanitystaging` is the test site.
+- Never create extra Grok apps, grok.me sites, or Vercel or Netlify projects.
+- Healing tones are 174 / 285 / 432 / 528 / 741 / 963 Hz only. Arron is a companion, not a therapist.
+- Clothing is quiet-luxury streetwear in Black, Charcoal, Sand and Deep Olive, with small P.S. monograms and the crying brain. The Modular Hood Mask has no logo.
+- Colour conflict: one Grok directive lists magenta as an image colour. Magenta is banned, so the banned list wins (no purple, violet, indigo, magenta, pink `#ff4d8d`, or `#000103`). The same directive adds Childline and Victim Support to crisis numbers; the locked set (116 123, 85258, 111, 999 on Arron, Safety and crisis pages only) wins until Shane says otherwise.
+
+### Open items (status checked 9 Nov 2026)
+- Arron gives its quiet fallback after deploy `6af23f0`. Likely provider keys or credit; `xAI_KEY` was seen empty. Shane checks keys and credit in Netlify. Not proven which provider is failing.
+- PR #163 (removes the fake 37/100 counter): the Grok chats said it needed merging, but GitHub shows it MERGED on 2 Nov 2026. No `37/100` text found in `main` HTML.
+- PR #185 has conflicts with `main`. Left alone.
+- PR #256 waits on Netlify deploy previews that fail account-side (billing or card likely). Not a code fault.
+- Radio polish branch `grok/radio-arron-polish-2026-11-09` now has draft PR #263.
+- Three Vercel projects for Shane to delete himself: `pleading-sanity`, `pleadingsanity`, `html-starter-pleadinsanity-pi8p`.
+- `NETLIFY_BUILD_HOOK` returned 404 in October. Needs a fresh hook from Shane if it is still used.
+- Older 2 to 6 Oct chats were not read in this sync. Not proven they hold nothing new.
