@@ -964,3 +964,12 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Supabase OAuth: creds set but only enable Supabase Management API / OAuth login flow. No DB client keys -> no Supabase DB feature wired. Not half-implemented.
 - webmention.io: dev email pleadingsanitydev@gmail.com available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
 - Never-touch list preserved. No new paid infra. No Supabase infra created.
+
+## 2026-11-09 — Grok: radio oEmbed audit and safe markup fixes (draft, not merged)
+- Inspected main `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66`. PR #220 is merged (`0de98106091245e20b456efb55d5b0afe84d7243`). Live site HTTP 200, not 503. Radio JS, JSON, and CSS matched that main before this branch. Turso health on the live site returned ok, so production includes merge `5f65e2c` or later. The exact published SHA is not in response headers.
+- Branch `grok/audit-radio-2026-11-09`. Commits `6c775886751ab232908200d7976eea702ef5879c` (clear 5 dead and 2 mismatched radio ids, youtube-nocookie host, no status emoji), `d390d59e6cfc7b81e44228c7f158617f42150b84` (Open Graph, two canonicals, theme-color and pink/magenta on non-protected pages), `8e14bee2248a147ffa724e4e4b6c4af5562f5dbd` (redirect-aware audits, `scripts/audit-markup-safety.mjs`). Full write-up: `docs/AUDIT-2026-11-09.md`.
+- Original Nuttah has no video id (search link only). The wrong embed is gone. No replacement ids were invented.
+- Verified: `npm test` before 179/179, after 180/180. `python3 scripts/audit-site.py` pass. `node scripts/audit-ecosystem.mjs --strict` exit 0. `git diff --check` pass. YouTube oEmbed for every library id. Live curls listed in the audit doc.
+- Not proven: phone playback, browser layout, Netlify preview, screen reader. `music/index.html` Open Graph and shared game CSS `#000103` were left. `js/consent.js` still loads Google Analytics after Accept. GitHub Deploy on main fails looking for removed `support.html`.
+- Not touched: #92, login/signup/reset-password, crisis.html, privacy body, PayPal code, AI provider chain, service-worker scope. PR #185 left open; it is an orphan branch, not an active edit.
+- Next: Shane reviews the draft. Do not merge or deploy until he says so. Preview the radio player and the amber offline headings before any release.
