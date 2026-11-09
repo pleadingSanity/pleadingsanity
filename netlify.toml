@@ -6,14 +6,14 @@
 
 [build]
   publish = "."
-  command = "node scripts/validate-build.cjs && echo 'Static site — no build step'"
+  command = "node scripts/validate-build.cjs && echo 'Static site — no build needed'"
   functions = "netlify/functions"
 
 # ─── SECURITY HEADERS ───
 [[headers]]
   for = "/*"
   [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=()"
@@ -42,15 +42,6 @@
   [headers.values]
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q=' 'sha256-yXdfY54iBy9A97MvFis9bOKqOMPN4UWuLBE5XWPyWXU='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 
-# ─── ARRON INTRO — same strict policy as arron.html (only the shared theme inline script) ───
-[[headers]]
-  for = "/arron-intro.html"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
-[[headers]]
-  for = "/arron-intro"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'sha256-QowFNdkBr+ubSA6ANSqgHJfvyXoK9uqWfdeQsH6Ss1Q='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self'; connect-src 'self'; worker-src 'self'; manifest-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'"
 # ─── THE SANE FINANCE GBT — finance figures stay on the device ───
 # Same-origin scripts and API only. No third-party scripts, no frames, no trackers.
 [[headers]]
@@ -327,7 +318,35 @@
   for = "/*"
   [headers.values]
     X-Content-Type-Options = "nosniff"
-    X-Frame-Options = "SAMEORIGIN"
+    X-Frame-Options = "DENY"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# ─── ELITE PASS: long-lived immutable cache for hashed/static assets ───
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+[[headers]]
+  for = "/data/*.json"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
+# ─── ELITE PASS: 301 redirects (short URLs → canonical pages) ───
+[[redirects]]
+  from = "/radio"
+  to = "/insane-radio.html"
+  status = 301
+[[redirects]]
+  from = "/solar"
+  to = "/insane-solar.html"
+  status = 301
+[[redirects]]
+  from = "/support"
+  to = "/support-us.html"
+  status = 301

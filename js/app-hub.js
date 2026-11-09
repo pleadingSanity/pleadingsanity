@@ -123,13 +123,13 @@
  { id: 'kids', name: 'Keep Kids Sane', href: '/kids.html', img: '/assets/theme/cards/kids.webp', cats: ['kids', 'education'], featured: true, age: 'Kids with a grown-up', added: '2026-09-27', updated: '2026-10-13',
  blurb: 'Safe, calm games, breathing and feelings for children.',
  a11y: 'Big buttons, simple words.' },
- { id: 'kids-series', name: 'Kids Cartoon Series', href: '/kids-series.html', img: '/assets/theme/cards/sanity-stories.webp', cats: ['kids', 'education'], age: 'Kids with a grown-up', added: '2026-10-11', updated: '2026-10-20',
+ { id: 'kids-series', name: 'Kids Cartoon Series', href: '/kids.html#kids-series', img: '/assets/theme/cards/sanity-stories.webp', cats: ['kids', 'education'], age: 'Kids with a grown-up', added: '2026-10-11', updated: '2026-10-20',
  blurb: 'Meet Ollie, Zara, Max, Mia and Blinky. Episode scripts, not finished animation yet.',
  a11y: 'Plain reading layout.' },
  { id: 'bible', name: 'New Gen Bible', href: '/new-gen-bible.html', img: '/assets/images/editorial/rise-from-madness-640.webp', cats: ['education'], age: 'Teens and adults', added: '2026-10-06', updated: '2026-10-12',
  blurb: 'A living guide in twelve books. Nobody owns the truth.',
  a11y: 'Plain reading layout.' },
- { id: 'support', name: 'Support', href: '/support.html', img: '/assets/images/space/aurora-drive.jpg', cats: ['wellbeing'], age: 'Everyone', added: '2026-10-08', updated: '2026-10-16',
+ { id: 'support', name: 'Support', href: '/about.html#support', img: '/assets/images/space/aurora-drive.jpg', cats: ['wellbeing'], age: 'Everyone', added: '2026-10-08', updated: '2026-10-16',
  blurb: 'Where to turn right now. Always free, always open.',
  a11y: 'Plain text, large links.' }
  ];
