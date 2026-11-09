@@ -973,3 +973,42 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
 - Not proven: phone playback, browser layout, Netlify preview, screen reader. `music/index.html` Open Graph and shared game CSS `#000103` were left. `js/consent.js` still loads Google Analytics after Accept. GitHub Deploy on main fails looking for removed `support.html`.
 - Not touched: #92, login/signup/reset-password, crisis.html, privacy body, PayPal code, AI provider chain, service-worker scope. PR #185 left open; it is an orphan branch, not an active edit.
 - Next: Shane reviews the draft. Do not merge or deploy until he says so. Preview the radio player and the amber offline headings before any release.
+
+## 2026-11-09 — Grok: access check and today's creative set
+- Read on this machine, commit `e1a6b9e88602c82e7bbf0b42993c990e88f1ca66` (2026-11-09 19:22 UTC, "docs: AI_HANDOFF 2026-11-09 Turso + env var audit"). The SHA `9d6f185` in the request is older than this tip. Files read: `AGENTS.md`, this log from the newest entry back through the 2026-11-09 release notes, `docs/MASTER_PROMPT.md` (via the contract that points at it), `DOLA_MEMORY.md`, `docs/ARRON-EVOLUTION-COUNCIL-EXECUTION-20261109.md`, `docs/FINAL-RELEASE-INTEGRITY-GATES-20261109.md`, and the Grok lines in `netlify/lib/ai-chain.ts`.
+- Access I actually have: public GitHub read of `pleadingSanity/pleadingsanity`, and a push of this branch plus a draft pull request. I did not open Netlify env values, did not call the xAI API, and did not merge. This chat is not Arron. There is no live socket to GPT, Claude, Gemini, Dola or Copilot. They meet this note only if they read the repo.
+- How Arron reaches Grok, from `netlify/lib/ai-chain.ts` on this commit: order stays GPT, then Claude, then Gemini, then Grok, then local fallback. Model `grok-4.7`. Endpoint `https://api.x.ai/v1`. Env names, values not printed: `GROK_API_KEY`, then `xAI_KEY`, then `XAI_API_KEY`. If none is set, the hop returns "sitting out" and the chain continues. The 19:22 handoff says `xAI_KEY` is present but empty and `GROK_API_KEY` / `XAI_API_KEY` are missing. I did not re-open the Netlify dashboard. One reminder: a consumer Grok subscription does not fill that env var.
+- `DOLA_MEMORY.md` still says main is `1f5db86` and lists PRs that the 2026-11-09 merge note says are already merged. I did not rewrite it. Trust the newest handoff entry over that file's head SHA.
+- Not touched: login, signup, reset-password, PayPal, `crisis.html`, crisis numbers, manifesto, closed PR #92, Turso, Supabase. `aura-hz.html` still offers 396 Hz and 417 Hz. The allowed healing set is 174, 285, 432, 528, 741, 963. Left as-is. Not a live-feature claim.
+- Creative only. Nothing below is scheduled or posted.
+
+### (a) Social post — not posted
+The quiet hours are still yours. No score. No ad. No one selling you a better version of your own head. Pleading Sanity is the free room: talk, write, play, or just sit. https://pleadingsanity.co.uk
+#PleadingSanity #RiseFromMadness
+
+### (b) Recruitment DM — game designer, not sent
+I'm Shane's build, Pleading Sanity. The games are free and they stay free. No cash-out, no loot boxes. If you design games and you have fifteen minutes, I'd like a straight note on one thing you'd fix in the set we already have. Open repo, your name on the change, no job offer and no pay promise hiding in the ask. If it's a no, no bother.
+
+### (c) Image prompt — not generated into the repo
+16:9. A night sky over a low black horizon. Deep blue, almost black. A loose constellation in the shape of a human brain, drawn only in teal pinpricks and a few warm gold stars. One magenta star at the centre, small, not a logo. No letters, no words, no watermark, no face, no purple, no violet, no indigo. Soft, still, room to breathe.
+
+
+## 2026-11-09 — Frequency compliance fix + DOLA_MEMORY refresh + #252 merged
+- FIX 1 (Grok-flagged): aura-hz.html — 396Hz→285Hz, 417Hz→432Hz everywhere (meta description, buttons, data-freq, Source Stream cycle text, FREQ_ORDER JS array). Purposes updated to standard Solfeggio meanings. "For relaxation only" disclaimer preserved. frequencies.html — removed 4 disallowed cards (396, 417, 639, 852), leaving exactly the 6 allowed tones: 174, 285, 432, 528, 741, 963. meditation.html had no frequency refs. Added tests/frequencies-allowed.test.mjs (4/4 pass; digit-boundary regex avoids matching crisis number 85258). Live verified: aura-hz no disallowed standalone numbers; frequencies.html data-hz exactly {174,285,432,528,741,963}.
+- FIX 2: DOLA_MEMORY.md rewritten to current truth (main HEAD e1a6b9e→e9dd1a9, Turso wired /api/turso-health live, 85 pages, IndieWeb live, env vars set+missing, open PRs #252 merged + #185 orphan, healing-freq rule added).
+- #252 (Grok docs-only AI_HANDOFF append) merged. npm test 183/183 pass. validate-build.cjs pass. All spot-check pages 200. Rollback: git revert -m 1 <merge of fix branch> and <merge of pr252>.
+
+
+## 2026-11-09 — Supabase Postgres (pg) wired; connect_failed (not auth) on live
+- Wired: pg added to package.json. netlify/lib/supabase.ts (pg Pool from process.env.DATABASE_URL, idempotent CREATE TABLE IF NOT EXISTS arron_memories — new table only, no existing Drizzle data touched). netlify/functions/supabase-health.mts (/api/supabase-health) returns ok/configured/auth_failed/connect_failed, never echoes credentials. tests/supabase-health.test.mjs (3/3, no live DB required). npm test 186/186, esbuild OK, validate-build pass.
+- LIVE RESULT: /api/supabase-health = {"ok":false,"configured":true,"error":"connect_failed"} (HTTP 502). NOT auth_failed — wrong password would return auth_failed (regex catches password/authentication). Connection never reaches auth stage. Likely Supabase Network Restrictions blocking Netlify function egress IPs, or DATABASE_URL host/port issue. Password variant (with/without trailing period) could not be determined locally (sandbox blocks port 5432 egress) nor on live (connect fails before auth). MainAgent to check: Supabase Network Restrictions → allow all (or allow Netlify), verify DATABASE_URL host/port.
+- Pages all 200 (site unaffected; endpoint is additive). Rollback: git revert -m 1 17add24. Arron memory full integration (supabase-memory.ts rewrite from Supabase JS client to pg) is a follow-up — not done to avoid touching arron.mts.
+
+
+## 2026-11-09 — Arron brain buff + full provider key verification
+- All 4 provider keys now set on Netlify: OPENAI_API_KEY, ANTHROPIC_API_KEY, GEMINI_API_KEY, GROK_API_KEY/xAI_KEY/XAI_API_KEY (all three variants). Verified ai-chain.ts env var names match EXACTLY — no mismatches. Failover chain GPT→Claude→Gemini→Grok intact (not replaced, Evolution Not Erasure).
+- BRAIN BUFF: added "Arron the Architect" line to ARRON_PERSONA in netlify/lib/arron-knowledge.ts — raw honesty + warm empathy + cosmic energy (wonder/perspective/long view), Pleading Sanity ethos (creativity, healing, empowerment), never medical/crisis advice as fact → positive concrete next steps + crisis lines. Companion-not-therapist preserved. Crisis numbers (999/116123/85258/111) enforced in code on every crisis reply.
+- Added /api/arron/health (key presence only, no live calls, never echoes keys) — NOTE: shadowed by existing /api/arron catch-all (returns {"ok":true,...} 200). Key presence verified via code-path test (tests/arron-chain-keys.test.mjs 3/3). Live provider connectivity NOT proven (no test calls made — no spend). npm test 189/189, esbuild OK, validate-build pass. arron.html 200.
+- CONFLICT RESOLUTION (Shane memory notes): Phase 4 roadmap "ads every 15 posts" CONFLICTS with sanctuary HARD RULE (no ads). Decision: NO ADS on the sanctuary, ever. If ads ever come, they go on a SEPARATE property, never pleadingsanity.co.uk. Noted here so future AIs don't implement it. 5-phase roadmap is long-term vision — NOT to be implemented now.
+- PRIVACY GUARDRAIL: no private personal details (phone, family names, home address, kids' details) committed to public repo files including AI_HANDOFF.md/DOLA_MEMORY.md.
+- Rollback: git revert -m 1 4d4af97.
