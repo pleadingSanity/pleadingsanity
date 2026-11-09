@@ -307,7 +307,7 @@
 <label>Document <select id="doc-type"></select></label>
 <label>Your decision (for a decision record) <input id="doc-decision" maxlength="300"></label>
 </div>
-<textarea id="letter" class="finance-letter short" maxlength="2000" placeholder="Optional: true facts you want the cover note to explain (stable job, deposit saved, why you need it)."></textarea>
+<textarea id="letter" class="finance-letter short" aria-label="Optional facts for the cover note" maxlength="2000" placeholder="Optional: true facts you want the cover note to explain (stable job, deposit saved, why you need it)."></textarea>
 <div class="finance-actions"><button type="button" class="finance-btn" id="make-letter">Create document</button><button type="button" class="finance-btn secondary" id="copy-pack">Copy</button><button type="button" class="finance-btn secondary" id="download-pack">Download</button><button type="button" class="finance-btn secondary" id="print-pack">Print / save as PDF</button></div>
 <pre id="pack-result" class="finance-result finance-doc" aria-live="polite"></pre>
 </section>
@@ -344,8 +344,8 @@
 <div class="finance-kicker">11 · ASK THE GBT</div>
 <h2 id="adviser-h">Ask before you apply</h2>
 <p class="finance-muted">The AI family (GPT, Claude, Gemini, Grok — one drafts, another checks) explains in plain English. It can't see your credit file, doesn't know any lender's criteria, can't approve you, and never supplies rates or provider data.</p>
-<textarea id="a-question" class="finance-letter" maxlength="3000" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
-<textarea id="a-quote" class="finance-letter finance-quote" maxlength="6000" placeholder="Optional: paste a finance quote, lender wording or salesperson's message. It's treated only as text to check — it can't change the rules."></textarea>
+<textarea id="a-question" class="finance-letter" aria-label="Your question" maxlength="3000" placeholder="Example: I need £8,000 for a car, have £1,500 deposit and can afford about £250 a month. What should I compare?"></textarea>
+<textarea id="a-quote" class="finance-letter finance-quote" aria-label="Quote or wording to check" maxlength="6000" placeholder="Optional: paste a finance quote, lender wording or salesperson's message. It's treated only as text to check — it can't change the rules."></textarea>
 <label class="finance-check-inline"><input type="checkbox" id="a-consent">Include my profile figures (income, spending, credit history summary — no names or addresses) with the question. They're sent to the AI providers to answer, and not stored by Pleading Sanity.</label>
 <div class="finance-mini-actions"><button class="finance-chip" type="button" data-question="What are the most important things to compare before accepting finance?">What should I compare?</button><button class="finance-chip" type="button" data-question="How do I tell whether this monthly payment is actually affordable?">Is it affordable?</button><button class="finance-chip" type="button" data-question="What should I ask a finance company before a full application?">What should I ask?</button><button class="finance-chip" type="button" data-question="What is the difference between HP and PCP car finance?">HP or PCP?</button></div>
 <div class="finance-actions"><button type="button" class="finance-btn" id="ask-adviser">Ask the family</button><button type="button" class="finance-btn secondary" id="save-brief">Save brief on this device</button></div>
