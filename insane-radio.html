@@ -51,6 +51,21 @@
 </div>
 <script src="/js/radio-player.js" defer></script>
 
+<section class="radio-stations" aria-labelledby="playlist-title">
+  <h2 id="playlist-title">Your YouTube playlists</h2>
+  <p class="radio-note">Add a public or unlisted YouTube / YouTube Music playlist link. Links are saved on this device only. Private playlists may require opening YouTube Music directly.</p>
+  <form id="radio-playlist-form" class="radio-controls">
+    <label for="radio-playlist-url">Playlist link</label>
+    <input id="radio-playlist-url" type="url" inputmode="url" autocomplete="url" placeholder="https://music.youtube.com/playlist?list=..." required style="min-width:0;flex:1;max-width:100%;padding:.75rem;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid #00fff0">
+    <button type="submit">Add playlist</button>
+  </form>
+  <p id="radio-playlist-status" class="radio-note" role="status" aria-live="polite"></p>
+  <ul id="radio-playlist-list" class="radio-upnext"></ul>
+  <div id="radio-playlist-embed" aria-label="Selected YouTube playlist" style="max-width:720px"></div>
+  <p class="radio-note">Playback is provided by YouTube, subject to the uploader's embedding permissions, regional restrictions and YouTube's terms. No music is downloaded or hosted by Pleading Sanity.</p>
+</section>
+<script src="/js/radio-playlists.js" defer></script>
+
 <section class="radio-stations" aria-labelledby="stations-title">
   <h2 id="stations-title">Free stations</h2>
   <p class="radio-note">Ad-free streams. Press play. Audio goes to your speakers, headphones, or Bluetooth if your phone is already connected.</p>
