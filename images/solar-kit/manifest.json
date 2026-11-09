@@ -88,5 +88,14 @@
     "width": 1024,
     "height": 1024,
     "label": "Generic illustration. Not a specific brand."
+  },
+  {
+    "slug": "bird-mesh-clips",
+    "image": "/images/solar-kit/bird-mesh-clips.webp",
+    "alt": "Generic roll of black bird-proofing mesh with silver clips",
+    "page": "insane-solar.html",
+    "width": 1024,
+    "height": 1024,
+    "label": "Generic illustration. Not a specific brand."
   }
 ]

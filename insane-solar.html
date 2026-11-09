@@ -1326,6 +1326,15 @@ const CATALOG = [
 ];
 
 /* Category tab definitions (id matches CATALOG.category; label is display name) */
+/* Generic illustrations, one per category. Not a specific brand or model. */
+const CATALOG_THUMBS = {
+  Panels:       { src:"/images/solar-kit/solar-panel-black.webp",     alt:"Generic all-black solar panel illustration, not a specific brand" },
+  Rails:        { src:"/images/solar-kit/mounting-rails-clamps.webp", alt:"Generic silver mounting rails and clamps illustration" },
+  Clips:        { src:"/images/solar-kit/roof-hook.webp",             alt:"Generic stainless steel roof hook illustration" },
+  BirdProofing: { src:"/images/solar-kit/bird-mesh-clips.webp",       alt:"Generic roll of black bird-proofing mesh with silver clips" },
+  Batteries:    { src:"/images/solar-kit/battery-wall.webp",          alt:"Generic wall-mounted home battery illustration, not a specific brand" },
+  Inverters:    { src:"/images/solar-kit/hybrid-inverter.webp",       alt:"Generic hybrid inverter illustration, not a specific brand" }
+};
 const CATEGORIES = [
   { id:"All",          label:"All" },
   { id:"Panels",       label:"Panels" },
@@ -1442,6 +1451,19 @@ const CATEGORIES = [
     items.forEach(function(p){
       var card = document.createElement("div");
       card.className = "card-dark p-5 flex flex-col";
+
+      var thumb = CATALOG_THUMBS[p.category];
+      if(thumb){
+        var img = document.createElement("img");
+        img.src = thumb.src;
+        img.alt = thumb.alt;
+        img.width = 1024;
+        img.height = 1024;
+        img.loading = "lazy";
+        img.decoding = "async";
+        img.style.cssText = "display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:12px;margin-bottom:.9rem;";
+        card.appendChild(img);
+      }
 
       var badge = document.createElement("span");
       badge.className = "brand-badge";
