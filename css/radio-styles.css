@@ -91,3 +91,8 @@
 .station{background:#0d1b2a;color:#eef6ff;border:1px solid rgba(0,255,240,.4);border-radius:12px;padding:.8rem;font:inherit;font-weight:700;cursor:pointer;min-height:48px}
 .station:hover{border-color:#00fff0;box-shadow:0 0 12px rgba(0,255,240,.3)}
 .station:focus-visible{outline:3px solid #00fff0;outline-offset:2px}
+
+.station.is-active{border-color:#00fff0;background:rgba(0,255,240,.12);box-shadow:0 0 16px rgba(0,255,240,.35)}
+.station-actions{margin-top:.8rem}
+.station-stop{background:transparent;color:#94a3b8;border-color:rgba(148,163,184,.4)}
+
