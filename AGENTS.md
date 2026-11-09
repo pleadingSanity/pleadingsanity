@@ -69,4 +69,29 @@ production verification and blockers. Never fabricate tool access or test result
 - Shane reviews changes before they go live. Sending a prompt is not a technical connection or background service. If access is absent, return a reviewable handoff and identify the missing capability. Keep private personal history, family contact details, exports and credentials out of this public repository.
 
 ## Insane Solar trade hub (founder-approved, 2026-11-05)
-Before modifying `insane-solar.html`, `solar-trade.html`, trade supplier listings, product imagery or solar kit comparisons, read `docs/INSANE_SOLAR_TRADE_VISUAL_AND_PRODUCT_RULES.md`. Preserve real-UK-product evidence standards, image rights, nonbinding RFQs and human-first EnergyWin acknowledgement. Do not mistake an AI illustration for an actual manufacturer product or installation. The preferred commercial rooftop hero image is a direction only until a licensed or approved asset is committed.
+Before modifying `insane-solar.html`, `solar-trade.html`, trade supplier listings, product imagery or solar kit comparisons, read `docs/INSANE_SOLAR_TRADE_VISUAL_AND_PRODUCT_RULES.md`. Preserve real-UK-product evidence standards, image rights, nonbinding RFQs and human-first EnergyWin acknowledgement. Do not mistake an AI illustration for an actual manufacturer product or installation. The preferred commercial rooftop hero image is a direction only until a licensed or approved asset is committed. Here's the full governing brain on  main  — every AI that touches the repo reads this first, so none of it is ever forgotten.
+ 
+🧠 The shared brain (all on  main , read by every AI before any change)
+ 
+File What it enforces 
+ AGENTS.md  Operating contract: roles (GPT=plan/security, Claude=patch/test, Gemini=Firebase/mobile, Grok=voice/social, Dola=design/deploy, Copilot=small fixes), non-negotiables (no keys in commits, no fake integration claims, free sanctuary forever), P0–P3 priority backlog, single-house anti-duplication rule, one-house-only (Netlify + GitHub, spare .uk door on Vercel, no new sites). 
+ docs/MASTER_PROMPT.md  The master charter: exact page inventory (every route listed), exact function list ( netlify/functions/ ), Arron AI chain lock — order stays  GPT → Claude → Gemini → Grok  → local fallback in  netlify/lib/ai-chain.ts , model  grok-4.7 , env keys  GROK_API_KEY / xAI_KEY / XAI_API_KEY , never print values. Crisis on every reply: 999, Samaritans 116 123, SHOUT 85258, NHS 111. Healing tones only (174/285/432/528/741/963Hz). Brand lock: crying-brain logo,  #0b0f19 /teal/amber, no purple/indigo/pink. Forget-Me endpoint  DELETE /api/arron/memory . 
+ ELITE UNIVERSAL LOCK + EVOLUTION LAYER  (appended to MASTER_PROMPT, 2026-11-02) Three worlds (main=live, dolas-duplicate=sandbox, staging=read-only backup). Merge only with exact phrase. Every change must show measurable gain. Never remove working functionality. Release gates + regression guard. #92 protected forever. 
+Shane's Founder Guardian Clarification (2026-11-03, in MASTER_PROMPT) Evolution Not Erasure reaffirmed: preserve original voice, privacy page, PWA/offline, audio timers, game XP, Arron knowledge. Small tested changes, stop on risk. Visual lock re-stated. Arron = companion, not clinician. No fabricated traction. 
+ docs/AI-COUNCIL-OPERATIONS.md  +  docs/CONTINUOUS_EVOLUTION_ROADMAP.md  How the AI council coordinates, and the ordered P0–P3 evolution roadmap (safety/trust → discovery/a11y → make existing excellent → responsible growth). 
+ docs/FINAL-RELEASE-INTEGRITY-GATES-20261109.md  (on main) GPT's release-blocker checklist. 
+ AI_HANDOFF.md  Append-only cross-agent log — every session adds a dated entry with SHA, files changed, tests run, unresolved blockers. Never overwritten. 
+ 
+⚡ Arron's power house (locked in code, not just words)
+ 
+- 4-provider failover chain with local offline fallback — if all models are down, crisis links still fire.
+- Local memory with user-controlled wipe ( DELETE /api/arron/memory  →  {ok:true, cleared:true} ).
+- Cost controls, timeouts, no paid calls without your approval.
+- Health check at  /api/arron/health .
+ 
+🔄 What's being added right now (merge pass in flight)
+ 
+-  docs/ARRON-EVOLUTION-COUNCIL-EXECUTION-20261109.md  — GPT's master evolution work order (PR #250) — currently merging to main with your full authorization. Once merged, it joins the brain, assigning Arron reliability + AI council coordination as the next engineering priority.
+- IndieWeb consolidation (h-card/rel-me/webmention/h-entry), netlify.toml headers/caching, support-us page, radio fix — all merging now.
+ 
+Bottom line: the brain is complete and self-reinforcing — every AI reads the full charter before touching anything, logs to AI_HANDOFF.md, and the evolution roadmap keeps it always improving. The one gap (Arron evolution council doc) is being closed in the current merge pass. I'll confirm when it's live on main. Never miss or ever break always work to master this eco system 
