@@ -37,7 +37,36 @@ function localTarget(raw, page) {
   if (!(target === root || target.startsWith(root + '/'))) return null;
   return target;
 }
-const reAttr = /\b(?:href|src|poster|action)\s*=\s*["']([^"']+)["']/gi;
+const reAttr = /(?:^|[^\w-])(?:href|src|poster|action)\s*=\s*["']([^"']+)["']/gi;
+function redirectMap() {
+  const rules = [];
+  const redirects = join(root, '_redirects');
+  if (existsSync(redirects)) {
+    for (const raw of readFileSync(redirects, 'utf8').split('\n')) {
+      const line = raw.split('#')[0].trim();
+      const parts = line.split(/\s+/);
+      if (parts.length >= 2 && !parts[0].startsWith('#')) rules.push([parts[0], parts[1]]);
+    }
+  }
+  return rules;
+}
+const redirects = redirectMap();
+function redirectedFile(value) {
+  let current = value.startsWith('/') ? value : '/' + value;
+  const seen = new Set();
+  for (let i = 0; i < 12; i++) {
+    if (seen.has(current)) return false;
+    seen.add(current);
+    const pathOnly = current.split(/[?#]/)[0];
+    const file = join(root, pathOnly.replace(/^\//, ''));
+    if (existsSync(file) && statSync(file).isFile()) return true;
+    if (existsSync(file + '.html')) return true;
+    const next = redirects.find(([from]) => from === pathOnly);
+    if (!next) return false;
+    current = next[1];
+  }
+  return false;
+}
 for (const page of html) {
   const rel = rootRel(page), src = readFileSync(page,'utf8');
   const title = src.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/\s+/g,' ').trim() || '';
@@ -60,8 +89,9 @@ for (const page of html) {
     const target = localTarget(value,page);
     if (!target) continue;
     let found = existsSync(target);
-    if (found && statSync(target).isDirectory()) found = existsSync(join(target,'index.html'));
+    if (found && statSync(target).isDirectory()) found = true;
     if (!found && !extname(target)) found = existsSync(target + '.html');
+    if (!found && value.startsWith('/')) found = redirectedFile(value);
     if (!found && !value.includes('*')) issue('error',rel,'missing-local-reference',value);
   }
   pageData.push({page:rel,title,h1,links:refs.size,sensitive,mental});
