@@ -54,7 +54,7 @@
     .ps-sound-btn .snd-on{display:none;}
     .ps-sound-btn[aria-pressed="true"] .snd-on{display:inline;}
     .ps-sound-btn[aria-pressed="true"] .snd-off{display:none;}
-    .game-title{flex:0 0 100%;text-align:center;font-size:1.05rem;font-weight:800;color:var(--accent);letter-spacing:.04em;text-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);margin-top:2px;}
+    .game-title{flex:0 0 100%;text-align:center;font-size:1.05rem;font-weight:800;color:var(--accent);letter-spacing:.04em;text-shadow:0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);margin:2px 0 0;line-height:inherit;}
     .app-main{flex:1 1 auto;overflow:hidden;position:relative;z-index:1;display:flex;align-items:center;justify-content:center;padding:8px;min-height:0;}
     #fitWrap{width:540px;max-width:100%;transform-origin:center center;transition:transform .2s ease;}
     .game-card{background:color-mix(in srgb, var(--accent) 7%, transparent);border-radius:20px;padding:18px;border:1px solid color-mix(in srgb, var(--accent) 22%, transparent);box-shadow:0 0 24px color-mix(in srgb, var(--accent) 12%, transparent);backdrop-filter:blur(10px);position:relative;overflow:hidden;}
@@ -124,7 +124,7 @@
       <svg class="snd-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
       <svg class="snd-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
     </button>
-    <div class="game-title">Pattern Galaxy</div>
+    <h1 class="game-title">Pattern Galaxy</h1>
   </header>
   <main class="app-main" id="main">
     <div id="fitWrap">
