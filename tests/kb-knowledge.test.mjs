@@ -14,6 +14,7 @@ import {
   foreignEmails,
   foreignPhones,
   hasSecret,
+  htmlCard,
   looksLikePlaceholder,
   prepareText,
   queryIsPublic,
@@ -48,6 +49,12 @@ test("PII scanner refuses keys and unpublished contacts, and keeps the published
   assert.equal(queryIsPublic("email me at hidden.person@example.com"), false);
   assert.equal(looksLikePlaceholder("PLACEHOLDER"), true);
   assert.equal(looksLikePlaceholder("# A real public document\n\nThe sanctuary stays free."), false);
+});
+
+test("HTML entities are unescaped once", () => {
+  const card = htmlCard("about.html", '<title>Tom &amp;amp; Jerry</title><meta name="description" content="A &lt;sanctuary&gt;">');
+  assert.equal(card.title, "Tom &amp; Jerry");
+  assert.match(card.text, /A <sanctuary>/);
 });
 
 test("placeholder and invalid JSON are refused", () => {
