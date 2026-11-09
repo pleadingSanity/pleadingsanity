@@ -1,8 +1,12 @@
-/* Insane Solar chat. The server owns the knowledge and the provider chain. */
+/* Insane Solar chat. The server owns the knowledge and the provider chain.
+   Lead-gate: name + mobile captured before the AI answers (once per device). */
 (function () {
+  var LEAD_KEY = "solarLead";
   var form = document.querySelector("[data-solar-ask]");
   var box = document.getElementById("ai-chat-messages") || document.getElementById("solar-ask-log");
   var input = document.getElementById("ai-chat-input") || document.getElementById("solar-ask-input");
+  var leadgate = document.getElementById("ai-chat-leadgate");
+  var inputrow = document.getElementById("ai-chat-inputrow");
   if (!input || !box) return;
 
   function add(className, text) {
@@ -14,7 +18,55 @@
     return line;
   }
 
+  function leadOk() {
+    try { return JSON.parse(localStorage.getItem(LEAD_KEY)); } catch (e) { return null; }
+  }
+
+  function showInput() {
+    if (leadgate) leadgate.style.display = "none";
+    if (inputrow) inputrow.style.display = "flex";
+  }
+
+  function captureLead() {
+    var nameEl = document.getElementById("ai-lead-name");
+    var phoneEl = document.getElementById("ai-lead-phone");
+    var err = document.getElementById("ai-lead-err");
+    var name = (nameEl ? nameEl.value : "").trim();
+    var phone = (phoneEl ? phoneEl.value : "").trim();
+    var digits = phone.replace(/\D/g, "");
+    if (!name) { if (err) { err.textContent = "Pop your name in so Shane knows who to call."; err.style.display = "block"; } if (nameEl) nameEl.focus(); return; }
+    if (digits.length < 10) { if (err) { err.textContent = "Pop a real mobile number in — Shane needs it to call you back."; err.style.display = "block"; } if (phoneEl) phoneEl.focus(); return; }
+    if (err) err.style.display = "none";
+    try { localStorage.setItem(LEAD_KEY, JSON.stringify({ name: name, phone: phone, t: Date.now() })); } catch (e) {}
+    // Fire the lead to Shane via Netlify Forms (non-blocking)
+    try {
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({ "form-name": "solar-chat-lead", "name": name, "phone": phone, "source": "insane-solar-chat" })
+      }).catch(function () {});
+    } catch (e) {}
+    showInput();
+    var g = document.createElement("div");
+    g.textContent = "Cheers " + name + " — ask me anything solar. If it turns into a quote, Shane will call " + phone + " back.";
+    g.style.cssText = "background:rgba(0,255,240,.1);padding:8px 12px;border-radius:12px;margin-bottom:8px;line-height:1.45;";
+    box.appendChild(g);
+    box.scrollTop = box.scrollHeight;
+    try { input.focus(); } catch (e) {}
+  }
+
+  // Returning visitor — skip the gate
+  if (leadOk()) showInput();
+
+  var submitBtn = document.getElementById("ai-lead-submit");
+  if (submitBtn) submitBtn.addEventListener("click", captureLead);
+  ["ai-lead-name", "ai-lead-phone"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); captureLead(); } });
+  });
+
   function ask(text) {
+    if (!leadOk()) { if (submitBtn) submitBtn.click(); return; } // safety: never answer without lead
     var message = String(text || "").trim();
     if (!message) return;
     add("ai-user", message);
@@ -41,7 +93,6 @@
       try { input.focus(); } catch (e) {}
     });
   }
-
   window.sendAiChat = function () { ask(input.value); };
   input.addEventListener("keydown", function (event) {
     if (event.key === "Enter") { event.preventDefault(); ask(input.value); }
