@@ -1078,3 +1078,20 @@ docs/grok-sync-20261109
 - SKIPPED (risky, left unmerged): grok/arron-knowledge-base — touches netlify/functions/arron.mts + new kb-search.mts/kb-retrieve.ts + supabase migrations + GitHub workflow + supabase/functions. Backend/Arron surface — needs Shane review. Not merged.
 - DELETED (stale/empty): polish/founder-clarity-20261106, polish/final-shane-release-20261106, grok/daily-2026-11-09-b, docs/founder-continuity-clean-2026-11-09 (HTTP 204). Others 422 (already gone/protected). Open PRs: only #185 orphan remains.
 - Rollback: git revert -m 1 the 4 merge commits in reverse order.
+
+
+## 2026-11-10 — Session summary (zero context loss handoff)
+### Keys set on Netlify (21 env vars, verified): OPENAI_API_KEY, ANTHROPIC_API_KEY (full), GEMINI_API_KEY, GROK_API_KEY + xAI_KEY + XAI_API_KEY (all 3 variants), FIREBASE_API_KEY, TURSO_DATABASE_URL + TURSO_AUTH_TOKEN, SUPABASE_URL + SUPABASE_URL_2, SUPABASE_OAUTH_CLIENT_ID/SECRET ×2, DATABASE_URL + DATABASE_URL_2 (Supabase Postgres), AWL_API_KEY, OPENROUTER, ANTHROPIC_WORKSPACE_ID + KEY_ID.
+### STILL MISSING: PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID (#176 verify-paypal 503 until set).
+### Wired & live:
+- Arron full chain keyed (GPT→Claude→Gemini→Grok failover intact, ai-chain.ts env names match exactly). Persona buffed ("Arron the Architect": raw honesty + empathy + cosmic energy, Pleading Sanity ethos creativity/healing/empowerment, companion-not-therapist, crisis numbers on every reply). Live connectivity not proven (no test calls, no spend).
+- Turso (libSQL): /api/turso-health LIVE ok:true. Profile songs backend (/api/profile-songs auth-gated, public read) + profile.html sync with localStorage fallback. Only YouTube IDs, no audio.
+- Supabase Postgres (pg): /api/supabase-health returns connect_failed (NOT auth_failed) — Shane dashboard Network Restrictions fix needed (allow Netlify egress). arron_memories table idempotent-ready. OAuth creds set but DB client keys still absent.
+- Constant feed: posts persist via Postgres/Drizzle (posts.mts CRUD) — verified, not duplicated.
+- IndieWeb live: h-card, 5 rel-me, webmention+pingback endpoints discoverable. Shane manual: add pleadingsanity.co.uk to profile bios + webmention.io signup (dev email available, confirmation link click = manual).
+- Frequencies fixed to allowed set (174/285/432/528/741/963 Hz) — 396/417/639/852 removed from aura-hz.html + frequencies.html.
+- Page consolidation 94→85 pages, 19×301s, sw.js v5.12.63/v115. Broken-link 0 real failures.
+### Merged this session: #247 release (consolidation+IndieWeb), #248 radio playlists, #176 PayPal verify, #250/#251/#253 docs, #252 (Grok), Grok branches (final-buff/daily/grok-sync/radio-polish), #256 Arron knowledge mirror, Dependabot #257/#259/#260/#261 + #262(openai, pre-merged), #265(imagery, pre-merged).
+### LEFT OPEN: #185 orphan (Shane closes), #258 codeql-action Dependabot (PAT lacks workflow scope — Shane merges in UI or rotates PAT with workflow scope).
+### Blocked notes: ghp_uADq token invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
+### Rollback: reverse merge order with git revert -m 1.

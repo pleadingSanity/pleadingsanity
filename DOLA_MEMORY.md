@@ -1,14 +1,14 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
-_Last updated: 2026-11-09. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+_Last updated: 2026-11-10. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 ## Project
 - **Site:** https://pleadingsanity.co.uk — free mental-health sanctuary. "Rise From Madness. Evolution, Not Erasure. One Source. One Family." Built by Shane Cooper (Midlands, UK).
 - **Repo:** pleadingSanity/pleadingsanity (org capital S). `main` branch protected (no direct push; branch + PR; self-merge via API works, no required reviews).
 - **Netlify site ID:** 31c56935-32d5-4932-8a63-2db881842090. Preview deploys currently error account-wide (exit code 4, pre-existing); main builds fine.
-- **Current main HEAD:** e1a6b9e (2026-11-09). 85 HTML pages. IndieWeb live (h-card, 5 rel-me, webmention+pingback endpoints discoverable). Turso (libSQL) wired: /api/turso-health LIVE (ok:true), /api/profile-songs auth-gated (Netlify Identity), profile songs sync with localStorage fallback.
+- **Current main HEAD:** (see git log — 2026-11-10, includes #256 Arron knowledge mirror + Dependabot). 85 HTML pages. IndieWeb live (h-card, 5 rel-me, webmention+pingback endpoints discoverable). Turso (libSQL) wired: /api/turso-health LIVE (ok:true), /api/profile-songs auth-gated (Netlify Identity), profile songs sync with localStorage fallback.
 ## Open PRs (2026-11-09)
-- **#252** (Grok, docs-only, AI_HANDOFF append) — safe, pending merge.
+- **#252** merged. **#256** (Arron knowledge mirror) merged.
 - **#185** (founder succession docs) — orphan branch, no merge base ("refusing to merge unrelated histories"). Shane to close manually. NOT force-merged.
-- All other PRs (#78, #180, #243, #244, #245, #246, #247, #248, #250, #251, #176) merged or closed/superseded.
+- All other PRs merged/closed. Open: #185 orphan (Shane), #258 codeql Dependabot (PAT workflow scope).
 ## Env Vars (Netlify, verified)
 - **Set & working:** TURSO_DATABASE_URL, TURSO_AUTH_TOKEN (verified via /api/turso-health). SUPABASE_OAUTH_CLIENT_ID/SECRET ×2 (Management API/OAuth only — NOT DB keys). AWL_API_KEY, OPENROUTER. xAI_KEY present but EMPTY.
 - **MISSING (Shane to provide):** SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY (DB client keys — OAuth creds do NOT enable DB access; supabase-memory.ts Arron memory remains off). GEMINI_API_KEY (Gemini fallback skipped). PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID (#176 verify-paypal returns 503 until set). GROK_API_KEY/xAI_API_KEY (Grok skipped gracefully in ai-chain.ts; order GPT→Claude→Gemini→Grok preserved).
