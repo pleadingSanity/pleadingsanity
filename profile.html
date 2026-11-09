@@ -10,7 +10,7 @@ Evolution, Not Erasure. One Source. One Family.
 
  <meta charset="UTF-8" />
  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
- <meta name="theme-color" content="#000103" />
+ <meta name="theme-color" content="#0b0f19" />
  <link rel="icon" href="/assets/favicon.ico" sizes="any" />
  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
@@ -122,6 +122,7 @@ Evolution, Not Erasure. One Source. One Family.
 </nav>
 
  <main id="main-content" class="social-main">
+ <h1 class="sr-only">My Sanity Profile</h1>
  <div id="root" aria-live="polite"><div class="skeleton" style="height:200px"></div><div class="skeleton"></div></div>
 
  <section id="ps-my-songs" class="ps-songs-widget" aria-labelledby="ps-songs-title" style="margin:2rem auto;max-width:640px;padding:1.25rem;border:1px solid rgba(0,255,240,.25);border-radius:16px;background:rgba(13,27,42,.6)">
@@ -137,7 +138,7 @@ Evolution, Not Erasure. One Source. One Family.
     <button type="button" id="ps-song-add" class="btn" style="min-height:48px;justify-self:start">Add song</button>
   </div>
   <p id="ps-song-sync" style="color:#fbbf24;font-size:.82rem;min-height:1rem;margin:0 0 .25rem">Checking sync…</p>
-  <p id="ps-song-status" role="status" aria-live="polite" style="color:#ff9ab0;font-size:.88rem;min-height:1.2rem;margin:.5rem 0"></p>
+  <p id="ps-song-status" role="status" aria-live="polite" style="color:#f59e0b;font-size:.88rem;min-height:1.2rem;margin:.5rem 0"></p>
   <ul id="ps-song-list" style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:.8rem"></ul>
  </section>
  <script>
@@ -156,7 +157,7 @@ Evolution, Not Erasure. One Source. One Family.
        var li=document.createElement('li'); li.style.cssText='border:1px solid rgba(0,255,240,.2);border-radius:12px;padding:.75rem;background:rgba(11,15,25,.6)';
        var head=document.createElement('div'); head.style.cssText='display:flex;justify-content:space-between;gap:.5rem;align-items:center;margin-bottom:.5rem';
        var t=document.createElement('strong'); t.style.color='#eef6ff'; t.textContent=(s.title||'Untitled')+(s.artist?' — '+s.artist:'')+(s.visibility==='public'?' · public':'');
-       var rm=document.createElement('button'); rm.type='button'; rm.textContent='Remove'; rm.style.cssText='min-height:36px;padding:.35rem .8rem;border-radius:8px;border:1px solid rgba(255,100,130,.5);background:transparent;color:#ff9ab0;cursor:pointer'; rm.setAttribute('aria-label','Remove '+(s.title||'song'));
+       var rm=document.createElement('button'); rm.type='button'; rm.textContent='Remove'; rm.style.cssText='min-height:36px;padding:.35rem .8rem;border-radius:8px;border:1px solid rgba(245,158,11,.5);background:transparent;color:#f59e0b;cursor:pointer'; rm.setAttribute('aria-label','Remove '+(s.title||'song'));
        rm.addEventListener('click',function(){
          if(apiOk&&s.serverId){ fetch('/api/profile-songs/'+encodeURIComponent(s.serverId),{method:'DELETE'}).catch(function(){}); }
          songs.splice(i,1); writeLocal(songs.map(function(x){return {id:x.youtubeId||x.id,title:x.title,artist:x.artist,isPublic:x.visibility==='public'||x.isPublic};})); render();

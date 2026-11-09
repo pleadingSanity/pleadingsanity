@@ -17,6 +17,49 @@ errors = []
 scripts = []
 
 
+def static_redirects():
+    """Exact from/to rules in _redirects and netlify.toml. Splats are ignored."""
+    rules = []
+    redirects = ROOT / '_redirects'
+    if redirects.exists():
+        for raw in redirects.read_text(encoding='utf-8').splitlines():
+            line = raw.split('#', 1)[0].strip()
+            parts = line.split()
+            if len(parts) >= 2 and not parts[0].startswith('#'):
+                rules.append((parts[0], parts[1]))
+    toml = ROOT / 'netlify.toml'
+    if toml.exists():
+        text = toml.read_text(encoding='utf-8')
+        for block in re.finditer(r'\[\[redirects\]\](.*?)(?=\n\[\[|\Z)', text, re.S):
+            source = re.search(r'\bfrom\s*=\s*"([^"]+)"', block.group(1))
+            destination = re.search(r'\bto\s*=\s*"([^"]+)"', block.group(1))
+            if source and destination and '*' not in source.group(1):
+                rules.append((source.group(1), destination.group(1)))
+    return rules
+
+
+REDIRECTS = static_redirects()
+
+
+def resolves_locally(url_path):
+    """True when the path is a file, an extensionless page, or a redirect to one."""
+    seen = set()
+    current = url_path
+    for _ in range(12):
+        if current in seen:
+            return False
+        seen.add(current)
+        path = urlsplit(current).path or '/'
+        target = ROOT / unquote(path).lstrip('/')
+        if target.is_file() or target.with_suffix('.html').is_file() or (target / 'index.html').is_file():
+            return True
+        nxt = next((dst for src, dst in REDIRECTS if src == path), None)
+        if not nxt:
+            return False
+        current = nxt
+    return False
+
+
 class Page(HTMLParser):
     def __init__(self, path):
         super().__init__()
@@ -37,7 +80,7 @@ class Page(HTMLParser):
                 continue
             target = ((ROOT if url.path.startswith('/') else self.path.parent)
                       / unquote(url.path).lstrip('/'))
-            if target.suffix and not target.exists():
+            if target.suffix and not target.exists() and not resolves_locally(url.path):
                 errors.append(f'{self.path.name}: missing {url.path}')
         if tag == 'script' and not attrs.get('src'):
             kind = attrs.get('type', '').lower()
