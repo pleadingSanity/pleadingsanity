@@ -71,21 +71,27 @@ Draft PR #139 holds the privacy regression tests. Review it. Do not replace the 
 
 ## The whole house — pages that exist
 
-Home and wayfinding: `index.html` `tools.html` `get-the-app.html` `onboarding.html` `platform.html` `developers.html` `offline.html` `404.html`
+Refreshed 2026-11-10 from the real root `*.html` files on `main` (84 pages). Check the repo before trusting this list.
 
-Arron and the family: `arron.html` `arron-app.html` `arron-intro.html` `ai-welcome.html` `ai-family.html` `ai-ecosystem.html` `ai-studio.html` `ai-stories.html` `ai-social.html`
+Home and wayfinding: `index.html` `tools.html` `get-the-app.html` `app.html` `onboarding.html` `platform.html` `sanityhub.html` `offline.html` `404.html`
+
+Arron and the family: `arron.html` `arron-app.html` `ai-family.html` `ai-ecosystem.html` `ai-studio.html` `ai-stories.html` `ai-social.html`
 
 Write and remember: `journal-vault.html` `journal-vault-viewer.html` `notes.html` `write.html` `wisdom.html` `quote-wall.html` `my-digital-story.html` `blueprint.html` `rap.html`
 
-Calm: `mind-mode.html` `frequencies.html` `meditation.html` `mood-journey.html` `sanctuary.html` `my-room.html` `support.html` `crisis.html` `safety.html`
+Calm: `mind-mode.html` `frequencies.html` `aura-hz.html` `meditation.html` `mood-journey.html` `sanctuary.html` `my-room.html` `themes.html` `crisis.html`
 
-Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `kids-series.html` `sanity-songs.html` `music/index.html`
+Play: `games.html` `sanity-solitaire.html` `poker.html` `shed-card-game.html` `cosmic-connect.html` `cosmic-focus.html` `cosmic-reflections.html` `number-nebula.html` `pattern-galaxy.html` `memory-ocean.html` `rhythm-resonance.html` `stardust-dash.html` `truth-tag.html` `kids.html` `sanity-songs.html` `insane-radio.html` `music/index.html`
 
 People: `feed.html` `post.html` `community.html` `community-dashboard.html` `circle.html` `member.html` `profile.html` `login.html` `signup.html` `reset-password.html` `settings.html` `creator.html` `live.html` `videos.html` `creations.html`
 
-Money, shop, solar: `finance.html` `shop.html` `offer.html` `solar.html` `insane-solar.html` `solar-ai-office.html` `site-builder.html` `builder.html`
+Money, shop, support: `finance.html` `shop.html` `marketplace.html` `support-us.html`
 
-The story: `about.html` `movement.html` `new-gen-bible.html` `transparency.html` `privacy.html` `sources.html` `owner.html` `admin.html` `play-listing.html` `sanityhub.html`
+Separate brands (keep apart from the sanctuary): `insane-solar.html` `solar-trade.html` `solar-ai-office.html` `solar.html` `off-grid.html` `sanity-law.html`
+
+The story and the owner: `about.html` `movement.html` `new-gen-bible.html` `privacy.html` `owner.html` `admin.html` `site-builder.html` `builder.html`
+
+Retired pages, now 301s in `_redirects` (do not recreate them): `support.html` and `/support` → `about.html#support`, `safety.html` → `crisis.html`, `developers.html` / `transparency.html` / `sources.html` / `offer.html` → `about.html#…`, `arron-intro.html` / `ai-welcome.html` → `ai-family.html#…`, `play-listing.html` → `games.html#play-listing`, `kids-series.html` → `kids.html#kids-series`.
 
 `docs/deployment-status.html` is a document, not a public root page.
 
@@ -93,7 +99,7 @@ App Hub is `get-the-app.html`. It is this house's shelf. It is not Google Play a
 
 ## The whole house — functions that exist
 
-`netlify/functions/`: `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `music` `notes` `owner` `poker-room` `posts` `profile` `progress` `rap` `scores` `stories` `studio` `studio-podcast-background` `studio-weekly` `test-lab` `write` `ytFeed.mjs`
+`netlify/functions/` (refreshed 2026-11-10): `admin` `ai-family-daily` `ai-post` `arron` `arron-grow` `arron-health` `arron-memory` `blueprint` `community` `creations` `finance-adviser` `finance-providers` `firebase-public-config` `home` `images` `journal` `kb-search` `music` `notes` `owner` `poker-room` `posts` `profile` `profile-songs` `progress` `rap` `scores` `solar-assistant` `stories` `studio` `studio-podcast-background` `studio-weekly` `supabase-health` `test-lab` `turso-health` `verify-paypal` `write` `ytFeed`. Note: `arron-health` and `arron` both claim `/api/arron/health`; the live answer comes from `arron` (see AI_HANDOFF 2026-11-10 Grok review).
 
 Arron health is `/api/arron/health`. Memory delete is `/api/arron/memory`. Shared code is `netlify/lib/`. Database is the existing Postgres via Drizzle. Never edit an applied migration. Add a new one. Blobs are for files. Sign-in is `js/auth.js` and Netlify Identity.
 
