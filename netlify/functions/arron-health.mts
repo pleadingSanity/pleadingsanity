@@ -54,4 +54,4 @@ export default async (req: Request, _context: Context) => {
     note: "Live credential probe — status codes only, no content or keys returned.",
   });
 };
-export const config: Config = { path: "/api/arron/health" };
+export const config: Config = { path: "/api/ops/ai-probe" };
