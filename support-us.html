@@ -19,6 +19,21 @@ Built from lived experience. One Source. One Family.
   <link rel="stylesheet" href="/css/accessibility.css" />
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <link rel="stylesheet" href="/css/site.css" />
+  <style>
+    .support-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:1.25rem 0 0}
+    .support-card{border-radius:14px;padding:16px 18px;border:1px solid rgba(45,212,191,.25);background:rgba(45,212,191,.05);text-align:left}
+    .support-card-soon{border-style:dashed;border-color:rgba(184,203,212,.35);background:rgba(184,203,212,.04)}
+    .support-label{font-weight:800;color:#eef6ff;font-size:1.02rem;margin-bottom:8px;letter-spacing:.01em}
+    .support-card-active .support-label{color:#2dd4bf}
+    .support-link{display:inline-block;background:#2dd4bf;color:#0b0f19;font-weight:800;padding:9px 16px;border-radius:999px;text-decoration:none;margin-top:4px}
+    .support-link:hover,.support-link:focus{background:#5eead4}
+    .support-soon{color:#8aa4af;font-size:.9rem;line-height:1.5;margin:0}
+    .support-note{color:#b8cbd4;font-size:.85rem;line-height:1.5;margin:8px 0 0}
+    .support-bank{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:6px 0 0;font-size:.92rem}
+    .support-bank dt{color:#8aa4af;font-weight:600}
+    .support-bank dd{color:#eef6ff;margin:0;font-weight:700;word-break:break-all}
+    .support-crypto-addr{color:#eef6ff;font-family:ui-monospace,monospace;font-size:.82rem;word-break:break-all;background:rgba(0,0,0,.25);padding:8px 10px;border-radius:8px;margin:6px 0 0}
+  </style>
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/support-us.html" />
   <title>Support Pleading Sanity — Ethical Funding, No Venture Capital</title>
@@ -58,10 +73,20 @@ Built from lived experience. One Source. One Family.
     </ol>
 
     <h2 style="color:#eef6ff;font-size:1.5rem;margin:2.5rem 0 .75rem">How to support</h2>
-    <p>The single most valuable support is using the sanctuary and telling someone who needs it. If you can contribute financially, email <a href="mailto:support@pleadingsanity.co.uk" style="color:#a1e4dd;font-weight:650">support@pleadingsanity.co.uk</a> and we will send the current options — one-off, monthly, or ethical investment for larger amounts. Every amount, however small, keeps a roof over the cabin.</p>
+    <p>The single most valuable support is using the sanctuary and telling someone who needs it. If you can contribute financially, the current options are below. Every amount, however small, keeps a roof over the cabin.</p>
+    <div id="support-options" class="support-grid" aria-live="polite">
+      <div class="support-card support-card-active">
+        <div class="support-label">Email — always works</div>
+        <a class="support-link" href="mailto:support@pleadingsanity.co.uk">Email support</a>
+        <p class="support-note">One-off, monthly, or ethical investment for larger amounts — we will send the current options. No payment processor sits between us.</p>
+      </div>
+    </div>
+    <noscript><p style="color:#b8cbd4;font-size:.95rem;margin-top:1rem">JavaScript is off — email <a href="mailto:support@pleadingsanity.co.uk" style="color:#a1e4dd;font-weight:650">support@pleadingsanity.co.uk</a> for current support options.</p></noscript>
+    <p style="color:#7fa3b0;font-size:.85rem;margin-top:1rem">More payment slots (Buy Me a Coffee, Ko-fi, bank transfer, crypto, PayPal) are wired through <code style="color:#a1e4dd">/data/support-config.json</code> — empty slots show "Coming soon" until Shane drops a link in. PayPal buttons are intentionally not wired (Shane's call, Nov 2026).</p>
     <p style="color:#b8cbd4;font-size:.95rem;margin-top:2rem">If you are in crisis, this page is not for you right now. <a href="/crisis.html" style="color:#f5c542;font-weight:650">Urgent help is here</a>: call <a href="tel:999" style="color:#f5c542">999</a> in immediate danger, Samaritans <a href="tel:116123" style="color:#f5c542">116 123</a> (24/7), text SHOUT to <a href="sms:85258" style="color:#f5c542">85258</a>, NHS <a href="tel:111" style="color:#f5c542">111</a>, or <a href="https://findahelpline.com/" style="color:#f5c542">findahelpline.com</a> outside the UK.</p>
     <p style="text-align:center;margin-top:3rem;color:#7fa3b0;font-size:.9rem">Rise From Madness. Evolution, Not Erasure. One Source. One Family.</p>
   </main>
   <script src="/js/site.js" defer></script>
+  <script src="/js/support-links.js" defer></script>
 </body>
 </html>
