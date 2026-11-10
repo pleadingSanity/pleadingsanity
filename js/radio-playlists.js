@@ -148,6 +148,100 @@
         list.prepend(renderCurated({ label: '', youtube_url: '', sonos_url: '', amazon_music_url: '' }));
       });
   }
+  // ---------- Sane Shane's Playlists (config-driven named playlist cards) ----------
+  // Reads shane_playlists[] from /data/music-playlists.json. Each entry:
+  //   { "name": "...", "youtube_playlist_id": "", "url": "", "description": "" }
+  // Filled youtube_playlist_id -> official youtube-nocookie embed + open link.
+  // Empty array / empty ids -> honest empty-state card. No invented URLs/IDs.
+  // Shane's email is never published — we reference "Shane's YouTube Music" only.
+  var shaneGrid = document.getElementById('shane-playlists-grid');
+  function validPlaylistIdShane(id) { return typeof id === 'string' && /^[A-Za-z0-9_-]{10,100}$/.test(id); }
+  function shaneEmptyCard(name) {
+    var card = document.createElement('div');
+    card.className = 'shane-playlist-card shane-playlist-empty';
+    var badge = document.createElement('span');
+    badge.className = 'shane-empty-badge';
+    badge.textContent = 'Coming soon';
+    var title = document.createElement('div');
+    title.className = 'shane-playlist-name';
+    title.textContent = name && String(name).trim() ? String(name).trim() : "Shane's dropping his playlists in";
+    var note = document.createElement('p');
+    note.className = 'shane-empty-note';
+    note.textContent = name && String(name).trim()
+      ? 'This Shane playlist is not live yet — check back. When it drops, the official YouTube player embeds right here.'
+      : "Shane's dropping his playlists in — check back. They'll embed right here with the official YouTube player. No links are invented.";
+    card.append(badge, title, note);
+    return card;
+  }
+  function shaneFilledCard(entry) {
+    var card = document.createElement('div');
+    card.className = 'shane-playlist-card is-filled';
+    var name = entry.name && String(entry.name).trim() ? String(entry.name).trim() : "Shane's playlist";
+    var title = document.createElement('div');
+    title.className = 'shane-playlist-name';
+    title.textContent = name;
+    if (entry.description && String(entry.description).trim()) {
+      var desc = document.createElement('p');
+      desc.className = 'shane-playlist-desc';
+      desc.textContent = String(entry.description).trim();
+      card.appendChild(desc);
+    }
+    var actions = document.createElement('div');
+    actions.className = 'shane-playlist-actions';
+    var id = entry.youtube_playlist_id;
+    var embedWrap = document.createElement('div');
+    embedWrap.className = 'shane-embed';
+    embedWrap.hidden = true;
+    var play = document.createElement('button');
+    play.type = 'button';
+    play.className = 'shane-playlist-btn';
+    play.textContent = 'Play here';
+    play.setAttribute('aria-label', 'Play ' + name + ' here with the official YouTube player');
+    play.addEventListener('click', function () {
+      if (!embedWrap.hidden) { embedWrap.hidden = true; embedWrap.replaceChildren(); play.textContent = 'Play here'; return; }
+      var frame = document.createElement('iframe');
+      frame.title = name + ' — YouTube playlist player';
+      frame.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id);
+      frame.loading = 'lazy';
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      frame.allowFullscreen = true;
+      embedWrap.appendChild(frame);
+      embedWrap.hidden = false;
+      play.textContent = 'Hide player';
+    });
+    actions.appendChild(play);
+    var open = document.createElement('a');
+    open.className = 'shane-playlist-btn';
+    open.href = (entry.url && String(entry.url).trim()) ? String(entry.url).trim() : ('https://music.youtube.com/playlist?list=' + encodeURIComponent(id));
+    open.target = '_blank'; open.rel = 'noopener noreferrer';
+    open.textContent = "Open on Shane's YouTube Music";
+    open.setAttribute('aria-label', 'Open ' + name + " on Shane's YouTube Music (new tab)");
+    actions.appendChild(open);
+    card.append(title, actions, embedWrap);
+    return card;
+  }
+  function renderShane(cfg) {
+    if (!shaneGrid) return;
+    shaneGrid.replaceChildren();
+    var list = Array.isArray(cfg.shane_playlists) ? cfg.shane_playlists : [];
+    var filled = list.filter(function (e) { return e && validPlaylistIdShane(e.youtube_playlist_id); });
+    if (!filled.length) {
+      var named = list.filter(function (e) { return e && e.name && String(e.name).trim(); });
+      shaneGrid.appendChild(shaneEmptyCard(named.length ? named[0].name : ''));
+      return;
+    }
+    filled.forEach(function (entry) { shaneGrid.appendChild(shaneFilledCard(entry)); });
+  }
+  function loadShane() {
+    if (!shaneGrid) return;
+    if (typeof fetch !== 'function') { renderShane({ shane_playlists: [] }); return; }
+    fetch('/data/music-playlists.json', { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.json() : { shane_playlists: [] }; })
+      .then(function (j) { renderShane({ shane_playlists: (j && Array.isArray(j.shane_playlists)) ? j.shane_playlists : [] }); })
+      .catch(function () { renderShane({ shane_playlists: [] }); });
+  }
+  loadShane();
   function render() {
     list.replaceChildren();
     if (!ids.length) {
