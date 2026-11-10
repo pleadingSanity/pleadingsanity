@@ -16,6 +16,7 @@
 // ==============================================================
 
 import type { Turn } from "./ai-chain.js";
+import { CRISIS_WORDS as SHARED_CRISIS_WORDS } from "./crisis-phrases.js";
 
 export type ToolName = "solar_calculator" | "crisis_check" | "url_fetch";
 
@@ -80,9 +81,8 @@ const CRISIS_LINES_TEXT = `- 999 (UK emergency) — if you are in immediate dang
 - International: find a helpline near you at https://findahelpline.com/
 - Full options on the site: https://pleadingsanity.co.uk/crisis.html`;
 
-// Same safety-net regex as arron.mts (kept in sync by hand).
-const CRISIS_WORDS =
-  /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+// Same shared list as arron.mts: ./crisis-phrases.js (one source of truth, no hand-synced copy).
+const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 
 export function openaiToolsEnabled(): boolean {
   return Boolean(process.env.OPENAI_API_KEY);
