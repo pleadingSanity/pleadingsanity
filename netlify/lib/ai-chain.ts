@@ -39,9 +39,9 @@ const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
 const MIN_ATTEMPT_MS = 2_500;
 // maxRetries 0 everywhere: an SDK retry is a second paid call the chain cannot see, and on an
 // exhausted quota (HTTP 429) it only repeats the failure. Failover to the next mind is the retry.
-const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.Anthropic_Key_Arron || "", timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "", httpOptions: { timeout: LAB_TIMEOUT_MS } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
 // Default length of the whole walk (labs, then spares) when the caller gives no deadline. It is a hard
 // deadline: every request carries an abort signal for the time left, so nothing outlasts it.
