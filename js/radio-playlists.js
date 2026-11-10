@@ -14,16 +14,23 @@
   function playlistId(value) {
     try {
       var url = new URL(value);
-      if (url.protocol !== 'https:' || !['youtube.com', 'www.youtube.com', 'music.youtube.com', 'm.youtube.com'].includes(url.hostname)) return null;
+      if (url.protocol !== 'https:' || !['youtube.com', 'www.youtube.com', 'music.youtube.com', 'm.youtube.com', 'youtu.be'].includes(url.hostname)) return null;
+      if (url.hostname === 'youtu.be') {
+        var vid = url.pathname.slice(1).split('/')[0];
+        return /^[A-Za-z0-9_-]{11}$/.test(vid) ? 'v:' + vid : null;
+      }
       if (!['/playlist', '/watch'].includes(url.pathname)) return null;
-      var id = url.searchParams.get('list');
-      return id && /^[A-Za-z0-9_-]{10,100}$/.test(id) ? id : null;
+      var list = url.searchParams.get('list');
+      if (list && /^[A-Za-z0-9_-]{10,100}$/.test(list)) return list;
+      var v = url.searchParams.get('v');
+      if (url.pathname === '/watch' && v && /^[A-Za-z0-9_-]{11}$/.test(v)) return 'v:' + v;
+      return null;
     } catch (_) { return null; }
   }
   function read() {
     try {
       var value = JSON.parse(localStorage.getItem(KEY) || '[]');
-      return Array.isArray(value) ? value.filter(function (id) { return /^[A-Za-z0-9_-]{10,100}$/.test(id); }).slice(0, 30) : [];
+      return Array.isArray(value) ? value.filter(function (id) { return /^[A-Za-z0-9_-]{10,100}$/.test(id) || /^v:[A-Za-z0-9_-]{11}$/.test(id); }).slice(0, 30) : [];
     } catch (_) { return []; }
   }
   var ids = read();
@@ -33,16 +40,21 @@
   }
   function openPlaylist(id) {
     embed.replaceChildren();
+    var isVideo = /^v:/.test(id);
     var frame = document.createElement('iframe');
-    frame.title = 'YouTube playlist player';
-    frame.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id);
+    frame.title = isVideo ? 'YouTube video player' : 'YouTube playlist player';
+    frame.src = isVideo
+      ? 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id.slice(2))
+      : 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id);
     frame.loading = 'lazy';
     frame.referrerPolicy = 'strict-origin-when-cross-origin';
     frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
     frame.allowFullscreen = true;
     frame.style.cssText = 'display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px';
     embed.appendChild(frame);
-    status.textContent = 'Playlist opened in the official player. If it stays blank or restricted, open it in YouTube Music — private or region-locked lists need the app.';
+    status.textContent = isVideo
+      ? 'Track opened in the official player. If it stays blank or restricted, open it in YouTube Music.'
+      : 'Playlist opened in the official player. If it stays blank or restricted, open it in YouTube Music — private or region-locked lists need the app.';
   }
   function makeButton(label, ariaLabel, onClick, danger) {
     var b = document.createElement('button');
@@ -56,19 +68,20 @@
   function renderSavedItem(id, i) {
     var item = document.createElement('div');
     item.className = 'playlist-item';
+    var isVideo = /^v:/.test(id);
     var title = document.createElement('div');
     title.className = 'playlist-item-title';
-    title.textContent = 'Saved playlist ' + (i + 1);
+    title.textContent = isVideo ? 'Saved track ' + (i + 1) : 'Saved playlist ' + (i + 1);
     var sub = document.createElement('div');
     sub.className = 'playlist-item-sub';
-    sub.textContent = 'YouTube / YouTube Music · saved on this device only';
-    var play = makeButton('Play here', 'Play saved playlist ' + (i + 1) + ' here', function () { openPlaylist(id); });
+    sub.textContent = isVideo ? 'Single YouTube track · saved on this device only' : 'YouTube / YouTube Music · saved on this device only';
+    var play = makeButton('Play here', 'Play saved ' + (isVideo ? 'track' : 'playlist') + ' ' + (i + 1) + ' here', function () { openPlaylist(id); });
     var link = document.createElement('a');
     link.className = 'playlist-open';
-    link.href = 'https://music.youtube.com/playlist?list=' + encodeURIComponent(id);
+    link.href = isVideo ? ('https://music.youtube.com/watch?v=' + encodeURIComponent(id.slice(2))) : ('https://music.youtube.com/playlist?list=' + encodeURIComponent(id));
     link.target = '_blank'; link.rel = 'noopener noreferrer';
     link.textContent = 'Open in YouTube Music';
-    link.setAttribute('aria-label', 'Open saved playlist ' + (i + 1) + ' in YouTube Music (new tab)');
+    link.setAttribute('aria-label', 'Open saved ' + (isVideo ? 'track' : 'playlist') + ' ' + (i + 1) + ' in YouTube Music (new tab)');
     var remove = makeButton('Remove', 'Remove saved playlist ' + (i + 1) + ' from this device', function () {
       ids = ids.filter(function (x) { return x !== id; });
       save(); embed.replaceChildren(); render(); status.textContent = 'Playlist removed from this device.';
@@ -188,7 +201,8 @@
     }
     var actions = document.createElement('div');
     actions.className = 'shane-playlist-actions';
-    var id = entry.youtube_playlist_id;
+    var isVideo = !validPlaylistIdShane(entry.youtube_playlist_id) && /^[A-Za-z0-9_-]{11}$/.test(String(entry.youtube_video_id || ''));
+    var id = isVideo ? 'v:' + String(entry.youtube_video_id).trim() : entry.youtube_playlist_id;
     var embedWrap = document.createElement('div');
     embedWrap.className = 'shane-embed';
     embedWrap.hidden = true;
@@ -200,8 +214,8 @@
     play.addEventListener('click', function () {
       if (!embedWrap.hidden) { embedWrap.hidden = true; embedWrap.replaceChildren(); play.textContent = 'Play here'; return; }
       var frame = document.createElement('iframe');
-      frame.title = name + ' — YouTube playlist player';
-      frame.src = 'https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id);
+      frame.title = name + (isVideo ? ' — YouTube video player' : ' — YouTube playlist player');
+      frame.src = isVideo ? ('https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id.slice(2))) : ('https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id));
       frame.loading = 'lazy';
       frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
@@ -213,7 +227,7 @@
     actions.appendChild(play);
     var open = document.createElement('a');
     open.className = 'shane-playlist-btn';
-    open.href = (entry.url && String(entry.url).trim()) ? String(entry.url).trim() : ('https://music.youtube.com/playlist?list=' + encodeURIComponent(id));
+    open.href = (entry.url && String(entry.url).trim()) ? String(entry.url).trim() : (isVideo ? ('https://music.youtube.com/watch?v=' + encodeURIComponent(id.slice(2))) : ('https://music.youtube.com/playlist?list=' + encodeURIComponent(id)));
     open.target = '_blank'; open.rel = 'noopener noreferrer';
     open.textContent = "Open on Shane's YouTube Music";
     open.setAttribute('aria-label', 'Open ' + name + " on Shane's YouTube Music (new tab)");
@@ -225,7 +239,7 @@
     if (!shaneGrid) return;
     shaneGrid.replaceChildren();
     var list = Array.isArray(cfg.shane_playlists) ? cfg.shane_playlists : [];
-    var filled = list.filter(function (e) { return e && validPlaylistIdShane(e.youtube_playlist_id); });
+    var filled = list.filter(function (e) { return e && (validPlaylistIdShane(e.youtube_playlist_id) || /^[A-Za-z0-9_-]{11}$/.test(String(e.youtube_video_id || ''))); });
     if (!filled.length) {
       var named = list.filter(function (e) { return e && e.name && String(e.name).trim(); });
       shaneGrid.appendChild(shaneEmptyCard(named.length ? named[0].name : ''));
@@ -257,11 +271,11 @@
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     var id = playlistId(field.value.trim());
-    if (!id) { status.textContent = 'Enter a valid YouTube or YouTube Music playlist URL (https://music.youtube.com/playlist?list=...).'; return; }
+    if (!id) { status.textContent = 'Enter a valid YouTube or YouTube Music link — a playlist (…/playlist?list=…) or a single track (…/watch?v=…).'; return; }
     if (ids.includes(id)) { status.textContent = 'That playlist is already saved on this device.'; return; }
     if (ids.length >= 30) { status.textContent = 'Maximum 30 playlists on this device. Remove one first.'; return; }
     ids.push(id); save(); field.value = ''; render();
-    status.textContent = 'Playlist added to this device. Tap Play here to load the official YouTube player.';
+    status.textContent = 'Link added to this device. Tap Play here to load the official YouTube player.';
   });
   render();
 })();

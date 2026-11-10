@@ -1,5 +1,13 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10 (glow radio + app restyle). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+## 2026-11-11 — SHANE SCREENSHOT ROUND 2 (single-video links + ALL tracks clickable, PR #321)
+Shane screenshot (21:19) of insane-radio.html: playlist box rejected his `https://music.youtube.com/watch?v=BwV6UchilEM&si=…` link (single VIDEO, no `list=` → validator null); only next 4 up-next tracks clickable; station cards looked raw = stale cached CSS (deploy ready 21:13, CSS must-revalidate live — hard refresh fixes).
+- **js/radio-playlists.js:** accepts single-track watch links (`/watch?v=` → `v:<id>`), youtu.be, strips `si=`. `openPlaylist()` → single-video nocookie embed vs videoseries. Saved items + Shane `shane_playlists[]` now support `youtube_video_id`.
+- **data/music-playlists.json:** added "The Plan (feat. Juicy J) — Wiz Khalifa" (BwV6UchilEM, oEmbed verified).
+- **js/radio-player.js:** full 85-track clickable list in `#radio-tracklist` (details open); up-next 4 preserved. Pre-existing test failures unchanged (pass 2/fail 7 vs HEAD). validate-build exit 0.
+- **insane-radio.html:** tracklist details block; playlist form hint/placeholder/button now accepts single tracks. PR #319 shard-radio-music.css link preserved.
+- **css/radio-glow.css (additive):** tracklist styles, station icon hover glow, hip-hop group title coral. 0 purple.
+- Shane-action gaps unchanged: MAX_TOKENS_ARRON site-level=1600 in Netlify UI; drop more playlist/payment links; revoke exposed tokens.
 
 ## 2026-11-10 — INSANE RADIO + MUSIC APP GLOW RESTYLE (branch `radio-glow-app`)
 Shane asked for the music radio page + app to look like Dribbble music-app concepts: glowing, clean, rounded. Pure CSS (evolution not erasure — every JS hook/ID/class preserved, no markup logic changed). No purple/violet/indigo/lavender — warm coral `#ff6b6b` + amber `#fbbf24` glow, teal `#2dd4bf` secondary, near-black `#070a12`.
