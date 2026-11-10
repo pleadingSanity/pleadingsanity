@@ -16,6 +16,15 @@ _All AIs (Claude/GPT/Copilot/Grok): read this section first. Everything below it
 | #273 | Income: support slots → `data/support-config.json` (PayPal skipped per Shane). 13 "we fit solar" reverts fixed on insane-solar.html + persistent reach-Shane strip. shop.html `class=class=` bug fixed (10 cards) + disclaimer/CTA. | support-us.html, js/support-links.js, data/support-config.json, insane-solar.html, shop.html |
 | #274 | Audit+polish: 46 pages. 21× og:type, 20× twitter:card, 4× og:url, 1 full OG set, 11 unlabeled inputs, 3 heading skips, 3 lazy imgs, 29 image dims. Baseline: all 85 pages 200, 0 broken links, 0 missing viewport/alt/secrets. | 46 .html |
 
+## PASS 2 (2026-11-10, deep audit + new features + design polish, all live)
+| PR | What | Key files |
+|---|---|---|
+| #277 | Perf: 3.81MB saved (21 images re-encoded), 22 webp wired, sitemap 55→66, html must-revalidate | 21 images, 22 webp, sitemap.xml, netlify.toml, 7 .html |
+| #278 | Features: solar honest estimator (form `solar-estimator-lead`), shop wishlist/notify (`shop-notify-me`), movement email signup (`movement-signup`), support-us polish, 4 solar-ai-office "same crew fits" lines fixed | js/solar-estimator.js, js/shop-wishlist.js, insane-solar.html, shop.html, support-us.html, solar-ai-office.html |
+| #279 | A11y/SEO/Design: JSON-LD 5→67 public pages, skip-to-content 85/85, global :focus-visible, og:image 83, 44 `class=class=` bugs fixed (unstyled cards), 4 `#000103` theme-color → `#0b0f19` | 71 .html, css/accessibility.css |
+
+New forms to check in Netlify Forms dashboard: `solar-estimator-lead`, `shop-notify-me`, `movement-signup`. All honest disclaimers present; AI never certifies; no guaranteed savings.
+
 ## Shane identity (USE THIS — factually accurate)
 Shane Cooper = builder, roofer, visionary (Midlands UK). Recently **stopped fitting solar panels**, back to full-time roofing. Focus = Pleading Sanity movement, end goal = peace and unity for all. Insane Solar: Shane organises/oversees, trusted local fitters install, AI Office does paperwork. **Never "we fit solar".** AI never certifies MCS/electrical — humans sign. No invented reviews/guaranteed savings.
 
