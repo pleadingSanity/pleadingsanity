@@ -20,8 +20,9 @@ class CrisisResponseSystem {
  setupCrisisDetection() {
  // Advanced crisis detection patterns from research validation
  this.crisisDetectionPatterns = [
- // Immediate crisis indicators
- /\b(suicide|kill myself|end it all|can't go on|want to die)\b/i,
+ // Immediate crisis indicators: the one shared crisis phrase list (/js/crisis-phrases.js, generated from
+ // netlify/lib/crisis-phrases.js), loaded before this file. Same +0.3 score as the old inline pattern.
+ { test: (text) => Boolean(window.PSCrisis && window.PSCrisis.test(text)) },
  /\b(overdose|pills|razor|bridge|rope)\b/i,
 
  // Severe distress indicators

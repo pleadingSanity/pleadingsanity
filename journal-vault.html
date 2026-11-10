@@ -689,6 +689,7 @@
 </footer>
  </div>
 
+ <script src="/js/crisis-phrases.js"></script>
  <script>
  let allEntries = [];
  let editingId = null;
@@ -700,7 +701,8 @@
 
  function watchCrisis() {
  const text = document.getElementById('newEntryText').value;
- const heavy = /\b(suicid|kill myself|killing myself|end my life|self-harm|self harm|do not want to live|don'?t want to (live|be here))\b/i.test(text);
+ // One shared crisis phrase list: /js/crisis-phrases.js (generated from netlify/lib/crisis-phrases.js), loaded just before this script.
+ const heavy = Boolean(window.PSCrisis && window.PSCrisis.test(text));
  document.getElementById('vault-crisis').hidden = !heavy;
  }
 
