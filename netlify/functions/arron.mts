@@ -54,8 +54,12 @@ const tokenEnv = (name: string, fallback: number) => {
   const n = Number.parseInt(process.env[name] ?? "", 10);
   return Number.isFinite(n) && n >= 200 ? n : fallback;
 };
+// MAX_TOKENS_ARRON is the orchestrator-tunable default reply budget (raised 1000 → 1600
+// at the Netlify level). ARRON_TOKENS_GUEST still wins if it is set; final fallback 1000.
+// The per-tier overrides below (member/creator/crisis) are unchanged and always win.
+const MAX_TOKENS_ARRON = tokenEnv("MAX_TOKENS_ARRON", 1000);
 const TOKENS = {
-  guest: tokenEnv("ARRON_TOKENS_GUEST", 1000),
+  guest: tokenEnv("ARRON_TOKENS_GUEST", MAX_TOKENS_ARRON),
   guestCreative: tokenEnv("ARRON_TOKENS_GUEST_CREATIVE", 1400),
   member: tokenEnv("ARRON_TOKENS_MEMBER", 1400),
   creator: tokenEnv("ARRON_TOKENS_CREATOR", 2000),
