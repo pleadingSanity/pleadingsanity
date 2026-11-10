@@ -97,7 +97,7 @@ const MAX_JOURNAL_TEXT = 2000;
 // One shared list for the house: ../lib/crisis-phrases.js (normalises curly apostrophes first).
 const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 const SIGNPOST = "You're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html. I'm an AI companion, not a therapist or emergency service.";
-const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
+const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. International helplines: https://findahelpline.com/. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
 
 // Does this reply already carry the real numbers? (Needs both 116 123 and 999.)
 const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
@@ -340,7 +340,7 @@ async function runActions(message: string, history: { role: string; content: str
     } else {
       let accepted = false;
       try {
-        const res = await fetch(hook, { method: "POST" });
+        const res = await fetch(hook, { method: "POST", signal: AbortSignal.timeout(5000) });
         accepted = res.ok;
       } catch (error) {
         console.error("Arron deploy hook unreachable:", reason(error));
