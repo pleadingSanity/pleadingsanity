@@ -2,7 +2,7 @@
    Shard 3 (Solar + AI Office + Shop + Support-us) additive polish.
    Loaded LAST on: insane-solar.html, solar-ai-office.html, shop.html, support-us.html.
    Evolution Not Erasure — append/override only. Never removes a working hook/class.
-   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black. No violet-family hues.
+   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black. Forbidden hues excluded.
    ========================================================================== */
 
 :root{
@@ -45,7 +45,7 @@
   border-color: rgba(255,107,107,.5);
 }
 
-/* ---------- Focus-visible: consistent amber/teal rings, no violet-family ---------- */
+/* ---------- Focus-visible: consistent amber/teal rings, forbidden hues excluded ---------- */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,

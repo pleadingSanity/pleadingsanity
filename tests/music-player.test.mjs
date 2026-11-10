@@ -14,12 +14,13 @@ const ORIGINAL_IDS = [
   'DjdB4Bm4n2M', '3pysm_JU_wA', '0slhR2obZSE', 'rT1fqRkFiqY', 'b8M6N0FTpNc'
 ];
 
-test('music-playlists.json has the exact four fields, URLs empty by default', () => {
-  assert.deepEqual(Object.keys(cfg).sort(), ['amazon_music_url', 'label', 'sonos_url', 'youtube_url']);
+test('music-playlists.json has the expected fields, platform URLs empty by default, Shane playlists array present', () => {
+  assert.deepEqual(Object.keys(cfg).sort(), ['amazon_music_url', 'label', 'shane_playlists', 'sonos_url', 'youtube_url']);
   assert.equal(typeof cfg.label, 'string');
   assert.equal(cfg.youtube_url, '');
   assert.equal(cfg.sonos_url, '');
   assert.equal(cfg.amazon_music_url, '');
+  assert.ok(Array.isArray(cfg.shane_playlists), 'shane_playlists must be an array');
 });
 
 test('Evolution Not Erasure: all five original songs retained, none deleted', () => {
@@ -48,10 +49,12 @@ test('Shane playlist slots render from config with privacy-enhanced YouTube embe
   assert.match(js, /youtube_url/);
   assert.match(js, /sonos_url/);
   assert.match(js, /amazon_music_url/);
-  assert.match(js, /'Play on ' \+ plat\.name/);
+  assert.match(js, /Play on YouTube/);
+  assert.match(js, /Open in Sonos app/);
+  assert.match(js, /Open in Amazon Music/);
   assert.match(js, /coming soon/);
   assert.match(js, /target = '_blank'/);
-  assert.match(js, /rel = 'noopener'/);
+  assert.match(js, /rel = 'noopener/);
 });
 
 test('no purple / violet / indigo colours and no external trackers in the player', () => {
