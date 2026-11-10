@@ -22,8 +22,34 @@ const json = (body: unknown, status = 200) =>
 
 const REGISTER = "https://register.fca.org.uk/s/";
 
+// The provider feed URL comes from environment config, not the user — but a
+// misconfigured (or compromised) env value must never be able to reach a
+// private host. Same guard as the Arron url_fetch tool (#302): https only,
+// no localhost/private/link-local, no credentials in the URL.
+function feedUrlAllowed(raw: string): boolean {
+  let u: URL;
+  try { u = new URL(raw); } catch { return false; }
+  if (u.protocol !== "https:" || u.username || u.password) return false;
+  const host = u.hostname.toLowerCase().replace(/\.$/, "");
+  if (!host || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return false;
+  if (host === "metadata.google.internal") return false;
+  if (/^\d+$/.test(host) || /^0x[0-9a-f.]+$/i.test(host)) return false;
+  const parts = host.split(".");
+  if (parts.length <= 4 && parts.every((p) => /^\d{1,3}$/.test(p))) {
+    const a = Number(parts[0]);
+    const b = Number(parts[1] ?? 0);
+    if (a === 0 || a === 10 || a === 127 || a >= 224) return false;
+    if (a === 169 && b === 254) return false;
+    if (a === 172 && b >= 16 && b <= 31) return false;
+    if (a === 192 && b === 168) return false;
+    if (a === 100 && b >= 64 && b <= 127) return false;
+  }
+  if (!host.includes(".")) return false;
+  return true;
+}
+
 async function getJSON(url: string, headers: Record<string, string> = {}) {
-  const res = await fetch(url, { headers: { accept: "application/json", ...headers }, signal: AbortSignal.timeout(8000) });
+  const res = await fetch(url, { headers: { accept: "application/json", ...headers }, signal: AbortSignal.timeout(8000), redirect: "follow" });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   return res.json();
 }
@@ -64,6 +90,10 @@ export default async (req: Request, context: Context) => {
   const feed = Netlify.env.get("FINANCE_PROVIDER_FEED_URL");
   if (!feed) {
     return json({ connected: false, providers: [], message: "Live provider data not connected.", reviews: { connected: false, message: "Review feed not connected." } });
+  }
+  if (!feedUrlAllowed(feed)) {
+    console.warn("finance-providers: FINANCE_PROVIDER_FEED_URL points at a non-public host and was blocked.");
+    return json({ connected: false, providers: [], message: "Live provider data not connected. The feed address is not a public https URL.", reviews: { connected: false, message: "Review feed not connected." } });
   }
   try {
     const data: any = await getJSON(feed);
