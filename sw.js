@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.63'; // v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
-const STATIC_CACHE = 'pleading-sanity-static-v115'; // v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
+const VERSION = '5.12.64'; // v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
+const STATIC_CACHE = 'pleading-sanity-static-v116'; // v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
 
@@ -180,6 +180,7 @@ const PRECACHE_URLS = [
     '/js/ps-splash.js',
     '/assets/images/brand/crying-brain-logo-clear-256.webp',
     '/assets/images/brand/crying-brain-logo-clear-512.webp',
+    '/js/crisis-phrases.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',

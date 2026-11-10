@@ -112,6 +112,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
 </style>
 <link rel="stylesheet" href="/css/ui-polish.css">
+<link rel="stylesheet" href="/css/tap-targets.css">
 <link rel="webmention" href="https://webmention.io/pleadingsanity.co.uk/webmention">
 <link rel="pingback" href="https://webmention.io/pleadingsanity.co.uk/xmlrpc">
 </head>
@@ -146,7 +147,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
  <div class="aa-notice" id="aa-install-banner" hidden>
  <p id="aa-install-text"> <strong>Make Arron part of your world.</strong> Add him to your Home Screen so he's one tap away, even offline.</p>
  <button type="button" class="aa-btn solid" id="aa-install-go" hidden>Add Arron</button>
- <button type="button" class="aa-icon-btn" id="aa-install-close" aria-label="Not now"></button>
+ <button type="button" class="aa-icon-btn" id="aa-install-close" aria-label="Not now"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="2.25" stroke-linecap="round" aria-hidden="true" focusable="false"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
  </div>
  <div class="aa-notice magenta" id="aa-aware" role="status" aria-live="polite" hidden>
  <p id="aa-aware-text"></p>
@@ -431,6 +432,7 @@ input[aria-busy="true"], textarea[aria-busy="true"] { opacity: .6; }
 
  <noscript><p style="position: relative; z-index: 2; padding: 1rem;">Arron needs JavaScript to talk. The house truth is on the truth page, and the life tools are written down.</p></noscript>
 
+ <script src="/js/crisis-phrases.js" defer></script>
  <script src="/js/arron-core.js" defer></script>
 <script>
 (function(){

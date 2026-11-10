@@ -25,8 +25,8 @@ const DAILY_LIMIT = 6;
 const PAGE = 24;
 
 // The house look: every picture belongs to the same cosmic family.
-const BRAND_STYLE = `Art direction (always): Pleading Sanity brand — deep space background (#000103 to #0d1b2a),
-glowing cosmic cyan (#00fff0) neon light with soft violet-magenta accents, gentle starlight and nebula dust,
+const BRAND_STYLE = `Art direction (always): Pleading Sanity brand — deep space background (#0b0f19 to #0d1b2a),
+glowing cosmic cyan (#00fff0) neon light with soft amber and silver accents, gentle starlight and nebula dust,
 warm, hopeful, healing mood. Clean composition, high detail, soft glow. The brand symbol is a luminous silver
 brain with cyan outlines and glowing tear-drops — include it only if it suits the request.
 Never include text, logos, watermarks, gore, weapons, self-harm, or anything frightening.`;

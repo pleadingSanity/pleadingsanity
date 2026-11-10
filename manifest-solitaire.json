@@ -6,7 +6,7 @@
   "start_url": "/sanity-solitaire.html?source=pwa",
   "scope": "/sanity-solitaire.html",
   "display": "standalone",
-  "background_color": "#000103",
+  "background_color": "#0b0f19",
   "theme_color": "#00fff0",
   "icons": [
     {

@@ -76,8 +76,9 @@
  };
  const HEAVY = ['low', 'lonely', 'anxious', 'angry'];
 
- // Same phrases the server checks (arron.mts CRISIS_WORDS), so the offline reply still carries the numbers.
- const CRISIS_WORDS = /suicid|kill(ing)? my ?self|end (it all|my life)|take my (own )?life|want(ed)? to die|wanna die|wish i (was|were) dead|don'?t want to (be here|live|wake up|exist)|can'?t (go on|do this any ?more)|self[- ]?harm|hurt(ing)? my ?self|cut(ting)? my ?self|overdos|no reason to live|no point (in )?(living|going on)|better off without me/i;
+ // Same phrases the server checks: one shared list in /js/crisis-phrases.js (generated from netlify/lib/crisis-phrases.js),
+ // loaded just before this file, so the offline reply still carries the numbers. Curly apostrophes are normalised first.
+ const CRISIS_WORDS = window.PSCrisis || { test: function () { console.warn('Arron: /js/crisis-phrases.js did not load; crisis phrases unavailable'); return false; } };
  const MOOD_WORDS = [
  ['anxious', /anxi|panic|overwhelm|stress|worr|nervous|scared|afraid|racing|on edge|freaking out/i],
  ['lonely', /alone|lonely|lonel|no one|nobody|isolat|left out|no friends/i],

@@ -9,6 +9,7 @@ import { admin, getUser } from "@netlify/identity";
 import { and, eq, inArray, or, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { activityLog, blocks, friends, memberRoles, profiles, siteSettings, users } from "../../db/schema.js";
+import { looksLikeCrisis } from "./crisis-phrases.js";
 
 export const anthropic = new Anthropic();
 export const WRITER_MODEL = "claude-sonnet-5";
@@ -268,22 +269,9 @@ export async function logActivity(
 // ─── SAFETY ───
 // Keyword net for self-harm / suicide. Deliberately broad: a false positive
 // only adds a support strip, a false negative could leave someone alone.
-const CRISIS_PATTERNS = [
-  /\bsuicid/i,
-  /\bkill(ing)?\s+my\s*self\b/i,
-  /\bend(ing)?\s+(it\s+all|my\s+life|things)\b/i,
-  /\bwant(ed)?\s+to\s+die\b/i,
-  /\bdon'?t\s+want\s+to\s+(live|be\s+here|wake\s+up)\b/i,
-  /\bself[\s-]?harm/i,
-  /\bcut(ting)?\s+my\s*self\b/i,
-  /\bhurt(ing)?\s+my\s*self\b/i,
-  /\boverdos/i,
-  /\bno\s+reason\s+to\s+live\b/i,
-  /\bbetter\s+off\s+(dead|without\s+me)\b/i,
-  /\btake\s+my\s+(own\s+)?life\b/i,
-];
-
-export const mentionsCrisis = (text: string) => CRISIS_PATTERNS.some((re) => re.test(text));
+// The phrases live in ./crisis-phrases.js, shared with Arron and Solar (union of every old list,
+// curly apostrophes normalised). This list used to be its own copy here.
+export const mentionsCrisis = (text: string) => looksLikeCrisis(text);
 
 // Heavier topics that deserve a click-to-reveal content warning.
 const HEAVY_PATTERNS = [/\babuse[ds]?\b/i, /\bassault/i, /\brape[ds]?\b/i, /\beating\s+disorder/i, /\bpsychosis\b/i, /\btrauma\b/i];

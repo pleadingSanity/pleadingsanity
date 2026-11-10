@@ -38,6 +38,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: debricked/actions@v4
+      - name: Check Debricked token
+        id: check
+        run: |
+          if [ -n "${{ secrets.DEBRICKED_TOKEN }}" ]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Debricked scan skipped — DEBRICKED_TOKEN not set (not disabled). This public repo is eligible for Debricked's free open-source tier. To enable: register at https://debricked.com, generate an access token, add repository secret DEBRICKED_TOKEN. The scan runs automatically once configured."
+          fi
+      - name: Debricked scan
+        if: steps.check.outputs.configured == 'true'
+        uses: debricked/actions@v4
         env:
           DEBRICKED_TOKEN: ${{ secrets.DEBRICKED_TOKEN }}
