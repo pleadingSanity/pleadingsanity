@@ -1,14 +1,42 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { stripTypeScriptTypes } from "node:module";
 
 // Shard 1 (functions+arron) regression tests — full-power audit 2026-11-10.
 // Covers: probe endpoint lockdown, credential sanitization, finance feed SSRF guard,
 // crisis signpost completeness, tappable crisis numbers on Arron pages.
+// Behavioral tests extract the pure helpers from source and eval them, so the
+// heavy Netlify/DB imports in the function files are never loaded.
 
 const probeSrc = readFileSync(new URL("../netlify/functions/arron-health.mts", import.meta.url), "utf8");
 const financeSrc = readFileSync(new URL("../netlify/functions/finance-providers.mts", import.meta.url), "utf8");
 const arronSrc = readFileSync(new URL("../netlify/functions/arron.mts", import.meta.url), "utf8");
+
+// Extract a top-level function/const block from TS source, strip types, return it as JS.
+function extractBlock(src, startRe) {
+  const m = startRe.exec(src);
+  if (!m) throw new Error("marker not found");
+  let i = m.index;
+  // find the opening brace or the end of a const arrow one-liner
+  const braceStart = src.indexOf("{", i);
+  const semi = src.indexOf(";", i);
+  if (braceStart === -1 || (semi !== -1 && semi < braceStart)) {
+    // one-liner const arrow: take to the semicolon
+    return stripTypeScriptTypes(src.slice(i, semi + 1)).replace(/^export\s+/, "");
+  }
+  let depth = 0;
+  let j = braceStart;
+  for (; j < src.length; j++) {
+    if (src[j] === "{") depth++;
+    else if (src[j] === "}") { depth--; if (depth === 0) { j++; break; } }
+  }
+  return stripTypeScriptTypes(src.slice(i, j)).replace(/^export\s+/, "");
+}
+
+function evalFn(block, name) {
+  return new Function(`${block}; return ${name};`)();
+}
 
 test("probe guard: PS_PROBE_TOKEN + AI rate limit + 403 on mismatch, probe=0 stays public", () => {
   assert.match(probeSrc, /PS_PROBE_TOKEN/, "PS_PROBE_TOKEN env is checked");
@@ -23,8 +51,10 @@ test("probe guard: invalid probe level returns 400, valid levels 0/1/2 accepted"
   assert.match(probeSrc, /probeLevel !== "0" && probeLevel !== "1" && probeLevel !== "2"/, "level whitelist");
 });
 
-test("sanitizeProbeError strips credential-looking strings", async () => {
-  const { sanitizeProbeError } = await import("../netlify/functions/arron-health.mts");
+test("sanitizeProbeError strips credential-looking strings", () => {
+  const tokenishBlock = stripTypeScriptTypes(probeSrc.match(/const TOKENISH[^;]*;/)[0]);
+  const sanitizeBlock = stripTypeScriptTypes(probeSrc.match(/export const sanitizeProbeError[^;]*;/)[0]).replace(/^export\s+/, "");
+  const sanitizeProbeError = evalFn(`${tokenishBlock}\n${sanitizeBlock}`, "sanitizeProbeError");
   assert.equal(sanitizeProbeError("err sk-abcdefghijklmnopqrstuvwx here"), "err [redacted] here");
   assert.equal(sanitizeProbeError("nfp_abcdefghijklmnopqrstuvwx"), "[redacted]");
   assert.equal(sanitizeProbeError("token ghp_abcdefghijklmnopqrstuvwx expired"), "token [redacted] expired");
@@ -33,8 +63,9 @@ test("sanitizeProbeError strips credential-looking strings", async () => {
   assert.equal(sanitizeProbeError("normal error: HTTP 429 Too Many Requests"), "normal error: HTTP 429 Too Many Requests");
 });
 
-test("finance feedUrlAllowed: public https allowed, private/localhost/credentialed blocked", async () => {
-  const { feedUrlAllowed } = await import("../netlify/functions/finance-providers.mts");
+test("finance feedUrlAllowed: public https allowed, private/localhost/credentialed blocked", () => {
+  const block = extractBlock(financeSrc, /export function feedUrlAllowed/);
+  const feedUrlAllowed = evalFn(block, "feedUrlAllowed");
   assert.equal(feedUrlAllowed("https://providers.example.com/feed.json"), true, "public https allowed");
   assert.equal(feedUrlAllowed("http://providers.example.com/feed.json"), false, "http blocked");
   assert.equal(feedUrlAllowed("https://localhost/feed.json"), false, "localhost blocked");
