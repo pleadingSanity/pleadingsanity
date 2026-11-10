@@ -1720,7 +1720,8 @@ const CATEGORIES = [
     current = i;
     var p = photos[i];
     if(!p) return;
-    lbImg.src = p.src;
+    lbImg.onerror = function(){ this.onerror = null; this.src = p.src; };
+    lbImg.src = p.src.replace(/\.jpg$/i, ".webp");
     lbImg.alt = p.caption;
     lbImg.style.display = "inline-block";
     lbCaption.textContent = p.caption;
@@ -1744,6 +1745,10 @@ const CATEGORIES = [
       btn.type = "button";
       btn.setAttribute("aria-label", p.caption);
       btn.style.cssText = "position:relative; overflow:hidden; border-radius:.7rem; border:none; padding:0; cursor:pointer; background:#1c2430; aspect-ratio:1/1; display:block; width:100%;";
+      var pic = document.createElement("picture");
+      var srcWebp = document.createElement("source");
+      srcWebp.type = "image/webp";
+      srcWebp.srcset = p.src.replace(/\.jpg$/i, ".webp");
       var img = document.createElement("img");
       img.src = p.src;
       img.alt = p.caption;
@@ -1752,7 +1757,10 @@ const CATEGORIES = [
       img.onerror = function(){ this.parentElement.style.display = "none"; };
       img.addEventListener("mouseenter", function(){ img.style.transform = "scale(1.08)"; });
       img.addEventListener("mouseleave", function(){ img.style.transform = "scale(1)"; });
-      btn.appendChild(img);
+      pic.appendChild(srcWebp);
+      pic.appendChild(img);
+      pic.style.cssText = "display:block; width:100%; height:100%;";
+      btn.appendChild(pic);
       btn.addEventListener("click", function(){ openLightbox(i); });
       frag.appendChild(btn);
     });

@@ -171,7 +171,17 @@
  img.src = '/assets/images/brand/crying-brain-logo-clear-256.webp';
  img.classList.add('hub-image-fallback');
  });
+ if (/\/assets\/images\/showcase\/.*\.jpg$/i.test(app.img)) {
+ var pic = document.createElement('picture');
+ var srcWebp = document.createElement('source');
+ srcWebp.type = 'image/webp';
+ srcWebp.srcset = app.img.replace(/\.jpg$/i, '.webp');
+ pic.appendChild(srcWebp);
+ pic.appendChild(img);
+ a.appendChild(pic);
+ } else {
  a.appendChild(img);
+ }
  var t = el('span', 'hub-text');
  t.appendChild(el('strong', null, app.name));
  t.appendChild(el('span', 'hub-blurb', app.blurb));

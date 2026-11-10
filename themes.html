@@ -39,7 +39,7 @@ fetch('/images/themes/dola-2026/manifest.json').then(r=>r.json()).then(m=>{
   m.themes.forEach(t=>{
     const a=document.createElement('article');
     a.className='card';
-    a.innerHTML='<img src="/images/themes/dola-2026/'+t.file+'" alt=""><div><h2>'+t.bestFor+'</h2><small>'+t.file+'</small></div>';
+    a.innerHTML='<picture><source type="image/webp" srcset="/images/themes/dola-2026/'+t.file.replace(/\.(png|jpg)$/i,".webp")+'"><img src="/images/themes/dola-2026/'+t.file+'" alt="" loading="lazy" decoding="async"></picture><div><h2>'+t.bestFor+'</h2><small>'+t.file+'</small></div>';
     g.appendChild(a);
   });
 });
