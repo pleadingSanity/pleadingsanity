@@ -1142,3 +1142,45 @@ docs/grok-sync-20261109
 ### LEFT OPEN: #185 orphan (Shane closes), #258 codeql-action Dependabot (PAT lacks workflow scope — Shane merges in UI or rotates PAT with workflow scope).
 ### Blocked notes: ghp_uADq token invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
 ### Rollback: reverse merge order with git revert -m 1.
+
+## 2026-11-10 — Dola final straggler sweep (branch dola/final-sweep-20261111, rebased onto main 6b09dd7)
+**Scope claimed:** static HTML/SEO/performance/nav stragglers + Arron backend audit + APIsec/Debricked verdict. No creative/visual design (Grok owns brand audit). No auth/payments/journal encryption/provider ordering touched.
+**Rebase:** clean onto 6b09dd7 (PR #299 sitemap-only, no conflict). No other AIs pushed during this window.
+
+### Files changed (8)
+- `creator.html`: added missing `og:image` + `twitter:title`/`twitter:description`/`twitter:image` (had og:title/desc/url + twitter:card only).
+- `docs/deployment-status.html`: `og:image` relative → absolute `https://pleadingsanity.co.uk/assets/crying-brain-og.png`; added full `twitter:card`/`twitter:title`/`twitter:description`/`twitter:image` set.
+- `cosmic-reflections.html`, `get-the-app.html`, `kids.html`: removed `loading="lazy"` from above-fold hero images. get-the-app hero had `fetchpriority="high"` + `loading="lazy"` contradiction.
+- `login.html`, `signup.html`, `reset-password.html`: nav links aligned to site convention — `Support` → `/about.html#support` (66 pages use this; NOT /support-us.html which is donations), `Transparency` → `/about.html#transparency` (55 pages), restored `Kids Cartoon Series` → `/kids.html#kids-series` (49 pages; was briefly removed, then restored). Original `/support.html`/`/transparency.html`/`/kids-series.html` all 301-redirect in `_redirects`, so were never 404 — direct links just skip the redirect.
+
+### Arron backend audit (netlify/functions/arron.mts, 807 lines) — NO CHANGES (already hardened)
+- Provider fallback chain GPT→Claude→Gemini→Grok→OpenRouter spares→local canned: each try/catch wrapped, `ALL_QUIET_REPLY` on total failure, never raw 500. Ordering UNCHANGED.
+- Permission gates: deploy/setRole/approveAll/overview gated by `user.isOwner` (lines 318/356/362/367). Rate limit `allow("chat")` line 466. Memory isolation: guests cannot read account-owned memory (`resolveMemory`).
+- `MAX_TOKENS_ARRON` read path correct: `tokenEnv("MAX_TOKENS_ARRON", 1000)` with per-tier overrides — left as-is.
+- Crisis signpost always present (999, 116 123, SHOUT 85258, NHS 111 opt 2, Childline 0800 1111, NDA 0808 2000 247); `hasLifelines` guard prevents duplicate. Links to `/support.html` resolve via 301 → `/about.html#support`.
+- Graceful degradation: `supabaseEnabled`/`openaiToolsEnabled` optional, silent fallback. Empty xAI/GROK/GEMINI/SUPABASE keys handled.
+
+### APIsec + Debricked FAIL verdict (confirmed with GPT) — scanner config, NOT vulnerabilities. Shane-action.
+- `.github/workflows/apisec-scan.yml`: unmodified GitHub starter template — `apisec-project: "VAmPI"` (APIsec's default DEMO project, not this repo's API), requires `secrets.apisec_username` + `secrets.apisec_password` which are absent. Fails at auth.
+- `.github/workflows/debricked.yml`: requires `secrets.DEBRICKED_TOKEN`; absent → Unauthorized.
+- Issue #232 comments (2026-11-10 19:50 UTC): "APIsec and Debricked scans still FAIL due to previously verified missing/misconfigured scanner credentials; do not silence" + "no evidence of vulnerabilities from these failures." CodeQL + Defender PASS.
+- **Shane:** either configure `apisec_username`/`apisec_password` + set correct `apisec-project`, and add `DEBRICKED_TOKEN` — or disable/remove these two workflows until configured. Do NOT silence. Gemini owns scanner-integration diagnostics per council assignment.
+
+### Tests run + results
+- `node scripts/validate-build.cjs` → exit 0 (arron-knowledge.json validated, build safety passed).
+- `node --test scripts/test-markup-safety.mjs` → 1 pass / 0 fail.
+- `npm test` (full suite, 212 tests) → 199 pass / 13 fail. **All 13 failures pre-existing on origin/main 6b09dd7** (verified via git worktree): 1 solar-assistant + 12 radio/playlist tests (stale tests expecting empty playlist slots before PR #297 wired Shane's real playlists). My changes introduce 0 new failures.
+- Grep diff vs origin/main: 0 purple/violet/indigo/lavender/magenta, 0 secret literals (sk-/nfp_/ghp_/eyJ — only `sk-manufacturer` CSS class), 0 we-fit-solar, 0 class=class=. 0 broken internal links (after redirect-aware recheck). 0 unlabeled inputs. 0 missing asset refs (404).
+
+### Items deliberately left (with reason)
+- Glued words: 3× `</span>LIVE` in aura-hz.html — `.live-dot` has `margin-right:6px` (CSS-separated, same class as radio `::before` separator exception). arron-app.html `</b>X` are empty `<b aria-hidden="true">` styling hooks. No real glued words.
+- Image dims: 6 missing — all dynamic/hidden/JS-template (lightbox `src=""`, `display:none` previews, solitaire card art `src="${art}"`, themes JS template). No CLS impact.
+- Support strip: present on index/about/sanctuary/music/radio/support-us; 3 class-name variants (`ps-donate-strip`/`ps-support-strip`/`radio-support-strip`) but content/structure consistent and all link to `/support-us.html` + `/shop.html`. Renaming would require CSS churn — leave.
+- Contrast: `color:#475569` footer copyright on 73 pages (~3.3:1, decorative 0.75rem boilerplate). Site-wide change needs Shane approval — not light-touch.
+- we-fit-solar: 5 occurrences in `DOLA_MEMORY.md` + `AI_HANDOFF.md` — internal handoff docs quoting the rule itself ("never say we fit solar"), not site copy. 0 in rendered site.
+- Mobile-first visual audit (council-assigned Dola scope): deferred — Grok joining as creative/visual reviewer; this sweep focused on deterministic stragglers. Recommend browser-screenshot pass as separate focused PR.
+
+### Blockers / needs Shane
+1. APIsec + Debricked tokens/creds (or disable workflows).
+2. `MAX_TOKENS_ARRON` site-level override still =1000 (account-level 1600) — Netlify Site settings → Environment variables (from #272, still open).
+3. 13 pre-existing radio/playlist test failures — stale tests vs PR #297 real playlists; needs test update (Claude/Copilot radio scope).
