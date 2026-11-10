@@ -62,6 +62,40 @@
     }
     return -1;
   }
+  // ---- no-repeat + shuffle (2026-11 god-mode) ----
+  // Played history persists under localStorage keys prefixed "ps_music_played_":
+  //   ps_music_played_round      -> current round number
+  //   ps_music_played_<videoId>  -> round in which that track last played
+  // A track will not be picked again until every other playable (non-disliked)
+  // track has played in the current round; the round then rolls over. Disliked
+  // tracks are excluded from the pool and skipped as before.
+  var K_ROUND = 'ps_music_played_round';
+  function playedKey(id) { return 'ps_music_played_' + id; }
+  var currentRound = parseInt(readStore(K_ROUND, '1'), 10) || 1;
+  if (currentRound < 1) currentRound = 1;
+  function playableIds() {
+    var out = [];
+    for (var i = 0; i < PLAYLIST.length; i++) if (!isDisliked(PLAYLIST[i].id)) out.push(PLAYLIST[i].id);
+    return out;
+  }
+  function isPlayedThisRound(id) { return readStore(playedKey(id), '') === String(currentRound); }
+  function markPlayed(id) { writeStore(playedKey(id), String(currentRound)); }
+  function newRound() { currentRound += 1; writeStore(K_ROUND, String(currentRound)); }
+  var lastLoadedId = null; // id we explicitly cued, to avoid fighting YouTube auto-advance
+  // Pick a shuffled next track that has not played this round. Never returns excludeId.
+  // Returns null when there is no other playable track (e.g. only one song not disliked).
+  function pickNextShuffle(excludeId) {
+    var pool = playableIds();
+    if (pool.length <= 1) return pool.length === 1 && pool[0] !== excludeId ? pool[0] : null;
+    var candidates = pool.filter(function (id) { return id !== excludeId && !isPlayedThisRound(id); });
+    if (!candidates.length) { newRound(); candidates = pool.filter(function (id) { return id !== excludeId; }); }
+    if (!candidates.length) return null;
+    return candidates[Math.floor(Math.random() * candidates.length)];
+  }
+  function cueTrack(id) {
+    lastLoadedId = id;
+    postCmd('loadVideoById', [id]);
+  }
   var state = {
     index: parseInt(readStore(K_INDEX, '0'), 10) || 0,
     muted: readStore(K_MUTED, '1') === '1', // default muted until first gesture
@@ -103,6 +137,7 @@
   function loadPlayer() {
     if (iframe.parentNode) return false;
     iframe.src = buildSrc(PLAYLIST[state.index].id, state.muted);
+    lastLoadedId = PLAYLIST[state.index].id; // first cued track is accepted, not auto-skipped
     document.body.appendChild(iframe);
     return true;
   }
@@ -367,7 +402,7 @@
         '<ul class="ps-mp-votelist"></ul>' +
         '<p class="ps-mp-drawer-title ps-mp-slots-title">More playlists</p>' +
         '<div class="ps-mp-slots"></div>' +
-        '<p class="ps-mp-drawer-note">Votes are saved on this device only. A disliked song is skipped in the loop. External playlists open in a new tab.</p>';
+        '<p class="ps-mp-drawer-note">Votes saved on this device only. A disliked song is skipped. Shuffle on: a song will not repeat until every other song has played. External playlists open in a new tab.</p>';
     }
     renderVotes();
     renderSlots();
@@ -401,13 +436,14 @@
           writeStore(K_INDEX, idx);
           renderTrack();
         }
-        // ---- vote skip: a disliked song must not repeat ----
+        // ---- vote skip: a disliked song must not play; shuffle to an unplayed one ----
         if (isDisliked(vid)) {
           if (state.skipFor !== vid) {
             state.skipFor = vid;
             if (state.skipGuard < PLAYLIST.length) {
               state.skipGuard++;
-              postCmd('nextVideo', []);
+              var nxt = pickNextShuffle(vid);
+              if (nxt) cueTrack(nxt); else postCmd('nextVideo', []);
             } else {
               // Everything is disliked: stop instead of looping forever.
               postCmd('pauseVideo', []);
@@ -418,13 +454,29 @@
         } else {
           state.skipFor = null;
           state.skipGuard = 0;
+          var alreadyPlayed = isPlayedThisRound(vid);
+          if (vid !== lastLoadedId && alreadyPlayed) {
+            // YouTube's own playlist auto-advance landed on an already-played track
+            // while unplayed ones remain — shuffle past it (no-repeat).
+            var alt = pickNextShuffle(vid);
+            if (alt) { cueTrack(alt); } else { markPlayed(vid); lastLoadedId = null; }
+          } else {
+            markPlayed(vid); // counts as played this round — no repeat until others have played
+            lastLoadedId = null; // accepted track (ours, or a fresh unplayed one)
+          }
         }
       }
       if (typeof data.info.playerState === 'number') {
         var s = data.info.playerState;
         if (s === 1) { state.playing = true; renderPlayIcon(); }
         else if (s === 2) { state.playing = false; renderPlayIcon(); }
-        // s === 0 (ended): playlist auto-advances; infoDelivery will report new video
+        else if (s === 0 && state.playing) {
+          // Track ended: shuffle to an unplayed track (no-repeat). If every other
+          // track has played, the round rolls over automatically in pickNextShuffle.
+          var curId = PLAYLIST[state.index] ? PLAYLIST[state.index].id : null;
+          var after = pickNextShuffle(curId);
+          if (after) cueTrack(after);
+        }
       }
     } else if (data.event === 'onReady' || (data.event === 'infoDelivery' && !state.iframeReady)) {
       state.iframeReady = true;
@@ -450,19 +502,27 @@
     var pp = findPlayable(state.index, -1);
     if (pp >= 0) state.index = pp;
     writeStore(K_INDEX, state.index);
+    lastLoadedId = PLAYLIST[state.index].id; // explicit prev: allow repeat, do not auto-skip
     loadPlayer();
     state.playing = true; renderPlayIcon(); renderTrack();
   });
   elNext.addEventListener('click', function (e) {
     stopProp(e);
     state.unlocked = true; removeGestureListeners();
-    if (iframe.parentNode) postCmd('nextVideo', []);
-    state.index = (state.index + 1) % PLAYLIST.length;
-    var pn = findPlayable(state.index, 1);
-    if (pn >= 0) state.index = pn;
-    writeStore(K_INDEX, state.index);
-    loadPlayer();
-    state.playing = true; renderPlayIcon(); renderTrack();
+    var cur = PLAYLIST[state.index] ? PLAYLIST[state.index].id : null;
+    var nxt = pickNextShuffle(cur);
+    if (nxt && iframe.parentNode) {
+      cueTrack(nxt);
+      var ni = idToIndex(nxt);
+      if (ni >= 0) { state.index = ni; writeStore(K_INDEX, ni); renderTrack(); }
+    } else if (nxt) {
+      var ni2 = idToIndex(nxt);
+      if (ni2 >= 0) { state.index = ni2; writeStore(K_INDEX, ni2); }
+      loadPlayer();
+    } else {
+      if (iframe.parentNode) postCmd('nextVideo', []); else loadPlayer();
+    }
+    state.playing = true; renderPlayIcon();
   });
   elList.addEventListener('click', function (e) { stopProp(e); toggleDrawer(); });
   elMute.addEventListener('click', function (e) {

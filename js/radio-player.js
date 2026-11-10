@@ -180,5 +180,56 @@
     }).catch(function () { label('radio-status', 'Track list unavailable. Please try again later.'); });
     document.addEventListener('visibilitychange', function () { if (document.hidden) clearFade(); });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+  // ---------- live station engine (station cards, #station-audio, #station-stop) ----------
+  // Evolution Not Erasure: same engine as the former inline script, extended to the
+  // card grid. Audio element and Stop button contract preserved exactly.
+  function initStations() {
+    var audio = document.getElementById('station-audio');
+    var status = document.getElementById('station-status');
+    var stopBtn = document.getElementById('station-stop');
+    if (!audio || !status) return;
+    function clearActive() {
+      var btns = document.querySelectorAll('.station-play');
+      for (var i = 0; i < btns.length; i++) btns[i].classList.remove('is-active');
+    }
+    var btns = document.querySelectorAll('.station-play[data-src]');
+    for (var i = 0; i < btns.length; i++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          var src = btn.getAttribute('data-src');
+          var name = btn.getAttribute('data-name');
+          var q = btn.getAttribute('data-q') || '';
+          clearActive();
+          btn.classList.add('is-active');
+          if (audio.src !== src) audio.src = src;
+          var playPromise = audio.play();
+          if (playPromise && typeof playPromise.then === 'function') {
+            playPromise.then(function () {
+              status.textContent = 'Playing ' + name + (q ? ' · ' + q + ' kbps' : '') + '. Live broadcast — the station chooses what plays next. Sound follows your speakers, headphones, or Bluetooth.';
+              if ('mediaSession' in navigator) {
+                try { navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio · live' }); } catch (e) {}
+              }
+            }).catch(function () {
+              status.textContent = 'Could not start ' + name + '. Try another station.';
+              btn.classList.remove('is-active');
+            });
+          }
+        });
+      })(btns[i]);
+    }
+    if (stopBtn) {
+      stopBtn.addEventListener('click', function () {
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
+        clearActive();
+        status.textContent = 'Station stopped.';
+      });
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { init(); initStations(); });
+  } else {
+    init(); initStations();
+  }
 })();
