@@ -1,0 +1,186 @@
+/* ==========================================================================
+   Shard: Radio + Music + Live + Creator/Social/Feed additive polish.
+   Loaded LAST on those pages only. Append/override only — nothing is removed.
+   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black.
+   No purple / violet / indigo / lavender. Evolution, not erasure.
+   ========================================================================== */
+
+/* ---- 1. Empty playlist slots render honest dashed hints (mission rule 6).
+   Previous shards hid them from visitors; we surface them as intentional
+   "coming soon" placeholders so nothing is invented and nothing looks broken. */
+#radio-playlist-list .playlist-slot-empty,
+#radio-playlist-list .playlist-curated,
+#music-slots .playlist-slot-empty {
+  display: flex !important;
+}
+#radio-playlist-list .playlist-curated {
+  display: block !important;
+}
+#music-slots {
+  display: block !important;
+}
+.playlist-slot-empty {
+  border-color: rgba(251, 191, 36, .35) !important;
+  color: #cbd5e1 !important;
+  background: rgba(251, 191, 36, .05) !important;
+  font-size: .82rem !important;
+}
+.playlist-slot-empty::before {
+  content: "Coming soon";
+  flex: 0 0 auto;
+  display: inline-block;
+  margin-right: .5rem;
+  padding: .1rem .5rem;
+  border-radius: 999px;
+  background: rgba(251, 191, 36, .16);
+  color: #fbbf24;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* ---- 2. Now-playing polish + smooth cross-fade on track switch. */
+.radio-card.is-switching {
+  opacity: .55;
+  transition: opacity .26s ease;
+}
+.radio-card {
+  transition: opacity .26s ease, box-shadow .3s ease, border-color .3s ease;
+}
+.radio-title {
+  transition: color .2s ease;
+}
+#radio-upnext button:hover,
+#radio-upnext button:focus-visible {
+  background: rgba(45, 212, 191, .08) !important;
+  border-left: 3px solid #2dd4bf;
+  padding-left: calc(.5rem - 3px);
+}
+#radio-upnext button:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* ---- 3. Station cards: hover lift + warm glow (additive, glow sheet leads). */
+.station-card {
+  transition: transform .2s ease, box-shadow .25s ease, border-color .25s ease !important;
+  will-change: transform;
+}
+.station-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .45), 0 0 18px rgba(45, 212, 191, .18);
+}
+.station-card:active {
+  transform: translateY(-1px);
+}
+.station-play:focus-visible {
+  outline: 3px solid #fbbf24 !important;
+  outline-offset: 2px;
+}
+
+/* ---- 4. Vote buttons: pop on active, generous hit area (already ≥44px). */
+.radio-vote-btn {
+  transition: transform .15s ease, border-color .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+}
+.radio-vote-btn:hover {
+  transform: translateY(-1px);
+}
+.radio-vote-like.is-active {
+  box-shadow: 0 0 14px rgba(251, 191, 36, .35);
+}
+.radio-vote-dislike.is-active {
+  box-shadow: 0 0 14px rgba(255, 107, 107, .35);
+}
+
+/* ---- 5. Playlist buttons: prominent, consistent hit. */
+.playlist-btn,
+.playlist-open,
+.shane-playlist-btn {
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease;
+}
+.playlist-btn:hover,
+.playlist-open:hover,
+.shane-playlist-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
+}
+.shane-playlist-card {
+  transition: transform .2s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.shane-playlist-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, .4), 0 0 16px rgba(45, 212, 191, .15);
+}
+
+/* ---- 6. Mobile single-column assurance + readable tap spacing. */
+@media (max-width: 560px) {
+  .shane-playlists-grid,
+  .station-grid {
+    grid-template-columns: 1fr !important;
+  }
+  .radio-vote-row {
+    flex-direction: column;
+  }
+  .radio-vote-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .playlist-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .playlist-btn,
+  .playlist-open {
+    width: 100%;
+  }
+}
+
+/* ---- 7. Reduced motion: kill transforms/animations. */
+@media (prefers-reduced-motion: reduce) {
+  .station-card,
+  .radio-card,
+  .playlist-btn,
+  .shane-playlist-card,
+  .radio-vote-btn {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ---- 8. Social/feed/creator/live: focus-visible consistency + hit floor.
+   Scoped to generic interactive elements we know are used; broad enough to
+   catch small chips, narrow enough not to restyle layout. */
+.like-btn,
+.btn-small,
+.live-tab,
+.ps-group-btn,
+.chip[role="button"],
+button[class*="social"],
+a[class*="social"] {
+  min-height: 44px;
+}
+.like-btn:focus-visible,
+.btn-small:focus-visible,
+.live-tab:focus-visible,
+.ps-group-btn:focus-visible {
+  outline: 3px solid #fbbf24;
+  outline-offset: 2px;
+}
+/* Feed post action rows: keep generous spacing on small screens. */
+@media (max-width: 560px) {
+  .like-buttons {
+    flex-direction: column;
+  }
+  .like-btn {
+    width: 100%;
+  }
+}
