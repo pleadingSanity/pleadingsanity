@@ -1,6 +1,14 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-10 — PR CLEANUP (ready for GPT + Claude at 4:35am)
+- **PR #185 CLOSED** (founder succession docs, orphan branch): all 5 docs already exist on main (FOUNDER_CONTINUITY_AND_RECOVERY, FAMILY-LEGACY-PLAN, FOREVER-MOVEMENT-BLUEPRINT, LEGAL-GOVERNANCE-FRAMEWORK, BRAND-IP-SECURITY-PLAN). Orphan branch only added stale HTML pages that would break 301 redirects. Nothing to merge. Comment left.
+- **PR #269 still DRAFT** ("Fix solar chat repeat submissions and keyboard controls"): API would not convert draft→ready. Minor polish to js/solar-assistant-v2.js + tests. **Claude at 4:35am: mark Ready for review + merge (one tap).** Safe — builds on Dola's lead-gate.
+- **Open PRs: only #269.** Everything else merged/closed.
+- **GPT back in the loop** (Shane confirmed). Resume prompt in chat (claude-resume-prompt-5h.md) applies to GPT too — paste it.
+- **PayPal: skip for now** (Shane said). PAYPAL_CLIENT_ID/SECRET still unset → verify-paypal returns 503 (graceful).
+- **Deploy still blocked** (Netlify not picking up main). Trigger: app.netlify.com → Deploys → Trigger deploy, or Claude Netlify MCP at 4:35am.
+
 ## 2026-11-10 — FOUNDER IDENTITY UPDATE (all AIs must use this)
 - **Shane Cooper = builder, roofer, visionary (Midlands).** He RECENTLY STOPPED fitting solar panels and is BACK TO FULL-TIME ROOFING. Focus is the Pleading Sanity movement; end goal = peace and unity for all.
 - **Insane Solar repositioned:** NOT "we fit solar". Shane organises + oversees; trusted local crews fit; AI Office handles paperwork. Copy softened from "we fit/our crew/installer-led" to "we specify/we organise/trusted local fitters/roofer-led". Do NOT revert to "we fit solar" — it is factually wrong.
