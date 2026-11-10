@@ -1,6 +1,12 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10 (final buff complete). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-10 — BEAUTY / ANTI-SLOPPY POLISH (PR #283, live)
+- Fixed last `class=class=` bug (solar-ai-office h1). Site-wide count now 0.
+- 3 sub-44px tap targets → 44px (feed like/btn-small, ai-social parentLink).
+- ~40 glued-word text bugs fixed (missing space after inline tags: `Shanefrom`, `2026Pleading`, `0Score`, `Factory enquiry:</strong>please`, `Sign in</a>and`) across 12 files.
+- Baseline otherwise clean: 0 unclosed tags, 0 duplicate IDs, 0 broken anchors, 0 missing alt, 0 purple, 0 secrets, 0 "we fit solar". validate-build + markup-safety pass.
+
 ## 2026-11-10 — INSANE RADIO GOD-MODE (PR #281, live)
 - **18 stations** (was 10): 9 SomaFM + Radio Paradise preserved + **8 new verified HTTPS streams**: UK — Reprezent Radio (grime/hiphop), Rinse FM (grime/urban), Capital XTRA, Capital XTRA Reloaded; US — Old School Hip Hop (Urbanradio), GotRadio Hip Hop Stop; R&B — 181.FM True R&B, Urban Radio Hip Hop/R&B. All verified 200/audio over HTTPS.
 - Small buttons → **big clickable themed cards** (CSS gradients, no purple). Per-card Support link. Support section + Shane-voice station thank-you added alongside existing artist thank-you (preserved).
