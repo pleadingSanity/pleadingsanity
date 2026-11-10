@@ -1,0 +1,329 @@
+/* ============================================================
+   INSANE RADIO — GLOW / ROUNDED APP-STYLE TREATMENT
+   Loaded LAST on insane-radio.html (overrides radio-styles.css
+   + site-music.css). Pure CSS: every JS hook/ID/class preserved.
+   Palette: warm coral + amber glow, teal secondary.
+   HARD RULE: no purple / violet / indigo / lavender.
+   ============================================================ */
+
+:root{
+  --glow-coral:#ff6b6b;
+  --glow-coral-soft:rgba(255,107,107,.55);
+  --glow-amber:#fbbf24;
+  --glow-amber-soft:rgba(251,191,36,.5);
+  --glow-teal:#2dd4bf;
+  --glow-ink:#070a12;
+  --glow-panel:rgba(15,21,34,.72);
+  --glow-line:rgba(255,255,255,.09);
+  --glow-text:#f1f5f9;
+  --glow-muted:#94a3b8;
+}
+
+/* ---- ambient background orbs (fixed, behind everything) ---- */
+.radio-page{
+  position:relative;
+  background:
+    radial-gradient(ellipse 60% 40% at 12% 8%,  rgba(255,107,107,.16), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 88% 22%, rgba(251,191,36,.13), transparent 65%),
+    radial-gradient(ellipse 70% 50% at 50% 110%, rgba(45,212,191,.12), transparent 70%),
+    var(--glow-ink) !important;
+  overflow-x:hidden;
+}
+.radio-page::before{
+  content:"";
+  position:fixed;
+  z-index:0;
+  pointer-events:none;
+  width:520px;height:520px;border-radius:50%;
+  left:-180px;top:-160px;
+  background:radial-gradient(circle, rgba(255,107,107,.22), transparent 65%);
+  filter:blur(60px);
+}
+.radio-page::after{
+  content:"";
+  position:fixed;
+  z-index:0;
+  pointer-events:none;
+  width:560px;height:560px;border-radius:50%;
+  right:-200px;top:30%;
+  background:radial-gradient(circle, rgba(251,191,36,.16), transparent 65%);
+  filter:blur(70px);
+}
+.radio-page > *{position:relative;z-index:1}
+
+/* ---- top nav: glass pill ---- */
+.radio-page > nav{
+  background:rgba(10,14,24,.55) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(140%);
+  backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid var(--glow-line) !important;
+}
+.radio-page > nav a{color:var(--glow-teal) !important}
+
+/* ---- hero ---- */
+.radio-hero h1{
+  background:linear-gradient(100deg,var(--glow-coral) 0%,var(--glow-amber) 45%,var(--glow-teal) 100%) !important;
+  -webkit-background-clip:text !important;
+  background-clip:text !important;
+  color:transparent !important;
+  text-shadow:0 0 40px rgba(255,107,107,.18);
+}
+.radio-kicker{color:#fecaca !important;letter-spacing:.22em !important}
+.radio-mode{
+  border-color:rgba(255,107,107,.4) !important;
+  color:#fed7aa !important;
+  background:rgba(255,107,107,.07);
+  box-shadow:0 0 18px rgba(255,107,107,.12);
+}
+.radio-hero img{
+  border-radius:24px !important;
+  border:1px solid var(--glow-line) !important;
+  box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 40px rgba(251,191,36,.08);
+}
+
+/* ---- now-playing card: glass, big radius, warm glow ---- */
+.radio-card{
+  position:relative;
+  overflow:hidden;
+  border-radius:28px !important;
+  border:1px solid var(--glow-line) !important;
+  background:linear-gradient(160deg, rgba(22,28,44,.82), rgba(9,12,22,.9)) !important;
+  -webkit-backdrop-filter:blur(20px) saturate(150%);
+  backdrop-filter:blur(20px) saturate(150%);
+  box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 60px rgba(255,107,107,.07), inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+.radio-card::before{
+  content:"";
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 45% at 50% -10%, rgba(255,107,107,.14), transparent 70%);
+}
+.radio-card.is-playing{
+  border-color:rgba(255,107,107,.45) !important;
+  animation:glow-breathe 4.5s ease-in-out infinite;
+}
+@keyframes glow-breathe{
+  50%{box-shadow:0 30px 80px rgba(0,0,0,.55), 0 0 70px rgba(255,107,107,.22), inset 0 1px 0 rgba(255,255,255,.08)}
+}
+.radio-player-label{
+  color:var(--glow-coral) !important;
+  text-shadow:0 0 16px var(--glow-coral-soft) !important;
+  letter-spacing:.28em !important;
+}
+
+/* ---- album art: glowing circular vinyl disc ---- */
+.radio-art{
+  position:relative;
+  width:min(260px,72%) !important;
+  aspect-ratio:1 !important;
+  height:auto !important;
+  margin:1.2rem auto !important;
+  border-radius:50% !important;
+  border:1px solid rgba(255,255,255,.12) !important;
+  background:
+    radial-gradient(circle at 50% 50%, #0b0f1a 0 18%, transparent 18.5%),
+    repeating-radial-gradient(circle at 50% 50%, #121826 0 2px, #0b0f1a 2px 5px),
+    radial-gradient(circle at 30% 28%, rgba(255,107,107,.35), transparent 55%) !important;
+  box-shadow:0 0 0 6px rgba(255,255,255,.03), 0 0 0 14px rgba(255,255,255,.02), 0 18px 50px rgba(0,0,0,.6), 0 0 50px rgba(255,107,107,.18) !important;
+  overflow:hidden;
+}
+/* rotating conic ring around disc when playing */
+.radio-art::before{
+  content:"";
+  position:absolute;inset:-3px;
+  border-radius:50%;
+  padding:3px;
+  background:conic-gradient(from 0deg, var(--glow-coral), var(--glow-amber), var(--glow-teal), var(--glow-amber), var(--glow-coral));
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:0;
+  transition:opacity .4s ease;
+  pointer-events:none;
+}
+.is-playing .radio-art::before{opacity:1;animation:glow-spin 8s linear infinite}
+@keyframes glow-spin{to{transform:rotate(360deg)}}
+.radio-art::after{
+  background:radial-gradient(circle at 50% 42%, rgba(251,191,36,.18), transparent 60%) !important;
+}
+.radio-art span{
+  position:relative;z-index:2;
+  font-size:clamp(.95rem,3vw,1.25rem) !important;
+  letter-spacing:.3em !important;
+  color:#fed7aa !important;
+  text-shadow:0 0 22px var(--glow-amber-soft) !important;
+  background:rgba(7,10,18,.55);
+  padding:.5rem .9rem;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.1);
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+}
+
+/* ---- track meta ---- */
+.radio-title{color:var(--glow-text) !important;font-weight:800 !important}
+.radio-artist{color:var(--glow-amber) !important;text-shadow:0 0 14px rgba(251,191,36,.3)}
+.radio-status{color:var(--glow-muted) !important}
+
+/* ---- video shell ---- */
+.radio-video-shell{
+  border-radius:20px !important;
+  border:1px solid var(--glow-line) !important;
+  box-shadow:0 16px 40px rgba(0,0,0,.5),0 0 30px rgba(45,212,191,.08) !important;
+}
+
+/* ---- progress: warm gradient + glow ---- */
+#radio-progress{height:7px !important;border-radius:999px !important;background:#1e2636 !important}
+#radio-progress::-webkit-progress-bar{background:#1e2636 !important;border-radius:999px}
+#radio-progress::-webkit-progress-value{
+  background:linear-gradient(90deg,var(--glow-coral),var(--glow-amber)) !important;
+  border-radius:999px !important;
+  box-shadow:0 0 12px var(--glow-coral-soft) !important;
+}
+#radio-progress::-moz-progress-bar{
+  background:linear-gradient(90deg,var(--glow-coral),var(--glow-amber)) !important;
+  border-radius:999px !important;
+}
+#radio-time{color:#cbd5e1 !important}
+
+/* ---- controls: pill, glow ---- */
+.radio-controls button{
+  border-radius:999px !important;
+  font-weight:800 !important;
+  letter-spacing:.04em;
+  transition:transform .15s ease, box-shadow .25s ease, background .2s ease, border-color .2s ease !important;
+}
+#radio-play{
+  min-width:130px !important;
+  min-height:58px !important;
+  color:#1a0e05 !important;
+  background:linear-gradient(135deg,var(--glow-coral),var(--glow-amber)) !important;
+  border:0 !important;
+  box-shadow:0 8px 24px rgba(255,107,107,.35), 0 0 22px rgba(251,191,36,.25) !important;
+}
+#radio-play:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,107,107,.45),0 0 30px rgba(251,191,36,.35) !important}
+.is-playing #radio-play{animation:glow-play-pulse 2.4s ease-in-out infinite}
+@keyframes glow-play-pulse{
+  0%,100%{box-shadow:0 8px 24px rgba(255,107,107,.35),0 0 22px rgba(251,191,36,.25)}
+  50%{box-shadow:0 8px 24px rgba(255,107,107,.35),0 0 36px rgba(255,107,107,.5)}
+}
+.radio-controls button.secondary{
+  background:rgba(255,255,255,.04) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  color:var(--glow-text) !important;
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+.radio-controls button.secondary:hover{background:rgba(255,255,255,.1) !important;border-color:rgba(45,212,191,.5) !important;color:#fff !important}
+
+/* ---- up next: pill rows ---- */
+.radio-upnext li{
+  border:0 !important;
+  border-radius:14px !important;
+  padding:.7rem .9rem !important;
+  background:rgba(255,255,255,.03);
+  margin-bottom:.35rem;
+}
+.radio-upnext li:hover{
+  background:rgba(255,107,107,.09) !important;
+  box-shadow:0 0 16px rgba(255,107,107,.15) !important;
+}
+
+/* ---- support link pill ---- */
+.radio-support{
+  border-radius:999px !important;
+  border:1px solid rgba(251,191,36,.4) !important;
+  background:rgba(251,191,36,.08) !important;
+  color:var(--glow-amber) !important;
+  box-shadow:0 0 18px rgba(251,191,36,.12);
+}
+.radio-support:hover{background:rgba(251,191,36,.16) !important;border-color:var(--glow-amber) !important}
+
+/* ---- promise / station sections: glass cards ---- */
+.radio-promise{
+  border-radius:20px !important;
+  border:1px solid var(--glow-line) !important;
+  border-left:3px solid var(--glow-amber) !important;
+  background:var(--glow-panel) !important;
+  -webkit-backdrop-filter:blur(14px);
+  backdrop-filter:blur(14px);
+}
+.radio-promise-stations{border-left-color:var(--glow-teal) !important}
+.radio-stations{
+  border-radius:24px !important;
+  border:1px solid var(--glow-line) !important;
+  background:rgba(10,14,24,.55) !important;
+  -webkit-backdrop-filter:blur(16px);
+  backdrop-filter:blur(16px);
+  box-shadow:0 20px 50px rgba(0,0,0,.4);
+}
+.radio-stations h2{
+  background:linear-gradient(90deg,var(--glow-coral),var(--glow-amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-size:1.4rem !important;
+}
+.station-group-title{color:#fecaca !important}
+
+/* ---- station cards: bigger radius, warm hover glow ---- */
+.station-card{
+  border-radius:22px !important;
+  border:1px solid var(--glow-line) !important;
+  background:rgba(15,21,34,.6) !important;
+  -webkit-backdrop-filter:blur(10px);
+  backdrop-filter:blur(10px);
+}
+.station-card:hover{
+  transform:translateY(-3px) !important;
+  box-shadow:0 16px 40px rgba(0,0,0,.5), 0 0 26px var(--theme-glow,rgba(255,107,107,.2)) !important;
+}
+.station-card:has(.station-play.is-active){
+  box-shadow:0 0 0 1px var(--accent,#ff6b6b), 0 0 30px var(--theme-glow,rgba(255,107,107,.3)) !important;
+}
+.station-play.is-active{box-shadow:inset 0 0 0 2px var(--accent,#ff6b6b) !important}
+.station-support-link{border-radius:999px !important}
+
+/* ---- playlist form + items ---- */
+#radio-playlist-url{
+  border-radius:999px !important;
+  background:rgba(15,21,34,.8) !important;
+  border:1px solid rgba(45,212,191,.4) !important;
+}
+#radio-playlist-form button[type=submit]{
+  border-radius:999px !important;
+  background:linear-gradient(135deg,var(--glow-coral),var(--glow-amber)) !important;
+  color:#1a0e05 !important;border:0 !important;font-weight:800;
+  box-shadow:0 6px 18px rgba(255,107,107,.3);
+}
+.playlist-item{border-radius:18px !important;border-left-width:5px !important}
+
+/* ---- stop station button ---- */
+.station-stop{
+  border-radius:999px !important;
+  background:rgba(248,113,113,.1) !important;
+  border:1px solid rgba(248,113,113,.4) !important;
+  color:#fca5a5 !important;
+}
+.station-stop:hover{background:rgba(248,113,113,.2) !important}
+
+/* ---- focus: warm amber ring ---- */
+.radio-page a:focus-visible,.radio-page button:focus-visible,#radio-playlist-url:focus-visible{
+  outline:3px solid var(--glow-amber) !important;
+  outline-offset:3px !important;
+}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion:reduce){
+  .radio-card.is-playing,.is-playing #radio-play,.is-playing .radio-art::before{animation:none !important}
+  .radio-art::before{transition:none !important}
+  .radio-page *,.radio-page *::before,.radio-page *::after{transition:none !important}
+}
+
+/* keep bottom controls clear of the fixed floating widget */
+.radio-page{padding-bottom:7rem !important}
+
+/* ---- small screens ---- */
+@media (max-width:420px){
+  .radio-card{border-radius:22px !important}
+  .radio-art{width:min(220px,78%) !important}
+  #radio-play{min-width:110px !important;min-height:54px !important}
+  .radio-page{padding-bottom:9rem !important}
+}

@@ -184,3 +184,72 @@
   #ps-music-widget.ps-playing .ps-mp-play { animation: none; }
   #ps-music-widget, .ps-mp-btn { transition: none; }
 }
+
+/* =====================================================
+   GLOW APP RESTYLE (2026-11): warm coral + amber glow,
+   rounded pill mini-player. Loaded at end of this file;
+   original rules above kept intact (evolution not erasure).
+   No purple/violet/indigo/lavender.
+   ===================================================== */
+#ps-music-widget{
+  border-radius:999px !important;
+  padding:7px 10px !important;
+  gap:5px !important;
+  background:rgba(12,16,28,.72) !important;
+  -webkit-backdrop-filter:blur(18px) saturate(160%) !important;
+  backdrop-filter:blur(18px) saturate(160%) !important;
+  border:1px solid rgba(255,140,120,.32) !important;
+  box-shadow:0 10px 30px rgba(0,0,0,.55), 0 0 22px rgba(255,107,107,.14), inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+#ps-music-widget:hover{
+  border-color:rgba(255,140,120,.6) !important;
+  box-shadow:0 12px 34px rgba(0,0,0,.6), 0 0 30px rgba(255,107,107,.24) !important;
+  transform:translateY(-1px) !important;
+}
+#ps-music-widget.ps-playing{
+  border-color:rgba(251,191,36,.55) !important;
+  animation:ps-glow-widget 3.2s ease-in-out infinite;
+}
+@keyframes ps-glow-widget{
+  50%{box-shadow:0 10px 30px rgba(0,0,0,.55), 0 0 34px rgba(251,191,36,.3), inset 0 1px 0 rgba(255,255,255,.08) !important}
+}
+/* track label: warm artist color */
+.ps-mp-track .ps-mp-title{color:#fda4af !important}
+.ps-mp-track .ps-mp-artist{color:#fcd34d !important}
+/* buttons: glass circles */
+.ps-mp-btn{
+  background:rgba(255,255,255,.05) !important;
+  border:1px solid rgba(255,255,255,.14) !important;
+  color:#f1f5f9 !important;
+}
+.ps-mp-btn:hover{
+  background:rgba(255,107,107,.2) !important;
+  border-color:rgba(255,107,107,.6) !important;
+  color:#fff !important;
+}
+/* play button: coral->amber gradient disc with glow */
+.ps-mp-play{
+  background:linear-gradient(135deg,#ff6b6b,#fbbf24) !important;
+  border:0 !important;
+  color:#1a0e05 !important;
+  box-shadow:0 6px 16px rgba(255,107,107,.4), 0 0 16px rgba(251,191,36,.3) !important;
+}
+.ps-mp-play:hover{
+  background:linear-gradient(135deg,#ff7f7f,#fcd34d) !important;
+  box-shadow:0 8px 20px rgba(255,107,107,.5), 0 0 24px rgba(251,191,36,.45) !important;
+}
+/* override the old teal pulse with warm glow when playing */
+#ps-music-widget.ps-playing .ps-mp-play{animation:ps-glow-play 2.2s ease-in-out infinite !important}
+@keyframes ps-glow-play{
+  0%,100%{box-shadow:0 6px 16px rgba(255,107,107,.4),0 0 16px rgba(251,191,36,.3)}
+  50%{box-shadow:0 6px 16px rgba(255,107,107,.4),0 0 28px rgba(255,107,107,.55)}
+}
+/* volume thumb warm */
+.ps-mp-volume::-webkit-slider-thumb{background:#fbbf24 !important;box-shadow:0 0 8px rgba(251,191,36,.6) !important}
+.ps-mp-volume::-moz-range-thumb{background:#fbbf24 !important;box-shadow:0 0 8px rgba(251,191,36,.6) !important}
+@media (max-width:420px){
+  #ps-music-widget{border-radius:22px !important}
+}
+@media (prefers-reduced-motion:reduce){
+  #ps-music-widget.ps-playing,#ps-music-widget.ps-playing .ps-mp-play{animation:none !important}
+}
