@@ -96,6 +96,21 @@
     lastLoadedId = id;
     postCmd('loadVideoById', [id]);
   }
+  // Explicit "play this track" from a drawer row click. Loads the hidden YouTube
+  // player on first use (starting at the chosen track), otherwise cues it.
+  // Like/dislike buttons stop propagation and never trigger this.
+  function playTrackById(id) {
+    var idx = idToIndex(id);
+    if (idx < 0) return;
+    state.unlocked = true; removeGestureListeners();
+    state.index = idx; writeStore(K_INDEX, idx);
+    if (state.muted && !userExplicitlyMuted) { state.muted = false; writeStore(K_MUTED, '0'); }
+    lastLoadedId = id; // accept this track, do not auto-skip as already-played
+    if (!iframe.parentNode) { loadPlayer(); }
+    else { cueTrack(id); }
+    state.playing = true;
+    renderPlayIcon(); renderTrack(); renderVotes();
+  }
   var state = {
     index: parseInt(readStore(K_INDEX, '0'), 10) || 0,
     muted: readStore(K_MUTED, '1') === '1', // default muted until first gesture
@@ -165,13 +180,13 @@
       '#ps-music-widget .ps-mp-vtitle{color:#5eead4;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}' +
       '#ps-music-widget .ps-mp-vartist{color:#fcd34d;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}' +
       '#ps-music-widget .ps-mp-vactions{display:flex;align-items:center;gap:4px;flex:0 0 auto;}' +
-      '#ps-music-widget .ps-mp-vbtn{width:30px;height:30px;min-width:30px;min-height:30px;border-radius:50%;border:1px solid rgba(45,212,191,.35);background:rgba(20,184,166,.14);color:#cbd5e1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;transition:background .15s ease,border-color .15s ease,color .15s ease;}' +
-      '#ps-music-widget .ps-mp-vbtn svg{width:14px;height:14px;display:block;}' +
+      '#ps-music-widget .ps-mp-vbtn{width:44px;height:44px;min-width:44px;min-height:44px;border-radius:50%;border:1px solid rgba(45,212,191,.35);background:rgba(20,184,166,.14);color:#cbd5e1;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;touch-action:manipulation;transition:background .15s ease,border-color .15s ease,color .15s ease;position:relative;}' +
+      '#ps-music-widget .ps-mp-vbtn svg{width:18px;height:18px;display:block;}' +
       '#ps-music-widget .ps-mp-vbtn:hover{background:rgba(45,212,191,.3);border-color:rgba(45,212,191,.6);}' +
       '#ps-music-widget .ps-mp-vbtn:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px;}' +
       '#ps-music-widget .ps-mp-vbtn.is-like.is-active{border-color:rgba(245,158,11,.7);background:rgba(245,158,11,.22);color:#fbbf24;}' +
       '#ps-music-widget .ps-mp-vbtn.is-dislike.is-active{border-color:rgba(248,113,113,.7);background:rgba(248,113,113,.18);color:#fca5a5;}' +
-      '#ps-music-widget .ps-mp-lcount{font-size:11px;color:#94a3b8;min-width:1ch;text-align:center;font-weight:700;}' +
+      '#ps-music-widget .ps-mp-lcount{position:absolute;bottom:-2px;right:-2px;min-width:16px;height:16px;padding:0 3px;border-radius:999px;background:#0b0f19;border:1px solid rgba(148,163,184,.3);font-size:10px;color:#94a3b8;display:inline-flex;align-items:center;justify-content:center;font-weight:700;line-height:1;}' +
       '#ps-music-widget .ps-mp-skipped{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:#f87171;font-weight:700;flex:0 0 auto;}' +
       '#ps-music-widget .ps-mp-slots{display:flex;flex-direction:column;gap:6px;}' +
       '#ps-music-widget .ps-mp-slot{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:10px;padding:0 12px;font-size:12.5px;font-weight:700;text-decoration:none;text-align:center;line-height:1.2;}' +
@@ -180,6 +195,12 @@
       '#ps-music-widget .ps-mp-slot-on:hover{background:rgba(45,212,191,.3);border-color:rgba(45,212,191,.8);color:#fef3c7;}' +
       '#ps-music-widget .ps-mp-slot-on:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px;}' +
       '#ps-music-widget .ps-mp-slot-off{border:1px dashed rgba(148,163,184,.35);background:transparent;color:#64748b;cursor:default;}' +
+      '#ps-music-widget .ps-mp-playbtn{display:flex;align-items:center;gap:8px;flex:1 1 auto;min-width:0;min-height:44px;margin:0;padding:6px 8px;border:0;border-radius:8px;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer;touch-action:manipulation;transition:background .15s ease;}' +
+      '#ps-music-widget .ps-mp-playbtn:hover{background:rgba(0,255,240,.08);}' +
+      '#ps-music-widget .ps-mp-playbtn:focus-visible{outline:2px solid #2dd4bf;outline-offset:2px;}' +
+      '#ps-music-widget .ps-mp-playbtn svg{width:16px;height:16px;flex:0 0 auto;color:#5eead4;}' +
+      '#ps-music-widget .ps-mp-vrow.is-current{border-color:rgba(0,255,240,.6);background:rgba(0,255,240,.08);}' +
+      '#ps-music-widget .ps-mp-vrow.is-current .ps-mp-playbtn svg{color:#fbbf24;}' +
       '#ps-music-widget .ps-mp-soon-dot{width:6px;height:6px;border-radius:50%;background:#f59e0b;flex:0 0 auto;opacity:.8;}' +
       '#ps-music-widget .ps-mp-embed{display:block;width:100%;min-height:34px;margin-top:4px;border-radius:8px;border:1px solid rgba(245,158,11,.5);background:transparent;color:#fbbf24;font:inherit;font-size:11px;font-weight:700;cursor:pointer;}' +
       '#ps-music-widget .ps-mp-embed[aria-expanded="true"]{background:rgba(245,158,11,.14);}' +
@@ -296,11 +317,25 @@
         var li = document.createElement('li');
         li.className = 'ps-mp-vrow' + (vote === 'dislike' ? ' is-disliked' : '');
         li.setAttribute('data-id', t.id);
+        if (PLAYLIST[state.index].id === t.id) {
+          li.classList.add('is-current');
+          li.setAttribute('aria-current', 'true');
+        }
+        var playBtn = document.createElement('button');
+        playBtn.type = 'button';
+        playBtn.className = 'ps-mp-playbtn';
+        playBtn.setAttribute('aria-label', 'Play ' + t.title + ' by ' + t.artist);
+        playBtn.innerHTML = ICON.play;
         var meta = document.createElement('span');
         meta.className = 'ps-mp-vmeta';
         var ti = document.createElement('span'); ti.className = 'ps-mp-vtitle'; ti.textContent = t.title;
         var ar = document.createElement('span'); ar.className = 'ps-mp-vartist'; ar.textContent = t.artist;
         meta.appendChild(ti); meta.appendChild(ar);
+        playBtn.appendChild(meta);
+        playBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          playTrackById(t.id);
+        });
         var actions = document.createElement('span'); actions.className = 'ps-mp-vactions';
         var likeBtn = document.createElement('button');
         likeBtn.type = 'button'; likeBtn.className = 'ps-mp-vbtn is-like' + (vote === 'like' ? ' is-active' : '');
@@ -332,7 +367,7 @@
           renderVotes();
         });
         actions.appendChild(likeBtn); actions.appendChild(disBtn);
-        li.appendChild(meta); li.appendChild(actions);
+        li.appendChild(playBtn); li.appendChild(actions);
         if (vote === 'dislike') {
           var sk = document.createElement('span'); sk.className = 'ps-mp-skipped'; sk.textContent = 'Skipped';
           li.appendChild(sk);
@@ -356,14 +391,16 @@
           off.className = 'ps-mp-slot ps-mp-slot-off';
           var dot = document.createElement('span'); dot.className = 'ps-mp-soon-dot';
           off.appendChild(dot);
-          off.appendChild(document.createTextNode(plat.name + ' — coming soon'));
+          off.appendChild(document.createTextNode('Add your ' + plat.name + ' playlist link → data/music-playlists.json'));
           wrap.appendChild(off);
           return;
         }
         var a = document.createElement('a');
         a.className = 'ps-mp-slot ps-mp-slot-on';
-        a.href = url; a.target = '_blank'; a.rel = 'noopener';
-        a.textContent = 'Play on ' + plat.name + ' ';
+        a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        var slotLabel = plat.key === 'youtube_url' ? 'Play on YouTube' : (plat.key === 'sonos_url' ? 'Open in Sonos app' : 'Open in Amazon Music');
+        a.textContent = slotLabel + ' ';
+        a.setAttribute('aria-label', slotLabel + ' (opens in a new tab or app)');
         a.insertAdjacentHTML('beforeend', ICON.ext);
         wrap.appendChild(a);
         if (plat.key === 'youtube_url') {
@@ -402,7 +439,7 @@
         '<ul class="ps-mp-votelist"></ul>' +
         '<p class="ps-mp-drawer-title ps-mp-slots-title">More playlists</p>' +
         '<div class="ps-mp-slots"></div>' +
-        '<p class="ps-mp-drawer-note">Votes saved on this device only. A disliked song is skipped. Shuffle on: a song will not repeat until every other song has played. External playlists open in a new tab.</p>';
+        '<p class="ps-mp-drawer-note">Votes saved on this device only. A disliked song is skipped. Shuffle on: a song will not repeat until every other song has played. External playlists open in their own app or a new tab — Sonos and Amazon Music cannot be embedded here.</p>';
     }
     renderVotes();
     renderSlots();

@@ -159,5 +159,26 @@
 .playlist-open:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
 .playlist-empty{color:#94a3b8;font-size:.9rem;padding:.5rem 0}
 .playlist-curated{border-style:dashed;opacity:.95}
+.playlist-slot-empty{flex:1 1 100%;min-height:44px;display:flex;align-items:center;gap:.5rem;padding:.55rem .9rem;border-radius:10px;border:1px dashed rgba(148,163,184,.4);background:transparent;color:#94a3b8;font-size:.82rem;font-weight:600;line-height:1.35}
+/* Radio buffs: now-playing fade, genre prominence, smooth transitions, mobile tap targets */
+.radio-title,.radio-artist,.radio-era{transition:opacity .25s ease}
+.radio-card.is-switching .radio-title,.radio-card.is-switching .radio-artist,.radio-card.is-switching .radio-era{opacity:.35}
+.radio-genre-line{display:inline-block;margin:.15rem auto .35rem;padding:.2rem .7rem;border-radius:999px;border:1px solid rgba(0,255,240,.4);color:#9ffcf5;font-size:.72rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;text-align:center}
+.station-card{will-change:transform}
+.station-play{transition:background .18s ease,box-shadow .18s ease}
+#station-stop{min-height:48px;min-width:160px;margin-top:.6rem}
+.radio-stations{scroll-margin-top:.8rem}
+@media(max-width:420px){.playlist-item{flex-direction:column;align-items:stretch}.playlist-btn,.playlist-open{width:100%;justify-content:center}.playlist-slot-empty{font-size:.78rem}.station-grid{grid-template-columns:1fr}.station-play{min-height:120px}}
+@media(prefers-reduced-motion:reduce){.radio-title,.radio-artist,.radio-era,.station-play{transition:none!important}.radio-card.is-switching .radio-title,.radio-card.is-switching .radio-artist,.radio-card.is-switching .radio-era{opacity:1}}
 @media(prefers-reduced-motion:reduce){.station-card,.station-play,.playlist-btn,.playlist-open{transition:none!important}.station-card:hover{transform:none}.playlist-btn:hover{transform:none}}
+/* Injected like/dislike vote row in the curated player (≥44px tap targets) */
+.radio-vote-btn{display:inline-flex;align-items:center;gap:.45rem;min-height:44px;padding:.5rem 1rem;border-radius:999px;border:1px solid rgba(148,163,184,.4);background:rgba(13,27,42,.6);color:#cbd5e1;font:inherit;cursor:pointer;transition:border-color .15s ease,background .15s ease,color .15s ease}
+.radio-vote-btn:hover{border-color:rgba(0,255,240,.6);background:rgba(0,255,240,.08)}
+.radio-vote-btn:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+.radio-vote-like.is-active{border-color:rgba(245,158,11,.7);background:rgba(245,158,11,.2);color:#fbbf24}
+.radio-vote-dislike.is-active{border-color:rgba(248,113,113,.7);background:rgba(248,113,113,.16);color:#fca5a5}
+#radio-upnext button:hover{background:rgba(0,255,240,.08)}
+#radio-upnext button:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+#radio-time{min-width:5.5ch}
+@media(prefers-reduced-motion:reduce){.radio-vote-btn{transition:none!important}}
 
