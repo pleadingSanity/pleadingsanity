@@ -213,7 +213,10 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
 }
 </script>
 <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta name="twitter:title" content="Insane Solar — Smarter Solar, Real People | Leicestershire & Midlands">
+<meta name="twitter:description" content="Shane organises and oversees; trusted local MCS/NAPIT-registered fitters install. The AI Office handles paperwork only — humans sign every certificate.">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<link rel="stylesheet" href="/css/shard-solar-shop.css">
 </head>
 <body class="antialiased">
 <a href="#top" class="skip-link">Skip to main content</a>
@@ -1562,7 +1565,7 @@ const CATEGORIES = [
         toggleCopy.innerHTML = '<strong style="color:var(--green2);">Direct mode:</strong> skip the auto-updates — you get a call from a real bloke (the site manager) and can ask anything. Still fast, still 24h.';
         submitBtn.innerHTML = 'Send straight to the site manager <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
       } else {
-        toggleCopy.innerHTML = '<strong style="color:var(--amber2);">AI mode:</strong> auto-notifications, auto-certs, auto-updates. You barely hear from us until the fitting crew arrives.';
+        toggleCopy.innerHTML = '<strong style="color:var(--amber2);">AI mode:</strong> auto-notifications, paperwork assembled, install updates. Registered humans sign every certificate — AI never certifies. You barely hear from us until the trusted local MCS-registered fitters arrive.';
         submitBtn.innerHTML = originalSubmitText;
       }
     });
@@ -1587,6 +1590,9 @@ const CATEGORIES = [
 
   form.addEventListener("submit", function(e){
     e.preventDefault();
+    if (form.dataset.submitted) return;
+    form.dataset.submitted = "1";
+    if (submitBtn) { submitBtn.disabled = true; submitBtn.style.opacity = ".55"; submitBtn.style.pointerEvents = "none"; }
     var name = document.getElementById("fName").value.trim();
     var postcode = document.getElementById("fPostcode").value.trim();
     var phone = document.getElementById("fPhone").value.trim();
@@ -1628,10 +1634,10 @@ const CATEGORIES = [
         body: new URLSearchParams({
           "form-name": "solar-enquiry",
           "name": name, "postcode": postcode, "phone": phone, "email": email,
-          "roof": roof, "systemSize": document.getElementById("fSystemSize").value,
-          "battery": document.getElementById("fBattery").value,
-          "evCharger": document.getElementById("fEV").value,
-          "message": document.getElementById("fMessage").value
+          "roof": roof, "systemSize": size,
+          "battery": battery,
+          "evCharger": ev,
+          "message": msg
         })
       }).catch(function(){ /* non-blocking — WhatsApp still opens */ });
     } catch(e) {}
