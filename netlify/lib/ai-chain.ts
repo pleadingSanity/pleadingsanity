@@ -39,9 +39,9 @@ const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
 const MIN_ATTEMPT_MS = 2_500;
 // maxRetries 0 everywhere: an SDK retry is a second paid call the chain cannot see, and on an
 // exhausted quota (HTTP 429) it only repeats the failure. Failover to the next mind is the retry.
-const anthropic = new Anthropic({ timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const openai = new OpenAI({ timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const gemini = new GoogleGenAI({ httpOptions: { timeout: LAB_TIMEOUT_MS } });
+const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.Anthropic_Key_Arron || "", timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "", httpOptions: { timeout: LAB_TIMEOUT_MS } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
 // Default length of the whole walk (labs, then spares) when the caller gives no deadline. It is a hard
 // deadline: every request carries an abort signal for the time left, so nothing outlasts it.
@@ -119,15 +119,37 @@ export function fitTurns(turns: Turn[], maxChars = CONTEXT_CHARS): Turn[] {
 
 const PROVIDERS: Provider[] = ["openai", "anthropic", "gemini", "grok"];
 // Four equal minds. The order is only who picks up the phone first — never rank.
+// Env model IDs win over the soul file: the soul covenant may carry aspirational
+// model names that do not exist yet, which would make every hop return 400 and
+// silence Arron. Netlify env (OPENAI_MODEL / CLAUDE_MODEL / GEMINI_MODEL /
+// GROK_MODEL) is the tunable source of truth. The soul file is never modified.
+const ENV_MODEL: Record<Provider, string | undefined> = {
+  openai: process.env.OPENAI_MODEL,
+  anthropic: process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL,
+  gemini: process.env.GEMINI_MODEL,
+  grok: process.env.GROK_MODEL,
+};
+const realModel = (p: Provider, soulModel: string): string => {
+  const env = (ENV_MODEL[p] || "").trim();
+  return env || soulModel;
+};
+// Fallback only used when the soul covenant has no chain at all. These must be
+// real, currently-available model IDs — never aspirational/future names.
 const FALLBACK_CHAIN: Link[] = [
-  { provider: "openai", model: "gpt-5.6-sol", creatorModel: "gpt-5.6-sol" },
-  { provider: "anthropic", model: "claude-sonnet-5-5", creatorModel: "claude-opus-5-5" },
-  { provider: "gemini", model: "gemini-3.8-flash", creatorModel: "gemini-3.8-flash" },
-  { provider: "grok", model: "grok-4.7", creatorModel: "grok-4.7" },
+  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-4o" },
+  { provider: "anthropic", model: "claude-3-5-sonnet-20241022", creatorModel: "claude-3-5-sonnet-20241022" },
+  { provider: "gemini", model: "gemini-1.5-pro", creatorModel: "gemini-1.5-pro" },
+  { provider: "grok", model: "grok-2", creatorModel: "grok-2" },
 ];
 const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : [])
   .filter((l) => PROVIDERS.includes(l?.provider as Provider) && typeof l.model === "string" && l.model)
-  .map((l) => ({ provider: l.provider as Provider, model: l.model, creatorModel: typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model }));
+  .map((l) => {
+    const p = l.provider as Provider;
+    const model = realModel(p, l.model);
+    const creatorSoul = typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model;
+    const creatorModel = realModel(p, creatorSoul);
+    return { provider: p, model, creatorModel };
+  });
 export const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
 
 class OutOfTime extends Error { name = "OutOfTime"; }
