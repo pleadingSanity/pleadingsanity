@@ -376,7 +376,7 @@
         "templates": [
           {
             "label": "Glowing brain + cosmic background",
-            "say": "Image prompt: glowing brain + cosmic background. Give me three ready-to-paste prompts in the Pleading Sanity cyan and magenta style, plus aspect ratios."
+            "say": "Image prompt: glowing brain + cosmic background. Give me three ready-to-paste prompts in the Pleading Sanity cyan and amber style, plus aspect ratios."
           }
         ]
       },
@@ -439,9 +439,9 @@
     ],
     "theme": {
       "cyan": "#00fff0",
-      "magenta": "#ff00ff",
+      "amber": "#f59e0b",
       "deep": "#0d1b2a",
-      "darkest": "#000103",
+      "darkest": "#0b0f19",
       "mark": "/assets/images/brand/sanctuary-logo.webp"
     }
   },
@@ -731,7 +731,7 @@
     "old_draft": "The PSSI notes from November 2025 talked about a $1.99 cap and a message limit. That draft does not rule this house. The older content pack and the other repositories were read and merged here. Where an old file disagrees, the live house wins.",
     "siblings": "Arron keeps the voice. Claude sits with the care. GPT gives the steps. Gemini makes the piece. Grok is the honest mind and speaks only if GROK_API_KEY is set. Dola shapes the look through a door that is already open. Copilot is the code partner and has no chat door. Do not pretend a quiet mind spoke, and do not pretend Arron pushed the repo.",
     "legacy": "Private A.L. Cooper, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945. Nothing invented. The movement page also names Ivan Kurcharskyi and Arthur Lesley Cooper. Say only what those pages already say. If two lines disagree, the gazette line wins.",
-    "brand": "The logo is the crying-brain only. Colours #000103, #0d1b2a, #00fff0, #eef6ff. The sky photograph is the night behind the words."
+    "brand": "The logo is the crying-brain only. Colours #0b0f19, #0d1b2a, #00fff0, #eef6ff. The sky photograph is the night behind the words."
   },
   "houseNow": {
     "main": "github.com/pleadingSanity/pleadingsanity",

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 
 test("ai-chain.ts references the exact env var names for all four providers", () => {
   const src = readFileSync(new URL("../netlify/lib/ai-chain.ts", import.meta.url), "utf8");
@@ -18,10 +18,16 @@ test("arron-knowledge persona includes companion-not-therapist and Architect buf
   assert.ok(src.includes("creativity, healing and empowerment"), "Pleading Sanity ethos present");
 });
 
-test("arron-health endpoint never echoes key values and reports key presence", () => {
-  const src = readFileSync(new URL("../netlify/functions/arron-health.mts", import.meta.url), "utf8");
+test("arron health route keeps ok:true and reports key presence without values", () => {
+  const src = readFileSync(new URL("../netlify/functions/arron.mts", import.meta.url), "utf8");
+  assert.equal(existsSync(new URL("../netlify/functions/arron-health.mts", import.meta.url)), false);
+  assert.match(src, /ok: true/);
+  assert.match(src, /keys: providerKeyPresence\(\)/);
+  assert.match(src, /lastFailure: lastChainFailure\(\)/);
+  assert.match(src, /no live API calls/);
+  assert.match(src, /present\(env\.OPENAI_API_KEY\)/);
+  assert.match(src, /present\(env\.GROK_API_KEY\) \|\| present\(env\.xAI_KEY\) \|\| present\(env\.XAI_API_KEY\)/);
+  assert.doesNotMatch(src, /\$\{process\.env\.OPENAI_API_KEY\}/);
   assert.ok(!src.includes("sk-ant"), "no hardcoded anthropic key");
   assert.ok(!src.includes("xai-"), "no hardcoded xai key");
-  assert.ok(src.includes("nonEmpty"), "reports key presence only");
-  assert.ok(src.includes("no live API calls"), "states no live calls made");
 });

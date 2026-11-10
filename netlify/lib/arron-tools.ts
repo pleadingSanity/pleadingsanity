@@ -85,7 +85,9 @@ const CRISIS_WORDS =
   /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
 
 export function openaiToolsEnabled(): boolean {
-  return Boolean(process.env.OPENAI_API_KEY);
+  // Same guard as ai-chain.ts: if OPENAI_BASE_URL is set, OPENAI_API_KEY is the
+  // Netlify gateway credential and must never be sent to api.openai.com.
+  return Boolean(process.env.OPENAI_API_KEY) && !process.env.OPENAI_BASE_URL;
 }
 
 // ─── Tool executors (pure, testable, never throw) ───────────────
@@ -134,39 +136,114 @@ export function crisisCheck(messageText: unknown): { crisis: boolean; lines?: st
   return { crisis: true, lines: CRISIS_LINES_TEXT };
 }
 
-/** Fetch a URL, return truncated plain text. Never throws. */
+const MAX_FETCH_REDIRECTS = 3;
+
+function ipv4Blocked(a: number, b: number, c: number, d: number) {
+  if ([a, b, c, d].some((n) => n > 255)) return true;
+  if (a === 0 || a === 10 || a === 127) return true;
+  if (a === 169 && b === 254) return true;
+  if (a === 172 && b >= 16 && b <= 31) return true;
+  if (a === 192 && b === 168) return true;
+  if (a === 100 && b >= 64 && b <= 127) return true;
+  if (a === 192 && b === 0 && (c === 0 || c === 2)) return true;
+  if (a === 198 && (b === 18 || b === 19)) return true;
+  if (a === 198 && b === 51 && c === 100) return true;
+  if (a >= 224) return true;
+  return false;
+}
+
+/** True for localhost, single-label names, and private or link-local addresses. */
+function fetchTargetBlocked(hostname: string) {
+  const host = hostname.replace(/^\[|\]$/g, "").toLowerCase().replace(/\.$/, "");
+  if (!host || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return true;
+  if (host === "metadata.google.internal" || host === "metadata.google.com") return true;
+  if (host.includes(":")) {
+    if (host === "::" || host === "::1" || host === "0:0:0:0:0:0:0:1") return true;
+    if (host.startsWith("::ffff:")) return fetchTargetBlocked(host.slice("::ffff:".length));
+    if (host.startsWith("fe80:") || host.startsWith("fc") || host.startsWith("fd")) return true;
+    return false;
+  }
+  if (/^\d+$/.test(host) || /^0x[0-9a-f.]+$/i.test(host)) return true;
+  const parts = host.split(".");
+  if (parts.length >= 1 && parts.length <= 4 && parts.every((part) => /^\d{1,3}$/.test(part))) {
+    const nums = parts.map(Number);
+    while (nums.length < 4) nums.push(0);
+    return ipv4Blocked(nums[0], nums[1], nums[2], nums[3]);
+  }
+  if (!host.includes(".")) return true;
+  return false;
+}
+
+async function resolvesToBlockedAddress(hostname: string) {
+  if (fetchTargetBlocked(hostname)) return true;
+  try {
+    const { lookup } = await import("node:dns/promises");
+    const looked = await Promise.race([
+      lookup(hostname, { all: true, verbatim: true }),
+      new Promise<null>((resolve) => setTimeout(() => resolve(null), 800)),
+    ]);
+    if (!looked) return false;
+    return looked.some((row) => fetchTargetBlocked(row.address));
+  } catch {
+    return false;
+  }
+}
+
+/** Fetch a public https URL, return truncated plain text. Never throws. Redirects are capped and re-checked. */
 export async function fetchUrl(url: unknown, maxChars = 4000): Promise<{ ok: boolean; text: string; url: string }> {
   const raw = typeof url === "string" ? url.trim() : "";
   if (!/^https:\/\//i.test(raw)) {
     return { ok: false, text: "Only https URLs can be fetched.", url: raw };
   }
   try {
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 8000);
-    let res: Response;
-    try {
-      res = await fetch(raw, {
-        signal: ctrl.signal,
-        headers: { "User-Agent": "ArronBot/1.0 (pleadingsanity.co.uk)" },
-        redirect: "follow",
-      });
-    } finally {
-      clearTimeout(timer);
+    let current = raw;
+    for (let hop = 0; hop <= MAX_FETCH_REDIRECTS; hop++) {
+      let parsed: URL;
+      try {
+        parsed = new URL(current);
+      } catch {
+        return { ok: false, text: "That URL could not be read.", url: raw };
+      }
+      if (parsed.protocol !== "https:" || parsed.username || parsed.password) {
+        return { ok: false, text: "Only https URLs can be fetched.", url: raw };
+      }
+      if (await resolvesToBlockedAddress(parsed.hostname)) {
+        return { ok: false, text: "That address is not available to fetch.", url: raw };
+      }
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 8000);
+      let res: Response;
+      try {
+        res = await fetch(parsed.toString(), {
+          signal: ctrl.signal,
+          headers: { "User-Agent": "ArronBot/1.0 (pleadingsanity.co.uk)" },
+          redirect: "manual",
+        });
+      } finally {
+        clearTimeout(timer);
+      }
+      if (res.status >= 300 && res.status < 400) {
+        const next = res.headers.get("location");
+        if (!next || hop === MAX_FETCH_REDIRECTS) return { ok: false, text: "Too many redirects.", url: raw };
+        current = new URL(next, parsed).toString();
+        continue;
+      }
+      if (!res.ok) return { ok: false, text: `Fetch failed: HTTP ${res.status}.`, url: raw };
+      const html = await res.text();
+      // Crude HTML→text: drop scripts/styles, then tags, then collapse whitespace.
+      const text = html
+        .replace(/<script[\s\S]*?<\/script>/gi, " ")
+        .replace(/<style[\s\S]*?<\/style>/gi, " ")
+        .replace(/<[^>]+>/g, " ")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/\s+/g, " ")
+        .trim();
+      return { ok: true, text: text.slice(0, maxChars), url: raw };
     }
-    if (!res.ok) return { ok: false, text: `Fetch failed: HTTP ${res.status}.`, url: raw };
-    const html = await res.text();
-    // Crude HTML→text: drop scripts/styles, then tags, then collapse whitespace.
-    const text = html
-      .replace(/<script[\s\S]*?<\/script>/gi, " ")
-      .replace(/<style[\s\S]*?<\/style>/gi, " ")
-      .replace(/<[^>]+>/g, " ")
-      .replace(/&nbsp;/g, " ")
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/\s+/g, " ")
-      .trim();
-    return { ok: true, text: text.slice(0, maxChars), url: raw };
+    return { ok: false, text: "Too many redirects.", url: raw };
   } catch {
     return { ok: false, text: "Could not fetch that page right now (network error or timeout).", url: raw };
   }
@@ -201,7 +278,9 @@ export type ToolRoundResult = { toolUsed: ToolName; note: string } | null;
  * - If a tool is called and executed, the result is appended to the
  *   LAST user turn in `turns` (mutated in place) so the existing
  *   chain can produce the final reply with enriched context.
- * Logs only the tool name and a request tag — never message content.
+ * This round is an extra paid gpt-4o-mini call. Arron only starts it when the
+ * message looks like a solar estimate or an https page. Logs only the tool
+ * name and a request tag — never message content.
  */
 export async function maybeRunTools(
   system: string,
@@ -221,6 +300,7 @@ export async function maybeRunTools(
   }
   if (!OpenAICtor) return null;
   try {
+    // openaiToolsEnabled() already refused a gateway key. This client is direct OpenAI only.
     const client = new OpenAICtor({
       apiKey: process.env.OPENAI_API_KEY,
       baseURL: "https://api.openai.com/v1",
