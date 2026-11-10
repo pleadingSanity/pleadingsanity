@@ -1,6 +1,7 @@
 /* Support Us — config-wired donation slots.
-   Reads /data/support-config.json (public, no secrets). Empty slot = "Coming soon".
-   PayPal is intentionally never wired here (Shane's call, Nov 2026).
+   Reads /data/support-config.json (public, no secrets). Empty slot = honest dashed hint.
+   Filled slots render as proper styled buttons. PayPal is intentionally never wired here
+   (Shane's call, Nov 2026) — it stays a placeholder with an email fallback.
    Email is rendered server-side in support-us.html and always works without JS. */
 (function () {
   var DEFAULT = {
@@ -22,14 +23,47 @@
   }
   function card(active, label) {
     var c = el("div", "support-card click-card" + (active ? " support-card-active" : " support-card-soon"));
-    var lab = el("div", "support-label", label);
-    c.appendChild(lab);
+    c.appendChild(el("div", "support-label", label));
     return c;
   }
-  function soonNote(c, text) {
-    var p = el("p", "support-soon", text || "Coming soon — Shane is adding this option. Check back or email for details.");
+  /* Empty slot: honest dashed hint, never a broken button. */
+  function soonHint(c, what) {
+    var p = el("p", "support-soon");
+    p.textContent = "Add your " + what + " → data/support-config.json";
     c.appendChild(p);
+    var small = el("p", "support-note");
+    small.textContent = "Coming soon — Shane is wiring this up. Check back or email for details.";
+    c.appendChild(small);
   }
+  /* Primary action button (external link). */
+  function actionButton(href, text) {
+    var a = el("a", "support-btn support-btn-primary", text);
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    return a;
+  }
+  /* Copy-to-clipboard button with honest feedback. */
+  function copyButton(text, label) {
+    var b = el("button", "support-btn support-btn-ghost", label);
+    b.type = "button";
+    b.addEventListener("click", function () {
+      var done = function () {
+        b.textContent = "Copied ✓";
+        setTimeout(function () { b.textContent = label; }, 1800);
+      };
+      var fail = function () {
+        b.textContent = "Select & copy below";
+      };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, fail);
+        } else { fail(); }
+      } catch (e) { fail(); }
+    });
+    return b;
+  }
+
   function render(cfg) {
     // Clear any JS-rendered cards (keep the first child = email card, rendered server-side)
     while (host.children.length > 1) host.removeChild(host.lastChild);
@@ -37,38 +71,36 @@
     // Buy Me a Coffee
     var bmc = card(!!cfg.buyMeACoffee, "Buy Me a Coffee");
     if (cfg.buyMeACoffee) {
-      var a = el("a", "support-link", "Buy me a coffee →");
-      a.href = cfg.buyMeACoffee;
-      a.target = "_blank"; a.rel = "noopener noreferrer";
-      bmc.appendChild(a);
-    } else { soonNote(bmc); }
+      bmc.appendChild(el("p", "support-note", "One-off or monthly coffee. Runs through buymeacoffee.com."));
+      bmc.appendChild(actionButton(cfg.buyMeACoffee, "Buy me a coffee →"));
+    } else { soonHint(bmc, "Buy Me a Coffee page link"); }
     host.appendChild(bmc);
 
     // Ko-fi
     var kofi = card(!!cfg.kofi, "Ko-fi");
     if (cfg.kofi) {
-      var ka = el("a", "support-link", "Support on Ko-fi →");
-      ka.href = cfg.kofi;
-      ka.target = "_blank"; ka.rel = "noopener noreferrer";
-      kofi.appendChild(ka);
-    } else { soonNote(kofi); }
+      kofi.appendChild(el("p", "support-note", "One-off or monthly support. Runs through ko-fi.com."));
+      kofi.appendChild(actionButton(cfg.kofi, "Support on Ko-fi →"));
+    } else { soonHint(kofi, "Ko-fi page link"); }
     host.appendChild(kofi);
 
-    // Bank transfer
+    // Bank transfer (UK)
     var bt = cfg.bankTransfer || {};
     var btActive = !!(bt.enabled && bt.accountName && bt.sortCode && bt.accountNumber);
     var bank = card(btActive, "Bank transfer (UK)");
     if (btActive) {
+      var rows = [["Account name", bt.accountName], ["Sort code", bt.sortCode], ["Account number", bt.accountNumber], ["Reference", bt.reference || "your name"]];
       var dl = el("dl", "support-bank");
-      [["Account name", bt.accountName], ["Sort code", bt.sortCode], ["Account number", bt.accountNumber], ["Reference", bt.reference || "your name"]].forEach(function (row) {
+      rows.forEach(function (row) {
         if (!row[1]) return;
-        var dt = el("dt", null, row[0]);
-        var dd = el("dd", null, row[1]);
-        dl.appendChild(dt); dl.appendChild(dd);
+        dl.appendChild(el("dt", null, row[0]));
+        dl.appendChild(el("dd", null, row[1]));
       });
       bank.appendChild(dl);
       if (bt.note) bank.appendChild(el("p", "support-note", bt.note));
-    } else { soonNote(bank); }
+      var blob = rows.map(function (r) { return r[0] + ": " + r[1]; }).join("\n");
+      bank.appendChild(copyButton(blob, "Copy account details"));
+    } else { soonHint(bank, "bank details (account name, sort code, account number)"); }
     host.appendChild(bank);
 
     // Crypto
@@ -81,12 +113,19 @@
       crypto.appendChild(addr);
       if (cr.network) crypto.appendChild(el("p", "support-note", "Network: " + cr.network));
       if (cr.note) crypto.appendChild(el("p", "support-note", cr.note));
-    } else { soonNote(crypto); }
+      crypto.appendChild(copyButton(cr.address, "Copy address"));
+    } else { soonHint(crypto, "crypto address + network"); }
     host.appendChild(crypto);
 
-    // PayPal — always a placeholder, never wired (Shane's call)
+    // PayPal — always a placeholder, never wired (Shane's call). enabled:false stays.
     var pp = card(false, "PayPal");
-    soonNote(pp, (cfg.paypal && cfg.paypal.note) ? cfg.paypal.note : "PayPal is coming soon. In the meantime, email us and we'll arrange a secure link.");
+    var ppNote = (cfg.paypal && cfg.paypal.note)
+      ? cfg.paypal.note
+      : "PayPal is intentionally not wired yet. Email us and we'll arrange a secure link.";
+    pp.appendChild(el("p", "support-soon", ppNote));
+    var ppEmail = el("a", "support-btn support-btn-ghost", "Email for secure link →");
+    ppEmail.href = "mailto:" + (cfg.email || DEFAULT.email);
+    pp.appendChild(ppEmail);
     host.appendChild(pp);
   }
 

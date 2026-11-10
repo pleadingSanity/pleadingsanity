@@ -13,3 +13,18 @@
 .click-card>*:not(.click-card-link){position:relative;z-index:2}
 .click-card[aria-disabled="true"],.click-card.is-disabled{opacity:.6;border-style:dashed}
 @media(prefers-reduced-motion:reduce){.click-card,.click-card:hover{transition:none!important;transform:none!important}}
+/* Income / support strip — opt-in, ships in site.css so no layout shift. Dark/teal/amber, no purple. */
+.ps-donate-strip{box-sizing:border-box;max-width:760px;margin:2rem auto 0;padding:18px 20px;border-radius:18px;border:1px solid rgba(0,255,240,.35);background:linear-gradient(135deg,rgba(0,255,240,.10),rgba(245,158,11,.07)),#0d1b2a;text-align:center;color:#eef6ff;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+.ps-donate-strip-lead{margin:0 0 6px;font-size:1.05rem;font-weight:700;line-height:1.5;color:#eef6ff}
+.ps-donate-strip-sub{margin:0 0 12px;font-size:.92rem;line-height:1.55;color:#a9c7d1}
+.ps-donate-strip-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ps-donate-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 22px;border-radius:999px;font-weight:800;font-size:.98rem;text-decoration:none;white-space:nowrap;border:1px solid rgba(0,255,240,.5);background:rgba(0,255,240,.12);color:#eef6ff;box-sizing:border-box;transition:background .2s ease,border-color .2s ease}
+.ps-donate-btn:hover{background:rgba(0,255,240,.22);border-color:#00fff0}
+.ps-donate-btn:focus-visible{outline:3px solid #00fff0;outline-offset:2px}
+.ps-donate-btn-primary{background:#00fff0;color:#0b0f19;border-color:#00fff0;box-shadow:0 0 18px rgba(0,255,240,.35)}
+.ps-donate-btn-primary:hover{background:#5eead4;color:#0b0f19}
+.ps-donate-btn-amber{border-color:rgba(245,158,11,.55);background:rgba(245,158,11,.12);color:#fde68a}
+.ps-donate-btn-amber:hover{background:rgba(245,158,11,.22);border-color:#f59e0b}
+.ps-donate-btn-amber:focus-visible{outline-color:#f59e0b}
+@media (max-width:480px){.ps-donate-strip-actions{flex-direction:column}.ps-donate-btn{width:100%}}
+@media (prefers-reduced-motion:reduce){.ps-donate-btn{transition:none}}
