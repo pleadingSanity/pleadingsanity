@@ -47,7 +47,7 @@ function makeSupabaseMock() {
 // Save/restore env + fetch around each test.
 const realFetch = globalThis.fetch;
 const envSnapshot = {};
-for (const k of ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'OPENAI_API_KEY']) envSnapshot[k] = process.env[k];
+for (const k of ['SUPABASE_URL', 'SUPABASE_ANON_KEY', 'OPENAI_API_KEY', 'OPENAI_BASE_URL']) envSnapshot[k] = process.env[k];
 
 function restoreEnv() {
   for (const [k, v] of Object.entries(envSnapshot)) {
@@ -193,6 +193,28 @@ test('tools: crisisCheck detects crisis words and returns lines incl. 116 123, 9
   assert.equal(no.lines, undefined);
 });
 
+test('tools: gateway key is not sent to api.openai.com', async () => {
+  process.env.OPENAI_API_KEY = 'present-key-value';
+  process.env.OPENAI_BASE_URL = 'https://ai-gateway.example.test/v1';
+  globalThis.fetch = async () => { throw new Error('must not call openai'); };
+  try {
+    assert.equal(openaiToolsEnabled(), false);
+    const turns = [{ role: 'user', content: 'how many solar panels for a 4kW roof?' }];
+    const result = await maybeRunTools('system', turns, { maxTokens: 100, deadline: Date.now() + 5000, logTag: 'test' });
+    assert.equal(result, null);
+    assert.equal(turns[0].content, 'how many solar panels for a 4kW roof?');
+  } finally {
+    restoreEnv();
+  }
+});
+
+test('tools: direct OpenAI client is guarded the same way as the chain', () => {
+  const src = readFileSync(new URL('../netlify/lib/arron-tools.ts', import.meta.url), 'utf8');
+  assert.match(src, /Boolean\(process\.env\.OPENAI_API_KEY\) && !process\.env\.OPENAI_BASE_URL/);
+  assert.match(src, /redirect: "manual"/);
+  assert.match(src, /MAX_FETCH_REDIRECTS = 3/);
+});
+
 test('tools: fetchUrl rejects non-https and fails gracefully on network error', async () => {
   const bad = await fetchUrl('http://insecure.example.com/page');
   assert.equal(bad.ok, false);
@@ -202,6 +224,39 @@ test('tools: fetchUrl rejects non-https and fails gracefully on network error', 
     const down = await fetchUrl('https://example.com');
     assert.equal(down.ok, false);
     assert.match(down.text, /could not fetch/i);
+  } finally {
+    restoreEnv();
+  }
+});
+
+test('tools: fetchUrl blocks localhost and private addresses and caps redirects', async () => {
+  globalThis.fetch = async () => { throw new Error('blocked addresses must not be fetched'); };
+  try {
+    for (const url of [
+      'https://localhost/secret',
+      'https://127.0.0.1/secret',
+      'https://10.1.2.3/secret',
+      'https://192.168.1.9/secret',
+      'https://169.254.169.254/latest',
+      'https://[::1]/secret',
+    ]) {
+      const blocked = await fetchUrl(url);
+      assert.equal(blocked.ok, false, url);
+      assert.match(blocked.text, /not available/i);
+    }
+  } finally {
+    restoreEnv();
+  }
+  let calls = 0;
+  globalThis.fetch = async () => {
+    calls += 1;
+    return new Response(null, { status: 302, headers: { location: 'https://example.com/next' } });
+  };
+  try {
+    const redirected = await fetchUrl('https://example.com/start');
+    assert.equal(redirected.ok, false);
+    assert.match(redirected.text, /redirect/i);
+    assert.ok(calls <= 4, `redirects must stop by 4 fetches, saw ${calls}`);
   } finally {
     restoreEnv();
   }
@@ -236,7 +291,9 @@ test('arron.mts: provider chain fallback preserved (reply()/runChain still the s
   assert.match(arronSrc, /import \{ ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne/);
   assert.match(arronSrc, /return runChain\(system, turns,/);
   // tool path is guarded by openaiToolsEnabled and never replaces reply()
-  assert.match(arronSrc, /if \(!council && !family && openaiToolsEnabled\(\)\)/);
+  assert.match(arronSrc, /if \(!council && !family && openaiToolsEnabled\(\) && toolRoundWorthPaying\(message\)\)/);
+  assert.doesNotMatch(arronSrc, /askGrokDirect\(\s*\)/);
+  assert.match(arronSrc, /askGrokDirect\(\s*"You are Arron/);
   assert.match(arronSrc, /await maybeRunTools\(/);
 });
 

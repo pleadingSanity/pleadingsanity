@@ -2,6 +2,8 @@
 // Answers must stay inside this file. Costs are typical guides, never quotes.
 // Sources below were fetched on 31 Oct 2026 and returned HTTP 200.
 
+import { CRISIS_WORDS as SHARED_CRISIS_WORDS } from "./crisis-phrases.js";
+
 export const SOLAR_SOURCES = [
   { name: "HMRC VAT Notice 708/6", href: "https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086" },
   { name: "Warm Homes Loan factsheet", href: "https://www.gov.uk/government/news/warm-homes-loan-scheme-factsheet" },
@@ -18,7 +20,8 @@ export const SOLAR_SOURCES = [
 
 export const CRISIS_REPLY = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist. The solar questions can wait.";
 
-const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|(?:don'?t|do not) want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+// One shared list for the house: ./crisis-phrases.js (normalises curly apostrophes first).
+const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 
 export function solarLooksLikeCrisis(text: string) {
   return CRISIS_WORDS.test(String(text || ""));

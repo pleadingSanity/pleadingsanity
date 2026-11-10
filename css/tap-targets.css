@@ -1,0 +1,92 @@
+/* ==============================================================
+   48px tap targets on phones (Dola, 10 Nov 2026).
+   SIZING ONLY: min-height, min-width, padding, display, alignment.
+   No colour, font or border values here, so the locked palette and
+   every page's look stay exactly as they were.
+   Loaded last on index.html and arron-app.html. Scoped to small or
+   touch screens so desktop layouts do not move.
+   Evolution, Not Erasure: nothing is removed or hidden.
+   ============================================================== */
+@media (max-width: 768px), (pointer: coarse) {
+  /* ── Homepage: top navigation ── */
+  .ps-nav .ps-brand,
+  .ps-nav a.ps-crisis,
+  .ps-nav .ps-nav-toggle,
+  .ps-nav .ps-signin { min-height: 48px; }
+
+  /* Explore menu (includes Insane Solar) */
+  .mobile-explore > summary { min-height: 48px; }
+  .mobile-explore .mobile-explore-links a { min-height: 48px; }
+
+  /* Hero controls and links */
+  #atmosphereToggle,
+  #shareBtn { min-height: 48px; }
+  .home-companion-note a,
+  .ps-start-urgent a,
+  .home-support-note a,
+  .hero .links a,
+  .h-card .u-url {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    min-width: 48px;
+    vertical-align: middle;
+  }
+
+  /* Tool cards and support strip */
+  .tool-card .ps-btn,
+  .ps-donate-strip .ps-donate-btn { min-height: 48px; }
+
+  /* Footer: socials (includes Insane Solar) and page links */
+  footer .socials a,
+  footer > div > a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    min-width: 48px;
+    padding-left: .4rem;
+    padding-right: .4rem;
+    vertical-align: middle;
+  }
+
+  /* Preference banner (js/consent.js) */
+  [role="dialog"][aria-label="Site preference"] button { min-height: 48px; min-width: 48px; }
+
+  /* Homepage music bar (js/home-music.js) */
+  [role="region"][aria-label="Homepage music"] button { min-height: 48px; min-width: 48px; }
+  [role="region"][aria-label="Homepage music"] input[type="range"] { min-height: 48px; }
+
+  /* ── Arron app: crisis strip phone links ── */
+  .aa-crisis-persist a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    min-width: 48px;
+    padding: 0 .3rem;
+    vertical-align: middle;
+  }
+
+  /* ── Arron app: top bar, memory bar, quick chips, compose buttons, support note ── */
+  .aa-top .aa-brand,
+  .aa-top .aa-icon-btn,
+  .aa-top .aa-help-btn,
+  .arron-membar a,
+  .arron-membar button,
+  #aa-quick .aa-chip,
+  #aa-form #aa-listen,
+  #aa-form #aa-draw { min-height: 48px; min-width: 48px; }
+  .aa-note a { display: inline-flex; align-items: center; min-height: 48px; }
+
+  /* Arron app music widget (js/music-player.js) */
+  #ps-music-widget .ps-mp-btn { min-width: 48px; min-height: 48px; }
+  #ps-music-widget .ps-mp-volume { min-height: 48px; }
+
+  /* ── Arron app: install banner ── */
+  #aa-install-close { min-width: 48px; min-height: 48px; align-self: flex-end; }
+  /* The banner is a column; the shared `.aa-notice p { flex: 1 1 14rem }` turned 14rem into
+     height and left a large empty gap. Let the text take only the room it needs. */
+  #aa-install-banner > p { flex: 0 0 auto; }
+}
