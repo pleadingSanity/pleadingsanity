@@ -2,14 +2,20 @@
 // Plain GET: key presence only (no spend).
 // ?probe=1: one lightweight GET per provider (credential validity, no spend) + site daily budget counter.
 // ?probe=2: one real 1-token chat completion per provider (negligible spend) to prove the exact hop that fails.
+// Probe levels 1 and 2 make real provider calls, so they are locked down: if PS_PROBE_TOKEN is set,
+// only a matching ?token= may probe; otherwise the AI rate-limit bucket bounds abuse. probe=0 stays public.
 import type { Config, Context } from "@netlify/functions";
 import { db } from "../../db/index.js";
 import { rateLimits } from "../../db/schema.js";
 import { sql } from "drizzle-orm";
+import { allow, slowDown } from "../lib/rate-limit.js";
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 const nonEmpty = (v: string | undefined) => Boolean(v && v.trim().length > 8);
-
+// Never echo a credential-looking string back to the client. Provider error
+// bodies shouldn't contain them, but a defensive strip costs nothing.
+const TOKENISH = /(sk-[a-zA-Z0-9]{16,}|nfp_[a-zA-Z0-9]{16,}|ghp_[a-zA-Z0-9]{16,}|xox[a-zA-Z]-[a-zA-Z0-9]{8,}|Bearer [A-Za-z0-9._-]{16,})/g;
+export const sanitizeProbeError = (s: string) => s.replace(TOKENISH, "[redacted]");
 async function getProbe(name: string, url: string, headers: Record<string, string>) {
   const started = Date.now();
   try {
@@ -19,10 +25,9 @@ async function getProbe(name: string, url: string, headers: Record<string, strin
     clearTimeout(t);
     return { provider: name, ok: res.ok, status: res.status, ms: Date.now() - started };
   } catch (error) {
-    return { provider: name, ok: false, status: 0, error: String(error).slice(0, 60), ms: Date.now() - started };
+    return { provider: name, ok: false, status: 0, error: sanitizeProbeError(String(error).slice(0, 60)), ms: Date.now() - started };
   }
 }
-
 async function chatProbe(name: string, url: string, headers: Record<string, string>, body: unknown) {
   const started = Date.now();
   try {
@@ -31,13 +36,12 @@ async function chatProbe(name: string, url: string, headers: Record<string, stri
     const res = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...headers }, body: JSON.stringify(body), signal: ctrl.signal });
     clearTimeout(t);
     const text = await res.text();
-    return { provider: name, ok: res.ok, status: res.status, ms: Date.now() - started, err: res.ok ? undefined : text.slice(0, 120) };
+    return { provider: name, ok: res.ok, status: res.status, ms: Date.now() - started, err: res.ok ? undefined : sanitizeProbeError(text.slice(0, 120)) };
   } catch (error) {
-    return { provider: name, ok: false, status: 0, error: String(error).slice(0, 60), ms: Date.now() - started };
+    return { provider: name, ok: false, status: 0, error: sanitizeProbeError(String(error).slice(0, 60)), ms: Date.now() - started };
   }
 }
-
-export default async (req: Request, _context: Context) => {
+export default async (req: Request, context: Context) => {
   if (req.method !== "GET") return json({ error: "Method not allowed" }, 405);
   const env = process.env;
   const url = new URL(req.url);
@@ -59,8 +63,25 @@ export default async (req: Request, _context: Context) => {
   } catch {
     budget = { ...budget, used: -1, remaining: -1 };
   }
+  // Probe levels 1 and 2 make real provider calls (and spend a little). Lock
+  // them down: if PS_PROBE_TOKEN is set, only a matching ?token= may probe.
+  // If it is not set, still bound abuse with the AI rate-limit bucket. probe=0
+  // (key presence + budget) stays public — it never calls a provider.
+  if (probeLevel !== "0" && probeLevel !== "1" && probeLevel !== "2") {
+    return json({ error: "probe must be 0, 1 or 2", keys, budget }, 400);
+  }
+  if (probeLevel !== "0") {
+    const token = (env.PS_PROBE_TOKEN || "").trim();
+    const given = (url.searchParams.get("token") || "").trim();
+    if (token && given !== token) {
+      return json({ error: "Probe locked. Set ?token= to PS_PROBE_TOKEN, or use ?probe=0 for key presence only.", keys, budget }, 403);
+    }
+    if (!(await allow("ai", context))) {
+      return slowDown("Probes are rate-limited — wait a minute, or use ?probe=0 for key presence only.");
+    }
+  }
   if (probeLevel === "0") {
-    return json({ ok: true, chain: ["openai", "anthropic", "gemini", "grok"], keys, budget, note: "Key presence + budget only. ?probe=1 credential check, ?probe=2 real 1-token chat." });
+    return json({ ok: true, chain: ["openai", "anthropic", "gemini", "grok"], keys, budget, note: "Key presence + budget only. ?probe=1 credential check, ?probe=2 real 1-token chat. Probe locked with PS_PROBE_TOKEN when set." });
   }
   const openaiKey = env.OPENAI_API_KEY || "";
   const anthropicKey = env.ANTHROPIC_API_KEY || env.Anthropic_Key_Arron || "";
@@ -74,7 +95,7 @@ export default async (req: Request, _context: Context) => {
       getProbe("gemini", `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(geminiKey)}`, {}),
       getProbe("grok", "https://api.x.ai/v1/models", { Authorization: `Bearer ${grokKey}` }),
     ]);
-    return json({ ok: true, probed: 1, keys, budget, openaiBaseUrlSet: Boolean((env.OPENAI_BASE_URL || "").trim()), model, probes, note: "Credential GET check + budget. ?probe=2 for real chat." });
+    return json({ ok: true, probed: 1, keys, budget, openaiBaseUrlSet: Boolean((env.OPENAI_BASE_URL || "").trim()), model, probes, note: "Credential GET check + budget. ?probe=2 for real chat. No keys returned." });
   }
   const chat = await Promise.all([
     chatProbe("openai", "https://api.openai.com/v1/chat/completions", { Authorization: `Bearer ${openaiKey}` }, { model: model.openai, max_completion_tokens: 1, messages: [{ role: "user", content: "hi" }] }),
