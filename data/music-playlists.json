@@ -3,5 +3,24 @@
   "youtube_url": "",
   "sonos_url": "",
   "amazon_music_url": "",
-  "shane_playlists": []
+  "shane_playlists": [
+    {
+      "name": "hop to the hippy",
+      "youtube_playlist_id": "PLhZnPPln9EKVzn2CBtCscdniW7_NrB5r_",
+      "url": "https://music.youtube.com/playlist?list=PLhZnPPln9EKVzn2CBtCscdniW7_NrB5r_",
+      "description": "Shane's hip-hop mix \u2014 public playlist from his YouTube channel."
+    },
+    {
+      "name": "my game music",
+      "youtube_playlist_id": "PLhZnPPln9EKXpOTYoX6GHt7MEATzJtxy9",
+      "url": "https://music.youtube.com/playlist?list=PLhZnPPln9EKXpOTYoX6GHt7MEATzJtxy9",
+      "description": "Shane's game music picks \u2014 public playlist from his YouTube channel."
+    },
+    {
+      "name": "Shane's YouTube Music channel",
+      "youtube_playlist_id": "",
+      "url": "https://music.youtube.com/@thecreatormma5440",
+      "description": "All of Shane's public playlists on YouTube Music \u2014 open in the app."
+    }
+  ]
 }
