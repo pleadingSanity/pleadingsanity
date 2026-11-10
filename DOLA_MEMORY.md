@@ -1,6 +1,14 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10 (final buff complete). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-10 — MUSIC+RADIO CLICK BUFFS (PR #285, live)
+- **All songs clickable & playable:** music-player.js drawer rows ≥44px play buttons (playTrackById), like/dislike preserved at 44px, is-current highlight. New js/music-app-player.js for music/index.html (tracks.json + MediaSession lock-screen). sanity-songs.js play icons.
+- **Playlist buttons (config-driven, NO invented URLs):** data/music-playlists.json slots (all still empty) render as big themed buttons in 3 places: music/index.html #music-slots, floating-widget drawer, insane-radio playlist section. YouTube→in-page nocookie embed; Sonos→"Open in Sonos app" deep-link; Amazon→"Open in Amazon Music". Empty→dashed hint "Add your [Platform] playlist link → data/music-playlists.json".
+- **Shane screen-recording fix (root cause):** insane-radio.html did NOT load music-player.js at all → vote buttons invisible. Now wired + injected visible Like/Dislike&skip row into curated player (ps_radio_vote_*, disliked skipped). Up-next rows → clickable ≥44px play buttons. #radio-time min-width reserved (no layout shift).
+- **Click-square:** .click-card utility in site.css (hover lift + teal glow, focus-visible, reduced-motion), applied to support-us options. Shop/feed/solar/movement skipped (already rich / brand separation).
+- **Radio buffs:** genre in now-playing, smooth fade, mobile single-column playlist, station-stop 48px.
+- Shane-action: drop playlist URLs into data/music-playlists.json (youtube_url/sonos_url/amazon_music_url) and tracks into music/tracks.json — no code change needed.
+
 ## 2026-11-10 — BEAUTY / ANTI-SLOPPY POLISH (PR #283, live)
 - Fixed last `class=class=` bug (solar-ai-office h1). Site-wide count now 0.
 - 3 sub-44px tap targets → 44px (feed like/btn-small, ai-social parentLink).
