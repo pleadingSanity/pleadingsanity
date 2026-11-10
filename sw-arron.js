@@ -9,7 +9,7 @@
 // Evolution, Not Erasure.
 // ==============================================================
 
-const VERSION = '3.11-theme-0b0f19';
+const VERSION = '3.12-crisis-phrases';
 const PREFIX = 'arron-';
 const CACHE = PREFIX + VERSION;
 const APP_URL = '/arron-app.html';
@@ -18,6 +18,7 @@ const PRECACHE_URLS = [
     APP_URL,
     '/arron-knowledge.json',
     '/manifest-arron.json',
+    '/js/crisis-phrases.js',
     '/js/arron-core.js',
     '/css/styles.css',
     '/css/animations.css',

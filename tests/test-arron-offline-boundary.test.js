@@ -35,9 +35,13 @@ for (const [name, source] of Object.entries(sources)) {
   });
 }
 
-const companion = vm.runInNewContext(`${sources.companion.slice(sources.companion.indexOf('const MOOD_WORDS ='), sources.companion.indexOf('// ─── STATE'))}\n({ offlineResponse, CRISIS_REPLY, OFFLINE })`, { currentMood: null });
+// The page loads /js/crisis-phrases.js before arron-companion.js, so the sandbox does too.
+const sharedCrisis = { window: {} };
+vm.runInNewContext(readFileSync(new URL('../js/crisis-phrases.js', import.meta.url), 'utf8'), sharedCrisis);
+const companion = vm.runInNewContext(`${sources.companion.slice(sources.companion.indexOf('const MOOD_WORDS ='), sources.companion.indexOf('// ─── STATE'))}\n({ offlineResponse, CRISIS_REPLY, OFFLINE })`, { currentMood: null, window: sharedCrisis.window });
 test('web fallback: crisis takes priority over breathing and anxious keywords', () => {
   assert.equal(companion.offlineResponse('I want to die and cannot breathe'), companion.CRISIS_REPLY);
+  assert.equal(companion.offlineResponse('I don’t want to live and cannot breathe'), companion.CRISIS_REPLY);
 });
 test('web fallback: ordinary breathing and unknown messages retain local replies', () => {
   assert.ok(companion.OFFLINE.breathe.includes(companion.offlineResponse('Can we breathe together?')));
