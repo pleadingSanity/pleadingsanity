@@ -1095,3 +1095,10 @@ docs/grok-sync-20261109
 ### LEFT OPEN: #185 orphan (Shane closes), #258 codeql-action Dependabot (PAT lacks workflow scope — Shane merges in UI or rotates PAT with workflow scope).
 ### Blocked notes: ghp_uADq token invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
 ### Rollback: reverse merge order with git revert -m 1.
+
+## 2026-11-10 — Solar assistant usability and audit accuracy (review branch)
+Baseline: main at 870ecc0. Scope: the existing Insane Solar chat widget and its regression test, plus heading detection in the static ecosystem audit. No production or provider changes.
+- Fixed repeat contact submissions when device storage is unavailable; one question uses the existing solar endpoint. Panel supports focus, Escape and constrained screen heights. No changes to payment, pricing, forms destinations, AI routing, or the approved lead requirement.
+- Checked the loaded solar client rather than a retired filename. Counted headings in the actual page rather than exported HTML inside scripts; no journal edits.
+- Evidence: 205/205 automated tests, 83 root pages / 289 script blocks, 85-page ecosystem audit (zero errors/warnings). Separate whole-site policy scan: zero failures, 236 warnings needing interpretation; separate markup scan flags potential labels. Six read-only public availability checks passed. No model calls, member access or actual contact submissions. Local Chromium could not start: socket creation denied; visual checks remain open.
+- Netlify reported ready on a588810, distinct from the audited GitHub head. No merge or deploy. Independent review not performed.

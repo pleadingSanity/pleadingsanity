@@ -65,9 +65,46 @@ test('the solar function uses the Arron chain, limits, and crisis first', () => 
   assert.match(fn, /path: "\/api\/solar"/);
   assert.match(fn, /SOLAR_BOUNDARY/);
   assert.doesNotMatch(fn, /GEMINI_API_KEY\s*=\s*["']/);
-  assert.match(page, /\/js\/solar-assistant\.js/);
+  const clientPath = page.match(/<script\b[^>]*\bsrc="(\/js\/solar-assistant[^"/]*\.js)"[^>]*>/i)?.[1];
+  assert.ok(clientPath, 'the page loads its solar chat client');
+  const client = readFileSync(new URL('..' + clientPath, import.meta.url), 'utf8');
+  assert.match(client, /fetch\(["']\/api\/solar["']/);
   assert.doesNotMatch(page, /fetch\('\/api\/arron'/);
   assert.match(lab, /solar-ai-ask/);
   assert.match(lab, /solar-ai-diy/);
   assert.match(lab, /solar-ai-crisis/);
+});
+
+test('chat remains usable without device storage; Escape restores focus and one question sends once', async () => {
+  const {runInNewContext} = await import('node:vm');
+  const {setImmediate: tick} = await import('node:timers/promises');
+  const elements = new Map(), requests = [];
+  let focused;
+  function element(id) {
+    if (!elements.has(id)) {
+      const events = {};
+      elements.set(id, {style:{}, value:'', children:[], attrs:{},
+        setAttribute(key,value){this.attrs[key]=value;}, focus(){focused=id;},
+        addEventListener(key,fn){events[key]=fn;}, click(){events.click?.();},
+        key(key){events.keydown?.({key,preventDefault(){}});}, appendChild(el){this.children.push(el);}
+      });
+    }
+    return elements.get(id);
+  }
+  const path = page.match(/<script\b[^>]*\bsrc="(\/js\/solar-assistant[^"/]*\.js)"[^>]*>/i)[1];
+  const document = {getElementById:element, createElement:()=>element(Symbol()),
+    querySelector:q=>q==='[data-solar-send]'?element('send'):null};
+  const denied = () => { throw Error('Storage unavailable'); };
+  const fetch = async (url,opts) => { requests.push([url,opts]); return {ok:true,json:async()=>({reply:'Test reply'})}; };
+  runInNewContext(readFileSync(new URL('..'+path,import.meta.url),'utf8'),{document,window:{},localStorage:{getItem:denied,setItem:denied},fetch,AbortController,URLSearchParams,setTimeout,clearTimeout});
+  const panel=element('ai-chat-panel'), toggle=element('ai-chat-toggle'), input=element('ai-chat-input');
+  panel.style.display='none'; toggle.click();
+  assert.equal(toggle.attrs['aria-expanded'],'true'); assert.equal(focused,'ai-lead-name');
+  element('ai-lead-name').value='Example'; element('ai-lead-phone').value='07700900000';
+  element('ai-lead-submit').click(); input.value='A sample question'; input.key('Enter'); element('send').click();
+  panel.key('Escape'); await tick();
+  assert.deepEqual(requests.map(([url])=>url), ['/','/api/solar']);
+  assert.deepEqual(JSON.parse(requests[1][1].body),{message:'A sample question'});
+  assert.equal(element('ai-chat-messages').children.at(-1).textContent,'Test reply');
+  assert.equal(toggle.attrs['aria-expanded'],'false'); assert.equal(focused,'ai-chat-toggle');
 });

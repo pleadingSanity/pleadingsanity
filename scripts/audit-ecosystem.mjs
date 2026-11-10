@@ -70,7 +70,9 @@ function redirectedFile(value) {
 for (const page of html) {
   const rel = rootRel(page), src = readFileSync(page,'utf8');
   const title = src.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/\s+/g,' ').trim() || '';
-  const h1 = [...src.matchAll(/<h1\b/gi)].length;
+  // Embedded export documents and HTML comments are not headings in this page.
+  const markup = src.replace(/<!--[\s\S]*?-->|<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
+  const h1 = [...markup.matchAll(/<h1\b/gi)].length;
   const canonical = src.match(/<link\b(?=[^>]*rel\s*=\s*["']canonical["'])[^>]*>/i)?.[0] || '';
   const desc = /<meta\b(?=[^>]*name\s*=\s*["']description["'])[^>]*>/i.test(src);
   const sensitive = /(?:^|\/)(?:arron|journal-vault|support|crisis)\.html$/i.test(rel);
