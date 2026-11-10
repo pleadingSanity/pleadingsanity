@@ -1,6 +1,13 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10 (final buff complete). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-11 — FULL-SITE BUFF PASS (PRs #287–#290, live)
+4 parallel subagents, all merged. PR #269 (draft, solar chat repeat) closed as superseded.
+- **#288 Solar+AI Office:** truth audit 0 forbidden claims; softened 3 borderline "lads/fits" lines → trusted local MCS/NAPIT crew, Shane organises/oversees. Lead-gate (solar-chat-lead) verified: name+mobile gate, single POST, Enter works, no double-submit. Estimator (solar-estimator-lead) verified: honest disclaimer, 48px controls, mobile 1-col. AI Office states AI-never-certifies 6×. Only insane-solar.html changed.
+- **#287 Shop/activewear:** 2 hero LCP images lazy→eager; 4 sub-44px tap targets (wishlist remove 36→44, close × 28→44, marketplace modal 40→44, eco-nav 42→44); card hover lift+teal glow+focus-visible+reduced-motion (new css/shop-buff.css). All 28 images + links verified; 0 fake reviews; "design preview, no stock" honest labels intact. PayPal/deposit untouched.
+- **#289 Sanctuary/a11y/crisis:** 10+ footer crisis bars: SHOUT 85258 made tappable sms: links (was plain <strong>); about/aura-hz/my-digital-story/cosmic-reflections/new-gen-bible crisis numbers all tappable; added missing NHS 111 to 2 footers. og:image added to cosmic-reflections (last missing). overflow-x on aura-hz. A11y stragglers 0 (all inputs labeled, alt present, no dup IDs, no broken anchors). Healing freqs clean (174/285/432/528 only).
+- **#290 Perf/SEO:** 6 above-fold hero images lazy→eager (ai-social, aura-hz, insane-radio, finance [contradictory fetchpriority=high+lazy fixed], poker, sanity-solitaire). youtube-nocookie preconnect added to live.html + profile.html (only 2 pages embedding youtube). Image dims already complete (0 added); sitemap 66 urls clean, no leaks; netlify.toml untouched.
+
 ## 2026-11-10 — MUSIC+RADIO CLICK BUFFS (PR #285, live)
 - **All songs clickable & playable:** music-player.js drawer rows ≥44px play buttons (playTrackById), like/dislike preserved at 44px, is-current highlight. New js/music-app-player.js for music/index.html (tracks.json + MediaSession lock-screen). sanity-songs.js play icons.
 - **Playlist buttons (config-driven, NO invented URLs):** data/music-playlists.json slots (all still empty) render as big themed buttons in 3 places: music/index.html #music-slots, floating-widget drawer, insane-radio playlist section. YouTube→in-page nocookie embed; Sonos→"Open in Sonos app" deep-link; Amazon→"Open in Amazon Music". Empty→dashed hint "Add your [Platform] playlist link → data/music-playlists.json".
