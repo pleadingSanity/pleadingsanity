@@ -1,14 +1,37 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
-_Last updated: 2026-11-09. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+_Last updated: 2026-11-10. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+
+## 2026-11-10 — FOUNDER IDENTITY UPDATE (all AIs must use this)
+- **Shane Cooper = builder, roofer, visionary (Midlands).** He RECENTLY STOPPED fitting solar panels and is BACK TO FULL-TIME ROOFING. Focus is the Pleading Sanity movement; end goal = peace and unity for all.
+- **Insane Solar repositioned:** NOT "we fit solar". Shane organises + oversees; trusted local crews fit; AI Office handles paperwork. Copy softened from "we fit/our crew/installer-led" to "we specify/we organise/trusted local fitters/roofer-led". Do NOT revert to "we fit solar" — it is factually wrong.
+- **feed.html buff:** fixed `class=class=` malformed attribute on all feed items (they were unstyled), added 3 image feed items using real roof photos (images/solar01/03/05.jpg).
+- **Deploy still blocked (Netlify not picking up main pushes).** Trigger manually in app.netlify.com → Deploys → Trigger deploy, or via Claude Netlify MCP.
+
+## 2026-11-10 — LATEST (Dola buff pass while Claude offline — read this FIRST)
+- **Code merged & verified on GitHub main:** PR #266 (cache fix), #267 (solar chat lead-gate: name+mobile before AI answers, posts to Netlify form `solar-chat-lead`), #268 (js/solar-assistant.js → solar-assistant-v2.js cache-bust). Plus empty commit 7811498 to retrigger deploy.
+- **DEPLOY BLOCKED (Netlify-side):** production still serves old build (no leadgate, /js/* still immutable). Tried: workflow_dispatch on deploy.yml → no run created (fine-grained PAT lacks Actions:write scope). Empty-commit push to main → Netlify Git integration not firing. Known account-wide preview-deploy error (exit 4) may also affect main. **Fix: Shane triggers in app.netlify.com → Deploys → Trigger deploy, OR Claude (Netlify MCP) triggers when back.** Once deployed, verify: insane-solar.html contains `ai-chat-leadgate` + `solar-assistant-v2.js`, js file contains `captureLead`, /js/* Cache-Control = must-revalidate.
+- **Site audit (all clean):** 14 key pages all 200. No broken internal links (support.html/kids-series.html/transparency.html all have 301s in _redirects). 5 pages previously missing og:title now all have og:title+og:description. 0 secrets in repo (Netlify secret scan).
+- **Claude now has: Netlify MCP + GitHub connector (full powers).** When back, it can: trigger deploy, set env vars (PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID missing → verify-paypal 503; MAX_TOKENS_ARRON 1000→1600; check Firebase prod vars; Gemini/Grok model slugs — verify OpenRouter slug before changing), read solar form submissions (solar-enquiry + solar-chat-lead). Resume prompt is in this chat (claude-resume-prompt-5h.md).
+- **SECURITY — still pending Shane:** revoke (1) OpenRouter key pasted in Claude chat (openrouter.ai/keys), (2) GitHub PAT pasted in Dola chat (still valid as of this session). PAT is Contents:Read/Write only — no Actions, no Admin.
+- **Do NOT re-build:** insane-solar.html, ai-social.html, js/solar-assistant-v2.js, verify-paypal.mts — done & verified. Add around them only. Evolution, Not Erasure.
+
+## 2026-11-10 — Dola session: cache-header fix, PayPal audit, security rotation (read this first)
+- **FIXED (PR open):** `netlify.toml` had DUPLICATE `/js/*` + `/css/*` cache headers — a 1-year `immutable` block overrode the `must-revalidate` rules, so pushed fixes never reached visitors. Removed immutable js/css blocks (kept `/data/*.json` 3600). JS/CSS now always fresh. Merge PR to deploy.
+- **PayPal audit (verify-paypal.mts):** Code is SAFE — server-side checks `status===COMPLETED` AND `50.00 GBP`, rate-limited, replay-protected, returns 503 gracefully. **Only gap:** returns 503 until Shane sets `PAYPAL_CLIENT_ID` + `PAYPAL_CLIENT_SECRET` (+`PAYPAL_MERCHANT_ID`) in Netlify env. Not a code bug.
+- **SECURITY — ROTATE NOW:** (1) OpenRouter key Shane pasted into Claude chat — revoke at openrouter.ai/keys. (2) GitHub PAT pasted in this Dola chat (still valid 2026-11-10) — revoke at GitHub → Settings → Developer settings → Tokens after this PR pushes.
+- **Insane Solar chat widget (~line 1778):** No lead-gate — fires `/api/arron/chat` directly. Claude proposed name+number capture before widget fires — open enhancement, not a bug. No Google Maps API key/box exists on main's solar pages (Claude likely saw a draft); nothing to remove.
+- **Claude social pack:** `insane-solar-social-pack.html` built as chat artifact (5 TikTok scripts, 4 FB posts, 4 WhatsApp statuses, 4-week calendar + audit) — NOT in repo. Shane to film Script 1 (60s roof/doorstep) for first leads.
+- **Live:** `/insane-solar.html`, `/ai-social.html`, `/images/solar01-08.jpg` all 200. Repo pleadingSanity/pleadingsanity, main protected (branch + PR only).
+
 ## Project
 - **Site:** https://pleadingsanity.co.uk — free mental-health sanctuary. "Rise From Madness. Evolution, Not Erasure. One Source. One Family." Built by Shane Cooper (Midlands, UK).
 - **Repo:** pleadingSanity/pleadingsanity (org capital S). `main` branch protected (no direct push; branch + PR; self-merge via API works, no required reviews).
 - **Netlify site ID:** 31c56935-32d5-4932-8a63-2db881842090. Preview deploys currently error account-wide (exit code 4, pre-existing); main builds fine.
-- **Current main HEAD:** e1a6b9e (2026-11-09). 85 HTML pages. IndieWeb live (h-card, 5 rel-me, webmention+pingback endpoints discoverable). Turso (libSQL) wired: /api/turso-health LIVE (ok:true), /api/profile-songs auth-gated (Netlify Identity), profile songs sync with localStorage fallback.
+- **Current main HEAD:** (see git log — 2026-11-10, includes #256 Arron knowledge mirror + Dependabot). 85 HTML pages. IndieWeb live (h-card, 5 rel-me, webmention+pingback endpoints discoverable). Turso (libSQL) wired: /api/turso-health LIVE (ok:true), /api/profile-songs auth-gated (Netlify Identity), profile songs sync with localStorage fallback.
 ## Open PRs (2026-11-09)
-- **#252** (Grok, docs-only, AI_HANDOFF append) — safe, pending merge.
+- **#252** merged. **#256** (Arron knowledge mirror) merged.
 - **#185** (founder succession docs) — orphan branch, no merge base ("refusing to merge unrelated histories"). Shane to close manually. NOT force-merged.
-- All other PRs (#78, #180, #243, #244, #245, #246, #247, #248, #250, #251, #176) merged or closed/superseded.
+- All other PRs merged/closed. Open: #185 orphan (Shane), #258 codeql Dependabot (PAT workflow scope).
 ## Env Vars (Netlify, verified)
 - **Set & working:** TURSO_DATABASE_URL, TURSO_AUTH_TOKEN (verified via /api/turso-health). SUPABASE_OAUTH_CLIENT_ID/SECRET ×2 (Management API/OAuth only — NOT DB keys). AWL_API_KEY, OPENROUTER. xAI_KEY present but EMPTY.
 - **MISSING (Shane to provide):** SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY (DB client keys — OAuth creds do NOT enable DB access; supabase-memory.ts Arron memory remains off). GEMINI_API_KEY (Gemini fallback skipped). PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID (#176 verify-paypal returns 503 until set). GROK_API_KEY/xAI_API_KEY (Grok skipped gracefully in ai-chain.ts; order GPT→Claude→Gemini→Grok preserved).

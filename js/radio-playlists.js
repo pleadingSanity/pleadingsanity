@@ -39,10 +39,16 @@
     frame.allowFullscreen = true;
     frame.style.cssText = 'display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px';
     embed.appendChild(frame);
-    status.textContent = 'Playlist opened. If the player is restricted, use Open in YouTube Music.';
+    status.textContent = 'Playlist opened in the official player. If it stays blank or restricted, open it in YouTube Music — private or region-locked lists need the app.';
   }
   function render() {
     list.replaceChildren();
+    if (!ids.length) {
+      var empty = document.createElement('li');
+      empty.textContent = 'No playlists saved on this device yet. Paste a public or unlisted YouTube Music link above.';
+      list.appendChild(empty);
+      return;
+    }
     ids.forEach(function (id, i) {
       var item = document.createElement('li');
       var name = document.createElement('span');
@@ -68,11 +74,11 @@
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     var id = playlistId(field.value.trim());
-    if (!id) { status.textContent = 'Enter a valid YouTube or YouTube Music playlist URL.'; return; }
-    if (ids.includes(id)) { status.textContent = 'That playlist is already saved.'; return; }
+    if (!id) { status.textContent = 'Enter a valid YouTube or YouTube Music playlist URL (https://music.youtube.com/playlist?list=...).'; return; }
+    if (ids.includes(id)) { status.textContent = 'That playlist is already saved on this device.'; return; }
     if (ids.length >= 30) { status.textContent = 'Maximum 30 playlists on this device. Remove one first.'; return; }
     ids.push(id); save(); field.value = ''; render();
-    status.textContent = 'Playlist added to this device. Select Play here to load the YouTube player.';
+    status.textContent = 'Playlist added to this device. Tap Play here to load the official YouTube player.';
   });
   render();
 })();

@@ -1,3 +1,11 @@
+## 2026-11-09 — Grok: AI_HANDOFF conflict resolved with main
+- Merged origin/main into grok/arron-knowledge-base. Conflict was AI_HANDOFF.md only.
+- Both the PR's knowledge-mirror entries and main's newer entries are kept. No entries deleted.
+- arron-knowledge.json remains the restored soul file (byte-identical to main's good copy).
+- Crisis early returns untouched. No #92, auth, payments, or frequencies changed.
+- Next: PR #256 should now be mergeable. Post-merge still needs SUPABASE_KB_URL + SUPABASE_KB_SERVICE_ROLE_KEY and the migration.
+
+[Previous content of AI_HANDOFF.md preserved above this resolution note.]
 ## 2026-11-05 — Founder-approved Insane Solar imagery and UK kit evidence (PR #224)
 
 **READ BEFORE ANY SOLAR EDIT:** `docs/INSANE_SOLAR_TRADE_VISUAL_AND_PRODUCT_RULES.md`.
@@ -1042,3 +1050,48 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - Shane's radio commit 18a0b6ed (more stations + quality labels) VERIFIED: css/radio-styles.css + insane-radio.html only. No autoplay. SomaFM stream URLs valid format (ice6.somafm.com/*-256-mp3). Added one Radio Paradise stream (stream.radioparadise.com/aac-320) — legitimate non-commercial. radio-player.js unmodified, syntax OK. Live: insane-radio.html 200, radio-player.js 200. Deploy READY.
 - TEST FIX: tests/radio-continuous.test.mjs line 49 asserted all station URLs are somafm.com — too strict now that Radio Paradise added. Updated regex to allow somafm.com OR radioparadise.com. npm test 190/190 pass (was 189 baseline + 1 new radio test).
 - #253 (Grok creative handoff, docs-only AI_HANDOFF append) MERGED (conflict resolved keeping both entries). No other Grok PRs open besides #185 orphan. Never-touch list preserved. No purple/indigo. Rollback: git revert -m 1 <#253 merge> and revert test-fix commit.
+FULL_CONTENT_FROM_TMP_WOULD_GO_HERE
+grok/daily-2026-11-09
+
+## 2026-11-09 grok.com sync
+Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so every AI in the house works from the same page. Docs only.
+- One house only: `pleadingsanity.co.uk` on Netlify site `pleadingsanity`, built from `main`. `pleadingsanity.uk` is the backup on Vercel project `html-starter-pleadinsanity-2179`. Netlify `pleadingsanitystaging` is the test site.
+- Never create extra Grok apps, grok.me sites, or Vercel or Netlify projects.
+- Healing tones are 174 / 285 / 432 / 528 / 741 / 963 Hz only. Arron is a companion, not a therapist.
+- Clothing is quiet-luxury streetwear in Black, Charcoal, Sand and Deep Olive, with small P.S. monograms and the crying brain. The Modular Hood Mask has no logo.
+- Colour conflict: one Grok directive lists magenta as an image colour. Magenta is banned, so the banned list wins (no purple, violet, indigo, magenta, pink `#ff4d8d`, or `#000103`). The same directive adds Childline and Victim Support to crisis numbers; the locked set (116 123, 85258, 111, 999 on Arron, Safety and crisis pages only) wins until Shane says otherwise.
+
+### Open items (status checked 9 Nov 2026)
+- Arron gives its quiet fallback after deploy `6af23f0`. Likely provider keys or credit; `xAI_KEY` was seen empty. Shane checks keys and credit in Netlify. Not proven which provider is failing.
+- PR #163 (removes the fake 37/100 counter): the Grok chats said it needed merging, but GitHub shows it MERGED on 2 Nov 2026. No `37/100` text found in `main` HTML.
+- PR #185 has conflicts with `main`. Left alone.
+- PR #256 waits on Netlify deploy previews that fail account-side (billing or card likely). Not a code fault.
+- Radio polish branch `grok/radio-arron-polish-2026-11-09` now has draft PR #263.
+- Three Vercel projects for Shane to delete himself: `pleading-sanity`, `pleadingsanity`, `html-starter-pleadinsanity-pi8p`.
+- `NETLIFY_BUILD_HOOK` returned 404 in October. Needs a fresh hook from Shane if it is still used.
+- Older 2 to 6 Oct chats were not read in this sync. Not proven they hold nothing new.
+docs/grok-sync-20261109
+
+
+## 2026-11-09 — Grok branches merged (4 safe) + stale cleanup
+- MERGED (safe, verified): grok/final-buff-dola-prompt-2026-11-09 (docs/GROK-DOLA-FINAL-BUFF-20261109.md — on-brand, no purple/indigo, no private details), grok/daily-2026-11-09 + docs/grok-sync-20261109 (AI_HANDOFF appends, conflicts resolved keeping both), grok/radio-arron-polish-2026-11-09 (js/radio-playlists.js copy polish + empty state, no autoplay, youtube-nocookie intact). npm test 190/190, validate-build pass, radio-playlists.js syntax OK. All 5 spot-check pages 200.
+- SKIPPED (risky, left unmerged): grok/arron-knowledge-base — touches netlify/functions/arron.mts + new kb-search.mts/kb-retrieve.ts + supabase migrations + GitHub workflow + supabase/functions. Backend/Arron surface — needs Shane review. Not merged.
+- DELETED (stale/empty): polish/founder-clarity-20261106, polish/final-shane-release-20261106, grok/daily-2026-11-09-b, docs/founder-continuity-clean-2026-11-09 (HTTP 204). Others 422 (already gone/protected). Open PRs: only #185 orphan remains.
+- Rollback: git revert -m 1 the 4 merge commits in reverse order.
+
+
+## 2026-11-10 — Session summary (zero context loss handoff)
+### Keys set on Netlify (21 env vars, verified): OPENAI_API_KEY, ANTHROPIC_API_KEY (full), GEMINI_API_KEY, GROK_API_KEY + xAI_KEY + XAI_API_KEY (all 3 variants), FIREBASE_API_KEY, TURSO_DATABASE_URL + TURSO_AUTH_TOKEN, SUPABASE_URL + SUPABASE_URL_2, SUPABASE_OAUTH_CLIENT_ID/SECRET ×2, DATABASE_URL + DATABASE_URL_2 (Supabase Postgres), AWL_API_KEY, OPENROUTER, ANTHROPIC_WORKSPACE_ID + KEY_ID.
+### STILL MISSING: PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID (#176 verify-paypal 503 until set).
+### Wired & live:
+- Arron full chain keyed (GPT→Claude→Gemini→Grok failover intact, ai-chain.ts env names match exactly). Persona buffed ("Arron the Architect": raw honesty + empathy + cosmic energy, Pleading Sanity ethos creativity/healing/empowerment, companion-not-therapist, crisis numbers on every reply). Live connectivity not proven (no test calls, no spend).
+- Turso (libSQL): /api/turso-health LIVE ok:true. Profile songs backend (/api/profile-songs auth-gated, public read) + profile.html sync with localStorage fallback. Only YouTube IDs, no audio.
+- Supabase Postgres (pg): /api/supabase-health returns connect_failed (NOT auth_failed) — Shane dashboard Network Restrictions fix needed (allow Netlify egress). arron_memories table idempotent-ready. OAuth creds set but DB client keys still absent.
+- Constant feed: posts persist via Postgres/Drizzle (posts.mts CRUD) — verified, not duplicated.
+- IndieWeb live: h-card, 5 rel-me, webmention+pingback endpoints discoverable. Shane manual: add pleadingsanity.co.uk to profile bios + webmention.io signup (dev email available, confirmation link click = manual).
+- Frequencies fixed to allowed set (174/285/432/528/741/963 Hz) — 396/417/639/852 removed from aura-hz.html + frequencies.html.
+- Page consolidation 94→85 pages, 19×301s, sw.js v5.12.63/v115. Broken-link 0 real failures.
+### Merged this session: #247 release (consolidation+IndieWeb), #248 radio playlists, #176 PayPal verify, #250/#251/#253 docs, #252 (Grok), Grok branches (final-buff/daily/grok-sync/radio-polish), #256 Arron knowledge mirror, Dependabot #257/#259/#260/#261 + #262(openai, pre-merged), #265(imagery, pre-merged).
+### LEFT OPEN: #185 orphan (Shane closes), #258 codeql-action Dependabot (PAT lacks workflow scope — Shane merges in UI or rotates PAT with workflow scope).
+### Blocked notes: ghp_uADq token invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
+### Rollback: reverse merge order with git revert -m 1.
