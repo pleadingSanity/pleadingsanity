@@ -298,6 +298,18 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# HTML pages use non-hashed filenames — always revalidate so content fixes reach visitors.
+# Exact-path private-page rules (no-store) below take precedence over this wildcard.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
 # ─── KEEP REPO-ONLY FILES PRIVATE ───
 [[headers]]
   for = "/scripts/*"
