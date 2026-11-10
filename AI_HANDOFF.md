@@ -1184,3 +1184,12 @@ docs/grok-sync-20261109
 1. APIsec + Debricked tokens/creds (or disable workflows).
 2. `MAX_TOKENS_ARRON` site-level override still =1000 (account-level 1600) — Netlify Site settings → Environment variables (from #272, still open).
 3. 13 pre-existing radio/playlist test failures — stale tests vs PR #297 real playlists; needs test update (Claude/Copilot radio scope).
+
+## 2026-11-10 — Dola: 48px tap targets at 390px (PR, not merged)
+- Branch `dola/mobile-tap-targets-48` from main `c693b94`. Shane approved Dola opening small tested fix PRs ("All", 10 Nov 20:15 UK). Not deployed until Shane merges. Netlify previews currently fail on account billing; not chased.
+- New `css/tap-targets.css`, sizing only (min-height/min-width/padding/display; no colour, font or border values), scoped to `max-width:768px` or touch. Linked last in `<head>` on index.html and arron-app.html. Colour files (radio-glow.css, site-music.css, offline.html, SVGs) not touched.
+- Homepage: nav (Crisis help, Menu, Sign in, brand), Explore menu incl. Insane Solar, Calmer view, Share, hero/support links, tool-card buttons, support strip, footer socials incl. Insane Solar and footer links, cookie Accept/Decline, homepage music Play/Volume.
+- Arron app: crisis-strip phone links, top bar, memory bar, quick chips, Mic/Draw, music widget buttons/volume. Install banner close `#aa-install-close` is 48x48 with an inline silver (#cbd5e1) SVG X, `aria-label="Not now"` kept. Banner gap fixed in CSS (`.aa-notice p { flex:1 1 14rem }` became height in the column banner): 366x314 to 366x146.
+- Measured with Playwright at 390x844, iPhone UA, local static server (`/workspace/audit-1110/tap.py`): homepage targets under 48px 62/102 to 1/102; Arron app 28/34 to 1/34. Left: one inline sentence link ("story and values", WCAG inline exception) and the scrollable chat log (not a button). No sideways scroll before or after (scrollWidth 390).
+- Seen, not changed: the homepage music bar and cookie bar sit under the bottom dock at 390px; the Arron voice button icon does not show. The crisis strip is taller (three 48px rows).
+- Verified: `npm test` 216 tests, 203 pass, 13 fail; the same 13 fail on main `c693b94` (music playlists, radio player, solar page script tag), unrelated. New `tests/tap-targets.test.mjs` (4) passes. validate-build, validate-arron-knowledge, audit-ecosystem --strict, audit-markup-safety, audit-site.py, audit-whole-site all exit 0. Not a real phone; not production.
