@@ -93,7 +93,7 @@
  };
 
  // ─── OFFLINE — Arron still answers underground ───
- const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. More support: /about.html#support. Are you in immediate danger right now?";
+ const CRISIS_REPLY = "I'm glad you told me. You deserve support from a person who can help. I'm an AI companion, not a doctor or therapist; I cannot replace clinical care or provide emergency help. If you are in immediate danger or have seriously hurt yourself, call 999 or go to A&E now. If you can, ask someone you trust to stay with you while you get help.\n\nSamaritans: 116 123. Text SHOUT to 85258. In England, call NHS 111 and select the mental health option for urgent mental health support. Outside the UK, find local support at https://findahelpline.com/. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. More support: /about.html#support. Are you in immediate danger right now?";
  const OFFLINE = {
  tired: ["You sound worn down. Rest is part of the build, not a break from it. Can you give yourself ten slow minutes?", "Tired is your body asking to be held. Water, three slow breaths, and let the rest wait till morning."],
  low: ["I'm right here beside you. You don't have to fix tonight. Just getting through it counts.", "Low days are real. I'm not going to cheer at you. I'm just going to sit with you."],
@@ -108,7 +108,7 @@
 
  // Offline replies are simpler, so every one carries the help lines. Kept outside the
  // reply text: speech, copy and share use Arron's own words only.
- const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)']];
+ const HELP_LINES = [['tel:999', '999 (in danger now)'], ['tel:116123', 'Samaritans 116 123'], ['sms:85258', 'Text SHOUT to 85258'], ['tel:111', 'NHS 111 (England: mental health option)'], ['tel:08001111', 'Childline 0800 1111'], ['tel:08082000247', 'Domestic abuse 0808 2000 247']];
  function helpFooter(tag, className) {
  const note = document.createElement(tag);
  note.className = className;
