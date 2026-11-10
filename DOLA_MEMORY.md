@@ -1,6 +1,12 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10. This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-10 — FOUNDER IDENTITY UPDATE (all AIs must use this)
+- **Shane Cooper = builder, roofer, visionary (Midlands).** He RECENTLY STOPPED fitting solar panels and is BACK TO FULL-TIME ROOFING. Focus is the Pleading Sanity movement; end goal = peace and unity for all.
+- **Insane Solar repositioned:** NOT "we fit solar". Shane organises + oversees; trusted local crews fit; AI Office handles paperwork. Copy softened from "we fit/our crew/installer-led" to "we specify/we organise/trusted local fitters/roofer-led". Do NOT revert to "we fit solar" — it is factually wrong.
+- **feed.html buff:** fixed `class=class=` malformed attribute on all feed items (they were unstyled), added 3 image feed items using real roof photos (images/solar01/03/05.jpg).
+- **Deploy still blocked (Netlify not picking up main pushes).** Trigger manually in app.netlify.com → Deploys → Trigger deploy, or via Claude Netlify MCP.
+
 ## 2026-11-10 — LATEST (Dola buff pass while Claude offline — read this FIRST)
 - **Code merged & verified on GitHub main:** PR #266 (cache fix), #267 (solar chat lead-gate: name+mobile before AI answers, posts to Netlify form `solar-chat-lead`), #268 (js/solar-assistant.js → solar-assistant-v2.js cache-bust). Plus empty commit 7811498 to retrigger deploy.
 - **DEPLOY BLOCKED (Netlify-side):** production still serves old build (no leadgate, /js/* still immutable). Tried: workflow_dispatch on deploy.yml → no run created (fine-grained PAT lacks Actions:write scope). Empty-commit push to main → Netlify Git integration not firing. Known account-wide preview-deploy error (exit 4) may also affect main. **Fix: Shane triggers in app.netlify.com → Deploys → Trigger deploy, OR Claude (Netlify MCP) triggers when back.** Once deployed, verify: insane-solar.html contains `ai-chat-leadgate` + `solar-assistant-v2.js`, js file contains `captureLead`, /js/* Cache-Control = must-revalidate.
