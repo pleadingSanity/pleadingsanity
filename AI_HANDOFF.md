@@ -1097,8 +1097,6 @@ I'm Shane's build, Pleading Sanity. The games are free and they stay free. No ca
 - Shane's radio commit 18a0b6ed (more stations + quality labels) VERIFIED: css/radio-styles.css + insane-radio.html only. No autoplay. SomaFM stream URLs valid format (ice6.somafm.com/*-256-mp3). Added one Radio Paradise stream (stream.radioparadise.com/aac-320) — legitimate non-commercial. radio-player.js unmodified, syntax OK. Live: insane-radio.html 200, radio-player.js 200. Deploy READY.
 - TEST FIX: tests/radio-continuous.test.mjs line 49 asserted all station URLs are somafm.com — too strict now that Radio Paradise added. Updated regex to allow somafm.com OR radioparadise.com. npm test 190/190 pass (was 189 baseline + 1 new radio test).
 - #253 (Grok creative handoff, docs-only AI_HANDOFF append) MERGED (conflict resolved keeping both entries). No other Grok PRs open besides #185 orphan. Never-touch list preserved. No purple/indigo. Rollback: git revert -m 1 <#253 merge> and revert test-fix commit.
-FULL_CONTENT_FROM_TMP_WOULD_GO_HERE
-grok/daily-2026-11-09
 
 ## 2026-11-09 grok.com sync
 Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so every AI in the house works from the same page. Docs only.
@@ -1117,7 +1115,6 @@ Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so
 - Three Vercel projects for Shane to delete himself: `pleading-sanity`, `pleadingsanity`, `html-starter-pleadinsanity-pi8p`.
 - `NETLIFY_BUILD_HOOK` returned 404 in October. Needs a fresh hook from Shane if it is still used.
 - Older 2 to 6 Oct chats were not read in this sync. Not proven they hold nothing new.
-docs/grok-sync-20261109
 
 
 ## 2026-11-09 — Grok branches merged (4 safe) + stale cleanup
@@ -1185,6 +1182,49 @@ docs/grok-sync-20261109
 2. `MAX_TOKENS_ARRON` site-level override still =1000 (account-level 1600) — Netlify Site settings → Environment variables (from #272, still open).
 3. 13 pre-existing radio/playlist test failures — stale tests vs PR #297 real playlists; needs test update (Claude/Copilot radio scope).
 
+## 2026-11-10 Grok independent review
+Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked on c693b94. Full comment in #232 (issuecomment-6778078636). Docs only in this entry. "Not proven" marks anything not verified.
+
+### Shane's standing authorisation (2026-11-10, verbatim extract)
+"Carry on with the agreed work. No need to wait for me between safe, tested improvements. You have my authorisation to keep evolving and polishing the existing site, provided nothing working gets broken. Please prioritise fixing actual problems over producing more plans. Coordinate through issue #232 and AI_HANDOFF.md. ... After each change, confirm the tests, exact commit, PR and production status. If something requires credentials, additional spending or changes to protected features, flag it rather than guessing."
+
+### Verified
+- Production serves `main`. CI is green apart from APIsec/Debricked, which fail on empty scanner credentials.
+- No secrets in the repo. `validate-build.cjs`, `audit-site.py` and `audit-markup-safety.mjs` all pass.
+- `npm test` on c693b94 after `npm ci`: 212 tests, 199 pass, 13 fail. The failures are the known stale radio/playlist/solar-assistant tests, and they are on main already.
+- KB mirror `/api/kb-search` returns 503 because it isn't configured. It needs `SUPABASE_KB_URL` and `SUPABASE_KB_SERVICE_ROLE_KEY` (Shane).
+
+### Findings (owner in brackets)
+- **B1 (P0) [Shane decides, Dola diagnoses]:** Arron answered `provider:"none"` on 4 of 4 live test chats, failing in 0.3–2.5s. Likely cause, not proven: manually set `OPENAI_/ANTHROPIC_/GEMINI_API_KEY` stop the Netlify AI Gateway from injecting its keys, and the direct accounts then refuse. The Netlify billing card is the other candidate. Netlify function logs `[AI-HOP-FAIL]` will name the hop. Any fix involves spend, so Shane decides. Provider order stays unchanged.
+- **B2 [Dola]:** the crisis regex misses curly apostrophes (’) and some common phrasings, and four copies of it have drifted apart. Widen it only; never narrow it.
+- **B3 [Dola]:** `netlify/lib/arron-tools.ts:224` can send the gateway key to api.openai.com and adds a paid call per chat. `url_fetch` has no allow-list.
+- **B4 [Dola]:** `arron.mts:784` calls `askGrokDirect()` with no arguments.
+- **B5 [Dola]:** `arron-health.mts` and `arron.mts` both declare `/api/arron/health`. The live answer is arron.mts's, so key presence is never shown.
+- **B6 [Dola]:** `ai-chain.ts:101` describes the brand as "cyan/magenta". Magenta is off-palette.
+- **B7/B8/B15 [Grok]:** setup hints and repo paths are visible to visitors, the 90% creator headline reads as a live offer, and the Play listing copy is on the public games page. Fixed in branch `grok/copy-honesty-20261110` (HTML/CSS text only). The JS-built hint strings are left for Dola: `js/support-links.js:32,35`, `js/radio-playlists.js:97,106`, `js/music-app-player.js:226,237`, `js/music-player.js:394`.
+- **B9 [Dola]:** some mobile tap targets are under 48px.
+- **B10/B11 [Grok proposes, Shane decides]:** Insane Solar pulls the Tailwind CDN and Google Fonts. Brand overlap between `insane-solar.html` and `solar.html` (the EnergyWin referral page).
+- **B12 [Shane]:** the Netlify HUD script causes a CSP srcdoc error on `/arron.html` on first load. `sw.js` strips it on later loads.
+- **B13:** one unexplained 404 on the radio page. Not proven what requests it.
+- **B14 [GPT/Grok]:** doc rot. `docs/MASTER_PROMPT.md` page and function lists were refreshed in branch `grok/docs-refresh-20261110`, and three stray template lines were removed from this file.
+
+### Ownership
+| Area | Owner |
+|---|---|
+| Arron back end and front end, crisis detection, `ai-chain.ts`, scanners, mobile/widget CSS and JS | Dola (Claude) |
+| Soul file `arron-knowledge.json` | Dola edits, Shane approves |
+| Editorial copy, imagery and assets, docs | Grok |
+| Insane Solar | Grok proposes, Shane decides. `solar.html` is Shane's call |
+| `_redirects`, `netlify.toml`, docs review | GPT |
+| Login, signup, reset-password, payments/PayPal, `crisis.html`, the manifesto, PR #92 | Shane only |
+| This handoff log | Append-only for everyone |
+
+### Open for Shane
+1. Spend: the Netlify card, and the B1 provider keys (Gateway or direct).
+2. Crisis-number scope: footers sitewide vs the locked "Arron, Safety, crisis pages" rule. Grok recommends keeping them in footers.
+3. Childline 0800 1111 and 0808 2000 247 inside Arron: confirm they are wanted.
+4. Off-palette colours: coral `#ff6b6b` in `css/radio-glow.css` (Dola) and violet in the official logo artwork (alt text says "cyan and violet").
+5. Supabase KB env vars, and the APIsec/Debricked credentials (or disable those workflows).
 ## 2026-11-10 — Grok: Arron health, tool guards, and palette
 - Source: main `c693b94ae635ecd824bb4428a3a730bbedc70e53`. Branch `cursor/arron-health-tools-palette-0785`. Code commit `2c33e05fd165a992421cdada7361c9014218cb09`. Not merged. Not deployed.
 - Changed: `netlify/functions/arron.mts`, removed `netlify/functions/arron-health.mts`, `netlify/lib/ai-chain.ts`, `netlify/lib/arron-tools.ts`, `netlify/lib/arron-knowledge.ts`, `netlify/functions/creations.mts`, root and `content/arron-knowledge.json`, five manifests (`manifest.json`, `manifest-solitaire.json`, `manifest-finance.json`, `twa-manifest.json`, `twa-finance-manifest.json`), `css/radio-glow.css`, `css/site-music.css`, `offline.html`, three clothing SVGs, `tests/arron-chain-keys.test.mjs`, `tests/arron-phase2.test.js`.
