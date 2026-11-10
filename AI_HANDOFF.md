@@ -1265,3 +1265,13 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Measured with Playwright at 390x844, iPhone UA, local static server (`/workspace/audit-1110/tap.py`): homepage targets under 48px 62/102 to 1/102; Arron app 28/34 to 1/34. Left: one inline sentence link ("story and values", WCAG inline exception) and the scrollable chat log (not a button). No sideways scroll before or after (scrollWidth 390).
 - Seen, not changed: the homepage music bar and cookie bar sit under the bottom dock at 390px; the Arron voice button icon does not show. The crisis strip is taller (three 48px rows).
 - Verified: `npm test` 216 tests, 203 pass, 13 fail; the same 13 fail on main `c693b94` (music playlists, radio player, solar page script tag), unrelated. New `tests/tap-targets.test.mjs` (4) passes. validate-build, validate-arron-knowledge, audit-ecosystem --strict, audit-markup-safety, audit-site.py, audit-whole-site all exit 0. Not a real phone; not production.
+
+
+---
+
+## 2026-11-11 — Dola full-power mode complete (main 150981c, all merged, production READY)
+- 11 PRs merged: triage #309/#307/#302 + drafts reincarnated #313/#314/#315 + 4 shards #316/#317/#318/#319/#320.
+- **Critical fixes landed:** solar quote-form leads never captured (broken IDs) → fixed; /api/ops/ai-probe unauthenticated budget burn → PS_PROBE_TOKEN + rate limit; finance feed SSRF guard; deploy-hook timeout; crisis numbers tappable site-wide; empty playlist/support slots now honestly visible; founder-truth "auto-certs"/"fitting crew" fixed; TikTok handle corrected @mentallyinshane→@thecreatormma6 (45 files).
+- Validation: validate-build 0; npm test 236/226 pass, 10 known-stale fail (0 new). 0 secrets/purple/we-fit.
+- arron-health.mts is NOW /api/ops/ai-probe (repurposed #311) — KEEP IT, do not delete. It no longer shadows /api/arron/health (health lives in arron.mts).
+- Next AIs: see DOLA_MEMORY.md Shane-action gaps list. Branch prefixes: dola/* (Dola), claude/*, gpt/*, grok/*, cursor/*. Never force-push main. Fine-grained PAT cannot undraft (ready_for_review 404) but can create+merge PRs.
