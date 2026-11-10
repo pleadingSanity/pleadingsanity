@@ -1,5 +1,12 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
-_Last updated: 2026-11-10 (final buff complete). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+_Last updated: 2026-11-10 (glow radio + app restyle). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
+
+## 2026-11-10 — INSANE RADIO + MUSIC APP GLOW RESTYLE (branch `radio-glow-app`)
+Shane asked for the music radio page + app to look like Dribbble music-app concepts: glowing, clean, rounded. Pure CSS (evolution not erasure — every JS hook/ID/class preserved, no markup logic changed). No purple/violet/indigo/lavender — warm coral `#ff6b6b` + amber `#fbbf24` glow, teal `#2dd4bf` secondary, near-black `#070a12`.
+- **New `css/radio-glow.css`** (loaded LAST on insane-radio.html, overrides radio-styles.css + site-music.css): ambient fixed coral/amber/teal orbs, gradient hero title, glass card (28px radius, warm glow), album art → glowing circular vinyl disc with rotating conic-gradient ring when `.is-playing`, warm gradient progress bar, pill controls (Play = coral→amber gradient glow pulse), pill up-next rows, glass station cards (22px radius, hover lift + glow), playlist form pills. `body.radio-page` padding-bottom 7–9rem so bottom controls clear the fixed floating widget. Respects `prefers-reduced-motion`.
+- **`css/site-music.css`** (floating music widget "app", site-wide): appended glow restyle at end (original rules kept intact). Widget → rounded glass pill with warm coral border + glow, coral→amber gradient play disc with pulsing glow when `.ps-playing`, amber volume thumb. Mobile ≤420px → 22px radius.
+- Verified: CSS braces balanced, all 20 required IDs present, 0 purple color values, headless Chromium render checked (mobile + desktop).
+- Shane-action gaps unchanged: drop playlist URLs into `data/music-playlists.json`, payment links into `data/support-config.json`, set `MAX_TOKENS_ARRON` site-level override to 1600 in Netlify UI, revoke exposed tokens.
 
 ## 2026-11-11 — FULL-SITE BUFF PASS (PRs #287–#290, live)
 4 parallel subagents, all merged. PR #269 (draft, solar chat repeat) closed as superseded.
