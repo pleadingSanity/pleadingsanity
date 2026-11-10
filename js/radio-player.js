@@ -83,6 +83,30 @@
         list.appendChild(item);
       }
     }
+    var full = el('radio-tracklist');
+    if (full) {
+      var sumEl = el('radio-tracklist-summary');
+      if (sumEl) sumEl.textContent = 'All ' + tracks.length + ' tracks — tap any song to play';
+      full.replaceChildren();
+      for (var j = 0; j < tracks.length; j++) {
+        (function (tj, targetIdx) {
+          var li2 = document.createElement('li');
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          var hasVid = !!(tj.youtubeId && String(tj.youtubeId).trim());
+          btn.textContent = (targetIdx + 1) + '. ' + tj.title + ' · ' + tj.artist + (hasVid ? '' : '  (official link only)');
+          btn.setAttribute('aria-label', 'Play ' + tj.title + ' by ' + tj.artist + (hasVid ? '' : ', no in-page video'));
+          btn.className = 'radio-tracklist-btn' + (targetIdx === index ? ' is-current' : '');
+          btn.addEventListener('click', function () {
+            index = targetIdx;
+            if (wanted) { generation++; startCurrent(); }
+            else { render(); label('radio-status', hasVid ? 'Selected — press Play' : 'No in-page video for this track — use the official link'); }
+          });
+          li2.appendChild(btn);
+          full.appendChild(li2);
+        })(tracks[j], j);
+      }
+    }
     var art = el('radio-art-title'); if (art) art.textContent = genreLabel(t.genre) || 'INSANE RADIO';
     resetProgress();
     updateVoteUI();
