@@ -1,4 +1,7 @@
-/* Insane Radio playlist links — device-local, consent-first, official YouTube embeds only. */
+/* Insane Radio playlist links — device-local, consent-first, official YouTube embeds only.
+   2026-11 god-mode: saved playlists render as big clickable buttons (Play here / Open in
+   YouTube Music / Remove) with per-item themed accent. Shane's curated slots from
+   /data/music-playlists.json auto-render as buttons when filled (empty by default). */
 (function () {
   'use strict';
   var KEY = 'ps-radio-playlist-links-v1';
@@ -41,35 +44,100 @@
     embed.appendChild(frame);
     status.textContent = 'Playlist opened in the official player. If it stays blank or restricted, open it in YouTube Music — private or region-locked lists need the app.';
   }
+  function makeButton(label, ariaLabel, onClick, danger) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'playlist-btn' + (danger ? ' is-danger' : '');
+    b.textContent = label;
+    b.setAttribute('aria-label', ariaLabel);
+    b.addEventListener('click', onClick);
+    return b;
+  }
+  function renderSavedItem(id, i) {
+    var item = document.createElement('div');
+    item.className = 'playlist-item';
+    var title = document.createElement('div');
+    title.className = 'playlist-item-title';
+    title.textContent = 'Saved playlist ' + (i + 1);
+    var sub = document.createElement('div');
+    sub.className = 'playlist-item-sub';
+    sub.textContent = 'YouTube / YouTube Music · saved on this device only';
+    var play = makeButton('Play here', 'Play saved playlist ' + (i + 1) + ' here', function () { openPlaylist(id); });
+    var link = document.createElement('a');
+    link.className = 'playlist-open';
+    link.href = 'https://music.youtube.com/playlist?list=' + encodeURIComponent(id);
+    link.target = '_blank'; link.rel = 'noopener noreferrer';
+    link.textContent = 'Open in YouTube Music';
+    link.setAttribute('aria-label', 'Open saved playlist ' + (i + 1) + ' in YouTube Music (new tab)');
+    var remove = makeButton('Remove', 'Remove saved playlist ' + (i + 1) + ' from this device', function () {
+      ids = ids.filter(function (x) { return x !== id; });
+      save(); embed.replaceChildren(); render(); status.textContent = 'Playlist removed from this device.';
+    }, true);
+    item.append(title, sub, play, link, remove);
+    return item;
+  }
+  // Shane's curated slots from /data/music-playlists.json — render as buttons only when filled.
+  var PLATFORMS = [
+    { key: 'youtube_url', name: 'YouTube' },
+    { key: 'sonos_url', name: 'Sonos' },
+    { key: 'amazon_music_url', name: 'Amazon Music' }
+  ];
+  function renderCurated(cfg) {
+    var filled = PLATFORMS.filter(function (p) { return (cfg[p.key] || '').trim(); });
+    if (!filled.length) return null;
+    var item = document.createElement('div');
+    item.className = 'playlist-item playlist-curated';
+    var title = document.createElement('div');
+    title.className = 'playlist-item-title';
+    title.textContent = (cfg.label && cfg.label.trim()) ? cfg.label.trim() : "Shane's playlist";
+    var sub = document.createElement('div');
+    sub.className = 'playlist-item-sub';
+    sub.textContent = 'Curated by Shane · opens in the official service';
+    item.append(title, sub);
+    for (var i = 0; i < filled.length; i++) {
+      (function (p) {
+        var url = cfg[p.key].trim();
+        if (p.key === 'youtube_url') {
+          var yid = playlistId(url);
+          if (yid) {
+            item.appendChild(makeButton('Play here', 'Play ' + title.textContent + ' here', function () { openPlaylist(yid); }));
+          }
+        }
+        var a = document.createElement('a');
+        a.className = 'playlist-open';
+        a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.textContent = 'Open in ' + p.name;
+        a.setAttribute('aria-label', 'Open ' + title.textContent + ' in ' + p.name + ' (new tab)');
+        item.appendChild(a);
+      })(filled[i]);
+    }
+    return item;
+  }
+  function loadCurated() {
+    if (typeof fetch !== 'function') return;
+    fetch('/data/music-playlists.json', { cache: 'force-cache' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) {
+        if (!j) return;
+        var cfg = {};
+        PLATFORMS.forEach(function (p) { cfg[p.key] = (typeof j[p.key] === 'string') ? j[p.key].trim() : ''; });
+        cfg.label = (typeof j.label === 'string') ? j.label.trim() : '';
+        var node = renderCurated(cfg);
+        if (node) { list.prepend(node); }
+      })
+      .catch(function () { /* empty or missing config — no curated buttons */ });
+  }
   function render() {
     list.replaceChildren();
     if (!ids.length) {
-      var empty = document.createElement('li');
+      var empty = document.createElement('p');
+      empty.className = 'playlist-empty';
       empty.textContent = 'No playlists saved on this device yet. Paste a public or unlisted YouTube Music link above.';
       list.appendChild(empty);
-      return;
+    } else {
+      ids.forEach(function (id, i) { list.appendChild(renderSavedItem(id, i)); });
     }
-    ids.forEach(function (id, i) {
-      var item = document.createElement('li');
-      var name = document.createElement('span');
-      name.textContent = 'Playlist ' + (i + 1) + ' · ';
-      var play = document.createElement('button');
-      play.type = 'button'; play.textContent = 'Play here';
-      play.addEventListener('click', function () { openPlaylist(id); });
-      var link = document.createElement('a');
-      link.href = 'https://music.youtube.com/playlist?list=' + encodeURIComponent(id);
-      link.target = '_blank'; link.rel = 'noopener noreferrer';
-      link.textContent = 'Open in YouTube Music';
-      var remove = document.createElement('button');
-      remove.type = 'button'; remove.textContent = 'Remove';
-      remove.setAttribute('aria-label', 'Remove playlist ' + (i + 1));
-      remove.addEventListener('click', function () {
-        ids = ids.filter(function (x) { return x !== id; });
-        save(); embed.replaceChildren(); render(); status.textContent = 'Playlist removed from this device.';
-      });
-      item.append(name, play, document.createTextNode(' · '), link, document.createTextNode(' · '), remove);
-      list.appendChild(item);
-    });
+    loadCurated();
   }
   form.addEventListener('submit', function (event) {
     event.preventDefault();
