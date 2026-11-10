@@ -181,4 +181,58 @@
 #radio-upnext button:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
 #radio-time{min-width:5.5ch}
 @media(prefers-reduced-motion:reduce){.radio-vote-btn{transition:none!important}}
+/* ===== 2026-11 Shane overhaul: station icons, proper buttons, glued-words fix,
+   Shane's playlists section, support strip. On-brand teal/amber/silver only. ===== */
+/* --- distinct inline SVG icon on every station card --- */
+.station-icon{width:38px;height:38px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:var(--accent);margin-bottom:.45rem;filter:drop-shadow(0 0 6px var(--theme-glow,rgba(0,255,240,.25)))}
+.station-icon svg{width:100%;height:100%;display:block}
+.station-play{padding-top:.9rem}
+/* --- glued-words fix: genre · bitrate separator (was "downtempo256") --- */
+.station-tags{gap:.35rem}
+.station-bitrate::before{content:"·";margin-right:.35rem;color:#64748b;font-weight:700}
+/* --- Support this station / Station info links as proper on-brand buttons --- */
+.station-support-link{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.55rem 1rem;font-size:.78rem;letter-spacing:.02em;background:rgba(13,27,42,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .15s ease,background .15s ease,border-color .15s ease,box-shadow .15s ease}
+.station-support-link:hover{transform:translateY(-2px);background:rgba(0,255,240,.14);border-color:var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.35),0 0 14px var(--theme-glow,rgba(0,255,240,.2))}
+.station-support-link:active{transform:translateY(0)}
+.station-support-link:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+/* --- Stop station button consistency (≥44px, on-brand) --- */
+#station-stop{display:inline-flex;align-items:center;justify-content:center;min-height:48px;min-width:160px;padding:.7rem 1.4rem;border-radius:12px;font-weight:800;letter-spacing:.03em;transition:transform .15s ease,background .15s ease,border-color .15s ease,color .15s ease}
+#station-stop:hover{transform:translateY(-2px);border-color:rgba(248,113,113,.7);color:#fca5a5;background:rgba(248,113,113,.1)}
+#station-stop:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+/* --- Add playlist form polish (label sr-only, input + button consistent) --- */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+#radio-playlist-form{gap:.6rem}
+#radio-playlist-form button[type=submit]{min-height:48px;padding:.75rem 1.4rem;border-radius:12px;white-space:nowrap}
+#radio-playlist-url{min-height:48px;border-radius:12px;font:inherit}
+#radio-playlist-url:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+/* --- Sane Shane's Playlists section --- */
+.shane-playlists-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.9rem;margin:.5rem 0 1rem}
+.shane-playlist-card{position:relative;display:flex;flex-direction:column;gap:.5rem;padding:1.1rem 1.1rem 1rem;border-radius:16px;background:rgba(13,27,42,.72);border:1px dashed rgba(0,255,240,.4);transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+.shane-playlist-card.is-filled{border-style:solid;border-color:rgba(0,255,240,.5)}
+.shane-playlist-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.35)}
+.shane-playlist-name{font-weight:800;color:#eef6ff;font-size:1rem;line-height:1.3}
+.shane-playlist-desc{font-size:.82rem;color:#94a3b8;line-height:1.5;margin:0}
+.shane-playlist-actions{display:flex;flex-wrap:wrap;gap:.55rem;margin-top:auto;padding-top:.4rem}
+.shane-playlist-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.55rem 1.1rem;border-radius:10px;border:1px solid var(--teal,#00fff0);background:rgba(0,255,240,.08);color:#9ffcf5;font:inherit;font-weight:800;font-size:.85rem;text-decoration:none;cursor:pointer;transition:background .15s ease,transform .15s ease,border-color .15s ease}
+.shane-playlist-btn:hover{background:rgba(0,255,240,.18);transform:translateY(-1px)}
+.shane-playlist-btn:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+.shane-playlist-empty{border-style:dashed;border-color:rgba(148,163,184,.45);background:rgba(11,15,25,.5)}
+.shane-playlist-empty .shane-playlist-name{color:#cbd5e1}
+.shane-empty-note{font-size:.82rem;color:#94a3b8;line-height:1.5;margin:0}
+.shane-empty-badge{display:inline-flex;align-items:center;gap:.4rem;align-self:flex-start;font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#fbbf24;border:1px solid rgba(251,191,36,.5);border-radius:999px;padding:.25rem .7rem;background:rgba(245,158,11,.08)}
+.shane-embed{margin-top:.6rem;border-radius:12px;overflow:hidden;border:1px solid rgba(0,255,240,.25)}
+.shane-embed iframe{display:block;width:100%;aspect-ratio:16/9;border:0}
+/* --- Support the movement strip (cross-links support-us.html + shop.html) --- */
+.radio-support-strip{margin:2rem 0 1rem;padding:1.1rem 1.2rem;border-radius:16px;border:1px solid rgba(245,158,11,.4);background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(0,255,240,.06));display:flex;flex-wrap:wrap;gap:.8rem;align-items:center;justify-content:space-between}
+.radio-support-strip-text{flex:1 1 240px}
+.radio-support-strip-text strong{display:block;color:#fbbf24;font-size:.95rem;letter-spacing:.02em;margin-bottom:.15rem}
+.radio-support-strip-text span{color:#cbd5e1;font-size:.82rem;line-height:1.45}
+.radio-support-strip-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+.radio-support-strip-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1.2rem;border-radius:12px;font-weight:800;font-size:.85rem;text-decoration:none;transition:transform .15s ease,background .15s ease,box-shadow .15s ease}
+.radio-support-strip-cta.primary{background:#f59e0b;color:#0b0f19;border:1px solid #f59e0b;box-shadow:0 4px 14px rgba(245,158,11,.25)}
+.radio-support-strip-cta.primary:hover{transform:translateY(-2px);background:#fbbf24;box-shadow:0 8px 20px rgba(245,158,11,.35)}
+.radio-support-strip-cta.secondary{background:rgba(13,27,42,.8);color:#9ffcf5;border:1px solid rgba(0,255,240,.5)}
+.radio-support-strip-cta.secondary:hover{transform:translateY(-2px);background:rgba(0,255,240,.14)}
+.radio-support-strip-cta:focus-visible{outline:3px solid #fbbf24;outline-offset:3px}
+@media(max-width:420px){.station-icon{width:32px;height:32px}.radio-support-strip{flex-direction:column;align-items:stretch}.radio-support-strip-actions{justify-content:stretch}.radio-support-strip-cta{flex:1;justify-content:center}}
 
