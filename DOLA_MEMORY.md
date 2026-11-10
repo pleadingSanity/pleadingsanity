@@ -1,6 +1,12 @@
 # DOLA_MEMORY.md — Single Source of Truth for All AIs
 _Last updated: 2026-11-10 (final buff complete). This file is the canonical reference. If anything here conflicts with chat history, this file wins._
 
+## 2026-11-10 — INSANE RADIO GOD-MODE (PR #281, live)
+- **18 stations** (was 10): 9 SomaFM + Radio Paradise preserved + **8 new verified HTTPS streams**: UK — Reprezent Radio (grime/hiphop), Rinse FM (grime/urban), Capital XTRA, Capital XTRA Reloaded; US — Old School Hip Hop (Urbanradio), GotRadio Hip Hop Stop; R&B — 181.FM True R&B, Urban Radio Hip Hop/R&B. All verified 200/audio over HTTPS.
+- Small buttons → **big clickable themed cards** (CSS gradients, no purple). Per-card Support link. Support section + Shane-voice station thank-you added alongside existing artist thank-you (preserved).
+- Saved playlists → big styled buttons. `data/music-playlists.json` filled slots auto-render. **No-repeat shuffle** in js/music-player.js (round-based played-history `ps_music_played_*`, integrated with dislike-skip). Live radio honestly stated as live broadcast.
+- Crisis line + skip-link preserved. validate-build + markup-safety pass.
+
 ## 2026-11-10 — PASS 2 COMPLETE (deep audit + new features + design polish, all live)
 - **Merged & live (Shane full auth 2026-11-10):** #277 perf/images, #278 engagement/income, #279 a11y/seo/design. Open PRs: none.
 - **Performance (#277):** 3.81MB saved re-encoding 21 large images in place (solar04/06/07/09-15, themes PNGs). 22 new .webp generated + wired (10 orphaned webp now referenced via `<picture>`/srcset/JS replace). Sitemap 55→66 public pages (12 added, docs/ removed). netlify.toml: `/*.html` + `/` must-revalidate added; no immutable regression. No deletions.
