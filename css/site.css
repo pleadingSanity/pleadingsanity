@@ -28,3 +28,6 @@
 .ps-donate-btn-amber:focus-visible{outline-color:#f59e0b}
 @media (max-width:480px){.ps-donate-strip-actions{flex-direction:column}.ps-donate-btn{width:100%}}
 @media (prefers-reduced-motion:reduce){.ps-donate-btn{transition:none}}
+/* Light-sweep opt-in: subtle on-brand section wash. background-image ONLY — layers over any existing background-color, zero layout shift. Teal glow top, amber glow bottom-right, fine dot grid. On-brand teal/amber only. */
+.ps-wash{background-image:radial-gradient(ellipse at 50% 0%,rgba(0,255,240,0.08),transparent 55%),radial-gradient(ellipse at 100% 100%,rgba(245,158,11,0.05),transparent 50%),radial-gradient(rgba(56,189,248,0.12) 1px,transparent 1.2px);background-size:auto,auto,24px 24px}
+.ps-wash-dots{background-image:radial-gradient(rgba(56,189,248,0.10) 1px,transparent 1.2px);background-size:24px 24px}
