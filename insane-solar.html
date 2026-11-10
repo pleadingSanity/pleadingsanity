@@ -345,6 +345,14 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
 </section>
 
 <!-- ============ WHY US ============ -->
+<section id="estimator" class="py-16 lg:py-20 relative overflow-hidden" style="background:var(--ink);">
+  <div class="max-w-3xl mx-auto px-5 lg:px-8 text-center">
+    <div class="eyebrow mb-3" style="color:var(--teal3);">Honest ballpark · 30 seconds</div>
+    <h2 class="display text-3xl sm:text-4xl lg:text-5xl mb-3" style="color:var(--ink-text)">What could solar do <span class="grad-text">for your roof?</span></h2>
+    <p class="mb-8 max-w-xl mx-auto" style="color:var(--muted-light);line-height:1.7;font-size:1.05rem;">Three quick questions. You get a range — not a quote, no obligation. Shane calls you back only if you want him to.</p>
+    <div id="solar-estimator-mount"></div>
+  </div>
+</section>
 <section id="why" class="py-20 lg:py-28" style="background:var(--offwhite);color:var(--dark-text)">
 <div class="max-w-7xl mx-auto px-5 lg:px-8"><div class="max-w-3xl mb-12 reveal">
 <div class="eyebrow mb-3" style="color:#a16207">The thinking behind Insane Solar</div>
@@ -1778,6 +1786,7 @@ const CATEGORIES = [
 })();
 </script>
 <form name="solar-chat-lead" netlify netlify-honeypot="bot-field" hidden style="display:none;"><input type="text" name="name" aria-label="Name"><input type="tel" name="phone" aria-label="Phone"><input type="text" name="source" aria-label="Source"></form>
+<form name="solar-estimator-lead" netlify netlify-honeypot="bot-field" hidden style="display:none;"><input type="text" name="name" aria-label="Name"><input type="text" name="contact" aria-label="Phone or email"><input type="text" name="postcode" aria-label="Postcode"><input type="text" name="roofSize" aria-label="Roof size"><input type="text" name="monthlyBill" aria-label="Monthly electricity bill"><input type="text" name="roofOrientation" aria-label="Roof orientation"><input type="text" name="estimateLow" aria-label="Estimate low"><input type="text" name="estimateHigh" aria-label="Estimate high"><input type="text" name="source" aria-label="Source"></form>
 <!-- Floating AI assistant (calls Arron) -->
 <div id="ai-chat-widget" style="position:fixed;bottom:20px;right:20px;z-index:9999;font-family:inherit;">
   <button id="ai-chat-toggle" onclick="document.getElementById('ai-chat-panel').style.display=(document.getElementById('ai-chat-panel').style.display==='block'?'none':'block')" style="background:linear-gradient(135deg,#00fff0,#38bdf8);color:#0b0f19;border:none;border-radius:50%;width:60px;height:60px;font-size:1.6rem;cursor:pointer;box-shadow:0 8px 30px rgba(0,255,240,.4);font-weight:900;">AI</button>
@@ -1801,6 +1810,7 @@ const CATEGORIES = [
   </div>
 </div>
 <script src="/js/solar-assistant-v2.js" defer></script>
+<script src="/js/solar-estimator.js" defer></script>
 
 <p class="solar-note">VAT relief is subject to eligibility. See <a href="https://www.gov.uk/guidance/vat-on-energy-saving-materials-and-heating-equipment-notice-7086">vat-on-energy-saving-materials-and-heating-equipment-notice-7086</a>. Generic illustration. Not a specific brand.</p>
 <p class="solar-kit"><img width="1024" height="1024" loading="lazy" decoding="async" src="/images/solar-kit/solar-panel-black.webp" alt="Solar panel"><img width="1024" height="1024" loading="lazy" decoding="async" src="/images/solar-kit/ev-charger-cable.webp" alt="EV charger cable"></p>
