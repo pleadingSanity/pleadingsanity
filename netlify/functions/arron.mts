@@ -35,6 +35,7 @@ import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
 // Both degrade silently to the existing chain/local-DB path when env vars are absent.
 import { appendMessages as supabaseAppend, clearMemory as supabaseClear, supabaseEnabled } from "../lib/supabase-memory.js";
 import { maybeRunTools, openaiToolsEnabled } from "../lib/arron-tools.js";
+import { CRISIS_WORDS as SHARED_CRISIS_WORDS } from "../lib/crisis-phrases.js";
 import { groundArronSystem } from "../lib/kb-retrieve.js";
 
 type Turn = AITurn;
@@ -93,7 +94,8 @@ const MAX_JOURNAL_TEXT = 2000;
 // The SAFETY section of the prompt already guides every lab; this makes sure
 // real help lines are in the reply when someone may be in crisis, whoever answered.
 // Honest, warm, plain. No promises of secrecy. Never abandons the person.
-const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+// One shared list for the house: ../lib/crisis-phrases.js (normalises curly apostrophes first).
+const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 const SIGNPOST = "You're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html. I'm an AI companion, not a therapist or emergency service.";
 const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
 

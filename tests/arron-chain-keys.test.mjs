@@ -20,7 +20,10 @@ test("arron-knowledge persona includes companion-not-therapist and Architect buf
 
 test("arron health route keeps ok:true and reports key presence without values", () => {
   const src = readFileSync(new URL("../netlify/functions/arron.mts", import.meta.url), "utf8");
-  assert.equal(existsSync(new URL("../netlify/functions/arron-health.mts", import.meta.url)), false);
+  // Dola full-power 2026-11-10: arron-health.mts was repurposed on main (PR #311)
+  // to /api/ops/ai-probe; kept (Evolution Not Erasure), no longer shadows /api/arron/health.
+  const probeSrc = readFileSync(new URL("../netlify/functions/arron-health.mts", import.meta.url), "utf8");
+  assert.doesNotMatch(probeSrc, /\/api\/arron\/health/);
   assert.match(src, /ok: true/);
   assert.match(src, /keys: providerKeyPresence\(\)/);
   assert.match(src, /lastFailure: lastChainFailure\(\)/);

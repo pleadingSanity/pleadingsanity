@@ -54,18 +54,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+       - name: Check APIsec credentials
+         id: check
+         run: |
+           if [ -n "${{ secrets.apisec_username }}" ] && [ -n "${{ secrets.apisec_password }}" ]; then
+             echo "configured=true" >> "$GITHUB_OUTPUT"
+           else
+             echo "configured=false" >> "$GITHUB_OUTPUT"
+             echo "::warning::APIsec scan skipped — credentials not configured (not disabled). To enable: register at https://cloud.apisec.ai, create project 'pleadingsanity', add repository secrets apisec_username + apisec_password. The scan runs automatically once configured."
+           fi
        - name: APIsec scan
+         if: steps.check.outputs.configured == 'true'
          uses: apisec-inc/apisec-run-scan@8f66ce948afb779712a1d57ecb0a528d7ded5a45
          with:
           # The APIsec username with which the scans will be executed
           apisec-username: ${{ secrets.apisec_username }}
           # The Password of the APIsec user with which the scans will be executed
           apisec-password: ${{ secrets.apisec_password}}
-          # The name of the project for security scan
-          apisec-project: "VAmPI"
+          # The name of the project for security scan (was template default "VAmPI")
+          apisec-project: "pleadingsanity"
           # The name of the sarif format result file The file is written only if this property is provided.
           sarif-result-file: "apisec-results.sarif"
        - name: Import results
+         if: steps.check.outputs.configured == 'true'
          uses: github/codeql-action/upload-sarif@v4
          with:
           sarif_file: ./apisec-results.sarif
