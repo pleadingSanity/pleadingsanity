@@ -26,7 +26,7 @@ const REGISTER = "https://register.fca.org.uk/s/";
 // misconfigured (or compromised) env value must never be able to reach a
 // private host. Same guard as the Arron url_fetch tool (#302): https only,
 // no localhost/private/link-local, no credentials in the URL.
-function feedUrlAllowed(raw: string): boolean {
+export function feedUrlAllowed(raw: string): boolean {
   let u: URL;
   try { u = new URL(raw); } catch { return false; }
   if (u.protocol !== "https:" || u.username || u.password) return false;
