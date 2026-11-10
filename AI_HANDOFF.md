@@ -25,6 +25,9 @@ _All AIs (Claude/GPT/Copilot/Grok): read this section first. Everything below it
 
 New forms to check in Netlify Forms dashboard: `solar-estimator-lead`, `shop-notify-me`, `movement-signup`. All honest disclaimers present; AI never certifies; no guaranteed savings.
 
+
+**Insane Radio god-mode (PR #281):** 18 stations — added UK Reprezent/Rinse/Capital XTRA/Capital XTRA Reloaded, US Old School Hip Hop/GotRadio, R&B 181.FM/Urban Radio (all HTTPS, verified). Big themed station cards, per-card support links, station thank-you, playlist buttons, no-repeat shuffle. Support links: somafm.com/support, radioparadise.com/support, reprezent.org, rinse.fm, capitalxtra.com, urbanradio.com, gotradio.com, 181.fm.
+
 ## Shane identity (USE THIS — factually accurate)
 Shane Cooper = builder, roofer, visionary (Midlands UK). Recently **stopped fitting solar panels**, back to full-time roofing. Focus = Pleading Sanity movement, end goal = peace and unity for all. Insane Solar: Shane organises/oversees, trusted local fitters install, AI Office does paperwork. **Never "we fit solar".** AI never certifies MCS/electrical — humans sign. No invented reviews/guaranteed savings.
 
