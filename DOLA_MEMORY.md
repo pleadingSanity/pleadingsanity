@@ -8,6 +8,8 @@ Shane asked for the music radio page + app to look like Dribbble music-app conce
 - Verified: CSS braces balanced, all 20 required IDs present, 0 purple color values, headless Chromium render checked (mobile + desktop).
 - Shane-action gaps unchanged: drop playlist URLs into `data/music-playlists.json`, payment links into `data/support-config.json`, set `MAX_TOKENS_ARRON` site-level override to 1600 in Netlify UI, revoke exposed tokens.
 
+- **#297 Shane's real playlists wired:** extracted from YouTube Music channel @thecreatormma5440 — `hop to the hippy` (21-track hip-hop mix, PLhZnPPln9EKVzn2CBtCscdniW7_NrB5r_), `my game music` (4 tracks, PLhZnPPln9EKXpOTYoX6GHt7MEATzJtxy9), + channel link. Non-music (E cig juice making, mma me) skipped. No email published.
+
 ## 2026-11-11 — SHANE SCREENSHOT ROUND (PRs #293-#295, live)
 Screenshot of insane-radio.html showed: plain-text cards (no icons), chill section at top (hip-hop below), raw blue underlined "Support this station" links, glued words (genre+bitrate no space).
 - **#293 Radio v2:** reordered — UK grime + US hip-hop/R&B sections FIRST (top), chill/eclectic/ambient below; JSON-LD positions remapped. 18 distinct inline SVG icons (self-hosted, no hotlinks/logos, currentColor strokes). `.station-support-link` + "Station info" → proper on-brand buttons (≥44px, hover lift, focus-visible); "Add playlist"/"Stop station" polished. Glued words fixed via `·` separator + flex gap. New "Sane Shane's Playlists" section — schema extended (shane_playlists[] array, youtube_playlist_id → youtube-nocookie videoseries embed); empty → honest "Shane's dropping his playlists in — check back". No email published. Support strip on radio.
