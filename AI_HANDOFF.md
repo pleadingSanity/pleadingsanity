@@ -1201,3 +1201,10 @@ docs/grok-sync-20261109
 - Protected files, crisis lists, and tap-target CSS were not touched.
 - Verified: `npm test` 215 tests, 202 pass, 13 fail. Same 13 as before this colour pass (music-player 4, radio-player 7, radio-continuous 1, solar-assistant 1). No new failures. `validate-build.cjs` exit 0. `validate-arron-knowledge.mjs` exit 0. `audit-site.py` pass (83 HTML, 291 script blocks). `audit-ecosystem.mjs --strict` exit 0 (0 errors, 5 pre-existing warnings). `audit-markup-safety.mjs` banned HTML colours 0. `git diff --check` pass.
 - Production stays on main until Shane merges. Netlify previews still fail account-wide, so this was not previewed.
+
+## 2026-11-10 — Grok: pink gradient stops on PR #302
+- Same branch, same PR #302. Not merged.
+- Paint swapped to amber `#f59e0b`: finance gradient ends `#ff3bd4` (`sane-finance-mark.svg`) and `#ff4ddd` (`sane-finance-orbit.svg`). Both gradients already start at teal `#00fff0`. Card-back centre `#ff4d8d` (`assets/games/ps-cosmic-card-back.svg`) is amber too.
+- Repo scan of `#ff00ff`–`#ff66ff` and `#ff3bxx`–`#ff4dxx`: no other paint in non-protected files. Left `crisis.html` `#ff3b5c` (protected). Left `#ff4444` on `offline.html` and `js/platform-orchestrator.js` because it is crisis red, not pink. Left audit-script patterns and handoff sentences that name the banned hexes so the ban stays documented.
+- Verified: `npm test` 215 tests, 202 pass, 13 fail. Same 13 as the previous colour pass. No new failures. `validate-build.cjs` exit 0. `validate-arron-knowledge.mjs` exit 0. `audit-site.py` pass (83 HTML, 291 script blocks). `audit-ecosystem.mjs --strict` exit 0 (0 errors, 5 pre-existing warnings). `audit-markup-safety.mjs` banned HTML colours 0. `git diff --check` pass.
+- Production stays on main.
