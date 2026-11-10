@@ -83,7 +83,12 @@ function boot(data) {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.dataset.song = track.id;
-    btn.textContent = track.artist + " — " + track.title;
+    btn.setAttribute("aria-label", "Play " + track.title + " by " + track.artist + " in the YouTube player");
+    btn.innerHTML =
+      '<svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" style="flex:0 0 auto;fill:#00fff0;"><polygon points="6 4 20 12 6 20 6 4"/></svg>' +
+      '<span style="flex:1 1 auto;min-width:0;text-align:left;white-space:normal;">' +
+      track.artist + " — " + track.title + "</span>";
+    btn.style.cssText = "display:flex;align-items:center;gap:.5rem;min-height:48px;text-align:left;";
     btn.addEventListener("click", () => {
       index = i;
       playId(track.id);

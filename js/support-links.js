@@ -21,7 +21,7 @@
     return e;
   }
   function card(active, label) {
-    var c = el("div", "support-card" + (active ? " support-card-active" : " support-card-soon"));
+    var c = el("div", "support-card click-card" + (active ? " support-card-active" : " support-card-soon"));
     var lab = el("div", "support-label", label);
     c.appendChild(lab);
     return c;

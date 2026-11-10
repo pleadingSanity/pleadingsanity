@@ -76,40 +76,58 @@
     item.append(title, sub, play, link, remove);
     return item;
   }
-  // Shane's curated slots from /data/music-playlists.json — render as buttons only when filled.
+  // Shane's curated slots from /data/music-playlists.json — always render a block.
+  // Filled slots become action buttons (YouTube: in-page nocookie embed + official
+  // link; Sonos / Amazon Music: honest deep-link "Opens in ... app" — we cannot
+  // embed them). Empty slots render a dashed hint telling Shane exactly where to
+  // add the link. Never invent a playlist URL.
   var PLATFORMS = [
     { key: 'youtube_url', name: 'YouTube' },
     { key: 'sonos_url', name: 'Sonos' },
     { key: 'amazon_music_url', name: 'Amazon Music' }
   ];
   function renderCurated(cfg) {
-    var filled = PLATFORMS.filter(function (p) { return (cfg[p.key] || '').trim(); });
-    if (!filled.length) return null;
     var item = document.createElement('div');
     item.className = 'playlist-item playlist-curated';
     var title = document.createElement('div');
     title.className = 'playlist-item-title';
-    title.textContent = (cfg.label && cfg.label.trim()) ? cfg.label.trim() : "Shane's playlist";
+    title.textContent = (cfg.label && cfg.label.trim()) ? cfg.label.trim() : "Shane's playlists";
     var sub = document.createElement('div');
     sub.className = 'playlist-item-sub';
-    sub.textContent = 'Curated by Shane · opens in the official service';
+    sub.textContent = 'Curated by Shane · opens in the official service. Empty slots are waiting for a link in data/music-playlists.json.';
     item.append(title, sub);
-    for (var i = 0; i < filled.length; i++) {
+    for (var i = 0; i < PLATFORMS.length; i++) {
       (function (p) {
-        var url = cfg[p.key].trim();
+        var url = (cfg[p.key] || '').trim();
+        if (!url) {
+          var hint = document.createElement('div');
+          hint.className = 'playlist-slot-empty';
+          hint.setAttribute('role', 'note');
+          hint.textContent = 'Add your ' + p.name + ' playlist link → data/music-playlists.json';
+          item.appendChild(hint);
+          return;
+        }
         if (p.key === 'youtube_url') {
           var yid = playlistId(url);
           if (yid) {
-            item.appendChild(makeButton('Play here', 'Play ' + title.textContent + ' here', function () { openPlaylist(yid); }));
+            item.appendChild(makeButton('Play here', 'Play ' + title.textContent + ' on ' + p.name + ' here', function () { openPlaylist(yid); }));
           }
         }
         var a = document.createElement('a');
         a.className = 'playlist-open';
         a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
-        a.textContent = 'Open in ' + p.name;
-        a.setAttribute('aria-label', 'Open ' + title.textContent + ' in ' + p.name + ' (new tab)');
+        var openLabel = p.key === 'youtube_url' ? 'Open on YouTube' : (p.key === 'sonos_url' ? 'Open in Sonos app' : 'Open in Amazon Music');
+        a.textContent = openLabel;
+        a.setAttribute('aria-label', openLabel + ' — ' + title.textContent + ' (new tab or app)');
         item.appendChild(a);
-      })(filled[i]);
+        if (p.key !== 'youtube_url') {
+          var note = document.createElement('div');
+          note.className = 'playlist-item-sub';
+          note.style.flex = '1 1 100%';
+          note.textContent = p.key === 'sonos_url' ? 'Sonos cannot be embedded — this opens the Sonos app or site.' : 'Amazon Music cannot be embedded — this opens music.amazon.com.';
+          item.appendChild(note);
+        }
+      })(PLATFORMS[i]);
     }
     return item;
   }
@@ -118,14 +136,17 @@
     fetch('/data/music-playlists.json', { cache: 'force-cache' })
       .then(function (r) { return r.ok ? r.json() : null; })
       .then(function (j) {
-        if (!j) return;
-        var cfg = {};
-        PLATFORMS.forEach(function (p) { cfg[p.key] = (typeof j[p.key] === 'string') ? j[p.key].trim() : ''; });
-        cfg.label = (typeof j.label === 'string') ? j.label.trim() : '';
-        var node = renderCurated(cfg);
-        if (node) { list.prepend(node); }
+        var cfg = { label: '', youtube_url: '', sonos_url: '', amazon_music_url: '' };
+        if (j) { for (var k in cfg) { if (typeof j[k] === 'string') cfg[k] = j[k].trim(); } cfg.label = (typeof j.label === 'string') ? j.label.trim() : ''; }
+        var existing = list.querySelector('.playlist-curated');
+        if (existing) existing.remove();
+        list.prepend(renderCurated(cfg));
       })
-      .catch(function () { /* empty or missing config — no curated buttons */ });
+      .catch(function () {
+        var existing = list.querySelector('.playlist-curated');
+        if (existing) existing.remove();
+        list.prepend(renderCurated({ label: '', youtube_url: '', sonos_url: '', amazon_music_url: '' }));
+      });
   }
   function render() {
     list.replaceChildren();

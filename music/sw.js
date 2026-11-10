@@ -1,6 +1,6 @@
 // Music app worker. Scope is /music/ only. It does not replace the house worker.
 const CACHE = "ps-music-shell-v1";
-const SHELL = ["/music/index.html", "/music/manifest.json", "/music/tracks.json", "/css/support-strip.css", "/js/music-player.js", "/assets/favicon.svg"];
+const SHELL = ["/music/index.html", "/music/manifest.json", "/music/tracks.json", "/css/support-strip.css", "/js/music-player.js", "/js/music-app-player.js", "/assets/favicon.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE).then((cache) => Promise.all(SHELL.map((url) => cache.add(url).catch(() => {})))));
