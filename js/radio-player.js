@@ -465,7 +465,7 @@
     // Parse "title · artist" from button text; tolerate "N. title · artist" and
     // "  (official link only)" suffix. URL = radio page (no external hotlinks).
     function decorateTrackButton(btn) {
-      if (!btn || btn.getAttribute('data-ps-share')) return;
+      if (!btn || btn.classList.contains('ps-share-btn') || btn.getAttribute('data-ps-share')) return;
       var raw = (btn.textContent || '').trim();
       raw = raw.replace(/^\d+\.\s*/, '').replace(/\s*\(official link only\)\s*$/, '').trim();
       var parts = raw.split('·');

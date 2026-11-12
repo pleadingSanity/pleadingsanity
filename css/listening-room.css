@@ -46,3 +46,5 @@ body.radio-page::before,body.music-room::before{background:radial-gradient(ellip
 :where(.radio-page,.music-room) :where(a,button,input):focus-visible{outline:3px solid #f59e0b;outline-offset:4px}
 @media(min-width:760px){.radio-page .listening-hero{grid-template-columns:1.15fr 1fr;padding-block:3.5rem}.discovery-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.radio-page .radio-wrap{padding-top:0}}
 @media(prefers-reduced-motion:reduce){.radio-page .station-card{transition:none}}
+
+.radio-page .radio-hero .radio-kicker,.music-room .radio-kicker{color:#00fff0;background:none;-webkit-text-fill-color:#00fff0}

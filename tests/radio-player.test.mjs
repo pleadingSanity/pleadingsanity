@@ -135,3 +135,15 @@ test('a shared track is selected without autoplay and unknown track values are i
  assert.equal(invalid.nodes.get('radio-title').textContent,'First');
  assert.equal(invalid.calls.length,0);
 });
+
+
+test('share decoration never turns a share button into another share target',()=>{
+ const body=js.slice(js.indexOf('    function decorateTrackButton('),js.indexOf('    function scanTracks()'));
+ const make=(share)=>({attrs:{},textContent:'First · Artist',classList:{contains:name=>share && name==='ps-share-btn'},getAttribute(k){return this.attrs[k] || null;},setAttribute(k,v){this.attrs[k]=v;}});
+ const context={RADIO_PAGE:'https://pleadingsanity.co.uk/insane-radio.html'};
+ vm.createContext(context);vm.runInContext(body+';this.decorate = decorateTrackButton;',context);
+ const track=make(false),share=make(true);
+ context.decorate(track);context.decorate(share);
+ assert.equal(track.attrs['data-ps-share'],'song');
+ assert.equal(share.attrs['data-ps-share'],undefined,'observer-created buttons must not recursively create shares');
+});
