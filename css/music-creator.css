@@ -3,3 +3,12 @@
 .mc-project{margin-bottom:24px}.mc-project h2{margin-top:0}.mc-transcription{border-top:1px solid #ffffff20;margin-top:20px;padding-top:16px}.mc-transcription summary{min-height:48px;cursor:pointer;display:list-item;color:#00fff0;padding:10px 0}
 /* This creator page follows the founder's teal/amber-only brief, including its sky. */
 body.music-creator::before{background:radial-gradient(ellipse at 12% 18%,#00fff01f,transparent 48%),radial-gradient(ellipse at 88% 72%,#f59e0b17,transparent 48%),linear-gradient(160deg,#0b0f19,#101c26 50%,#0b0f19)!important;animation:none!important;filter:none!important}body.music-creator::after{animation:none!important}
+
+/* Founder rehearsal pack keeps the cue table usable on a phone. */
+.mc-rehearsal summary{min-height:44px;cursor:pointer;font-weight:700;color:#00fff0;padding:.7rem 0}
+.mc-cue-scroll{overflow-x:auto;max-width:100%;margin:1rem 0}
+.mc-rehearsal table{width:100%;border-collapse:collapse;font-size:.9rem;text-align:left}
+.mc-rehearsal caption{text-align:left;color:#f59e0b;font-weight:700;padding:.6rem 0}
+.mc-rehearsal th,.mc-rehearsal td{padding:.7rem;border-bottom:1px solid #ffffff24;vertical-align:top}
+.mc-rehearsal td:first-child{white-space:nowrap}
+.mc-rehearsal th{color:#00fff0}
