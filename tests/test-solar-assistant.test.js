@@ -65,7 +65,7 @@ test('the solar function uses the Arron chain, limits, and crisis first', () => 
   assert.match(fn, /path: "\/api\/solar"/);
   assert.match(fn, /SOLAR_BOUNDARY/);
   assert.doesNotMatch(fn, /GEMINI_API_KEY\s*=\s*["']/);
-  assert.match(page, /\/js\/solar-assistant\.js/);
+  assert.match(page, /\/js\/solar-assistant(?:-v\d+)?\.js/);
   assert.doesNotMatch(page, /fetch\('\/api\/arron'/);
   assert.match(lab, /solar-ai-ask/);
   assert.match(lab, /solar-ai-diy/);

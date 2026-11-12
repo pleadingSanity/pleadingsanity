@@ -40,7 +40,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 .ps-sound-toggle[aria-pressed="true"]{border-color:rgba(245,158,11,.6);background:rgba(245,158,11,.1);}
 .ps-sound-toggle[aria-pressed="true"] svg{stroke:#f59e0b;}
 .ps-socials a{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;padding:6px;}
-</style>
+.store-empty::before{content:"";display:block;width:64px;height:64px;margin:0 auto .6rem;background:url('/images/empty-states/empty-search.svg') center/contain no-repeat;opacity:.85}</style>
 <link rel="webmention" href="https://webmention.io/pleadingsanity.co.uk/webmention">
 <link rel="pingback" href="https://webmention.io/pleadingsanity.co.uk/xmlrpc">
 <script type="application/ld+json">
@@ -132,8 +132,8 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   <!-- Crisis help block — always visible -->
   <section class="crisis-strip" aria-label="Crisis and emergency help">
     <strong>In crisis right now?</strong> You are not alone.
-    <span class="crisis-nums">999 (emergency) &middot; Samaritans 116 123 &middot; SHOUT text 85258 &middot; NHS 111 option 2</span>
-    More support and international lines on the <a href="/crisis.html">Crisis Help page</a>.
+    <span class="crisis-nums"><a href="tel:999">999 (emergency)</a> &middot; Samaritans <a href="tel:116123">116 123</a> &middot; SHOUT <a href="sms:85258&body=SHOUT">text 85258</a> &middot; NHS <a href="tel:111">111</a> option 2 &middot; Childline <a href="tel:08001111">0800 1111</a> &middot; DA Helpline <a href="tel:08082000247">0808 2000 247</a></span>
+    More support and international lines on the <a href="/crisis.html">Crisis Help page</a> or <a href="https://findahelpline.com/" rel="noopener">findahelpline.com</a>.
   </section>
 
   <!-- Hero + install -->
@@ -585,7 +585,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
 </div>
 </main>
 
-<div class="ps-crisis-footer" aria-label="Crisis and emergency help"><p><strong>If you're in crisis:</strong> Call Samaritans free <a href="tel:116123">116 123</a> (24/7, UK/Ireland) &middot; Text <strong>SHOUT to 85258</strong> &middot; Emergency <a href="tel:999">999</a> &middot; <a href="/crisis.html">More help</a></p></div>
+<div class="ps-crisis-footer" aria-label="Crisis and emergency help"><p><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> &middot; Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <a href="sms:85258&body=SHOUT">SHOUT to 85258</a> &middot; NHS <a href="tel:111">111</a> &middot; Childline <a href="tel:08001111">0800 1111</a> &middot; <a href="/crisis.html">More help</a> &middot; <a href="https://findahelpline.com/" rel="noopener">findahelpline.com</a></p></div>
 <footer style="background:#0d1b2a;border-top:1px solid rgba(0,255,240,.25);color:#c9e9ef;padding:2rem 1rem;text-align:center;line-height:1.8;">
   <p style="color:#eef6ff;font-weight:700;margin:0 0 .6rem;">Evolution, Not Erasure</p>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;margin-bottom:.8rem;">
@@ -600,7 +600,7 @@ a.store-open,.game-card .btn{display:inline-flex;align-items:center;justify-cont
   </div>
   <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:.4rem 1rem;margin-bottom:.8rem;font-size:.9rem;">
     <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">Instagram</a>
-    <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">TikTok</a>
+    <a href="https://www.tiktok.com/@thecreatormma6" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">TikTok</a>
     <a href="https://www.youtube.com/@shanecooper1872" target="_blank" rel="noopener noreferrer" style="color:#a9c7d1;">YouTube</a>
     <a href="mailto:pleadingsanity1@gmail.com" style="color:#a9c7d1;">Email</a>
   </div>

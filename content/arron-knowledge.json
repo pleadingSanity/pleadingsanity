@@ -104,9 +104,9 @@
     "formula": "Mind × Music × AI × Truth",
     "colours": {
       "cyan": "#00fff0",
-      "magenta": "#ff00ff",
+      "amber": "#f59e0b",
       "deep": "#0d1b2a",
-      "darker": "#000103"
+      "darker": "#0b0f19"
     },
     "domains": [
       "pleadingsanity.co.uk",

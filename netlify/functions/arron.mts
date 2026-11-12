@@ -25,7 +25,7 @@ import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
 import { ARRON_PHASE2_TOOLS_BRIEF, buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, lastChainFailure, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
@@ -97,7 +97,7 @@ const MAX_JOURNAL_TEXT = 2000;
 // One shared list for the house: ../lib/crisis-phrases.js (normalises curly apostrophes first).
 const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 const SIGNPOST = "You're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html. I'm an AI companion, not a therapist or emergency service.";
-const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
+const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. International helplines: https://findahelpline.com/. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
 
 // Does this reply already carry the real numbers? (Needs both 116 123 and 999.)
 const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
@@ -340,7 +340,7 @@ async function runActions(message: string, history: { role: string; content: str
     } else {
       let accepted = false;
       try {
-        const res = await fetch(hook, { method: "POST" });
+        const res = await fetch(hook, { method: "POST", signal: AbortSignal.timeout(5000) });
         accepted = res.ok;
       } catch (error) {
         console.error("Arron deploy hook unreachable:", reason(error));
@@ -572,12 +572,12 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   const capNote = (wantsCouncil && !council) || (wantsFamily && !family)
     ? "\n\nTODAY'S LIMIT — the Owner's daily allowance for that multi-mind reply is used up. Say so in one line, then answer with one mind."
     : "";
-  // Phase 2: one round of GPT tool calling (solar_calculator / crisis_check / url_fetch),
-  // only when OPENAI_API_KEY is set and this is a normal single-mind chat. If a tool fires,
-  // its result is injected into the last user turn (turns mutated in place); the provider
-  // chain below then produces the final reply with enriched context. If no key, no tool, or
-  // any error, the chain runs UNCHANGED. Tools never break chat.
-  if (!council && !family && openaiToolsEnabled()) {
+  // Phase 2: one extra paid hop (gpt-4o-mini) for tool routing, then the normal chain
+  // writes the reply. It runs only for a direct OpenAI key (never the Netlify gateway
+  // key) and only when the message looks like a solar estimate or an https page.
+  // Crisis care does not depend on this hop. If the cue is missed, or the hop errors,
+  // the chain runs UNCHANGED. Tools never break chat.
+  if (!council && !family && openaiToolsEnabled() && toolRoundWorthPaying(message)) {
     const routeMax = creator ? TOKENS.creator : TOKENS.guest;
     await maybeRunTools(grounded + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
   }
@@ -739,6 +739,26 @@ async function crashLooksLikeCrisis(spare: Request | null) {
   }
 }
 
+// The gpt-4o-mini tool hop is an extra paid call. Pay for it only when the
+// message looks like a solar estimate or hands over an https page to read.
+function toolRoundWorthPaying(text: string) {
+  return /https:\/\//i.test(text) || /\b(solar|panels?|kilowatt|kWp?|roof|inverter)\b/i.test(text);
+}
+
+// Booleans only. A value shorter than 9 characters is treated as unset so a
+// placeholder cannot look like a real key. The value itself is never returned.
+function providerKeyPresence() {
+  const present = (value: string | undefined) => Boolean(value && value.trim().length > 8);
+  const env = process.env;
+  return {
+    openai: present(env.OPENAI_API_KEY),
+    anthropic: present(env.ANTHROPIC_API_KEY),
+    gemini: present(env.GEMINI_API_KEY),
+    grok: present(env.GROK_API_KEY) || present(env.xAI_KEY) || present(env.XAI_API_KEY),
+    openrouter: present(env.OPENROUTER_API_KEY),
+  };
+}
+
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const rid = newRequestId();
@@ -768,6 +788,9 @@ export default async (req: Request, context: Context) => {
       });
     }
     if (route === "health") {
+      // This handler is the one Netlify serves for /api/arron/health. The old
+      // arron-health.mts claimed the same path and never won, so its key check
+      // was unreachable. Key flags are booleans only. No key value is returned.
       const { user, profile } = await whoIsHere();
       return json({
         ok: true,
@@ -776,6 +799,9 @@ export default async (req: Request, context: Context) => {
         owner: Boolean(user?.isOwner),
         signedIn: Boolean(user),
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
+        keys: providerKeyPresence(),
+        lastFailure: lastChainFailure(),
+        note: "Key presence only — no live API calls made. Connectivity not proven.",
       });
     }
     if (route === "chat" && req.method === "POST") return await chat(req, context, rid, started);
@@ -783,7 +809,13 @@ export default async (req: Request, context: Context) => {
     if (route === "grok-test") {
       const user = await optionalUser();
       if (!user?.isOwner) return json({ error: "Not found" }, 404);
-      return json(await askGrokDirect());
+      // askGrokDirect(system, turns, maxTokens) throws if called with no arguments,
+      // so this owner probe never reached xAI. A short hello is enough to prove the hop.
+      return json(await askGrokDirect(
+        "You are Arron, a companion on Pleading Sanity, not a therapist. Reply in one short sentence.",
+        [{ role: "user", content: "Reply with one short hello." }],
+        40,
+      ));
     }
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);

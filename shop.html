@@ -120,6 +120,7 @@
   "inLanguage": "en-GB"
 }
 </script>
+<link rel="stylesheet" href="/css/shard-solar-shop.css">
 </head>
 <body>
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -194,7 +195,7 @@
         </div>
       </div>
       <a href="/#ps-site-search" class="ps-shop">Search</a>
-      <a href="/insane-radio.html" class="ps-shop">♫ Insane Radio</a>
+      <a href="/insane-radio.html" class="ps-shop"><svg class="ps-ico" aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg> Insane Radio</a>
       <a href="/shop.html" class="ps-shop" aria-current="page">Shop</a>
       <a href="/crisis.html" class="ps-crisis">Crisis Help</a>
     </div>
@@ -275,7 +276,7 @@
       <div class="featured-grid">
         <!-- Update these for your real product links/images -->
         <div class="merch-card">
-          <img src="/assets/images/brand/crying-brain-hoodie-back.webp" width="240" height="240" loading="lazy" alt="Black hoodie with the glowing cyan and violet Crying Brain logo on the back" />
+          <img src="/assets/images/brand/crying-brain-hoodie-back.webp" width="240" height="240" loading="lazy" alt="Black hoodie with the glowing cyan and amber Crying Brain logo on the back" />
           <h3>Crying Brain Hoodie</h3>
           <p>Earlier cosmic hoodie concept. Check current availability in the store.</p>
           <div class="card-links">
@@ -306,7 +307,7 @@
     <section class="brand-kit" aria-labelledby="brand-kit-title">
       <h2 id="brand-kit-title">The Crying Brain</h2>
       <div class="brand-kit-grid">
-        <img src="/assets/images/brand/crying-brain-logo.webp" width="320" height="320" loading="lazy" alt="The Crying Brain logo: a neon cyan and violet brain with two glowing tears" />
+        <img src="/assets/images/brand/crying-brain-logo.webp" width="320" height="320" loading="lazy" alt="The Crying Brain logo: a neon cyan and amber brain with two glowing tears" />
         <div>
           <p><strong>A brain that cries is a brain that's still fighting.</strong> The tears are the pain we carry. The glow is what we turn it into. Every piece says what so many people can't say out loud: <em>I've been through it, and I'm still here.</em></p>
           <p>Wear it and you start a conversation. Net proceeds after costs help fund the free tools, games and support on this site.</p>
@@ -412,7 +413,7 @@
     </div>
     <div class="ps-socials">
       <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer" aria-label="Instagram">Instagram</a>
-      <a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
+      <a href="https://www.tiktok.com/@thecreatormma6" target="_blank" rel="noopener noreferrer" aria-label="TikTok">TikTok</a>
       <a href="https://www.youtube.com/@shanecooper1872" target="_blank" rel="noopener noreferrer" aria-label="YouTube">YouTube</a>
       <a href="mailto:pleadingsanity1@gmail.com" aria-label="Email">Email</a>
     </div>
@@ -434,6 +435,15 @@
   <script type="module" src="/js/auth.js"></script>
   <script>
     if (/[?&]sent=1/.test(location.search)) document.getElementById('partner-sent').hidden = false;
+    // Partner form: submit once (Netlify redirects to ?sent=1 on success)
+    (function(){
+      var f = document.querySelector('form.partner-form');
+      if (!f) return;
+      f.addEventListener('submit', function(){
+        var b = f.querySelector('button[type="submit"]');
+        if (b) { b.disabled = true; b.style.opacity = '.6'; b.textContent = 'Sending…'; }
+      });
+    })();
   </script>
 <!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
 <script src="/js/music-player.js" defer></script>

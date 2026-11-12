@@ -9,7 +9,10 @@
 <link rel="canonical" href="https://pleadingsanity.co.uk/insane-radio.html">
 <meta property="og:title" content="Insane Radio — Music That Speaks | Pleading Sanity">
 <meta property="og:description" content="Free curated hip-hop and R&B listening room plus 18 live radio stations. User-controlled official sources. Starts silent.">
-<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
+<meta property="og:image" content="https://pleadingsanity.co.uk/images/og/og-radio.webp">
+ <meta property="og:image:width" content="1200" />
+ <meta property="og:image:height" content="630" />
+ <meta property="og:image:alt" content="Teal sound waves rippling across deep space around a soft amber glow" />
 <meta property="og:url" content="https://pleadingsanity.co.uk/insane-radio.html">
 <meta property="og:type" content="website">
 <link rel="stylesheet" href="/css/radio-styles.css">
@@ -90,6 +93,8 @@
   ]
 }
 </script>
+<style>/* Empty playlist slots are setup hints for the repo, not for visitors (docs/SUPPORT-OPTIONS-SETUP.md). */.playlist-slot-empty{display:none}.playlist-curated:not(:has(.playlist-open)){display:none}</style>
+<link rel="stylesheet" href="/css/shard-radio-music.css">
 </head>
 <body class="radio-page">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -115,6 +120,10 @@
     <a id="radio-support" class="radio-support" href="#" target="_blank" rel="noopener">Support this artist</a>
     <p style="margin-top:1rem;font-size:.85rem;color:#94a3b8">Up next</p>
     <ul id="radio-upnext" class="radio-upnext"></ul>
+    <details class="radio-tracklist-details" open>
+      <summary id="radio-tracklist-summary" class="radio-tracklist-summary">All tracks — tap any song to play</summary>
+      <ul id="radio-tracklist" class="radio-tracklist" aria-label="All curated tracks; tap any to play"></ul>
+    </details>
   </div>
   <div class="radio-promise">
     <h2>To every artist we feature</h2>
@@ -134,16 +143,16 @@
 </div>
 <section class="radio-stations" aria-labelledby="shane-playlists-title">
   <h2 id="shane-playlists-title">Sane Shane's Playlists</h2>
-  <p class="radio-note">Curated by Shane from his YouTube Music. When a playlist is live it embeds right here — official player, starts silent. No playlist URLs or IDs are invented; empty slots are honest placeholders until Shane drops them in.</p>
+  <p class="radio-note">Shane's own playlists from his YouTube Music. Each one plays right here in the official player and starts silent until you press play.</p>
   <div id="shane-playlists-grid" class="shane-playlists-grid" aria-live="polite"></div>
 </section>
 <section class="radio-stations" aria-labelledby="playlist-title">
   <h2 id="playlist-title">Your YouTube playlists</h2>
-  <p class="radio-note">Add a public or unlisted YouTube / YouTube Music playlist link. Links are saved on this device only. Private playlists may require opening YouTube Music directly.</p>
+  <p class="radio-note">Add a public or unlisted YouTube / YouTube Music link — a playlist (<code>…/playlist?list=…</code>) or a single track (<code>…/watch?v=…</code>). Links are saved on this device only. Private playlists may require opening YouTube Music directly.</p>
   <form id="radio-playlist-form" class="radio-controls">
-    <label for="radio-playlist-url" class="sr-only">Playlist link</label>
-    <input id="radio-playlist-url" type="url" inputmode="url" autocomplete="url" placeholder="https://music.youtube.com/playlist?list=..." required style="min-width:0;flex:1;max-width:100%;padding:.75rem;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid #00fff0">
-    <button type="submit">Add playlist</button>
+    <label for="radio-playlist-url" class="sr-only">Playlist or track link</label>
+    <input id="radio-playlist-url" type="url" inputmode="url" autocomplete="url" placeholder="https://music.youtube.com/playlist?list=…  or  …/watch?v=…" required style="min-width:0;flex:1;max-width:100%;padding:.75rem;border-radius:8px;background:#0d1b2a;color:#eef6ff;border:1px solid #00fff0">
+    <button type="submit">Add link</button>
   </form>
   <p id="radio-playlist-status" class="radio-note" role="status" aria-live="polite"></p>
   <div id="radio-playlist-list" class="playlist-button-list" aria-live="polite"></div>

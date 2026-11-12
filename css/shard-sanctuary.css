@@ -1,0 +1,140 @@
+/* ============================================================
+   SHARD SANCTUARY — DESIGN BUFF / A11Y POLISH
+   Loaded LAST on shard-2 pages only (home, sanctuary, games,
+   finance, journal, crisis, etc.). Pure additive CSS.
+   All JS hooks / IDs / classes preserved. Evolution, Not Erasure.
+   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf
+   on near-black #070a12 / #0b0f19.
+   HARD RULE: no purple / violet / indigo / lavender.
+   ============================================================ */
+
+:root{
+  --ss-coral:#ff6b6b;
+  --ss-amber:#fbbf24;
+  --ss-teal:#2dd4bf;
+  --ss-teal-glow:rgba(45,212,191,.45);
+  --ss-ink:#070a12;
+  --ss-panel:rgba(15,21,34,.72);
+  --ss-line:rgba(255,255,255,.09);
+  --ss-text:#f1f5f9;
+  --ss-muted:#94a3b8;
+}
+
+/* ---------- Card hover lift + teal glow (additive, opt-in + common card classes) ---------- */
+.ps-home-note, .card, .panel, .feature, .sx-card, .help-card,
+.entry, .finance-card, .game-card, .tool-card, .support-strip,
+.ps-support-strip{
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.ps-home-note:hover, .card:hover, .panel:hover, .feature:hover, .sx-card:hover,
+.help-card:hover, .entry:hover, .finance-card:hover, .game-card:hover,
+.tool-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 30px rgba(45,212,191,.18), 0 0 0 1px rgba(45,212,191,.25);
+  border-color:rgba(45,212,191,.45);
+}
+/* Focus-visible ring for cards that are links / contain interactive */
+a.ps-home-note:focus-visible, a.card:focus-visible, a.sx-card:focus-visible,
+a.feature:focus-visible, a.finance-card:focus-visible, a.game-card:focus-visible,
+a.tool-card:focus-visible{
+  outline:3px solid var(--ss-teal);
+  outline-offset:3px;
+  border-radius:12px;
+}
+
+/* ---------- Raw-link-as-button → proper button affordance ---------- */
+a.btn, a.ps-btn, button.ps-btn, .home-quick-links a, .actions a,
+a[class*="btn-"], .ps-support-strip a{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+a.btn:focus-visible, a.ps-btn:focus-visible, button:focus-visible,
+.home-quick-links a:focus-visible, .actions a:focus-visible,
+.ps-support-strip a:focus-visible, .ps-crisis-strip a:focus-visible,
+.ps-crisis-footer a:focus-visible, .crisis-strip a:focus-visible{
+  outline:3px solid var(--ss-teal);
+  outline-offset:2px;
+  border-radius:8px;
+}
+
+/* ---------- Tap target floor (mobile) for small interactive elements ---------- */
+.ps-group-btn, .ps-install, .ps-nav a, .ps-footer-links a, .ps-socials a,
+nav a, .prompt-row .btn, .entry-actions .btn, .controls .btn,
+.forget-form input, .search-box, summary{
+  min-height:44px;
+}
+@media (max-width:600px){
+  .ps-crisis-footer{ font-size:.74rem; padding:8px 10px; line-height:1.5; }
+  .ps-crisis-footer a{ padding:6px 2px; }
+  .ps-crisis-strip{ font-size:.82rem !important; }
+}
+
+/* ---------- Crisis strip on home (index.html) ---------- */
+.ps-crisis-strip a{
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.ps-crisis-strip a:hover{
+  color:#fff !important;
+  text-shadow:0 0 8px var(--ss-teal-glow);
+}
+
+/* ---------- Support strip ("Keep the AIs online & the movement free") ---------- */
+.ps-support-strip{
+  margin:2rem auto;
+  max-width:46rem;
+  padding:1.1rem 1.4rem;
+  border-radius:16px;
+  border:1px solid rgba(251,191,36,.4);
+  background:linear-gradient(135deg, rgba(251,191,36,.08), rgba(45,212,191,.06));
+  text-align:center;
+}
+.ps-support-strip p{ margin:.2rem 0; line-height:1.6; color:var(--ss-text); }
+.ps-support-strip .ps-support-title{
+  font-weight:800; color:var(--ss-amber); letter-spacing:.04em;
+  text-transform:uppercase; font-size:.85rem;
+}
+.ps-support-strip .ps-support-links{
+  display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin-top:.7rem;
+}
+.ps-support-strip .ps-support-links a{
+  padding:.55rem 1.1rem; border-radius:999px; font-weight:700; text-decoration:none;
+  border:1px solid rgba(45,212,191,.5); color:#eef6ff;
+  background:rgba(7,10,18,.6); transition:all .2s ease;
+}
+.ps-support-strip .ps-support-links a:hover{
+  border-color:var(--ss-teal); background:rgba(45,212,191,.15);
+  box-shadow:0 0 18px var(--ss-teal-glow); transform:translateY(-2px);
+}
+.ps-support-strip .ps-support-links a.ps-support-primary{
+  background:linear-gradient(135deg, var(--ss-amber), #f59e0b);
+  color:#0b0f19; border-color:var(--ss-amber);
+}
+.ps-support-strip .ps-support-links a.ps-support-primary:hover{
+  box-shadow:0 0 22px rgba(251,191,36,.5);
+}
+
+/* ---------- Reduced motion: kill lifts/glow animations ---------- */
+@media (prefers-reduced-motion: reduce){
+  .ps-home-note, .card, .panel, .feature, .sx-card, .help-card,
+  .entry, .finance-card, .game-card, .tool-card, .support-strip,
+  .ps-support-strip, .ps-support-strip .ps-support-links a,
+  a.btn, a.ps-btn, .home-quick-links a{
+    transition:none !important;
+    transform:none !important;
+    animation:none !important;
+  }
+  .ps-home-note:hover, .card:hover, .panel:hover, .feature:hover,
+  .sx-card:hover, .help-card:hover, .entry:hover, .finance-card:hover,
+  .game-card:hover, .tool-card:hover{
+    transform:none;
+    box-shadow:none;
+  }
+}
+
+/* ---------- Flat solid sections → ps-wash utility (reuse site.css class) ----------
+   Add class="ps-wash" to any flat <section>/<div>; background-image only,
+   zero layout shift. Defined in site.css; we ensure it stacks correctly. */
+.ps-wash{ background-attachment:scroll; }

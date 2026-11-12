@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Shard 3 (Solar + AI Office + Shop + Support-us) additive polish.
+   Loaded LAST on: insane-solar.html, solar-ai-office.html, shop.html, support-us.html.
+   Evolution Not Erasure — append/override only. Never removes a working hook/class.
+   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black. Forbidden hues excluded.
+   ========================================================================== */
+
+:root{
+  --shard-coral:#ff6b6b;
+  --shard-amber:#fbbf24;
+  --shard-teal:#2dd4bf;
+  --shard-ink:#0b0f19;
+}
+
+/* ---------- Card hover: lift + soft glow (additive, no layout shift) ---------- */
+.collection-card,
+.merch-card,
+.support-card,
+.card-dark,
+.card-light,
+.solar-partner-card,
+.brand-kit,
+.partner,
+.ps-est,
+.ps-wl-modal-box,
+.ps-wl-panel{
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  will-change: transform;
+}
+.collection-card:hover,
+.merch-card:hover,
+.support-card:hover,
+.card-dark:hover,
+.card-light:hover,
+.solar-partner-card:hover,
+.brand-kit:hover,
+.partner:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 44px -18px rgba(45,212,191,.35), 0 6px 18px -8px rgba(251,191,36,.18);
+  border-color: rgba(45,212,191,.55);
+}
+/* Dashed "coming soon" cards get a coral-tinted lift instead of teal */
+.support-card-soon:hover{
+  box-shadow: 0 18px 44px -18px rgba(255,107,107,.28);
+  border-color: rgba(255,107,107,.5);
+}
+
+/* ---------- Focus-visible: consistent amber/teal rings, forbidden hues excluded ---------- */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+.ps-est-opt:focus-visible{
+  outline: 3px solid var(--shard-amber) !important;
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.support-btn-primary:focus-visible,
+.support-btn-ghost:focus-visible,
+.ps-wl-btn:focus-visible{
+  outline: 3px solid var(--shard-teal) !important;
+  outline-offset: 2px;
+}
+
+/* ---------- .ps-wash: subtle flat-section wash utility (additive) ---------- */
+.ps-wash{
+  background: linear-gradient(180deg, rgba(45,212,191,.05) 0%, rgba(11,15,25,0) 100%);
+  border-top: 1px solid rgba(45,212,191,.12);
+  border-bottom: 1px solid rgba(251,191,36,.10);
+}
+
+/* ---------- Raw links that act as buttons: consistent tap target + pill ---------- */
+.shop-links a,
+.collection-actions a,
+.brand-downloads a,
+.card-links a,
+.ps-donate-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  box-sizing:border-box;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.shop-links a:hover,
+.collection-actions a:hover,
+.brand-downloads a:hover,
+.card-links a:hover,
+.ps-donate-btn:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px -10px rgba(251,191,36,.5);
+}
+
+/* ---------- Support strip: prominent but not spammy ---------- */
+.ps-donate-strip{
+  border:1px solid rgba(251,191,36,.35);
+  background: linear-gradient(135deg, rgba(251,191,36,.10), rgba(45,212,191,.06));
+  border-radius:16px;
+  padding:18px 20px;
+  margin:1.5rem 0 0;
+  text-align:center;
+}
+.ps-donate-strip-lead{ font-weight:900; color:#eef6ff; font-size:1.08rem; margin:0 0 4px; }
+.ps-donate-strip-sub{ color:#b8cbd4; font-size:.92rem; margin:0 0 12px; line-height:1.5; }
+.ps-donate-strip-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+.ps-donate-btn{ padding:10px 20px; border-radius:999px; font-weight:800; text-decoration:none; font-size:.95rem; }
+.ps-donate-btn-primary{ background:var(--shard-teal); color:var(--shard-ink); }
+.ps-donate-btn-primary:hover{ background:#5eead4; }
+.ps-donate-btn-amber{ background:var(--shard-amber); color:var(--shard-ink); }
+.ps-donate-btn-amber:hover{ background:#fcd34d; }
+
+/* ---------- Mobile polish: single-column actions, larger touch targets ---------- */
+@media (max-width:640px){
+  .collection-actions, .brand-downloads, .shop-links{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .collection-actions a, .brand-downloads a, .shop-links a, .card-links a{
+    width:100%;
+    min-height:48px;
+    margin:4px 0;
+  }
+  .ps-donate-strip-actions{ flex-direction:column; }
+  .ps-donate-btn{ width:100%; }
+  .support-grid{ grid-template-columns:1fr; }
+  .ps-est-nav{ flex-direction:column; }
+  .ps-est-btn{ width:100%; }
+}
+
+/* ---------- Reduced motion: kill lifts/glow transitions & animations ---------- */
+@media (prefers-reduced-motion: reduce){
+  .collection-card,
+  .merch-card,
+  .support-card,
+  .card-dark,
+  .card-light,
+  .solar-partner-card,
+  .brand-kit,
+  .partner,
+  .ps-est,
+  .shop-links a,
+  .collection-actions a,
+  .brand-downloads a,
+  .card-links a,
+  .ps-donate-btn{
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+  .collection-card:hover,
+  .merch-card:hover,
+  .support-card:hover,
+  .card-dark:hover,
+  .card-light:hover,
+  .solar-partner-card:hover,
+  .brand-kit:hover,
+  .partner:hover{
+    transform: none !important;
+    box-shadow: none;
+  }
+}
+
+/* ---------- Estimator / wishlist buttons: ensure 44px+ on mobile ---------- */
+.ps-est-opt, .ps-est-btn, .ps-wl-btn{ min-height:48px; }
+.ps-est-field{ min-height:48px; }
+
+/* ---------- Honest empty-slot hints: keep dashed + readable ---------- */
+.support-card-soon{ border-style:dashed; }
+.support-soon{ font-style:italic; color:#8aa4af; }
