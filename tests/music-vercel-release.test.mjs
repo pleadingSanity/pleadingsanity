@@ -23,3 +23,19 @@ test('creator headers allow its own mic and camera and do not enable external co
  }
  assert.ok(config.redirects.some(r=>r.has?.some(h=>h.value==='www.pleadingsanity.uk')),'existing mirror redirect retained');
 });
+
+test('only the release branch skips Netlify; main and unknown contexts continue normally',async()=>{
+ const {shouldSkip}=await import('../scripts/music-release-build-guard.mjs');
+ assert.equal(shouldSkip('netlify',{BRANCH:'release/music-radio-vercel'}),true);
+ assert.equal(shouldSkip('netlify',{BRANCH:'main'}),false);
+ assert.equal(shouldSkip('netlify',{}),false);
+});
+test('release duplicates skip Vercel while the intended project and all main builds continue',async()=>{
+ const {shouldSkip}=await import('../scripts/music-release-build-guard.mjs');
+ const env={VERCEL_GIT_COMMIT_REF:'release/music-radio-vercel',VERCEL_PROJECT_ID:'prj_jaS396m0HCvh9FDzSUmLurBuNmjI'};
+ assert.equal(shouldSkip('vercel',env),false);
+ assert.equal(shouldSkip('vercel',{...env,VERCEL_PROJECT_ID:'other-project'}),true);
+ assert.equal(shouldSkip('vercel',{...env,VERCEL_GIT_COMMIT_REF:'main',VERCEL_PROJECT_ID:'other-project'}),false);
+ assert.equal(shouldSkip('vercel',{VERCEL_GIT_COMMIT_REF:env.VERCEL_GIT_COMMIT_REF}),false);
+ assert.equal(shouldSkip('unknown',env),false);
+});

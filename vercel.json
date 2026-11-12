@@ -110,5 +110,6 @@
         }
       ]
     }
-  ]
+  ],
+  "ignoreCommand": "node ./scripts/music-release-build-guard.mjs vercel"
 }

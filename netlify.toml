@@ -5,6 +5,7 @@
 # ==============================================================
 
 [build]
+  ignore = "node ./scripts/music-release-build-guard.mjs netlify"
   publish = "."
   command = "node scripts/validate-build.cjs && echo 'Static site — no build needed'"
   functions = "netlify/functions"
