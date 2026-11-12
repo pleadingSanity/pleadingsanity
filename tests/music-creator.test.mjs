@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import { load } from 'cheerio';
 
 const html = fs.readFileSync(new URL('../music-creator.html', import.meta.url), 'utf8');
+const beatScript = fs.readFileSync(new URL('../js/music-creator-beats.js', import.meta.url), 'utf8');
 const script = fs.readFileSync(new URL('../js/music-creator.js', import.meta.url), 'utf8');
 // Media mocks verify control flow; these do not certify a real browser encoder.
 function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode = false } = {}) {
@@ -62,6 +63,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     HTMLCanvasElement: { prototype: { captureStream() {} } }, Blob, TextEncoder, TextDecoder, URL: { createObjectURL(blob) { const key = `blob:test-${++urlCounter}`; urlBlobs.set(key, blob); return key; }, revokeObjectURL(value) { revoked.push(value); } },
     setTimeout(fn) { const id = ++timerCounter; timers.set(id, fn); return id; }, clearTimeout(id) { timers.delete(id); }, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
+  vm.runInContext(beatScript, context);
   vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration }; })();'), context);
   return { elements, streams, revoked, added, recorders, sources, canvases, document, documentEvents, windowEvents, mediaResolvers, decodeResolvers, urlBlobs, helpers: context.helpers, el: id => elements.get(id), buffer };
 }
@@ -237,4 +239,30 @@ test('WebM duration patch leaves other formats and malformed data untouched', as
   const f = fixture(), mp4 = new Blob(['mp4'], { type: 'video/mp4' }), malformed = new Blob(['webm'], { type: 'video/webm' });
   assert.equal(await f.helpers.videoDuration(mp4, 10), mp4); assert.equal(await f.helpers.videoDuration(malformed, 10), malformed);
   assert.equal(await f.helpers.videoDuration(malformed, Infinity), malformed);
+});
+
+
+test('original studio beat is local, downloadable and still requires rights confirmation',async()=>{
+ const f=fixture(); await f.el('recordBtn').onclick();f.el('stopBtn').onclick();
+ f.el('makeBeatBtn').onclick();
+ assert.equal(f.el('beatPlayback').hidden,false);assert.equal(f.el('beatDownload').hidden,false);
+ assert.equal(f.el('rights').checked,false);assert.match(f.el('beatCredit').value,/original synthesized loop/);
+ const generated=f.urlBlobs.get(f.el('beatPlayback').src);
+ assert.equal(generated.type,'audio/wav');assert.ok(generated.size>100000);
+ await f.el('previewBtn').onclick();assert.match(f.el('mixStatus').textContent,/Confirm permission/);
+ f.el('rights').checked=true;await f.el('previewBtn').onclick();assert.equal(f.added.length,2);
+ f.el('clearBeatBtn').onclick();assert.equal(f.el('beatPlayback').hidden,true);assert.equal(f.el('beatDownload').hidden,true);
+});
+test('changing an imported beat or hook clears a previous rights confirmation',async()=>{
+ const f=fixture();f.el('makeBeatBtn').onclick();f.el('rights').checked=true;
+ await f.el('beatFile').onchange({target:{files:[new Blob(['external'],{type:'audio/wav'})]}});
+ assert.equal(f.el('rights').checked,false);assert.equal(f.el('beatCredit').value,'');assert.equal(f.el('beatPlayback').hidden,true);
+ f.el('rights').checked=true;
+ await f.el('hookFile').onchange({target:{files:[new Blob(['hook'],{type:'audio/wav'})]}});
+ assert.equal(f.el('rights').checked,false);
+});
+test('original beat generation does not replace the backing during a live take',async()=>{
+ const f=fixture();await f.el('recordBtn').onclick();f.el('makeBeatBtn').onclick();
+ assert.match(f.el('beatStatus').textContent,/Stop recording/);assert.equal(f.el('beatPlayback').hidden,true);
+ f.el('stopBtn').onclick();
 });

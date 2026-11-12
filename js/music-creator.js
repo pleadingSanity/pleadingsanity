@@ -150,7 +150,7 @@
     await context?.close().catch(() => {});
   }
   function stopVoice() {
-    stopSpeech(); clearTimeout(recordTimer);
+    stopSpeech(); clearTimeout(recordTimer); $('beatPlayback').pause();
     $('stopBtn').disabled = true; $('recordBtn').disabled = true;
     if (voiceRecorder?.state !== 'inactive' && voiceRecorder) { finishingVoice = true; voiceRecorder.stop(); }
     stopTracks(micStream); micStream = null; closeMeter();
@@ -256,13 +256,27 @@
     try {
       const file = checkFile(event.target.files[0]); context = audioContext(); await decode(file, context);
       if (revision !== importRevisions[kind] || leaving) return;
-      if (kind === 'beat') beat = file;
+      $('rights').checked = false;
+      if (kind === 'beat') { beat = file; $('beatCredit').value = ''; $('beatPlayback').pause(); $('beatPlayback').removeAttribute('src'); $('beatPlayback').hidden = true; $('beatDownload').hidden = true; revoke('beatPreview'); revoke('beatDownload'); }
       else { hook = file; $('choir').disabled = false; }
       invalidate(); message('beatStatus', `${kind === 'beat' ? 'Beat' : 'Hook'} loaded. Confirm its rights before mixing.`);
     } catch (error) { message('beatStatus', explain(error)); }
     finally { pendingImports--; await context?.close().catch(() => {}); }
   };
-  $('clearBeatBtn').onclick = () => { importRevisions.beat++; beat = null; $('beatFile').value = ''; invalidate(); message('beatStatus', 'Beat removed. You can build an a cappella mix.'); };
+  $('makeBeatBtn').onclick = () => {
+    if (busy || capturing() || pendingImports) { message('beatStatus', 'Stop recording and let files finish loading before choosing a beat.'); return; }
+    if (!window.PSStudioBeats) { message('beatStatus', 'Studio beats could not load. You can still import your own beat.'); return; }
+    try {
+      const chosen = window.PSStudioBeats.create(Number($('beat').selectedIndex) || 0);
+      importRevisions.beat++; beat = chosen.blob; $('beatFile').value = '';
+      $('beatPlayback').pause(); $('beatPlayback').src = url('beatPreview', beat); $('beatPlayback').hidden = false;
+      download('beatDownload', 'beatDownload', beat, `pleading-sanity-${chosen.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-${chosen.bpm}bpm.wav`);
+      $('beatCredit').value = `${chosen.name} · ${chosen.bpm} BPM. Pleading Sanity original synthesized loop. No third-party samples or artist recordings. Non-exclusive use in your own music/videos, including commercial releases, is permitted without attribution. This does not cover imported hooks or other media.`;
+      $('rights').checked = false; invalidate();
+      message('beatStatus', `${chosen.name} ready · ${chosen.bpm} BPM. Preview it, then confirm your music rights before mixing.`);
+    } catch (error) { message('beatStatus', explain(error)); }
+  };
+  $('clearBeatBtn').onclick = () => { importRevisions.beat++; beat = null; $('beatFile').value = ''; $('beatCredit').value = ''; $('beatPlayback').pause(); $('beatPlayback').removeAttribute('src'); $('beatPlayback').hidden = true; $('beatDownload').hidden = true; revoke('beatPreview'); revoke('beatDownload'); invalidate(); message('beatStatus', 'Beat removed. You can build an a cappella mix.'); };
   $('clearHookBtn').onclick = () => { importRevisions.hook++; hook = null; $('hookFile').value = ''; $('choir').checked = false; $('choir').disabled = true; $('choirPlace').disabled = true; invalidate(); message('beatStatus', 'Hook removed.'); };
   ['rights', 'beatVolume', 'offset', 'choir', 'choirPlace'].forEach(id => $(id).addEventListener('input', () => { $('choirPlace').disabled = !$('choir').checked; invalidate(); }));
   ['lyrics', 'trackTitle', 'beatCredit', 'beat'].forEach(id => $(id).addEventListener('input', () => { projectDirty(); $('finalPreview').hidden = true; $('videoDownload').hidden = true; }));
@@ -282,6 +296,7 @@
     if ((beat || ($('choir').checked && hook)) && !$('rights').checked) { message('mixStatus', 'Confirm permission for your beat and hook before mixing.'); return; }
     const offset = Number($('offset').value);
     if (!Number.isFinite(offset) || offset < 0 || offset > 10) { message('mixStatus', 'Voice offset must be between 0 and 10 seconds.'); return; }
+    $('beatPlayback').pause();
     let context; lock(true); invalidate(); message('mixStatus', 'Building your mix locally…');
     try {
       context = audioContext(); const vocal = await decode(voice, context), beatBuffer = beat ? await decode(beat, context) : null, hookBuffer = $('choir').checked && hook ? await decode(hook, context) : null;
@@ -475,7 +490,7 @@
     try {
       const project = await readProject(event.target.files[0]);
       if (leaving) return;
-      closeCamera(); stopSpeech(); $('playback').pause(); invalidate();
+      closeCamera(); stopSpeech(); $('playback').pause(); $('beatPlayback').pause(); $('beatPlayback').removeAttribute('src'); $('beatPlayback').hidden = true; $('beatDownload').hidden = true; revoke('beatPreview'); revoke('beatDownload'); invalidate();
       voice = project.media.voice || null; beat = project.media.beat || null; hook = project.media.hook || null; photo = project.media.photo || null; clip = project.media.clip || null;
       for (const key of ['voice', 'voiceDownload', 'photo', 'clip', 'visualDownload']) revoke(key);
       for (const key of PROJECT_FIELDS) $(key).value = project.fields[key];
@@ -499,8 +514,8 @@
     $('metadata').value = `${title} | Shane Cooper · Pleading Sanity\n\nOriginal voice and words by Shane Cooper. UK rap from Leicester, lived experience and the Pleading Sanity movement.\nRise From Madness.\nhttps://pleadingsanity.co.uk\nSupport the free sanctuary: https://pleadingsanity.co.uk/support-us.html\n\nMusic credits / licence notes:\n${$('beatCredit').value.trim() || 'Add any required credits and confirm all rights before uploading.'}\n\nTags: UK rap, Leicester rap, Pleading Sanity, Shane Cooper, lived experience, mental health awareness\n\nReview title, credits, audience settings and advertiser suitability before publishing.`;
   };
   $('demoBtn').onclick = () => { $('lyrics').value = DEMO_LYRICS; projectDirty(); message('mixStatus', 'Inside The War lyrics loaded. Record your own performance to test the full flow.'); $('finalPreview').hidden = true; $('videoDownload').hidden = true; };
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); } });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { $('beatPlayback').pause(); captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); } });
   window.addEventListener('pageshow', () => { leaving = false; });
-  window.addEventListener('pagehide', event => { leaving = true; captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); closeMeter(); if (!event.persisted) for (const key of urls.keys()) revoke(key); });
+  window.addEventListener('pagehide', event => { leaving = true; $('beatPlayback').pause(); captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); closeMeter(); if (!event.persisted) for (const key of urls.keys()) revoke(key); });
   const DEMO_LYRICS = "[Verse]\nI'm ready to stand for what I believe\nI ain't scared of what comes after I leave\nI'm doing this for every hurting kid\nWho never got the help that they need\n\nI unlock the chains that hold your mind\nRead the signs, leave the old life behind\nBelieve in yourself, you're one of a kind\n\nPeople ask why I'm still broke\nWhy there's so little hope\nBack in 12 I almost choked\nBipolar waking me with every stroke\n\nWoke up to the game, mother named me Shane\nCrazy kid walking through the pain\nTime to regain everything they took away\nAnger turned to purpose day after day\n\nSystem's a joke, I see the whole picture\nFighting for the ones who need the fixture\nHead so loud you can scream and shout\nPunch through the pain till the doubt runs out\n\nI tried to give everything I had for you\nGot nothing back but hatred and doubt too\nJust a regular man on a mission with shit to do\nMy family stands with me, and hopefully they'll see\n\n[CHORUS \u2014 repeat twice]\nInside the war we rise up\nOpen our eyes, rise up\nLeicester to the whole wide world\nPleading Sanity unfurled\nHeal the hurt, break the curse\nThis is our story, this is our verse\n\n[Outro]\nYou can have every degree, travel every land\nSpeak every language, hold every command\nBut if you don't know who you are inside\nYou'll never build the life you hoped to find\n\nFought the side-effects from every drug they prescribed\nBut I ain't giving up, I ain't ever gonna hide\nCreator of the vision, believe what you see\nI wipe the harm away so the kids are safe with me";
 })();

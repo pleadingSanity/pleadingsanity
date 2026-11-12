@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/music-creator.css">
 <script src="/js/site.js" defer></script>
+<script src="/js/music-creator-beats.js" defer></script>
 <script src="/js/music-creator.js" defer></script>
 </head>
 <body class="music-creator">
@@ -23,16 +24,103 @@
 <main id="main" class="mc-wrap">
 <header class="mc-hero">
 <p class="mc-eyebrow">PLEADING SANITY / SHANE’S STUDIO</p>
-<h1>Turn your story<br>into a track.</h1>
-<p class="mc-lead">Shane, this is your recording room. Your natural voice, your story, and a simple route from a take to a finished video.</p>
+<h1>Your voice.<br>Your studio.</h1>
+<p class="mc-lead">Start with a voice take. Add a beat, your picture and your words. Make something you want people to hear.</p>
 <div class="mc-badges"><span>Free to use</span><span>No voice cloning</span><span>Made on your device</span></div>
-<p class="mc-note">This founder studio page is publicly reachable; it has no owner sign-in gate. Your recordings are not published here. Audio and camera files stay in this tab. Download a project backup or your takes before closing or refreshing. No account or paid AI service needed.</p>
+<div class="mc-start-actions"><a class="mc-start" href="#voice">Start recording <span aria-hidden="true">↗</span></a><a href="#projectHeading">Open a saved session</a><a href="/insane-radio.html" target="_blank" rel="noopener noreferrer">Listen to radio ↗</a></div>
+<p class="mc-note">Your recordings stay on this device. Download a session backup before closing.</p>
+<details class="mc-privacy"><summary>Privacy &amp; browser support</summary><p class="mc-note">This page is public and has no owner sign-in. Your files stay in this tab; they are not published or uploaded. Mic and camera need browser permission. Features vary by browser; file import works when capture is unavailable. No paid AI service is used.</p></details>
 </header>
 <nav class="mc-workflow" aria-label="Creation steps"><ol>
 <li><a href="#voice">Record</a></li><li><a href="#performance">Review</a></li><li><a href="#camera">Camera</a></li><li><a href="#sound">Beat + hook</a></li><li><a href="#mix">Preview</a></li><li><a href="#export">Generate</a></li><li><a href="#upload">Upload</a></li>
 </ol></nav>
 <noscript><p class="mc-card">Enable JavaScript to record and mix. The upload guide below is still available.</p></noscript>
-<section class="mc-card mc-project" aria-labelledby="projectHeading">
+<div class="mc-grid">
+<section id="voice" class="mc-card">
+<p class="mc-step">01 / THE VOICE</p><h2>Record your voice.</h2><p>Tap record, allow your microphone, then give it a take. Headphones help keep the beat out of your mic.</p>
+<div class="mc-actions"><button id="recordBtn" type="button">Record voice</button><button id="stopBtn" class="mc-secondary" type="button" disabled>Stop recording</button></div>
+<p id="recStatus" class="mc-status" role="status">Your microphone is off.</p>
+<details class="mc-transcription"><summary>Optional on-device transcription</summary>
+<p class="mc-note">Experimental. Needs a browser with local speech recognition and an English (UK) language pack. There is no cloud fallback. Downloading a language pack uses internet data; your voice is processed on this device. Rap recognition may be inaccurate: check every line.</p>
+<div class="mc-actions"><button id="checkSpeechBtn" class="mc-secondary" type="button">Check local transcription</button><button id="installSpeechBtn" class="mc-secondary" type="button" hidden>Download browser language pack</button></div>
+<label class="mc-check"><input id="transcribe" type="checkbox" disabled> Transcribe my next voice take locally</label>
+<p class="mc-note">New transcript text is appended to the lyrics box. Clear demo lyrics first if you want a fresh sheet.</p><p id="speechStatus" class="mc-status" role="status">Off. No speech service is running.</p>
+</details>
+<label for="level">Microphone level</label><meter id="level" min="0" max="1" value="0">0</meter>
+<audio id="playback" controls hidden aria-label="Your voice recording"></audio>
+<a id="voiceDownload" class="mc-download" hidden>Download voice take</a>
+<label for="voiceFile">Or choose an existing voice recording</label><input id="voiceFile" type="file" accept="audio/*">
+</section>
+<section id="performance" class="mc-card">
+<p class="mc-step">02 / FIND YOUR FLOW</p><h2>Listen back.</h2>
+<dl class="mc-metrics"><div><dt>Recording level</dt><dd id="volumeFeedback">Waiting for a take</dd></div><div><dt>Beat timing</dt><dd>Set your offset by ear below</dd></div><div><dt>Word clarity</dt><dd>Listen back and check your lyrics</dd></div></dl>
+<p class="mc-note">Level tips measure loudness and clipping only. This version does not score rap timing or detect mumbled words. Optional local transcription depends on browser support. Paste or edit lyrics below.</p>
+<h3>Your fix-list</h3><ol id="fixList"><li>Keep the mic a hand’s width away.</li><li>Use headphones and a quiet room.</li><li>Check the chorus, breath and final words on playback.</li></ol>
+</section>
+<section id="camera" class="mc-card">
+<p class="mc-step">03 / THE PICTURE</p><h2>Add your picture.</h2>
+<p>Capture a portrait or a silent performance clip. Your voice take supplies the final audio.</p>
+<div class="mc-actions"><button id="camBtn" type="button">Open camera</button><button id="closeCamBtn" class="mc-secondary" type="button" disabled>Close camera</button></div>
+<div id="viewfinder" class="mc-viewfinder" hidden><video id="camPreview" autoplay playsinline muted></video><div class="mc-frame" aria-hidden="true"></div><p class="mc-frame-label">Centre yourself · eye-level for Shorts</p></div>
+<div class="mc-actions"><button id="snapBtn" type="button" disabled>Take portrait</button><button id="recVidBtn" class="mc-secondary" type="button" disabled>Record video</button><button id="stopVidBtn" class="mc-secondary" type="button" disabled>Stop video</button></div>
+<p id="camStatus" class="mc-status" role="status">Your camera is off.</p>
+<label for="visualFile">Or choose a photo / video</label><input id="visualFile" type="file" accept="image/*,video/*">
+<label for="visualChoice">Use in video</label><select id="visualChoice"><option value="cosmic">Cosmic background only</option><option value="photo" disabled>Your portrait</option><option value="video" disabled>Your video clip</option></select>
+<img id="photoPreview" hidden alt="Your selected portrait" width="360" height="640">
+<video id="videoPlayback" controls playsinline muted hidden aria-label="Your selected performance video"></video>
+<a id="visualDownload" class="mc-download" hidden>Download selected capture</a>
+</section>
+<section id="sound" class="mc-card">
+<p class="mc-step">04 / THE SOUND</p><h2>Find your beat.</h2>
+<label for="beat">Original studio beat</label><select id="beat"><option value="Hip-hop / West Coast bounce">Night Drive · 92 BPM</option><option value="Hip-hop / laid-back">Leicester After Dark · 78 BPM</option><option value="Hip-hop / cinematic">Stand Again · 78 BPM</option><option value="Hip-hop / boom bap">Concrete Steps · 86 BPM</option><option value="Hip-hop / fast storytelling">No Looking Back · 96 BPM</option><option value="UK old-school / garage">Garage Lights · 130 BPM</option><option value="UK old-school / classic dance">First Light · 124 BPM</option></select>
+<p class="mc-note">Seven original instrumental loops, made on your device from synthesized drums and bass. No artist tracks, samples or vocals. Choose a feel, then make your beat.</p>
+<div class="mc-actions"><button id="makeBeatBtn" type="button">Make this beat</button></div>
+<audio id="beatPlayback" controls loop hidden aria-label="Original studio beat preview"></audio><a id="beatDownload" class="mc-download" hidden>Download original beat</a>
+<p class="mc-note">Preview loops until you pause it. Use headphones while recording.</p><details class="mc-privacy"><summary>Using these beats in your music</summary><p class="mc-note">Generated loops may be used in your own tracks and videos, including commercial releases, without attribution. They are non-exclusive. Imported files need their own permission. No platform approval or claim-free upload is guaranteed.</p></details>
+<label for="beatFile">Choose your beat file (optional)</label><input id="beatFile" type="file" accept="audio/*">
+<button id="clearBeatBtn" type="button" class="mc-secondary">Remove beat</button>
+<label for="beatCredit">Beat title, creator and licence / attribution notes</label><textarea id="beatCredit" rows="3" placeholder="Keep the licence and any required credit with your project."></textarea>
+<label class="mc-check"><input id="rights" type="checkbox"> I have permission to use any beat and hook I select, including in monetised videos.</label>
+<p class="mc-note">A checkbox records your confirmation; it does not verify a licence. <a href="https://www.youtube.com/audiolibrary" target="_blank" rel="noopener noreferrer">Find free music in YouTube Audio Library</a>. Keep any required attribution.</p>
+<label for="beatVolume">Beat volume</label><input id="beatVolume" type="range" min="0" max="0.8" value="0.25" step="0.05">
+<label for="offset">Voice start offset (seconds, 0–10)</label><input id="offset" type="number" min="0" max="10" step="0.05" value="0">
+<p class="mc-note">Positive offset starts your voice later. This is a manual shared-clock mix; automatic beat alignment is not available.</p>
+<hr><label class="mc-check"><input id="choir" type="checkbox" disabled> Add my Dreamer hook</label>
+<p class="mc-note">“I’m a dreamer yeah yeah yeaaaaa” — choose a recording you own. No synthetic voice or unlicensed choir is added.</p>
+<label for="hookFile">Choose your own hook recording (optional)</label><input id="hookFile" type="file" accept="audio/*">
+<button id="clearHookBtn" type="button" class="mc-secondary">Remove hook</button>
+<label for="choirPlace">Hook placement</label><select id="choirPlace" disabled><option value="intro">Intro</option><option value="chorus">Chorus (middle of track)</option><option value="outro" selected>Outro</option></select>
+<p id="beatStatus" class="mc-status" role="status">Start a cappella, or choose a beat you have rights to use.</p>
+<p class="mc-note"><a href="https://www.centreforceradio.com/" target="_blank" rel="noopener noreferrer">Centreforce Radio — listen for inspiration</a>. Listening does not grant permission to reuse broadcast music.</p>
+</section>
+<section id="mix" class="mc-card mc-wide">
+<p class="mc-step">05 / MAKE IT YOURS</p><h2>Lyrics &amp; mix.</h2>
+<label for="lyrics">Lyrics — one short caption per line</label><textarea id="lyrics" rows="8" placeholder="Paste your lyrics here. Keep lines short for a phone screen."></textarea>
+<div class="mc-actions"><button id="demoBtn" class="mc-secondary" type="button">Load “Inside The War” lyrics</button><button id="previewBtn" type="button" disabled>Build audio preview</button></div>
+<p class="mc-note">Captions are spaced evenly across the voice take, not speech-aligned. Check the timing before uploading. Demo lyrics do not include a recorded performance.</p>
+<audio id="mixPlayback" controls hidden aria-label="Full audio mix preview"></audio>
+<a id="mixDownload" class="mc-download" hidden>Download WAV mix</a><p id="mixStatus" class="mc-status" role="status">Record or import your voice first.</p>
+</section>
+<section id="export" class="mc-card mc-wide">
+<p class="mc-step">06 / PUT IT TOGETHER</p><h2>Make your video.</h2>
+<p><strong>Experimental browser export.</strong> Build a captioned video on your device, using the mix, selected visual and a teal-and-amber cosmic background.</p>
+<label for="trackTitle">Track title</label><input id="trackTitle" type="text" maxlength="80" value="Inside The War (Leicester Rise)">
+<div class="mc-actions"><button id="genShortBtn" type="button" disabled>Generate 9:16 Short · up to 90 sec</button><button id="genLongBtn" class="mc-secondary" type="button" disabled>Generate 16:9 full video · up to 4 min</button></div>
+<button id="cancelRender" class="mc-secondary" type="button" hidden>Cancel video</button>
+<p id="genStatus" class="mc-status" role="status">Build and listen to your audio preview first.</p>
+<progress id="renderProgress" max="1" value="0" hidden aria-label="Video generation progress"></progress>
+<p class="mc-note">Export length follows your recording: short takes are not padded to 60 seconds or 3 minutes. Rendering takes roughly the video’s duration. Keep this tab visible and your phone awake. WebM or MP4 depends on your browser; output is 720p.</p>
+<video id="finalPreview" controls playsinline hidden aria-label="Generated music video"></video><a id="videoDownload" class="mc-download" hidden>Download music video</a>
+<button id="metadataBtn" class="mc-secondary" type="button">Prepare YouTube title, description &amp; tags</button><label for="metadata">Your upload notes — edit before posting</label><textarea id="metadata" rows="6" readonly></textarea>
+</section>
+<section id="upload" class="mc-card mc-wide">
+<p class="mc-step">07 / YOUR NEXT STEP</p><h2>Ready for YouTube?</h2>
+<ol><li>Download your voice take, mix and finished video. Watch the whole video and check every caption.</li><li>Open YouTube or YouTube Studio, choose Create → Upload, and select the video. Start with an unlisted upload.</li><li>Paste your title and description, add all required music credits, choose the correct audience setting and run YouTube’s checks. Resolve any copyright claim before publishing.</li><li>For monetisation, open YouTube Studio → Earn. Enable 2-Step Verification and follow the eligibility and AdSense steps shown for your channel.</li></ol>
+<p><a href="https://pleadingsanity.co.uk/support-us.html" target="_blank" rel="noopener noreferrer">Support the free sanctuary</a> — the upload notes include this link so listeners can find the current support options. Payment platforms are not enabled by this studio.</p>
+<p>No app can promise ad revenue, approval or zero copyright claims. Shorts over one minute with an active Content ID claim are blocked until it is resolved. Mental-health topics and explicit lyrics may affect advertiser suitability.</p>
+<p><a href="https://support.google.com/youtube/answer/72851" target="_blank" rel="noopener noreferrer">Partner Programme eligibility</a> · <a href="https://support.google.com/youtube/answer/15424877" target="_blank" rel="noopener noreferrer">Shorts music rules</a> · <a href="https://support.google.com/youtube/answer/3376882" target="_blank" rel="noopener noreferrer">Audio Library licences</a></p>
+</section></div>
+<div class="mc-session-tools"><section class="mc-card mc-project" aria-labelledby="projectHeading">
 <h2 id="projectHeading">Keep your session.</h2>
 <p>Save one project file with your recordings, visuals, lyrics and mix settings. Reopen it here later. It stays on your device; nothing is uploaded. Keep it private if it contains personal lyrics or images.</p>
 <button id="saveProjectBtn" class="mc-secondary" type="button">Prepare project download</button>
@@ -57,89 +145,8 @@
 <ol><li>Load the demo lyrics below and rehearse them once without recording.</li><li>Use headphones, record one full take, and download it immediately.</li><li>Listen for swallowed last words and clipping. Re-record before adding visuals.</li><li>For a Short, record a separate 60–90 second performance of your strongest verse and hook. This version exports from the start of the take; it has no section trimmer.</li><li>For the full version, use your complete 3:12 performance. Check every line of the evenly spaced captions.</li></ol>
 <p><a href="/insane-radio.html" target="_blank" rel="noopener noreferrer">Open Insane Radio in a separate tab ↗</a>. Close or stop radio before recording; broadcast tracks are not cleared beats for your video.</p>
 </details></section>
-<div class="mc-grid">
-<section id="voice" class="mc-card">
-<p class="mc-step">01 / THE VOICE</p><h2>Start with you.</h2><p>Tap record, allow your microphone, then give it a take. Headphones help keep the beat out of your mic.</p>
-<div class="mc-actions"><button id="recordBtn" type="button">Record voice</button><button id="stopBtn" class="mc-secondary" type="button" disabled>Stop recording</button></div>
-<p id="recStatus" class="mc-status" role="status">Your microphone is off.</p>
-<details class="mc-transcription"><summary>Optional on-device transcription</summary>
-<p class="mc-note">Experimental. Needs a browser with local speech recognition and an English (UK) language pack. There is no cloud fallback. Downloading a language pack uses internet data; your voice is processed on this device. Rap recognition may be inaccurate: check every line.</p>
-<div class="mc-actions"><button id="checkSpeechBtn" class="mc-secondary" type="button">Check local transcription</button><button id="installSpeechBtn" class="mc-secondary" type="button" hidden>Download browser language pack</button></div>
-<label class="mc-check"><input id="transcribe" type="checkbox" disabled> Transcribe my next voice take locally</label>
-<p class="mc-note">New transcript text is appended to the lyrics box. Clear demo lyrics first if you want a fresh sheet.</p><p id="speechStatus" class="mc-status" role="status">Off. No speech service is running.</p>
-</details>
-<label for="level">Microphone level</label><meter id="level" min="0" max="1" value="0">0</meter>
-<audio id="playback" controls hidden aria-label="Your voice recording"></audio>
-<a id="voiceDownload" class="mc-download" hidden>Download voice take</a>
-<label for="voiceFile">Or choose an existing voice recording</label><input id="voiceFile" type="file" accept="audio/*">
-</section>
-<section id="performance" class="mc-card">
-<p class="mc-step">02 / FIND YOUR FLOW</p><h2>Listen. Adjust. Go again.</h2>
-<dl class="mc-metrics"><div><dt>Recording level</dt><dd id="volumeFeedback">Waiting for a take</dd></div><div><dt>Beat timing</dt><dd>Set your offset by ear below</dd></div><div><dt>Word clarity</dt><dd>Listen back and check your lyrics</dd></div></dl>
-<p class="mc-note">Level tips measure loudness and clipping only. This version does not score rap timing or detect mumbled words. Optional local transcription depends on browser support. Paste or edit lyrics below.</p>
-<h3>Your fix-list</h3><ol id="fixList"><li>Keep the mic a hand’s width away.</li><li>Use headphones and a quiet room.</li><li>Check the chorus, breath and final words on playback.</li></ol>
-</section>
-<section id="camera" class="mc-card">
-<p class="mc-step">03 / THE PICTURE</p><h2>Show up as yourself.</h2>
-<p>Capture a portrait or a silent performance clip. Your voice take supplies the final audio.</p>
-<div class="mc-actions"><button id="camBtn" type="button">Open camera</button><button id="closeCamBtn" class="mc-secondary" type="button" disabled>Close camera</button></div>
-<div id="viewfinder" class="mc-viewfinder" hidden><video id="camPreview" autoplay playsinline muted></video><div class="mc-frame" aria-hidden="true"></div><p class="mc-frame-label">Centre yourself · eye-level for Shorts</p></div>
-<div class="mc-actions"><button id="snapBtn" type="button" disabled>Take portrait</button><button id="recVidBtn" class="mc-secondary" type="button" disabled>Record video</button><button id="stopVidBtn" class="mc-secondary" type="button" disabled>Stop video</button></div>
-<p id="camStatus" class="mc-status" role="status">Your camera is off.</p>
-<label for="visualFile">Or choose a photo / video</label><input id="visualFile" type="file" accept="image/*,video/*">
-<label for="visualChoice">Use in video</label><select id="visualChoice"><option value="cosmic">Cosmic background only</option><option value="photo" disabled>Your portrait</option><option value="video" disabled>Your video clip</option></select>
-<img id="photoPreview" hidden alt="Your selected portrait" width="360" height="640">
-<video id="videoPlayback" controls playsinline muted hidden aria-label="Your selected performance video"></video>
-<a id="visualDownload" class="mc-download" hidden>Download selected capture</a>
-</section>
-<section id="sound" class="mc-card">
-<p class="mc-step">04 / THE SOUND</p><h2>Give your words a home.</h2>
-<label for="beat">Beat direction</label><select id="beat"><option>Hip-hop / West Coast bounce</option><option>Hip-hop / laid-back</option><option>Hip-hop / cinematic</option><option>Hip-hop / boom bap</option><option>Hip-hop / fast storytelling</option><option>UK old-school / garage</option><option>UK old-school / classic dance</option></select>
-<p class="mc-note">These are mood labels, not included or licensed tracks. Artist references from the brief are creative directions only; no Toga Beats, Mustard, Wiz Khalifa, Rick Ross, Dr Dre, 50 Cent or Eminem recordings are supplied.</p>
-<label for="beatFile">Choose your beat file (optional)</label><input id="beatFile" type="file" accept="audio/*">
-<button id="clearBeatBtn" type="button" class="mc-secondary">Remove beat</button>
-<label for="beatCredit">Beat title, creator and licence / attribution notes</label><textarea id="beatCredit" rows="3" placeholder="Keep the licence and any required credit with your project."></textarea>
-<label class="mc-check"><input id="rights" type="checkbox"> I have permission to use any beat and hook I select, including in monetised videos.</label>
-<p class="mc-note">A checkbox records your confirmation; it does not verify a licence. <a href="https://www.youtube.com/audiolibrary" target="_blank" rel="noopener noreferrer">Find free music in YouTube Audio Library</a>. Keep any required attribution.</p>
-<label for="beatVolume">Beat volume</label><input id="beatVolume" type="range" min="0" max="0.8" value="0.25" step="0.05">
-<label for="offset">Voice start offset (seconds, 0–10)</label><input id="offset" type="number" min="0" max="10" step="0.05" value="0">
-<p class="mc-note">Positive offset starts your voice later. This is a manual shared-clock mix; automatic beat alignment is not available.</p>
-<hr><label class="mc-check"><input id="choir" type="checkbox" disabled> Add my Dreamer hook</label>
-<p class="mc-note">“I’m a dreamer yeah yeah yeaaaaa” — choose a recording you own. No synthetic voice or unlicensed choir is added.</p>
-<label for="hookFile">Choose your own hook recording (optional)</label><input id="hookFile" type="file" accept="audio/*">
-<button id="clearHookBtn" type="button" class="mc-secondary">Remove hook</button>
-<label for="choirPlace">Hook placement</label><select id="choirPlace" disabled><option value="intro">Intro</option><option value="chorus">Chorus (middle of track)</option><option value="outro" selected>Outro</option></select>
-<p id="beatStatus" class="mc-status" role="status">Start a cappella, or choose a beat you have rights to use.</p>
-<p class="mc-note"><a href="https://www.centreforceradio.com/" target="_blank" rel="noopener noreferrer">Centreforce Radio — listen for inspiration</a>. Listening does not grant permission to reuse broadcast music.</p>
-</section>
-<section id="mix" class="mc-card mc-wide">
-<p class="mc-step">05 / MAKE IT YOURS</p><h2>Words on the screen.</h2>
-<label for="lyrics">Lyrics — one short caption per line</label><textarea id="lyrics" rows="8" placeholder="Paste your lyrics here. Keep lines short for a phone screen."></textarea>
-<div class="mc-actions"><button id="demoBtn" class="mc-secondary" type="button">Load “Inside The War” lyrics</button><button id="previewBtn" type="button" disabled>Build audio preview</button></div>
-<p class="mc-note">Captions are spaced evenly across the voice take, not speech-aligned. Check the timing before uploading. Demo lyrics do not include a recorded performance.</p>
-<audio id="mixPlayback" controls hidden aria-label="Full audio mix preview"></audio>
-<a id="mixDownload" class="mc-download" hidden>Download WAV mix</a><p id="mixStatus" class="mc-status" role="status">Record or import your voice first.</p>
-</section>
-<section id="export" class="mc-card mc-wide">
-<p class="mc-step">06 / PUT IT TOGETHER</p><h2>A story worth sharing.</h2>
-<p><strong>Experimental browser export.</strong> Build a captioned video on your device, using the mix, selected visual and a teal-and-amber cosmic background.</p>
-<label for="trackTitle">Track title</label><input id="trackTitle" type="text" maxlength="80" value="Inside The War (Leicester Rise)">
-<div class="mc-actions"><button id="genShortBtn" type="button" disabled>Generate 9:16 Short · up to 90 sec</button><button id="genLongBtn" class="mc-secondary" type="button" disabled>Generate 16:9 full video · up to 4 min</button></div>
-<button id="cancelRender" class="mc-secondary" type="button" hidden>Cancel video</button>
-<p id="genStatus" class="mc-status" role="status">Build and listen to your audio preview first.</p>
-<progress id="renderProgress" max="1" value="0" hidden aria-label="Video generation progress"></progress>
-<p class="mc-note">Export length follows your recording: short takes are not padded to 60 seconds or 3 minutes. Rendering takes roughly the video’s duration. Keep this tab visible and your phone awake. WebM or MP4 depends on your browser; output is 720p.</p>
-<video id="finalPreview" controls playsinline hidden aria-label="Generated music video"></video><a id="videoDownload" class="mc-download" hidden>Download music video</a>
-<button id="metadataBtn" class="mc-secondary" type="button">Prepare YouTube title, description &amp; tags</button><label for="metadata">Your upload notes — edit before posting</label><textarea id="metadata" rows="6" readonly></textarea>
-</section>
-<section id="upload" class="mc-card mc-wide">
-<p class="mc-step">07 / YOUR NEXT STEP</p><h2>Ready for YouTube?</h2>
-<ol><li>Download your voice take, mix and finished video. Watch the whole video and check every caption.</li><li>Open YouTube or YouTube Studio, choose Create → Upload, and select the video. Start with an unlisted upload.</li><li>Paste your title and description, add all required music credits, choose the correct audience setting and run YouTube’s checks. Resolve any copyright claim before publishing.</li><li>For monetisation, open YouTube Studio → Earn. Enable 2-Step Verification and follow the eligibility and AdSense steps shown for your channel.</li></ol>
-<p><a href="https://pleadingsanity.co.uk/support-us.html" target="_blank" rel="noopener noreferrer">Support the free sanctuary</a> — the upload notes include this link so listeners can find the current support options. Payment platforms are not enabled by this studio.</p>
-<p>No app can promise ad revenue, approval or zero copyright claims. Shorts over one minute with an active Content ID claim are blocked until it is resolved. Mental-health topics and explicit lyrics may affect advertiser suitability.</p>
-<p><a href="https://support.google.com/youtube/answer/72851" target="_blank" rel="noopener noreferrer">Partner Programme eligibility</a> · <a href="https://support.google.com/youtube/answer/15424877" target="_blank" rel="noopener noreferrer">Shorts music rules</a> · <a href="https://support.google.com/youtube/answer/3376882" target="_blank" rel="noopener noreferrer">Audio Library licences</a></p>
-</section></div>
-<footer class="mc-footer"><p>PLEADING SANITY · Rise From Madness.</p><a href="/">Back to the sanctuary</a></footer>
+</div>
+<footer class="mc-footer"><p>PLEADING SANITY · Rise From Madness.</p><a href="https://pleadingsanity.co.uk/">Back to the sanctuary</a></footer>
 </main>
 </body>
 </html>

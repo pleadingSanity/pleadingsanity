@@ -48,3 +48,11 @@ body.radio-page::before,body.music-room::before{background:radial-gradient(ellip
 @media(prefers-reduced-motion:reduce){.radio-page .station-card{transition:none}}
 
 .radio-page .radio-hero .radio-kicker,.music-room .radio-kicker{color:#00fff0;background:none;-webkit-text-fill-color:#00fff0}
+.radio-page .radio-kicker{color:#00fff0!important;background:none!important;-webkit-text-fill-color:#00fff0!important}
+.radio-page .listening-hero::after{display:none}
+.radio-house-nav{display:flex;align-items:center;flex-wrap:wrap;gap:8px 24px;padding:8px max(16px,calc((100vw - 1100px)/2));background:#0b0f19e8;border-bottom:1px solid #ffffff20}
+.radio-house-nav a{color:#bcd1d7;text-decoration:none;display:inline-flex;align-items:center;min-height:44px;font-size:.85rem;font-weight:700}
+.radio-house-nav a:first-child{color:#00fff0}.radio-house-nav a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.radio-page .skip-link{position:fixed;top:-120px;left:16px;z-index:2000;background:#0b0f19;padding:14px;color:#00fff0}
+.radio-page .skip-link:focus{top:12px}
+.radio-page .radio-controls button{box-shadow:none!important}

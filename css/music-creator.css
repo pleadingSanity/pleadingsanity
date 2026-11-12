@@ -12,3 +12,23 @@ body.music-creator::before{background:radial-gradient(ellipse at 12% 18%,#00fff0
 .mc-rehearsal th,.mc-rehearsal td{padding:.7rem;border-bottom:1px solid #ffffff24;vertical-align:top}
 .mc-rehearsal td:first-child{white-space:nowrap}
 .mc-rehearsal th{color:#00fff0}
+/* Studio hierarchy: clear actions first, quieter supporting tools. */
+.music-creator .mc-hero{max-width:none;position:relative;padding-block:clamp(24px,5vw,60px) 26px;border-bottom:1px solid #ffffff18;background:radial-gradient(ellipse at 95% 30%,#00fff00b,transparent 60%)}
+.music-creator .mc-hero h1{font-size:clamp(3.2rem,8vw,6rem);max-width:850px;letter-spacing:-.055em;margin:16px 0 24px;font-weight:850;background:none;-webkit-text-fill-color:#eef6ff;text-shadow:none}
+.music-creator .mc-hero h1::first-line{color:#00fff0;-webkit-text-fill-color:#00fff0}
+.music-creator .mc-lead{max-width:550px;line-height:1.65;font-size:1.06rem;color:#bdcdd6}
+.mc-start-actions{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px;margin:26px 0 18px}
+.mc-start-actions>a{min-height:48px;display:inline-flex;align-items:center;font-size:.9rem;font-weight:700}
+.music-creator .mc-start{gap:35px;background:#00fff0;border:1px solid #00fff0;border-radius:10px;padding:12px 22px;text-decoration:none;color:#0b0f19}
+.mc-privacy{max-width:650px;margin:15px 0 0}.mc-privacy summary{cursor:pointer;min-height:44px;display:list-item;padding-block:8px;color:#b6c6d4;font-size:.85rem}
+.mc-badges{margin:22px 0 12px}.mc-badges span{border:0;padding:0 14px 0 0;border-right:1px solid #ffffff30;border-radius:0;font-size:.74rem;color:#aebfc8}
+.mc-badges span:last-child{border:0}.mc-workflow{border-top:0;margin-bottom:24px}.mc-workflow ol{gap:5px 22px;margin:0;padding:10px 0}
+.music-creator .mc-card{border-radius:14px;background:linear-gradient(145deg,#101e2b,#0e1722);border-color:#ffffff1a;box-shadow:0 8px 30px #00000012}
+.music-creator #voice{border-color:#00fff061;box-shadow:0 0 0 1px #00fff009,0 14px 42px #00000020}
+.music-creator #recordBtn{gap:10px}.music-creator #recordBtn::before{content:'';display:block;width:10px;height:10px;border-radius:50%;background:currentColor}
+.mc-card h2{font-size:1.5rem}.mc-step{font-size:.68rem;letter-spacing:.13em;color:#83bdbb}
+.mc-session-tools{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px}.mc-session-tools .mc-project{margin-bottom:0}
+.mc-session-tools .mc-card{padding:24px}.mc-note{line-height:1.6}.music-creator #beatPlayback{margin-bottom:8px}
+.music-creator #beatDownload{font-size:.85rem;min-height:44px;padding:10px 14px}
+@media(max-width:720px){.mc-session-tools{grid-template-columns:1fr}.mc-start-actions{gap:10px 18px}.mc-start-actions .mc-start{flex:1 1 100%;justify-content:space-between}.music-creator .mc-hero h1{font-size:clamp(3rem,13vw,4.2rem)}.music-creator .mc-hero{padding-top:18px}.mc-badges{gap:10px}.mc-badges span{font-size:.7rem}.mc-workflow ol{gap:0 16px}.mc-workflow li{font-size:.75rem}.mc-card h2{font-size:1.45rem}}
+.music-creator input[type=file]::file-selector-button{min-height:40px;margin-right:12px;border:1px solid #6d9caa;border-radius:6px;background:#172f3e;color:#eef6ff;padding:8px 12px;font:inherit;cursor:pointer}
