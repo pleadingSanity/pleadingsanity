@@ -151,6 +151,7 @@
   }
   // Defer all YouTube requests until the visitor explicitly chooses Play.
   function loadPlayer() {
+    state.stoppedByFocus = false;
     if (iframe.parentNode) return false;
     iframe.src = buildSrc(PLAYLIST[state.index].id, state.muted);
     lastLoadedId = PLAYLIST[state.index].id; // first cued track is accepted, not auto-skipped
@@ -158,6 +159,7 @@
     return true;
   }
   function postCmd(func, args) {
+    if (['playVideo','loadVideoById','nextVideo','previousVideo'].indexOf(func) >= 0) state.stoppedByFocus = false;
     if (!iframe || !iframe.contentWindow) return;
     try {
       iframe.contentWindow.postMessage(JSON.stringify({ event: 'command', func: func, args: args || [] }), '*');
@@ -273,6 +275,7 @@
     elMute.setAttribute('title', state.muted ? 'Unmute' : 'Mute');
   }
   function stopForOtherPlayer() {
+    state.stoppedByFocus = true;
     state.playing = false;
     postCmd('pauseVideo', []);
     if (elDrawer) elDrawer.querySelectorAll('iframe').forEach(function (frame) { frame.remove(); });
@@ -473,6 +476,10 @@
     var data;
     try { data = (typeof e.data === 'string') ? JSON.parse(e.data) : e.data; } catch (err) { return; }
     if (!data || typeof data !== 'object') return;
+    if (state.stoppedByFocus) {
+      if (data.info && data.info.playerState === 1) postCmd('pauseVideo', []);
+      return;
+    }
     if (data.event === 'infoDelivery' && data.info) {
       if (data.info.videoData && data.info.videoData.video_id) {
         var vid = data.info.videoData.video_id;
@@ -615,6 +622,8 @@
     var HANDOFF_KEY = 'psRadioHandoff';
     var MAX_AGE = 10 * 60 * 1000; // 10 minutes — stale handoffs are ignored
     var stationAudio = null, stationPlaying = false, currentHandoff = null;
+    document.addEventListener('ps-audio-stop', function () { if (stationAudio) stationAudio.pause(); removeStore(HANDOFF_KEY); });
+    document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'station-resume' && stationAudio) stationAudio.pause(); });
     function readStore(k, fb) { try { var v = localStorage.getItem(k); return (v === null || v === undefined) ? fb : v; } catch (e) { return fb; } }
     function removeStore(k) { try { localStorage.removeItem(k); } catch (e) {} }
 
@@ -699,6 +708,7 @@
         resumeStation(h, ui);
         ui.chip.addEventListener('click', function (e) {
           e.stopPropagation();
+          if (!stationPlaying) document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'station-resume'}}));
           if (!stationAudio) { resumeStation(h, ui); return; }
           if (stationPlaying) { try { stationAudio.pause(); } catch (err) {} }
           else {

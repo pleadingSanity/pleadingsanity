@@ -344,7 +344,7 @@
       if (e.key !== 'Escape') return;
       stopAll();
     });
-    document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'radio') { stop(); stopStationAudio(); hideFloatStop(); } });
+    document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'radio') { stop(); stopStationAudio(); hideFloatStop(); if (e.detail.source === 'widget') showFloatStop(); } });
     document.addEventListener('ps-audio-stop', function () { stop(); stopStationAudio(); hideFloatStop(); });
     document.addEventListener('ps-playlist-opened', showFloatStop);
     progressTimer = setInterval(tick, 500);
