@@ -248,8 +248,26 @@
     safeCall('pauseVideo'); stateUI(false);
     label('radio-status', 'Paused — press Play to continue');
   }
+  // ---- unified stop-all + floating Stop (Shane: make radio easy to turn off) ----
+  var floatStop = null;
+  function showFloatStop() { if (floatStop) floatStop.hidden = false; }
+  function hideFloatStop() { if (floatStop) floatStop.hidden = true; }
+  function stopStationAudio() {
+    var a = el('station-audio');
+    if (a) { try { a.pause(); a.removeAttribute('src'); a.load(); } catch (e) {} }
+    var btns = document.querySelectorAll('.station-play');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove('is-active');
+    var st = el('station-status'); if (st) st.textContent = 'Station stopped.';
+  }
+  function stopAll() {
+    stop();
+    stopStationAudio();
+    hideFloatStop();
+    label('radio-status', 'Stopped — all audio off. Press Play to start again.');
+  }
   function play() {
     if (!tracks.length) return;
+    stopStationAudio();
     wanted = true; failures = 0; stateUI(false);
     if (ready && player && loadedId === track().youtubeId && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
       label('radio-status', 'Resuming…');
@@ -272,7 +290,7 @@
     }
     if (event.data === STATE.PLAYING) {
       clearLoad(); failures = 0;
-      stateUI(true); label('radio-status', 'Now playing · official YouTube source');
+      stateUI(true); label('radio-status', 'Now playing · official YouTube source'); showFloatStop();
       if (typeof player.setVolume === 'function') { safeCall('setVolume', 0); fadeTo(75); }
     } else if (event.data === STATE.ENDED) {
       clearLoad(); clearFade(); move(1, false);
@@ -309,6 +327,14 @@
     if (playButton) playButton.addEventListener('click', function () { if (wanted) stop(); else play(); });
     var next = el('radio-next'); if (next) next.addEventListener('click', function () { move(1, false); });
     var prev = el('radio-prev'); if (prev) prev.addEventListener('click', function () { move(-1, false); });
+    var stopBtn = el('radio-stop'); if (stopBtn) stopBtn.addEventListener('click', stopAll);
+    floatStop = el('radio-float-stop'); if (floatStop) floatStop.addEventListener('click', stopAll);
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape') return;
+      var ae = document.activeElement;
+      if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) return;
+      stopAll();
+    });
     progressTimer = setInterval(tick, 500);
     fetch('/data/radio-library.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (data) {
       tracks = Array.isArray(data.tracks) ? data.tracks.filter(function (t) { return t && typeof t.title === 'string' && typeof t.artist === 'string'; }) : [];
@@ -338,6 +364,7 @@
           var name = btn.getAttribute('data-name');
           var q = btn.getAttribute('data-q') || '';
           clearActive();
+          stop();
           btn.classList.add('is-active');
           if (audio.src !== src) audio.src = src;
           var playPromise = audio.play();
@@ -346,6 +373,7 @@
               status.textContent = 'Playing ' + name + (q ? ' · ' + q + ' kbps' : '') + '. Live broadcast — the station chooses what plays next. Sound follows your speakers, headphones, or Bluetooth.';
               if ('mediaSession' in navigator) {
                 try { navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio · live' }); } catch (e) {}
+                showFloatStop();
               }
             }).catch(function () {
               status.textContent = 'Could not start ' + name + '. Try another station.';
@@ -362,6 +390,7 @@
         audio.load();
         clearActive();
         status.textContent = 'Station stopped.';
+        hideFloatStop();
       });
     }
   }
