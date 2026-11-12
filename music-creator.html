@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b0f19" />
+  <title>Music Creator — Pleading Sanity</title>
+  <meta name="description" content="Record your voice, capture video, pick a royalty-safe beat, and generate a music video. Your voice only. No cloning." />
+  <link rel="stylesheet" href="/css/styles.css" />
+  <link rel="stylesheet" href="/css/site.css" />
+  <style>
+    body { background: #0b0f19; color: #eef6ff; font-family: system-ui, sans-serif; margin: 0; padding: 1rem; }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    h1 { color: #00fff0; font-size: 1.6rem; }
+    .step { background: #0d1b2a; border: 1px solid #00fff0; border-radius: 12px; padding: 1rem; margin: 1rem 0; }
+    button, .btn { background: #00fff0; color: #0b0f19; border: none; border-radius: 8px; padding: 0.8rem 1.2rem; font-weight: 700; min-height: 48px; width: 100%; margin: 0.4rem 0; }
+    button:active { transform: scale(0.98); }
+    .status { color: #f59e0b; font-size: 0.9rem; }
+    select, label { display: block; margin: 0.5rem 0; }
+    #lyrics { white-space: pre-wrap; background: #111827; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; }
+    .note { font-size: 0.85rem; color: #a0aec0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Music Creator</h1>
+    <p>Your voice. Your camera. Royalty-safe beats. No cloning.</p>
+
+    <div class="step">
+      <h2>1. Record your voice</h2>
+      <button id="recordBtn">RECORD</button>
+      <button id="stopBtn" hidden>STOP</button>
+      <button id="playBtn" hidden>PLAY BACK</button>
+      <p class="status" id="recStatus">Tap RECORD to start (mic permission needed).</p>
+      <audio id="playback" controls hidden></audio>
+    </div>
+
+    <div class="step">
+      <h2>2. Performance feedback</h2>
+      <p class="status" id="feedback">Record first. Feedback appears here (timing, clarity, energy).</p>
+    </div>
+
+    <div class="step">
+      <h2>3. Camera</h2>
+      <button id="camBtn">OPEN CAMERA (9:16)</button>
+      <p class="note">Framing guide: centre yourself, eye-level for Shorts. Dual mode: video clip or still photo.</p>
+      <video id="camPreview" autoplay playsinline muted hidden style="width:100%;max-height:360px;background:#000;"></video>
+      <button id="snapBtn" hidden>TAKE PHOTO</button>
+      <button id="recVidBtn" hidden>RECORD VIDEO</button>
+    </div>
+
+    <div class="step">
+      <h2>4. Beat + Choir</h2>
+      <label>Beat preset
+        <select id="beat">
+          <option>Hip-Hop — Toga Beats style</option>
+          <option>Hip-Hop — Mustard style</option>
+          <option>Hip-Hop — Wiz Khalifa style</option>
+          <option>Hip-Hop — Rick Ross style</option>
+          <option>Hip-Hop — Dr Dre style</option>
+          <option>Hip-Hop — 50 Cent style</option>
+          <option>Hip-Hop — Eminem style</option>
+          <option>UK Old-School — Love Garage</option>
+          <option>UK Old-School — Classic Dance</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="choir" /> Dreamer Choir Hook “I’m a dreamer yeah yeah yeaaaaa”</label>
+      <select id="choirPlace">
+        <option>Intro</option>
+        <option>Chorus</option>
+        <option selected>Outro</option>
+      </select>
+      <p class="note">All beats must be royalty-cleared / YouTube-safe. No cloning.</p>
+    </div>
+
+    <div class="step">
+      <h2>5. Preview & Generate</h2>
+      <button id="previewBtn">PREVIEW AUDIO MIX</button>
+      <button id="genShortBtn">GENERATE 9:16 SHORT</button>
+      <button id="genLongBtn">GENERATE 16:9 FULL</button>
+      <p class="status" id="genStatus">Client-side recording first. Final render downloads when ready.</p>
+    </div>
+
+    <div class="step">
+      <h2>Test lyrics — Inside The War (Leicester Rise)</h2>
+      <pre id="lyrics">[Verse]
+I'm ready to stand for what I believe
+I ain't scared of what comes after I leave
+I'm doing this for every hurting kid
+Who never got the help that they need
+
+I unlock the chains that hold your mind
+Read the signs, leave the old life behind
+Believe in yourself, you're one of a kind
+
+People ask why I'm still broke
+Why there's so little hope
+Back in 12 I almost choked
+Bipolar waking me with every stroke
+
+Woke up to the game, mother named me Shane
+Crazy kid walking through the pain
+Time to regain everything they took away
+Anger turned to purpose day after day
+
+System's a joke, I see the whole picture
+Fighting for the ones who need the fixture
+Head so loud you can scream and shout
+Punch through the pain till the doubt runs out
+
+I tried to give everything I had for you
+Got nothing back but hatred and doubt too
+Just a regular man on a mission with shit to do
+My family stands with me, and hopefully they'll see
+
+[CHORUS — repeat twice]
+Inside the war we rise up
+Open our eyes, rise up
+Leicester to the whole wide world
+Pleading Sanity unfurled
+Heal the hurt, break the curse
+This is our story, this is our verse
+
+[Outro]
+You can have every degree, travel every land
+Speak every language, hold every command
+But if you don't know who you are inside
+You'll never build the life you hoped to find
+
+Fought the side-effects from every drug they prescribed
+But I ain't giving up, I ain't ever gonna hide
+Creator of the vision, believe what you see
+I wipe the harm away so the kids are safe with me</pre>
+    </div>
+
+    <p class="note">Workflow: Record → Feedback → Camera → Beat + Choir → Preview → Generate → Download for YouTube. Crisis lines and protected files untouched. Draft only.</p>
+  </div>
+
+  <script>
+    // Client-side recorder skeleton (MediaRecorder). Full sync/render comes next.
+    let mediaRecorder, chunks = [];
+    const recordBtn = document.getElementById('recordBtn');
+    const stopBtn = document.getElementById('stopBtn');
+    const playBtn = document.getElementById('playBtn');
+    const playback = document.getElementById('playback');
+    const status = document.getElementById('recStatus');
+
+    recordBtn.onclick = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        chunks = [];
+        mediaRecorder.ondataavailable = e => chunks.push(e.data);
+        mediaRecorder.onstop = () => {
+          const blob = new Blob(chunks, { type: 'audio/webm' });
+          playback.src = URL.createObjectURL(blob);
+          playback.hidden = false;
+          playBtn.hidden = false;
+          status.textContent = 'Recording saved locally. Play it back.';
+        };
+        mediaRecorder.start();
+        recordBtn.hidden = true;
+        stopBtn.hidden = false;
+        status.textContent = 'Recording…';
+      } catch (err) {
+        status.textContent = 'Mic permission needed or unavailable.';
+      }
+    };
+
+    stopBtn.onclick = () => {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+      stopBtn.hidden = true;
+      recordBtn.hidden = false;
+    };
+
+    playBtn.onclick = () => playback.play();
+
+    document.getElementById('camBtn').onclick = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', aspectRatio: 9/16 }, audio: false });
+        const v = document.getElementById('camPreview');
+        v.srcObject = stream;
+        v.hidden = false;
+        document.getElementById('snapBtn').hidden = false;
+        document.getElementById('recVidBtn').hidden = false;
+      } catch (err) {
+        alert('Camera permission needed.');
+      }
+    };
+
+    document.getElementById('genShortBtn').onclick = () => {
+      document.getElementById('genStatus').textContent = '9:16 Short generation queued (client-side first; full render next).';
+    };
+    document.getElementById('genLongBtn').onclick = () => {
+      document.getElementById('genStatus').textContent = '16:9 full video generation queued (client-side first; full render next).';
+    };
+  </script>
+</body>
+</html>
