@@ -585,3 +585,131 @@
   renderAll();
   // No media requests or audio until explicit player interaction.
 })();
+
+/* ============================================================
+   R2 RADIO POLISH SHARD — cross-page playback handoff.
+   Appended, additive, fully isolated in try/catch. Reads the
+   psRadioHandoff key written by insane-radio.html. If a live
+   station stream was playing, injects a compact LIVE chip into
+   the floating widget (#ps-music-widget) and attempts to resume
+   the stream in a hidden Audio element. Autoplay policies may
+   block the resume without a gesture — in that case the chip
+   becomes a tap-to-resume control (honest, never silent autoplay).
+   YouTube curated tracks are shown as a non-resumable now-playing
+   chip (iframe cannot survive navigation — stated honestly).
+   Does NOT touch the existing 5-song playlist widget behavior.
+   ============================================================ */
+(function () {
+  'use strict';
+  try {
+    var HANDOFF_KEY = 'psRadioHandoff';
+    var MAX_AGE = 10 * 60 * 1000; // 10 minutes — stale handoffs are ignored
+    var stationAudio = null, stationPlaying = false, currentHandoff = null;
+    function readStore(k, fb) { try { var v = localStorage.getItem(k); return (v === null || v === undefined) ? fb : v; } catch (e) { return fb; } }
+    function removeStore(k) { try { localStorage.removeItem(k); } catch (e) {} }
+
+    var ICON_PLAY = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5l9 6.5-9 6.5z" fill="currentColor" stroke="none"/></svg>';
+    var ICON_PAUSE = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7.5" y="6" width="3" height="12" rx="1.2" fill="currentColor" stroke="none"/><rect x="13.5" y="6" width="3" height="12" rx="1.2" fill="currentColor" stroke="none"/></svg>';
+
+    function getHandoff() {
+      try {
+        var raw = readStore(HANDOFF_KEY, null);
+        if (!raw) return null;
+        var obj = JSON.parse(raw);
+        if (!obj || !obj.kind) return null;
+        if (obj.ts && (Date.now() - Number(obj.ts)) > MAX_AGE) { removeStore(HANDOFF_KEY); return null; }
+        return obj;
+      } catch (e) { return null; }
+    }
+
+    function buildChip(h) {
+      var widget = document.getElementById('ps-music-widget');
+      if (!widget || widget.querySelector('.ps-radio-handoff')) return null;
+      var chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'ps-radio-handoff';
+      chip.setAttribute('role', 'button');
+      var dot = document.createElement('span');
+      dot.className = 'ps-handoff-dot';
+      dot.setAttribute('aria-hidden', 'true');
+      var name = document.createElement('span');
+      name.className = 'ps-handoff-name';
+      var ic = document.createElement('span');
+      ic.className = 'ps-handoff-ic';
+      ic.setAttribute('aria-hidden', 'true');
+      chip.appendChild(dot); chip.appendChild(name); chip.appendChild(ic);
+      // insert at top of widget, above track row
+      widget.insertBefore(chip, widget.firstChild);
+      return { chip: chip, name: name, ic: ic, dot: dot };
+    }
+
+    function setChipState(ui, h, playing, label) {
+      if (!ui) return;
+      ui.name.textContent = label || (h.kind === 'station' ? (h.name || 'Live station') : (h.title || 'Insane Radio'));
+      ui.ic.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+      ui.chip.classList.toggle('is-paused', !playing);
+      ui.chip.setAttribute('aria-label', (playing ? 'Pause' : 'Resume') + ' ' + (h.name || h.title || 'live station'));
+    }
+
+    function resumeStation(h, ui) {
+      if (!h.src) { setChipState(ui, h, false, (h.name || 'Live station') + ' — tap to resume'); return; }
+      try {
+        if (!stationAudio) {
+          stationAudio = new Audio();
+          stationAudio.setAttribute('preload', 'none');
+          stationAudio.addEventListener('playing', function () { stationPlaying = true; setChipState(ui, h, true); });
+          stationAudio.addEventListener('pause', function () { stationPlaying = false; setChipState(ui, h, false); });
+          stationAudio.addEventListener('error', function () { stationPlaying = false; setChipState(ui, h, false, (h.name || 'Station') + ' unavailable — tap to retry'); });
+        }
+        if (stationAudio.src !== h.src) { stationAudio.src = h.src; }
+        stationAudio.volume = 0.8;
+        var p = stationAudio.play();
+        if (p && typeof p.then === 'function') {
+          p.catch(function () {
+            // autoplay blocked — chip becomes tap-to-resume (honest, no silent autoplay)
+            stationPlaying = false;
+            setChipState(ui, h, false, (h.name || 'Live station') + ' — tap to resume');
+          });
+        }
+      } catch (e) {
+        setChipState(ui, h, false, (h.name || 'Live station') + ' — tap to resume');
+      }
+    }
+
+    function boot() {
+      var h = getHandoff();
+      if (!h) return;
+      // On the radio page itself, the native player owns audio — skip chip there.
+      if (window.location.pathname === '/insane-radio.html' || window.location.pathname === '/insane-radio') return;
+      currentHandoff = h;
+      var ui = buildChip(h);
+      if (!ui) return;
+      if (h.kind === 'station' && h.playing) {
+        setChipState(ui, h, false, 'Connecting ' + (h.name || 'station') + '…');
+        resumeStation(h, ui);
+        ui.chip.addEventListener('click', function (e) {
+          e.stopPropagation();
+          if (!stationAudio) { resumeStation(h, ui); return; }
+          if (stationPlaying) { try { stationAudio.pause(); } catch (err) {} }
+          else {
+            if (stationAudio.src !== h.src) stationAudio.src = h.src;
+            try { stationAudio.play(); } catch (err) {}
+          }
+        });
+      } else if (h.kind === 'track') {
+        // YouTube tracks cannot resume cross-page (iframe destroyed). Honest chip.
+        setChipState(ui, h, false, (h.title || 'Track') + (h.artist ? ' · ' + h.artist : '') + ' — on Insane Radio');
+        ui.chip.addEventListener('click', function () {
+          window.location.href = 'https://pleadingsanity.co.uk/insane-radio.html';
+        });
+        ui.chip.setAttribute('aria-label', 'Go to Insane Radio to continue listening');
+      }
+      // clear handoff if user navigates back to radio page (it will re-write)
+      window.addEventListener('pagehide', function () {
+        if (stationAudio && stationPlaying) { try { stationAudio.pause(); } catch (e) {} }
+      });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  } catch (e) { /* never break the widget */ }
+})();

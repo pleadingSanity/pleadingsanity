@@ -319,3 +319,44 @@
     renderSlots({ label: '', youtube_url: '', sonos_url: '', amazon_music_url: '' });
   }
 })();
+
+/* R2 RADIO POLISH SHARD — share-button decoration for /music app tracks.
+   Additive only. Adds data-ps-share attributes to each rendered track
+   button; js/radio-share.js (loaded on /music/index.html) injects the
+   actual share button. Re-scans on a timer for late renders. */
+(function () {
+  'use strict';
+  try {
+    var MUSIC_PAGE = 'https://pleadingsanity.co.uk/music/index.html';
+    function decorate(btn) {
+      if (!btn || btn.getAttribute('data-ps-share')) return;
+      var spans = btn.querySelectorAll('span span');
+      var title = '', artist = '';
+      if (spans.length >= 1) title = (spans[0].textContent || '').trim();
+      if (spans.length >= 2) artist = (spans[1].textContent || '').trim();
+      btn.setAttribute('data-ps-share', 'song');
+      if (title) btn.setAttribute('data-ps-title', title);
+      if (artist) btn.setAttribute('data-ps-artist', artist);
+      btn.setAttribute('data-ps-url', MUSIC_PAGE);
+    }
+    function scan() {
+      var list = document.getElementById('playlist');
+      if (!list) return;
+      var btns = list.querySelectorAll('button');
+      for (var i = 0; i < btns.length; i++) decorate(btns[i]);
+    }
+    function boot() {
+      scan();
+      setInterval(scan, 1200);
+      if ('MutationObserver' in window) {
+        var list = document.getElementById('playlist');
+        if (list) {
+          var mo = new MutationObserver(scan);
+          mo.observe(list, { childList: true, subtree: true });
+        }
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  } catch (e) {}
+})();
