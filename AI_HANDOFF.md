@@ -1293,7 +1293,7 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Known gap: true gapless cross-page playback needs SPA/ServiceWorker audio; YouTube curated tracks can't resume cross-page. See DOLA_MEMORY.md Shane-action gaps.
 
 ## 2026-11-12 — Grok: missing guest memory id is local-only (not merged)
-- Source: main `78b91b8`. Branch `cursor/arron-memory-id-optional-420f`. Not merged. Not deployed. Shane merges.
+- Source: main `78b91b8`. Branch `cursor/arron-memory-id-optional-420f`. Fix commit `6bed925`. Not merged. Not deployed. Shane merges.
 - Live repro, 12 Nov 2026 ~20:27 UK: `POST /api/arron/chat` with `{"message":"hello, what is pleading sanity?"}` returned HTTP 400 `{"error":"Invalid memory id"}`. No provider was called.
 - Root cause: `resolveMemory` in `netlify/functions/arron.mts:208` returns null for a guest when the id is missing, empty, or not `/^[a-f0-9-]{32,64}$/i`. Chat treated every classic `{message}` body as cloud memory, so that null became the 400. `js/arron-companion.js` always sends a 32-hex id, so the page itself was not this 400.
 - Fix: a guest with a missing or empty id is local-only (no lookup, no 400) and still gets the reply or the quiet fallback. A malformed id is ignored the same way and is never a lookup key. A valid id still resolves. An account-owned id stays unreadable to a guest. `DELETE/GET /api/arron/memory` still returns 400 for a bad id, with no lookup. Provider order, persona, system prompt, crisis phrase list, health route, askGrokDirect, and arron-tools were not edited.
