@@ -69,6 +69,10 @@
   const stopTracks = stream => stream?.getTracks().forEach(track => track.stop());
   function revoke(key) { if (urls.has(key)) URL.revokeObjectURL(urls.get(key)); urls.delete(key); }
   function url(key, blob) { revoke(key); const value = URL.createObjectURL(blob); urls.set(key, value); return value; }
+  function mediaSource(element, value) {
+    if (!['AUDIO', 'VIDEO', 'IMG'].includes(element.tagName) || !value?.startsWith('blob:')) throw new Error('Invalid local media preview.');
+    element.setAttribute('src', value);
+  }
   function extension(type) {
     if (type.includes('wav')) return 'wav';
     if (type.includes('mpeg')) return 'mp3';
@@ -79,7 +83,9 @@
     return type.includes('ogg') ? 'ogg' : 'webm';
   }
   function download(id, key, blob, name) {
-    const link = $(id); link.href = url(key, blob); link.download = name; link.hidden = false;
+    const link = $(id);
+    if (link.tagName !== 'A') throw new Error('Invalid download control.');
+    link.setAttribute('href', url(key, blob)); link.download = name; link.hidden = false;
   }
   function mime(kind) {
     const options = kind === 'audio' ? ['audio/webm;codecs=opus', 'audio/mp4', 'audio/ogg;codecs=opus'] : ['video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'];
@@ -139,7 +145,7 @@
   }
   function setVoice(blob) {
     voice = blob; invalidate();
-    $('playback').src = url('voice', blob); $('playback').hidden = false;
+    mediaSource($('playback'), url('voice', blob)); $('playback').hidden = false;
     download('voiceDownload', 'voiceDownload', blob, `pleading-sanity-voice.${extension(blob.type)}`);
     $('previewBtn').disabled = false; message('recStatus', 'Take ready in this tab. Download it to keep a copy.');
     analyse(blob);
@@ -222,8 +228,8 @@
     invalidate();
   }
   function setVisual(blob, kind) {
-    if (kind === 'photo') { photo = blob; $('photoPreview').src = url('photo', blob); }
-    else { clip = blob; $('videoPlayback').src = url('clip', blob); }
+    if (kind === 'photo') { photo = blob; mediaSource($('photoPreview'), url('photo', blob)); }
+    else { clip = blob; mediaSource($('videoPlayback'), url('clip', blob)); }
     $('visualChoice').querySelector(`[value="${kind}"]`).disabled = false; $('visualChoice').value = kind; chooseVisual();
     message('camStatus', `${kind === 'photo' ? 'Portrait' : 'Video'} selected. Download it to keep a copy.`);
   }
@@ -295,7 +301,7 @@
       let peak = 0; for (let c = 0; c < buffer.numberOfChannels; c++) for (const v of buffer.getChannelData(c)) peak = Math.max(peak, Math.abs(v));
       if (peak > .95) for (let c = 0; c < buffer.numberOfChannels; c++) { const data = buffer.getChannelData(c); for (let i = 0; i < data.length; i++) data[i] *= .95 / peak; }
       mix = { buffer, offset, vocalDuration: vocal.duration, revision: mixRevision };
-      const blob = wav(buffer); $('mixPlayback').src = url('mix', blob); $('mixPlayback').hidden = false;
+      const blob = wav(buffer); mediaSource($('mixPlayback'), url('mix', blob)); $('mixPlayback').hidden = false;
       download('mixDownload', 'mixDownload', blob, 'pleading-sanity-mix.wav'); message('mixStatus', `Mix ready · ${Math.ceil(duration)} seconds. Listen before generating.`);
     } catch (error) { message('mixStatus', explain(error)); }
     finally { await context?.close().catch(() => {}); lock(false); const allowed = !!mix && !!window.MediaRecorder && !!HTMLCanvasElement.prototype.captureStream; $('genShortBtn').disabled = !allowed; $('genLongBtn').disabled = !allowed; message('genStatus', allowed ? 'Mix ready. Choose your video format.' : mix ? 'Video export is not supported here. Download your WAV mix and use a browser with canvas recording support.' : 'Build your audio preview first.'); }
@@ -371,9 +377,9 @@
     const cancel = () => { cancelled = true; if (exportRecorder?.state === 'recording') exportRecorder.stop(); };
     renderCancel = cancel;
     try {
-      if (choice === 'photo') { visual = new Image(); visual.src = urls.get('photo'); await visual.decode(); }
+      if (choice === 'photo') { visual = new Image(); mediaSource(visual, urls.get('photo')); await visual.decode(); }
       if (choice === 'video') {
-        visual = document.createElement('video'); visual.src = urls.get('clip'); visual.muted = true; visual.loop = true; visual.playsInline = true;
+        visual = document.createElement('video'); mediaSource(visual, urls.get('clip')); visual.muted = true; visual.loop = true; visual.playsInline = true;
         await visual.play();
       }
       if (cancelled) throw new Error('Video cancelled. Your source files are still available.');
@@ -414,7 +420,7 @@
       if (!parts.length) throw new Error('No video data was produced. Try a shorter take.');
       const blob = await videoDuration(new Blob(parts, { type: exportRecorder.mimeType || parts[0].type }), duration);
       if (leaving || cancelled) { message('genStatus', 'Video cancelled. Your source files and mix are still available.'); return; }
-      $('finalPreview').src = url('final', blob); $('finalPreview').hidden = false;
+      mediaSource($('finalPreview'), url('final', blob)); $('finalPreview').hidden = false;
       download('videoDownload', 'finalDownload', blob, `pleading-sanity-${vertical ? 'short' : 'full'}.${extension(blob.type)}`);
       message('genStatus', 'Video ready. Watch it and check caption timing before uploading.'); $('renderProgress').value = 1;
     } catch (error) { message('genStatus', explain(error)); }
@@ -486,8 +492,8 @@
       $('videoPlayback').removeAttribute('src'); $('videoPlayback').hidden = true;
       $('visualChoice').querySelector('[value="photo"]').disabled = !photo; $('visualChoice').querySelector('[value="video"]').disabled = !clip;
       if (voice) setVoice(voice);
-      if (photo) $('photoPreview').src = url('photo', photo);
-      if (clip) $('videoPlayback').src = url('clip', clip);
+      if (photo) mediaSource($('photoPreview'), url('photo', photo));
+      if (clip) mediaSource($('videoPlayback'), url('clip', clip));
       chooseVisual();
       message('projectStatus', 'Project reopened locally. Confirm your music rights and enable your hook again if wanted, then build a fresh mix.');
     } catch (error) { message('projectStatus', explain(error)); }

@@ -14,6 +14,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
   class Element {
     constructor(id = '') { this.id = id; this.hidden = false; this.disabled = false; this.checked = false; this.value = ''; this.dataset = {}; this.handlers = {}; }
     addEventListener(name, fn) { this.handlers[name] = fn; }
+    setAttribute(key, value) { this[key] = value; }
     removeAttribute(key) { delete this[key]; }
     pause() {}
     async play() {}
@@ -21,7 +22,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     querySelector(selector) { return elements.get(`${this.id}:${selector}`) || new Element(); }
   }
   dom('[id]').each((_, node) => {
-    const el = new Element(node.attribs.id); el.disabled = 'disabled' in node.attribs; el.hidden = 'hidden' in node.attribs; el.value = dom(node).val() || '';
+    const el = new Element(node.attribs.id); el.tagName = node.name.toUpperCase(); el.disabled = 'disabled' in node.attribs; el.hidden = 'hidden' in node.attribs; el.value = dom(node).val() || '';
     elements.set(el.id, el);
   });
   const stream = () => { const track = { stopped: false, stop() { this.stopped = true; } }; const s = { track, addTrack() {}, getTracks: () => [track], getAudioTracks: () => [track] }; streams.push(s); return s; };
@@ -52,7 +53,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     querySelectorAll: () => [...elements.values()].filter(el => dom(`#${el.id}`).is('button,input,textarea,select')),
     addEventListener(name, fn) { documentEvents[name] = fn; },
     createElement: tag => {
-      if (tag !== 'canvas') return new Element();
+      if (tag !== 'canvas') { const element = new Element(); element.tagName = tag.toUpperCase(); return element; }
       const canvas = { width: 0, height: 0, captureStream: () => stream(), getContext: () => ({ fillRect() {}, fillText() {}, drawImage() {}, measureText: text => ({ width: text.length * 10 }), createRadialGradient: () => ({ addColorStop() {} }) }) };
       canvases.push(canvas); return canvas;
     }
@@ -62,7 +63,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     HTMLCanvasElement: { prototype: { captureStream() {} } }, Blob, TextEncoder, TextDecoder, URL: { createObjectURL(blob) { const key = `blob:test-${++urlCounter}`; urlBlobs.set(key, blob); return key; }, revokeObjectURL(value) { revoked.push(value); } },
     setTimeout(fn) { const id = ++timerCounter; timers.set(id, fn); return id; }, clearTimeout(id) { timers.delete(id); }, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
-  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration }; })();'), context);
+  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration, mediaSource }; })();'), context);
   return { elements, streams, revoked, added, recorders, sources, canvases, document, documentEvents, windowEvents, mediaResolvers, decodeResolvers, urlBlobs, helpers: context.helpers, el: id => elements.get(id), buffer };
 }
 
@@ -72,6 +73,17 @@ test('voice recording releases microphone tracks and produces a local download',
   assert.equal(f.streams[0].track.stopped, true);
   assert.match(f.el('playback').src, /^blob:/); assert.equal(f.el('voiceDownload').hidden, false);
   assert.equal(f.el('recordBtn').disabled, false);
+});
+test('local preview URLs only reach media elements and never active HTML elements', () => {
+  const f = fixture();
+  for (const tagName of ['SCRIPT', 'IFRAME', 'OBJECT', 'A']) {
+    assert.throws(() => f.helpers.mediaSource({ tagName, setAttribute() { throw new Error('must not assign'); } }, 'blob:test'), /Invalid local media/);
+  }
+  for (const value of ['https://example.com/file', 'javascript:alert(1)', 'data:text/html,<script>']) {
+    assert.throws(() => f.helpers.mediaSource(f.el('playback'), value), /Invalid local media/);
+  }
+  f.helpers.mediaSource(f.el('playback'), 'blob:test');
+  assert.equal(f.el('playback').src, 'blob:test');
 });
 test('permission denial leaves capture recoverable and explains file import', async () => {
   const f = fixture({ denyMic: true }); await f.el('recordBtn').onclick();
