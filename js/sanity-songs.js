@@ -113,3 +113,104 @@ fetch("/music/songs.json")
   .catch(() => {
     document.getElementById("song-status").textContent = "The song list did not load.";
   });
+
+/* R2 RADIO POLISH SHARD — share buttons on Sanity's Songs track list.
+   Self-contained (this page may not load js/radio-share.js). Native
+   Web Share with clipboard fallback + toast. Additive only. */
+(function () {
+  "use strict";
+  try {
+    var MARK = "ps-share-injected";
+    var SONGS_PAGE = "https://pleadingsanity.co.uk/sanity-songs.html";
+    var toastEl = null, toastTimer = null;
+    function toast(msg) {
+      try {
+        if (!toastEl) {
+          toastEl = document.createElement("div");
+          toastEl.className = "ps-share-toast";
+          toastEl.setAttribute("role", "status");
+          toastEl.setAttribute("aria-live", "polite");
+          (document.body || document.documentElement).appendChild(toastEl);
+        }
+        toastEl.textContent = msg;
+        toastEl.classList.add("is-visible");
+        if (toastTimer) clearTimeout(toastTimer);
+        toastTimer = setTimeout(function () { toastEl.classList.remove("is-visible"); }, 2600);
+      } catch (e) {}
+    }
+    function shareTrack(title, artist, url) {
+      var text = "Listen on Pleading Sanity Insane Radio" + (artist ? " · " + artist : "") + " — " + title;
+      var data = { title: title, text: text, url: url || SONGS_PAGE };
+      function copyFallback() {
+        var payload = data.text + "\n" + data.url;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(payload).then(function () { toast("Link copied to clipboard — paste anywhere."); })
+            .catch(function () { legacyCopy(payload); });
+        } else { legacyCopy(payload); }
+      }
+      function legacyCopy(t) {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = t; ta.setAttribute("readonly", "");
+          ta.style.cssText = "position:fixed;left:-9999px;top:-9999px;opacity:0;";
+          (document.body || document.documentElement).appendChild(ta);
+          ta.select();
+          var ok = false;
+          try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+          ta.parentNode.removeChild(ta);
+          toast(ok ? "Link copied to clipboard — paste anywhere." : "Long-press to share manually.");
+        } catch (e) {}
+      }
+      if (navigator.share) {
+        var p = null;
+        try { p = navigator.share(data); } catch (e) { p = Promise.reject(e); }
+        if (p && p.then) { p.then(function () { toast("Shared."); }).catch(copyFallback); }
+        else copyFallback();
+      } else copyFallback();
+    }
+    function makeBtn(title, artist, ytUrl) {
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "ps-share-btn ps-share-song";
+      btn.setAttribute("aria-label", "Share " + title + (artist ? " by " + artist : ""));
+      btn.title = "Share song";
+      btn.innerHTML = '<span class="ps-share-icon" aria-hidden="true"><svg viewBox="0 0 24 24" width="15" height="15"><circle cx="6" cy="12" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="18" r="2.6" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8.3 10.8l6.9-3.6M8.3 13.2l6.9 3.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span><span class="ps-share-label">Share</span>';
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation(); e.preventDefault();
+        shareTrack(title, artist, ytUrl || SONGS_PAGE);
+      });
+      return btn;
+    }
+    function scan() {
+      var list = document.getElementById("song-list");
+      if (!list) return;
+      var wraps = list.querySelectorAll(".song-btn");
+      for (var i = 0; i < wraps.length; i++) {
+        var w = wraps[i];
+        if (w.classList.contains(MARK)) continue;
+        w.classList.add(MARK);
+        var btn = w.querySelector("button[data-song]");
+        var link = w.querySelector("a[href]");
+        var title = "", artist = "", ytUrl = "";
+        if (btn) {
+          var txt = (btn.textContent || "").trim();
+          var dash = txt.indexOf("—");
+          if (dash >= 0) { artist = txt.slice(0, dash).trim(); title = txt.slice(dash + 1).trim(); }
+          else title = txt;
+        }
+        if (link) ytUrl = link.getAttribute("href") || "";
+        w.appendChild(makeBtn(title, artist, ytUrl));
+      }
+    }
+    function boot() {
+      scan();
+      setInterval(scan, 1200);
+      if ("MutationObserver" in window) {
+        var list = document.getElementById("song-list");
+        if (list) { var mo = new MutationObserver(scan); mo.observe(list, { childList: true, subtree: true }); }
+      }
+    }
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);
+    else boot();
+  } catch (e) {}
+})();

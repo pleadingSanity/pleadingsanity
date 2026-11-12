@@ -371,3 +371,194 @@
     init(); initStations();
   }
 })();
+
+/* ============================================================
+   R2 RADIO POLISH SHARD (dola/r2-radio-20261112) — appended,
+   additive only. Does NOT modify any existing function, hook,
+   ID or class. Provides: cosmic SVG transport icons, share-button
+   data attributes on every rendered track (picked up by
+   js/radio-share.js), active-station equalizer indicator, station
+   volume control, cross-page playback handoff writes, and the
+   honest on-page persistence note. All wrapped in try/catch.
+   ============================================================ */
+(function () {
+  'use strict';
+  try {
+    var ICONS = (window.PSRadioShare && window.PSRadioShare.ICONS) || null;
+    var RADIO_PAGE = (window.PSRadioShare && window.PSRadioShare.RADIO_PAGE) || 'https://pleadingsanity.co.uk/insane-radio.html';
+    var HANDOFF_KEY = 'psRadioHandoff';
+    function readStore(k, fb) { try { var v = localStorage.getItem(k); return (v === null || v === undefined) ? fb : v; } catch (e) { return fb; } }
+    function writeStore(k, v) { try { localStorage.setItem(k, String(v)); } catch (e) {} }
+    function removeStore(k) { try { localStorage.removeItem(k); } catch (e) {} }
+    function writeHandoff(obj) { writeStore(HANDOFF_KEY, JSON.stringify(obj)); }
+    function clearHandoff() { removeStore(HANDOFF_KEY); }
+
+    function el(id) { return document.getElementById(id); }
+
+    // ---- 1. transport buttons: prepend cosmic SVG icon, keep text ----
+    function iconSpan(markup) {
+      var s = document.createElement('span');
+      s.className = 'psr-ic';
+      s.setAttribute('aria-hidden', 'true');
+      s.innerHTML = markup;
+      return s;
+    }
+    function decorateTransport() {
+      var play = el('radio-play'), prev = el('radio-prev'), next = el('radio-next');
+      if (prev && !prev.querySelector('.psr-ic') && ICONS) { prev.insertBefore(iconSpan(ICONS.prev), prev.firstChild); }
+      if (next && !next.querySelector('.psr-ic') && ICONS) { next.insertBefore(iconSpan(ICONS.next), next.firstChild); }
+      // play button toggles text Play/Pause in stateUI; re-prepend icon on a timer
+      setInterval(function () {
+        var p = el('radio-play');
+        if (!p || !ICONS) return;
+        if (!p.querySelector('.psr-ic')) p.insertBefore(iconSpan(p.textContent && p.textContent.indexOf('Pause') >= 0 ? ICONS.pause : ICONS.play), p.firstChild);
+      }, 400);
+    }
+
+    // ---- 2. share data attributes on rendered tracks (radio-share.js augments) ----
+    // Parse "title · artist" from button text; tolerate "N. title · artist" and
+    // "  (official link only)" suffix. URL = radio page (no external hotlinks).
+    function decorateTrackButton(btn) {
+      if (!btn || btn.getAttribute('data-ps-share')) return;
+      var raw = (btn.textContent || '').trim();
+      raw = raw.replace(/^\d+\.\s*/, '').replace(/\s*\(official link only\)\s*$/, '').trim();
+      var parts = raw.split('·');
+      var title = (parts[0] || '').trim();
+      var artist = (parts[1] || '').trim();
+      btn.setAttribute('data-ps-share', 'song');
+      if (title) btn.setAttribute('data-ps-title', title);
+      if (artist) btn.setAttribute('data-ps-artist', artist);
+      btn.setAttribute('data-ps-url', RADIO_PAGE);
+    }
+    function scanTracks() {
+      var up = el('radio-upnext');
+      if (up) { var b1 = up.querySelectorAll('button'); for (var i = 0; i < b1.length; i++) decorateTrackButton(b1[i]); }
+      var full = el('radio-tracklist');
+      if (full) { var b2 = full.querySelectorAll('button'); for (var j = 0; j < b2.length; j++) decorateTrackButton(b2[j]); }
+    }
+
+    // ---- 3. active-station equalizer indicator (injected into each station card) ----
+    function injectStationEq() {
+      if (!ICONS) return;
+      var btns = document.querySelectorAll('.station-play');
+      for (var i = 0; i < btns.length; i++) {
+        if (btns[i].querySelector('.ps-station-eq')) continue;
+        var eq = document.createElement('span');
+        eq.className = 'ps-station-eq';
+        eq.setAttribute('aria-hidden', 'true');
+        eq.innerHTML = ICONS.eq;
+        btns[i].appendChild(eq);
+      }
+    }
+
+    // ---- 4. station volume control (next to Stop button) ----
+    function injectStationVolume() {
+      var audio = el('station-audio');
+      var stopBtn = el('station-stop');
+      if (!audio || !stopBtn || document.querySelector('.ps-station-volume')) return;
+      var wrap = document.createElement('div');
+      wrap.className = 'ps-station-volume';
+      wrap.setAttribute('role', 'group');
+      wrap.setAttribute('aria-label', 'Live station volume');
+      var ic = document.createElement('span');
+      ic.className = 'psr-ic';
+      ic.setAttribute('aria-hidden', 'true');
+      ic.innerHTML = ICONS ? ICONS.volume : '';
+      var slider = document.createElement('input');
+      slider.type = 'range'; slider.min = '0'; slider.max = '100'; slider.step = '1'; slider.value = '80';
+      slider.setAttribute('aria-label', 'Live station volume level');
+      var label = document.createElement('span');
+      label.className = 'ps-station-vol-label';
+      label.textContent = '80%';
+      audio.volume = 0.8;
+      slider.addEventListener('input', function () {
+        var v = parseInt(slider.value, 10) || 0;
+        audio.volume = v / 100;
+        label.textContent = v + '%';
+      });
+      wrap.appendChild(ic); wrap.appendChild(slider); wrap.appendChild(label);
+      var actions = stopBtn.parentNode;
+      if (actions) actions.insertBefore(wrap, stopBtn.nextSibling);
+    }
+
+    // ---- 5. cross-page handoff writes ----
+    function wireHandoff() {
+      var audio = el('station-audio');
+      if (audio) {
+        audio.addEventListener('play', function () {
+          var active = document.querySelector('.station-play.is-active');
+          var name = active ? (active.getAttribute('data-name') || 'Live station') : 'Live station';
+          var src = audio.src || '';
+          var q = active ? (active.getAttribute('data-q') || '') : '';
+          writeHandoff({ kind: 'station', name: name, src: src, q: q, playing: true, ts: Date.now() });
+        });
+        audio.addEventListener('pause', function () { clearHandoff(); });
+        audio.addEventListener('emptied', function () { clearHandoff(); });
+      }
+      // YouTube curated tracks: observe .is-playing on radio-card + read title/artist.
+      // YouTube cannot truly resume cross-page (iframe is destroyed), so we record
+      // now-playing info honestly (kind=track, resumable=false) for the widget chip.
+      var card = el('radio-card');
+      if (card && 'MutationObserver' in window) {
+        var mo = new MutationObserver(function () {
+          var playing = card.classList.contains('is-playing');
+          if (playing) {
+            var title = (el('radio-title') && el('radio-title').textContent) || '';
+            var artist = (el('radio-artist') && el('radio-artist').textContent) || '';
+            writeHandoff({ kind: 'track', title: title, artist: artist, resumable: false, playing: true, ts: Date.now() });
+          } else {
+            // only clear if we wrote a track handoff (don't clobber station handoff)
+            try {
+              var cur = JSON.parse(readStore(HANDOFF_KEY, 'null'));
+              if (cur && cur.kind === 'track') clearHandoff();
+            } catch (e) {}
+          }
+        });
+        mo.observe(card, { attributes: true, attributeFilter: ['class'] });
+      }
+      // clear handoff when leaving the radio page (station audio stops on unload)
+      window.addEventListener('pagehide', function () {
+        try {
+          var cur = JSON.parse(readStore(HANDOFF_KEY, 'null'));
+          if (cur && cur.kind === 'station' && cur.playing) {
+            // keep it — the next page's widget will attempt resume
+            cur.ts = Date.now();
+            writeHandoff(cur);
+          }
+        } catch (e) {}
+      });
+    }
+
+    // ---- 6. honest on-page persistence note ----
+    function injectPersistNote() {
+      if (document.querySelector('.ps-persist-note')) return;
+      var card = el('radio-card');
+      if (!card) return;
+      var note = document.createElement('p');
+      note.className = 'ps-persist-note';
+      note.innerHTML = '<strong>Audio keeps playing while you browse the site</strong>; on phones it stops when you lock the screen or switch apps (OS limit) — <span class="ps-persist-hint">add to Home Screen for best experience.</span>';
+      card.parentNode.insertBefore(note, card.nextSibling);
+    }
+
+    function boot() {
+      try {
+        decorateTransport();
+        injectStationEq();
+        injectStationVolume();
+        wireHandoff();
+        injectPersistNote();
+        scanTracks();
+        // re-scan for late-rendered tracks (render() rebuilds lists on track change)
+        setInterval(scanTracks, 1200);
+        if ('MutationObserver' in window) {
+          var up = el('radio-upnext'), full = el('radio-tracklist');
+          var mo = new MutationObserver(function () { scanTracks(); });
+          if (up) mo.observe(up, { childList: true, subtree: true });
+          if (full) mo.observe(full, { childList: true, subtree: true });
+        }
+      } catch (e) {}
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else boot();
+  } catch (e) { /* never break the player */ }
+})();
