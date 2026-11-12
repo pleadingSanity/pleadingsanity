@@ -1283,3 +1283,11 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Validation: validate-build 0; npm test 236/226 pass, 10 known-stale fail (0 new). 0 secrets/purple/we-fit.
 - arron-health.mts is NOW /api/ops/ai-probe (repurposed #311) — KEEP IT, do not delete. It no longer shadows /api/arron/health (health lives in arron.mts).
 - Next AIs: see DOLA_MEMORY.md Shane-action gaps list. Branch prefixes: dola/* (Dola), claude/*, gpt/*, grok/*, cursor/*. Never force-push main. Fine-grained PAT cannot undraft (ready_for_review 404) but can create+merge PRs.
+
+
+---
+
+## 2026-11-12 — Full polish + imagery round complete (radio priority)
+- Merged: #312 triage + #323 radio (SVG icons, Share buttons everywhere, cross-page handoff chip, honest OS-limit note) + #324 copy/consistency (css/shard-copy.css, full-7 crisis footers on 26 pages) + #325 imagery (CSS/SVG fallback + shop notify-me live) + hero raster images (3 generated, assets/images/r2-2026/, honest Illustration labels).
+- Operational fix: each shard used its own fresh clone in /tmp — zero shared-clone races. Next AIs: do the same.
+- Known gap: true gapless cross-page playback needs SPA/ServiceWorker audio; YouTube curated tracks can't resume cross-page. See DOLA_MEMORY.md Shane-action gaps.
