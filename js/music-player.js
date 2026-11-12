@@ -100,6 +100,7 @@
   // player on first use (starting at the chosen track), otherwise cues it.
   // Like/dislike buttons stop propagation and never trigger this.
   function playTrackById(id) {
+    document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'widget'}}));
     var idx = idToIndex(id);
     if (idx < 0) return;
     state.unlocked = true; removeGestureListeners();
@@ -271,6 +272,14 @@
     elMute.setAttribute('aria-label', state.muted ? 'Unmute' : 'Mute');
     elMute.setAttribute('title', state.muted ? 'Unmute' : 'Mute');
   }
+  function stopForOtherPlayer() {
+    state.playing = false;
+    postCmd('pauseVideo', []);
+    if (elDrawer) elDrawer.querySelectorAll('iframe').forEach(function (frame) { frame.remove(); });
+    renderTrack(); renderPlayIcon();
+  }
+  document.addEventListener('ps-audio-stop', stopForOtherPlayer);
+  document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'widget') stopForOtherPlayer(); });
   function renderAll() { renderTrack(); renderPlayIcon(); renderMuteIcon(); elVol.value = state.volume; }
   // ---------- drawer: playlist votes + Shane's playlist slots ----------
   var PLATFORMS = [
@@ -525,6 +534,7 @@
   // ---------- controls ----------
   function stopProp(e) { e.stopPropagation(); e.preventDefault(); }
   elPlay.addEventListener('click', function (e) {
+    if (!state.playing) document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'widget'}}));
     stopProp(e);
     state.unlocked = true; removeGestureListeners();
     if (state.playing) { postCmd('pauseVideo', []); state.playing = false; }

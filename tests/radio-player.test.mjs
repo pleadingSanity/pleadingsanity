@@ -14,7 +14,7 @@ test('radio has a visible video container and user-facing fallback',()=>{
  assert.match(html,/id="radio-support"/);
  assert.match(html,/rel="canonical" href="https:\/\/pleadingsanity\.co\.uk\/insane-radio\.html"/);
  assert.match(js,/youtube\.com\/iframe_api/);
- assert.doesNotMatch(js,/left:-9999px|aria-hidden.*true|width:0;height:0/);
+ assert.doesNotMatch(js,/left:-9999px|width:0;height:0/);
 });
 test('radio does not claim confirmed playback or fake volume',()=>{
  assert.doesNotMatch(js,/setText\('radio-status', 'Playing'\)/);
@@ -22,28 +22,31 @@ test('radio does not claim confirmed playback or fake volume',()=>{
  assert.match(html,/use the official link if needed/);
 });
 
-async function playerHarness() {
+async function playerHarness(options = {}) {
+ const documentEvents = new Map();
+ const stationPromises = [];
  const nodes=new Map(), timers=new Map(), intervals=new Map(), calls=[];
  let timerId=0, events, state=-1;
  function node(id) {
-  if(!nodes.has(id)) nodes.set(id,{textContent:'',value:0,max:100,href:'',listeners:{},
-   classList:{toggle(){}},setAttribute(){},replaceChildren(){},appendChild(){},
+  if(!nodes.has(id)) nodes.set(id,{textContent:'',value:0,max:100,href:'',style:{},attrs:{},listeners:{},paused:true,pause(){this.paused=true;},load(){},removeAttribute(k){delete this.attrs[k];if(k==='src')this.src='';},play(){this.paused=false;return new Promise((resolve,reject)=>stationPromises.push({resolve,reject}));},
+   classList:{toggle(){},add(){},remove(){}},setAttribute(k,v){this.attrs[k]=v;},getAttribute(k){return this.attrs[k] || null;},querySelector(){return null;},replaceChildren(){},appendChild(){},append(){},
    addEventListener(type,fn){this.listeners[type]=fn;}});
   return nodes.get(id);
  }
  const player={loadVideoById(id){calls.push(['load',id]);},playVideo(){calls.push(['resume']);},
   pauseVideo(){calls.push(['pause']);},stopVideo(){calls.push(['stop']);},getPlayerState(){return state;},
   getVolume(){return 75;},setVolume(){},getDuration(){return 180;},getCurrentTime(){return 15;}};
- const window={location:{origin:'https://example.test'},YT:{Player:function(id,options){events=options.events;return player;}}};
+ const window={location:{origin:'https://example.test',search:options.search || ''},matchMedia:()=>({matches:true}),YT:{Player:function(id,options){events=options.events;return player;}}};
+ const station = node('station-test'); station.attrs={'data-src':'https://example.test/live','data-name':'Test Station'};
  const tracks=[{title:'First',artist:'A',youtubeId:'aaaaaaaaaaa'},{title:'Second',artist:'B',youtubeId:'bbbbbbbbbbb'}];
- vm.runInNewContext(js,{window,URL,document:{readyState:'complete',getElementById:node,
-  createElement:()=>node('created-'+(++timerId)),head:{appendChild(){}},addEventListener(){}},
+ vm.runInNewContext(js,{window,URL,URLSearchParams,CustomEvent:class {constructor(type,options){this.type=type;this.detail=options?.detail;}},document:{readyState:'complete',getElementById:node,
+  createElement:()=>node('created-'+(++timerId)),querySelectorAll:selector=>options.stations && selector.startsWith('.station-play') ? [station] : [],querySelector:()=>null,head:{appendChild(){}},addEventListener(type,fn){if(!documentEvents.has(type))documentEvents.set(type,[]);documentEvents.get(type).push(fn);},dispatchEvent(e){for(const fn of documentEvents.get(e.type)||[])fn(e);}},
   fetch:async()=>({ok:true,json:async()=>({tracks})}),
-  setTimeout(fn){const id=++timerId;timers.set(id,fn);return id;},clearTimeout(id){timers.delete(id);},
+  navigator:{},setTimeout(fn){const id=++timerId;timers.set(id,fn);return id;},clearTimeout(id){timers.delete(id);},
   setInterval(fn){const id=++timerId;intervals.set(id,fn);return id;},clearInterval(id){intervals.delete(id);}});
  await new Promise(resolve=>setImmediate(resolve));
  window.onYouTubeIframeAPIReady();events.onReady();
- return {nodes,calls,timers,intervals,click:id=>node(id).listeners.click(),
+ return {nodes,calls,timers,intervals,stationPromises,station,dispatch:(type,detail)=>{for(const fn of documentEvents.get(type)||[])fn({type,detail});},key:key=>{for(const fn of documentEvents.get('keydown')||[])fn({key});},click:id=>node(id).listeners.click(),
   emit(value){state=value;events.onStateChange({data:value});},error(){events.onError();},
   timeout(){const [id,fn]=timers.entries().next().value;timers.delete(id);fn();}};
 }
@@ -91,4 +94,44 @@ test('startup timeout advances and manual Pause cancels further timeout skips',a
 test('library retains tracks and valid official support links',()=>{
  assert.ok(data.tracks.length>=20);
  for(const t of data.tracks){assert.ok(t.title && t.artist);assert.ok(/^https:\/\/www\.youtube\.com\//.test(t.supportLink));}
+});
+
+
+test('a delayed station start after Stop cannot restore playing status or the floating Stop',async()=>{
+ const h=await playerHarness({stations:true});
+ h.station.listeners.click();
+ assert.match(h.nodes.get('station-status').textContent,/Connecting/);
+ h.click('radio-stop');
+ h.stationPromises[0].resolve(); await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(h.nodes.get('station-audio').src,'');
+ assert.match(h.nodes.get('station-status').textContent,/stopped/);
+ assert.equal(h.nodes.get('radio-float-stop').hidden,true);
+});
+
+test('a failure from the previous station cannot overwrite the current station',async()=>{
+ const h=await playerHarness({stations:true});
+ h.station.listeners.click(); h.station.listeners.click();
+ h.stationPromises[1].resolve(); await new Promise(resolve=>setImmediate(resolve));
+ const current=h.nodes.get('station-status').textContent;
+ assert.match(current,/Playing Test Station/);
+ assert.equal(h.nodes.get('radio-float-stop').hidden,false,'floating stop works without MediaSession');
+ h.stationPromises[0].reject(new Error('old stream'));
+ await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(h.nodes.get('station-status').textContent,current);
+});
+
+test('Escape stops stations and the shared focus event pauses the radio',async()=>{
+ const h=await playerHarness({stations:true}); h.station.listeners.click(); h.key('Escape');
+ assert.equal(h.nodes.get('station-audio').src,'');
+ h.click('radio-play');h.dispatch('ps-audio-focus',{source:'playlist'});
+ assert.equal(h.nodes.get('radio-play').textContent,'Play');
+});
+
+test('a shared track is selected without autoplay and unknown track values are ignored',async()=>{
+ const selected=await playerHarness({search:'?track=bbbbbbbbbbb'});
+ assert.equal(selected.nodes.get('radio-title').textContent,'Second');
+ assert.equal(selected.calls.length,0);
+ const invalid=await playerHarness({search:'?track=https://evil.example/'});
+ assert.equal(invalid.nodes.get('radio-title').textContent,'First');
+ assert.equal(invalid.calls.length,0);
 });

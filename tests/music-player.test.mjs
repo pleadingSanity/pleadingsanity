@@ -90,6 +90,7 @@ function harness() {
   const iframe = makeEl('iframe');
   iframe.contentWindow = { postMessage(...args) { postCalls.push(args); } };
   const document = {
+    addEventListener() {},
     getElementById() { return null; },
     createElement(tag) { return tag === 'iframe' ? iframe : makeEl(tag); },
     body: { appendChild() {} },
@@ -110,12 +111,15 @@ function harness() {
   return { store, postCalls, dispatch: (origin, data) => msgHandler && msgHandler({ origin, data }), iframe };
 }
 
-test('vm: when a disliked song is reported, the player skips it (nextVideo) exactly once', () => {
+test('vm: when a disliked song is reported, the player cues a different playable song exactly once', () => {
   const h = harness();
   h.store.set('ps_music_vote_DjdB4Bm4n2M', 'dislike');
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
   const cmds = h.postCalls.map(a => { try { return JSON.parse(a[0]).func; } catch { return null; } });
-  assert.ok(cmds.includes('nextVideo'), 'expected nextVideo postMessage, got: ' + JSON.stringify(cmds));
+  assert.equal(cmds.filter(c => c === 'loadVideoById').length, 1);
+  const cued = JSON.parse(h.postCalls.find(a => JSON.parse(a[0]).func === 'loadVideoById')[0]).args[0];
+  assert.ok(ORIGINAL_IDS.includes(cued));
+  assert.notEqual(cued, 'DjdB4Bm4n2M');
   // repeated infoDelivery for the same disliked track must not spam skips (skipFor guard)
   const before = h.postCalls.length;
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
@@ -126,7 +130,7 @@ test('vm: a non-disliked song resets the skip guard and is not skipped', () => {
   const h = harness();
   h.store.set('ps_music_vote_DjdB4Bm4n2M', 'dislike');
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
-  assert.ok(h.postCalls.some(a => JSON.parse(a[0]).func === 'nextVideo'));
+  assert.ok(h.postCalls.some(a => JSON.parse(a[0]).func === 'loadVideoById'));
   // a playable track arrives: no further nextVideo
   const before = h.postCalls.length;
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: '3pysm_JU_wA' } } });

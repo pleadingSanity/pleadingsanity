@@ -138,7 +138,7 @@
   // by known stable classes. Marker class prevents double injection.
   var MARK = 'ps-share-injected';
   function trackUrlFrom(youtubeId) {
-    return RADIO_PAGE + (youtubeId ? '#track-' + encodeURIComponent(youtubeId) : '');
+    return RADIO_PAGE + (youtubeId ? '?track=' + encodeURIComponent(youtubeId) : '');
   }
   function augmentElement(el) {
     if (!el || el.classList.contains(MARK)) return;
@@ -168,7 +168,7 @@
     if (link) {
       try {
         var u = new URL(link.getAttribute('href'), window.location.origin);
-        if (u.hostname === window.location.hostname || /youtube/.test(u.hostname)) url = u.href;
+        if (u.hostname === window.location.hostname || ['youtube.com','www.youtube.com','music.youtube.com','youtu.be'].indexOf(u.hostname) >= 0) url = u.href;
       } catch (e) {}
     }
     card.classList.add(MARK);
