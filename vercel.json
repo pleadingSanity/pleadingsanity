@@ -4,22 +4,111 @@
   "outputDirectory": ".",
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "html-starter-pleadinsanity-shane-coopers-projects.vercel.app"
+        }
+      ],
+      "destination": "/music-creator.html",
+      "permanent": false
+    },
+    {
+      "source": "/:path((?!music-creator(?:\\.html)?$|insane-radio(?:\\.html)?$|music(?:/|$)|css/|js/|images/|assets/|data/).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "html-starter-pleadinsanity-shane-coopers-projects.vercel.app"
+        }
+      ],
+      "destination": "https://pleadingsanity.co.uk/:path",
+      "permanent": false
+    },
+    {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "pleading-sanity.vercel.app" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "pleading-sanity.vercel.app"
+        }
+      ],
       "destination": "https://pleadingsanity.co.uk/:path*",
       "permanent": true
     },
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pleadingsanity.uk"
+        }
+      ],
       "destination": "https://pleadingsanity.co.uk/",
       "permanent": true
     },
     {
       "source": "/:path+",
-      "has": [{ "type": "host", "value": "www.pleadingsanity.uk" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "www.pleadingsanity.uk"
+        }
+      ],
       "destination": "https://pleadingsanity.co.uk/:path+",
       "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/music-creator.html",
+      "headers": [
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(self), geolocation=(), payment=()"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+        }
+      ]
+    },
+    {
+      "source": "/music-creator",
+      "headers": [
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(self), geolocation=(), payment=()"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self'; font-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+        }
+      ]
     }
   ]
 }
