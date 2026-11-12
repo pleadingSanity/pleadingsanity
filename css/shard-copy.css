@@ -1,0 +1,190 @@
+/* ============================================================
+   SHARD COPY — COPY-TRIM + UI-CONSISTENCY BUFF (r2, 2026-11-12)
+   Loaded LAST on copy-shard pages only. Pure additive CSS.
+   All JS hooks / IDs / classes preserved. Evolution, Not Erasure.
+   Palette: teal #2dd4bf · amber #fbbf24 · coral #ff6b6b
+   on near-black #070a12 / #0b0f19.
+   Purple (#a78bfa) permitted as SUBTLE accent only — low opacity,
+   never a flood, never a primary button or background.
+   ============================================================ */
+
+:root{
+  --sc-teal:#2dd4bf;
+  --sc-teal-bright:#00fff0;
+  --sc-teal-glow:rgba(45,212,191,.45);
+  --sc-amber:#fbbf24;
+  --sc-amber-deep:#f59e0b;
+  --sc-coral:#ff6b6b;
+  --sc-coral-soft:#f87171;
+  --sc-ink:#070a12;
+  --sc-panel:rgba(15,21,34,.72);
+  --sc-line:rgba(255,255,255,.09);
+  --sc-text:#f1f5f9;
+  --sc-muted:#94a3b8;
+  /* subtle purple accent — use at <= .35 opacity, gradient stops only */
+  --sc-purple-accent:rgba(167,139,250,.28);
+  --sc-radius:14px;
+  --sc-lift:translateY(-2px);
+}
+
+/* ---------- 1. BUTTON UNIFICATION: min 44px, hover lift+glow, focus ring ---------- */
+/* Opt-in + common button classes across shard-copy pages. Additive only. */
+.button, .btn, .ps-donate-btn, .sn-btn, .freq-btn, .ps-group-btn,
+button[type="submit"], button[type="button"]:not(.ps-nav-toggle):not(.mobile-explore summary),
+a.button, a.btn{
+  min-height:44px;
+  min-width:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.45rem;
+  padding:.55rem 1.1rem;
+  border-radius:var(--sc-radius);
+  font-weight:700;
+  letter-spacing:.01em;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease, background-color .22s ease;
+  will-change:transform;
+}
+
+/* hover lift + teal/amber glow (subtle) */
+.button:hover, .btn:hover, .ps-donate-btn:hover, .sn-btn:hover, .freq-btn:hover,
+button[type="submit"]:hover, a.button:hover, a.btn:hover{
+  transform:var(--sc-lift);
+  box-shadow:0 6px 22px -6px var(--sc-teal-glow), 0 0 0 1px rgba(45,212,191,.25);
+}
+/* amber buttons glow amber instead */
+.btn-amber:hover, .ps-donate-btn-amber:hover, .button.primary:hover, .sn-primary:hover{
+  box-shadow:0 6px 22px -6px rgba(251,191,36,.5), 0 0 0 1px rgba(251,191,36,.3);
+}
+
+/* focus-visible: strong teal ring, offset — keyboard users find it */
+.button:focus-visible, .btn:focus-visible, .ps-donate-btn:focus-visible, .sn-btn:focus-visible,
+.freq-btn:focus-visible, .ps-group-btn:focus-visible, button:focus-visible, a.button:focus-visible,
+input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible{
+  outline:3px solid var(--sc-teal-bright);
+  outline-offset:2px;
+  border-radius:8px;
+}
+
+/* active press — settle back */
+.button:active, .btn:active, .ps-donate-btn:active, .sn-btn:active, button[type="submit"]:active{
+  transform:translateY(0);
+  box-shadow:0 2px 10px -4px var(--sc-teal-glow);
+}
+
+/* disabled / aria-disabled — no lift, muted */
+.button[disabled], .btn[disabled], button[disabled], .button[aria-disabled="true"]{
+  transform:none !important;
+  box-shadow:none !important;
+  opacity:.55;
+  cursor:not-allowed;
+}
+
+/* ---------- 2. TYPOGRAPHY SCALE CONSISTENCY (additive baseline) ---------- */
+/* Headings get a subtle glow to match radio-glow aesthetic. No size changes
+   that would break layout — only weight/rendering/text-shadow consistency. */
+h1, h2, h3, h4{
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+  line-height:1.15;
+}
+h1{ letter-spacing:-.01em; }
+h2{ letter-spacing:-.005em; }
+
+/* gradient-text already defined in ui-polish.css; add subtle purple stop at tail */
+.gradient-text{
+  background:linear-gradient(100deg,#2dd4bf 0%,#14b8a6 38%,#f59e0b 72%,#fbbf24 90%,rgba(167,139,250,.6) 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:transparent;
+}
+
+/* body copy baseline */
+p, li, blockquote{ line-height:1.65; }
+
+/* ---------- 3. GLOW ACCENTS — cards/panels hover, subtle purple rim allowed ---------- */
+.card, .panel, .feature, .sx-card, .help-card, .entry, .finance-card,
+.game-card, .tool-card, .og-card, .product, .sn-card, .form-card, .result{
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.card:hover, .panel:hover, .feature:hover, .sx-card:hover, .help-card:hover,
+.entry:hover, .finance-card:hover, .game-card:hover, .tool-card:hover,
+.og-card:hover, .product:hover, .sn-card:hover{
+  transform:var(--sc-lift);
+  border-color:rgba(45,212,191,.4);
+  box-shadow:0 10px 30px -12px rgba(0,0,0,.7), 0 0 0 1px rgba(45,212,191,.12), 0 0 24px -8px var(--sc-purple-accent);
+}
+
+/* section eyebrow / labels — amber, consistent tracking */
+.eyebrow, .section-eyebrow, .section-label .eyebrow, .ps-byline{
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:800;
+}
+
+/* ---------- 4. CRISIS STRIP / FOOTER — consistent tappable-number styling ---------- */
+.crisis-strip, .ps-crisis-footer{
+  font-size:.85rem;
+  line-height:1.7;
+}
+.crisis-strip a, .ps-crisis-footer a{
+  font-weight:800;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  padding:2px 2px;
+  border-radius:4px;
+}
+.crisis-strip a:hover, .ps-crisis-footer a:hover{
+  background:rgba(251,191,36,.14);
+}
+/* crisis numbers get a tiny amber glow on hover to signal tappable */
+.crisis-nums a:hover{ box-shadow:0 0 12px -2px rgba(251,191,36,.55); }
+
+/* ---------- 5. TAP TARGETS — nav links, form controls, social icons ---------- */
+.ps-nav a, .ps-nav .ps-brand, .ps-footer-links a, .ps-socials a,
+.eco-nav a, .ps-group-menu a, .ps-links a{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+}
+input, select, textarea{
+  min-height:44px;
+  border-radius:10px;
+}
+textarea{ min-height:auto; padding:.7rem; }
+
+/* social icon anchors often empty — ensure hit area */
+.ps-socials a{ min-width:44px; justify-content:center; }
+
+/* ---------- 6. REDUCED MOTION — honour user preference ---------- */
+@media (prefers-reduced-motion: reduce){
+  .button, .btn, .ps-donate-btn, .sn-btn, .freq-btn, .ps-group-btn,
+  button, a.button, a.btn,
+  .card, .panel, .feature, .sx-card, .help-card, .entry, .finance-card,
+  .game-card, .tool-card, .og-card, .product, .sn-card, .form-card{
+    transition:none !important;
+    transform:none !important;
+    animation:none !important;
+  }
+  .button:hover, .btn:hover, .card:hover, .panel:hover{
+    transform:none !important;
+    box-shadow:0 0 0 1px rgba(45,212,191,.3) !important;
+  }
+}
+
+/* ---------- 7. SUBTLE PURPLE ACCENT — only here, low opacity, no flood ---------- */
+/* Used as a faint rim on the primary CTA gradient and focus ring tail. Never
+   a background fill, never a button colour, never more than .35 opacity. */
+.button.primary, .btn-primary, .sn-primary{
+  box-shadow:0 0 0 1px rgba(167,139,250,.12), 0 4px 18px -6px rgba(45,212,191,.4);
+}
+
+/* ---------- 8. SELECTION + SCROLLBAR polish (cosmetic only) ---------- */
+::selection{ background:rgba(45,212,191,.35); color:#fff; }
+
+/* honour print: hide glow, keep text dark-on-light */
+@media print{
+  .crisis-strip, .ps-crisis-footer{ position:static !important; }
+  *{ box-shadow:none !important; text-shadow:none !important; }
+}
