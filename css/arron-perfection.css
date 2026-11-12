@@ -1,0 +1,60 @@
+/* Arron — perfection buff (loaded LAST, additive only, zero DOM change).
+   Avatar portrait on Arron messages via ::before, orb/card glow, input focus.
+   Palette: teal #00fff0 / amber #f59e0b / navy #0b0f19. No purple. */
+
+/* Arron avatar portrait next to every Arron message (CSS only, JS-safe) */
+#arron-conversation .arron-message {
+  position: relative;
+  padding-left: 3.1rem;
+  box-shadow: 0 4px 18px rgba(0,255,240,.08);
+}
+#arron-conversation .arron-message::before {
+  content: "";
+  position: absolute;
+  left: .55rem; top: .8rem;
+  width: 34px; height: 34px; border-radius: 50%;
+  background: url('/images/arron-ai-avatar.jpg') center/cover #0d1b2a;
+  border: 1px solid rgba(0,255,240,.55);
+  box-shadow: 0 0 12px rgba(0,255,240,.35);
+}
+#arron-conversation .user-message {
+  box-shadow: 0 4px 18px rgba(245,158,11,.10);
+}
+
+/* Main chat card glow + border */
+.arron-main {
+  border-color: rgba(0,255,240,.35) !important;
+  box-shadow: 0 0 50px rgba(0,255,240,.10), inset 0 0 80px rgba(245,158,11,.04) !important;
+}
+
+/* Orb — stronger presence glow */
+.arron-orb {
+  box-shadow: 0 0 22px rgba(0,255,240,.65), 0 0 50px rgba(245,158,11,.25) !important;
+}
+
+/* Compose area — send button + input glow */
+#arron-input-form .btn-primary {
+  box-shadow: 0 0 16px rgba(0,255,240,.35);
+}
+#arron-input:focus {
+  box-shadow: 0 0 0 3px rgba(0,255,240,.18);
+}
+
+/* Mood chips — active state stronger */
+.mood-chip[aria-pressed="true"] {
+  box-shadow: 0 0 14px rgba(0,255,240,.45);
+}
+
+/* Prompt buttons — hover lift */
+.prompt-btn { transition: transform .1s ease, background .15s ease, border-color .15s ease; }
+.prompt-btn:hover { transform: translateY(-1px); }
+
+/* Crisis banner — slightly stronger */
+.arron-crisis {
+  box-shadow: 0 0 22px rgba(245,158,11,.18) !important;
+}
+
+@media (max-width: 600px) {
+  #arron-conversation .arron-message { padding-left: 2.6rem; }
+  #arron-conversation .arron-message::before { width: 28px; height: 28px; left: .45rem; top: .7rem; }
+}
