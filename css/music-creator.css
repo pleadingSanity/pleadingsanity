@@ -2,4 +2,4 @@
 
 .mc-project{margin-bottom:24px}.mc-project h2{margin-top:0}.mc-transcription{border-top:1px solid #ffffff20;margin-top:20px;padding-top:16px}.mc-transcription summary{min-height:48px;cursor:pointer;display:list-item;color:#00fff0;padding:10px 0}
 /* This creator page follows the founder's teal/amber-only brief, including its sky. */
-body.music-creator::before{background:radial-gradient(ellipse at 12% 18%,#00fff01f,transparent 48%),radial-gradient(ellipse at 88% 72%,#f59e0b17,transparent 48%),linear-gradient(160deg,#0b0f19,#101c26 50%,#0b0f19);animation:none;filter:none}body.music-creator::after{animation:none}
+body.music-creator::before{background:radial-gradient(ellipse at 12% 18%,#00fff01f,transparent 48%),radial-gradient(ellipse at 88% 72%,#f59e0b17,transparent 48%),linear-gradient(160deg,#0b0f19,#101c26 50%,#0b0f19)!important;animation:none!important;filter:none!important}body.music-creator::after{animation:none!important}
