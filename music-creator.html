@@ -1,217 +1,113 @@
 <!DOCTYPE html>
 <html lang="en-GB">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0b0f19" />
-  <title>Music Creator — Pleading Sanity</title>
-  <meta name="description" content="Record your voice, capture video, pick a royalty-safe beat, and generate a music video. Your voice only. No cloning." />
-  <link rel="stylesheet" href="/css/styles.css" />
-  <link rel="stylesheet" href="/css/site.css" />
-  <style>
-    body { background: #0b0f19; color: #eef6ff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 1rem; line-height: 1.45; }
-    .wrap { max-width: 640px; margin: 0 auto; }
-    h1 { color: #00fff0; font-size: 1.7rem; margin-bottom: 0.3rem; }
-    .lead { color: #a0aec0; margin-top: 0; }
-    .step { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 14px; padding: 1.1rem; margin: 1rem 0; }
-    h2 { font-size: 1.15rem; margin: 0 0 0.6rem; color: #eef6ff; }
-    button { background: #00fff0; color: #0b0f19; border: none; border-radius: 10px; padding: 0.85rem 1.2rem; font-weight: 700; min-height: 48px; width: 100%; margin: 0.35rem 0; font-size: 1rem; }
-    button:active { transform: scale(0.98); }
-    button.secondary { background: transparent; color: #00fff0; border: 1px solid #00fff0; }
-    .status { color: #f59e0b; font-size: 0.92rem; min-height: 1.3em; }
-    select, label { display: block; margin: 0.55rem 0; }
-    select { background: #111827; color: #eef6ff; border: 1px solid #00fff0; border-radius: 8px; padding: 0.6rem; width: 100%; min-height: 44px; }
-    #lyrics { white-space: pre-wrap; background: #111827; padding: 0.9rem; border-radius: 10px; font-size: 0.88rem; overflow-x: auto; }
-    .note { font-size: 0.82rem; color: #a0aec0; }
-    .promise { border-left: 3px solid #00fff0; padding-left: 0.8rem; margin: 0.8rem 0; font-size: 0.9rem; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0f19">
+<title>Music Creator — Pleading Sanity</title>
+<link rel="canonical" href="https://pleadingsanity.co.uk/music-creator.html">
+<meta property="og:title" content="Music Creator — Pleading Sanity">
+<meta property="og:description" content="Your voice. Your words. Record, mix and prepare a music video on your device.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://pleadingsanity.co.uk/music-creator.html">
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/images/brand/crying-brain-logo-clear-256.webp">
+<meta name="twitter:card" content="summary">
+<meta name="description" content="Make music with your own voice. Record, capture a portrait, mix your own beat and prepare a captioned video in your browser.">
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/music-creator.css">
+<script src="/js/site.js" defer></script>
+<script src="/js/music-creator.js" defer></script>
 </head>
-<body>
-  <div class="wrap">
-    <h1>Music Creator</h1>
-    <p class="lead">Your voice. Your camera. Royalty-safe beats. No cloning. Built for YouTube Shorts and full videos.</p>
-
-    <div class="promise">
-      <strong>Our promise:</strong> Final audio is always your recorded voice over a cleared beat. Nothing is cloned. Recordings stay in your browser until you download.
-    </div>
-
-    <div class="step">
-      <h2>1. Record your voice</h2>
-      <button id="recordBtn">RECORD</button>
-      <button id="stopBtn" class="secondary" hidden>STOP</button>
-      <button id="playBtn" class="secondary" hidden>PLAY BACK</button>
-      <p class="status" id="recStatus">Tap RECORD to start (mic permission needed).</p>
-      <audio id="playback" controls hidden style="width:100%;margin-top:0.5rem;"></audio>
-    </div>
-
-    <div class="step">
-      <h2>2. Performance feedback</h2>
-      <p class="status" id="feedback">Record first. Timing, clarity and energy tips appear here.</p>
-    </div>
-
-    <div class="step">
-      <h2>3. Camera (9:16)</h2>
-      <button id="camBtn">OPEN CAMERA</button>
-      <p class="note">Centre yourself, eye-level for Shorts. Video clip or still photo.</p>
-      <video id="camPreview" autoplay playsinline muted hidden style="width:100%;max-height:360px;background:#000;border-radius:10px;"></video>
-      <button id="snapBtn" class="secondary" hidden>TAKE PHOTO</button>
-      <button id="recVidBtn" class="secondary" hidden>RECORD VIDEO</button>
-    </div>
-
-    <div class="step">
-      <h2>4. Beat + Dreamer Choir</h2>
-      <label>Beat preset
-        <select id="beat">
-          <option>Hip-Hop — Toga Beats style</option>
-          <option>Hip-Hop — Mustard style</option>
-          <option>Hip-Hop — Wiz Khalifa style</option>
-          <option>Hip-Hop — Rick Ross style</option>
-          <option>Hip-Hop — Dr Dre style</option>
-          <option>Hip-Hop — 50 Cent style</option>
-          <option>Hip-Hop — Eminem style</option>
-          <option>UK Old-School — Love Garage</option>
-          <option>UK Old-School — Classic Dance</option>
-        </select>
-      </label>
-      <label><input type="checkbox" id="choir" /> Dreamer Choir Hook “I’m a dreamer yeah yeah yeaaaaa”</label>
-      <label>Placement
-        <select id="choirPlace">
-          <option>Intro</option>
-          <option>Chorus</option>
-          <option selected>Outro</option>
-        </select>
-      </label>
-      <p class="note">All beats must be royalty-cleared / YouTube Audio Library safe.</p>
-    </div>
-
-    <div class="step">
-      <h2>5. Preview & Generate</h2>
-      <button id="previewBtn">PREVIEW AUDIO MIX</button>
-      <button id="genShortBtn">GENERATE 9:16 SHORT (60-90s)</button>
-      <button id="genLongBtn">GENERATE 16:9 FULL (3-4 min)</button>
-      <p class="status" id="genStatus">Client-side first. Download when ready for YouTube.</p>
-    </div>
-
-    <div class="step">
-      <h2>Test track — Inside The War (Leicester Rise)</h2>
-      <pre id="lyrics">[Verse]
-I'm ready to stand for what I believe
-I ain't scared of what comes after I leave
-I'm doing this for every hurting kid
-Who never got the help that they need
-
-I unlock the chains that hold your mind
-Read the signs, leave the old life behind
-Believe in yourself, you're one of a kind
-
-People ask why I'm still broke
-Why there's so little hope
-Back in 12 I almost choked
-Bipolar waking me with every stroke
-
-Woke up to the game, mother named me Shane
-Crazy kid walking through the pain
-Time to regain everything they took away
-Anger turned to purpose day after day
-
-System's a joke, I see the whole picture
-Fighting for the ones who need the fixture
-Head so loud you can scream and shout
-Punch through the pain till the doubt runs out
-
-I tried to give everything I had for you
-Got nothing back but hatred and doubt too
-Just a regular man on a mission with shit to do
-My family stands with me, and hopefully they'll see
-
-[CHORUS — repeat twice]
-Inside the war we rise up
-Open our eyes, rise up
-Leicester to the whole wide world
-Pleading Sanity unfurled
-Heal the hurt, break the curse
-This is our story, this is our verse
-
-[Outro]
-You can have every degree, travel every land
-Speak every language, hold every command
-But if you don't know who you are inside
-You'll never build the life you hoped to find
-
-Fought the side-effects from every drug they prescribed
-But I ain't giving up, I ain't ever gonna hide
-Creator of the vision, believe what you see
-I wipe the harm away so the kids are safe with me</pre>
-    </div>
-
-    <p class="note">Workflow: Record → Feedback → Camera → Beat + Choir → Preview → Generate → Download for YouTube. Crisis lines and protected files untouched. Draft only.</p>
-  </div>
-
-  <script>
-    let mediaRecorder, chunks = [], voiceBlob = null;
-    const recordBtn = document.getElementById('recordBtn');
-    const stopBtn = document.getElementById('stopBtn');
-    const playBtn = document.getElementById('playBtn');
-    const playback = document.getElementById('playback');
-    const status = document.getElementById('recStatus');
-    const feedback = document.getElementById('feedback');
-    const genStatus = document.getElementById('genStatus');
-
-    recordBtn.onclick = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        chunks = [];
-        mediaRecorder.ondataavailable = e => chunks.push(e.data);
-        mediaRecorder.onstop = () => {
-          voiceBlob = new Blob(chunks, { type: 'audio/webm' });
-          playback.src = URL.createObjectURL(voiceBlob);
-          playback.hidden = false;
-          playBtn.hidden = false;
-          status.textContent = 'Recording saved locally. Play it back.';
-          feedback.textContent = 'Basic feedback: re-record if energy feels low on the chorus. Full timing check comes with beat sync.';
-        };
-        mediaRecorder.start();
-        recordBtn.hidden = true;
-        stopBtn.hidden = false;
-        status.textContent = 'Recording…';
-      } catch (err) {
-        status.textContent = 'Mic permission needed or unavailable.';
-      }
-    };
-
-    stopBtn.onclick = () => {
-      if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
-      stopBtn.hidden = true;
-      recordBtn.hidden = false;
-    };
-
-    playBtn.onclick = () => playback.play();
-
-    document.getElementById('camBtn').onclick = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', aspectRatio: 9/16 }, audio: false });
-        const v = document.getElementById('camPreview');
-        v.srcObject = stream;
-        v.hidden = false;
-        document.getElementById('snapBtn').hidden = false;
-        document.getElementById('recVidBtn').hidden = false;
-      } catch (err) {
-        alert('Camera permission needed.');
-      }
-    };
-
-    document.getElementById('previewBtn').onclick = () => {
-      if (!voiceBlob) { genStatus.textContent = 'Record your voice first.'; return; }
-      genStatus.textContent = 'Audio mix preview ready (Web Audio shared clock). Full beat sync next.';
-    };
-
-    document.getElementById('genShortBtn').onclick = () => {
-      genStatus.textContent = '9:16 Short queued (client-side first; full render next).';
-    };
-    document.getElementById('genLongBtn').onclick = () => {
-      genStatus.textContent = '16:9 full video queued (client-side first; full render next).';
-    };
-  </script>
+<body class="music-creator">
+<a class="mc-skip" href="#main">Skip to creator</a>
+<main id="main" class="mc-wrap">
+<header class="mc-hero">
+<p class="mc-eyebrow">PLEADING SANITY / YOUR OWN SOUND</p>
+<h1>Turn your story<br>into a track.</h1>
+<p class="mc-lead">Your voice. Your words. A place to make something out of everything you carry.</p>
+<div class="mc-badges"><span>Free to use</span><span>No voice cloning</span><span>Made on your device</span></div>
+<p class="mc-note">Audio and camera files stay in this tab. Download your takes before closing or refreshing. No account or paid AI service needed.</p>
+</header>
+<nav class="mc-workflow" aria-label="Creation steps"><ol>
+<li><a href="#voice">Record</a></li><li><a href="#performance">Review</a></li><li><a href="#camera">Camera</a></li><li><a href="#sound">Beat + hook</a></li><li><a href="#mix">Preview</a></li><li><a href="#export">Generate</a></li><li><a href="#upload">Upload</a></li>
+</ol></nav>
+<noscript><p class="mc-card">Enable JavaScript to record and mix. The upload guide below is still available.</p></noscript>
+<div class="mc-grid">
+<section id="voice" class="mc-card">
+<p class="mc-step">01 / THE VOICE</p><h2>Start with you.</h2><p>Tap record, allow your microphone, then give it a take. Headphones help keep the beat out of your mic.</p>
+<div class="mc-actions"><button id="recordBtn" type="button">Record voice</button><button id="stopBtn" class="mc-secondary" type="button" disabled>Stop recording</button></div>
+<p id="recStatus" class="mc-status" role="status">Your microphone is off.</p>
+<label for="level">Microphone level</label><meter id="level" min="0" max="1" value="0">0</meter>
+<audio id="playback" controls hidden aria-label="Your voice recording"></audio>
+<a id="voiceDownload" class="mc-download" hidden>Download voice take</a>
+<label for="voiceFile">Or choose an existing voice recording</label><input id="voiceFile" type="file" accept="audio/*">
+</section>
+<section id="performance" class="mc-card">
+<p class="mc-step">02 / FIND YOUR FLOW</p><h2>Listen. Adjust. Go again.</h2>
+<dl class="mc-metrics"><div><dt>Recording level</dt><dd id="volumeFeedback">Waiting for a take</dd></div><div><dt>Beat timing</dt><dd>Set your offset by ear below</dd></div><div><dt>Word clarity</dt><dd>Listen back and check your lyrics</dd></div></dl>
+<p class="mc-note">Level tips measure loudness and clipping only. This version does not score rap timing, detect mumbled words or automatically transcribe. Paste or edit lyrics below.</p>
+<h3>Your fix-list</h3><ol id="fixList"><li>Keep the mic a hand’s width away.</li><li>Use headphones and a quiet room.</li><li>Check the chorus, breath and final words on playback.</li></ol>
+</section>
+<section id="camera" class="mc-card">
+<p class="mc-step">03 / THE PICTURE</p><h2>Show up as yourself.</h2>
+<p>Capture a portrait or a silent performance clip. Your voice take supplies the final audio.</p>
+<div class="mc-actions"><button id="camBtn" type="button">Open camera</button><button id="closeCamBtn" class="mc-secondary" type="button" disabled>Close camera</button></div>
+<div id="viewfinder" class="mc-viewfinder" hidden><video id="camPreview" autoplay playsinline muted></video><div class="mc-frame" aria-hidden="true"></div><p class="mc-frame-label">Centre yourself · eye-level for Shorts</p></div>
+<div class="mc-actions"><button id="snapBtn" type="button" disabled>Take portrait</button><button id="recVidBtn" class="mc-secondary" type="button" disabled>Record video</button><button id="stopVidBtn" class="mc-secondary" type="button" disabled>Stop video</button></div>
+<p id="camStatus" class="mc-status" role="status">Your camera is off.</p>
+<label for="visualFile">Or choose a photo / video</label><input id="visualFile" type="file" accept="image/*,video/*">
+<label for="visualChoice">Use in video</label><select id="visualChoice"><option value="cosmic">Cosmic background only</option><option value="photo" disabled>Your portrait</option><option value="video" disabled>Your video clip</option></select>
+<img id="photoPreview" hidden alt="Your selected portrait" width="360" height="640">
+<video id="videoPlayback" controls playsinline muted hidden aria-label="Your selected performance video"></video>
+<a id="visualDownload" class="mc-download" hidden>Download selected capture</a>
+</section>
+<section id="sound" class="mc-card">
+<p class="mc-step">04 / THE SOUND</p><h2>Give your words a home.</h2>
+<label for="beat">Beat direction</label><select id="beat"><option>Hip-hop / West Coast bounce</option><option>Hip-hop / laid-back</option><option>Hip-hop / cinematic</option><option>Hip-hop / boom bap</option><option>Hip-hop / fast storytelling</option><option>UK old-school / garage</option><option>UK old-school / classic dance</option></select>
+<p class="mc-note">These are mood labels, not included or licensed tracks. Artist references from the brief are creative directions only; no Toga Beats, Mustard, Wiz Khalifa, Rick Ross, Dr Dre, 50 Cent or Eminem recordings are supplied.</p>
+<label for="beatFile">Choose your beat file (optional)</label><input id="beatFile" type="file" accept="audio/*">
+<button id="clearBeatBtn" type="button" class="mc-secondary">Remove beat</button>
+<label for="beatCredit">Beat title, creator and licence / attribution notes</label><textarea id="beatCredit" rows="3" placeholder="Keep the licence and any required credit with your project."></textarea>
+<label class="mc-check"><input id="rights" type="checkbox"> I have permission to use any beat and hook I select, including in monetised videos.</label>
+<p class="mc-note">A checkbox records your confirmation; it does not verify a licence. <a href="https://www.youtube.com/audiolibrary" target="_blank" rel="noopener noreferrer">Find free music in YouTube Audio Library</a>. Keep any required attribution.</p>
+<label for="beatVolume">Beat volume</label><input id="beatVolume" type="range" min="0" max="0.8" value="0.25" step="0.05">
+<label for="offset">Voice start offset (seconds, 0–10)</label><input id="offset" type="number" min="0" max="10" step="0.05" value="0">
+<p class="mc-note">Positive offset starts your voice later. This is a manual shared-clock mix; automatic beat alignment is not available.</p>
+<hr><label class="mc-check"><input id="choir" type="checkbox" disabled> Add my Dreamer hook</label>
+<p class="mc-note">“I’m a dreamer yeah yeah yeaaaaa” — choose a recording you own. No synthetic voice or unlicensed choir is added.</p>
+<label for="hookFile">Choose your own hook recording (optional)</label><input id="hookFile" type="file" accept="audio/*">
+<button id="clearHookBtn" type="button" class="mc-secondary">Remove hook</button>
+<label for="choirPlace">Hook placement</label><select id="choirPlace" disabled><option value="intro">Intro</option><option value="chorus">Chorus (middle of track)</option><option value="outro" selected>Outro</option></select>
+<p id="beatStatus" class="mc-status" role="status">Start a cappella, or choose a beat you have rights to use.</p>
+<p class="mc-note"><a href="https://www.centreforceradio.com/" target="_blank" rel="noopener noreferrer">Centreforce Radio — listen for inspiration</a>. Listening does not grant permission to reuse broadcast music.</p>
+</section>
+<section id="mix" class="mc-card mc-wide">
+<p class="mc-step">05 / MAKE IT YOURS</p><h2>Words on the screen.</h2>
+<label for="lyrics">Lyrics — one short caption per line</label><textarea id="lyrics" rows="8" placeholder="Paste your lyrics here. Keep lines short for a phone screen."></textarea>
+<div class="mc-actions"><button id="demoBtn" class="mc-secondary" type="button">Load “Inside The War” lyrics</button><button id="previewBtn" type="button" disabled>Build audio preview</button></div>
+<p class="mc-note">Captions are spaced evenly across the voice take, not speech-aligned. Check the timing before uploading. Demo lyrics do not include a recorded performance.</p>
+<audio id="mixPlayback" controls hidden aria-label="Full audio mix preview"></audio>
+<a id="mixDownload" class="mc-download" hidden>Download WAV mix</a><p id="mixStatus" class="mc-status" role="status">Record or import your voice first.</p>
+</section>
+<section id="export" class="mc-card mc-wide">
+<p class="mc-step">06 / PUT IT TOGETHER</p><h2>A story worth sharing.</h2>
+<p><strong>Experimental browser export.</strong> Build a captioned video on your device, using the mix, selected visual and a teal-and-amber cosmic background.</p>
+<label for="trackTitle">Track title</label><input id="trackTitle" type="text" maxlength="80" value="Inside The War (Leicester Rise)">
+<div class="mc-actions"><button id="genShortBtn" type="button" disabled>Generate 9:16 Short · up to 90 sec</button><button id="genLongBtn" class="mc-secondary" type="button" disabled>Generate 16:9 full video · up to 4 min</button></div>
+<button id="cancelRender" class="mc-secondary" type="button" hidden>Cancel video</button>
+<p id="genStatus" class="mc-status" role="status">Build and listen to your audio preview first.</p>
+<progress id="renderProgress" max="1" value="0" hidden aria-label="Video generation progress"></progress>
+<p class="mc-note">Export length follows your recording: short takes are not padded to 60 seconds or 3 minutes. Rendering takes roughly the video’s duration. Keep this tab visible and your phone awake. WebM or MP4 depends on your browser; output is 720p.</p>
+<video id="finalPreview" controls playsinline hidden aria-label="Generated music video"></video><a id="videoDownload" class="mc-download" hidden>Download music video</a>
+<button id="metadataBtn" class="mc-secondary" type="button">Prepare YouTube title, description &amp; tags</button><label for="metadata">Your upload notes — edit before posting</label><textarea id="metadata" rows="6" readonly></textarea>
+</section>
+<section id="upload" class="mc-card mc-wide">
+<p class="mc-step">07 / YOUR NEXT STEP</p><h2>Ready for YouTube?</h2>
+<ol><li>Download your voice take, mix and finished video. Watch the whole video and check every caption.</li><li>Open YouTube or YouTube Studio, choose Create → Upload, and select the video. Start with an unlisted upload.</li><li>Paste your title and description, add all required music credits, choose the correct audience setting and run YouTube’s checks. Resolve any copyright claim before publishing.</li><li>For monetisation, open YouTube Studio → Earn. Enable 2-Step Verification and follow the eligibility and AdSense steps shown for your channel.</li></ol>
+<p>No app can promise ad revenue, approval or zero copyright claims. Shorts over one minute with an active Content ID claim are blocked until it is resolved. Mental-health topics and explicit lyrics may affect advertiser suitability.</p>
+<p><a href="https://support.google.com/youtube/answer/72851" target="_blank" rel="noopener noreferrer">Partner Programme eligibility</a> · <a href="https://support.google.com/youtube/answer/15424877" target="_blank" rel="noopener noreferrer">Shorts music rules</a> · <a href="https://support.google.com/youtube/answer/3376882" target="_blank" rel="noopener noreferrer">Audio Library licences</a></p>
+</section></div>
+<footer class="mc-footer"><p>PLEADING SANITY · Rise From Madness.</p><a href="/">Back to the sanctuary</a></footer>
+</main>
 </body>
 </html>
