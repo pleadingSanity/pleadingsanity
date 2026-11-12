@@ -310,6 +310,52 @@
     for (const word of text.split(/\s+/)) { if (ctx.measureText(`${line} ${word}`).width > maxWidth && line) { lines.push(line); line = word; } else line = line ? `${line} ${word}` : word; }
     if (line) lines.push(line); return lines.slice(0, 3);
   }
+  // Chrome MediaRecorder streams omit WebM Duration. Add it to the early Info
+  // element only for the unknown-length, unindexed Segment shape we can preserve.
+  // Unsupported layouts are returned untouched, rather than rewriting their media.
+  async function videoDuration(blob, seconds) {
+    if (!blob.type.includes('webm') || !Number.isFinite(seconds) || seconds <= 0) return blob;
+    const bytes = new Uint8Array(await blob.slice(0, 65536).arrayBuffer());
+    function element(position) {
+      const start = position;
+      function vint(isId) {
+        if (position >= bytes.length || bytes[position] === 0) throw new Error('Invalid EBML');
+        let width = 1, marker = 128;
+        while (!(bytes[position] & marker)) { width++; marker >>= 1; }
+        if (width > (isId ? 4 : 8) || position + width > bytes.length) throw new Error('Invalid EBML size');
+        let value = isId ? bytes[position] : bytes[position] & (marker - 1), unknown = !isId && value === marker - 1;
+        for (let i = 1; i < width; i++) { value = value * 256 + bytes[position + i]; unknown = unknown && bytes[position + i] === 255; }
+        position += width; if (!unknown && !Number.isSafeInteger(value)) throw new Error('Oversized EBML');
+        return { value, width, unknown };
+      }
+      const id = vint(true), sizeOffset = position, size = vint(false);
+      return { start, id: id.value, sizeOffset, width: size.width, size: size.value, unknown: size.unknown, body: position, end: position + size.value };
+    }
+    function sizeBytes(value, width) {
+      while (value >= 2 ** (width * 7) - 1) width++;
+      if (width > 6) throw new Error('Oversized Info');
+      const encoded = new Uint8Array(width); let remaining = value;
+      for (let i = width - 1; i >= 0; i--) { encoded[i] = remaining % 256; remaining = Math.floor(remaining / 256); }
+      encoded[0] |= 1 << (8 - width); return encoded;
+    }
+    try {
+      const header = element(0); if (header.id !== 0x1a45dfa3 || header.unknown) return blob;
+      const segment = element(header.end); if (segment.id !== 0x18538067 || !segment.unknown) return blob;
+      const info = element(segment.body);
+      if (info.id !== 0x1549a966 || info.unknown || info.end > bytes.length) return blob;
+      let scale = 1000000;
+      for (let position = info.body; position < info.end;) {
+        const child = element(position);
+        if (child.unknown || child.end > info.end || child.end <= position) return blob;
+        if (child.id === 0x4489) return blob; // Existing finite duration belongs to its encoder.
+        if (child.id === 0x2ad7b1) { scale = 0; for (let i = child.body; i < child.end; i++) scale = scale * 256 + bytes[i]; }
+        position = child.end;
+      }
+      if (!Number.isFinite(scale) || scale <= 0) return blob;
+      const duration = new Uint8Array(11); duration.set([0x44, 0x89, 0x88]); new DataView(duration.buffer).setFloat64(3, seconds * 1e9 / scale, false);
+      return new Blob([blob.slice(0, info.sizeOffset), sizeBytes(info.size + duration.length, info.width), blob.slice(info.body, info.end), duration, blob.slice(info.end)], { type: blob.type });
+    } catch { return blob; }
+  }
   async function generate(vertical) {
     if (!mix || busy) return;
     if (pendingImports) { message('genStatus', 'Wait for your audio file to finish loading.'); return; }
@@ -366,7 +412,8 @@
       await finished;
       if (cancelled) { message('genStatus', 'Video cancelled. Your source files and mix are still available.'); return; }
       if (!parts.length) throw new Error('No video data was produced. Try a shorter take.');
-      const blob = new Blob(parts, { type: exportRecorder.mimeType || parts[0].type });
+      const blob = await videoDuration(new Blob(parts, { type: exportRecorder.mimeType || parts[0].type }), duration);
+      if (leaving || cancelled) { message('genStatus', 'Video cancelled. Your source files and mix are still available.'); return; }
       $('finalPreview').src = url('final', blob); $('finalPreview').hidden = false;
       download('videoDownload', 'finalDownload', blob, `pleading-sanity-${vertical ? 'short' : 'full'}.${extension(blob.type)}`);
       message('genStatus', 'Video ready. Watch it and check caption timing before uploading.'); $('renderProgress').value = 1;

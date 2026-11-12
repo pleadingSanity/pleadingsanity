@@ -62,7 +62,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     HTMLCanvasElement: { prototype: { captureStream() {} } }, Blob, TextEncoder, TextDecoder, URL: { createObjectURL(blob) { const key = `blob:test-${++urlCounter}`; urlBlobs.set(key, blob); return key; }, revokeObjectURL(value) { revoked.push(value); } },
     setTimeout(fn) { const id = ++timerCounter; timers.set(id, fn); return id; }, clearTimeout(id) { timers.delete(id); }, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
-  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject }; })();'), context);
+  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration }; })();'), context);
   return { elements, streams, revoked, added, recorders, sources, canvases, document, documentEvents, windowEvents, mediaResolvers, decodeResolvers, urlBlobs, helpers: context.helpers, el: id => elements.get(id), buffer };
 }
 
@@ -220,4 +220,21 @@ test('hiding the tab cancels an in-progress render without a success message', a
   const job = f.el('genLongBtn').onclick(); await settleUntil(() => f.recorders.length === 2);
   f.document.hidden = true; f.documentEvents.visibilitychange(); await job;
   assert.match(f.el('genStatus').textContent, /cancelled/); assert.equal(f.el('videoDownload').hidden, true);
+});
+
+
+test('WebM duration patch adds finite timing while preserving all media bytes', async () => {
+  const f = fixture();
+  const prefix = Buffer.from('1a45dfa39f4286810142f7810142f2810442f381084282847765626d42878104428581021853806701ffffffffffffff1549a966992ad7b1830f42404d80864368726f6d655741864368726f6d65', 'hex');
+  const media = Buffer.from('1654ae6b84deadbeef1f43b67584aabbccdd', 'hex');
+  const original = new Blob([prefix, media], { type: 'video/webm' });
+  const fixed = await f.helpers.videoDuration(original, 90); const bytes = Buffer.from(await fixed.arrayBuffer());
+  assert.equal(fixed.size, original.size + 11); assert.deepEqual(bytes.subarray(-media.length), media);
+  const timing = bytes.indexOf(Buffer.from([0x44, 0x89, 0x88])); assert.ok(timing > 0); assert.equal(bytes.readDoubleBE(timing + 3), 90000);
+  assert.equal(await f.helpers.videoDuration(fixed, 90), fixed, 'existing duration must not be rewritten');
+});
+test('WebM duration patch leaves other formats and malformed data untouched', async () => {
+  const f = fixture(), mp4 = new Blob(['mp4'], { type: 'video/mp4' }), malformed = new Blob(['webm'], { type: 'video/webm' });
+  assert.equal(await f.helpers.videoDuration(mp4, 10), mp4); assert.equal(await f.helpers.videoDuration(malformed, 10), malformed);
+  assert.equal(await f.helpers.videoDuration(malformed, Infinity), malformed);
 });
