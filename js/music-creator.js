@@ -7,7 +7,62 @@
   let voiceRecorder = null, videoRecorder = null, micStream = null, cameraStream = null;
   let pendingMic = false, pendingCamera = false, leaving = false, renderCancel = null, busy = false;
   let micContext = null, meterFrame = 0, recordTimer = 0, videoTimer = 0;
-  let mixRevision = 0;
+  let mixRevision = 0, captureEpoch = 0, pendingImports = 0, speech = null, speechReady = false, finishingVoice = false, finishingVideo = false;
+  const importRevisions = { beat: 0, hook: 0 };
+  const PROJECT_LIMIT = 250 * 1024 * 1024;
+  const PROJECT_FIELDS = ['trackTitle', 'lyrics', 'beatCredit', 'beat', 'beatVolume', 'offset', 'choirPlace', 'visualChoice'];
+  function capturing() { return pendingMic || pendingCamera || finishingVoice || finishingVideo || voiceRecorder?.state === 'recording' || videoRecorder?.state === 'recording'; }
+  function projectDirty() { $('projectDownload').hidden = true; revoke('project'); }
+  function stopSpeech() {
+    const active = speech; speech = null;
+    if (active) { message('speechStatus', 'Local transcription off. Review the words captured in your lyrics.'); active.onresult = null; active.onerror = null; active.onend = null; try { active.abort(); } catch { /* Already ended. */ } }
+  }
+  function localSpeechConstructor() {
+    const Speech = window.SpeechRecognition;
+    return Speech && typeof Speech.available === 'function' && 'processLocally' in Speech.prototype ? Speech : null;
+  }
+  async function checkSpeech() {
+    if (capturing() || busy) { message('speechStatus', 'Stop recording or rendering before checking transcription.'); return; }
+    speechReady = false; $('transcribe').checked = false; $('transcribe').disabled = true; $('installSpeechBtn').hidden = true;
+    const Speech = localSpeechConstructor();
+    if (!Speech) { message('speechStatus', 'Local transcription is not supported by this browser. Recording and manual lyrics still work.'); return; }
+    try {
+      const available = await Speech.available({ langs: ['en-GB'], processLocally: true });
+      speechReady = available === 'available'; $('transcribe').disabled = !speechReady;
+      $('installSpeechBtn').hidden = available !== 'downloadable' || typeof Speech.install !== 'function';
+      message('speechStatus', speechReady ? 'Local English (UK) ready. Tick the option for your next take.' : available === 'downloadable' ? 'A browser language pack is needed. Download only if you want to use internet data for it.' : 'Local English (UK) is unavailable or still downloading. Use manual lyrics for now.');
+    } catch { message('speechStatus', 'Local transcription check failed. No cloud service was started.'); }
+  }
+  $('checkSpeechBtn').onclick = checkSpeech;
+  $('installSpeechBtn').onclick = async () => {
+    const Speech = localSpeechConstructor(); if (!Speech || typeof Speech.install !== 'function' || capturing() || busy) return;
+    $('installSpeechBtn').disabled = true; message('speechStatus', 'Asking your browser to download the English (UK) pack…');
+    try { await Speech.install({ langs: ['en-GB'], processLocally: true }); await checkSpeech(); }
+    catch { message('speechStatus', 'Language pack could not be installed. Recording still works without transcription.'); }
+    finally { $('installSpeechBtn').disabled = false; }
+  };
+  function startSpeech() {
+    if (!$('transcribe').checked || !speechReady) return;
+    const Speech = localSpeechConstructor(); if (!Speech) return;
+    try {
+      stopSpeech(); const active = new Speech();
+      active.processLocally = true;
+      if (active.processLocally !== true) throw new Error('Local processing could not be enabled.');
+      active.lang = 'en-GB'; active.continuous = true; active.interimResults = false; speech = active;
+      active.onresult = event => {
+        if (speech !== active || leaving || document.hidden) return;
+        for (let i = event.resultIndex; i < event.results.length; i++) if (event.results[i].isFinal) {
+          const text = event.results[i][0].transcript.trim();
+          if (text) { $('lyrics').value = ($('lyrics').value.trimEnd() + '\n' + text).trimStart(); projectDirty(); }
+        }
+        message('speechStatus', 'Local transcript added to your lyrics. Review every line.');
+      };
+      active.onerror = () => { if (speech === active) { stopSpeech(); message('speechStatus', 'Local transcription stopped. Your voice recording continues; type or edit the lyrics manually.'); } };
+      active.onend = () => { if (speech === active) { speech = null; message('speechStatus', 'Local transcription ended. Review the words captured; recording is controlled separately.'); } };
+      active.start(); message('speechStatus', 'Transcribing this take on-device. Check the lyrics after recording.');
+    } catch { stopSpeech(); message('speechStatus', 'Local transcription could not start. Your recording is still available; there is no cloud fallback.'); }
+  }
+  $('transcribe').addEventListener('change', () => { if (!$('transcribe').checked) stopSpeech(); });
   const MAX_BYTES = 100 * 1024 * 1024;
   const audioContext = () => new (window.AudioContext || window.webkitAudioContext)();
   const message = (id, value) => { $(id).textContent = value; };
@@ -41,7 +96,7 @@
     return error.message || 'That did not work. Try again or import a file.';
   }
   function invalidate() {
-    mixRevision++; mix = null;
+    projectDirty(); mixRevision++; mix = null;
     $('mixPlayback').pause(); $('mixPlayback').removeAttribute('src'); $('mixPlayback').hidden = true;
     $('mixDownload').hidden = true; revoke('mix'); revoke('mixDownload');
     $('genShortBtn').disabled = true; $('genLongBtn').disabled = true;
@@ -74,11 +129,12 @@
       context = audioContext(); const buffer = await decode(blob, context);
       const data = buffer.getChannelData(0); let square = 0, clipped = 0;
       for (const value of data) { square += value * value; if (Math.abs(value) > .98) clipped++; }
+      if (voice !== blob || leaving) return;
       const rms = Math.sqrt(square / data.length);
       message('volumeFeedback', clipped / data.length > .001 ? 'Clipping detected — lower your input' : rms < .015 ? 'Quiet take — move a little closer' : 'Usable level — listen back for clarity');
       const tips = [clipped ? 'Lower the input or move away if peaks sound distorted.' : 'Check the loudest line for distortion.', rms < .015 ? 'Move closer or reduce room noise before recording again.' : 'Keep your distance from the microphone consistent.', 'Check every lyric and adjust the voice start offset by ear.'];
       $('fixList').replaceChildren(...tips.map(text => { const li = document.createElement('li'); li.textContent = text; return li; }));
-    } catch { message('volumeFeedback', 'Level analysis unavailable — use playback to review'); }
+    } catch { if (voice === blob && !leaving) message('volumeFeedback', 'Level analysis unavailable — use playback to review'); }
     finally { await context?.close().catch(() => {}); }
   }
   function setVoice(blob) {
@@ -94,29 +150,30 @@
     await context?.close().catch(() => {});
   }
   function stopVoice() {
-    clearTimeout(recordTimer);
+    stopSpeech(); clearTimeout(recordTimer);
     $('stopBtn').disabled = true; $('recordBtn').disabled = true;
-    if (voiceRecorder?.state !== 'inactive' && voiceRecorder) voiceRecorder.stop();
+    if (voiceRecorder?.state !== 'inactive' && voiceRecorder) { finishingVoice = true; voiceRecorder.stop(); }
     stopTracks(micStream); micStream = null; closeMeter();
   }
   $('recordBtn').onclick = async () => {
-    if (pendingMic || voiceRecorder?.state === 'recording' || busy) return;
-    invalidate(); pendingMic = true; $('recordBtn').disabled = true; $('camBtn').disabled = true;
+    if (capturing() || busy) return;
+    const epoch = captureEpoch; $('playback').pause(); invalidate(); pendingMic = true; $('recordBtn').disabled = true; $('camBtn').disabled = true;
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error('Recording needs HTTPS and a supported browser. You can import a file instead.');
       micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      if (leaving) { stopTracks(micStream); return; }
+      if (leaving || document.hidden || epoch !== captureEpoch) { stopTracks(micStream); micStream = null; $('recordBtn').disabled = false; $('camBtn').disabled = false; message('recStatus', 'Microphone request cancelled because the page was hidden. Tap Record again when ready.'); return; }
       voiceRecorder = recorder(micStream, 'audio'); const parts = [];
       voiceRecorder.ondataavailable = event => { if (event.data.size) parts.push(event.data); };
       voiceRecorder.onstop = () => {
+        finishingVoice = false;
         const type = voiceRecorder.mimeType || parts[0]?.type || 'audio/webm';
-        stopTracks(micStream); micStream = null; clearTimeout(recordTimer); closeMeter();
+        stopSpeech(); stopTracks(micStream); micStream = null; clearTimeout(recordTimer); closeMeter();
         $('recordBtn').disabled = false; $('camBtn').disabled = false; $('stopBtn').disabled = true;
         $('voiceFile').disabled = false; $('previewBtn').disabled = !voice;
         if (!leaving && parts.length) setVoice(new Blob(parts, { type }));
       };
       voiceRecorder.onerror = () => { stopVoice(); message('recStatus', 'Recording interrupted. Check any saved take before trying again.'); };
-      voiceRecorder.start(1000); $('stopBtn').disabled = false; $('voiceFile').disabled = true; $('previewBtn').disabled = true;
+      voiceRecorder.start(1000); startSpeech(); $('stopBtn').disabled = false; $('voiceFile').disabled = true; $('previewBtn').disabled = true;
       message('recStatus', 'Recording… Tap Stop when ready. Maximum 4 minutes.');
       recordTimer = setTimeout(stopVoice, 240000);
       try {
@@ -133,7 +190,7 @@
   $('voiceFile').onchange = event => { try { setVoice(checkFile(event.target.files[0])); } catch (error) { message('recStatus', explain(error)); } };
   function stopVideo() {
     clearTimeout(videoTimer);
-    if (videoRecorder && videoRecorder.state !== 'inactive') videoRecorder.stop();
+    if (videoRecorder && videoRecorder.state !== 'inactive') { finishingVideo = true; videoRecorder.stop(); }
     $('stopVidBtn').disabled = true;
   }
   function closeCamera() {
@@ -143,12 +200,13 @@
   }
   $('camBtn').onclick = async () => {
     if (pendingCamera || cameraStream || busy) return;
-    pendingCamera = true; $('camBtn').disabled = true; $('recordBtn').disabled = true;
+    const epoch = captureEpoch; pendingCamera = true; $('camBtn').disabled = true; $('recordBtn').disabled = true;
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error('Camera capture needs HTTPS and a supported browser. Import a photo or video instead.');
       cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', aspectRatio: { ideal: 9 / 16 }, width: { ideal: 720 }, height: { ideal: 1280 } }, audio: false });
-      if (leaving) { closeCamera(); return; }
+      if (leaving || document.hidden || epoch !== captureEpoch) { closeCamera(); return; }
       $('camPreview').srcObject = cameraStream; $('viewfinder').hidden = false; await $('camPreview').play();
+      if (!cameraStream || leaving || document.hidden || epoch !== captureEpoch) { closeCamera(); return; }
       $('snapBtn').disabled = false; $('recVidBtn').disabled = false; $('closeCamBtn').disabled = false;
       message('camStatus', 'Camera on. Preview is mirrored; saved captures are not.');
     } catch (error) { closeCamera(); message('camStatus', explain(error)); }
@@ -182,6 +240,7 @@
       invalidate(); videoRecorder = recorder(cameraStream, 'video'); const parts = [];
       videoRecorder.ondataavailable = event => { if (event.data.size) parts.push(event.data); };
       videoRecorder.onstop = () => {
+        finishingVideo = false;
         clearTimeout(videoTimer); if (!leaving && parts.length) setVisual(new Blob(parts, { type: videoRecorder.mimeType || parts[0].type }), 'video');
         $('recVidBtn').disabled = !cameraStream; $('snapBtn').disabled = !cameraStream; $('stopVidBtn').disabled = true;
       };
@@ -193,19 +252,20 @@
   $('stopVidBtn').onclick = stopVideo;
   $('visualFile').onchange = event => { try { const file = checkFile(event.target.files[0]); if (!/^(image|video)\//.test(file.type)) throw new Error('Choose a photo or video file.'); setVisual(file, file.type.startsWith('image/') ? 'photo' : 'video'); } catch (error) { message('camStatus', explain(error)); } };
   for (const [id, kind] of [['beatFile', 'beat'], ['hookFile', 'hook']]) $(id).onchange = async event => {
-    let context;
+    let context; const revision = ++importRevisions[kind]; pendingImports++;
     try {
       const file = checkFile(event.target.files[0]); context = audioContext(); await decode(file, context);
+      if (revision !== importRevisions[kind] || leaving) return;
       if (kind === 'beat') beat = file;
       else { hook = file; $('choir').disabled = false; }
       invalidate(); message('beatStatus', `${kind === 'beat' ? 'Beat' : 'Hook'} loaded. Confirm its rights before mixing.`);
     } catch (error) { message('beatStatus', explain(error)); }
-    finally { await context?.close().catch(() => {}); }
+    finally { pendingImports--; await context?.close().catch(() => {}); }
   };
-  $('clearBeatBtn').onclick = () => { beat = null; $('beatFile').value = ''; invalidate(); message('beatStatus', 'Beat removed. You can build an a cappella mix.'); };
-  $('clearHookBtn').onclick = () => { hook = null; $('hookFile').value = ''; $('choir').checked = false; $('choir').disabled = true; $('choirPlace').disabled = true; invalidate(); message('beatStatus', 'Hook removed.'); };
+  $('clearBeatBtn').onclick = () => { importRevisions.beat++; beat = null; $('beatFile').value = ''; invalidate(); message('beatStatus', 'Beat removed. You can build an a cappella mix.'); };
+  $('clearHookBtn').onclick = () => { importRevisions.hook++; hook = null; $('hookFile').value = ''; $('choir').checked = false; $('choir').disabled = true; $('choirPlace').disabled = true; invalidate(); message('beatStatus', 'Hook removed.'); };
   ['rights', 'beatVolume', 'offset', 'choir', 'choirPlace'].forEach(id => $(id).addEventListener('input', () => { $('choirPlace').disabled = !$('choir').checked; invalidate(); }));
-  ['lyrics', 'trackTitle'].forEach(id => $(id).addEventListener('input', () => { $('finalPreview').hidden = true; $('videoDownload').hidden = true; }));
+  ['lyrics', 'trackTitle', 'beatCredit', 'beat'].forEach(id => $(id).addEventListener('input', () => { projectDirty(); $('finalPreview').hidden = true; $('videoDownload').hidden = true; }));
   function wav(buffer) {
     const channels = buffer.numberOfChannels, length = buffer.length * channels * 2;
     const out = new ArrayBuffer(44 + length), view = new DataView(out);
@@ -217,7 +277,8 @@
   }
   $('previewBtn').onclick = async () => {
     if (!voice || busy) return;
-    if (voiceRecorder?.state === 'recording' || videoRecorder?.state === 'recording' || pendingMic || pendingCamera) { message('mixStatus', 'Stop your recording before building the mix.'); return; }
+    if (pendingImports) { message('mixStatus', 'Wait for your audio file to finish loading.'); return; }
+    if (capturing()) { message('mixStatus', 'Stop your recording before building the mix.'); return; }
     if ((beat || ($('choir').checked && hook)) && !$('rights').checked) { message('mixStatus', 'Confirm permission for your beat and hook before mixing.'); return; }
     const offset = Number($('offset').value);
     if (!Number.isFinite(offset) || offset < 0 || offset > 10) { message('mixStatus', 'Voice offset must be between 0 and 10 seconds.'); return; }
@@ -251,8 +312,9 @@
   }
   async function generate(vertical) {
     if (!mix || busy) return;
-    if (voiceRecorder?.state === 'recording' || videoRecorder?.state === 'recording' || pendingMic || pendingCamera) { message('genStatus', 'Stop your recording before generating.'); return; }
-    closeCamera(); $('playback').pause(); $('mixPlayback').pause();
+    if (pendingImports) { message('genStatus', 'Wait for your audio file to finish loading.'); return; }
+    if (capturing()) { message('genStatus', 'Stop your recording before generating.'); return; }
+    stopSpeech(); closeCamera(); $('playback').pause(); $('mixPlayback').pause();
     const canvas = document.createElement('canvas'); canvas.width = vertical ? 720 : 1280; canvas.height = vertical ? 1280 : 720;
     const ctx = canvas.getContext('2d'); const duration = Math.min(mix.buffer.duration, vertical ? 90 : 240);
     const captions = $('lyrics').value.split('\n').map(line => line.trim()).filter(line => line && !/^\[.*\]$/.test(line));
@@ -318,13 +380,80 @@
     }
   }
   $('genShortBtn').onclick = () => generate(true); $('genLongBtn').onclick = () => generate(false); $('cancelRender').onclick = () => renderCancel?.();
+
+  function buildProject(fields, media) {
+    const files = Object.entries(media).filter(([, blob]) => blob).map(([key, blob]) => ({ key, type: blob.type, size: blob.size }));
+    const manifest = new TextEncoder().encode(JSON.stringify({ version: 1, fields, files }));
+    if (manifest.length > 65536) throw new Error('Project text is too long. Keep lyrics and notes under 64 KB combined.');
+    const bytes = files.reduce((total, file) => total + file.size, 12 + manifest.length);
+    if (bytes > PROJECT_LIMIT) throw new Error('Project is over 250 MB. Download individual takes instead.');
+    const header = new ArrayBuffer(12); const view = new DataView(header);
+    [...'PSMUSIC1'].forEach((char, i) => view.setUint8(i, char.charCodeAt(0))); view.setUint32(8, manifest.length, true);
+    return new Blob([header, manifest, ...files.map(file => media[file.key])], { type: 'application/octet-stream' });
+  }
+  async function readProject(file) {
+    if (!file || file.size < 12 || file.size > PROJECT_LIMIT) throw new Error('Choose a valid project under 250 MB.');
+    const header = new Uint8Array(await file.slice(0, 12).arrayBuffer());
+    if (new TextDecoder().decode(header.slice(0, 8)) !== 'PSMUSIC1') throw new Error('This is not a Pleading Sanity music project.');
+    const length = new DataView(header.buffer).getUint32(8, true);
+    if (length < 2 || length > 65536 || 12 + length > file.size) throw new Error('Project header is damaged.');
+    const data = JSON.parse(await file.slice(12, 12 + length).text());
+    if (data.version !== 1 || !data.fields || typeof data.fields !== 'object' || !Array.isArray(data.files) || data.files.length > 5) throw new Error('Project version or contents are unsupported.');
+    const fields = {};
+    for (const key of PROJECT_FIELDS) { const value = data.fields[key]; if (typeof value !== 'string') throw new Error('Project settings are damaged.'); fields[key] = value; }
+    for (const [key, max] of [['offset', 10], ['beatVolume', .8]]) if (!Number.isFinite(Number(fields[key])) || Number(fields[key]) < 0 || Number(fields[key]) > max) throw new Error('Project audio settings are out of range.');
+    if (!['intro', 'chorus', 'outro'].includes(fields.choirPlace) || !['cosmic', 'photo', 'video'].includes(fields.visualChoice)) throw new Error('Project selection is invalid.');
+    const media = {}; let position = 12 + length;
+    for (const entry of data.files) {
+      if (!entry || !['voice', 'beat', 'hook', 'photo', 'clip'].includes(entry.key) || Object.hasOwn(media, entry.key) || !Number.isSafeInteger(entry.size) || entry.size <= 0 || entry.size > MAX_BYTES || typeof entry.type !== 'string') throw new Error('Project media entry is invalid.');
+      const category = entry.key === 'photo' ? 'image/' : entry.key === 'clip' ? 'video/' : 'audio/';
+      if ((!entry.type.startsWith(category) && !(category === 'audio/' && entry.type === '')) || entry.type.length > 150 || position + entry.size > file.size) throw new Error('Project media is invalid or incomplete.');
+      media[entry.key] = file.slice(position, position + entry.size, entry.type); position += entry.size;
+    }
+    if (position !== file.size || fields.visualChoice === 'photo' && !media.photo || fields.visualChoice === 'video' && !media.clip) throw new Error('Project media does not match its settings.');
+    return { fields, media };
+  }
+  $('saveProjectBtn').onclick = () => {
+    if (busy || capturing() || pendingImports) { message('projectStatus', 'Stop recording and let files finish loading before saving.'); return; }
+    try {
+      const fields = Object.fromEntries(PROJECT_FIELDS.map(key => [key, $(key).value]));
+      const blob = buildProject(fields, { voice, beat, hook, photo, clip });
+      download('projectDownload', 'project', blob, 'pleading-sanity-session.psmusic');
+      message('projectStatus', 'Project prepared. Tap Download project backup to save it on your device. Generated exports are separate downloads.');
+    } catch (error) { message('projectStatus', explain(error)); }
+  };
+  $('projectFile').onchange = async event => {
+    if (busy || capturing() || pendingImports) { message('projectStatus', 'Stop recording and let files finish loading before reopening a project.'); return; }
+    lock(true);
+    try {
+      const project = await readProject(event.target.files[0]);
+      if (leaving) return;
+      closeCamera(); stopSpeech(); $('playback').pause(); invalidate();
+      voice = project.media.voice || null; beat = project.media.beat || null; hook = project.media.hook || null; photo = project.media.photo || null; clip = project.media.clip || null;
+      for (const key of ['voice', 'voiceDownload', 'photo', 'clip', 'visualDownload']) revoke(key);
+      for (const key of PROJECT_FIELDS) $(key).value = project.fields[key];
+      for (const key of ['voiceFile', 'beatFile', 'hookFile', 'visualFile']) $(key).value = '';
+      $('rights').checked = false; $('choir').checked = false; $('transcribe').checked = false;
+      $('playback').removeAttribute('src'); $('playback').hidden = true; $('voiceDownload').hidden = true;
+      $('photoPreview').removeAttribute('src'); $('photoPreview').hidden = true;
+      $('videoPlayback').removeAttribute('src'); $('videoPlayback').hidden = true;
+      $('visualChoice').querySelector('[value="photo"]').disabled = !photo; $('visualChoice').querySelector('[value="video"]').disabled = !clip;
+      if (voice) setVoice(voice);
+      if (photo) $('photoPreview').src = url('photo', photo);
+      if (clip) $('videoPlayback').src = url('clip', clip);
+      chooseVisual();
+      message('projectStatus', 'Project reopened locally. Confirm your music rights and enable your hook again if wanted, then build a fresh mix.');
+    } catch (error) { message('projectStatus', explain(error)); }
+    finally { lock(false); $('previewBtn').disabled = !voice; $('choir').disabled = !hook; $('choirPlace').disabled = !$('choir').checked; }
+  };
+
   $('metadataBtn').onclick = () => {
     const title = $('trackTitle').value.trim() || 'My story';
     $('metadata').value = `${title} | Shane Cooper · Pleading Sanity\n\nOriginal voice and words by Shane Cooper. UK rap from Leicester, lived experience and the Pleading Sanity movement.\nRise From Madness.\nhttps://pleadingsanity.co.uk\n\nMusic credits / licence notes:\n${$('beatCredit').value.trim() || 'Add any required credits and confirm all rights before uploading.'}\n\nTags: UK rap, Leicester rap, Pleading Sanity, Shane Cooper, lived experience, mental health awareness\n\nReview title, credits, audience settings and advertiser suitability before publishing.`;
   };
-  $('demoBtn').onclick = () => { $('lyrics').value = DEMO_LYRICS; message('mixStatus', 'Inside The War lyrics loaded. Record your own performance to test the full flow.'); $('finalPreview').hidden = true; $('videoDownload').hidden = true; };
-  document.addEventListener('visibilitychange', () => { if (document.hidden) { renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); } });
+  $('demoBtn').onclick = () => { $('lyrics').value = DEMO_LYRICS; projectDirty(); message('mixStatus', 'Inside The War lyrics loaded. Record your own performance to test the full flow.'); $('finalPreview').hidden = true; $('videoDownload').hidden = true; };
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); } });
   window.addEventListener('pageshow', () => { leaving = false; });
-  window.addEventListener('pagehide', () => { leaving = true; renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); closeMeter(); for (const key of urls.keys()) revoke(key); });
+  window.addEventListener('pagehide', event => { leaving = true; captureEpoch++; stopSpeech(); renderCancel?.(); if (voiceRecorder?.state === 'recording') stopVoice(); closeCamera(); closeMeter(); if (!event.persisted) for (const key of urls.keys()) revoke(key); });
   const DEMO_LYRICS = "[Verse]\nI'm ready to stand for what I believe\nI ain't scared of what comes after I leave\nI'm doing this for every hurting kid\nWho never got the help that they need\n\nI unlock the chains that hold your mind\nRead the signs, leave the old life behind\nBelieve in yourself, you're one of a kind\n\nPeople ask why I'm still broke\nWhy there's so little hope\nBack in 12 I almost choked\nBipolar waking me with every stroke\n\nWoke up to the game, mother named me Shane\nCrazy kid walking through the pain\nTime to regain everything they took away\nAnger turned to purpose day after day\n\nSystem's a joke, I see the whole picture\nFighting for the ones who need the fixture\nHead so loud you can scream and shout\nPunch through the pain till the doubt runs out\n\nI tried to give everything I had for you\nGot nothing back but hatred and doubt too\nJust a regular man on a mission with shit to do\nMy family stands with me, and hopefully they'll see\n\n[CHORUS \u2014 repeat twice]\nInside the war we rise up\nOpen our eyes, rise up\nLeicester to the whole wide world\nPleading Sanity unfurled\nHeal the hurt, break the curse\nThis is our story, this is our verse\n\n[Outro]\nYou can have every degree, travel every land\nSpeak every language, hold every command\nBut if you don't know who you are inside\nYou'll never build the life you hoped to find\n\nFought the side-effects from every drug they prescribed\nBut I ain't giving up, I ain't ever gonna hide\nCreator of the vision, believe what you see\nI wipe the harm away so the kids are safe with me";
 })();

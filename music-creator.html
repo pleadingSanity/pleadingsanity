@@ -26,17 +26,31 @@
 <h1>Turn your story<br>into a track.</h1>
 <p class="mc-lead">Your voice. Your words. A place to make something out of everything you carry.</p>
 <div class="mc-badges"><span>Free to use</span><span>No voice cloning</span><span>Made on your device</span></div>
-<p class="mc-note">Audio and camera files stay in this tab. Download your takes before closing or refreshing. No account or paid AI service needed.</p>
+<p class="mc-note">Audio and camera files stay in this tab. Download a project backup or your takes before closing or refreshing. No account or paid AI service needed.</p>
 </header>
 <nav class="mc-workflow" aria-label="Creation steps"><ol>
 <li><a href="#voice">Record</a></li><li><a href="#performance">Review</a></li><li><a href="#camera">Camera</a></li><li><a href="#sound">Beat + hook</a></li><li><a href="#mix">Preview</a></li><li><a href="#export">Generate</a></li><li><a href="#upload">Upload</a></li>
 </ol></nav>
 <noscript><p class="mc-card">Enable JavaScript to record and mix. The upload guide below is still available.</p></noscript>
+<section class="mc-card mc-project" aria-labelledby="projectHeading">
+<h2 id="projectHeading">Keep your session.</h2>
+<p>Save one project file with your recordings, visuals, lyrics and mix settings. Reopen it here later. It stays on your device; nothing is uploaded. Keep it private if it contains personal lyrics or images.</p>
+<button id="saveProjectBtn" class="mc-secondary" type="button">Prepare project download</button>
+<a id="projectDownload" class="mc-download" hidden>Download project backup</a>
+<label for="projectFile">Reopen a saved .psmusic project (replaces this tab’s current session)</label><input id="projectFile" type="file" accept=".psmusic,application/octet-stream">
+<p id="projectStatus" class="mc-status" role="status">Download your project and media before refreshing or closing this page.</p>
+</section>
 <div class="mc-grid">
 <section id="voice" class="mc-card">
 <p class="mc-step">01 / THE VOICE</p><h2>Start with you.</h2><p>Tap record, allow your microphone, then give it a take. Headphones help keep the beat out of your mic.</p>
 <div class="mc-actions"><button id="recordBtn" type="button">Record voice</button><button id="stopBtn" class="mc-secondary" type="button" disabled>Stop recording</button></div>
 <p id="recStatus" class="mc-status" role="status">Your microphone is off.</p>
+<details class="mc-transcription"><summary>Optional on-device transcription</summary>
+<p class="mc-note">Experimental. Needs a browser with local speech recognition and an English (UK) language pack. There is no cloud fallback. Downloading a language pack uses internet data; your voice is processed on this device. Rap recognition may be inaccurate: check every line.</p>
+<div class="mc-actions"><button id="checkSpeechBtn" class="mc-secondary" type="button">Check local transcription</button><button id="installSpeechBtn" class="mc-secondary" type="button" hidden>Download browser language pack</button></div>
+<label class="mc-check"><input id="transcribe" type="checkbox" disabled> Transcribe my next voice take locally</label>
+<p class="mc-note">New transcript text is appended to the lyrics box. Clear demo lyrics first if you want a fresh sheet.</p><p id="speechStatus" class="mc-status" role="status">Off. No speech service is running.</p>
+</details>
 <label for="level">Microphone level</label><meter id="level" min="0" max="1" value="0">0</meter>
 <audio id="playback" controls hidden aria-label="Your voice recording"></audio>
 <a id="voiceDownload" class="mc-download" hidden>Download voice take</a>
@@ -45,7 +59,7 @@
 <section id="performance" class="mc-card">
 <p class="mc-step">02 / FIND YOUR FLOW</p><h2>Listen. Adjust. Go again.</h2>
 <dl class="mc-metrics"><div><dt>Recording level</dt><dd id="volumeFeedback">Waiting for a take</dd></div><div><dt>Beat timing</dt><dd>Set your offset by ear below</dd></div><div><dt>Word clarity</dt><dd>Listen back and check your lyrics</dd></div></dl>
-<p class="mc-note">Level tips measure loudness and clipping only. This version does not score rap timing, detect mumbled words or automatically transcribe. Paste or edit lyrics below.</p>
+<p class="mc-note">Level tips measure loudness and clipping only. This version does not score rap timing or detect mumbled words. Optional local transcription depends on browser support. Paste or edit lyrics below.</p>
 <h3>Your fix-list</h3><ol id="fixList"><li>Keep the mic a hand’s width away.</li><li>Use headphones and a quiet room.</li><li>Check the chorus, breath and final words on playback.</li></ol>
 </section>
 <section id="camera" class="mc-card">
