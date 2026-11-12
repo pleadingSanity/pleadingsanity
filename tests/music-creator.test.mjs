@@ -63,7 +63,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     HTMLCanvasElement: { prototype: { captureStream() {} } }, Blob, TextEncoder, TextDecoder, URL: { createObjectURL(blob) { const key = `blob:test-${++urlCounter}`; urlBlobs.set(key, blob); return key; }, revokeObjectURL(value) { revoked.push(value); } },
     setTimeout(fn) { const id = ++timerCounter; timers.set(id, fn); return id; }, clearTimeout(id) { timers.delete(id); }, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
-  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration, mediaSource }; })();'), context);
+  vm.runInContext(script.replace(/\}\)\(\);\s*$/, 'globalThis.helpers = { wav, extension, buildProject, readProject, videoDuration, mediaSource, safeMediaBlob }; })();'), context);
   return { elements, streams, revoked, added, recorders, sources, canvases, document, documentEvents, windowEvents, mediaResolvers, decodeResolvers, urlBlobs, helpers: context.helpers, el: id => elements.get(id), buffer };
 }
 
@@ -249,4 +249,16 @@ test('WebM duration patch leaves other formats and malformed data untouched', as
   const f = fixture(), mp4 = new Blob(['mp4'], { type: 'video/mp4' }), malformed = new Blob(['webm'], { type: 'video/webm' });
   assert.equal(await f.helpers.videoDuration(mp4, 10), mp4); assert.equal(await f.helpers.videoDuration(malformed, 10), malformed);
   assert.equal(await f.helpers.videoDuration(malformed, Infinity), malformed);
+});
+
+
+test('local blob wrappers reject HTML and SVG MIME types and preserve media bytes', async () => {
+  const f = fixture();
+  for (const type of ['text/html', 'image/svg+xml', 'application/xhtml+xml', 'audio/unknown']) {
+    assert.throws(() => f.helpers.safeMediaBlob(new Blob(['<script>alert(1)</script>'], { type })), /Unsupported media type/);
+  }
+  const source = new Blob(['unchanged-media-bytes'], { type: 'audio/webm;codecs=opus' });
+  const safe = f.helpers.safeMediaBlob(source);
+  assert.equal(safe.type, 'audio/webm');
+  assert.equal(await safe.text(), await source.text());
 });

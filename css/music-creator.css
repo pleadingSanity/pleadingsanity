@@ -12,3 +12,14 @@ body.music-creator::before{background:radial-gradient(ellipse at 12% 18%,#00fff0
 .mc-rehearsal th,.mc-rehearsal td{padding:.7rem;border-bottom:1px solid #ffffff24;vertical-align:top}
 .mc-rehearsal td:first-child{white-space:nowrap}
 .mc-rehearsal th{color:#00fff0}
+
+/* A working studio: restrained surfaces, clear controls, recording comes first. */
+body.music-creator::before{background:#0b0f19!important}body.music-creator::after{display:none!important}
+.mc-hero{max-width:none;background:none;padding:26px 0 20px;border-bottom:0}
+.mc-hero h1{font-size:clamp(2.5rem,5vw,4rem);max-width:760px;margin:14px 0 18px;line-height:1.04}
+.mc-lead{max-width:620px;font-size:1.1rem}.mc-badges{margin:16px 0}.mc-badges span{border:0;border-radius:0;padding:0 16px 0 0;color:#b6c6d4}
+.mc-hero-actions{align-items:center;margin:18px 0 6px}.mc-hero-actions .mc-download{background:#00fff0;color:#0b0f19;margin:0}.mc-hero-actions>a:last-child{display:inline-flex;align-items:center;min-height:50px;padding:10px 4px}
+.mc-card{background:#101923;border-radius:12px;border-color:#ffffff1c;box-shadow:none}
+.mc-card h2{font-size:1.5rem}.mc-step{color:#91a6b4;letter-spacing:.12em}
+.mc-project,.mc-rehearsal{margin-top:24px}.mc-rehearsal{margin-bottom:24px}
+@media(max-width:720px){.mc-hero h1{font-size:2.65rem}.mc-hero{padding:22px 0 14px}.mc-hero-actions>*{flex:0 1 auto}.mc-hero-actions .mc-download{flex:1 1 auto}.mc-workflow{margin-bottom:20px}.mc-card{padding:22px 18px}}

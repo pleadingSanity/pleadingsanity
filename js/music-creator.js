@@ -68,13 +68,43 @@
   const message = (id, value) => { $(id).textContent = value; };
   const stopTracks = stream => stream?.getTracks().forEach(track => track.stop());
   function revoke(key) { if (urls.has(key)) URL.revokeObjectURL(urls.get(key)); urls.delete(key); }
-  function url(key, blob) { revoke(key); const value = URL.createObjectURL(blob); urls.set(key, value); return value; }
+  function safeMediaBlob(blob) {
+    const type = (blob.type || '').split(';')[0].toLowerCase();
+    // Rebuild the wrapper with a fixed passive MIME type. Imported project MIME
+    // strings must never turn a local download into an HTML/SVG document.
+    switch (type) {
+      case 'audio/wav': case 'audio/x-wav': return new Blob([blob], { type: 'audio/wav' });
+      case 'audio/mpeg': case 'audio/mp3': return new Blob([blob], { type: 'audio/mpeg' });
+      case 'audio/mp4': case 'audio/x-m4a': return new Blob([blob], { type: 'audio/mp4' });
+      case 'audio/webm': return new Blob([blob], { type: 'audio/webm' });
+      case 'audio/ogg': case 'application/ogg': return new Blob([blob], { type: 'audio/ogg' });
+      case 'audio/flac': case 'audio/x-flac': return new Blob([blob], { type: 'audio/flac' });
+      case 'audio/aac': return new Blob([blob], { type: 'audio/aac' });
+      case 'video/webm': return new Blob([blob], { type: 'video/webm' });
+      case 'video/mp4': return new Blob([blob], { type: 'video/mp4' });
+      case 'video/quicktime': return new Blob([blob], { type: 'video/quicktime' });
+      case 'video/ogg': return new Blob([blob], { type: 'video/ogg' });
+      case 'image/png': return new Blob([blob], { type: 'image/png' });
+      case 'image/jpeg': return new Blob([blob], { type: 'image/jpeg' });
+      case 'image/webp': return new Blob([blob], { type: 'image/webp' });
+      case 'image/gif': return new Blob([blob], { type: 'image/gif' });
+      case 'image/avif': return new Blob([blob], { type: 'image/avif' });
+      case '': case 'application/octet-stream': return new Blob([blob], { type: 'application/octet-stream' });
+      default: throw new Error('Unsupported media type. Choose a standard audio, video or raster image file.');
+    }
+  }
+  function url(key, blob) { const safe = safeMediaBlob(blob); revoke(key); const value = URL.createObjectURL(safe); urls.set(key, value); return value; }
   function mediaSource(element, value) {
     if (!['AUDIO', 'VIDEO', 'IMG'].includes(element.tagName) || !value?.startsWith('blob:')) throw new Error('Invalid local media preview.');
     element.setAttribute('src', value);
   }
   function extension(type) {
     if (type.includes('wav')) return 'wav';
+    if (type.includes('flac')) return 'flac';
+    if (type.includes('aac')) return 'aac';
+    if (type.includes('quicktime')) return 'mov';
+    if (type.includes('gif')) return 'gif';
+    if (type.includes('avif')) return 'avif';
     if (type.includes('mpeg')) return 'mp3';
     if (type.includes('png')) return 'png';
     if (type.includes('jpeg')) return 'jpg';
@@ -461,7 +491,9 @@
       if (!entry || !['voice', 'beat', 'hook', 'photo', 'clip'].includes(entry.key) || Object.hasOwn(media, entry.key) || !Number.isSafeInteger(entry.size) || entry.size <= 0 || entry.size > MAX_BYTES || typeof entry.type !== 'string') throw new Error('Project media entry is invalid.');
       const category = entry.key === 'photo' ? 'image/' : entry.key === 'clip' ? 'video/' : 'audio/';
       if ((!entry.type.startsWith(category) && !(category === 'audio/' && entry.type === '')) || entry.type.length > 150 || position + entry.size > file.size) throw new Error('Project media is invalid or incomplete.');
-      media[entry.key] = file.slice(position, position + entry.size, entry.type); position += entry.size;
+      const mediaBlob = file.slice(position, position + entry.size, entry.type);
+      safeMediaBlob(mediaBlob);
+      media[entry.key] = mediaBlob; position += entry.size;
     }
     if (position !== file.size || fields.visualChoice === 'photo' && !media.photo || fields.visualChoice === 'video' && !media.clip) throw new Error('Project media does not match its settings.');
     return { fields, media };
