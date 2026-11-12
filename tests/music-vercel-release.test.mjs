@@ -39,3 +39,11 @@ test('release duplicates skip Vercel while the intended project and all main bui
  assert.equal(shouldSkip('vercel',{VERCEL_GIT_COMMIT_REF:env.VERCEL_GIT_COMMIT_REF}),false);
  assert.equal(shouldSkip('unknown',env),false);
 });
+
+test('studio entry does not trigger the whole-site offline preload while other pages retain it',()=>{
+ const source=fs.readFileSync('js/site.js','utf8');
+ const condition=source.match(/if\(('serviceWorker'in navigator&&.*?)\)\{window.addEventListener\('load',function\(\)\{navigator.serviceWorker.register/)[1];
+ const allowed=Function('navigator','location','return ('+condition+')');
+ for(const pathname of ['/music-creator.html','/music-creator','/music-creator/','/music/index.html'])assert.equal(allowed({serviceWorker:{}},{protocol:'https:',pathname}),false,pathname);
+ for(const pathname of ['/','/index.html','/games.html','/arron-app.html'])assert.equal(allowed({serviceWorker:{}},{protocol:'https:',pathname}),true,pathname);
+});
