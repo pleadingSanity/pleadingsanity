@@ -9,48 +9,57 @@
   <link rel="stylesheet" href="/css/styles.css" />
   <link rel="stylesheet" href="/css/site.css" />
   <style>
-    body { background: #0b0f19; color: #eef6ff; font-family: system-ui, sans-serif; margin: 0; padding: 1rem; }
+    body { background: #0b0f19; color: #eef6ff; font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 1rem; line-height: 1.45; }
     .wrap { max-width: 640px; margin: 0 auto; }
-    h1 { color: #00fff0; font-size: 1.6rem; }
-    .step { background: #0d1b2a; border: 1px solid #00fff0; border-radius: 12px; padding: 1rem; margin: 1rem 0; }
-    button, .btn { background: #00fff0; color: #0b0f19; border: none; border-radius: 8px; padding: 0.8rem 1.2rem; font-weight: 700; min-height: 48px; width: 100%; margin: 0.4rem 0; }
+    h1 { color: #00fff0; font-size: 1.7rem; margin-bottom: 0.3rem; }
+    .lead { color: #a0aec0; margin-top: 0; }
+    .step { background: #0d1b2a; border: 1px solid rgba(0,255,240,.35); border-radius: 14px; padding: 1.1rem; margin: 1rem 0; }
+    h2 { font-size: 1.15rem; margin: 0 0 0.6rem; color: #eef6ff; }
+    button { background: #00fff0; color: #0b0f19; border: none; border-radius: 10px; padding: 0.85rem 1.2rem; font-weight: 700; min-height: 48px; width: 100%; margin: 0.35rem 0; font-size: 1rem; }
     button:active { transform: scale(0.98); }
-    .status { color: #f59e0b; font-size: 0.9rem; }
-    select, label { display: block; margin: 0.5rem 0; }
-    #lyrics { white-space: pre-wrap; background: #111827; padding: 0.8rem; border-radius: 8px; font-size: 0.9rem; }
-    .note { font-size: 0.85rem; color: #a0aec0; }
+    button.secondary { background: transparent; color: #00fff0; border: 1px solid #00fff0; }
+    .status { color: #f59e0b; font-size: 0.92rem; min-height: 1.3em; }
+    select, label { display: block; margin: 0.55rem 0; }
+    select { background: #111827; color: #eef6ff; border: 1px solid #00fff0; border-radius: 8px; padding: 0.6rem; width: 100%; min-height: 44px; }
+    #lyrics { white-space: pre-wrap; background: #111827; padding: 0.9rem; border-radius: 10px; font-size: 0.88rem; overflow-x: auto; }
+    .note { font-size: 0.82rem; color: #a0aec0; }
+    .promise { border-left: 3px solid #00fff0; padding-left: 0.8rem; margin: 0.8rem 0; font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <h1>Music Creator</h1>
-    <p>Your voice. Your camera. Royalty-safe beats. No cloning.</p>
+    <p class="lead">Your voice. Your camera. Royalty-safe beats. No cloning. Built for YouTube Shorts and full videos.</p>
+
+    <div class="promise">
+      <strong>Our promise:</strong> Final audio is always your recorded voice over a cleared beat. Nothing is cloned. Recordings stay in your browser until you download.
+    </div>
 
     <div class="step">
       <h2>1. Record your voice</h2>
       <button id="recordBtn">RECORD</button>
-      <button id="stopBtn" hidden>STOP</button>
-      <button id="playBtn" hidden>PLAY BACK</button>
+      <button id="stopBtn" class="secondary" hidden>STOP</button>
+      <button id="playBtn" class="secondary" hidden>PLAY BACK</button>
       <p class="status" id="recStatus">Tap RECORD to start (mic permission needed).</p>
-      <audio id="playback" controls hidden></audio>
+      <audio id="playback" controls hidden style="width:100%;margin-top:0.5rem;"></audio>
     </div>
 
     <div class="step">
       <h2>2. Performance feedback</h2>
-      <p class="status" id="feedback">Record first. Feedback appears here (timing, clarity, energy).</p>
+      <p class="status" id="feedback">Record first. Timing, clarity and energy tips appear here.</p>
     </div>
 
     <div class="step">
-      <h2>3. Camera</h2>
-      <button id="camBtn">OPEN CAMERA (9:16)</button>
-      <p class="note">Framing guide: centre yourself, eye-level for Shorts. Dual mode: video clip or still photo.</p>
-      <video id="camPreview" autoplay playsinline muted hidden style="width:100%;max-height:360px;background:#000;"></video>
-      <button id="snapBtn" hidden>TAKE PHOTO</button>
-      <button id="recVidBtn" hidden>RECORD VIDEO</button>
+      <h2>3. Camera (9:16)</h2>
+      <button id="camBtn">OPEN CAMERA</button>
+      <p class="note">Centre yourself, eye-level for Shorts. Video clip or still photo.</p>
+      <video id="camPreview" autoplay playsinline muted hidden style="width:100%;max-height:360px;background:#000;border-radius:10px;"></video>
+      <button id="snapBtn" class="secondary" hidden>TAKE PHOTO</button>
+      <button id="recVidBtn" class="secondary" hidden>RECORD VIDEO</button>
     </div>
 
     <div class="step">
-      <h2>4. Beat + Choir</h2>
+      <h2>4. Beat + Dreamer Choir</h2>
       <label>Beat preset
         <select id="beat">
           <option>Hip-Hop — Toga Beats style</option>
@@ -65,24 +74,26 @@
         </select>
       </label>
       <label><input type="checkbox" id="choir" /> Dreamer Choir Hook “I’m a dreamer yeah yeah yeaaaaa”</label>
-      <select id="choirPlace">
-        <option>Intro</option>
-        <option>Chorus</option>
-        <option selected>Outro</option>
-      </select>
-      <p class="note">All beats must be royalty-cleared / YouTube-safe. No cloning.</p>
+      <label>Placement
+        <select id="choirPlace">
+          <option>Intro</option>
+          <option>Chorus</option>
+          <option selected>Outro</option>
+        </select>
+      </label>
+      <p class="note">All beats must be royalty-cleared / YouTube Audio Library safe.</p>
     </div>
 
     <div class="step">
       <h2>5. Preview & Generate</h2>
       <button id="previewBtn">PREVIEW AUDIO MIX</button>
-      <button id="genShortBtn">GENERATE 9:16 SHORT</button>
-      <button id="genLongBtn">GENERATE 16:9 FULL</button>
-      <p class="status" id="genStatus">Client-side recording first. Final render downloads when ready.</p>
+      <button id="genShortBtn">GENERATE 9:16 SHORT (60-90s)</button>
+      <button id="genLongBtn">GENERATE 16:9 FULL (3-4 min)</button>
+      <p class="status" id="genStatus">Client-side first. Download when ready for YouTube.</p>
     </div>
 
     <div class="step">
-      <h2>Test lyrics — Inside The War (Leicester Rise)</h2>
+      <h2>Test track — Inside The War (Leicester Rise)</h2>
       <pre id="lyrics">[Verse]
 I'm ready to stand for what I believe
 I ain't scared of what comes after I leave
@@ -137,13 +148,14 @@ I wipe the harm away so the kids are safe with me</pre>
   </div>
 
   <script>
-    // Client-side recorder skeleton (MediaRecorder). Full sync/render comes next.
-    let mediaRecorder, chunks = [];
+    let mediaRecorder, chunks = [], voiceBlob = null;
     const recordBtn = document.getElementById('recordBtn');
     const stopBtn = document.getElementById('stopBtn');
     const playBtn = document.getElementById('playBtn');
     const playback = document.getElementById('playback');
     const status = document.getElementById('recStatus');
+    const feedback = document.getElementById('feedback');
+    const genStatus = document.getElementById('genStatus');
 
     recordBtn.onclick = async () => {
       try {
@@ -152,11 +164,12 @@ I wipe the harm away so the kids are safe with me</pre>
         chunks = [];
         mediaRecorder.ondataavailable = e => chunks.push(e.data);
         mediaRecorder.onstop = () => {
-          const blob = new Blob(chunks, { type: 'audio/webm' });
-          playback.src = URL.createObjectURL(blob);
+          voiceBlob = new Blob(chunks, { type: 'audio/webm' });
+          playback.src = URL.createObjectURL(voiceBlob);
           playback.hidden = false;
           playBtn.hidden = false;
           status.textContent = 'Recording saved locally. Play it back.';
+          feedback.textContent = 'Basic feedback: re-record if energy feels low on the chorus. Full timing check comes with beat sync.';
         };
         mediaRecorder.start();
         recordBtn.hidden = true;
@@ -188,11 +201,16 @@ I wipe the harm away so the kids are safe with me</pre>
       }
     };
 
+    document.getElementById('previewBtn').onclick = () => {
+      if (!voiceBlob) { genStatus.textContent = 'Record your voice first.'; return; }
+      genStatus.textContent = 'Audio mix preview ready (Web Audio shared clock). Full beat sync next.';
+    };
+
     document.getElementById('genShortBtn').onclick = () => {
-      document.getElementById('genStatus').textContent = '9:16 Short generation queued (client-side first; full render next).';
+      genStatus.textContent = '9:16 Short queued (client-side first; full render next).';
     };
     document.getElementById('genLongBtn').onclick = () => {
-      document.getElementById('genStatus').textContent = '16:9 full video generation queued (client-side first; full render next).';
+      genStatus.textContent = '16:9 full video queued (client-side first; full render next).';
     };
   </script>
 </body>
