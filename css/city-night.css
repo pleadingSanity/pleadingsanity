@@ -1,0 +1,48 @@
+@font-face{font-family:"PS City";src:url("/assets/fonts/anton/Anton-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+/* Pleading Sanity / City Nights. Original seasonal skin; no third-party assets. */
+html:root{--city-ink:#0b0f19;--city-panel:#10232d;--city-teal:#7fe8da;--city-gold:#ffce76;--city-silver:#eef6ff;--city-line:#35535b}
+html:root:not([data-theme="light"]) body{color:#eef6ff;background-color:#0b0f19!important;background-image:linear-gradient(100deg,rgba(11,15,25,.97),rgba(11,15,25,.85)),url('/assets/images/city-nights/street-grid.svg')!important;background-size:auto,1100px auto!important;background-attachment:scroll!important}
+html:root :is(h1,h2,h3,.ps-brand,.ps-start-kicker,.mc-eyebrow){font-family:"PS City",Impact,"Arial Narrow","Arial Black",system-ui,sans-serif;letter-spacing:.035em;font-weight:400}
+html:root h1{text-transform:uppercase;line-height:1.05;text-wrap:balance}
+html:root:not([data-theme="light"]) h1{color:#eef6ff;text-shadow:3px 3px 0 #0b0f19}
+html:root .ps-nav{background:#0b0f19!important;border-bottom:2px solid #7fe8da!important;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+html:root :is(.btn,.button,.ps-btn,.mc-download,.home-primary-actions a){border-radius:4px!important;letter-spacing:.025em}
+html:root :is(.ps-start-grid>a,.home-tool-card,.game-card,.ps-game-card,.ps-expansion-card,.mc-panel,.radio-card,.station-card){border-radius:6px!important;border-color:#35535b;box-shadow:4px 4px 0 rgba(0,0,0,.2)}
+html:root :is(.ps-start-kicker,.mc-eyebrow,.eyebrow){color:#ffce76}
+html:root :is(a,button,input,select,textarea,summary):focus-visible{outline:3px solid #ffce76;outline-offset:4px}
+html:root[data-theme="light"] :is(.ps-start-kicker,.mc-eyebrow,.eyebrow){color:#71500f}
+/* Emergency pages keep the quieter surface and familiar support wording. */
+html:root[data-ps-city-safety] body{background-image:none!important}
+html:root[data-ps-city-safety] :is(h1,h2,h3){font-weight:700;font-family:system-ui,sans-serif;letter-spacing:normal;text-transform:none;text-shadow:none!important}
+.ps-city-home .ps-city-intro{width:100%;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(1.5rem,4vw,4rem);align-items:center;max-width:1180px;margin:0 auto 2.5rem;padding:clamp(1rem,3vw,2.5rem);text-align:left;border-bottom:1px solid #35535b}
+.ps-city-copy{min-width:0;position:relative}
+.ps-city-home .ps-city-copy .logo{width:76px!important;height:76px!important;max-width:76px;margin:1rem 0;object-fit:contain}
+.ps-city-home .ps-city-copy h1{font-size:clamp(3rem,6.5vw,6.5rem);margin:.4rem 0 1.25rem;max-width:10ch}
+.ps-city-home .ps-city-copy .tagline{font-size:clamp(1.25rem,2vw,1.65rem);max-width:28ch;color:#cce9e6}
+.ps-city-home .ps-city-copy :is(.built,.home-companion-note){max-width:52ch;line-height:1.7}
+.ps-city-home .ps-city-copy .home-primary-actions{justify-content:flex-start;flex-wrap:wrap}
+.ps-city-home .ps-city-copy .home-primary-actions a{min-height:48px;display:inline-flex;align-items:center}
+.ps-city-home .ps-city-copy .ps-founder-card{justify-content:flex-start!important}
+.ps-city-home .ps-city-copy .atmosphere-control{justify-content:flex-start;margin:.5rem 0 1rem}
+.ps-city-kicker{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;font:750 .78rem/1.5 system-ui,sans-serif;letter-spacing:.15em;color:#ffce76;text-transform:uppercase}
+.ps-city-kicker::before{content:"";display:block;width:32px;height:4px;background:#7fe8da}
+.ps-city-art{margin:0;min-width:0;background:#10232d;border:1px solid #35535b;border-radius:6px;overflow:hidden;box-shadow:8px 8px 0 #071018}
+.ps-city-art img{display:block;width:100%;height:auto;aspect-ratio:6/5;object-fit:contain}
+.ps-city-art figcaption{padding:.75rem 1rem;border-top:1px solid #35535b;color:#c5d4df;font:600 .75rem/1.6 system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.ps-city-home .ps-legacy-hero{margin:2rem auto!important}
+.ps-city-home .ps-legacy-hero img{max-height:420px;object-fit:contain}
+.ps-city-home .ps-start-here{border-top:3px solid #7fe8da;border-radius:6px!important}
+.ps-city-home .ps-start-grid>a{border-left:3px solid #7fe8da!important;background:#10232d}
+html:root body.ps-calm{background-image:none!important}
+html:root body.ps-calm h1{text-shadow:none}
+html:root[data-theme="light"] .ps-city-copy .tagline{color:#1c5257}
+html:root[data-theme="light"] .ps-city-kicker{color:#71500f}
+@media(max-width:760px){.ps-city-home .ps-city-intro{grid-template-columns:minmax(0,1fr);gap:1.5rem;padding:1rem;margin-bottom:1.5rem}.ps-city-home .ps-city-copy h1{font-size:clamp(3rem,15vw,5rem)}.ps-city-art{box-shadow:4px 4px 0 #071018}.ps-city-art img{max-height:350px;object-fit:contain}.ps-city-home .ps-city-copy .home-primary-actions{display:grid;grid-template-columns:minmax(0,1fr)}.ps-city-home .ps-city-copy .home-primary-actions a{justify-content:center}.ps-city-home .ps-city-copy .atmosphere-hint{display:none}}
+@media(prefers-reduced-motion:reduce){html:root{scroll-behavior:auto}html:root :is(.ps-city-art,.ps-start-grid>a,.home-tool-card,.game-card){animation:none!important;transition:none!important}}
+@media print{html:root body{background:#fff!important;color:#000!important}.ps-city-art{box-shadow:none}.ps-city-home .ps-city-intro{display:block}}
+
+html:root[data-theme="light"] :is(a,button,input,select,textarea,summary):focus-visible{outline-color:#71500f}
+html:root[data-theme="light"] .ps-city-copy :is(.built,.home-companion-note){color:#375b61}
+html:root[data-theme="light"] .ps-city-copy .h-card :is(span,a){color:#1c5257!important}
+html:root[data-theme="light"] .ps-city-home .ps-start-grid>a{background:#edf6f5;color:#14343a}
+html:root[data-theme="light"] .ps-city-home .ps-start-grid>a :is(strong,span){color:#14343a}
