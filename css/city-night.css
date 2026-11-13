@@ -46,3 +46,5 @@ html:root[data-theme="light"] .ps-city-copy :is(.built,.home-companion-note){col
 html:root[data-theme="light"] .ps-city-copy .h-card :is(span,a){color:#1c5257!important}
 html:root[data-theme="light"] .ps-city-home .ps-start-grid>a{background:#edf6f5;color:#14343a}
 html:root[data-theme="light"] .ps-city-home .ps-start-grid>a :is(strong,span){color:#14343a}
+/* Opaque poster lettering: old gradient clips would turn the shadow into an outline. */
+html:root h1{background:none!important;background-clip:border-box;-webkit-text-fill-color:currentColor}
