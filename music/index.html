@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0b0f19">
 <title>Pleading Sanity Music</title>
-<meta name="description" content="Shane's own audio files. Lock-screen controls work here. YouTube songs do not.">
+<meta name="description" content="Original music from Shane Cooper, live radio and a route into new hip-hop, R&B and dance.">
 <link rel="canonical" href="https://pleadingsanity.co.uk/music/index.html">
 <link rel="manifest" href="/music/manifest.json">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -20,7 +20,7 @@
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/images/heroes/music-hero.webp">
 
 <meta property="og:title" content="Pleading Sanity Music">
-<meta property="og:description" content="Shane's own audio files. Lock-screen controls work here. YouTube songs do not.">
+<meta property="og:description" content="Original music from Shane Cooper, live radio and a route into new hip-hop, R&B and dance.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pleadingsanity.co.uk/music/index.html">
 <script type="application/ld+json">
@@ -59,8 +59,9 @@
 <link rel="stylesheet" href="/css/shard-radio-music.css">
 <link rel="stylesheet" href="/css/radio-icons.css">
 <link rel="stylesheet" href="/css/radio-persist.css">
+<link rel="stylesheet" href="/css/listening-room.css">
 </head>
-<body>
+<body class="music-room">
 <a href="#main" class="skip-link">Skip to main content</a>
 
 
@@ -68,9 +69,21 @@
 <figure class="ps-hero-visual"><img src="/images/heroes/music-hero.webp" alt="Silver headphones on the night desk by a teal ring light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
 
 <main id="main">
-  <h1>Pleading Sanity Music</h1>
-  <p class="note">This player is only for audio files Shane owns and uploads himself. It can keep playing when the phone locks, and it shows on the lock screen, because the file is ours. Other artists' songs stay on Sanity's Songs, inside YouTube, and are not copied here. A car stereo can use these phone controls for Shane's own files. This is not a native Android Auto or CarPlay app, and it is not on the App Store.</p>
-  <p class="note">Leaving this page for another house page stops the song. The player stays while you are in this app. <strong>Audio keeps playing while you browse the site</strong>; on phones it stops when you lock the screen or switch apps (OS limit) — <span style="color:#fcd34d;font-weight:600">add to Home Screen for best experience.</span></p>
+  <header class="listening-hero-copy"><span class="radio-kicker">PLEADING SANITY · MUSIC</span><h1>Made from<br><em>real life.</em></h1><p>Shane’s original music, the songs we come back to, and the next sound to find you.</p><div class="listening-actions"><a class="listen-primary" href="/insane-radio.html#stations-title">Listen to Insane Radio ↗</a><a href="/sanity-songs.html">Sanity’s Songs</a></div></header>
+  <section class="music-discovery" aria-labelledby="discovery-title">
+  <span class="radio-kicker">FOLLOW THE SOUND</span><h2 id="discovery-title">New music radar</h2>
+  <p class="radio-note">Go straight to the broadcasters’ rolling selections for new hip-hop, R&amp;B and dance. Their playlists change on their sites; these cards are not a live chart feed.</p>
+  <div class="discovery-grid">
+    <a class="discovery-card radar-rap" href="https://www.capitalxtra.com/radio/playlist/" target="_blank" rel="noopener noreferrer"><span class="discovery-number">01 / HIP-HOP + R&amp;B</span><h3>What’s in rotation?</h3><p>Capital XTRA’s current playlist. Find the track you just heard.</p><span>Explore the playlist ↗</span></a>
+    <a class="discovery-card radar-soul" href="https://www.reprezent.org.uk/schedule" target="_blank" rel="noopener noreferrer"><span class="discovery-number">02 / NEXT UP</span><h3>London, unfiltered.</h3><p>Reprezent’s shows: emerging voices, underground rap and electronic music.</p><span>Find your next show ↗</span></a>
+    <a class="discovery-card radar-dance" href="https://www.rinse.fm/" target="_blank" rel="noopener noreferrer"><span class="discovery-number">03 / AFTER HOURS</span><h3>Stay for the set.</h3><p>Rinse selections, live radio and underground dance culture.</p><span>Explore Rinse ↗</span></a>
+  </div>
+  <p class="radio-note">Track spotlight: <a href="https://www.youtube.com/watch?v=sNY_2TEmzho" target="_blank" rel="noopener noreferrer">Kendrick Lamar &amp; SZA — luther · official video ↗</a>. Released 2025; a listening pick, not a new-release claim. Editorial links checked 12 November 2026.</p>
+  <p class="radio-note">Listening and sharing do not give permission to sample, download or monetise someone else’s recording.</p>
+</section>
+  <section aria-labelledby="originals-title"><span class="radio-kicker">THE ORIGINALS</span><h2 id="originals-title">Shane Cooper · original recordings</h2>
+  <p class="note">This player is only for audio files Shane owns and uploads himself. Other artists’ songs stay in their official players and are not copied here. Lock-screen controls and background playback depend on your phone and browser. This is a web app, not a native Android Auto or CarPlay app.</p>
+  <p class="note">Keep this tab open to listen. Navigating to another page interrupts the song; open other pages in a new tab. Home Screen installation does not guarantee background playback.</p>
   <p id="empty-note" class="note"></p>
   <ul id="playlist"></ul>
   <div class="bar">
@@ -80,6 +93,7 @@
     <div class="row">
       <button type="button" id="prev"><span>Previous</span></button>
       <button type="button" id="play" aria-pressed="false"><span>Play</span></button>
+      <button type="button" id="stop-music">Stop all audio</button>
       <button type="button" id="next"><span>Next</span></button>
       <button type="button" id="shuffle" aria-pressed="false">Shuffle</button>
       <button type="button" id="repeat" aria-pressed="false"><span>Repeat</span></button>
@@ -89,6 +103,7 @@
     <p id="player-status" role="status"></p>
     <audio id="track" preload="none"></audio>
   </div>
+  </section>
   <div id="music-slots" aria-label="Shane's playlists on YouTube, Sonos and Amazon Music"></div>
   <p><a href="/sanity-songs.html">Sanity's Songs (YouTube)</a> · <a href="/creator.html">Add a song (owner)</a></p>
 <aside class="ps-donate-strip" aria-label="Support the movement">
