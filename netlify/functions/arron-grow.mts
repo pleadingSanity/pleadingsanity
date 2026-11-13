@@ -8,6 +8,7 @@
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
+import { scheduledAiAllowed } from "../lib/scheduled-ai.js";
 import { and, desc, eq, gte } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { aiStories, posts } from "../../db/schema.js";
@@ -29,6 +30,7 @@ Write 1 to 3 NEW lessons about how to support people better. Each lesson:
 Reply with ONLY JSON: {"lessons": string[]}`;
 
 export default async () => {
+  if (!(await scheduledAiAllowed("arron-grow"))) return;
   const day = today();
   try {
     const growth = await getGrowth();
