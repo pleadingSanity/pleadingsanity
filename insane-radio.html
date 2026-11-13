@@ -98,6 +98,7 @@
 <link rel="stylesheet" href="/css/radio-icons.css">
 <link rel="stylesheet" href="/css/radio-persist.css">
 <link rel="stylesheet" href="/css/radio-perfection.css">
+<link rel="stylesheet" href="/css/listening-room.css">
 </head>
 <body class="radio-page">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -105,7 +106,218 @@
   <a href="/" style="color:#00fff0;text-decoration:none;font-weight:700">← Back to Sanity Hub</a>
 </nav>
 <div class="radio-wrap" id="main">
-  <header class="radio-hero"><span class="radio-kicker">PLEADING SANITY · LISTENING ROOM</span><h1>Insane Radio</h1><p>Music that speaks. UK and US hip-hop, R&amp;B and the artists behind the tracks — plus 18 live stations.</p><p class="radio-mode">Curated music player · starts silent · press Play once to listen</p><img src="/images/heroes/insane-radio-hero.webp" alt="A dark vinyl record in deep space with a teal sound wave rising from it toward an amber sunrise" width="1280" height="720" loading="eager" decoding="async" style="display:block;width:100%;height:auto;max-height:360px;object-fit:cover;margin:1rem auto 0;border-radius:16px;border:1px solid rgba(56,189,248,.28)"></header>
+  <header class="radio-hero listening-hero">
+    <div class="listening-hero-copy"><span class="radio-kicker">PLEADING SANITY · INSANE RADIO</span>
+      <h1>Find your<br><em>frequency.</em></h1>
+      <p>Hip-hop. R&amp;B. Dance. From the next sound out of London to the tracks that got you through.</p>
+      <div class="listening-actions"><a class="listen-primary" href="#stations-title">Choose a live station ↗</a><a href="#radio-card">Play the song library</a></div>
+      <p class="radio-mode">Your choice. No autoplay. Free to listen.</p>
+    </div>
+    <img src="/images/heroes/insane-radio-hero.webp" alt="A vinyl record in deep space with a teal sound wave and amber sunrise" width="1280" height="720" loading="eager" fetchpriority="high" decoding="async">
+  </header>
+  <nav class="listening-jumps" aria-label="Listening room"><a href="#stations-title">Live stations</a><a href="#discovery-title">New music radar</a><a href="#shane-playlists-title">Shane’s playlists</a><a href="/music/index.html">Original music</a></nav>
+
+<section class="radio-stations" aria-labelledby="stations-title">
+  <div class="listening-section-heading"><div><span class="radio-kicker">THE SELECTOR</span><h2 id="stations-title">Pick a mood. Press play.</h2></div><span class="station-count" id="station-count" role="status">18 live streams + 2 official players</span></div>
+  <div class="station-filters" role="group" aria-label="Filter stations by genre"><button type="button" data-genre="all" aria-pressed="true">All stations</button><button type="button" data-genre="hiphop" aria-pressed="false">Hip-hop / grime</button><button type="button" data-genre="rnb" aria-pressed="false">R&amp;B / soul</button><button type="button" data-genre="dance" aria-pressed="false">Dance / garage</button><button type="button" data-genre="chill" aria-pressed="false">Chill / eclectic</button></div>
+  <p class="radio-note">Press a card to play. Audio goes to your speakers, headphones, or Bluetooth if your phone is already connected. These are <strong>live broadcasts</strong> — the station chooses what plays next; we don't control the track list and we don't host the audio.</p>
+  <h3 class="station-group-title">UK grime, hip-hop &amp; R&amp;B</h3>
+  <div class="station-grid">
+    <article class="station-card theme-reprezent" data-genres="hiphop dance">
+      <button type="button" class="station station-play" data-src="https://radio.canstream.co.uk:8022/live.mp3" data-name="Reprezent Radio" aria-label="Play Reprezent Radio, South London grime and hip hop">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M8 21h8"/></svg></span>
+        <span class="station-name">Reprezent Radio</span>
+        <span class="station-tags"><span class="station-genre">UK grime / hip-hop / talk</span><span class="station-bitrate">MP3 live</span></span>
+        <span class="station-desc">South London community station — grime, hip-hop and talk.</span>
+      </button>
+      <a class="station-support-link" href="https://www.reprezent.org.uk/" target="_blank" rel="noopener" aria-label="Support Reprezent Radio (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-rinse" data-genres="hiphop dance">
+      <button type="button" class="station station-play" data-src="https://admin.stream.rinse.fm/proxy/rinse_uk/stream" data-name="Rinse FM" aria-label="Play Rinse FM, London grime and electronic">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="2"/><circle cx="7.5" cy="12.5" r="2.5"/><circle cx="16.5" cy="12.5" r="2.5"/><path d="M11 9h2"/></svg></span>
+        <span class="station-name">Rinse FM</span>
+        <span class="station-tags"><span class="station-genre">UK grime / electronic / urban</span><span class="station-bitrate">Live stream</span></span>
+        <span class="station-desc">London underground — grime, electronic and urban.</span>
+      </button>
+      <a class="station-support-link" href="https://rinse.fm/" target="_blank" rel="noopener" aria-label="Support Rinse FM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-capitalxtra" data-genres="hiphop rnb">
+      <button type="button" class="station station-play" data-src="https://media-the.musicradio.com/CapitalXTRALondonMP3" data-name="Capital XTRA" aria-label="Play Capital XTRA, UK national hip hop and R and B">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span>
+        <span class="station-name">Capital XTRA</span>
+        <span class="station-tags"><span class="station-genre">UK hip-hop / R&B / grime</span><span class="station-bitrate">MP3 live</span></span>
+        <span class="station-desc">UK national hip-hop, R&amp;B and grime. Commercial, ad-funded.</span>
+      </button>
+      <a class="station-support-link" href="https://www.capitalxtra.com/" target="_blank" rel="noopener" aria-label="Capital XTRA station info (opens in new tab)">Station info</a>
+    </article>
+    <article class="station-card theme-reloaded" data-genres="hiphop rnb">
+      <button type="button" class="station station-play" data-src="https://media-ice.musicradio.com/CapitalXTRAReloadedMP3" data-name="Capital XTRA Reloaded" aria-label="Play Capital XTRA Reloaded, old school hip hop and R and B">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><path d="M10.3 12h3.4M6 16.5l1.5-2M18 16.5l-1.5-2"/></svg></span>
+        <span class="station-name">Capital XTRA Reloaded</span>
+        <span class="station-tags"><span class="station-genre">Old-school hip-hop / R&B</span><span class="station-bitrate">MP3 live</span></span>
+        <span class="station-desc">Old-school hip-hop and R&amp;B anthems. Commercial, ad-funded.</span>
+      </button>
+      <a class="station-support-link" href="https://www.capitalxtra.com/reloaded/" target="_blank" rel="noopener" aria-label="Capital XTRA Reloaded station info (opens in new tab)">Station info</a>
+    </article>
+  </div>
+  <h3 class="station-group-title">US hip-hop &amp; R&amp;B</h3>
+  <div class="station-grid">
+    <article class="station-card theme-oldschool" data-genres="hiphop">
+      <button type="button" class="station station-play" data-src="https://hydra.cdnstream.com/1540_128" data-name="Old School Hip Hop" data-q="128" aria-label="Play Old School Hip Hop, classic US hip hop, 128 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="8" rx="1.5"/><rect x="5" y="13" width="14" height="8" rx="1.5"/><circle cx="12" cy="7" r="1.8"/><circle cx="12" cy="17" r="2.2"/></svg></span>
+        <span class="station-name">Old School Hip Hop</span>
+        <span class="station-tags"><span class="station-genre">Classic US hip-hop</span><span class="station-bitrate">128 kbps</span></span>
+        <span class="station-desc">Classic US hip-hop, all eras. Urbanradio.com.</span>
+      </button>
+      <a class="station-support-link" href="https://urbanradio.com/" target="_blank" rel="noopener" aria-label="Support Urbanradio.com (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-gotradio" data-genres="hiphop rnb">
+      <button type="button" class="station station-play" data-src="https://pureplay.cdnstream1.com/6041_128.mp3" data-name="GotRadio Hip Hop Stop" data-q="128" aria-label="Play GotRadio Hip Hop Stop, modern US rap, 128 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="10" rx="3" transform="rotate(24 12 7.5)"/><path d="M4.5 15.5l4-4M3.5 19.5l3-3"/></svg></span>
+        <span class="station-name">GotRadio Hip Hop Stop</span>
+        <span class="station-tags"><span class="station-genre">Modern US rap / hip-hop</span><span class="station-bitrate">128 kbps MP3</span></span>
+        <span class="station-desc">Modern US rap and hip-hop hits. GotRadio.</span>
+      </button>
+      <a class="station-support-link" href="https://gotradio.com/" target="_blank" rel="noopener" aria-label="Support GotRadio (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-181rnb" data-genres="rnb">
+      <button type="button" class="station station-play" data-src="https://listen.181fm.com/181-rnb_128k.mp3" data-name="181.FM True R&B" data-q="128" aria-label="Play 181 dot FM True R and B, smooth R and B, 128 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l9-2v10"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="14" r="2.5"/><path d="M9 10h6.5"/></svg></span>
+        <span class="station-name">181.FM True R&amp;B</span>
+        <span class="station-tags"><span class="station-genre">R&B / soul</span><span class="station-bitrate">128 kbps MP3</span></span>
+        <span class="station-desc">Smooth R&amp;B and soul, US. 181.FM.</span>
+      </button>
+      <a class="station-support-link" href="https://181.fm/" target="_blank" rel="noopener" aria-label="Support 181 dot FM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-urban" data-genres="rnb hiphop">
+      <button type="button" class="station station-play" data-src="https://hydra.cdnstream.com/1536_128" data-name="Urban Radio Hip Hop/R&B" data-q="128" aria-label="Play Urban Radio Hip Hop and R and B, US urban mix, 128 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10h4v11M9 21V4h4v17M15 21v-7h4v7M21 21H3"/></svg></span>
+        <span class="station-name">Urban Radio Hip Hop/R&amp;B</span>
+        <span class="station-tags"><span class="station-genre">US urban mix</span><span class="station-bitrate">128 kbps</span></span>
+        <span class="station-desc">US urban hip-hop and R&amp;B mix. Urbanradio.com.</span>
+      </button>
+      <a class="station-support-link" href="https://urbanradio.com/" target="_blank" rel="noopener" aria-label="Support Urbanradio.com (opens in new tab)">Support this station</a>
+    </article>
+  </div>
+  
+  
+  
+  <h3 class="station-group-title">Chill, eclectic &amp; ambient (listener-supported)</h3>
+  <div class="station-grid">
+    <article class="station-card theme-groovesalad" data-genres="chill">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/groovesalad-256-mp3" data-name="Groove Salad" data-q="256" aria-label="Play Groove Salad, SomaFM chill and downtempo, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1"/><path d="M2 14c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1" opacity=".6"/><path d="M2 19c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1" opacity=".3"/></svg></span>
+        <span class="station-name">Groove Salad</span>
+        <span class="station-tags"><span class="station-genre">Ambient / downtempo</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">A nicely chilled plate of ambient and downtempo beats and grooves. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-sonicuniverse" data-genres="chill">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/sonicuniverse-256-mp3" data-name="Sonic Universe" data-q="256" aria-label="Play Sonic Universe, SomaFM jazz, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v8.5a4 4 0 0 0 8 0V9"/><circle cx="16" cy="6.5" r="1.8"/><path d="M8 11.5c-2.2.6-3.5 2.2-3.5 5 0 2.3 1.7 3.5 3.5 3.5 2.8 0 4-1.8 4-4.5"/></svg></span>
+        <span class="station-name">Sonic Universe</span>
+        <span class="station-tags"><span class="station-genre">Jazz / avant-garde</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Eclectic, avant-garde jazz beyond tradition. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-digitalis" data-genres="chill">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/digitalis-256-mp3" data-name="Digitalis" data-q="256" aria-label="Play Digitalis, SomaFM electronic, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-4 3 8 2-4h7"/><circle cx="3" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="21" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">Digitalis</span>
+        <span class="station-tags"><span class="station-genre">Electronic / post-rock</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Digitally affected analog rock to calm the agitated heart. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-cliqhop" data-genres="dance">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/cliqhop-256-mp3" data-name="cliqhop idm" data-q="256" aria-label="Play cliqhop idm, SomaFM intelligent dance music, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg></span>
+        <span class="station-name">cliqhop idm</span>
+        <span class="station-tags"><span class="station-genre">IDM / electronic</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Blips and beeps backed with beats — intelligent dance music. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-dubstep" data-genres="dance">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/dubstep-256-mp3" data-name="Dub Step Beyond" data-q="256" aria-label="Play Dub Step Beyond, SomaFM dubstep, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">Dub Step Beyond</span>
+        <span class="station-tags"><span class="station-genre">Dubstep / bass</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Dark, heavy dubstep and bass beyond the drop. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-bossa" data-genres="chill rnb">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/bossa-256-mp3" data-name="Bossa Beyond" data-q="256" aria-label="Play Bossa Beyond, SomaFM bossa nova, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></span>
+        <span class="station-name">Bossa Beyond</span>
+        <span class="station-tags"><span class="station-genre">Bossa nova / Latin jazz</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Bossa nova and Latin jazz grooves. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-darkzone" data-genres="dance chill">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/darkzone-256-mp3" data-name="The Dark Zone" data-q="256" aria-label="Play The Dark Zone, SomaFM dark ambient, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/><path d="M17.2 3.8l.4 1.3 1.3.4-1.3.4-.4 1.3-.4-1.3-1.3-.4 1.3-.4z" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">The Dark Zone</span>
+        <span class="station-tags"><span class="station-genre">Dark ambient</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Deep, dark ambient for the small hours. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-dronezone" data-genres="chill">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/dronezone-256-mp3" data-name="Drone Zone" data-q="256" aria-label="Play Drone Zone, SomaFM drone ambient, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h18"/><path d="M3 12h18" opacity=".6"/><path d="M3 16h18" opacity=".3"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">Drone Zone</span>
+        <span class="station-tags"><span class="station-genre">Drone / ambient</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Atmospheric drone textures, minimal beats. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-defcon" data-genres="dance">
+      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/defcon-256-mp3" data-name="DEF CON" data-q="256" aria-label="Play DEF CON, SomaFM electronic, 256 kilobits per second">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M12 7V3M12 21v-4M7 12H3M21 12h-4"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">DEF CON</span>
+        <span class="station-tags"><span class="station-genre">Electronic</span><span class="station-bitrate">256 kbps MP3</span></span>
+        <span class="station-desc">Electronic beats — the official sound of DEF CON. SomaFM.</span>
+      </button>
+      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
+    </article>
+    <article class="station-card theme-radioparadise" data-genres="chill">
+      <button type="button" class="station station-play" data-src="https://stream.radioparadise.com/aac-320" data-name="Radio Paradise" data-q="320" aria-label="Play Radio Paradise, eclectic mix, 320 kilobits per second AAC">
+        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <span class="station-name">Radio Paradise</span>
+        <span class="station-tags"><span class="station-genre">Eclectic mix</span><span class="station-bitrate">320 kbps AAC</span></span>
+        <span class="station-desc">Eclectic commercial-free mix, listener-supported since 2000.</span>
+      </button>
+      <a class="station-support-link" href="https://radioparadise.com/support/" target="_blank" rel="noopener" aria-label="Support Radio Paradise (opens in new tab)">Support this station</a>
+    </article>
+  </div>
+  
+  <h3 class="station-group-title">Dance, garage &amp; club culture · official players</h3>
+  <div class="station-grid">
+    <article class="station-card theme-rinse" data-genres="dance"><div class="station"><span class="station-name">Centreforce 883</span><span class="station-genre">House / UK garage / old skool</span><p class="station-desc">Live DJs and listen-back shows. Hear it through Centreforce’s own player.</p><a class="station-support-link" href="https://www.centreforceradio.com/" target="_blank" rel="noopener noreferrer">Open Centreforce ↗</a></div></article>
+    <article class="station-card theme-gotradio" data-genres="dance"><div class="station"><span class="station-name">Capital Dance</span><span class="station-genre">Dance / club anthems</span><p class="station-desc">Current dance music, selected by the broadcaster. Opens its official player.</p><a class="station-support-link" href="https://www.capitaldance.com/radio/" target="_blank" rel="noopener noreferrer">Open Capital Dance ↗</a></div></article>
+  </div>
+  <div class="station-actions">
+    <button type="button" id="station-stop" class="station station-stop" aria-label="Stop live station">Stop station</button>
+  </div>
+  <audio id="station-audio" preload="none"></audio>
+  <p id="station-status" class="radio-note" role="status" aria-live="polite"></p>
+</section>
+<section class="radio-stations music-discovery" aria-labelledby="discovery-title">
+  <span class="radio-kicker">FOLLOW THE SOUND</span><h2 id="discovery-title">New music radar</h2>
+  <p class="radio-note">Go straight to the broadcasters’ rolling selections for new hip-hop, R&amp;B and dance. Their playlists change on their sites; these cards are not a live chart feed.</p>
+  <div class="discovery-grid">
+    <a class="discovery-card radar-rap" href="https://www.capitalxtra.com/radio/playlist/" target="_blank" rel="noopener noreferrer"><span class="discovery-number">01 / HIP-HOP + R&amp;B</span><h3>What’s in rotation?</h3><p>Capital XTRA’s current playlist. Find the track you just heard.</p><span>Explore the playlist ↗</span></a>
+    <a class="discovery-card radar-soul" href="https://www.reprezent.org.uk/schedule" target="_blank" rel="noopener noreferrer"><span class="discovery-number">02 / NEXT UP</span><h3>London, unfiltered.</h3><p>Reprezent’s shows: emerging voices, underground rap and electronic music.</p><span>Find your next show ↗</span></a>
+    <a class="discovery-card radar-dance" href="https://www.rinse.fm/" target="_blank" rel="noopener noreferrer"><span class="discovery-number">03 / AFTER HOURS</span><h3>Stay for the set.</h3><p>Rinse selections, live radio and underground dance culture.</p><span>Explore Rinse ↗</span></a>
+  </div>
+  <p class="radio-note">Track spotlight: <a href="https://www.youtube.com/watch?v=sNY_2TEmzho" target="_blank" rel="noopener noreferrer">Kendrick Lamar &amp; SZA — luther · official video ↗</a>. Released 2025; a listening pick, not a new-release claim. Editorial links checked 12 November 2026.</p>
+  <p class="radio-note">Listening and sharing do not give permission to sample, download or monetise someone else’s recording.</p>
+</section>
   <div class="radio-card" id="radio-card" role="region" aria-label="Insane Radio player"><p class="radio-player-label">NOW PLAYING</p>
     <p id="radio-title" class="radio-title">Press Play</p>
     <div class="radio-art" aria-hidden="true"><span id="radio-art-title">INSANE RADIO</span></div>
@@ -124,7 +336,7 @@
     <a id="radio-support" class="radio-support" href="#" target="_blank" rel="noopener">Support this artist</a>
     <p style="margin-top:1rem;font-size:.85rem;color:#94a3b8">Up next</p>
     <ul id="radio-upnext" class="radio-upnext"></ul>
-    <details class="radio-tracklist-details" open>
+    <details class="radio-tracklist-details">
       <summary id="radio-tracklist-summary" class="radio-tracklist-summary">All tracks — tap any song to play</summary>
       <ul id="radio-tracklist" class="radio-tracklist" aria-label="All curated tracks; tap any to play"></ul>
     </details>
@@ -163,190 +375,7 @@
   <div id="radio-playlist-embed" aria-label="Selected YouTube playlist" style="max-width:720px"></div>
   <p class="radio-note">Playback is provided by YouTube, subject to the uploader's embedding permissions, regional restrictions and YouTube's terms. No music is downloaded or hosted by Pleading Sanity.</p>
 </section>
-<section class="radio-stations" aria-labelledby="stations-title">
-  <h2 id="stations-title">Free live stations</h2>
-  <p class="radio-note">Press a card to play. Audio goes to your speakers, headphones, or Bluetooth if your phone is already connected. These are <strong>live broadcasts</strong> — the station chooses what plays next; we don't control the track list and we don't host the audio.</p>
-  <h3 class="station-group-title">UK grime, hip-hop &amp; R&amp;B</h3>
-  <div class="station-grid">
-    <article class="station-card theme-reprezent">
-      <button type="button" class="station station-play" data-src="https://radio.canstream.co.uk:8022/live.mp3" data-name="Reprezent Radio" aria-label="Play Reprezent Radio, South London grime and hip hop">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3M8 21h8"/></svg></span>
-        <span class="station-name">Reprezent Radio</span>
-        <span class="station-tags"><span class="station-genre">UK grime / hip-hop / talk</span><span class="station-bitrate">MP3 live</span></span>
-        <span class="station-desc">South London community station — grime, hip-hop and talk.</span>
-      </button>
-      <a class="station-support-link" href="https://reprezent.org/" target="_blank" rel="noopener" aria-label="Support Reprezent Radio (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-rinse">
-      <button type="button" class="station station-play" data-src="https://admin.stream.rinse.fm/proxy/rinse_uk/stream" data-name="Rinse FM" aria-label="Play Rinse FM, London grime and electronic">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="11" rx="2"/><circle cx="7.5" cy="12.5" r="2.5"/><circle cx="16.5" cy="12.5" r="2.5"/><path d="M11 9h2"/></svg></span>
-        <span class="station-name">Rinse FM</span>
-        <span class="station-tags"><span class="station-genre">UK grime / electronic / urban</span><span class="station-bitrate">Live stream</span></span>
-        <span class="station-desc">London underground — grime, electronic and urban.</span>
-      </button>
-      <a class="station-support-link" href="https://rinse.fm/" target="_blank" rel="noopener" aria-label="Support Rinse FM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-capitalxtra">
-      <button type="button" class="station station-play" data-src="https://media-the.musicradio.com/CapitalXTRALondonMP3" data-name="Capital XTRA" aria-label="Play Capital XTRA, UK national hip hop and R and B">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span>
-        <span class="station-name">Capital XTRA</span>
-        <span class="station-tags"><span class="station-genre">UK hip-hop / R&B / grime</span><span class="station-bitrate">MP3 live</span></span>
-        <span class="station-desc">UK national hip-hop, R&amp;B and grime. Commercial, ad-funded.</span>
-      </button>
-      <a class="station-support-link" href="https://www.capitalxtra.com/" target="_blank" rel="noopener" aria-label="Capital XTRA station info (opens in new tab)">Station info</a>
-    </article>
-    <article class="station-card theme-reloaded">
-      <button type="button" class="station station-play" data-src="https://media-ice.musicradio.com/CapitalXTRAReloadedMP3" data-name="Capital XTRA Reloaded" aria-label="Play Capital XTRA Reloaded, old school hip hop and R and B">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="8.5" cy="12" r="1.8"/><circle cx="15.5" cy="12" r="1.8"/><path d="M10.3 12h3.4M6 16.5l1.5-2M18 16.5l-1.5-2"/></svg></span>
-        <span class="station-name">Capital XTRA Reloaded</span>
-        <span class="station-tags"><span class="station-genre">Old-school hip-hop / R&B</span><span class="station-bitrate">MP3 live</span></span>
-        <span class="station-desc">Old-school hip-hop and R&amp;B anthems. Commercial, ad-funded.</span>
-      </button>
-      <a class="station-support-link" href="https://www.capitalxtra.com/reloaded/" target="_blank" rel="noopener" aria-label="Capital XTRA Reloaded station info (opens in new tab)">Station info</a>
-    </article>
-  </div>
-  <h3 class="station-group-title">US hip-hop &amp; R&amp;B</h3>
-  <div class="station-grid">
-    <article class="station-card theme-oldschool">
-      <button type="button" class="station station-play" data-src="https://hydra.cdnstream.com/1540_128" data-name="Old School Hip Hop" data-q="128" aria-label="Play Old School Hip Hop, classic US hip hop, 128 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="8" rx="1.5"/><rect x="5" y="13" width="14" height="8" rx="1.5"/><circle cx="12" cy="7" r="1.8"/><circle cx="12" cy="17" r="2.2"/></svg></span>
-        <span class="station-name">Old School Hip Hop</span>
-        <span class="station-tags"><span class="station-genre">Classic US hip-hop</span><span class="station-bitrate">128 kbps</span></span>
-        <span class="station-desc">Classic US hip-hop, all eras. Urbanradio.com.</span>
-      </button>
-      <a class="station-support-link" href="https://urbanradio.com/" target="_blank" rel="noopener" aria-label="Support Urbanradio.com (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-gotradio">
-      <button type="button" class="station station-play" data-src="https://pureplay.cdnstream1.com/6041_128.mp3" data-name="GotRadio Hip Hop Stop" data-q="128" aria-label="Play GotRadio Hip Hop Stop, modern US rap, 128 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2.5" width="6" height="10" rx="3" transform="rotate(24 12 7.5)"/><path d="M4.5 15.5l4-4M3.5 19.5l3-3"/></svg></span>
-        <span class="station-name">GotRadio Hip Hop Stop</span>
-        <span class="station-tags"><span class="station-genre">Modern US rap / hip-hop</span><span class="station-bitrate">128 kbps MP3</span></span>
-        <span class="station-desc">Modern US rap and hip-hop hits. GotRadio.</span>
-      </button>
-      <a class="station-support-link" href="https://gotradio.com/" target="_blank" rel="noopener" aria-label="Support GotRadio (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-181rnb">
-      <button type="button" class="station station-play" data-src="https://listen.181fm.com/181-rnb_128k.mp3" data-name="181.FM True R&B" data-q="128" aria-label="Play 181 dot FM True R and B, smooth R and B, 128 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V6l9-2v10"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="15.5" cy="14" r="2.5"/><path d="M9 10h6.5"/></svg></span>
-        <span class="station-name">181.FM True R&amp;B</span>
-        <span class="station-tags"><span class="station-genre">R&B / soul</span><span class="station-bitrate">128 kbps MP3</span></span>
-        <span class="station-desc">Smooth R&amp;B and soul, US. 181.FM.</span>
-      </button>
-      <a class="station-support-link" href="https://181.fm/" target="_blank" rel="noopener" aria-label="Support 181 dot FM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-urban">
-      <button type="button" class="station station-play" data-src="https://hydra.cdnstream.com/1536_128" data-name="Urban Radio Hip Hop/R&B" data-q="128" aria-label="Play Urban Radio Hip Hop and R and B, US urban mix, 128 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10h4v11M9 21V4h4v17M15 21v-7h4v7M21 21H3"/></svg></span>
-        <span class="station-name">Urban Radio Hip Hop/R&amp;B</span>
-        <span class="station-tags"><span class="station-genre">US urban mix</span><span class="station-bitrate">128 kbps</span></span>
-        <span class="station-desc">US urban hip-hop and R&amp;B mix. Urbanradio.com.</span>
-      </button>
-      <a class="station-support-link" href="https://urbanradio.com/" target="_blank" rel="noopener" aria-label="Support Urbanradio.com (opens in new tab)">Support this station</a>
-    </article>
-  </div>
-  
-  
-  
-  <h3 class="station-group-title">Chill, eclectic &amp; ambient (listener-supported)</h3>
-  <div class="station-grid">
-    <article class="station-card theme-groovesalad">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/groovesalad-256-mp3" data-name="Groove Salad" data-q="256" aria-label="Play Groove Salad, SomaFM chill and downtempo, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M2 9c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1"/><path d="M2 14c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1" opacity=".6"/><path d="M2 19c2.5-3 5-3 7.5 0s5 3 7.5 0 3-2.5 5-1" opacity=".3"/></svg></span>
-        <span class="station-name">Groove Salad</span>
-        <span class="station-tags"><span class="station-genre">Ambient / downtempo</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">A nicely chilled plate of ambient and downtempo beats and grooves. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-sonicuniverse">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/sonicuniverse-256-mp3" data-name="Sonic Universe" data-q="256" aria-label="Play Sonic Universe, SomaFM jazz, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v8.5a4 4 0 0 0 8 0V9"/><circle cx="16" cy="6.5" r="1.8"/><path d="M8 11.5c-2.2.6-3.5 2.2-3.5 5 0 2.3 1.7 3.5 3.5 3.5 2.8 0 4-1.8 4-4.5"/></svg></span>
-        <span class="station-name">Sonic Universe</span>
-        <span class="station-tags"><span class="station-genre">Jazz / avant-garde</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Eclectic, avant-garde jazz beyond tradition. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-digitalis">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/digitalis-256-mp3" data-name="Digitalis" data-q="256" aria-label="Play Digitalis, SomaFM electronic, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-4 3 8 2-4h7"/><circle cx="3" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="21" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">Digitalis</span>
-        <span class="station-tags"><span class="station-genre">Electronic / post-rock</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Digitally affected analog rock to calm the agitated heart. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-cliqhop">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/cliqhop-256-mp3" data-name="cliqhop idm" data-q="256" aria-label="Play cliqhop idm, SomaFM intelligent dance music, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 20V10M9 20V4M14 20v-7M19 20V8"/></svg></span>
-        <span class="station-name">cliqhop idm</span>
-        <span class="station-tags"><span class="station-genre">IDM / electronic</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Blips and beeps backed with beats — intelligent dance music. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-dubstep">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/dubstep-256-mp3" data-name="Dub Step Beyond" data-q="256" aria-label="Play Dub Step Beyond, SomaFM dubstep, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">Dub Step Beyond</span>
-        <span class="station-tags"><span class="station-genre">Dubstep / bass</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Dark, heavy dubstep and bass beyond the drop. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-bossa">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/bossa-256-mp3" data-name="Bossa Beyond" data-q="256" aria-label="Play Bossa Beyond, SomaFM bossa nova, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/></svg></span>
-        <span class="station-name">Bossa Beyond</span>
-        <span class="station-tags"><span class="station-genre">Bossa nova / Latin jazz</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Bossa nova and Latin jazz grooves. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-darkzone">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/darkzone-256-mp3" data-name="The Dark Zone" data-q="256" aria-label="Play The Dark Zone, SomaFM dark ambient, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/><path d="M17.2 3.8l.4 1.3 1.3.4-1.3.4-.4 1.3-.4-1.3-1.3-.4 1.3-.4z" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">The Dark Zone</span>
-        <span class="station-tags"><span class="station-genre">Dark ambient</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Deep, dark ambient for the small hours. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-dronezone">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/dronezone-256-mp3" data-name="Drone Zone" data-q="256" aria-label="Play Drone Zone, SomaFM drone ambient, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h18"/><path d="M3 12h18" opacity=".6"/><path d="M3 16h18" opacity=".3"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">Drone Zone</span>
-        <span class="station-tags"><span class="station-genre">Drone / ambient</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Atmospheric drone textures, minimal beats. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-defcon">
-      <button type="button" class="station station-play" data-src="https://ice6.somafm.com/defcon-256-mp3" data-name="DEF CON" data-q="256" aria-label="Play DEF CON, SomaFM electronic, 256 kilobits per second">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="7" width="10" height="10" rx="1"/><path d="M12 7V3M12 21v-4M7 12H3M21 12h-4"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">DEF CON</span>
-        <span class="station-tags"><span class="station-genre">Electronic</span><span class="station-bitrate">256 kbps MP3</span></span>
-        <span class="station-desc">Electronic beats — the official sound of DEF CON. SomaFM.</span>
-      </button>
-      <a class="station-support-link" href="https://somafm.com/support/" target="_blank" rel="noopener" aria-label="Support SomaFM (opens in new tab)">Support this station</a>
-    </article>
-    <article class="station-card theme-radioparadise">
-      <button type="button" class="station station-play" data-src="https://stream.radioparadise.com/aac-320" data-name="Radio Paradise" data-q="320" aria-label="Play Radio Paradise, eclectic mix, 320 kilobits per second AAC">
-        <span class="station-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span>
-        <span class="station-name">Radio Paradise</span>
-        <span class="station-tags"><span class="station-genre">Eclectic mix</span><span class="station-bitrate">320 kbps AAC</span></span>
-        <span class="station-desc">Eclectic commercial-free mix, listener-supported since 2000.</span>
-      </button>
-      <a class="station-support-link" href="https://radioparadise.com/support/" target="_blank" rel="noopener" aria-label="Support Radio Paradise (opens in new tab)">Support this station</a>
-    </article>
-  </div>
-  
-  <div class="station-actions">
-    <button type="button" id="station-stop" class="station station-stop" aria-label="Stop live station">Stop station</button>
-  </div>
-  <audio id="station-audio" preload="none"></audio>
-  <p id="station-status" class="radio-note" role="status" aria-live="polite"></p>
-</section>
+
 <section class="radio-stations" aria-labelledby="support-stations-title">
   <h2 id="support-stations-title">How to back these stations</h2>
   <p class="radio-note">These stations keep free radio alive. None of them pay us, and we don't host their audio — your browser streams directly from them. Here is exactly how to support each kind:</p>
@@ -373,6 +402,7 @@
 <script src="/js/radio-share.js" defer></script>
 <button type="button" id="radio-float-stop" class="radio-float-stop" hidden aria-label="Stop all audio">Stop audio</button>
 <script src="/js/radio-player.js" defer></script>
+<script src="/js/listening-room.js" defer></script>
 <script src="/js/radio-playlists.js" defer></script>
 <script src="/js/music-player.js" defer></script>
 </body>

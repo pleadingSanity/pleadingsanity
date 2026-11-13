@@ -56,6 +56,12 @@
     if (g === 'grime') return 'Grime';
     return g ? String(g).replace(/[-_]/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }) : '';
   }
+  function shareTrack(button, t) {
+    button.setAttribute('data-ps-share', 'song');
+    button.setAttribute('data-ps-title', t.title);
+    button.setAttribute('data-ps-artist', t.artist);
+    button.setAttribute('data-ps-url', valid(t.youtubeId) ? 'https://pleadingsanity.co.uk/insane-radio.html?track=' + encodeURIComponent(t.youtubeId) : official(t));
+  }
   function render() {
     var t = track(); if (!t) return;
     label('radio-title', t.title); label('radio-artist', t.artist);
@@ -69,6 +75,7 @@
         var item = document.createElement('li');
         var b = document.createElement('button');
         b.type = 'button';
+        shareTrack(b, t2);
         b.textContent = t2.title + ' · ' + t2.artist;
         b.setAttribute('aria-label', 'Play ' + t2.title + ' by ' + t2.artist);
         b.style.cssText = 'display:block;width:100%;min-height:44px;text-align:left;background:transparent;border:0;color:inherit;font:inherit;cursor:pointer;padding:.5rem;border-radius:8px;';
@@ -93,6 +100,7 @@
           var li2 = document.createElement('li');
           var btn = document.createElement('button');
           btn.type = 'button';
+          shareTrack(btn, tj);
           var hasVid = !!(tj.youtubeId && String(tj.youtubeId).trim());
           btn.textContent = (targetIdx + 1) + '. ' + tj.title + ' · ' + tj.artist + (hasVid ? '' : '  (official link only)');
           btn.setAttribute('aria-label', 'Play ' + tj.title + ' by ' + tj.artist + (hasVid ? '' : ', no in-page video'));
@@ -249,10 +257,11 @@
     label('radio-status', 'Paused — press Play to continue');
   }
   // ---- unified stop-all + floating Stop (Shane: make radio easy to turn off) ----
-  var floatStop = null;
+  var floatStop = null, stationGeneration = 0;
   function showFloatStop() { if (floatStop) floatStop.hidden = false; }
   function hideFloatStop() { if (floatStop) floatStop.hidden = true; }
   function stopStationAudio() {
+    stationGeneration++;
     var a = el('station-audio');
     if (a) { try { a.pause(); a.removeAttribute('src'); a.load(); } catch (e) {} }
     var btns = document.querySelectorAll('.station-play');
@@ -260,6 +269,7 @@
     var st = el('station-status'); if (st) st.textContent = 'Station stopped.';
   }
   function stopAll() {
+    document.dispatchEvent(new CustomEvent('ps-audio-stop'));
     stop();
     stopStationAudio();
     hideFloatStop();
@@ -267,6 +277,7 @@
   }
   function play() {
     if (!tracks.length) return;
+    document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'radio'}}));
     stopStationAudio();
     wanted = true; failures = 0; stateUI(false);
     if (ready && player && loadedId === track().youtubeId && valid(track().youtubeId) && safeCall('getPlayerState') === STATE.PAUSED) {
@@ -331,24 +342,56 @@
     floatStop = el('radio-float-stop'); if (floatStop) floatStop.addEventListener('click', stopAll);
     document.addEventListener('keydown', function (e) {
       if (e.key !== 'Escape') return;
-      var ae = document.activeElement;
-      if (ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA')) return;
       stopAll();
     });
+    document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'radio') { stop(); stopStationAudio(); hideFloatStop(); if (e.detail.source === 'widget') showFloatStop(); } });
+    document.addEventListener('ps-audio-stop', function () { stop(); stopStationAudio(); hideFloatStop(); });
+    document.addEventListener('ps-playlist-opened', showFloatStop);
     progressTimer = setInterval(tick, 500);
     fetch('/data/radio-library.json').then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(function (data) {
       tracks = Array.isArray(data.tracks) ? data.tracks.filter(function (t) { return t && typeof t.title === 'string' && typeof t.artist === 'string'; }) : [];
       if (!tracks.length) { label('radio-status', 'Track list empty.'); return; }
+      var selected = new URLSearchParams(window.location.search).get('track');
+      var selectedIndex = tracks.findIndex(function (t) { return valid(selected) && t.youtubeId === selected; });
+      if (selectedIndex >= 0) index = selectedIndex;
       render(); injectVoteUI(); label('radio-status', 'Ready — press Play once for continuous listening');
       initYouTube();
     }).catch(function () { label('radio-status', 'Track list unavailable. Please try again later.'); });
     document.addEventListener('visibilitychange', function () { if (document.hidden) clearFade(); });
   }
   // ---------- live station engine (station cards, #station-audio, #station-stop) ----------
+  // Return the approved constant, never the DOM-provided string. New stations
+  // require an explicit catalog update; tests prevent drift from the cards.
+  var STATION_SOURCES = [
+    "https://radio.canstream.co.uk:8022/live.mp3",
+    "https://admin.stream.rinse.fm/proxy/rinse_uk/stream",
+    "https://media-the.musicradio.com/CapitalXTRALondonMP3",
+    "https://media-ice.musicradio.com/CapitalXTRAReloadedMP3",
+    "https://hydra.cdnstream.com/1540_128",
+    "https://pureplay.cdnstream1.com/6041_128.mp3",
+    "https://listen.181fm.com/181-rnb_128k.mp3",
+    "https://hydra.cdnstream.com/1536_128",
+    "https://ice6.somafm.com/groovesalad-256-mp3",
+    "https://ice6.somafm.com/sonicuniverse-256-mp3",
+    "https://ice6.somafm.com/digitalis-256-mp3",
+    "https://ice6.somafm.com/cliqhop-256-mp3",
+    "https://ice6.somafm.com/dubstep-256-mp3",
+    "https://ice6.somafm.com/bossa-256-mp3",
+    "https://ice6.somafm.com/darkzone-256-mp3",
+    "https://ice6.somafm.com/dronezone-256-mp3",
+    "https://ice6.somafm.com/defcon-256-mp3",
+    "https://stream.radioparadise.com/aac-320"
+];
+  function stationSource(value) {
+    for (var i = 0; i < STATION_SOURCES.length; i++) {
+      if (value === STATION_SOURCES[i]) return STATION_SOURCES[i];
+    }
+    return null;
+  }
   // Evolution Not Erasure: same engine as the former inline script, extended to the
   // card grid. Audio element and Stop button contract preserved exactly.
   function initStations() {
-    var audio = document.getElementById('station-audio');
+    var audio = document.querySelector('audio#station-audio');
     var status = document.getElementById('station-status');
     var stopBtn = document.getElementById('station-stop');
     if (!audio || !status) return;
@@ -360,38 +403,41 @@
     for (var i = 0; i < btns.length; i++) {
       (function (btn) {
         btn.addEventListener('click', function () {
-          var src = btn.getAttribute('data-src');
+          var src = stationSource(btn.getAttribute('data-src'));
+          if (!src) { status.textContent = 'Station link unavailable. Open its official listening link.'; return; }
           var name = btn.getAttribute('data-name');
           var q = btn.getAttribute('data-q') || '';
-          clearActive();
-          stop();
+          document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'radio'}}));
+          stopStationAudio(); stop();
+          var token = ++stationGeneration;
           btn.classList.add('is-active');
-          if (audio.src !== src) audio.src = src;
-          var playPromise = audio.play();
-          if (playPromise && typeof playPromise.then === 'function') {
-            playPromise.then(function () {
-              status.textContent = 'Playing ' + name + (q ? ' · ' + q + ' kbps' : '') + '. Live broadcast — the station chooses what plays next. Sound follows your speakers, headphones, or Bluetooth.';
-              if ('mediaSession' in navigator) {
-                try { navigator.mediaSession.metadata = new MediaMetadata({ title: name, artist: 'Insane Radio · live' }); } catch (e) {}
-                showFloatStop();
-              }
-            }).catch(function () {
-              status.textContent = 'Could not start ' + name + '. Try another station.';
-              btn.classList.remove('is-active');
-            });
+          audio.setAttribute('src', src);
+          status.textContent = 'Connecting to ' + name + '…';
+          showFloatStop();
+          function started() {
+            if (token !== stationGeneration) return;
+            status.textContent = 'Playing ' + name + (q ? ' · ' + q + ' kbps' : '') + '. Live broadcast — the station chooses what plays next.';
+            if ('mediaSession' in navigator) {
+              try { navigator.mediaSession.metadata = new MediaMetadata({ title:name, artist:'Insane Radio · live' }); } catch (e) {}
+            }
           }
+          function failed() {
+            if (token !== stationGeneration) return;
+            stopStationAudio(); hideFloatStop();
+            status.textContent = 'Could not start ' + name + '. Open its official listening link or try another station.';
+          }
+          audio.onplaying = started;
+          audio.onerror = failed;
+          audio.onwaiting = function () { if (token === stationGeneration) status.textContent = 'Buffering ' + name + '…'; };
+          try {
+            var playPromise = audio.play();
+            if (playPromise && typeof playPromise.then === 'function') playPromise.then(started).catch(failed);
+          } catch (e) { failed(); }
         });
       })(btns[i]);
     }
     if (stopBtn) {
-      stopBtn.addEventListener('click', function () {
-        audio.pause();
-        audio.removeAttribute('src');
-        audio.load();
-        clearActive();
-        status.textContent = 'Station stopped.';
-        hideFloatStop();
-      });
+      stopBtn.addEventListener('click', stopAll);
     }
   }
   if (document.readyState === 'loading') {
@@ -448,7 +494,7 @@
     // Parse "title · artist" from button text; tolerate "N. title · artist" and
     // "  (official link only)" suffix. URL = radio page (no external hotlinks).
     function decorateTrackButton(btn) {
-      if (!btn || btn.getAttribute('data-ps-share')) return;
+      if (!btn || btn.classList.contains('ps-share-btn') || btn.getAttribute('data-ps-share')) return;
       var raw = (btn.textContent || '').trim();
       raw = raw.replace(/^\d+\.\s*/, '').replace(/\s*\(official link only\)\s*$/, '').trim();
       var parts = raw.split('·');
@@ -565,7 +611,7 @@
       if (!card) return;
       var note = document.createElement('p');
       note.className = 'ps-persist-note';
-      note.innerHTML = '<strong>Audio keeps playing while you browse the site</strong>; on phones it stops when you lock the screen or switch apps (OS limit) — <span class="ps-persist-hint">add to Home Screen for best experience.</span>';
+      note.textContent = 'Keep this tab open to keep listening. Opening another site page here interrupts playback; a station resume control may be offered on the next page. Phone lock and app switching depend on your browser and OS. Installing the site does not guarantee background audio.';
       card.parentNode.insertBefore(note, card.nextSibling);
     }
 

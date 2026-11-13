@@ -29,6 +29,13 @@
   var btnQueue = $('queue-add');
   if (!audio || !listEl) return;
 
+  function stopAudio() { audio.pause(); status('Stopped — press Play to continue.'); }
+  document.addEventListener('ps-audio-stop', stopAudio);
+  document.addEventListener('ps-audio-focus', function (e) { if (e.detail.source !== 'originals') stopAudio(); });
+  var stopButton = $('stop-music');
+  if (stopButton) stopButton.addEventListener('click', function () { document.dispatchEvent(new CustomEvent('ps-audio-stop')); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.dispatchEvent(new CustomEvent('ps-audio-stop')); });
+  audio.addEventListener('play', function () { document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'originals'}})); });
   var tracks = [];
   var index = 0;
   var queue = [];

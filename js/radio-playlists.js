@@ -38,7 +38,17 @@
     try { localStorage.setItem(KEY, JSON.stringify(ids)); return true; }
     catch (_) { status.textContent = 'This browser cannot save playlists. Links remain available until you close the page.'; return false; }
   }
+  function closePlayers() {
+    embed.replaceChildren();
+    document.querySelectorAll('.shane-embed').forEach(function (wrap) { wrap.replaceChildren(); wrap.hidden = true; });
+    document.querySelectorAll('.shane-playlist-btn').forEach(function (button) { if (button.tagName === 'BUTTON') button.textContent = 'Play here'; });
+  }
+  document.addEventListener('ps-audio-stop', closePlayers);
+  document.addEventListener('ps-audio-focus', closePlayers);
+  function focusPlaylist() { document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'playlist'}})); }
+  function playlistOpened() { document.dispatchEvent(new CustomEvent('ps-playlist-opened')); }
   function openPlaylist(id) {
+    focusPlaylist();
     embed.replaceChildren();
     var isVideo = /^v:/.test(id);
     var frame = document.createElement('iframe');
@@ -52,6 +62,7 @@
     frame.allowFullscreen = true;
     frame.style.cssText = 'display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px';
     embed.appendChild(frame);
+    playlistOpened();
     status.textContent = isVideo
       ? 'Track opened in the official player. If it stays blank or restricted, open it in YouTube Music.'
       : 'Playlist opened in the official player. If it stays blank or restricted, open it in YouTube Music — private or region-locked lists need the app.';
@@ -213,6 +224,7 @@
     play.setAttribute('aria-label', 'Play ' + name + ' here with the official YouTube player');
     play.addEventListener('click', function () {
       if (!embedWrap.hidden) { embedWrap.hidden = true; embedWrap.replaceChildren(); play.textContent = 'Play here'; return; }
+      focusPlaylist();
       var frame = document.createElement('iframe');
       frame.title = name + (isVideo ? ' — YouTube video player' : ' — YouTube playlist player');
       frame.src = isVideo ? ('https://www.youtube-nocookie.com/embed/' + encodeURIComponent(id.slice(2))) : ('https://www.youtube-nocookie.com/embed/videoseries?list=' + encodeURIComponent(id));
@@ -223,6 +235,7 @@
       embedWrap.appendChild(frame);
       embedWrap.hidden = false;
       play.textContent = 'Hide player';
+      playlistOpened();
     });
     actions.appendChild(play);
     var open = document.createElement('a');
