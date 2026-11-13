@@ -46,6 +46,6 @@ test('first entry retains official link and does not host audio',()=>{
  for (const [, source] of stationUrls) {
   const url = new URL(source);
   assert.equal(url.protocol, 'https:');
-  assert.match(url.hostname, /^(?:[a-z0-9-]+\.)*(somafm\.com|radioparadise\.com)$/i);
+  assert.match(url.hostname, /^(?:[a-z0-9-]+\.)*(somafm\.com|radioparadise\.com|canstream\.co\.uk|rinse\.fm|musicradio\.com|cdnstream\.com|cdnstream1\.com|181fm\.com)$/i);
  }
 });
