@@ -475,18 +475,26 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
     return slowDown("We've talked a lot today. I need to rest until tomorrow. The tools, journal and games still work: https://pleadingsanity.co.uk/tools.html");
   }
-  // The new shape can save without a device memory id only when signed in (the account's own memory).
-  const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
+  // A memory id is optional. The app sends a device id; a first visit, a blank
+  // field, or a plain {message} request may not. Missing, blank, and malformed
+  // ids are anonymous: Arron still answers, and that value is never a lookup key.
+  // A well-formed id is resolved as before (an account-owned memory stays
+  // unreadable to a guest). A signed-in account on the classic {message} shape,
+  // or an explicit saveToCloud, still uses that account's own memory.
+  const safeMemoryId = validId(body.memoryId) ? body.memoryId : undefined;
+  const wantsAccount = Boolean(user) && (body.saveToCloud === true || !fromClient);
+  const wantsCloud = !localOnly && (safeMemoryId !== undefined || wantsAccount);
   // Phase 2: Supabase cloud copy is written ONLY with consent — explicit saveToCloud===true
   // or a signed-in user (their account, their history). Guests default to local Netlify DB only.
   const supabaseConsent = body.saveToCloud === true || Boolean(user);
-  const resolved: Resolved | null = !wantsCloud
+  const resolved: Resolved = !wantsCloud
     ? { id: "", readable: false }
-    : await resolveMemory(body.memoryId, user).catch((error) => {
+    : ((await resolveMemory(safeMemoryId, user).catch((error) => {
         console.error(`Arron [${rid}] memory unavailable:`, reason(error));
-        return validId(body.memoryId) ? { id: body.memoryId, readable: false } : null;
-      });
-  if (!resolved) return json({ error: "Invalid memory id" }, 400);
+        // Only a well-formed id may be kept for a later local save. A database
+        // hiccup must not become a 400, and a bad id must not be reused.
+        return safeMemoryId ? { id: safeMemoryId, readable: false } : { id: "", readable: false };
+      })) ?? { id: "", readable: false });
   const memoryId = resolved.id;
 
   // Memory makes Arron personal, but a database hiccup should never stop him replying.
