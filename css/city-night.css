@@ -42,3 +42,7 @@ html:root[data-theme="light"] .ps-city-kicker{color:#71500f}
 @media print{html:root body{background:#fff!important;color:#000!important}.ps-city-art{box-shadow:none}.ps-city-home .ps-city-intro{display:block}}
 
 html:root[data-theme="light"] :is(a,button,input,select,textarea,summary):focus-visible{outline-color:#71500f}
+html:root[data-theme="light"] .ps-city-copy :is(.built,.home-companion-note){color:#375b61}
+html:root[data-theme="light"] .ps-city-copy .h-card :is(span,a){color:#1c5257!important}
+html:root[data-theme="light"] .ps-city-home .ps-start-grid>a{background:#edf6f5;color:#14343a}
+html:root[data-theme="light"] .ps-city-home .ps-start-grid>a :is(strong,span){color:#14343a}
