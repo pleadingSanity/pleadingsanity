@@ -38,7 +38,9 @@ function checkUrl(url, page, label) {
   }
 }
 for (const page of pages) {
-  const html = readFileSync(page, 'utf8');
+  // Raw script bodies contain template markup, not literal DOM asset URLs.
+  // Runtime-generated assets need manifest/browser verification separately.
+  const html = readFileSync(page, 'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
   const short = page.slice(root.length + 1);
   for (const match of html.matchAll(assetAttrs)) {
     const tag = match[0], type = match[1].toLowerCase();
