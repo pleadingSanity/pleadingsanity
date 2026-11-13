@@ -1291,3 +1291,11 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Merged: #312 triage + #323 radio (SVG icons, Share buttons everywhere, cross-page handoff chip, honest OS-limit note) + #324 copy/consistency (css/shard-copy.css, full-7 crisis footers on 26 pages) + #325 imagery (CSS/SVG fallback + shop notify-me live) + hero raster images (3 generated, assets/images/r2-2026/, honest Illustration labels).
 - Operational fix: each shard used its own fresh clone in /tmp — zero shared-clone races. Next AIs: do the same.
 - Known gap: true gapless cross-page playback needs SPA/ServiceWorker audio; YouTube curated tracks can't resume cross-page. See DOLA_MEMORY.md Shane-action gaps.
+
+
+## 2026-11-13 — GPT: document heading audit accuracy and hosting checkpoint
+- Base main: 78b91b8e5a8bbcabc87389daa2e06f95859d1a1b. Focused branch fix/audit-document-headings; no production page edits.
+- The regex heading counter reported two H1s on journal-vault.html, journal-vault-viewer.html and sanityhub.html because it counted HTML inside JavaScript print templates. Count actual document elements with existing Cheerio dependency; preserve print/export headings and journal behaviour.
+- Verification: regression test passes for all three affected pages; strict static audit on main-based branch: 85 HTML pages, 0 errors, 2 existing crisis-reference warnings, 1 canonical info. git diff --check passes. No browser test needed for this CLI-only change. Independent external review not performed. Rollback: revert this focused commit.
+- Hosting checkpoint from authorised account operations: Porkbun nameservers saved as charles.ns.cloudflare.com and teagan.ns.cloudflare.com; Cloudflare zone reports active. DNS records retain Netlify hosting through apex-loadbalancer.netlify.com and pleadingsanity.netlify.app; no full-site migration. Main homepage, crisis and radio previously returned HTTP 200. Creator Pages project remains undeployed.
+- Both owner account memberships are accepted, but connecting the canonical GitHub repository still returns Cloudflare error 8000011 (internal Pages Git installation issue). Membership acceptance is not proof the Git integration works. No paid calls, main merge, protected file, auth or payment changes.
