@@ -29,7 +29,7 @@ async function playerHarness(options = {}) {
  let timerId=0, events, state=-1;
  function node(id) {
   if(!nodes.has(id)) nodes.set(id,{textContent:'',value:0,max:100,href:'',style:{},attrs:{},listeners:{},paused:true,pause(){this.paused=true;},load(){},removeAttribute(k){delete this.attrs[k];if(k==='src')this.src='';},play(){this.paused=false;return new Promise((resolve,reject)=>stationPromises.push({resolve,reject}));},
-   classList:{toggle(){},add(){},remove(){}},setAttribute(k,v){this.attrs[k]=v;},getAttribute(k){return this.attrs[k] || null;},querySelector(){return null;},replaceChildren(){},appendChild(){},append(){},
+   classList:{toggle(){},add(){},remove(){}},setAttribute(k,v){this.attrs[k]=v;if(k==='src')this.src=v;},getAttribute(k){return this.attrs[k] || null;},querySelector(){return null;},replaceChildren(){},appendChild(){},append(){},
    addEventListener(type,fn){this.listeners[type]=fn;}});
   return nodes.get(id);
  }
@@ -40,7 +40,7 @@ async function playerHarness(options = {}) {
  const station = node('station-test'); station.attrs={'data-src':options.stationSrc || 'https://ice6.somafm.com/groovesalad-256-mp3','data-name':'Test Station'};
  const tracks=[{title:'First',artist:'A',youtubeId:'aaaaaaaaaaa'},{title:'Second',artist:'B',youtubeId:'bbbbbbbbbbb'}];
  vm.runInNewContext(js,{window,URL,URLSearchParams,CustomEvent:class {constructor(type,options){this.type=type;this.detail=options?.detail;}},document:{readyState:'complete',getElementById:node,
-  createElement:()=>node('created-'+(++timerId)),querySelectorAll:selector=>options.stations && selector.startsWith('.station-play') ? [station] : [],querySelector:()=>null,head:{appendChild(){}},addEventListener(type,fn){if(!documentEvents.has(type))documentEvents.set(type,[]);documentEvents.get(type).push(fn);},dispatchEvent(e){for(const fn of documentEvents.get(e.type)||[])fn(e);}},
+  createElement:()=>node('created-'+(++timerId)),querySelectorAll:selector=>options.stations && selector.startsWith('.station-play') ? [station] : [],querySelector:selector=>selector==='audio#station-audio'&&!options.wrongStationElement?node('station-audio'):null,head:{appendChild(){}},addEventListener(type,fn){if(!documentEvents.has(type))documentEvents.set(type,[]);documentEvents.get(type).push(fn);},dispatchEvent(e){for(const fn of documentEvents.get(e.type)||[])fn(e);}},
   fetch:async()=>({ok:true,json:async()=>({tracks})}),
   navigator:{},setTimeout(fn){const id=++timerId;timers.set(id,fn);return id;},clearTimeout(id){timers.delete(id);},
   setInterval(fn){const id=++timerId;intervals.set(id,fn);return id;},clearInterval(id){intervals.delete(id);}});
@@ -126,6 +126,12 @@ test('all existing station URLs remain supported without changing their source',
   assert.equal(h.nodes.get('station-audio').src,source);
   assert.equal(h.stationPromises.length,1);
  }
+});
+
+test('a non-audio element with the station ID cannot receive a playback URL',async()=>{
+ const h=await playerHarness({stations:true,wrongStationElement:true});
+ assert.equal(h.station.listeners.click,undefined);
+ assert.equal(h.stationPromises.length,0);
 });
 
 test('a failure from the previous station cannot overwrite the current station',async()=>{

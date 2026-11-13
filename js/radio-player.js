@@ -372,7 +372,7 @@
   // Evolution Not Erasure: same engine as the former inline script, extended to the
   // card grid. Audio element and Stop button contract preserved exactly.
   function initStations() {
-    var audio = document.getElementById('station-audio');
+    var audio = document.querySelector('audio#station-audio');
     var status = document.getElementById('station-status');
     var stopBtn = document.getElementById('station-stop');
     if (!audio || !status) return;
@@ -392,7 +392,7 @@
           stopStationAudio(); stop();
           var token = ++stationGeneration;
           btn.classList.add('is-active');
-          audio.src = src;
+          audio.setAttribute('src', src);
           status.textContent = 'Connecting to ' + name + '…';
           showFloatStop();
           function started() {
