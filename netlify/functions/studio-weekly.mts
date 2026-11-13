@@ -5,9 +5,11 @@
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
+import { scheduledAiAllowed } from "../lib/scheduled-ai.js";
 import { POD_TOPICS, queuePodcast } from "../lib/studio.js";
 
 export default async () => {
+  if (!(await scheduledAiAllowed("studio-weekly"))) return;
   const week = Math.floor(Date.now() / (7 * 86_400_000));
   const origin = process.env.URL || "https://pleadingsanity.co.uk";
   try {

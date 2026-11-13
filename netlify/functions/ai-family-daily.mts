@@ -7,6 +7,7 @@
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
+import { scheduledAiAllowed } from "../lib/scheduled-ai.js";
 import { db } from "../../db/index.js";
 import { studioItems } from "../../db/schema.js";
 import { familyCard, parseJSON, speak, STYLES, VOICES, type VoiceId } from "../lib/studio.js";
@@ -32,6 +33,7 @@ const THEMES = [
 ];
 
 export default async () => {
+  if (!(await scheduledAiAllowed("ai-family-daily"))) return;
   const slot = Math.floor(Date.now() / (12 * 3_600_000)); // a new turn every half-day
   const voice = ROTA[slot % ROTA.length];
   const style = STYLE_ROTA[slot % STYLE_ROTA.length];

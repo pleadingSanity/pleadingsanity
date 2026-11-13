@@ -2,13 +2,14 @@
 // Plain GET: key presence only (no spend).
 // ?probe=1: one lightweight GET per provider (credential validity, no spend) + site daily budget counter.
 // ?probe=2: one real 1-token chat completion per provider (negligible spend) to prove the exact hop that fails.
-// Probe levels 1 and 2 make real provider calls, so they are locked down: if PS_PROBE_TOKEN is set,
-// only a matching ?token= may probe; otherwise the AI rate-limit bucket bounds abuse. probe=0 stays public.
+// Probe levels 1 and 2 require a verified owner session and the AI rate limit.
+// PS_PROBE_TOKEN, when configured, is an additional check. probe=0 stays public.
 import type { Config, Context } from "@netlify/functions";
 import { db } from "../../db/index.js";
 import { rateLimits } from "../../db/schema.js";
 import { sql } from "drizzle-orm";
 import { allow, slowDown } from "../lib/rate-limit.js";
+import { optionalUser } from "../lib/social.js";
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 const nonEmpty = (v: string | undefined) => Boolean(v && v.trim().length > 8);
@@ -63,14 +64,17 @@ export default async (req: Request, context: Context) => {
   } catch {
     budget = { ...budget, used: -1, remaining: -1 };
   }
-  // Probe levels 1 and 2 make real provider calls (and spend a little). Lock
-  // them down: if PS_PROBE_TOKEN is set, only a matching ?token= may probe.
-  // If it is not set, still bound abuse with the AI rate-limit bucket. probe=0
-  // (key presence + budget) stays public — it never calls a provider.
+  // Active probes require verified owner login even when no probe token is set.
+  // probe=0 (key presence + budget) stays public and never calls a provider.
   if (probeLevel !== "0" && probeLevel !== "1" && probeLevel !== "2") {
     return json({ error: "probe must be 0, 1 or 2", keys, budget }, 400);
   }
   if (probeLevel !== "0") {
+    const user = await optionalUser();
+    if (!user?.isOwner) return json({ error: "Not found" }, 404);
+    if (probeLevel === "2" && env.PS_PAID_PROBES_APPROVED !== "true") {
+      return json({ error: "Paid probes are disabled." }, 403);
+    }
     const token = (env.PS_PROBE_TOKEN || "").trim();
     const given = (url.searchParams.get("token") || "").trim();
     if (token && given !== token) {
@@ -81,7 +85,7 @@ export default async (req: Request, context: Context) => {
     }
   }
   if (probeLevel === "0") {
-    return json({ ok: true, chain: ["openai", "anthropic", "gemini", "grok"], keys, budget, note: "Key presence + budget only. ?probe=1 credential check, ?probe=2 real 1-token chat. Probe locked with PS_PROBE_TOKEN when set." });
+    return json({ ok: true, chain: ["openai", "anthropic", "gemini", "grok"], keys, budget, note: "Key presence + budget only. Active probes require verified owner login, rate limiting and any configured PS_PROBE_TOKEN." });
   }
   const openaiKey = env.OPENAI_API_KEY || "";
   const anthropicKey = env.ANTHROPIC_API_KEY || env.Anthropic_Key_Arron || "";
