@@ -109,7 +109,7 @@ test('a delayed station start after Stop cannot restore playing status or the fl
 });
 
 test('station playback rejects active URLs and unapproved hosts before starting audio',async()=>{
- for(const source of ['javascript:alert(1)','data:text/html,<script>alert(1)</script>','http://ice6.somafm.com/live','https://ice6.somafm.com.evil.example/live','https://user:password@ice6.somafm.com/live','https://127.0.0.1/live']){
+ for(const source of ['javascript:alert(1)','data:text/html,<script>alert(1)</script>','http://ice6.somafm.com/live','https://ice6.somafm.com.evil.example/live','https://user:password@ice6.somafm.com/live','https://127.0.0.1/live','https://ice6.somafm.com/unapproved-path']){
   const h=await playerHarness({stations:true,stationSrc:source});
   h.station.listeners.click();
   assert.equal(h.stationPromises.length,0,source);

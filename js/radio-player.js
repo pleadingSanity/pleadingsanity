@@ -360,14 +360,33 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) clearFade(); });
   }
   // ---------- live station engine (station cards, #station-audio, #station-stop) ----------
+  // Return the approved constant, never the DOM-provided string. New stations
+  // require an explicit catalog update; tests prevent drift from the cards.
+  var STATION_SOURCES = [
+    "https://radio.canstream.co.uk:8022/live.mp3",
+    "https://admin.stream.rinse.fm/proxy/rinse_uk/stream",
+    "https://media-the.musicradio.com/CapitalXTRALondonMP3",
+    "https://media-ice.musicradio.com/CapitalXTRAReloadedMP3",
+    "https://hydra.cdnstream.com/1540_128",
+    "https://pureplay.cdnstream1.com/6041_128.mp3",
+    "https://listen.181fm.com/181-rnb_128k.mp3",
+    "https://hydra.cdnstream.com/1536_128",
+    "https://ice6.somafm.com/groovesalad-256-mp3",
+    "https://ice6.somafm.com/sonicuniverse-256-mp3",
+    "https://ice6.somafm.com/digitalis-256-mp3",
+    "https://ice6.somafm.com/cliqhop-256-mp3",
+    "https://ice6.somafm.com/dubstep-256-mp3",
+    "https://ice6.somafm.com/bossa-256-mp3",
+    "https://ice6.somafm.com/darkzone-256-mp3",
+    "https://ice6.somafm.com/dronezone-256-mp3",
+    "https://ice6.somafm.com/defcon-256-mp3",
+    "https://stream.radioparadise.com/aac-320"
+];
   function stationSource(value) {
-    try {
-      var source = new URL(value);
-      var hosts = ['radio.canstream.co.uk', 'admin.stream.rinse.fm', 'media-the.musicradio.com', 'media-ice.musicradio.com', 'hydra.cdnstream.com', 'pureplay.cdnstream1.com', 'listen.181fm.com', 'ice6.somafm.com', 'stream.radioparadise.com'];
-      if (source.protocol !== 'https:' || source.username || source.password || hosts.indexOf(source.hostname) < 0) return null;
-      // Fixed passive scheme: DOM text can never become an active URL scheme.
-      return 'https://' + source.host + source.pathname + source.search + source.hash;
-    } catch (e) { return null; }
+    for (var i = 0; i < STATION_SOURCES.length; i++) {
+      if (value === STATION_SOURCES[i]) return STATION_SOURCES[i];
+    }
+    return null;
   }
   // Evolution Not Erasure: same engine as the former inline script, extended to the
   // card grid. Audio element and Stop button contract preserved exactly.
