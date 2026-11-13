@@ -360,6 +360,15 @@
     document.addEventListener('visibilitychange', function () { if (document.hidden) clearFade(); });
   }
   // ---------- live station engine (station cards, #station-audio, #station-stop) ----------
+  function stationSource(value) {
+    try {
+      var source = new URL(value);
+      var hosts = ['radio.canstream.co.uk', 'admin.stream.rinse.fm', 'media-the.musicradio.com', 'media-ice.musicradio.com', 'hydra.cdnstream.com', 'pureplay.cdnstream1.com', 'listen.181fm.com', 'ice6.somafm.com', 'stream.radioparadise.com'];
+      if (source.protocol !== 'https:' || source.username || source.password || hosts.indexOf(source.hostname) < 0) return null;
+      // Fixed passive scheme: DOM text can never become an active URL scheme.
+      return 'https://' + source.host + source.pathname + source.search + source.hash;
+    } catch (e) { return null; }
+  }
   // Evolution Not Erasure: same engine as the former inline script, extended to the
   // card grid. Audio element and Stop button contract preserved exactly.
   function initStations() {
@@ -375,7 +384,8 @@
     for (var i = 0; i < btns.length; i++) {
       (function (btn) {
         btn.addEventListener('click', function () {
-          var src = btn.getAttribute('data-src');
+          var src = stationSource(btn.getAttribute('data-src'));
+          if (!src) { status.textContent = 'Station link unavailable. Open its official listening link.'; return; }
           var name = btn.getAttribute('data-name');
           var q = btn.getAttribute('data-q') || '';
           document.dispatchEvent(new CustomEvent('ps-audio-focus', {detail:{source:'radio'}}));

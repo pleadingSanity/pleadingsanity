@@ -37,7 +37,7 @@ async function playerHarness(options = {}) {
   pauseVideo(){calls.push(['pause']);},stopVideo(){calls.push(['stop']);},getPlayerState(){return state;},
   getVolume(){return 75;},setVolume(){},getDuration(){return 180;},getCurrentTime(){return 15;}};
  const window={location:{origin:'https://example.test',search:options.search || ''},matchMedia:()=>({matches:true}),YT:{Player:function(id,options){events=options.events;return player;}}};
- const station = node('station-test'); station.attrs={'data-src':'https://example.test/live','data-name':'Test Station'};
+ const station = node('station-test'); station.attrs={'data-src':options.stationSrc || 'https://ice6.somafm.com/groovesalad-256-mp3','data-name':'Test Station'};
  const tracks=[{title:'First',artist:'A',youtubeId:'aaaaaaaaaaa'},{title:'Second',artist:'B',youtubeId:'bbbbbbbbbbb'}];
  vm.runInNewContext(js,{window,URL,URLSearchParams,CustomEvent:class {constructor(type,options){this.type=type;this.detail=options?.detail;}},document:{readyState:'complete',getElementById:node,
   createElement:()=>node('created-'+(++timerId)),querySelectorAll:selector=>options.stations && selector.startsWith('.station-play') ? [station] : [],querySelector:()=>null,head:{appendChild(){}},addEventListener(type,fn){if(!documentEvents.has(type))documentEvents.set(type,[]);documentEvents.get(type).push(fn);},dispatchEvent(e){for(const fn of documentEvents.get(e.type)||[])fn(e);}},
@@ -106,6 +106,26 @@ test('a delayed station start after Stop cannot restore playing status or the fl
  assert.equal(h.nodes.get('station-audio').src,'');
  assert.match(h.nodes.get('station-status').textContent,/stopped/);
  assert.equal(h.nodes.get('radio-float-stop').hidden,true);
+});
+
+test('station playback rejects active URLs and unapproved hosts before starting audio',async()=>{
+ for(const source of ['javascript:alert(1)','data:text/html,<script>alert(1)</script>','http://ice6.somafm.com/live','https://ice6.somafm.com.evil.example/live','https://user:password@ice6.somafm.com/live','https://127.0.0.1/live']){
+  const h=await playerHarness({stations:true,stationSrc:source});
+  h.station.listeners.click();
+  assert.equal(h.stationPromises.length,0,source);
+  assert.notEqual(h.nodes.get('station-audio').src,source);
+  assert.match(h.nodes.get('station-status').textContent,/unavailable/);
+ }
+});
+
+test('all existing station URLs remain supported without changing their source',async()=>{
+ const sources=[...html.matchAll(/data-src="([^"]+)"/g)].map(match=>match[1]);
+ assert.ok(sources.length>=18);
+ for(const source of sources){
+  const h=await playerHarness({stations:true,stationSrc:source});h.station.listeners.click();
+  assert.equal(h.nodes.get('station-audio').src,source);
+  assert.equal(h.stationPromises.length,1);
+ }
 });
 
 test('a failure from the previous station cannot overwrite the current station',async()=>{
