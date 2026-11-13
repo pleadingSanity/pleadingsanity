@@ -78,6 +78,7 @@ function makeEl(tag) {
     insertAdjacentHTML() {},
     addEventListener(type, fn) { this.listeners[type] = fn; },
     querySelector() { return makeEl('queried'); },
+    querySelectorAll() { return []; },
     contentWindow: null
   };
   return el;
@@ -87,9 +88,11 @@ function harness() {
   const store = new Map();
   const postCalls = [];
   let msgHandler = null;
+  const docEvents = new Map();
   const iframe = makeEl('iframe');
   iframe.contentWindow = { postMessage(...args) { postCalls.push(args); } };
   const document = {
+    addEventListener(type,fn) { if(!docEvents.has(type))docEvents.set(type,[]);docEvents.get(type).push(fn); },
     getElementById() { return null; },
     createElement(tag) { return tag === 'iframe' ? iframe : makeEl(tag); },
     body: { appendChild() {} },
@@ -107,15 +110,18 @@ function harness() {
     fetch: async () => ({ ok: true, json: async () => ({ label: '', youtube_url: '', sonos_url: '', amazon_music_url: '' }) }),
     setTimeout, clearTimeout, console
   });
-  return { store, postCalls, dispatch: (origin, data) => msgHandler && msgHandler({ origin, data }), iframe };
+  return { store, postCalls, stop:()=>{for(const fn of docEvents.get('ps-audio-stop')||[])fn();}, dispatch: (origin, data) => msgHandler && msgHandler({ origin, data }), iframe };
 }
 
-test('vm: when a disliked song is reported, the player skips it (nextVideo) exactly once', () => {
+test('vm: when a disliked song is reported, the player cues a different playable song exactly once', () => {
   const h = harness();
   h.store.set('ps_music_vote_DjdB4Bm4n2M', 'dislike');
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
   const cmds = h.postCalls.map(a => { try { return JSON.parse(a[0]).func; } catch { return null; } });
-  assert.ok(cmds.includes('nextVideo'), 'expected nextVideo postMessage, got: ' + JSON.stringify(cmds));
+  assert.equal(cmds.filter(c => c === 'loadVideoById').length, 1);
+  const cued = JSON.parse(h.postCalls.find(a => JSON.parse(a[0]).func === 'loadVideoById')[0]).args[0];
+  assert.ok(ORIGINAL_IDS.includes(cued));
+  assert.notEqual(cued, 'DjdB4Bm4n2M');
   // repeated infoDelivery for the same disliked track must not spam skips (skipFor guard)
   const before = h.postCalls.length;
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
@@ -126,7 +132,7 @@ test('vm: a non-disliked song resets the skip guard and is not skipped', () => {
   const h = harness();
   h.store.set('ps_music_vote_DjdB4Bm4n2M', 'dislike');
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
-  assert.ok(h.postCalls.some(a => JSON.parse(a[0]).func === 'nextVideo'));
+  assert.ok(h.postCalls.some(a => JSON.parse(a[0]).func === 'loadVideoById'));
   // a playable track arrives: no further nextVideo
   const before = h.postCalls.length;
   h.dispatch('https://www.youtube.com', { event: 'infoDelivery', info: { videoData: { video_id: '3pysm_JU_wA' } } });
@@ -138,4 +144,14 @@ test('vm: messages from non-YouTube origins are ignored', () => {
   h.store.set('ps_music_vote_DjdB4Bm4n2M', 'dislike');
   h.dispatch('https://evil.example', { event: 'infoDelivery', info: { videoData: { video_id: 'DjdB4Bm4n2M' } } });
   assert.equal(h.postCalls.length, 0);
+});
+
+
+test('shared Stop blocks late widget playing/ended events from restarting a track',()=>{
+ const h=harness();h.stop();
+ const before=h.postCalls.length;
+ h.dispatch('https://www.youtube.com',{event:'infoDelivery',info:{playerState:1,videoData:{video_id:'DjdB4Bm4n2M'}}});
+ h.dispatch('https://www.youtube.com',{event:'infoDelivery',info:{playerState:0,videoData:{video_id:'DjdB4Bm4n2M'}}});
+ const commands=h.postCalls.slice(before).map(a=>JSON.parse(a[0]).func);
+ assert.deepEqual(commands,['pauseVideo']);
 });

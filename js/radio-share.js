@@ -77,7 +77,8 @@
       if (p && typeof p.then === 'function') {
         p.then(function () { toast('Shared.'); done('native'); })
          .catch(function (err) {
-            // user cancelled or unsupported — fall through to clipboard
+            // Respect dismissal; only unsupported/failed sharing uses clipboard.
+            if (err && err.name === 'AbortError') { done('cancelled'); return; }
             copyFallback(data, done);
          });
       } else { copyFallback(data, done); }
@@ -122,8 +123,15 @@
     var label = opts.label || (opts.kind === 'playlist' ? 'Share playlist' : 'Share song');
     btn.setAttribute('aria-label', label + (opts.title ? ' — ' + opts.title : ''));
     btn.title = label;
-    btn.innerHTML = '<span class="ps-share-icon" aria-hidden="true">' + ICONS.share + '</span>' +
-                    '<span class="ps-share-label">' + label + '</span>';
+    var icon = document.createElement('span');
+    icon.className = 'ps-share-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.innerHTML = ICONS.share;
+    var caption = document.createElement('span');
+    caption.className = 'ps-share-label';
+    caption.textContent = label;
+    btn.appendChild(icon);
+    btn.appendChild(caption);
     btn.addEventListener('click', function (e) {
       e.stopPropagation();
       e.preventDefault();
@@ -138,7 +146,7 @@
   // by known stable classes. Marker class prevents double injection.
   var MARK = 'ps-share-injected';
   function trackUrlFrom(youtubeId) {
-    return RADIO_PAGE + (youtubeId ? '#track-' + encodeURIComponent(youtubeId) : '');
+    return RADIO_PAGE + (youtubeId ? '?track=' + encodeURIComponent(youtubeId) : '');
   }
   function augmentElement(el) {
     if (!el || el.classList.contains(MARK)) return;
@@ -168,7 +176,7 @@
     if (link) {
       try {
         var u = new URL(link.getAttribute('href'), window.location.origin);
-        if (u.hostname === window.location.hostname || /youtube/.test(u.hostname)) url = u.href;
+        if (u.hostname === window.location.hostname || ['youtube.com','www.youtube.com','music.youtube.com','youtu.be'].indexOf(u.hostname) >= 0) url = u.href;
       } catch (e) {}
     }
     card.classList.add(MARK);
