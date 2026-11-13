@@ -5,6 +5,7 @@
  */
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join, resolve, dirname, extname } from 'node:path';
+import { load } from 'cheerio';
 
 const root = process.cwd();
 const skip = new Set(['.git', 'node_modules', '.netlify', 'dist', 'build', 'coverage']);
@@ -40,7 +41,9 @@ function checkUrl(url, page, label) {
 for (const page of pages) {
   // Raw script bodies contain template markup, not literal DOM asset URLs.
   // Runtime-generated assets need manifest/browser verification separately.
-  const html = readFileSync(page, 'utf8').replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
+  const document = load(readFileSync(page, 'utf8'));
+  document('script').remove();
+  const html = document.html();
   const short = page.slice(root.length + 1);
   for (const match of html.matchAll(assetAttrs)) {
     const tag = match[0], type = match[1].toLowerCase();
