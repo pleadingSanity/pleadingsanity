@@ -357,3 +357,16 @@
   from = "/support"
   to = "/support-us.html"
   status = 301
+
+# Music Creator: user-triggered, same-origin capture only; other pages stay blocked.
+[[headers]]
+  for = "/music-creator.html"
+  [headers.values]
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+[[headers]]
+  for = "/music-creator"
+  [headers.values]
+    Permissions-Policy = "camera=(self), microphone=(self), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

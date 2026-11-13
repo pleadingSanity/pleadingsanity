@@ -8,6 +8,7 @@
 import { readdirSync, readFileSync, existsSync, statSync, writeFileSync, mkdirSync } from 'node:fs';
 import { join, dirname, resolve, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { load } from 'cheerio';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const ignored = new Set(['.git','node_modules','.netlify','.next','dist','build','coverage','archive','vendor','tmp']);
@@ -70,7 +71,8 @@ function redirectedFile(value) {
 for (const page of html) {
   const rel = rootRel(page), src = readFileSync(page,'utf8');
   const title = src.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/\s+/g,' ').trim() || '';
-  const h1 = [...src.matchAll(/<h1\b/gi)].length;
+  // Print/export templates inside scripts are separate documents, not page headings.
+  const h1 = load(src)('h1').length;
   const canonical = src.match(/<link\b(?=[^>]*rel\s*=\s*["']canonical["'])[^>]*>/i)?.[0] || '';
   const desc = /<meta\b(?=[^>]*name\s*=\s*["']description["'])[^>]*>/i.test(src);
   const sensitive = /(?:^|\/)(?:arron|journal-vault|support|crisis)\.html$/i.test(rel);
