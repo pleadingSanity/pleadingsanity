@@ -10,16 +10,7 @@
 <meta property="og:url" content="https://pleadingsanity.co.uk/themes.html">
 <link rel="canonical" href="https://pleadingsanity.co.uk/themes.html">
 <style>
-body{margin:0;background:#0b0f19;color:#eef6ff;font-family:system-ui,sans-serif}
-header{padding:1.5rem;border-bottom:1px solid #1e293b}
-h1{margin:0;font-size:1.4rem;color:#00fff0}
-p{color:#94a3b8}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;padding:1rem}
-.card{background:#0d1b2a;border:1px solid #1e293b;border-radius:12px;overflow:hidden}
-.card img{width:100%;height:180px;object-fit:cover;display:block}
-.card div{padding:.8rem}
-.card h2{margin:0 0 .3rem;font-size:1rem;color:#f59e0b}
-.card small{color:#94a3b8}
+:root{color-scheme:dark;--bg:#0b0f19;--panel:#102334;--line:#345163;--text:#eef6ff;--muted:#c5d4df;--accent:#91edda;--gold:#ffce76}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#12313d,transparent 55%),var(--bg);color:var(--text);font-family:system-ui,sans-serif;line-height:1.6}a{color:var(--accent)}a:focus-visible{outline:3px solid var(--gold);outline-offset:5px}.skip-link{position:absolute;left:1rem;top:-5rem;z-index:10;padding:.75rem;background:var(--bg)}.skip-link:focus{top:1rem}header,main,footer{max-width:1280px;margin:auto;padding:1.5rem}header{padding-top:2rem}nav{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem 1.5rem}nav a{display:inline-flex;align-items:center;min-height:48px;text-decoration:none;font-weight:650}.brand{gap:.7rem;color:var(--text)}.brand img{width:40px;height:40px;object-fit:contain}h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.15;margin:2rem 0 1rem}header p{max-width:65ch;color:var(--muted)}.eyebrow{text-transform:uppercase;letter-spacing:.14em;color:var(--gold);font-size:.8rem;font-weight:700}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1.25rem}.card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.card .artwork{display:flex;aspect-ratio:16/10;background:#071018;align-items:center;justify-content:center}.card img{width:100%;height:100%;object-fit:contain;display:block}.card .caption{padding:1rem}.card h2{margin:0 0 .75rem;font-size:1.05rem;line-height:1.4}.card .full-art{display:inline-flex;align-items:center;min-height:48px}.status{color:var(--muted)}footer{border-top:1px solid var(--line);margin-top:2rem;color:var(--muted)}footer a{display:inline-block;min-height:48px;padding:.6rem .25rem}noscript p{padding:1rem;border:1px solid var(--line);border-radius:12px}
 </style>
 <link rel="webmention" href="https://webmention.io/pleadingsanity.co.uk/webmention">
 <link rel="pingback" href="https://webmention.io/pleadingsanity.co.uk/xmlrpc">
@@ -66,20 +57,17 @@ p{color:#94a3b8}
 <a href="#grid" class="skip-link">Skip to main content</a>
 
 <header>
+<nav aria-label="Main navigation"><a class="brand" href="/"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" width="40" height="40" alt="">Pleading Sanity</a><a href="/games.html">Games</a><a href="/sanctuary.html">Sanctuary</a><a href="/crisis.html">Crisis help</a></nav>
+<p class="eyebrow">The artwork collection</p>
 <h1>Theme gallery</h1>
-<p>Pick a look. Existing site images stay. These are options, not replacements.</p>
+<p>Explore the cosmic artwork behind Pleading Sanity. Open any piece to see the complete image. These are design concepts; browsing does not change your theme or replace existing site images.</p>
 </header>
-<div class="grid" id="grid"></div>
-<script>
-fetch('/images/themes/dola-2026/manifest.json').then(r=>r.json()).then(m=>{
-  const g=document.getElementById('grid');
-  m.themes.forEach(t=>{
-    const a=document.createElement('article');
-    a.className='card';
-    a.innerHTML='<picture><source type="image/webp" srcset="/images/themes/dola-2026/'+t.file.replace(/\.(png|jpg)$/i,".webp")+'"><img src="/images/themes/dola-2026/'+t.file+'" alt="" loading="lazy" decoding="async"></picture><div><h2>'+t.bestFor+'</h2><small>'+t.file+'</small></div>';
-    g.appendChild(a);
-  });
-});
-</script>
+<main id="grid" tabindex="-1" aria-label="Artwork gallery">
+<p id="gallery-status" class="status" role="status">Loading the artwork collection…</p>
+<div class="grid" id="artwork-grid"></div>
+<noscript><p>Enable JavaScript to browse the collection, or <a href="/">return to the sanctuary</a>.</p></noscript>
+</main>
+<footer aria-label="Support"><p>Rise From Madness. Evolution, Not Erasure.</p><p>Need support? <a href="tel:999">999 · immediate danger</a> · <a href="tel:116123">Samaritans 116 123</a> · <a href="sms:85258">SHOUT 85258</a> · <a href="tel:111">NHS 111</a> · <a href="/crisis.html">All crisis support</a></p></footer>
+<script type="module" src="/js/theme-gallery.js"></script>
 </body>
 </html>
