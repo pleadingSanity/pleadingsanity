@@ -1447,3 +1447,42 @@ Source: main 96ee55c9b2562744dd2c2dc445f3f94b584130b1. Live homepage DOM confirm
 - Boundaries unchanged: sanctuary free; no price/payment/auth/private data changes; arron-knowledge.json and PR #92 untouched. Prior provider/generation/phone/Netlify preview-log gates remain. No paid AI calls or new hosting. Rollback: revert this focused PR (shared import/direct links and homepage presentation restore previous release). No claim of independent external AI consensus.
 
 - Typography follow-up before merge: self-host unchanged Anton Regular from official google/fonts ofl/anton, SIL OFL 1.1 included at assets/fonts/anton/OFL.txt. Binary blob verified exactly matches official source 4d65707db9d8663ccfa99cd28cd3a4e0025be178. No Google Fonts request/tracker or package dependency; font-display:swap and local fallback. This makes condensed headings reliable on Android. Crisis headings retain normal system typography. Strict static/build/diff checks pass; same 307-test source behaviour unchanged. New final PR head must pass hosted scans before authorised merge.
+- Images: Insane Solar gallery and lightbox no longer request `images/solar01.webp` or `images/solar02.webp` (those URLs 404; the JPEGs exist). solar03–08 still use their webp companions, with JPEG fallback.
+## 2026-11-14 — Grok: Arron provider diagnostics and key drop-in (draft PR, source main `2aa8ad1`)
+
+### Outage summary (from #232, Dola, 14 Nov 18:40 GMT, re-checked by Grok from the Netlify function logs)
+Live `/api/arron/chat` returns the crisis-first fallback because every hop fails (`[AI-HOP-FAIL]` lines, request 14 Nov 18:33 GMT, ~5 s total):
+- OpenAI `gpt-4o` (from `OPENAI_MODEL`): `HTTP 429 quota`. Account out of credit or quota. Direct key, not the AI Gateway.
+- Anthropic `claude-sonnet-4-6` (from `CLAUDE_MODEL`, a valid id): `HTTP 401 rejected-key`. The key is invalid or revoked.
+- Gemini `gemini-2.0-flash-exp` (from `GEMINI_MODEL`): `HTTP 404`, a retired id. The direct retry `gemini-2.5-flash` also failed (404 in Grok's read, 403 in Dola's). Google now limits 2.5 Flash to earlier users. If the 403 stays after the model fix, the key is restricted or the Generative Language API is off for its project.
+- Grok `grok-2` (from `GROK_MODEL`): `HTTP 403`. xAI retired grok-2. A 403 from xAI is the team or key (no credit, or the key is blocked), not the model name.
+- OpenRouter: wired as the last hop, but personal chats skip it until `PS_SPARES_PRIVACY_APPROVED` is set (privacy gate, unchanged). Now logged as `[AI-HOP-SKIP] hop=openrouter`.
+- Not the cause: the daily budget throws before any hop (no hop lines would appear), and the circuit breaker only skips after three failures.
+- Guest memoryId fix: PR #329 merged (2b5d9ad). Preview/branch deploys fail with exit code 4 since 14 Nov 18:31. Cause not proven (needs the Netlify deploy log). Production `2aa8ad1` is ready.
+
+### What this PR changed
+- `netlify/lib/provider-config.js` (new, no SDK, no values): key name lists per lab, retired model guard, per-provider status, failure tags (401 rejected-key, 402 billing, 403 forbidden, 404 model-not-found, 429 quota).
+- Env model ids the lab has retired (`gemini-2.0-flash-exp`, `gemini-1.x`, `gemini-2.5-flash`, `grok-2*`, `claude-3*`, `gpt-4-turbo`, ...) are ignored and the soul id is used (`gemini-3.8-flash`, `grok-4.7`, ...). Valid env ids (`claude-sonnet-4-6`, `gpt-4o` until OpenAI's 14 Jan 2027 shutdown) still win.
+- Gemini direct retry is now `gemini-3.5-flash-lite` (Google's named replacement), overridable with `GEMINI_FALLBACK_MODEL`. Grok's second name is `grok-4.3` (was the retired `grok-3`), and an xAI 403 no longer tries a second name.
+- `/api/arron/health` adds `chain`: per-lab `{ok, status, model, at, circuitOpen}` from real hops on that instance, the model each lab uses and whether an env id was ignored, and `keySources` (the env var NAME that supplied each key). No values.
+- `/api/ops/ai-probe` (owner only, rate-limited) now probes the same keys and models the chain uses, adds OpenRouter (`?probe=1`) and the Gemini fallback model (`?probe=2`), and sends the Gemini key in a header instead of the URL.
+- Chain order, Arron's prompt, voice and the crisis-first fallback text are unchanged.
+
+## Arron key drop-in
+Add a fresh key in Netlify (Project configuration, Environment variables), Secret ticked, scopes: Functions (and Runtime), contexts: Production (plus Deploy previews if wanted). The ARRON_* name wins over the older name, so the dead key can stay until it is cleaned up. A drop-in ARRON_* key always goes straight to the lab, never through the Netlify AI Gateway.
+
+| Lab | Drop-in name (wins) | Also accepted, in order | Console |
+| --- | --- | --- | --- |
+| GPT | `ARRON_OPENAI_KEY` | `OPENAI_API_KEY`, `OPENAI_KEY` | platform.openai.com (Billing, API keys) |
+| Claude | `ARRON_ANTHROPIC_KEY` | `ANTHROPIC_API_KEY`, `CLAUDE_API_KEY`, `Anthropic_Key_Arron` | console.anthropic.com (API keys, Billing) |
+| Gemini | `ARRON_GEMINI_KEY` | `GEMINI_API_KEY`, `GOOGLE_API_KEY`, `GOOGLE_GENERATIVE_AI_API_KEY` | aistudio.google.com (API keys; the Generative Language API must be on) |
+| Grok | `ARRON_GROK_KEY` | `GROK_API_KEY`, `xAI_KEY`, `XAI_API_KEY` | console.x.ai (Credits, API keys) |
+| OpenRouter (last resort) | `ARRON_OPENROUTER_KEY` | `OPENROUTER_API_KEY` | openrouter.ai; personal chats also need `PS_SPARES_PRIVACY_APPROVED` |
+
+Model ids: optional `OPENAI_MODEL`, `CLAUDE_MODEL`, `GEMINI_MODEL`, `GROK_MODEL`, `GEMINI_FALLBACK_MODEL`. Blank or retired values fall back to the soul ids. Today `GEMINI_MODEL=gemini-2.0-flash-exp` and `GROK_MODEL=grok-2` are stale and are ignored by this PR. Shane can also clear them.
+
+Verify after a new key (a new deploy or env change takes effect on the next function cold start):
+1. `GET /api/arron/health`: `keys.<lab>` true, and `chain.keySources.<lab>` names the variable you set.
+2. Owner signed in: `GET /api/ops/ai-probe?probe=1` gives `status: 200` for that lab (credential check, no spend). `?probe=2` sends a 1-token chat and needs `PS_PAID_PROBES_APPROVED=true`.
+3. Send Arron one message, then re-read health: `chain.providers.<lab>.ok` is true and `provider` in the chat reply is no longer `none`.
+4. If it still fails, `chain.providers.<lab>.status` names the reason: rejected-key, billing or quota (the account), forbidden (the key's permissions or the team's credit), model-not-found (the model id).
