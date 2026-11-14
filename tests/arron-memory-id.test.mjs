@@ -112,6 +112,9 @@ async function loadArron({ user = null, chain, db } = {}) {
         askGrokDirect: async () => { throw new Error('grok probe must not run'); },
         personalSparesAllowed: () => false,
         lastChainFailure: () => null,
+        chainDiagnostics: () => ({}),
+        keyNameFor: () => null,
+        GEMINI_FALLBACK_MODEL: 'gemini-3.5-flash-lite',
         workAsOne: async () => { throw new Error('family must not run'); },
         runChain: async () => {
           seen.chainCalls += 1;
