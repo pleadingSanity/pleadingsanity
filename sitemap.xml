@@ -44,7 +44,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/frequencies.html</loc>
-    <lastmod>2026-10-24</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -56,7 +56,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -140,7 +140,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/shop.html</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -149,12 +149,6 @@
     <lastmod>2026-09-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://pleadingsanity.co.uk/signup.html</loc>
-    <lastmod>2026-09-28</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/ai-studio.html</loc>
@@ -223,7 +217,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/tools.html</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -289,7 +283,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/insane-solar.html</loc>
-    <lastmod>2026-11-10</lastmod>
+    <lastmod>2026-11-14</lastmod>
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/solar-ai-office.html</loc>
@@ -309,7 +303,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/insane-radio.html</loc>
-    <lastmod>2026-11-06</lastmod>
+    <lastmod>2026-11-14</lastmod>
   </url>
 
   <url>
@@ -320,13 +314,7 @@
   </url>
   <url>
     <loc>https://pleadingsanity.co.uk/aura-hz.html</loc>
-    <lastmod>2026-11-10</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://pleadingsanity.co.uk/login.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
@@ -363,6 +351,18 @@
   <url>
     <loc>https://pleadingsanity.co.uk/themes.html</loc>
     <lastmod>2026-11-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/creator.html</loc>
+    <lastmod>2026-11-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pleadingsanity.co.uk/music-creator.html</loc>
+    <lastmod>2026-11-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
