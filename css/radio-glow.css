@@ -336,8 +336,8 @@
 .radio-tracklist-btn{display:block;width:100%;min-height:44px;text-align:left;background:rgba(13,27,42,.55);border:1px solid rgba(45,212,191,.18);color:#e2e8f0;font:inherit;cursor:pointer;padding:.55rem .8rem;border-radius:10px;transition:background .15s ease,border-color .15s ease,transform .15s ease}
 .radio-tracklist-btn:hover{background:rgba(45,212,191,.12);border-color:rgba(45,212,191,.5);transform:translateX(2px)}
 .radio-tracklist-btn:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
-.radio-tracklist-btn.is-current{background:linear-gradient(90deg,rgba(255,107,107,.18),rgba(251,191,36,.12));border-color:#ff6b6b;color:#fff;font-weight:700}
+.radio-tracklist-btn.is-current{background:linear-gradient(90deg,rgba(245,158,11,.18),rgba(251,191,36,.12));border-color:#f59e0b;color:#fff;font-weight:700}
 .station-card .station-icon svg{transition:filter .2s ease}
-.station-card:hover .station-icon svg,.station-card:focus-within .station-icon svg{filter:drop-shadow(0 0 10px rgba(255,107,107,.55)) drop-shadow(0 0 22px rgba(251,191,36,.35))}
-.station-group-title:first-of-type{color:#ff6b6b;text-shadow:0 0 18px rgba(255,107,107,.35)}
+.station-card:hover .station-icon svg,.station-card:focus-within .station-icon svg{filter:drop-shadow(0 0 10px rgba(245,158,11,.55)) drop-shadow(0 0 22px rgba(251,191,36,.35))}
+.station-group-title:first-of-type{color:#f59e0b;text-shadow:0 0 18px rgba(245,158,11,.35)}
 @media (prefers-reduced-motion: reduce){.radio-tracklist-btn,.station-card .station-icon svg{transition:none}.radio-tracklist-btn:hover{transform:none}}

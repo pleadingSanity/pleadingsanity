@@ -3,13 +3,13 @@
    Loaded LAST on shard-2 pages only (home, sanctuary, games,
    finance, journal, crisis, etc.). Pure additive CSS.
    All JS hooks / IDs / classes preserved. Evolution, Not Erasure.
-   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf
+   Palette: brand amber #f59e0b · amber #fbbf24 · teal #2dd4bf
    on near-black #070a12 / #0b0f19.
    HARD RULE: no purple / violet / indigo / lavender.
    ============================================================ */
 
 :root{
-  --ss-coral:#ff6b6b;
+  --ss-coral:#f59e0b;
   --ss-amber:#fbbf24;
   --ss-teal:#2dd4bf;
   --ss-teal-glow:rgba(45,212,191,.45);
