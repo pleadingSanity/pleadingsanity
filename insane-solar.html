@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="canonical" href="https://pleadingsanity.co.uk/insane-solar.html">
-<title>Insane Solar — Smarter Solar, Real People | Leicestershire & Midlands</title>
-<meta name="description" content="Installer-informed solar planning and practical AI-assisted workflows, with experienced people at every important decision. Explore solar options and business partnerships.">
-<meta property="og:title" content="Insane Solar — Smarter Solar, Real People | Leicestershire &amp; Midlands">
-<meta property="og:description" content="Installer-informed solar planning and practical AI-assisted workflows, with experienced people at every important decision. Explore solar options and business partnerships.">
+<title>Insane Solar — Smarter Solar, Real People | Leicestershire</title>
+<meta name="description" content="Installer-informed solar planning and practical AI-assisted workflows, with experienced people at every important decision.">
+<meta property="og:title" content="Insane Solar — Smarter Solar, Real People | Leicestershire">
+<meta property="og:description" content="Installer-informed solar planning and practical AI-assisted workflows, with experienced people at every important decision.">
 <meta property="og:url" content="https://pleadingsanity.co.uk/insane-solar.html">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -213,7 +213,7 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
 }
 </script>
 <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
-<meta name="twitter:title" content="Insane Solar — Smarter Solar, Real People | Leicestershire & Midlands">
+<meta name="twitter:title" content="Insane Solar — Smarter Solar, Real People | Leicestershire">
 <meta name="twitter:description" content="Shane organises and oversees; trusted local MCS/NAPIT-registered fitters install. The AI Office handles paperwork only — humans sign every certificate.">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
 <link rel="stylesheet" href="/css/shard-solar-shop.css">
@@ -1826,12 +1826,23 @@ const CATEGORIES = [
   var photos = (CONFIG.photos && CONFIG.photos.length) ? CONFIG.photos : [];
   var current = 0;
 
+  function photoWebp(src){
+    if (!src || !/\.jpg$/i.test(src) || /solar0[12]\.jpg$/i.test(src)) return "";
+    return src.replace(/\.jpg$/i, ".webp");
+  }
+
   function openLightbox(i){
     current = i;
     var p = photos[i];
     if(!p) return;
-    lbImg.onerror = function(){ this.onerror = null; this.src = p.src; };
-    lbImg.src = p.src.replace(/\.jpg$/i, ".webp");
+    var webp = photoWebp(p.src);
+    if (webp) {
+      lbImg.onerror = function(){ this.onerror = null; this.src = p.src; };
+      lbImg.src = webp;
+    } else {
+      lbImg.onerror = null;
+      lbImg.src = p.src;
+    }
     lbImg.alt = p.caption;
     lbImg.style.display = "inline-block";
     lbCaption.textContent = p.caption;
@@ -1858,7 +1869,8 @@ const CATEGORIES = [
       var pic = document.createElement("picture");
       var srcWebp = document.createElement("source");
       srcWebp.type = "image/webp";
-      srcWebp.srcset = p.src.replace(/\.jpg$/i, ".webp");
+      var webpSrc = photoWebp(p.src);
+      if (webpSrc) srcWebp.srcset = webpSrc;
       var img = document.createElement("img");
       img.src = p.src;
       img.alt = p.caption;
@@ -1867,7 +1879,7 @@ const CATEGORIES = [
       img.onerror = function(){ this.parentElement.style.display = "none"; };
       img.addEventListener("mouseenter", function(){ img.style.transform = "scale(1.08)"; });
       img.addEventListener("mouseleave", function(){ img.style.transform = "scale(1)"; });
-      pic.appendChild(srcWebp);
+      if (webpSrc) pic.appendChild(srcWebp);
       pic.appendChild(img);
       pic.style.cssText = "display:block; width:100%; height:100%;";
       btn.appendChild(pic);
