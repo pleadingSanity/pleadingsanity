@@ -2,9 +2,11 @@
 // GPT, then Claude, then Gemini, then Grok. A timeout, an empty reply,
 // or a quota error steps down. A spent time budget (OutOfTime) stops the walk.
 // This file has no SDK and no key. Callers pass functions.
+import { GEMINI_DIRECT_MODEL as GEMINI_DEFAULT_DIRECT, resolveKey } from "./provider-config.js";
 
 export const PROVIDER_ORDER = ["openai", "anthropic", "gemini", "grok"];
-export const GEMINI_DIRECT_MODEL = "gemini-2.5-flash";
+// gemini-3.5-flash-lite by default (see provider-config.js). GEMINI_FALLBACK_MODEL overrides it.
+export const GEMINI_DIRECT_MODEL = String(globalThis.process?.env?.GEMINI_FALLBACK_MODEL || "").trim() || GEMINI_DEFAULT_DIRECT;
 export const GEMINI_STEP_MS = 4500;
 export const GEMINI_GOOGLE_BASE = "https://generativelanguage.googleapis.com";
 
@@ -38,7 +40,8 @@ export function geminiDirectRequest(messages, systemPrompt) {
 }
 
 export function readGeminiKey(env = process.env) {
-  const apiKey = String(env?.GEMINI_API_KEY || "").trim();
+  // ARRON_GEMINI_KEY, then GEMINI_API_KEY, then the aliases in provider-config.js.
+  const apiKey = resolveKey("gemini", env || {}).value;
   if (!apiKey) {
     const error = new Error("GEMINI_API_KEY is not set in Netlify environment.");
     error.code = "GEMINI_KEY_MISSING";

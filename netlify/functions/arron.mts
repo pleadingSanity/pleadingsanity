@@ -25,7 +25,7 @@ import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
 import { ARRON_PHASE2_TOOLS_BRIEF, buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, lastChainFailure, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, lastChainFailure, chainDiagnostics, keyNameFor, GEMINI_FALLBACK_MODEL, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
@@ -759,11 +759,12 @@ function providerKeyPresence() {
   const present = (value: string | undefined) => Boolean(value && value.trim().length > 8);
   const env = process.env;
   return {
-    openai: present(env.OPENAI_API_KEY),
-    anthropic: present(env.ANTHROPIC_API_KEY),
-    gemini: present(env.GEMINI_API_KEY),
-    grok: present(env.GROK_API_KEY) || present(env.xAI_KEY) || present(env.XAI_API_KEY),
-    openrouter: present(env.OPENROUTER_API_KEY),
+    // The drop-in ARRON_* names and the aliases in ../lib/provider-config.js count too.
+    openai: present(env.OPENAI_API_KEY) || Boolean(keyNameFor("openai")),
+    anthropic: present(env.ANTHROPIC_API_KEY) || Boolean(keyNameFor("anthropic")),
+    gemini: present(env.GEMINI_API_KEY) || Boolean(keyNameFor("gemini")),
+    grok: present(env.GROK_API_KEY) || present(env.xAI_KEY) || present(env.XAI_API_KEY) || Boolean(keyNameFor("grok")),
+    openrouter: present(env.OPENROUTER_API_KEY) || Boolean(keyNameFor("openrouter")),
   };
 }
 
@@ -787,10 +788,10 @@ export default async (req: Request, context: Context) => {
         ownerOnly: true,
         providerOrder: ["GPT", "Claude", "Gemini", "Grok"],
         gateway: "availability not verified by this endpoint",
-        grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY),
-        openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY),
-        geminiKeyConfigured: Boolean((process.env.GEMINI_API_KEY || "").trim()),
-        geminiDirectModel: "gemini-2.5-flash",
+        grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || keyNameFor("grok")),
+        openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY || keyNameFor("openai")),
+        geminiKeyConfigured: Boolean((process.env.GEMINI_API_KEY || "").trim() || keyNameFor("gemini")),
+        geminiDirectModel: GEMINI_FALLBACK_MODEL,
         liveProviderHealth: "not tested",
         note: "Configuration presence is not proof of a working AI response. No provider requests were made. GEMINI_API_KEY is the optional direct fallback. Netlify may inject a placeholder of that name for the gateway. This flag does not reveal the value.",
       });
@@ -809,7 +810,11 @@ export default async (req: Request, context: Context) => {
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
         keys: providerKeyPresence(),
         lastFailure: lastChainFailure(),
-        note: "Key presence only — no live API calls made. Connectivity not proven.",
+        // Per-lab status from real chat hops on this function instance (status code + short tag),
+        // the model id each lab uses, and the NAME of the env var that supplied each key. No values.
+        chain: chainDiagnostics(),
+        liveProbe: "Owner only: GET /api/ops/ai-probe?probe=1 (credential check, no spend) or ?probe=2 (1-token chat, needs PS_PAID_PROBES_APPROVED).",
+        note: "Key presence only — no live API calls made. Connectivity not proven. chain.providers shows the last real hop result on this instance.",
       });
     }
     if (route === "chat" && req.method === "POST") return await chat(req, context, rid, started);
