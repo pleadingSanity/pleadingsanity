@@ -25,6 +25,7 @@ test("aura-hz.html uses only allowed tones in FREQ_ORDER", () => {
   for (const f of freqs) {
     assert.ok(ALLOWED.includes(f), `${f} is not an allowed tone`);
   }
+  assert.deepEqual([...new Set(freqs)].sort(), ALLOWED.slice().sort(), "FREQ_ORDER must include all six allowed tones");
 });
 
 test("frequencies.html contains no disallowed frequencies", () => {

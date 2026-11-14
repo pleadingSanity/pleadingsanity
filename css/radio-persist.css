@@ -4,7 +4,7 @@
    js/music-player.js injects into the floating widget when a live
    station was playing, plus the honest on-page persistence note,
    and final mobile/spacing polish. All additive; no existing
-   hooks/IDs/classes removed. Subtle violet accent only.
+   hooks/IDs/classes removed. Teal/amber accent only. No purple or violet.
    ============================================================ */
 
 /* ---------- honest persistence note (on radio page) ---------- */
@@ -14,7 +14,7 @@
   background:linear-gradient(160deg,rgba(13,27,42,.75),rgba(7,10,18,.85));
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   color:#cbd5e1;font-size:.86rem;line-height:1.55;text-align:center;
-  box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 0 0 1px rgba(139,92,246,.08);
+  box-shadow:0 8px 24px rgba(0,0,0,.4),inset 0 0 0 1px rgba(0,255,240,.08);
 }
 .ps-persist-note strong{color:#5eead4;font-weight:700;}
 .ps-persist-note .ps-persist-hint{color:#fcd34d;font-weight:600;}
