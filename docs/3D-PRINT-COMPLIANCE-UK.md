@@ -64,19 +64,39 @@ Online buyers can cancel within 14 days of receiving goods (custom or personalis
 - **Platforms report to HMRC:** Etsy, eBay and others report sellers with 30 or more sales or about £1,700 (EUR 2,000) or more in a calendar year. Reporting is not a new tax. [21][22]
 - Keep records of every sale and cost (the site's order store plus PayPal statements help).
 
+## 12. Are 14+ decorative keyrings, bag charms and flexi prints toys? (added after Shane's £2 first batch)
+**Short answer: a flat 2D keyring or bag charm with little play value, sold to adults and teens, is not a toy. A 3D figure, flexi or articulated keyring usually is a toy, whatever the label says.**
+- The law: anything "designed or intended, whether or not exclusively, for use in play by children under 14" is a toy. Schedule 1 of the Toys (Safety) Regulations 2011 lists things that are *not* toys, including "decorative objects for festivities and celebrations" (para 2), "products for collectors" marked 14+ that are detailed models or decorative dolls (para 3), and "fashion accessories for children which are not for use in play" (para 20). [23]
+- The EU expert-group guidance on decorative products (Guidance Document No 20, which GB enforcers still use as a reference because the GB rules come from the same Directive) says the test is **3D shape plus play value = toy; 2D shape with no or low play value = not a toy**. It gives a key ring with a 3D animal, doll or figure on it as a toy, and a plain flat key ring as not a toy. [24]
+- The grey-zone guidance says "a key-ring with a teddy bear attached to it is considered as a toy" and "the reasonably foreseeable use shall prevail over the declaration of intended use". So a label saying "14+, not a toy" does **not** by itself take a figure or flexi out of the toy rules. [25]
+- Other things enforcers look at: how it is advertised and to whom, where it is sold, size, price, pictures on the packaging. [24][25] That is why the site has no child imagery, no "kids" copy and no toy styling on non-toys.
+- **What this means for the site:**
+  - Flat Halloween, snowman, hero, P.S. monogram, hoodie and racerback charms: may go live as 14+ decorative keyrings once real photos, batch and licence are in.
+  - Flexi skeleton, ghost, Crying Brain, articulated snowman and pumpkin: **treated as toys**. The code blocks them (`form: 3d` keyring = toy) until a full toy technical file exists (sections 1 to 7 above).
+  - A solid, static display sculpture (Crying Brain on a base) is a decorative item, 14+, but keep it chunky and avoid cute character styling.
+- "Test product", "first batch" or "only £2" does not exempt anything: the same safety duties apply from the first sale. [1][5]
+- **No copies of film or comic characters** (Marvel, DC, Disney, Scream/Ghostface, Jack Skellington): selling them infringes trade marks and copyright, separate from safety law. The server refuses common trademarked names.
+
+## 13. General product safety: what every non-toy still needs (GB)
+GB still uses the General Product Safety Regulations 2005 (the newer EU GPSR 2023/988 applies in Northern Ireland and the EU, not Great Britain). [5][26] For each keyring or charm Shane must:
+- Only sell products that are safe in normal and reasonably foreseeable use, with warnings where needed (small parts, choking hazard, keep away from under-3s, not for chewing, not food-safe; the site shows these on every card). [5][6]
+- **Traceability:** put the producer's name and address and a product reference or batch on the product or its packaging where reasonable. For tiny prints, use a parcel insert card: "Pleading Sanity (Shane Cooper), [postal address], Leicester. Batch B001." The site records a batch code per item and shows it on the card. [5][6]
+- Keep records so a bad batch can be traced, and act (withdraw, warn, recall) and tell Trading Standards if something turns out to be unsafe. [5][6]
+- If he ever sells into Northern Ireland or the EU, EU GPSR adds an electronic contact address and other online-listing details. [26]
+
 ## Safer low-regulation products to start with (non-toys, label "14+ · not a toy")
 | Product | Why it is lower risk | Still required |
 |---|---|---|
 | Phone stand | Adult desk accessory | Safe design (stable, no sharp edges), name and address on packaging or insert, honest copy |
 | Desk organiser / pen pot | Adult desk accessory | As above; say "not for food" |
 | Cable tidies, headphone hooks, wall hooks (light duty) | Household items | Safe-load statement if it holds weight; don't overclaim |
-| Keyrings for adults (Crying Brain) | Merch, not marketed to children | Use a sturdy steel ring; keep copy adult; avoid cute character styling that appeals to under-14s |
+| Flat 2D keyrings and bag charms, 14+ (Crying Brain, P.S. monogram, Halloween, snowman) | Flat, low play value, fashion/decorative accessory [23][24] | Sturdy steel ring; 14+ and small-parts warnings; batch and maker on an insert; no child imagery or kid-style copy |
 | Crying Brain desk sculpture / plaque | Decorative merch | Brand rules (no emoji, brand colours) |
 | Plant pots (decorative, with "not watertight" note) | Home item | Honest description |
 
 Avoid until properly checked: anything for babies, anything that looks like a toy or character figure, articulated or flexi animals, food or drink items, items for motorcycles or anything protective, and anything electrical.
 
-## Exactly what Shane must do before any toy goes live
+## Exactly what Shane must do before any toy, flexi or articulated keyring goes live
 1. Pick one simple toy design (one piece, no small or detachable parts, thick walls). Decide the age grade.
 2. Buy filament with an **EN 71-3 certificate for that exact product and colour** (black and white). Save the certificate and spool batch numbers.
 3. Print samples and run and record **EN 71-1** checks (small-parts cylinder, sharp edge and point checks, drop and torque/tension where relevant) and assess **EN 71-2** flammability. If unsure, pay a test lab or use a maker-compliance service. [7][8]
@@ -110,3 +130,7 @@ Avoid until properly checked: anything for babies, anything that looks like a to
 20. GOV.UK, Register as a sole trader — https://www.gov.uk/become-sole-trader/register-sole-trader
 21. GOV.UK, Selling goods or services on a digital platform — https://www.gov.uk/guidance/selling-goods-or-services-on-a-digital-platform
 22. GOV.UK, No tax changes for online sellers — https://www.gov.uk/government/news/no-tax-changes-for-online-sellers
+23. legislation.gov.uk, Toys (Safety) Regulations 2011, Schedule 1: products that are not toys — https://www.legislation.gov.uk/uksi/2011/1881/schedule/1
+24. European Commission Expert Group on Toy Safety, Guidance Document No 20: decorative products and products for collectors (copy hosted by Assogiocattoli) — https://www.assogiocattoli.eu/wp-content/uploads/2022/06/FinalGuidance_decorative-products_productsforcollectors.pdf (index of current guidance: https://single-market-economy.ec.europa.eu/sectors/toys/toy-safety/guidance_en)
+25. European Commission, Guidance Document No 4: grey zone, is a product covered by the Toy Safety Directive — https://webgate.ec.europa.eu/circabc-ewpp/rest/download/f035a503-03fb-41b3-bad2-c6240b72e76c
+26. EUR-Lex, Regulation (EU) 2023/988 on general product safety — https://eur-lex.europa.eu/eli/reg/2023/988/oj
