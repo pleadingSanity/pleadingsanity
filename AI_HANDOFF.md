@@ -8,6 +8,14 @@ Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) �
 - Arron: new Anthropic key is in Netlify as `ANTHROPIC_API_KEY` and `ARRON_ANTHROPIC_KEY` (secret, production, functions/runtime) and loads on the first deploy after 15 Nov. Anthropic credit was $0.00 on 15 Nov, so Claude answers "credit balance is too low" until Shane tops up. OpenAI 429 quota, Gemini 404/403 and Grok 403 were the other hop errors on 14 Nov. Check `/api/arron/health` `chain.providers`.
 - Chain order stays GPT → Claude → Gemini → Grok → local fallback. Arron is a companion, not a therapist. Crisis numbers 116 123, 85258, 111, 999.
 
+## Branch harvest (15 Nov 2026, evening)
+One PR, `grok/branch-harvest-20261115`, brings the useful work from old branches into main. What came in:
+- `codex/solar-chat-audit-polish`: the Insane Solar chat sends each question once (the inline Enter handler doubled every send). The toggle has `aria-expanded`, Escape closes the panel and returns focus, the lead error is `role="alert"`, and the panel fits short phones. Test added in `tests/test-solar-assistant.test.js`.
+- `release/music-radio-vercel`: only the seven original studio beats for `music-creator.html` (`js/music-creator-beats.js`). They are synthesized on the device: no samples, no artist recordings, nothing uploaded. Main's newer safety code (`safeMediaBlob`, `mediaSource`) stays. Radio audio focus, `?track=` links and the music page were already in main. The Vercel config and release build guard were not taken.
+- `docs/recovery-runbook-2026-11-06`: `docs/RECOVERY_RUNBOOK.md`. The private mailbox list was removed.
+- `grok/five-improvements-20261110`: `docs/COSMIC-VISUAL-PROMPTS.md` (pink accent removed), `docs/FOUNDER-STORY-SNIPPETS.md`, `docs/KNOWLEDGE-MIRROR-ACTIVATION.md` (status updated: the mirror is live).
+What was left out, and why: copies of work already in main (dolas-duplicate, ai/continuity-monitor, founder continuity, sanctuary commitments #246, my-digital-story, the audit workflow wording, the arron-status function); placeholder pages (copilot/full-opts..., experience/home-doors-and-nav); off-brand colours (polish/games-cozy-assets: indigo and a broken hex); older shop copy (polish/shop-specs); stale 2025 branches (codespace-updates, cosmic-sync, copilot/main space.css); old notes (docs/grok-independent-review, dola/handoff-log, feature/gemini-upgrade). `content/power-for-our-people-polish` is Shane's political post draft and is not site content. #331 stays open.
+
 ## Connectors and skills map (names only, no secrets)
 Grok Bot is Shane's hub chat. It reads this repo and can act through these connectors on Shane's accounts. No key, token or password lives here or in the repo.
 - Gmail (pleadingsanity1@gmail.com, delivery.shane@gmail.com), Outlook
