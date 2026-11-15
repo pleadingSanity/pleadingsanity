@@ -25,12 +25,6 @@
   ],
   "icons": [
     {
-      "src": "/assets/images/brand/crying-brain-logo-512.webp",
-      "sizes": "512x512",
-      "type": "image/webp",
-      "purpose": "any"
-    },
-    {
       "src": "/assets/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png",
@@ -79,36 +73,29 @@
       "purpose": "any"
     },
     {
-      "src": "/assets/icons/icon-192x192.png",
+      "src": "/assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/icon-maskable-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
     },
     {
-      "src": "/assets/icons/icon-512x512.png",
+      "src": "/assets/icons/icon-maskable-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    },
-    {
-      "src": "/assets/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
     }
   ],
   "shortcuts": [
     {
-      "name": "The Sane Finance GBT",
-      "short_name": "Finance",
-      "description": "Affordability, quote comparison and AI finance preparation",
-      "url": "/finance.html",
-      "icons": [{"src": "/assets/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png"}]
-    },
-    {
       "name": "Get Help Now",
       "short_name": "Help",
-      "description": "Why people lose themselves. The house truth.",
+      "description": "Crisis lines and calm steps, free and always open",
       "url": "/crisis.html",
       "icons": [
         {
@@ -132,205 +119,10 @@
       ]
     },
     {
-      "name": "My Sanity Profile",
-      "short_name": "My Profile",
-      "description": "Your journal, status and creations \u2014 free forever",
-      "url": "/profile.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
       "name": "My Sanctuary",
       "short_name": "Sanctuary",
       "description": "Your private corner \u2014 saved posts, creations, progress",
       "url": "/sanctuary.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Create with Arron",
-      "short_name": "Create",
-      "description": "Turn a feeling into cosmic art",
-      "url": "/creations.html#create",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Mind Mode",
-      "short_name": "Breathe",
-      "description": "Breathing, grounding and calm",
-      "url": "/mind-mode.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Share a Post",
-      "short_name": "Post",
-      "description": "Share your voice with the community",
-      "url": "/post.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Find Your People",
-      "short_name": "People",
-      "description": "Search survivors, friend requests",
-      "url": "/community.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Sanity Hub",
-      "short_name": "Hub",
-      "description": "Cosmic healing hub \u2014 stories, community, growth",
-      "url": "/sanityhub.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Sanity Feed",
-      "short_name": "Feed",
-      "description": "Positive stories \u2014 no doomscroll, only sanity",
-      "url": "/feed.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Videos & Stories",
-      "short_name": "Videos",
-      "description": "Curated playlists & survivor voices",
-      "url": "/videos.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Brain Games",
-      "short_name": "Games",
-      "description": "All 5 \u2014 Focus, Numbers, Patterns, Memory, Rhythm",
-      "url": "/games.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Cosmic Focus",
-      "short_name": "Focus",
-      "description": "Memory sequences \u2014 watch, remember, repeat",
-      "url": "/cosmic-focus.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Number Nebula",
-      "short_name": "Numbers",
-      "description": "Logic & patterns \u2014 build confidence gently",
-      "url": "/number-nebula.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Pattern Galaxy",
-      "short_name": "Patterns",
-      "description": "Visual flow \u2014 train intuition & calm",
-      "url": "/pattern-galaxy.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Memory Ocean",
-      "short_name": "Memory",
-      "description": "Calm matching \u2014 no timers, no rush",
-      "url": "/memory-ocean.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Rhythm Resonance",
-      "short_name": "Rhythm",
-      "description": "Healing frequencies \u2014 listen, feel, align",
-      "url": "/rhythm-resonance.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Healing Hz",
-      "short_name": "Frequencies",
-      "description": "528Hz, 432Hz \u2014 ambient tones to heal",
-      "url": "/frequencies.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -353,10 +145,10 @@
       ]
     },
     {
-      "name": "Community",
-      "short_name": "Community",
-      "description": "Dashboard & voice \u2014 shape the movement",
-      "url": "/community-dashboard.html",
+      "name": "Mind Mode",
+      "short_name": "Breathe",
+      "description": "Breathing, grounding and calm",
+      "url": "/mind-mode.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -366,10 +158,10 @@
       ]
     },
     {
-      "name": "Offline Support",
-      "short_name": "Offline",
-      "description": "Crisis help & breathing \u2014 always available",
-      "url": "/offline.html",
+      "name": "Healing Hz",
+      "short_name": "Frequencies",
+      "description": "528Hz, 432Hz \u2014 ambient tones to heal",
+      "url": "/frequencies.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -379,10 +171,10 @@
       ]
     },
     {
-      "name": "Shop",
-      "short_name": "Shop",
-      "description": "Official merch \u2014 support the movement",
-      "url": "/shop.html",
+      "name": "Brain Games",
+      "short_name": "Games",
+      "description": "All 5 \u2014 Focus, Numbers, Patterns, Memory, Rhythm",
+      "url": "/games.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -392,10 +184,10 @@
       ]
     },
     {
-      "name": "Movement",
-      "short_name": "Movement",
-      "description": "Our story \u2014 One Source. One Family.",
-      "url": "/movement.html",
+      "name": "Sanity Feed",
+      "short_name": "Feed",
+      "description": "Positive stories \u2014 no doomscroll, only sanity",
+      "url": "/feed.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -405,10 +197,10 @@
       ]
     },
     {
-      "name": "About",
-      "short_name": "About",
-      "description": "Who we are & why we're here",
-      "url": "/about.html",
+      "name": "My Sanity Profile",
+      "short_name": "My Profile",
+      "description": "Your journal, status and creations \u2014 free forever",
+      "url": "/profile.html",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -418,23 +210,10 @@
       ]
     },
     {
-      "name": "Silence Challenge",
-      "short_name": "Meditate",
-      "description": "Sit in stillness \u2014 train the quiet",
-      "url": "/meditation.html",
-      "icons": [
-        {
-          "src": "/assets/icons/icon-96x96.png",
-          "sizes": "96x96",
-          "type": "image/png"
-        }
-      ]
-    },
-    {
-      "name": "Keep Kids Sane",
-      "short_name": "Kids",
-      "description": "Safe, positive games for children",
-      "url": "/kids.html",
+      "name": "Create with Arron",
+      "short_name": "Create",
+      "description": "Turn a feeling into cosmic art",
+      "url": "/creations.html#create",
       "icons": [
         {
           "src": "/assets/icons/icon-96x96.png",
@@ -456,36 +235,39 @@
       "title": "title",
       "text": "text",
       "url": "url"
-    }
+    },
+    "enctype": "application/x-www-form-urlencoded"
   },
   "protocol_handlers": [],
   "scope_extensions": [],
   "screenshots": [
     {
-      "src": "/assets/crying-brain-og.png",
-      "sizes": "630x331",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Pleading Sanity home \u2014 Rise From Madness"
+      "src": "/assets/screenshots/home-narrow.webp",
+      "sizes": "824x1830",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "The sanctuary home on a phone"
     },
     {
-      "src": "/assets/images/brand/tracksuit-design.webp",
-      "sizes": "1600x1200",
+      "src": "/assets/screenshots/arron-narrow.webp",
+      "sizes": "824x1830",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Arron, a companion to talk to (not a therapist)"
+    },
+    {
+      "src": "/assets/screenshots/radio-narrow.webp",
+      "sizes": "824x1830",
+      "type": "image/webp",
+      "form_factor": "narrow",
+      "label": "Insane Radio, free live stations"
+    },
+    {
+      "src": "/assets/screenshots/home-wide.webp",
+      "sizes": "1280x800",
       "type": "image/webp",
       "form_factor": "wide",
-      "label": "Pleading Sanity tracksuit"
-    },
-    {
-      "src": "/assets/images/brand/crying-brain-hoodie-back.webp",
-      "sizes": "1200x1200",
-      "type": "image/webp",
-      "label": "Crying cosmic brain"
-    },
-    {
-      "src": "/assets/images/brand/sanctuary-brain-art.webp",
-      "sizes": "1200x1200",
-      "type": "image/webp",
-      "label": "Sanctuary mark"
+      "label": "The sanctuary home on a computer"
     }
   ],
   "edge_side_panel": {
