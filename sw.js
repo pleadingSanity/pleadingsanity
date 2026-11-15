@@ -4,9 +4,18 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.64'; // v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
-const STATIC_CACHE = 'pleading-sanity-static-v116'; // v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
-const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
+const VERSION = '5.13.0'; // v5.13.0: brand-locked teal app icons + maskable icons, navigation preload, bounded runtime cache. v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
+const STATIC_CACHE = 'pleading-sanity-static-v117'; // v117: new app icons and screenshots. v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
+const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v19';
+// Runtime cache stays small on phones: oldest entries go first past this many.
+const DYNAMIC_LIMIT = 180;
+
+function putDynamic(request, response) {
+    return caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, response).then(() => cache.keys()).then(keys => {
+        if (keys.length <= DYNAMIC_LIMIT) return;
+        return Promise.all(keys.slice(0, keys.length - DYNAMIC_LIMIT).map(k => cache.delete(k)));
+    })).catch(() => {});
+}
 const OFFLINE_URL = '/offline.html';
 
 // 502/503/504 from the host (an outage or a paused account) is treated like a
@@ -221,6 +230,9 @@ const PRECACHE_URLS = [
     '/assets/icons/icon-192x192.png',
     '/assets/icons/icon-512x512.png',
     '/assets/icons/icon-72x72.png',
+    '/assets/icons/icon-96x96.png',
+    '/assets/icons/icon-maskable-192x192.png',
+    '/assets/icons/icon-maskable-512x512.png',
     '/assets/icons/icon.svg',
     '/assets/apple-touch-icon.png'
 ];
@@ -247,6 +259,7 @@ self.addEventListener('activate', event => {
             .then(names => Promise.all(
                 names.filter(n => n.startsWith('pleading-sanity-') && n !== STATIC_CACHE && n !== DYNAMIC_CACHE).map(n => caches.delete(n))
             ))
+            .then(() => self.registration.navigationPreload && self.registration.navigationPreload.enable().catch(() => {}))
             .then(() => self.clients.claim())
     );
 });
@@ -277,7 +290,8 @@ self.addEventListener('fetch', event => {
         if (request.mode === 'navigate') {
             // Never a cached copy of a private page: the offline page, with its support lines, instead
             event.respondWith(
-                fetch(request)
+                Promise.resolve(event.preloadResponse)
+                    .then(preloaded => preloaded || fetch(request))
                     .then(async response => (hostDown(response) && (await caches.match(OFFLINE_URL))) || response)
                     .catch(() => caches.match(OFFLINE_URL))
             );
@@ -287,7 +301,8 @@ self.addEventListener('fetch', event => {
 
     if (request.mode === 'navigate') {
         event.respondWith(
-            fetch(request)
+            Promise.resolve(event.preloadResponse)
+                .then(preloaded => preloaded || fetch(request))
                 .then(async response => {
                     if (hostDown(response)) {
                         return (await caches.match(request, { ignoreSearch: true })) ||
@@ -302,7 +317,7 @@ self.addEventListener('fetch', event => {
                         headers.delete('content-length');
                         const clean = new Response(cleaned, { status: response.status, statusText: response.statusText, headers });
                         const copy = clean.clone();
-                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
+                        putDynamic(request, copy);
                         return clean;
                     });
                 })
@@ -321,7 +336,7 @@ self.addEventListener('fetch', event => {
                 .then(async response => {
                     if (response.ok) {
                         const copy = response.clone();
-                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
+                        putDynamic(request, copy);
                     }
                     return (hostDown(response) && (await caches.match(request))) || response;
                 })
@@ -337,7 +352,7 @@ self.addEventListener('fetch', event => {
                 .then(response => {
                     if (response.ok) {
                         const copy = response.clone();
-                        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
+                        putDynamic(request, copy);
                     }
                     return response;
                 })
@@ -366,9 +381,9 @@ async function backupJournalVault() {
                 status: 'syncing'
             });
         });
-        console.log(' SW: Journal backup synced');
+        console.log('SW: Journal backup synced');
     } catch (error) {
-        console.error(' SW: Journal backup failed:', error);
+        console.error('SW: Journal backup failed:', error);
     }
 }
 
@@ -380,7 +395,7 @@ self.addEventListener('push', event => {
     
     const data = event.data.json();
     const options = {
-        body: data.body || 'New cosmic inspiration awaits you ',
+        body: data.body || 'New cosmic inspiration awaits you',
         icon: '/assets/icons/icon-192x192.png',
         badge: '/assets/icons/icon-96x96.png',
         vibrate: [100, 50, 100, 50, 100],
@@ -390,8 +405,8 @@ self.addEventListener('push', event => {
             url: data.url || '/'
         },
         actions: [
-            { action: 'explore', title: ' Open' },
-            { action: 'dismiss', title: ' Later' }
+            { action: 'explore', title: 'Open' },
+            { action: 'dismiss', title: 'Later' }
         ],
         requireInteraction: true
     };

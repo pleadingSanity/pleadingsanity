@@ -13,6 +13,10 @@ http://pleadingsanity.uk/*           https://pleadingsanity.co.uk/:splat   301!
 https://www.pleadingsanity.uk/*      https://pleadingsanity.co.uk/:splat   301!
 http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
+# ─── ROOT FAVICON — browsers ask for /favicon.ico before reading the page ───
+/favicon.ico          /assets/favicon.ico     200
+/binary-src/*         /404.html               404
+
 # ─── OLD / ALTERNATE URLS FROM PREVIOUS SITES ───
 /home                 /                       301
 /index                /                       301
