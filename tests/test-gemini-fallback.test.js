@@ -30,7 +30,7 @@ test('fallback order is GPT, Claude, Gemini, then Grok', async () => {
     grok: async () => { seen.push('grok'); return 'should not run'; },
   });
   assert.equal(won.provider, 'gemini');
-  assert.equal(won.model, 'gemini-2.5-flash');
+  assert.equal(won.model, 'gemini-3.5-flash-lite');
   assert.equal(won.text, 'here');
   assert.deepEqual(seen, ['openai', 'anthropic', 'gemini']);
   assert.deepEqual(won.tried, ['openai', 'anthropic', 'gemini']);
@@ -64,7 +64,7 @@ test('every quiet provider is reported in order', async () => {
   );
 });
 
-test('direct Gemini request names gemini-2.5-flash and carries no key', () => {
+test('direct Gemini request names gemini-3.5-flash-lite and carries no key', () => {
   const request = geminiDirectRequest(
     [{ role: 'assistant', content: 'Hello' }, { role: 'user', content: 'Stay with me' }],
     'SAFETY FIRST\nSamaritans 116 123',
@@ -78,15 +78,17 @@ test('direct Gemini request names gemini-2.5-flash and carries no key', () => {
   assert.equal(JSON.stringify(request).includes('AIza'), false);
   assert.equal(Object.hasOwn(request, 'apiKey'), false);
   assert.throws(() => readGeminiKey({}), /GEMINI_API_KEY is not set/);
-  assert.equal(readGeminiKey({ GEMINI_API_KEY: '  from-env  ' }), 'from-env');
+  assert.equal(readGeminiKey({ GEMINI_API_KEY: '  from-env-value  ' }), 'from-env-value');
+  // A drop-in ARRON_GEMINI_KEY wins over an older GEMINI_API_KEY.
+  assert.equal(readGeminiKey({ GEMINI_API_KEY: 'older-gemini-value', ARRON_GEMINI_KEY: 'fresh-gemini-value' }), 'fresh-gemini-value');
 });
 
 test('the live chain keeps the order and reads the Gemini key from the environment', () => {
   assert.match(chain, /const PROVIDERS: Provider\[\] = \["openai", "anthropic", "gemini", "grok"\]/);
   assert.match(chain, /export async function callGeminiFallback/);
-  assert.match(chain, /gemini-2\.5-flash/);
+  assert.match(chain, /GEMINI_DIRECT_MODEL/);
   assert.match(chain, /readGeminiKey\(\)/);
-  assert.match(chain, /process\.env\.GEMINI_API_KEY/);
+  assert.match(chain, /resolveKey\("gemini"\)/);
   assert.match(chain, /walkProviders\(CHAIN\.map/);
   assert.doesNotMatch(chain, /GEMINI_API_KEY\s*=\s*["'][^"']+/);
   assert.doesNotMatch(chain, /AIza[0-9A-Za-z_-]{10,}/);

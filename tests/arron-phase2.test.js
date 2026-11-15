@@ -330,5 +330,8 @@ test('arron-knowledge.json: phase2 blocks appended, existing keys preserved', ()
   assert.ok(k.crisisLines, 'existing crisisLines preserved');
   assert.ok(k.covenant, 'existing covenant preserved');
   assert.ok(k.version.startsWith('4.0'), 'version bumped');
-  assert.equal(k.updated, '2026-10-31');
+  assert.equal(k.updated, '2026-11-14');
+  assert.equal(k.changelog[0].date, '2026-11-14');
+  assert.deepEqual(k.covenant.chain.map((link) => link.provider), ['openai', 'anthropic', 'gemini', 'grok']);
+  assert.deepEqual(k.covenant.chain.map((link) => link.model), ['gpt-5.6-sol', 'claude-sonnet-5-5', 'gemini-3.8-flash', 'grok-4.7']);
 });

@@ -12,7 +12,8 @@ function rawErrorLogs(source) {
 
 test('direct OpenAI fallback is not built from a Gateway key', () => {
   const source = read('netlify/lib/ai-chain.ts');
-  assert.match(source, /process\.env\.OPENAI_API_KEY && !process\.env\.OPENAI_BASE_URL/);
+  // The key now comes from provider-config.js; the Gateway guard (OPENAI_BASE_URL) is unchanged.
+  assert.match(source, /openaiKey\.value && !openaiKey\.dropIn && !process\.env\.OPENAI_BASE_URL/);
   assert.match(source, /baseURL: "https:\/\/api\.openai\.com\/v1"/);
   assert.doesNotMatch(source, /const openaiDirect = process\.env\.OPENAI_API_KEY\s*\n\s*\?/);
 });

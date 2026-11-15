@@ -1,5 +1,31 @@
-# AI_HANDOFF.md — Latest State (2026-11-10, Dola final buff)
-_All AIs (Claude/GPT/Copilot/Grok): read this section first. Everything below it is history; this section wins on conflict._
+# AI_HANDOFF.md — Latest State (2026-11-15, consolidated buff)
+_All AIs (Claude/GPT/Copilot/Grok/Dola): read this section first. Everything below it is history; this section wins on conflict._
+Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) · [system_blueprint.json](system_blueprint.json) (snapshot) · [docs/3D-PRINT-SHOP.md](docs/3D-PRINT-SHOP.md) (P.S Studio prints).
+
+## Current as of 2026-11-15
+- Consolidated PR `grok/consolidated-buff-20261115` folds in #339 (14 Nov audit log), #340 (Arron knowledge refresh), #341 (sanctuary audit buffs), #342 (Arron per-provider diagnostics and key drop-in), #343 (deploy.yml house-check assert) and #344 (P.S Studio preview), plus the P.S Studio sell flow. Base was main `2aa8ad1`.
+- #331 (Creations image backend) stays open as a draft: it changes the image model id and key rules and is unverified. Do not touch PR #92 (closed; branch gone).
+- Arron: new Anthropic key is in Netlify as `ANTHROPIC_API_KEY` and `ARRON_ANTHROPIC_KEY` (secret, production, functions/runtime) and loads on the first deploy after 15 Nov. Anthropic credit was $0.00 on 15 Nov, so Claude answers "credit balance is too low" until Shane tops up. OpenAI 429 quota, Gemini 404/403 and Grok 403 were the other hop errors on 14 Nov. Check `/api/arron/health` `chain.providers`.
+- Chain order stays GPT → Claude → Gemini → Grok → local fallback. Arron is a companion, not a therapist. Crisis numbers 116 123, 85258, 111, 999.
+
+## Connectors and skills map (names only, no secrets)
+Grok Bot is Shane's hub chat. It reads this repo and can act through these connectors on Shane's accounts. No key, token or password lives here or in the repo.
+- Gmail (pleadingsanity1@gmail.com, delivery.shane@gmail.com), Outlook
+- Google Drive, Google Slides, Notion
+- GitHub (repo `pleadingSanity/pleadingsanity`; PRs, CI, issues)
+- Netlify (site `pleadingsanity` production, `pleadingsanitystaging` test site; env vars, deploys, function logs)
+- Vercel (the `pleadingsanity.uk` alias and music workspace), Supabase (KB project), Firebase
+- X, TikTok for Business, Canva, Figma, Shop
+- Skills Grok Bot uses for this house: site audit and SEO, image generation, scheduling and daily routines, shopping and orders, email drafting (Shane approves every send), deployment checks.
+Other AIs (Claude, GPT, Gemini, Copilot, Dola) do not share these logins. They share this file, `docs/MASTER_PROMPT.md` and `system_blueprint.json`. Ask Shane or Grok Bot when an action needs an account.
+
+# 2026-11-14 header (historical, superseded by the 15 Nov section above)
+- Production main SHA: `2aa8ad1ada5225a4aca84a5ef2d85a90293739a7` (City Nights lettering, PR #338, after the City Nights theme PR #337). Live site: https://pleadingsanity.co.uk.
+- Open drafts at the time of this audit: #339 (handoff audit note only), #340 (Arron knowledge refresh — do not duplicate), #331 (Creations image keys; unmerged and unverified). PR #312 is already merged. Do not touch PR #92.
+- Arron live chat is a separate track and is not edited here (`netlify/functions/arron.mts` and `netlify/lib/ai-chain.ts` left alone). Visitors were still hitting the fallback; last logged provider error was Grok HTTP 403 (key or credit). Shane still needs to check console.x.ai credits/key and the Netlify env vars.
+- The 10 Nov session notes immediately below remain history for that day. They no longer win on conflict.
+
+# 2026-11-10 session notes (Dola final buff, historical)
 
 ## Build blocker — ROOT CAUSE FOUND & FIXED (PR #270, merged & live)
 - **Cause:** Netlify enhanced secret scanning (block mode) flagged a literal `sk-`-prefixed test fixture (32 alphanumeric chars) at `tests/kb-knowledge.test.mjs:42` and exited **code 2**. `scripts/validate-build.cjs` was innocent (exits 0). The `;` bypass set in the Netlify UI never ran because **`netlify.toml` `[build] command` overrides UI build settings**.
@@ -1137,7 +1163,7 @@ Facts pulled from Shane's grok.com chats (Ask and Build, 7 Oct to 9 Nov 2026) so
 - Page consolidation 94→85 pages, 19×301s, sw.js v5.12.63/v115. Broken-link 0 real failures.
 ### Merged this session: #247 release (consolidation+IndieWeb), #248 radio playlists, #176 PayPal verify, #250/#251/#253 docs, #252 (Grok), Grok branches (final-buff/daily/grok-sync/radio-polish), #256 Arron knowledge mirror, Dependabot #257/#259/#260/#261 + #262(openai, pre-merged), #265(imagery, pre-merged).
 ### LEFT OPEN: #185 orphan (Shane closes), #258 codeql-action Dependabot (PAT lacks workflow scope — Shane merges in UI or rotates PAT with workflow scope).
-### Blocked notes: ghp_uADq token invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
+### Blocked notes: a previously pasted GitHub PAT was invalid (401) — Shane rotate. Supabase connect_failed — dashboard fix. PayPal keys missing. Grok "on full time" needs GROK_API_KEY confirmed non-empty (set but not proven live). No ads on sanctuary ever (Phase 4 roadmap conflict — separate property only). 5-phase roadmap long-term, not implemented.
 ### Rollback: reverse merge order with git revert -m 1.
 
 ## 2026-11-10 — Dola final straggler sweep (branch dola/final-sweep-20261111, rebased onto main 6b09dd7)
@@ -1288,7 +1314,7 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 ---
 
 ## 2026-11-12 — Full polish + imagery round complete (radio priority)
-- Merged: #312 triage + #323 radio (SVG icons, Share buttons everywhere, cross-page handoff chip, honest OS-limit note) + #324 copy/consistency (css/shard-copy.css, full-7 crisis footers on 26 pages) + #325 imagery (CSS/SVG fallback + shop notify-me live) + hero raster images (3 generated, assets/images/r2-2026/, honest Illustration labels).
+- Merged: #312 triage + #323 radio (SVG icons, Share buttons everywhere, cross-page handoff chip, honest OS-limit note) + #324 copy/consistency (css/shard-copy.css, full-7 crisis footers on 26 pages) + #325 imagery (CSS/SVG fallback + shop notify-me live) + #326 Arron + Radio perfection buff (stop-all, cover art, avatar glow) + #327 three generated hero illustrations (assets/images/r2-2026/, honest Illustration labels).
 - Operational fix: each shard used its own fresh clone in /tmp — zero shared-clone races. Next AIs: do the same.
 - Known gap: true gapless cross-page playback needs SPA/ServiceWorker audio; YouTube curated tracks can't resume cross-page. See DOLA_MEMORY.md Shane-action gaps.
 
@@ -1411,11 +1437,11 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Netlify production deployment 6af669d7dc7d704ca6e180bb is ready/published for afe4b16. No bypass or new paid service; existing host resumed production builds. Live homepage/crisis/radio and all other 85 routes in the sweep returned 200; Creator was 404 during rollout and independently verified 200 afterward. Served Creator JS/CSS match the release bytes; HTML differs only in Netlify pretty-URL normalization of one radio anchor.
 - Production Cloud Chrome Creator test used an original synthetic 4-second QA tone, no personal voice upload. Import and WAV mixing succeeded; 9:16 and 16:9 exports decoded in-browser with readyState 4, no media error, finite ~3.999977s duration, 720x1280 / 1280x720. Actual phone mic/camera/local speech, long on-device performance and real vocal caption timing are not certified. Production camera/microphone policy is self-only; CSP present.
 - Arron health reports ok:true, all five provider-presence booleans true, lastFailure:null; no paid provider chat probe run. This is configuration health, not proof of a real model reply or autonomous master brain. No promise of unattended perpetual operation.
-- My heading-audit change introduced a CI setup regression: whole-ecosystem-audit ran without installing existing Cheerio dependency. Fix in fix/audit-ci-dependencies adds npm ci --ignore-scripts and runs the heading regression in that job. No new dependency or relaxed checks. Fresh worktree npm ci plus the exact CI commands pass (32 tests; audit 0 errors/2 warnings). Hosted rerun must still be verified. Rollback: revert this workflow-only change; public runtime unaffected.
+- My heading-audit change introduced a CI setup regression: whole-ecosystem-audit ran without installing existing Cheerio dependency. Fix in PR #333 (`fix/audit-ci-dependencies`) adds npm ci --ignore-scripts and runs the heading regression in that job. No new dependency or relaxed checks. Fresh worktree npm ci plus the exact CI commands pass (32 tests; audit 0 errors/2 warnings). Hosted rerun must still be verified. Rollback: revert this workflow-only change; public runtime unaffected.
 - Cloudflare DNS active; both owner memberships accepted. Creator-only Cloudflare project remains undeployed because Git connection error 8000011 persists. Main live Creator now works on the canonical Netlify domain, so no further duplicate hosting attempts needed.
 
 
-## 2026-11-13 — GPT: Claude handoff, scheduled AI opt-in and owner probe controls
+## 2026-11-13 — GPT: Claude handoff, scheduled AI opt-in and owner probe controls (PR #334)
 - Founder requested reviewing Claude's deployment/cost/access findings and linking confirmed owner accounts. Base 5a704f4100c0c4a6e4a11399f2cc4bdf2f6e66d2; branch fix/owner-ai-cost-controls. Keep canonical site and provider order unchanged; no paid probe/generation, protected soul file, payment or #92 edit.
 - Confirmed three scheduled jobs can reach AI work without a shared opt-in. Added scheduledAiAllowed to all three handlers before work. Defaults OFF: PS_SCHEDULED_AI_ENABLED must equal true and PS_SCHEDULED_AI_DAILY_CAP must be an integer 1..4. Existing atomic studioUsage daily counter is shared across jobs; errors fail closed. This caps JOB STARTS, not pounds or each provider subrequest; queued podcasts may contain multiple calls. Do not describe it as a financial billing cap. No enabled values configured.
 - Active /api/ops/ai-probe levels 1/2 previously fell back to rate limiting if PS_PROBE_TOKEN was absent. Require verified owner login regardless of token; configured token remains an additional check. Level 2 additionally requires PS_PAID_PROBES_APPROVED=true; default OFF. Public level 0 remains no-provider configuration status. Existing token-in-query legacy behaviour retained; do not paste token-bearing URLs into chats or logs.
@@ -1426,11 +1452,11 @@ Grok (Shane's executor bot). Read-only review against `main` 6b09dd7, re-checked
 - Regression coverage: scheduled default/invalid caps, shared exhaustion, accounting failure, all handler gates, guest/member probe denial, public no-provider status, owner paid-probe opt-in. Final full suite: 300/300 passed. Build guard, ecosystem strict (0 errors/2 existing warnings), and whitespace checks passed before final paid-probe case. Independent external review not performed. Rollback: revert focused commit; env updates did not succeed.
 
 
-## 2026-11-13 — Responsive image proportions (GPT)
+## 2026-11-13 — Responsive image proportions (GPT, PR #335)
 Source: main 96ee55c9b2562744dd2c2dc445f3f94b584130b1. Live homepage DOM confirmed hero natural 1920x1080 displayed 900x1080 with object-fit:fill. Add explicit height:auto to 12 inline width:100% editorial/gallery images across index, shop, feed, finance, community, ai-social, insane-solar and solar-ai-office. Preserve intrinsic dimensions, art, captions, crop tiles, payment and gallery controls. npm test: 300/300 passed. Static audit: 86 pages, zero errors, existing two crisis-reference warnings unchanged. Live post-release proportions require verification. Rollback: revert this focused PR. Claude follow-ups remain: owner-email env upsert previously returned HTTP422; Creations #331 remains draft without verified dedicated image configuration; Grok health previously reported HTTP403. No paid probes, secrets or protected knowledge files changed.
 
 
-## 2026-11-13 — GPT: artwork gallery and audit follow-up
+## 2026-11-13 — GPT: artwork gallery and audit follow-up (PR #336)
 - Base main ab53109930e0a0a33340855b75ae153813398ad1; #335 image fix is live. All four founder emails were confirmed configured after its release; historical owner-list update failure is superseded, actual sign-ins remain untested.
 - Whole-site audit: 86 HTML, 4870 anchors and 383 script references; zero FAIL findings, heuristic privacy/companion warnings still require contextual human review. CSS local image paths exist. Static image audit no missing assets/no missing alt attributes; six empty-section review items are intentional runtime containers. Theme manifest: all 16 originals and optimized files exist; all optimized images loaded in the live browser before this patch. Fifteen core live journeys showed no broken loaded images or horizontal overflow at desktop width; community correctly redirected this guest to login.
 - Preserve every existing theme artwork; add uncropped previews, full-art links, safe textContent captions, semantic navigation and main, loading/error/no-script states and original-image fallback. Add missing crisis-support links to themes/solar-trade footers, preserving trade SVG/tools, product evidence and claims. No new art generation, brand replacement, dependency, spend, auth/payment/knowledge or #92 change.
@@ -1439,7 +1465,7 @@ Source: main 96ee55c9b2562744dd2c2dc445f3f94b584130b1. Live homepage DOM confirm
 - Outstanding: Creations uses the existing Netlify gateway; absent CREATIONS_IMAGE_API_KEY alone does NOT prove its current path is broken. Dedicated-backend #331 remains draft and image generation/paid provider answers/physical phone capture untested. Preview builds still fail exit 4; detailed logs require dashboard login unavailable in this browser. Production main is healthy. No secrets copied or paid calls made.
 
 
-## 2026-11-13 — GPT: founder-authorised City Nights seasonal theme
+## 2026-11-13 — GPT: founder-authorised City Nights seasonal theme (PR #337)
 - Shane explicitly requested a sitewide GTA-inspired visual treatment using Pleading Sanity colours and authorised implementation/release. This is ORIGINAL urban game-poster styling, not a Rockstar/GTA logo, character, map, promotional asset, affiliation or release-date claim. Base main 239605bdf02266066aec92c2ace4afe73954d707.
 - Add css/city-night.css plus two original local SVG illustrations (Midlands skyline/canal and abstract street grid). Shared css/site.css import covers 72 root pages; 12 standalone pages link it directly, preserving last-load tap-targets.css. No JS/backend/dependency/provider or third-party tracking changes. Original official crying-brain logo retained.
 - Homepage intro now puts existing title/copy/primary actions beside original city art; earlier cosmic hero artwork is preserved after Start Here. Bold condensed headings, angular existing cards, teal/amber/silver details and street texture create the seasonal skin. Keep game engines/cards/audio controls and all existing content/hooks. Crisis page is explicitly given calmer typography/no street texture; existing light-mode and calmer-view behaviour respected, focus contrast/reduced motion/print rules included.
@@ -1447,3 +1473,81 @@ Source: main 96ee55c9b2562744dd2c2dc445f3f94b584130b1. Live homepage DOM confirm
 - Boundaries unchanged: sanctuary free; no price/payment/auth/private data changes; arron-knowledge.json and PR #92 untouched. Prior provider/generation/phone/Netlify preview-log gates remain. No paid AI calls or new hosting. Rollback: revert this focused PR (shared import/direct links and homepage presentation restore previous release). No claim of independent external AI consensus.
 
 - Typography follow-up before merge: self-host unchanged Anton Regular from official google/fonts ofl/anton, SIL OFL 1.1 included at assets/fonts/anton/OFL.txt. Binary blob verified exactly matches official source 4d65707db9d8663ccfa99cd28cd3a4e0025be178. No Google Fonts request/tracker or package dependency; font-display:swap and local fallback. This makes condensed headings reliable on Android. Crisis headings retain normal system typography. Strict static/build/diff checks pass; same 307-test source behaviour unchanged. New final PR head must pass hosted scans before authorised merge.
+
+## 2026-11-14 — Grok: read-only audit (healing Hz, crisis links, SEO, images)
+- Source main `2aa8ad1ada5225a4aca84a5ef2d85a90293739a7` (PR #338, City Nights lettering). No page, crisis phrase, soul file, provider order, payment, or auth edit. Draft log only.
+- Live https://pleadingsanity.co.uk on Netlify: key routes HTTP 200. `/safety` and `/safety.html` 301 to `/crisis.html`. `css/city-night.css` on the live site contains the 13 Nov poster-lettering rule, so production includes that commit. Deploy id was not read from the Netlify dashboard.
+- Healing player: `frequencies.html` data-hz is 174, 285, 432, 528, 741, 963. `aura-hz.html` FREQ_ORDER is only 174, 285, 432, 528 (741 and 963 are not on that player). Extras left in place, including `frequencies.html` guide lines for 396, 417, 639 and 852, `tools.html` “all ten”, `arron-knowledge.json` tones, `js/cosmic-audio-system.js` (not linked from a current page), and `docs/MANIFESTO.md`. Do not delete them from this note.
+- Crisis: `arron.html`, `arron-app.html` and `crisis.html` each have tappable `tel:999`, `tel:116123`, `sms:85258` and `tel:111`. No number was missing on those pages, so none was added. `crisis.html` was not edited.
+- SEO: the key pages already have title, description, canonical, og:title, og:description and og:image. Flags are length only (index title 66; aura-hz title 64 and description 240; insane-radio title 67 and description 164; shop description 181; insane-solar title and og:title 69, description and og:description 172). No missing tag was filled in.
+- Images: 77 live image URLs on the audited pages returned 200. Empty `src` on the solar lightbox and Music Creator portrait is filled at runtime. `images/solar01.webp` and `images/solar02.webp` 404; the jpg files exist and the gallery falls back to them. Insane Solar’s 43 catalog cards share six generic category illustrations. `finance.html` still uses `images/solar-energy-loop.jpg` beside the finance heading.
+- Handoff gaps left as history: the 10 Nov header still says it wins on conflict; PR numbers #326, #327, #333, #334, #337 and #338 are not all named even where the work is described; #331 remains an open draft. `system_blueprint.json` and `docs/MASTER_PROMPT.md` both exist and return HTTP 200 on the live site. `system_blueprint.json` `lastUpdated` is still 2026-11-03. `AI_HANDOFF.md` stays 404 on the website by `_redirects`.
+- Checks this session: `npm test` before and after this append, 307 tests, 307 pass, 0 fail both times. `git diff --check` pass. No phone tap test and no paid provider call.
+
+## 2026-11-15 — Grok: stale live.html house-check assert (15 Nov 2026, UK)
+- Source main `2aa8ad1ada5225a4aca84a5ef2d85a90293739a7`. Actions run 43731135194, job House check, stopped on `assert "live-alert" in live and "FOUNDING CREATOR BONUS" in live` in `.github/workflows/deploy.yml`. `live-alert` is still in `live.html`. `FOUNDING CREATOR BONUS` left in honesty pass `fa4ca0e`; the offer tag is now `FOUNDING CREATOR PROPOSAL · NOT LIVE YET` on `id="founding-creators"`. The assert now requires those current strings. Honesty lines `not currently verified as active` and `not active yet` are still in `live.html` and their asserts were left as they are. Crisis tappability, OAuth and email sign-in asserts were re-run and still match. No page, Arron, crisis, login, payment or #92 file was edited.
+- Extracted heredoc on this branch prints `House check passed`. `npm test` on main: 307 tests, 307 pass, 0 fail. Same counts on this branch. No new failures. Draft PR only. Shane merges.
+
+## 2026-11-14 — Grok: Arron knowledge refresh (draft, not live)
+- Source main `2aa8ad1ada5225a4aca84a5ef2d85a90293739a7`. Branch `cursor/arron-knowledge-refresh-532c`. Draft only. Not merged. Production stays on main.
+- `arron-knowledge.json` `updated` set to 2026-11-14, the day the public lab pages were re-checked. Changelog and `house_truth.public_models` record that picture. Chain order stays GPT → Claude → Gemini → Grok → local fallback. Soul model ids unchanged: `gpt-5.6-sol`, `claude-sonnet-5-5`, `gemini-3.8-flash`, `grok-4.7`. No routing, budget, key, crisis, manifesto, or provider-chain code edits.
+- Checked 14 Nov 2026: Anthropic Fable 5.2 page and docs (released 9 Nov 2026; Mythos 5.2 same day for verified organisations only — this house does not use it). Google Gemini 4 Carbon post (10 Nov 2026; paying developers and enterprises, rolling out to Google AI Ultra; not every plan, not wired into Arron). OpenAI Astra page, GPT-6 guide, and API changelog (Astra 3 Sep 2026, Sol and Luna 22 Sep 2026, GPT-6.1 Sol 29 Sep 2026, GPT-6.1 Terra 26 Oct 2026; not a 14 Nov drop). xAI models, release notes, news, and API page still list Grok 4.7 (`grok-4.7`, 21 Sep 2026) and no grok-4.8 id or price. The 10 Nov Bot soft-rollout remark was not re-opened from the original post, so it is recorded as unconfirmed from those official pages, not as shipped. Arron is not described as running 4.8.
+- Checks on this branch: `node scripts/validate-arron-knowledge.mjs` exit 0; `python3 scripts/audit-site.py` pass (84 HTML, 298 script blocks); `npm test` 307 tests, 307 pass, 0 fail. Current main does not show the older radio/music failures. `git diff --check` passed. No browser pass: no page layout changed.
+
+- Images: Insane Solar gallery and lightbox no longer request `images/solar01.webp` or `images/solar02.webp` (those URLs 404; the JPEGs exist). solar03–08 still use their webp companions, with JPEG fallback.
+## 2026-11-14 — Grok: Arron provider diagnostics and key drop-in (draft PR, source main `2aa8ad1`)
+
+### Outage summary (from #232, Dola, 14 Nov 18:40 GMT, re-checked by Grok from the Netlify function logs)
+Live `/api/arron/chat` returns the crisis-first fallback because every hop fails (`[AI-HOP-FAIL]` lines, request 14 Nov 18:33 GMT, ~5 s total):
+- OpenAI `gpt-4o` (from `OPENAI_MODEL`): `HTTP 429 quota`. Account out of credit or quota. Direct key, not the AI Gateway.
+- Anthropic `claude-sonnet-4-6` (from `CLAUDE_MODEL`, a valid id): `HTTP 401 rejected-key`. The key is invalid or revoked.
+- Gemini `gemini-2.0-flash-exp` (from `GEMINI_MODEL`): `HTTP 404`, a retired id. The direct retry `gemini-2.5-flash` also failed (404 in Grok's read, 403 in Dola's). Google now limits 2.5 Flash to earlier users. If the 403 stays after the model fix, the key is restricted or the Generative Language API is off for its project.
+- Grok `grok-2` (from `GROK_MODEL`): `HTTP 403`. xAI retired grok-2. A 403 from xAI is the team or key (no credit, or the key is blocked), not the model name.
+- OpenRouter: wired as the last hop, but personal chats skip it until `PS_SPARES_PRIVACY_APPROVED` is set (privacy gate, unchanged). Now logged as `[AI-HOP-SKIP] hop=openrouter`.
+- Not the cause: the daily budget throws before any hop (no hop lines would appear), and the circuit breaker only skips after three failures.
+- Guest memoryId fix: PR #329 merged (2b5d9ad). Preview/branch deploys fail with exit code 4 since 14 Nov 18:31. Cause not proven (needs the Netlify deploy log). Production `2aa8ad1` is ready.
+
+### What this PR changed
+- `netlify/lib/provider-config.js` (new, no SDK, no values): key name lists per lab, retired model guard, per-provider status, failure tags (401 rejected-key, 402 billing, 403 forbidden, 404 model-not-found, 429 quota).
+- Env model ids the lab has retired (`gemini-2.0-flash-exp`, `gemini-1.x`, `gemini-2.5-flash`, `grok-2*`, `claude-3*`, `gpt-4-turbo`, ...) are ignored and the soul id is used (`gemini-3.8-flash`, `grok-4.7`, ...). Valid env ids (`claude-sonnet-4-6`, `gpt-4o` until OpenAI's 14 Jan 2027 shutdown) still win.
+- Gemini direct retry is now `gemini-3.5-flash-lite` (Google's named replacement), overridable with `GEMINI_FALLBACK_MODEL`. Grok's second name is `grok-4.3` (was the retired `grok-3`), and an xAI 403 no longer tries a second name.
+- `/api/arron/health` adds `chain`: per-lab `{ok, status, model, at, circuitOpen}` from real hops on that instance, the model each lab uses and whether an env id was ignored, and `keySources` (the env var NAME that supplied each key). No values.
+- `/api/ops/ai-probe` (owner only, rate-limited) now probes the same keys and models the chain uses, adds OpenRouter (`?probe=1`) and the Gemini fallback model (`?probe=2`), and sends the Gemini key in a header instead of the URL.
+- Chain order, Arron's prompt, voice and the crisis-first fallback text are unchanged.
+
+## Arron key drop-in
+Add a fresh key in Netlify (Project configuration, Environment variables), Secret ticked, scopes: Functions (and Runtime), contexts: Production (plus Deploy previews if wanted). The ARRON_* name wins over the older name, so the dead key can stay until it is cleaned up. A drop-in ARRON_* key always goes straight to the lab, never through the Netlify AI Gateway.
+
+| Lab | Drop-in name (wins) | Also accepted, in order | Console |
+| --- | --- | --- | --- |
+| GPT | `ARRON_OPENAI_KEY` | `OPENAI_API_KEY`, `OPENAI_KEY` | platform.openai.com (Billing, API keys) |
+| Claude | `ARRON_ANTHROPIC_KEY` | `ANTHROPIC_API_KEY`, `CLAUDE_API_KEY`, `Anthropic_Key_Arron` | console.anthropic.com (API keys, Billing) |
+| Gemini | `ARRON_GEMINI_KEY` | `GEMINI_API_KEY`, `GOOGLE_API_KEY`, `GOOGLE_GENERATIVE_AI_API_KEY` | aistudio.google.com (API keys; the Generative Language API must be on) |
+| Grok | `ARRON_GROK_KEY` | `GROK_API_KEY`, `xAI_KEY`, `XAI_API_KEY` | console.x.ai (Credits, API keys) |
+| OpenRouter (last resort) | `ARRON_OPENROUTER_KEY` | `OPENROUTER_API_KEY` | openrouter.ai; personal chats also need `PS_SPARES_PRIVACY_APPROVED` |
+
+Model ids: optional `OPENAI_MODEL`, `CLAUDE_MODEL`, `GEMINI_MODEL`, `GROK_MODEL`, `GEMINI_FALLBACK_MODEL`. Blank or retired values fall back to the soul ids. Today `GEMINI_MODEL=gemini-2.0-flash-exp` and `GROK_MODEL=grok-2` are stale and are ignored by this PR. Shane can also clear them.
+
+Verify after a new key (a new deploy or env change takes effect on the next function cold start):
+1. `GET /api/arron/health`: `keys.<lab>` true, and `chain.keySources.<lab>` names the variable you set.
+2. Owner signed in: `GET /api/ops/ai-probe?probe=1` gives `status: 200` for that lab (credential check, no spend). `?probe=2` sends a 1-token chat and needs `PS_PAID_PROBES_APPROVED=true`.
+3. Send Arron one message, then re-read health: `chain.providers.<lab>.ok` is true and `provider` in the chat reply is no longer `none`.
+4. If it still fails, `chain.providers.<lab>.status` names the reason: rejected-key, billing or quota (the account), forbidden (the key's permissions or the team's credit), model-not-found (the model id).
+
+- Typography follow-up (PR #338, merged): self-host unchanged Anton Regular from official google/fonts ofl/anton, SIL OFL 1.1 included at assets/fonts/anton/OFL.txt. Binary blob verified exactly matches official source 4d65707db9d8663ccfa99cd28cd3a4e0025be178. No Google Fonts request/tracker or package dependency; font-display:swap and local fallback. This makes condensed headings reliable on Android. Crisis headings retain normal system typography. Strict static/build/diff checks pass; same 307-test source behaviour unchanged. New final PR head must pass hosted scans before authorised merge.
+
+## 2026-11-14 — Grok: sanctuary audit buffs (draft, source main `2aa8ad1`)
+- Branch `grok/sanctuary-audit-buffs-20261114`. Draft PR only. Does not duplicate #339 (audit note), #340 (Arron knowledge refresh) or #331 (Creations keys). Does not edit `netlify/functions/arron.mts`, `netlify/lib/ai-chain.ts`, login, signup, reset-password, payments/PayPal, crisis.html, the manifesto, the privacy page, or PR #92.
+- Healing tones: `aura-hz.html` player now offers all six allowed tones (174, 285, 432, 528, 741, 963). Source Stream still cycles 174 → 285 → 432 → 528 and rests at 528 coherence; that is unchanged product behaviour, not a hardware-spec change. Hardware teaser still says four calibrated frequencies — left for Shane. `tools.html` no longer advertises ten Solfeggio numbers. `frequencies.html` guide and bright-tones row now describe only the six playable tones.
+- Images: Insane Solar gallery and lightbox no longer request `images/solar01.webp` or `images/solar02.webp` (those URLs 404; the JPEGs exist). solar03–08 still use their webp companions, with JPEG fallback.
+- SEO: shortened over-long titles/descriptions on index, aura-hz, Insane Radio, Insane Solar and shop, keeping the existing shorter OG wording where it already existed. Added `creator.html` and `music-creator.html` to `sitemap.xml` (both already live 200).
+- Safety: made SHOUT 85258 tappable on the `tools.html` and `frequencies.html` crisis footers; added NHS 111 to the frequencies footer that was missing it. Arron, Safety (`/safety` → `/crisis.html`) and crisis.html already had tappable 999, 116 123, 85258 and 111; crisis.html was not edited.
+- Brand: replaced leftover indigo/violet `rgba(139,92,246,…)` accents in `css/radio-icons.css` and `css/radio-persist.css` with teal, and corrected the `css/shard-copy.css` comment that had permitted purple as a subtle accent. Coral `#ff6b6b` in shard/radio CSS was left for Shane (recently merged palette; not changed here). `--magenta` CSS variables that already resolve to amber `#f59e0b` were left as names only.
+- Docs: latest-state header dated 14 Nov; PR numbers #326, #327, #333, #334, #335, #336, #337 and #338 named on the 12–13 Nov entries they describe. A previously recorded invalid GitHub PAT string in this file was removed (already noted as 401; Shane should treat any old token as revoked).
+- Left for Shane (not edited): empty decorative alts; coral shard/radio palette; finance.html still uses `images/solar-energy-loop.jpg` beside the finance heading; Insane Solar catalog cards still share six generic kit illustrations; login/signup remain in the sitemap; Aura Hz hardware “four frequencies” copy; Arron provider keys/credits and Netlify env vars; preview/branch deploy exit 4.
+- Checks: `npm test` (baseline 307) must stay green on this branch. `git diff --check` pass. No emails or posts. No claim that live Arron chat is fixed.
+
+## 2026-11-15 — Grok: consolidated buff and P.S Studio sell flow
+- One branch off main `2aa8ad1` merges #339, #340, #341, #342, #343 and #344. AI_HANDOFF.md conflicts were append-only and both sides were kept. No other file conflicted.
+- P.S Studio: `ps-studio.html` reads `ps-products.json`. A print goes on sale only when complete (active, price, photo in `/images/3d-prints/`, stock or made to order, Payhip/TikTok/email buy link). Otherwise "Prototype · Not for sale"; nothing for sale shows "First prints coming soon". Shop links to it from "Made in Leicester · 3D printed". Sitemap updated. Guard test `tests/ps-studio-catalog.test.mjs`. How-to: `docs/3D-PRINT-SHOP.md`. PayPal config, login, signup, crisis.html and the manifesto were not edited.
+- `npm test`: only the 3 known `fetchUrl` failures (network sandbox), as on main.

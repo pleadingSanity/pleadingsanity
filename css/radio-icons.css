@@ -3,16 +3,16 @@
    Additive, loaded LAST on insane-radio.html (after radio-glow.css)
    and on /music/index.html. Pure CSS overrides; every JS hook/ID/
    class preserved. Palette: cosmic teal (#2dd4bf/#00fff0) + amber
-   (#fbbf24) + coral (#ff6b6b) on near-black, with a single subtle
-   violet accent used sparingly (≤2% of surface) per Shane's R2 rule.
+   (#fbbf24) + brand amber (#f59e0b) on near-black, with a single subtle
+   teal accent only. No purple, indigo or violet.
    No external icon fonts, no hotlinks.
    ============================================================ */
 :root{
   --psr-teal:#2dd4bf;
   --psr-teal-bright:#00fff0;
   --psr-amber:#fbbf24;
-  --psr-coral:#ff6b6b;
-  --psr-violet-soft:rgba(139,92,246,.18); /* subtle accent only */
+  --psr-coral:#f59e0b;
+  --psr-teal-soft:rgba(0,255,240,.18); /* brand teal accent only */
   --psr-ink:#070a12;
   --psr-line:rgba(255,255,255,.1);
 }
@@ -94,8 +94,8 @@
   content:"LIVE";position:absolute;top:.6rem;left:.6rem;z-index:2;
   font-size:.62rem;font-weight:800;letter-spacing:.14em;
   padding:.2rem .5rem;border-radius:999px;
-  background:rgba(255,107,107,.18);border:1px solid rgba(255,107,107,.55);
-  color:#fecaca;pointer-events:none;
+  background:rgba(245,158,11,.18);border:1px solid rgba(245,158,11,.55);
+  color:#f1f5f9;pointer-events:none;
 }
 
 /* ---------- radio transport controls: SVG icon + text ---------- */
@@ -130,11 +130,11 @@
 .ps-station-volume input[type=range]:focus-visible{outline:2px solid var(--psr-teal);outline-offset:3px;border-radius:2px;}
 .ps-station-volume .ps-station-vol-label{font-size:.72rem;color:#94a3b8;font-weight:700;min-width:32px;text-align:right;}
 
-/* ---------- now-playing glow enhancement (subtle violet rim) ---------- */
+/* ---------- now-playing glow enhancement (subtle teal rim) ---------- */
 .radio-card.is-playing{border-color:rgba(45,212,191,.5) !important;}
 .radio-card.is-playing::after{
   content:"";position:absolute;inset:0;pointer-events:none;border-radius:28px;
-  box-shadow:inset 0 0 0 1px var(--psr-violet-soft);
+  box-shadow:inset 0 0 0 1px var(--psr-teal-soft);
 }
 
 /* ---------- mobile polish ---------- */

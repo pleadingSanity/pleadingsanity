@@ -3,12 +3,13 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 
 test("ai-chain.ts references the exact env var names for all four providers", () => {
+  // The names live in provider-config.js, which ai-chain.ts reads through resolveKey().
   const src = readFileSync(new URL("../netlify/lib/ai-chain.ts", import.meta.url), "utf8");
-  assert.ok(src.includes("process.env.OPENAI_API_KEY"), "OPENAI_API_KEY referenced");
-  assert.ok(src.includes("process.env.GEMINI_API_KEY"), "GEMINI_API_KEY referenced");
-  assert.ok(src.includes("process.env.GROK_API_KEY"), "GROK_API_KEY referenced");
-  assert.ok(src.includes("process.env.xAI_KEY"), "xAI_KEY referenced");
-  assert.ok(src.includes("process.env.XAI_API_KEY"), "XAI_API_KEY referenced");
+  const cfg = readFileSync(new URL("../netlify/lib/provider-config.js", import.meta.url), "utf8");
+  for (const p of ["openai", "anthropic", "gemini", "grok"]) assert.ok(src.includes(`resolveKey("${p}")`), `${p} key resolved`);
+  for (const name of ["OPENAI_API_KEY", "ANTHROPIC_API_KEY", "GEMINI_API_KEY", "GROK_API_KEY", "xAI_KEY", "XAI_API_KEY", "OPENROUTER_API_KEY"]) {
+    assert.ok(cfg.includes(`"${name}"`), `${name} referenced`);
+  }
 });
 
 test("arron-knowledge persona includes companion-not-therapist and Architect buff", () => {
