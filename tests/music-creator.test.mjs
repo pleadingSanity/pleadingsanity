@@ -7,7 +7,7 @@ import { load } from 'cheerio';
 const html = fs.readFileSync(new URL('../music-creator.html', import.meta.url), 'utf8');
 const script = fs.readFileSync(new URL('../js/music-creator.js', import.meta.url), 'utf8');
 // Media mocks verify control flow; these do not certify a real browser encoder.
-function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode = false } = {}) {
+function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode = false, beats } = {}) {
   const dom = load(html), elements = new Map(), streams = [], timers = new Map(), revoked = [], added = [];
   let urlCounter = 0, timerCounter = 0;
   const documentEvents = {}, windowEvents = {}, mediaResolvers = [], decodeResolvers = [], urlBlobs = new Map(), recorders = [], sources = [], canvases = [];
@@ -59,7 +59,7 @@ function fixture({ denyMic = false, delayedMedia = false, Speech, delayedDecode 
     }
   };
   const context = vm.createContext({ document, navigator: { mediaDevices: { async getUserMedia() { if (delayedMedia) await new Promise(resolve => mediaResolvers.push(resolve)); if (denyMic) throw Object.assign(new Error('denied'), { name: 'NotAllowedError' }); return stream(); } } },
-    window: { AudioContext: Audio, MediaRecorder: Recorder, SpeechRecognition: Speech, addEventListener(name, fn) { windowEvents[name] = fn; } }, MediaRecorder: Recorder, OfflineAudioContext: Offline,
+    window: { AudioContext: Audio, MediaRecorder: Recorder, SpeechRecognition: Speech, PSStudioBeats: beats, addEventListener(name, fn) { windowEvents[name] = fn; } }, MediaRecorder: Recorder, OfflineAudioContext: Offline,
     HTMLCanvasElement: { prototype: { captureStream() {} } }, Blob, TextEncoder, TextDecoder, URL: { createObjectURL(blob) { const key = `blob:test-${++urlCounter}`; urlBlobs.set(key, blob); return key; }, revokeObjectURL(value) { revoked.push(value); } },
     setTimeout(fn) { const id = ++timerCounter; timers.set(id, fn); return id; }, clearTimeout(id) { timers.delete(id); }, requestAnimationFrame() { return 1; }, cancelAnimationFrame() {}
   });
@@ -261,4 +261,19 @@ test('local blob wrappers reject HTML and SVG MIME types and preserve media byte
   const safe = f.helpers.safeMediaBlob(source);
   assert.equal(safe.type, 'audio/webm');
   assert.equal(await safe.text(), await source.text());
+});
+
+test('original studio beat loads as a local WAV preview with its own licence note and resets the rights box', () => {
+  const beats = { create: index => ({ blob: new Blob(['RIFF'], { type: 'audio/wav' }), name: 'Night Drive', bpm: 92, index }) };
+  const f = fixture({ beats }); f.el('rights').checked = true;
+  f.el('makeBeatBtn').onclick();
+  assert.match(f.el('beatPlayback').src, /^blob:/); assert.equal(f.el('beatPlayback').hidden, false);
+  assert.equal(f.el('beatDownload').hidden, false); assert.equal(f.el('beatDownload').download, 'pleading-sanity-night-drive-92bpm.wav');
+  assert.match(f.el('beatCredit').value, /original synthesized loop/); assert.equal(f.el('rights').checked, false);
+  f.el('clearBeatBtn').onclick();
+  assert.equal(f.el('beatPlayback').hidden, true); assert.equal(f.el('beatDownload').hidden, true); assert.equal(f.el('beatCredit').value, '');
+});
+test('studio beat button explains itself when the beat library is unavailable', () => {
+  const f = fixture(); f.el('makeBeatBtn').onclick();
+  assert.match(f.el('beatStatus').textContent, /could not load/);
 });
