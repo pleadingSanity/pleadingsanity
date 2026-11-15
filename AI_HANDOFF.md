@@ -1618,11 +1618,6 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Note: `insane-solar.html` hardcodes a PayPal client ID that differs from the `PAYPAL_CLIENT_ID` env var. If the two belong to different PayPal apps or accounts, the £50 deposit check may fail to read the order. Shane to confirm; fix is to load the client ID from env like `/api/supporter` does.
 
 
-## 2026-11-15 (late) — Grok: Insane Solar deposit uses the Netlify PayPal client ID (approved by Shane)
-- `insane-solar.html` no longer hardcodes a PayPal client ID. The deposit script fetches `/api/supporter` and loads the PayPal JS SDK with the Netlify `PAYPAL_CLIENT_ID`, the same app `verify-paypal` checks with. If the config or SDK cannot load, the button is hidden and a "deposits not available right now, nothing charged, contact us" message shows.
-- Unchanged: £50.00 GBP amount, `custom_id` enquiry ref, button style, capture, `/.netlify/functions/verify-paypal` call, retry and success messages. Tests: `tests/solar-paypal-loader.test.js`.
-
-
 ## 2026-11-15 (late) — Grok: P.S Prints, on-site PayPal checkout for 3D prints (additive)
 - New: `prints.html` + `js/prints.js` (shop; PayPal client ID from `/api/prints`), `creator-prints.html` + `js/creator-prints.js` (owner/creator/admin only: add or edit a print, upload photo, publish; lists paid orders with addresses), `netlify/functions/prints.mts`, `netlify/lib/prints.ts` (pure rules + PayPal verify: COMPLETED, amount = catalogue price x qty + delivery, GBP, payee = `PAYPAL_MERCHANT_ID`, `custom_id` `ps-print:<id>:<qty>:<ref>`; order + address recorded once in Blobs `print-orders`), `data/prints.json`, `tests/prints.test.js`.
 - Hard rule: category `toy` can never be live unless `compliance: true` and `compliance_ref` set; mockup photos can never be live. Enforced on save, in the public list and at checkout.
@@ -1630,3 +1625,25 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Rules added (steered by Shane): non-flat keyrings are treated as toys (EU Guidance Doc No 20); non-toys must be 14+ or adult; live needs batch, warnings, material and a real licence; trademarked names refused; exact filament + PLA note + small-parts warnings on every card; maker + batch shown. Delivery: UK post (configurable, default £2) or free Leicester collection; "Message us" WhatsApp 447711147663 / shop@pleadingsanity.co.uk. Verified-buyer reviews (order ref + checkout email, or signed-in buyer), 1-5 stars, spam/profanity/link guard, moderation queue on creator-prints.html, Blobs `print-reviews`, no tracking. Design brief: `docs/3D-PRINT-CLOTHING-MODELS.md`. No kids' clothing line exists, so all clothing-matched prints are 14+ accessories. Direct shop.html link not added (left untouched).
 - Docs: `docs/3D-PRINT-COMPLIANCE-UK.md` (toy law, EN 71, tax, sources), `docs/3D-PRINT-STARTER-PLAN.md` (costs, prices, where to list), `docs/3D-PRINT-SHOP.md` section. Link added on `ps-studio.html` (reached from the shop's "Made in Leicester · 3D printed" section); sitemap entry. A direct link from `shop.html` was left out: its existing PayPal button line could not be pushed safely through the connector.
 - Not touched: `verify-paypal.mts`, `paypal-verify.ts`, `supporter.*`, `insane-solar.html`, `ps-products.json`, login, signup, reset-password, crisis.html, manifesto, privacy.html, PR #92. Privacy page should get a line about order data (name, address, email kept for fulfilment): needs Shane's approval.
+
+## 2026-11-15 (late) — Grok: Insane Solar deposit uses the Netlify PayPal client ID (approved by Shane)
+- `insane-solar.html` no longer hardcodes a PayPal client ID. The deposit script fetches `/api/supporter` and loads the PayPal JS SDK with the Netlify `PAYPAL_CLIENT_ID`, the same app `verify-paypal` checks with. If the config or SDK cannot load, the button is hidden and a "deposits not available right now, nothing charged, contact us" message shows.
+- Unchanged: £50.00 GBP amount, `custom_id` enquiry ref, button style, capture, `/.netlify/functions/verify-paypal` call, retry and success messages. Tests: `tests/solar-paypal-loader.test.js`.
+
+
+## 2026-11-15 (night) — Grok: full site audit, Install Sanity PWA, Creator Studio quick capture, polish
+- Live crawl of every page (links, images, console, CSP, banned colours, emoji, mobile, meta/OG, a11y). Fixed in small PRs, all squash-merged:
+  - #357 (`5792571`): inline scripts on `arron.html`, `arron-app.html`, `profile.html` were blocked by their CSP hashes (crisis banner on send, input re-enable). Moved verbatim to `js/arron-page-enhance.js`, `js/arron-app-enhance.js`, `js/profile-songs.js` (YouTube id validated before framing). `X-Frame-Options` DENY -> SAMEORIGIN so `sanity-songs.html` can frame `/`. Blocked inline crisis-strip styles moved into `css/cosmic-reflections.css`.
+  - #359 (`f1e4163`): Install Sanity PWA. App icons recoloured from the crying-brain icon to brand teal (no purple glow), real maskable icons (`icon-maskable-192/512`), new `apple-touch-icon` and `favicon.ico`, real webp screenshots, manifest shortcuts trimmed to 10 (crisis first), `sw.js` 5.13.0 with navigation preload, bounded runtime cache (180) and precached icons. Offline: uncached and private pages fall back to `offline.html` with crisis numbers. Tests: `tests/pwa-install-app.test.mjs`.
+  - #360 (`ea4b57d`): Creator Studio one-tap Quick Capture (`js/studio-quick-capture.js`, `#quick` section). Each take saves to IndexedDB first, uploads to `/api/creator-studio/takes`, then clears; failed uploads retry when back online. Optional auto-start. Runs only after the existing owner/creator/admin gate. Tests: `tests/studio-quick-capture.test.mjs`.
+  - Polish PR (this entry): cross-document view transitions in shared CSS (off under reduced motion), music widget keeps its place between pages, radio skip link hidden until focus, `/apple-touch-icon.png` root redirect, `/binary-src/*` forced 404. Tests: `tests/site-polish.test.mjs`.
+- Binary files: the GitHub tool used can only push text, so images are committed as base64 under `binary-src/<path>.base64`. `scripts/materialize-binary-assets.cjs` decodes them in the Netlify build (via `scripts/validate-build.cjs`) and before `npm test`. Add new images the same way.
+- Found, not fixed (needs Shane or is protected):
+  - Netlify "Powered by Netlify" badge (site setting) overlaps the mobile bottom nav and logs harmless srcdoc CSP errors.
+  - Header logo files (`crying-brain-logo-*.webp`) still have a violet glow; app icons are fixed. Brand mark left for Shane to decide.
+  - `music-player.js` injected `<style>` and `consent.js` inline style attributes are blocked on strict-CSP pages (cosmic-reflections, music-creator); only cosmetic.
+  - `aura-hz.html` PayPal SDK + inline script (payment code) untouched.
+  - No footer on builder, circle, get-the-app, insane-radio, sanity-songs, site-builder, support-us. No og:image on ps-studio and supporter.
+  - Marketplace listing cards use icon placeholders; real seller product photos are needed (generated art would misrepresent products).
+  - Netlify deploy previews fail with exit code 4 account-wide; production deploys are fine.
+- Not touched: PR #92, login, signup, reset-password, PayPal/payment code, crisis.html, manifesto.
