@@ -11,7 +11,7 @@
 // one text at a time. Logs are paths and counts only.
 
 import { pathToFileURL } from "node:url";
-import { buildCorpus, EMBED_DIM, shouldDeleteStale } from "./kb-lib.mjs";
+import { buildCorpus, EMBED_DIM, shouldDeleteStale, stripNul } from "./kb-lib.mjs";
 
 export const EMBED_BACKOFF_MS = [1000, 3000, 7000, 15000];
 const EMBED_RETRY_STATUSES = new Set([546, 502, 503, 504, 429]);
@@ -80,6 +80,16 @@ async function embedRetrying(texts, deps) {
       if (attempt === EMBED_BACKOFF_MS.length - 1) throw error;
     }
   }
+}
+
+export function kbChunkRows(documentId, chunks, vectors) {
+  return chunks.map((chunk, index) => ({
+    document_id: documentId,
+    chunk_index: chunk.chunk_index,
+    content: stripNul(chunk.content),
+    tokens: chunk.tokens,
+    embedding: `[${vectors[index].join(",")}]`,
+  }));
 }
 
 export async function embedTexts(texts, deps) {
@@ -190,13 +200,7 @@ async function main() {
   async function replaceChunks(documentId, doc, vectors) {
     const filter = encodeURIComponent(documentId);
     await request(`/rest/v1/kb_chunks?document_id=eq.${filter}`, { method: "DELETE", headers: { prefer: "return=minimal" } });
-    const rows = doc.chunks.map((chunk, index) => ({
-      document_id: documentId,
-      chunk_index: chunk.chunk_index,
-      content: chunk.content,
-      tokens: chunk.tokens,
-      embedding: `[${vectors[index].join(",")}]`,
-    }));
+    const rows = kbChunkRows(documentId, doc.chunks, vectors);
     const batch = 20;
     for (let i = 0; i < rows.length; i += batch) {
       await request("/rest/v1/kb_chunks", {
