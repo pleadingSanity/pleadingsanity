@@ -5,6 +5,7 @@
   "type": "module",
   "description": "Pleading Sanity — Rise From Madness. Cosmic healing hub, Arron AI companion, brain games, frequencies, journal vault.",
   "scripts": {
+    "pretest": "node scripts/materialize-binary-assets.cjs",
     "test": "node --experimental-vm-modules --test scripts/test-*.mjs tests/*.test.js tests/*.test.mjs",
     "optimize": "node tools/optimizer.mjs",
     "build": "echo '✅ Static site — no build step needed'",

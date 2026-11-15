@@ -9,3 +9,4 @@ try { JSON.parse(content); } catch (e) { console.error('FATAL: arron-knowledge.j
 const { execSync } = require('child_process');
 console.log('arron-knowledge.json validated.');
 console.log('Build safety checks passed.');
+require('./materialize-binary-assets.cjs');
