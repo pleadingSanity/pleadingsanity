@@ -124,7 +124,7 @@
       "currency": "GBP",
       "type": "one-off, not a subscription",
       "provider": "existing PayPal integration (PayPal Orders API, server-side capture verification)",
-      "status": "NOT BUILT. Blocked until PayPal env vars are set in Netlify. /.netlify/functions/verify-paypal returned {\"ok\":false,\"configured\":false} 503 on 15 Nov 2026.",
+      "status": "BUILT 15 Nov 2026 (late): /supporter.html + /api/supporter (netlify/functions/supporter.mts, netlify/lib/supporter.ts). Grants the Netlify Identity role \"supporter\" (badge only). Order IDs recorded once in Blobs store supporter-orders. PayPal env vars set in Netlify production 15 Nov 2026.",
       "plannedExtrasNonEssential": [
         "Longer Arron memory (more remembered context; safety replies and basic chat unchanged)",
         "Extra Aura Hz sessions and downloads (same healing tones 174/285/432/528/741/963 Hz; the free tones stay free)",

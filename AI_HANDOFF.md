@@ -1608,3 +1608,12 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Pointer added at the top of this file. Google Drive folder "Pleading Sanity AI Brain Backup" is the off-platform mirror.
 - Gaps: New Bot and New Bot 1 agent profiles were empty; earlier Gemini original prompts were never supplied; a weekly refresh job is recommended but not scheduled yet.
 - Docs only. Not touched: payment code, login, signup, crisis.html, manifesto, soul file, PR #92.
+
+
+## 2026-11-15 (late) — Grok: optional one-off 99p Supporter unlock (additive)
+- PayPal env vars (`PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MERCHANT_ID`) are now set as secret Netlify production env vars. Live `/.netlify/functions/verify-paypal` with a fake order ID now answers 404 `Order not found` (it reaches PayPal) instead of 503 `configured:false`.
+- New: `supporter.html` + `js/supporter.js` (page; PayPal client ID fetched from `/api/supporter`, never committed), `netlify/functions/supporter.mts` (`GET /api/supporter`, `POST /api/supporter/verify`), `netlify/lib/supporter.ts` (pure check: COMPLETED, 0.99 GBP captured, payee = `PAYPAL_MERCHANT_ID`, `custom_id` = `ps-supporter:<identity user id>`; each order recorded once in Blobs store `supporter-orders`; adds Identity role `supporter`, keeping existing roles), `tests/supporter.test.js`. Link line on `support-us.html`, sitemap entry, blueprint status updated.
+- Supporter gets a badge only. Optional extras are TODO hooks in `netlify/lib/supporter.ts` (`isSupporter`). Crisis, safety, Arron basics, core pages and the Creator Studio are never gated; `supporter` does not grant `creator`.
+- Not touched: `verify-paypal.mts`, `paypal-verify.ts`, `insane-solar.html` deposit flow, login, signup, reset-password, crisis.html, manifesto, PR #92.
+- Note: `insane-solar.html` hardcodes a PayPal client ID that differs from the `PAYPAL_CLIENT_ID` env var. If the two belong to different PayPal apps or accounts, the £50 deposit check may fail to read the order. Shane to confirm; fix is to load the client ID from env like `/api/supporter` does.
+
