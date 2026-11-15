@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "updated": "2026-11-15",
+  "currency": "GBP",
+  "products": [
+    {
+      "id": "ps-ad5x-carpet-tray",
+      "title": "P.S 4-Piece Interlocking Printer Base Tray",
+      "category": "Workshop & Merch",
+      "material": "PLA+ (prototype)",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Four-piece modular base tray concept for the Flashforge AD5X. CAD geometry, stability, ventilation and fit are awaiting verification. Not available to order.",
+      "preview_image": null,
+      "stl_files": [],
+      "active": false
+    }
+  ]
+}
