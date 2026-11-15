@@ -370,3 +370,21 @@
   [headers.values]
     Permissions-Policy = "camera=(self), microphone=(self), geolocation=(), payment=()"
     Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+# Creator Music Studio (private, creator role only): microphone for same-origin recording, never indexed.
+[[headers]]
+  for = "/creator-studio-music.html"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store, private"
+    Permissions-Policy = "camera=(), microphone=(self), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+
+# Creator Music Studio (private, creator role only): microphone for same-origin recording, never indexed.
+[[headers]]
+  for = "/creator-studio-music"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-store, private"
+    Permissions-Policy = "camera=(), microphone=(self), geolocation=(), payment=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' blob: data:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0f19">
+<meta name="robots" content="noindex, nofollow">
+<title>Creator Music Studio (private) — Pleading Sanity</title>
+<link rel="canonical" href="https://pleadingsanity.co.uk/creator-studio-music.html">
+<meta name="description" content="Private creator studio for Shaney C. Sign-in and creator role required.">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/creator-studio-music.css">
+<script src="/js/music-creator-beats.js" defer></script>
+<script src="/js/vocal-polish.js" defer></script>
+<script type="module" src="/js/creator-studio-music.js"></script>
+</head>
+<body class="csm">
+<svg width="0" height="0" class="csm-sprite" aria-hidden="true" focusable="false">
+<symbol id="i-lock" viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3M5 10h14v11H5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 1 3 3v6a3 3 0 0 1-6 0V6a3 3 0 0 1 3-3zM5 11a7 7 0 0 0 14 0M12 18v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="i-wave" viewBox="0 0 24 24"><path d="M2 12h3l2-6 4 12 3-9 2 3h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="i-pen" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM14 6l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+<symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+</svg>
+<a class="csm-skip" href="#main">Skip to studio</a>
+<main id="main" class="csm-wrap">
+<header class="csm-hero">
+<p class="csm-eyebrow"><svg class="csm-icon"><use href="#i-lock"/></svg> PRIVATE / CREATOR ONLY</p>
+<h1>Shaney C<br>Studio.</h1>
+<p class="csm-lead">Lyrics vault, the seven studio beats, your voice recorded over them, polished in the browser and saved privately.</p>
+</header>
+
+<section id="gate" class="csm-card csm-gate" aria-live="polite">
+<p id="gateText">Checking your studio key…</p>
+<p id="gateSignIn" hidden><a class="csm-btn" href="/login.html?next=%2Fcreator-studio-music.html">Sign in</a></p>
+</section>
+
+<div id="studio" class="csm-grid" hidden>
+<section id="vault" class="csm-card csm-wide">
+<p class="csm-step"><svg class="csm-icon"><use href="#i-pen"/></svg> 01 / LYRICS VAULT</p>
+<h2>Your words.</h2>
+<div class="csm-row">
+<label for="draftPick">Draft</label>
+<select id="draftPick"></select>
+<button id="draftNew" class="csm-secondary" type="button">New draft</button>
+</div>
+<label for="draftTitle">Title</label>
+<input id="draftTitle" type="text" maxlength="100" autocomplete="off">
+<label for="draftBody">Lyrics</label>
+<textarea id="draftBody" rows="14" maxlength="20000" spellcheck="true"></textarea>
+<div class="csm-row"><button id="draftSave" type="button">Save to vault</button><span id="vaultStatus" class="csm-status" role="status"></span></div>
+<p class="csm-note">Originals only: no lines, samples or vocals lifted from other records.</p>
+</section>
+
+<section id="beats" class="csm-card">
+<p class="csm-step"><svg class="csm-icon"><use href="#i-wave"/></svg> 02 / BEAT</p>
+<h2>Pick the beat.</h2>
+<label for="beatPick">Studio beat (original, synthesised on your device)</label>
+<select id="beatPick"></select>
+<label class="csm-check"><input id="beatLift" type="checkbox" checked> Lift to bassline tempo (138 BPM). Speeds the loop up, which also raises its pitch.</label>
+<p class="csm-bpm"><span id="bpmValue">138</span> BPM</p>
+<div class="csm-row"><button id="beatPlay" type="button">Play beat</button><button id="beatStop" class="csm-secondary" type="button" disabled>Stop</button></div>
+<label for="beatLevel">Beat level</label>
+<input id="beatLevel" type="range" min="0" max="100" value="55">
+</section>
+
+<section id="record" class="csm-card">
+<p class="csm-step"><svg class="csm-icon"><use href="#i-mic"/></svg> 03 / VOICE</p>
+<h2>Record over it.</h2>
+<p>The beat starts when you press record. Wear headphones so the beat stays out of the mic.</p>
+<div class="csm-row"><button id="recStart" type="button">Record take</button><button id="recStop" class="csm-secondary" type="button" disabled>Stop</button></div>
+<p id="recStatus" class="csm-status" role="status"></p>
+<pre id="prompter" class="csm-prompter" aria-label="Lyrics to read while recording"></pre>
+</section>
+
+<section id="polish" class="csm-card csm-wide">
+<p class="csm-step"><svg class="csm-icon"><use href="#i-spark"/></svg> 04 / VOCAL POLISH</p>
+<h2>Make it sit right.</h2>
+<p>All done in your browser with the Web Audio API. No paid service, nothing leaves the page until you save.</p>
+<fieldset class="csm-toggles"><legend>Polish steps</legend>
+<label class="csm-check"><input id="pCleanup" type="checkbox" checked> Clean-up: noise gate and high-pass</label>
+<label class="csm-check"><input id="pCompress" type="checkbox" checked> Compression</label>
+<label class="csm-check"><input id="pEq" type="checkbox" checked> EQ: presence boost and mud cut</label>
+<label class="csm-check"><input id="pSpace" type="checkbox" checked> Light reverb and tempo delay</label>
+<label class="csm-check"><input id="pTune" type="checkbox"> Pitch correction (gentle, snaps toward the nearest note; experimental)</label>
+</fieldset>
+<label for="takeTitle">Take name</label>
+<input id="takeTitle" type="text" maxlength="80" autocomplete="off" placeholder="e.g. Rose Up hook, take 3">
+<div class="csm-row">
+<button id="playDry" class="csm-secondary" type="button" disabled>Play dry + beat</button>
+<button id="playPolished" type="button" disabled>Play polished + beat</button>
+<button id="playStop" class="csm-secondary" type="button" disabled>Stop</button>
+</div>
+<div class="csm-row">
+<button id="saveDry" class="csm-secondary" type="button" disabled>Save dry take</button>
+<button id="savePolished" type="button" disabled>Save polished take</button>
+<button id="saveMix" class="csm-secondary" type="button" disabled>Save rough mix with beat</button>
+</div>
+<p id="polishStatus" class="csm-status" role="status"></p>
+</section>
+
+<section id="takes" class="csm-card csm-wide">
+<p class="csm-step">05 / SAVED TAKES</p>
+<h2>Private takes.</h2>
+<p id="storageNote" class="csm-note"></p>
+<ul id="takeList" class="csm-takes"></ul>
+</section>
+
+<section id="generate" class="csm-card csm-wide csm-disabled" aria-disabled="true">
+<p class="csm-step">06 / GENERATE TRACK</p>
+<h2>Full track generation: coming later.</h2>
+<p>This will hand a take and lyrics to a paid music service (Runway or fal) once Shane picks one and adds its key in Netlify. Nothing is charged until then.</p>
+<button id="genBtn" type="button" disabled>Generate track</button>
+<p id="genStatus" class="csm-status" role="status"></p>
+</section>
+</div>
+</main>
+</body>
+</html>

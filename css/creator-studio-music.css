@@ -1,0 +1,42 @@
+/* Creator Music Studio. Brand: #0b0f19 deep space, teal #00fff0 / #38bdf8, amber #f59e0b, silver. */
+.csm{margin:0;background:#0b0f19;color:#e5edf5;font:16px/1.6 system-ui,-apple-system,sans-serif}
+.csm *{box-sizing:border-box}
+.csm [hidden]{display:none!important}
+.csm-sprite{position:absolute}
+.csm-skip{position:absolute;left:-999px}.csm-skip:focus{left:12px;top:12px;background:#00fff0;color:#0b0f19;padding:8px 12px;border-radius:8px}
+.csm-wrap{max-width:1140px;margin:auto;padding:30px 20px 100px}
+.csm-hero{padding:40px 0 24px;background:radial-gradient(ellipse at 80% 30%,#00fff012,transparent 65%)}
+.csm-eyebrow,.csm-step{display:flex;align-items:center;gap:8px;font-size:.75rem;font-weight:700;letter-spacing:.16em;color:#00fff0;margin:0}
+.csm-hero h1{font-size:clamp(2.6rem,8vw,4.8rem);line-height:1.05;letter-spacing:-.05em;margin:18px 0;color:#e5edf5}
+.csm-lead{font-size:1.15rem;color:#c0ccd8;max-width:620px}
+.csm-icon{width:18px;height:18px;flex:none}
+.csm-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.csm-wide{grid-column:1/-1}
+.csm-card{min-width:0;padding:26px;border:1px solid #c0ccd833;border-radius:20px;background:linear-gradient(135deg,#11212e,#0e1521)}
+.csm-card h2{font-size:1.55rem;line-height:1.2;margin:10px 0 14px}
+.csm-gate{max-width:640px}
+.csm label{display:block;margin:12px 0 6px;color:#c0ccd8;font-size:.92rem}
+.csm input[type=text],.csm select,.csm textarea{width:100%;padding:11px 12px;border-radius:12px;border:1px solid #38bdf855;background:#0b0f19;color:#e5edf5;font:inherit}
+.csm textarea{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.92rem;line-height:1.55}
+.csm input[type=range]{width:100%;accent-color:#00fff0}
+.csm-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:12px 0}
+.csm-row label{margin:0}.csm-row select{flex:1;min-width:180px}
+.csm button,.csm-btn{min-height:48px;padding:10px 18px;border-radius:999px;border:1px solid #00fff0;background:#00fff0;color:#0b0f19;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.csm button.csm-secondary{background:transparent;color:#00fff0;border-color:#38bdf8}
+.csm button:disabled{opacity:.45;cursor:not-allowed}
+.csm button:focus-visible,.csm a:focus-visible,.csm input:focus-visible,.csm select:focus-visible,.csm textarea:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.csm a{color:#00fff0}
+.csm-check{display:flex!important;gap:10px;align-items:flex-start}
+.csm-check input{width:20px;height:20px;accent-color:#00fff0;margin-top:2px}
+.csm-toggles{border:1px solid #c0ccd833;border-radius:14px;padding:6px 16px 12px;margin:12px 0}
+.csm-toggles legend{color:#f59e0b;font-size:.85rem;padding:0 6px}
+.csm-bpm{font-size:2.2rem;font-weight:800;color:#f59e0b;margin:10px 0}
+.csm-status{color:#f59e0b;font-size:.92rem;min-height:1.4em}
+.csm-note{color:#a9b8c6;font-size:.88rem}
+.csm-prompter{white-space:pre-wrap;max-height:260px;overflow:auto;background:#0b0f19;border:1px solid #38bdf833;border-radius:12px;padding:14px;font:1rem/1.6 system-ui,sans-serif;color:#e5edf5}
+.csm-takes{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.csm-takes li{border:1px solid #c0ccd833;border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.csm-takes audio{width:100%}
+.csm-tag{display:inline-block;border:1px solid #f59e0b;color:#f59e0b;border-radius:999px;padding:1px 10px;font-size:.75rem;margin-left:8px}
+.csm-disabled{opacity:.75}
+@media (max-width:760px){.csm-grid{grid-template-columns:1fr}.csm-card{padding:20px}}
