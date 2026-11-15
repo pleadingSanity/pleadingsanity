@@ -39,6 +39,7 @@ import {
   GROK_SECOND_MODEL,
   chooseModel,
   failureTag,
+  anthropicWorkspaceHeaders,
   keySources,
   providerStatusSnapshot,
   recordProviderStatus,
@@ -56,7 +57,8 @@ const MIN_ATTEMPT_MS = 2_500;
 const openaiKey = resolveKey("openai");
 const anthropicKey = resolveKey("anthropic");
 const geminiKey = resolveKey("gemini");
-const anthropic = new Anthropic({ apiKey: anthropicKey.value, ...(anthropicKey.dropIn ? { baseURL: "https://api.anthropic.com" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const anthropicWorkspace = anthropicWorkspaceHeaders();
+const anthropic = new Anthropic({ apiKey: anthropicKey.value, ...(anthropicKey.dropIn ? { baseURL: "https://api.anthropic.com" } : {}), ...(Object.keys(anthropicWorkspace).length ? { defaultHeaders: anthropicWorkspace } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
 const openai = new OpenAI({ apiKey: openaiKey.value, ...(openaiKey.dropIn ? { baseURL: "https://api.openai.com/v1" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
 const gemini = new GoogleGenAI({ apiKey: geminiKey.value, httpOptions: { timeout: LAB_TIMEOUT_MS, ...(geminiKey.dropIn ? { baseUrl: GEMINI_GOOGLE_BASE } : {}) } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;

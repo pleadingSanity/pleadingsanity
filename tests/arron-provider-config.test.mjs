@@ -4,6 +4,8 @@ import { readFileSync } from "node:fs";
 import {
   CURRENT_MODELS,
   KEY_NAMES,
+  anthropicWorkspaceHeaders,
+  anthropicWorkspaceId,
   chooseModel,
   failureTag,
   isRetiredModel,
@@ -73,6 +75,27 @@ test("failure tags name the real reason by status code", () => {
   assert.equal(failureTag({ status: 404 }), "HTTP 404 model-not-found");
   assert.equal(failureTag({ status: 429 }), "HTTP 429 quota");
   assert.equal(failureTag({ name: "TimeoutError" }), "TimeoutError");
+  assert.equal(
+    failureTag({ status: 400, message: "This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header" }),
+    "HTTP 400 workspace-id required"
+  );
+  const tagged = failureTag({ status: 400, message: "This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header" });
+  assert.equal(tagged.includes("anthropic-workspace-id"), false);
+  assert.equal(failureTag({ status: 400 }), "HTTP 400");
+});
+
+test("Anthropic workspace header is sent only when a workspace id is set, and the value is never in public helpers", () => {
+  assert.deepEqual(anthropicWorkspaceHeaders({}), {});
+  assert.deepEqual(anthropicWorkspaceHeaders({ ANTHROPIC_WORKSPACE_ID: "   " }), {});
+  const env = { ANTHROPIC_WORKSPACE_ID: "ws-test-example-id", ARRON_ANTHROPIC_WORKSPACE_ID: "ws-drop-in-example" };
+  const drop = anthropicWorkspaceId(env);
+  assert.equal(drop.name, "ARRON_ANTHROPIC_WORKSPACE_ID");
+  assert.deepEqual(anthropicWorkspaceHeaders(env), { "anthropic-workspace-id": "ws-drop-in-example" });
+  assert.deepEqual(anthropicWorkspaceHeaders({ ANTHROPIC_WORKSPACE_ID: "ws-plain-example" }), { "anthropic-workspace-id": "ws-plain-example" });
+  assert.match(chain, /anthropicWorkspaceHeaders\(\)/);
+  assert.match(chain, /defaultHeaders: anthropicWorkspace/);
+  assert.match(probe, /\.\.\.anthropicWorkspaceHeaders\(env\)/);
+  assert.equal(JSON.stringify(keySources(env)).includes("ws-"), false);
 });
 
 test("per-provider status is recorded without secrets", () => {

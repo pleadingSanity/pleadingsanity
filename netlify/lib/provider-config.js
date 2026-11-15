@@ -70,6 +70,27 @@ export const GEMINI_DIRECT_MODEL = "gemini-3.5-flash-lite";
 // Grok's second name when the first is refused for a model reason (not the account).
 export const GROK_SECOND_MODEL = "grok-4.3";
 
+
+// Anthropic keys that are not scoped to a workspace need this header or every
+// call returns HTTP 400. Names only here; the value is never logged or returned
+// on health. Set ANTHROPIC_WORKSPACE_ID (or ARRON_ANTHROPIC_WORKSPACE_ID) in Netlify.
+const WORKSPACE_NAMES = ["ARRON_ANTHROPIC_WORKSPACE_ID", "ANTHROPIC_WORKSPACE_ID"];
+
+export function anthropicWorkspaceId(env = process.env) {
+  for (const name of WORKSPACE_NAMES) {
+    const value = env?.[name];
+    if (typeof value === "string" && value.trim().length >= 6 && value.trim().length <= 128) {
+      return { value: value.trim(), name };
+    }
+  }
+  return { value: "", name: null };
+}
+
+export function anthropicWorkspaceHeaders(env = process.env) {
+  const id = anthropicWorkspaceId(env);
+  return id.value ? { "anthropic-workspace-id": id.value } : {};
+}
+
 // ─── per-provider status (this function instance only) ───
 const status = {};
 const SECRETISH = /sk-|xai-|bearer |api[_-]?key|eyJ|ghp_|nfp_|AIza/i;
@@ -107,6 +128,7 @@ export function failureTag(error) {
   const tag =
     /spending-limit|run out of credits|need a grok subscription|doesn't have any credits|does not have any credits/i.test(bits) ? "spending-limit" :
     /insufficient_quota/i.test(bits) ? "quota" :
+    /anthropic-workspace-id|not scoped to a workspace/i.test(bits) ? "workspace-id required" :
     code === 401 ? "rejected-key" :
     code === 402 ? "billing" :
     code === 403 ? "forbidden" :

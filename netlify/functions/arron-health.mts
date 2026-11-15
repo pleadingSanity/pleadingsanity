@@ -12,7 +12,7 @@ import { allow, slowDown } from "../lib/rate-limit.js";
 import { optionalUser } from "../lib/social.js";
 // Same key names and model ids the live chain uses, so a probe tests exactly what Arron calls.
 // CURRENT_MODELS mirrors the soul chain (a test keeps them in step); a retired env id is ignored the same way.
-import { CURRENT_MODELS, GEMINI_DIRECT_MODEL, chooseModel, keySources, resolveKey } from "../lib/provider-config.js";
+import { CURRENT_MODELS, GEMINI_DIRECT_MODEL, chooseModel, keySources, resolveKey, anthropicWorkspaceHeaders } from "../lib/provider-config.js";
 const json = (body: unknown, status = 200) =>
   Response.json(body, { status, headers: { "Cache-Control": "no-store" } });
 const nonEmpty = (v: string | undefined) => Boolean(v && v.trim().length > 8);
@@ -108,7 +108,7 @@ export default async (req: Request, context: Context) => {
   if (probeLevel === "1") {
     const probes = await Promise.all([
       getProbe("openai", "https://api.openai.com/v1/models", { Authorization: `Bearer ${openaiKey}` }),
-      getProbe("anthropic", "https://api.anthropic.com/v1/models", { "x-api-key": anthropicKey, "anthropic-version": "2023-06-01" }),
+      getProbe("anthropic", "https://api.anthropic.com/v1/models", { "x-api-key": anthropicKey, "anthropic-version": "2023-06-01", ...anthropicWorkspaceHeaders(env) }),
       getProbe("gemini", "https://generativelanguage.googleapis.com/v1beta/models", { "x-goog-api-key": geminiKey }),
       getProbe("grok", "https://api.x.ai/v1/models", { Authorization: `Bearer ${grokKey}` }),
       getProbe("openrouter", "https://openrouter.ai/api/v1/key", { Authorization: `Bearer ${openrouterKey}` }),
@@ -117,7 +117,7 @@ export default async (req: Request, context: Context) => {
   }
   const chat = await Promise.all([
     chatProbe("openai", "https://api.openai.com/v1/chat/completions", { Authorization: `Bearer ${openaiKey}` }, { model: model.openai, max_completion_tokens: 1, messages: [{ role: "user", content: "hi" }] }),
-    chatProbe("anthropic", "https://api.anthropic.com/v1/messages", { "x-api-key": anthropicKey, "anthropic-version": "2023-06-01" }, { model: model.anthropic, max_tokens: 1, messages: [{ role: "user", content: "hi" }] }),
+    chatProbe("anthropic", "https://api.anthropic.com/v1/messages", { "x-api-key": anthropicKey, "anthropic-version": "2023-06-01", ...anthropicWorkspaceHeaders(env) }, { model: model.anthropic, max_tokens: 1, messages: [{ role: "user", content: "hi" }] }),
     chatProbe("gemini", `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model.gemini)}:generateContent`, { "x-goog-api-key": geminiKey }, { contents: [{ parts: [{ text: "hi" }] }], generationConfig: { maxOutputTokens: 1 } }),
     chatProbe("gemini-fallback", `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model.geminiFallback)}:generateContent`, { "x-goog-api-key": geminiKey }, { contents: [{ parts: [{ text: "hi" }] }], generationConfig: { maxOutputTokens: 1 } }),
     chatProbe("grok", "https://api.x.ai/v1/chat/completions", { Authorization: `Bearer ${grokKey}` }, { model: model.grok, max_tokens: 1, messages: [{ role: "user", content: "hi" }] }),
