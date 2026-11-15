@@ -1621,3 +1621,21 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 ## 2026-11-15 (late) — Grok: Insane Solar deposit uses the Netlify PayPal client ID (approved by Shane)
 - `insane-solar.html` no longer hardcodes a PayPal client ID. The deposit script fetches `/api/supporter` and loads the PayPal JS SDK with the Netlify `PAYPAL_CLIENT_ID`, the same app `verify-paypal` checks with. If the config or SDK cannot load, the button is hidden and a "deposits not available right now, nothing charged, contact us" message shows.
 - Unchanged: £50.00 GBP amount, `custom_id` enquiry ref, button style, capture, `/.netlify/functions/verify-paypal` call, retry and success messages. Tests: `tests/solar-paypal-loader.test.js`.
+
+
+## 2026-11-15 (night) — Grok: full site audit, Install Sanity PWA, Creator Studio quick capture, polish
+- Live crawl of every page (links, images, console, CSP, banned colours, emoji, mobile, meta/OG, a11y). Fixed in small PRs, all squash-merged:
+  - #357 (`5792571`): inline scripts on `arron.html`, `arron-app.html`, `profile.html` were blocked by their CSP hashes (crisis banner on send, input re-enable). Moved verbatim to `js/arron-page-enhance.js`, `js/arron-app-enhance.js`, `js/profile-songs.js` (YouTube id validated before framing). `X-Frame-Options` DENY -> SAMEORIGIN so `sanity-songs.html` can frame `/`. Blocked inline crisis-strip styles moved into `css/cosmic-reflections.css`.
+  - #359 (`f1e4163`): Install Sanity PWA. App icons recoloured from the crying-brain icon to brand teal (no purple glow), real maskable icons (`icon-maskable-192/512`), new `apple-touch-icon` and `favicon.ico`, real webp screenshots, manifest shortcuts trimmed to 10 (crisis first), `sw.js` 5.13.0 with navigation preload, bounded runtime cache (180) and precached icons. Offline: uncached and private pages fall back to `offline.html` with crisis numbers. Tests: `tests/pwa-install-app.test.mjs`.
+  - #360 (`ea4b57d`): Creator Studio one-tap Quick Capture (`js/studio-quick-capture.js`, `#quick` section). Each take saves to IndexedDB first, uploads to `/api/creator-studio/takes`, then clears; failed uploads retry when back online. Optional auto-start. Runs only after the existing owner/creator/admin gate. Tests: `tests/studio-quick-capture.test.mjs`.
+  - Polish PR (this entry): cross-document view transitions in shared CSS (off under reduced motion), music widget keeps its place between pages, radio skip link hidden until focus, `/apple-touch-icon.png` root redirect, `/binary-src/*` forced 404. Tests: `tests/site-polish.test.mjs`.
+- Binary files: the GitHub tool used can only push text, so images are committed as base64 under `binary-src/<path>.base64`. `scripts/materialize-binary-assets.cjs` decodes them in the Netlify build (via `scripts/validate-build.cjs`) and before `npm test`. Add new images the same way.
+- Found, not fixed (needs Shane or is protected):
+  - Netlify "Powered by Netlify" badge (site setting) overlaps the mobile bottom nav and logs harmless srcdoc CSP errors.
+  - Header logo files (`crying-brain-logo-*.webp`) still have a violet glow; app icons are fixed. Brand mark left for Shane to decide.
+  - `music-player.js` injected `<style>` and `consent.js` inline style attributes are blocked on strict-CSP pages (cosmic-reflections, music-creator); only cosmetic.
+  - `aura-hz.html` PayPal SDK + inline script (payment code) untouched.
+  - No footer on builder, circle, get-the-app, insane-radio, sanity-songs, site-builder, support-us. No og:image on ps-studio and supporter.
+  - Marketplace listing cards use icon placeholders; real seller product photos are needed (generated art would misrepresent products).
+  - Netlify deploy previews fail with exit code 4 account-wide; production deploys are fine.
+- Not touched: PR #92, login, signup, reset-password, PayPal/payment code, crisis.html, manifesto.
