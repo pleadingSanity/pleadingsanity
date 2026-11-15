@@ -26,3 +26,11 @@ Related: [AI_HANDOFF.md](../AI_HANDOFF.md) · [MASTER_PROMPT.md](MASTER_PROMPT.m
 - Brand: #0b0f19 background, teal #00fff0 / #38bdf8, amber #f59e0b, silver. No purple, pink, indigo or violet. SVG icons, no emoji.
 - The sanctuary stays free. Prints are optional and help pay running costs.
 - No keys or secrets in the catalogue or photos' file names.
+
+## On-site PayPal checkout: P.S Prints (added 15 Nov 2026)
+- Shop page: https://pleadingsanity.co.uk/prints.html. Creator page (owner/creator/admin only): https://pleadingsanity.co.uk/creator-prints.html.
+- Catalogue: `data/prints.json` (in the repo) plus anything saved on the creator page (Netlify Blobs `prints-catalogue`; photos in `prints-photos`). Same id = the creator-page version wins.
+- Checkout: the PayPal client ID comes from `/api/prints` (Netlify env). After capture, `POST /api/prints/verify` checks the order with PayPal: COMPLETED, amount = price x qty + `delivery_gbp`, GBP, payee = `PAYPAL_MERCHANT_ID`, `custom_id` = `ps-print:<id>:<qty>:<ref>`. The order and delivery address are recorded once in Blobs `print-orders` and listed on the creator page.
+- Rules in `netlify/lib/prints.ts`, tests in `tests/prints.test.js`: a live item needs a price, a real photo (mockups cannot be sold) and stock or made to order. **A `toy` needs `compliance: true` and a `compliance_ref` (technical file reference) or it can never be live.** See [3D-PRINT-COMPLIANCE-UK.md](3D-PRINT-COMPLIANCE-UK.md) and [3D-PRINT-STARTER-PLAN.md](3D-PRINT-STARTER-PLAN.md).
+- Quick add (about 2 minutes): open creator-prints.html, choose the print or "New print", upload the real photo, untick "mockup", set name, price and status Live, Save.
+- `ps-products.json` and `ps-studio.html` (Payhip/TikTok buy links) are unchanged and keep working.
