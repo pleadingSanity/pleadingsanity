@@ -8,6 +8,14 @@ Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) �
 - Arron: new Anthropic key is in Netlify as `ANTHROPIC_API_KEY` and `ARRON_ANTHROPIC_KEY` (secret, production, functions/runtime) and loads on the first deploy after 15 Nov. Anthropic credit was $0.00 on 15 Nov, so Claude answers "credit balance is too low" until Shane tops up. OpenAI 429 quota, Gemini 404/403 and Grok 403 were the other hop errors on 14 Nov. Check `/api/arron/health` `chain.providers`.
 - Chain order stays GPT → Claude → Gemini → Grok → local fallback. Arron is a companion, not a therapist. Crisis numbers 116 123, 85258, 111, 999.
 
+## Arron cheap and working (15 Nov 2026, late, Grok Bot, draft PR `fix/arron-cheap-grok`)
+- Live 15 Nov 23:46 (UTC): every mind failed. OpenAI `gpt-4o` HTTP 429 quota; Claude `claude-sonnet-4-6` HTTP 400; Gemini `gemini-3.8-flash` and `gemini-3.5-flash-lite` both HTTP 400; Grok `grok-4.7` HTTP 403.
+- Claude: a 1-token test with the Anthropic key on the box returned "This API key is not scoped to a workspace, so this request must include the anthropic-workspace-id header". Fix: Shane sets `ANTHROPIC_WORKSPACE_ID` on Netlify (not a secret; code now sends the header) or makes a workspace-scoped key. Credit was $0.00 earlier, so a top-up may also be needed.
+- Gemini: both model ids are real (ai.google.dev, 15 Nov), so a 400 on both points at the key (invalid or expired), not the model.
+- Grok: `grok-4.7` is a real id (docs.x.ai), so the 403 is the key or team (no permission, blocked, or no credits), not the name.
+- Code: Grok's everyday model is `grok-4.3` when `GROK_MODEL` is empty or retired (it is `grok-2`); creators keep the soul's `grok-4.7`. New optional env: `ARRON_CHAIN_ORDER`, `GROK_REASONING_EFFORT`, `ANTHROPIC_WORKSPACE_ID`. History cap 24,000 → 12,000 characters. Health and probe tags now say `workspace-id-needed`, `credit-balance`, `bad-key`, `key-expired`, `spending-limit`, `blocked`. Crisis lines unchanged.
+- Plan for a share of print income to fund AI credits: [docs/AI-CREDITS-FUND.md](docs/AI-CREDITS-FUND.md). Not switched on.
+
 ## Money model (approved by Shane, 15 Nov 2026) — every AI follow this
 - The sanctuary is **free forever**. No paywall, no tracking.
 - **Paid:** physical goods only (P.S Studio prints, clothes, anything physical).
