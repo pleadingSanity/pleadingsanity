@@ -16,6 +16,7 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/music-creator.css">
 <script src="/js/site.js" defer></script>
+<script src="/js/music-creator-beats.js" defer></script>
 <script src="/js/music-creator.js" defer></script>
 </head>
 <body class="music-creator">
@@ -70,8 +71,11 @@
 </section>
 <section id="sound" class="mc-card">
 <p class="mc-step">04 / THE SOUND</p><h2>Give your words a home.</h2>
-<label for="beat">Beat direction</label><select id="beat"><option>Hip-hop / West Coast bounce</option><option>Hip-hop / laid-back</option><option>Hip-hop / cinematic</option><option>Hip-hop / boom bap</option><option>Hip-hop / fast storytelling</option><option>UK old-school / garage</option><option>UK old-school / classic dance</option></select>
-<p class="mc-note">These are mood labels, not included or licensed tracks. Artist references from the brief are creative directions only; no Toga Beats, Mustard, Wiz Khalifa, Rick Ross, Dr Dre, 50 Cent or Eminem recordings are supplied.</p>
+<label for="beat">Original studio beat</label><select id="beat"><option value="Hip-hop / West Coast bounce">Night Drive · 92 BPM</option><option value="Hip-hop / laid-back">Leicester After Dark · 78 BPM</option><option value="Hip-hop / cinematic">Stand Again · 78 BPM</option><option value="Hip-hop / boom bap">Concrete Steps · 86 BPM</option><option value="Hip-hop / fast storytelling">No Looking Back · 96 BPM</option><option value="UK old-school / garage">Garage Lights · 130 BPM</option><option value="UK old-school / classic dance">First Light · 124 BPM</option></select>
+<p class="mc-note">Seven original instrumental loops, made on your device from synthesized drums and bass. No artist tracks, samples or vocals. Choose a feel, then make your beat. Artist references from the brief are creative directions only; no Toga Beats, Mustard, Wiz Khalifa, Rick Ross, Dr Dre, 50 Cent or Eminem recordings are supplied.</p>
+<div class="mc-actions"><button id="makeBeatBtn" type="button">Make this beat</button></div>
+<audio id="beatPlayback" controls loop hidden aria-label="Original studio beat preview"></audio><a id="beatDownload" class="mc-download" hidden>Download original beat</a>
+<p class="mc-note">Preview loops until you pause it. Use headphones while recording.</p><details class="mc-privacy"><summary>Using these beats in your music</summary><p class="mc-note">Generated loops may be used in your own tracks and videos, including commercial releases, without attribution. They are non-exclusive. Imported files need their own permission. No platform approval or claim-free upload is guaranteed.</p></details>
 <label for="beatFile">Choose your beat file (optional)</label><input id="beatFile" type="file" accept="audio/*">
 <button id="clearBeatBtn" type="button" class="mc-secondary">Remove beat</button>
 <label for="beatCredit">Beat title, creator and licence / attribution notes</label><textarea id="beatCredit" rows="3" placeholder="Keep the licence and any required credit with your project."></textarea>
