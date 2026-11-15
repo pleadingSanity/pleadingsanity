@@ -1,3 +1,4 @@
+import * as providerConfig from '../netlify/lib/provider-config.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
@@ -53,6 +54,7 @@ async function probe(user) {
     'drizzle-orm': { sql: () => '' },
     '../lib/rate-limit.js': { allow: async () => true, slowDown: () => Response.json({}, { status: 429 }) },
     '../lib/social.js': { optionalUser: async () => user },
+    '../lib/provider-config.js': providerConfig,
   };
   await module.link(name => new vm.SyntheticModule(Object.keys(values[name]), function () {
     for (const [key, value] of Object.entries(values[name])) this.setExport(key, value);
