@@ -112,3 +112,23 @@ body.radio-page { padding-bottom: 96px; }
 @media (prefers-reduced-motion: reduce) {
   .radio-float-stop, .station-card { animation: none !important; transition: none !important; }
 }
+
+/* ---- Seamless page-to-page transitions (2026-11-15) ----
+   Cross-document View Transitions: browsers that support them crossfade
+   between same-site pages; others ignore this block. The floating music
+   widget keeps its own name so it stays put while the page changes.
+   Fully disabled for prefers-reduced-motion. */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .28s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+#ps-music-widget { view-transition-name: ps-music-widget; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
+
+/* Skip link: hidden until keyboard focus (radio page does not load styles.css) */
+.skip-link{position:absolute;left:12px;top:-60px;z-index:10000;padding:10px 16px;border-radius:10px;background:#00fff0;color:#0b0f19;font-weight:700;text-decoration:none;transition:top .15s ease}
+.skip-link:focus,.skip-link:focus-visible{top:12px;outline:3px solid #f59e0b;outline-offset:2px}

@@ -48,3 +48,19 @@ html:root[data-theme="light"] .ps-city-home .ps-start-grid>a{background:#edf6f5;
 html:root[data-theme="light"] .ps-city-home .ps-start-grid>a :is(strong,span){color:#14343a}
 /* Opaque poster lettering: old gradient clips would turn the shadow into an outline. */
 html:root h1{background:none!important;background-clip:border-box;-webkit-text-fill-color:currentColor}
+
+/* ---- Seamless page-to-page transitions (2026-11-15) ----
+   Cross-document View Transitions: browsers that support them crossfade
+   between same-site pages; others ignore this block. The floating music
+   widget keeps its own name so it stays put while the page changes.
+   Fully disabled for prefers-reduced-motion. */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .28s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+#ps-music-widget { view-transition-name: ps-music-widget; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}

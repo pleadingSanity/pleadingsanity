@@ -86,3 +86,19 @@ textarea:focus-visible,
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 18px rgba(45, 212, 191, 0.12);
   }
 }
+
+/* ---- Seamless page-to-page transitions (2026-11-15) ----
+   Cross-document View Transitions: browsers that support them crossfade
+   between same-site pages; others ignore this block. The floating music
+   widget keeps its own name so it stays put while the page changes.
+   Fully disabled for prefers-reduced-motion. */
+@view-transition { navigation: auto; }
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: .28s; animation-timing-function: cubic-bezier(.2,.7,.2,1); }
+#ps-music-widget { view-transition-name: ps-music-widget; }
+@media (prefers-reduced-motion: reduce) {
+  @view-transition { navigation: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
