@@ -1617,3 +1617,7 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Not touched: `verify-paypal.mts`, `paypal-verify.ts`, `insane-solar.html` deposit flow, login, signup, reset-password, crisis.html, manifesto, PR #92.
 - Note: `insane-solar.html` hardcodes a PayPal client ID that differs from the `PAYPAL_CLIENT_ID` env var. If the two belong to different PayPal apps or accounts, the £50 deposit check may fail to read the order. Shane to confirm; fix is to load the client ID from env like `/api/supporter` does.
 
+
+## 2026-11-15 (late) — Grok: Insane Solar deposit uses the Netlify PayPal client ID (approved by Shane)
+- `insane-solar.html` no longer hardcodes a PayPal client ID. The deposit script fetches `/api/supporter` and loads the PayPal JS SDK with the Netlify `PAYPAL_CLIENT_ID`, the same app `verify-paypal` checks with. If the config or SDK cannot load, the button is hidden and a "deposits not available right now, nothing charged, contact us" message shows.
+- Unchanged: £50.00 GBP amount, `custom_id` enquiry ref, button style, capture, `/.netlify/functions/verify-paypal` call, retry and success messages. Tests: `tests/solar-paypal-loader.test.js`.

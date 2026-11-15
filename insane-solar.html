@@ -1091,9 +1091,9 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
  <p id="paypal-msg" class="text-sm mt-3 font-bold" style="color:var(--green2);display:none;" role="status">Deposit received — thank you. A real surveyor will call you within 24 hours. Still WhatsApp us anytime on the number above.</p>
  <p id="paypal-verify-msg" class="text-sm mt-3 font-bold" style="color:var(--amber2);display:none;" role="status">PayPal has your payment, but we could not confirm it yet. Do not pay again. Choose Check again, or contact us by phone, WhatsApp or email on this page and quote your PayPal receipt.</p>
  <button type="button" id="paypal-verify-retry" class="btn btn-amber mt-3" style="display:none;min-height:48px;">Check again</button>
+ <p id="paypal-unavailable" class="text-sm mt-3 font-bold" style="color:var(--amber2);display:none;" role="status">Online deposits are not available right now. Nothing has been charged. Please call, WhatsApp or email us on this page and we will book your survey.</p>
  <p class="text-xs mt-3" style="color:var(--muted-dark);">Pay with PayPal, debit or credit card. No account needed.</p>
 </div>
-<script src="https://www.paypal.com/sdk/js?client-id=AYSltE9oDz_VoiA2t_N3_UY6ZvCu4Wi5cY0loKZosb_dqjc0Up9HZKm_fwrWDtgbtXPbEyFzXFM-Q2Jx&currency=GBP&intent=capture"></script>
 <script>
 (function(){
   /* enquiry-ref:start */
@@ -1147,7 +1147,9 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
   if (retryBtn) retryBtn.addEventListener('click', function() {
     if (capturedOrder) confirmDeposit(capturedOrder);
   });
-  if (window.paypal && paypal.Buttons) {
+  function renderButtons() {
+  if (!(window.paypal && paypal.Buttons)) return false;
+  {
     paypal.Buttons({
       style: { layout: 'vertical', color: 'gold', shape: 'pill', label: 'pay', height: 48 },
       createOrder: function(data, actions) {
@@ -1163,6 +1165,28 @@ button, a.btn, input[type="submit"], select, textarea { min-height: 44px; }
       }
     }).render('#paypal-button-container');
   }
+  return true;
+  }
+  /* paypal-sdk-loader:start — client ID comes from Netlify env (PAYPAL_CLIENT_ID) via /api/supporter, the same ID verify-paypal uses. */
+  function payUnavailable() {
+    var buttons = document.getElementById('paypal-button-container');
+    var off = document.getElementById('paypal-unavailable');
+    if (buttons) buttons.style.display = 'none';
+    if (off) off.style.display = 'block';
+  }
+  if (!renderButtons()) {
+    fetch('/api/supporter', { cache: 'no-store' }).then(function(res) {
+      return res.ok ? res.json() : null;
+    }).then(function(cfg) {
+      if (!cfg || !cfg.configured || !cfg.clientId) return payUnavailable();
+      var s = document.createElement('script');
+      s.src = 'https://www.paypal.com/sdk/js?client-id=' + encodeURIComponent(cfg.clientId) + '&currency=GBP&intent=capture';
+      s.onload = function() { if (!renderButtons()) payUnavailable(); };
+      s.onerror = payUnavailable;
+      document.head.appendChild(s);
+    }).catch(payUnavailable);
+  }
+  /* paypal-sdk-loader:end */
 })();
 </script>
 
