@@ -1,6 +1,6 @@
 {
   "version": "4.0.0",
-  "lastUpdated": "2026-11-15T00:00:00Z",
+  "lastUpdated": "2026-11-15T22:45:00Z",
   "site": "https://pleadingsanity.co.uk",
   "repo": "pleadingSanity/pleadingsanity",
   "host": "netlify",
@@ -105,6 +105,42 @@
       "PAYPAL_CLIENT_ID",
       "PAYPAL_CLIENT_SECRET"
     ]
+  },
+  "moneyModel": {
+    "approvedBy": "Shane Cooper, 15 Nov 2026 (UK)",
+    "sanctuary": "Free forever. No paywall, no tracking.",
+    "neverGated": [
+      "Crisis numbers 999, 116 123, text SHOUT 85258, 111 (and 0800 1111, 0808 200 0247 where already shown)",
+      "Arron basic chat",
+      "Safety and crisis pages",
+      "Core sanctuary pages: home, journal, feed, games, Aura Hz healing tones, privacy, login/signup"
+    ],
+    "paid": [
+      "Physical goods only: prints (P.S Studio 3D prints), clothes and other physical items"
+    ],
+    "optionalUnlock": {
+      "name": "Supporter / Full Depth",
+      "price": "0.99",
+      "currency": "GBP",
+      "type": "one-off, not a subscription",
+      "provider": "existing PayPal integration (PayPal Orders API, server-side capture verification)",
+      "status": "NOT BUILT. Blocked until PayPal env vars are set in Netlify. /.netlify/functions/verify-paypal returned {\"ok\":false,\"configured\":false} 503 on 15 Nov 2026.",
+      "plannedExtrasNonEssential": [
+        "Longer Arron memory (more remembered context; safety replies and basic chat unchanged)",
+        "Extra Aura Hz sessions and downloads (same healing tones 174/285/432/528/741/963 Hz; the free tones stay free)",
+        "Extra themes and colourways (brand palette only)",
+        "Supporter badge on profile"
+      ],
+      "notAnExtra": "Creator Music Studio stays Owner/creator/admin role only; the 99p does not grant the creator role.",
+      "envVarsNeeded": [
+        "PAYPAL_CLIENT_ID",
+        "PAYPAL_CLIENT_SECRET",
+        "PAYPAL_MERCHANT_ID",
+        "PAYPAL_ENV (optional: sandbox for testing; default live)"
+      ],
+      "rule": "Additive only: new page + new Netlify function + helper. Do not edit existing payment flows, insane-solar deposit, verify-paypal, donation buttons or checkout code."
+    },
+    "googlePay": "Not a provider on its own. If wanted later, it is a PayPal or Stripe button option, paying into Shane's account through that provider."
   },
   "compliance": {
     "aiNeverCertifies": true,

@@ -8,6 +8,16 @@ Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) �
 - Arron: new Anthropic key is in Netlify as `ANTHROPIC_API_KEY` and `ARRON_ANTHROPIC_KEY` (secret, production, functions/runtime) and loads on the first deploy after 15 Nov. Anthropic credit was $0.00 on 15 Nov, so Claude answers "credit balance is too low" until Shane tops up. OpenAI 429 quota, Gemini 404/403 and Grok 403 were the other hop errors on 14 Nov. Check `/api/arron/health` `chain.providers`.
 - Chain order stays GPT → Claude → Gemini → Grok → local fallback. Arron is a companion, not a therapist. Crisis numbers 116 123, 85258, 111, 999.
 
+## Money model (approved by Shane, 15 Nov 2026) — every AI follow this
+- The sanctuary is **free forever**. No paywall, no tracking.
+- **Paid:** physical goods only (P.S Studio prints, clothes, anything physical).
+- **Optional:** a **one-off 99p "Supporter / Full Depth" unlock** (GBP 0.99, not a subscription) through the site's existing PayPal integration. It unlocks non-essential extras only: longer Arron memory, extra Aura Hz sessions and downloads (same 174/285/432/528/741/963 Hz tones; free tones stay free), extra brand-palette themes, a supporter badge. It does not grant the Creator Music Studio role.
+- **Never gated:** crisis numbers (999, 116 123, SHOUT 85258, 111), Arron basic chat, safety and crisis pages, core sanctuary pages (home, journal, feed, games, Aura Hz free tones, privacy, login/signup).
+- Copy must say plainly that the sanctuary stays free and the 99p is optional.
+- **Status: not built.** On 15 Nov 2026 `POST /.netlify/functions/verify-paypal` on production returned `{"ok":false,"configured":false}` (503), so the PayPal env vars are not all set. Shane must set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MERCHANT_ID` (and `PAYPAL_ENV=sandbox` while testing) in Netlify. Then build it additively: a new supporter page, a new Netlify function that verifies a captured 0.99 GBP order server-side (same pattern as `netlify/lib/paypal-verify.ts`) and grants a `supporter` role to the signed-in Netlify Identity user, and a small client helper. Do not edit `insane-solar.html`, `verify-paypal.mts`, `paypal-verify.ts`, donation buttons or checkout code.
+- Google Pay is not a provider on its own; if wanted later it is a button option inside PayPal or Stripe.
+- Snapshot: `system_blueprint.json` → `moneyModel`. Prompt rule: `docs/MASTER_PROMPT.md` → Do not break.
+
 ## Branch harvest (15 Nov 2026, evening)
 One PR, `grok/branch-harvest-20261115`, brings the useful work from old branches into main. What came in:
 - `codex/solar-chat-audit-polish`: the Insane Solar chat sends each question once (the inline Enter handler doubled every send). The toggle has `aria-expanded`, Escape closes the panel and returns focus, the lead error is `role="alert"`, and the panel fits short phones. Test added in `tests/test-solar-assistant.test.js`.
@@ -1581,3 +1591,8 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Generate track: disabled panel. `POST /api/creator-studio/generate` returns 501 "not configured" until `MUSIC_GEN_PROVIDER` (runway|fal) and its key (`RUNWAYML_API_SECRET` / `FAL_KEY`) are set, and even then makes no paid call. No keys in code.
 - Staging-only Netlify DB migrations `20260927173957_create_memories` and `20260927180000_create_arron_memory` were NOT copied to main: they are a staging rename of main's `20260927164423_create_arron_memory` plus a `memories` table not in `db/schema.ts`. Adding them to main would re-run `CREATE TABLE arron_memories` on production and break the deploy. Left for Shane to decide.
 - Tests: `tests/creator-studio.test.mjs` (gate, cleaning, no-keys, brand, seeds, polish DSP). Lyrics: `music/shaney-c/`. Not touched: login, signup, reset-password, PayPal, crisis.html, manifesto, PR #92.
+
+## 2026-11-15 — Grok: money model recorded; 99p unlock blocked on PayPal env vars
+- Shane approved (15 Nov 2026, UK): sanctuary free forever, physical goods paid, optional one-off 99p Supporter / Full Depth unlock via the existing PayPal integration. Recorded in this file (Money model section), `system_blueprint.json` `moneyModel` and `docs/MASTER_PROMPT.md`.
+- PayPal read-only check: `insane-solar.html` has the PayPal JS SDK button for the £50 refundable deposit; `netlify/functions/verify-paypal.mts` + `netlify/lib/paypal-verify.ts` verify it server-side (Orders API, payee merchant id, custom_id, one-time use in Blobs store `paypal-orders`). `data/support-config.json` has PayPal disabled. Production verify-paypal answers 503 `configured:false`, so the 99p page, supporter-verify function and helper were **not built** (per the rule: no payment build without the env vars).
+- Docs only. No code, payment, login, signup, crisis.html, manifesto or PR #92 change.
