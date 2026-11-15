@@ -11,7 +11,7 @@
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
-import { currentUser, json, readBody, saveSettings, str, unauthorized } from "../lib/social.js";
+import { currentUser, json, logReason, readBody, saveSettings, str, unauthorized } from "../lib/social.js";
 import { approveAll, overview, reviewPost, reviewQueue, setRole } from "../lib/owner.js";
 import { buildBrief, listProposals, PROPOSAL_STATUSES, type ProposalStatus, setProposalStatus, sitePulse } from "../lib/workbench.js";
 
@@ -63,7 +63,7 @@ export default async (req: Request) => {
     }
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Owner API error:", error);
+    console.error("Owner API error:", logReason(error));
     return json({ error: "Something went wrong in the Owner's Room." }, 500);
   }
 };

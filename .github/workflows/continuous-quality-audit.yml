@@ -13,9 +13,50 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version: '24'
       - name: Check pages, assets, browser scripts and TypeScript backend syntax
         run: python3 scripts/audit-site.py
+
+      - name: Check Arron offline companion boundaries
+        run: node tests/test-arron-offline-boundary.test.js
+
+      - name: Check Arron and Finance privacy contracts
+        run: node --test tests/privacy-contract.test.js
+
+      - name: Check private chart-request behaviour
+        run: node --experimental-vm-modules --test scripts/test-cosmic-reflections.mjs
+      - name: Check local journal persistence failures
+        run: node --test scripts/test-journal-vault.mjs
+
+      - name: Check game saves, scoreboards and App Hub destinations
+        run: node --experimental-vm-modules --test scripts/test-game-progress.mjs
+      - name: Check game catalogue filtering and recovery
+        run: node --test scripts/test-games-discovery.mjs
+
+      - name: Check owner build handoff and access guards (synthetic only)
+        run: node --experimental-vm-modules --test scripts/test-workbench-brief.mjs
+
+      - name: Check AI family introduction boundaries
+        run: node --test scripts/test-ai-family-intro.mjs
+
+      - name: Check shared navigation interactions
+        run: node --test scripts/test-site-navigation.mjs
+
+      - name: Check install lifecycle and gentle Mind Mode controls
+        run: node --test scripts/test-pwa-install.mjs scripts/test-mind-mode.mjs
+
+      - name: Check public-health monitor contracts (synthetic only)
+        run: python3 scripts/test-public-health.py
+
+  public-health:
+    # Read-only availability checks, never PR code against production.
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check public pages and health contracts without model calls
+        run: python3 scripts/check-public-health.py

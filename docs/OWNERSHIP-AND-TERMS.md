@@ -1,23 +1,31 @@
 # Pleading Sanity — Ownership and Basic Terms
 
-## Ownership
-Pleading Sanity is independently owned by Shane Cooper. No outside investors.
+## Ownership and source of truth
+Pleading Sanity is independently owned by Shane Cooper. The canonical source is the GitHub repository [pleadingSanity/pleadingsanity](https://github.com/pleadingSanity/pleadingsanity).
+
+## Hosting and domain roles
+- **Primary production host:** Netlify.
+- **Primary public domain:** https://pleadingsanity.co.uk
+- **Backup host/domain:** Vercel at https://pleadingsanity.uk. Treat this as disaster recovery, not production, unless the owner deliberately changes the plan.
+- **Registrar:** Namecheap, according to the current owner-provided setup.
+- **DNS:** Verify actual nameservers and records in Namecheap and Netlify before making changes. Registrar, DNS provider and web host are different roles.
+- **Deploy source:** the repository main branch, subject to configured Netlify settings and successful checks.
+
+Never change nameservers, domain records, production environment variables, deploy hooks, database state or authentication settings based on this document alone. Confirm the live dashboard state and preserve a working rollback first.
 
 ## Continuity
-The canonical copy of the site is the GitHub repository `pleadingSanity/pleadingsanity`. Netlify deploys from it. The primary live address is https://pleadingsanity.co.uk.
-
-If the founder is not available:
-- Talk, journal, games, feed and Arron remain free. No paywall is added to them.
-- Safety lines (Samaritans 116 123, SHOUT 85258) are independent of this site and stay open.
-- Domains must be renewed at the registrar so the names keep pointing at Netlify DNS. The .uk names currently sit with Fasthosts.
-- The Netlify site and any installed PWA hold the pages already cached. The GitHub repository is the durable source.
+- Talk, journal, games, feed and Arron are intended to remain free; do not introduce a paywall without an explicit product decision.
+- Safety lines (Samaritans 116 123 and SHOUT 85258) are independent of this website.
+- Keep registrar, DNS, Netlify, Vercel, GitHub and recovery-email access securely documented outside the public repository.
+- The GitHub repository is the durable source; a hosting deployment or installed PWA cache is not a substitute for a verified backup.
 
 ## Basic terms
-- Peer-support community, not a medical service
-- Arron is an AI companion, not a professional. Seek qualified help when you need it.
-- Crisis links are on /crisis.html
-- Talk, journal, games, feed and Arron are free
-- Any creator revenue share is a proposal; terms are being finalised
+- The community is peer support, not a medical service.
+- Arron is an AI companion, not a therapist or emergency service.
+- Crisis links are on [/crisis.html](https://pleadingsanity.co.uk/crisis.html).
+- Any creator revenue share remains a proposal until final terms, eligibility, attribution, tax and payment systems are implemented.
 
-## Promise
-No paywall on mental health support. No data sold.
+## Privacy and safety
+Public privacy wording must match actual deployed code, storage, logs, third-party AI providers and retention behaviour. Do not promise data is device-only, encrypted, never logged or immediately deleted unless verified end to end. See [privacy.html](../privacy.html) and [SECURITY.md](SECURITY.md).
+
+_Evolution, Not Erasure._

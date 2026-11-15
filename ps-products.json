@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "updated": "2026-11-15",
+  "currency": "GBP",
+  "products": [
+    {
+      "id": "ps-ad5x-carpet-tray",
+      "title": "P.S 4-Piece Interlocking Printer Base Tray",
+      "category": "Workshop & Merch",
+      "material": "PLA+ (prototype)",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Four-piece modular base tray concept for the Flashforge AD5X. CAD geometry, stability, ventilation and fit are awaiting verification. Not available to order.",
+      "preview_image": null,
+      "stl_files": [],
+      "active": false,
+      "photo": null,
+      "stock": 0,
+      "buy_url": null
+    }
+  ],
+  "how_to_add": "See docs/3D-PRINT-SHOP.md. Copy the template, put the photo in images/3d-prints/, set active true only when price_gbp, photo, stock and buy_url are filled in. npm test checks every entry.",
+  "template": {
+    "id": "ps-example-slug",
+    "title": "Name of the print",
+    "category": "Workshop & Merch",
+    "material": "PLA+",
+    "status": "for-sale",
+    "price_gbp": 12.0,
+    "description": "One or two honest sentences: size, colour, what it is for.",
+    "photo": "/images/3d-prints/ps-example-slug.webp",
+    "photo_alt": "What the photo shows",
+    "stock": 3,
+    "made_to_order": false,
+    "buy_url": "https://payhip.com/Pleadingsanity",
+    "active": false
+  }
+}

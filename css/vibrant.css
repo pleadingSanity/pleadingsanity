@@ -1,0 +1,14 @@
+/* Free vibrancy pass. No new assets. No layout break. */
+:root {
+  --ps-cyan: #5fffff;
+  --ps-glow: 0 0 18px rgba(95, 255, 255, 0.35);
+}
+a:hover, .ps-brand:hover {
+  text-shadow: var(--ps-glow);
+}
+.ps-card, .tool-card, .help-card {
+  border-color: rgba(95, 255, 255, 0.35);
+}
+.ps-btn, button.primary, .ps-btn-primary {
+  box-shadow: var(--ps-glow);
+}

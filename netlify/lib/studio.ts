@@ -1,9 +1,6 @@
 // ==============================================================
 // 🎙️ AI STUDIO — shared helpers
-// Three AI voices from three different labs, all through Netlify
-// AI Gateway (no API keys): Arron (Claude), Nova (GPT) and Sol
-// (Gemini). They create uplifting content, battle humans in the
-// daily challenge and host the Unity Pod together.
+// The AI family spans four labs: Arron (Claude), Nova (GPT), Sol (Gemini) and Grok (xAI). They create uplifting content, challenge humans and contribute to the Unity Pod when their providers are available.
 // Costs stay small: mid-size models, short replies, daily limits,
 // and everything generated is saved so it is only paid for once.
 // ==============================================================

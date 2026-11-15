@@ -27,7 +27,7 @@ requestForm.addEventListener('submit', async (e) => {
     if (error instanceof MissingIdentityError) return show('Accounts are being switched on right now. Please try again in a few minutes.');
   }
   requestForm.hidden = true;
-  show(`💌 If <strong>${esc(email.value)}</strong> has an account, a reset link is on its way. Check your spam folder too.`, 'ok');
+  show(` If <strong>${esc(email.value)}</strong> has an account, a reset link is on its way. Check your spam folder too.`, 'ok');
 });
 
 setForm.addEventListener('submit', async (e) => {
@@ -37,7 +37,7 @@ setForm.addEventListener('submit', async (e) => {
   if (password.value !== confirm.value) return show("Those passwords don't match.");
   try {
     await updateUser({ password: password.value });
-    show('Password saved 💙 Taking you in…', 'ok');
+    show('Password saved  Taking you in…', 'ok');
     setTimeout(() => afterSignIn(), 900);
   } catch (error) {
     show(esc(error.message || 'Could not save your password. Please try again.'));

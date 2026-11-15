@@ -153,6 +153,13 @@ export default async (req: Request) => {
         })
         .where(eq(journalEntries.id, entry.id))
         .returning();
+      // The feed contains a separate published copy. Do not silently claim that
+      // changing this journal entry to private has withdrawn that copy.
+      if (visibility === "private" && entry.postId) {
+        await db.update(posts)
+          .set({ hidden: true, visibility: "private" })
+          .where(and(eq(posts.id, entry.postId), eq(posts.authorId, user.id)));
+      }
       return json({ entry: shape(saved) });
     }
 

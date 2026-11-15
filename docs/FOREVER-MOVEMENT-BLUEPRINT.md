@@ -1,3 +1,5 @@
+> Status, 25 October 2026: historical aspirational blueprint. No perpetual operation, impact total or legal mission lock is established here. Use [Site Brain](PLATFORM-ARCHITECTURE.md) and the [UK governance draft](LEGAL-GOVERNANCE-FRAMEWORK.md) for current planning.
+
 
   
 # PLEADING SANITY — FOREVER MOVEMENT BLUEPRINT
@@ -211,3 +213,8 @@ One day, the names on this page will be history. But Pleading Sanity won't — b
  
  
 THAT'S IT — ONE WHOLE THING. SCROLL TO SEE IT ALL. COPY FROM START TO FINISH. ✅💙🌌
+
+
+## Status correction and operating links — 25 October 2026
+
+Earlier scale targets, universal availability, governance bodies and “forever” language above are aspirations, not measured reach, enacted legal protections, connected AI consensus or guaranteed operation. The current operating map is [Site Brain](PLATFORM-ARCHITECTURE.md#site-brain--start-here); the bounded [maintenance protocol](AI-COUNCIL-OPERATIONS.md#maintenance-protocol--25-october-2026) and [UK legal/finance draft](LEGAL-GOVERNANCE-FRAMEWORK.md) control current planning. Nothing here establishes a charity, permanent autonomous guardian or financial commitment. Default extra spend stays £0.

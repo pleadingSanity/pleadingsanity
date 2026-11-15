@@ -1,0 +1,45 @@
+name: Knowledge base ingest
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - AGENTS.md
+      - AI_HANDOFF.md
+      - docs/**
+      - system_blueprint.json
+      - arron-knowledge.json
+      - content/arron-knowledge.json
+      - netlify/lib/arron-knowledge.ts
+      - netlify/lib/solar-knowledge.ts
+      - netlify/lib/kb-retrieve.ts
+      - netlify/functions/kb-search.mts
+      - scripts/kb-ingest.mjs
+      - scripts/kb-lib.mjs
+      - supabase/migrations/*arron_knowledge.sql
+      - supabase/functions/kb-embed/**
+      - "*.html"
+      - .github/workflows/kb-ingest.yml
+permissions:
+  contents: read
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Dry-run the public corpus
+        run: node scripts/kb-ingest.mjs --dry-run
+      - name: Upsert only when the knowledge secrets exist
+        env:
+          SUPABASE_KB_URL: ${{ secrets.SUPABASE_KB_URL }}
+          SUPABASE_KB_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_KB_SERVICE_ROLE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_KB_URL" ] || [ -z "$SUPABASE_KB_SERVICE_ROLE_KEY" ]; then
+            echo "KB secrets are not set. Skipping ingest."
+            exit 0
+          fi
+          node scripts/kb-ingest.mjs

@@ -41,9 +41,20 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 
 /safety.html          /crisis.html             301
 
-/support               /support.html            301
+/support               /about.html#support      301
+/finance               /finance.html            301
+/kids                  /kids.html               301
 
 /live                 /live.html               301
+/music.html           /music/index.html        301
+/songs                /sanity-songs.html       301
+
+# ─── CLEAN HUMAN-FRIENDLY PAGE ROUTES ───
+/arron                  /arron.html                301
+/frequencies            /frequencies.html          301
+/privacy                /privacy.html              301
+/journal-vault          /journal-vault.html        301
+/games                  /games.html                301
 
 # ─── THE ARRON APP ───
 /app                  /arron-app.html         301
@@ -60,6 +71,12 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /.env.*              /404.html 404!
 /netlify/*           /404.html 404!
 /db/*                /404.html 404!
+# Agent instruction files live in GitHub for the AI family, not on the public website.
+/AI_HANDOFF.md       /404.html 404!
+/AGENTS.md           /404.html 404!
+/CLAUDE.md           /404.html 404!
+/CLAUDE.local.md     /404.html 404!
+/GEMINI.md           /404.html 404!
 
 # ─── VIDEO FEED API ───
 # /api/ytFeed and /api/fetchVideos are served by netlify/functions/ytFeed.mjs
@@ -75,7 +92,28 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /blueprint            /blueprint.html         301
 /write                /write.html             301
 /wisdom               /wisdom.html            301
+/words                /wisdom.html            301
 /mind-mode            /mind-mode.html         301
 /mood-journey         /mood-journey.html      301
 /truth-tag            /truth-tag.html         301
 /cosmic-connect       /cosmic-connect.html    301
+
+# === Consolidation 2026-11-08: thin pages merged into hubs (Evolution Not Erasure) ===
+/sources.html         /about.html#sources            301
+/sources              /about.html#sources            301
+/transparency.html    /about.html#transparency       301
+/transparency         /about.html#transparency       301
+/developers.html      /about.html#developers         301
+/developers           /about.html#developers         301
+/support.html         /about.html#support            301
+/safety               /crisis.html                   301
+/arron-intro.html     /ai-family.html#arron-intro    301
+/arron-intro          /ai-family.html#arron-intro    301
+/ai-welcome.html      /ai-family.html#welcome        301
+/ai-welcome           /ai-family.html#welcome        301
+/play-listing.html    /games.html#play-listing       301
+/play-listing         /games.html#play-listing       301
+/kids-series.html     /kids.html#kids-series         301
+/kids-series          /kids.html#kids-series         301
+/offer.html           /about.html#offer              301
+/offer                /about.html#offer              301

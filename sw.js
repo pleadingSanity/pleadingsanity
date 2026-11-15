@@ -1,13 +1,18 @@
 // ==============================================================
-// 🌌 PLEADING SANITY — PWA SERVICE WORKER v4.0
+//  PLEADING SANITY — PWA SERVICE WORKER v4.0
 // Offline crisis support • All pages & games cached • Smart updates
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.12.51'; // The spoken chain matches the chain that actually answers: GPT, then Claude, then Gemini, then Grok.
-const STATIC_CACHE = 'pleading-sanity-static-v82'; // v82: transparent logo on the sky + opening logo splash
+const VERSION = '5.12.64'; // v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
+const STATIC_CACHE = 'pleading-sanity-static-v116'; // v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v18';
 const OFFLINE_URL = '/offline.html';
+
+// 502/503/504 from the host (an outage or a paused account) is treated like a
+// dropped signal: show the saved copy instead of the host's error page.
+// The error itself is never cached.
+const hostDown = response => response.status >= 500;
 
 // Profile, member, journal and account pages hold personal data.
 // Always from the network. Never written into either cache.
@@ -40,9 +45,34 @@ function isPrivatePath(pathname) {
 }
 
 // ========================================
-// 📦 PRECACHE — every page, style & script the site needs offline
+//  PRECACHE — every page, style & script the site needs offline
 // ========================================
 const PRECACHE_URLS = [
+    '/css/ai-family.css',
+    '/js/ai-family-intro.js',
+    '/css/games-phone.css',
+    '/js/progress-merge.js',
+    '/js/game-scores.js',
+    '/css/ps-game-art.css',
+    '/assets/games/characters/blinky-128.webp',
+    '/assets/games/characters/blinky-v2.webp',
+    '/assets/games/characters/bruno-128.webp',
+    '/assets/games/characters/bruno-v2.webp',
+    '/assets/games/characters/max-128.webp',
+    '/assets/games/characters/max-v2.webp',
+    '/assets/games/characters/mia-128.webp',
+    '/assets/games/characters/mia-v2.webp',
+    '/assets/games/characters/nova-128.webp',
+    '/assets/games/characters/nova-v2.webp',
+    '/assets/games/characters/ollie-128.webp',
+    '/assets/games/characters/ollie-v2.webp',
+    '/assets/games/characters/pip-128.webp',
+    '/assets/games/characters/pip-v2.webp',
+    '/assets/games/characters/zara-128.webp',
+    '/assets/games/characters/zara-v2.webp',
+    '/assets/games/worlds/aurora-lakes-v2.webp',
+    '/assets/games/worlds/forest-tavern-v2.webp',
+
     '/',
     '/about.html',
     '/ai-ecosystem.html',
@@ -66,7 +96,6 @@ const PRECACHE_URLS = [
     '/js/finance-engine.js',
     '/assets/images/finance/sane-finance-mark.svg',
     '/get-the-app.html',
-    '/safety.html',
     '/sanity-solitaire.html',
     '/poker.html',
     '/circle.html',
@@ -106,6 +135,9 @@ const PRECACHE_URLS = [
     '/css/cosmic-scroll.css',
     '/css/ai-family.css',
     '/css/sanctuary.css',
+    '/css/app-library.css',
+    '/css/app-hub.css',
+    '/js/app-hub.js',
     '/css/games-sanctuary.css',
     '/css/space.css',
     '/assets/theme/game-icons.jpg',
@@ -115,14 +147,14 @@ const PRECACHE_URLS = [
     '/assets/images/brand/meme-list.jpg',
     '/assets/images/brand/home-rise-sea.jpg',
     '/assets/images/brand/home-city-brain.jpg',
-    '/assets/theme/icons/sanity-solitaire.jpg',
-    '/assets/theme/icons/cosmic-focus.jpg',
-    '/assets/theme/icons/number-nebula.jpg',
-    '/assets/theme/icons/pattern-galaxy.jpg',
-    '/assets/theme/icons/memory-ocean.jpg',
-    '/assets/theme/icons/rhythm-resonance.jpg',
-    '/assets/theme/icons/stardust-dash.jpg',
-    '/assets/theme/icons/healing-hz.jpg',
+    '/assets/theme/icons/sanity-solitaire.webp',
+    '/assets/theme/icons/cosmic-focus.webp',
+    '/assets/theme/icons/number-nebula.webp',
+    '/assets/theme/icons/pattern-galaxy.webp',
+    '/assets/theme/icons/memory-ocean.webp',
+    '/assets/theme/icons/rhythm-resonance.webp',
+    '/assets/theme/icons/stardust-dash.webp',
+    '/assets/theme/icons/healing-hz.webp',
     '/assets/theme/hz/174.jpg',
     '/assets/theme/hz/285.jpg',
     '/assets/theme/hz/396.jpg',
@@ -133,20 +165,22 @@ const PRECACHE_URLS = [
     '/assets/theme/hz/741.jpg',
     '/assets/theme/hz/852.jpg',
     '/assets/theme/hz/963.jpg',
-    '/assets/theme/icons/sanity-stories.jpg',
-    '/assets/theme/icons/mind-mode.jpg',
-    '/assets/theme/icons/cosmic-connect.jpg',
-    '/assets/theme/icons/truth-tag.jpg',
-    '/assets/theme/icons/mood-journey.jpg',
+    '/assets/theme/icons/sanity-stories.webp',
+    '/assets/theme/icons/mind-mode.webp',
+    '/assets/theme/icons/cosmic-connect.webp',
+    '/assets/theme/icons/truth-tag.webp',
+    '/assets/theme/icons/mood-journey.webp',
     '/assets/theme/suits/heart.jpg',
     '/assets/theme/suits/spade.jpg',
     '/assets/theme/suits/club.jpg',
     '/assets/theme/suits/diamond.jpg',
     '/css/games-sky.css',
+    '/css/games-scroll.css',
     '/js/site.js',
     '/js/ps-splash.js',
     '/assets/images/brand/crying-brain-logo-clear-256.webp',
     '/assets/images/brand/crying-brain-logo-clear-512.webp',
+    '/js/crisis-phrases.js',
     '/js/arron-companion.js',
     '/js/arron-core.js',
     '/js/auth.js',
@@ -163,6 +197,7 @@ const PRECACHE_URLS = [
     '/js/mood-journey.js',
     '/js/vendor/netlify-identity.js',
     '/js/games.js',
+    '/js/games-discovery.js',
     '/js/house-voice.js',
     '/js/stardust-dash.js',
     '/js/mindmode.js',
@@ -171,6 +206,12 @@ const PRECACHE_URLS = [
     '/js/cosmic-scroll.js',
     '/js/ai-stories.js',
     '/js/oauth.js',
+    '/js/arron-speak.js',
+    '/js/guest-progress.js',
+    '/js/holdem-eval.js',
+    '/js/offline-note.js',
+    '/js/ps-music.js',
+    '/css/card-polish.css',
     '/content/content_feed.json',
     '/arron-knowledge.json',
     '/assets/logo.svg',
@@ -185,7 +226,7 @@ const PRECACHE_URLS = [
 ];
 
 // ========================================
-// 🚀 INSTALL — cache each file individually so one miss never breaks install
+//  INSTALL — cache each file individually so one miss never breaks install
 // ========================================
 self.addEventListener('install', event => {
     event.waitUntil(
@@ -198,7 +239,7 @@ self.addEventListener('install', event => {
 });
 
 // ========================================
-// ♻️ ACTIVATE — clear old caches (only our own; Arron's sw-arron.js keeps its cache)
+//  ACTIVATE — clear old caches (only our own; Arron's sw-arron.js keeps its cache)
 // ========================================
 self.addEventListener('activate', event => {
     event.waitUntil(
@@ -211,9 +252,9 @@ self.addEventListener('activate', event => {
 });
 
 // ========================================
-// 🌐 FETCH
-// Pages → network first, cached copy or offline page when offline
-// Member pages → network only, offline page when offline
+//  FETCH
+// Pages → network first, cached copy or offline page when offline or the host errors (5xx)
+// Member pages → network only, offline page when offline or the host errors (5xx)
 // Scripts, styles & JSON → network first, cached copy when offline
 // Images & audio → cache first, refreshed in the background
 // APIs & third parties → straight to network
@@ -234,7 +275,12 @@ self.addEventListener('fetch', event => {
     // Offline, the sanctuary page is /offline.html — not a cached copy of someone's private page.
     if (isPrivatePath(url.pathname)) {
         if (request.mode === 'navigate') {
-            event.respondWith(fetch(request).catch(() => caches.match(OFFLINE_URL)));
+            // Never a cached copy of a private page: the offline page, with its support lines, instead
+            event.respondWith(
+                fetch(request)
+                    .then(async response => (hostDown(response) && (await caches.match(OFFLINE_URL))) || response)
+                    .catch(() => caches.match(OFFLINE_URL))
+            );
         }
         return;
     }
@@ -242,7 +288,11 @@ self.addEventListener('fetch', event => {
     if (request.mode === 'navigate') {
         event.respondWith(
             fetch(request)
-                .then(response => {
+                .then(async response => {
+                    if (hostDown(response)) {
+                        return (await caches.match(request, { ignoreSearch: true })) ||
+                            (await caches.match(OFFLINE_URL)) || response;
+                    }
                     if (!response.ok) return response;
                     const type = response.headers.get('content-type') || '';
                     if (!type.includes('text/html')) return response;
@@ -268,12 +318,12 @@ self.addEventListener('fetch', event => {
     if (/\.(?:js|css|json)$/.test(url.pathname)) {
         event.respondWith(
             fetch(request)
-                .then(response => {
+                .then(async response => {
                     if (response.ok) {
                         const copy = response.clone();
                         caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, copy));
                     }
-                    return response;
+                    return (hostDown(response) && (await caches.match(request))) || response;
                 })
                 .catch(async () => (await caches.match(request)) || Response.error())
         );
@@ -298,7 +348,7 @@ self.addEventListener('fetch', event => {
 });
 
 // ========================================
-// 🔄 BACKGROUND SYNC — Journal Backup
+//  BACKGROUND SYNC — Journal Backup
 // ========================================
 self.addEventListener('sync', event => {
     if (event.tag === 'journal-backup') {
@@ -316,21 +366,21 @@ async function backupJournalVault() {
                 status: 'syncing'
             });
         });
-        console.log('📝 SW: Journal backup synced');
+        console.log(' SW: Journal backup synced');
     } catch (error) {
-        console.error('❌ SW: Journal backup failed:', error);
+        console.error(' SW: Journal backup failed:', error);
     }
 }
 
 // ========================================
-// 🔔 PUSH NOTIFICATIONS — Cosmic Alerts
+//  PUSH NOTIFICATIONS — Cosmic Alerts
 // ========================================
 self.addEventListener('push', event => {
     if (!event.data) return;
     
     const data = event.data.json();
     const options = {
-        body: data.body || 'New cosmic inspiration awaits you ✨',
+        body: data.body || 'New cosmic inspiration awaits you ',
         icon: '/assets/icons/icon-192x192.png',
         badge: '/assets/icons/icon-96x96.png',
         vibrate: [100, 50, 100, 50, 100],
@@ -340,8 +390,8 @@ self.addEventListener('push', event => {
             url: data.url || '/'
         },
         actions: [
-            { action: 'explore', title: '🌌 Open' },
-            { action: 'dismiss', title: '✧ Later' }
+            { action: 'explore', title: ' Open' },
+            { action: 'dismiss', title: ' Later' }
         ],
         requireInteraction: true
     };
@@ -362,7 +412,7 @@ self.addEventListener('notificationclick', event => {
 });
 
 // ========================================
-// 📬 MESSAGING — Client ↔ SW Communication
+//  MESSAGING — Client  SW Communication
 // ========================================
 self.addEventListener('message', event => {
     const { data } = event;

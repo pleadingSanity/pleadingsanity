@@ -120,3 +120,6 @@ config.local.js
 # local audit scratch
 *.b64
 showcase-meta.json
+
+# Local Claude Code include file (contains only "@AGENTS.md"); per-machine, not part of the site
+CLAUDE.local.md

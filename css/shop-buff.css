@@ -1,0 +1,51 @@
+/* shop-buff.css — page-local polish for shop.html + marketplace.html.
+   Palette: bg #0b0f19, teal #00fff0/#38bdf8, amber #f59e0b, silver. No purple.
+   Light touch only: hover/focus states, tap-target parity, transitions. */
+
+/* ---- Shop collection cards: consistent hover lift + focus ---- */
+.collection-card {
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  will-change: transform;
+}
+.collection-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0,255,240,.55);
+  box-shadow: 0 14px 34px -14px rgba(0,255,240,.28);
+}
+.collection-image-link {
+  display: block;
+  transition: opacity .15s ease;
+}
+.collection-image-link:hover { opacity: .92; }
+.collection-image-link:focus-visible,
+.collection-card-copy a:focus-visible,
+.collection-actions a:focus-visible {
+  outline: 3px solid #00fff0;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.collection-card img { transition: transform .25s ease; }
+.collection-card:hover .collection-image-link img { transform: scale(1.02); }
+
+/* ---- Marketplace: modal close button to 44px tap target ---- */
+.psm-modal-close { min-height: 44px !important; min-width: 44px !important; }
+
+/* ---- Marketplace eco-nav: 44px tap targets ---- */
+.eco-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/* ---- Marketplace cards: consistent hover ---- */
+.psm-card { transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.psm-card:hover { transform: translateY(-2px); border-color: rgba(0,255,240,.5); }
+
+/* ---- Reduce motion respect ---- */
+@media (prefers-reduced-motion: reduce) {
+  .collection-card, .collection-card img, .collection-image-link, .psm-card {
+    transition: none;
+  }
+  .collection-card:hover, .psm-card:hover { transform: none; }
+  .collection-card:hover .collection-image-link img { transform: none; }
+}

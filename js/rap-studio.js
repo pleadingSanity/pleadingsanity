@@ -28,7 +28,7 @@ if(mic){
  if(!Rec){mic.hidden=true;}else{
   const rec=new Rec();rec.lang="en-GB";rec.interimResults=true;
   rec.onstart=()=>{mic.textContent="⏹ Stop voice";setStatus("Listening…");};
-  rec.onend=()=>{mic.textContent="🎙️ Speak your bars";};
+  rec.onend=()=>{mic.textContent=" Speak your bars";};
   rec.onerror=()=>setStatus("Voice input was unavailable. You can type instead.");
   rec.onresult=e=>{let t="";for(let i=e.resultIndex;i<e.results.length;i++)t+=e.results[i][0].transcript;source.value=t;};
   mic.addEventListener("click",()=>{try{rec.start();}catch{rec.stop();}});

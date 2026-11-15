@@ -49,3 +49,13 @@ No income generated means no payout. No earnings should be promised or displayed
 5. Run authenticated end-to-end tests on Android/mobile and desktop, including privacy audiences, blocked users, moderation/review mode, stream embeds, broken provider links, replay processing failures and payout accounting.
 
 This status document distinguishes current working foundations from features that still need provider configuration or implementation. A visible button or roadmap entry is not proof of a working production service.
+
+
+## 2026-10-21 — free-core funding and app-discovery polish, review branch
+- Founder requested income without charging ordinary sanctuary users, including clothing, voluntary support, audience revenue and optional personal thank-yous.
+- Existing shop and partnership form retained. Added an optional funding explanation, private-contact route and clear distinction between gross sales and net proceeds after costs. No donation destination was found or invented; a verified payment link is required before a donation checkout can be enabled. Existing external shop checkout and product availability were not verified.
+- No live creator earnings ledger, ad-network approval, sponsorship contract, income guarantee or donation receipt is claimed. The core remains free, with no ad tracker added. Audience/view counts alone do not create earnings.
+- A personal thank-you can be arranged privately through the founder's existing email. No personal WhatsApp number is exposed and no supporter list is published without consent.
+- No donor-only prize draw is opened. Donations do not purchase entries or better odds. Prize rules, eligibility, funding and legal review are separate requirements. Source checked: Gambling Commission free-draw guidance, https://www.gamblingcommission.gov.uk/public-and-players/guide/page/free-draws-and-prize-competitions/ . No charity/Gift Aid status is asserted; see https://www.gov.uk/donating-to-charity/gift-aid .
+- Homepage points directly to the existing App Hub/install page; catalogue uses the optimized local game art and a logo fallback. This remains an installable web app, not a claimed Apple/Google store listing.
+- Connected AI social expansion is requested but API work is waiting for the explicit credential reuse/new choice required by the OpenAI API Key skill. No extra provider calls, public AI posts, schedules, spending limits or payment settings changed in this funding polish.

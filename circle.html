@@ -5,7 +5,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#000103" />
+  <meta name="theme-color" content="#0b0f19" />
   <title>Circle | Pleading Sanity</title>
   <meta name="description" content="A quiet check-in. Possy lifts a post. Neggy is private care, never a public pile-on." />
   <link rel="icon" href="/assets/favicon.ico" sizes="any" />
@@ -26,20 +26,61 @@
   <link rel="stylesheet" href="/css/space.css" />
   <link rel="stylesheet" href="/css/my-room.css" />
 
+<link rel="stylesheet" href="/css/ui-polish.css">
+<style>html,body{overflow-x:hidden;max-width:100%}</style><link rel="webmention" href="https://webmention.io/pleadingsanity.co.uk/webmention">
+<link rel="pingback" href="https://webmention.io/pleadingsanity.co.uk/xmlrpc">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://pleadingsanity.co.uk/#organization",
+  "name": "Pleading Sanity",
+  "url": "https://pleadingsanity.co.uk/",
+  "logo": "https://pleadingsanity.co.uk/assets/images/brand/crying-brain-logo-clear-512.webp",
+  "description": "Pleading Sanity is a free mental health sanctuary with Arron AI, private journaling and calm games. Built from lived experience. No ads or data selling.",
+  "founder": {
+    "@type": "Person",
+    "name": "Shane Cooper",
+    "url": "https://pleadingsanity.co.uk/about.html",
+    "sameAs": [
+      "https://instagram.com/mentally.inshane"
+    ]
+  },
+  "sameAs": [
+    "https://www.youtube.com/@shanecooper1872"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://pleadingsanity.co.uk/#website",
+  "name": "Pleading Sanity",
+  "url": "https://pleadingsanity.co.uk/",
+  "publisher": { "@id": "https://pleadingsanity.co.uk/#organization" },
+  "inLanguage": "en-GB"
+}
+</script>
+<link rel="stylesheet" href="/css/city-night.css?v=20261113">
 </head>
 <body>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<section class="crisis-strip" aria-label="Crisis and emergency help"><strong>In crisis right now?</strong> You are not alone. <span class="crisis-nums">999 (emergency) &middot; Samaritans 116 123 &middot; SHOUT text 85258 &middot; NHS 111 option 2</span> More support and international lines on the <a href="/crisis.html">Crisis Help page</a>.</section>
+
   <div class="wrap" role="main" id="main-content">
     <p class="note">Arron is a companion, not a therapist. The house sits with the story.</p>
     <div class="top">
-      <a href="/"><img class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Crying brain" /></a>
+      <a href="/"><img width="512" height="512" class="mark" src="/assets/images/brand/crying-brain-logo-512.webp" alt="Crying brain" /></a>
       <a class="btn" href="/feed.html">Feed</a>
     </div>
-    <h1>Circle</h1>
+    <h1 class="gradient-text">Circle</h1>
     <p class="lede">Possy lifts someone in public. Neggy is a private hand, not a score to weaponise.</p>
-    <section class="card" id="gate">
+    <section class="card reveal" id="gate">
       <a class="btn solid" href="/login.html?next=/circle.html">Sign in</a>
     </section>
-    <section class="card" id="here" hidden>
+    <section class="card reveal" id="here" hidden>
       <p class="price" id="count">0</p>
       <p class="note">Friends in your circle.</p>
       <p class="note" id="light">Your light: 0 possies given.</p>
@@ -51,5 +92,8 @@
     </section>
   </div>
   <script type="module" src="/js/circle.js"></script>
-</body>
+<!-- Site music: Man on the Moon (Kid Cudi) — autoplay muted, unmutes on first gesture -->
+<script src="/js/music-player.js" defer></script>
+<script src="/js/reveal.js" defer></script>
+<div style="text-align:center;font-size:.75rem;color:#475569;padding:8px;">© 2026 Pleading Sanity. All rights reserved. Built by survivors, for survivors.</div></body>
 </html>

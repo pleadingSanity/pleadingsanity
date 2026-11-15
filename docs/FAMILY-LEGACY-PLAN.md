@@ -32,3 +32,10 @@ Pleading Sanity is both a public project and a potential record of its founder's
 **Do not publish private family content or enable AI voice impersonation automatically.** Confirm each item's intended audience and consent first.
 
 Principles: Evolution, Not Erasure. Love Over Money. Truth Over Perfection.
+
+
+## Founder instructions received 25 October 2026
+
+Shane requests lifetime control, succession preference for closest documented blood family, and a charitable fallback if none can/will accept. These are intentions, not a completed legal transfer. The [UK governance and Founder's Letter draft](LEGAL-GOVERNANCE-FRAMEWORK.md) records the requested priorities and the legal conflicts to resolve. It supersedes historical US entity suggestions. No passport, birth certificate or family tree belongs in this public repository.
+
+Preserve original words separately from edits, including humour and difficult periods, but require explicit per-excerpt publication approval. An archive is not permission to republish another person’s health details or comments. Human stewardship, a safe static fallback and tested recovery matter more than promises that any model can live or operate forever.

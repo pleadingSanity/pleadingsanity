@@ -4,23 +4,23 @@
 // ========================================================
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("🚀 Pleading Sanity — System Online. Rise From Madness.");
+  console.log(" Pleading Sanity — System Online. Rise From Madness.");
 
   // ==========================================
-  // 🚨 CRISIS RESPONSE SYSTEM — 24/7 ACTIVE
+  //  CRISIS RESPONSE SYSTEM — 24/7 ACTIVE
   // ==========================================
   if (typeof CrisisResponseSystem === 'undefined') {
     const crisisScript = document.createElement('script');
     crisisScript.src = 'crisis-response-system.js';
     crisisScript.defer = true;
-    crisisScript.onerror = () => console.warn("⚠️ Crisis script missing — links still work");
+    crisisScript.onerror = () => console.warn(" Crisis script missing — links still work");
     document.head.appendChild(crisisScript);
   } else {
-    console.log("✅ Crisis Response System — Ready");
+    console.log(" Crisis Response System — Ready");
   }
 
   // ==========================================
-  // 🧭 SMART NAVIGATION — Highlights Active Page
+  //  SMART NAVIGATION — Highlights Active Page
   // ==========================================
   const currentPage = window.location.pathname.split("/").pop() || "index.html";
   document.querySelectorAll("nav a").forEach(link => {
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // 🔗 SMOOTH SCROLL — In-Page Anchors
+  //  SMOOTH SCROLL — In-Page Anchors
   // ==========================================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener("click", e => {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================
-  // ✉️ NEWSLETTER — Join Confirmation
+  //  NEWSLETTER — Join Confirmation
   // ==========================================
   const newsletterForm = document.querySelector(".newsletter form, form[action*='mailchimp']");
   if (newsletterForm) {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!submitted) {
         submitted = true;
         setTimeout(() => {
-          alert("✅ Welcome to the movement! Watch your inbox — we rise together. 💙✨");
+          alert(" Welcome to the movement! Watch your inbox — we rise together. ");
           submitted = false;
         }, 600);
       }
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // ✨ FADE-IN ANIMATION — Sections Appear
+  //  FADE-IN ANIMATION — Sections Appear
   // ==========================================
   const sections = document.querySelectorAll("section");
   if ("IntersectionObserver" in window && sections.length) {
@@ -84,12 +84,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 📺 YOUTUBE FEED — DUAL API + FALLBACK GUARANTEE
+  //  YOUTUBE FEED — DUAL API + FALLBACK GUARANTEE
   // ==========================================
   const container = document.getElementById('video-list') || document.getElementById('video-feed-container');
   
   if (container) {
-    // 🌟 CURATED FALLBACK — ALWAYS SHOWS SOMETHING
+    //  CURATED FALLBACK — ALWAYS SHOWS SOMETHING
     const FALLBACK = [
       {
         videoId: "iCvmsMzlF7o",
@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ];
 
-    // 🎨 Render Video Card — Matches Cosmic Theme
+    //  Render Video Card — Matches Cosmic Theme
     function renderCard(video, index) {
       const card = document.createElement('div');
       card.className = 'ps-video-card';
@@ -147,9 +147,9 @@ document.addEventListener('DOMContentLoaded', () => {
       return card;
     }
 
-    // 📥 Try API → Fallback Gracefully
+    //  Try API → Fallback Gracefully
     async function loadFeed() {
-      container.innerHTML = '<p style="text-align:center;color:#00fff0;">✨ Loading cosmic stories...</p>';
+      container.innerHTML = '<p style="text-align:center;color:#00fff0;"> Loading cosmic stories...</p>';
       
       const params = new URLSearchParams({ channel: 'UC0iP4yT2PpQqhFQ0oEc7ZVw', limit: '8' });
       const primary = `/api/ytFeed?${params}`;
@@ -168,10 +168,10 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
       } catch (err) {
-        console.log("📡 API unreachable — using curated fallback", err.message);
+        console.log(" API unreachable — using curated fallback", err.message);
       }
       
-      // ✅ FALLBACK TRIGGER — NEVER BLANK!
+      //  FALLBACK TRIGGER — NEVER BLANK!
       container.innerHTML = '';
       FALLBACK.forEach((vid, i) => container.appendChild(renderCard(vid, i)));
       
@@ -180,10 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (announcer) announcer.textContent = 'Showing featured videos. API sync pending.';
     }
 
-    // 🚀 GO!
+    //  GO!
     loadFeed();
   }
   // ======= END YOUTUBE FEED =======
 
-  console.log("✅ Pleading Sanity — All Systems Active. We Rise Together.");
+  console.log(" Pleading Sanity — All Systems Active. We Rise Together.");
 });

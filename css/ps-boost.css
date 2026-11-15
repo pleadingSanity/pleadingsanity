@@ -1,0 +1,19 @@
+/* PS Boost — global perf/smoothness layer. Added 2026-11-01. Safe, additive, no purple/indigo/pink. */
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+/* Page-transition fade-in (no layout shift) */
+body{animation:ps-fade-in .35s ease-out both}
+@keyframes ps-fade-in{from{opacity:0}to{opacity:1}}
+/* Reveal-on-scroll: add class .ps-reveal to any block */
+.ps-reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
+.ps-reveal.is-visible{opacity:1;transform:none}
+/* Touch targets: minimum 44px hit area for interactive elements */
+a,button,input[type="submit"],input[type="button"],[role="button"],summary,select{min-height:44px;min-width:44px}
+/* Prevent layout shift from images: browsers reserve space from width/height attrs */
+img{max-width:100%;height:auto}
+/* Consistent card/button radius baseline (additive only) */
+.ps-card{border-radius:14px}
+.ps-btn{border-radius:999px;min-height:44px;padding:10px 20px}

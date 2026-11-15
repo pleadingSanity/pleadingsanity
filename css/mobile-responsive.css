@@ -1,16 +1,15 @@
 /* =====================================================
-   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.2-FINAL
+   PLEADING SANITY — MOBILE-FIRST RESPONSIVE v2.4
    Cosmic-Aligned • Touch-Optimized • Accessible • Fast
    Matches styles.css EXACTLY • Evolution, Not Erasure
 ===================================================== */
 
 /* ─── ALIGN WITH CORE — NO DUPLICATE VARS ─── */
 :root {
-  /* Re-export from styles.css — same names, same values */
   --cyan: #00fff0;
   --cyan-deep: #00c8c0;
-  --magenta: #ff00ff;
-  --magenta-deep: #c800c8;
+  --magenta: #f59e0b;
+  --magenta-deep: #d97706;
   --transition-fast: 0.15s ease;
   --transition-normal: 0.3s ease;
   --transition-slow: 0.6s ease;
@@ -23,8 +22,8 @@
    ============================================== */
 .touch-target,
 .touch-friendly {
-  min-height: 44px;
-  min-width: 44px;
+  min-height: 48px;
+  min-width: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -111,7 +110,7 @@ nav a:focus-visible,
   .nav-link {
     padding: 12px 16px;
     font-size: 0.9rem;
-    min-height: 44px;
+    min-height: 48px;
     display: inline-flex;
     align-items: center;
     border-radius: 50px;
@@ -132,6 +131,8 @@ nav a:focus-visible,
 
   main {
     padding: 20px 15px;
+    position: relative;
+    z-index: 2;
   }
 
   h1 { font-size: 2rem; }
@@ -144,7 +145,6 @@ nav a:focus-visible,
     line-height: 1.7;
   }
 
-  /* Newsletter Form — Stacked Full-Width */
   .newsletter-form {
     flex-direction: column;
     gap: 12px;
@@ -155,7 +155,7 @@ nav a:focus-visible,
   .newsletter-form input {
     width: 100%;
     padding: 15px;
-    font-size: 16px; /* ✅ Stops iOS zoom on focus */
+    font-size: 16px;
     border-radius: 12px;
   }
 
@@ -165,7 +165,6 @@ nav a:focus-visible,
     font-size: 1.1rem;
   }
 
-  /* Social Icons */
   .socials a {
     font-size: 1.8rem;
     padding: 10px;
@@ -173,7 +172,6 @@ nav a:focus-visible,
     min-width: 48px;
   }
 
-  /* Cards & Containers */
   .card,
   .cosmic-card,
   .manifesto,
@@ -181,22 +179,38 @@ nav a:focus-visible,
     padding: 20px 16px;
     margin: 15px 0;
     border-radius: 16px;
+    position: relative;
+    z-index: 2;
   }
 
   .game-card {
     border-radius: 16px;
   }
 
-  /* Utility Visibility */
   .mobile-only { display: block !important; }
   .desktop-only { display: none !important; }
 
-  /* Grid Adjustments */
   .games-grid,
   .videos-grid,
   .hub-grid {
     grid-template-columns: 1fr !important;
     gap: 16px;
+  }
+
+  /* Keep art small and behind the words */
+  img.soundscape-art,
+  .ps-editorial-art img,
+  img.ps-theme-pic {
+    max-height: 8rem !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+  }
+  .ps-theme-pic.ps-game-icon {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    margin: 0.5rem auto;
+    display: block;
   }
 }
 
@@ -245,7 +259,7 @@ nav a:focus-visible,
    ============================================== */
 @media (prefers-color-scheme: dark) and (max-width: 768px) {
   body {
-    background: radial-gradient(ellipse at 50% 120%, #1a0b3d 0%, #050a18 60%, #000 100%);
+    background: radial-gradient(ellipse at 50% 120%, rgba(56,189,248,0.18) 0%, #0b0f19 60%, #0b0f19 100%);
   }
 }
 
@@ -268,11 +282,11 @@ img {
   height: auto;
   max-width: 100%;
   object-fit: cover;
-  content-visibility: auto; /* Lazy-render offscreen */
+  content-visibility: auto;
 }
 
 img[width][height] {
-  aspect-ratio: attr(width) / attr(height); /* Prevent CLS */
+  aspect-ratio: attr(width) / attr(height);
 }
 
 /* ==============================================
@@ -295,7 +309,6 @@ img[width][height] {
 .mobile-spacing { margin: 20px 0 !important; }
 .mobile-hide { display: none !important; }
 
-
 /* Phones: gradient headings vanish on some Android browsers. Solid frost text always shows. */
 @media (max-width: 960px) {
   h1, .ps-page h1, .ps-page h2, .ps-page h3 {
@@ -312,3 +325,70 @@ img[width][height] {
   .ps-nav .ps-links { flex-wrap: wrap; gap: 6px; }
   .ps-nav .ps-links a, .ps-nav .ps-group-btn { white-space: normal; }
 }
+
+/* =====================================================
+   v2.5 — 390px (iPhone 14/15) HARDENING
+   No horizontal overflow, no iOS zoom-on-focus,
+   44px+ tap targets, sticky nav, fast tap.
+===================================================== */
+
+/* Prevent horizontal overflow at any width (safety net) */
+html { overflow-x: clip; max-width: 100vw; }
+body { overflow-x: clip; }
+
+/* Images / media / tables never blow out the viewport */
+img, video, iframe, canvas, svg { max-width: 100%; height: auto; }
+table { max-width: 100%; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+pre, code { white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+a { word-break: break-word; overflow-wrap: anywhere; }
+
+/* iOS zoom-on-focus prevention: inputs must be >= 16px */
+@media (max-width: 768px) {
+  input, textarea, select, button {
+    font-size: 16px !important;
+  }
+  /* Body text floor */
+  body, p, li, td, th, span, div { font-size: 15px; }
+  h1 { font-size: clamp(1.6rem, 7vw, 2.4rem) !important; }
+  h2 { font-size: clamp(1.3rem, 5.5vw, 1.8rem) !important; }
+
+  /* Tap targets >= 44x44 (WCAG) for nav links + game controls */
+  nav a, nav button, .game-control, .game-btn, [class*="control"] button,
+  .ps-nav a, .aa-nav a, .aa-links a, .eco-nav a, .home-quick-links a,
+  .jump a, .ngb-toc a {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* Sticky primary nav on mobile */
+  .ps-nav, .aa-nav, .eco-nav, nav[class*="nav"], header nav {
+    position: sticky;
+    top: 0;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 9000;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  /* Fast tap: kill 300ms delay */
+  button, .btn, a, [role="button"], input[type="submit"], input[type="button"] {
+    touch-action: manipulation;
+  }
+
+  /* Crisis CTA always reachable — sticky bottom on mobile */
+  .crisis-strip, .crisis-quick, .btn-crisis, [class*="crisis"] a[href^="tel:"] {
+    position: relative;
+    z-index: 8000;
+  }
+}
+
+/* Respect safe areas for fixed/sticky elements */
+.fixed, [style*="position: fixed"], [style*="position:fixed"] {
+  /* safe-area handled per-element; bottom offset added via env() where needed */
+}
+

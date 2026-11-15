@@ -1,0 +1,1366 @@
+{
+  "sourceCommit": "a02be7bc425ced4b7143f78c34bcf31d1b77ce4e",
+  "auditScriptSHA256": "ab710eda4ee37a4d9dc35ad64c911ff5d6cdf4a8c2afd3c2d52d4144183b9603",
+  "scope": "Read-only static repository audit; not live HTTP, runtime, legal or clinical certification",
+  "counts": {
+    "htmlPages": 80,
+    "rootHtmlPages": 79,
+    "trackedScriptFiles": 133,
+    "productionScriptFiles": 119,
+    "inlineScriptBlocks": 100,
+    "anchorElements": 3962,
+    "scriptSrcReferences": 195,
+    "imageElements": 215,
+    "redirectRules": 67
+  },
+  "summary": [
+    {
+      "category": "Navigation and links",
+      "status": "PASS",
+      "fail": 0,
+      "warnings": 0
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "status": "WARN",
+      "fail": 0,
+      "warnings": 119
+    },
+    {
+      "category": "Trackers and privacy",
+      "status": "WARN",
+      "fail": 0,
+      "warnings": 13
+    },
+    {
+      "category": "Listening claims",
+      "status": "PASS",
+      "fail": 0,
+      "warnings": 0
+    },
+    {
+      "category": "Activewear claims",
+      "status": "PASS",
+      "fail": 0,
+      "warnings": 0
+    },
+    {
+      "category": "Mobile and accessibility",
+      "status": "PASS",
+      "fail": 0,
+      "warnings": 0
+    }
+  ],
+  "findings": [
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "404.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "404.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "about.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "admin.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "admin.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "ai-ecosystem.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "ai-family.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "ai-stories.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "ai-stories.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "ai-studio.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "ai-studio.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "ai-welcome.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "arron-app.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "arron-intro.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "arron.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "blueprint.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "blueprint.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "builder.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "circle.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "community-dashboard.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "community-dashboard.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "community.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "community.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "cosmic-connect.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "cosmic-connect.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "cosmic-focus.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "cosmic-focus.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "creations.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "creations.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "creator.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "creator.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "crisis.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "developers.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "developers.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "docs/deployment-status.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "feed.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "feed.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "finance.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "finance.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "frequencies.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "frequencies.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "games.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "games.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "get-the-app.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "index.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "journal-vault-viewer.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "journal-vault-viewer.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "journal-vault.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "journal-vault.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "kids.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "kids.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "live.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "live.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "login.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "login.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "meditation.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "meditation.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "member.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "member.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "memory-ocean.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "memory-ocean.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "mind-mode.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "mind-mode.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "mood-journey.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "mood-journey.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "movement.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "movement.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "my-room.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "new-gen-bible.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "notes.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "notes.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "number-nebula.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "number-nebula.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "offer.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "onboarding.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "onboarding.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "owner.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "owner.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "pattern-galaxy.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "pattern-galaxy.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "platform.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "play-listing.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "poker.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "post.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "post.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "privacy.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "profile.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "profile.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "quote-wall.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "quote-wall.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "rap.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "rap.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "reset-password.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "reset-password.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "rhythm-resonance.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "rhythm-resonance.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "safety.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "sanctuary.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "sanctuary.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "sanityhub.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "settings.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "settings.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "shop.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "shop.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "signup.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "signup.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "sources.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "stardust-dash.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "stardust-dash.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "tools.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "transparency.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "truth-tag.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "truth-tag.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "videos.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "videos.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "wisdom.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "wisdom.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "COMPANION_LABEL_MISSING",
+      "file": "write.html",
+      "line": 1,
+      "message": "Arron mentioned without a static companion label (may be navigation-only)",
+      "evidence": ""
+    },
+    {
+      "category": "Crisis and companion boundaries",
+      "severity": "WARN",
+      "code": "SUPPORT_NUMBERS_MISSING",
+      "file": "write.html",
+      "line": 1,
+      "message": "Rule requires visible support numbers; missing: Samaritans, Shout, NHS, emergency",
+      "evidence": ""
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "arron-app.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "Everything lives on this device first"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "community-dashboard.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "local-only"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "community-dashboard.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "All data anonymized — your privacy is protected"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "frequencies.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "everything runs locally in your browser"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "journal-vault-viewer.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "Everything stays on your device"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "journal-vault-viewer.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "Everything is stored locally on your device only — nothing is sent to any server"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/arron-companion.js",
+      "line": 277,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/auth.js",
+      "line": 45,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/auth.js",
+      "line": 148,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/auth.js",
+      "line": 152,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/auth.js",
+      "line": 184,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "COOKIE_SOURCE_REVIEW",
+      "file": "js/vendor/netlify-identity.js",
+      "line": 5,
+      "message": "Cookie-related source; static code cannot determine third-party cookie behaviour",
+      "evidence": "document.cookie"
+    },
+    {
+      "category": "Trackers and privacy",
+      "severity": "WARN",
+      "code": "PRIVACY_SCOPE_REVIEW",
+      "file": "live.html",
+      "line": 1,
+      "message": "Absolute/local-only language on a page with backend/auth indicators; verify feature scope",
+      "evidence": "local only) Use these controls to prepare or manage the stream link currently on this device"
+    }
+  ],
+  "externalOrigins": [
+    "https://chatgpt.com",
+    "https://claude.ai",
+    "https://energywin.co.uk",
+    "https://gemini.google.com",
+    "https://github.com",
+    "https://grok.x.ai",
+    "https://instagram.com",
+    "https://musiclab.chromeexperiments.com",
+    "https://payhip.com",
+    "https://quickdraw.withgoogle.com",
+    "https://register.fca.org.uk",
+    "https://shop.pleadingsanity.co.uk",
+    "https://sudoku.com",
+    "https://vt.tiktok.com",
+    "https://www.crazygames.com",
+    "https://www.facebook.com",
+    "https://www.gamblingcommission.gov.uk",
+    "https://www.linkedin.com",
+    "https://www.memozor.com",
+    "https://www.mind.org.uk",
+    "https://www.moneyhelper.org.uk",
+    "https://www.nhs.uk",
+    "https://www.spelliegame.com",
+    "https://www.thecolor.com",
+    "https://www.tiktok.com",
+    "https://www.youtube.com",
+    "https://x.com",
+    "https://xhalr.com"
+  ],
+  "dynamicRoutes": [],
+  "pageInventory": [
+    "404.html",
+    "about.html",
+    "admin.html",
+    "ai-ecosystem.html",
+    "ai-family.html",
+    "ai-stories.html",
+    "ai-studio.html",
+    "ai-welcome.html",
+    "arron-app.html",
+    "arron-intro.html",
+    "arron.html",
+    "blueprint.html",
+    "builder.html",
+    "circle.html",
+    "community-dashboard.html",
+    "community.html",
+    "cosmic-connect.html",
+    "cosmic-focus.html",
+    "cosmic-reflections.html",
+    "creations.html",
+    "creator.html",
+    "crisis.html",
+    "developers.html",
+    "docs/deployment-status.html",
+    "feed.html",
+    "finance.html",
+    "frequencies.html",
+    "games.html",
+    "get-the-app.html",
+    "index.html",
+    "journal-vault-viewer.html",
+    "journal-vault.html",
+    "kids-series.html",
+    "kids.html",
+    "live.html",
+    "login.html",
+    "meditation.html",
+    "member.html",
+    "memory-ocean.html",
+    "mind-mode.html",
+    "mood-journey.html",
+    "movement.html",
+    "my-digital-story.html",
+    "my-room.html",
+    "new-gen-bible.html",
+    "notes.html",
+    "number-nebula.html",
+    "offer.html",
+    "offline.html",
+    "onboarding.html",
+    "owner.html",
+    "pattern-galaxy.html",
+    "platform.html",
+    "play-listing.html",
+    "poker.html",
+    "post.html",
+    "privacy.html",
+    "profile.html",
+    "quote-wall.html",
+    "rap.html",
+    "reset-password.html",
+    "rhythm-resonance.html",
+    "safety.html",
+    "sanctuary.html",
+    "sanity-solitaire.html",
+    "sanityhub.html",
+    "settings.html",
+    "shop.html",
+    "signup.html",
+    "site-builder.html",
+    "solar.html",
+    "sources.html",
+    "stardust-dash.html",
+    "support.html",
+    "tools.html",
+    "transparency.html",
+    "truth-tag.html",
+    "videos.html",
+    "wisdom.html",
+    "write.html"
+  ],
+  "limitations": [
+    "No live HTTP requests: missing/blocked source targets are not measured production HTTP 404s.",
+    "External links, script-generated URLs, dynamic imports, conditional/auth redirects and platform routing need runtime verification.",
+    "Cookie headers, third-party cookies, consent, trackers injected by external scripts and complete network behaviour are unverified.",
+    "Shared-menu presence, viewport, title and alt checks do not establish mobile usability or accessibility compliance.",
+    "Support-number/companion checks use static HTML text only; runtime-injected footers may supply missing copy. Keyword heuristics cannot certify clinical safety.",
+    "Product wording is checked against provided v1.1 rules; no PDF byte replacement, original-artwork or physical-performance verification.",
+    "Inline claims have page-level line 1 where stripped visible text cannot be mapped reliably; evidence excerpts identify the text."
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "updated": "2026-11-10",
+  "note": "PUBLIC support-links config for /support-us.html. Drop a value into a slot to enable it. Leave blank/empty and the slot shows 'Coming soon'. NEVER put secrets, private keys, or PayPal client secrets here — this file is committed and public. PayPal buttons are intentionally not wired (Shane's call, Nov 2026); wire via Netlify env vars later, not here.",
+  "email": "support@pleadingsanity.co.uk",
+  "buyMeACoffee": "",
+  "kofi": "",
+  "paypal": {
+    "enabled": false,
+    "me": "",
+    "buttonId": "",
+    "note": "Skipped per Shane — wire via Netlify env vars (PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET / PAYPAL_MERCHANT_ID) when ready. Do not hardcode a client secret here."
+  },
+  "bankTransfer": {
+    "enabled": false,
+    "accountName": "",
+    "sortCode": "",
+    "accountNumber": "",
+    "reference": "",
+    "note": ""
+  },
+  "crypto": {
+    "enabled": false,
+    "label": "",
+    "address": "",
+    "network": "",
+    "note": ""
+  }
+}

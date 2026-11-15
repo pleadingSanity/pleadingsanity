@@ -3,21 +3,56 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#000103">
+<meta name="theme-color" content="#0b0f19">
 <meta name="color-scheme" content="dark">
 <meta name="author" content="Shane Cooper / Pleading Sanity">
-<title>Pleading Sanity | Free Mental Health Sanctuary · Arron · Journal · Games · Sane Finance</title>
-<meta name="description" content="Free sanctuary built from survival. Talk to Arron, private journal, calm games (Night Table, Solitaire), honest finance, chronological feed, and Sane Builder tools. No algorithm. No ads. Samaritans 116 123 · SHOUT 85258. Evolution, Not Erasure.">
+<title>Pleading Sanity — Free Mental Health Sanctuary</title>
+<meta name="description" content="Free mental health sanctuary built from lived experience in Leicestershire. Explore Arron AI, private journaling, calm games and crisis support.">
 <link rel="canonical" href="https://pleadingsanity.co.uk/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://pleadingsanity.co.uk/#organization",
+  "name": "Pleading Sanity",
+  "url": "https://pleadingsanity.co.uk/",
+  "logo": "https://pleadingsanity.co.uk/assets/images/brand/crying-brain-logo-clear-512.webp",
+  "description": "Pleading Sanity is a free mental health sanctuary with Arron AI, private journaling and calm games. Built from lived experience. No ads or data selling.",
+  "founder": {
+    "@type": "Person",
+    "name": "Shane Cooper",
+    "url": "https://pleadingsanity.co.uk/about.html",
+    "sameAs": [
+      "https://instagram.com/mentally.inshane",
+      "https://www.tiktok.com/@thecreatormma6"
+    ]
+  },
+  "sameAs": [
+    "https://www.youtube.com/@shanecooper1872",
+    "https://www.tiktok.com/@thecreatormma6"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "https://pleadingsanity.co.uk/#website",
+  "name": "Pleading Sanity",
+  "url": "https://pleadingsanity.co.uk/",
+  "publisher": { "@id": "https://pleadingsanity.co.uk/#organization" },
+  "inLanguage": "en-GB"
+}
+</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pleading Sanity">
-<meta property="og:title" content="Pleading Sanity — Rise From Madness">
-<meta property="og:description" content="Free sanctuary. Talk to Arron. Real stories, newest first. Honest finance. Calm games. Journal. Evolution Not Erasure.">
+<meta property="og:title" content="Pleading Sanity — Free Mental Health Sanctuary">
+<meta property="og:description" content="Pleading Sanity is a free mental health sanctuary with Arron AI, private journaling and calm games. Built from lived experience. No ads or data selling.">
 <meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
 <meta property="og:url" content="https://pleadingsanity.co.uk/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pleading Sanity — Rise From Madness">
-<meta name="twitter:description" content="Free sanctuary. Talk to Arron. Real chronological feed. Sane Finance. Games. Evolution Not Erasure.">
+<meta name="twitter:title" content="Pleading Sanity — Free Mental Health Sanctuary">
+<meta name="twitter:description" content="Pleading Sanity is a free mental health sanctuary with Arron AI, private journaling and calm games. Built from lived experience. No ads or data selling.">
 <meta name="twitter:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -37,24 +72,24 @@ body {
   line-height: 1.55;
   min-height: 100vh;
   background: radial-gradient(circle at 20% 10%, rgba(0,255,240,0.08), transparent 40%),
-              radial-gradient(circle at 80% 90%, rgba(255,0,255,0.06), transparent 45%),
-              #000103;
+              radial-gradient(circle at 80% 90%, rgba(245,158,11,0.06), transparent 45%),
+              #0b0f19;
 }
 .hero {
-  min-height: calc(100vh - 90px);
+  min-height: calc(100vh - 110px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 2.5rem 1.25rem 2rem;
+  padding: 1.75rem 1.25rem 1.5rem;
   box-sizing: border-box;
   position: relative;
 }
 .logo {
   width: 120px;
   height: 120px;
-  margin: 0 0 0.6rem;
-  filter: drop-shadow(0 0 18px rgba(0, 255, 240, 0.55)) drop-shadow(0 0 40px rgba(255, 0, 255, 0.22));
+  margin: 0 0 0.4rem;
+  filter: drop-shadow(0 0 18px rgba(0, 255, 240, 0.55)) drop-shadow(0 0 40px rgba(245, 158, 11, 0.22));
   animation: logoBreath 6s ease-in-out infinite;
 }
 @keyframes logoBreath {
@@ -66,7 +101,7 @@ h1 {
   font-size: clamp(2.9rem, 9vw, 4.8rem);
   margin: 0.15rem 0 0.4rem;
   letter-spacing: -0.025em;
-  text-shadow: 0 0 36px rgba(0, 255, 240, 0.4), 0 0 70px rgba(255, 0, 255, 0.22);
+  text-shadow: 0 0 36px rgba(0, 255, 240, 0.4), 0 0 70px rgba(245, 158, 11, 0.22);
 }
 .tagline {
   font-size: clamp(1.1rem, 3.6vw, 1.35rem);
@@ -78,37 +113,37 @@ h1 {
 .built {
   font-size: 0.98rem;
   color: #a9c7d1;
-  margin: 0 0 1.6rem;
+  margin: 0 0 1rem;
   max-width: 34rem;
 }
 .doors {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.1rem;
+  gap: 0.65rem;
   justify-content: center;
-  margin: 0.4rem 0 1.2rem;
+  margin: 0.15rem 0 0.7rem;
   width: 100%;
-  max-width: 44rem;
+  max-width: 42rem;
 }
 .door {
-  background: linear-gradient(160deg, rgba(13,27,42,0.8), rgba(0,1,3,0.75));
-  border: 2px solid #00fff0;
-  border-radius: 24px;
-  padding: 1.6rem 1.4rem;
-  min-width: 15rem;
-  flex: 1 1 17rem;
-  max-width: 21rem;
+  background: linear-gradient(160deg, rgba(13,27,42,0.85), rgba(11,15,25,0.8));
+  border: 2.5px solid #00fff0;
+  border-radius: 22px;
+  padding: 1.45rem 1.2rem;
+  min-width: 14.5rem;
+  flex: 1 1 16rem;
+  max-width: 20.5rem;
   text-decoration: none;
   color: #eef6ff;
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-weight: 700;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.35rem;
-  box-shadow: 0 10px 36px rgba(0, 255, 240, 0.22), inset 0 1px 0 rgba(238, 246, 255, 0.1);
+  gap: 0.3rem;
+  box-shadow: 0 8px 32px rgba(0, 255, 240, 0.38), inset 0 1px 0 rgba(238, 246, 255, 0.12);
   backdrop-filter: blur(10px);
-  transition: all 0.22s ease;
+  transition: all 0.2s ease;
 }
 .door small {
   font-size: 0.82rem;
@@ -118,7 +153,7 @@ h1 {
 }
 .door:hover, .door:focus-visible {
   background: #00fff0;
-  color: #000103;
+  color: #0b0f19;
   box-shadow: 0 14px 48px rgba(0, 255, 240, 0.5);
   transform: translateY(-4px);
 }
@@ -143,7 +178,7 @@ h1 {
 }
 .share-btn:hover { background: rgba(0, 255, 240, 0.18); transform: translateY(-1px); }
 .share-btn:active { transform: scale(0.98); }
-.share-btn.copied { border-color: #ff4d8d; color: #ff4d8d; }
+.share-btn.copied { border-color: #f59e0b; color: #f59e0b; }
 .share-btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .tools {
   padding: 1.5rem 1rem 3.5rem;
@@ -169,7 +204,7 @@ h1 {
   text-align: left;
 }
 .tool-card {
-  background: linear-gradient(165deg, rgba(13,27,42,0.75), rgba(0,1,3,0.65));
+  background: linear-gradient(165deg, rgba(13,27,42,0.75), rgba(11,15,25,0.65));
   border: 1px solid rgba(0, 255, 240, 0.32);
   border-radius: 22px;
   padding: 1.15rem 1.15rem 1.3rem;
@@ -223,14 +258,14 @@ h1 {
   .tool-card:hover, .door:hover { transform: none; }
 }
 .home-quick-links { display:flex; flex-wrap:wrap; justify-content:center; gap:0.55rem; max-width:44rem; margin:1rem auto; }
-.home-quick-links a { display:inline-flex; align-items:center; min-height:44px; padding:0.55rem 1rem; border:1px solid rgba(0,255,240,.35); border-radius:999px; background:rgba(13,27,42,.85); color:#eef6ff; text-decoration:none; font-weight:600; }
+.home-quick-links a { display:inline-flex; align-items:center; min-height:48px; padding:0.55rem 1rem; border:1px solid rgba(0,255,240,.35); border-radius:999px; background:rgba(13,27,42,.85); color:#eef6ff; text-decoration:none; font-weight:600; }
 .home-quick-links a:hover { border-color:#00fff0; background:rgba(0,255,240,.12); }
-.home-quick-links .home-live { background:#b6002a; border-color:#ff6688; }
+.home-quick-links .home-live { background:#9a3412; border-color:#f59e0b; }
 .home-support-note { color:#c7dce7; font-size:0.98rem; margin:0.6rem 0; }
 .home-support-note a { color:#b9faff; font-weight:600; }
 
 body {
-  background-image: linear-gradient(180deg, rgba(0,1,3,0.55) 0%, rgba(0,1,3,0.75) 40%, rgba(0,1,3,0.9) 100%), url('/assets/images/space/aurora-drive.jpg');
+  background-image: linear-gradient(180deg, rgba(11,15,25,0.55) 0%, rgba(11,15,25,0.75) 40%, rgba(11,15,25,0.9) 100%), url('/assets/images/space/aurora-drive.jpg');
   background-size: cover;
   background-attachment: fixed;
   background-position: center;
@@ -238,21 +273,206 @@ body {
 @media (prefers-reduced-motion: reduce) {
   body { background-attachment: scroll; }
 }
+
+/* Optional low-stimulation sanctuary presentation. Original cosmic style remains available. */
+.atmosphere-control{display:flex;justify-content:center;align-items:center;gap:.55rem;margin:.5rem auto 1.15rem;flex-wrap:wrap}
+.atmosphere-control button{font:inherit;font-size:.92rem;font-weight:650;min-height:44px;padding:.55rem 1rem;border-radius:999px;border:1px solid #93a6b7;background:#182536;color:#f0f7ff;cursor:pointer}
+.atmosphere-control button:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.atmosphere-control .atmosphere-hint{font-size:.83rem;color:#c2d3e1}
+body.ps-calm{background:#111c27!important;color:#edf3f8}
+body.ps-calm .logo{animation:none!important;filter:none!important}
+body.ps-calm h1{text-shadow:none!important}
+body.ps-calm .tagline{color:#d5e9ef}
+body.ps-calm .door{background:#1b2b39!important;border-color:#7295a8!important;box-shadow:0 4px 14px rgba(0,0,0,.22)!important;backdrop-filter:none!important;transform:none!important}
+body.ps-calm .door:hover{border-color:#b4d3dc!important;box-shadow:0 4px 14px rgba(0,0,0,.22)!important;transform:none!important}
+body.ps-calm .hero img:not(.logo){box-shadow:none!important}
+body.ps-calm .eco-nav{backdrop-filter:none!important}
+@media(prefers-reduced-motion:reduce){.atmosphere-control *,body.ps-calm *{animation:none!important;transition:none!important}}
+
+/* Discoverable radio entry; a link only — never autoplays or embeds media. */
+.home-quick-links .home-radio{border:1px solid rgba(0,255,240,.55);background:rgba(0,255,240,.09);color:#d5fffb;text-decoration:none;border-radius:12px;padding:.6rem .8rem;min-height:44px;display:inline-flex;flex-direction:column;justify-content:center;align-items:center;white-space:normal}
+.home-quick-links .home-radio:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+body.ps-calm .home-quick-links .home-radio{border-color:#7295a8;background:#1b2b39;color:#edf3f8}
+
+/* Homepage discovery: featured radio and private, local feature finder. */
+.ps-discover{width:100%;max-width:44rem;display:grid;gap:1rem;margin:0 auto 1.35rem;text-align:left}
+.ps-radio-feature{display:flex;flex-direction:column;gap:.2rem;padding:1rem 1.25rem;border-radius:18px;border:2px solid #00d9d1;background:linear-gradient(120deg,#12313c,#142031);color:#f3ffff;text-decoration:none;box-shadow:0 6px 24px rgba(0,255,240,.14)}
+.ps-radio-feature strong{font-size:1.5rem}.ps-radio-feature .ps-radio-new{font-size:.75rem;font-weight:800;letter-spacing:.1em;color:#a5fff6}.ps-radio-action{font-weight:800;color:#a5fff6;margin-top:.3rem}.ps-radio-feature:hover,.ps-radio-feature:focus-visible{outline:3px solid #f4ffff;outline-offset:2px}
+.ps-find{padding:1rem;border:1px solid #507889;border-radius:16px;background:#12202c}.ps-find label{display:block;font-weight:800;margin-bottom:.5rem}.ps-find input{display:block;box-sizing:border-box;width:100%;min-height:48px;border:2px solid #90b3c0;border-radius:10px;padding:.75rem;background:#07141f;color:#fff;font:inherit}.ps-find input:focus-visible{outline:3px solid #00fff0;outline-offset:2px}.ps-find p{font-size:.8rem;color:#c3d5df;margin:.45rem 0}.ps-search-list{list-style:none;padding:0;margin:.65rem 0 0;display:grid;gap:.4rem}.ps-search-list a{display:block;padding:.7rem;border:1px solid #537585;border-radius:9px;color:#fff;text-decoration:none;background:#1b3140}.ps-search-list a:hover,.ps-search-list a:focus-visible{outline:2px solid #00fff0}.ps-search-list small{display:block;color:#c3d5df}.ps-no-results{padding:.5rem 0}
+body.ps-calm .ps-radio-feature{box-shadow:none;background:#1b2b39;border-color:#789baa}
+/* First-visit wayfinding: self-contained, no tracking or JavaScript. */
+.ps-start-here{width:min(100%,860px);box-sizing:border-box;margin:1rem auto 1.8rem;padding:clamp(1rem,3vw,1.65rem);background:rgba(13,27,42,.94);border:1px solid rgba(0,255,240,.4);border-radius:20px;text-align:left}
+.ps-start-here .ps-start-kicker{color:#b9faff;font-size:.8rem;font-weight:800;letter-spacing:.1em;margin:0 0 .35rem}
+.ps-start-here h2{font-size:clamp(1.4rem,4vw,2rem);line-height:1.2;color:#eef6ff;margin:0 0 .5rem}
+.ps-start-here p{color:#d7e9ed;margin:.5rem 0 1rem}
+.ps-start-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}
+.ps-start-grid a{display:flex;flex-direction:column;justify-content:center;min-height:72px;box-sizing:border-box;padding:1rem;border:1px solid #587b86;border-radius:13px;background:#142634;color:#eef6ff;text-decoration:none}
+.ps-start-grid a strong{font-size:1rem;color:#b9faff}
+.ps-start-grid a span{font-size:.88rem;color:#d7e9ed;margin-top:.2rem}
+.ps-start-grid a:hover{border-color:#00fff0;background:#193846}
+.ps-start-grid a:focus-visible,.ps-start-urgent a:focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+.ps-start-here .ps-start-urgent{margin:1rem 0 0;font-size:.9rem}
+.ps-start-urgent a{color:#b9faff;text-decoration:underline}
+@media(max-width:540px){.ps-start-grid{grid-template-columns:1fr}.ps-start-grid a{min-height:64px}}
 </style>
+<link rel="stylesheet" href="/css/card-polish.css">
+<link rel="stylesheet" href="/css/shard-imagery.css">
+<style>
+/* Homepage breathing room: presentation only; existing tools and content retained. */
+.hero{min-height:0;max-width:1120px;margin:auto;padding:clamp(2rem,6vw,5rem) 1.25rem 3rem}
+.hero>.logo{width:72px;height:72px;animation:none;filter:drop-shadow(0 0 12px rgba(56,189,248,.2));margin-bottom:1rem}
+h1{font-size:clamp(2.6rem,7vw,4.8rem);line-height:1.08;text-shadow:none;letter-spacing:-.045em}
+.tagline{max-width:36rem;font-size:clamp(1.05rem,2.4vw,1.3rem);color:#d6e5eb;margin:1rem auto}
+.built{max-width:36rem;color:#aebfc9;font-size:.9rem}
+.atmosphere-control{order:0;margin:0 0 1.75rem}.atmosphere-control .atmosphere-hint{display:none}
+.home-primary-actions{display:flex;gap:.75rem;flex-wrap:wrap;justify-content:center;margin:1.25rem 0 .6rem}
+.home-primary-actions a{display:inline-flex;align-items:center;justify-content:center;gap:2rem;min-height:50px;padding:.75rem 1.5rem;border:1px solid #647e8c;border-radius:12px;background:#142330;color:#eef6ff;text-decoration:none;font-weight:700;box-sizing:border-box}
+.home-primary-actions a:first-child{background:#9aeee2;color:#092425;border-color:#9aeee2}
+.home-companion-note{font-size:.85rem;color:#b5c6d0;margin:.5rem 0 2rem}.home-companion-note a{color:#d8f9f4}
+.ps-start-here{max-width:860px;background:#101e2a;border:1px solid #314652;border-radius:18px;margin:1rem auto 2rem;padding:clamp(1.25rem,4vw,2rem);box-shadow:none}
+.ps-start-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:.75rem}.ps-start-grid a{background:#152632;border:1px solid #3c5360;border-radius:12px;padding:1.1rem;min-height:110px}.ps-start-grid a strong{color:#e7f4f5}.ps-start-grid a span{color:#bdccd4;line-height:1.5}.ps-start-kicker{letter-spacing:.14em!important}
+.home-sanctuary-art{width:100%;max-width:860px;margin:1rem auto 0}.home-sanctuary-art img{max-width:100%!important;max-height:340px;object-fit:cover;margin:0!important;border-radius:18px!important;box-shadow:none!important}.home-sanctuary-art figcaption{color:#aebfc9;font-size:.85rem;margin-top:.75rem}
+.ps-discover{max-width:860px;grid-template-columns:1fr 1fr;align-items:stretch;margin:1.5rem auto 2rem}.ps-radio-feature{background:#112631;border:1px solid #42616e;box-shadow:none;border-radius:16px;justify-content:center;padding:1.5rem}.ps-radio-feature strong{font-size:1.35rem}.ps-radio-new{color:#b5d4d7!important}.ps-find{background:#101e2a;border-color:#3c5360;padding:1.5rem}
+.doors{max-width:860px}.door{border:1px solid #3c5360;border-radius:14px;box-shadow:none;backdrop-filter:none;font-size:1.1rem;padding:1rem;max-width:none}.door:hover,.door:focus-visible{transform:none;box-shadow:none}.share-btn{box-shadow:none;border-color:#4b6572;color:#c9dce5;font-size:.9rem}
+.home-quick-links{max-width:860px;gap:.4rem}.home-quick-links a{border-color:transparent;background:transparent;font-size:.9rem;font-weight:500}.home-quick-links .home-live{background:#192d38;border-color:#4b6572}
+.why-better{max-width:860px!important;margin:1rem auto 4rem!important;padding:2rem!important;background:#101e2a;border:1px solid #314652;border-radius:18px;box-sizing:border-box}.why-better h2{color:#e7f4f5!important}.ps-anti-algo{line-height:1.9}
+.home-more-apps{max-width:1120px;margin:0 auto 3rem;padding:0 1.25rem;box-sizing:border-box;text-align:left}.home-more-apps>summary{min-height:48px;padding:1rem 0;border-top:1px solid #344b59;border-bottom:1px solid #344b59;cursor:pointer;font-size:1.1rem;font-weight:650;color:#dcebf0}.home-more-apps .apps-showcase{margin-top:2rem!important;padding:0!important}
+.tools{padding:1rem 1.25rem 4rem}.tools h2{color:#e7f4f5;text-shadow:none}.tools .sub{font-size:1rem;color:#b8cbd4;line-height:1.65}.tool-grid{gap:1.5rem;grid-template-columns:repeat(3,minmax(0,1fr))}.tool-card,.app-card.app-door{background:#11202c!important;border:1px solid #344b59!important;border-radius:16px!important;box-shadow:none!important;backdrop-filter:none!important}.tool-card{padding:1rem}.tool-card:hover{transform:none;box-shadow:none;border-color:#84c6c3!important}.tool-card p{line-height:1.65}.tool-card h3{font-size:1.15rem}.tool-card img{height:160px;border-radius:10px}.purpose{color:#a1e4dd}
+.eco-nav a{display:inline-flex;align-items:center;min-height:44px;font-size:.85rem!important}.eco-nav{scrollbar-width:thin}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1e4dd;outline-offset:4px}
+@media(max-width:800px){.tool-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ps-start-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.eco-nav{display:none}.mobile-explore summary{min-height:48px;box-sizing:border-box}.hero{padding-top:1.5rem}.atmosphere-control{margin-bottom:1.25rem}.home-primary-actions{width:100%}.home-primary-actions a{flex:1;gap:.5rem;padding:.75rem 1rem}.ps-discover{grid-template-columns:1fr}.home-sanctuary-art img{max-height:240px}.why-better{width:calc(100% - 2.5rem);padding:1.25rem!important}.tool-grid{grid-template-columns:1fr}}
+@media(max-width:380px){.ps-start-grid{grid-template-columns:1fr}.home-primary-actions a{flex-basis:100%}}
+
+/* Founder context: readable editorial detail after the first-use choices. */
+.home-founder{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.65fr);gap:clamp(1.5rem,4vw,3rem);max-width:860px;margin:1rem auto 3rem;padding:clamp(1.25rem,4vw,2rem);box-sizing:border-box;text-align:left;border-top:1px solid #42616e;border-bottom:1px solid #42616e}
+.home-eyebrow{color:#a1e4dd;font-size:.75rem;font-weight:700;letter-spacing:.12em;line-height:1.6;margin:0 0 1rem}
+.home-founder h2{font-size:clamp(1.65rem,4vw,2.25rem);line-height:1.2;letter-spacing:-.025em;color:#eef6ff;margin:0 0 1rem;text-wrap:balance}
+.home-founder-signature{color:#b8cbd4;font-size:.9rem}
+.home-founder-copy p{color:#c9dce5;line-height:1.75;margin:0 0 1rem}
+.home-founder-copy a{display:inline-flex;align-items:center;gap:.5rem;min-height:48px;color:#a1e4dd;text-underline-offset:.25em;font-weight:650}
+@media(max-width:700px){.home-founder{grid-template-columns:1fr;gap:.5rem;margin:0 1.25rem 2rem;padding:1.5rem 0}.home-founder-copy a{flex-wrap:wrap}}
+</style>
+<link rel="webmention" href="https://webmention.io/pleadingsanity.co.uk/webmention">
+<link rel="pingback" href="https://webmention.io/pleadingsanity.co.uk/xmlrpc">
+<link rel="me" href="https://github.com/pleadingSanity">
+<link rel="me" href="https://www.youtube.com/@PleadingSanity">
+<link rel="me" href="https://www.youtube.com/@shanecooper1872">
+<link rel="me" href="https://instagram.com/mentally.inshane">
+<link rel="me" href="https://www.tiktok.com/@thecreatormma6">
+<link rel="stylesheet" href="/css/shard-sanctuary.css">
+<link rel="stylesheet" href="/css/tap-targets.css">
 </head>
-<body>
+<body class="ps-city-home">
+<!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
+<style>
+/* Additive mobile discovery menu: the original navigation remains intact. */
+.mobile-explore{display:none}
+@media(max-width:700px){
+  .mobile-explore{display:block;position:relative;z-index:52;background:#0b0f19;border-bottom:1px solid rgba(56,189,248,.25);color:#e5f6ff}
+  .mobile-explore summary{cursor:pointer;padding:.85rem 1rem;font-size:1rem;font-weight:700;list-style-position:inside;min-height:44px}
+  .mobile-explore summary:focus-visible,.mobile-explore a:focus-visible{outline:3px solid #00fff0;outline-offset:2px}
+  .mobile-explore[open] .mobile-explore-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.35rem;padding:.4rem .7rem .85rem;max-height:60vh;overflow-y:auto}
+  .mobile-explore a{display:flex;align-items:center;min-height:44px;padding:.65rem;border:1px solid rgba(148,163,184,.2);border-radius:9px;color:#e5f6ff;text-decoration:none;font-size:.88rem;white-space:normal}
+  .mobile-explore a:hover{border-color:#38bdf8}
+  .mobile-explore .urgent{border-color:#f87171;color:#fecaca}
+}
+</style>
+<details class="mobile-explore">
+  <summary>Explore Pleading Sanity — menu</summary>
+  <nav class="mobile-explore-links" aria-label="Mobile explore">
+    <a href="/music-creator.html">Music Creator</a>
+    <a href="/index.html">Sanctuary</a>
+    <a href="/arron.html">Arron AI</a>
+    <a href="/journal-vault.html">Journal Vault</a>
+    <a href="/insane-radio.html" class="home-radio" aria-label="Insane Radio — explore music, starts silent"><svg class="ps-ico" aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg> Insane Radio <small style="display:block;font-size:.72rem;font-weight:400">Music that speaks · Play when ready</small></a>
+<a href="/games.html">Games</a>
+    <a href="/community.html">Community</a>
+    <a href="/#ps-site-search">Search the site</a>
+    <a href="/kids.html">Kids</a>
+    <a href="/shop.html">Shop</a>
+    <a href="/new-gen-bible.html">New Gen Bible</a>
+    <a href="/frequencies.html">Frequencies</a>
+    <a href="/about.html#support">Support</a>
+    <a href="/live.html">Live &amp; Creators</a>
+    <a href="/finance.html">Sane Finance</a>
+    <a href="/insane-solar.html">Insane Solar</a>
+    <a href="/aura-hz.html">Aura Hz</a>
+    <a href="/app.html">App Hub</a>
+    <a href="/crisis.html" class="urgent">Urgent crisis help</a>
+  </nav>
+</details>
+<nav class="eco-nav" style="position:sticky;top:0;z-index:50;background:rgba(11,15,25,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(56,189,248,.15);padding:.55rem 1rem;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;">
+  <a href="index.html" style="color:#7dd3fc;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanctuary</a>
+  <a href="arron.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Arron AI</a>
+  <a href="journal-vault.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Journal</a>
+  <a href="shop.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Shop</a>
+  <a href="community.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Community</a>
+  <a href="/#ps-site-search" style="color:#b9faff;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Search</a>
+  <a href="insane-radio.html" style="color:#00fff0;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Insane Radio</a>
+  <a href="games.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Games</a>
+  <a href="finance.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Sane Finance</a>
+  <a href="insane-solar.html" style="color:#fbbf24;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Insane Solar</a>
+  <a href="aura-hz.html" style="color:#f59e0b;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Aura Hz</a>
+  <a href="solar-ai-office.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Office</a>
+  <a href="ai-social.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">AI Social</a>
+  <a href="sanity-law.html" style="color:#22d3ee;text-decoration:none;font-size:.78rem;font-weight:700;margin-right:.9rem;">Sanity Law</a>
+  <a href="off-grid.html" style="color:#94a3b8;text-decoration:none;font-size:.78rem;margin-right:.9rem;">Off Grid</a>
+  <a href="crisis.html" style="color:#f87171;text-decoration:none;font-size:.78rem;font-weight:700;">Crisis Help</a>
+</nav>
+
 <script src="/js/ps-splash.js"></script>
 <a class="skip-link" href="#main-content">Skip to content</a>
 <main id="main-content">
 <div class="hero">
+
+
+<section class="ps-city-intro" aria-labelledby="ps-city-title"><div class="ps-city-copy"><p class="ps-city-kicker">City Nights · Rise From Madness</p><div class="shard-hero-glow" aria-hidden="true"></div>
+<div class="atmosphere-control"><button id="atmosphereToggle" type="button" aria-pressed="false">Calmer view: Off</button><span class="atmosphere-hint">Reduce glow and movement on this page</span></div>
 <img class="logo" src="/assets/images/brand/crying-brain-logo-clear-256.webp" srcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" sizes="(max-width: 600px) 100px, 120px" alt="Pleading Sanity crying brain logo" width="120" height="120" loading="eager" fetchpriority="high" decoding="async">
-<h1>Pleading Sanity</h1>
-<p class="tagline">Rise From Madness. Free sanctuary. Evolution, Not Erasure.</p>
-<p class="built">Built from survival by Shane Cooper. Free for everyone. No one turned away.</p>
+<h1 id="ps-city-title">Pleading Sanity</h1>
+
+<p class="tagline">A free place to talk, reflect, create and reconnect.</p>
+<p class="built">A mental health sanctuary built from lived experience by Shane Cooper, in the Midlands. Rise From Madness. Evolution, Not Erasure.</p>
+<p class="h-card ps-founder-card" style="color:#94a3b8;font-size:.92rem;margin:.5rem 0 1rem;display:flex;flex-wrap:wrap;gap:.6rem;align-items:center;justify-content:center">
+  <img loading="lazy" decoding="async" class="u-photo" src="/assets/logo.svg" alt="Pleading Sanity logo" width="28" height="28" style="vertical-align:middle">
+  <a class="u-url u-uid p-name" href="https://pleadingsanity.co.uk" style="color:#00fff0;font-weight:700">Shane Cooper</a>
+  <span class="p-org" style="color:#e2e8f0">Pleading Sanity</span>
+  <span class="p-note" style="color:#64748b">Rise From Madness — One Source. One Family. Evolution, Not Erasure.</span>
+</p>
+<div class="home-primary-actions"><a href="/arron.html">Talk to Arron <span aria-hidden="true">→</span></a><a href="#ps-start-here">Find what helps</a></div><p class="home-companion-note">An AI companion, not a therapist. <a href="/about.html#support">Human support is here too.</a></p>
+
+
+</div><figure class="ps-city-art"><img src="/assets/images/city-nights/midlands-after-dark.svg" width="1200" height="1000" loading="eager" fetchpriority="high" alt="Original illustrated Midlands skyline at night: teal rooftops, amber streetlights and a quiet canal bridge."><figcaption>Pleading Sanity / Midlands after dark / Original artwork</figcaption></figure></section>
+<section class="ps-start-here" id="ps-start-here" aria-labelledby="ps-start-title">
+  <p class="ps-start-kicker">NEW HERE? START HERE</p>
+  <h2 id="ps-start-title">What would help you today?</h2>
+  <p>Choose one path. No account needed to explore. Everything else is still here when you're ready.</p>
+  <div class="ps-start-grid">
+    <a href="/about.html#support"><strong>I need support</strong><span>Find free support and someone to talk to.</span></a>
+    <a href="/arron.html"><strong>I want to talk</strong><span>Meet Arron, an AI companion, not a therapist.</span></a>
+    <a href="/mind-mode.html"><strong>I need a moment</strong><span>Try breathing and grounding at your pace.</span></a>
+    <a href="/games.html"><strong>I want to play</strong><span>Explore games and take a break.</span></a>
+    <a href="/community.html"><strong>I want connection</strong><span>Discover the community; posting may require sign-in.</span></a>
+    <a href="/tools.html"><strong>Show me everything</strong><span>Browse the full sanctuary and its tools.</span></a>
+  </div>
+  <p class="ps-start-urgent">In immediate danger? Call <strong>999</strong>. <a href="/crisis.html">Urgent help and UK crisis contacts</a>.</p>
+</section>
+<figure class="ps-legacy-hero" style="max-width:900px;margin:0 auto 1.5rem;text-align:center;">
+  <img src="/assets/images/r2-2026/hero-cosmic.jpeg" alt="Cosmic sanctuary illustration — a glowing brain nebula among teal and amber stars" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:auto;border-radius:16px;box-shadow:0 0 60px -10px rgba(45,212,191,.35);">
+  <figcaption style="margin-top:.5rem;font-size:.8rem;color:#7fa3b0;">Illustration · Pleading Sanity cosmic sanctuary</figcaption>
+</figure>
+
+<figure class="home-sanctuary-art"><img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:auto;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"><figcaption>A little space to breathe. Rise From Madness. <span class="shard-art-label">Illustration</span></figcaption></figure>
+<p class="home-welcome-context" style="max-width:44rem;margin:1rem auto 1.4rem;padding:0 1rem;color:#d7e9ed;line-height:1.7">You do not need the right words to be here. Pleading Sanity is a free place to explore conversation, writing, games and connection at your own pace. Built from lived experience, not a replacement for professional care. Start wherever feels manageable. Leave what does not help.</p>
+<section class="ps-discover" aria-label="Find Pleading Sanity features">
+  <a class="ps-radio-feature" href="/insane-radio.html"><span class="ps-radio-new">MUSIC &amp; DISCOVERY</span><strong><svg class="ps-ico" aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg> Insane Radio</strong><span>Discover the music and the artists behind the movement.</span><span class="ps-radio-action">Open Insane Radio →</span></a>
+  <div class="ps-find"><label for="ps-site-search">Find anything on Pleading Sanity</label><input id="ps-site-search" type="search" placeholder="Search games, radio, journal, support…" autocomplete="off" aria-controls="ps-search-results" aria-describedby="ps-search-help"><p id="ps-search-help">Search site pages and features. Nothing you type is sent to a server.</p><div id="ps-search-results" role="status" aria-live="polite"></div></div>
+</section>
 
 <div class="doors">
-<a class="door" href="/arron.html">Talk to Arron<small>A calm companion at 3am or 3pm. Not a therapist.</small></a>
-<a class="door" href="/about.html#legacy">Our Legacy<small>Private A.L. Cooper’s service. Facts only.</small></a>
+<a class="door" href="/arron.html">Talk to Arron<small>A calm companion who sits with you at 3am or 3pm. Not a therapist — just here.</small></a>
+<a class="door" href="/about.html#legacy">Our Legacy<small>Private A.L. Cooper’s service. Mentioned in Despatches, 1945. Facts only.</small></a>
 </div>
 
 <div class="share-wrap">
@@ -264,117 +484,145 @@ Share this sanctuary
 
 <nav class="home-quick-links" aria-label="Explore Pleading Sanity">
 <a href="/live.html" class="home-live">● Live</a>
+<a href="/app.html">App Hub &amp; install</a>
 <a href="/games.html">Games</a>
+<a href="aura-hz.html">Aura Hz</a>
 <a href="/new-gen-bible.html">New Gen Bible</a>
-<a href="/support.html">Support</a>
+<a href="/about.html#support">Support</a>
 <a href="/login.html">Sign in</a>
 <a href="/site-builder.html">Site Builder</a>
 </nav>
-<p class="home-support-note">Need someone real right now? <a href="/support.html">Free support</a> · <a href="/crisis.html">Urgent help (116 123 · 85258)</a></p>
+<p class="home-support-note">Need someone real right now? <a href="/about.html#support">Free support</a> · <a href="/crisis.html">Urgent help (116 123 · 85258)</a></p>
 
 <p class="links"><a href="/profile.html">My Profile</a> · <a href="/feed.html">Community</a> · <a href="/journal-vault.html">Journal</a> · <a href="/tools.html">How to use</a></p>
 </div>
+
+<section class="home-founder" aria-labelledby="home-founder-title">
+  <div>
+    <p class="home-eyebrow">THE PERSON BEHIND PLEADING SANITY</p>
+    <h2 id="home-founder-title">Built by Shane. Open to you.</h2>
+    <p class="home-founder-signature">Shane Cooper · Founder</p>
+  </div>
+  <div class="home-founder-copy">
+    <p>Shane is a builder and solar fitter from the Midlands, creating Pleading Sanity from lived experience and a wish to help people feel less alone.</p>
+    <p>The aim is practical: bring people together, make room for creativity and keep the core sanctuary tools free. You can come here for a conversation, a quiet moment or something to make.</p>
+    <p>You do not have to share a belief, agree with Shane or feel positive today to belong. Questions and respectful disagreement are welcome.</p>
+    <a href="/about.html">Meet Shane and read the story <span aria-hidden="true">→</span></a>
+  </div>
+</section>
 
 <section class="why-better" aria-labelledby="why-title" style="max-width:42rem;margin:0 auto 2.2rem;padding:0 1.25rem;text-align:left">
 <span class="ps-free-forever" style="margin-bottom:0.75rem">Free forever</span>
 <h2 id="why-title" style="color:#00fff0;font-size:1.4rem;margin:0.75rem 0 0.5rem">A calmer place to connect</h2>
 <div class="ps-anti-algo">
 <strong>No algorithm.</strong> Newest first. Nothing is pushed because it is loud, angry, or paid.<br>
-<strong>Hearts only.</strong> No dislikes. No public scoreboard. Your exact count stays with you.<br>
+<strong>Hearts only.</strong> No dislikes or public popularity ranking in the community feed. Game scoreboards are optional.<br>
 <strong>No ads. No data selling. No paywall</strong> on Arron, journal, feed, games, or crisis help.<br>
 <strong>Forget Me.</strong> Clear Arron’s memory on your device and request cloud deletion.
 </div>
-<p style="color:#a9c7d1;font-size:0.96rem;margin:0.75rem 0 0">This house is a sanctuary, not a product. Built from survival by Shane Cooper. One Source. One Family.</p>
+<p style="color:#a9c7d1;font-size:0.96rem;margin:0.75rem 0 0">Pleading Sanity is a free online mental health sanctuary built from lived experience by Shane Cooper. Explore our <a href="/about.html">story and values</a>. One Source. One Family.</p>
 <p style="color:#c9e9ef;font-size:0.95rem;margin:0.6rem 0 0">A place to sit with people who get it. Real stories. No performance. You’re not alone.</p>
 <p style="color:#b9faff;font-size:0.95rem;margin:0.5rem 0 0">Small steps still move you. One glass of water. One walk. One line in the journal. That counts.</p>
 </section>
 
+<!-- Soft music: paste the house playlist link into data-playlist (Spotify) and/or data-link (Amazon Music). Hidden until set. -->
+<div data-ps-music data-playlist="" data-link="" hidden style="max-width:1120px;margin:0 auto 2rem;padding:0 1.2rem"></div>
+
+<details class="home-more-apps"><summary>Explore more apps &amp; creative tools</summary>
 <section class="apps-showcase" style="max-width:1120px;margin:0 auto 3rem;padding:0 1.2rem">
 <h2 style="color:#00fff0;font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 0.6rem">Apps you can try</h2>
+<p><a href="/app.html">Browse every app and game · install Pleading Sanity</a></p>
 <p style="color:#b9faff;max-width:42rem;margin:0 auto 1.8rem;line-height:1.55">Play, create and plan at your own pace. These tools are free, and the Site Builder makes a draft plan without accessing your website or charging for an AI call.</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:1.2rem;text-align:left">
-<a href="/finance.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block;position:relative" title="Honest numbers. No sales pressure. Your figures stay on this device. Not a lender.">
+<a href="/finance.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/theme/cards/number-nebula.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block;position:relative" title="Honest numbers. No sales pressure. Your figures stay on this device. Not a lender.">
+<img src="/assets/theme/cards/number-nebula.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Sane Finance</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Honest numbers. Free.</p>
 </a>
-<a href="/creator.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Creator Hub: bring a supported external livestream, plan your broadcasts and see what is still being built.">
+<a href="/creator.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/editorial/creator-stage-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Creator Hub: bring a supported external livestream, plan your broadcasts and see what is still being built.">
+<img src="/assets/images/editorial/creator-stage-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Creator Hub</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Bring your live. Plan what’s next.</p>
 </a>
-<a href="/site-builder.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Choose your website type and goals to generate a free improvement prompt. Does not scan or change your website.">
+<a href="/site-builder.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/editorial/connected-lights-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Choose your website type and goals to generate a free improvement prompt. Does not scan or change your website.">
+<img src="/assets/images/editorial/connected-lights-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Site Builder</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Free plan. No website scan.</p>
 </a>
-<a href="/poker.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Texas Hold’em with play chips only. No cash. Expanding levels. Soft focus under the stars.">
+<a href="/poker.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/theme/cards/night-table.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Texas Hold’em with play chips only. No cash. Expanding levels. Soft focus under the stars.">
+<img src="/assets/theme/cards/night-table.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Night Table</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Play chips. Free.</p>
 </a>
-<a href="/sanity-solitaire.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Calm solitaire. Soft focus when the mind is loud. Progress stays on your phone. New levels open when you finish.">
+<a href="/sanity-solitaire.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/theme/cards/sanity-solitaire.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Calm solitaire. Soft focus when the mind is loud. Progress stays on your phone. New levels open when you finish.">
+<img src="/assets/theme/cards/sanity-solitaire.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Sanity Solitaire</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Soft focus. Free.</p>
 </a>
-<a href="/ai-family.html" class="app-card" style="background:linear-gradient(165deg,rgba(13,27,42,.8),rgba(0,1,3,.7));border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Grok Imagine helps create calm cosmic visuals for the house. Brand-aligned images, no invented stories. Used by the AI family.">
+<a href="/ai-family.html" class="app-card app-door" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/editorial/rise-from-madness-640.webp') center/cover no-repeat;border:1px solid rgba(0,255,240,.35);border-radius:18px;padding:1.1rem;text-decoration:none;color:#eef6ff;display:block" title="Grok Imagine helps create calm cosmic visuals for the house. Brand-aligned images, no invented stories. Used by the AI family.">
+<img src="/assets/images/editorial/rise-from-madness-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
 <strong style="color:#00fff0">Grok Imagine</strong>
 <p style="margin:0.4rem 0 0;font-size:0.9rem;color:#c9e9ef">Calm visuals. Free.</p>
 </a>
 </div>
 </section>
 
+</details>
 <section class="tools">
-<h2>In the house</h2>
-<p class="sub">Each tool does one clear thing. Free. No pressure. Built with the AI family, including Grok Imagine for calm visuals. Evolution, not erasure.</p>
+<h2>Find your own way in</h2>
+<p class="sub">Talk, write, play or explore an idea. Choose what helps today; you do not need to use everything.</p>
 <div class="tool-grid">
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/editorial/creator-stage-1280.webp') center/cover no-repeat;">
 <img src="/assets/images/editorial/creator-stage-1280.webp" srcset="/assets/images/editorial/creator-stage-640.webp 640w, /assets/images/editorial/creator-stage-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="A night-time creator studio" width="1280" height="536" loading="lazy" decoding="async" class="home-tool-image">
 <h3>Live & Creators</h3>
 <p class="purpose">Bring a stream or plan a live. Tools for makers.</p>
 <p>Share a supported YouTube or Twitch stream. See upcoming lives. Direct broadcasting and automatic clips are still being built.</p>
 <a href="/live.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open Live →</a>
 </article>
-<article class="tool-card">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/editorial/living-book-1280.webp') center/cover no-repeat;">
 <img src="/assets/images/editorial/living-book-1280.webp" srcset="/assets/images/editorial/living-book-640.webp 640w, /assets/images/editorial/living-book-1280.webp 1280w" sizes="(max-width: 600px) 92vw, 380px" alt="An illustrated open book beneath connected stars" width="1280" height="548" loading="lazy" decoding="async" class="home-tool-image">
 <h3>New Gen Bible</h3>
-<p class="purpose">A living guide. Truth, connection, questions.</p>
-<p>Explore what we know, think, believe and still question. You never have to lose yourself to belong.</p>
+<p class="purpose">An evolving philosophy. Room for questions.</p>
+<p>Explore Shane’s writing on meaning, spirituality and connection. Read it as a personal perspective to consider and discuss. All faiths and no faith are welcome.</p>
 <a href="/new-gen-bible.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore the guide →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/finance.jpg" width="512" height="288" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/finance.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/finance.webp"><img src="/assets/images/showcase/finance.jpg" width="512" height="288" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async"></picture>
 <h3>Sane Finance</h3>
 <p class="purpose">Honest numbers. No sales pressure.</p>
 <p>See what you can afford, compare real offers, prepare truthful applications. Your numbers stay on this device.</p>
 <a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the desk →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/games.jpg" width="512" height="288" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/games.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/games.webp"><img src="/assets/images/showcase/games.jpg" width="512" height="288" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async"></picture>
 <h3>Games</h3>
 <p class="purpose">Soft focus when the mind is loud.</p>
 <p>Ad-free brain games including Sanity Solitaire and Night Table. Progress stays on your phone. Play at your own pace. New levels open when you finish the ones you have.</p>
 <a href="/games.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Play →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/ai-family.jpg" width="512" height="288" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/ai-family.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/ai-family.webp"><img src="/assets/images/showcase/ai-family.jpg" width="512" height="288" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async"></picture>
 <h3>AI Family</h3>
-<p class="purpose">Arron and the chain. One voice, many minds.</p>
-<p>Talk, create, and build with GPT, Claude, Gemini and Grok. Forget Me clears the memory whenever you ask. Not a therapist.</p>
+<p class="purpose">Meet Arron and understand the AI tools.</p>
+<p>Learn how AI supports the sanctuary, what Arron can help with and where its limits are. Memory controls let you clear local Arron memory and request cloud deletion. Not a therapist.</p>
 <a href="/ai-family.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Meet the family →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/journal.jpg" width="512" height="288" alt="Open book of soft nebula pages" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/journal.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/journal.webp"><img src="/assets/images/showcase/journal.jpg" width="512" height="288" alt="Open book of soft nebula pages" loading="lazy" decoding="async"></picture>
 <h3>Journal Vault</h3>
 <p class="purpose">Private words. Yours alone.</p>
 <p>Write, keep, or wipe. No cloud copy unless you choose. Your story stays yours. One line is enough.</p>
 <a href="/journal-vault.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the vault →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/community.jpg" width="512" height="288" alt="Gentle constellation of connected lights" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/community.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/community.webp"><img src="/assets/images/showcase/community.jpg" width="512" height="288" alt="Gentle constellation of connected lights" loading="lazy" decoding="async"></picture>
 <h3>Community</h3>
 <p class="purpose">Real stories. Newest first. No algorithm.</p>
 <p>Chronological feed, profiles, and the Quote Wall. Sit with people who get it. A place to belong. Hearts only.</p>
 <a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Enter the feed →</a>
 </article>
-<article class="tool-card">
-<img src="/assets/images/showcase/frequencies.jpg" width="512" height="288" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async">
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/showcase/frequencies.jpg') center/cover no-repeat;">
+<picture><source type="image/webp" srcset="/assets/images/showcase/frequencies.webp"><img src="/assets/images/showcase/frequencies.jpg" width="512" height="288" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async"></picture>
 <h3>Meditation & Frequencies</h3>
 <p class="purpose">Soft tones only. Silence is allowed.</p>
 <p>174, 285, 432, 528, 741, 963 Hz. Nothing harsh. A quiet place to sit. You can leave the sound off.</p>
@@ -383,13 +631,23 @@ Share this sanctuary
 </div>
 <p style="color:#a9c7d1;font-size:0.95rem;margin:1.5rem auto 0;max-width:40rem;">Every app here is free. No paywall on Arron, journal, feed, games, or crisis help. Rise From Madness.</p>
 </section>
+<aside class="ps-donate-strip" aria-label="Support the movement">
+  <p class="ps-donate-strip-lead">Keep the AIs online &amp; the movement free — every bit helps.</p>
+  <p class="ps-donate-strip-sub">Hosting, the AI companion and the free games run on community support. No paywall, no ads, no data sales.</p>
+  <div class="ps-donate-strip-actions">
+    <a class="ps-donate-btn ps-donate-btn-primary" href="/support-us.html">All support options →</a>
+    <a class="ps-donate-btn ps-donate-btn-amber" href="/shop.html">Shop activewear</a>
+  </div>
+</aside>
 </main>
 <footer>
 <p>Evolution, Not Erasure</p>
 <div class="socials">
 <a href="https://instagram.com/mentally.inshane" target="_blank" rel="noopener noreferrer">Instagram</a>
-<a href="https://www.tiktok.com/@mentallyinshane" target="_blank" rel="noopener noreferrer">TikTok</a>
-<a href="https://www.youtube.com/@PleadingSanity" target="_blank" rel="noopener noreferrer">YouTube</a>
+<a href="https://www.tiktok.com/@thecreatormma6" target="_blank" rel="noopener noreferrer">TikTok</a>
+<a href="https://www.youtube.com/@shanecooper1872" target="_blank" rel="noopener noreferrer">YouTube</a>
+<a href="/insane-solar.html">Insane Solar</a>
+<a href="/ai-social.html">AI Social</a>
 <a href="mailto:pleadingsanity1@gmail.com">Email</a>
 </div>
 <div>
@@ -400,9 +658,10 @@ Share this sanctuary
 <a href="/community.html">Community</a>
 <a href="/quote-wall.html">Quote Wall</a>
 <a href="/offline.html">Offline Support</a>
-<a href="/transparency.html">Transparency</a>
+<a href="/about.html#transparency">Transparency</a>
+<a href="/support-us.html">Support us</a>
 <a href="/shop.html">Shop</a>
-<a href="/developers.html">Contribute</a>
+<a href="/about.html#developers">Contribute</a>
 </div>
 <div class="legacy">
 <p>In honour of <strong>Private A.L. Cooper</strong>, Royal Army Ordnance Corps, Mentioned in Despatches, London Gazette 29 November 1945.<br>His service → this movement.</p>
@@ -411,6 +670,9 @@ Share this sanctuary
 <p style="font-size:0.85rem;color:#b9faff;max-width:40rem;margin:0.5rem auto;">Content, brand, and images are protected by copyright. If you would like to use any of this on your own site, contact us for a low-cost licence. Unauthorised copying may breach UK copyright law.</p>
 </footer>
 <script src="/js/site.js" defer></script>
+<script src="/js/home-search.js" defer></script>
+<script src="/js/ps-music.js" defer></script>
+<script src="/js/offline-note.js" defer></script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
 <script>
 (function () {
@@ -442,6 +704,31 @@ Share this sanctuary
       return;
     }
     window.prompt('Copy this link:', shareData.url);
+  });
+})();
+</script>
+  <script src="/js/member-feedback.js" defer></script>
+  <script type="module" src="/js/auth.js"></script>
+<script src="/js/consent.js" defer></script>
+<script src="/js/home-music.js" defer></script>
+
+<script>
+/* User-controlled visual preference only; no analytics or external requests. */
+(function(){
+  var button=document.getElementById('atmosphereToggle');
+  if(!button)return;
+  var key='psCalmView';
+  var calm=false;
+  try{calm=localStorage.getItem(key)==='yes';}catch(e){}
+  function render(){
+    document.body.classList.toggle('ps-calm',calm);
+    button.setAttribute('aria-pressed',String(calm));
+    button.textContent='Calmer view: '+(calm?'On':'Off');
+  }
+  render();
+  button.addEventListener('click',function(){
+    calm=!calm;render();
+    try{localStorage.setItem(key,calm?'yes':'no');}catch(e){}
   });
 })();
 </script>

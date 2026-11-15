@@ -1,0 +1,114 @@
+/* Insane Radio — perfection buff (loaded LAST, additive only).
+   Covers: station-card art via existing --theme-bg hook, prominent Stop,
+   floating global Stop, now-playing album art, vote/tracklist polish.
+   Palette: teal #00fff0 / amber #f59e0b / navy #0b0f19. No purple. */
+
+/* ---- 1. Station cover art (grouped themes, dark overlay keeps text readable) ---- */
+.station-card.theme-reprezent,
+.station-card.theme-rinse,
+.station-card.theme-capitalxtra {
+  --theme-bg: linear-gradient(rgba(11,15,25,.60), rgba(11,15,25,.82)), url('/images/radio/cover-uk-grime.jpg') center/cover no-repeat;
+  --theme-glow: rgba(0,255,240,.38);
+}
+.station-card.theme-reloaded,
+.station-card.theme-oldschool,
+.station-card.theme-gotradio {
+  --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), url('/images/radio/cover-oldschool.jpg') center/cover no-repeat;
+  --theme-glow: rgba(245,158,11,.40);
+}
+.station-card.theme-181rnb,
+.station-card.theme-urban {
+  --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), url('/images/radio/cover-rnb.jpg') center/cover no-repeat;
+  --theme-glow: rgba(245,158,11,.35);
+}
+.station-card.theme-groovesalad,
+.station-card.theme-sonicuniverse,
+.station-card.theme-digitalis,
+.station-card.theme-cliqhop,
+.station-card.theme-defcon {
+  --theme-bg: linear-gradient(rgba(11,15,25,.58), rgba(11,15,25,.82)), url('/images/radio/cover-ambient.jpg') center/cover no-repeat;
+  --theme-glow: rgba(56,189,248,.38);
+}
+.station-card.theme-dubstep,
+.station-card.theme-darkzone,
+.station-card.theme-dronezone {
+  --theme-bg: linear-gradient(rgba(11,15,25,.58), rgba(11,15,25,.82)), url('/images/radio/cover-bass.jpg') center/cover no-repeat;
+  --theme-glow: rgba(0,255,240,.42);
+}
+.station-card.theme-bossa,
+.station-card.theme-radioparadise {
+  --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), url('/images/radio/cover-eclectic.jpg') center/cover no-repeat;
+  --theme-glow: rgba(245,158,11,.38);
+}
+.station-card { transition: transform .2s ease, box-shadow .25s ease, border-color .2s ease; }
+.station-card:hover { transform: translateY(-3px) scale(1.01); }
+.station-card .station-name { text-shadow: 0 1px 6px rgba(0,0,0,.8); }
+
+/* ---- 2. Now-playing album art on the disc ---- */
+.radio-art {
+  background: linear-gradient(rgba(11,15,25,.42), rgba(11,15,25,.62)), url('/images/radio/cover-nowplaying.jpg') center/cover no-repeat !important;
+  border: 1px solid rgba(0,255,240,.45) !important;
+  box-shadow: 0 0 28px rgba(0,255,240,.25), 0 0 60px rgba(245,158,11,.12) !important;
+}
+#radio-art-title { text-shadow: 0 2px 10px rgba(0,0,0,.9); letter-spacing: .12em; }
+
+/* ---- 3. Prominent in-player Stop button ---- */
+.radio-controls #radio-stop {
+  background: #f59e0b; color: #0b0f19; font-weight: 800;
+  min-width: 96px; min-height: 52px;
+  box-shadow: 0 0 16px rgba(245,158,11,.45);
+}
+.radio-controls #radio-stop:hover { background: #fbbf24; color: #0b0f19; }
+.radio-controls #radio-stop:active { transform: scale(.96); }
+.radio-controls #radio-stop:focus-visible { outline: 3px solid #fff; outline-offset: 2px; }
+
+/* ---- 4. Floating global Stop (fixed, only while audio plays) ---- */
+.radio-float-stop {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 90;
+  min-height: 56px; padding: 0 1.5rem; border-radius: 999px;
+  background: #f59e0b; color: #0b0f19; font-weight: 800; font-size: 1rem;
+  border: 0; cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 18px rgba(245,158,11,.5);
+  animation: radioFloatPulse 1.8s ease-in-out infinite;
+}
+.radio-float-stop[hidden] { display: none !important; }
+.radio-float-stop:hover { background: #fbbf24; }
+.radio-float-stop:active { transform: scale(.96); }
+@keyframes radioFloatPulse {
+  0%,100% { box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 14px rgba(245,158,11,.4); }
+  50%     { box-shadow: 0 8px 24px rgba(0,0,0,.45), 0 0 30px rgba(245,158,11,.8); }
+}
+body.radio-page { padding-bottom: 96px; }
+
+/* ---- 5. Live-station Stop button (was grey/invisible) ---- */
+#station-stop.station-stop {
+  background: #f59e0b; color: #0b0f19; border-color: #f59e0b;
+  font-weight: 800; min-height: 52px; padding: 0 1.4rem;
+  box-shadow: 0 0 16px rgba(245,158,11,.45);
+}
+#station-stop.station-stop:hover { background: #fbbf24; color: #0b0f19; }
+
+/* ---- 6. Vote buttons + tracklist polish ---- */
+.radio-vote-btn {
+  min-height: 48px; padding: .5rem 1.1rem; border-radius: 999px;
+  border: 1px solid rgba(0,255,240,.4); background: rgba(0,255,240,.06);
+  color: #eef6ff; cursor: pointer; font-weight: 700; display: inline-flex;
+  align-items: center; gap: .45rem; transition: background .15s ease, transform .1s ease;
+}
+.radio-vote-btn:hover { background: rgba(0,255,240,.16); }
+.radio-vote-btn:active { transform: scale(.96); }
+.radio-vote-btn.is-active { background: #00fff0; color: #0b0f19; border-color: #00fff0; box-shadow: 0 0 14px rgba(0,255,240,.5); }
+.radio-vote-btn.radio-vote-dislike.is-active { background: #f59e0b; border-color: #f59e0b; color: #0b0f19; box-shadow: 0 0 14px rgba(245,158,11,.5); }
+.radio-tracklist-btn { transition: background .15s ease, border-color .15s ease; border-radius: 8px; }
+.radio-tracklist-btn:hover, .radio-tracklist-btn:focus-visible { background: rgba(0,255,240,.1); }
+.radio-tracklist-btn.is-current { background: rgba(0,255,240,.16); color: #00fff0; font-weight: 700; }
+
+/* ---- 7. Player card glow ---- */
+.radio-card {
+  border-color: rgba(0,255,240,.4) !important;
+  box-shadow: 0 0 40px rgba(0,255,240,.12), inset 0 0 60px rgba(245,158,11,.04) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radio-float-stop, .station-card { animation: none !important; transition: none !important; }
+}

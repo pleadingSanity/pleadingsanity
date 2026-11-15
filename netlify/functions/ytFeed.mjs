@@ -1,7 +1,7 @@
 // ==============================================================
 // PLEADING SANITY — VIDEO FEED FUNCTION v3.0
 // Netlify Functions (modern format) • Zero dependencies
-// Priority: Playlist → Channel → Search → ✅ REAL FALLBACK
+// Priority: Playlist → Channel → Search →  REAL FALLBACK
 // Served at /api/ytFeed and /api/fetchVideos
 // ==============================================================
 
@@ -20,9 +20,9 @@ export default async (req) => {
   const pageToken = params.get('pageToken') || '';
   const limitNum = Math.min(parseInt(params.get('limit') || '8', 10) || 8, 50);
 
-  // 🚫 No API key → INSTANT FALLBACK (no crash)
+  //  No API key → INSTANT FALLBACK (no crash)
   if (!YT_KEY) {
-    console.log('⚠️ YOUTUBE_API_KEY missing — showing curated movement content');
+    console.log(' YOUTUBE_API_KEY missing — showing curated movement content');
     return sendFallback('api_key_missing');
   }
 
@@ -77,7 +77,7 @@ export default async (req) => {
     throw new Error('No videos returned');
 
   } catch (err) {
-    console.error('📺 Feed Error:', err.message);
+    console.error(' Feed Error:', err.message);
     return sendFallback('api_failed — showing curated content');
   }
 };
@@ -136,7 +136,7 @@ function sendFallback(reason = 'curated_content') {
 }
 
 // ==============================================
-// ✅ VERIFIED FALLBACK — ALL IDS CHECKED & WORKING
+//  VERIFIED FALLBACK — ALL IDS CHECKED & WORKING
 // ==============================================
 function getVerifiedFallbackVideos() {
   return [

@@ -1,0 +1,144 @@
+{
+  "schema_version": "1",
+  "source_path": "/home/user/pleadingSanity/insane-solar.html",
+  "source_filename": "insane-solar.html",
+  "source_hash": "c73db14edc40",
+  "source_size_bytes": 88438,
+  "kind": "html",
+  "rendered_at_utc": "2026-10-31T11:53:48+00:00",
+  "output_dir": "/home/user/pleadingSanity/.preview/c73db14edc40",
+  "page_count": 12,
+  "rendered_page_count": 12,
+  "collage_count": 2,
+  "extracted_text_chars": 88032,
+  "text_relpath": "text.md",
+  "thumbnail_relpath": "thumb.jpg",
+  "pages": [
+    {
+      "page": 1,
+      "relpath": "pages/p001.png",
+      "size_bytes": 633592,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 2,
+      "relpath": "pages/p002.png",
+      "size_bytes": 767152,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 3,
+      "relpath": "pages/p003.png",
+      "size_bytes": 484249,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 4,
+      "relpath": "pages/p004.png",
+      "size_bytes": 423773,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 5,
+      "relpath": "pages/p005.png",
+      "size_bytes": 1489277,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 6,
+      "relpath": "pages/p006.png",
+      "size_bytes": 352712,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 7,
+      "relpath": "pages/p007.png",
+      "size_bytes": 267758,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 8,
+      "relpath": "pages/p008.png",
+      "size_bytes": 206039,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 9,
+      "relpath": "pages/p009.png",
+      "size_bytes": 25382,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 10,
+      "relpath": "pages/p010.png",
+      "size_bytes": 28338,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 11,
+      "relpath": "pages/p011.png",
+      "size_bytes": 138543,
+      "width": 1280,
+      "height": 1600
+    },
+    {
+      "page": 12,
+      "relpath": "pages/p012.png",
+      "size_bytes": 193669,
+      "width": 1280,
+      "height": 1513
+    }
+  ],
+  "collages": [
+    {
+      "relpath": "collages/c1.jpg",
+      "covers_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "grid_cols": 3,
+      "grid_rows": 3,
+      "size_bytes": 398952
+    },
+    {
+      "relpath": "collages/c2.jpg",
+      "covers_pages": [
+        10,
+        11
+      ],
+      "grid_cols": 2,
+      "grid_rows": 1,
+      "size_bytes": 16406
+    }
+  ],
+  "warnings": [],
+  "options": {
+    "max_pages": 12,
+    "collage": true,
+    "page_range": null,
+    "thumbnail": true,
+    "text_only": false,
+    "jpeg_quality": 85,
+    "out_max_dim": 2048
+  },
+  "summary": {
+    "bytes": 88438
+  }
+}

@@ -6,8 +6,12 @@
 // v3.2: signed in, Arron's memory belongs to the member's account —
 // same Arron, same history, on every device — and he can write to
 // their journal, share their status, and (for Shane) run the site.
-// Four equal minds, one Arron: GPT picks up first; if it can't, Claude,
-// then Gemini, then Grok take over instantly with the same heart.
+// Provider fallback chain (verified order): GPT (openai) → Claude (anthropic)
+// → Gemini → Grok (xAI direct) → OpenRouter free spares (runSpares, gated by
+// PS_SPARES_PRIVACY_APPROVED for personal chat) → local empathetic canned reply.
+// Each provider fetch is wrapped in try/catch; on error/timeout the chain moves
+// to the next. If all fail, the chat handler returns the local QUIET_REPLY with
+// provider:"none" — never a raw 500 to the user.
 // Contract: POST { messages, saveToCloud } → { reply, provider } (plus the
 // extras the site and app already use). provider is "none" when every mind is quiet.
 // v3.2 safety: crisis lines (999, 116 123, SHOUT 85258, NHS 111 option 2) are
@@ -19,14 +23,20 @@ import type { Config, Context } from "@netlify/functions";
 import { asc, desc, eq } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { arronMemories, arronMessages, siteContent } from "../../db/schema.js";
-import { buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
+import { ARRON_PHASE2_TOOLS_BRIEF, buildSystemPrompt, MOODS } from "../lib/arron-knowledge.js";
 import { getGrowth, growthBrief } from "../lib/arron-growth.js";
-import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, type Turn as AITurn } from "../lib/ai-chain.js";
+import { ALL_QUIET_REPLY, askCouncil, askGrokDirect, personalSparesAllowed, runChain, workAsOne, lastChainFailure, chainDiagnostics, keyNameFor, GEMINI_FALLBACK_MODEL, type Turn as AITurn } from "../lib/ai-chain.js";
 import { allow, allowToday, slowDown } from "../lib/rate-limit.js";
 import { getSettings, isCreator as hasCreatorRole, logActivity, moderate, optionalUser, profileFor, type AuthedUser } from "../lib/social.js";
 import { publishPost, saveJournalEntry } from "../lib/publish.js";
 import { approveAll, overview, setRole } from "../lib/owner.js";
 import { pulseFacts, saveProposal, sitePulse } from "../lib/workbench.js";
+// Phase 2: Supabase long-term memory (best-effort second copy) + GPT tool calling.
+// Both degrade silently to the existing chain/local-DB path when env vars are absent.
+import { appendMessages as supabaseAppend, clearMemory as supabaseClear, supabaseEnabled } from "../lib/supabase-memory.js";
+import { maybeRunTools, openaiToolsEnabled } from "../lib/arron-tools.js";
+import { CRISIS_WORDS as SHARED_CRISIS_WORDS } from "../lib/crisis-phrases.js";
+import { groundArronSystem } from "../lib/kb-retrieve.js";
 
 type Turn = AITurn;
 type Action = { type: string; label: string; href?: string; ok: boolean };
@@ -45,8 +55,12 @@ const tokenEnv = (name: string, fallback: number) => {
   const n = Number.parseInt(process.env[name] ?? "", 10);
   return Number.isFinite(n) && n >= 200 ? n : fallback;
 };
+// MAX_TOKENS_ARRON is the orchestrator-tunable default reply budget (raised 1000 → 1600
+// at the Netlify level). ARRON_TOKENS_GUEST still wins if it is set; final fallback 1000.
+// The per-tier overrides below (member/creator/crisis) are unchanged and always win.
+const MAX_TOKENS_ARRON = tokenEnv("MAX_TOKENS_ARRON", 1000);
 const TOKENS = {
-  guest: tokenEnv("ARRON_TOKENS_GUEST", 1000),
+  guest: tokenEnv("ARRON_TOKENS_GUEST", MAX_TOKENS_ARRON),
   guestCreative: tokenEnv("ARRON_TOKENS_GUEST_CREATIVE", 1400),
   member: tokenEnv("ARRON_TOKENS_MEMBER", 1400),
   creator: tokenEnv("ARRON_TOKENS_CREATOR", 2000),
@@ -80,9 +94,10 @@ const MAX_JOURNAL_TEXT = 2000;
 // The SAFETY section of the prompt already guides every lab; this makes sure
 // real help lines are in the reply when someone may be in crisis, whoever answered.
 // Honest, warm, plain. No promises of secrecy. Never abandons the person.
-const CRISIS_WORDS = /\b(suicid\w*|kill(?:ing)? (?:my ?self|me)|end (?:it all|my life)|take my own life|want(?:ed)? to die|wish i (?:was|were) dead|don'?t want to (?:be here|live|wake up|exist)|can'?t (?:go on|do this any ?more)|self[- ]?harm\w*|hurt(?:ing)? my ?self|cut(?:ting)? my ?self|overdos\w*|not safe|no reason to live|no point (?:in )?(?:living|going on)|better off without me)\b/i;
+// One shared list for the house: ../lib/crisis-phrases.js (normalises curly apostrophes first).
+const CRISIS_WORDS = SHARED_CRISIS_WORDS;
 const SIGNPOST = "You're not alone. There are people who can chat with you — see our Support page: https://pleadingsanity.co.uk/support.html. I'm an AI companion, not a therapist or emergency service.";
-const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
+const CRISIS_SIGNPOST = "I'm here with you. If you're in immediate danger, call 999. Samaritans: 116 123. Text SHOUT: 85258. Urgent mental-health help in England: NHS 111, option 2. Childline: 0800 1111. National Domestic Abuse Helpline: 0808 2000 247. International helplines: https://findahelpline.com/. Full options: https://pleadingsanity.co.uk/crisis.html. I'm an AI companion, not a therapist.";
 
 // Does this reply already carry the real numbers? (Needs both 116 123 and 999.)
 const hasLifelines = (text: string) => /116\s?123/.test(text) && /\b999\b/.test(text);
@@ -325,7 +340,7 @@ async function runActions(message: string, history: { role: string; content: str
     } else {
       let accepted = false;
       try {
-        const res = await fetch(hook, { method: "POST" });
+        const res = await fetch(hook, { method: "POST", signal: AbortSignal.timeout(5000) });
         accepted = res.ok;
       } catch (error) {
         console.error("Arron deploy hook unreachable:", reason(error));
@@ -460,15 +475,26 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     if (crisis) return json({ reply: crisisReply, provider: "none", remembered: false, crisis: true, signpost: alreadySignposted ? undefined : CRISIS_SIGNPOST, actions: [] });
     return slowDown("We've talked a lot today. I need to rest until tomorrow. The tools, journal and games still work: https://pleadingsanity.co.uk/tools.html");
   }
-  // The new shape can save without a device memory id only when signed in (the account's own memory).
-  const wantsCloud = !localOnly && (!fromClient || validId(body.memoryId) || (body.saveToCloud === true && Boolean(user)));
-  const resolved: Resolved | null = !wantsCloud
+  // A memory id is optional. The app sends a device id; a first visit, a blank
+  // field, or a plain {message} request may not. Missing, blank, and malformed
+  // ids are anonymous: Arron still answers, and that value is never a lookup key.
+  // A well-formed id is resolved as before (an account-owned memory stays
+  // unreadable to a guest). A signed-in account on the classic {message} shape,
+  // or an explicit saveToCloud, still uses that account's own memory.
+  const safeMemoryId = validId(body.memoryId) ? body.memoryId : undefined;
+  const wantsAccount = Boolean(user) && (body.saveToCloud === true || !fromClient);
+  const wantsCloud = !localOnly && (safeMemoryId !== undefined || wantsAccount);
+  // Phase 2: Supabase cloud copy is written ONLY with consent — explicit saveToCloud===true
+  // or a signed-in user (their account, their history). Guests default to local Netlify DB only.
+  const supabaseConsent = body.saveToCloud === true || Boolean(user);
+  const resolved: Resolved = !wantsCloud
     ? { id: "", readable: false }
-    : await resolveMemory(body.memoryId, user).catch((error) => {
+    : ((await resolveMemory(safeMemoryId, user).catch((error) => {
         console.error(`Arron [${rid}] memory unavailable:`, reason(error));
-        return validId(body.memoryId) ? { id: body.memoryId, readable: false } : null;
-      });
-  if (!resolved) return json({ error: "Invalid memory id" }, 400);
+        // Only a well-formed id may be kept for a later local save. A database
+        // hiccup must not become a 400, and a bad id must not be reused.
+        return safeMemoryId ? { id: safeMemoryId, readable: false } : { id: "", readable: false };
+      })) ?? { id: "", readable: false });
   const memoryId = resolved.id;
 
   // Memory makes Arron personal, but a database hiccup should never stop him replying.
@@ -534,7 +560,12 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     ownerFacts: done.ownerFacts,
     ownerVoice,
     growth: growthBrief(growth),
-  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message));
+  }) + (crisis ? "" : "\n\nSIBLING FOR THIS MESSAGE\n" + siblingMap(message)) + (openaiToolsEnabled() ? "\n\n" + ARRON_PHASE2_TOOLS_BRIEF : "");
+
+  // Public knowledge mirror. Crisis returns above never reach this, and a crisis
+  // turn here does not call the mirror, so the lifelines are not waiting on it.
+  // A missing or slow mirror leaves the prompt exactly as it was. Chain order is unchanged.
+  const grounded = await groundArronSystem(system, message, crisis);
 
   let answer: Awaited<ReturnType<typeof reply>>;
   // Multi-mind replies cost several paid calls, so the Owner asks for them by name and each has its own daily allowance:
@@ -542,28 +573,38 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
   const budget: Budget = { deadline: started + AI_DEADLINE_MS, crisis, spares: personalSparesAllowed() };
   // The Owner's single-mind chats have their own daily allowance, so the site cap filling up can never lock Shane out.
   const ownerAdmitted = owner && (await allowToday("owner", { userId: user?.id }));
-  const wantsCouncil = owner && !crisis && /^\/council\b/i.test(message);
+  const wantsCouncil = owner && !crisis && /^(?:\/council\b|council\s*[:,-]?\s+\S)/i.test(message);
   const wantsFamily = owner && !crisis && !wantsCouncil && /^\/family\b/i.test(message);
   const council = wantsCouncil && (await allowToday("council", { userId: user?.id }));
   const family = wantsFamily && (await allowToday("family", { userId: user?.id }));
   const capNote = (wantsCouncil && !council) || (wantsFamily && !family)
     ? "\n\nTODAY'S LIMIT — the Owner's daily allowance for that multi-mind reply is used up. Say so in one line, then answer with one mind."
     : "";
+  // Phase 2: one extra paid hop (gpt-4o-mini) for tool routing, then the normal chain
+  // writes the reply. It runs only for a direct OpenAI key (never the Netlify gateway
+  // key) and only when the message looks like a solar estimate or an https page.
+  // Crisis care does not depend on this hop. If the cue is missed, or the hop errors,
+  // the chain runs UNCHANGED. Tools never break chat.
+  if (!council && !family && openaiToolsEnabled() && toolRoundWorthPaying(message)) {
+    const routeMax = creator ? TOKENS.creator : TOKENS.guest;
+    await maybeRunTools(grounded + capNote, turns, { maxTokens: routeMax, deadline: budget.deadline, logTag: rid }).catch(() => null);
+  }
   try {
     if (council) {
-      const notes = await askCouncil(system, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
+      const notes = await askCouncil(grounded, turns, user, { deadline: Math.min(budget.deadline, started + COUNCIL_ROUND_MS) });
       // The council round already counted the whole call against today's site budget.
-      answer = await reply(system + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true, false, budget, true);
+      answer = await reply(grounded + "\n\nCOUNCIL NOTES — weave these into one answer for Shane. Name who spoke. Do not invent a mind that stayed quiet.\n" + notes, turns, true, true, false, budget, true);
       answer = { ...answer, provider: "council", model: "claude-gpt-gemini-grok" };
     } else if (family) {
-      answer = await workAsOne(system, turns, creative ? TOKENS.creatorCreative : TOKENS.creator, budget);
+      answer = await workAsOne(grounded, turns, creative ? TOKENS.creatorCreative : TOKENS.creator, budget);
     } else {
-      answer = await reply(system + capNote, turns, creator, creative, Boolean(user), budget, ownerAdmitted);
+      answer = await reply(grounded + capNote, turns, creator, creative, Boolean(user), budget, ownerAdmitted);
     }
   } catch {
     // Every mind is quiet: a gentle reply with the real help lines — no error, no stack trace, nothing saved.
     console.error(`Arron [${rid}] every AI provider failed`);
-    return json({ reply: QUIET_REPLY, provider: "none", remembered: false, crisis, signpost: SIGNPOST, actions: [] });
+    const quiet = crisis ? `${QUIET_REPLY}\n\n${CRISIS_SIGNPOST}` : QUIET_REPLY;
+    return json({ reply: quiet, provider: "none", remembered: false, crisis, signpost: crisis ? CRISIS_SIGNPOST : SIGNPOST, actions: [] });
   }
 
   // Whoever answered, a person in crisis always gets the real numbers.
@@ -607,6 +648,20 @@ async function chat(req: Request, context: Context, rid: string, started = Date.
     } catch (error) {
       remembered = false;
       console.error(`Arron [${rid}] could not save messages:`, reason(error));
+    }
+  }
+
+  // Phase 2: best-effort second copy to Supabase. A Supabase failure must never
+  // break the reply or flip remembered=false — local Netlify DB is the source of truth.
+  // Only written with consent (saveToCloud===true or signed-in user).
+  if (supabaseEnabled() && supabaseConsent && resolved.readable) {
+    try {
+      await supabaseAppend(memoryId, [
+        { role: "user", content: message, ts: started },
+        { role: "assistant", content: replyText },
+      ]);
+    } catch {
+      // The layer already logged a warning with no message content / no PII.
     }
   }
 
@@ -665,6 +720,13 @@ async function memory(req: Request, url: URL) {
     await db.delete(arronMemories).where(eq(arronMemories.id, id));
     const [left] = await db.select({ id: arronMemories.id }).from(arronMemories).where(eq(arronMemories.id, id));
     if (left) return json({ error: "Memory could not be erased" }, 500);
+    // Phase 2: best-effort wipe of the Supabase cloud copy too. A Supabase failure
+    // must never block Forget Me — local erase is confirmed and that is what we report.
+    try {
+      await supabaseClear(id);
+    } catch {
+      // The layer already logged a warning (no PII).
+    }
     return json({ ok: true, cleared: true });
   }
 
@@ -685,6 +747,27 @@ async function crashLooksLikeCrisis(spare: Request | null) {
   }
 }
 
+// The gpt-4o-mini tool hop is an extra paid call. Pay for it only when the
+// message looks like a solar estimate or hands over an https page to read.
+function toolRoundWorthPaying(text: string) {
+  return /https:\/\//i.test(text) || /\b(solar|panels?|kilowatt|kWp?|roof|inverter)\b/i.test(text);
+}
+
+// Booleans only. A value shorter than 9 characters is treated as unset so a
+// placeholder cannot look like a real key. The value itself is never returned.
+function providerKeyPresence() {
+  const present = (value: string | undefined) => Boolean(value && value.trim().length > 8);
+  const env = process.env;
+  return {
+    // The drop-in ARRON_* names and the aliases in ../lib/provider-config.js count too.
+    openai: present(env.OPENAI_API_KEY) || Boolean(keyNameFor("openai")),
+    anthropic: present(env.ANTHROPIC_API_KEY) || Boolean(keyNameFor("anthropic")),
+    gemini: present(env.GEMINI_API_KEY) || Boolean(keyNameFor("gemini")),
+    grok: present(env.GROK_API_KEY) || present(env.xAI_KEY) || present(env.XAI_API_KEY) || Boolean(keyNameFor("grok")),
+    openrouter: present(env.OPENROUTER_API_KEY) || Boolean(keyNameFor("openrouter")),
+  };
+}
+
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const rid = newRequestId();
@@ -694,7 +777,29 @@ export default async (req: Request, context: Context) => {
   const spare = route === "chat" && req.method === "POST" ? req.clone() : null;
 
   try {
+    // Founder-only AI configuration status. No provider calls, credentials, or user data exposed.
+    // A configured key is not proof that the provider can answer live requests.
+    if (route === "owner-ai-status") {
+      if (req.method !== "GET") return json({ error: "Method not allowed" }, 405);
+      const user = await optionalUser();
+      if (!user?.isOwner) return json({ error: "Not found" }, 404);
+      return json({
+        ok: true,
+        ownerOnly: true,
+        providerOrder: ["GPT", "Claude", "Gemini", "Grok"],
+        gateway: "availability not verified by this endpoint",
+        grokKeyConfigured: Boolean(process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || keyNameFor("grok")),
+        openaiDirectKeyConfigured: Boolean(process.env.OPENAI_API_KEY || keyNameFor("openai")),
+        geminiKeyConfigured: Boolean((process.env.GEMINI_API_KEY || "").trim() || keyNameFor("gemini")),
+        geminiDirectModel: GEMINI_FALLBACK_MODEL,
+        liveProviderHealth: "not tested",
+        note: "Configuration presence is not proof of a working AI response. No provider requests were made. GEMINI_API_KEY is the optional direct fallback. Netlify may inject a placeholder of that name for the gateway. This flag does not reveal the value.",
+      });
+    }
     if (route === "health") {
+      // This handler is the one Netlify serves for /api/arron/health. The old
+      // arron-health.mts claimed the same path and never won, so its key check
+      // was unreachable. Key flags are booleans only. No key value is returned.
       const { user, profile } = await whoIsHere();
       return json({
         ok: true,
@@ -703,6 +808,13 @@ export default async (req: Request, context: Context) => {
         owner: Boolean(user?.isOwner),
         signedIn: Boolean(user),
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
+        keys: providerKeyPresence(),
+        lastFailure: lastChainFailure(),
+        // Per-lab status from real chat hops on this function instance (status code + short tag),
+        // the model id each lab uses, and the NAME of the env var that supplied each key. No values.
+        chain: chainDiagnostics(),
+        liveProbe: "Owner only: GET /api/ops/ai-probe?probe=1 (credential check, no spend) or ?probe=2 (1-token chat, needs PS_PAID_PROBES_APPROVED).",
+        note: "Key presence only — no live API calls made. Connectivity not proven. chain.providers shows the last real hop result on this instance.",
       });
     }
     if (route === "chat" && req.method === "POST") return await chat(req, context, rid, started);
@@ -710,7 +822,13 @@ export default async (req: Request, context: Context) => {
     if (route === "grok-test") {
       const user = await optionalUser();
       if (!user?.isOwner) return json({ error: "Not found" }, 404);
-      return json(await askGrokDirect());
+      // askGrokDirect(system, turns, maxTokens) throws if called with no arguments,
+      // so this owner probe never reached xAI. A short hello is enough to prove the hop.
+      return json(await askGrokDirect(
+        "You are Arron, a companion on Pleading Sanity, not a therapist. Reply in one short sentence.",
+        [{ role: "user", content: "Reply with one short hello." }],
+        40,
+      ));
     }
     if (route === "memory") return await memory(req, url);
     return json({ error: "Not found" }, 404);
@@ -733,5 +851,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test"],
+  path: ["/api/arron/chat", "/api/arron/memory", "/api/arron/health", "/api/arron/grok-test", "/api/arron/owner-ai-status"],
 };

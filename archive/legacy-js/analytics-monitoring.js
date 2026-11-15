@@ -13,7 +13,7 @@ class AnalyticsMonitoring {
 
     init() {
         if (!this.isEnabled) {
-            console.log('📊 Analytics disabled by user preference');
+            console.log(' Analytics disabled by user preference');
             return;
         }
         
@@ -23,7 +23,7 @@ class AnalyticsMonitoring {
         this.setupHealthChecks();
         this.initializeErrorTracking();
         
-        console.log('📊 Privacy-first analytics initialized');
+        console.log(' Privacy-first analytics initialized');
     }
 
     generateSessionId() {
@@ -486,7 +486,7 @@ class AnalyticsMonitoring {
         this.performanceMetrics = [];
         this.errorReports = [];
         localStorage.removeItem('analytics_retry');
-        console.log('📊 Analytics data cleared');
+        console.log(' Analytics data cleared');
     }
 }
 

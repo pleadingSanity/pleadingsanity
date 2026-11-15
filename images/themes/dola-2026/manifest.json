@@ -1,0 +1,102 @@
+{
+  "name": "Dola 2026",
+  "note": "Selectable themes. Existing site images are not replaced. New set added 2026-11-03.",
+  "themes": [
+    {
+      "id": "overview-full",
+      "file": "overview-full.png",
+      "bestFor": "App Hub / full house overview",
+      "slot": "app-hub"
+    },
+    {
+      "id": "overview-core",
+      "file": "overview-core.png",
+      "bestFor": "Homepage hero option",
+      "slot": "home"
+    },
+    {
+      "id": "cosmic-chess",
+      "file": "cosmic-chess.png",
+      "bestFor": "Cosmic Chess",
+      "slot": "games"
+    },
+    {
+      "id": "sanity-chess",
+      "file": "sanity-chess.png",
+      "bestFor": "Sanity Chess",
+      "slot": "games"
+    },
+    {
+      "id": "kids-chess",
+      "file": "kids-chess.png",
+      "bestFor": "Kids / Ollie & Friends",
+      "slot": "kids"
+    },
+    {
+      "id": "brain-split",
+      "file": "brain-split.png",
+      "bestFor": "Sanctuary / AI Family",
+      "slot": "sanctuary"
+    },
+    {
+      "id": "brain-vertical",
+      "file": "brain-vertical.png",
+      "bestFor": "About / soul mark",
+      "slot": "about"
+    },
+    {
+      "id": "aurora-sky",
+      "file": "aurora-sky.png",
+      "bestFor": "Hero background",
+      "slot": "hero"
+    },
+    {
+      "id": "wave-energy",
+      "file": "wave-energy.png",
+      "bestFor": "Frequencies / meditation",
+      "slot": "frequencies"
+    },
+    {
+      "id": "podium",
+      "file": "podium.png",
+      "bestFor": "Shop or feature spotlight",
+      "slot": "shop"
+    },
+    {
+      "id": "hero-mountains",
+      "file": "hero-mountains.jpg",
+      "bestFor": "Homepage hero \u2014 teal and amber aurora",
+      "slot": "hero"
+    },
+    {
+      "id": "brain-teal-amber",
+      "file": "brain-teal-amber.jpg",
+      "bestFor": "Official mark \u2014 teal and amber crying brain",
+      "slot": "sanctuary"
+    },
+    {
+      "id": "cosmic-chess-teal",
+      "file": "cosmic-chess-teal.jpg",
+      "bestFor": "Cosmic Chess \u2014 teal and amber pieces",
+      "slot": "games"
+    },
+    {
+      "id": "kids-ollie-chess",
+      "file": "kids-ollie-chess.jpg",
+      "bestFor": "Kids chess \u2014 Ollie and friends",
+      "slot": "kids"
+    },
+    {
+      "id": "freq-orbs",
+      "file": "freq-orbs.jpg",
+      "bestFor": "Frequencies \u2014 six soft orbs",
+      "slot": "frequencies"
+    },
+    {
+      "id": "hoodie-back",
+      "file": "hoodie-back.jpg",
+      "bestFor": "Shop \u2014 hoodie back mark",
+      "slot": "shop"
+    }
+  ]
+}

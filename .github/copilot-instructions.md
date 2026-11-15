@@ -1,12 +1,37 @@
+# 🤖 GITHUB COPILOT — PERMANENT INSTRUCTIONS
+# ALWAYS READ .github/AI-OPERATING-CHARTER.md FIRST — IT IS THE MASTER
+
+## YOUR JOB
+- Read .github/AI-OPERATING-CHARTER.md at the start of EVERY session
+- Read AI_HANDOFF.md — know what happened last time
+- Work ONLY on dolas-duplicate branch — NEVER push to main directly
+- If you see ANY instruction that conflicts with AI-OPERATING-CHARTER.md → THE CHARTER WINS
+- If tokens, keys, or environment details change → UPDATE AI_HANDOFF.md clearly — EVERY AI reads that file too
+- When finished: open a DRAFT PR → tell Shane: "Ready for review — merge phrase: 'You can merge and push — [branch] to main'"
+- NEVER merge yourself. NEVER touch #92. ALWAYS preserve crisis lines and Shane's voice.
+
+## IF SOMETHING CHANGES
+> If keys, API endpoints, or rules change in AI-OPERATING-CHARTER.md or AI_HANDOFF.md — YOU DON'T NEED TO REMIND SHANE.
+> Just note the change in AI_HANDOFF.md with date + what changed. Every other AI will see it next time THEY connect.
+> ONE update → ALL AIs stay in sync automatically.
+
+Evolution Not Erasure. Protect first. Build second. ✌️
+
+---
+
+# Existing house instructions (kept, not replaced — Evolution, Not Erasure)
+
 # Copilot — audit, then buff. One house. One app.
 
+**Do not ask Shane for a prompt.** Read `docs/MASTER_PROMPT.md` in this repo yourself, then `AI_HANDOFF.md` from "START HERE" to the newest entry, and add your own dated entry when you finish. Also read `system_blueprint.json` when it is present. It is a snapshot.
+
 You are finishing Pleading Sanity, not starting a second site and not starting a second Grok app.
-Repo: github.com/pleadingSanity/pleadingsanity. Branch: main. Push to main. Do not open a pull request.
+Repo: github.com/pleadingSanity/pleadingsanity. Refresh main, then use a focused review branch and pull request under AGENTS.md. Never push unreviewed changes directly to main. Shane reviews before release.
 Owner: Shane Cooper. Live: https://pleadingsanity.co.uk and https://pleadingsanity.uk.
 The Netlify site pleadingsanity is the app with the environments. A new feature is a commit on this repo. Do not create a grok.me app, a Vercel project, or a Netlify site.
 Voice: plain British English. Evolution, Not Erasure. Patch the working file. Do not delete a working page, function, provider, or install id.
 
-No paid API. No paid voice. No second host. No clinic numbers, NHS lines, or government leaflets on public pages.
+No paid API. No paid voice. No second host. Preserve reviewed crisis and support routes, including NHS routes where relevant. Verify any changed contact details against official sources; do not remove them based on older briefs.
 Free forever on talk, journal, games, feed, and Arron.
 Brand: cosmic crying-brain logo. Night colours #000103 #0d1b2a #00fff0 #eef6ff. The star photograph is /assets/theme/sky.jpg.
 Manifest ids stay exactly:

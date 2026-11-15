@@ -9,8 +9,8 @@
     "standalone",
     "minimal-ui"
   ],
-  "background_color": "#000103",
-  "theme_color": "#000103",
+  "background_color": "#0b0f19",
+  "theme_color": "#0b0f19",
   "lang": "en-GB",
   "description": "A room in the Pleading Sanity app. Finance without the sales pressure. Not a second app, and not a lender.",
   "categories": [

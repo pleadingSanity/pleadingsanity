@@ -5,23 +5,28 @@
   "type": "module",
   "description": "Pleading Sanity — Rise From Madness. Cosmic healing hub, Arron AI companion, brain games, frequencies, journal vault.",
   "scripts": {
+    "test": "node --experimental-vm-modules --test scripts/test-*.mjs tests/*.test.js tests/*.test.mjs",
     "optimize": "node tools/optimizer.mjs",
     "build": "echo '✅ Static site — no build step needed'",
-    "dev": "npx serve . -p 3000"
+    "dev": "npx serve . -p 3000",
+    "test:discovery": "node --test tests/home-search.test.mjs",
+    "audit:site": "node scripts/audit-ecosystem.mjs --strict"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
     "@google/genai": "^2.24.0",
-    "@netlify/blobs": "^10.7.13",
+    "@libsql/client": "^0.15.15",
+    "@netlify/blobs": "^11.1.7",
     "@netlify/database": "^1.1.0",
-    "@netlify/functions": "^5.3.0",
+    "@netlify/functions": "^6.1.1",
     "@netlify/identity": "^1.2.0",
     "cheerio": "^1.0.0",
     "csso": "^5.0.5",
     "drizzle-kit": "^1.0.0-beta.22",
-    "drizzle-orm": "^1.0.0-beta.22",
-    "glob": "^11.0.0",
-    "openai": "^6.49.0",
+    "drizzle-orm": "^1.0.0-rc.5",
+    "glob": "^14.0.4",
+    "openai": "^7.53.0",
+    "pg": "^8.23.1",
     "terser": "^5.31.0"
   }
 }

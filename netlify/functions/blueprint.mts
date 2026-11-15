@@ -8,7 +8,7 @@
 // ==============================================================
 
 import type { Config, Context } from "@netlify/functions";
-import { currentUser, isCreator, json, logActivity, moderate, readBody, str } from "../lib/social.js";
+import { currentUser, isCreator, json, logActivity, logReason, moderate, readBody, str } from "../lib/social.js";
 import { visitorKey, withinDailyLimit } from "../lib/studio.js";
 import { ARRON_VOICE, parseJSON, runChain } from "../lib/ai-chain.js";
 
@@ -83,7 +83,7 @@ ${notes ? `Creator notes: ${notes}` : ""}`;
       crisis: verdict.crisis,
     });
   } catch (error) {
-    console.error("Blueprint error:", error);
+    console.error("Blueprint error:", logReason(error));
     return json({ error: "The studio lights flickered — please try again in a moment." }, 503);
   }
 };

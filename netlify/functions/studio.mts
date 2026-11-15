@@ -14,7 +14,7 @@ import type { Config, Context } from "@netlify/functions";
 import { and, desc, eq, gt, inArray, lt, sql } from "drizzle-orm";
 import { db } from "../../db/index.js";
 import { studioItems, studioVotes } from "../../db/schema.js";
-import { currentUser, json, logActivity, moderate, profileFor, readBody, str } from "../lib/social.js";
+import { currentUser, json, logActivity, logReason, moderate, profileFor, readBody, str } from "../lib/social.js";
 import {
   battlePrompt,
   CREATOR_MODEL,
@@ -192,7 +192,7 @@ async function battle(voter: string | null) {
           .limit(60);
       }
     } catch (error) {
-      console.error("AI battle entry unavailable:", error);
+      console.error("AI battle entry unavailable:", logReason(error));
     }
   }
 
@@ -289,7 +289,7 @@ export default async (req: Request, context: Context) => {
     if (parts[0] === "podcast" && req.method === "POST") return await startPodcast(req);
     return json({ error: "Not found" }, 404);
   } catch (error) {
-    console.error("Studio error:", error);
+    console.error("Studio error:", logReason(error));
     return json({ error: "The studio lights flickered — please try again in a moment." }, 503);
   }
 };

@@ -1,0 +1,199 @@
+{
+  "channel": {
+    "id": "UC3q3UpppLMXrq45czZT4_HQ",
+    "handle": "@shanecooper1872",
+    "name": "Shane Cooper"
+  },
+  "checked": "2026-10-31",
+  "label": "Sanity's Songs - picks from Shane's playlists",
+  "method": "Public playlists were read from the channel. Each video returned HTTP 200 from YouTube oEmbed and HTTP 200 from the youtube-nocookie embed URL on 31 Oct 2026. oEmbed 401 would have meant embedding was blocked; none of the included ids did that. These are other artists' music videos, played only in the official player. Kids pages do not link here. Only official artist or label uploads are listed.",
+  "playlists": [
+    {
+      "id": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "title": "Music",
+      "author": "Shane Cooper",
+      "included": true
+    }
+  ],
+  "leftOut": [
+    {
+      "id": "6RtmetiP1DI",
+      "title": "Dj Ironik - I Wanna Be Your Man (Lyrics)",
+      "reason": "Lyric upload, not an official music video."
+    },
+    {
+      "id": "htlYxsxPdSE",
+      "title": "Dj Ironik - So Amazing (With Lyrics)",
+      "reason": "Lyric upload, not an official music video."
+    },
+    {
+      "id": "OIdApbEXL5U",
+      "title": "Dj Ironik - Stay With Me",
+      "reason": "Lyric upload, not an official music video."
+    },
+    {
+      "id": "oCpyfQykuG8",
+      "title": "everytime we touch - dj ironik and voltage lyrics",
+      "reason": "Lyric upload, not an official music video."
+    },
+    {
+      "id": "PLTPhGvqiR_c9CPEeInoy2fHl0i0ZiUHdj",
+      "title": "Meditation",
+      "reason": "Not music videos."
+    },
+    {
+      "id": "PLTPhGvqiR_c8bZPdqOiAmH24Em-XsUd6N",
+      "title": "Photography",
+      "reason": "Not music."
+    },
+    {
+      "id": "PLTPhGvqiR_c_PufI4x35xUvEUa_C7rEoN",
+      "title": "Joe rogan",
+      "reason": "Not music."
+    },
+    {
+      "id": "PLTPhGvqiR_c_pM0aGaJ_ub2ImK57TOlMY",
+      "title": "Intelligence docs",
+      "reason": "Not music."
+    },
+    {
+      "id": "hRLpwZcxPVE",
+      "title": "Pepper Boats",
+      "reason": "Food, not music."
+    },
+    {
+      "id": "q1hXYMfNwAw",
+      "title": "Postman Pat",
+      "reason": "Not music."
+    },
+    {
+      "id": "UU3q3UpppLMXrq45czZT4_HQ",
+      "title": "Uploads",
+      "reason": "Bike review, gameplay and food. Not music."
+    },
+    {
+      "id": "LL3q3UpppLMXrq45czZT4_HQ",
+      "title": "Liked videos",
+      "reason": "Not public."
+    }
+  ],
+  "tracks": [
+    {
+      "id": "hg90Okk0fhw",
+      "artist": "Bugzy Malone",
+      "title": "Moving",
+      "channel": "Bugzy Malone",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=hg90Okk0fhw"
+    },
+    {
+      "id": "lNx19-cyhuU",
+      "artist": "Bugzy Malone",
+      "title": "Pain",
+      "channel": "Bugzy Malone",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=lNx19-cyhuU"
+    },
+    {
+      "id": "RR8-b6pftEA",
+      "artist": "Bugzy Malone",
+      "title": "Watch Your Mouth",
+      "channel": "Bugzy Malone",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=RR8-b6pftEA"
+    },
+    {
+      "id": "a7uhNjgqzlE",
+      "artist": "Bugzy Malone",
+      "title": "M.E.N",
+      "channel": "Link Up TV",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=a7uhNjgqzlE"
+    },
+    {
+      "id": "DbrXNrXEho8",
+      "artist": "Bugzy Malone",
+      "title": "Fire in the Booth Part 2",
+      "channel": "BBC Radio 1Xtra",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=DbrXNrXEho8"
+    },
+    {
+      "id": "WKvBmgawmT8",
+      "artist": "Bugzy Malone",
+      "title": "Confessions",
+      "channel": "JDZmedia",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=WKvBmgawmT8"
+    },
+    {
+      "id": "uDwraXBUHgs",
+      "artist": "Wyclef Jean",
+      "title": "Perfect Gentleman ft. Hope",
+      "channel": "WyclefVEVO",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=uDwraXBUHgs"
+    },
+    {
+      "id": "XWJrPzAUzAs",
+      "artist": "Shaggy",
+      "title": "Angel ft. Rayvon",
+      "channel": "ShaggyVEVO",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=XWJrPzAUzAs"
+    },
+    {
+      "id": "CITU4KH93aU",
+      "artist": "Vybz Kartel",
+      "title": "Summertime",
+      "channel": "RBFilmsja",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=CITU4KH93aU"
+    },
+    {
+      "id": "5zCMIS5UmUI",
+      "artist": "Popcaan",
+      "title": "Only Man She Want",
+      "channel": "Kingston Signals Official",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=5zCMIS5UmUI"
+    },
+    {
+      "id": "O6SeD1xE7NA",
+      "artist": "Gyptian",
+      "title": "Hold You",
+      "channel": "VP Records",
+      "official": true,
+      "list": "PLTPhGvqiR_c-RxcDAFOcFAbgXRHgqEs2C",
+      "youtube": "https://www.youtube.com/watch?v=O6SeD1xE7NA"
+    },
+    {
+      "id": "CxnaPa8ohmM",
+      "artist": "G-Eazy",
+      "title": "I Mean It ft. Remo",
+      "channel": "GEazyMusicVEVO",
+      "official": true,
+      "list": "FL3q3UpppLMXrq45czZT4_HQ",
+      "youtube": "https://www.youtube.com/watch?v=CxnaPa8ohmM"
+    },
+    {
+      "id": "yvHYWD29ZNY",
+      "artist": "Lil Dicky",
+      "title": "$ave Dat Money feat. Fetty Wap and Rich Homie Quan",
+      "channel": "Lil Dicky",
+      "official": true,
+      "list": "FL3q3UpppLMXrq45czZT4_HQ",
+      "youtube": "https://www.youtube.com/watch?v=yvHYWD29ZNY"
+    }
+  ]
+}

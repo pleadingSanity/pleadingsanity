@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "live-creators",
+    "image": "/images/cards/live-creators-card.webp",
+    "alt": "An empty night studio with a microphone in an amber spotlight and a camera in teal light",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "new-gen-bible",
+    "image": "/images/cards/new-gen-bible-card.webp",
+    "alt": "An open old book with blank pages radiating soft teal light under the stars",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "sane-finance",
+    "image": "/images/cards/sane-finance-card.webp",
+    "alt": "Stacks of amber coins beneath a rising teal line of light",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "games",
+    "image": "/images/cards/games-card.webp",
+    "alt": "An arcade controller with amber buttons surrounded by floating teal cards",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "ai-family",
+    "image": "/images/cards/ai-family-card.webp",
+    "alt": "Four flowing light forms in teal, blue, amber and silver linked by threads of light",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "journal-vault",
+    "image": "/images/cards/journal-vault-card.webp",
+    "alt": "A closed leather journal with an ornate silver lock on a desk at night",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "community",
+    "image": "/images/cards/community-card.webp",
+    "alt": "A circle of glowing amber and teal lanterns under a starry sky",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "meditation-frequencies",
+    "image": "/images/cards/meditation-frequencies-card.webp",
+    "alt": "Concentric teal ripples of light on calm water at night",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "night-table",
+    "image": "/images/cards/night-table-card.webp",
+    "alt": "A bedside table with a warm lamp and a glass of water beside a moonlit window",
+    "width": 1280,
+    "height": 720
+  },
+  {
+    "slug": "site-builder",
+    "image": "/images/cards/site-builder-card.webp",
+    "alt": "Floating teal wireframe page blocks with amber corner nodes",
+    "width": 1280,
+    "height": 720
+  }
+]
