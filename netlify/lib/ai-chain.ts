@@ -37,7 +37,9 @@ import {
 import {
   CURRENT_MODELS,
   GROK_SECOND_MODEL,
+  anthropicHeaders,
   chooseModel,
+  everydayModel,
   failureTag,
   keySources,
   providerStatusSnapshot,
@@ -56,7 +58,7 @@ const MIN_ATTEMPT_MS = 2_500;
 const openaiKey = resolveKey("openai");
 const anthropicKey = resolveKey("anthropic");
 const geminiKey = resolveKey("gemini");
-const anthropic = new Anthropic({ apiKey: anthropicKey.value, ...(anthropicKey.dropIn ? { baseURL: "https://api.anthropic.com" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const anthropic = new Anthropic({ apiKey: anthropicKey.value, ...(anthropicKey.dropIn ? { baseURL: "https://api.anthropic.com" } : {}), defaultHeaders: anthropicHeaders(), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
 const openai = new OpenAI({ apiKey: openaiKey.value, ...(openaiKey.dropIn ? { baseURL: "https://api.openai.com/v1" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
 const gemini = new GoogleGenAI({ apiKey: geminiKey.value, httpOptions: { timeout: LAB_TIMEOUT_MS, ...(geminiKey.dropIn ? { baseUrl: GEMINI_GOOGLE_BASE } : {}) } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
@@ -65,6 +67,9 @@ const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
 const CHAIN_BUDGET_MS = 36_000;
 // GROK_API_KEY, then xAI_KEY, then XAI_API_KEY (ARRON_GROK_KEY first when set).
 const grokKey = resolveKey("grok").value;
+const GROK_EFFORT = ["none", "low", "medium", "high"].includes((process.env.GROK_REASONING_EFFORT || "").trim().toLowerCase())
+  ? (process.env.GROK_REASONING_EFFORT || "").trim().toLowerCase()
+  : "";
 const grok = grokKey
   ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
   : null;
@@ -113,7 +118,8 @@ const envInt = (name: string, fallback: number) => {
   const n = Number.parseInt(process.env[name] ?? "", 10);
   return Number.isFinite(n) && n > 0 ? n : fallback;
 };
-export const CONTEXT_CHARS = envInt("ARRON_CONTEXT_CHARS", 24_000);
+// 12,000 characters is about 3,000 tokens of history (was 24,000). ARRON_CONTEXT_CHARS on Netlify overrides it.
+export const CONTEXT_CHARS = envInt("ARRON_CONTEXT_CHARS", 12_000);
 
 
 
@@ -151,8 +157,10 @@ const ENV_MODEL: Record<Provider, string | undefined> = {
   grok: process.env.GROK_MODEL,
 };
 const choices: Partial<Record<Provider, { model: string; source: string; ignored: string | null }>> = {};
-const realModel = (p: Provider, soulModel: string): string => {
-  const choice = chooseModel(p, ENV_MODEL[p], soulModel);
+// everyday = true for the normal chat model: a lab with a CHEAP_DEFAULTS entry (Grok) uses that
+// instead of the soul id when Netlify has no live env id. Creator (Owner) replies keep the soul id.
+const realModel = (p: Provider, soulModel: string, everyday = false): string => {
+  const choice = everyday ? everydayModel(p, ENV_MODEL[p], soulModel) : chooseModel(p, ENV_MODEL[p], soulModel);
   if (choice.ignored && !choices[p]?.ignored) console.warn(`AI chain: ignoring retired ${p} model id from env (${choice.ignored}), using ${choice.model}`);
   if (!choices[p]) choices[p] = choice;
   return choice.model;
@@ -163,17 +171,27 @@ const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : []
   .filter((l) => PROVIDERS.includes(l?.provider as Provider) && typeof l.model === "string" && l.model)
   .map((l) => {
     const p = l.provider as Provider;
-    const model = realModel(p, l.model);
+    const model = realModel(p, l.model, true);
     const creatorSoul = typeof l.creatorModel === "string" && l.creatorModel ? l.creatorModel : l.model;
     const creatorModel = realModel(p, creatorSoul);
     return { provider: p, model, creatorModel };
   });
 // Checked against each lab's model page on 14 Nov 2026 (CURRENT_MODELS in provider-config.js).
 // Built only when the soul file has no chain, so the soul ids stay first.
-export const CHAIN: Link[] = fromSoul.length ? fromSoul : PROVIDERS.map((provider) => {
-  const model = realModel(provider, CURRENT_MODELS[provider]);
-  return { provider, model, creatorModel: model };
+const BASE_CHAIN: Link[] = fromSoul.length ? fromSoul : PROVIDERS.map((provider) => {
+  const model = realModel(provider, CURRENT_MODELS[provider], true);
+  return { provider, model, creatorModel: realModel(provider, CURRENT_MODELS[provider]) };
 });
+// COST: ARRON_CHAIN_ORDER on Netlify (for example "grok,anthropic,gemini,openai") picks who answers
+// first without a code change. Unknown names are ignored; any lab left out keeps its soul place after
+// the listed ones. Unset, the soul order stands. Order is only who picks up first, never rank.
+export function orderChain(links: Link[], raw = process.env.ARRON_CHAIN_ORDER || ""): Link[] {
+  const wanted = raw.split(",").map((s) => s.trim().toLowerCase()).filter((p, i, all) => PROVIDERS.includes(p as Provider) && all.indexOf(p) === i);
+  if (!wanted.length) return links;
+  const first = wanted.map((p) => links.find((l) => l.provider === p)).filter((l): l is Link => Boolean(l));
+  return [...first, ...links.filter((l) => !wanted.includes(l.provider))];
+}
+export const CHAIN: Link[] = orderChain(BASE_CHAIN);
 
 class OutOfTime extends Error { name = "OutOfTime"; }
 // Per-request options for the time left: a timeout and an abort signal, both capped at one lab's turn.
@@ -196,7 +214,11 @@ async function callGrok(model: string, system: string, turns: Turn[], maxTokens:
         model: id,
         max_tokens: maxTokens * 4,
         messages: [{ role: "system", content: system }, ...turns],
-      }, slot(deadline));
+        // COST: GROK_REASONING_EFFORT=none (or low) trims hidden reasoning tokens, billed as output.
+        // Unset, xAI's default is used (low on grok-4.3). Sent only to grok-4.3, whose model page lists
+        // none/low/medium/high (docs.x.ai, read 15 Nov 2026); other ids keep their own default.
+        ...(GROK_EFFORT && id.startsWith("grok-4.3") ? { reasoning_effort: GROK_EFFORT } : {}),
+      } as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming, slot(deadline));
       const text = (res.choices[0]?.message?.content ?? "").trim();
       if (text) return text;
     } catch (error) {

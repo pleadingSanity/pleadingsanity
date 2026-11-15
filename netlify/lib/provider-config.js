@@ -57,6 +57,30 @@ export function chooseModel(provider, envValue, soulModel) {
   return { model: soulModel, source: "soul", ignored: env || null };
 }
 
+// COST: the everyday model for a lab when Netlify has no usable env id. The soul's id stays the
+// creator (Owner) model. Grok: grok-4.3 is $1.25 in / $2.50 out per 1M tokens and $0.20 cached input,
+// against $2 / $6 for grok-4.7 (docs.x.ai/docs/models, read 15 Nov 2026). grok-build-0.1 is cheaper
+// ($1 / $2) but xAI describes it as a coding model, so it is not Arron's everyday voice.
+// GROK_MODEL on Netlify still wins when it names a live model.
+export const CHEAP_DEFAULTS = {
+  grok: "grok-4.3",
+};
+
+// The model a normal chat uses: a live env id, else the cheap default, else the soul's id.
+export function everydayModel(provider, envValue, soulModel) {
+  const choice = chooseModel(provider, envValue, soulModel);
+  const cheap = CHEAP_DEFAULTS[provider];
+  if (choice.source === "soul" && cheap) return { model: cheap, source: "cheap-default", ignored: choice.ignored };
+  return choice;
+}
+
+// Optional Anthropic workspace id (not a secret). An Admin-created key that is not scoped to a workspace
+// is refused with HTTP 400 unless every request carries the anthropic-workspace-id header.
+export function anthropicHeaders(env = process.env) {
+  const id = String(env?.ANTHROPIC_WORKSPACE_ID || "").trim();
+  return /^[A-Za-z0-9_-]{4,80}$/.test(id) ? { "anthropic-workspace-id": id } : {};
+}
+
 // Current fallback ids when the soul file has no chain (checked 14 Nov 2026).
 export const CURRENT_MODELS = {
   openai: "gpt-5.6-sol",
@@ -104,8 +128,14 @@ export function failureTag(error) {
   const code = typeof e.status === "number" ? e.status : null;
   const head = code ? `HTTP ${code}` : typeof e.name === "string" ? e.name : "error";
   const bits = [e.code, e.message, e.error?.code, e.error?.message].filter((v) => typeof v === "string").join(" ");
+  // Finer tags read from the provider's message. Only the tag is kept, never the message.
   const tag =
-    /spending-limit|run out of credits|need a grok subscription|doesn't have any credits|does not have any credits/i.test(bits) ? "spending-limit" :
+    /not scoped to a workspace|anthropic-workspace-id/i.test(bits) ? "workspace-id-needed" :
+    /credit balance is too low/i.test(bits) ? "credit-balance" :
+    /api key expired/i.test(bits) ? "key-expired" :
+    /api key not valid|api_key_invalid|invalid x-api-key|incorrect api key/i.test(bits) ? "bad-key" :
+    /spending[- ]limit|run out of credits|used all (?:available )?credits|purchase more credits|need a grok subscription|doesn't have any credits|does not have any credits/i.test(bits) ? "spending-limit" :
+    /blocked/i.test(bits) && code === 403 ? "blocked" :
     /insufficient_quota/i.test(bits) ? "quota" :
     code === 401 ? "rejected-key" :
     code === 402 ? "billing" :
