@@ -170,8 +170,40 @@ export function brandAllows(chunkBrand, filter) {
   return chunkBrand === filter || chunkBrand === "shared";
 }
 
+export function stripNul(text) {
+  return String(text ?? "").replaceAll("\u0000", "");
+}
+
+// Postgres text rejects U+0000. A leading BOM selects the encoding;
+// any remaining NUL is removed before the text is chunked.
+export function decodeRepoText(bytes) {
+  const buf = Buffer.isBuffer(bytes) ? bytes : Buffer.from(bytes ?? []);
+  let text;
+  if (buf.length >= 2 && buf[0] === 0xff && buf[1] === 0xfe) {
+    text = buf.subarray(2).toString("utf16le");
+  } else if (buf.length >= 2 && buf[0] === 0xfe && buf[1] === 0xff) {
+    text = swapUtf16(buf.subarray(2)).toString("utf16le");
+  } else if (buf.length >= 3 && buf[0] === 0xef && buf[1] === 0xbb && buf[2] === 0xbf) {
+    text = buf.subarray(3).toString("utf8");
+  } else {
+    text = buf.toString("utf8");
+  }
+  return stripNul(text);
+}
+
+function swapUtf16(payload) {
+  const swapped = Buffer.alloc(payload.length);
+  const pairs = payload.length - (payload.length % 2);
+  for (let i = 0; i < pairs; i += 2) {
+    swapped[i] = payload[i + 1];
+    swapped[i + 1] = payload[i];
+  }
+  if (payload.length % 2 === 1) swapped[payload.length - 1] = payload[payload.length - 1];
+  return swapped;
+}
+
 export function chunkText(text, { size = 1800, overlap = 200 } = {}) {
-  const paras = String(text ?? "").split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
+  const paras = stripNul(text).split(/\n{2,}/).map((part) => part.trim()).filter(Boolean);
   const packed = [];
   let buf = "";
   for (const para of paras) {
@@ -282,21 +314,22 @@ function walk(dir, acc, root) {
 
 function readSafe(root, filePath) {
   try {
-    return readFileSync(join(root, filePath), "utf8");
+    return decodeRepoText(readFileSync(join(root, filePath)));
   } catch {
     return null;
   }
 }
 
 function pushDoc(documents, filePath, text, extra = {}) {
-  const chunks = chunkText(text);
+  const clean = stripNul(text);
+  const chunks = chunkText(clean);
   if (!chunks.length) return;
   documents.push({
     path: filePath,
-    title: extra.title || titleFor(filePath, text),
+    title: extra.title || titleFor(filePath, clean),
     brand: extra.brand || brandForPath(filePath),
-    source_sha: sha256(text),
-    text,
+    source_sha: sha256(clean),
+    text: clean,
     chunks,
   });
 }
