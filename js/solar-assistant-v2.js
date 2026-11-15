@@ -18,7 +18,25 @@
     return line;
   }
 
+  var leadCapturedHere = false;
+  var toggle = document.getElementById("ai-chat-toggle");
+  var panel = document.getElementById("ai-chat-panel");
+  function setPanel(open) {
+    panel.style.display = open ? "block" : "none";
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Close solar assistant" : "Open solar assistant");
+    if (open) (leadOk() ? input : document.getElementById("ai-lead-name") || input).focus();
+    else toggle.focus();
+  }
+  if (toggle && panel) {
+    toggle.addEventListener("click", function () { setPanel(panel.style.display === "none"); });
+    panel.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") { event.preventDefault(); setPanel(false); }
+    });
+  }
+
   function leadOk() {
+    if (leadCapturedHere) return true;
     try { return JSON.parse(localStorage.getItem(LEAD_KEY)); } catch (e) { return null; }
   }
 
@@ -37,6 +55,7 @@
     if (!name) { if (err) { err.textContent = "Pop your name in so Shane knows who to call."; err.style.display = "block"; } if (nameEl) nameEl.focus(); return; }
     if (digits.length < 10) { if (err) { err.textContent = "Pop a real mobile number in — Shane needs it to call you back."; err.style.display = "block"; } if (phoneEl) phoneEl.focus(); return; }
     if (err) err.style.display = "none";
+    leadCapturedHere = true;
     try { localStorage.setItem(LEAD_KEY, JSON.stringify({ name: name, phone: phone, t: Date.now() })); } catch (e) {}
     // Fire the lead to Shane via Netlify Forms (non-blocking)
     try {
@@ -68,7 +87,7 @@
   function ask(text) {
     if (!leadOk()) { if (submitBtn) submitBtn.click(); return; } // safety: never answer without lead
     var message = String(text || "").trim();
-    if (!message) return;
+    if (!message || input.disabled) return;
     add("ai-user", message);
     input.value = "";
     input.disabled = true;
@@ -90,7 +109,7 @@
     }).finally(function () {
       clearTimeout(timer);
       input.disabled = false;
-      try { input.focus(); } catch (e) {}
+      if (!panel || panel.style.display !== "none") input.focus();
     });
   }
   window.sendAiChat = function () { ask(input.value); };
