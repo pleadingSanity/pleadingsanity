@@ -2,6 +2,7 @@
 // The server decides who gets in (/api/creator-studio checks the creator role); this page only
 // reflects that answer. No tracking, no third-party requests, no keys.
 import { api, currentUser, esc } from '/js/auth.js';
+import { createQuickCapture, pendingStore, QUICK_TONES, formatClock } from '/js/studio-quick-capture.js';
 
 const $ = (id) => document.getElementById(id);
 const TARGET_BPM = 138;
@@ -246,6 +247,104 @@ function wirePolish() {
   $('saveMix').addEventListener('click', async () => upload(await toFile(await rendered(true)), 'mix'));
 }
 
+// ─── QUICK CAPTURE ─── one tap to record, saves itself (see /js/studio-quick-capture.js)
+const AUTO_KEY = 'ps-studio-quick-autostart';
+const reduceMotion = () => !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+async function saveQuick(blob, title) {
+  if (blob.size > state.maxBytes) throw new Error('too big');
+  const form = new FormData();
+  form.append('file', blob, `take.${extFor(blob.type)}`);
+  form.append('title', title);
+  form.append('kind', 'dry');
+  form.append('beat', 'Quick capture, voice only');
+  await api('/api/creator-studio/takes', { method: 'POST', form });
+  loadTakes();
+}
+function quickMeter(stream) {
+  const canvas = $('quickMeter');
+  const g = canvas.getContext('2d');
+  let analyser, data, raf = 0, last = 0;
+  try {
+    const ctx = audioCtx();
+    analyser = ctx.createAnalyser(); analyser.fftSize = 1024;
+    ctx.createMediaStreamSource(stream).connect(analyser);
+    data = new Uint8Array(analyser.fftSize);
+  } catch { return () => {}; }
+  const step = reduceMotion() ? 250 : 0;
+  const draw = (t) => {
+    raf = requestAnimationFrame(draw);
+    if (step && t - last < step) return;
+    last = t;
+    analyser.getByteTimeDomainData(data);
+    const w = canvas.width, h = canvas.height;
+    g.clearRect(0, 0, w, h);
+    g.lineWidth = 2; g.strokeStyle = '#00fff0';
+    g.beginPath();
+    for (let i = 0; i < data.length; i++) {
+      const x = (i / (data.length - 1)) * w, y = (data[i] / 255) * h;
+      if (i) g.lineTo(x, y); else g.moveTo(x, y);
+    }
+    g.stroke();
+  };
+  raf = requestAnimationFrame(draw);
+  return () => { cancelAnimationFrame(raf); g.clearRect(0, 0, canvas.width, canvas.height); };
+}
+function wireQuick() {
+  if (!$('quickBtn')) return;
+  let stopMeter = () => {}, tick = 0;
+  const qc = createQuickCapture({
+    getUserMedia: (c) => navigator.mediaDevices.getUserMedia(c),
+    MediaRecorderImpl: window.MediaRecorder,
+    pickMime,
+    upload: saveQuick,
+    store: pendingStore(window.indexedDB),
+    onTake: async (blob, title) => {
+      state.dryBlob = blob; state.rendered.clear();
+      $('takeTitle').value = title;
+      try {
+        state.dryBuffer = await audioCtx().decodeAudioData(await blob.arrayBuffer());
+        setTakeButtons(true);
+      } catch { $('saveDry').disabled = false; }
+    },
+    onState: (st) => {
+      const btn = $('quickBtn');
+      btn.setAttribute('aria-pressed', String(st.recording));
+      btn.disabled = st.busy;
+      $('quickLabel').textContent = st.recording ? 'Tap to stop' : 'Tap to record';
+      $('quickDot').hidden = !st.recording;
+      if (st.message) $('quickStatus').textContent = st.message;
+      clearInterval(tick);
+      if (st.recording) {
+        tick = setInterval(() => { $('quickClock').textContent = formatClock((Date.now() - st.startedAt) / 1000); }, 250);
+        if (st.stream) { stopMeter(); stopMeter = quickMeter(st.stream); }
+      } else {
+        stopMeter(); stopMeter = () => {};
+      }
+    },
+  });
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    $('quickBtn').disabled = true;
+    $('quickStatus').textContent = 'This browser cannot record audio. Try Chrome, Edge, Firefox or Safari.';
+    return;
+  }
+  $('quickBtn').addEventListener('click', () => { stopAll(); qc.toggle(); });
+  $('quickTones').innerHTML = QUICK_TONES.map((t) => `<button type="button" aria-pressed="false" data-tone="${esc(t)}">${esc(t)}</button>`).join('');
+  $('quickTones').addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-tone]');
+    if (!b) return;
+    const picked = qc.setTone(b.dataset.tone);
+    for (const x of $('quickTones').querySelectorAll('button')) x.setAttribute('aria-pressed', String(x.dataset.tone === picked));
+  });
+  let auto = false;
+  try { auto = localStorage.getItem(AUTO_KEY) === '1'; } catch { /* private mode */ }
+  $('quickAuto').checked = auto;
+  $('quickAuto').addEventListener('change', (e) => { try { localStorage.setItem(AUTO_KEY, e.target.checked ? '1' : '0'); } catch { /* ignore */ } });
+  window.addEventListener('online', () => qc.retryPending());
+  qc.retryPending();
+  if (location.hash === '#quick') $('quickBtn').focus();
+  if (auto) qc.start();
+}
+
 // ─── TAKES ───
 function token() {
   const m = document.cookie.match(/(?:^|; )nf_jwt=([^;]*)/);
@@ -288,6 +387,6 @@ function wireTakes() {
 
 (async () => {
   if (!(await gate())) return;
-  wireVault(); wireBeats(); wireRecorder(); wirePolish(); wireTakes();
+  wireVault(); wireBeats(); wireRecorder(); wirePolish(); wireTakes(); wireQuick();
   loadDrafts(); loadTakes();
 })();

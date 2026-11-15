@@ -36,6 +36,22 @@
 </section>
 
 <div id="studio" class="csm-grid" hidden>
+<section id="quick" class="csm-card csm-wide csm-quick" aria-labelledby="quickTitle">
+<p class="csm-step"><svg class="csm-icon"><use href="#i-mic"/></svg> QUICK CAPTURE</p>
+<h2 id="quickTitle">Tap. Sing. It saves itself.</h2>
+<div class="csm-quick-main">
+<button id="quickBtn" class="csm-quick-btn" type="button" aria-pressed="false" aria-describedby="quickStatus"><svg class="csm-quick-icon" aria-hidden="true"><use href="#i-mic"/></svg><span id="quickLabel">Tap to record</span></button>
+<div class="csm-quick-side">
+<p class="csm-quick-clock"><span id="quickClock">0:00</span><span id="quickDot" class="csm-quick-dot" hidden></span></p>
+<canvas id="quickMeter" class="csm-quick-meter" width="600" height="96" aria-hidden="true"></canvas>
+<p id="quickStatus" class="csm-status" role="status" aria-live="polite">Voice only, no beat. Each take saves privately the moment you stop.</p>
+</div>
+</div>
+<div class="csm-quick-tones" role="group" aria-label="Tag the voice tone (optional)" id="quickTones"></div>
+<label class="csm-check"><input id="quickAuto" type="checkbox"> Start recording as soon as I open the studio on this device</label>
+<p class="csm-note">Long sessions split into 8-minute takes automatically. No signal? Takes wait on this device and save themselves later. The last take also loads into Polish below.</p>
+</section>
+
 <section id="vault" class="csm-card csm-wide">
 <p class="csm-step"><svg class="csm-icon"><use href="#i-pen"/></svg> 01 / LYRICS VAULT</p>
 <h2>Your words.</h2>
