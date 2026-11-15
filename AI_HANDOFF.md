@@ -1,6 +1,6 @@
 # AI_HANDOFF.md — Latest State (2026-11-15, consolidated buff)
 _All AIs (Claude/GPT/Copilot/Grok/Dola): read this section first. Everything below it is history; this section wins on conflict._
-Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) · [system_blueprint.json](system_blueprint.json) (snapshot) · [docs/3D-PRINT-SHOP.md](docs/3D-PRINT-SHOP.md) (P.S Studio prints).
+Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) · [system_blueprint.json](system_blueprint.json) (snapshot) · [docs/3D-PRINT-SHOP.md](docs/3D-PRINT-SHOP.md) (P.S Studio prints) · [docs/ai-brain/README.md](docs/ai-brain/README.md) (AI brain backup: personas, rules, best prompts).
 
 ## Current as of 2026-11-15
 - Consolidated PR `grok/consolidated-buff-20261115` folds in #339 (14 Nov audit log), #340 (Arron knowledge refresh), #341 (sanctuary audit buffs), #342 (Arron per-provider diagnostics and key drop-in), #343 (deploy.yml house-check assert) and #344 (P.S Studio preview), plus the P.S Studio sell flow. Base was main `2aa8ad1`.
@@ -17,6 +17,9 @@ Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) �
 - **Status: not built.** On 15 Nov 2026 `POST /.netlify/functions/verify-paypal` on production returned `{"ok":false,"configured":false}` (503), so the PayPal env vars are not all set. Shane must set `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET`, `PAYPAL_MERCHANT_ID` (and `PAYPAL_ENV=sandbox` while testing) in Netlify. Then build it additively: a new supporter page, a new Netlify function that verifies a captured 0.99 GBP order server-side (same pattern as `netlify/lib/paypal-verify.ts`) and grants a `supporter` role to the signed-in Netlify Identity user, and a small client helper. Do not edit `insane-solar.html`, `verify-paypal.mts`, `paypal-verify.ts`, donation buttons or checkout code.
 - Google Pay is not a provider on its own; if wanted later it is a button option inside PayPal or Stripe.
 - Snapshot: `system_blueprint.json` → `moneyModel`. Prompt rule: `docs/MASTER_PROMPT.md` → Do not break.
+
+## AI brain backup (15 Nov 2026)
+Persistent archive of every AI persona, rule and best prompt, including bits recovered from git history, so nothing is lost if a platform deletes a bot. Start at [docs/ai-brain/README.md](docs/ai-brain/README.md). Shared rules: [docs/ai-brain/shared-rules.md](docs/ai-brain/shared-rules.md). This does not replace this file, `docs/MASTER_PROMPT.md`, `AGENTS.md` or `arron-knowledge.json` — it is a restore kit that points at them. No secrets, keys, private mail, journals or private family details.
 
 ## Branch harvest (15 Nov 2026, evening)
 One PR, `grok/branch-harvest-20261115`, brings the useful work from old branches into main. What came in:
@@ -1596,3 +1599,12 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Shane approved (15 Nov 2026, UK): sanctuary free forever, physical goods paid, optional one-off 99p Supporter / Full Depth unlock via the existing PayPal integration. Recorded in this file (Money model section), `system_blueprint.json` `moneyModel` and `docs/MASTER_PROMPT.md`.
 - PayPal read-only check: `insane-solar.html` has the PayPal JS SDK button for the £50 refundable deposit; `netlify/functions/verify-paypal.mts` + `netlify/lib/paypal-verify.ts` verify it server-side (Orders API, payee merchant id, custom_id, one-time use in Blobs store `paypal-orders`). `data/support-config.json` has PayPal disabled. Production verify-paypal answers 503 `configured:false`, so the 99p page, supporter-verify function and helper were **not built** (per the rule: no payment build without the env vars).
 - Docs only. No code, payment, login, signup, crisis.html, manifesto or PR #92 change.
+
+
+## 2026-11-15 — Grok: AI brain backup (personas, rules, best prompts)
+- Shane asked to save every AI's best prompts, rules and personas, including past versions, so they survive if a platform or government removes them.
+- New folder `docs/ai-brain/`: README (how to restore), `shared-rules.md`, `CHANGELOG.md` dated 15 Nov 2026, and one file each for Arron, Grok Bot, Dola, New Bot, New Bot 1, GPT, Claude, Gemini and Copilot.
+- Recovered from git history (not present as standalone keys on current main): `arronOrchestratorPrompt` (`7d26841`), compact `masterPrompt` (`612cd9e`), `knowledgeBase` ecosystem map, note of soul-file placeholder restorations (including `052e1aa`), and the deleted 23 Sep 2026 `Components/ArronCompanion.js` wisdom-engine welcome (unverified heritage claims and a Middlesbrough line are flagged, not treated as fact). Phone numbers in old prompts were not copied.
+- Pointer added at the top of this file. Google Drive folder "Pleading Sanity AI Brain Backup" is the off-platform mirror.
+- Gaps: New Bot and New Bot 1 agent profiles were empty; earlier Gemini original prompts were never supplied; a weekly refresh job is recommended but not scheduled yet.
+- Docs only. Not touched: payment code, login, signup, crisis.html, manifesto, soul file, PR #92.
