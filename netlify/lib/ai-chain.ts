@@ -8,12 +8,14 @@
 // in covenant.chain must also be GPT, Claude, Gemini, Grok.
 // Claude, GPT and the first Gemini hop go through Netlify AI Gateway — no keys in code.
 // If that Gemini hop times out, comes back empty, or errors, one more try uses
-// gemini-2.5-flash. That try reads GEMINI_API_KEY from the environment. The key
+// GEMINI_DIRECT_MODEL (gemini-3.5-flash-lite). That try reads GEMINI_API_KEY (or ARRON_GEMINI_KEY) from the environment. The key
 // is never written here. While GOOGLE_GEMINI_BASE_URL is set, that retry stays
 // on the gateway. A real owner key replaces the gateway injection, so the retry
 // then calls Google directly. Grok talks to xAI directly. The live site stores the key as GROK_API_KEY,
 // and an older copy as xAI_KEY. Either name is enough. No key is written here.
 // If neither name is set, he sits this one out.
+// KEY DROP-IN: every lab also reads ARRON_<LAB>_KEY first (ARRON_OPENAI_KEY, ARRON_ANTHROPIC_KEY,
+// ARRON_GEMINI_KEY, ARRON_GROK_KEY, ARRON_OPENROUTER_KEY). The full name lists are in ./provider-config.js.
 // COST GUARDS: no hidden SDK retries (the chain itself is the retry), one hard
 // deadline for the whole walk, a cap on how much history is sent, and a daily
 // admission counter (../lib/rate-limit.ts). Spending money is never switched on by profit.
@@ -32,6 +34,16 @@ import {
   readGeminiKey,
   walkProviders,
 } from "./provider-fallback.js";
+import {
+  CURRENT_MODELS,
+  GROK_SECOND_MODEL,
+  chooseModel,
+  failureTag,
+  keySources,
+  providerStatusSnapshot,
+  recordProviderStatus,
+  resolveKey,
+} from "./provider-config.js";
 
 // Every lab gets at most 4.5s. A timeout steps down to the next mind. No single point of failure.
 const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
@@ -39,21 +51,28 @@ const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
 const MIN_ATTEMPT_MS = 2_500;
 // maxRetries 0 everywhere: an SDK retry is a second paid call the chain cannot see, and on an
 // exhausted quota (HTTP 429) it only repeats the failure. Failover to the next mind is the retry.
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY || process.env.Anthropic_Key_Arron || "", timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
-const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY || "", httpOptions: { timeout: LAB_TIMEOUT_MS } });
+// Keys come from ./provider-config.js (ANTHROPIC_API_KEY, OPENAI_API_KEY, GEMINI_API_KEY, GROK_API_KEY and their aliases).
+// A drop-in ARRON_* key always goes straight to the lab, never through a gateway base URL.
+const openaiKey = resolveKey("openai");
+const anthropicKey = resolveKey("anthropic");
+const geminiKey = resolveKey("gemini");
+const anthropic = new Anthropic({ apiKey: anthropicKey.value, ...(anthropicKey.dropIn ? { baseURL: "https://api.anthropic.com" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const openai = new OpenAI({ apiKey: openaiKey.value, ...(openaiKey.dropIn ? { baseURL: "https://api.openai.com/v1" } : {}), timeout: LAB_TIMEOUT_MS, maxRetries: 0 });
+const gemini = new GoogleGenAI({ apiKey: geminiKey.value, httpOptions: { timeout: LAB_TIMEOUT_MS, ...(geminiKey.dropIn ? { baseUrl: GEMINI_GOOGLE_BASE } : {}) } });
 const GROK_TIMEOUT_MS = LAB_TIMEOUT_MS;
 // Default length of the whole walk (labs, then spares) when the caller gives no deadline. It is a hard
 // deadline: every request carries an abort signal for the time left, so nothing outlasts it.
 const CHAIN_BUDGET_MS = 36_000;
-const grokKey = process.env.GROK_API_KEY || process.env.xAI_KEY || process.env.XAI_API_KEY || "";
+// GROK_API_KEY, then xAI_KEY, then XAI_API_KEY (ARRON_GROK_KEY first when set).
+const grokKey = resolveKey("grok").value;
 const grok = grokKey
   ? new OpenAI({ apiKey: grokKey, baseURL: "https://api.x.ai/v1", timeout: GROK_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // A stored OpenAI key is only "direct" when Netlify did not inject it for the AI Gateway.
 // If OPENAI_BASE_URL is set, OPENAI_API_KEY is the Gateway credential and must never be sent to api.openai.com.
-const openaiDirect = process.env.OPENAI_API_KEY && !process.env.OPENAI_BASE_URL
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
+// A drop-in ARRON_OPENAI_KEY is already direct, so there is no second try on the same key.
+const openaiDirect = openaiKey.value && !openaiKey.dropIn && !process.env.OPENAI_BASE_URL
+  ? new OpenAI({ apiKey: openaiKey.value, baseURL: "https://api.openai.com/v1", timeout: LAB_TIMEOUT_MS, maxRetries: 0 })
   : null;
 // Free last-resort minds. Netlify injects the OpenRouter door. No key is written here.
 // They are not in the council. They speak only when GPT, Claude, Gemini and Grok are all quiet.
@@ -123,24 +142,23 @@ const PROVIDERS: Provider[] = ["openai", "anthropic", "gemini", "grok"];
 // model names that do not exist yet, which would make every hop return 400 and
 // silence Arron. Netlify env (OPENAI_MODEL / CLAUDE_MODEL / GEMINI_MODEL /
 // GROK_MODEL) is the tunable source of truth. The soul file is never modified.
+// One exception: an env id the lab has shut down (gemini-2.0-flash-exp, grok-2, ...) is ignored
+// and the soul id is used, so one stale Netlify value cannot silence a mind. See provider-config.js.
 const ENV_MODEL: Record<Provider, string | undefined> = {
   openai: process.env.OPENAI_MODEL,
   anthropic: process.env.CLAUDE_MODEL || process.env.ANTHROPIC_MODEL,
   gemini: process.env.GEMINI_MODEL,
   grok: process.env.GROK_MODEL,
 };
+const choices: Partial<Record<Provider, { model: string; source: string; ignored: string | null }>> = {};
 const realModel = (p: Provider, soulModel: string): string => {
-  const env = (ENV_MODEL[p] || "").trim();
-  return env || soulModel;
+  const choice = chooseModel(p, ENV_MODEL[p], soulModel);
+  if (choice.ignored && !choices[p]?.ignored) console.warn(`AI chain: ignoring retired ${p} model id from env (${choice.ignored}), using ${choice.model}`);
+  if (!choices[p]) choices[p] = choice;
+  return choice.model;
 };
 // Fallback only used when the soul covenant has no chain at all. These must be
 // real, currently-available model IDs — never aspirational/future names.
-const FALLBACK_CHAIN: Link[] = [
-  { provider: "openai", model: "gpt-4o", creatorModel: "gpt-4o" },
-  { provider: "anthropic", model: "claude-3-5-sonnet-20241022", creatorModel: "claude-3-5-sonnet-20241022" },
-  { provider: "gemini", model: "gemini-1.5-pro", creatorModel: "gemini-1.5-pro" },
-  { provider: "grok", model: "grok-2", creatorModel: "grok-2" },
-];
 const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : [])
   .filter((l) => PROVIDERS.includes(l?.provider as Provider) && typeof l.model === "string" && l.model)
   .map((l) => {
@@ -150,7 +168,12 @@ const fromSoul = (Array.isArray(SOUL.covenant?.chain) ? SOUL.covenant.chain : []
     const creatorModel = realModel(p, creatorSoul);
     return { provider: p, model, creatorModel };
   });
-export const CHAIN: Link[] = fromSoul.length ? fromSoul : FALLBACK_CHAIN;
+// Checked against each lab's model page on 14 Nov 2026 (CURRENT_MODELS in provider-config.js).
+// Built only when the soul file has no chain, so the soul ids stay first.
+export const CHAIN: Link[] = fromSoul.length ? fromSoul : PROVIDERS.map((provider) => {
+  const model = realModel(provider, CURRENT_MODELS[provider]);
+  return { provider, model, creatorModel: model };
+});
 
 class OutOfTime extends Error { name = "OutOfTime"; }
 // Per-request options for the time left: a timeout and an abort signal, both capped at one lab's turn.
@@ -165,7 +188,7 @@ const defaultDeadline = () => Date.now() + LAB_TIMEOUT_MS;
 // Do not try the next model name, do not add credits from this file, and do not replace this chain to "fix" it.
 async function callGrok(model: string, system: string, turns: Turn[], maxTokens: number, deadline = defaultDeadline()) {
   if (!grok) throw new Error("No Grok key on this deploy");
-  const names = model === "grok-3" ? [model] : [model, "grok-3"];
+  const names = model === GROK_SECOND_MODEL ? [model] : [model, GROK_SECOND_MODEL];
   let last: unknown;
   for (const id of names) {
     try {
@@ -180,7 +203,7 @@ async function callGrok(model: string, system: string, turns: Turn[], maxTokens:
       if (error instanceof OutOfTime) throw error;
       last = error;
       const reason = why(error);
-      if (/spending-limit|rejected-key|billing/.test(reason)) {
+      if (/spending-limit|rejected-key|billing|forbidden|quota/.test(reason)) {
         console.warn(`AI chain: ${id} unavailable (${reason}). Same account, so the next Grok name is not called.`);
         break;
       }
@@ -212,7 +235,7 @@ async function callOpenAI(model: string, system: string, turns: Turn[], maxToken
   return (res.choices[0]?.message?.content ?? "").trim();
 }
 
-const geminiOnGateway = () => Boolean((process.env.GOOGLE_GEMINI_BASE_URL || "").trim());
+const geminiOnGateway = () => !geminiKey.dropIn && Boolean((process.env.GOOGLE_GEMINI_BASE_URL || "").trim());
 let geminiDirect: GoogleGenAI | null = null;
 
 type GeminiGenerate = (request: {
@@ -221,7 +244,7 @@ type GeminiGenerate = (request: {
   config: Record<string, unknown>;
 }) => Promise<{ text?: string }>;
 
-// Second Gemini try. Gateway model first is askGemini. This uses gemini-2.5-flash.
+// Second Gemini try. Gateway model first is askGemini. This uses GEMINI_DIRECT_MODEL.
 // generate is for tests. Production reads GEMINI_API_KEY and never logs it.
 export async function callGeminiFallback(
   messages: Turn[],
@@ -276,12 +299,20 @@ async function askGemini(model: string, system: string, turns: Turn[], maxTokens
     if (!geminiOnGateway() && (status === 402 || status === 429)) throw error;
     gatewayError = error;
   }
-  if (!(process.env.GEMINI_API_KEY || "").trim()) {
+  if (!resolveKey("gemini").value) {
     throw gatewayError instanceof Error ? gatewayError : new Error("Gemini was quiet");
   }
   console.warn(`AI chain: ${model} unavailable (${why(gatewayError)}), trying ${GEMINI_DIRECT_MODEL}`);
-  const text = await callGeminiFallback(turns, system, deadline);
-  return { text, model: GEMINI_DIRECT_MODEL };
+  try {
+    const text = await callGeminiFallback(turns, system, deadline);
+    return { text, model: GEMINI_DIRECT_MODEL };
+  } catch (error) {
+    // Keep both refusals for the health check: the chain model first, then the direct retry.
+    if (error && typeof error === "object" && !(error instanceof OutOfTime)) {
+      Object.assign(error, { geminiTrail: `${model}: ${why(gatewayError)}; ${GEMINI_DIRECT_MODEL}: ${why(error)}` });
+    }
+    throw error;
+  }
 }
 
 // One call to one mind. `deadline` (epoch ms) is a hard stop: the request is aborted when it passes.
@@ -297,22 +328,11 @@ export async function ask(provider: Provider, model: string, system: string, tur
 }
 
 // Only the reason a lab failed is logged — never the prompt, the messages, the key, or the raw vendor body.
-const why = (error: unknown) => {
-  const e = error as { status?: unknown; name?: unknown; code?: unknown; message?: unknown; error?: { code?: unknown; message?: unknown } };
-  const status = typeof e?.status === "number" ? `HTTP ${e.status}` : typeof e?.name === "string" ? e.name : "error";
-  const bits = [e.code, e.message, e.error?.code, e.error?.message].filter((v): v is string => typeof v === "string");
-  const text = bits.join(" ");
-  const tag =
-    /spending-limit|run out of credits|need a grok subscription/i.test(text) ? "spending-limit" :
-    e.status === 401 ? "rejected-key" :
-    e.status === 402 ? "billing" :
-    e.status === 429 ? "quota" :
-    "";
-  return tag ? `${status} ${tag}` : status;
-};
+// Status code plus a plain tag: rejected-key (401), billing (402), forbidden (403), model-not-found (404), quota (429), spending-limit.
+const why = (error: unknown): string => failureTag(error);
 
 function spareClient() {
-  const key = process.env.OPENROUTER_API_KEY;
+  const key = resolveKey("openrouter").value;
   if (!key) return null;
   const base = (process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1").replace(/\/$/, "");
   return new OpenAI({ apiKey: key, baseURL: base, timeout: 8_000, maxRetries: 0 });
@@ -320,7 +340,10 @@ function spareClient() {
 
 async function runSpares(system: string, turns: Turn[], maxTokens: number, deadline: number) {
   const client = spareClient();
-  if (!client) return null;
+  if (!client) {
+    recordProviderStatus("openrouter", false, "no key");
+    return null;
+  }
   const voice = `${system}\nYou are covering for Arron. Same gentle British English. Do not name a lab. If the person may be in danger or thinking of harming themselves, stay with them and give the real lines: 999 if in immediate danger, Samaritans free on 116 123, text SHOUT to 85258, NHS 111 option 2 for mental health support. Never promise to keep secrets.`;
   const paidOk = paidSparesApproved();
   const line = [
@@ -336,11 +359,15 @@ async function runSpares(system: string, turns: Turn[], maxTokens: number, deadl
         messages: [{ role: "system", content: voice }, ...turns],
       }, slot(deadline));
       const text = (res.choices[0]?.message?.content ?? "").trim();
-      if (text) return { text, provider: `spare:${spare.name}`, model: spare.model };
+      if (text) {
+        recordProviderStatus("openrouter", true, "ok", spare.model);
+        return { text, provider: `spare:${spare.name}`, model: spare.model };
+      }
       console.warn(`AI chain: empty reply from spare ${spare.name}`);
     } catch (error) {
       if (error instanceof OutOfTime) { console.warn("AI chain: time budget spent, spares stop here"); break; }
       console.warn(`AI chain: spare ${spare.name} unavailable (${why(error)})`);
+      recordProviderStatus("openrouter", false, why(error), spare.model);
     }
   }
   return null;
@@ -362,6 +389,7 @@ async function admit({ weight = 1, crisis = false, admitted = false }: ChainOpti
   if (admitted) return;
   if (!(await allowToday("site", { weight, crisis }))) {
     console.warn("AI chain: daily AI budget reached, no mind is called");
+    rememberFailure("budget", "daily AI budget reached (PS_AI_DAILY_CAP)");
     throw new OverBudget("Daily AI budget reached");
   }
 }
@@ -393,8 +421,9 @@ function isCircuitOpen(provider: string): boolean {
   return false;
 }
 
-function recordHop(provider: string, success: boolean, status?: string | number) {
+function recordHop(provider: string, success: boolean, status?: string | number, model?: string) {
   const b = circuitBreakers[provider] ??= { failures: 0, until: 0 };
+  recordProviderStatus(provider, success, status, model);
   if (success) {
     b.failures = 0;
     return;
@@ -424,24 +453,27 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
         try {
           const got = await askGemini(link.model, system, context, maxTokens, deadline);
           if (got.text) {
-            recordHop(link.provider, true);
+            recordHop(link.provider, true, "ok", got.model);
             return got;
           }
-          recordHop(link.provider, false, "empty");
+          recordHop(link.provider, false, "empty", link.model);
           return "";
         } catch (error) {
           if (error instanceof OutOfTime) throw error;
-          recordHop(link.provider, false, why(error));
+          const trail = (error as { geminiTrail?: unknown })?.geminiTrail;
+          recordHop(link.provider, false, typeof trail === "string" ? trail : why(error), link.model);
           throw error;
         }
       }
       const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
       let hopFailure = "empty-or-failed";
+      let hopModel = link.model;
       for (const model of models) {
+        hopModel = model;
         try {
           const text = await ask(link.provider, model, system, context, maxTokens, deadline);
           if (text) {
-            recordHop(link.provider, true);
+            recordHop(link.provider, true, "ok", model);
             return { text, model };
           }
           console.warn(`AI chain: empty reply from ${model}, trying the next`);
@@ -452,7 +484,7 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
         }
       }
       // One hop counts once, however many of its models were tried.
-      recordHop(link.provider, false, hopFailure);
+      recordHop(link.provider, false, hopFailure, hopModel);
       return "";
     };
   }
@@ -461,10 +493,36 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
     return { text: won.text, provider: won.provider as Provider, model: won.model };
   } catch (error) {
     if (error instanceof OutOfTime) throw new Error("Every AI provider failed (time budget spent)");
+    if (!spares) {
+      // OpenRouter is wired as the last hop, but personal chats only reach it after the Owner's privacy review.
+      console.warn("[AI-HOP-SKIP] hop=openrouter privacy gate (PS_SPARES_PRIVACY_APPROVED not set)");
+      recordProviderStatus("openrouter", false, "skipped: privacy gate PS_SPARES_PRIVACY_APPROVED not set");
+    }
     const spare = spares ? await runSpares(system, context, maxTokens, deadline) : null;
     if (spare) return spare;
     throw new Error("Every AI provider failed");
   }
+}
+
+// The NAME of the env var that supplies a lab's key, or null. Never the value.
+export const keyNameFor = (provider: string): string | null => resolveKey(provider).name;
+export const GEMINI_FALLBACK_MODEL = GEMINI_DIRECT_MODEL;
+
+// What /api/arron/health shows: per-provider last status on this instance, the model each lab
+// uses and where that id came from, and the NAME of the env var that supplied each key. Never a value.
+export function chainDiagnostics() {
+  const providers = providerStatusSnapshot() as Record<string, Record<string, unknown>>;
+  for (const link of CHAIN) {
+    providers[link.provider] = { ...(providers[link.provider] || { ok: null, status: "not tried on this instance" }), circuitOpen: isCircuitOpen(link.provider) };
+  }
+  if (!providers.openrouter) providers.openrouter = { ok: null, status: "not tried on this instance" };
+  return {
+    order: CHAIN.map((link) => link.provider),
+    providers,
+    models: Object.fromEntries(CHAIN.map((link) => [link.provider, { model: link.model, source: choices[link.provider]?.source ?? "soul", ignoredEnv: choices[link.provider]?.ignored ?? null }])),
+    keySources: keySources(),
+    spares: { wired: true, personalChatsAllowed: personalSparesAllowed() },
+  };
 }
 
 // The Owner's "one family" reply: one mind drafts, a different mind checks and improves it.
