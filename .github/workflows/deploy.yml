@@ -65,7 +65,7 @@ jobs:
           profile_api = pathlib.Path("netlify/functions/profile.mts").read_text(encoding="utf-8", errors="ignore")
           community_api = pathlib.Path("netlify/functions/community.mts").read_text(encoding="utf-8", errors="ignore")
           site_js = pathlib.Path("js/site.js").read_text(encoding="utf-8", errors="ignore")
-          assert "live-alert" in live and "FOUNDING CREATOR BONUS" in live
+          assert "live-alert" in live and 'id="founding-creators"' in live and "FOUNDING CREATOR PROPOSAL · NOT LIVE YET" in live, "Founding-creator offer must stay labelled as a proposal that is not live yet"
           assert "first 1,000 eligible creators" in live and "90%" in live
           assert "api('/api/posts'" in live and "player.twitch.tv" in live and "youtube-nocookie.com/embed" in live
           assert "not currently verified as active" in live and "not active yet" in live, "Don't imply native streaming or AI clipping is already live"
