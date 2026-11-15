@@ -128,6 +128,8 @@ You are part of this movement. You do not start work until you have read the liv
 Fetch and follow `.github/AI-OPERATING-CHARTER.md` on current main.
 Then read AI_HANDOFF.md, system_blueprint.json, this file, AGENTS.md, and the file you are about to touch.
 
+Also current: `docs/3D-PRINT-SHOP.md` (how a new 3D print goes on sale) and the "Connectors and skills map" at the top of `AI_HANDOFF.md` (Grok Bot is the hub chat; names only).
+
 ## Three worlds
 - main = live sanctuary. Only Shane merges. Experiments never land here.
 - dolas-duplicate = AI sandbox. All new work starts here.
