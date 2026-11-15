@@ -1,4 +1,4 @@
-/* Profile songs list. Moved out of an inline <script> in profile.html on 15 Nov 2026 because the page CSP blocked it. Same code, unchanged. */
+/* Profile songs list. Moved out of an inline <script> in profile.html on 15 Nov 2026 because the page CSP blocked it. Same code, plus one check: only an 11-character YouTube id is ever put in the player URL (15 Nov 2026). */
  (function(){
    'use strict';
    var KEY='ps-profile-songs-v1';
@@ -20,7 +20,7 @@
          songs.splice(i,1); writeLocal(songs.map(function(x){return {id:x.youtubeId||x.id,title:x.title,artist:x.artist,isPublic:x.visibility==='public'||x.isPublic};})); render();
        });
        head.appendChild(t); head.appendChild(rm); li.appendChild(head);
-       var frame=document.createElement('iframe'); frame.src='https://www.youtube-nocookie.com/embed/'+(s.youtubeId||s.id); frame.title='YouTube player: '+(s.title||'song'); frame.loading='lazy'; frame.referrerPolicy='strict-origin-when-cross-origin'; frame.allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px';
+       var vid=String(s.youtubeId||s.id||''); if(!/^[A-Za-z0-9_-]{11}$/.test(vid)){ list.appendChild(li); return; } var frame=document.createElement('iframe'); frame.src='https://www.youtube-nocookie.com/embed/'+encodeURIComponent(vid); frame.title='YouTube player: '+(s.title||'song'); frame.loading='lazy'; frame.referrerPolicy='strict-origin-when-cross-origin'; frame.allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'; frame.style.cssText='display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px';
        li.appendChild(frame); list.appendChild(li);
      });
      if(!songs.length){ var p=document.createElement('p'); p.style.color='#64748b'; p.textContent='No songs added yet.'; list.appendChild(p); }
