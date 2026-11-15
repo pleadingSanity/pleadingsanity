@@ -1,7 +1,7 @@
 /* ==========================================================================
    Shard: Radio + Music + Live + Creator/Social/Feed additive polish.
    Loaded LAST on those pages only. Append/override only — nothing is removed.
-   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black.
+   Palette: brand amber #f59e0b · amber #fbbf24 · teal #2dd4bf on near-black.
    No purple / violet / indigo / lavender. Evolution, not erasure.
    ========================================================================== */
 
@@ -90,7 +90,7 @@
   box-shadow: 0 0 14px rgba(251, 191, 36, .35);
 }
 .radio-vote-dislike.is-active {
-  box-shadow: 0 0 14px rgba(255, 107, 107, .35);
+  box-shadow: 0 0 14px rgba(56, 189, 248, .35);
 }
 
 /* ---- 5. Playlist buttons: prominent, consistent hit. */

@@ -2,11 +2,11 @@
    Shard 3 (Solar + AI Office + Shop + Support-us) additive polish.
    Loaded LAST on: insane-solar.html, solar-ai-office.html, shop.html, support-us.html.
    Evolution Not Erasure — append/override only. Never removes a working hook/class.
-   Palette: coral #ff6b6b · amber #fbbf24 · teal #2dd4bf on near-black. Forbidden hues excluded.
+   Palette: brand amber #f59e0b · amber #fbbf24 · teal #2dd4bf on near-black. Forbidden hues excluded.
    ========================================================================== */
 
 :root{
-  --shard-coral:#ff6b6b;
+  --shard-coral:#f59e0b;
   --shard-amber:#fbbf24;
   --shard-teal:#2dd4bf;
   --shard-ink:#0b0f19;
@@ -39,10 +39,10 @@
   box-shadow: 0 18px 44px -18px rgba(45,212,191,.35), 0 6px 18px -8px rgba(251,191,36,.18);
   border-color: rgba(45,212,191,.55);
 }
-/* Dashed "coming soon" cards get a coral-tinted lift instead of teal */
+/* Dashed "coming soon" cards get an amber-tinted lift instead of teal */
 .support-card-soon:hover{
-  box-shadow: 0 18px 44px -18px rgba(255,107,107,.28);
-  border-color: rgba(255,107,107,.5);
+  box-shadow: 0 18px 44px -18px rgba(245,158,11,.28);
+  border-color: rgba(245,158,11,.5);
 }
 
 /* ---------- Focus-visible: consistent amber/teal rings, forbidden hues excluded ---------- */
