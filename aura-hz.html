@@ -16,10 +16,10 @@
   <link rel="stylesheet" href="/css/mobile-responsive.css" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://pleadingsanity.co.uk/aura-hz.html" />
-  <title>Aura Hz One — Frequency Player &amp; Founder's 100 | Pleading Sanity</title>
-  <meta name="description" content="Aura Hz One hardware page. Pure Web Audio sine-wave frequency player: 174Hz, 285Hz, 432Hz, 528Hz — allowed healing tones, 4-7-8 breath sync and Source Stream mode. Founder's 100 refundable deposit. Not a medical device, for relaxation only." />
+  <title>Aura Hz One — Frequency Player | Pleading Sanity</title>
+  <meta name="description" content="Aura Hz One plays 174, 285, 432, 528, 741 and 963 Hz, with breath sync and Source Stream. Founder's 100 deposit. For relaxation only, not a medical device." />
   <meta property="og:title" content="Aura Hz One — Frequency Player | Pleading Sanity" />
-  <meta property="og:description" content="Rise From Madness. Evolution, Not Erasure. A grounded frequency player and the Aura Hz One hardware Founder's 100 deposit. For relaxation only." />
+  <meta property="og:description" content="A grounded frequency player for 174, 285, 432, 528, 741 and 963 Hz, and the Aura Hz One Founder's 100 deposit. For relaxation only." />
   <meta property="og:url" content="https://pleadingsanity.co.uk/aura-hz.html" />
   <meta name="twitter:card" content="summary_large_image" />
   <style>
@@ -207,6 +207,16 @@ html,body{overflow-x:hidden;max-width:100%}
         <span class="f-num">528Hz</span>
         <span class="f-label">Transformation / The Source</span>
       </button>
+      <button type="button" class="freq-btn" data-freq="741" data-purpose="Brighter, still soft — keep it short if you are new" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M12 4v16"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="f-num">741Hz</span>
+        <span class="f-label">Brighter, still soft</span>
+      </button>
+      <button type="button" class="freq-btn" data-freq="963" data-purpose="The highest tone — volume down, only a few minutes" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg>
+        <span class="f-num">963Hz</span>
+        <span class="f-label">The highest</span>
+      </button>
     </div>
 
     <div class="transport">
@@ -314,7 +324,8 @@ html,body{overflow-x:hidden;max-width:100%}
   var volume = 0.15;
   var RAMP_MS = 400;
 
-  var FREQ_ORDER = [174, 285, 432, 528];
+  var FREQ_ORDER = [174, 285, 432, 528, 741, 963];
+  var SOURCE_ORDER = [174, 285, 432, 528];
 
   function ensureCtx(){
     if (!ctx) {
@@ -452,7 +463,7 @@ html,body{overflow-x:hidden;max-width:100%}
   var SOURCE_MS = 90000; // ~90s per frequency
   function sourceAdvance(){
     if (!sourceOn) return;
-    if (sourceIdx >= FREQ_ORDER.length - 1) {
+    if (sourceIdx >= SOURCE_ORDER.length - 1) {
       // arrived at 528 — hold, show LIVE
       setFreq(528, "Transformation / The Source — target coherence state");
       document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — resting at 528Hz coherence';
@@ -460,10 +471,10 @@ html,body{overflow-x:hidden;max-width:100%}
       return;
     }
     sourceIdx++;
-    var f = FREQ_ORDER[sourceIdx];
+    var f = SOURCE_ORDER[sourceIdx];
     var btn = document.querySelector('.freq-btn[data-freq="' + f + '"]');
     setFreq(f, btn ? btn.getAttribute("data-purpose") : "");
-    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream ' + f + 'Hz (' + (sourceIdx+1) + '/4)';
+    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream ' + f + 'Hz (' + (sourceIdx+1) + '/' + SOURCE_ORDER.length + ')';
     sourceTimer = setTimeout(sourceAdvance, SOURCE_MS);
   }
   function startSource(){
@@ -474,7 +485,7 @@ html,body{overflow-x:hidden;max-width:100%}
     document.getElementById("sourceStreamLabel").textContent = "Source Stream: on";
     document.getElementById("sourceStreamBtn").classList.add("on");
     document.getElementById("sourceStreamBtn").setAttribute("aria-pressed", "true");
-    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream 174Hz (1/4)';
+    document.getElementById("sourceStatus").innerHTML = '<span class="live-dot"></span>LIVE — Source Stream 174Hz (1/' + SOURCE_ORDER.length + ')';
     sourceTimer = setTimeout(sourceAdvance, SOURCE_MS);
   }
   function stopSource(){
