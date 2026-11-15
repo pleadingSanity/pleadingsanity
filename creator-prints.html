@@ -50,6 +50,7 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid rgba(192,200,208,.15);
 <div id="app" hidden>
 <section class="cp-card">
 <h2>Print details</h2>
+<p class="cp-warn"><strong>Original designs only.</strong> No film, comic, game or cartoon characters or names (the server refuses them). Use print files you designed or that have a commercial-use licence, and record it below.</p>
 <p class="cp-warn"><strong>Toys:</strong> anything a child under 14 would play with is a toy. A toy cannot go live until its technical file is complete: EN 71-1, 71-2 and 71-3 evidence, a risk assessment, a signed declaration of conformity, and a UKCA or CE label with your name, address and batch number. The server refuses it otherwise. See docs/3D-PRINT-COMPLIANCE-UK.md.</p>
 <form id="cpForm" class="cp-form">
 <label class="full">Pick an existing print to edit
@@ -57,10 +58,18 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid rgba(192,200,208,.15);
 <label>Name<input name="name" required maxlength="80"></label>
 <label>Short id (letters, numbers, dashes)<input name="id" required maxlength="60" pattern="[a-z0-9][a-z0-9-]{1,59}"></label>
 <label class="full">Description (honest: size, material, what it is for)<textarea name="description" rows="3" required maxlength="600"></textarea></label>
-<label>Category<select name="category"><option value="desk">Desk</option><option value="organiser">Organiser</option><option value="keyring">Keyring</option><option value="merch">Brand merch</option><option value="home">Home</option><option value="toy">Toy (needs compliance)</option></select></label>
+<label>Category<select name="category"><option value="keyring">Keyring</option><option value="desk">Desk</option><option value="organiser">Organiser</option><option value="merch">Brand merch</option><option value="home">Home</option><option value="toy">Toy (needs compliance)</option></select></label>
 <label>Colour<select name="colour"><option value="black">Black</option><option value="white">White</option><option value="black-white">Black and white</option></select></label>
-<label>Material<input name="material" value="PLA" maxlength="40"></label>
-<label>Price (GBP)<input name="price_gbp" type="number" min="0.5" max="500" step="0.01" required></label>
+<label>Material (exact brand)<select name="material"><option>SUNLU PLA+ 1.75 mm, black</option><option>FLASHFORGE Rapid PLA 1.75 mm, white</option><option>SUNLU PLA+ 1.75 mm, black with FLASHFORGE Rapid PLA 1.75 mm, white</option><option>FLASHFORGE Rapid PLA 1.75 mm, white with SUNLU PLA+ 1.75 mm, black</option></select></label>
+<label>Shape<select name="form"><option value="flat">Flat 2D tag (not a toy)</option><option value="3d">3D or articulated figure (keyrings count as toys)</option></select></label>
+<label>Clothing range<select name="range"><option value="">None</option><option value="signature">Signature black set</option><option value="graphic">Graphic capsule</option><option value="womens">Women's set</option></select></label>
+<label>Matches clothing item (e.g. "PS-H01 Crying Brain hoodie")<input name="matches" maxlength="120"></label>
+<label>Batch code (on the parcel insert too)<input name="batch" maxlength="40" value="B001"></label>
+<label class="tick"><input name="first_batch" type="checkbox" value="true" checked> First batch (early handmade, reduced price)</label>
+<label class="full">Print file licence (e.g. "Original design, Pleading Sanity" or "MakerWorld commercial licence, link, checked date")<input name="licence" maxlength="300"></label>
+<label class="full">Material note (blank = standard PLA note)<textarea name="material_note" rows="2" maxlength="400"></textarea></label>
+<label class="full">Warnings (blank = standard keyring warning)<textarea name="warnings" rows="2" maxlength="600"></textarea></label>
+<label>Price (GBP)<input name="price_gbp" type="number" min="0.5" max="500" step="0.01" value="2" required></label>
 <label>Age rating<select name="age_rating"><option value="14+">14+ (not a toy)</option><option value="adult">Adult</option><option value="8+">8+ (toy)</option><option value="3+">3+ (toy)</option><option value="0+">0+ (toy, Annex II testing)</option></select></label>
 <label>Status<select name="status"><option value="draft">Draft (hidden)</option><option value="live">Live (on sale)</option><option value="retired">Retired</option></select></label>
 <label>Stock<input name="stock" type="number" min="0" max="999" value="0"></label>
@@ -73,6 +82,21 @@ th,td{text-align:left;padding:8px;border-bottom:1px solid rgba(192,200,208,.15);
 <p class="full" style="display:flex;gap:10px;flex-wrap:wrap"><button class="cp-btn" type="submit">Save</button><button class="cp-btn alt" type="reset" id="cpReset">Clear</button></p>
 <p id="cpStatus" class="full" role="status" aria-live="polite"></p>
 </form>
+</section>
+
+<section class="cp-card">
+<h2>Delivery</h2>
+<form id="cpDelivery" class="cp-form">
+<label>UK post price per order (GBP)<input name="post_gbp" type="number" min="0" max="50" step="0.01"></label>
+<label class="tick"><input name="collect" type="checkbox" value="true"> Offer free Leicester collection</label>
+<p class="full"><button class="cp-btn" type="submit">Save delivery</button> <span id="cpDelStatus" role="status"></span></p>
+</form>
+</section>
+
+<section class="cp-card">
+<h2>Reviews waiting for approval</h2>
+<p>Only verified buyers can send reviews. Nothing shows on the shop until you approve it.</p>
+<div id="cpReviews"><p>Loading...</p></div>
 </section>
 
 <section class="cp-card">

@@ -72,13 +72,18 @@ Catalogue: data/prints.json + creator-prints.html. Rules: netlify/lib/prints.ts.
     <h2 id="pr-check-title" style="margin:0 0 .4rem;color:#eef6ff">Checkout</h2>
     <p id="pr-summary" style="margin:0 0 1rem"></p>
     <form id="pr-form" class="pr-form" novalidate>
+      <fieldset class="pr-full" style="border:1px solid rgba(192,200,208,.25);border-radius:12px;padding:10px 14px">
+        <legend style="color:#c0c8d0;font-size:.9rem;padding:0 6px">Delivery</legend>
+        <label style="flex-direction:row;align-items:center;gap:10px"><input type="radio" name="delivery" value="post" checked style="min-height:22px;width:22px"> <span id="pr-post-label">UK post</span></label>
+        <label id="pr-collect-wrap" style="flex-direction:row;align-items:center;gap:10px"><input type="radio" name="delivery" value="collect" style="min-height:22px;width:22px"> Collect in Leicester (free, we arrange a time by message)</label>
+      </fieldset>
       <label>Quantity<select id="pr-qty" name="qty"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></label>
-      <label>Email (for the dispatch note)<input name="email" type="email" autocomplete="email" required maxlength="254" /></label>
+      <label>Email (for your order updates)<input name="email" type="email" autocomplete="email" required maxlength="254" /></label>
       <label class="pr-full">Full name<input name="name" autocomplete="name" required maxlength="80" /></label>
-      <label class="pr-full">Address line 1<input name="line1" autocomplete="address-line1" required maxlength="100" /></label>
-      <label class="pr-full">Address line 2 (optional)<input name="line2" autocomplete="address-line2" maxlength="100" /></label>
-      <label>Town or city<input name="city" autocomplete="address-level2" required maxlength="60" /></label>
-      <label>Postcode (UK only)<input name="postcode" autocomplete="postal-code" required maxlength="10" /></label>
+      <label class="pr-full pr-post">Address line 1<input name="line1" autocomplete="address-line1" required maxlength="100" /></label>
+      <label class="pr-full pr-post">Address line 2 (optional)<input name="line2" autocomplete="address-line2" maxlength="100" /></label>
+      <label class="pr-post">Town or city<input name="city" autocomplete="address-level2" required maxlength="60" /></label>
+      <label class="pr-post">Postcode (UK only)<input name="postcode" autocomplete="postal-code" required maxlength="10" /></label>
     </form>
     <p id="pr-total" class="pr-amber" style="font-weight:800;font-size:1.2rem;margin:1rem 0 0"></p>
     <div id="pr-paypal"></div>
@@ -88,12 +93,34 @@ Catalogue: data/prints.json + creator-prints.html. Rules: netlify/lib/prints.ts.
     <button type="button" id="pr-cancel" class="pr-btn" style="background:transparent;color:#38bdf8;border:1px solid #38bdf8;margin-top:10px">Choose a different print</button>
   </section>
 
+  <section aria-labelledby="pr-contact-title" class="pr-free">
+    <h2 id="pr-contact-title" style="color:#eef6ff;font-size:1.2rem;margin:0 0 .4rem">Message us</h2>
+    <p style="margin:0">Questions, custom colours or arranging collection: <a id="pr-wa" href="https://wa.me/447711147663" rel="noopener noreferrer" target="_blank" style="color:#00fff0;font-weight:700">WhatsApp</a> or <a href="mailto:shop@pleadingsanity.co.uk" style="color:#00fff0;font-weight:700">shop@pleadingsanity.co.uk</a>.</p>
+  </section>
+
+  <section id="pr-reviews" class="pr-check" aria-labelledby="pr-rev-title" hidden>
+    <h2 id="pr-rev-title" style="margin:0 0 .4rem;color:#eef6ff">Reviews</h2>
+    <div id="pr-rev-list"></div>
+    <h3 style="color:#eef6ff;font-size:1.05rem;margin:1.2rem 0 .4rem">Bought this print? Leave a review</h3>
+    <form id="pr-rev-form" class="pr-form" novalidate>
+      <label>Stars<select name="rating"><option value="5">5 stars</option><option value="4">4 stars</option><option value="3">3 stars</option><option value="2">2 stars</option><option value="1">1 star</option></select></label>
+      <label>Name to show (first name is fine)<input name="name" maxlength="40" autocomplete="given-name"></label>
+      <label>Order reference (from your confirmation)<input name="ref" maxlength="40" autocomplete="off"></label>
+      <label>Email used at checkout<input name="email" type="email" maxlength="254" autocomplete="email"></label>
+      <label class="pr-full">Your review<textarea name="text" rows="3" maxlength="800" style="min-height:90px;padding:8px 12px;border-radius:10px;border:1px solid rgba(192,200,208,.35);background:#0b0f19;color:#eef6ff;font:inherit"></textarea></label>
+      <p class="pr-full" style="margin:0"><button class="pr-btn" type="submit">Send review</button></p>
+      <p id="pr-rev-msg" class="pr-full pr-small" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
   <section aria-labelledby="pr-info-title">
     <h2 id="pr-info-title" style="color:#eef6ff;font-size:1.2rem">Good to know</h2>
     <ul>
-      <li>UK delivery only. A flat delivery charge is added at checkout and shown before you pay.</li>
-      <li>Printed in PLA plastic. Not for food or drink, and not heat-proof: keep away from hot cars, radiators and dishwashers.</li>
-      <li>Items marked 14+ are not toys. Toys are only listed once they have passed UK toy safety checks.</li>
+      <li>UK post (a flat charge shown before you pay) or free collection in Leicester.</li>
+      <li>Materials: SUNLU PLA+ (black) and FLASHFORGE Rapid PLA (white), printed on a Flashforge AD5X. PLA is a plant-based plastic: brittle if dropped hard, softens above about 50-60 C (not in a hot car or on a radiator), and not food-safe as printed.</li>
+      <li>Keyrings are decorative accessories for ages 14+, not toys. Small parts: keep away from children under 3, not for chewing. Toys are only listed once they have passed UK toy safety checks.</li>
+      <li>"First batch" prints are early handmade pieces from a new printer, priced lower because they may show small marks or layer lines. They meet the same safety rules as everything else.</li>
+      <li>Reviews come only from verified buyers and are checked before they appear. No tracking.</li>
       <li>You can cancel within 14 days of delivery under the Consumer Contracts Regulations (personalised prints excepted). Email <a href="mailto:support@pleadingsanity.co.uk" style="color:#38bdf8">support@pleadingsanity.co.uk</a>.</li>
       <li>We keep your name, address and email only to post your order and handle returns. See the <a href="/privacy.html" style="color:#38bdf8">privacy page</a>.</li>
     </ul>
@@ -105,6 +132,7 @@ Catalogue: data/prints.json + creator-prints.html. Rules: netlify/lib/prints.ts.
   </footer>
 </main>
 <script src="/js/site.js" defer></script>
+<script type="module" src="/js/auth.js"></script>
 <script type="module" src="/js/prints.js"></script>
 </body>
 </html>
