@@ -60,6 +60,7 @@
 <link rel="stylesheet" href="/css/radio-icons.css">
 <link rel="stylesheet" href="/css/radio-persist.css">
 <link rel="stylesheet" href="/css/listening-room.css">
+<link rel="stylesheet" href="/css/ps-playlists.css">
 </head>
 <body class="music-room">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -104,6 +105,10 @@
     <audio id="track" preload="none"></audio>
   </div>
   </section>
+  <section id="ps-playlists" class="ps-playlists" aria-labelledby="ps-playlists-title"><span class="radio-kicker">PLEADING SOCIALLY</span><h2 id="ps-playlists-title">Two playlists, kept apart</h2>
+  <p class="note">Shane's own voice and AI-made music are never mixed. Anything made with AI is labelled AI-generated. Tracks appear here only after Shane approves them.</p>
+  <div id="ps-playlists-list" class="ps-pl-grid" aria-live="polite"><p class="ps-pl-soon">Loading the playlists.</p></div>
+  </section>
   <div id="music-slots" aria-label="Shane's playlists on YouTube, Sonos and Amazon Music"></div>
   <p><a href="/sanity-songs.html">Sanity's Songs (YouTube)</a> · <a href="/creator.html">Add a song (owner)</a></p>
 <aside class="ps-donate-strip" aria-label="Support the movement">
@@ -117,6 +122,7 @@
 </main>
 <script type="module" src="/js/music-player.js"></script>
 <script src="/js/music-app-player.js" defer></script>
+<script src="/js/ps-playlists.js" defer></script>
 <script src="/js/site.js" defer></script>
 <script defer src="/js/ps-boost.js"></script>
 <script src="/js/radio-share.js" defer></script></body>

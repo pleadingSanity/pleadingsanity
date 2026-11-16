@@ -1647,3 +1647,10 @@ Verify after a new key (a new deploy or env change takes effect on the next func
   - Marketplace listing cards use icon placeholders; real seller product photos are needed (generated art would misrepresent products).
   - Netlify deploy previews fail with exit code 4 account-wide; production deploys are fine.
 - Not touched: PR #92, login, signup, reset-password, PayPal/payment code, crisis.html, manifesto.
+
+
+## 2026-11-16 — Grok: Pleading Socially playlists and personal AI site benchmark
+- Source main `b075b7d`. Ideas only from public creator-AI products (Jake Paul / Sora 2 cameo, Delphi, Genies, AI YOSHIKI, Berriz, and the CarynAI / Meta celebrity-bot failures). No code, copy or likeness taken. Write-up: `docs/PERSONAL-AI-SITE-BENCHMARK.md`.
+- Music page (`music/index.html`): two separate playlists loaded from `data/ps-playlists.json` — "Pleading Socially - Shane's Voice" and "P.S AI Playlist". AI tracks are labelled AI-generated. A track only plays when `approved` is true and a local `/music/audio/` file exists. Both lists are "coming soon"; no audio was published. In-the-studio titles are the existing Shaney C working drafts, names only.
+- Tests: `tests/ps-playlists.test.mjs`. `npm test`: only the 3 known `fetchUrl` failures. `npm run audit:site`: 0 errors, 0 warnings.
+- Not touched: login, signup, reset-password, payment code, crisis.html, manifesto, PR #92, Netlify env.
