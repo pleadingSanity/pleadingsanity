@@ -1,0 +1,24 @@
+{
+  "updated": "2026-11-16",
+  "note": "Two separate playlists. Shane's own voice and AI-generated music never mix. A track only plays here when Shane has approved it for publishing, its audio file is committed under /music/audio/ and approved is true. Nothing is approved yet, so both lists show as coming soon.",
+  "playlists": [
+    {
+      "id": "shanes-voice",
+      "title": "Pleading Socially - Shane's Voice",
+      "kind": "human",
+      "label": "Shane's own voice",
+      "description": "Original tracks with Shane Cooper's own vocals. Written and voiced by Shane.",
+      "tracks": [],
+      "in_the_studio": ["Rose Up Out the Madness", "Lights Go Down", "Keep It Moving", "Feel the Rush"]
+    },
+    {
+      "id": "ps-ai",
+      "title": "P.S AI Playlist",
+      "kind": "ai",
+      "label": "AI-generated",
+      "description": "Instrumentals and tracks made with AI tools for Pleading Sanity. Every track here is clearly labelled AI-generated and is never presented as Shane's voice.",
+      "tracks": [],
+      "in_the_studio": []
+    }
+  ]
+}
