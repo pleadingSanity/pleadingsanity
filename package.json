@@ -20,7 +20,7 @@
     "@netlify/blobs": "^11.1.7",
     "@netlify/database": "^1.1.0",
     "@netlify/functions": "^6.1.1",
-    "@netlify/identity": "^1.2.0",
+    "@netlify/identity": "^2.0.1",
     "cheerio": "^1.0.0",
     "csso": "^5.0.5",
     "drizzle-kit": "^1.0.0-beta.22",
