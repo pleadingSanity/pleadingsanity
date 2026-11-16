@@ -5,9 +5,10 @@
 //   GET    /api/creations/:id/image                       → the picture
 //   POST   /api/creations/:id          {action: share|unshare}
 //   DELETE /api/creations/:id
-// Images come from a Gemini image model through Netlify AI Gateway
-// (no keys in code) and live in the "post-images" blob store, so a
-// creation can be shared straight to the feed as an image post.
+// Images come from a Gemini image model through a DEDICATED Creations path
+// (completely separate from Arron text chat / ai-chain.ts).
+// Uses CREATIONS_* env vars first, then Netlify AI Gateway injects.
+// Images live in the "post-images" blob store.
 // Every prompt passes the Truth Filter before anything is drawn.
 // ==============================================================
 
@@ -20,7 +21,9 @@ import { creations, profiles } from "../../db/schema.js";
 import { areFriends, currentUser, isCreator, isGuardian, json, logActivity, moderate, readBody, str, unauthorized, logReason } from "../lib/social.js";
 import { visitorKey, withinDailyLimit } from "../lib/studio.js";
 
-const IMAGE_MODEL = "gemini-3.1-flash-image";
+// Dedicated Creations image path — does NOT use OPENAI_API_KEY, ANTHROPIC_API_KEY,
+// GROK_API_KEY or the text AI chain. Only CREATIONS_* + gateway injects.
+const IMAGE_MODEL = process.env.CREATIONS_IMAGE_MODEL || "gemini-2.5-flash-image";
 const DAILY_LIMIT = 6;
 const PAGE = 24;
 
@@ -33,10 +36,15 @@ Never include text, logos, watermarks, gore, weapons, self-harm, or anything fri
 
 type Creation = typeof creations.$inferSelect;
 
-function gateway() {
+function creationsGateway() {
+  const apiKey = process.env.CREATIONS_IMAGE_API_KEY || process.env.NETLIFY_AI_GATEWAY_KEY;
+  const baseUrl = (process.env.CREATIONS_IMAGE_BASE_URL || process.env.NETLIFY_AI_GATEWAY_BASE_URL || "").replace(/\/$/, "");
+  if (!apiKey) {
+    throw new Error("CREATIONS_IMAGE_API_KEY or NETLIFY_AI_GATEWAY_KEY is not set");
+  }
   return new GoogleGenAI({
-    apiKey: process.env.NETLIFY_AI_GATEWAY_KEY,
-    httpOptions: { baseUrl: process.env.NETLIFY_AI_GATEWAY_BASE_URL?.replace(/\/$/, "") },
+    apiKey,
+    httpOptions: baseUrl ? { baseUrl } : undefined,
   });
 }
 
@@ -81,7 +89,7 @@ async function generate(req: Request, context: Context, user: { id: string; role
     return json({ error: "Arron can't make that one.", reason: verdict.reason || "Try a gentler, kinder idea." }, 422);
   }
 
-  const response = await gateway().models.generateContent({
+  const response = await creationsGateway().models.generateContent({
     model: IMAGE_MODEL,
     contents: `${BRAND_STYLE}\n\nCreate a square image of: ${prompt}`,
   });
@@ -196,6 +204,10 @@ export default async (req: Request, context: Context) => {
     return json({ error: "Method not allowed" }, 405);
   } catch (error) {
     console.error("Creations API error:", logReason(error));
+    const msg = error instanceof Error ? error.message : "";
+    if (/CREATIONS_IMAGE_API_KEY|NETLIFY_AI_GATEWAY_KEY|not set|missing/i.test(msg)) {
+      return json({ error: "Image generation is not configured yet. Add the Creations keys in Netlify, then try again." }, 503);
+    }
     return json({ error: "The canvas flickered — please try again in a moment." }, 500);
   }
 };
