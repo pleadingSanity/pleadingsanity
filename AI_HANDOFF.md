@@ -1647,3 +1647,15 @@ Verify after a new key (a new deploy or env change takes effect on the next func
   - Marketplace listing cards use icon placeholders; real seller product photos are needed (generated art would misrepresent products).
   - Netlify deploy previews fail with exit code 4 account-wide; production deploys are fine.
 - Not touched: PR #92, login, signup, reset-password, PayPal/payment code, crisis.html, manifesto.
+
+
+## 2026-11-17 — Dependabot bumps + Shane Creations isolation verified
+- Shane's commit 8490d0f (Creations image backend isolated from Arron chat keys) VERIFIED: only .env.example + netlify/functions/creations.mts changed. Arron chain intact (ai-chain.ts GPT→Claude→Gemini→Grok order preserved). Crisis numbers (999/116123/85258/111) preserved in arron.mts. Baseline npm test 402/402 pass. validate-build pass. creations.mts syntax OK.
+- Dependabot merged (each verified with full npm test after merge):
+  - #365 openai 7.53→7.57 (minor) — MERGED, 402/402.
+  - #362 @anthropic-ai/sdk 0.128→1.8.0 (MAJOR) — MERGED, default import still works (Anthropic constructor function), 402/402. Chain intact.
+  - #366 @netlify/identity 1.2→2.0.1 (MAJOR) — MERGED, {admin} loads OK, 402/402. Auth surface verified.
+  - #363 actions/setup-node 4→7 (MAJOR, workflow) — MERGED.
+  - #364 actions/checkout 4→7 (MAJOR, workflow) — LEFT OPEN: merge conflicts (PR has conflicts with main). Shane resolves in UI or rebase.
+- Deploy READY. 6 pages 200: /, /arron, /crisis, /profile, /feed, /insane-radio. Turso OK. Supabase still connect_failed (dashboard fix, not code).
+- Rollback: revert merge commits in reverse order (git revert -m 1 <sha>). No private/Mia details committed. Never-touch list preserved.
