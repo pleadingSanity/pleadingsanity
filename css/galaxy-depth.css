@@ -1,0 +1,56 @@
+/* Galaxy depth layer — additive parallax (loaded AFTER space.css).
+   Closer, brighter, faster stars + soft nebula glow. Pure CSS. No purple/pink.
+   Respects prefers-reduced-motion. Does not touch layout/typography. */
+html::before{
+  content:"";
+  position:fixed;
+  inset:-10vh -8vw;
+  z-index:-1;
+  pointer-events:none;
+  background-image:
+    radial-gradient(2.4px 2.4px at 4% 22%, #fff, transparent),
+    radial-gradient(1.8px 1.8px at 11% 38%, rgba(0,255,240,.95), transparent),
+    radial-gradient(2.8px 2.8px at 19% 14%, #eef6ff, transparent),
+    radial-gradient(1.6px 1.6px at 27% 52%, rgba(255,214,130,.9), transparent),
+    radial-gradient(2.2px 2.2px at 35% 30%, #fff, transparent),
+    radial-gradient(1.8px 1.8px at 43% 66%, rgba(0,255,240,.85), transparent),
+    radial-gradient(2.6px 2.6px at 51% 18%, #eef6ff, transparent),
+    radial-gradient(1.6px 1.6px at 59% 44%, rgba(255,214,130,.85), transparent),
+    radial-gradient(2.4px 2.4px at 67% 70%, #fff, transparent),
+    radial-gradient(1.8px 1.8px at 75% 26%, rgba(0,255,240,.9), transparent),
+    radial-gradient(2.8px 2.8px at 83% 50%, #eef6ff, transparent),
+    radial-gradient(1.6px 1.6px at 91% 78%, rgba(255,214,130,.8), transparent),
+    radial-gradient(2.2px 2.2px at 14% 84%, #fff, transparent),
+    radial-gradient(1.8px 1.8px at 48% 90%, rgba(0,255,240,.8), transparent),
+    radial-gradient(2.4px 2.4px at 78% 88%, #eef6ff, transparent);
+  background-size:
+    100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,
+    320px 320px,320px 320px,360px 360px,360px 360px,400px 400px,
+    400px 400px,280px 280px,280px 280px,100% 100%,100% 100%;
+  opacity:.85;
+  animation:ps-galaxy-drift 38s linear infinite;
+  filter:drop-shadow(0 0 4px rgba(0,255,240,.35));
+}
+html::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse 40% 30% at 25% 30%, rgba(0,255,240,.07), transparent 60%),
+    radial-gradient(ellipse 35% 28% at 75% 65%, rgba(255,214,130,.06), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(40,140,255,.05), transparent 70%);
+  animation:ps-nebula-breathe 18s ease-in-out infinite alternate;
+}
+@keyframes ps-galaxy-drift{
+  from{transform:translate3d(0,0,0)}
+  to{transform:translate3d(-6%,-4%,0)}
+}
+@keyframes ps-nebula-breathe{
+  from{opacity:.7;transform:scale(1)}
+  to{opacity:1;transform:scale(1.06)}
+}
+@media (prefers-reduced-motion:reduce){
+  html::before,html::after{animation:none}
+}
