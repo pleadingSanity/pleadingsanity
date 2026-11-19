@@ -1,0 +1,11 @@
+{
+  "_comment": "TEMPLATE — fill in when your AD5X arrives. Export the real one from the Maker Control Panel (Export printer_config.json button). DO NOT commit this file to GitHub — add to .gitignore.",
+  "ip": "PENDING — e.g. 192.168.1.100",
+  "serial": "PENDING — from AD5X touchscreen LAN Mode menu",
+  "check_code": "PENDING — 6-digit code from AD5X touchscreen",
+  "model": "Flashforge Adventurer 5X",
+  "ifs_slot1": "Black PLA+",
+  "ifs_slot2": "High-Speed White PLA",
+  "ifs_slot3": "",
+  "ifs_slot4": ""
+}

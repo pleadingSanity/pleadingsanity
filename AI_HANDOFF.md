@@ -31,7 +31,7 @@ What was left out, and why: copies of work already in main (dolas-duplicate, ai/
 
 ## Connectors and skills map (names only, no secrets)
 Grok Bot is Shane's hub chat. It reads this repo and can act through these connectors on Shane's accounts. No key, token or password lives here or in the repo.
-- Gmail (pleadingsanity1@gmail.com, delivery.shane@gmail.com), Outlook
+- Gmail ([enquiries email — private, stored in Netlify env], [delivery email — private, stored in Netlify env]), Outlook
 - Google Drive, Google Slides, Notion
 - GitHub (repo `pleadingSanity/pleadingsanity`; PRs, CI, issues)
 - Netlify (site `pleadingsanity` production, `pleadingsanitystaging` test site; env vars, deploys, function logs)
@@ -1064,7 +1064,7 @@ Arron is steward, not sovereign. Charter at docs/ARRON-GUARDIAN-CHARTER.md. Cons
   - SET & WORKING: TURSO_DATABASE_URL, TURSO_AUTH_TOKEN (verified via /api/turso-health). SUPABASE_OAUTH_CLIENT_ID/SECRET x2 (Management API/OAuth only — do NOT enable DB access). AWL_API_KEY, OPENROUTER. xAI_KEY present but EMPTY.
   - MISSING (Shane to provide): SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_KEY (DB client keys — OAuth creds are NOT DB keys; supabase-memory.ts Arron memory remains best-effort/off). GEMINI_API_KEY (Gemini fallback in Arron chain skipped). PAYPAL_CLIENT_ID/SECRET/MERCHANT_ID (#176 verify-paypal returns 503 until set). GROK_API_KEY / xAI_API_KEY (Grok skipped gracefully in ai-chain.ts: grokKey empty -> no Grok client; order GPT->Claude->Gemini->Grok preserved).
 - Supabase OAuth: creds set but only enable Supabase Management API / OAuth login flow. No DB client keys -> no Supabase DB feature wired. Not half-implemented.
-- webmention.io: dev email pleadingsanitydev@gmail.com available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
+- webmention.io: dev email [dev email — private, stored in Netlify env] available, but signup requires IndieAuth/email confirmation link click — flagged as manual step for Shane (no automated Gmail login). Endpoints already discoverable in HTML; activation needs account signup.
 - Never-touch list preserved. No new paid infra. No Supabase infra created.
 
 ## 2026-11-09 — Grok: radio oEmbed audit and safe markup fixes (draft, not merged)
