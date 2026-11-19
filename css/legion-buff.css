@@ -1,0 +1,108 @@
+/* ============================================================
+   LEGION THEME BUFF — Pleading Sanity design-system upgrade
+   Additive, non-destructive. Load LAST in <head> so it overrides.
+   Keeps the cosmic-cyan identity; refines type, depth, motion.
+   ============================================================ */
+
+:root{
+  /* refined palette — same hues, better depth steps */
+  --lb-bg:#080c16;
+  --lb-deep:#0a1424;
+  --lb-panel:rgba(12,24,42,.66);
+  --lb-cyan:#00fff0;
+  --lb-cyan-soft:rgba(0,255,240,.16);
+  --lb-amber:#fbbf24;
+  --lb-text:#eef6ff;
+  --lb-muted:#9bb7c4;
+  --lb-line:rgba(0,255,240,.18);
+  --lb-line-soft:rgba(148,197,255,.10);
+  --lb-radius:16px;
+  --lb-shadow-lg:0 24px 60px -18px rgba(0,0,0,.65), 0 0 0 1px var(--lb-line-soft);
+  --lb-ease:cubic-bezier(.22,1,.36,1);
+  --lb-font:"Space Grotesk","PS System",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(0,255,240,.07), transparent 60%),
+    radial-gradient(900px 500px at -10% 30%, rgba(56,189,248,.06), transparent 55%),
+    var(--lb-bg);
+  color:var(--lb-text);
+  font-family:var(--lb-font);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+/* subtle grain — fixed, pointer-events-none */
+body::after{
+  content:"";position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- type scale ---- */
+h1,h2,h3,h4{letter-spacing:-.02em;line-height:1.12;font-weight:800}
+h1{font-size:clamp(2.4rem,6vw,4.4rem)}
+h2{font-size:clamp(1.7rem,4vw,2.8rem)}
+h3{font-size:clamp(1.15rem,2.2vw,1.45rem)}
+p{line-height:1.65;max-width:68ch}
+a{transition:color .18s var(--lb-ease)}
+a:focus-visible,button:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--lb-cyan);outline-offset:3px;border-radius:4px;
+}
+
+/* ---- buttons ---- */
+.ps-btn,.btn,button{transition:transform .15s var(--lb-ease),box-shadow .2s var(--lb-ease),background .2s var(--lb-ease),border-color .2s var(--lb-ease)}
+.ps-btn-primary,.btn-primary{
+  box-shadow:0 0 0 1px rgba(0,255,240,.4), 0 10px 30px -10px rgba(0,255,240,.45);
+}
+.ps-btn-primary:hover,.btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 0 1px rgba(0,255,240,.6), 0 14px 36px -10px rgba(0,255,240,.55)}
+.ps-btn:active,.btn:active,button:active{transform:scale(.97)}
+
+/* ---- cards ---- */
+.ps-card,.card,[class*="card"]{
+  background:linear-gradient(165deg, rgba(0,255,240,.07), rgba(56,189,248,.04) 60%, transparent);
+  border:1px solid var(--lb-line);
+  border-radius:var(--lb-radius);
+  backdrop-filter:blur(8px);
+  transition:transform .25s var(--lb-ease),border-color .25s var(--lb-ease),box-shadow .25s var(--lb-ease);
+}
+.ps-card:hover,.card:hover,[class*="card"]:hover{
+  transform:translateY(-3px);
+  border-color:rgba(0,255,240,.45);
+  box-shadow:var(--lb-shadow-lg);
+}
+
+/* ---- sections / spacing rhythm ---- */
+section,.section{scroll-margin-top:80px}
+main{padding-bottom:4rem}
+
+/* ---- nav / sticky header polish ---- */
+header,nav,[role="banner"]{backdrop-filter:blur(14px);background:rgba(8,12,22,.72)!important;border-bottom:1px solid var(--lb-line-soft)!important}
+
+/* ---- inputs ---- */
+input,textarea,select{
+  background:rgba(10,20,36,.7);border:1px solid var(--lb-line-soft);color:var(--lb-text);
+  border-radius:10px;transition:border-color .2s var(--lb-ease),box-shadow .2s var(--lb-ease);
+}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--lb-cyan);box-shadow:0 0 0 3px var(--lb-cyan-soft)}
+
+/* ---- scrollbar ---- */
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--lb-bg)}
+::-webkit-scrollbar-thumb{background:rgba(0,255,240,.22);border-radius:99px;border:2px solid var(--lb-bg)}
+::-webkit-scrollbar-thumb:hover{background:rgba(0,255,240,.4)}
+
+/* ---- selection ---- */
+::selection{background:var(--lb-cyan);color:#041018}
+
+/* ---- reduced motion ---- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .ps-card:hover,.card:hover,[class*="card"]:hover{transform:none}
+}
+
+/* ---- mobile polish ---- */
+@media (max-width:640px){
+  h1{font-size:clamp(2rem,10vw,3rem)}
+  .ps-card,.card{border-radius:14px}
+}
