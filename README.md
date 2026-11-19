@@ -150,3 +150,5 @@ Navigation is grouped the same on every page: **Home · 💙 Heal · 🎮 Play �
 > — Evolution, Not Erasure —
 
 **Rise From Madness. One Source. One Consciousness. One Family. 💜**  
+
+<!-- legion netlify isolation test 1795097255 -->
