@@ -1,0 +1,203 @@
+{
+  "store": {
+    "name": "P.S Studio · Plastic Shane",
+    "tagline": "Custom 3D prints — every order supports Pleading Sanity",
+    "currency": "GBP",
+    "shipping": "UK postage available · Local Midlands collection (Leicester)",
+    "proceeds": "100% of proceeds help keep Pleading Sanity free and online"
+  },
+  "printer": {
+    "model": "Flashforge Adventurer 5X (AD5X)",
+    "build_volume_mm": [
+      220,
+      220,
+      220
+    ],
+    "ifs_slots": {
+      "1": "Black PLA+",
+      "2": "High-Speed White PLA",
+      "3": "Empty",
+      "4": "Empty"
+    },
+    "connection": {
+      "ip_address": "PENDING — enter in Maker Control Panel",
+      "serial_number": "PENDING",
+      "lan_check_code": "PENDING",
+      "status": "offline"
+    }
+  },
+  "products": [
+    {
+      "id": "ps-tray-001",
+      "title": "P.S 4-Piece Interlocking Printer Carpet Base Tray",
+      "category": "merch",
+      "category_label": "Workshop & Merch",
+      "material": "PLA+ Black + White (2-colour IFS)",
+      "price": 24.99,
+      "description": "Fits the AD5X 363×363mm footprint. Four dovetail puzzle corners (190mm each) print on the 220mm bed. Raised 12mm rim blocks carpet fluff. Rear cable notch. Two-tone white P.S stamp on the underside.",
+      "print_time_mins": 240,
+      "stl_files": [
+        "ad5x_carpet_tray_piece1.stl",
+        "ad5x_carpet_tray_piece2.stl",
+        "ad5x_carpet_tray_piece3.stl",
+        "ad5x_carpet_tray_piece4.stl",
+        "ps_logo_white.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 2-colour 0.20mm 4-wall gyroid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-tips-002",
+      "title": "P.S Reusable Rolling Filter Tips — Pack of 3",
+      "category": "tips",
+      "category_label": "P.S Rolling Tips",
+      "material": "Food-Safe PETG",
+      "price": 8.99,
+      "description": "Ergonomic pocket-sized reusable filter tips with internal cooling spirals and debossed P.S logo. Optional keyring hole. Batch-printed, washable, built to last.",
+      "print_time_mins": 45,
+      "stl_files": [
+        "ps_filter_tip.stl"
+      ],
+      "slicer_profile": "AD5X PETG 0.16mm smooth",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-bandit-clamp-003",
+      "title": "Bandit 400 — 41mm Fork Clamp LED Headlight Bracket",
+      "category": "bandit",
+      "category_label": "Bandit 400 / Classic Bike",
+      "material": "High-Temp ASA / PETG-CF",
+      "price": 18.5,
+      "description": "Clamps directly to 41mm front forks. Mounts an MT-03 style LED headlight + mini flyscreen. Stainless bolt hardware included. P.S stamp on the inner face. Fits 1997 GSF400V Bandit and most 41mm fork bikes.",
+      "print_time_mins": 90,
+      "stl_files": [
+        "bandit_41mm_fork_clamp_L.stl",
+        "bandit_41mm_fork_clamp_R.stl"
+      ],
+      "slicer_profile": "AD5X ASA 0.20mm 6-wall 40% gyroid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-tpu-knee-004",
+      "title": "P.S TPU Knee Impact Pads — Pair",
+      "category": "sports",
+      "category_label": "Action Sports TPU",
+      "material": "Flexible 95A TPU",
+      "price": 22.0,
+      "description": "Lightweight flexible knee pads with shock-absorbing gyroid infill lattice and hard PLA+ scuff caps. For casual action sports — skateboarding, BMX, MMA gym drill work. NOT road crash armour. P.S stamp on the strap.",
+      "print_time_mins": 180,
+      "stl_files": [
+        "tpu_knee_pad_L.stl",
+        "tpu_knee_pad_R.stl",
+        "scuff_cap.stl"
+      ],
+      "slicer_profile": "AD5X TPU 95A 0.20mm direct-drive 25% gyroid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-fidget-005",
+      "title": "P.S Articulated Fidget Dragon",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "PLA+ Multi-colour (IFS Slots 1+2)",
+      "price": 12.0,
+      "description": "Fully articulated print-in-place fidget dragon. Two-tone black body with white P.S spine. Prints in one go, no assembly. Desk toy, stress relief, pocket money seller.",
+      "print_time_mins": 120,
+      "stl_files": [
+        "ps_fidget_dragon.3mf"
+      ],
+      "slicer_profile": "AD5X PLA+ 0.16mm 2-wall",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-spool-caddy-006",
+      "title": "P.S Spool Holder & Workshop Tool Caddy",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "Black PLA+",
+      "price": 14.99,
+      "description": "Wall-mountable spool holder with integrated tool caddy for flush cutters, scraper, and nozzle brush. Debossed P.S logo. Fits standard 1kg spools.",
+      "print_time_mins": 150,
+      "stl_files": [
+        "ps_spool_caddy.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 0.20mm 3-wall 20% grid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-bruceybonus-round-007",
+      "title": "BruceyBonus Bargain Toys Round Keychain (2-colour)",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "SUNLU PLA+ Black + High-Speed White (IFS)",
+      "price": 6.5,
+      "description": "55mm two-colour round keyring with raised white BRUCEYBONUS BARGAIN TOYS lettering and 6mm keyring hole. 100% of net proceeds fund Pleading Sanity.",
+      "print_time_mins": 25,
+      "stl_files": [
+        "bruceybonus_round_black.stl",
+        "bruceybonus_round_white.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 2-colour 0.20mm 3-wall gyroid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-cooper-pug-keychain-008",
+      "title": "Cooper Pug Silhouette Keychain — Head or Sitting",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "SUNLU PLA+ Black + White chest blaze (IFS)",
+      "price": 6.5,
+      "description": "Cooper the pug silhouette keyring — head or sitting pose with white chest patch. 3.4mm thick, 5.5mm keyring hole. Net proceeds to sanctuary.",
+      "print_time_mins": 30,
+      "stl_files": [
+        "pug_head_keychain.stl",
+        "pug_sitting_keychain_black.stl",
+        "pug_sitting_keychain_white.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 0.16mm fine 3-wall",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-pug-dragon-fidget-009",
+      "title": "Articulated Pug-Dragon Fidget (print-in-place)",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "SUNLU PLA+ Black + White accents (IFS)",
+      "price": 12.0,
+      "description": "Print-in-place articulated pug-dragon desk toy with white horns, spine spikes and tail segments. Wiggles off the bed, no assembly. (Stylized — send concept render for refinement.)",
+      "print_time_mins": 120,
+      "stl_files": [
+        "pug_dragon_black.stl",
+        "pug_dragon_white.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 0.20mm 4-wall (hinge clearance 0.45mm)",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    },
+    {
+      "id": "ps-hoodie-figurine-010",
+      "title": "P.S Hoodie / Balaclava Character Figurine + Base",
+      "category": "merch",
+      "category_label": "Merch & Workshop",
+      "material": "SUNLU PLA+ Black + White (IFS)",
+      "price": 14.99,
+      "description": "Standing hooded figure on circular base with white P.S chest and base lettering, white brain graphic on hood back. ~56mm tall. Stylized — send concept render for refinement.",
+      "print_time_mins": 90,
+      "stl_files": [
+        "ps_character_black.stl",
+        "ps_character_white.stl"
+      ],
+      "slicer_profile": "AD5X PLA+ 2-colour 0.20mm 3-wall gyroid",
+      "active": false,
+      "note": "Design validation only; not read by the live storefront. Live items must pass netlify/lib/prints.ts canGoLive and the shop tests."
+    }
+  ]
+}
