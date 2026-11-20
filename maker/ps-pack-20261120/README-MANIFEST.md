@@ -6,15 +6,24 @@ Prepared 2026-11-20 from the local P.S build workspace. Source of truth: `pleadi
 - White-colour STLs are accent/inlay parts that pair with black bodies (IFS or glued inlay). They are not stand-alone products.
 - Concept images are AI/design renders used as the modelling target; they are not photographs of finished prints.
 - Privacy: printer LAN IP, serial and hotspot code were deliberately excluded; personal photos and internal notes were not included.
+- `cooper_lithophane.stl` (34 MB, 679,836 triangles) is held in the local workshop archive, not this website repo, to keep the Netlify deploy small. Ask Shane for the file; it is a decorative backlit panel, not a product for sale.
 
 ## Folder map
 ```
-01-cooper-dog-pug/        images/  stl/  source/
-02-tracksuit-balaclava-figure/  images/  stl/  stl-check-renders/
-03-bruceybonus-keychain/  images(none yet)  stl/  source/
+01-cooper-dog-pug/        images/concepts  stl/  source/  stl-check-renders/
+02-tracksuit-balaclava-figure/  images/concepts+apparel  stl/  stl-check-renders/
+03-bruceybonus-keychain/  stl/  source/  stl-check-renders/
+04-vehicle-workshop/      stl/  README.md (sources sit in the repo maker/ root)
+_legacy-superseded/       stl/  do not print or sell; kept for reference only
 generators/               Python builders that regenerate the STLs
-_metadata/                ps-products.json shop spec (materials, prices, slicer notes)
+_metadata/                internal notes catalogue (not read by the live shop)
+VERIFICATION-REPORT.md    per-file watertight check, dimensions and volumes
+PRINT-MANIFEST.csv        machine-readable index of every STL in this pack
+ORCA-SLICER-README.md     load order, filament slots and starting slicer profiles
 ```
+All 35 STLs in `stl/` folders were checked watertight before commit; see
+`VERIFICATION-REPORT.md`. Sources regenerate the geometry; STLs are convenience
+exports and must not be edited by hand.
 
 ## 1 · Cooper (black pug with white chest patch) — maps to shop ps-008 (keychain), ps-009 (pug-dragon fidget), plus concept figurines
 
@@ -53,6 +62,34 @@ _metadata/                ps-products.json shop spec (materials, prices, slicer 
 | `bruceybonusbargins_keychain_bar.stl` | Bar-style keychain with raised text | black PLA+ | 90.0 × 22.0 × 3.6 | 5.65 | yes | 5080 | 0.20mm 3-wall; 90 mm long |
 | `bruceybonusbargins_keychain_tag.stl` | Tag-style keychain | black PLA+ | 45.0 × 60.0 × 3.6 | 7.96 | yes | 4576 | 0.20mm 3-wall |
 
+## 4 · Vehicle workshop — Transit Connect trim + Bandit cosmetic parts (design validation only)
+
+No vehicle part is sold until it has been dry-fit on the actual vehicle. Car parts
+need ASA or PETG-CF for heat/UV resistance; PLA is only for a test-fit mock-up.
+No Ford, Suzuki or other trademarked logo is reproduced; badge areas are blank.
+
+| STL file | Role | Material note |
+|---|---|---|
+| `fit_check_calibration_20mm.stl` | First-print 20 mm peg/hole calibration | Any PLA; check flow and tolerance |
+| `ford_style_clip_on_bumper_trim.stl` | Clip-on bumper trim bar, blank badge recess | ASA/PETG-CF, never PLA |
+| `ford_bumper_clip_blank_badge.stl` | Bumper clip with blank oval badge recess | ASA/PETG-CF |
+| `ford_grille_trim_bar_print2.stl` | Grille overlay trim bar ( Transit Connect ) | ASA/PETG-CF; fit-check first |
+| `rear_light_cover_trim_parametric.stl` | Parametric rear-light surround frame | Surround only; must not cover the lit lens |
+| `rear_light_bezel.stl` | Rear-light bezel frame | Clear PETG if used near a lens |
+| `rear_light_custom_insert_blank.stl` | Blank decorative insert | Contrasting PETG/ASA |
+| `rear_light_custom_insert_PS.stl` | Same insert with embossed P.S mark | Contrasting PETG/ASA |
+
+OpenSCAD sources for this group sit in the repo `maker/` root:
+`ford_badge_clip_on_bumper.scad`, `ford-connect-2018-grille-overlay.scad`,
+`rear_light_cover_trim.scad`, `ad5x_carpet_tray.scad`.
+
+## Archive documents
+
+- `VERIFICATION-REPORT.md` — trimesh watertight check, bounding dimensions, volume, triangle count per STL.
+- `PRINT-MANIFEST.csv` — same data in spreadsheet form for the slicer workbook.
+- `ORCA-SLICER-README.md` — AD5X load order, IFS slots and starting profiles.
+- `_legacy-superseded/` — superseded teeth-mask body and insert; reference only, do not print.
+
 ## Images supplied
 | Folder | File | What it is |
 |---|---|---|
@@ -78,3 +115,6 @@ _metadata/                ps-products.json shop spec (materials, prices, slicer 
 5. Lithophane: dedicated lithophane profile, min thickness checked in slicer; backlit, not a functional part.
 
 ## Security scan: CLEAN — no printer credentials found
+Plain-text files were scanned for printer IP, serial, LAN check code, hotspot
+password and API tokens; every committed `.stl` was scanned as text for the same
+patterns. Only `maker/printer_config.example.json` placeholders exist in the repo.

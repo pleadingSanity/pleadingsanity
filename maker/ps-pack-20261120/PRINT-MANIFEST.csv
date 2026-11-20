@@ -1,0 +1,37 @@
+file,group,role,colour_slot,dims_x_mm,dims_y_mm,dims_z_mm,volume_cm3,triangles,watertight,slicer_note
+cooper_sleeping_figurine.stl,01-cooper-pug,Sleeping pug figurine body (black),Slot1 black PLA+,92.0,39.0,32.5,44.403,6304,yes,0.20mm 3-wall; upright on belly; no supports
+cooper_sleeping_chest_patch_white.stl,01-cooper-pug,White chest patch inlay (Slot2),Slot2 white PLA,14.0,10.0,1.8,0.127,320,yes,proud on chest; glue or IFS swap
+cooper_sleeping_eyes_white.stl,01-cooper-pug,Closed-eye inlays (Slot2),Slot2 white PLA,5.6,16.2,1.6,0.02,640,yes,proud 0.2mm on face sides
+cooper_head_keychain.stl,01-cooper-pug,Pug-head relief keyring (ps-008),Slot1 black PLA+,38.0,33.6,49.0,20.719,2714,yes,0.16mm fine 3-wall; ~30 min
+pug_head_keychain.stl,01-cooper-pug,"Pug-head silhouette keyring, 3.4mm",Slot1 black PLA+,55.0,45.5,4.0,5.622,2776,yes,0.16mm; 5.5mm keyring hole
+pug_sitting_keychain_black.stl,01-cooper-pug,Sitting pug keyring body,Slot1 black PLA+,42.2,73.5,3.4,6.169,2940,yes,0.16mm fine
+pug_sitting_keychain_white_chest_insert.stl,01-cooper-pug,Sitting pug white chest insert,Slot2 white PLA,9.0,15.8,0.6,0.064,520,yes,press into black recess
+cooper_dog_tag.stl,01-cooper-pug,Cooper hanging dog tag,Slot1 black PLA+,45.0,60.0,3.6,7.993,3938,yes,0.20mm 3-wall
+cooper_figurine_combined_singlecolour.stl,01-cooper-pug,"Standing pug figurine, single-colour (first print)",Single slot,52.0,80.84,57.0,83.853,7588,yes,0.20mm; simplest first figurine
+cooper_figurine_black.stl,01-cooper-pug,Standing pug figurine black body,Slot1 black PLA+,52.0,80.84,57.0,83.798,7088,yes,pair with white accents
+cooper_figurine_white.stl,01-cooper-pug,Standing pug figurine white accents,Slot2 white PLA,34.4,34.4,41.5,1.943,2816,yes,IFS slot2; align to body
+pug_dragon_black.stl,01-cooper-pug,Pug-dragon fidget body (ps-009),Slot1 black PLA+,67.0,30.8,21.0,16.277,1906,yes,0.20mm 4-wall; hinge gap 0.45mm; NO supports on joints
+pug_dragon_white_accents.stl,01-cooper-pug,Pug-dragon horns/spikes/tail accents,Slot2 white PLA,76.0,13.75,20.67,1.74,3496,yes,test hinge free after cool
+cooper_lithophane.stl,01-cooper-pug,Cooper photo lithophane (backlit panel),Single slot,69.75,151.5,4.0,32.897,679836,yes,lithophane profile; ~1mm min thickness; decorative
+ps_tracksuit_figure_propermask.stl,02-tracksuit-figure,"Standing figure black body, proper mask + hood, round base (ps-010)",Slot1 black PLA+,56.0,56.0,90.3,41.867,6282,yes,0.20mm 3-wall gyroid 18%; upright on base; ~90 min
+ps_eye_slits_white.stl,02-tracksuit-figure,Two white eye-slot inlays,Slot2 white PLA,16.2,2.4,2.6,0.085,168,yes,mount z≈81.8 front +Y; proud ~1.2mm
+ps_back_brain_insert_white.stl,02-tracksuit-figure,White brain+teardrop hood-back relief,Slot2 white PLA,24.4,4.2,24.8,1.011,4766,yes,hood back -Y; no backing plate
+ps_chest_ps_insert_white.stl,02-tracksuit-figure,White P.S chest mark (optional),Slot2 white PLA,11.0,1.4,4.47,0.026,1660,yes,chest front z≈52.8
+ps_character_black.stl,02-tracksuit-figure,Balaclava character main body,Slot1 black PLA+,60.0,60.0,56.0,32.533,1852,yes,0.20mm 3-wall gyroid
+ps_character_white_accents.stl,02-tracksuit-figure,Character white hood/chest accents,Slot2 white PLA,17.8,27.45,44.8,0.311,3122,yes,IFS slot2; align to black body
+bruceybonus_round_black.stl,03-brucey-keychain,55mm round keyring black base (ps-007),Slot1 black PLA+,55.0,55.0,3.4,7.976,580,yes,0.20mm 3-wall; 6mm keyring hole; ~25 min
+bruceybonus_round_white_letters_insert.stl,03-brucey-keychain,Raised BRUCEYBONUS white lettering insert,Slot2 white PLA,46.0,12.95,0.8,0.138,4088,yes,inlay into black base recess
+bruceybonus_round_single_colour.stl,03-brucey-keychain,Round keyring single-colour version,Single slot,55.0,55.0,4.6,8.114,4668,yes,one-slot quick print
+bruceybonus_keychain_detail.stl,03-brucey-keychain,Detailed two-tone keychain badge (cat face + text),Two-tone,50.0,64.5,5.0,7.764,29034,yes,0.20mm 3-wall gyroid; heightmap face
+bruceybonusbargins_keychain_bar.stl,03-brucey-keychain,Bar-style keychain 90mm with raised text,Slot1 black PLA+,90.0,22.0,3.6,5.648,5080,yes,0.20mm 3-wall
+bruceybonusbargins_keychain_tag.stl,03-brucey-keychain,Tag-style keychain 45x60mm,Slot1 black PLA+,45.0,60.0,3.6,7.957,4576,yes,0.20mm 3-wall
+fit_check_calibration_20mm.stl,04-vehicle-workshop,FIRST PRINT: 20mm fit-check + peg/hole calibration,Single slot,50.0,20.0,20.0,11.846,220,yes,print before car parts; measure X/Y/hole
+ford_bumper_clip_blank_badge.stl,04-vehicle-workshop,"Ford-style bumper clip, blank oval badge recess",Slot1 (ASA/PETG-CF for car),136.0,25.0,22.5,17.966,252,yes,6-wall; heat-resistant material for car fitment
+ford_style_clip_on_bumper_trim.stl,04-vehicle-workshop,Bumper trim bar with clip tabs,Slot1 (ASA),110.0,55.0,13.0,31.429,590,yes,verify fit on vehicle before paint
+ford_grille_trim_bar_print2.stl,04-vehicle-workshop,Transit Connect grille overlay trim bar,Slot1 (ASA),20.0,14.0,115.0,25.185,44,yes,match 2018 5-piece set; dry fit first
+rear_light_cover_trim_parametric.stl,04-vehicle-workshop,Rear-light cover frame with ribs + clips,Slot1 (ASA),150.0,66.0,12.0,18.904,84,yes,check lens clearance
+rear_light_bezel.stl,04-vehicle-workshop,Rear-light bezel frame,Slot1 (ASA),180.0,70.0,4.0,20.516,568,yes,paired with inserts below
+rear_light_custom_insert_blank.stl,04-vehicle-workshop,Rear-light blank design insert,Slot1,35.6,59.6,1.5,3.162,268,yes,blank face; can sand/paint
+rear_light_custom_insert_PS.stl,04-vehicle-workshop,Rear-light insert with P.S mark,Slot1 / two-tone,35.6,59.6,2.1,3.228,1032,yes,P.S debossed face
+ps_tracksuit_figure_teethmask.stl,_legacy-superseded,SUPERSEDED teeth-mask body — kept for reference; use propermask set,—,56.0,56.0,90.0,41.145,5936,yes,do not sell; reference only
+teeth_grill_insert_white.stl,_legacy-superseded,SUPERSEDED teeth insert for teethmask only,—,15.4,3.95,8.75,0.331,188,yes,do not sell; reference only
