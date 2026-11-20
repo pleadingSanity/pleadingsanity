@@ -1,0 +1,42 @@
+# Orca workspace file for Pleading Sanity / P.S Studio.
+# Orca (desktop v0.73.x) reads this at the repo root on Join:
+# Workspace -> Join your team's workspace -> this repo URL.
+# The site itself is a static site, so there are no backend services yet;
+# shared services (local Supabase, models, mail catcher) get added later.
+# No printer IP/serial/LAN code, no API keys and no internal ownership notes
+# belong in this file; secrets stay in Orca's secret manager or Netlify env.
+
+name: pleading-sanity-workspace
+description: Free mental-health sanctuary static site plus P.S Studio 3D-print shop. Local Orca working area; services added when a backend exists.
+
+gateway:
+  domain: ps.localhost
+  title: P.S Local
+
+projects:
+  sanctuary:
+    repo: https://github.com/pleadingSanity/pleadingsanity.git
+    branch: main
+    description: Pleading Sanity free sanctuary (Netlify/Vercel) and the P.S Prints catalogue. Static HTML/CSS/JS; local preview with `npm run dev` or `npx netlify dev`.
+    links:
+      - name: Live sanctuary
+        Prod: https://pleadingsanity.co.uk
+      - name: P.S Prints shop
+        Prod: https://pleadingsanity.co.uk/prints.html
+      - name: P.S Studio page
+        Prod: https://pleadingsanity.co.uk/ps-studio.html
+      - name: Insane Radio
+        Prod: https://pleadingsanity.co.uk/insane-radio.html
+      - name: Insane Solar desk
+        Prod: https://pleadingsanity.co.uk/insane-solar.html
+      - name: Creator music studio
+        Prod: https://pleadingsanity.co.uk/creator-studio-music.html
+
+# Future shared services template (uncomment when a backend lands; the static
+# site does not need any of it):
+# network: ps-local-dev
+# shared:
+#   compose: compose.yaml
+#   name: ps-shared
+# routes:
+#   - { hostname: kb, target: "kb-edge:8081", title: "Arron KB edge" }
