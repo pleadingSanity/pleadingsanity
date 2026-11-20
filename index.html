@@ -368,6 +368,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
 <link rel="stylesheet" href="/css/shard-sanctuary.css">
 <link rel="stylesheet" href="/css/tap-targets.css">
 <link rel="stylesheet" href="/css/legion-buff.css">
+<link rel="stylesheet" href="/css/orbital-system.css">
 </head>
 <body class="ps-city-home">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -645,6 +646,93 @@ Share this sanctuary
     <a class="ps-donate-btn ps-donate-btn-amber" href="/shop.html">Shop activewear</a>
   </div>
 </aside>
+
+<section class="orbital-system" id="orbital-system" aria-labelledby="orbital-title">
+  <div class="orbital-head">
+    <div>
+      <p class="orbital-kicker">Five planets around one free sun</p>
+      <h2 id="orbital-title">Move through the sanctuary</h2>
+      <p>Same tools, calmer grouping. The sun stays Arron and crisis help; everything else orbits into five quiet zones. Toggle Calmer View for a static, low-glow layout.</p>
+    </div>
+    <button type="button" class="orbital-calm-btn" id="orbitalCalmToggle" aria-pressed="false">Calmer view: Off</button>
+  </div>
+
+  <div class="orbit-core">
+    <h3>The Sun — always reachable</h3>
+    <p>Arron is a companion tool, not a therapist. If you are in immediate danger, the crisis routes are one tap away.</p>
+    <div class="orbit-core-actions">
+      <a class="primary" href="/arron.html">Talk to Arron</a>
+      <a class="crisis" href="/crisis.html">Urgent crisis support</a>
+    </div>
+  </div>
+
+  <div class="orbit-grid">
+    <article class="orbit-planet" aria-labelledby="planet-sanctuary">
+      <h3 id="planet-sanctuary">Sanctuary Planet</h3>
+      <p class="planet-note">Calm, private, grounding spaces.</p>
+      <ul class="planet-links">
+        <li><a href="/arron.html">Arron AI</a></li>
+        <li><a href="/crisis.html">Crisis help</a></li>
+        <li><a href="/journal-vault.html">Journal Vault</a></li>
+        <li><a href="/frequencies.html">Hz Frequencies</a></li>
+        <li><a href="/meditation.html">Meditation</a></li>
+        <li><a href="/kids.html">Kids zone</a></li>
+      </ul>
+    </article>
+
+    <article class="orbit-planet" aria-labelledby="planet-sound">
+      <h3 id="planet-sound">Sound &amp; Studio Planet</h3>
+      <p class="planet-note">Radio, tones and creator rooms.</p>
+      <ul class="planet-links">
+        <li><a href="/insane-radio.html">Insane Radio</a></li>
+        <li><a href="/sanity-songs.html">Songs</a></li>
+        <li><a href="/rap.html">Rap room</a></li>
+        <li><a href="/creator.html">Creator Hub</a></li>
+        <li><a href="/live.html">Live</a></li>
+        <li><a href="/music-creator.html">Music Studio</a></li>
+      </ul>
+    </article>
+
+    <article class="orbit-planet" aria-labelledby="planet-community">
+      <h3 id="planet-community">Community &amp; Philosophy Planet</h3>
+      <p class="planet-note">Stories, quotes and shared thinking.</p>
+      <ul class="planet-links">
+        <li><a href="/feed.html">Community feed</a></li>
+        <li><a href="/quote-wall.html">Quote Wall</a></li>
+        <li><a href="/new-gen-bible.html">New Gen Bible</a></li>
+        <li><a href="/ai-social.html">AI Social</a></li>
+        <li><a href="/wisdom.html">Wisdom</a></li>
+        <li><a href="/movement.html">Movement</a></li>
+      </ul>
+    </article>
+
+    <article class="orbit-planet" aria-labelledby="planet-play">
+      <h3 id="planet-play">Play &amp; Mind Planet</h3>
+      <p class="planet-note">Soft games and gentle focus tools.</p>
+      <ul class="planet-links">
+        <li><a href="/games.html">All games</a></li>
+        <li><a href="/sanity-solitaire.html">Solitaire</a></li>
+        <li><a href="/poker.html">Night Table</a></li>
+        <li><a href="/truth-tag.html">Truth Tag</a></li>
+        <li><a href="/ai-studio.html">AI Studio</a></li>
+        <li><a href="/write.html">Write</a></li>
+      </ul>
+    </article>
+
+    <article class="orbit-planet" aria-labelledby="planet-practical">
+      <h3 id="planet-practical">Practical &amp; Studio Planet</h3>
+      <p class="planet-note">Shop, prints, solar and honest tools.</p>
+      <ul class="planet-links">
+        <li><a href="/shop.html">Shop</a></li>
+        <li><a href="/prints.html">Prints shelf</a></li>
+        <li><a href="/ps-studio.html">P.S Studio</a></li>
+        <li><a href="/finance.html">Sane Finance</a></li>
+        <li><a href="/insane-solar.html">Insane Solar</a></li>
+        <li><a href="/sanity-law.html">Sanity Law</a></li>
+      </ul>
+    </article>
+  </div>
+</section>
 </main>
 <footer>
 <p>Evolution, Not Erasure</p>
@@ -679,6 +767,7 @@ Share this sanctuary
 <script src="/js/home-search.js" defer></script>
 <script src="/js/ps-music.js" defer></script>
 <script src="/js/offline-note.js" defer></script>
+<script src="/js/orbital-calmer.js" defer></script>
 <script>if ('serviceWorker' in navigator) { window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); }); }</script>
 <script>
 (function () {

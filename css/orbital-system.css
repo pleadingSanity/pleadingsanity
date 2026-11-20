@@ -1,0 +1,235 @@
+/* ============================================================
+   Orbital System — Phase 1A additive layer
+   Pleading Sanity: Rise From Madness · Evolution, Not Erasure
+   Additive only: no existing rule is removed. Visual foundation
+   for the five-planet navigation introduced on the landing page.
+   Palette: #0b0f19 bg, #00fff0 teal, #38bdf8 sky, #f59e0b amber,
+   silver text. No purple, pink or indigo.
+   ============================================================ */
+
+:root {
+  --orbit-bg: #0b0f19;
+  --orbit-panel: rgba(18, 26, 43, 0.78);
+  --orbit-panel-solid: #121a2b;
+  --orbit-line: rgba(56, 189, 248, 0.22);
+  --orbit-teal: #00fff0;
+  --orbit-sky: #38bdf8;
+  --orbit-amber: #f59e0b;
+  --orbit-silver: #e8eef7;
+  --orbit-muted: #9fb0c8;
+  --orbit-radius: 18px;
+}
+
+.orbital-system {
+  max-width: 1120px;
+  margin: 2.5rem auto 3rem;
+  padding: 0 1.2rem;
+}
+
+.orbital-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.orbital-kicker {
+  margin: 0 0 6px;
+  color: var(--orbit-teal);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.orbital-head h2 {
+  margin: 0;
+  font-size: clamp(1.6rem, 4vw, 2.3rem);
+  color: var(--orbit-silver);
+}
+
+.orbital-head p {
+  margin: 8px 0 0;
+  color: var(--orbit-muted);
+  max-width: 56ch;
+}
+
+.orbital-calm-btn {
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 1px solid var(--orbit-line);
+  border-radius: 999px;
+  background: var(--orbit-panel);
+  color: var(--orbit-silver);
+  font: 600 0.95rem system-ui, -apple-system, "Segoe UI", sans-serif;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.orbital-calm-btn[aria-pressed="true"] {
+  border-color: var(--orbit-teal);
+  color: var(--orbit-teal);
+}
+
+.orbital-calm-btn:focus-visible {
+  outline: 3px solid var(--orbit-amber);
+  outline-offset: 3px;
+}
+
+/* Central sun: help always one tap away */
+.orbit-core {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+  padding: 26px 24px;
+  border: 1px solid rgba(0, 255, 240, 0.28);
+  border-radius: 24px;
+  background:
+    radial-gradient(closest-side at 18% 50%, rgba(0, 255, 240, 0.14), transparent 70%),
+    radial-gradient(closest-side at 82% 50%, rgba(56, 189, 248, 0.12), transparent 70%),
+    var(--orbit-panel);
+  backdrop-filter: blur(10px);
+  margin-bottom: 22px;
+}
+
+.orbit-core h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  color: var(--orbit-silver);
+}
+
+.orbit-core p {
+  margin: 6px 0 0;
+  color: var(--orbit-muted);
+}
+
+.orbit-core-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.orbit-core-actions a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.orbit-core-actions a.primary {
+  background: var(--orbit-teal);
+  color: #06202a;
+}
+
+.orbit-core-actions a.crisis {
+  border: 1px solid var(--orbit-amber);
+  color: var(--orbit-amber);
+}
+
+/* Five planet grid */
+.orbit-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+}
+
+.orbit-planet {
+  position: relative;
+  padding: 20px;
+  border: 1px solid var(--orbit-line);
+  border-radius: var(--orbit-radius);
+  background: var(--orbit-panel);
+  backdrop-filter: blur(8px);
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.orbit-planet::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px dashed rgba(56, 189, 248, 0.16);
+  border-radius: calc(var(--orbit-radius) - 6px);
+  pointer-events: none;
+}
+
+.orbit-planet:hover {
+  transform: translateY(-3px);
+  border-color: rgba(0, 255, 240, 0.42);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+}
+
+.orbit-planet h3 {
+  margin: 0 0 6px;
+  font-size: 1.12rem;
+  color: var(--orbit-teal);
+}
+
+.orbit-planet .planet-note {
+  margin: 0 0 14px;
+  color: var(--orbit-muted);
+  font-size: 0.92rem;
+}
+
+.planet-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.planet-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--orbit-line);
+  color: var(--orbit-silver);
+  text-decoration: none;
+  font-size: 0.88rem;
+  background: rgba(11, 15, 25, 0.45);
+}
+
+.planet-links a:hover {
+  border-color: var(--orbit-sky);
+  color: #c8f6ff;
+}
+
+.planet-links a:focus-visible {
+  outline: 3px solid var(--orbit-amber);
+  outline-offset: 2px;
+}
+
+/* Calmer view: static, low glow, no motion */
+.calm-view .orbit-planet,
+.calm-view .orbit-core {
+  backdrop-filter: none;
+  box-shadow: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+
+.calm-view .orbit-planet:hover {
+  transform: none;
+}
+
+.calm-view .orbit-planet::before {
+  border-style: solid;
+  opacity: 0.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orbit-planet {
+    transition: none;
+  }
+  .orbit-planet:hover {
+    transform: none;
+  }
+}
