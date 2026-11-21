@@ -131,11 +131,31 @@
   color: var(--orbit-amber);
 }
 
-/* Five planet grid */
+/* Five planet grid: one column on phones, two on tablets,
+   twelve-column balanced rows on desktop (3 + 2 wide). */
 .orbit-grid {
   display: grid;
   gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .orbit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .orbit-grid {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .orbit-planet {
+    grid-column: span 4;
+  }
+  .orbit-planet:nth-child(4),
+  .orbit-planet:nth-child(5) {
+    grid-column: span 6;
+  }
 }
 
 .orbit-planet {
