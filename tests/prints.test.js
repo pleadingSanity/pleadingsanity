@@ -128,7 +128,7 @@ test('creator-page items override file items by id; invalid entries are dropped'
   assert.equal(merged[0].price_gbp, 3);
 });
 
-test('repo catalogue: valid, all drafts, licences recorded, toy-like items blocked, photos exist, clothing links', () => {
+test('repo catalogue: valid, live items pass every safety rule, drafts stay unsellable, licences recorded, toy-like items blocked, photos exist, clothing links', () => {
   assert.equal(catalogue.currency, 'GBP');
   const ids = new Set();
   for (const raw of catalogue.items) {
@@ -136,7 +136,16 @@ test('repo catalogue: valid, all drafts, licences recorded, toy-like items block
     assert.ok(item, `${raw.id}: ${errors.join('; ')}`);
     assert.ok(!ids.has(item.id), `duplicate ${item.id}`);
     ids.add(item.id);
-    assert.equal(item.status, 'draft', `${item.id} must stay draft until real photos`);
+    if (item.status === 'live') {
+      // The live flag is the shop's visibility switch, but every safety and
+      // completeness rule still has to pass before an item can sell.
+      assert.equal(canGoLive(item), true, `${item.id} marked live but blocked: ${liveBlockers(item).join('; ')}`);
+      assert.equal(item.mockup, false, `${item.id} live must use a real photo, not a mockup`);
+      assert.ok(item.photo, `${item.id} live needs a photo path`);
+      assert.ok(existsSync(new URL('..' + item.photo, import.meta.url)), `${item.id} live photo missing: ${item.photo}`);
+    } else {
+      assert.equal(item.status, 'draft', `${item.id} only live or draft entries belong in the first catalogue`);
+    }
     assert.ok(item.licence, `${item.id} licence recorded`);
     assert.ok(item.batch, `${item.id} batch`);
     if (treatedAsToy(item)) assert.equal(canGoLive({ ...item, mockup: false, licence: 'Original design' }), false, `${item.id} toy-like but not blocked`);
