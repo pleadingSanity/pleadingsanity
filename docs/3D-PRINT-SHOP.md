@@ -38,3 +38,9 @@ Related: [AI_HANDOFF.md](../AI_HANDOFF.md) · [MASTER_PROMPT.md](MASTER_PROMPT.m
 - Clothing-matched prints carry `range` and `matches` (shown as "Matches: ..." on the card). Briefs: [3D-PRINT-CLOTHING-MODELS.md](3D-PRINT-CLOTHING-MODELS.md).
 - Quick add (about 2 minutes): open creator-prints.html, choose the print or "New print", upload the real photo, untick "mockup", set name, price and status Live, Save.
 - `ps-products.json` and `ps-studio.html` (Payhip/TikTok buy links) are unchanged and keep working.
+
+## Workshop source archive (added 20 Nov 2026)
+- Location: `maker/ps-pack-20261120/` — verified STLs under each group `stl/` folder, OpenSCAD/Python `generators/`, concept reference images, `VERIFICATION-REPORT.md`, `PRINT-MANIFEST.csv` and `ORCA-SLICER-README.md`.
+- Renders copied to `images/3d-prints/*-render.png` are model check previews. Their catalogue entries stay `active: false` / `status: "design-validation"`; a render never backs a Buy button and must be replaced by a real finished-print photo before sale.
+- The 34 MB Cooper lithophane STL is deliberately not in the website repo (deploy size); it stays in the local workshop archive and can be shared on request.
+- Vehicle parts (`04-vehicle-workshop/`) are validation-only: ASA/PETG-CF, blank badges, dry-fit first; never sold as road-safety components.

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-11-15",
+  "updated": "2026-11-20",
   "currency": "GBP",
   "products": [
     {
@@ -17,9 +17,100 @@
       "photo": null,
       "stock": 0,
       "buy_url": null
+    },
+    {
+      "id": "cooper-pug-sleeping-figurine",
+      "title": "Cooper Sleeping Pug Figurine (Concept)",
+      "category": "Pug Figures",
+      "material": "PLA+ black with white chest accent (IFS)",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Lying black pug with the white chest patch, modelled after Cooper. Check render only: the STL has not been printed on the AD5X yet, so there is no finished photograph, price or buy link. Sale status waits for a real test print, photo and safety check.",
+      "preview_image": null,
+      "photo": "/images/3d-prints/cooper-sleeping-figurine-render.png",
+      "photo_alt": "Model check render of the lying black pug figurine concept; a preview, not a photograph of a finished print.",
+      "stl_files": [
+        "maker/ps-pack-20261120/01-cooper-dog-pug/stl/cooper_sleeping_figurine.stl",
+        "maker/ps-pack-20261120/01-cooper-dog-pug/stl/cooper_sleeping_chest_patch_white.stl",
+        "maker/ps-pack-20261120/01-cooper-dog-pug/stl/cooper_sleeping_eyes_white.stl"
+      ],
+      "active": false,
+      "stock": 0,
+      "made_to_order": false,
+      "buy_url": null
+    },
+    {
+      "id": "ps-tracksuit-figure-propermask-concept",
+      "title": "P.S Tracksuit Balaclava Figure (Concept)",
+      "category": "Studio Figures",
+      "material": "PLA+ black with white IFS hood, eyes and chest mark",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Standing studio figure in the black tracksuit and proper mask with round base. Check render only; inlay fit still needs a first AD5X test print before this can be listed for sale.",
+      "preview_image": null,
+      "photo": "/images/3d-prints/ps-tracksuit-figure-propermask-render.png",
+      "photo_alt": "Model check render of the black tracksuit balaclava figure concept; a preview, not a photograph of a finished print.",
+      "stl_files": [
+        "maker/ps-pack-20261120/02-tracksuit-balaclava-figure/stl/ps_tracksuit_figure_propermask.stl",
+        "maker/ps-pack-20261120/02-tracksuit-balaclava-figure/stl/ps_eye_slits_white.stl",
+        "maker/ps-pack-20261120/02-tracksuit-balaclava-figure/stl/ps_back_brain_insert_white.stl",
+        "maker/ps-pack-20261120/02-tracksuit-balaclava-figure/stl/ps_chest_ps_insert_white.stl"
+      ],
+      "active": false,
+      "stock": 0,
+      "made_to_order": false,
+      "buy_url": null
+    },
+    {
+      "id": "bruceybonus-keychain-pack-concept",
+      "title": "BruceyBonus Keyring Pack (Concept)",
+      "category": "Keyrings",
+      "material": "PLA+ black body with white raised-lettering insert",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Wider BruceyBonus keyring family beyond the live round keyring: bar style, tag style and detailed two-tone badge. Check renders only; the detailed badge and bar/tag shapes are untested on the AD5X and are not for sale.",
+      "preview_image": null,
+      "photo": "/images/3d-prints/bruceybonus-round-single-render.png",
+      "photo_alt": "Model check render of the single-colour round BruceyBonus keyring; a preview, not a photograph of a finished print.",
+      "stl_files": [
+        "maker/ps-pack-20261120/03-bruceybonus-keychain/stl/bruceybonusbargins_keychain_bar.stl",
+        "maker/ps-pack-20261120/03-bruceybonus-keychain/stl/bruceybonusbargins_keychain_tag.stl",
+        "maker/ps-pack-20261120/03-bruceybonus-keychain/stl/bruceybonus_keychain_detail.stl",
+        "maker/ps-pack-20261120/03-bruceybonus-keychain/stl/bruceybonus_round_white_letters_insert.stl"
+      ],
+      "active": false,
+      "stock": 0,
+      "made_to_order": false,
+      "buy_url": null
+    },
+    {
+      "id": "vehicle-trim-workshop-concept",
+      "title": "Vehicle Trim and Cosmetic Parts (Validation Only)",
+      "category": "Workshop & Merch",
+      "material": "ASA or PETG-CF required for car parts; PLA is a mock-up only",
+      "status": "design-validation",
+      "price_gbp": null,
+      "description": "Parametric bumper, grille and rear-light surround parts for the Transit Connect and Bandit 400. None has been fitted to a vehicle. Car parts need ASA or PETG-CF for heat and UV, blank badge areas only, and a dry-fit before any sale; rear-light surrounds must never cover the lit lens.",
+      "preview_image": null,
+      "photo": null,
+      "photo_alt": "",
+      "stl_files": [
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/fit_check_calibration_20mm.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/ford_style_clip_on_bumper_trim.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/ford_bumper_clip_blank_badge.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/ford_grille_trim_bar_print2.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/rear_light_cover_trim_parametric.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/rear_light_bezel.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/rear_light_custom_insert_blank.stl",
+        "maker/ps-pack-20261120/04-vehicle-workshop/stl/rear_light_custom_insert_PS.stl"
+      ],
+      "active": false,
+      "stock": 0,
+      "made_to_order": false,
+      "buy_url": null
     }
   ],
-  "how_to_add": "See docs/3D-PRINT-SHOP.md. Copy the template, put the photo in images/3d-prints/, set active true only when price_gbp, photo, stock and buy_url are filled in. npm test checks every entry.",
+  "how_to_add": "See docs/3D-PRINT-SHOP.md. Copy the template, put the photo in images/3d-prints/, set active true only when price_gbp, photo, stock and buy_url are filled in. Files named *-render.png are model check renders, never sale photos, and stay active:false. npm test checks every entry.",
   "template": {
     "id": "ps-example-slug",
     "title": "Name of the print",
