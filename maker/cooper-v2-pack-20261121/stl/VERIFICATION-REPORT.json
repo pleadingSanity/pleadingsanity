@@ -1,0 +1,61 @@
+{
+  "sitting": [
+    {
+      "file": "cooper_sitting_v2_black.stl",
+      "tris": 20622,
+      "extents_mm": [
+        62.0,
+        66.3,
+        81.0
+      ],
+      "volume_mm3": 100518.2,
+      "watertight": true
+    },
+    {
+      "file": "cooper_sitting_v2_white_blaze.stl",
+      "tris": 2208,
+      "extents_mm": [
+        20.0,
+        5.3,
+        31.5
+      ],
+      "volume_mm3": 1491.1,
+      "watertight": true
+    },
+    {
+      "file": "cooper_sitting_v2_white_eyes.stl",
+      "tris": 2560,
+      "extents_mm": [
+        25.4,
+        4.4,
+        9.2
+      ],
+      "volume_mm3": 353.0,
+      "watertight": true
+    }
+  ],
+  "bust": [
+    {
+      "file": "cooper_head_bust_v2_black.stl",
+      "tris": 8946,
+      "extents_mm": [
+        38.0,
+        45.1,
+        54.0
+      ],
+      "volume_mm3": 30740.4,
+      "watertight": true
+    },
+    {
+      "file": "cooper_head_bust_v2_white_eyes.stl",
+      "tris": 2560,
+      "extents_mm": [
+        25.0,
+        4.4,
+        8.6
+      ],
+      "volume_mm3": 314.3,
+      "watertight": true
+    }
+  ]
+}
