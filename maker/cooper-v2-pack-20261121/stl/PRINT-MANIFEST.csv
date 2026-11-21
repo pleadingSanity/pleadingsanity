@@ -1,0 +1,6 @@
+file,role,bytes,triangles,extent_x_mm,extent_y_mm,extent_z_mm,z_min_mm,z_max_mm,solid_volume_cm3,watertight,sha256
+cooper_sitting_v2_black.stl,Sitting figurine — black body (slot 1),1031184,20622,62.0,66.3,81.0,0.0,81.0,100.52,yes,1d0caab5892ac830153e78a3fac6a8d3056b84c97605ba9cc3e9729591aa71e6
+cooper_sitting_v2_white_blaze.stl,Sitting figurine — white chest blaze (slot 2),110484,2208,20.0,5.3,31.5,16.5,48.0,1.49,yes,eabfa9270f0b5a2de291a9f790b6996ec53b3bbc036ca95752a37877ae9fcb57
+cooper_sitting_v2_white_eyes.stl,Sitting figurine — white eye inserts (slot 2),128084,2560,25.4,4.4,9.2,60.9,70.1,0.35,yes,659de5c9d59f2fb7613ffb47136b8c66a8658c841828c8cd73e50cd1ffa7752a
+cooper_head_bust_v2_black.stl,Head charm — black body + keyring loop (slot 1),447384,8946,38.0,45.1,54.0,0.0,54.0,30.74,yes,c233eeedf3c06d28961dda9a6f2671bb8a970ba6ad28f3ec4c57cc84bc4dfb3b
+cooper_head_bust_v2_white_eyes.stl,Head charm — white eye inserts (slot 2),128084,2560,25.0,4.4,8.6,25.2,33.8,0.31,yes,b4d183d2e93dcf1bb9b6cdb6538c5c7e0887707dae6330bdf39dd1eae39bb6ca
