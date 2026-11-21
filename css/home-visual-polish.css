@@ -1,0 +1,131 @@
+/* ============================================================
+   Home visual polish — additive layer (2026-11-21)
+   Palette only: #0b0f19, #00fff0 teal, #38bdf8 sky, #f59e0b
+   amber, silver text. No purple, pink or indigo.
+   No existing rule is deleted; motion disabled for reduced-motion.
+   ============================================================ */
+
+/* Trust chips under the hero actions */
+.hp-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0.9rem 0 0.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.hp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(56, 189, 248, 0.32);
+  background: rgba(18, 26, 43, 0.66);
+  color: #cfe9f2;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.hp-chip::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00fff0;
+  box-shadow: 0 0 10px rgba(0, 255, 240, 0.7);
+}
+
+/* Start-here path cards with icon + gentle lift */
+html:not([data-theme="light"]) .ps-start-grid a.hp-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 16px 15px;
+  border-radius: 14px;
+  border: 1px solid rgba(56, 189, 248, 0.22);
+  background: linear-gradient(180deg, rgba(0, 255, 240, 0.06), rgba(11, 15, 25, 0.42));
+  text-decoration: none;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+html:not([data-theme="light"]) .ps-start-grid a.hp-card:hover,
+html:not([data-theme="light"]) .ps-start-grid a.hp-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(0, 255, 240, 0.45);
+  box-shadow: 0 14px 30px -18px rgba(0, 255, 240, 0.45);
+}
+
+.hp-card .hp-ico {
+  width: 26px;
+  height: 26px;
+  color: #00fff0;
+  margin-bottom: 6px;
+}
+
+html:not([data-theme="light"]) .ps-start-grid a.hp-card strong {
+  color: #f1f7fb;
+  font-size: 1.02rem;
+}
+
+html:not([data-theme="light"]) .ps-start-grid a.hp-card span {
+  color: #9fb6c9;
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+/* Light-theme card variant */
+html[data-theme="light"] .ps-start-grid a.hp-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(28, 82, 87, 0.25);
+  background: #ffffff;
+}
+
+html[data-theme="light"] .hp-card .hp-ico { color: #0e7490; }
+
+/* Midland artwork frame: soft glow instead of hard offset shadow */
+.ps-city-home .ps-city-art {
+  border: 1px solid rgba(0, 255, 240, 0.28);
+  border-radius: 16px;
+  box-shadow:
+    0 18px 50px -22px rgba(0, 255, 240, 0.35),
+    0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.ps-city-home .ps-city-art img {
+  border-radius: 16px 16px 0 0;
+}
+
+.ps-city-home .ps-city-art figcaption {
+  border-radius: 0 0 16px 16px;
+  letter-spacing: 0.08em;
+}
+
+@media (min-width: 1024px) {
+  .ps-city-home .ps-city-art img {
+    max-height: 430px;
+    object-fit: cover;
+  }
+}
+
+/* Hero legacy figure: subtle consistent radius and rim light */
+.ps-city-home .ps-legacy-hero img {
+  border: 1px solid rgba(56, 189, 248, 0.22);
+}
+
+/* Reduced motion: kill lift and transitions on this layer */
+@media (prefers-reduced-motion: reduce) {
+  html:not([data-theme="light"]) .ps-start-grid a.hp-card,
+  .ps-city-home .ps-city-art {
+    transition: none !important;
+  }
+  html:not([data-theme="light"]) .ps-start-grid a.hp-card:hover {
+    transform: none !important;
+  }
+}
