@@ -59,3 +59,11 @@ All four respect `prefers-reduced-motion` and the existing Calmer view (`body.ps
 - Official logo tears remain magenta — that is the official mark, not a new drawing.
 - Shane’s weekly Grok Bot extra credit was $0; generation was capped and then stopped.
 - Do not merge to main until Shane gives the exact approval phrase.
+
+## Warp follow-up (same branch, second commit)
+
+Inspired space-flight feel only — no third-party names, logos or marks.
+
+- Canvas starfield in `js/alive-20261123.js` (~2.1 KB gzipped): stars drift toward the viewer, teal / white / silver with occasional amber, paused when the tab is hidden, 30fps cap on mobile. `prefers-reduced-motion` and Calmer view keep the static CSS star background only.
+- Self-hosted SIL OFL fonts (no font CDN): Orbitron 700 for hero titles and h1, Exo 2 600 for nav and h2/h3, latin WOFF2 subsets with `font-display: swap`. Licences in `assets/fonts/OFL-Orbitron.txt` and `OFL-Exo2.txt`. Body text stays on the system UI stack.
+- Soft teal text-shadow on titles, amber accent glow on CTAs, slow solar-corona pulse behind the official mark and home hero. Crisis numbers still have no animation, transform, filter or text-shadow.

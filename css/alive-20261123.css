@@ -1,5 +1,20 @@
 /* Pleading Sanity — new-gen alive motion, 23 Nov 2026.
    Cheap, no libraries. Never animates crisis numbers. */
+@font-face{
+  font-family:"Orbitron";
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url("/assets/fonts/orbitron-latin-700.woff2") format("woff2");
+}
+@font-face{
+  font-family:"Exo 2";
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url("/assets/fonts/exo2-latin-600.woff2") format("woff2");
+}
+
 :root {
   --ps-alive-teal: #00fff0;
   --ps-alive-sky: #38bdf8;
@@ -7,62 +22,91 @@
   --ps-alive-bg: #0b0f19;
 }
 
-#ps-alive-stars {
+body.ps-alive { isolation: isolate; }
+
+/* Headings, hero titles, nav — space-age type, readable body stays system-ui */
+body.ps-alive h1,
+body.ps-alive .gradient-text,
+body.ps-alive .hero h1,
+body.ps-alive header.hero h1,
+body.ps-alive .st-hero h1,
+body.ps-alive .mc-hero h1,
+body.ps-alive .finance-hero h1,
+body.ps-alive .arron-head h1,
+body.ps-alive .ps-hero h1,
+body.ps-alive .display {
+  font-family: "Orbitron", system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: .03em;
+  text-shadow: 0 0 10px rgba(0,255,240,.3), 0 0 22px rgba(0,255,240,.1);
+}
+body.ps-alive h2,
+body.ps-alive h3,
+body.ps-alive .ps-nav,
+body.ps-alive .ps-nav a,
+body.ps-alive .ps-brand,
+body.ps-alive .aa-brand,
+body.ps-alive nav a {
+  font-family: "Exo 2", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+#ps-alive-stars,
+#ps-alive-warp {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: -1;
   pointer-events: none;
   overflow: hidden;
+}
+#ps-alive-stars {
   contain: strict;
+}
+#ps-alive-warp {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 #ps-alive-stars span {
   position: absolute;
   inset: -10% -5%;
   display: block;
   background-repeat: repeat;
-  will-change: transform;
 }
 #ps-alive-stars .ps-alive-stars-a {
-  opacity: .45;
+  opacity: .4;
   background-image:
     radial-gradient(1px 1px at 12% 18%, rgba(0,255,240,.85) 50%, transparent 51%),
     radial-gradient(1px 1px at 28% 72%, rgba(245,158,11,.7) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 61% 24%, rgba(255,255,255,.8) 50%, transparent 51%),
-    radial-gradient(1px 1px at 81% 63%, rgba(56,189,248,.8) 50%, transparent 51%),
+    radial-gradient(1px 1px at 81% 63%, rgba(192,200,210,.8) 50%, transparent 51%),
     radial-gradient(1px 1px at 47% 88%, rgba(0,255,240,.6) 50%, transparent 51%),
     radial-gradient(1px 1px at 73% 12%, rgba(245,158,11,.55) 50%, transparent 51%),
     radial-gradient(1.5px 1.5px at 8% 48%, rgba(255,255,255,.65) 50%, transparent 51%),
     radial-gradient(1px 1px at 93% 41%, rgba(0,255,240,.7) 50%, transparent 51%);
   background-size: 720px 640px;
-  animation: ps-alive-drift 140s linear infinite;
 }
 #ps-alive-stars .ps-alive-stars-b {
-  opacity: .28;
+  opacity: .25;
   background-image:
     radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.7) 50%, transparent 51%),
     radial-gradient(2px 2px at 70% 50%, rgba(0,255,240,.45) 50%, transparent 51%),
     radial-gradient(1px 1px at 40% 80%, rgba(245,158,11,.5) 50%, transparent 51%),
-    radial-gradient(1px 1px at 88% 18%, rgba(56,189,248,.55) 50%, transparent 51%);
+    radial-gradient(1px 1px at 88% 18%, rgba(192,200,210,.55) 50%, transparent 51%);
   background-size: 980px 820px;
-  animation: ps-alive-drift-alt 200s linear infinite;
 }
-@keyframes ps-alive-drift {
-  from { transform: translate3d(0,0,0); }
-  to { transform: translate3d(-80px, -40px, 0); }
-}
-@keyframes ps-alive-drift-alt {
-  from { transform: translate3d(0,0,0); }
-  to { transform: translate3d(60px, 30px, 0); }
-}
+#ps-alive-stars:has(#ps-alive-warp) span { opacity: .16; }
 
 /* Soft glow pulse on key CTAs and the official Crying Brain mark */
 @keyframes ps-alive-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,240,.0), 0 0 16px -6px rgba(245,158,11,.25); }
-  50% { box-shadow: 0 0 22px -2px rgba(0,255,240,.35), 0 0 28px -4px rgba(245,158,11,.28); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,240,.0), 0 0 16px -6px rgba(245,158,11,.28); }
+  50% { box-shadow: 0 0 22px -2px rgba(0,255,240,.3), 0 0 30px -4px rgba(245,158,11,.38); }
 }
 @keyframes ps-alive-logo-glow {
   0%, 100% { filter: drop-shadow(0 0 2px rgba(0,255,240,.25)); }
   50% { filter: drop-shadow(0 0 8px rgba(0,255,240,.55)) drop-shadow(0 0 14px rgba(245,158,11,.28)); }
+}
+@keyframes ps-alive-corona {
+  0%, 100% { opacity: .42; transform: translate(-50%,-50%) scale(.92); }
+  50% { opacity: .78; transform: translate(-50%,-50%) scale(1.08); }
 }
 
 body.ps-alive a.btn,
@@ -84,6 +128,47 @@ body.ps-alive img.logo,
 body.ps-alive a.aa-brand img,
 body.ps-alive img[src*="crying-brain-logo"] {
   animation: ps-alive-logo-glow 6s ease-in-out infinite;
+}
+
+/* Slow solar-corona pulse behind the official mark and home hero */
+body.ps-alive .ps-brand,
+body.ps-alive a.aa-brand,
+body.ps-alive .ps-legacy-hero,
+body.ps-alive .finance-hero-mark {
+  position: relative;
+}
+body.ps-alive .ps-brand::before,
+body.ps-alive a.aa-brand::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  width: 58px;
+  height: 58px;
+  margin: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.34) 0%, rgba(0,255,240,.14) 42%, transparent 72%);
+  animation: ps-alive-corona 7.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+  transform: translate(-50%,-50%);
+}
+body.ps-alive .ps-legacy-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  width: min(46vw, 420px);
+  height: min(46vw, 420px);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,158,11,.22) 0%, rgba(0,255,240,.1) 40%, transparent 70%);
+  animation: ps-alive-corona 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+body.ps-alive .ps-legacy-hero img {
+  position: relative;
+  z-index: 1;
 }
 
 /* Card hover lift + glow edge */
@@ -156,11 +241,11 @@ a[href^="sms:85258"] {
   animation: none !important;
   transform: none !important;
   filter: none !important;
+  text-shadow: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #ps-alive-stars,
-  #ps-alive-stars span,
+  #ps-alive-warp,
   .ps-alive-reveal,
   body.ps-alive a.btn,
   body.ps-alive .btn,
@@ -184,22 +269,32 @@ a[href^="sms:85258"] {
   body.ps-alive .sx-card,
   body.ps-alive .finance-card,
   body.ps-alive .mc-card,
-  body.ps-alive article.card {
+  body.ps-alive article.card,
+  body.ps-alive .ps-brand::before,
+  body.ps-alive a.aa-brand::before,
+  body.ps-alive .ps-legacy-hero::before {
     animation: none !important;
     transition: none !important;
     transform: none !important;
     filter: none !important;
     opacity: 1 !important;
   }
-  #ps-alive-stars { display: none !important; }
+  #ps-alive-warp { display: none !important; }
+  body.ps-alive .ps-brand::before,
+  body.ps-alive a.aa-brand::before,
+  body.ps-alive .ps-legacy-hero::before { opacity: .35 !important; }
+  .ps-alive-reveal { opacity: 1 !important; }
 }
 
-body.ps-calm #ps-alive-stars { display: none !important; }
+body.ps-calm #ps-alive-warp { display: none !important; }
 body.ps-calm .ps-alive-reveal { opacity: 1; transform: none; transition: none; }
 body.ps-calm.ps-alive a.btn,
 body.ps-calm.ps-alive .btn,
 body.ps-calm.ps-alive .ps-brand img,
-body.ps-calm.ps-alive img[src*="crying-brain-logo"] {
+body.ps-calm.ps-alive img[src*="crying-brain-logo"],
+body.ps-calm.ps-alive .ps-brand::before,
+body.ps-calm.ps-alive a.aa-brand::before,
+body.ps-calm.ps-alive .ps-legacy-hero::before {
   animation: none !important;
   filter: none !important;
 }
