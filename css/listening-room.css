@@ -29,9 +29,9 @@ body.radio-page::before,body.music-room::before{background:radial-gradient(ellip
 .radio-page .station-desc{color:#d1dce1;font-size:.85rem;line-height:1.5}
 .radio-page .station-support-link{min-height:44px;display:inline-flex;align-items:center;color:#00fff0}
 .discovery-grid{display:grid;grid-template-columns:1fr;gap:1rem}
-.discovery-card{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:260px;padding:1.5rem;border:1px solid #ffffff2a;border-radius:8px;text-decoration:none;color:#eef6f7;background:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-uk-grime.jpg') center/cover}
-.discovery-card.radar-soul{background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-rnb.jpg')}
-.discovery-card.radar-dance{background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-bass.jpg')}
+.discovery-card{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:260px;padding:1.5rem;border:1px solid #ffffff2a;border-radius:8px;text-decoration:none;color:#eef6f7;background:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-uk-grime.jpg') center/cover;background:linear-gradient(0deg,#0b0f19f5,#0b0f1980),image-set(url("/images/radio/cover-uk-grime.avif") type("image/avif"),url("/images/radio/cover-uk-grime.webp") type("image/webp"),url("/images/radio/cover-uk-grime.jpg") type("image/jpeg")) center/cover}
+.discovery-card.radar-soul{background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-rnb.jpg');background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),image-set(url("/images/radio/cover-rnb.avif") type("image/avif"),url("/images/radio/cover-rnb.webp") type("image/webp"),url("/images/radio/cover-rnb.jpg") type("image/jpeg"))}
+.discovery-card.radar-dance{background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),url('/images/radio/cover-bass.jpg');background-image:linear-gradient(0deg,#0b0f19f5,#0b0f1980),image-set(url("/images/radio/cover-bass.avif") type("image/avif"),url("/images/radio/cover-bass.webp") type("image/webp"),url("/images/radio/cover-bass.jpg") type("image/jpeg"))}
 .discovery-card h3{font-size:1.8rem;letter-spacing:-.045em;margin:.7rem 0;color:#fff}
 .discovery-card p{font-size:.95rem;line-height:1.6;color:#d6e1e5;max-width:30rem}
 .discovery-card>span:last-child{color:#f7bc55;font-weight:700;font-size:.85rem}
