@@ -1,0 +1,15 @@
+/* Pleading Socially playlists. Brand lock: #0b0f19, teal, amber, silver.
+   Layout and transport styles live in /css/ps-radio-app.css; this file
+   keeps the original card hooks for the music page and older links. */
+.ps-playlists{padding-block:2rem;border-bottom:1px solid #ffffff1f}
+.ps-pl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem;margin-top:1rem}
+.ps-pl-card{background:#101b24;border:1px solid #00fff033;border-radius:12px;padding:1.25rem;color:#edf5f6}
+.ps-pl-card.ps-pl-ai{border-color:#f59e0b55}
+.ps-pl-card h3{font-size:1.35rem;margin:.6rem 0 .4rem;color:#f1f7f7}
+.ps-pl-badge{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .6rem;border-radius:999px;border:1px solid #00fff0;color:#00fff0}
+.ps-pl-ai .ps-pl-badge{border-color:#f59e0b;color:#fbbf24}
+.ps-pl-desc,.ps-pl-soon{color:#c0ccd2;line-height:1.55;font-size:.95rem}
+.ps-pl-studio-label{margin:.8rem 0 .3rem;font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#cbd5e1}
+.ps-pl-studio{margin:0;padding-left:1.1rem;color:#dce8e8}
+.ps-pl-tracks{padding-left:0;list-style:none}
+.ps-pl-title{font-weight:700}
