@@ -24,7 +24,7 @@
     "cheerio": "^1.0.0",
     "csso": "^5.0.5",
     "drizzle-kit": "^1.0.0-beta.22",
-    "drizzle-orm": "^1.0.0-rc.5",
+    "drizzle-orm": "^1.0.0-rc.6",
     "glob": "^14.0.4",
     "openai": "^7.57.0",
     "pg": "^8.23.1",
