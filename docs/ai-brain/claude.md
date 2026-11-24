@@ -44,3 +44,14 @@ Living sources:
 - Claude was already in the deleted September 2026 ArronCompanion "connected AIs" list, with no separate Claude prompt.
 - The orchestrator prompt in `7d26841` listed Copilot for code and did not name Claude in the "use them" ecosystem list, though the same commit's `knowledgeBase` mapped Claude to "deep-review/security/regression." Current role assignments in `AGENTS.md` win: Claude inspects, patches and tests; Copilot does small reviewed edits.
 - Arron growth-journal calls have used an Anthropic model. That is an implementation detail; do not freeze a model name from this backup.
+
+## Added 2026-11-23
+
+`CLAUDE.md` did not change. The three passes still stand. New working practice from the repo, not a new persona:
+
+- Paste-ready coding prompt: `docs/MASTER-UPGRADE-BLUEPRINT.md` (20 November, `d6e8ac5`). It does not replace `CLAUDE.md`. Durable rules to keep if the file is lost: zero deletion of working routes, pages, functions and assets; feature branch and pull request; no merge without Shane's explicit phrase; secret scan before commit (key prefixes already banned in the shared rules, plus printer serial, LAN address and check code — never paste a real value); crisis links remain `tel:999`, `tel:116123`, `sms:85258?body=SHOUT`, `tel:111`; palette and reduced motion; no paid model call without approval; Arron chain fails closed. Phases after 1A are not built. Phase 1A is `30687da`.
+- **Superseded on 2026-11-20 for merging:** even a tested site or asset patch is a draft pull request. Shane's exact approval phrase merges it. Site and asset drafts go to Dola.
+- Gates used on the 20–21 November branches: `node --test tests/prints.test.js`, `node --test tests/ps-studio-catalog.test.mjs`, `python3 scripts/audit-site.py`.
+- Creations image backend stays isolated from Arron chat keys (`e3eccac`). After a provider SDK bump, re-read `netlify/lib/ai-chain.ts` and confirm the crisis numbers in the Arron function.
+- Do not commit Flashforge AD5X network secrets. Do not mark a toy live without `compliance: true` and `compliance_ref` (`b075b7d`).
+- The 20 November audit found `creator-studio-music.html` and `music-creator.html` missing the literal `999` string. That gap is recorded. Do not "fix" it by weakening crisis UI on other pages, and do not touch the soul file.
