@@ -40,3 +40,16 @@
   .ps-platform-shelf h2{font-size:1.15rem!important}
 }
 @media(prefers-reduced-motion:reduce){.ps-platform-shelf>div{scroll-behavior:auto;transition:none!important}}
+
+/* The AI catalogue is intentionally the final music collection on this page. */
+.ps-ai-section{
+  margin:2.4rem 0 1.2rem;padding:1.25rem;border:1px solid rgba(245,158,11,.34);
+  border-radius:22px;background:linear-gradient(150deg,rgba(35,27,15,.62),rgba(11,15,25,.96));
+  box-shadow:0 18px 42px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04)
+}
+.ps-ai-section .radio-kicker{color:#fbbf24}
+.ps-ai-section h2{margin:.25rem 0 .55rem;color:#f8fafc;font-size:1.45rem}
+.ps-ai-section>.note{max-width:58rem;color:#cbd5e1;line-height:1.55}
+.ps-ai-section .ps-pl-grid{margin-top:1rem}
+.ps-ai-section .ps-pl-card{background:linear-gradient(155deg,rgba(37,29,18,.82),rgba(11,15,25,.98));border-color:rgba(245,158,11,.4)}
+@media(max-width:680px){.ps-ai-section{padding:1rem;margin-top:2rem}}
