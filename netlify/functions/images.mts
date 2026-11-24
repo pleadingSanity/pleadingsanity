@@ -32,6 +32,19 @@ async function pageVisibleTo(ownerId: string, viewerId: string | null) {
   return true;
 }
 
+async function serve(store: ReturnType<typeof getStore>, key: string) {
+  const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
+  if (!entry) return new Response("Not found", { status: 404 });
+  const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
+  return new Response(entry.data, {
+    headers: {
+      "Content-Type": type,
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
+
 export default async (req: Request) => {
   try {
     const store = getStore("post-images");
@@ -78,14 +91,20 @@ export default async (req: Request) => {
         return new Response("Not found", { status: 404 });
       }
       // Deny access by default. A blob URL is not proof that a viewer may read it.
+      if (key.startsWith("banner-of/")) {
+        // Public banner route: keyed by username so the Identity user id never
+        // leaves the server. Shown only to people allowed to open that page.
+        const username = key.slice("banner-of/".length).toLowerCase();
+        if (!/^[a-z0-9_]{3,24}$/.test(username)) return new Response("Not found", { status: 404 });
+        const [owner] = await db.select({ userId: profiles.userId }).from(profiles).where(eq(profiles.username, username)).limit(1);
+        if (!owner || !(await pageVisibleTo(owner.userId, user?.id ?? null))) return new Response("Not found", { status: 404 });
+        return await serve(store, `banner/${owner.userId}`);
+      }
       if (key.startsWith("banner/")) {
-        // A banner shows wherever its owner's page shows: the owner always,
-        // other people only when that member's page settings let them see it.
+        // The id-based banner URL stays owner-only.
+        if (!user) return unauthorized();
         const ownerId = key.slice("banner/".length);
-        if (!ownerId) return new Response("Not found", { status: 404 });
-        if (!user || ownerId !== user.id) {
-          if (!(await pageVisibleTo(ownerId, user?.id ?? null))) return new Response("Not found", { status: 404 });
-        }
+        if (!ownerId || ownerId !== user.id) return new Response("Not found", { status: 404 });
       } else {
         const ownerId = key.split("/")[0];
         if (!ownerId || !key.startsWith(ownerId + "/")) return new Response("Not found", { status: 404 });
@@ -103,7 +122,8 @@ export default async (req: Request) => {
             return new Response("Not found", { status: 404 });
           }
           let allowed = false;
-          // A profile photo is visible to anyone who may open that member's page.
+          // A profile photo is readable only while it is that member's CURRENT avatar
+          // and the viewer may open their page. Old avatars stay private.
           if (ownerProfile?.avatar === `photo:${key}` && (await pageVisibleTo(ownerId, user?.id ?? null))) allowed = true;
           for (const post of rows) {
             if (post.authorId !== ownerId || post.status !== "live" || post.hidden) continue;
@@ -115,16 +135,7 @@ export default async (req: Request) => {
           if (!allowed) return new Response("Not found", { status: 404 });
         }
       }
-      const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
-      if (!entry) return new Response("Not found", { status: 404 });
-      const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
-      return new Response(entry.data, {
-        headers: {
-          "Content-Type": type,
-          "Cache-Control": "private, no-store",
-          "X-Content-Type-Options": "nosniff",
-        },
-      });
+      return await serve(store, key);
     }
 
     return json({ error: "Method not allowed" }, 405);
@@ -135,5 +146,5 @@ export default async (req: Request) => {
 };
 
 export const config: Config = {
-  path: ["/api/images", "/api/images/banner", "/api/images/:user/:id"],
+  path: ["/api/images", "/api/images/banner", "/api/images/banner-of/:username", "/api/images/:user/:id"],
 };

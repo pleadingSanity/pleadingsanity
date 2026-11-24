@@ -18,7 +18,7 @@
     { id: 'ice', name: 'Ice', s: ['#06121c', '#bae6fd', '#38bdf8'] },
     { id: 'mono', name: 'Midnight Mono', s: ['#050607', '#f8fafc', '#94a3b8'] },
     { id: 'sunrise', name: 'Solar Sunrise', s: ['#170d05', '#fb923c', '#fde047'] },
-    { id: 'neon', name: 'Ocean Neon', s: ['#02101a', '#22d3ee', '#a3e635'] }
+    { id: 'neon', name: 'Ocean Neon', s: ['#0b0f19', '#38bdf8', '#00fff0'] }
   ];
   var G = '/assets/images/optimized/generated/';
   var E = '/assets/images/editorial/';
@@ -61,7 +61,20 @@
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function find(list, id) { for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return null; }
   function safeUrl(u) {
-    try { var x = new URL(String(u)); return x.protocol === 'https:' && !x.username && !x.password && x.hostname.indexOf('.') > 0 && !/^(localhost|127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(x.hostname); } catch (e) { return false; }
+    try { var x = new URL(String(u)); return x.protocol === 'https:' && !x.username && !x.password && x.hostname.indexOf('.') > 0 && !privateHost(x.hostname); } catch (e) { return false; }
+  }
+  // Loopback, private, link-local and unique-local hosts are never linked:
+  // 127/8, 10/8, 172.16/12, 192.168/16, 169.254/16, 0/8, 100.64/10, ::1, ::, fc00::/7, fe80::/10.
+  function privateHost(host) {
+    var h = String(host || '').toLowerCase().replace(/^\[|\]$/g, '');
+    if (h === 'localhost' || /\.(localhost|local|internal)$/.test(h)) return true;
+    var m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+    if (m) {
+      var a = +m[1], b = +m[2];
+      return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127);
+    }
+    if (h.indexOf(':') > -1) return h === '::1' || h === '::' || /^f[cd][0-9a-f]{0,2}:/.test(h) || /^fe[89ab][0-9a-f]?:/.test(h) || /^::ffff:/.test(h);
+    return false;
   }
   function ytId(url) {
     var v = String(url || '').trim();
@@ -302,8 +315,10 @@
     }
   }
 
+  var tracksP = null;
   function loadTracks() {
-    return fetch('/data/ps-playlists.json', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
+    if (tracksP) return tracksP;
+    return tracksP = fetch('/data/ps-playlists.json', { credentials: 'same-origin' }).then(function (r) { return r.ok ? r.json() : null; }).then(function (j) {
       if (!j || !Array.isArray(j.playlists)) return;
       j.playlists.forEach(function (pl) {
         (pl.tracks || []).forEach(function (t) {
@@ -314,11 +329,33 @@
       });
     }).catch(function () {});
   }
-  function getJSON(path) {
-    return fetch(path, { credentials: 'same-origin', headers: { Accept: 'application/json' } }).then(function (r) {
-      return r.json().catch(function () { return {}; }).then(function (body) { return { status: r.status, ok: r.ok, body: body }; });
-    }).catch(function () { return { status: 0, ok: false, body: {} }; });
+  // Signed-in calls go through the shared api() helper in /js/auth.js, which
+  // refreshes the Identity session and sends the Authorization bearer.
+  var authP = null;
+  function auth() { if (!authP) authP = import('/js/auth.js').catch(function () { return null; }); return authP; }
+  function callAPI(path, opts) {
+    return auth().then(function (m) {
+      if (!m || typeof m.api !== 'function') return { ok: false, status: 0, body: {}, noAuth: true };
+      return m.api(path, opts).then(function (body) { return { ok: true, status: 200, body: body || {} }; },
+        function (err) { return { ok: false, status: err && err.status || 0, body: err && err.data || {}, message: err && err.message }; });
+    });
   }
+  function getJSON(path) { return callAPI(path); }
+  function hasSession() { try { return !!localStorage.getItem('gotrue.user'); } catch (e) { return false; } }
+  // Re-run a mount when someone signs in or out on this page.
+  var authWatchers = [];
+  function onAuth(fn) {
+    authWatchers.push(fn);
+    if (authWatchers.length > 1) return;
+    import('/js/vendor/netlify-identity.js').then(function (m) {
+      if (m && typeof m.onAuthChange === 'function') m.onAuthChange(function (ev) { if (ev === 'login' || ev === 'logout') authWatchers.forEach(function (f) { try { f(ev); } catch (e) {} }); });
+    }).catch(function () {});
+  }
+  var SAVED_FOR = {
+    public: 'Saved to your account. Live on your public page.',
+    members: 'Saved to your account. Visible to signed-in members only.',
+    friends: 'Saved to your account. Visible to your friends only.'
+  };
 
   // ─── Owner studio (profile.html, my-space.html) ───
   function mountStudio(root) {
@@ -357,21 +394,22 @@
         if (form.ytUrl && form.ytUrl.value.trim() && !ytId(form.ytUrl.value)) { status.textContent = 'That YouTube link did not look right. Paste a youtube.com or youtu.be link.'; return; }
         if (ctx.mode !== 'account') {
           var ok = saveLocal(d); ctx.saved = ok;
-          status.textContent = ok ? 'Saved on this device.' : 'Could not save. Private browsing may block storage.';
+          status.textContent = ok ? (ctx.notice ? 'Saved on this device only. ' + ctx.notice : 'Saved on this device only. Sign in to save it to your account and show it on your public page.') : 'Could not save. Private browsing may block storage.';
           return;
         }
         var button = form.querySelector('[type=submit]');
         button.disabled = true; status.textContent = 'Saving…';
-        fetch('/api/me/space', {
-          method: 'PUT', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ space: { theme: d.theme, cover: d.cover, song: d.song, top8: d.top8, links: d.links }, displayName: d.name, bio: d.bio, statusText: d.mood, privacy: d.privacy })
-        }).then(function (r) { return r.json().then(function (b) { return { ok: r.ok, body: b }; }); }).then(function (res) {
-          if (!res.ok) throw new Error(res.body && res.body.error || 'Could not save.');
+        callAPI('/api/me/space', {
+          method: 'PUT',
+          body: { space: { theme: d.theme, cover: d.cover, song: d.song, top8: d.top8, links: d.links }, displayName: d.name, bio: d.bio, statusText: d.mood, privacy: d.privacy }
+        }).then(function (res) {
+          if (!res.ok) throw new Error(res.status === 401 ? 'You have been signed out, so this was not saved to your account. Sign in and save again.' : (res.body && res.body.error) || res.message || 'Could not save to your account. Nothing was changed.');
           ctx.saved = true;
           if (d.song && d.song.type === 'youtube' && !ctx.mySongs.some(function (s) { return s.youtubeId === d.song.id; })) ctx.mySongs.unshift({ youtubeId: d.song.id, title: d.song.title, artist: d.song.artist });
           paint();
+          root.querySelector('.sp-editor').open = true; // keep the confirmation in view
           var st = root.querySelector('[data-sp-status]');
-          st.innerHTML = 'Saved to your account. ' + (res.body.needsSupport ? 'That sounds heavy. You do not have to carry it alone: <a href="/crisis.html">help is here</a>, or call Samaritans free on <a href="tel:116123">116 123</a>.' : 'It is live on your public page.');
+          st.innerHTML = esc(SAVED_FOR[d.privacy] || SAVED_FOR.public) + (res.body.needsSupport ? ' That sounds heavy. You do not have to carry it alone: <a href="/crisis.html">help is here</a>, or call Samaritans free on <a href="tel:116123">116 123</a>.' : '');
         }).catch(function (err) {
           button.disabled = false; status.textContent = err.message || 'Could not save. Please try again.';
         });
@@ -387,7 +425,9 @@
     Promise.all([loadTracks(), getJSON('/api/me/space')]).then(function (res) {
       var me = res[1];
       if (!me.ok || !me.body || !me.body.ok) {
-        ctx.notice = me.status === 409 ? 'Finish setting up your profile to save your space to your account.' : '';
+        ctx.notice = me.status === 409 ? 'Finish setting up your profile to save your space to your account.'
+          : me.status === 401 || !hasSession() ? ''
+          : 'We could not reach your account just now, so changes save on this device only.';
         paint();
         if (ctx.notice) root.querySelector('[data-sp-editor]').insertAdjacentHTML('afterbegin', '<p class="sp-note sp-banner-note">' + esc(ctx.notice) + '</p>');
         return;
@@ -409,15 +449,24 @@
       });
     });
     window.addEventListener('pagehide', stopSong);
+    if (!root.dataset.spAuthWatch) { root.dataset.spAuthWatch = '1'; onAuth(function () { stopSong(); mountStudio(root); }); }
   }
 
   // ─── Public view (/@username) ───
   function mountPublic(el) {
     var username = String(el.getAttribute('data-username') || '').toLowerCase();
     if (!/^[a-z0-9_]{3,24}$/.test(username)) return;
+    var tries = el._spTries || 0;
     Promise.all([loadTracks(), getJSON('/api/profiles/' + encodeURIComponent(username) + '/space')]).then(function (res) {
       var b = res[1].body;
-      if (!res[1].ok || !b || !b.ok || b.locked || !b.saved) { el.remove(); return; }
+      if (!el.isConnected) return;
+      // Locked or not reachable yet: keep the slot hidden (not removed) so it can
+      // re-mount once sign-in resolves. Network blips retry twice.
+      if (!res[1].ok || !b || !b.ok || b.locked || !b.saved) {
+        el.hidden = true;
+        if ((res[1].status === 0 || res[1].status >= 500) && tries < 2) { el._spTries = tries + 1; setTimeout(function () { mountPublic(el); }, 1500 * (tries + 1)); }
+        return;
+      }
       var d = normalise(b.space);
       d.name = b.profile.displayName; d.bio = b.profile.bio; d.mood = b.profile.statusText; d.privacy = 'public';
       var ctx = { readonly: true, embed: el.getAttribute('data-embed') === 'youtube', profile: b.profile, bannerUrl: b.bannerUrl, people: b.people || [] };
@@ -427,7 +476,7 @@
       wireSong(el, d);
       el.hidden = false;
     });
-    window.addEventListener('pagehide', stopSong);
+    if (!el._spWatch) { el._spWatch = true; window.addEventListener('pagehide', stopSong); onAuth(function () { if (el.isConnected) { el._spTries = 0; mountPublic(el); } }); }
   }
 
   window.PSSpace = { mountPublic: mountPublic };

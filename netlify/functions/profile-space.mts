@@ -43,12 +43,26 @@ export type Space = { v: 2; theme: string; cover: string; song: Song; top8: stri
 
 const DEFAULT_SPACE: Space = { v: 2, theme: "deep-space", cover: "brain-nebula", song: null, top8: ["ai:arron", "space:ps-radio", "space:healing-hz", "space:feed"], links: [] };
 
+// Loopback, private, link-local and unique-local hosts are never stored as links:
+// 127/8, 10/8, 172.16/12, 192.168/16, 169.254/16, 0/8, 100.64/10, ::1, ::, fc00::/7, fe80::/10.
+export function privateHost(host: string): boolean {
+  const h = host.toLowerCase().replace(/^\[|\]$/g, "");
+  if (h === "localhost" || /\.(localhost|local|internal)$/.test(h)) return true;
+  const m = h.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (m) {
+    const a = Number(m[1]), b = Number(m[2]);
+    return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127);
+  }
+  if (h.includes(":")) return h === "::1" || h === "::" || /^f[cd][0-9a-f]{0,2}:/.test(h) || /^fe[89ab][0-9a-f]?:/.test(h) || /^::ffff:/.test(h);
+  return false;
+}
+
 function safeLink(u: unknown): string | null {
   if (typeof u !== "string" || u.length > 300) return null;
   try {
     const x = new URL(u.trim());
     if (x.protocol !== "https:" || x.username || x.password) return null;
-    if (/^(localhost|127\.|10\.|192\.168\.|169\.254\.|0\.)/.test(x.hostname) || !x.hostname.includes(".")) return null;
+    if (privateHost(x.hostname) || !x.hostname.includes(".")) return null;
     return x.toString();
   } catch {
     return null;
@@ -122,7 +136,7 @@ async function getOwn(userId: string) {
     saved,
     space,
     hasBanner: await hasBanner(userId),
-    bannerUrl: `/api/images/banner/${encodeURIComponent(userId)}`,
+    bannerUrl: `/api/images/banner-of/${encodeURIComponent(p.username)}`,
     profile: {
       username: p.username,
       displayName: p.displayName,
@@ -180,7 +194,7 @@ async function getPublic(viewerId: string | null, username: string) {
     ok: true,
     saved,
     space: banner || space.cover !== "my-banner" ? space : { ...space, cover: DEFAULT_SPACE.cover },
-    bannerUrl: banner ? `/api/images/banner/${encodeURIComponent(p.userId)}` : null,
+    bannerUrl: banner ? `/api/images/banner-of/${encodeURIComponent(p.username)}` : null,
     profile: { username: p.username, displayName: p.displayName, avatar: p.avatar, bio: p.bio, mood: p.mood, statusText: p.statusText },
     people: await resolvePeople(space.top8, viewerId),
   });

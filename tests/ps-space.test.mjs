@@ -15,9 +15,60 @@ test('P.S Space never autoplays, uploads or calls unknown third parties', () => 
   const hosts = [...js.matchAll(/https:\/\/([a-z0-9.-]+)/gi)].map((m) => m[1]);
   assert.deepEqual([...new Set(hosts)].sort(), ['www.youtube-nocookie.com', 'www.youtube.com'], 'only YouTube, and only after a tap');
   assert.doesNotMatch(js, /type=["']?file|FileReader|navigator\.sendBeacon|gtag|analytics/i);
-  const fetches = (js.match(/fetch\(([^,)]+)/g) || []).sort();
-  assert.deepEqual(fetches, ["fetch('/api/me/space'", "fetch('/data/ps-playlists.json'", 'fetch(path'].sort());
-  for (const m of js.matchAll(/getJSON\(([^)]+)\)/g)) assert.match(m[1], /^'\/api\/|^path$/, 'same-origin API only: ' + m[1]);
+  const fetches = js.match(/fetch\(([^,)]+)/g) || [];
+  assert.deepEqual(fetches, ["fetch('/data/ps-playlists.json'"], 'only the static library is fetched directly');
+  for (const m of js.matchAll(/(?:getJSON|callAPI)\(([^),]+)/g)) assert.match(m[1], /^'\/api\/|^path$/, 'same-origin API only: ' + m[1]);
+});
+
+test('signed-in calls use the shared api() helper and auth.js loads before the space script', () => {
+  assert.match(js, /import\('\/js\/auth\.js'\)/);
+  assert.match(js, /m\.api\(path, opts\)/);
+  assert.match(js, /callAPI\('\/api\/me\/space', \{\s*method: 'PUT'/);
+  for (const f of ['profile.html', 'my-space.html', 'member.html']) {
+    const h = read(f);
+    const a = h.indexOf('/js/auth.js'), b = h.indexOf('/js/ps-space.js');
+    assert.ok(a > -1 && b > a, f + ': auth.js before ps-space.js');
+  }
+  assert.match(js, /Saved on this device only/);
+});
+
+test('save message follows privacy, and locked public cards re-mount after sign-in', () => {
+  assert.match(js, /Live on your public page/);
+  assert.match(js, /Visible to signed-in members only/);
+  assert.match(js, /Visible to your friends only/);
+  assert.match(js, /SAVED_FOR\[d\.privacy\]/);
+  assert.doesNotMatch(js, /el\.remove\(\)/, 'locked slot is hidden, not removed');
+  assert.match(js, /onAuth\(function \(\) \{ if \(el\.isConnected\)/);
+});
+
+test('private hosts are rejected in links, client and server', async () => {
+  const api = read('netlify/functions/profile-space.mts');
+  const src = js.slice(js.indexOf('function privateHost'), js.indexOf('function ytId'));
+  const privateHost = new Function(src + '; return privateHost;')();
+  const hostOf = (u) => new URL(u).hostname;
+  for (const u of ['https://127.0.0.1/', 'https://10.2.3.4/', 'https://172.16.0.1/', 'https://172.31.255.255/', 'https://192.168.1.1/', 'https://169.254.169.254/', 'https://0.0.0.0/', 'https://[::1]/', 'https://[fc00::1]/', 'https://[fd12:3456::1]/', 'https://[fe80::1]/', 'https://localhost/', 'https://printer.local/']) {
+    assert.equal(privateHost(hostOf(u)), true, u);
+  }
+  for (const u of ['https://172.15.0.1/', 'https://172.32.0.1/', 'https://instagram.com/', 'https://8.8.8.8/']) assert.equal(privateHost(hostOf(u)), false, u);
+  assert.match(api, /a === 172 && b >= 16 && b <= 31/);
+  assert.match(api, /\^fe\[89ab\]/);
+  assert.match(api, /\^f\[cd\]/);
+});
+
+test('banner URLs never carry the Identity id; id route stays owner-only', () => {
+  const img = strip(read('netlify/functions/images.mts'));
+  const api = strip(read('netlify/functions/profile-space.mts'));
+  assert.match(img, /"\/api\/images\/banner-of\/:username"/);
+  assert.match(img, /pageVisibleTo\(owner\.userId/);
+  assert.match(img, /if \(!ownerId \|\| ownerId !== user\.id\) return new Response\("Not found"/);
+  assert.match(img, /avatar === `photo:\$\{key\}` && \(await pageVisibleTo/);
+  assert.doesNotMatch(api, /images\/banner\/\$\{/);
+  assert.match(api, /images\/banner-of\/\$\{encodeURIComponent\(p\.username\)\}/);
+});
+
+test('Ocean Neon stays on the brand lock', () => {
+  assert.doesNotMatch(js + css, /#a3e635|#22d3ee|#67e8f9/i);
+  assert.match(js, /\{ id: 'neon', name: 'Ocean Neon', s: \['#0b0f19', '#38bdf8', '#00fff0'\] \}/);
 });
 
 test('YouTube player loads only on a tap, from the privacy-enhanced host', () => {
