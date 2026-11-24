@@ -8,14 +8,46 @@ const strip = s => s.replace(/\/\*[\s\S]*?\*\//g, '');
 const js = strip(read('js/ps-space.js'));
 const css = strip(read('css/ps-space.css'));
 
-test('P.S Space never autoplays, uploads or calls third parties', () => {
-  assert.doesNotMatch(js, /\.autoplay\s*=\s*true|autoplay=|setAttribute\('autoplay'/i);
+test('P.S Space never autoplays, uploads or calls unknown third parties', () => {
+  assert.doesNotMatch(js, /\.autoplay\s*=\s*true|autoplay=|autoplay:|setAttribute\('autoplay'/i);
   assert.equal((js.match(/\.play\(\)/g) || []).length, 1, 'play only inside the tap handler');
   assert.match(js, /preload = 'none'/);
-  assert.doesNotMatch(js, /https?:\/\/(?!\/)[a-z]/i, 'no hard-coded external hosts');
+  const hosts = [...js.matchAll(/https:\/\/([a-z0-9.-]+)/gi)].map((m) => m[1]);
+  assert.deepEqual([...new Set(hosts)].sort(), ['www.youtube-nocookie.com', 'www.youtube.com'], 'only YouTube, and only after a tap');
   assert.doesNotMatch(js, /type=["']?file|FileReader|navigator\.sendBeacon|gtag|analytics/i);
-  const fetches = js.match(/fetch\(([^,)]+)/g) || [];
-  assert.deepEqual(fetches, ["fetch('/data/ps-playlists.json'"]);
+  const fetches = (js.match(/fetch\(([^,)]+)/g) || []).sort();
+  assert.deepEqual(fetches, ["fetch('/api/me/space'", "fetch('/data/ps-playlists.json'", 'fetch(path'].sort());
+  for (const m of js.matchAll(/getJSON\(([^)]+)\)/g)) assert.match(m[1], /^'\/api\/|^path$/, 'same-origin API only: ' + m[1]);
+});
+
+test('YouTube player loads only on a tap, from the privacy-enhanced host', () => {
+  const tap = js.slice(js.indexOf("yt.addEventListener('click'"), js.indexOf('}, { once: true });'));
+  assert.match(tap, /createElement\('iframe'\)/);
+  assert.match(tap, /youtube-nocookie\.com\/embed\/' \+ encodeURIComponent\(id\)/);
+  assert.equal((js.match(/createElement\('iframe'\)/g) || []).length, 1);
+});
+
+test('account space API: owner-only writes, visibility-checked reads, no schema change', () => {
+  const api = strip(read('netlify/functions/profile-space.mts'));
+  assert.match(api, /path: \["\/api\/me\/space", "\/api\/profiles\/:username\/space"\]/);
+  assert.match(api, /if \(!user\) return unauthorized\(\);/);
+  assert.match(api, /store\(\)\.set\(userId,/);
+  assert.match(api, /where\(eq\(profiles\.userId, userId\)\)/, 'profile basics only ever update the caller');
+  assert.match(api, /isBlockedEitherWay/);
+  assert.match(api, /p\.pageVisibility !== "public"/);
+  assert.match(api, /areFriends/);
+  assert.match(api, /x\.protocol !== "https:"/);
+  assert.match(api, /Not allowed from another site/);
+  assert.doesNotMatch(api, /console\.error\([^;\n]*,\s*error\s*\)/);
+  assert.match(read('netlify/functions/profile.mts'), /getStore\("profile-space"\)\.delete\(userId\)/, 'account deletion erases the space');
+});
+
+test('public member page shows the space and keeps every crisis number tappable', () => {
+  const h = read('member.html');
+  assert.match(h, /\/css\/ps-space\.css/);
+  assert.match(h, /\/js\/ps-space\.js/);
+  for (const n of ['tel:999', 'tel:116123', 'sms:85258', 'tel:111']) assert.ok(h.includes(n), 'member.html ' + n);
+  assert.match(read('js/page-member.js'), /PSSpace\?\.mountPublic/);
 });
 
 test('profile songs only come from approved first-party P.S library audio and keep their label', () => {
