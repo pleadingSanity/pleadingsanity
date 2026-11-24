@@ -42,7 +42,7 @@ No direct Grok or Dola connector is exposed in this ChatGPT session. The shared 
 
 ## First priority work
 1. Confirm the current soul file's approved provenance and record a hash; compare against an owner-approved intact baseline, not just an old historical commit.
-2. Build a synthetic crisis/failover harness: crisis phrase, provider timeout, provider quota error, provider refusal, all providers unavailable, rate limit and crash fallback. Assert help lines and companion boundary on every path.
+2. **P0 crisis latency review:** ordinary allowed crisis requests appear able to enter the model chain before the fixed signpost is appended. Test whether human-help options are delayed by provider latency; measure time-to-human-help separately from full reply time. Evaluate a deterministic immediate response before any provider call, with human-reviewed wording and regression tests, before implementing.
 3. Inspect whether provider refusal errors are distinguished from transport/quota errors; do not let failover bypass a safety refusal.
 4. Trace request data through each provider and review retention/training settings and user-facing disclosure.
 5. Audit every Firebase Admin/service-account Netlify function for per-user scoping; do not assume client rules protect server functions.
