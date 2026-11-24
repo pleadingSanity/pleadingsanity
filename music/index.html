@@ -60,6 +60,8 @@
 <link rel="stylesheet" href="/css/radio-icons.css">
 <link rel="stylesheet" href="/css/radio-persist.css">
 <link rel="stylesheet" href="/css/listening-room.css">
+<link rel="stylesheet" href="/css/ps-radio-app.css">
+<link rel="stylesheet" href="/css/ps-playlists.css">
 </head>
 <body class="music-room">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -70,6 +72,43 @@
 
 <main id="main">
   <header class="listening-hero-copy"><span class="radio-kicker">PLEADING SANITY · MUSIC</span><h1>Made from<br><em>real life.</em></h1><p>Shane’s original music, the songs we come back to, and the next sound to find you.</p><div class="listening-actions"><a class="listen-primary" href="/insane-radio.html#stations-title">Listen to Insane Radio ↗</a><a href="/sanity-songs.html">Sanity’s Songs</a></div></header>
+  <section id="ps-app" class="ps-app" aria-labelledby="ps-app-title">
+  <span class="radio-kicker">PLEADING SOCIALLY</span>
+  <h2 id="ps-app-title">Listen like a music app</h2>
+  <p class="note">Two playlists, kept apart. Shane's own voice and AI-made music are never mixed. Anything made with AI is labelled AI-generated. Playback is free, with no tracking and no autoplay — press play when you are ready. The player can keep going while you browse the sanctuary.</p>
+  <div id="ps-playlists-list" class="ps-pl-grid" aria-live="polite"><p class="ps-pl-soon">Loading the playlists.</p></div>
+  <div class="ps-app-transport" id="ps-app-transport" role="region" aria-label="P.S music controls">
+    <div class="ps-app-now">
+      <div id="ps-app-now-art" class="ps-art ps-art-lg" aria-hidden="true"></div>
+      <div class="ps-app-now-text">
+        <p id="ps-app-now-title" class="ps-now-title">Nothing playing</p>
+        <p id="ps-app-now-sub" class="ps-now-sub">Press play when you are ready. Nothing starts by itself.</p>
+      </div>
+    </div>
+    <div class="ps-app-controls">
+      <button type="button" id="ps-app-prev">Previous</button>
+      <button type="button" id="ps-app-play" aria-pressed="false">Play</button>
+      <button type="button" id="ps-app-next">Next</button>
+      <button type="button" id="ps-app-radio" aria-pressed="false" aria-describedby="ps-app-radio-hint">Radio</button>
+      <label class="ps-app-seek">Position <input id="ps-app-seek" type="range" min="0" max="0" value="0"><span id="ps-app-time">0:00 / 0:00</span></label>
+      <label class="ps-app-vol">Volume <input id="ps-app-vol" type="range" min="0" max="100" value="85"></label>
+    </div>
+    <p id="ps-app-radio-hint" class="note">Radio mode shuffles the P.S AI Playlist continuously. It still waits for you to press play.</p>
+  </div>
+  <div id="ps-recent-shelves" class="ps-recent-shelves">
+    <section id="ps-your-recent" aria-labelledby="ps-your-recent-title">
+      <h3 id="ps-your-recent-title">Your recently played</h3>
+      <p class="note">Your last ten tracks, stored only on this device in your browser. Nothing is sent to us. No account needed.</p>
+      <button type="button" class="ps-recent-clear" id="ps-recent-clear">Clear recently played</button>
+      <div id="ps-your-recent-list"></div>
+    </section>
+    <section id="ps-creator-recent" aria-labelledby="ps-creator-recent-title">
+      <h3 id="ps-creator-recent-title">Creator picks: recently played</h3>
+      <p class="note">A hand-picked list of what the creator has been playing from this site. It is edited by hand, not a live feed, and it never offers someone else's songs to play here.</p>
+      <div id="ps-creator-recent-list"></div>
+    </section>
+  </div>
+  </section>
   <section class="music-discovery" aria-labelledby="discovery-title">
   <span class="radio-kicker">FOLLOW THE SOUND</span><h2 id="discovery-title">New music radar</h2>
   <p class="radio-note">Go straight to the broadcasters’ rolling selections for new hip-hop, R&amp;B and dance. Their playlists change on their sites; these cards are not a live chart feed.</p>
@@ -83,7 +122,7 @@
 </section>
   <section aria-labelledby="originals-title"><span class="radio-kicker">THE ORIGINALS</span><h2 id="originals-title">Shane Cooper · original recordings</h2>
   <p class="note">This player is only for audio files Shane owns and uploads himself. Other artists’ songs stay in their official players and are not copied here. Lock-screen controls and background playback depend on your phone and browser. This is a web app, not a native Android Auto or CarPlay app.</p>
-  <p class="note">Keep this tab open to listen. Navigating to another page interrupts the song; open other pages in a new tab. Home Screen installation does not guarantee background playback.</p>
+  <p class="note">The P.S Radio bar at the bottom can keep a track going while you browse other pages on this site. A full reload will remember your place on this device and wait for you to press play. Home Screen installation does not guarantee background playback once the browser sleeps.</p>
   <p id="empty-note" class="note"></p>
   <ul id="playlist"></ul>
   <div class="bar">
@@ -115,9 +154,13 @@
   </div>
 </aside>
 </main>
+<footer class="ps-crisis-footer" role="contentinfo" aria-label="Crisis and emergency help"><p style="margin:0"><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> &middot; Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <a href="sms:85258&amp;body=SHOUT">SHOUT to 85258</a> &middot; NHS <a href="tel:111">111</a> &middot; <a href="/crisis.html">More help</a></p></footer>
 <script type="module" src="/js/music-player.js"></script>
 <script src="/js/music-app-player.js" defer></script>
+<script src="/js/ps-radio-persist.js" defer data-ps-radio-persist></script>
+<script src="/js/ps-playlists.js" defer></script>
 <script src="/js/site.js" defer></script>
 <script defer src="/js/ps-boost.js"></script>
-<script src="/js/radio-share.js" defer></script></body>
+<script src="/js/radio-share.js" defer></script>
+</body>
 </html>

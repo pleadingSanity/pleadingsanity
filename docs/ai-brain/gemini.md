@@ -47,3 +47,14 @@ Checkmate lesson to keep (October 2026): never replace verified production routi
 - **Gap, documented in the Gemini master context:** actual earlier Gemini prompts, AI Studio project identifiers, conversation history and proposed "five free fixes" were not supplied. They could not be recovered from this repo or from a complete original prompt pack. If Shane later finds those artefacts, add them here and label verified vs recalled.
 - Gemini named several docs in the universal sync (`SANCTUARY_STATUS_AND_ALIGNMENT_OCT_2026.md`, `PRODUCTION_HARDENING_OCT_2026.md`, and others). Some were not on `main` at the time. Verify a file exists before quoting it.
 - Studio Sol and the chain hop are the live Gemini-flavoured voices; there is no separate "Gemini Bot" profile in Shane's current agent list.
+
+## Added 2026-11-23
+
+No new Gemini persona, and `docs/GEMINI-MASTER-CONTEXT.md` was not in the diff since 15 November. Lane additions from the SEO and home work:
+
+- Wording stays honest: "preview" and "coming soon" rather than a claim that a print, a track or a lab site is live (`docs/SEO-GROWTH-PLAN-20261120.md`, `6f34ce5`).
+- Crisis numbers stay exact and linked: 999, 116 123, 85258, 111. From 18 November (founder memory) they may be less dominant, including a sticky footer, and they are never removed.
+- Noindex and private routes stay out of the sitemap. FAQ structured data only where the page already asks and answers something real.
+- Mobile and motion: Calmer View and `prefers-reduced-motion` on the orbital slice (`30687da`). Showcase art must not carry a purple or magenta cast (`d7e51d8`).
+- Do not copy the owner phone number or mailbox out of `docs/SEO-LAUNCH-CHECKLIST-20261121.md`.
+- Firebase and the chain hop were not changed in this window. Do not retune them from the upgrade blueprint.

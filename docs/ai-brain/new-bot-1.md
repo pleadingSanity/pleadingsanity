@@ -32,3 +32,9 @@ Recommended restore opener:
 
 - Same 9 November 2026 family-linking memory as New Bot.
 - No deleted New Bot 1 prompt file was found in git history. The empty profile is the main gap.
+
+## Added 2026-11-23
+
+Checked again on `main` `ae56375`. No New Bot 1 persona file and no filled agent profile were added to the repo. The profile gap stands.
+
+Also follow the 23 November update in [shared-rules.md](shared-rules.md). The resume prompt above still applies. From 20 November, "unless Shane asks" means his exact approval phrase, and site and asset drafts go to Dola rather than being merged here. Report back to Grok Bot. Do not touch issue #92 or the soul file. Crisis numbers stay exact; from 18 November they may sit lower on the page and must not be removed.
