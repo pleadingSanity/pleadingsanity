@@ -57,6 +57,7 @@ export default async () => {
       topic,
       title: card.title,
       body: card.body,
+      hidden: true,
     });
   } catch (error) {
     console.error(`AI family post (${voice}) failed:`, logReason(error));

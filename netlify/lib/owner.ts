@@ -7,7 +7,7 @@
 
 import { and, desc, eq, gte, inArray, ne } from "drizzle-orm";
 import { db } from "../../db/index.js";
-import { memberRoles, posts, profiles, reports, users } from "../../db/schema.js";
+import { memberRoles, posts, profiles, reports, studioItems, users } from "../../db/schema.js";
 import { countSql, GRANTABLE_ROLES, getSettings, isOwnerEmail, logActivity } from "./social.js";
 
 const DAY = 86400000;
@@ -120,4 +120,47 @@ export async function setRole(ownerId: string, usernameRaw: string, roleRaw: str
   }
   await logActivity(ownerId, grant ? "owner.grant" : "owner.revoke", "user", target.userId, role);
   return { ok: true, displayName: target.displayName, username: target.username, role, granted: grant };
+}
+
+
+// Hidden studio posts and podcasts wait here until Shane approves them.
+export async function studioReviewQueue() {
+  const rows = await db
+    .select({
+      id: studioItems.id,
+      kind: studioItems.kind,
+      authorLabel: studioItems.authorLabel,
+      model: studioItems.model,
+      style: studioItems.style,
+      topic: studioItems.topic,
+      title: studioItems.title,
+      body: studioItems.body,
+      script: studioItems.script,
+      hidden: studioItems.hidden,
+      createdAt: studioItems.createdAt,
+    })
+    .from(studioItems)
+    .where(eq(studioItems.hidden, true))
+    .orderBy(desc(studioItems.id))
+    .limit(50);
+  return rows.filter((row) => !String(row.style || "").startsWith("pending:")).map((row) => ({
+    ...row,
+    pendingReview: true,
+    recording: false,
+  }));
+}
+
+export async function reviewStudioItem(ownerId: string, id: number, action: "approve" | "hold") {
+  if (!Number.isInteger(id)) return null;
+  const [item] = await db.select().from(studioItems).where(eq(studioItems.id, id));
+  if (!item) return null;
+  if (String(item.style || "").startsWith("pending:")) return null;
+  if (action === "approve" && item.kind === "podcast" && !item.script) return null;
+  const [row] = await db
+    .update(studioItems)
+    .set({ hidden: action !== "approve" })
+    .where(eq(studioItems.id, id))
+    .returning({ id: studioItems.id, hidden: studioItems.hidden, kind: studioItems.kind });
+  if (row) await logActivity(ownerId, action === "approve" ? "owner.studio-approve" : "owner.studio-hold", "studio", id);
+  return row ?? null;
 }
