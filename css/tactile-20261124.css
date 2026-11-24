@@ -1,0 +1,167 @@
+/* Pleading Sanity — tactile star buff, 24 Nov 2026.
+   Additive only. Glow, gradient borders, hover lift, press state, focus rings,
+   bigger tap targets, image-led cards, mobile dock icons, shooting-star streaks.
+   Brand: #0b0f19 deep space, #00fff0 / #38bdf8 teal, #f59e0b amber, silver.
+   No purple, no pink, no indigo. Respects prefers-reduced-motion and Calmer view.
+   Crisis numbers are never moved, hidden or animated. */
+:root{
+  --pst-bg:#0b0f19;--pst-teal:#00fff0;--pst-sky:#38bdf8;--pst-amber:#f59e0b;--pst-silver:#dfe7ef;
+  --pst-edge:linear-gradient(135deg,rgba(0,255,240,.95),rgba(56,189,248,.75) 45%,rgba(245,158,11,.9));
+  --pst-glow:0 0 0 1px rgba(0,255,240,.18),0 8px 26px -10px rgba(0,255,240,.55),0 0 22px -8px rgba(245,158,11,.35);
+  --pst-ease:cubic-bezier(.2,.8,.2,1);
+}
+
+/* ---------- 1. Buttons and link buttons: gradient edge, glow, lift, press ---------- */
+.ps-btn,.btn,.store-open,.store-install-btn,.ps-donate-btn,.sbtn,.share-btn,.orbital-calm-btn,
+.home-quick-links a,.planet-links a,.hp-chip,.store-chip,.mobile-explore-links a,.card-links a{
+  position:relative;
+  min-height:44px;
+  display:inline-flex;align-items:center;justify-content:center;gap:.45em;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  transition:transform .18s var(--pst-ease),box-shadow .22s var(--pst-ease),filter .22s ease,background-color .22s ease,color .22s ease;
+}
+/* Outline styles get a teal→sky→amber gradient border and deep-space fill */
+.ps-btn-primary-outline,.store-open,.home-quick-links a:not([href*="crisis"]):not(.urgent):not(.home-live),.planet-links a:not([href*="crisis"]),
+.hp-chip,.mobile-explore-links a:not([href*="crisis"]):not(.urgent):not(.home-radio),.card-links a:not([href*="crisis"]),
+.store-chip[aria-pressed="false"]{
+  border:1.5px solid transparent !important;
+  background:linear-gradient(180deg,rgba(13,27,42,.92),rgba(11,15,25,.96)) padding-box,var(--pst-edge) border-box !important;
+  color:#eafffd !important;
+  box-shadow:0 0 0 0 rgba(0,255,240,0),0 4px 14px -8px rgba(0,255,240,.45);
+  text-decoration:none;
+}
+.store-open{padding:.55rem 1.4rem;border-radius:999px;font-weight:800;letter-spacing:.02em}
+/* Filled primaries: light sheen and warm glow */
+.btn-primary,.store-install-btn,.ps-donate-btn-primary,.ps-btn-primary:not(.ps-btn-primary-outline),.store-chip[aria-pressed="true"]{
+  background-image:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,0) 55%) !important;
+  box-shadow:var(--pst-glow);
+}
+.ps-donate-btn-amber{box-shadow:0 0 0 1px rgba(245,158,11,.35),0 8px 24px -10px rgba(245,158,11,.6)}
+
+@media (hover:hover){
+  .ps-btn:hover,.btn:hover,.store-open:hover,.store-install-btn:hover,.ps-donate-btn:hover,.sbtn:hover,.share-btn:hover,.orbital-calm-btn:hover,
+  .home-quick-links a:hover,.planet-links a:hover,.hp-chip:hover,.store-chip:hover,.mobile-explore-links a:hover,.card-links a:hover{
+    transform:translateY(-2px);
+    box-shadow:var(--pst-glow);
+    filter:brightness(1.08) saturate(1.08);
+  }
+}
+.ps-btn:active,.btn:active,.store-open:active,.store-install-btn:active,.ps-donate-btn:active,.sbtn:active,.share-btn:active,.orbital-calm-btn:active,
+.home-quick-links a:active,.planet-links a:active,.hp-chip:active,.store-chip:active,.mobile-explore-links a:active,.card-links a:active{
+  transform:translateY(1px) scale(.97);
+  box-shadow:inset 0 2px 8px rgba(0,0,0,.45),0 0 14px -4px rgba(0,255,240,.6);
+  filter:brightness(.96);
+  transition-duration:.06s;
+}
+
+/* Visible keyboard focus everywhere (teal ring, amber halo) */
+a:focus-visible,button:focus-visible,summary:focus-visible,[role="button"]:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{
+  outline:3px solid var(--pst-teal) !important;
+  outline-offset:3px !important;
+  box-shadow:0 0 0 6px rgba(245,158,11,.28) !important;
+  border-radius:10px;
+}
+
+/* ---------- 2. Image-led cards: whole card is tappable, image glows and zooms ---------- */
+.tool-card,.store-card,.game-card,.app-card,.hp-card,.collection-card,.cosmic-card{
+  transition:transform .25s var(--pst-ease),box-shadow .25s var(--pst-ease),border-color .25s ease;
+}
+.tool-card{position:relative;isolation:isolate;border:1px solid rgba(0,255,240,.28);box-shadow:0 18px 40px -24px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.06)}
+/* Stretch the single card button over the whole card */
+/* (The whole-card stretch link already lives in card-polish.css.) Art leads: the picture becomes a
+   clear 16:9 banner across the top of each home card, words sit underneath on deep space. */
+.tool-card:has(> picture,> img.home-tool-image){display:block;min-height:0;
+  background:linear-gradient(180deg,rgba(13,27,42,.92),rgba(11,15,25,.97)) !important}
+.tool-card:has(> picture,> img.home-tool-image)::before{background:linear-gradient(180deg,rgba(11,15,25,0) 0,rgba(11,15,25,0) 45%,rgba(0,255,240,.04) 100%)}
+.tool-card > picture{display:block;position:relative;z-index:0;overflow:hidden;margin:-16px -16px 14px;border-radius:16px 16px 0 0;
+  box-shadow:inset 0 -1px 0 rgba(0,255,240,.35)}
+.tool-card > picture > img,.tool-card > img.home-tool-image{position:relative !important;inset:auto !important;display:block;
+  width:100%;height:auto !important;aspect-ratio:16/9;object-fit:cover;opacity:1 !important;border-radius:0}
+.tool-card > img.home-tool-image{width:calc(100% + 32px);max-width:none;margin:-16px -16px 14px;border-radius:16px 16px 0 0}
+.tool-card h3{text-shadow:0 0 18px rgba(0,255,240,.35),0 1px 2px #0b0f19}
+@media (hover:hover){
+  .tool-card:hover,.store-card:hover,.game-card:hover,.app-card:hover,.hp-card:hover,.collection-card:hover,.cosmic-card:hover{
+    transform:translateY(-4px);
+    border-color:rgba(0,255,240,.75);
+    box-shadow:0 22px 44px -22px rgba(0,255,240,.45),0 0 0 1px rgba(0,255,240,.3),0 0 34px -14px rgba(245,158,11,.4);
+  }
+}
+.tool-card:active,.store-card:active,.game-card:active,.app-card:active{transform:translateY(0) scale(.985)}
+
+/* App Hub fix: cards that wrap their art in <picture> now fill the card like the rest
+   (before, the art rendered as a separate tall dark block above the text). */
+.store-card > picture{position:absolute;inset:0;z-index:0;display:block}
+.store-card > picture > img{width:100%;height:100%;object-fit:cover;display:block}
+.store-card > img,.store-card > picture > img{opacity:.9;transition:transform .6s var(--pst-ease),opacity .3s ease}
+@media (hover:hover){.store-card:hover > img,.store-card:hover > picture > img{transform:scale(1.06);opacity:1}}
+.store-card{box-shadow:0 18px 40px -24px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.06);min-height:clamp(240px,56vw,300px)}
+.store-card::before{background:linear-gradient(180deg,rgba(11,15,25,0) 0%,rgba(11,15,25,.06) 28%,rgba(11,15,25,.8) 56%,rgba(11,15,25,.96) 100%)}
+.store-card-body{padding-top:5.5rem}
+.store-card-name{text-shadow:0 0 16px rgba(0,255,240,.35),0 1px 3px #0b0f19}
+.store-hero > img{opacity:.78}
+.store-hero::after{content:"";position:absolute;right:-8%;top:-30%;width:60%;height:120%;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(245,158,11,.22),rgba(245,158,11,0) 70%)}
+
+/* Fix: a broad [class*="card"] rule (legion-buff.css) also boxed and blurred the inner parts of
+   App Hub cards (name, blurb, tags), which smeared the art. Inner parts stay clear. */
+.store-card-body,.store-card-name,.store-card-blurb,.store-card-meta,.collection-card-copy,.card-links{
+  background:none !important;border:0 !important;border-radius:0;backdrop-filter:none !important;-webkit-backdrop-filter:none !important;box-shadow:none;transform:none !important}
+.store-card,.tool-card{backdrop-filter:none !important;-webkit-backdrop-filter:none !important}
+
+/* ---------- 3. Glowing headings ---------- */
+main h1,.hero h1,.store-hero h1,section > h2,.store-section > h2{
+  text-shadow:0 0 22px rgba(0,255,240,.28),0 0 46px rgba(56,189,248,.14),0 2px 3px rgba(0,0,0,.6);
+}
+
+/* ---------- 4. Mobile dock: centred SVG icons, amber LIVE, press feedback ---------- */
+.ps-dock{grid-template-columns:repeat(3,minmax(0,1fr));border:1.5px solid transparent;
+  background:linear-gradient(rgba(11,15,25,.95),rgba(11,15,25,.95)) padding-box,var(--pst-edge) border-box}
+@media (min-width:340px){.ps-dock{grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;padding:5px}}
+.ps-dock a,.ps-dock button{display:flex !important;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  min-width:0;min-height:52px;padding:4px 2px;font-size:.68rem;letter-spacing:.02em;line-height:1.1;color:#dff9ff;
+  transition:transform .14s var(--pst-ease),background-color .2s ease,box-shadow .2s ease,color .2s ease}
+.ps-dock .ps-dock-ico{width:20px;height:20px;flex:none;filter:drop-shadow(0 0 4px rgba(0,255,240,.55))}
+.ps-dock a:first-child:not(.ps-dock-live){background:transparent;color:#dff9ff}
+.ps-dock a.ps-dock-live{background:linear-gradient(180deg,#fbbf24,#d97706);color:#0b0f19;font-weight:900;box-shadow:0 0 16px -4px rgba(245,158,11,.75)}
+.ps-dock a.ps-dock-live .ps-dock-ico{filter:none}
+.ps-dock .ps-dock-menu::before{content:"";width:20px;height:20px;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h16M4 12h16M4 17h16'/%3E%3C/svg%3E") center/contain no-repeat;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M4 7h16M4 12h16M4 17h16'/%3E%3C/svg%3E") center/contain no-repeat}
+.ps-dock a[aria-current="page"]{outline:none;background:rgba(0,255,240,.12);color:#00fff0;box-shadow:inset 0 0 0 1px rgba(0,255,240,.55),0 0 14px -6px rgba(0,255,240,.8)}
+.ps-dock a:active,.ps-dock button:active{transform:scale(.92);background:rgba(0,255,240,.16)}
+
+/* ---------- 5. Streaming shooting stars (injected by site.js; skipped when reduced motion or Calmer view) ---------- */
+.ps-streaks{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;contain:strict}
+.ps-streaks i{position:absolute;top:-10%;left:60%;width:140px;height:1.5px;border-radius:2px;opacity:0;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(223,231,239,.9) 60%,#00fff0);
+  filter:drop-shadow(0 0 6px rgba(0,255,240,.8));transform:rotate(-35deg) translateX(0);
+  animation:pst-streak 11s linear infinite}
+.ps-streaks i:nth-child(2){top:8%;left:88%;animation-delay:4.2s;animation-duration:13s;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(253,230,138,.9) 60%,#f59e0b);filter:drop-shadow(0 0 6px rgba(245,158,11,.8))}
+.ps-streaks i:nth-child(3){top:28%;left:105%;animation-delay:8.1s;animation-duration:15s;width:100px}
+.ps-streaks::before{content:"";position:absolute;right:-18vmax;top:-18vmax;width:52vmax;height:52vmax;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(245,158,11,.16),rgba(245,158,11,.05) 55%,rgba(245,158,11,0) 72%);
+  animation:pst-solar 16s ease-in-out infinite alternate}
+@keyframes pst-streak{
+  0%{opacity:0;transform:rotate(-35deg) translateX(0)}
+  3%{opacity:1}
+  12%{opacity:0;transform:rotate(-35deg) translateX(-70vmax)}
+  100%{opacity:0;transform:rotate(-35deg) translateX(-70vmax)}
+}
+@keyframes pst-solar{from{opacity:.75;transform:scale(1)}to{opacity:1;transform:scale(1.08)}}
+
+/* ---------- 6. Safety: crisis routes are never moved, hidden or animated ---------- */
+a[href^="tel:"],a[href^="sms:"],a[href*="crisis"],.urgent,.ps-crisis,.ps-crisis-footer,.ps-crisis-footer *,
+.ps-start-urgent,.ps-start-urgent *,[aria-label="Crisis and emergency help"],[aria-label="Crisis and emergency help"] *{
+  transform:none !important;animation:none !important;filter:none !important;opacity:1 !important;visibility:visible !important;
+}
+
+/* ---------- 7. Reduced motion and Calmer view ---------- */
+@media (prefers-reduced-motion:reduce){
+  .ps-streaks{display:none !important}
+  .ps-btn,.btn,.store-open,.store-install-btn,.ps-donate-btn,.sbtn,.share-btn,.orbital-calm-btn,.home-quick-links a,.planet-links a,.hp-chip,.store-chip,
+  .mobile-explore-links a,.card-links a,.tool-card,.store-card,.game-card,.app-card,.hp-card,.collection-card,.cosmic-card,
+  .store-card > img,.store-card > picture > img,.ps-dock a,.ps-dock button{transition:none !important;transform:none !important}
+}
+html.calm-view .ps-streaks,body.ps-calm .ps-streaks{display:none !important}
+html.calm-view .tool-card,html.calm-view .store-card,body.ps-calm .tool-card,body.ps-calm .store-card{transform:none !important}
