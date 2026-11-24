@@ -60,7 +60,7 @@ test('actual owner endpoint rejects guests and non-owners before workbench data 
     const denied = () => { reads++; throw new Error('Private data read'); };
     const api = await load('netlify/functions/owner.mts', {
       '../lib/social.js': { currentUser: async () => user, json: (b, status = 200) => new Response(JSON.stringify(b), { status }), unauthorized: () => new Response('{}', { status: 401 }), readBody: denied, saveSettings: denied, str: String, logReason: () => 'error' },
-      '../lib/owner.js': { approveAll: denied, overview: denied, reviewPost: denied, reviewQueue: denied, setRole: denied },
+      '../lib/owner.js': { approveAll: denied, overview: denied, reviewPost: denied, reviewQueue: denied, reviewStudioItem: denied, setRole: denied, studioReviewQueue: denied },
       '../lib/workbench.js': { buildBrief: denied, listProposals: denied, PROPOSAL_STATUSES: ['proposed','approved','done','dismissed'], setProposalStatus: denied, sitePulse: denied },
     });
     for (const method of ['GET', 'POST']) {
