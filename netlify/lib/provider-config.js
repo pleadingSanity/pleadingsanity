@@ -10,7 +10,7 @@ export const KEY_NAMES = {
   anthropic: ["ARRON_ANTHROPIC_KEY", "ANTHROPIC_API_KEY", "CLAUDE_API_KEY", "Anthropic_Key_Arron"],
   gemini: ["ARRON_GEMINI_KEY", "GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY"],
   grok: ["ARRON_GROK_KEY", "GROK_API_KEY", "xAI_KEY", "XAI_API_KEY"],
-  openrouter: ["ARRON_OPENROUTER_KEY", "OPENROUTER_API_KEY"],
+  openrouter: ["ARRON_OPENROUTER_KEY", "OPENROUTER_API_KEY", "OPENROUTER"],
 };
 
 // A drop-in ARRON_* key always talks to the provider directly, never through a gateway base URL.
