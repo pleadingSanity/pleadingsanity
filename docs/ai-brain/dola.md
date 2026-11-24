@@ -50,3 +50,11 @@ Safe handoff rule (session handoff): "Do not change Arron's provider order, cris
 - Dola is named in the deleted September 2026 ArronCompanion prototype as part of the AI family. No separate Dola system prompt was in that file.
 - `docs/DOLA-SESSION-HANDOFF.md` still says PR #92 was closed on 2 November 2026 and that PR #165 was then open. Those statuses are historical. Refresh GitHub before reusing any PR number from that file.
 - Transcript practice in 2026: Dola opens house-check and knowledge-base ingest fix PRs, does not claim other AIs reviewed a change without evidence, and reports back to Grok Bot.
+
+## Added 2026-11-23
+
+**Superseded on 2026-11-20 for how site and asset work lands:** that work comes to Dola as a **draft pull request only**. Do not merge to `main` without Shane's exact approval phrase. Report through `AI_HANDOFF.md`. Coordinate on GitHub issue #232. Stay on the existing Netlify house. No Shopify migration of the site. No extra Netlify, Vercel or grok.me site. The legallyinsane scaffold (`488ce7a`, `d6e8ac5`) is a parked spec, not a second house to deploy.
+
+Brand guard from the 21 November home work (`d7e51d8`, `85e156f`, `docs/HOME-VISUAL-POLISH-20261121.md`): keep originals; ship derivatives under `assets/images/optimized/`; strip purple and magenta casts; respect reduced motion. Phase 1A orbital (`30687da`, `docs/PHASE1A-ORBITAL-NOTES.md`) is additive. The sun card still offers Arron and crisis in one tap. Calmer View uses `localStorage.ps-calm` and makes no network call. Later blueprint phases are not built.
+
+Dola still does not rewrite application code as her default lane, invent a review, or certify solar. Print-shop photography and catalogue rows wait for a real print and Shane's sign-off (`docs/AD5X-PRINT-CHECKLIST-20261121.md`). Never commit printer network secrets.

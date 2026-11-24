@@ -120,3 +120,15 @@ Treat as **historical only**, and do not restore these parts as fact or style:
 - The prototype's connected list was Dola, Arron, Gemini, Claude, Copilot — it omitted GPT and did not describe the live chain.
 
 Earlier `Components/chatGPTwidget.js` was renamed to ArronCompanion and later deleted in the same cleanup. No separate best prompt was recovered beyond that widget becoming Arron.
+
+## Added 2026-11-23
+
+Checked `arron-knowledge.json`, `netlify/lib/arron-knowledge.ts`, `netlify/lib/ai-chain.ts` and `netlify/lib/studio.ts` against the 15 November archive. None of those files changed. Persona, chain order, healing tones and the "not a therapist" rule are unchanged. Do not rebuild the soul file from this page.
+
+What did change around him:
+
+- The optional 99p Supporter role is a badge only (`02433a5`). It must not gate Arron basic chat, crisis replies, or safety. Longer memory is a non-essential extra hook, not a change to the safety reply. Details in [shared-rules.md](shared-rules.md).
+- **Superseded on 2026-11-18 for placement only** (founder memory): on Arron, Safety and crisis pages the numbers 999, Samaritans 116 123, Shout 85258 and NHS 111 may sit in a sticky footer or at the bottom and may be less dominant. They stay exact and tappable. They are never removed. Safety stays locked, with the crisis redirect first.
+- Do not edit `arron-knowledge.json` or issue #92 from a visual or print-shop task.
+- Creations image keys stay off Arron's chat keys (`e3eccac`). SDK bumps must leave the order GPT → Claude → Gemini → Grok → local fallback, and must leave the crisis numbers in the Arron function.
+- `docs/MASTER-UPGRADE-BLUEPRINT.md` Phase 3 is a future prompt, not a live Arron change. The acceptance bar it sets is already house law: say he is a companion, not a therapist; keep one-tap crisis actions on conversation screens; fail closed; never send a service key to the browser; never print a raw provider error.

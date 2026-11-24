@@ -1659,3 +1659,9 @@ Verify after a new key (a new deploy or env change takes effect on the next func
   - #364 actions/checkout 4→7 (MAJOR, workflow) — LEFT OPEN: merge conflicts (PR has conflicts with main). Shane resolves in UI or rebase.
 - Deploy READY. 6 pages 200: /, /arron, /crisis, /profile, /feed, /insane-radio. Turso OK. Supabase still connect_failed (dashboard fix, not code).
 - Rollback: revert merge commits in reverse order (git revert -m 1 <sha>). No private/Mia details committed. Never-touch list preserved.
+
+## 2026-11-23 — Grok: weekly AI brain refresh (docs only, not merged)
+- Diffed `docs/ai-brain/` (archive `a782944`, 15 Nov) against `main` `ae56375`. Appended only. Older lines marked superseded were left in place. Changelog: `docs/ai-brain/CHANGELOG.md` section "2026-11-23".
+- Recorded from the repo: 99p unlock built (`02433a5`, badge only); print-shop and AD5X rules (`b075b7d`, `aeb915c`, `3cef91d`, `bd4913d`); solar deposit client id from env (`ced20fd`); home palette derivatives (`d7e51d8`, `85e156f`); orbital Phase 1A (`30687da`); SEO honesty (`6f34ce5`, `bd4913d`); upgrade blueprint phrase gate (`d6e8ac5`). Creations keys stay isolated from Arron (`e3eccac`).
+- Recorded from founder memory where the repo does not yet say it: crisis numbers may sit lower from 18 Nov and are never removed; Pleading Socially replaces Shaney C (studio files on this commit still say Shaney C — not renamed here); AI credits fund (no `docs/AI-CREDITS-FUND.md`); 20 Nov site/asset work is a Dola draft PR and needs Shane's exact approval phrase before `main`.
+- Not touched: code, config, workflows, site pages, soul file, issue #92, payments, login, `crisis.html`. This entry does not merge anything. The morning 15 Nov "99p not built" header is now stale next to the blueprint; it was not rewritten in this pass.
