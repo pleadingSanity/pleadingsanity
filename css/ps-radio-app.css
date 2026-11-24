@@ -1,0 +1,98 @@
+/* P.S Radio / music app + persistent mini-player.
+   Brand lock: #0b0f19, teal #00fff0 / #38bdf8, amber #f59e0b, silver.
+   No purple, pink, indigo, emoji. SVG icons live in the markup.
+   Motion is decorative and stops under prefers-reduced-motion. */
+
+.ps-app{padding-block:2rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.12)}
+.ps-app .radio-kicker{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:.72rem;font-weight:800;color:#38bdf8;margin-bottom:.5rem}
+.ps-app h2,.ps-recent-shelves h3{color:#f1f7f7;margin:.2rem 0 .6rem;letter-spacing:.01em}
+.ps-pl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:1rem;margin-top:1rem}
+.ps-pl-card{background:linear-gradient(165deg,rgba(16,27,36,.95),rgba(11,15,25,.98));border:1px solid rgba(0,255,240,.2);border-radius:16px;padding:1.15rem;color:#edf5f6;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+.ps-pl-card.ps-pl-ai{border-color:rgba(245,158,11,.4)}
+.ps-pl-card:hover{transform:translateY(-3px);border-color:rgba(0,255,240,.5);box-shadow:0 10px 28px rgba(0,0,0,.35),0 0 18px rgba(0,255,240,.12)}
+.ps-pl-ai:hover{border-color:rgba(245,158,11,.65);box-shadow:0 10px 28px rgba(0,0,0,.35),0 0 18px rgba(245,158,11,.14)}
+.ps-pl-card h3{font-size:1.3rem;margin:.55rem 0 .4rem;color:#f1f7f7}
+.ps-pl-badge{display:inline-block;font-size:.7rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .6rem;border-radius:999px;border:1px solid #00fff0;color:#00fff0}
+.ps-pl-ai .ps-pl-badge{border-color:#f59e0b;color:#fbbf24}
+.ps-pl-desc,.ps-pl-soon{color:#c0ccd2;line-height:1.55;font-size:.95rem}
+.ps-pl-studio-label{margin:.8rem 0 .3rem;font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#cbd5e1}
+.ps-pl-studio{margin:0;padding-left:1.1rem;color:#dce8e8}
+.ps-pl-tracks{list-style:none;margin:.85rem 0 0;padding:0;display:flex;flex-direction:column;gap:.45rem}
+.ps-pl-tracks li{margin:0}
+.ps-track-btn{width:100%;min-height:48px;text-align:left;display:flex;align-items:center;gap:.75rem;padding:.55rem .7rem;border-radius:12px;border:1px solid rgba(0,255,240,.28);background:#111827;color:#e8eef7;font:inherit;cursor:pointer}
+.ps-track-btn:hover,.ps-track-btn:focus-visible{border-color:#00fff0;box-shadow:0 0 0 2px rgba(0,255,240,.25)}
+.ps-track-btn:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.ps-track-btn.is-current{border-color:#f59e0b;background:rgba(245,158,11,.08)}
+.ps-track-meta{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.ps-track-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-track-sub{font-size:.82rem;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-art{width:44px;height:44px;flex:0 0 auto;border-radius:10px;border:1px solid rgba(0,255,240,.3);position:relative;overflow:hidden;background:
+  radial-gradient(circle at 30% 28%, rgba(0,255,240,.5), transparent 42%),
+  radial-gradient(circle at 74% 70%, rgba(245,158,11,.38), transparent 46%),
+  linear-gradient(160deg,#152033,#0b0f19)}
+.ps-art::after{content:"";position:absolute;inset:38%;border-radius:50%;background:#0b0f19;border:1px solid rgba(192,204,210,.45);box-shadow:0 0 0 3px rgba(0,255,240,.15)}
+.ps-art-01{background:radial-gradient(circle at 28% 24%,rgba(0,255,240,.55),transparent 44%),radial-gradient(circle at 80% 76%,rgba(56,189,248,.35),transparent 48%),linear-gradient(155deg,#142033,#0b0f19)}
+.ps-art-02{background:radial-gradient(circle at 70% 22%,rgba(245,158,11,.5),transparent 44%),radial-gradient(circle at 20% 80%,rgba(0,255,240,.3),transparent 48%),linear-gradient(155deg,#1a1820,#0b0f19)}
+.ps-art-03{background:radial-gradient(circle at 50% 20%,rgba(192,197,206,.5),transparent 42%),radial-gradient(circle at 30% 80%,rgba(0,255,240,.32),transparent 50%),linear-gradient(155deg,#121820,#0b0f19)}
+.ps-art-04{background:radial-gradient(circle at 18% 60%,rgba(56,189,248,.5),transparent 44%),radial-gradient(circle at 82% 30%,rgba(245,158,11,.32),transparent 46%),linear-gradient(155deg,#101828,#0b0f19)}
+.ps-art-05{background:radial-gradient(circle at 60% 40%,rgba(0,255,240,.48),transparent 40%),radial-gradient(circle at 10% 10%,rgba(245,158,11,.4),transparent 42%),linear-gradient(155deg,#16141c,#0b0f19)}
+.ps-art-06{background:radial-gradient(circle at 40% 80%,rgba(56,189,248,.45),transparent 46%),radial-gradient(circle at 90% 20%,rgba(0,255,240,.28),transparent 40%),linear-gradient(155deg,#10141e,#0b0f19)}
+.ps-art-07{background:radial-gradient(circle at 50% 50%,rgba(245,158,11,.48),transparent 46%),radial-gradient(circle at 20% 20%,rgba(0,255,240,.35),transparent 40%),linear-gradient(155deg,#1a140c,#0b0f19)}
+.ps-art-08{background:radial-gradient(circle at 30% 30%,rgba(192,197,206,.4),transparent 40%),radial-gradient(circle at 80% 70%,rgba(245,158,11,.28),transparent 48%),linear-gradient(155deg,#141414,#0b0f19)}
+.ps-art-lg{width:88px;height:88px;border-radius:16px}
+.ps-art-lg::after{inset:36%}
+
+.ps-app-transport{margin-top:1.4rem;padding:1rem 1.05rem;border-radius:18px;border:1px solid rgba(0,255,240,.28);background:linear-gradient(180deg,rgba(13,20,32,.92),rgba(11,15,25,.96));box-shadow:0 8px 28px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,255,240,.06)}
+.ps-app-now{display:flex;align-items:center;gap:.9rem;min-width:0}
+.ps-app-now-text{min-width:0;flex:1 1 auto}
+.ps-app-now-text p{margin:0}
+.ps-now-title{font-weight:800;color:#f1f7f7;font-size:1.05rem}
+.ps-now-sub{color:#94a3b8;font-size:.88rem;margin-top:.15rem}
+.ps-app-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-top:.85rem}
+.ps-app-controls button,.ps-recent-clear{min-height:48px;min-width:48px;border-radius:12px;border:1px solid rgba(0,255,240,.4);background:#111827;color:#e8eef7;font:inherit;font-weight:700;padding:.4rem .75rem;cursor:pointer}
+.ps-app-controls button:focus-visible,.ps-recent-clear:focus-visible,.ps-mini button:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+.ps-app-controls #ps-app-play{background:#00fff0;color:#0b0f19;border-color:#00fff0;box-shadow:0 0 16px rgba(0,255,240,.28)}
+.ps-app-controls #ps-app-radio[aria-pressed="true"]{background:rgba(245,158,11,.16);border-color:#f59e0b;color:#fbbf24}
+.ps-app-seek,.ps-app-vol{display:flex;align-items:center;gap:.5rem;flex:1 1 160px;color:#cbd5e1;font-size:.82rem}
+.ps-app-seek input,.ps-app-vol input,.ps-mini input[type="range"]{width:100%;min-height:44px;accent-color:#00fff0;cursor:pointer}
+
+.ps-recent-shelves{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:1rem;margin-top:1.5rem}
+.ps-recent-shelves section{border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:1rem;background:rgba(11,15,25,.6)}
+.ps-recent-shelves h3{font-size:1.05rem}
+.ps-recent-empty{color:#94a3b8;font-size:.92rem}
+.ps-recent-clear{margin:.4rem 0 .7rem}
+
+/* ---- persistent mini-player (sitewide, above dock / crisis footer) ---- */
+#ps-app-player{position:fixed;left:0;right:0;bottom:var(--ps-app-bottom,0px);z-index:1200;display:none;background:rgba(11,15,25,.96);border-top:1px solid rgba(0,255,240,.35);box-shadow:0 -8px 28px rgba(0,0,0,.4),0 0 18px rgba(0,255,240,.08);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);color:#e8eef7;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+#ps-app-player.is-on{display:block}
+body.ps-app-player-on{padding-bottom:calc(var(--ps-app-stack,72px) + env(safe-area-inset-bottom,0px))}
+html{scroll-padding-bottom:calc(var(--ps-app-stack,72px) + env(safe-area-inset-bottom,0px))}
+.ps-mini{display:flex;align-items:center;gap:.6rem;padding:.45rem .7rem calc(.45rem + env(safe-area-inset-bottom,0px));max-width:1100px;margin:0 auto}
+.ps-mini .ps-art{width:40px;height:40px}
+.ps-mini-meta{flex:1 1 auto;min-width:0}
+.ps-mini-title{font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-mini-sub{font-size:.75rem;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ps-mini-controls{display:flex;align-items:center;gap:.25rem;flex:0 0 auto}
+.ps-mini button{min-width:44px;min-height:44px;border:0;border-radius:10px;background:transparent;color:#e8eef7;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.ps-mini button.ps-mini-play{background:#00fff0;color:#0b0f19;border-radius:999px;box-shadow:0 0 14px rgba(0,255,240,.3)}
+.ps-mini button:hover{background:rgba(0,255,240,.12)}
+.ps-mini button.ps-mini-play:hover{background:#38bdf8;color:#0b0f19}
+.ps-mini-seek{flex:1 1 120px;min-width:80px;max-width:280px}
+.ps-mini-vol{width:88px;flex:0 0 88px}
+.ps-mini svg{width:18px;height:18px;display:block}
+.ps-mini-open{margin-left:.15rem;font:inherit;font-size:.75rem;font-weight:800;color:#00fff0;text-decoration:none;white-space:nowrap}
+.ps-mini-open:hover{text-decoration:underline}
+.ps-mini-chip{position:fixed;right:12px;bottom:var(--ps-app-bottom,12px);z-index:1200;display:none;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid #00fff0;background:rgba(11,15,25,.95);color:#00fff0;font:inherit;font-weight:800;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.ps-mini-chip.is-on{display:inline-flex;align-items:center;gap:.4rem}
+
+/* Lift the existing YouTube house-playlist widget above this bar */
+body.ps-app-player-on #ps-music-widget{bottom:calc(var(--ps-app-bottom,0px) + var(--ps-app-player-height,64px) + 12px)}
+
+@media (max-width:700px){
+  .ps-mini-vol,.ps-mini-seek{display:none}
+  .ps-mini-open{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ps-pl-card,.ps-track-btn,.ps-app-controls button,#ps-app-player,.ps-mini button{transition:none !important;animation:none !important}
+  .ps-pl-card:hover{transform:none}
+}
