@@ -733,3 +733,5 @@
     else boot();
   } catch (e) { /* never break the widget */ }
 })();
+
+(function(){try{if(typeof document==="undefined"||typeof document.querySelector!=="function"||!document.head)return;if(window.PSRadio||document.querySelector("script[data-ps-radio-persist]"))return;var l=document.createElement("link");l.rel="stylesheet";l.href="/css/ps-radio-app.css";document.head.appendChild(l);var s=document.createElement("script");s.src="/js/ps-radio-persist.js";s.defer=true;s.setAttribute("data-ps-radio-persist","");document.head.appendChild(s);}catch(e){}})();

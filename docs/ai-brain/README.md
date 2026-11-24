@@ -65,3 +65,15 @@ That weekly job is recommended, not yet a scheduled GitHub Action as of 15 Novem
 - Repo: https://github.com/pleadingSanity/pleadingsanity (`main`)
 - Host: Netlify site `pleadingsanity`. Test door: `pleadingsanitystaging`.
 - Motto: Rise From Madness. Evolution, Not Erasure. One Source. One Family. Love Over Money.
+
+## Refresh 2026-11-23
+
+Weekly check against `main` `ae56375`. Nothing in this folder was deleted. New rules are appended in each file and listed in [CHANGELOG.md](CHANGELOG.md). Sources that gained durable rules after 15 November, and that a restore should open as well as the original living sources:
+
+- `docs/MASTER-UPGRADE-BLUEPRINT.md` — paste-ready coding prompt and ethics (20 November). Later phases are not all built.
+- `docs/3D-PRINT-SHOP.md`, `docs/3D-PRINT-COMPLIANCE-UK.md`, `docs/3D-PRINT-STARTER-PLAN.md`, `docs/3D-PRINT-CLOTHING-MODELS.md`, `docs/AD5X-PRINT-CHECKLIST-20261121.md` — print-shop and printer-secret rules.
+- `docs/SEO-GROWTH-PLAN-20261120.md` and `docs/SEO-LAUNCH-CHECKLIST-20261121.md` — honest SEO. Do not copy owner phone numbers or mailboxes out of the checklist.
+- `docs/PHASE1A-ORBITAL-NOTES.md` and `docs/HOME-VISUAL-POLISH-20261121.md` — additive home work and palette lock.
+- `docs/LEGALLYINSANE-SCAFFOLD-SPEC.md` — parked lab spec, not a second house.
+
+`docs/AI-CREDITS-FUND.md` was not in the repo. The fund rule is recorded from founder memory in [shared-rules.md](shared-rules.md) and labelled as not implemented. The Drive mirror named above was not refreshed from this session.
