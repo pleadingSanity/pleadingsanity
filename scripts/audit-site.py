@@ -278,7 +278,7 @@ try:
         elif name and not name.endswith('.html'):
             candidates.append(name.rstrip('/') + '/index.html')
         head = next((search_heads[c] for c in candidates if c in search_heads), None)
-        canonical_ok = bool(head.canonicals) and _norm_url(head.canonicals[0]) == _norm_url(location)
+        canonical_ok = bool(head and head.canonicals) and _norm_url(head.canonicals[0]) == _norm_url(location)
         if url.scheme != 'https' or url.netloc != 'pleadingsanity.co.uk' or not head:
             errors.append(f'sitemap.xml: unexpected or missing page {location}')
         elif (http_noindex(url.path) or head.redirect or

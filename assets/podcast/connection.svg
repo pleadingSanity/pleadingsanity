@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="t d">
+  <title id="t">Peer connection episode art</title>
+  <desc id="d">Two teal circles joined by a warm amber path.</desc>
+  <rect width="800" height="500" fill="#0b0f19"/>
+  <circle cx="250" cy="250" r="110" fill="none" stroke="#00fff0" stroke-width="8"/>
+  <circle cx="250" cy="250" r="70" fill="#0e1a28" stroke="#38bdf8" stroke-width="2"/>
+  <circle cx="550" cy="250" r="110" fill="none" stroke="#38bdf8" stroke-width="8"/>
+  <circle cx="550" cy="250" r="70" fill="#0e1a28" stroke="#00fff0" stroke-width="2"/>
+  <path d="M320 250 C400 180 400 320 480 250" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="400" cy="250" r="10" fill="#f59e0b"/>
+</svg>
