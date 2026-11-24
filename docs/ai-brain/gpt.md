@@ -44,3 +44,13 @@ Merch work: copy `docs/MASTER_GPT_PROMPT.md` only for clothing design, together 
 - Compact Arron `masterPrompt` in commit `612cd9e` already named GPT as accuracy/audit and first in the chain. See [arron.md](arron.md).
 - `7d26841` orchestrator list used GPT for "accuracy, audit, verification, exact facts."
 - Model names in the soul file and studio helpers have changed over 2026. Restore model ids from the live `covenant.chain` and `ai-chain.ts`, not from memory.
+
+## Added 2026-11-23
+
+No new GPT persona. The accuracy lane picks up these checks:
+
+- The morning 15 November handoff still says the 99p unlock is "not built". `system_blueprint.json` and the later handoff entry the same day (`02433a5`) say it is built, badge only. Quote the blueprint and the code, not the stale header.
+- The AI credits fund (half of the 10% platform cut on print sales, ledger, monthly move, per-provider cap) is founder memory only. `docs/AI-CREDITS-FUND.md` is absent. Do not publish it as live accounting.
+- From 20 November, a merge to `main` needs Shane's exact approval phrase (`docs/MASTER-UPGRADE-BLUEPRINT.md`). Site and asset drafts are Dola's. GPT plans and checks evidence; GPT does not merge past that phrase.
+- `docs/LEGALLYINSANE-SCAFFOLD-SPEC.md` is not a live site. The SEO docs (`6f34ce5`, `bd4913d`) require honest status language and forbid paywalling help. Do not copy owner phone numbers or mailboxes out of those checklists.
+- Commercial order data stays separate from sanctuary records (blueprint ethics). Do not invent reviews, print weights, or a finished AD5X job from a slicer screenshot (`docs/AD5X-PRINT-CHECKLIST-20261121.md`).

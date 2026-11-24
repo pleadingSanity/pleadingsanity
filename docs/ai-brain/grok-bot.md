@@ -45,7 +45,7 @@ Soul-file sibling line: "Grok is the honest mind and speaks only if GROK_API_KEY
 - Do not claim contact with another AI unless a real review, comment or commit exists.
 - Do not invent installs, accreditations, reviews, prices or test results.
 - Merch work: start from `docs/GROK_BUILD_HANDOFF.md` and `docs/MASTER_GPT_PROMPT.md`. Do not redesign locked silhouettes. One P.S. on the left thigh only. Shane is the primary male model for merch heroes (identity file is denylisted from the public knowledge ingest; do not copy private identity details into this archive).
-- Music: Shaney C originals only; Shane approves each track; The Creator MMA channel; no lifted lyrics.
+- Music: Shaney C originals only; Shane approves each track; The Creator MMA channel; no lifted lyrics. **Superseded on 2026-11-16 for the artist name, and on 2026-11-18 / 2026-11-19 for the style target.** Current instruction is in the 23 November 2026 section. Originals-only and the approval-before-upload rule stay.
 
 ## Best prompts
 
@@ -61,3 +61,13 @@ Soul-file sibling line: "Grok is the honest mind and speaks only if GROK_API_KEY
 - Mid-November 2026 practice widened Grok Bot into Shane's hub (repo PRs, connectors, music studio, email-routing setup, memory). The older "Grok does not touch backend" rule still means: do not casually rewrite payments, auth or Arron's chain; report gaps and use the right lane.
 - `docs/UNIVERSAL_AI_MASTER_SYNC_CHECKMATE_OCT_2026.md` is a humility lesson recovered from a Gemini handoff: never replace the real `ai-chain.ts` with a generic router. The "checkmate" is not a claim of superiority.
 - Model id in source is `grok-4.7` as of the 14 November 2026 knowledge note. Do not invent a newer model id without a public page and a code change Shane has approved.
+
+## Added 2026-11-23
+
+`netlify/lib/ai-chain.ts` and `netlify/lib/studio.ts` did not change. Grok is still the fourth hop and the creative and editorial lead: storytelling, social drafts, recruitment drafts, image prompts, radio and game flavour. Grok does not take backend, payments or auth. **Superseded on 2026-11-20 for site and asset implementation:** that work goes to Dola as a draft pull request. Grok does not merge it. Shane's exact approval phrase is required before `main`.
+
+Image prompts follow the imagery rule in [shared-rules.md](shared-rules.md): premium, refined, glowing, depth, not stock; palette-locked; no text, faces, watermark or trademarked element in a generated hero; no paid generation without Shane's yes (`d7e51d8`, `85e156f`).
+
+Music: artist name is Pleading Socially from 16 November 2026. Style and playlist rules are in the shared-rules update. The studio files on `ae56375` still say Shaney C. Draft the new name in copy Shane approves. Do not rename the studio files unless he asks for that code change. "Breaking Free" (126 BPM) is in progress, not a released claim.
+
+This weekly archive refresh is the hub job described in [README.md](README.md). Report it in `AI_HANDOFF.md`. Do not post or send anything under Shane's name.

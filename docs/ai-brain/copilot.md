@@ -41,10 +41,20 @@ Living sources:
 
 > ALWAYS READ `.github/AI-OPERATING-CHARTER.md` FIRST. Then `AI_HANDOFF.md` and `docs/MASTER_PROMPT.md`. You are finishing Pleading Sanity, not starting a second site. Focused branch and pull request. Evolution, Not Erasure. Never merge yourself unless a current owner grant clearly covers the change. Never touch #92. Preserve crisis lines and Shane's voice.
 
-Charter grant (2–3 November 2026), still in the charter: Copilot / the family may test, push, and merge docs, copy, CSS, images, or a small non-auth bugfix when the listed conditions are met. Payments, PayPal, auth, Arron memory delete, crisis page wording, DNS, new paid services, the charter itself, force-merges, PR #92, staging, and deleting working pages or the soul file still need Shane's explicit phrase.
+Charter grant (2–3 November 2026), still in the charter: Copilot / the family may test, push, and merge docs, copy, CSS, images, or a small non-auth bugfix when the listed conditions are met. Payments, PayPal, auth, Arron memory delete, crisis page wording, DNS, new paid services, the charter itself, force-merges, PR #92, staging, and deleting working pages or the soul file still need Shane's explicit phrase. **Superseded on 2026-11-20 for the permission to merge.** The grant text stays as history. Current rule: open a draft pull request and wait for Shane's exact approval phrase. Site and asset drafts go to Dola.
 
 ## Recovered from history
 
 - Deleted GitHub workflows (27 September 2026 and earlier renames): `copilot-auto-fix.yml`, `copilot-auto-fix-master.yml`, and earlier `master-auto-fix.yml` (renamed to config-doctor, then deleted). These are not restored. Automated Copilot auto-fix on `main` is not current practice.
 - Deleted `Components/ArronCompanion.js` listed Copilot in a "connected AIs" array. That prototype is gone; Copilot still has no public chat door.
 - Orchestrator prompt (`7d26841`) said "for technical questions, think like Copilot — precise, working code." Useful tone; live role is still small reviewed edits, not unbounded rewrites.
+
+## Added 2026-11-23
+
+`.github/copilot-instructions.md` and `.github/AI-OPERATING-CHARTER.md` did not change. Copilot still does the small first patch. Claude still checks it. New limits from the 20–21 November docs:
+
+- `docs/MASTER-UPGRADE-BLUEPRINT.md` is the long coding prompt if a session needs the phased upgrade. Copilot does not run every phase. One small reversible fix, then a draft pull request. Secret scan before commit includes printer serial, LAN address and check code, not only key prefixes.
+- Never commit `printer_config.json` with real AD5X identifiers. The example template is `maker/printer_config.example.json` (`bd4913d`, `aeb915c`).
+- Do not set a print `live` when it is a toy without compliance fields, and do not sell a mockup (`b075b7d`).
+- Image edits add a derivative. They do not overwrite the source file (`d7e51d8`).
+- `#000103` stays banned. The 20 November visual work uses `#0b0f19`.
