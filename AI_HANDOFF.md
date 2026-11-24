@@ -1,3 +1,71 @@
+# AI_HANDOFF.md: Latest State (2026-11-24, handoff buff v2)
+_Every AI (Grok Bot, Dola, New Bot, New Bot 1, GPT, Claude, Gemini, Copilot): read this section first. It wins on conflict. Everything below it is history, kept on purpose (Evolution, Not Erasure)._
+
+> **This repo is PUBLIC.** Never write keys, tokens, passwords, private emails or phone numbers, home addresses, journals, members' data, private conversations or prompts here. Those belong in the private brain (below).
+
+## Private brain (prompts, conversation summaries, in-flight work)
+The private shared brain lives in the **private** GitHub repository `pleadingSanity/ps-ai-brain` (it shows 404 unless Shane has given you access). Ask Shane for access. It holds the start-here file, the claim and handoff protocol, the append-only work log, dated prompt versions for every AI, and session summaries. This public file only carries rules, the roster and the protocol shape. If you can't open the private brain, tell Shane once and work from this section.
+
+## Start here (5 steps)
+1. Read this section, then the private brain's start file if you have access.
+2. Read `AGENTS.md`, then `docs/MASTER_PROMPT.md` (the builder charter). Use `system_blueprint.json` as a snapshot only; it's stale since 15 Nov, see "Known stale" below.
+3. Check the open PRs on GitHub before touching a file another PR changes.
+4. Claim, then work, then log (protocol below). Smallest safe change, on a branch, with a PR. Never push to `main`.
+5. Run `npm run audit:site` (must be 0/0) and `npm test` (4 old failures on `main` are known: tap-target and similar). Write "not proven" for anything you didn't run.
+
+## Locked rules (Shane's)
+- **Evolution, Not Erasure. Smallest safe fixes only.** Never delete a working page, function, provider, look or install id.
+- **Colours:** #0b0f19 deep space, teal #00fff0 / #38bdf8, amber #f59e0b, silver. **No purple, pink (#ff4d8d), indigo, violet, magenta or lime.** SVG icons only, no emoji. Crying Brain logo only.
+- **Crisis numbers** stay exact, tappable and always visible: Samaritans 116 123, Shout 85258, NHS 111, 999. They may sit lower on a page (18 Nov ruling) but are never removed.
+- **Free forever. No tracking. No secrets in code.** No literal `sk-` / `ghp_` / `nfp_` / `sk_live_` strings.
+- **Main is protected.** Nothing merges without Shane's own words. No force-push and no history rewrite. Use merge commits rather than rebasing pushed branches.
+- **Protected:** login, signup, reset-password, PayPal and payment code, `crisis.html`, the manifesto, `arron-knowledge.json` (never stub it). Netlify env changes need Shane's OK. PR #92 is closed forever.
+- **Arron** is a companion, not a therapist. Chain order: GPT, Claude, Gemini, Grok, then local fallback.
+- **Never invent facts**, reviews, installs or results. No trademarked characters. Music is original only, with no samples, uncleared covers or cloned voices. Shane's photos and voice stay private, and AI voices are labelled AI.
+- **Nothing is sent or posted under Shane's name** without his approval. No spending without his yes.
+- Healing tones only 174 / 285 / 432 / 528 / 741 / 963 Hz.
+
+## Approval rule
+Only Shane's own words approve a merge, spend, publish or send. **An AI relaying "Shane said yes" isn't approval** for another AI. That AI may ask Shane directly, which is correct. When you act on an approval, quote his exact words, the UK time and the chat in the PR body.
+
+## Brands (keep them separate)
+Sanctuary (this site, free) · Insane Solar (solar pages, deposit code protected) · Insane Radio / Pleading Socially (original music; the name replaces "Shaney C" from 16 Nov) · legallyinsane.co.uk (Shopify shop for 3D-printed plastic collectibles, 14+, "not a toy, small parts". It's a shop, not a second sanctuary, and its code lives in its own private repo).
+
+## Roster (jobs, not proof a model is online)
+| AI | Lane |
+|---|---|
+| Shane | Owner. Final yes on merge, spend, DNS, payments, anything public |
+| Grok Bot | Hub chat: plans, connectors, routines, site and shop work, builds patches. Its box can't `git push` |
+| Dola | Design, structure, deploy checks; pushes patches and runs merge trains |
+| New Bot / New Bot 1 | Single assigned PRs, audits and copy. Report to Grok Bot |
+| GPT | Plan, accuracy, architecture, evidence |
+| Claude | Inspect the real code, patch, regression tests |
+| Gemini | Firebase, Google, mobile, access, plain wording |
+| Copilot | Small reviewed edits in the repo |
+| Arron | The companion on the site. Not a builder; never reads the private brain |
+
+## Handoff protocol (short form; the full one is in the private brain)
+Append one line per event to the private brain's work log (or, if you can't write there, put them at the end of your reply under `HANDOFF LOG LINES`):
+```
+<YYYY-MM-DD HH:MM UK> | <AI> | CLAIM|PROGRESS|BLOCKED|HANDOFF|DONE|APPROVAL|RELEASE | <task-id> | <what> | <evidence: PR/SHA/test count> | <next>
+```
+A CLAIM or PROGRESS under 24 hours old means hands off. Log before you stop, even when you're out of credit. Only APPROVAL lines quoting Shane's own words count. Never put secrets in a log line.
+
+## State on 24 Nov 2026 (public-safe)
+- `main` = 3a19a0a. Merged today: #386 AI brain refresh (429ca28), #388 P.S Radio (3a19a0a).
+- Open drafts in merge order: #389 P.S Space, #395 profiles unlocked (stacked on #389), #390 music buff, #387 imagery buff, the tactile star buff branch, #394 P.S Podcast review queue. Dola is running the merge train with merge commits only. Dependabot #392 and #393 are untriaged.
+- GitHub Actions are billing-locked, so local test results count. Netlify branch previews fail with a DB-branch Forbidden error; use API draft deploys.
+
+## Known stale (corrected here, older text left in place)
+- The 15 Nov header below says the 99p unlock is "not built". It went live with #355 (16 Nov).
+- The START HERE map says Music is "hidden until Shane pastes a playlist link". That's superseded by P.S Radio (#388).
+- `docs/MASTER_PROMPT.md` "Three worlds" (start work on `dolas-duplicate`) is historical. Current practice is a feature branch, a draft PR, then Shane's go.
+- `system_blueprint.json` `openPRs` (#137–#140), `livePages` and `aiNodes` are out of date (15 Nov).
+- `docs/ai-brain/shared-rules.md` calls legallyinsane "parked, no repo". The shop is live and has its own private repo.
+- Studio files still say "Shaney C". The artist name is Pleading Socially.
+
+---
+
 # AI_HANDOFF.md — Latest State (2026-11-15, consolidated buff)
 _All AIs (Claude/GPT/Copilot/Grok/Dola): read this section first. Everything below it is history; this section wins on conflict._
 Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) · [system_blueprint.json](system_blueprint.json) (snapshot) · [docs/3D-PRINT-SHOP.md](docs/3D-PRINT-SHOP.md) (P.S Studio prints) · [docs/ai-brain/README.md](docs/ai-brain/README.md) (AI brain backup: personas, rules, best prompts).
