@@ -162,15 +162,15 @@ Evolution, Not Erasure. One Source. One Family.
  <div id="root" aria-live="polite"><div class="skeleton" style="height:200px"></div><div class="skeleton"></div></div>
 
  <section id="ps-my-songs" class="ps-songs-widget" aria-labelledby="ps-songs-title" style="margin:2rem auto;max-width:640px;padding:1.25rem;border:1px solid rgba(0,255,240,.25);border-radius:16px;background:rgba(13,27,42,.6)">
-  <h2 id="ps-songs-title" style="color:#00fff0;font-size:1.2rem;margin:0 0 .5rem">My Songs <span style="font-size:.75rem;color:#94a3b8;font-weight:400">(saved on this device only)</span></h2>
-  <p style="color:#94a3b8;font-size:.88rem;margin:0 0 1rem">Add a song you love. Stored in this browser — cross-device sync and public profile songs need a backend migration (coming soon). Only YouTube video links are accepted.</p>
+  <h2 id="ps-songs-title" style="color:#00fff0;font-size:1.2rem;margin:0 0 .5rem">My Songs</h2>
+  <p style="color:#94a3b8;font-size:.88rem;margin:0 0 1rem">Add songs you love as YouTube links. Signed in, they sync to your account, and you can pick one as your profile song in your P.S Space below. Nothing ever autoplays.</p>
   <div style="display:grid;gap:.6rem">
     <input id="ps-song-url" type="url" placeholder="Paste YouTube link (e.g. https://youtu.be/VIDEO_ID)" aria-label="YouTube video link" style="min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff">
     <div style="display:flex;gap:.6rem;flex-wrap:wrap">
       <input id="ps-song-title" type="text" placeholder="Song title" aria-label="Song title" style="flex:1;min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff;min-width:140px">
       <input id="ps-song-artist" type="text" placeholder="Artist" aria-label="Artist" style="flex:1;min-height:44px;padding:.5rem .75rem;border-radius:10px;border:1px solid rgba(0,255,240,.35);background:#0b0f19;color:#eef6ff;min-width:120px">
     </div>
-    <label style="display:flex;align-items:center;gap:.5rem;color:#c9e9ef;font-size:.9rem;min-height:44px"><input id="ps-song-public" type="checkbox" role="switch" aria-label="Make songs visible on public profile"> Show on my public profile (currently device-local only)</label>
+    <label style="display:flex;align-items:center;gap:.5rem;color:#c9e9ef;font-size:.9rem;min-height:44px"><input id="ps-song-public" type="checkbox" role="switch" aria-label="Make songs visible on public profile"> Show on my public profile</label>
     <button type="button" id="ps-song-add" class="btn" style="min-height:48px;justify-self:start">Add song</button>
   </div>
   <p id="ps-song-sync" style="color:#fbbf24;font-size:.82rem;min-height:1rem;margin:0 0 .25rem">Checking sync…</p>
@@ -179,8 +179,7 @@ Evolution, Not Erasure. One Source. One Family.
  </section>
  <script src="/js/profile-songs.js"></script>
 
- <section id="ps-space" class="ps-space" aria-label="My P.S Space, profile studio"><noscript><p>Turn on JavaScript to style your P.S Space.</p></noscript></section>
- <script src="/js/ps-space.js" defer></script>
+ <section id="ps-space" class="ps-space" data-embed="youtube" aria-label="My P.S Space, profile studio"><noscript><p>Turn on JavaScript to style your P.S Space.</p></noscript></section>
 
  </main>
 
@@ -221,6 +220,7 @@ Evolution, Not Erasure. One Source. One Family.
  <script src="/js/games.js"></script>
   <script src="/js/site.js" defer></script>
   <script type="module" src="/js/auth.js"></script>
+  <script src="/js/ps-space.js" defer></script>
   <script type="module" src="/js/progress.js"></script>
   <script type="module" src="/js/page-profile.js"></script>
   <script type="module" src="/js/game-scores.js"></script>
