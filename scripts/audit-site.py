@@ -120,7 +120,10 @@ def check_script(item):
     return f'{name}\n{result.stderr}' if result.returncode else None
 
 
-pages = sorted(ROOT.glob('*.html'))
+pages = sorted(
+    p for p in ROOT.glob('**/*.html')
+    if '.git' not in p.parts and 'archive' not in p.parts and 'docs' not in p.parts
+)
 for path in pages:
     page = Page(path)
     page.feed(path.read_text(encoding='utf-8'))
@@ -157,12 +160,13 @@ def guard(ok, message):
 
 for path in pages:
     body = path.read_text(encoding='utf-8')
+    rel = path.relative_to(ROOT).as_posix()
     guard('/js/site.js' not in body or '/css/site.css' in body,
-          f'{path.name} loads shared navigation without its stylesheet.')
+          f'{rel} loads shared navigation without its stylesheet.')
     guard(not body.lstrip().startswith('$('),
-          f'{path.name} is a shell placeholder, not a page. Restore it from git history.')
+          f'{rel} is a shell placeholder, not a page. Restore it from git history.')
     guard('<html' in body.lower() and '</html>' in body.lower(),
-          f'{path.name} is not a whole HTML page (missing <html> or </html>).')
+          f'{rel} is not a whole HTML page (missing <html> or </html>).')
 
 arron = text('arron.html')
 for needle in ('116 123', '85258', 'not a therapist'):
@@ -233,20 +237,32 @@ def http_noindex(path):
                'noindex' in h.get('values', {}).get('X-Robots-Tag', '').lower()
                for h in headers)
 
+
+def _norm_url(u):
+    """Compare Netlify pretty URLs: /podcast/ and /podcast/index.html are one page."""
+    p = urlsplit(u)
+    path = p.path
+    if path.endswith('/index.html'):
+        path = path[:-len('index.html')]
+    if len(path) > 1:
+        path = path.rstrip('/')
+    return (p.netloc.lower(), path)
+
 for path in pages:
     head = SearchHead()
     head.feed(path.read_text(encoding='utf-8'))
-    search_heads[path.name] = head
+    rel = path.relative_to(ROOT).as_posix()
+    search_heads[rel] = head
     for key in ('description', 'og:title', 'og:description', 'twitter:title', 'twitter:description'):
         if len(head.metas.get(key, [])) > 1:
-            errors.append(f'{path.name}: duplicate search/social metadata {key}')
-    indexable = not (head.redirect or http_noindex('/' + path.name) or
+            errors.append(f'{rel}: duplicate search/social metadata {key}')
+    indexable = not (head.redirect or http_noindex('/' + rel) or
                     any('noindex' in v.lower() for v in head.metas.get('robots', [])))
     if indexable:
         if head.titles != 1 or not any(v.strip() for v in head.metas.get('description', [])):
-            errors.append(f'{path.name}: public page needs one title and a description')
+            errors.append(f'{rel}: public page needs one title and a description')
         if len(head.canonicals) != 1 or not head.canonicals[0].startswith('https://pleadingsanity.co.uk/'):
-            errors.append(f'{path.name}: public page needs one canonical house URL')
+            errors.append(f'{rel}: public page needs one canonical house URL')
 
 try:
     sitemap = ET.fromstring(text('sitemap.xml'))
@@ -256,12 +272,18 @@ try:
     for location in locations:
         url = urlsplit(location)
         name = url.path.lstrip('/') or 'index.html'
-        head = search_heads.get(name)
+        candidates = [name]
+        if name.endswith('/index.html'):
+            candidates.append(name[:-len('index.html')])
+        elif name and not name.endswith('.html'):
+            candidates.append(name.rstrip('/') + '/index.html')
+        head = next((search_heads[c] for c in candidates if c in search_heads), None)
+        canonical_ok = bool(head and head.canonicals) and _norm_url(head.canonicals[0]) == _norm_url(location)
         if url.scheme != 'https' or url.netloc != 'pleadingsanity.co.uk' or not head:
             errors.append(f'sitemap.xml: unexpected or missing page {location}')
         elif (http_noindex(url.path) or head.redirect or
               any('noindex' in v.lower() for v in head.metas.get('robots', [])) or
-              head.canonicals != [location]):
+              not canonical_ok):
             errors.append(f'sitemap.xml: noncanonical, redirected or noindexed URL {location}')
 except ET.ParseError as exc:
     errors.append(f'sitemap.xml: invalid XML ({exc})')

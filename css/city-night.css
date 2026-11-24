@@ -1,4 +1,4 @@
-@font-face{font-family:"PS City";src:url("/assets/fonts/anton/Anton-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"PS City";src:url("/assets/fonts/anton/Anton-Regular.woff2") format("woff2"),url("/assets/fonts/anton/Anton-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
 /* Pleading Sanity / City Nights. Original seasonal skin; no third-party assets. */
 html:root{--city-ink:#0b0f19;--city-panel:#10232d;--city-teal:#7fe8da;--city-gold:#ffce76;--city-silver:#eef6ff;--city-line:#35535b}
 html:root:not([data-theme="light"]) body{color:#eef6ff;background-color:#0b0f19!important;background-image:linear-gradient(100deg,rgba(11,15,25,.97),rgba(11,15,25,.85)),url('/assets/images/city-nights/street-grid.svg')!important;background-size:auto,1100px auto!important;background-attachment:scroll!important}

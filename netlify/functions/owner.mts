@@ -4,6 +4,8 @@
 //   GET  /api/owner/queue?status=held     held posts
 //   POST /api/owner/posts/:id             {action: approve | hold}
 //   POST /api/owner/approve-all           every pending post goes live
+//   GET  /api/owner/studio-queue          hidden AI posts and podcasts
+//   POST /api/owner/studio/:id            {action: approve | hold}
 //   PUT  /api/owner/settings              {reviewMode?, arronVoice?}
 //   POST /api/owner/roles                 {username, role: guardian|creator, grant}
 //   GET  /api/owner/workbench             Arron's drafted changes + the site pulse
@@ -12,7 +14,7 @@
 
 import type { Config } from "@netlify/functions";
 import { currentUser, json, logReason, readBody, saveSettings, str, unauthorized } from "../lib/social.js";
-import { approveAll, overview, reviewPost, reviewQueue, setRole } from "../lib/owner.js";
+import { approveAll, overview, reviewPost, reviewQueue, reviewStudioItem, setRole, studioReviewQueue } from "../lib/owner.js";
 import { buildBrief, listProposals, PROPOSAL_STATUSES, type ProposalStatus, setProposalStatus, sitePulse } from "../lib/workbench.js";
 
 export default async (req: Request) => {
@@ -36,6 +38,13 @@ export default async (req: Request) => {
       return row ? json({ ok: true, status: row.status }) : json({ error: "That post isn't waiting for review." }, 404);
     }
     if (section === "approve-all" && req.method === "POST") return json({ ok: true, approved: await approveAll(user.id) });
+    if (section === "studio-queue" && req.method === "GET") return json({ queue: await studioReviewQueue() });
+    if (section === "studio" && req.method === "POST") {
+      const body = await readBody(req);
+      const action = body.action === "hold" ? "hold" : "approve";
+      const row = await reviewStudioItem(user.id, Number(parts[3]), action);
+      return row ? json({ ok: true, hidden: row.hidden }) : json({ error: "That studio item isn't waiting for review." }, 404);
+    }
     if (section === "settings" && req.method === "PUT") {
       const body = await readBody(req);
       const changes: { reviewMode?: boolean; arronVoice?: string } = {};
