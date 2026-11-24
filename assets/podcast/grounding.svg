@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="t d">
+  <title id="t">Grounding episode art</title>
+  <desc id="d">A quiet teal horizon and two standing stones on a dark floor.</desc>
+  <rect width="800" height="500" fill="#0b0f19"/>
+  <rect y="340" width="800" height="160" fill="#111827"/>
+  <path d="M0 340 C200 300 400 360 800 310 L800 340 Z" fill="#0e1a28"/>
+  <circle cx="640" cy="90" r="54" fill="#cbd5e1" opacity=".85"/>
+  <circle cx="640" cy="90" r="70" fill="none" stroke="#38bdf8" stroke-width="2" opacity=".35"/>
+  <ellipse cx="280" cy="360" rx="70" ry="18" fill="#00fff0" opacity=".18"/>
+  <path d="M240 360 L255 210 L305 210 L320 360 Z" fill="#38bdf8" opacity=".55"/>
+  <path d="M430 360 L450 230 L510 230 L525 360 Z" fill="#00fff0" opacity=".4"/>
+  <line x1="80" y1="380" x2="720" y2="380" stroke="#00fff0" stroke-width="2" opacity=".35"/>
+</svg>

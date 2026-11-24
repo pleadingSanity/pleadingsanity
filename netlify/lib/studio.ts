@@ -221,7 +221,7 @@ export async function queuePodcast(topic: string, origin: string) {
   const token = randomBytes(16).toString("hex");
   const [item] = await db
     .insert(studioItems)
-    .values({ kind: "podcast", authorLabel: "The Unity Pod", style: "pending:" + token, topic, title: "Recording…" })
+    .values({ kind: "podcast", authorLabel: "The Unity Pod", style: "pending:" + token, topic, title: "Recording…", hidden: true })
     .returning();
   await fetch(`${origin}/.netlify/functions/studio-podcast-background`, {
     method: "POST",

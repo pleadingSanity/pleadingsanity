@@ -1,0 +1,163 @@
+{
+  "version": 1,
+  "updated": "2026-11-24",
+  "notice": "Items with status draft are not public. A human must review each piece before it can appear on the podcast page or the community feed.",
+  "safety": "Arron is an AI companion, not a therapist. This is peer support, not treatment. If you need someone right now: Samaritans are free on 116 123, any time. You can text SHOUT to 85258. For urgent medical help in the UK, call NHS 111. If it is an emergency, call 999.",
+  "items": [
+    {
+      "id": "ep-feet-on-the-floor",
+      "kind": "podcast",
+      "status": "draft",
+      "title": "Feet on the Floor",
+      "topic": "grounding",
+      "summary": "A short grounding practice you can try when your thoughts race. No special equipment. Just you, a place to sit, and a few quiet minutes.",
+      "image": "/assets/podcast/grounding.svg",
+      "label": "AI-generated",
+      "notTherapy": "Arron is an AI companion, not a therapist. This is peer support, not treatment.",
+      "authors": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion"
+        }
+      ],
+      "script": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "Hello. I'm Arron, an AI companion at Pleading Sanity. I am not a therapist, and this is not treatment. It is a short, practical grounding episode you can use if your thoughts are racing, or if the room suddenly feels too far away.\n\nYou do not have to do this perfectly. You can pause at any time. If you need a person right now, Samaritans are free on 116 123, day or night. You can text SHOUT to 85258. For urgent medical help in the UK, call NHS 111. If it is an emergency, call 999.\n\nIf you can, sit down. Let your feet rest on the floor. If you are in bed, feel the mattress under you. If standing is easier, stand with both feet planted.\n\nLook around and, quietly, name five things you can see. They can be ordinary: a cup, a cable, a patch of light on the wall. Naming them is enough.\n\nNow four things you can feel. The floor under your heels. The edge of a chair. The temperature of the air on your hands. The fabric of your sleeve.\n\nThree things you can hear. They do not have to be pleasant. Traffic, a fridge, your own breath.\n\nTwo things you can smell, if that is available to you. If smell is difficult today, skip it. Nothing is failed here.\n\nOne thing you can taste, even if it is just the inside of your mouth.\n\nTake one slower breath in, and a longer breath out. Then another, if that feels all right.\n\nYou are here. This moment is smaller than the storm in your head, and it is still a real place you can come back to.\n\nIf you want to go a little further, press your feet down and notice the pressure. Push gently, then ease off. That simple change can help your attention return to your body.\n\nYou can repeat this any time. It is not a cure, and it does not have to fix the whole day. It is one way to come back to now.\n\nIf the feeling does not ease, or if you feel unsafe, please reach out. Samaritans, 116 123. Text SHOUT to 85258. NHS 111. Emergency 999. There is more help on the Truth page at pleadingsanity.co.uk/crisis.html.\n\nI'm Arron. Thank you for sitting with me. One Source. One Family."
+        }
+      ]
+    },
+    {
+      "id": "ep-when-sleep-wont-come",
+      "kind": "podcast",
+      "status": "draft",
+      "title": "When Sleep Won't Come",
+      "topic": "sleep",
+      "summary": "A calm, honest episode for the nights when your mind will not switch off. Gentle ideas only. No miracle claims.",
+      "image": "/assets/podcast/sleep.svg",
+      "label": "AI-generated",
+      "notTherapy": "Arron is an AI companion, not a therapist. This is peer support, not treatment.",
+      "authors": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion"
+        },
+        {
+          "voice": "nova",
+          "name": "Nova",
+          "lab": "AI companion"
+        }
+      ],
+      "script": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "Hello. I'm Arron, an AI companion at Pleading Sanity, and I am not a therapist. This episode is for the nights when sleep will not come. If you are in crisis, please stop and get help: Samaritans on 116 123, text SHOUT to 85258, NHS 111, or 999 in an emergency."
+        },
+        {
+          "voice": "nova",
+          "name": "Nova",
+          "lab": "AI companion",
+          "text": "I'm Nova, also an AI, also not a clinician. I will not quote studies or invent numbers. I will only share simple, widely used habits that some people find kinder than staring at the clock.\n\nIf you have been lying awake for a while, it can help to get up, keep the lights low, and do something quiet until you feel sleepy again. Reading a paper book, stretching slowly, or sitting with a warm drink that is not caffeinated. Then go back to bed.\n\nTry to keep the bed for sleep and rest, so your mind does not only associate it with worry. If worry is loud, you can write the thoughts down to look at in the morning. You do not have to solve them at 3 a.m.\n\nA regular wind-down helps some people: dimmer lights, a cooler room if you can, and putting the phone out of reach. None of this is a test. If it does not work tonight, you have not failed."
+        },
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "If sleepless nights keep stacking up, or you feel unsafe, please talk to a person. Your GP can help, and NHS 111 is there when you are not sure what to do. Samaritans are free on 116 123. You can text SHOUT to 85258. In an emergency, call 999.\n\nYou are allowed to have a hard night. Morning will still arrive. I'm Arron, with Nova. Thank you for listening. One Source. One Family."
+        }
+      ]
+    },
+    {
+      "id": "ep-you-dont-have-to-carry-this-alone",
+      "kind": "podcast",
+      "status": "draft",
+      "title": "You Don't Have to Carry This Alone",
+      "topic": "peer connection",
+      "summary": "A short conversation about reaching toward other people when isolation feels safer than company.",
+      "image": "/assets/podcast/connection.svg",
+      "label": "AI-generated",
+      "notTherapy": "Arron is an AI companion, not a therapist. This is peer support, not treatment.",
+      "authors": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion"
+        },
+        {
+          "voice": "sol",
+          "name": "Sol",
+          "lab": "AI companion"
+        }
+      ],
+      "script": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "Hello. I'm Arron, an AI companion at Pleading Sanity. I am not a therapist. Today is about peer connection: the simple, sometimes frightening idea that you do not have to carry everything on your own.\n\nIf you need help this minute: Samaritans, 116 123. Text SHOUT to 85258. NHS 111. Emergency 999."
+        },
+        {
+          "voice": "sol",
+          "name": "Sol",
+          "lab": "AI companion",
+          "text": "I'm Sol. Also AI, also not a substitute for a friend or a clinician. Isolation can feel like protection. If people have let you down, that feeling makes sense. A small step toward connection does not mean you have to trust everyone, or tell your whole story at once.\n\nIt can be a message that only says, I'm having a rough day. It can be sitting in a shared space, even if you do not speak. It can be coming to the Sanity Feed or the community pages on this site, and reading until you are ready to write.\n\nYou get to choose the pace. Kindness includes leaving if a space is not safe for you."
+        },
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "A peer is not there to fix you. They are there to sit near the truth with you. If you have one person you can try, you could ask them for something specific and small: a walk, a cup of tea, a check-in tomorrow.\n\nIf you do not have that person yet, you can still use the free lines: Samaritans on 116 123, SHOUT on 85258, NHS 111, and 999 in an emergency. There is more on our Truth page.\n\nYou are not a burden for wanting company. I'm Arron, with Sol. One Source. One Family."
+        }
+      ]
+    },
+    {
+      "id": "ep-asking-for-help-is-allowed",
+      "kind": "podcast",
+      "status": "draft",
+      "title": "Asking for Help Is Allowed",
+      "topic": "asking for help",
+      "summary": "How to ask for help in plain language, without having to perform strength or tell the whole story first.",
+      "image": "/assets/podcast/asking-for-help.svg",
+      "label": "AI-generated",
+      "notTherapy": "Arron is an AI companion, not a therapist. This is peer support, not treatment.",
+      "authors": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion"
+        },
+        {
+          "voice": "grok",
+          "name": "Grok",
+          "lab": "AI companion"
+        }
+      ],
+      "script": [
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "Hello. I'm Arron, an AI companion at Pleading Sanity, and I am not a therapist. This episode is about asking for help. That can feel harder than sitting in the pain itself. If you need help now: Samaritans 116 123, text SHOUT to 85258, NHS 111, or 999 in an emergency."
+        },
+        {
+          "voice": "grok",
+          "name": "Grok",
+          "lab": "AI companion",
+          "text": "I'm Grok, another AI in this house, not a doctor and not a voice clone of anyone. Asking for help is allowed. You do not have to wait until you can explain it neatly. You do not have to earn it with a worst-day story.\n\nA plain sentence is enough: I am not okay and I need some support. Or: I do not know what I need, but I cannot do this alone tonight.\n\nYou can ask a friend, a family member, a GP, or a free line. You can ask for a practical thing, such as sitting with you, helping you make an appointment, or checking in tomorrow. People often want to help and do not know how until you name a small, real request."
+        },
+        {
+          "voice": "arron",
+          "name": "Arron",
+          "lab": "AI companion",
+          "text": "If the first person cannot help, that is information about their capacity, not a verdict on your worth. Try the next door. Samaritans are free on 116 123, any time. Text SHOUT to 85258. NHS 111 can help you work out the next medical step. If it is an emergency, call 999. Our Truth page has more routes.\n\nYou are allowed to ask. I'm Arron, with Grok. Thank you for listening. One Source. One Family."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="t d">
+  <title id="t">Asking for help episode art</title>
+  <desc id="d">An open doorway of teal light on a deep space wall.</desc>
+  <rect width="800" height="500" fill="#0b0f19"/>
+  <rect x="280" y="80" width="240" height="360" rx="120" fill="#0e1a28" stroke="#00fff0" stroke-width="6"/>
+  <rect x="310" y="120" width="180" height="320" rx="90" fill="#38bdf8" opacity=".25"/>
+  <rect x="340" y="170" width="120" height="270" rx="60" fill="#00fff0" opacity=".35"/>
+  <circle cx="400" cy="150" r="16" fill="#f59e0b"/>
+  <line x1="80" y1="440" x2="720" y2="440" stroke="#cbd5e1" stroke-width="2" opacity=".3"/>
+</svg>
