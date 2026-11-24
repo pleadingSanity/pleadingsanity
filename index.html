@@ -61,6 +61,7 @@
 <meta name="apple-mobile-web-app-title" content="Sanity">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="/manifest.json">
+<link rel="preload" as="image" type="image/avif" imagesrcset="/assets/images/optimized/generated/midland-night-800.avif 800w, /assets/images/optimized/generated/midland-night-1200.avif 1200w, /assets/images/optimized/generated/midland-night-1600.avif 1600w" imagesizes="(max-width: 960px) 82vw, 445px" media="(min-width: 961px)" fetchpriority="high">
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/design-system.css">
 <link rel="stylesheet" href="/css/site.css">
@@ -366,10 +367,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
 <link rel="me" href="https://instagram.com/mentally.inshane">
 <link rel="me" href="https://www.tiktok.com/@thecreatormma6">
 <link rel="stylesheet" href="/css/shard-sanctuary.css">
-<link rel="stylesheet" href="/css/tap-targets.css">
 <link rel="stylesheet" href="/css/legion-buff.css">
 <link rel="stylesheet" href="/css/orbital-system.css">
 <link rel="stylesheet" href="/css/home-visual-polish.css">
+<link rel="stylesheet" href="/css/home-tiles.css">
+<link rel="stylesheet" href="/css/tap-targets.css">
 </head>
 <body class="ps-city-home">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
@@ -456,7 +458,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
 </ul><p class="home-companion-note">An AI companion, not a therapist. <a href="/about.html#support">Human support is here too.</a></p>
 
 
-</div><figure class="ps-city-art"><picture><source type="image/webp" srcset="/assets/images/optimized/generated/midland-night-1600.webp"><img src="/assets/images/city-nights/midlands-after-dark.svg" width="1600" height="1200" loading="eager" fetchpriority="high" alt="Midlands canal city at night: teal rooftops, amber lit windows, a brick bridge and quiet water reflections."></picture><figcaption>Pleading Sanity / Midlands after dark / Original artwork</figcaption></figure></section>
+</div><figure class="ps-city-art"><picture><source type="image/avif" srcset="/assets/images/optimized/generated/midland-night-800.avif 800w, /assets/images/optimized/generated/midland-night-1200.avif 1200w, /assets/images/optimized/generated/midland-night-1600.avif 1600w" sizes="(max-width: 960px) 82vw, 445px"><source type="image/webp" srcset="/assets/images/optimized/generated/midland-night-800.webp 800w, /assets/images/optimized/generated/midland-night-1200.webp 1200w, /assets/images/optimized/generated/midland-night-1600.webp 1600w" sizes="(max-width: 960px) 82vw, 445px"><img src="/assets/images/city-nights/midlands-after-dark.svg" width="1600" height="1200" loading="eager" fetchpriority="high" decoding="async" alt="Midlands canal city at night: teal rooftops, amber lit windows, a brick bridge and quiet water reflections."></picture><figcaption>Pleading Sanity / Midlands after dark / Original artwork</figcaption></figure></section>
 <section class="ps-start-here" id="ps-start-here" aria-labelledby="ps-start-title">
   <p class="ps-start-kicker">NEW HERE? START HERE</p>
   <h2 id="ps-start-title">What would help you today?</h2>
@@ -471,16 +473,24 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
   </div>
   <p class="ps-start-urgent">In immediate danger? Call <strong>999</strong>. <a href="/crisis.html">Urgent help and UK crisis contacts</a>.</p>
 </section>
+<section class="hx-jump" aria-labelledby="hx-jump-title">
+  <h2 id="hx-jump-title">Jump straight in</h2>
+  <div class="hx-grid"><a class="hx-tile" href="/arron.html"><img src="/assets/theme/cards/cosmic-focus.webp" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>Talk to Arron</strong><small>An AI companion, not a therapist</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="hx-tile" href="/music/"><img src="/images/heroes/music-hero.webp" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>P.S Radio</strong><small>Original music, tap to play</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="hx-tile" href="/my-space.html"><img src="/assets/images/optimized/generated/hero-enhanced-800.webp" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>P.S Space</strong><small>Your theme, cover and profile song</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="hx-tile" href="/prints.html"><img src="/assets/images/svg/flexi-mech-dragon-silk.svg" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>Shop prints</strong><small>3D prints made in the house</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="hx-tile" href="/frequencies.html"><img src="/assets/theme/cards/healing-hz.webp" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>Healing Hz</strong><small>Calm tones at your pace</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a><a class="hx-tile" href="/journal-vault.html"><img src="/assets/theme/cards/sanity-stories.webp" alt="" width="400" height="300" loading="lazy" decoding="async"><span class="hx-tile-text"><strong>Journal</strong><small>Private, on your terms</small></span><svg class="hx-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a></div>
+</section>
+<aside class="hx-drop" aria-labelledby="hx-drop-title">
+  <img src="/assets/images/svg/flexi-mech-dragon-silk.svg" alt="" width="320" height="180" loading="lazy" decoding="async">
+  <div class="hx-drop-text"><span class="hx-drop-kicker">Legally Insane prints</span><h2 id="hx-drop-title">New drop coming soon: Flexi Mech Dragon in silk rainbow</h2><p>Keep your eyes peeled on the Legally Insane prints shop.</p><a class="hx-drop-cta" href="https://legallyinsane.co.uk" target="_blank" rel="noopener noreferrer">Visit legallyinsane.co.uk <span aria-hidden="true">&#8599;</span></a></div>
+</aside>
 <figure class="ps-legacy-hero" style="max-width:900px;margin:0 auto 1.5rem;text-align:center;">
   <picture>
-    <source type="image/webp" srcset="/assets/images/optimized/generated/hero-enhanced-1920.webp">
-    <source type="image/webp" srcset="/assets/images/optimized/hero-cosmic-1600.webp 1600w, /assets/images/optimized/hero-cosmic-1200.webp 1200w" sizes="(max-width: 960px) 92vw, 860px">
-    <img src="/assets/images/r2-2026/hero-cosmic.jpeg" alt="Cosmic sanctuary illustration — a glowing brain nebula among teal and amber stars" width="1920" height="1080" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:auto;border-radius:16px;box-shadow:0 0 60px -10px rgba(45,212,191,.35);">
+    <source type="image/avif" srcset="/assets/images/optimized/generated/hero-enhanced-800.avif 800w, /assets/images/optimized/generated/hero-enhanced-1200.avif 1200w, /assets/images/optimized/generated/hero-enhanced-1600.avif 1600w" sizes="(max-width: 960px) 92vw, 745px">
+    <source type="image/webp" srcset="/assets/images/optimized/generated/hero-enhanced-800.webp 800w, /assets/images/optimized/generated/hero-enhanced-1200.webp 1200w, /assets/images/optimized/generated/hero-enhanced-1920.webp 1920w" sizes="(max-width: 960px) 92vw, 745px">
+    <img src="/assets/images/r2-2026/hero-cosmic.jpeg" alt="Cosmic sanctuary illustration — a glowing brain nebula among teal and amber stars" width="1920" height="1080" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:16px;box-shadow:0 0 60px -10px rgba(45,212,191,.35);">
   </picture>
   <figcaption style="margin-top:.5rem;font-size:.8rem;color:#7fa3b0;">Illustration · Pleading Sanity cosmic sanctuary</figcaption>
 </figure>
 
-<figure class="home-sanctuary-art"><picture><source type="image/webp" srcset="/assets/images/optimized/sanctuary-cabin-1200.webp"><img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="eager" fetchpriority="high" decoding="async" style="width:100%;height:auto;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"></picture><figcaption>A little space to breathe. Rise From Madness. <span class="shard-art-label">Illustration</span></figcaption></figure>
+<figure class="home-sanctuary-art"><picture><source type="image/avif" srcset="/assets/images/optimized/sanctuary-cabin-800.avif 800w" sizes="(max-width: 860px) 92vw, 800px"><source type="image/webp" srcset="/assets/images/optimized/sanctuary-cabin-800.webp 800w, /assets/images/optimized/sanctuary-cabin-1200.webp 1200w" sizes="(max-width: 860px) 92vw, 800px"><img src="images/sanctuary-aurora-cabin.jpg" alt="Pleading Sanity sanctuary — calm aurora cabin, a safe place to rest" width="1168" height="784" loading="lazy" decoding="async" style="width:100%;height:auto;max-width:800px;margin:1.5rem auto;display:block;border-radius:12px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);"></picture><figcaption>A little space to breathe. Rise From Madness. <span class="shard-art-label">Illustration</span></figcaption></figure>
 <p class="home-welcome-context" style="max-width:44rem;margin:1rem auto 1.4rem;padding:0 1rem;color:#d7e9ed;line-height:1.7">You do not need the right words to be here. Pleading Sanity is a free place to explore conversation, writing, games and connection at your own pace. Built from lived experience, not a replacement for professional care. Start wherever feels manageable. Leave what does not help.</p>
 <section class="ps-discover" aria-label="Find Pleading Sanity features">
   <a class="ps-radio-feature" href="/insane-radio.html"><span class="ps-radio-new">MUSIC &amp; DISCOVERY</span><strong><svg class="ps-ico" aria-hidden="true" focusable="false" width="14" height="14" viewBox="0 0 24 24" style="vertical-align:-2px"><path d="M9 18V5l11-2v13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6" cy="18" r="3" fill="currentColor"/><circle cx="17" cy="16" r="3" fill="currentColor"/></svg> Insane Radio</strong><span>Discover the music and the artists behind the movement.</span><span class="ps-radio-action">Open Insane Radio →</span></a>
@@ -603,43 +613,43 @@ Share this sanctuary
 <p>Explore Shane’s writing on meaning, spirituality and connection. Read it as a personal perspective to consider and discuss. All faiths and no faith are welcome.</p>
 <a href="/new-gen-bible.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Explore the guide →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/finance-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/finance-brand.webp"><img src="/assets/images/showcase/finance.jpg" width="512" height="288" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/finance-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/finance-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/finance-brand-800.webp"><img src="/assets/images/showcase/finance.jpg" width="512" height="288" alt="Calm geometric numbers in soft cosmic light" loading="lazy" decoding="async"></picture>
 <h3>Sane Finance</h3>
 <p class="purpose">Honest numbers. No sales pressure.</p>
 <p>See what you can afford, compare real offers, prepare truthful applications. Your numbers stay on this device.</p>
 <a href="/finance.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the desk →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/games-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/games-brand.webp"><img src="/assets/images/showcase/games.jpg" width="512" height="288" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/games-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/games-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/games-brand-800.webp"><img src="/assets/images/showcase/games.jpg" width="512" height="288" alt="Cosmic solitaire cards and soft light trails" loading="lazy" decoding="async"></picture>
 <h3>Games</h3>
 <p class="purpose">Soft focus when the mind is loud.</p>
 <p>Ad-free brain games including Sanity Solitaire and Night Table. Progress stays on your phone. Play at your own pace. New levels open when you finish the ones you have.</p>
 <a href="/games.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Play →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/ai-family-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/ai-family-brand.webp"><img src="/assets/images/showcase/ai-family.jpg" width="512" height="288" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/ai-family-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/ai-family-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/ai-family-brand-800.webp"><img src="/assets/images/showcase/ai-family.jpg" width="512" height="288" alt="Glowing crying-brain sitting quietly in stars" loading="lazy" decoding="async"></picture>
 <h3>AI Family</h3>
 <p class="purpose">Meet Arron and understand the AI tools.</p>
 <p>Learn how AI supports the sanctuary, what Arron can help with and where its limits are. Memory controls let you clear local Arron memory and request cloud deletion. Not a therapist.</p>
 <a href="/ai-family.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Meet the family →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/journal-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/journal-brand.webp"><img src="/assets/images/showcase/journal.jpg" width="512" height="288" alt="Open book of soft nebula pages" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/journal-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/journal-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/journal-brand-800.webp"><img src="/assets/images/showcase/journal.jpg" width="512" height="288" alt="Open book of soft nebula pages" loading="lazy" decoding="async"></picture>
 <h3>Journal Vault</h3>
 <p class="purpose">Private words. Yours alone.</p>
 <p>Write, keep, or wipe. No cloud copy unless you choose. Your story stays yours. One line is enough.</p>
 <a href="/journal-vault.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Open the vault →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/community-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/community-brand.webp"><img src="/assets/images/showcase/community.jpg" width="512" height="288" alt="Gentle constellation of connected lights" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/community-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/community-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/community-brand-800.webp"><img src="/assets/images/showcase/community.jpg" width="512" height="288" alt="Gentle constellation of connected lights" loading="lazy" decoding="async"></picture>
 <h3>Community</h3>
 <p class="purpose">Real stories. Newest first. No algorithm.</p>
 <p>Chronological feed, profiles, and the Quote Wall. Sit with people who get it. A place to belong. Hearts only.</p>
 <a href="/feed.html" class="ps-btn ps-btn-primary-outline ps-btn-sm">Enter the feed →</a>
 </article>
-<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/frequencies-brand.webp') center/cover no-repeat;">
-<picture><source type="image/webp" srcset="/assets/images/optimized/showcase/frequencies-brand.webp"><img src="/assets/images/showcase/frequencies.jpg" width="512" height="288" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async"></picture>
+<article class="tool-card" style="background:linear-gradient(180deg, rgba(11,15,25,.15) 0%, rgba(11,15,25,.55) 50%, rgba(11,15,25,.92) 100%), url('/assets/images/optimized/showcase/frequencies-brand-800.webp') center/cover no-repeat;">
+<picture><source type="image/avif" srcset="/assets/images/optimized/showcase/frequencies-brand-800.avif"><source type="image/webp" srcset="/assets/images/optimized/showcase/frequencies-brand-800.webp"><img src="/assets/images/showcase/frequencies.jpg" width="512" height="288" alt="Soft sound waves rising from a calm centre" loading="lazy" decoding="async"></picture>
 <h3>Meditation & Frequencies</h3>
 <p class="purpose">Soft tones only. Silence is allowed.</p>
 <p>174, 285, 432, 528, 741, 963 Hz. Nothing harsh. A quiet place to sit. You can leave the sound off.</p>
