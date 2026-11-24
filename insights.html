@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+PLEADING SANITY — RISE FROM MADNESS
+Sanity Insights: privacy-first page-view board. Free forever, no tracking.
+-->
+<html lang="en-GB">
+<head>
+<script>try{if(localStorage.getItem("ps-theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#0b0f19" />
+<link rel="icon" href="/assets/favicon.ico" sizes="any" />
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+<link rel="manifest" href="/manifest.json" />
+<meta name="robots" content="noindex, nofollow" />
+<link rel="canonical" href="https://pleadingsanity.co.uk/insights.html" />
+<title>Sanity Insights — private view totals | Pleading Sanity</title>
+<meta name="description" content="Privacy-friendly page-view totals for Pleading Sanity. No cookies, no IP addresses, no ads, no third-party trackers." />
+<meta name="author" content="Shane Cooper / Pleading Sanity" />
+<meta name="color-scheme" content="dark" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Sanity Insights — Pleading Sanity" />
+<meta property="og:description" content="Private, privacy-first page-view totals. Free forever, no tracking." />
+<meta property="og:image" content="https://pleadingsanity.co.uk/assets/crying-brain-og.png" />
+<meta property="og:url" content="https://pleadingsanity.co.uk/insights.html" />
+<link rel="stylesheet" href="/css/styles.css" />
+<link rel="stylesheet" href="/css/accessibility.css" />
+<link rel="stylesheet" href="/css/mobile-responsive.css" />
+<link rel="stylesheet" href="/css/site.css" />
+<link rel="stylesheet" href="/css/ps-insights.css" />
+</head>
+<body class="ps-page ps-insights-page">
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<nav class="ps-nav" aria-label="Main navigation">
+  <div class="ps-nav-inner">
+    <a href="/" class="ps-brand"><img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="36" height="36" /><span>Pleading Sanity</span></a>
+    <div class="ps-links"></div>
+    <div class="ps-account"><a class="ps-signin" href="/login.html">Sign in</a></div>
+  </div>
+</nav>
+
+<main id="main-content" class="insights-wrap">
+  <header class="insights-hero">
+    <p class="insights-kicker">Sanity Insights</p>
+    <h1>Views, without the watching</h1>
+    <p>The house stays free and ad-free. This board counts friendly page visits only — no cookies, no IP addresses, no personal accounts, no outside analytics companies.</p>
+  </header>
+
+  <section class="insights-grid" aria-label="Totals" aria-live="polite">
+    <div class="insight-card">
+      <p class="label">Total views</p>
+      <p class="value" id="ins-total">0</p>
+      <p class="sub">Every counted visit since the counter switched on.</p>
+    </div>
+    <div class="insight-card sky">
+      <p class="label">Views today</p>
+      <p class="value" id="ins-today">0</p>
+      <p class="sub">Page visits in the current day.</p>
+    </div>
+    <div class="insight-card amber">
+      <p class="label">Daily visitors</p>
+      <p class="value" id="ins-unique">0</p>
+      <p class="sub">Distinct anonymous devices today, hashed and rotated daily.</p>
+    </div>
+  </section>
+
+  <section class="insights-panel" aria-labelledby="ins-pages-title">
+    <h2 id="ins-pages-title">Most visited pages</h2>
+    <table class="insight-table">
+      <thead>
+        <tr><th scope="col">Page</th><th scope="col">Views</th></tr>
+      </thead>
+      <tbody id="ins-pages"></tbody>
+    </table>
+    <p class="insights-updated" id="ins-updated">Waiting for the first beacon.</p>
+  </section>
+
+  <div class="insights-actions">
+    <button type="button" class="insights-btn" id="ins-refresh">Refresh totals</button>
+    <a class="insights-btn" href="/" style="text-decoration:none;display:inline-flex;align-items:center;">Back to the sanctuary</a>
+  </div>
+
+  <p class="insights-note" id="ins-note">Privacy-first: page views only. No cookies, no IP addresses, no visitor names, no ads, no third-party scripts.</p>
+</main>
+
+<footer class="ps-crisis-footer" role="contentinfo" aria-label="Crisis and emergency help">
+  <p style="margin:0"><strong>If you're in crisis:</strong> Emergency <a href="tel:999">999</a> &middot; Samaritans free <a href="tel:116123">116 123</a> (24/7) &middot; Text <a href="sms:85258&amp;body=SHOUT">SHOUT to 85258</a> &middot; NHS <a href="tel:111">111</a> &middot; <a href="/crisis.html">More help</a></p>
+</footer>
+
+<script src="/js/site.js" defer></script>
+<script src="/js/ps-insights.js" defer></script>
+</body>
+</html>
