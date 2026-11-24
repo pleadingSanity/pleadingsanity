@@ -1,0 +1,37 @@
+{
+  "updated": "2026-11-23",
+  "title": "Creator picks: recently played",
+  "note": "Hand-edited by Shane and the P.S creator team. Only tracks already published on this site appear here. This is not a live listen history, not a server log, and never someone else's songs.",
+  "tracks": [
+    {
+      "id": "breaking-free-ai-guide",
+      "title": "Breaking Free (AI guide vocal demo)",
+      "artist": "Pleading Socially",
+      "label": "AI-generated"
+    },
+    {
+      "id": "ps-ai-01",
+      "title": "Yess, I Am Him",
+      "artist": "Pleading Socially",
+      "label": "AI-generated"
+    },
+    {
+      "id": "ps-ai-02",
+      "title": "Lights Go Down (Her Version)",
+      "artist": "Pleading Socially",
+      "label": "AI-generated"
+    },
+    {
+      "id": "ps-ai-03",
+      "title": "Still Standing",
+      "artist": "Pleading Socially",
+      "label": "AI-generated"
+    },
+    {
+      "id": "ps-ai-05",
+      "title": "Feel the Rush",
+      "artist": "Pleading Socially",
+      "label": "AI-generated"
+    }
+  ]
+}

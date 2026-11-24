@@ -31,3 +31,9 @@ No dedicated master prompt was found. Recommended restore prompt until Shane wri
 
 - 9 November 2026 shared memory: all of Shane's Grok bots and chats should be linked into Grok Bot so nothing is missed.
 - No deleted New Bot prompt file was found in git history. The empty profile is the main gap. If Shane later pastes a directive, add it here and keep this older restore prompt in a recovered section.
+
+## Added 2026-11-23
+
+Checked again on `main` `ae56375`. No New Bot persona file and no filled agent profile were added to the repo. The profile gap stands.
+
+Also follow the 23 November update in [shared-rules.md](shared-rules.md). In particular: **superseded on 2026-11-20** for merging — a branch and a draft pull request, then Shane's exact approval phrase. Site and asset work goes to Dola. Do not merge to `main` from this bot. Report the result to Grok Bot. Do not touch issue #92, the soul file, payments, login, or `crisis.html`.
