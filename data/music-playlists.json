@@ -1,14 +1,14 @@
 {
-  "label": "Shane's music · YouTube Music · Sonos · Amazon Music",
-  "youtube_url": "https://youtube.com/playlist?list=PLYwYYbhm_674&si=Ecl0CZJxtO_ez_P8",
-  "sonos_url": "https://play.sonos.com/",
-  "amazon_music_url": "https://music.amazon.co.uk/",
+  "label": "Shane's playlists",
+  "youtube_url": "",
+  "sonos_url": "",
+  "amazon_music_url": "",
   "shane_playlists": [
     {
       "name": "Shane's main playlist",
       "youtube_playlist_id": "PLYwYYbhm_674",
-      "url": "https://youtube.com/playlist?list=PLYwYYbhm_674&si=Ecl0CZJxtO_ez_P8",
-      "description": "The main YouTube playlist selected by Shane Cooper — the primary PLEADING SANITY listening destination."
+      "url": "https://music.youtube.com/playlist?list=PLYwYYbhm_674",
+      "description": "The main YouTube playlist selected by Shane — the primary PLEADING SANITY listening destination."
     },
     {
       "name": "hop to the hippy",
