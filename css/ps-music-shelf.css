@@ -1,0 +1,55 @@
+/* PLEADING SANITY — mobile-first music destination shelf.
+   Uses verified local artwork already present in the repository.
+   Platform links remain official destinations; no autoplay or third-party scripts. */
+.ps-platform-shelf{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.85rem;
+  margin:1.25rem 0 1.5rem;padding:1rem;border:1px solid rgba(0,255,240,.18);
+  border-radius:22px;background:linear-gradient(145deg,rgba(18,31,44,.92),rgba(7,11,20,.96));
+  box-shadow:0 18px 46px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.05)
+}
+.ps-platform-shelf h2{grid-column:1/-1;margin:.1rem 0 0!important;color:#f1f7f7!important;font-size:1.25rem!important;letter-spacing:.01em}
+.ps-platform-shelf>p{grid-column:1/-1;margin:0 0 .25rem;color:#b8c7d4;font-size:.92rem;line-height:1.5}
+.ps-platform-shelf>div{
+  position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;gap:.5rem;
+  min-width:0;min-height:174px;padding:3.2rem .85rem .85rem;overflow:hidden;
+  border:1px solid rgba(255,255,255,.15);border-radius:17px;background-color:#101b24;
+  background-size:cover;background-position:center;box-shadow:0 8px 22px rgba(0,0,0,.28)
+}
+.ps-platform-shelf>div::before{
+  position:absolute;z-index:-1;inset:0;display:flex;align-items:flex-start;padding:.85rem;
+  color:#f8fafc;font-size:.72rem;font-weight:900;letter-spacing:.13em;line-height:1.4;
+  text-shadow:0 2px 12px #000;content:"LISTEN";background:linear-gradient(180deg,rgba(3,7,13,.18),rgba(3,7,13,.72))
+}
+.ps-platform-shelf>div:nth-of-type(1){background-image:linear-gradient(180deg,rgba(3,7,13,.06),rgba(3,7,13,.84)),url('/images/heroes/music-hero.webp')}
+.ps-platform-shelf>div:nth-of-type(1)::before{content:"01  /  YOUTUBE MUSIC · MAIN PLAYLIST"}
+.ps-platform-shelf>div:nth-of-type(2){background-image:linear-gradient(180deg,rgba(3,7,13,.08),rgba(3,7,13,.86)),url('/assets/images/editorial/creator-stage-640.webp')}
+.ps-platform-shelf>div:nth-of-type(2)::before{content:"02  /  SONOS · WHOLE-HOME SOUND"}
+.ps-platform-shelf>div:nth-of-type(3){background-image:linear-gradient(180deg,rgba(3,7,13,.08),rgba(3,7,13,.86)),url('/images/og/og-radio.webp')}
+.ps-platform-shelf>div:nth-of-type(3)::before{content:"03  /  AMAZON MUSIC"}
+.ps-platform-shelf>div button,.ps-platform-shelf>div a{
+  position:relative;z-index:1;width:100%;min-height:46px!important;justify-content:center;
+  border-radius:12px!important;background:rgba(5,10,18,.88)!important;color:#f8fafc!important;
+  border:1px solid rgba(0,255,240,.68)!important;text-decoration:none!important;backdrop-filter:blur(8px)
+}
+.ps-platform-shelf>div a{display:flex;align-items:center;padding:.55rem .8rem;font-weight:800}
+.ps-platform-shelf>div:nth-of-type(1) a{border-color:rgba(255,255,255,.65)!important}
+.ps-platform-shelf>div:nth-of-type(3) a{border-color:rgba(245,158,11,.75)!important}
+@media(max-width:680px){
+  .ps-platform-shelf{grid-template-columns:1fr;padding:.8rem;gap:.7rem}
+  .ps-platform-shelf>div{min-height:132px;padding:2.8rem .8rem .8rem;background-position:center 42%}
+  .ps-platform-shelf h2{font-size:1.15rem!important}
+}
+@media(prefers-reduced-motion:reduce){.ps-platform-shelf>div{scroll-behavior:auto;transition:none!important}}
+
+/* The AI catalogue is intentionally the final music collection on this page. */
+.ps-ai-section{
+  margin:2.4rem 0 1.2rem;padding:1.25rem;border:1px solid rgba(245,158,11,.34);
+  border-radius:22px;background:linear-gradient(150deg,rgba(35,27,15,.62),rgba(11,15,25,.96));
+  box-shadow:0 18px 42px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.04)
+}
+.ps-ai-section .radio-kicker{color:#fbbf24}
+.ps-ai-section h2{margin:.25rem 0 .55rem;color:#f8fafc;font-size:1.45rem}
+.ps-ai-section>.note{max-width:58rem;color:#cbd5e1;line-height:1.55}
+.ps-ai-section .ps-pl-grid{margin-top:1rem}
+.ps-ai-section .ps-pl-card{background:linear-gradient(155deg,rgba(37,29,18,.82),rgba(11,15,25,.98));border-color:rgba(245,158,11,.4)}
+@media(max-width:680px){.ps-ai-section{padding:1rem;margin-top:2rem}}
