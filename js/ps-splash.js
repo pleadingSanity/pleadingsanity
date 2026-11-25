@@ -16,7 +16,7 @@
     var style = document.createElement('style');
     style.textContent =
       '#ps-splash{position:fixed;inset:0;z-index:2147483000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;' +
-      'background:#0b0f19 url(/assets/theme/sky.jpg) center/cover no-repeat;background-image:image-set(url(/assets/theme/sky.avif) type("image/avif"),url(/assets/theme/sky.jpg) type("image/jpeg"));transition:opacity .45s ease,visibility .45s ease;}' +
+      'background:#0b0f19 center/cover no-repeat;transition:opacity .45s ease,visibility .45s ease,background-image .35s ease;}' +
       '#ps-splash.ps-out{opacity:0;visibility:hidden;}' +
       '#ps-splash img{width:min(46vw,200px);height:auto;filter:drop-shadow(0 0 18px rgba(0,255,240,.5)) drop-shadow(0 0 36px rgba(245,158,11,.22));animation:psSplashIn .7s ease-out both;}' +
       '#ps-splash span{font:800 clamp(1.1rem,5vw,1.5rem)/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.06em;color:#eef6ff;text-shadow:0 0 18px rgba(0,255,240,.45);}' +
@@ -27,8 +27,17 @@
     var el = document.createElement('div');
     el.id = 'ps-splash';
     el.setAttribute('aria-hidden', 'true');
-    el.innerHTML = '<img src="/assets/images/brand/crying-brain-logo-clear-512.webp" alt="" width="200" height="200" decoding="sync"><span>Pleading Sanity</span>';
+    el.innerHTML = '<img src="/assets/images/brand/crying-brain-logo-clear-256.webp" alt="" width="200" height="200" decoding="async" fetchpriority="high"><span>Pleading Sanity</span>';
     (document.body || document.documentElement).appendChild(el);
+
+    function addSky() {
+      if (el.classList.contains('ps-out')) return;
+      // URLs built after the timeout so the preload scanner cannot fetch them at parse time.
+      var avif = '/assets/theme/sky' + '.avif';
+      var jpg = '/assets/theme/sky' + '.jpg';
+      el.style.backgroundImage = 'image-set(url(' + avif + ') type("image/avif"),url(' + jpg + ') type("image/jpeg"))';
+    }
+    setTimeout(addSky, 1200);
 
     var start = Date.now();
     var minShow = reduce ? 250 : 900;

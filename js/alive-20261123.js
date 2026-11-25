@@ -41,67 +41,80 @@
   }
 
   if (!reduce && typeof requestAnimationFrame === "function") {
-    var c = document.createElement("canvas");
-    c.id = "ps-alive-warp";
-    c.setAttribute("aria-hidden", "true");
-    layer.appendChild(c);
-    var ctx = c.getContext("2d", { alpha: true });
-    var mobile = (Math.min(screen.width, screen.height) < 760) || /Mobi|Android/i.test(navigator.userAgent || "");
-    var n = mobile ? 64 : 120;
-    var gap = 1000 / (mobile ? 30 : 45);
-    var cols = ["rgba(0,255,240,", "rgba(236,242,247,", "rgba(192,200,210,", "rgba(245,158,11,"];
-    var S = [];
-    function birth(s, fresh) {
-      s.x = Math.random() * 2 - 1;
-      s.y = Math.random() * 2 - 1;
-      s.z = fresh ? Math.random() * 0.85 + 0.12 : 1;
-      s.p = s.z;
-      s.c = Math.random() < 0.07 ? 3 : Math.random() < 0.45 ? 0 : Math.random() < 0.72 ? 1 : 2;
-    }
-    for (var i = 0; i < n; i++) { var s = {}; birth(s, 1); S.push(s); }
-    var w = 0, h = 0, cx = 0, cy = 0, last = 0, hid = false, raf = 0;
-    function size() {
-      var r = Math.min(window.devicePixelRatio || 1, 1.25);
-      w = layer.clientWidth || innerWidth;
-      h = layer.clientHeight || innerHeight;
-      c.width = Math.max(1, w * r);
-      c.height = Math.max(1, h * r);
-      c.style.width = w + "px";
-      c.style.height = h + "px";
-      ctx.setTransform(r, 0, 0, r, 0, 0);
-      cx = w / 2;
-      cy = h / 2;
-    }
-    size();
-    addEventListener("resize", size, { passive: true });
-    document.addEventListener("visibilitychange", function () {
-      hid = document.hidden;
-      if (hid) { if (raf) cancelAnimationFrame(raf); raf = 0; }
-      else { last = 0; raf = requestAnimationFrame(tick); }
-    });
-    function tick(t) {
-      if (hid) return;
-      raf = requestAnimationFrame(tick);
-      if (t - last < gap) return;
-      last = t;
-      ctx.clearRect(0, 0, w, h);
-      for (var i = 0; i < n; i++) {
-        var s = S[i];
+    function startWarp() {
+      if (document.getElementById("ps-alive-warp")) return;
+      try {
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      } catch (e) {}
+      if (document.body && document.body.classList.contains("ps-calm")) return;
+      var c = document.createElement("canvas");
+      c.id = "ps-alive-warp";
+      c.setAttribute("aria-hidden", "true");
+      layer.appendChild(c);
+      var ctx = c.getContext("2d", { alpha: true });
+      var mobile = (Math.min(screen.width, screen.height) < 760) || /Mobi|Android/i.test(navigator.userAgent || "");
+      var n = mobile ? 64 : 120;
+      var gap = 1000 / (mobile ? 30 : 45);
+      var cols = ["rgba(0,255,240,", "rgba(236,242,247,", "rgba(192,200,210,", "rgba(245,158,11,"];
+      var S = [];
+      function birth(s, fresh) {
+        s.x = Math.random() * 2 - 1;
+        s.y = Math.random() * 2 - 1;
+        s.z = fresh ? Math.random() * 0.85 + 0.12 : 1;
         s.p = s.z;
-        s.z -= 0.0017;
-        if (s.z < 0.05) birth(s, 0);
-        var x = s.x / s.z * cx + cx, y = s.y / s.z * cy + cy;
-        var px = s.x / s.p * cx + cx, py = s.y / s.p * cy + cy;
-        var a = (1 - s.z) * 0.62;
-        ctx.strokeStyle = cols[s.c] + a + ")";
-        ctx.lineWidth = (1 - s.z) * 1.1 + 0.2;
-        ctx.beginPath();
-        ctx.moveTo(px, py);
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        s.c = Math.random() < 0.07 ? 3 : Math.random() < 0.45 ? 0 : Math.random() < 0.72 ? 1 : 2;
       }
+      for (var i = 0; i < n; i++) { var s = {}; birth(s, 1); S.push(s); }
+      var w = 0, h = 0, cx = 0, cy = 0, last = 0, hid = false, raf = 0;
+      function size() {
+        var r = Math.min(window.devicePixelRatio || 1, 1.25);
+        w = layer.clientWidth || innerWidth;
+        h = layer.clientHeight || innerHeight;
+        c.width = Math.max(1, w * r);
+        c.height = Math.max(1, h * r);
+        c.style.width = w + "px";
+        c.style.height = h + "px";
+        ctx.setTransform(r, 0, 0, r, 0, 0);
+        cx = w / 2;
+        cy = h / 2;
+      }
+      size();
+      addEventListener("resize", size, { passive: true });
+      document.addEventListener("visibilitychange", function () {
+        hid = document.hidden;
+        if (hid) { if (raf) cancelAnimationFrame(raf); raf = 0; }
+        else { last = 0; raf = requestAnimationFrame(tick); }
+      });
+      function tick(t) {
+        if (hid) return;
+        raf = requestAnimationFrame(tick);
+        if (t - last < gap) return;
+        last = t;
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < n; i++) {
+          var s = S[i];
+          s.p = s.z;
+          s.z -= 0.0017;
+          if (s.z < 0.05) birth(s, 0);
+          var x = s.x / s.z * cx + cx, y = s.y / s.z * cy + cy;
+          var px = s.x / s.p * cx + cx, py = s.y / s.p * cy + cy;
+          var a = (1 - s.z) * 0.62;
+          ctx.strokeStyle = cols[s.c] + a + ")";
+          ctx.lineWidth = (1 - s.z) * 1.1 + 0.2;
+          ctx.beginPath();
+          ctx.moveTo(px, py);
+          ctx.lineTo(x, y);
+          ctx.stroke();
+        }
+      }
+      raf = requestAnimationFrame(tick);
     }
-    raf = requestAnimationFrame(tick);
+    function kickWarp() {
+      if (typeof requestIdleCallback === "function") requestIdleCallback(startWarp, { timeout: 2000 });
+      else setTimeout(startWarp, 0);
+    }
+    if (document.readyState === "complete") kickWarp();
+    else window.addEventListener("load", kickWarp, { once: true });
   }
 
   if (reduce) return;

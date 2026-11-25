@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-GB" class="ps-alive">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -61,12 +61,14 @@
 <meta name="apple-mobile-web-app-title" content="Sanity">
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="manifest" href="/manifest.json">
-<link rel="preload" as="image" type="image/avif" imagesrcset="/assets/images/optimized/generated/midland-night-800.avif 800w, /assets/images/optimized/generated/midland-night-1200.avif 1200w, /assets/images/optimized/generated/midland-night-1600.avif 1600w" imagesizes="(max-width: 960px) 82vw, 445px" media="(min-width: 961px)" fetchpriority="high">
+<link rel="preload" as="style" href="/css/city-night.css?v=20261113">
+<link rel="preload" href="/assets/fonts/orbitron-latin-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" type="image/avif" imagesrcset="/assets/images/optimized/generated/midland-night-800.avif 800w, /assets/images/optimized/generated/midland-night-1200.avif 1200w, /assets/images/optimized/generated/midland-night-1600.avif 1600w" imagesizes="(max-width: 960px) 82vw, 445px" fetchpriority="high">
 <link rel="stylesheet" href="/css/styles.css">
 <link rel="stylesheet" href="/css/design-system.css">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/space.css">
-<link rel="preload" href="/assets/images/brand/crying-brain-logo-clear-256.webp" as="image" imagesrcset="/assets/images/brand/crying-brain-logo-clear-256.webp 256w, /assets/images/brand/crying-brain-logo-clear-512.webp 512w" imagesizes="110px">
+<link rel="preload" href="/assets/images/brand/crying-brain-logo-clear-256.webp" as="image" fetchpriority="high">
 <style>
 body {
   color: #eef6ff;
@@ -371,9 +373,10 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
 <link rel="stylesheet" href="/css/orbital-system.css">
 <link rel="stylesheet" href="/css/home-visual-polish.css">
 <link rel="stylesheet" href="/css/home-tiles.css">
+<link rel="stylesheet" href="/css/alive-20261123.css">
 <link rel="stylesheet" href="/css/tap-targets.css">
 </head>
-<body class="ps-city-home">
+<body class="ps-city-home ps-alive">
 <!-- Ecosystem nav (Dola) — connects all Pleading Sanity pages -->
 <style>
 /* Additive mobile discovery menu: the original navigation remains intact. */
@@ -483,7 +486,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #a1
 </aside>
 <figure class="ps-legacy-hero" style="max-width:900px;margin:0 auto 1.5rem;text-align:center;">
   <picture>
-    <source type="image/webp" srcset="/assets/images/buff-20261123/home-hero-sanctuary-logo-1920.webp">
+    <source type="image/webp" media="(min-width: 961px)" srcset="/assets/images/buff-20261123/home-hero-sanctuary-logo-1920.webp">
     <source type="image/avif" srcset="/assets/images/optimized/generated/hero-enhanced-800.avif 800w, /assets/images/optimized/generated/hero-enhanced-1200.avif 1200w, /assets/images/optimized/generated/hero-enhanced-1600.avif 1600w" sizes="(max-width: 960px) 92vw, 745px">
     <source type="image/webp" srcset="/assets/images/optimized/generated/hero-enhanced-800.webp 800w, /assets/images/optimized/generated/hero-enhanced-1200.webp 1200w, /assets/images/optimized/generated/hero-enhanced-1920.webp 1920w" sizes="(max-width: 960px) 92vw, 745px">
     <img src="/assets/images/r2-2026/hero-cosmic.jpeg" alt="Cosmic sanctuary illustration — a glowing brain nebula among teal and amber stars" width="1920" height="1080" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:16px;box-shadow:0 0 60px -10px rgba(45,212,191,.35);">
