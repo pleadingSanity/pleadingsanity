@@ -202,6 +202,8 @@ function card(item) {
   const match = document.createElement('p'); match.className = 'pr-small'; match.style.margin = '0';
   if (item.matches) { match.textContent = 'Matches: '; const a = document.createElement('a'); a.href = '/shop.html'; a.textContent = item.matches; a.style.color = '#38bdf8'; match.append(a); }
   const p = document.createElement('p'); p.className = 'pr-price'; p.textContent = fmt.format(item.price_gbp);
+  const delivered = document.createElement('p'); delivered.className = 'pr-small'; delivered.style.margin = '0';
+  delivered.textContent = `${fmt.format(item.price_gbp + state.info.delivery.post_gbp)} delivered (UK post ${fmt.format(state.info.delivery.post_gbp)} per order) · ${fmt.format(item.price_gbp)} with free Leicester collection`;
   const b = document.createElement('button');
   b.type = 'button'; b.className = 'pr-btn';
   b.textContent = item.in_stock ? 'Buy' : 'Sold out';
@@ -213,7 +215,7 @@ function card(item) {
   rv.style.cssText = 'background:transparent;color:#38bdf8;border:1px solid #38bdf8';
   rv.textContent = 'Reviews';
   rv.addEventListener('click', () => openReviews(item));
-  body.append(tag, h, d, ...(item.matches ? [match] : []), mat, warn, batch, p, b, rv);
+  body.append(tag, h, d, ...(item.matches ? [match] : []), mat, warn, batch, p, delivered, b, rv);
   if (img.src) el.append(img);
   el.append(body);
   return el;
@@ -224,7 +226,11 @@ async function start() {
   try {
     state.info = await api('/api/prints');
   } catch {
-    grid.innerHTML = '<p class="pr-empty">Prints are temporarily unavailable. Please check back soon.</p>';
+    // Leave any server-rendered static cards in place; only show the
+    // fallback when the grid has no cards at all.
+    if (!grid.querySelector('.pr-card')) {
+      grid.innerHTML = '<p class="pr-empty">Prints are temporarily unavailable. Please check back soon.</p>';
+    }
     return;
   }
   const d = state.info.delivery || { post_gbp: 0, collect: false };
