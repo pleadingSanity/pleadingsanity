@@ -1,5 +1,15 @@
 # AI brain backup — changelog
 
+## 2026-11-26 (Europe/London) — Muse public-safe family entry
+
+Additive only; no existing entry was rewritten, reordered or deleted.
+
+- New persona file `muse.md`: public-safe record of Muse as Shane's connected external second engineer (review, evidence, additive proposals). Approved facts only; pointer to [shared-rules.md](shared-rules.md). No keys, private workspace paths, internal mailboxes or owner identifiers.
+- House pages: one additive `eco-muse` card on `ai-ecosystem.html`; one additive lane-separation sentence on `ai-family.html`.
+- `system_blueprint.json`: `names.muse` added only; `aiNodes` and the Arron provider chain unchanged.
+- Gates and changed-file list are recorded in the `## 2026-11-26 — Muse public-safe family entry` section of `AI_HANDOFF.md`. This entry does not merge anything; Shane decides merge or hold.
+
+
 ## 2026-11-23 (Europe/London) — weekly refresh
 
 Diffed `docs/ai-brain/` (created in `a782944`, 15 November 2026) against `main` `ae56375` (22 November 2026). Nothing was deleted. Older lines that are no longer current are marked "superseded on <date>" and left in place.
