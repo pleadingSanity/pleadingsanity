@@ -9,6 +9,18 @@
   command = "node scripts/validate-build.cjs && echo 'Static site — no build needed'"
   functions = "netlify/functions"
 
+# ─── LONG-LIVED STATIC RASTER MEDIA (WebP + legacy fallbacks; never user data).
+# Additive only: leaves all existing CSP/noindex/private-page rules untouched.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
 # ─── SECURITY HEADERS ───
 [[headers]]
   for = "/*"
