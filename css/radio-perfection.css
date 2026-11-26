@@ -132,3 +132,41 @@ body.radio-page { padding-bottom: 96px; }
 /* Skip link: hidden until keyboard focus (radio page does not load styles.css) */
 .skip-link{position:absolute;left:12px;top:-60px;z-index:10000;padding:10px 16px;border-radius:10px;background:#00fff0;color:#0b0f19;font-weight:700;text-decoration:none;transition:top .15s ease}
 .skip-link:focus,.skip-link:focus-visible{top:12px;outline:3px solid #f59e0b;outline-offset:2px}
+
+/* ---- Additive WebP layers (zero-deletion: legacy .jpg remains the fallback).
+   Browsers without image-set support keep the --theme-bg jpg value above. */
+@supports (background-image: image-set(url("x.webp") type("image/webp"))) {
+  .station-card.theme-reprezent,
+  .station-card.theme-rinse,
+  .station-card.theme-capitalxtra {
+    --theme-bg: linear-gradient(rgba(11,15,25,.60), rgba(11,15,25,.82)), image-set(url('/images/radio/cover-uk-grime.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .station-card.theme-reloaded,
+  .station-card.theme-oldschool,
+  .station-card.theme-gotradio {
+    --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), image-set(url('/images/radio/cover-oldschool.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .station-card.theme-181rnb,
+  .station-card.theme-urban {
+    --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), image-set(url('/images/radio/cover-rnb.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .station-card.theme-groovesalad,
+  .station-card.theme-sonicuniverse,
+  .station-card.theme-digitalis,
+  .station-card.theme-cliqhop,
+  .station-card.theme-defcon {
+    --theme-bg: linear-gradient(rgba(11,15,25,.58), rgba(11,15,25,.82)), image-set(url('/images/radio/cover-ambient.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .station-card.theme-dubstep,
+  .station-card.theme-darkzone,
+  .station-card.theme-dronezone {
+    --theme-bg: linear-gradient(rgba(11,15,25,.58), rgba(11,15,25,.82)), image-set(url('/images/radio/cover-bass.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .station-card.theme-bossa,
+  .station-card.theme-radioparadise {
+    --theme-bg: linear-gradient(rgba(11,15,25,.55), rgba(11,15,25,.80)), image-set(url('/images/radio/cover-eclectic.webp') type("image/webp")) center/cover no-repeat;
+  }
+  .radio-art {
+    background-image: linear-gradient(rgba(11,15,25,.42), rgba(11,15,25,.62)), image-set(url('/images/radio/cover-nowplaying.webp') type("image/webp")) !important;
+  }
+}

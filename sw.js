@@ -4,8 +4,8 @@
 // Evolution Not Erasure • One Source • One Consciousness • One Family
 // ==============================================================
 
-const VERSION = '5.13.0'; // v5.13.0: brand-locked teal app icons + maskable icons, navigation preload, bounded runtime cache. v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
-const STATIC_CACHE = 'pleading-sanity-static-v117'; // v117: new app icons and screenshots. v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
+const VERSION = '5.13.1'; // v5.13.1: removed forbidden frequency precache entries (396/417/639/852), WebP radio covers; files kept on disk as fallbacks. // v5.13.0: brand-locked teal app icons + maskable icons, navigation preload, bounded runtime cache. v5.12.64: one shared crisis phrase list (/js/crisis-phrases.js). v5.12.63: consolidated release — #245 netlify headers/caching + support-us + radio fix + #247 page consolidation + IndieWeb h-card/rel-me/webmention/h-entry.
+const STATIC_CACHE = 'pleading-sanity-static-v118'; // v118: drop forbidden hz jpg precache; v117: new app icons and screenshots. v116: shared crisis phrase list. v115: v115: consolidated release. v114: homepage founder context and clearer feature descriptions.
 const DYNAMIC_CACHE = 'pleading-sanity-dynamic-v19';
 // Runtime cache stays small on phones: oldest entries go first past this many.
 const DYNAMIC_LIMIT = 180;
@@ -166,13 +166,9 @@ const PRECACHE_URLS = [
     '/assets/theme/icons/healing-hz.webp',
     '/assets/theme/hz/174.jpg',
     '/assets/theme/hz/285.jpg',
-    '/assets/theme/hz/396.jpg',
-    '/assets/theme/hz/417.jpg',
     '/assets/theme/hz/432.jpg',
     '/assets/theme/hz/528.jpg',
-    '/assets/theme/hz/639.jpg',
     '/assets/theme/hz/741.jpg',
-    '/assets/theme/hz/852.jpg',
     '/assets/theme/hz/963.jpg',
     '/assets/theme/icons/sanity-stories.webp',
     '/assets/theme/icons/mind-mode.webp',

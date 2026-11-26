@@ -1,0 +1,17 @@
+[
+  { "src": "images/radio/cover-ambient.jpg", "out": "images/radio/cover-ambient.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-eclectic.jpg", "out": "images/radio/cover-eclectic.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-nowplaying.jpg", "out": "images/radio/cover-nowplaying.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-oldschool.jpg", "out": "images/radio/cover-oldschool.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-bass.jpg", "out": "images/radio/cover-bass.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-rnb.jpg", "out": "images/radio/cover-rnb.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "images/radio/cover-uk-grime.jpg", "out": "images/radio/cover-uk-grime.webp", "maxWidth": 1280, "quality": 80 },
+  { "src": "assets/images/space/aurora-drive.jpg", "out": "assets/images/optimized/auto/assets__images__space__aurora-drive-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/memes/out-of-bed.jpg", "out": "assets/images/optimized/auto/assets__memes__out-of-bed-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/memes/three-am-brain.jpg", "out": "assets/images/optimized/auto/assets__memes__three-am-brain-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/share/door.jpg", "out": "assets/images/optimized/auto/assets__share__door-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/images/showcase/cards-calm.jpg", "out": "assets/images/optimized/auto/assets__images__showcase__cards-calm-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/images/showcase/finance.jpg", "out": "assets/images/optimized/auto/assets__images__showcase__finance-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/images/space/aurora-planets.jpg", "out": "assets/images/optimized/auto/assets__images__space__aurora-planets-1280.webp", "maxWidth": 1280, "quality": 82 },
+  { "src": "assets/images/brand/card-back-night.jpg", "out": "assets/images/optimized/auto/assets__images__brand__card-back-night-1280.webp", "maxWidth": 1280, "quality": 82 }
+]
