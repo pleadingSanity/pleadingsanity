@@ -9,7 +9,7 @@
     note = document.createElement("p");
     note.className = "ps-offline-note";
     note.setAttribute("role", "status");
-    note.textContent = "You’re offline — last copy still works.";
+    note.textContent = "You’re offline — saved pages still open; live chat needs a connection.";
     note.style.cssText = "margin:0;padding:8px 14px;text-align:center;font:600 14px/1.4 system-ui,-apple-system,sans-serif;color:#eef6ff;background:#0d1b2a;border-bottom:1px solid rgba(0,255,240,.45)";
     document.body.prepend(note);
   }
