@@ -1741,3 +1741,43 @@ Verify after a new key (a new deploy or env change takes effect on the next func
 - Recorded from the repo: 99p unlock built (`02433a5`, badge only); print-shop and AD5X rules (`b075b7d`, `aeb915c`, `3cef91d`, `bd4913d`); solar deposit client id from env (`ced20fd`); home palette derivatives (`d7e51d8`, `85e156f`); orbital Phase 1A (`30687da`); SEO honesty (`6f34ce5`, `bd4913d`); upgrade blueprint phrase gate (`d6e8ac5`). Creations keys stay isolated from Arron (`e3eccac`).
 - Recorded from founder memory where the repo does not yet say it: crisis numbers may sit lower from 18 Nov and are never removed; Pleading Socially replaces Shaney C (studio files on this commit still say Shaney C — not renamed here); AI credits fund (no `docs/AI-CREDITS-FUND.md`); 20 Nov site/asset work is a Dola draft PR and needs Shane's exact approval phrase before `main`.
 - Not touched: code, config, workflows, site pages, soul file, issue #92, payments, login, `crisis.html`. This entry does not merge anything. The morning 15 Nov "99p not built" header is now stale next to the blueprint; it was not rewritten in this pass.
+
+
+## 2026-11-26 — Muse public-safe family entry (additive draft PR; not merged)
+
+Branch `feat/muse-family-entry-20261126` off `origin/main` `2eb18dd`. Additive only; zero deletion; no push to `main`; Shane decides merge or hold.
+
+### Changed files (allowlist)
+- **Added** `docs/ai-brain/muse.md` — public-safe Muse persona matching the `grok-bot.md` / `dola.md` style: approved facts only, `shared-rules.md` pointer, role, lane separation, rules and working method. No keys, private workspace paths, mailboxes, printer identifiers or ownership details.
+- **Modified** `docs/ai-brain/CHANGELOG.md` — inserted one dated `2026-11-26` section; existing entries left in place and unordered as before.
+- **Modified** `ai-ecosystem.html` — one additive `<article class="eco-card eco-muse reveal">` after the existing cards; empty `aria-hidden` avatar, `h3` Muse, `p.eco-role` "Connected second engineer · reviewed additive changes", one honest paragraph; no button (no fitting existing safe target); no new CSS.
+- **Modified** `ai-family.html` — one additive lane-separation sentence after the existing provider paragraph; intro form, charter and existing copy untouched.
+- **Modified** `system_blueprint.json` — added `names.muse` only. `aiNodes` unchanged; Arron chain `openai → anthropic → gemini → grok` unchanged; JSON valid.
+- **Modified** `DOLA_MEMORY.md` — one dated shard line in the existing format.
+
+### Gate outputs (actual, this branch)
+- `node scripts/validate-build.cjs` → exit 0; output: "arron-knowledge.json validated. Build safety checks passed."
+- `python3 scripts/audit-site.py` → exit 1 with **12 error lines, all `node_modules/` doc HTML** (missing title/description/canonical and two "not a whole HTML page" guards). House-guard subset (crisis strings, provider order, manifest ids, local hrefs, duplicate ids): **zero errors**. Summary unchanged: "Checked 99 HTML pages, static href/src targets, duplicate IDs, and 336 external/inline JavaScript and TypeScript blocks." Baseline on `main` has the same node_modules-only failure; this diff adds none.
+- `npm test` → **452 tests, 451 pass, 1 fail**. The single failure is `#422 tap-target layer loads last on the homepage and the Arron app` (`tests/tap-targets.test.mjs`), pre-existing on this base; the homepage/Arron-app stylesheet files are outside this allowlist and were not edited. Same 452/451/1 totals before and after this diff; no new failures.
+- `node --check js/*.js` → exit 0 (no JavaScript file changed by this diff).
+- `node scripts/audit-ecosystem.mjs --strict` → `HTML pages: 95 Files: 1353 Errors: 0 Warnings: 0 Info: 1`.
+- Secret/private scan on changed/new text: no key/token patterns, no banned palette hexes, no owner phone/mailbox additions, no printer identifiers, no ownership-percentage text. Existing pre-existing public strings on untouched lines were not copied.
+
+### Meta-hygiene audit (observed only; pages untouched)
+- `creator-prints.html`, `creator-studio-music.html`, `insights.html` and `404.html` remain without new social meta; gated/noindex/private pages were not given open-graph tags. `sitemap.xml` unchanged. No new social tags added by this diff.
+
+### Skipped and why
+- `docs/ai-brain/README.md` file-list line for Muse — outside the requested allowlist; optional follow-up if Shane wants the index updated.
+- No `aiNodes.muse` entry — `aiNodes` tracks the studio/chain set; the task requested `names` only and the Arron chain must stay untouched.
+- No fix for test #422 (touches `arron-app.html` / homepage stylesheet order, outside this allowlist; addressed separately on draft PR #406).
+- Imagery/WebP/radio/service-worker/Netlify-config work belongs to draft PR #406 and was not touched here.
+
+### Shane-only blockers carried forward (unchanged by this entry)
+- Supabase `/api/supabase-health` `connect_failed` — dashboard Network Restrictions fix, not code.
+- PayPal `PAYPAL_CLIENT_ID` / `SECRET` / `MERCHANT_ID` still unset.
+- IndieWeb: profile backlinks and `webmention.io` signup are manual steps.
+- Fine-grained PAT lacks `workflow` scope; workflow-file Dependabot PRs may block.
+- Open conflict `#397`; rulings still awaited on drafts `#406` and `#397`.
+- Netlify preview builds fail account-wide (exit code / 404); production pages were 200 on the last check.
+
+Requested decision: merge this draft or hold. No merge, force-push or `main` push was performed. Never-touch list unchanged: login/signup/reset markup, PayPal code, `crisis.html`, exact crisis numbers, manifesto and closed #92 untouched.

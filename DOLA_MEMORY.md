@@ -151,3 +151,6 @@ Never diagnoses, never prescribes, never claims human/consciousness, never gives
 
 ## Palette correction — 2026-11-09
 The Brand Palette line above is kept as history. It is superseded. The locked palette is background `#0b0f19`, teal `#00fff0` and `#38bdf8`, amber `#f59e0b`, and silver. `#ec4899`, `#db2777`, and the other non-locked hexes in that older line (`#0a1a3a`, `#102a5c`, `#0d9488`, `#2dd4bf`, `#f5c542`) are not the locked set. Do not paint purple, violet, indigo, pink, or magenta, including `#ff4d8d`, `#ff00ff`, `#ff66ff`, and `#000103`.
+
+## 2026-11-26 — Muse public-safe family entry (additive draft PR, not merged)
+- Added `docs/ai-brain/muse.md` (connected external second engineer: review, evidence, suggest-only additive proposals; written two-way handoff, no live sync; never speaks as Shane). One `eco-muse` card on `ai-ecosystem.html`; one lane sentence on `ai-family.html`; `names.muse` added in `system_blueprint.json` only (`aiNodes` and the GPT→Claude→Gemini→Grok chain unchanged). Additive docs/markup; gates and blockers recorded in the `2026-11-26` AI_HANDOFF.md entry. Shane decides merge or hold; no push to main.

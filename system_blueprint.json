@@ -38,7 +38,8 @@
     "gpt": "audit and tests",
     "claude": "code review and regression tests",
     "gemini": "mobile, access, wording",
-    "copilot": "repo edits"
+    "copilot": "repo edits",
+    "muse": "external connected second engineer · review, evidence and additive proposals; suggest-only, no chain role"
   },
   "privacyContract": {
     "forgetMe": "DELETE /api/arron/memory body {memoryId}. Success is {ok:true, cleared:true}. Do not invent a new header or verifiedClean.",
