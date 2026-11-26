@@ -607,7 +607,7 @@ export async function askGrokDirect(system: string, turns: Turn[], maxTokens = 4
 }
 
 // What Arron says when every mind is quiet at once — never an error, always the real lines.
-export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I'm not going anywhere.
+export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I'm still here.
 If you're in danger right now, call 999.
 To talk to someone, Samaritans are free, any time, on 116 123. You can also text SHOUT to 85258, or call NHS 111 and choose option 2 for mental health support.
 I'm an AI companion, not a doctor, so they can do what I can't. The truth of this house is here: https://pleadingsanity.co.uk/crisis.html
