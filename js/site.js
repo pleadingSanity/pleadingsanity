@@ -43,3 +43,19 @@ emoji.lastIndex=0;var cleaned=textNode.nodeValue.replace(emoji,"").replace(/[ \t
 (function(){try{if(typeof document==="undefined"||typeof document.querySelector!=="function"||!document.head)return;if(window.PSRadio||document.querySelector("script[data-ps-radio-persist]"))return;var l=document.createElement("link");l.rel="stylesheet";l.href="/css/ps-radio-app.css";document.head.appendChild(l);var s=document.createElement("script");s.src="/js/ps-radio-persist.js";s.defer=true;s.setAttribute("data-ps-radio-persist","");document.head.appendChild(s);}catch(e){}})();
 
 (function(){try{if(document.querySelector('script[src="/js/ps-views.js"]'))return;var s=document.createElement("script");s.src="/js/ps-views.js";s.defer=true;document.head.appendChild(s);}catch(e){}})();
+
+/* Branch 4 support banner: "Keep Arron & the Sanctuary 100% free — Shop Leicester 3D Prints & Streetwear →" (/shop.html).
+   In-flow above the footer. NEVER on: crisis/support/funding/shop/prints/studio/checkout pages. Never fixed/sticky. */
+(function(){
+  var path = (location.pathname || '/').toLowerCase().replace(/\/+$/, '') || '/';
+  var excluded = /^\/(crisis|support-us|funding|shop|prints|ps-studio|supporter|marketplace|insane-solar|aura-hz|checkout|login|signup|reset-password)(\.html)?$/.test(path)
+    || /\/crisis\//.test(path) || /arron/.test(path);
+  if (excluded || document.querySelector('.ps-shop-banner')) return;
+  var anchor = document.querySelector('footer');
+  if (!anchor || !document.body) return;
+  var banner = document.createElement('a');
+  banner.className = 'ps-shop-banner';
+  banner.href = '/shop.html';
+  banner.textContent = 'Keep Arron & the Sanctuary 100% free — Shop Leicester 3D Prints & Streetwear →';
+  anchor.parentNode.insertBefore(banner, anchor);
+})();
