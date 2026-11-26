@@ -30,7 +30,6 @@ const ROOT_FILES = [
   "docs/MASTER_PROMPT.md",
   "system_blueprint.json",
   "arron-knowledge.json",
-  "content/arron-knowledge.json",
   "netlify/lib/solar-knowledge.ts",
   "netlify/lib/arron-knowledge.ts",
 ];
