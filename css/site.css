@@ -29,6 +29,12 @@
 .ps-donate-btn-amber:focus-visible{outline-color:#f59e0b}
 @media (max-width:480px){.ps-donate-strip-actions{flex-direction:column}.ps-donate-btn{width:100%}}
 @media (prefers-reduced-motion:reduce){.ps-donate-btn{transition:none}}
+/* Branch 4 support banner — single-line shop link, in-flow above the footer. Never fixed/sticky. */
+.ps-shop-banner{display:flex;align-items:center;justify-content:center;min-height:48px;max-width:760px;margin:2rem auto 0;padding:12px 20px;border-radius:18px;border:1px solid rgba(0,255,240,.35);background:linear-gradient(135deg,rgba(0,255,240,.10),rgba(245,158,11,.07)),#0d1b2a;color:#eef6ff;font-weight:800;font-size:1.02rem;line-height:1.5;text-align:center;text-decoration:none;box-sizing:border-box}
+.ps-shop-banner:hover{background:linear-gradient(135deg,rgba(0,255,240,.18),rgba(245,158,11,.12)),#0d1b2a;border-color:#00fff0}
+.ps-shop-banner:focus-visible{outline:3px solid #00fff0;outline-offset:2px}
+@media (max-width:480px){.ps-shop-banner{font-size:.95rem}}
+@media (prefers-reduced-motion:reduce){.ps-shop-banner{transition:none}}
 /* Light-sweep opt-in: subtle on-brand section wash. background-image ONLY — layers over any existing background-color, zero layout shift. Teal glow top, amber glow bottom-right, fine dot grid. On-brand teal/amber only. */
 .ps-wash{background-image:radial-gradient(ellipse at 50% 0%,rgba(0,255,240,0.08),transparent 55%),radial-gradient(ellipse at 100% 100%,rgba(245,158,11,0.05),transparent 50%),radial-gradient(rgba(56,189,248,0.12) 1px,transparent 1.2px);background-size:auto,auto,24px 24px}
 .ps-wash-dots{background-image:radial-gradient(rgba(56,189,248,0.10) 1px,transparent 1.2px);background-size:24px 24px}
