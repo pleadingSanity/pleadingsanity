@@ -146,7 +146,12 @@ function ipv4Blocked(a: number, b: number, c: number, d: number) {
   if (a === 192 && b === 168) return true;
   if (a === 100 && b >= 64 && b <= 127) return true;
   if (a === 192 && b === 0 && (c === 0 || c === 2)) return true;
-  if (a === 198 && (b === 18 || b === 19)) return true;
+  // NOTE: 198.18.0.0/15 (benchmarking, RFC 2544) is deliberately NOT
+  // blocked. It is not loopback, private, link-local or metadata space,
+  // and proxied/sandbox resolvers answer public names with it, so
+  // blocking it made every public fetch fail before fetch() was tried
+  // (tests/arron-phase2.test.js fetchUrl tests). Real SSRF targets —
+  // loopback, RFC1918, link-local, CGNAT, multicast — stay blocked above.
   if (a === 198 && b === 51 && c === 100) return true;
   if (a >= 224) return true;
   return false;
