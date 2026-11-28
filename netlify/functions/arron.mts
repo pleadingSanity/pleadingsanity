@@ -801,6 +801,7 @@ export default async (req: Request, context: Context) => {
       // arron-health.mts claimed the same path and never won, so its key check
       // was unreachable. Key flags are booleans only. No key value is returned.
       const { user, profile } = await whoIsHere();
+      const chain = chainDiagnostics();
       return json({
         ok: true,
         time: Date.now(),
@@ -809,10 +810,12 @@ export default async (req: Request, context: Context) => {
         signedIn: Boolean(user),
         member: profile ? { displayName: profile.displayName, username: profile.username } : null,
         keys: providerKeyPresence(),
+        // Per provider: key present yes/no, and the last error class (auth, quota, model, network).
+        providers: chain.report,
         lastFailure: lastChainFailure(),
         // Per-lab status from real chat hops on this function instance (status code + short tag),
         // the model id each lab uses, and the NAME of the env var that supplied each key. No values.
-        chain: chainDiagnostics(),
+        chain,
         liveProbe: "Owner only: GET /api/ops/ai-probe?probe=1 (credential check, no spend) or ?probe=2 (1-token chat, needs PS_PAID_PROBES_APPROVED).",
         note: "Key presence only — no live API calls made. Connectivity not proven. chain.providers shows the last real hop result on this instance.",
       });
@@ -838,7 +841,7 @@ export default async (req: Request, context: Context) => {
     if (route === "chat") {
       const crisis = await crashLooksLikeCrisis(spare);
       return json({
-        reply: crisis ? CRISIS_SIGNPOST : `I'm having trouble finding my words just now, but I'm still here. You're not alone — see the Support page: https://pleadingsanity.co.uk/support.html. If you are unsafe, the full emergency options are at https://pleadingsanity.co.uk/crisis.html.`,
+        reply: crisis ? `${QUIET_REPLY}\n\n${CRISIS_SIGNPOST}` : QUIET_REPLY,
         provider: "none",
         remembered: false,
         crisis,

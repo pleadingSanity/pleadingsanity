@@ -93,12 +93,13 @@ test("the chain uses the shared config and keeps its order and crisis lines", ()
   assert.match(chain, /recordProviderStatus\(provider, success, status, model\)/);
   assert.match(chain, /export function chainDiagnostics\(\)/);
   assert.match(chain, /\[AI-HOP-SKIP\] hop=openrouter privacy gate/);
-  assert.match(chain, /export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now/);
-  assert.match(chain, /call 999\.\nTo talk to someone, Samaritans are free, any time, on 116 123/);
+  assert.match(chain, /Samaritans are free on 116 123\. Text SHOUT to 85258\. Call NHS 111 and choose option 2\. If you are in danger, call 999\./);
+  assert.match(chain, /I'm sorry — I can't reach any of my minds right now/);
 });
 
 test("health shows per-provider status and the owner probe uses the same keys", () => {
-  assert.match(arron, /chain: chainDiagnostics\(\)/);
+  assert.match(arron, /const chain = chainDiagnostics\(\)/);
+  assert.match(arron, /providers: chain\.report/);
   assert.match(arron, /\/api\/ops\/ai-probe/);
   assert.match(probe, /resolveKey\("grok", env\)\.value/);
   assert.match(probe, /chooseModel\(p, envModel, CURRENT_MODELS\[p\]\)/);

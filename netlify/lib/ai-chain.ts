@@ -30,22 +30,30 @@ import {
   GEMINI_DIRECT_MODEL,
   GEMINI_GOOGLE_BASE,
   GEMINI_STEP_MS,
+  fallbackModels,
   geminiDirectRequest,
+  nextStep,
+  postChat,
   readGeminiKey,
+  relayOneModel,
   walkProviders,
 } from "./provider-fallback.js";
 import {
   CURRENT_MODELS,
   GROK_SECOND_MODEL,
   chooseModel,
+  classifyFailure,
   failureTag,
   keySources,
+  listKeys,
+  providerReport,
   providerStatusSnapshot,
   recordProviderStatus,
   resolveKey,
 } from "./provider-config.js";
 
-// Every lab gets at most 4.5s. A timeout steps down to the next mind. No single point of failure.
+// Every lab gets at most 15s (GEMINI_STEP_MS). A timeout steps down to the next mind.
+// The previous 4.5s cap aborted reasoning models before they wrote a reply.
 const LAB_TIMEOUT_MS = GEMINI_STEP_MS;
 // An attempt is not started with less than this left: it would only bill and then be cut off.
 const MIN_ATTEMPT_MS = 2_500;
@@ -184,33 +192,39 @@ function slot(deadline: number) {
 }
 const defaultDeadline = () => Date.now() + LAB_TIMEOUT_MS;
 
-// Grok — the fourth brain. A 403 from an empty xAI balance is the account, not the model.
-// Do not try the next model name, do not add credits from this file, and do not replace this chain to "fix" it.
+// Grok — the fourth brain. Talks to https://api.x.ai/v1/chat/completions.
+// A 403 from an empty xAI balance is the account. The next model name is not tried for that.
+// A different env name (ARRON_GROK_KEY, then GROK_API_KEY, xAI_KEY, XAI_API_KEY) is tried
+// when the first secret is rejected, so one valid key is enough. No credits are added here.
 async function callGrok(model: string, system: string, turns: Turn[], maxTokens: number, deadline = defaultDeadline()) {
-  if (!grok) throw new Error("No Grok key on this deploy");
-  const names = model === GROK_SECOND_MODEL ? [model] : [model, GROK_SECOND_MODEL];
-  let last: unknown;
-  for (const id of names) {
-    try {
-      const res = await grok.chat.completions.create({
-        model: id,
-        max_tokens: maxTokens * 4,
-        messages: [{ role: "system", content: system }, ...turns],
-      }, slot(deadline));
-      const text = (res.choices[0]?.message?.content ?? "").trim();
-      if (text) return text;
-    } catch (error) {
-      if (error instanceof OutOfTime) throw error;
-      last = error;
-      const reason = why(error);
-      if (/spending-limit|rejected-key|billing|forbidden|quota/.test(reason)) {
-        console.warn(`AI chain: ${id} unavailable (${reason}). Same account, so the next Grok name is not called.`);
-        break;
-      }
-      console.warn(`AI chain: ${id} unavailable (${reason}), trying the next Grok name`);
-    }
+  if (!grok) {
+    const error = new Error("No Grok key on this deploy");
+    error.code = "NO_KEY";
+    throw error;
   }
-  throw last instanceof Error ? last : new Error("Grok was quiet");
+  return relayOneModel({
+    keys: listKeys("grok"),
+    classify: why,
+    send: (key) => {
+      const { signal } = slot(deadline);
+      return postChat({
+        provider: "grok",
+        apiKey: key.value,
+        dropIn: true,
+        model,
+        system,
+        turns,
+        maxTokens,
+        signal,
+      });
+    },
+  });
+}
+
+function replyText(content: unknown) {
+  if (typeof content === "string") return content.trim();
+  if (!Array.isArray(content)) return "";
+  return content.map((part) => (typeof part === "string" ? part : typeof (part as { text?: unknown })?.text === "string" ? (part as { text: string }).text : "")).join("").trim();
 }
 
 async function callOpenAI(model: string, system: string, turns: Turn[], maxTokens: number, deadline: number) {
@@ -219,20 +233,41 @@ async function callOpenAI(model: string, system: string, turns: Turn[], maxToken
     max_completion_tokens: model.startsWith("gpt-5") ? maxTokens * 4 : maxTokens,
     messages: [{ role: "system" as const, content: system }, ...turns],
   };
-  try {
-    const res = await openai.chat.completions.create(body, slot(deadline));
-    const text = (res.choices[0]?.message?.content ?? "").trim();
-    if (text) return text;
-  } catch (error) {
-    if (!openaiDirect || error instanceof OutOfTime) throw error;
-    // A quota or billing refusal from the gateway is not retried on a second paid account.
-    const status = (error as { status?: unknown })?.status;
-    if (status === 402 || status === 429) throw error;
-    console.warn(`AI chain: gateway ${model} unavailable (${why(error)}), trying the stored OpenAI key`);
-  }
-  if (!openaiDirect) return "";
-  const res = await openaiDirect.chat.completions.create(body, slot(deadline));
-  return (res.choices[0]?.message?.content ?? "").trim();
+  return relayOneModel({
+    keys: listKeys("openai"),
+    classify: why,
+    send: async (key) => {
+      const gateway = !key.dropIn && Boolean((process.env.OPENAI_BASE_URL || "").trim());
+      // The gateway credential stays on the SDK, which reads OPENAI_BASE_URL.
+      // A drop-in key, a second alias, or a deploy with no gateway base goes to api.openai.com.
+      if (!(gateway && key.value === openaiKey.value)) {
+        const { signal } = slot(deadline);
+        return postChat({
+          provider: "openai",
+          apiKey: key.value,
+          dropIn: true,
+          model,
+          system,
+          turns,
+          maxTokens,
+          signal,
+        });
+      }
+      try {
+        const res = await openai.chat.completions.create(body, slot(deadline));
+        const text = replyText(res.choices[0]?.message?.content);
+        if (text) return text;
+      } catch (error) {
+        if (!openaiDirect || error instanceof OutOfTime) throw error;
+        const status = (error as { status?: unknown })?.status;
+        if (status === 402 || status === 429) throw error;
+        console.warn(`AI chain: gateway ${model} unavailable (${why(error)}), trying the stored OpenAI key`);
+      }
+      if (!openaiDirect) return "";
+      const res = await openaiDirect.chat.completions.create(body, slot(deadline));
+      return replyText(res.choices[0]?.message?.content);
+    },
+  });
 }
 
 const geminiOnGateway = () => !geminiKey.dropIn && Boolean((process.env.GOOGLE_GEMINI_BASE_URL || "").trim());
@@ -279,40 +314,86 @@ function geminiClient(onGateway: boolean) {
   return geminiDirect;
 }
 
-async function askGemini(model: string, system: string, turns: Turn[], maxTokens: number, deadline: number) {
-  let gatewayError: unknown = null;
+async function askGeminiOnce(key: { value: string; name: string; dropIn: boolean }, model: string, system: string, turns: Turn[], maxTokens: number, deadline: number) {
+  const onGateway = !key.dropIn && geminiOnGateway();
+  let primaryError: unknown = null;
   try {
-    const { timeout, signal } = slot(deadline);
-    // Gemini's abort stops the wait on our side; the SDK notes it may not cancel the work on Google's side.
-    const res = await gemini.models.generateContent({
-      model,
-      contents: turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
-      config: { systemInstruction: system, maxOutputTokens: maxTokens * 4, abortSignal: signal, httpOptions: { timeout } },
-    });
-    const text = (res.text ?? "").trim();
+    let text = "";
+    if (onGateway && key.value === geminiKey.value) {
+      const { timeout, signal } = slot(deadline);
+      // Gemini's abort stops the wait on our side; the SDK notes it may not cancel the work on Google's side.
+      const res = await gemini.models.generateContent({
+        model,
+        contents: turns.map((t) => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })),
+        config: { systemInstruction: system, maxOutputTokens: maxTokens * 4, abortSignal: signal, httpOptions: { timeout } },
+      });
+      text = (res.text ?? "").trim();
+    } else {
+      const { signal } = slot(deadline);
+      text = await postChat({
+        provider: "gemini",
+        apiKey: key.value,
+        dropIn: true,
+        model,
+        system,
+        turns,
+        maxTokens,
+        signal,
+      });
+    }
     if (text) return { text, model };
-    gatewayError = new Error("empty reply");
+    const empty = new Error("empty reply");
+    empty.name = "EmptyReply";
+    primaryError = empty;
   } catch (error) {
     if (error instanceof OutOfTime) throw error;
-    const status = (error as { status?: unknown }).status;
-    // The same direct account already refused. A second model name would bill the same refusal.
-    if (!geminiOnGateway() && (status === 402 || status === 429)) throw error;
-    gatewayError = error;
+    const step = nextStep(why(error));
+    // A rejected or unpaid key will refuse every model name. Try the next key, not the next id.
+    if (step === "next-key") throw error;
+    primaryError = error;
   }
-  if (!resolveKey("gemini").value) {
-    throw gatewayError instanceof Error ? gatewayError : new Error("Gemini was quiet");
-  }
-  console.warn(`AI chain: ${model} unavailable (${why(gatewayError)}), trying ${GEMINI_DIRECT_MODEL}`);
+  const spare = model === GEMINI_DIRECT_MODEL ? CURRENT_MODELS.gemini : GEMINI_DIRECT_MODEL;
+  if (!spare || spare === model) throw primaryError instanceof Error ? primaryError : new Error("Gemini was quiet");
+  console.warn(`AI chain: ${model} unavailable (${why(primaryError)}), trying ${spare}`);
   try {
-    const text = await callGeminiFallback(turns, system, deadline);
-    return { text, model: GEMINI_DIRECT_MODEL };
+    const { signal } = slot(deadline);
+    const text = await postChat({
+      provider: "gemini",
+      apiKey: key.value,
+      dropIn: true,
+      model: spare,
+      system,
+      turns,
+      maxTokens,
+      signal,
+    });
+    if (text) return { text, model: spare };
+    const empty = new Error("empty reply");
+    empty.name = "EmptyReply";
+    throw empty;
   } catch (error) {
-    // Keep both refusals for the health check: the chain model first, then the direct retry.
     if (error && typeof error === "object" && !(error instanceof OutOfTime)) {
-      Object.assign(error, { geminiTrail: `${model}: ${why(gatewayError)}; ${GEMINI_DIRECT_MODEL}: ${why(error)}` });
+      Object.assign(error, { geminiTrail: `${model}: ${why(primaryError)}; ${spare}: ${why(error)}` });
     }
     throw error;
   }
+}
+
+async function askGemini(model: string, system: string, turns: Turn[], maxTokens: number, deadline: number) {
+  const keys = listKeys("gemini");
+  if (!keys.length) {
+    const error = new Error("No Gemini key on this deploy");
+    error.code = "NO_KEY";
+    throw error;
+  }
+  return relayOneModel({
+    keys,
+    classify: why,
+    send: async (key) => {
+      const got = await askGeminiOnce(key, model, system, turns, maxTokens, deadline);
+      return got.text;
+    },
+  }).then((text) => ({ text, model }));
 }
 
 // One call to one mind. `deadline` (epoch ms) is a hard stop: the request is aborted when it passes.
@@ -320,11 +401,31 @@ export async function ask(provider: Provider, model: string, system: string, tur
   if (provider === "grok") return callGrok(model, system, turns, maxTokens, deadline);
   if (provider === "openai") return callOpenAI(model, system, turns, maxTokens, deadline);
   if (provider === "gemini") return (await askGemini(model, system, turns, maxTokens, deadline)).text;
-  const res = await anthropic.messages.create({ model, max_tokens: maxTokens, system, messages: turns }, slot(deadline));
-  return res.content
-    .map((block) => (block.type === "text" ? block.text : ""))
-    .join("")
-    .trim();
+  return relayOneModel({
+    keys: listKeys("anthropic"),
+    classify: why,
+    send: async (key) => {
+      const gateway = !key.dropIn && Boolean((process.env.ANTHROPIC_BASE_URL || "").trim());
+      if (gateway && key.value === anthropicKey.value) {
+        const res = await anthropic.messages.create({ model, max_tokens: maxTokens * 4, system, messages: turns }, slot(deadline));
+        return res.content
+          .map((block) => (block.type === "text" ? block.text : ""))
+          .join("")
+          .trim();
+      }
+      const { signal } = slot(deadline);
+      return postChat({
+        provider: "anthropic",
+        apiKey: key.value,
+        dropIn: true,
+        model,
+        system,
+        turns,
+        maxTokens,
+        signal,
+      });
+    },
+  });
 }
 
 // Only the reason a lab failed is logged — never the prompt, the messages, the key, or the raw vendor body.
@@ -462,10 +563,14 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
           if (error instanceof OutOfTime) throw error;
           const trail = (error as { geminiTrail?: unknown })?.geminiTrail;
           recordHop(link.provider, false, typeof trail === "string" ? trail : why(error), link.model);
-          throw error;
+          // A Gemini failure must not stop the walk. Claude or Grok may still have a valid key.
+          return "";
         }
       }
       const models = creator && link.creatorModel !== link.model ? [link.creatorModel, link.model] : [link.model];
+      for (const extra of fallbackModels(link.provider, link.model, { current: CURRENT_MODELS[link.provider], grokSecond: GROK_SECOND_MODEL })) {
+        if (!models.includes(extra)) models.push(extra);
+      }
       let hopFailure = "empty-or-failed";
       let hopModel = link.model;
       for (const model of models) {
@@ -477,10 +582,13 @@ export async function runChain(system: string, turns: Turn[], opts: ChainOptions
             return { text, model };
           }
           console.warn(`AI chain: empty reply from ${model}, trying the next`);
+          hopFailure = "empty reply";
         } catch (error) {
           if (error instanceof OutOfTime) throw error;
           hopFailure = why(error);
           console.warn(`AI chain: ${model} unavailable (${why(error)}), trying the next`);
+          // Quota and a rejected key have already walked every key name. Another model id will not help.
+          if (nextStep(hopFailure) !== "next-model") break;
         }
       }
       // One hop counts once, however many of its models were tried.
@@ -513,11 +621,15 @@ export const GEMINI_FALLBACK_MODEL = GEMINI_DIRECT_MODEL;
 export function chainDiagnostics() {
   const providers = providerStatusSnapshot() as Record<string, Record<string, unknown>>;
   for (const link of CHAIN) {
-    providers[link.provider] = { ...(providers[link.provider] || { ok: null, status: "not tried on this instance" }), circuitOpen: isCircuitOpen(link.provider) };
+    const prev = providers[link.provider] || { ok: null, status: "not tried on this instance" };
+    providers[link.provider] = { ...prev, circuitOpen: isCircuitOpen(link.provider), errorClass: classifyFailure(prev.status) };
   }
-  if (!providers.openrouter) providers.openrouter = { ok: null, status: "not tried on this instance" };
+  if (!providers.openrouter) providers.openrouter = { ok: null, status: "not tried on this instance", errorClass: null };
+  const statusOf = Object.fromEntries(Object.entries(providers).map(([name, row]) => [name, typeof row.status === "string" ? row.status : ""]));
   return {
     order: CHAIN.map((link) => link.provider),
+    // key: present yes/no. errorClass: auth, quota, model, or network. Never a key value.
+    report: providerReport(process.env, statusOf),
     providers,
     models: Object.fromEntries(CHAIN.map((link) => [link.provider, { model: link.model, source: choices[link.provider]?.source ?? "soul", ignoredEnv: choices[link.provider]?.ignored ?? null }])),
     keySources: keySources(),
@@ -607,9 +719,8 @@ export async function askGrokDirect(system: string, turns: Turn[], maxTokens = 4
 }
 
 // What Arron says when every mind is quiet at once — never an error, always the real lines.
-export const ALL_QUIET_REPLY = `I'm sorry — I can't reach any of my minds right now. You still matter, and I'm not going anywhere.
-If you're in danger right now, call 999.
-To talk to someone, Samaritans are free, any time, on 116 123. You can also text SHOUT to 85258, or call NHS 111 and choose option 2 for mental health support.
+export const ALL_QUIET_REPLY = `Samaritans are free on 116 123. Text SHOUT to 85258. Call NHS 111 and choose option 2. If you are in danger, call 999.
+I'm sorry — I can't reach any of my minds right now. You still matter, and I'm not going anywhere.
 I'm an AI companion, not a doctor, so they can do what I can't. The truth of this house is here: https://pleadingsanity.co.uk/crisis.html
 The plain tools are here: https://pleadingsanity.co.uk/tools.html`;
 

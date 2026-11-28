@@ -70,7 +70,7 @@ test('direct Gemini request names gemini-3.5-flash-lite and carries no key', () 
     'SAFETY FIRST\nSamaritans 116 123',
   );
   assert.equal(request.model, GEMINI_DIRECT_MODEL);
-  assert.equal(GEMINI_STEP_MS, 4500);
+  assert.equal(GEMINI_STEP_MS, 15000);
   assert.equal(request.contents[0].role, 'model');
   assert.equal(request.contents[1].role, 'user');
   assert.equal(request.config.maxOutputTokens, 800);
