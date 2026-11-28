@@ -1,0 +1,82 @@
+/* Pleading Sanity — "feel alive" buff, 28 Nov 2026.
+   Additive layer on top of alive-20261123.css. No libraries, no fonts,
+   no layout changes (transform/opacity only), never touches crisis lines.
+   Brand lock: #0b0f19, #00fff0/#38bdf8, #f59e0b, silver #cbd5e1. */
+:root{
+  --ps-buff-teal:#00fff0;
+  --ps-buff-sky:#38bdf8;
+  --ps-buff-amber:#f59e0b;
+  --ps-buff-silver:#cbd5e1;
+  --ps-buff-bg:#0b0f19;
+}
+
+/* 1. Reading progress — thin teal-to-amber line, compositor-only */
+#ps-buff-progress{
+  position:fixed;top:0;left:0;right:0;height:3px;z-index:9998;
+  pointer-events:none;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--ps-buff-teal),var(--ps-buff-sky) 55%,var(--ps-buff-amber));
+  box-shadow:0 0 10px rgba(0,255,240,.45);
+}
+
+/* 2. Tactile press — every button and card gives a little when tapped */
+body.ps-buff :is(a.btn,.btn,a.button,button.button,.cta-button,.btn-amber,.btn-primary,.cr-btn,.sbtn,.pill,.ps-ask,.mc-download,button:not([disabled]):not(.ps-theme)){
+  transition:transform .14s cubic-bezier(.2,.8,.2,1),filter .14s ease,box-shadow .2s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+body.ps-buff :is(a.btn,.btn,a.button,button.button,.cta-button,.btn-amber,.btn-primary,.cr-btn,.sbtn,.pill,.ps-ask,.mc-download,button:not([disabled])):active{
+  transform:scale(.96);
+  filter:brightness(1.12);
+}
+body.ps-buff :is(.card,.tool-card,.hp-card,.game-card,.ps-card,.sx-card,.finance-card,.door,.mc-card):active{
+  transform:translateY(-1px) scale(.985);
+}
+
+/* 3. Ripple (span injected by alive-buff-20261128.js) */
+.ps-buff-rip-host{position:relative;overflow:hidden;isolation:isolate}
+.ps-buff-ripple{
+  position:absolute;border-radius:50%;pointer-events:none;z-index:0;
+  width:var(--ps-rip-size,120px);height:var(--ps-rip-size,120px);
+  left:var(--ps-rip-x,50%);top:var(--ps-rip-y,50%);
+  margin:calc(var(--ps-rip-size,120px) / -2) 0 0 calc(var(--ps-rip-size,120px) / -2);
+  background:radial-gradient(circle,rgba(0,255,240,.42) 0%,rgba(56,189,248,.22) 45%,rgba(245,158,11,0) 72%);
+  transform:scale(0);opacity:1;
+  animation:ps-buff-ripple .55s cubic-bezier(.2,.7,.3,1) forwards;
+}
+@keyframes ps-buff-ripple{to{transform:scale(2.4);opacity:0}}
+
+/* 5. Lazy images fade in softly once decoded (class only added by JS) */
+img.ps-buff-img-wait{opacity:0}
+img.ps-buff-img-in{opacity:1;transition:opacity .5s ease}
+
+/* 6. Clear, branded keyboard focus */
+body.ps-buff :is(a,button,[role="button"],input,select,textarea,summary):focus-visible{
+  outline:2px solid var(--ps-buff-teal);
+  outline-offset:3px;
+  box-shadow:0 0 0 5px rgba(0,255,240,.18);
+}
+
+/* 7. Page hero art (brand-locked, generated 28 Nov 2026). The art itself is an
+   inline element in each page so it paints at first render (no late LCP, no CLS);
+   this layer only adds a slow living drift (compositor-only). */
+body.ps-buff :is(.ps-buff-hero-art,.csm-hero-art){animation:ps-buff-drift 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes ps-buff-drift{from{transform:scale(1.04) translate3d(0,0,0)}to{transform:scale(1.1) translate3d(-1.5%,-1%,0)}}
+
+/* NEVER animate or reshape crisis lines (press/ripple/drift never reach them) */
+:is(.ps-crisis-footer,.crisis-strip,.ps-start-urgent,[aria-label="Crisis and emergency help"]) *,
+a[href^="tel:"],a[href^="sms:"]{
+  animation:none !important;
+}
+a[href^="tel:"]:active,a[href^="sms:"]:active{transform:none !important;filter:none !important}
+:is(.ps-crisis-footer,.crisis-strip,[aria-label="Crisis and emergency help"]) .ps-buff-ripple,
+a[href^="tel:"] .ps-buff-ripple,a[href^="sms:"] .ps-buff-ripple{display:none !important}
+
+@media (prefers-reduced-motion: reduce){
+  #ps-buff-progress{display:none !important}
+  .ps-buff-ripple{display:none !important}
+  img.ps-buff-img-wait{opacity:1 !important}
+  :is(.ps-buff-hero-art,.csm-hero-art){animation:none !important;transform:none !important}
+  body.ps-buff :is(a.btn,.btn,a.button,button,.cta-button,.card,.tool-card,.hp-card,.game-card,.ps-card,.sx-card):active{transform:none !important}
+}
+body.ps-calm #ps-buff-progress,
+body.ps-calm .ps-buff-ripple{display:none !important}
+body.ps-calm :is(.ps-buff-hero-art,.csm-hero-art){animation:none !important}
