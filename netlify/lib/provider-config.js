@@ -20,11 +20,25 @@ export const DROP_IN_PREFIX = "ARRON_";
 const usable = (v) => typeof v === "string" && v.trim().length > 8;
 
 export function resolveKey(provider, env = process.env) {
+  const keys = listKeys(provider, env);
+  return keys[0] || { value: "", name: null, dropIn: false };
+}
+
+// Every usable key, in the same order as KEY_NAMES. A repeated value is one key:
+// copying the same secret into GROK_API_KEY and XAI_API_KEY must not be tried twice.
+// The value stays in this object for the caller that sends it. Logs and health use `name` only.
+export function listKeys(provider, env = process.env) {
+  const out = [];
+  const seen = new Set();
   for (const name of KEY_NAMES[provider] || []) {
     const value = env?.[name];
-    if (usable(value)) return { value: value.trim(), name, dropIn: name.startsWith(DROP_IN_PREFIX) };
+    if (!usable(value)) continue;
+    const trimmed = value.trim();
+    if (seen.has(trimmed)) continue;
+    seen.add(trimmed);
+    out.push({ value: trimmed, name, dropIn: name.startsWith(DROP_IN_PREFIX) });
   }
-  return { value: "", name: null, dropIn: false };
+  return out;
 }
 
 // Names only. Safe to show on the public health route.
@@ -112,7 +126,38 @@ export function failureTag(error) {
     code === 403 ? "forbidden" :
     code === 404 ? "model-not-found" :
     code === 429 ? "quota" :
-    e.code === "GEMINI_KEY_MISSING" ? "no-key" :
+    e.code === "GEMINI_KEY_MISSING" || e.code === "NO_KEY" ? "no-key" :
     "";
   return tag ? `${head} ${tag}` : head;
+}
+
+// Public health class. Never a key, a prompt, or a vendor body.
+// auth: the key was rejected or blocked. quota: billing, credits, or rate limit.
+// model: the id is not on that lab. network: timeout, abort, or a 5xx.
+export function classifyFailure(raw) {
+  const text = typeof raw === "number"
+    ? failureTag({ status: raw })
+    : typeof raw === "string"
+      ? safeStatus(raw)
+      : failureTag(raw);
+  const s = text.toLowerCase();
+  if (!s || s === "ok" || /not tried|no-key|no key/.test(s)) return null;
+  if (/spending-limit|insufficient_quota|quota|billing|\b402\b|\b429\b|does not have any credits|run out of credits/.test(s)) return "quota";
+  if (/model-not-found|\b404\b/.test(s)) return "model";
+  if (/rejected-key|invalid api key|api key not valid|unauthorized|\b401\b|\b403\b|forbidden/.test(s)) return "auth";
+  if (/timeout|timed out|abort|econn|enotfound|network|fetch failed|\b408\b|\b500\b|\b502\b|\b503\b|\b504\b/.test(s)) return "network";
+  return null;
+}
+
+// What the public health route may say. `key` is present yes/no. `errorClass` is the last failure.
+// `statuses` are the short tags already stored for this function instance. Values are never copied in.
+export function providerReport(env = process.env, statuses = {}) {
+  const out = {};
+  for (const provider of Object.keys(KEY_NAMES)) {
+    out[provider] = {
+      key: Boolean(resolveKey(provider, env).name),
+      errorClass: classifyFailure(statuses?.[provider]),
+    };
+  }
+  return out;
 }
