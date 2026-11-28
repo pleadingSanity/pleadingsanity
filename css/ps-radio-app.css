@@ -73,7 +73,17 @@ html{scroll-padding-bottom:calc(var(--ps-app-stack,72px) + env(safe-area-inset-b
 .ps-mini-title{font-weight:800;font-size:.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ps-mini-sub{font-size:.75rem;color:#94a3b8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ps-mini-controls{display:flex;align-items:center;gap:.25rem;flex:0 0 auto}
-.ps-mini button{min-width:44px;min-height:44px;border:0;border-radius:10px;background:transparent;color:#e8eef7;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0}
+.ps-mini button{min-width:48px;min-height:48px;border:0;border-radius:10px;background:transparent;color:#e8eef7;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0 0.35rem}
+.ps-mini-queue-btn{font:inherit;font-size:.75rem;font-weight:800;color:#00fff0}
+.ps-origin-badge{display:inline-flex;align-items:center;justify-content:center;min-height:22px;padding:0 .4rem;border-radius:999px;font-size:.62rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;line-height:1}
+.ps-badge-human{background:#00fff0;color:#0b0f19}
+.ps-badge-ai{background:#f59e0b;color:#0b0f19}
+.ps-mini-badge{margin-top:.2rem}
+.ps-mini-queue{padding:.7rem .8rem  .8rem;border-top:1px solid rgba(0,255,240,.22);background:rgba(11,15,25,.96);color:#e8eef7}
+.ps-mini-queue-note{margin:0 0 .4rem;color:#cbd5e1;font-size:.82rem}
+.ps-mini-queue-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.35rem}
+.ps-mini-queue-item{display:flex;align-items:center;gap:.5rem;min-height:48px}
+.ps-mini-queue-title{flex:1 1 auto;min-width:0;font-weight:700}
 .ps-mini button.ps-mini-play{background:#00fff0;color:#0b0f19;border-radius:999px;box-shadow:0 0 14px rgba(0,255,240,.3)}
 .ps-mini button:hover{background:rgba(0,255,240,.12)}
 .ps-mini button.ps-mini-play:hover{background:#38bdf8;color:#0b0f19}
@@ -89,8 +99,9 @@ html{scroll-padding-bottom:calc(var(--ps-app-stack,72px) + env(safe-area-inset-b
 body.ps-app-player-on #ps-music-widget{bottom:calc(var(--ps-app-bottom,0px) + var(--ps-app-player-height,64px) + 12px)}
 
 @media (max-width:700px){
-  .ps-mini-vol,.ps-mini-seek{display:none}
-  .ps-mini-open{display:none}
+  .ps-mini{flex-wrap:wrap}
+  .ps-mini-seek{display:block;flex:1 1 100%;max-width:none;order:8}
+  .ps-mini-vol,.ps-mini-open{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   .ps-pl-card,.ps-track-btn,.ps-app-controls button,#ps-app-player,.ps-mini button{transition:none !important;animation:none !important}

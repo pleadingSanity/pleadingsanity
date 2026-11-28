@@ -1,6 +1,10 @@
 {
   "updated": "2026-11-23",
   "note": "Two separate playlists. Shane's own voice and AI-generated music never mix. A track only plays here when it is approved, its audio file is committed under /assets/audio/ps-ai/, and approved is true. Shane's Voice is empty until he approves his own takes.",
+  "discovery": {
+    "curation": "Mood shelves are hand-picked from the genre already written on each track. They are not a ranking and not a personalised feed.",
+    "bpm": "No BPM is stored. The player shows a tempo only when a number is written on the track. Nothing is estimated."
+  },
   "playlists": [
     {
       "id": "shanes-voice",
