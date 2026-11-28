@@ -28,76 +28,73 @@ class CosmicAudio {
  // HEALING FREQUENCY PRESETS — FULL LIBRARY
  // ========================================
  this.FREQ = {
- DEEP_BASE: 43.0, // Earth resonance foundation
- SCHUMANN: 7.83, // Planetary heartbeat
- SOLFEGGIO_174: 174, // Pain relief
- SOLFEGGIO_285: 285, // Energy field repair
- SOLFEGGIO_396: 396, // Liberation from guilt/fear
- SOLFEGGIO_417: 417, // Change & breaking patterns
- SOLFEGGIO_528: 528, // DNA repair • Transformation
- SOLFEGGIO_639: 639, // Heart connection • Love
- SOLFEGGIO_741: 741, // Expression • Truth
- SOLFEGGIO_852: 852, // Intuition • Spiritual sight
- SOLFEGGIO_963: 963, // Crown • Unity • Oneness
- SOLFEGGIO_432: 432, // Universal harmony
+ // Healing tones only: 174 / 285 / 432 / 528 / 741 / 963
+ SOLFEGGIO_174: 174,
+ SOLFEGGIO_285: 285,
+ SOLFEGGIO_432: 432,
+ SOLFEGGIO_528: 528,
+ SOLFEGGIO_741: 741,
+ SOLFEGGIO_963: 963,
  ALPHA_CARRIER: 10, // Relaxation (8–12Hz)
  THETA_CARRIER: 6, // Deep meditation (4–8Hz)
- DELTA_CARRIER: 2, // Deep healing/sleep (0.5–4Hz)
+ DELTA_CARRIER: 2, // Deep rest (0.5–4Hz)
  };
 
  // Preset configurations
  this.PRESETS = {
  balanced: {
- name: ' Balance & Harmony',
+ name: 'Balance and Harmony',
  layers: [
- { freq: 'DEEP_BASE', type: 'sine', gain: 0.25, mod: 3 },
+ { freq: 'SOLFEGGIO_174', type: 'sine', gain: 0.08, mod: 3 },
  { freq: 'SOLFEGGIO_432', type: 'sine', gain: 0.04, mod: 1 },
  { freq: 'SOLFEGGIO_528', type: 'sine', gain: 0.06, mod: 1.5 },
  ],
  binaural: null,
- description: 'Grounding + transformation + universal peace'
+ description: 'Ground, calm, and a clear middle tone'
  },
  deepHeal: {
- name: '♥ Deep Healing',
+ name: 'Deep rest',
  layers: [
- { freq: 'SCHUMANN', type: 'sine', gain: 0.3, mod: 2 },
  { freq: 'SOLFEGGIO_174', type: 'sine', gain: 0.08, mod: 0.5 },
+ { freq: 'SOLFEGGIO_285', type: 'sine', gain: 0.06, mod: 0.8 },
  { freq: 'SOLFEGGIO_528', type: 'sine', gain: 0.07, mod: 1 },
  ],
  binaural: 'DELTA_CARRIER',
- description: 'Pain relief • cellular repair • deep rest'
+ description: 'Low and steady, then a warmer middle tone'
  },
  heartConnect: {
- name: '♥ Heart Connection',
+ name: 'Heart Connection',
  layers: [
- { freq: 'DEEP_BASE', type: 'sine', gain: 0.2, mod: 2 },
- { freq: 'SOLFEGGIO_639', type: 'sine', gain: 0.08, mod: 1.2 },
- { freq: 'SOLFEGGIO_417', type: 'sine', gain: 0.05, mod: 0.8 },
+ { freq: 'SOLFEGGIO_285', type: 'sine', gain: 0.08, mod: 1.2 },
+ { freq: 'SOLFEGGIO_432', type: 'sine', gain: 0.05, mod: 0.8 },
  ],
  binaural: 'ALPHA_CARRIER',
- description: 'Open heart • release old patterns • connect'
+ description: 'Warmer start, then calm'
  },
  awaken: {
- name: ' Awaken & Rise',
+ name: 'Awaken and Rise',
  layers: [
- { freq: 'SOLFEGGIO_852', type: 'sine', gain: 0.06, mod: 0.6 },
+ { freq: 'SOLFEGGIO_741', type: 'sine', gain: 0.06, mod: 0.6 },
  { freq: 'SOLFEGGIO_963', type: 'sine', gain: 0.04, mod: 0.4 },
  { freq: 'SOLFEGGIO_528', type: 'sine', gain: 0.05, mod: 1 },
  ],
  binaural: 'THETA_CARRIER',
- description: 'Intuition • crown • unity consciousness'
+ description: 'Brighter tones, volume down, only a few minutes'
  },
- schumann: {
- name: ' Earth Resonance',
+ grounded: {
+ name: 'Grounded',
  layers: [
- { freq: 'SCHUMANN', type: 'sine', gain: 0.35, mod: 1.5 },
- { freq: 'DEEP_BASE', type: 'sine', gain: 0.15, mod: 2 },
+ { freq: 'SOLFEGGIO_174', type: 'sine', gain: 0.1, mod: 1.5 },
+ { freq: 'SOLFEGGIO_432', type: 'sine', gain: 0.05, mod: 2 },
  ],
  binaural: null,
- description: 'Align with planetary heartbeat'
+ description: 'The two gentle places to begin'
  }
  };
 
+ if (this.selectedPreset === 'schumann' || !this.PRESETS[this.selectedPreset]) {
+ this.selectedPreset = 'grounded';
+ }
  this.init();
  }
 
