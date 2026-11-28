@@ -64,27 +64,76 @@
 <link rel="stylesheet" href="/css/ps-playlists.css">
 <link rel="stylesheet" href="/css/ps-music-buff.css">
 <link rel="stylesheet" href="/css/ps-music-shelf.css">
+<link rel="stylesheet" href="/css/music-immersive.css">
 </head>
 <body class="music-room">
 <a href="#main" class="skip-link">Skip to main content</a>
 
 
 <aside class="ps-support-strip" aria-label="Support"><p>Need someone right now? Emergency: <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text SHOUT to <a href="sms:85258?body=SHOUT">85258</a> · NHS <a href="tel:111">111</a>. <a href="/crisis.html">More help</a><small>Arron is an AI companion, not a therapist.</small></p></aside>
-<figure class="ps-hero-visual"><img src="/images/heroes/music-hero.webp" alt="Silver headphones on the night desk by a teal ring light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async"></figure>
+<figure class="ps-hero-visual ps-cinema">
+  <img src="/images/heroes/music-hero.webp" alt="Silver headphones on the night desk by a teal ring light" width="1024" height="576" loading="eager" fetchpriority="high" decoding="async">
+  <div class="ps-cinema-glow" aria-hidden="true"></div>
+  <div class="ps-cinema-orb" aria-hidden="true"></div>
+  <div class="ps-cinema-shade" aria-hidden="true"></div>
+</figure>
 
 <main id="main">
   <header class="listening-hero-copy"><span class="radio-kicker">PLEADING SANITY · MUSIC</span><h1>Made from<br><em>real life.</em></h1><p>Shane’s original music, the songs we come back to, and the next sound to find you.</p><div class="listening-actions"><a class="listen-primary" href="/insane-radio.html#stations-title">Listen to Insane Radio ↗</a><a href="/sanity-songs.html">Sanity’s Songs</a></div></header>
+  <section id="ps-discover" class="ps-discover" aria-labelledby="ps-discover-title">
+    <span class="radio-kicker">HAND-PICKED · NOT AN ALGORITHM</span>
+    <h2 id="ps-discover-title">Find a sound</h2>
+    <p class="note">Shelves are chosen by hand from tracks already in this library. Nothing is ranked by plays, and nothing starts until you press play.</p>
+    <div class="ps-chip-block">
+      <p id="ps-mood-label" class="ps-chip-label">Mood</p>
+      <div id="ps-chip-mood" class="ps-chip-row" role="group" aria-labelledby="ps-mood-label">
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="all" aria-pressed="true">All moods</button>
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="low-light" aria-pressed="false">Low light</button>
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="locked-groove" aria-pressed="false">Locked groove</button>
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="two-step" aria-pressed="false">2-step</button>
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="late-words" aria-pressed="false">Late words</button>
+        <button type="button" class="ps-chip" data-ps-filter="mood" data-ps-value="clubland" aria-pressed="false">Clubland</button>
+      </div>
+    </div>
+    <div class="ps-chip-block">
+      <p id="ps-genre-label" class="ps-chip-label">Genre</p>
+      <div id="ps-chip-genre" class="ps-chip-row" role="group" aria-labelledby="ps-genre-label">
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="all" aria-pressed="true">All genres</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="uk-garage" aria-pressed="false">UK garage</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="bassline" aria-pressed="false">Bassline</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="grime" aria-pressed="false">Grime</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="deep-house" aria-pressed="false">Deep house</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="tech-house" aria-pressed="false">Tech house</button>
+        <button type="button" class="ps-chip" data-ps-filter="genre" data-ps-value="hip-hop" aria-pressed="false">Hip-hop</button>
+        <a class="ps-chip" href="/frequencies.html">Healing frequencies</a>
+      </div>
+    </div>
+    <div class="ps-chip-block">
+      <p id="ps-bpm-label" class="ps-chip-label">BPM</p>
+      <div id="ps-chip-bpm" class="ps-chip-row" role="group" aria-labelledby="ps-bpm-label">
+        <button type="button" class="ps-chip" data-ps-filter="bpm" data-ps-value="any" aria-pressed="true">Any tempo</button>
+        <button type="button" class="ps-chip" data-ps-filter="bpm" data-ps-value="under-120" aria-pressed="false">Under 120</button>
+        <button type="button" class="ps-chip" data-ps-filter="bpm" data-ps-value="120" aria-pressed="false">120–129</button>
+        <button type="button" class="ps-chip" data-ps-filter="bpm" data-ps-value="130" aria-pressed="false">130 and over</button>
+        <button type="button" class="ps-chip" data-ps-filter="bpm" data-ps-value="unstamped" aria-pressed="false">Not stamped</button>
+      </div>
+    </div>
+    <p id="ps-discover-status" class="ps-discover-status" role="status">Hand-picked from this library. Tempos are shown only when a BPM is written on the track.</p>
+    <div id="ps-listen-next" class="ps-listen-next" aria-live="polite"></div>
+    <div id="ps-shelves"></div>
+    <p class="note">Healing frequencies are not songs in this library. <a href="/frequencies.html">The six sanctuary tones</a> are 174, 285, 432, 528, 741 and 963 Hz.</p>
+  </section>
   <div id="music-slots" class="ps-platform-shelf" aria-label="Shane's main YouTube playlist, Sonos and Amazon Music"></div>
   <section id="ps-app" class="ps-app" aria-labelledby="ps-app-title">
   <span class="radio-kicker">PLEADING SOCIALLY</span>
   <h2 id="ps-app-title">Listen like a music app</h2>
-  <p class="note">Two collections, kept separate. Shane's own voice is never mixed with AI-made music. Every AI track is labelled. The P.S AI Playlist sits at the bottom of this page. Playback is free, with no autoplay — press play when you are ready. The player can keep going while you browse the sanctuary.</p>
+  <p class="note">Two collections, kept separate. Shane's own voice is never mixed with AI-made music. Every track wears a Human or AI badge. The P.S AI Playlist sits at the bottom of this page. Playback is free, with no autoplay — press play when you are ready. The player can keep going while you browse the sanctuary.</p>
   <div class="ps-app-transport ps-now-hero" id="ps-app-transport" role="region" aria-label="P.S music controls, now playing">
     <span class="ps-now-kicker"><svg class="ps-eq" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="10" width="3" height="10" rx="1"/><rect x="8.5" y="5" width="3" height="15" rx="1"/><rect x="14" y="8" width="3" height="12" rx="1"/><rect x="19.5" y="12" width="3" height="8" rx="1"/></svg> Now playing</span>
     <div class="ps-app-now">
       <div id="ps-app-now-art" class="ps-art ps-art-lg" aria-hidden="true"></div>
       <div class="ps-app-now-text">
-        <p id="ps-app-now-title" class="ps-now-title">Nothing playing</p>
+        <p id="ps-app-now-title" class="ps-now-title"><span id="ps-app-now-name">Nothing playing</span> <span id="ps-app-now-badge" class="ps-origin-badge" hidden></span></p>
         <p id="ps-app-now-sub" class="ps-now-sub">Press play when you are ready. Nothing starts by itself.</p>
       </div>
     </div>
@@ -92,11 +141,21 @@
       <button type="button" id="ps-app-prev">Previous</button>
       <button type="button" id="ps-app-play" aria-pressed="false">Play</button>
       <button type="button" id="ps-app-next">Next</button>
+      <button type="button" id="ps-app-queue" aria-pressed="false" aria-controls="ps-app-queue-panel">Queue</button>
       <button type="button" id="ps-app-radio" aria-pressed="false" aria-describedby="ps-app-radio-hint">Radio</button>
       <label class="ps-app-seek">Position <input id="ps-app-seek" type="range" min="0" max="0" value="0"><span id="ps-app-time">0:00 / 0:00</span></label>
       <label class="ps-app-vol">Volume <input id="ps-app-vol" type="range" min="0" max="100" value="85"></label>
     </div>
     <p id="ps-app-radio-hint" class="note">Radio mode shuffles the P.S AI Playlist continuously. It still waits for you to press play.</p>
+    <div id="ps-app-queue-panel" class="ps-queue-panel" hidden>
+      <p class="note">This queue stays in the tab. Adding a track does not press play.</p>
+      <ol id="ps-app-queue-list"></ol>
+      <button type="button" id="ps-app-queue-clear">Clear queue</button>
+    </div>
+    <details class="ps-keys">
+      <summary>Keyboard</summary>
+      <p class="note">On this page, Space plays or pauses when you are not on a button or in a field. Left and Right seek five seconds. N is next, P is previous, Q opens the queue.</p>
+    </details>
   </div>
   <div id="ps-playlists-list" class="ps-pl-grid" aria-live="polite"><p class="ps-pl-soon">Loading the playlists.</p></div>
   <div id="ps-recent-shelves" class="ps-recent-shelves">
@@ -120,7 +179,7 @@
   </section>
   <section class="music-discovery" aria-labelledby="discovery-title">
   <span class="radio-kicker">FOLLOW THE SOUND</span><h2 id="discovery-title">New music radar</h2>
-  <p class="radio-note">Go straight to the broadcasters’ rolling selections for new hip-hop, R&amp;B and dance. Their playlists change on their sites; these cards are not a live chart feed.</p>
+  <p class="radio-note">Go straight to the broadcasters’ rolling selections for new hip-hop, R&amp;B and dance. Their playlists change on their sites; these cards are not a live chart feed. The links are chosen by hand. This page does not follow you onto their sites.</p>
   <div class="discovery-grid">
     <a class="discovery-card radar-rap" href="https://www.capitalxtra.com/radio/playlist/" target="_blank" rel="noopener noreferrer"><span class="discovery-number">01 / HIP-HOP + R&amp;B</span><h3>What’s in rotation?</h3><p>Capital XTRA’s current playlist. Find the track you just heard.</p><span>Explore the playlist ↗</span></a>
     <a class="discovery-card radar-soul" href="https://www.reprezent.org.uk/schedule" target="_blank" rel="noopener noreferrer"><span class="discovery-number">02 / NEXT UP</span><h3>London, unfiltered.</h3><p>Reprezent’s shows: emerging voices, underground rap and electronic music.</p><span>Find your next show ↗</span></a>
@@ -172,6 +231,7 @@
 <script type="module" src="/js/music-player.js"></script>
 <script src="/js/music-app-player.js" defer></script>
 <script src="/js/ps-radio-persist.js" defer data-ps-radio-persist></script>
+<script src="/js/music-discover.js" defer></script>
 <script src="/js/ps-playlists.js" defer></script>
 <script src="/js/site.js" defer></script>
 <script defer src="/js/ps-boost.js"></script>

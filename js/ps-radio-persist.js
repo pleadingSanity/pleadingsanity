@@ -25,6 +25,10 @@
   var audio = null;
   var root = null;
   var chip = null;
+  var queue = [];
+  var queueOpen = false;
+  var queuePanel = null;
+  var queueList = null;
 
   function quietPath(p) {
     p = String(p || '');
@@ -127,7 +131,10 @@
         id: t.id,
         title: t.title,
         artist: t.artist || 'Pleading Socially',
-        label: t.label || 'AI-generated',
+        label: t.label || (t.kind === 'human' ? "Shane's own voice" : 'AI-generated'),
+        genre: t.genre || '',
+        kind: t.kind || '',
+        bpm: typeof t.bpm === 'number' ? t.bpm : null,
         src: t.src,
         at: raw[i].at || 0
       });
@@ -154,7 +161,7 @@
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.title + (track.label ? ' (' + track.label + ')' : ''),
         artist: track.artist || 'Pleading Socially',
-        album: 'P.S AI Playlist',
+        album: track.kind === 'human' ? "Pleading Socially - Shane's Voice" : 'P.S AI Playlist',
         artwork: [
           { src: '/images/heroes/music-hero.webp', sizes: '1024x576', type: 'image/webp' },
           { src: '/assets/favicon.svg', sizes: '512x512', type: 'image/svg+xml' }
@@ -178,6 +185,14 @@
         }
       });
       navigator.mediaSession.setActionHandler('stop', function () { stop(); });
+      navigator.mediaSession.setActionHandler('seekbackward', function (d) {
+        var off = d && typeof d.seekOffset === 'number' ? d.seekOffset : 10;
+        seek((audio ? audio.currentTime : 0) - off);
+      });
+      navigator.mediaSession.setActionHandler('seekforward', function (d) {
+        var off = d && typeof d.seekOffset === 'number' ? d.seekOffset : 10;
+        seek((audio ? audio.currentTime : 0) + off);
+      });
     } catch (e) {}
   }
 
@@ -255,6 +270,13 @@
   }
 
   function next() {
+    if (!radioMode && queue.length) {
+      var queued = queue.shift();
+      if (findTrack(queued)) {
+        play(queued);
+        return;
+      }
+    }
     if (!catalog.length) return;
     if (radioMode) {
       if (!shuffleBag.length) refillBag(current() && current().id);
@@ -295,8 +317,45 @@
 
   function seek(t) {
     if (!audio || !isFinite(t)) return;
-    try { audio.currentTime = Math.max(0, t); } catch (e) {}
+    var max = isFinite(audio.duration) ? audio.duration : t;
+    try { audio.currentTime = Math.max(0, Math.min(max, t)); } catch (e) {}
     emit();
+  }
+
+  function enqueue(id) {
+    var t = findTrack(id);
+    if (!playable(t)) return;
+    if (queue.indexOf(t.id) !== -1) return;
+    queue.push(t.id);
+    emit();
+  }
+
+  function removeFromQueue(id) {
+    queue = queue.filter(function (item) { return item !== id; });
+    emit();
+  }
+
+  function clearQueue() {
+    queue = [];
+    emit();
+  }
+
+  function queueTracks() {
+    var out = [];
+    for (var i = 0; i < queue.length; i++) {
+      var t = findTrack(queue[i]);
+      if (t) out.push(t);
+    }
+    return out;
+  }
+
+  function originOf(track) {
+    if (window.PSDiscover && window.PSDiscover.badge) return window.PSDiscover.badge(track);
+    var ai = !!(track && (track.kind === 'ai' || /ai-generated/i.test(track.label || '')));
+    if (track && track.kind === 'human') ai = false;
+    return ai
+      ? { text: 'AI', cls: 'ps-origin-badge ps-badge-ai ps-mini-badge', name: 'AI-generated' }
+      : { text: 'Human', cls: 'ps-origin-badge ps-badge-human ps-mini-badge', name: "Shane's voice" };
   }
 
   function svg(path) {
@@ -403,6 +462,19 @@
       ? ((t.artist || 'Pleading Socially') + ' · ' + (t.label || 'AI-generated'))
       : 'Press play when you are ready';
     if (art) art.className = 'ps-art ' + artClass(t && t.id);
+    var miniBadge = root.querySelector('.ps-mini-badge');
+    if (miniBadge) {
+      if (t) {
+        var origin = originOf(t);
+        miniBadge.className = origin.cls + ' ps-mini-badge';
+        miniBadge.textContent = origin.text;
+        miniBadge.setAttribute('aria-label', origin.name);
+        miniBadge.hidden = false;
+      } else {
+        miniBadge.hidden = true;
+        miniBadge.textContent = '';
+      }
+    }
     if (playBtn) {
       playBtn.innerHTML = detail.playing ? svg(ICO_PAUSE) : svg(ICO_PLAY);
       playBtn.setAttribute('aria-label', detail.playing ? 'Pause' : 'Play');
@@ -417,7 +489,74 @@
       root.setAttribute('aria-label', t ? ('Now playing: ' + t.title) : 'P.S Radio player');
     }
     setMediaSession(t, detail.playing);
+    paintQueue();
     showBar();
+  }
+
+  function paintQueue() {
+    if (!queuePanel || !queueList) return;
+    queuePanel.hidden = !queueOpen;
+    var qbtn = root && root.querySelector('.ps-mini-queue-btn');
+    if (qbtn) {
+      qbtn.setAttribute('aria-pressed', queueOpen ? 'true' : 'false');
+      qbtn.setAttribute('aria-label', queueOpen ? 'Hide queue' : 'Show queue');
+    }
+    var sig = queue.join(',');
+    if (queueList.getAttribute('data-sig') === sig) return;
+    queueList.setAttribute('data-sig', sig);
+    queueList.textContent = '';
+    if (!queue.length) {
+      queueList.appendChild(el('li', 'ps-mini-queue-empty', 'The queue is empty.'));
+      return;
+    }
+    queue.forEach(function (id) {
+      var track = findTrack(id);
+      if (!track) return;
+      var li = el('li', 'ps-mini-queue-item');
+      var origin = originOf(track);
+      li.appendChild(el('span', origin.cls, origin.text));
+      li.appendChild(el('span', 'ps-mini-queue-title', track.title));
+      var rm = document.createElement('button');
+      rm.type = 'button';
+      rm.textContent = 'Remove';
+      rm.setAttribute('aria-label', 'Remove ' + track.title + ' from queue');
+      rm.addEventListener('click', function () { removeFromQueue(id); });
+      li.appendChild(rm);
+      queueList.appendChild(li);
+    });
+  }
+
+  function bindKeys() {
+    document.addEventListener('keydown', function (ev) {
+      if (!ev || ev.defaultPrevented || ev.metaKey || ev.ctrlKey || ev.altKey) return;
+      var t = ev.target;
+      var tag = t && t.tagName ? t.tagName.toLowerCase() : '';
+      if (tag === 'input' || tag === 'textarea' || tag === 'select' || (t && t.isContentEditable)) return;
+      var inside = !!(t && t.closest && (t.closest('#ps-app-player') || t.closest('#ps-app-transport') || t.closest('#ps-app')));
+      var music = !!document.getElementById('ps-app');
+      var bodyKey = music && (t === document.body || t === document.documentElement);
+      if (ev.key === ' ' || ev.key === 'Spacebar') {
+        if (tag === 'button' || tag === 'a' || tag === 'summary') return;
+        if (!inside && !bodyKey) return;
+        ev.preventDefault();
+        toggle();
+        return;
+      }
+      if (!inside && !bodyKey) return;
+      if (ev.key === 'ArrowRight' || ev.key === 'ArrowLeft') {
+        if (!inside) return;
+        ev.preventDefault();
+        seek((audio ? audio.currentTime : 0) + (ev.key === 'ArrowRight' ? 5 : -5));
+        return;
+      }
+      if (ev.key === 'n' || ev.key === 'N') { ev.preventDefault(); next(); }
+      else if (ev.key === 'p' || ev.key === 'P') { ev.preventDefault(); prev(); }
+      else if (ev.key === 'q' || ev.key === 'Q') {
+        ev.preventDefault();
+        queueOpen = !queueOpen;
+        paintQueue();
+      }
+    });
   }
 
   function buildMini() {
@@ -438,8 +577,11 @@
     art.setAttribute('aria-hidden', 'true');
     var meta = el('div', 'ps-mini-meta');
     var title = el('div', 'ps-mini-title', 'P.S Radio');
+    var miniBadge = el('span', 'ps-origin-badge ps-mini-badge');
+    miniBadge.hidden = true;
     var sub = el('div', 'ps-mini-sub', 'Press play when you are ready');
     meta.appendChild(title);
+    meta.appendChild(miniBadge);
     meta.appendChild(sub);
 
     var controls = el('div', 'ps-mini-controls');
@@ -455,6 +597,18 @@
     controls.appendChild(btn('', 'Previous track', ICO_PREV, function () { prev(); }));
     controls.appendChild(btn('ps-mini-play', 'Play', ICO_PLAY, function () { toggle(); }));
     controls.appendChild(btn('', 'Next track', ICO_NEXT, function () { next(); }));
+    var queueBtn = document.createElement('button');
+    queueBtn.type = 'button';
+    queueBtn.className = 'ps-mini-queue-btn';
+    queueBtn.textContent = 'Queue';
+    queueBtn.setAttribute('aria-label', 'Show queue');
+    queueBtn.setAttribute('aria-pressed', 'false');
+    queueBtn.setAttribute('aria-controls', 'ps-mini-queue');
+    queueBtn.addEventListener('click', function () {
+      queueOpen = !queueOpen;
+      paintQueue();
+    });
+    controls.appendChild(queueBtn);
 
     var seekWrap = el('div', 'ps-mini-seek');
     var seekInput = document.createElement('input');
@@ -497,8 +651,15 @@
     bar.appendChild(volWrap);
     bar.appendChild(open);
     bar.appendChild(hide);
+    queuePanel = el('div', 'ps-mini-queue');
+    queuePanel.id = 'ps-mini-queue';
+    queuePanel.hidden = true;
+    queuePanel.appendChild(el('p', 'ps-mini-queue-note', 'Queue for this tab only. Adding a track does not start playback.'));
+    queueList = el('ol', 'ps-mini-queue-list');
+    queuePanel.appendChild(queueList);
     root.appendChild(audio);
     root.appendChild(bar);
+    root.appendChild(queuePanel);
 
     chip = document.createElement('button');
     chip.type = 'button';
@@ -532,6 +693,7 @@
     window.addEventListener('beforeunload', saveState);
     window.addEventListener('resize', layoutStack);
     bindMediaSession();
+    bindKeys();
   }
 
   function restore() {
@@ -684,6 +846,10 @@
     playlists: function () { return playlists; },
     getRecent: getRecent,
     clearRecent: clearRecent,
+    enqueue: enqueue,
+    removeFromQueue: removeFromQueue,
+    clearQueue: clearQueue,
+    queue: queueTracks,
     artClass: artClass,
     playable: playable,
     formatTime: formatTime,
