@@ -1,0 +1,36 @@
+/* Music page buff: now-playing hero, album-art grid, recently played row,
+   P.S Space call to action. Brand lock: #0b0f19, #00fff0, #38bdf8, #f59e0b, silver. */
+.ps-now-hero{position:relative;overflow:hidden;margin:1.2rem 0 1.4rem;padding:1.2rem 1.25rem;border-radius:22px;border-color:rgba(0,255,240,.4);background:radial-gradient(120% 140% at 0% 0%,rgba(0,255,240,.16),transparent 55%),radial-gradient(120% 140% at 100% 100%,rgba(245,158,11,.14),transparent 55%),linear-gradient(180deg,#0f1a2a,#0b0f19);box-shadow:0 24px 60px -30px rgba(0,255,240,.45)}
+.ps-now-kicker{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b;margin-bottom:.6rem}
+.ps-eq{width:16px;height:16px;fill:#00fff0}
+.ps-now-hero .ps-app-now{gap:1.1rem}
+.ps-now-hero .ps-art-lg{width:clamp(96px,22vw,150px);height:clamp(96px,22vw,150px);border-radius:18px;box-shadow:0 0 34px rgba(0,255,240,.28)}
+.ps-now-hero .ps-now-title{font-size:clamp(1.15rem,3.4vw,1.7rem);font-weight:800;color:#f1f7f7;line-height:1.15}
+.ps-now-hero .ps-now-sub{color:#a9bccf}
+.ps-pl-grid{grid-template-columns:1fr}
+.ps-pl-tracks{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.8rem!important}
+@media (max-width:520px){.ps-pl-tracks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.ps-pl-tracks .ps-track-btn{flex-direction:column;align-items:stretch;gap:.55rem;padding:.55rem;border-radius:16px;background:linear-gradient(180deg,#111a28,#0b0f19);transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease}
+.ps-pl-tracks .ps-art{position:relative;width:100%;height:auto;aspect-ratio:1;border-radius:12px}
+.ps-pl-tracks .ps-art::before{content:"";position:absolute;right:8px;bottom:8px;z-index:2;width:38px;height:38px;border-radius:50%;background:#00fff0 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8 5.5v13l11-6.5z' fill='%230b0f19'/%3E%3C/svg%3E") center/18px no-repeat;box-shadow:0 0 16px rgba(0,255,240,.45);opacity:0;transform:translateY(6px);transition:opacity .16s ease,transform .16s ease}
+.ps-pl-tracks .ps-track-btn:hover .ps-art::before,.ps-pl-tracks .ps-track-btn:focus-visible .ps-art::before,.ps-pl-tracks .ps-track-btn.is-current .ps-art::before{opacity:1;transform:none}
+@media (hover:none){.ps-pl-tracks .ps-art::before{opacity:.92;transform:none}}
+.ps-pl-tracks .ps-track-btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px -14px rgba(0,255,240,.4)}
+.ps-pl-tracks .ps-track-btn:active{transform:scale(.97)}
+.ps-pl-tracks .ps-track-title{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.25}
+/* Recently played: one swipeable row */
+.ps-recent-shelves .ps-pl-tracks{display:grid!important;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:minmax(132px,150px);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding-bottom:.5rem;scrollbar-width:thin}
+.ps-recent-shelves .ps-pl-tracks li{scroll-snap-align:start}
+/* P.S Space call to action */
+.ps-space-cta{position:relative;display:grid;grid-template-columns:minmax(0,200px) 1fr auto;align-items:center;gap:1rem;margin:1.6rem 0 .4rem;padding:.6rem;border-radius:20px;text-decoration:none;color:#eef6ff;border:1px solid rgba(245,158,11,.45);background:linear-gradient(110deg,rgba(245,158,11,.12),rgba(11,15,25,.95) 55%);transition:transform .16s ease,box-shadow .16s ease}
+.ps-space-cta img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:14px;display:block}
+.ps-space-cta-text{display:grid;gap:.2rem}
+.ps-space-cta-kicker{font-size:.7rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#f59e0b}
+.ps-space-cta strong{font-size:clamp(1.05rem,3vw,1.35rem)}
+.ps-space-cta small{color:#a9bccf;font-size:.85rem}
+.ps-space-cta-go{width:40px;height:40px;padding:8px;border-radius:50%;background:#f59e0b;color:#0b0f19;margin-right:.4rem}
+.ps-space-cta:hover,.ps-space-cta:focus-visible{transform:translateY(-2px);box-shadow:0 18px 40px -20px rgba(245,158,11,.6)}
+.ps-space-cta:focus-visible{outline:3px solid #00fff0;outline-offset:3px}
+.ps-space-cta:active{transform:scale(.99)}
+@media (max-width:560px){.ps-space-cta{grid-template-columns:1fr auto}.ps-space-cta img{grid-column:1/-1}}
+@media (prefers-reduced-motion:reduce){.ps-pl-tracks .ps-track-btn,.ps-pl-tracks .ps-art::before,.ps-space-cta{transition:none}.ps-pl-tracks .ps-track-btn:hover,.ps-space-cta:hover{transform:none}}

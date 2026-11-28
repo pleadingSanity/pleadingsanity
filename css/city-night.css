@@ -1,8 +1,8 @@
-@font-face{font-family:"PS City";src:url("/assets/fonts/anton/Anton-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"PS City";src:url("/assets/fonts/anton/Anton-Regular.woff2") format("woff2"),url("/assets/fonts/anton/Anton-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
 /* Pleading Sanity / City Nights. Original seasonal skin; no third-party assets. */
 html:root{--city-ink:#0b0f19;--city-panel:#10232d;--city-teal:#7fe8da;--city-gold:#ffce76;--city-silver:#eef6ff;--city-line:#35535b}
 html:root:not([data-theme="light"]) body{color:#eef6ff;background-color:#0b0f19!important;background-image:linear-gradient(100deg,rgba(11,15,25,.97),rgba(11,15,25,.85)),url('/assets/images/city-nights/street-grid.svg')!important;background-size:auto,1100px auto!important;background-attachment:scroll!important}
-html:root :is(h1,h2,h3,.ps-brand,.ps-start-kicker,.mc-eyebrow){font-family:"PS City",Impact,"Arial Narrow","Arial Black",system-ui,sans-serif;letter-spacing:.035em;font-weight:400}
+html:root:not(.ps-alive) :is(h1,h2,h3,.ps-brand,.ps-start-kicker,.mc-eyebrow){font-family:"PS City",Impact,"Arial Narrow","Arial Black",system-ui,sans-serif;letter-spacing:.035em;font-weight:400}
 html:root h1{text-transform:uppercase;line-height:1.05;text-wrap:balance}
 html:root:not([data-theme="light"]) h1{color:#eef6ff;text-shadow:3px 3px 0 #0b0f19}
 html:root .ps-nav{background:#0b0f19!important;border-bottom:2px solid #7fe8da!important;box-shadow:0 6px 0 rgba(0,0,0,.2)}

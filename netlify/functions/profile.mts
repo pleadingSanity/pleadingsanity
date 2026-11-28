@@ -207,6 +207,8 @@ async function deleteMe(userId: string) {
     await Promise.all(blobs.map((b) => store.delete(b.key).catch(() => {})));
     // Profile banners are stored under banner/<userId>, outside the userId/ prefix.
     await store.delete(`banner/${userId}`);
+    // The P.S Space look (theme, cover, song, Top 8, links) lives in its own store.
+    await getStore("profile-space").delete(userId).catch(() => {});
   } catch (error) {
     console.error("Could not list images for erasure:", logReason(error));
   }

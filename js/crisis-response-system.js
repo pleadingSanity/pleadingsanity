@@ -212,9 +212,9 @@ class CrisisResponseSystem {
  I am staying. You do not have to perform for a room. Tell the story, drink water if you can, and put your feet on the floor.
  </p>
  <div style="background: rgba(0,255,240,0.08); border-radius: 12px; padding: 20px; margin: 20px 0;">
- <h3>This house</h3>
- <p><a href="/crisis.html">Why people lose themselves</a></p>
- <p><a href="/tools.html">Life tools</a></p>
+ <h3>Help, right now</h3>
+ <p>Emergency <a href="tel:999">999</a> · Samaritans <a href="tel:116123">116 123</a> · Text <a href="sms:85258?body=SHOUT">SHOUT to 85258</a> · NHS <a href="tel:111">111</a></p>
+ <p><a href="/crisis.html">Why people lose themselves</a> · <a href="/tools.html">Life tools</a></p>
  </div>
 
  <div class="crisis-actions" style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 30px;">
@@ -330,9 +330,10 @@ class CrisisResponseSystem {
  provideCrisisResources() {
  const resources = {
  uk: {
+ emergency: '999',
  samaritans: '116 123',
  text: 'Text SHOUT to 85258',
- emergency: '999'
+ nhs: '111'
  },
  us: {
  lifeline: '988',
@@ -453,9 +454,10 @@ class CrisisResponseSystem {
  // Set up emergency contact integration
  this.emergencyProtocols = {
  uk: {
- crisis: '116 123', // Samaritans
  emergency: '999',
- text: '85258' // Shout
+ crisis: '116 123', // Samaritans
+ text: '85258', // Shout
+ nhs: '111'
  },
  us: {
  crisis: '988', // Suicide & Crisis Lifeline
@@ -569,27 +571,18 @@ class CrisisResponseSystem {
 
  // Public methods for crisis modal interactions
  connectToCrisisLine() {
- const userLocation = this.detectUserLocation();
- const numbers = this.emergencyProtocols[userLocation] || this.emergencyProtocols.uk;
-
- if (confirm(`Connect to crisis line: ${numbers.crisis}?\n\nThis will open your phone app to call immediately.`)) {
- window.location.href = '/crisis.html';
- }
+ // UK sanctuary default: actually dial Samaritans. Numbers are also tappable in the modal.
+ window.location.href = 'tel:116123';
  }
 
  requestPeerSupport() {
- alert(' Connecting you with a trained peer supporter...\n\nSomeone from our community crisis team will be with you within 2 minutes.');
- this.closeModal();
-
- // In production: match with available responder
- setTimeout(() => {
- this.showNotification('Sarah M. from our crisis team is joining you now. You are not alone.', 'success');
- }, 2000);
+ // Do not invent a live responder. Send people to the real help page.
+ window.location.href = '/crisis.html';
  }
 
  accessSafetyPlan() {
- // Open safety planning tool
- window.open('safety-plan.html', '_blank');
+ // safety-plan.html is not a live page; keep people on a real help route.
+ window.location.href = '/crisis.html';
  }
 
  showCrisisResources() {
@@ -598,7 +591,7 @@ class CrisisResponseSystem {
  }
 
  accessCopingTools() {
- window.open('coping-tools.html', '_blank');
+ window.location.href = '/tools.html';
  this.closeModal();
  }
 

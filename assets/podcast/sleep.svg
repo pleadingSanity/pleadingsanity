@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" role="img" aria-labelledby="t d">
+  <title id="t">Sleep episode art</title>
+  <desc id="d">A silver crescent and quiet stars over deep space.</desc>
+  <rect width="800" height="500" fill="#0b0f19"/>
+  <circle cx="120" cy="80" r="1.5" fill="#cbd5e1"/>
+  <circle cx="200" cy="140" r="1.2" fill="#cbd5e1"/>
+  <circle cx="500" cy="60" r="1.4" fill="#cbd5e1"/>
+  <circle cx="680" cy="160" r="1.6" fill="#cbd5e1"/>
+  <circle cx="740" cy="80" r="1.1" fill="#cbd5e1"/>
+  <circle cx="80" cy="240" r="1.3" fill="#38bdf8"/>
+  <circle cx="320" cy="40" r="1.2" fill="#38bdf8"/>
+  <circle cx="600" cy="220" r="1.1" fill="#00fff0"/>
+  <circle cx="560" cy="180" r="86" fill="#0b0f19" stroke="#f59e0b" stroke-width="0" />
+  <path d="M600 80 a90 90 0 1 0 20 160 a70 70 0 1 1 -20 -160" fill="#cbd5e1"/>
+  <path d="M0 400 C200 360 400 430 800 380 L800 500 L0 500 Z" fill="#111827"/>
+  <path d="M0 430 C260 400 520 450 800 420" fill="none" stroke="#38bdf8" stroke-width="2" opacity=".35"/>
+</svg>

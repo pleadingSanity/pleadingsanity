@@ -6,7 +6,8 @@
 //   POST /api/studio/battle        {body}                   → member entry
 //   POST /api/studio/vote/:id      {deviceKey?}             → heart / un-heart
 //   GET  /api/studio/podcast/:id                            → one episode
-//   POST /api/studio/podcast       {topic}                  → creator records an episode
+//   POST /api/studio/podcast       {topic}                  → creator records an episode (hidden until review)
+//   POST /api/studio/draft         {kind,title,body,script} → queue a script for human review
 // Guests can watch, listen and vote; creating has daily limits.
 // ==============================================================
 
@@ -66,6 +67,7 @@ async function withVotes(rows: Item[], voter: string | null) {
     body: card?.body || (r.authorId === null ? "" : r.body),
     script: r.script,
     pending: r.kind === "podcast" && !r.script,
+    pendingReview: r.hidden,
     day: r.day,
     createdAt: r.createdAt,
     votes: countMap.get(r.id) ?? 0,
@@ -154,6 +156,7 @@ async function create(req: Request, context: Context) {
       topic,
       title: card.title,
       body: card.body,
+      hidden: true,
     })
     .returning();
   return json({ item: (await withVotes([item], null))[0] }, 201);
@@ -273,6 +276,52 @@ async function episode(id: number, voter: string | null) {
   return json({ item: (await withVotes([item], voter))[0] });
 }
 
+
+// ─── DRAFT — any signed-in member or AI helper can queue a script for review ───
+async function submitDraft(req: Request) {
+  const user = await currentUser();
+  if (!user) return unauthorized();
+  const body = await readBody(req);
+  const kind = body.kind === "podcast" ? "podcast" : "creation";
+  const title = str(body.title, 120);
+  const topic = str(body.topic, 200);
+  const textBody = str(body.body, 20000);
+  const voice: VoiceId = Object.hasOwn(VOICES, str(body.voice, 10)) ? (str(body.voice, 10) as VoiceId) : "arron";
+  if (title.length < 3 || textBody.length < 20) return json({ error: "Please add a title and a little more writing first." }, 400);
+
+  const turns = Array.isArray(body.script)
+    ? body.script.flatMap((row) => {
+        if (!row || typeof row !== "object") return [];
+        const entry = row as Record<string, unknown>;
+        const spoken = str(entry.text, 8000);
+        if (!spoken) return [];
+        const turnVoice: VoiceId = Object.hasOwn(VOICES, str(entry.voice, 10)) ? (str(entry.voice, 10) as VoiceId) : voice;
+        return [{ voice: turnVoice, name: VOICES[turnVoice].name, lab: VOICES[turnVoice].lab, text: spoken }];
+      })
+    : [];
+  const script = kind === "podcast" ? (turns.length ? turns : [{ voice, name: VOICES[voice].name, lab: VOICES[voice].lab, text: textBody }]) : null;
+  const verdict = await moderate([title, topic, textBody, ...(script || []).map((t) => t.text)].join("\n"), "post");
+  if (!verdict.allowed) return json({ error: verdict.reason || "Let's keep it kind." }, 400);
+
+  const [item] = await db
+    .insert(studioItems)
+    .values({
+      kind,
+      authorId: user.id,
+      authorLabel: `${VOICES[voice].name} · ${VOICES[voice].lab}`,
+      model: VOICES[voice].model,
+      style: "draft",
+      topic,
+      title,
+      body: textBody,
+      script,
+      hidden: true,
+    })
+    .returning();
+  await logActivity(user.id, "studio.draft", "studio", item.id);
+  return json({ item: (await withVotes([item], "u:" + user.id))[0], pendingReview: true }, 201);
+}
+
 export default async (req: Request, context: Context) => {
   const url = new URL(req.url);
   const parts = url.pathname.replace(/^\/api\/studio\/?/, "").split("/").filter(Boolean);
@@ -287,6 +336,7 @@ export default async (req: Request, context: Context) => {
     if (parts[0] === "vote" && req.method === "POST") return await vote(req, Number(parts[1]), user?.id);
     if (parts[0] === "podcast" && parts[1] && req.method === "GET") return await episode(Number(parts[1]), voter);
     if (parts[0] === "podcast" && req.method === "POST") return await startPodcast(req);
+    if (parts[0] === "draft" && req.method === "POST") return await submitDraft(req);
     return json({ error: "Not found" }, 404);
   } catch (error) {
     console.error("Studio error:", logReason(error));
@@ -295,5 +345,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: ["/api/studio/items", "/api/studio/create", "/api/studio/battle", "/api/studio/vote/:id", "/api/studio/podcast", "/api/studio/podcast/:id"],
+  path: ["/api/studio/items", "/api/studio/create", "/api/studio/battle", "/api/studio/vote/:id", "/api/studio/podcast", "/api/studio/podcast/:id", "/api/studio/draft"],
 };

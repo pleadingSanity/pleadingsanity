@@ -41,7 +41,7 @@ http://www.pleadingsanity.uk/*       https://pleadingsanity.co.uk/:splat   301!
 /ai-family            /ai-ecosystem.html      301
 /stories              /ai-stories.html        301
 /leaderboard.html     /games.html             301
-/podcast.html         /ai-studio.html         301
+/podcast.html         /podcast/index.html     301
 /supporters.html      /about.html             301
 /plan.html            /movement.html          301
 

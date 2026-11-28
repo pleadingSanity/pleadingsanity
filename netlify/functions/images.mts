@@ -2,7 +2,7 @@
 // 🖼️ POST IMAGES — stored in Netlify Blobs
 //   POST /api/images            multipart "image" → { key, url }
 //   GET  /api/images/:user/:id  serve the image
-// Only signed-in members can upload or view. Max 5 MB, images only.
+// Only signed-in members can upload. Reads follow post and page visibility. Max 5 MB.
 // ==============================================================
 
 import type { Config } from "@netlify/functions";
@@ -17,6 +17,33 @@ const MAX_VIDEO = 8 * 1024 * 1024;
 const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
 const VIDEO_TYPES = ["video/mp4", "video/webm"];
 const TYPES = [...IMAGE_TYPES, ...VIDEO_TYPES];
+
+// Mirrors GET /api/profiles/:username: onboarded, not blocked, members-only pages
+// need a signed-in viewer, private (friends-only) pages need a friend.
+async function pageVisibleTo(ownerId: string, viewerId: string | null) {
+  const [p] = await db.select({
+    onboarded: profiles.onboarded, isPrivate: profiles.isPrivate, pageVisibility: profiles.pageVisibility,
+  }).from(profiles).where(eq(profiles.userId, ownerId)).limit(1);
+  if (!p || !p.onboarded) return false;
+  if (viewerId === ownerId) return true;
+  if (viewerId && (await isBlockedEitherWay(viewerId, ownerId))) return false;
+  if (p.pageVisibility !== "public" && !viewerId) return false;
+  if (p.isPrivate && (!viewerId || !(await areFriends(viewerId, ownerId)))) return false;
+  return true;
+}
+
+async function serve(store: ReturnType<typeof getStore>, key: string) {
+  const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
+  if (!entry) return new Response("Not found", { status: 404 });
+  const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
+  return new Response(entry.data, {
+    headers: {
+      "Content-Type": type,
+      "Cache-Control": "private, no-store",
+      "X-Content-Type-Options": "nosniff",
+    },
+  });
+}
 
 export default async (req: Request) => {
   try {
@@ -64,7 +91,17 @@ export default async (req: Request) => {
         return new Response("Not found", { status: 404 });
       }
       // Deny access by default. A blob URL is not proof that a viewer may read it.
+      if (key.startsWith("banner-of/")) {
+        // Public banner route: keyed by username so the Identity user id never
+        // leaves the server. Shown only to people allowed to open that page.
+        const username = key.slice("banner-of/".length).toLowerCase();
+        if (!/^[a-z0-9_]{3,24}$/.test(username)) return new Response("Not found", { status: 404 });
+        const [owner] = await db.select({ userId: profiles.userId }).from(profiles).where(eq(profiles.username, username)).limit(1);
+        if (!owner || !(await pageVisibleTo(owner.userId, user?.id ?? null))) return new Response("Not found", { status: 404 });
+        return await serve(store, `banner/${owner.userId}`);
+      }
       if (key.startsWith("banner/")) {
+        // The id-based banner URL stays owner-only.
         if (!user) return unauthorized();
         const ownerId = key.slice("banner/".length);
         if (!ownerId || ownerId !== user.id) return new Response("Not found", { status: 404 });
@@ -76,7 +113,7 @@ export default async (req: Request) => {
             authorId: posts.authorId, visibility: posts.visibility, status: posts.status, hidden: posts.hidden,
           }).from(posts).where(eq(posts.imageKey, key)).limit(10);
           const [ownerProfile] = await db.select({
-            isPrivate: profiles.isPrivate, pageVisibility: profiles.pageVisibility,
+            isPrivate: profiles.isPrivate, pageVisibility: profiles.pageVisibility, avatar: profiles.avatar,
           }).from(profiles).where(eq(profiles.userId, ownerId)).limit(1);
           if (ownerProfile?.isPrivate && (!user || !(await areFriends(user.id, ownerId)))) {
             return new Response("Not found", { status: 404 });
@@ -85,6 +122,9 @@ export default async (req: Request) => {
             return new Response("Not found", { status: 404 });
           }
           let allowed = false;
+          // A profile photo is readable only while it is that member's CURRENT avatar
+          // and the viewer may open their page. Old avatars stay private.
+          if (ownerProfile?.avatar === `photo:${key}` && (await pageVisibleTo(ownerId, user?.id ?? null))) allowed = true;
           for (const post of rows) {
             if (post.authorId !== ownerId || post.status !== "live" || post.hidden) continue;
             if (user && await isBlockedEitherWay(user.id, ownerId)) continue;
@@ -95,16 +135,7 @@ export default async (req: Request) => {
           if (!allowed) return new Response("Not found", { status: 404 });
         }
       }
-      const entry = await store.getWithMetadata(key, { type: "arrayBuffer" });
-      if (!entry) return new Response("Not found", { status: 404 });
-      const type = typeof entry.metadata.contentType === "string" ? entry.metadata.contentType : "image/jpeg";
-      return new Response(entry.data, {
-        headers: {
-          "Content-Type": type,
-          "Cache-Control": "private, no-store",
-          "X-Content-Type-Options": "nosniff",
-        },
-      });
+      return await serve(store, key);
     }
 
     return json({ error: "Method not allowed" }, 405);
@@ -115,5 +146,5 @@ export default async (req: Request) => {
 };
 
 export const config: Config = {
-  path: ["/api/images", "/api/images/banner", "/api/images/:user/:id"],
+  path: ["/api/images", "/api/images/banner", "/api/images/banner-of/:username", "/api/images/:user/:id"],
 };

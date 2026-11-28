@@ -62,6 +62,8 @@
 <link rel="stylesheet" href="/css/listening-room.css">
 <link rel="stylesheet" href="/css/ps-radio-app.css">
 <link rel="stylesheet" href="/css/ps-playlists.css">
+<link rel="stylesheet" href="/css/ps-music-buff.css">
+<link rel="stylesheet" href="/css/ps-music-shelf.css">
 </head>
 <body class="music-room">
 <a href="#main" class="skip-link">Skip to main content</a>
@@ -72,12 +74,13 @@
 
 <main id="main">
   <header class="listening-hero-copy"><span class="radio-kicker">PLEADING SANITY · MUSIC</span><h1>Made from<br><em>real life.</em></h1><p>Shane’s original music, the songs we come back to, and the next sound to find you.</p><div class="listening-actions"><a class="listen-primary" href="/insane-radio.html#stations-title">Listen to Insane Radio ↗</a><a href="/sanity-songs.html">Sanity’s Songs</a></div></header>
+  <div id="music-slots" class="ps-platform-shelf" aria-label="Shane's main YouTube playlist, Sonos and Amazon Music"></div>
   <section id="ps-app" class="ps-app" aria-labelledby="ps-app-title">
   <span class="radio-kicker">PLEADING SOCIALLY</span>
   <h2 id="ps-app-title">Listen like a music app</h2>
-  <p class="note">Two playlists, kept apart. Shane's own voice and AI-made music are never mixed. Anything made with AI is labelled AI-generated. Playback is free, with no tracking and no autoplay — press play when you are ready. The player can keep going while you browse the sanctuary.</p>
-  <div id="ps-playlists-list" class="ps-pl-grid" aria-live="polite"><p class="ps-pl-soon">Loading the playlists.</p></div>
-  <div class="ps-app-transport" id="ps-app-transport" role="region" aria-label="P.S music controls">
+  <p class="note">Two collections, kept separate. Shane's own voice is never mixed with AI-made music. Every AI track is labelled. The P.S AI Playlist sits at the bottom of this page. Playback is free, with no autoplay — press play when you are ready. The player can keep going while you browse the sanctuary.</p>
+  <div class="ps-app-transport ps-now-hero" id="ps-app-transport" role="region" aria-label="P.S music controls, now playing">
+    <span class="ps-now-kicker"><svg class="ps-eq" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="10" width="3" height="10" rx="1"/><rect x="8.5" y="5" width="3" height="15" rx="1"/><rect x="14" y="8" width="3" height="12" rx="1"/><rect x="19.5" y="12" width="3" height="8" rx="1"/></svg> Now playing</span>
     <div class="ps-app-now">
       <div id="ps-app-now-art" class="ps-art ps-art-lg" aria-hidden="true"></div>
       <div class="ps-app-now-text">
@@ -95,6 +98,7 @@
     </div>
     <p id="ps-app-radio-hint" class="note">Radio mode shuffles the P.S AI Playlist continuously. It still waits for you to press play.</p>
   </div>
+  <div id="ps-playlists-list" class="ps-pl-grid" aria-live="polite"><p class="ps-pl-soon">Loading the playlists.</p></div>
   <div id="ps-recent-shelves" class="ps-recent-shelves">
     <section id="ps-your-recent" aria-labelledby="ps-your-recent-title">
       <h3 id="ps-your-recent-title">Your recently played</h3>
@@ -108,6 +112,11 @@
       <div id="ps-creator-recent-list"></div>
     </section>
   </div>
+  <a class="ps-space-cta" href="/my-space.html">
+    <img src="/assets/images/editorial/creator-stage-640.webp" alt="" width="640" height="360" loading="lazy" decoding="async">
+    <span class="ps-space-cta-text"><span class="ps-space-cta-kicker">P.S Space</span><strong>Make a track your profile song</strong><small>Pick a theme, a cover and a song from this library. Visitors tap to play, it never autoplays.</small></span>
+    <svg class="ps-space-cta-go" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
   </section>
   <section class="music-discovery" aria-labelledby="discovery-title">
   <span class="radio-kicker">FOLLOW THE SOUND</span><h2 id="discovery-title">New music radar</h2>
@@ -143,8 +152,13 @@
     <audio id="track" preload="none"></audio>
   </div>
   </section>
-  <div id="music-slots" aria-label="Shane's playlists on YouTube, Sonos and Amazon Music"></div>
   <p><a href="/sanity-songs.html">Sanity's Songs (YouTube)</a> · <a href="/creator.html">Add a song (owner)</a></p>
+  <section id="ps-ai-section" class="ps-ai-section" aria-labelledby="ps-ai-title">
+    <span class="radio-kicker">MADE WITH AI · CLEARLY LABELLED</span>
+    <h2 id="ps-ai-title">P.S AI Playlist</h2>
+    <p class="note">Original AI-generated music from PLEADING SOCIALLY. Kept separate from Shane Cooper's own-voice recordings. Each track is labelled and plays only when you choose it.</p>
+    <div id="ps-ai-playlists-list" class="ps-pl-grid" aria-live="polite"></div>
+  </section>
 <aside class="ps-donate-strip" aria-label="Support the movement">
   <p class="ps-donate-strip-lead">Keep the AIs online &amp; the movement free — every bit helps.</p>
   <p class="ps-donate-strip-sub">Hosting, the AI companion and the free games run on community support. No paywall, no ads, no data sales.</p>

@@ -52,7 +52,7 @@
     var r = radio();
     var cur = r && r.current && r.current();
     var id = cur && cur.id;
-    var nodes = document.querySelectorAll('#ps-app [data-track-id]');
+    var nodes = document.querySelectorAll('#ps-app [data-track-id], #ps-ai-playlists-list [data-track-id]');
     for (var i = 0; i < nodes.length; i++) {
       var on = id && nodes[i].getAttribute('data-track-id') === id;
       nodes[i].classList.toggle('is-current', !!on);
@@ -62,14 +62,17 @@
   function renderPlaylists() {
     var root = $('ps-playlists-list');
     if (!root) return;
+    var aiRoot = $('ps-ai-playlists-list');
     var r = radio();
     var lists = r ? r.playlists() : [];
     root.textContent = '';
+    if (aiRoot) aiRoot.textContent = '';
     if (!lists.length) {
       root.appendChild(el('p', 'ps-pl-soon', 'The playlists could not load right now. Try again later.'));
       return;
     }
     lists.forEach(function (list) {
+      var target = list.kind === 'ai' && aiRoot ? aiRoot : root;
       var card = el('article', 'ps-pl-card ps-pl-' + (list.kind === 'ai' ? 'ai' : 'human'));
       card.setAttribute('aria-labelledby', 'ps-pl-' + list.id);
       var badge = el('span', 'ps-pl-badge', list.kind === 'ai' ? 'AI-generated' : (list.label || "Shane's own voice"));
@@ -93,7 +96,7 @@
           card.appendChild(ul);
         }
       }
-      root.appendChild(card);
+      target.appendChild(card);
     });
   }
 

@@ -1,3 +1,79 @@
+# Current AI Family Handoff — 2026-11-24 22:25 UTC
+
+> This dated snapshot supersedes older status statements below only where it explicitly says so. It does not authorise production changes, merges, deployments, billing changes, DNS edits, or secret access. Verify live state again before acting.
+
+**Canonical house:** `pleadingSanity/pleadingsanity`, branch `main`, audited SHA `c8ad95ca24099de2baa11ef840508dad9d0c2143`. Production is Netlify project `pleadingsanity` (site `31c56935-32d5-4932-8a63-2db881842090`).
+
+**Current production:** deploy `6b06010b8c39be471593beca` is `ready`, production context, branch `main`, commit SHA matches main. Do not confuse failed branch/preview builds with production failure.
+
+**Current build blocker:** the 24 Nov `feat/core-web-vitals-monitor` branch preview and branch deploy failed with Netlify build exit code 4. Latest production deploy succeeded. Diagnose the build failure from logs before retrying; do not bypass build guards or alter production settings to force a deploy.
+
+**Open PRs observed 22:24 UTC:**
+- #397 `Tactile star buff` — draft, mergeable=false, 32 files, visual changes and new image assets. Explicitly says do not merge until Shane confirms; mobile/keyboard tests are unchecked. Review brand palette, 48px minimum touch targets, image rendering, reduced motion and crisis-route preservation. Keep draft until tested and approved.
+- #393 Drizzle Kit rc.6 — package.json + package-lock only; mergeable=false at time checked.
+- #392 Drizzle ORM rc.6 — package.json + package-lock only; mergeable=true at time checked. Release notes include breaking codec/driver behavior affecting Netlify DB; do not merge without targeted DB tests and full suite.
+- #391 glob 14.0.6 — package.json + package-lock only; mergeable=true at time checked; dependency security fix candidate. Run full tests and verify lockfile consistency before merge.
+No PR was merged or deployed in this audit. Re-fetch all PR states before action.
+
+**Arron source files inspected on main:** `netlify/functions/arron.mts`, `netlify/lib/ai-chain.ts`, `netlify/lib/provider-config.js`, `netlify/lib/crisis-phrases.js`. Code declares provider order GPT/OpenAI → Claude/Anthropic → Gemini → Grok, then optional OpenRouter spares subject to privacy/spend gates, then local fallback. Verify the soul covenant chain at runtime; the code states the soul's chain can determine the order. Do not reorder providers or enable paid spares.
+
+**Crisis behavior observed:** one shared phrase list is imported by Arron; the request path computes crisis status before normal model response handling, preserves fixed signposting (999, Samaritans 116 123, SHOUT 85258, NHS 111 option 2), and has a crash fallback. **Important latency finding:** in the inspected request path, an ordinary allowed crisis request can continue into the model chain; the fixed crisis signpost is appended after the model response. Immediate deterministic returns are visible in rate-limit branches, but not established for every normal crisis request. Therefore the time until a person sees human-help options may depend on provider latency. Treat this as a P0 test/review item: measure time-to-human-help separately from full reply time, and evaluate a deterministic immediate crisis response before any provider call. Do not implement without regression tests and human review. This source inspection is not a live synthetic crisis test. Run deterministic synthetic tests through every provider failure path, refusal, rate limit, all-quiet path and crash fallback. A model refusal must never be treated as a reason to bypass safety; inspect whether provider refusal errors are distinguished from transport/quota errors before release. Do not store real member crisis text in tests or logs.
+
+**Soul file integrity:** current `main:arron-knowledge.json` parses as JSON; current Git blob SHA `3d11bdeee675627ffcdadd60a856d783a78c3bc7`, 52,127 characters, 46 top-level keys. It is not byte-identical to older `052e1aa` (older file 44,445 characters and fewer keys). This alone does not prove truncation or completeness. Preserve current main file. Never overwrite, regenerate, truncate, or restore from memory. Any future integrity work must compare against an owner-approved intact baseline, review exact diff/provenance and required sections, and record an approved hash. File size is an alarm, not the acceptance criterion.
+
+**First-party performance telemetry:** `js/web-vitals.js` posts LCP/INP/CLS plus `location.pathname` to `/api/vitals`, with no cookie, user ID or third-party request in the inspected client file. This is still first-party telemetry. Review endpoint storage, retention, access and privacy wording against the no-tracking promise before describing the site as having zero telemetry. Do not silently remove or expand it.
+
+**Grok branch candidate:** `fix/arron-cheap-grok` is 2 commits ahead and 84 behind main (diverged). It adds a cheaper Grok default, Anthropic workspace-header handling and tests. It is not safe to merge wholesale. Rebase/cherry-pick only isolated, evidenced fixes onto a fresh branch, inspect provider model availability and spend behavior, then run unit + synthetic failover tests. No live provider call was performed here.
+
+**Uploaded integration assets reviewed (not canonical production source):**
+- `claude_handoff_prompt.md` proposes editing `netlify/functions/arron-chat.js` and adding `@google/genai`; that target does not match current production architecture inspected above. Do not paste it into main or add a second provider router. Gemini is already present in `netlify/lib/ai-chain.ts`.
+- `pleading_sanity_production_platform.html` is a separate 93KB standalone prototype, not established as the live canonical homepage. Do not replace `index.html` with it.
+- `ai_studio_code.js` imports Firebase but persists notes in localStorage; its `innerHTML` interpolates note title/category/timestamp/content. Treat as untrusted prototype code: potential DOM XSS if saved notes are attacker-controlled. Do not ship unchanged; use DOM text nodes/textContent or rigorously escaped rendering and test hostile stored values first.
+
+## AI Family work lanes and handoff
+
+- **Shane:** founder and final approver for merges, production deploys, payments, secrets, DNS, policy and protected content.
+- **GPT:** independent audit, evidence, test design, regression checks and release verification. No unsupported claims.
+- **Claude:** deep code/security review and regression implementation on isolated branches; never reconstruct the soul file.
+- **Gemini:** mobile, accessibility, plain-language and systems-integration review; no second provider router or auth migration.
+- **Grok:** content, assets, outreach drafts, SEO/compliance watch and independent review of code proposals. Report exact branch/SHA/files/tests; no production deploy.
+- **Dola:** design, structure, deployment preparation and final visual verification. Keep production untouched until PR checks and owner approval; report deploy IDs and exact SHAs. Do not bypass Netlify build guards.
+- **Copilot:** isolated branch implementation only.
+- **SuperMe:** independent advisory network, not production truth or write authority. Verify its recommendations against repository code and tests.
+
+**Access reality:** this ChatGPT session has GitHub and Netlify connectors and SuperMe advisory access. It does not expose a direct Grok or Dola connector here. Do not claim a message was sent to Grok/Dola or that their accounts were inspected. This handoff is the durable packet for those agents to read when they reconnect. Never put API keys, tokens, private mailbox content, member journals or conversation text in this file.
+
+## SuperMe advisory snapshot (24 Nov)
+
+The Arron AI build group advised:
+1. Compare the current soul file with an owner-approved intact historical baseline; record provenance and a cryptographic hash, not merely JSON parse or byte count.
+2. Trace one synthetic crisis message through client → Netlify function → each provider error/timeout branch → local fallback. Record commit, knowledge hash, provider branch, error class, expected route and pass/fail; do not retain private conversation text.
+3. Add fixed synthetic tests for crisis routing, grounded recall and unknown facts; require human review of final crisis wording.
+4. Inspect all Firebase Admin/service-account use in Netlify functions and verify tenant/user scoping; client-side Firebase rules alone are not enough.
+5. Treat refusal responses differently from transport/timeouts so failover cannot evade a safety refusal.
+6. Review provider data handling/retention and disclose that multiple providers may process chat data.
+7. Keep secrets server-side, scan built output/history, use separate test keys and spend limits, cap tokens/attempts, and maintain a rotation runbook.
+These are advisory recommendations; advisors did not inspect all source, Netlify env values, Firebase rules or production logs. They are not confirmed vulnerability findings.
+
+SuperMe discussions:
+- Arron build group: https://superme.ai/chat/2h792pc72es7673p2ipra
+- Independent security perspective: https://superme.ai/chat/2h792plt3qpr0ajkcvla5
+
+## Release gates — never skip
+
+1. Re-fetch main SHA, PR states, branch protection and current Netlify production deploy.
+2. Run syntax checks, complete test suite, security/secret scan and route/link checks.
+3. Test deterministic crisis cases on every provider success/failure, timeout, refusal, rate-limit and all-quiet path with synthetic fixtures.
+4. Test account isolation, local-only mode, deletion semantics and Firebase/Netlify DB access boundaries.
+5. Verify 48px targets, mobile viewport, no horizontal overflow, reduced motion, keyboard and screen-reader behavior.
+6. Deploy preview must be ready and reviewed; preview exit code 4 is a blocker, not something to bypass.
+7. Only merge after required checks and Shane's review; only then verify production homepage, Arron, crisis links, journal, feed, games and PWA against deployed SHA.
+8. After every push/PR/deploy, record exact SHA, files, tests, deploy ID, rollback and remaining blockers here.
+
+**Never:** rewrite working architecture; move production auth to Firebase; alter crisis numbers or Arron's not-a-therapist boundary; change free core status; expose secrets; merge draft #397; merge stale Grok branches wholesale; deploy around a failed build; make paid API calls or add paid infrastructure without approval.
+
+---
+
 # AI_HANDOFF.md — Latest State (2026-11-15, consolidated buff)
 _All AIs (Claude/GPT/Copilot/Grok/Dola): read this section first. Everything below it is history; this section wins on conflict._
 Read with: [docs/MASTER_PROMPT.md](docs/MASTER_PROMPT.md) (the builder prompt) · [system_blueprint.json](system_blueprint.json) (snapshot) · [docs/3D-PRINT-SHOP.md](docs/3D-PRINT-SHOP.md) (P.S Studio prints) · [docs/ai-brain/README.md](docs/ai-brain/README.md) (AI brain backup: personas, rules, best prompts).
