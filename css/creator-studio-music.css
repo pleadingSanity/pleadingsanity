@@ -57,3 +57,8 @@
 .csm .csm-quick-tones button[aria-pressed="true"]{background:#00fff01f;color:#00fff0;border-color:#00fff0}
 @keyframes csmPulse{0%,100%{box-shadow:0 0 0 6px #f59e0b33,0 12px 40px #f59e0b44}50%{box-shadow:0 0 0 14px #f59e0b1a,0 12px 48px #f59e0b55}}
 @media (prefers-reduced-motion:reduce){.csm .csm-quick-btn,.csm .csm-quick-btn[aria-pressed="true"]{animation:none;transition:none}}
+
+/* 28 Nov 2026 alive buff: brand-locked studio hero art (no text, no people) */
+.csm-hero.ps-buff-hero{position:relative;isolation:isolate;overflow:hidden;border-radius:22px;padding:40px 20px 28px}
+.csm-hero-art{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.6;background:linear-gradient(180deg,rgba(11,15,25,.3) 0%,rgba(11,15,25,.7) 70%,#0b0f19 100%),url("/assets/images/buff-20261128/creator-hub-hero-1024.webp") 70% center/cover no-repeat;background-image:linear-gradient(180deg,rgba(11,15,25,.3) 0%,rgba(11,15,25,.7) 70%,#0b0f19 100%),image-set(url("/assets/images/buff-20261128/creator-hub-hero-1024.avif") type("image/avif"),url("/assets/images/buff-20261128/creator-hub-hero-1024.webp") type("image/webp"))}
+@media(prefers-reduced-motion:reduce){.csm-hero-art{animation:none!important;transform:none!important}}
